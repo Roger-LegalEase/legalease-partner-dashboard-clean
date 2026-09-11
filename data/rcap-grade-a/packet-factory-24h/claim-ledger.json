@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "bc22d3a391e9309ea688feacb280e7b6357b2026",
+  "generatedAtCommit": "cc2bd5505e5599e35d28897da1a6525438ac77b7",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1697,6 +1697,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "itemId": null,
+      "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "familyIds": [
+        "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX112",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "co_decriminalized_conduct_seal-set",
       "familyId": "co_decriminalized_conduct_seal-set",
       "itemId": null,
@@ -2028,10 +2043,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T03:04:03.762Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -2682,6 +2696,21 @@
         "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
@@ -3244,8 +3273,7 @@
       "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-09T12:45:11.583Z",
-      "releaseReason": "VF01 returned BLOCKED_LEGAL_INPUT on COMPONENT_SET in e487337a4; the question is Roger's, not a repair lane's"
+      "releasedAt": "2026-09-09T12:45:11.583Z"
     },
     {
       "subjectType": "packet-family",
@@ -3290,8 +3318,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-11T17:56:47.076Z"
     },
     {
       "subjectType": "packet-family",
@@ -11994,20 +12022,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "de_pardon_expungement-set::official-form:CIV_EXP_08_A",
-      "itemId": "de_pardon_expungement-set::official-form:CIV_EXP_08_A",
-      "familyIds": [
-        "de_pardon_expungement-set"
-      ],
-      "sourceId": "official-form:CIV_EXP_08_A",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
       "itemId": "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
       "familyIds": [
@@ -15336,24 +15350,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
-      "itemId": null,
-      "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
-      "familyIds": [
-        "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX112",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "735573dc69c14e0fc4abfbd8883540e9f1328282bbfbc174d18857376e89964b",
+  "claimsDigest": "10e46f501681ab96e267660b42d8de236e29b8382b14d44a9fdfc7c086f1bd36",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40578,6 +40577,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-11T17:48:29.564Z",
       "reason": "Stale repair grant: family is already GUIDANCE_READY with current-byte VF66 acceptance f352179fb39bf817e56f2274908c28bd12e98358 and no active owner. Preserve completed family; close ownership only."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "de_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-11T17:56:47.076Z",
+      "reason": "Current custody-only15PASS independent return f7f1dd6ee integrated; mandatory admission now running with unchanged PDFs/raster34413372916."
     }
   ],
   "reissues": [
@@ -50386,6 +50394,16 @@
       "previouslyReleasedAt": "2026-09-11T15:01:56.600Z",
       "reissuedAt": "2026-09-11T17:46:24.438Z",
       "reason": "Exact missing CIV_EXP_08_A restored; close only source-custody hold, preserve14valid unchanged independent findings and existing raster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-11T17:57:58Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -67260,6 +67278,22 @@
       "operation": "packet-build",
       "lane": "PF03",
       "withdrawnAt": "2026-09-11T16:34:14Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "de_pardon_expungement-set::official-form:CIV_EXP_08_A",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-11T17:50:58Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-11T17:57:58Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

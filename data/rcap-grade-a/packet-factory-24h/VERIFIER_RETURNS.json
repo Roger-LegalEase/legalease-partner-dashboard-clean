@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 244,
-    "rows": 1307,
+    "returnDirectories": 246,
+    "rows": 1309,
     "independentVerdicts": 302,
     "failRepairRequired": 30,
-    "passIndependent": 249
+    "passIndependent": 250
   },
   "failRepairRequiredFamilies": [
     "al-pardoned-felony-set",
@@ -9571,6 +9571,20 @@
         "SOURCE_IDENTITY"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-final.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_pardon_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "de_pardon_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ca8ffa9fb57041ee0d113e7cfb72f244fd17d75c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-restored.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_pardon_expungement-set",
       "superseded": false
@@ -22865,6 +22879,40 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf62",
       "isIndependentVerification": true,
+      "verifiedAtBase": "f5e4348df16648230bbb717f2bbceea55f221077",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/defect-resolution.json"
+          ]
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/defect-resolution.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-pa-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_6308_underage-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf62",
+      "isIndependentVerification": true,
       "verifiedAtBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5",
       "failedObligations": [
         {
@@ -22909,7 +22957,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-pa-ri-current.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "pa_790_nonconviction-set",

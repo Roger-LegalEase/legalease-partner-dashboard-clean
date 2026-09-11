@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `bc22d3a391e9309ea688feacb280e7b6357b2026` (or the newer dispatch base)
+**Minimum required ancestor:** `cc2bd5505e5599e35d28897da1a6525438ac77b7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC01 \
-  --source-obligation 'de_pardon_expungement-set::official-form:CIV_EXP_08_A' \
+  --source-obligation 'nm_conviction-set::official-form:4-222' \
   --codex-cloud \
-  --minimum-captain-sha bc22d3a391e9309ea688feacb280e7b6357b2026
+  --minimum-captain-sha cc2bd5505e5599e35d28897da1a6525438ac77b7
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC01 <itemId>`
-- The committed assignment contains exactly 4 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 3 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC01 <itemId>`.
 
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**4 obligations · 4 families this lane WOULD release if every one of them resolves · hosts: DE, NM**
+**3 obligations · 3 families this lane WOULD release if every one of them resolves · hosts: NM**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -103,18 +103,17 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `de_pardon_expungement-set::official-form:CIV_EXP_08_A` | `official-form:CIV_EXP_08_A` | DE | `held-inventory-reconciliation` | `de_pardon_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nm_conviction-set::official-form:4-222` | `official-form:4-222` | NM | `held-inventory-reconciliation` | `nm_conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nm_identity_theft-set::official-form:4-222` | `official-form:4-222` | NM | `held-inventory-reconciliation` | `nm_identity_theft-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nm_release_without_conviction-set::official-form:4-222` | `official-form:4-222` | NM | `held-inventory-reconciliation` | `nm_release_without_conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
-Deterministically assert exactly the 4 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 3 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC01');
-if (!a || a.items.length !== 4) throw new Error('SRC01 committed item count changed');
+if (!a || a.items.length !== 3) throw new Error('SRC01 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC01',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -126,7 +125,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC01 --source-obligation 'de_pardon_expungement-set::official-form:CIV_EXP_08_A' --codex-cloud --minimum-captain-sha bc22d3a391e9309ea688feacb280e7b6357b2026
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC01 --source-obligation 'nm_conviction-set::official-form:4-222' --codex-cloud --minimum-captain-sha cc2bd5505e5599e35d28897da1a6525438ac77b7
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -135,7 +134,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC01 --source-
 
 ### Families this lane would release
 
-`de_pardon_expungement-set`, `nm_conviction-set`, `nm_identity_theft-set`, `nm_release_without_conviction-set`
+`nm_conviction-set`, `nm_identity_theft-set`, `nm_release_without_conviction-set`
 
 
 ### Settle these first
@@ -145,7 +144,6 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC01 --source-
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
 | 4-222 | NM | 3 |
-| CIV_EXP_02_A | DE | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

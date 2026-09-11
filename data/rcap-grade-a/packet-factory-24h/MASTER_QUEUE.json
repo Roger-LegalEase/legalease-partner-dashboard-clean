@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "bc22d3a391e9309ea688feacb280e7b6357b2026",
+  "minimumCaptainSha": "cc2bd5505e5599e35d28897da1a6525438ac77b7",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -26,7 +26,7 @@
     "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json": "8a3643fcfca028c08ccc10e8e6738a2bceff6a83aa318d01e50208492bf418d2",
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
-    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "37e5c719239a3e91a98b4e32398e6244519baadb5515e2a0d81e9de82704cf7b",
+    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "6634e3443f35b184630f09514f28adfff0a665939416959b2d3bc7bf15c2123a",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d",
@@ -73,31 +73,31 @@
     "guidanceOnly": 0,
     "remaining": 345,
     "sourceReady": 34,
-    "sourceBlocked": 6,
+    "sourceBlocked": 5,
     "legalBlocked": 0,
-    "verifyPending": 3,
+    "verifyPending": 6,
     "repairRequired": 29,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 230,
+    "COMPLETE_PACKET_PROVEN": 231,
     "PRODUCT_PATH_PENDING": 12,
     "OUT_OF_SCOPE": 5,
-    "BUILT_RASTER_PENDING": 11,
+    "BUILT_RASTER_PENDING": 8,
     "SOURCE_READY": 34,
     "FAIL_REPAIR_REQUIRED": 30,
-    "SOURCE_BLOCKED": 6,
+    "SOURCE_BLOCKED": 5,
     "GUIDANCE_READY": 11,
+    "VERIFY_PENDING": 6,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 85,
     "GUIDANCE_AUTHORITY_BOUND": 5,
-    "SOURCE_BOUND_BY_HELD_BYTES": 242,
-    "SOURCE_GENUINELY_MISSING": 2,
+    "SOURCE_BOUND_BY_HELD_BYTES": 243,
+    "SOURCE_GENUINELY_MISSING": 1,
     "SOURCE_IDENTITY_UNRESOLVED": 6,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3,
     "SOURCE_ALREADY_HELD": 3
@@ -167,7 +167,7 @@
     "familiesPerBuilder": 1.4,
     "targetPerBuilder": "15 to 25",
     "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 34 do, so a full roster of 25 builders averages 1.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 7 source obligations across 6 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 6 source obligations across 5 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -8835,7 +8835,6 @@
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
         "no fixtures directory",
-        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -10218,7 +10217,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -10253,7 +10255,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule ND-NONCONVICTION-61-DAY-AUTO-CLOSE: Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule ND-NONCONVICTION-61-DAY-AUTO-CLOSE: Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -10274,7 +10276,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
@@ -12115,7 +12117,7 @@
       },
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule WY-TRAFFICKING-VACATUR-6-2-708C: Use a Motion to Vacate Conviction under W.S. Section 6-2-708(c) in the original criminal court/case. Collect a participant declaration/affidavit establishing trafficking-victim status and causal connection. Official victim documentation creates a presumption when available but its absence is not an automatic stop. Serve the State/prosecutor under W.R.Cr.P. 49; do not invent a statewide hearing deadline; apply Wyoming redaction/restricted-filing rules to sensitive material. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule WY-TRAFFICKING-VACATUR-6-2-708C: Use a Motion to Vacate Conviction under W.S. Section 6-2-708(c) in the original criminal court/case. Collect a participant declaration/affidavit establishing trafficking-victim status and causal connection. Official victim documentation creates a presumption when available but its absence is not an automatic stop. Serve the State/prosecutor under W.R.Cr.P. 49; do not invent a statewide hearing deadline; apply Wyoming redaction/restricted-filing rules to sensitive material. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -12136,7 +12138,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs",
@@ -14150,7 +14152,7 @@
       },
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY: Treat this as an SBI-controlled administrative pathway, not a participant-created Superior Court application. LegalEase may prepare information/instructions and route the person through SBI but must not manufacture a fictional court application. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY: Treat this as an SBI-controlled administrative pathway, not a participant-created Superior Court application. LegalEase may prepare information/instructions and route the person through SBI but must not manufacture a fictional court application. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -14171,7 +14173,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
@@ -14221,20 +14223,31 @@
           "path": "LegalEase Delaware/download.aspx.pdf",
           "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
           "tier": "exact_content_hash"
+        },
+        {
+          "sourceId": "official-form:CIV_EXP_08_A",
+          "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+          "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+          "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:CIV_EXP_08_A: SOURCE_IDENTITY_DETERMINATION_UNRESOLVED — The recorded CIV_EXP_08_A custody path is absent in the current mount and one exact recorded-URL recovery returned HTML instead of PDF. The source identity remains known; current physical availability is unproved."
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:CIV_EXP_02_A",
             "path": "LegalEase Delaware/download.aspx.pdf",
             "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+            "tier": "exact_content_hash",
+            "resolvedBy": "captain_shared_exact_binding"
+          },
+          {
+            "sourceId": "official-form:CIV_EXP_08_A",
+            "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+            "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
             "tier": "exact_content_hash",
             "resolvedBy": "captain_shared_exact_binding"
           }
@@ -14248,50 +14261,29 @@
           "official-form:CIV_EXP_02_A",
           "official-form:CIV_EXP_08_A"
         ],
-        "boundCount": 1,
+        "boundCount": 2,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "custodyClassContradictedByThisRow": "custodyClass says SOURCE_GENUINELY_MISSING while this family binds 2 source(s) and readiness is ready. The binding is the measurement. The queue's own bySourceStatus, derived from readiness, does not count this family as missing.",
-        "directAttachment": true,
-        "unresolvedObligations": [
-          "official-form:CIV_EXP_08_A"
-        ],
-        "rejectedBindings": [
-          {
-            "sourceId": "official-form:CIV_EXP_08_A",
-            "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
-            "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
-            "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
-          }
-        ]
+        "directAttachment": true
       },
       "sourceReconciliation": {
         "group": "D",
-        "disposition": "SOURCE_BLOCKED",
-        "unresolvedObligations": [
-          "official-form:CIV_EXP_08_A"
-        ],
-        "exactNextAction": "Recover original CIV_EXP_08_A bytes with SHA256 0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b into accessible governed custody; preserve all current source identities and valid unchanged review/raster evidence.",
-        "exactResidual": "The recorded CIV_EXP_08_A custody path is absent in the current mount and one exact recorded-URL recovery returned HTML instead of PDF. The source identity remains known; current physical availability is unproved.",
+        "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
+        "exactNextAction": "Build from exact CIV EXP 02A and 08A sources.",
+        "exactResidual": null,
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": null,
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
-      "verifierSourceHold": {
-        "lane": "vf02",
-        "verdict": "BLOCKED_SOURCE",
-        "blockedObligations": [
-          "SOURCE_IDENTITY"
-        ],
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-final.json"
-      },
+      "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_SOURCE",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-final.json"
+        "verifiedAtBase": "ca8ffa9fb57041ee0d113e7cfb72f244fd17d75c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-restored.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -14310,7 +14302,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+          "verifiedAtBase": "ca8ffa9fb57041ee0d113e7cfb72f244fd17d75c",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -14329,9 +14321,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "sources do not bind"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -14343,7 +14333,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state SOURCE_BLOCKED; all ordinary gates remain. Binding product rule DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW: Use the official Superior Court petition workflow for discretionary expungement after unconditional pardon plus the pardon-specific CIV_EXP_08_A order. No custom-pleading legal hold remains. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW: Use the official Superior Court petition workflow for discretionary expungement after unconditional pardon plus the pardon-specific CIV_EXP_08_A order. No custom-pleading legal hold remains. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -14364,7 +14354,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_pardon_expungement-set.mjs",
@@ -37429,8 +37419,8 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf62",
-        "verifiedAtBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-pa-ri-current.json"
+        "verifiedAtBase": "f5e4348df16648230bbb717f2bbceea55f221077",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-pa-final.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
@@ -37484,42 +37474,25 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
-        },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
           "finding": null,
           "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/defect-resolution.json"
+          ]
         },
         {
-          "obligation": "FILING_DESTINATION",
+          "obligation": "REPEATING_ROWS",
           "finding": null,
           "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/defect-resolution.json"
+          ]
         }
       ],
       "continuationResult": null,
@@ -51248,12 +51221,12 @@
     "sourceLanes": 16,
     "repairLanes": 8,
     "familiesAssignedToBuilders": 34,
-    "sourceObligationsAssigned": 7,
+    "sourceObligationsAssigned": 6,
     "actualPromotedAndReleased": 34,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 6,
+    "prospectiveReleasesAcrossSourceLanes": 5,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false
