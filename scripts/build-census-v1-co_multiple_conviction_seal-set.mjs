@@ -43,6 +43,7 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -642,7 +643,7 @@ async function writingRulesAsDelivered(source, census, artifactBytes, report) {
     }
   }
   // What the DELIVERED bytes draw there.
-  const tmp = path.join(ROOT, `.co-641-rule-proof-${source.formNumber}-${process.pid}.pdf`);
+  const tmp = path.join(os.tmpdir(), `.co-641-rule-proof-${source.formNumber}-${process.pid}.pdf`);
   fs.writeFileSync(tmp, artifactBytes);
   let placements = [];
   try { placements = await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
@@ -695,7 +696,7 @@ async function writingRulesAsDelivered(source, census, artifactBytes, report) {
 
 /* ---- byte proof ------------------------------------------------------------ */
 async function byteProof(source, census, artifactBytes, report, fixtureName) {
-  const tmp = path.join(ROOT, `.co-641-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
+  const tmp = path.join(os.tmpdir(), `.co-641-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
   fs.writeFileSync(tmp, artifactBytes);
   let widgets = [];
   try { widgets = await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
