@@ -769,10 +769,26 @@ function countCompleteness(maps, writeProofs, instructionsText) {
   for (const p of writeProofs) {
     const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
     if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) note("invisibleWrites", { fixture: p.fixture, reportedByFinalizer: p.valuesReportedByFinalizer });
-    if ((p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) note("visualDefects", { fixture: p.fixture, glyphsOutside: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes });
+    if (p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes !== null
+      && (p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) {
+      note("visualDefects", { fixture: p.fixture, glyphsOutside: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes });
+    }
   }
 
   return { counters, findings, ledger, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
+}
+
+/* This builder is deliberately a no-raster entrypoint. A visual counter is
+ * therefore not allowed to acquire the numeric value that means "measured and
+ * clean" merely because the proof object was initialised with a zero. Keep
+ * this assertion immediately before the completeness report is published so a
+ * future edit cannot silently reintroduce that false measurement. */
+function assertNoRasterVisualCounter(writeProofs) {
+  const measured = writeProofs
+    .filter((proof) => proof.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes !== null)
+    .map((proof) => proof.fixture);
+  assert.deepEqual(measured, [],
+    `--no-raster cannot publish visualDefects as measured for fixture(s): ${measured.join(", ")}`);
 }
 
 /* ---- outputs -------------------------------------------------------------------------- */
@@ -927,7 +943,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       valuesReportedByFinalizer: proof.actualWrites.length,
       addedGlyphsReadFromOutputBytes: proof.glyphs,
       flattenedWidgetAppearancesReadFromOutputBytes: 0,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null,
       refusedFieldsWithInk: [],
       actualWrites: proof.actualWrites
     });
@@ -1051,6 +1067,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
   });
 
   const counted = countCompleteness(maps, writeProofs, instructionsText);
+  assertNoRasterVisualCounter(writeProofs);
+  /* No-raster production can prove the eight structural/content counters from
+   * the field map, instructions and saved PDF text, but it sees no rendered
+   * pixels. A visual counter that was not measured is null, never the value
+   * zero that means measured and clean. */
+  counted.counters.visualDefects = null;
+  const counterEntries = Object.entries(counted.counters);
+  const measuredCounterEntries = counterEntries.filter(([, value]) => value !== null);
+  const everyMeasuredCounterZero = measuredCounterEntries.every(([, value]) => value === 0);
   writeJson(`${OUT}/reports/completeness-counters.json`, {
     schemaVersion: "rcap-builder-completeness-counters/v1", familyId: FAMILY_ID,
     whatThisIs:
@@ -1060,9 +1085,33 @@ export async function runFamily(argv = process.argv.slice(2)) {
       "A verdict. This lane does not verify its own packets, and PASS_COMPLETE additionally requires a hash-bound "
       + "RASTER_PASS from the central raster workflow.",
     counters: counted.counters,
-    allNineZero: PASS_COUNTERS.every((c) => counted.counters[c] === 0),
+    howEachWasTaken: {
+      knownRequiredFieldsMissing:
+        "Mapped values whose fact is held by the builder but is not readable from the saved component bytes; both fixtures' participant name writes are read back by byteProof.",
+      requiredFactsNotCollected:
+        "Mapped fact keys with no fixture value, plus required-before-filing blanks not named in participant-instructions.md; this family discloses every declared required-before-filing item.",
+      unclassifiedBlanks:
+        "Blank field rows classified through completeness-contract.mjs. This build has 17 refusals: 10 REQUIRED_BEFORE_FILING, 6 PROTECTED_FIELD and 1 NOT_APPLICABLE_ON_THIS_ROUTE.",
+      incompleteRows:
+        "Written cells beside required blank cells in the same rowKey group; the composed field map has no such partially completed repeating row.",
+      requiredOptionsMissing:
+        "Route-determined selection controls left unselected; this two-stage packet declares no selectionControls because stage 1 always precedes the participant's stage-2 branch decision.",
+      requiredComponentsMissing:
+        "Declared components absent from the assembled packet; both declared components are assembled in order in each fixture.",
+      invisibleWrites:
+        "Declared writes whose expected value is not readable from the saved component bytes; byteProof reads both participant-name writes in each fixture.",
+      protectedWrites:
+        "Written fields whose completeness-contract classification is participant signature/date or court, clerk, prosecutor or agency owned; the only writes are participant names."
+    },
+    visualDefectsWhyNull:
+      "Null because NOT MEASURED here, never because measured as zero. This worker runs without raster, so it sees no rendered pixel and cannot count visual defects. Geometry review remains an independent raster/visual lane's job.",
+    countersMeasured: measuredCounterEntries.length,
+    countersNotMeasured: counterEntries.filter(([, value]) => value === null).map(([key]) => key),
+    everyMeasuredCounterZero,
     findings: counted.findings,
-    blankDispositions: counted.ledger.reduce((acc, b) => { acc[b.disposition] = (acc[b.disposition] ?? 0) + 1; return acc; }, {})
+    blankDispositions: counted.ledger.reduce((acc, b) => { acc[b.disposition] = (acc[b.disposition] ?? 0) + 1; return acc; }, {}),
+    whatThisIsNot:
+      "An independent verdict, raster receipt, visual review, or approval. Eight of these nine are readings taken by the builder that produced the bytes; that is not independent verification either."
   });
 
   writeJson(`${OUT}/build-status.json`, {
@@ -1156,7 +1205,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     ]
   });
 
-  const allZero = PASS_COUNTERS.every((c) => counted.counters[c] === 0);
+  const allZero = everyMeasuredCounterZero;
   /* FIX173: the last write has happened, so read the delivered packet back --
    * the receipt, the guide, and the text of the two PDFs -- and assert it
    * before this build may report a result. */
@@ -1182,7 +1231,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),
     rasterPages: 0,
     rasterState: "BUILT_RASTER_PENDING",
-    nineCountersZero: allZero,
+    countersMeasured: measuredCounterEntries.length,
+    countersNotMeasured: counterEntries.filter(([, value]) => value === null).map(([key]) => key),
+    everyMeasuredCounterZero,
     packetsSelfVerified: 0, commercialRoutesOpened: 0, productionTouched: false
   };
 }

@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "rcap-fixcxin1-indiana-counter-repair/v1",
+  "lane": "FIXCXIN1",
+  "familyId": "in_infraction_nondisclosure-set",
+  "verifiedAtBase": "30abad545c12b4905f052a0a7e91832426dea72e",
+  "grantSet": "f4a8ddeeb11ab8d5",
+  "grantAssertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIXCXIN1 in_infraction_nondisclosure-set",
+  "scope": "Truthful builder completeness metadata only. No PDF/map/guide/source/wiring/central manifest/raster/owner decision changes.",
+  "toolIdentity": {
+    "node": "v24.20.0",
+    "pdfLib": "1.17.1",
+    "platform": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.39",
+    "builderPath": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
+    "builderSha256AfterRepair": "3572eec3330376ebe573f30060a97b96d70ce15f127ae1068671a206adebeb2e",
+    "gitBaseResolved": "30abad545c12b4905f052a0a7e91832426dea72e"
+  },
+  "priorDefect": {
+    "source": "original-false-zero-completeness-counters.json and original-rendered-artifacts.json",
+    "originalCounters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "originalAllNineZero": true,
+    "originalRendered": {
+      "everyPageRastered": false,
+      "rasterSkipped": true,
+      "rasterEngine": null,
+      "rasterPages": [],
+      "rasterState": "BUILT_RASTER_PENDING"
+    },
+    "conclusion": "The prior report published visualDefects=0 and allNineZero=true while its rendering report recorded no raster pages and rasterSkipped=true."
+  },
+  "validProduction": {
+    "exitCode": 0,
+    "stdout": "data/rcap-grade-a/packet-factory-24h/fixcxin1/indiana-counter-repair-20260911/build.stdout.log",
+    "stderr": "data/rcap-grade-a/packet-factory-24h/fixcxin1/indiana-counter-repair-20260911/build.stderr.log",
+    "reportPublished": true,
+    "result": {
+      "familyId": "in_infraction_nondisclosure-set",
+      "status": "COMPLETED",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersMeasured": 8,
+      "countersNotMeasured": [
+        "visualDefects"
+      ],
+      "everyMeasuredCounterZero": true,
+      "rasterPages": 0,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "packetSha256": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463",
+          "pages": 4
+        },
+        {
+          "fixture": "boundary",
+          "packetSha256": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2",
+          "pages": 4
+        }
+      ]
+    }
+  },
+  "validReport": {
+    "path": "data/rcap-grade-a/packet-factory-24h/fixcxin1/indiana-counter-repair-20260911/valid-completeness-counters.json",
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": null
+    },
+    "hasAllNineZero": false,
+    "visualDefectsWhyNull": "Null because NOT MEASURED here, never because measured as zero. This worker runs without raster, so it sees no rendered pixel and cannot count visual defects. Geometry review remains an independent raster/visual lane's job.",
+    "countersMeasured": 8,
+    "countersNotMeasured": [
+      "visualDefects"
+    ],
+    "everyMeasuredCounterZero": true,
+    "blankDispositions": {
+      "REQUIRED_BEFORE_FILING": 10,
+      "PROTECTED_FIELD": 6,
+      "NOT_APPLICABLE_ON_THIS_ROUTE": 1
+    }
+  },
+  "mutantGuardProof": {
+    "mutation": "In isolated builder only, changed writeProofs nonWhitespaceGlyphsOutsideMeasuredWriteBoxes from null to 0; mutant builder sha256=c4cb7e0a55da2560b520c554a1c7fe994b129ccb0ad7553576bae9df351eed8b",
+    "command": "node scripts/build-census-v1-in_infraction_nondisclosure-set.mjs --no-raster",
+    "exitCode": 1,
+    "stdout": "data/rcap-grade-a/packet-factory-24h/fixcxin1/indiana-counter-repair-20260911/mutant-false-zero.stdout.log",
+    "stderr": "data/rcap-grade-a/packet-factory-24h/fixcxin1/indiana-counter-repair-20260911/mutant-false-zero.stderr.log",
+    "guardMessage": "--no-raster cannot publish visualDefects as measured for fixture(s): canonical, boundary",
+    "completenessReportPublished": false,
+    "outputPdfCount": 2,
+    "prewriteGuardHeld": true
+  },
+  "pdfInventory": {
+    "committedBase": [
+      {
+        "path": "fixtures/canonical.pdf",
+        "bytes": 13013,
+        "sha256": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463"
+      },
+      {
+        "path": "fixtures/boundary.pdf",
+        "bytes": 13078,
+        "sha256": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2"
+      }
+    ],
+    "validProduction": [
+      {
+        "path": "fixtures/boundary.pdf",
+        "bytes": 13078,
+        "sha256": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2"
+      },
+      {
+        "path": "fixtures/canonical.pdf",
+        "bytes": 13013,
+        "sha256": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463"
+      }
+    ],
+    "mutantProduction": [
+      {
+        "path": "fixtures/boundary.pdf",
+        "bytes": 13078,
+        "sha256": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2"
+      },
+      {
+        "path": "fixtures/canonical.pdf",
+        "bytes": 13013,
+        "sha256": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463"
+      }
+    ],
+    "comparison": [
+      {
+        "path": "fixtures/boundary.pdf",
+        "committed": {
+          "path": "fixtures/boundary.pdf",
+          "bytes": 13078,
+          "sha256": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2"
+        },
+        "validProduction": {
+          "path": "fixtures/boundary.pdf",
+          "bytes": 13078,
+          "sha256": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2"
+        },
+        "mutant": {
+          "path": "fixtures/boundary.pdf",
+          "bytes": 13078,
+          "sha256": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2"
+        },
+        "validMatchesCommitted": true,
+        "mutantMatchesCommitted": true
+      },
+      {
+        "path": "fixtures/canonical.pdf",
+        "committed": {
+          "path": "fixtures/canonical.pdf",
+          "bytes": 13013,
+          "sha256": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463"
+        },
+        "validProduction": {
+          "path": "fixtures/canonical.pdf",
+          "bytes": 13013,
+          "sha256": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463"
+        },
+        "mutant": {
+          "path": "fixtures/canonical.pdf",
+          "bytes": 13013,
+          "sha256": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463"
+        },
+        "validMatchesCommitted": true,
+        "mutantMatchesCommitted": true
+      }
+    ],
+    "validPdfsMatchBase": true,
+    "mutantPdfsMatchBase": true
+  },
+  "inputs": {
+    "records": [
+      "data/record-clearing/legal-design-intake/IN.memo.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json"
+    ],
+    "noSourceBinary": "Family source-receipt binds no source binary; production stage used committed records only.",
+    "validInputHashes": "data/rcap-grade-a/packet-factory-24h/fixcxin1/indiana-counter-repair-20260911/valid-input-hashes.sha256",
+    "mutantInputHashes": "data/rcap-grade-a/packet-factory-24h/fixcxin1/indiana-counter-repair-20260911/mutant-input-hashes.sha256"
+  },
+  "limitations": [
+    "No raster or visual review was performed; visualDefects remains null.",
+    "The eight numeric counters are builder-side measurements from field-map classifications, instructions and saved PDF text, not independent verification.",
+    "The owner Q7 hold and all registry/wiring content remain untouched."
+  ],
+  "grantsNothing": "No self-approval, route promotion, raster receipt, central state, owner decision, source change or PDF change.",
+  "status": "STOPPED",
+  "verdict": "EVIDENCE_ONLY",
+  "stoppedBecause": "The truthful no-raster report and prewrite guard are repaired; visual measurement, independent verification, approval and promotion remain outside this lane."
+}
