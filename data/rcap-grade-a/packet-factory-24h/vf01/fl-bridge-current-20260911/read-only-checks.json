@@ -1,0 +1,326 @@
+{
+  "commands": [
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-fl-10yr-bridge-set.mjs --check",
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf01/fl-bridge-current-20260911/builder-check.log"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set",
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf01/fl-bridge-current-20260911/completeness.log"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node --test scripts/rcap-packet-recovery/fl-bridge-complete.test.mjs",
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf01/fl-bridge-current-20260911/focused-tests.log"
+    }
+  ],
+  "inputFilesMeasured": 43,
+  "unchanged": true,
+  "before": {
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/approval-request.json": {
+      "sha256": "145ce378c22df03c77059dc0f29b57f3decb89fecf67c88bcc2824419eea4398",
+      "byteLength": 874,
+      "mode": 33190,
+      "mtimeNs": 1789151641426439847,
+      "ctimeNs": 1789151641426439847
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/build-findings.json": {
+      "sha256": "30e6a8eeb9c1f3ad3de24aca92eccf1e3508cc9349b843b11accdebdf77d7121",
+      "byteLength": 1661,
+      "mode": 33190,
+      "mtimeNs": 1789160069868318865,
+      "ctimeNs": 1789160069868318865
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/build-status.json": {
+      "sha256": "3afabbe9d73ac820040a2a8d37aa067e9e60dad49ed1be5b7bcdf7b5164ddd21",
+      "byteLength": 622,
+      "mode": 33190,
+      "mtimeNs": 1789151641426439847,
+      "ctimeNs": 1789151641426439847
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf": {
+      "sha256": "708cbd61b79b514298315a49f5b3d1e2f997c4757542868d12e8bb9125b473b1",
+      "byteLength": 36446,
+      "mode": 33190,
+      "mtimeNs": 1789160069868318865,
+      "ctimeNs": 1789160069868318865
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf": {
+      "sha256": "ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df",
+      "byteLength": 36138,
+      "mode": 33190,
+      "mtimeNs": 1789160069868318865,
+      "ctimeNs": 1789160069868318865
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/participant-instructions.md": {
+      "sha256": "c36d267b1ecb457976530c556645173df14fe6e8745e7e53366c23b686d8a8c0",
+      "byteLength": 4349,
+      "mode": 33190,
+      "mtimeNs": 1789160069869318865,
+      "ctimeNs": 1789160069869318865
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/product-wiring.json": {
+      "sha256": "8e975e6443b91fb34d71836204f36b86e2c014a89e7a58f4279c6eae15764732",
+      "byteLength": 6140,
+      "mode": 33190,
+      "mtimeNs": 1789160161349317552,
+      "ctimeNs": 1789160161349317552
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/production-field-map.json": {
+      "sha256": "d45e27a4a486e0721987d77e830682eacfe641434e64b6fc9bf7647227b55d1a",
+      "byteLength": 279657,
+      "mode": 33190,
+      "mtimeNs": 1789160069869318865,
+      "ctimeNs": 1789160069869318865
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/reports/actual-writes.json": {
+      "sha256": "b615be13789e114b131e7a937825dd8d19755de01bf1aef3e74fbf3e7d6ccbcb",
+      "byteLength": 69752,
+      "mode": 33190,
+      "mtimeNs": 1789160069870318865,
+      "ctimeNs": 1789160069870318865
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/reports/blanks-left-for-the-participant.json": {
+      "sha256": "e5e4699d7d345733663e9d380953ba3f1d059ac54e53451b2542ab04074e061c",
+      "byteLength": 36264,
+      "mode": 33190,
+      "mtimeNs": 1789160069870318865,
+      "ctimeNs": 1789160069870318865
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/reports/completeness-counters.json": {
+      "sha256": "74109daa94a0b5c1bf7082d486cee0aeca649c95a983e523f948099f5d175e3b",
+      "byteLength": 723,
+      "mode": 33190,
+      "mtimeNs": 1789151641428439847,
+      "ctimeNs": 1789151641428439847
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/reports/rendered-artifacts.json": {
+      "sha256": "7e6b9cfa731d0185cf2fe861311393ce53ee064441c07ce7d3a2c5e7415816b0",
+      "byteLength": 7067,
+      "mode": 33190,
+      "mtimeNs": 1789160069870318865,
+      "ctimeNs": 1789160069870318865
+    },
+    "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/source-receipt.json": {
+      "sha256": "349b690fdbd9104c71635276fb63d9b5e851452de3ddbcad0b66982909815322",
+      "byteLength": 4618,
+      "mode": 33190,
+      "mtimeNs": 1789160069870318865,
+      "ctimeNs": 1789160069870318865
+    },
+    "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf": {
+      "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+      "byteLength": 26602,
+      "mode": 33190,
+      "mtimeNs": 1789151648009439753,
+      "ctimeNs": 1789151648009439753
+    },
+    "scripts/build-census-v1-fl-10yr-bridge-set.mjs": {
+      "sha256": "942d373cd5b3a6f289157daa2e89377e38fc7d35f6973debb0297aed2b930c68",
+      "byteLength": 86416,
+      "mode": 33190,
+      "mtimeNs": 1789160070233318860,
+      "ctimeNs": 1789160070233318860
+    },
+    "scripts/rcap-packet-recovery/fl-bridge-complete.test.mjs": {
+      "sha256": "8e6b332361af256b9c300e811a992b127b59c3b335d86c34f58c0c7c7e8e9454",
+      "byteLength": 10365,
+      "mode": 33190,
+      "mtimeNs": 1789160070234318860,
+      "ctimeNs": 1789160070234318860
+    },
+    "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json": {
+      "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+      "byteLength": 11095,
+      "mode": 33190,
+      "mtimeNs": 1789151646146439779,
+      "ctimeNs": 1789151646146439779
+    },
+    "data/record-clearing/legal-design-intake/FL.memo.json": {
+      "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+      "byteLength": 121810,
+      "mode": 33190,
+      "mtimeNs": 1789151647284439763,
+      "ctimeNs": 1789151647284439763
+    },
+    "data/record-clearing/legal-design-track-registry.json": {
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "mode": 33190,
+      "mtimeNs": 1789151647370439762,
+      "ctimeNs": 1789151647370439762
+    },
+    "data/record-clearing/legal-design-packet-set-manifests.json": {
+      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+      "byteLength": 3708050,
+      "mode": 33190,
+      "mtimeNs": 1789151647323439762,
+      "ctimeNs": 1789151647323439762
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/canary-receipt.json": {
+      "sha256": "8a0f462bda58e1058cacd2d4bbc55c2cb43322501fb14f00c74c0f832f4d3d0a",
+      "byteLength": 1029,
+      "mode": 33190,
+      "mtimeNs": 1789160070171318861,
+      "ctimeNs": 1789160070171318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/boundary/page-001.png": {
+      "sha256": "8c6359e46d2edc00d716f5f8bece69be3356f58f278772f617392d765ef1b5b5",
+      "byteLength": 306043,
+      "mode": 33190,
+      "mtimeNs": 1789160070173318861,
+      "ctimeNs": 1789160070173318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/boundary/page-002.png": {
+      "sha256": "2fb38114ea8764317b41548b3ebf50784374ef6dbd58518e69827b03827f885f",
+      "byteLength": 587002,
+      "mode": 33190,
+      "mtimeNs": 1789160070176318861,
+      "ctimeNs": 1789160070176318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/boundary/page-003.png": {
+      "sha256": "c941f63d8c0fd8672f80f6f230cca1af702c679d6759f22fc092829fb5b15b5a",
+      "byteLength": 166407,
+      "mode": 33190,
+      "mtimeNs": 1789160070177318861,
+      "ctimeNs": 1789160070177318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/boundary/page-004.png": {
+      "sha256": "3c416afa1857683dabbc70fcd233f3859722c67bbba4159b0000237214b0479a",
+      "byteLength": 427459,
+      "mode": 33190,
+      "mtimeNs": 1789160070179318861,
+      "ctimeNs": 1789160070179318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/boundary/page-005.png": {
+      "sha256": "4004850be84a7febf37a5f3cd2e4ab67a53c3f8adbd79bf7c6177ededd303c55",
+      "byteLength": 612253,
+      "mode": 33190,
+      "mtimeNs": 1789160070182318861,
+      "ctimeNs": 1789160070182318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/boundary/page-006.png": {
+      "sha256": "1f4dfc295788696159792fd7f0f6e1d5905577d06ea5def46538f9bff09e8731",
+      "byteLength": 514379,
+      "mode": 33190,
+      "mtimeNs": 1789160070184318861,
+      "ctimeNs": 1789160070184318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/boundary/page-007.png": {
+      "sha256": "208fdc492344a8ba57c7d8353ec59fc4c52f9bd049377c83e1cf3212836151ae",
+      "byteLength": 374275,
+      "mode": 33190,
+      "mtimeNs": 1789160070186318861,
+      "ctimeNs": 1789160070186318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/boundary/page-008.png": {
+      "sha256": "edfbb2afffa0bfee8a7acfc1195c7c58b551909a3fb59419f7ae463798b6c9a7",
+      "byteLength": 267986,
+      "mode": 33190,
+      "mtimeNs": 1789160070187318861,
+      "ctimeNs": 1789160070187318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/canonical/page-001.png": {
+      "sha256": "37f0a6eeb807bb98763be52a02ea9829465749da692b8472f52181812282224d",
+      "byteLength": 284718,
+      "mode": 33190,
+      "mtimeNs": 1789160070189318861,
+      "ctimeNs": 1789160070189318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/canonical/page-002.png": {
+      "sha256": "35674412b7c5459b93b6bfdb745414d428a7fe1b27256785117ec2c784dbdf3b",
+      "byteLength": 581215,
+      "mode": 33190,
+      "mtimeNs": 1789160070191318861,
+      "ctimeNs": 1789160070191318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/canonical/page-003.png": {
+      "sha256": "9c3435ac03d7b6cda0503aeac90a34a3ba22be07d61db54c15518ec923369126",
+      "byteLength": 161326,
+      "mode": 33190,
+      "mtimeNs": 1789160070192318861,
+      "ctimeNs": 1789160070192318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/canonical/page-004.png": {
+      "sha256": "3c416afa1857683dabbc70fcd233f3859722c67bbba4159b0000237214b0479a",
+      "byteLength": 427459,
+      "mode": 33190,
+      "mtimeNs": 1789160070194318861,
+      "ctimeNs": 1789160070194318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/canonical/page-005.png": {
+      "sha256": "4004850be84a7febf37a5f3cd2e4ab67a53c3f8adbd79bf7c6177ededd303c55",
+      "byteLength": 612253,
+      "mode": 33190,
+      "mtimeNs": 1789160070197318861,
+      "ctimeNs": 1789160070197318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/canonical/page-006.png": {
+      "sha256": "1f4dfc295788696159792fd7f0f6e1d5905577d06ea5def46538f9bff09e8731",
+      "byteLength": 514379,
+      "mode": 33190,
+      "mtimeNs": 1789160070200318860,
+      "ctimeNs": 1789160070200318860
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/canonical/page-007.png": {
+      "sha256": "6add7bfaae4b1d1855761c9fc35c4bbf11457a2e9a8b8aa0f7844f2b3dc18367",
+      "byteLength": 357988,
+      "mode": 33190,
+      "mtimeNs": 1789160070203318860,
+      "ctimeNs": 1789160070203318860
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set/canonical/page-008.png": {
+      "sha256": "10d7ebe92911e82acefdc25d461e49c22a5785f6564317b6e1a71657edd2fdfa",
+      "byteLength": 256706,
+      "mode": 33190,
+      "mtimeNs": 1789160070204318860,
+      "ctimeNs": 1789160070204318860
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set.ORIGINAL_EVIDENCE_VERIFIED.json": {
+      "sha256": "38ea7cd32788acd96bb6d7aee27d0a39b10998a6a0ddb6779b747a98c5b25a4d",
+      "byteLength": 1729,
+      "mode": 33190,
+      "mtimeNs": 1789160070171318861,
+      "ctimeNs": 1789160070171318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set.ORIGINAL_PAGE_IMAGES_SHA256.json": {
+      "sha256": "7944e4d593c8a0ac65937287337c34323cff5d4fc0ce1ac74c0657a0831e3f34",
+      "byteLength": 4491,
+      "mode": 33190,
+      "mtimeNs": 1789160070171318861,
+      "ctimeNs": 1789160070171318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set.PAGE_IMAGES_SHA256.json": {
+      "sha256": "d26d027576e73f0b44210aaaae82ed8dcf15cf9b8ffa303289f3199be51db3c7",
+      "byteLength": 8088,
+      "mode": 33190,
+      "mtimeNs": 1789160070172318861,
+      "ctimeNs": 1789160070172318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/fl-10yr-bridge-set.verdict.json": {
+      "sha256": "78ab5856c82e4ef3ca1584b5955e022a23aad1efcbfaeb4c05988cfaa9656491",
+      "byteLength": 16374,
+      "mode": 33190,
+      "mtimeNs": 1789160070172318861,
+      "ctimeNs": 1789160070172318861
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/negative-controls.json": {
+      "sha256": "2c00e91f718d3e2ff8b2e9ad3adbbd2f283a80c9abc90f257337a41715d80949",
+      "byteLength": 1187,
+      "mode": 33190,
+      "mtimeNs": 1789160070204318860,
+      "ctimeNs": 1789160070204318860
+    },
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34645317724/runtime-receipt.json": {
+      "sha256": "a4d5fa76bdbb318dfe56f88ef7f42ad21e906db38be8f2eb559eeaa1eddde34a",
+      "byteLength": 558,
+      "mode": 33190,
+      "mtimeNs": 1789160070204318860,
+      "ctimeNs": 1789160070204318860
+    }
+  },
+  "afterEqualsBefore": true,
+  "excludedMetadata": "atime: reading may change filesystem access time"
+}
