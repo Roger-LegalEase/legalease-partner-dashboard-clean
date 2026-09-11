@@ -1,59 +1,45 @@
 {
   "schemaVersion": "rcap-raster-queue/v1-proposed-candidate",
-  "generatedAtCommit": "3408832b5266bd39f02f83b4c22485120d5d4bba",
-  "purpose": "Fresh raster for repaired Florida early-juvenile bytes only. Excludes the separately pending ten-family and Pennsylvania candidates. No admission or commercial authority.",
+  "generatedAtCommit": "9a4299efcd56792444f2a05a36c14ff3faedc0d2",
+  "purpose": "Fresh central raster for the focused Florida early-juvenile page-3 fingerprint geometry repair. No admission or commercial authority.",
   "rows": [
     {
       "familyId": "fl-early-juvenile-set",
       "currentRasterState": "RASTER_PENDING",
-      "packetCommitSha": "3408832b5266bd39f02f83b4c22485120d5d4bba",
+      "packetCommitSha": "9a4299efcd56792444f2a05a36c14ff3faedc0d2",
       "requestedScale": 2.5,
+      "changedPages": [3],
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
-      "canonicalPdfSha256": "3f9c04c1740a45cd011e5898b71eda0457aca252e6c3bfc48f7e6215bc3b7d38",
+      "canonicalPdfSha256": "f98816f1cd07d2e95918d416cc3776b6b54733523da0832b6943e12aa25b6f00",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
-      "boundaryPdfSha256": "87d6b842cf636c21fc2a76a5bd1054ae40f311c5aba5b30b9e9f27903c94104e",
+      "boundaryPdfSha256": "3ce5201d21b2e97d6142cd73ccbf21dfc27584672d66a9a10b30a97c01e56fc0",
       "documents": [
         {
           "role": "canonical",
           "name": "canonical.pdf",
           "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "3f9c04c1740a45cd011e5898b71eda0457aca252e6c3bfc48f7e6215bc3b7d38",
+          "sha256": "f98816f1cd07d2e95918d416cc3776b6b54733523da0832b6943e12aa25b6f00",
+          "byteLength": 28239,
           "pageCount": 5,
-          "pageCountBasis": "parsed from queued PDF bytes with pdf-lib",
-          "pageCountEvidence": {
-            "method": "pdf-lib",
-            "version": "1.17.1",
-            "pageCount": 5,
-            "sourceSha256": "3f9c04c1740a45cd011e5898b71eda0457aca252e6c3bfc48f7e6215bc3b7d38"
-          }
+          "pageCountBasis": "parsed from built PDF bytes with pdf-lib"
         },
         {
           "role": "boundary",
           "name": "boundary.pdf",
           "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "87d6b842cf636c21fc2a76a5bd1054ae40f311c5aba5b30b9e9f27903c94104e",
+          "sha256": "3ce5201d21b2e97d6142cd73ccbf21dfc27584672d66a9a10b30a97c01e56fc0",
+          "byteLength": 28376,
           "pageCount": 5,
-          "pageCountBasis": "parsed from queued PDF bytes with pdf-lib",
-          "pageCountEvidence": {
-            "method": "pdf-lib",
-            "version": "1.17.1",
-            "pageCount": 5,
-            "sourceSha256": "87d6b842cf636c21fc2a76a5bd1054ae40f311c5aba5b30b9e9f27903c94104e"
-          }
+          "pageCountBasis": "parsed from built PDF bytes with pdf-lib"
         }
       ],
-      "documentsDigest": "b1d5146d991542d099212cc957f30a262affd206b65bd1972fef0506400bf56b",
+      "documentsDigest": "49cc52695c0aabaff66e03a58625693bc6a09dd31fde1d8264e90bda42a14e51",
+      "documentsDigestBasis": "sha256(JSON.stringify(documents.map(d => [d.role, d.path, d.sha256])))",
       "coverage": {
         "complete": true,
-        "basis": "Every current family fixture PDF is included. Candidate raster does not replace independent acceptance.",
-        "documents": [
-          "canonical.pdf",
-          "boundary.pdf"
-        ],
-        "rastered": [
-          "canonical.pdf",
-          "boundary.pdf"
-        ],
+        "basis": "Both current family fixture PDFs are queued in full; page 3 is the only intentionally changed page.",
+        "documents": ["canonical.pdf", "boundary.pdf"],
+        "rastered": ["canonical.pdf", "boundary.pdf"],
         "notRastered": [],
         "notRenderedByThisGate": []
       }

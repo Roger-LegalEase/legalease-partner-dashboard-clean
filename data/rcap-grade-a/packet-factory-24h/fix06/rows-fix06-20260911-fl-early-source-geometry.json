@@ -1,26 +1,37 @@
 {
-  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v2",
   "assignmentId": "FIX06",
-  "assignedBase": "2e900757aed813504bc7a0b38693c47f63737b72",
+  "assignedBase": "193a44b82a5aa1c185dad1e6b7f8ea173455dbdf",
   "branch": "fix06-fl-early-geometry-20260911",
   "laneKind": "repair",
-  "grantSet": "363e1994019fad31",
-  "scope": "Repair source-overlay placement and source-vs-output geometry evidence for exactly fl-early-juvenile-set while preserving the expressly retained owner-custodied FDLE source.",
+  "grantSet": "cd3ef3d69cfe1854",
   "evidence": "data/rcap-grade-a/packet-factory-24h/fix06/fl-early-source-geometry-20260911/repair-evidence.json",
   "rows": [
     {
       "itemId": "fl-early-juvenile-set",
-      "status": "COMPLETED_REPAIR_PENDING_INDEPENDENT_REVIEW",
-      "obligationsRepaired": ["KNOWN_PREFILLS", "CLIPPING_AND_OVERLAP", "ARTIFACTS"],
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "defectClosed": "FL-EARLY-VF64-01",
+      "obligationCoverage": "Repaired CLIPPING_AND_OVERLAP, KNOWN_PREFILLS and ARTIFACTS for the one complete six-field page-3 fingerprint geometry group.",
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP", "KNOWN_PREFILLS", "ARTIFACTS"],
       "sourceIdentityDisposition": "owner-custodied current FDLE early-juvenile application rendering retained exactly",
       "sourceSha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
-      "completeness": "PASS_COMPLETE",
-      "builderCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
-      "raster": "PENDING_NEW_HASH_REVIEW",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/fix06/fl-early-source-geometry-20260911/raster-manifest.json",
       "independentVerification": "PENDING",
-      "artifactProvenanceAccounting": "PENDING_SEPARATE_GATE"
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
-  ],
-  "productionTouched": false,
-  "commercialRoutesOpened": 0
+  ]
 }

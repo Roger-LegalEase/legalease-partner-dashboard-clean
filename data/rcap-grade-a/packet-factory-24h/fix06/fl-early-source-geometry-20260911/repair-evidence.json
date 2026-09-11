@@ -1,16 +1,39 @@
 {
-  "schemaVersion": "rcap-fix06-fl-early-source-geometry-repair-evidence/v1",
+  "schemaVersion": "rcap-fix06-fl-early-source-geometry-repair-evidence/v2",
   "assignmentId": "FIX06",
-  "assignedBase": "2e900757aed813504bc7a0b38693c47f63737b72",
+  "assignedBase": "193a44b82a5aa1c185dad1e6b7f8ea173455dbdf",
+  "implementationCommitSha": "9a4299efcd56792444f2a05a36c14ff3faedc0d2",
   "branch": "fix06-fl-early-geometry-20260911",
   "familyId": "fl-early-juvenile-set",
+  "defectClosed": "FL-EARLY-VF64-01",
   "preflight": {
     "worktree": "/tmp/rcap-fix06-tx-route-20260911",
-    "headMatchedAssignedBase": true,
-    "initialStatus": "only the expected untracked private symlink",
-    "grant": "CLAIM_OK FIX06 fl-early-juvenile-set (repair, grant set 363e1994019fad31)",
-    "grantLedgerGeneratedAtCommit": "b2cb08b4e9c42201ded34ae873e4b612f0392e34"
+    "assignedBaseMergedBeforeEdits": true,
+    "priorRepairCommitsPreserved": [
+      "fbbc3a4f02bb7b5bc39b3eebc657bdaf8c88199c",
+      "49519dd1a"
+    ],
+    "initialStatus": "only the expected untracked private source symlink",
+    "grant": "CLAIM_OK FIX06 fl-early-juvenile-set (repair, grant set cd3ef3d69cfe1854)",
+    "sourceReaderCheck": "RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-fl-early-juvenile-set.mjs --check --no-raster returned CHECK_ONLY against the exact stored fixture hashes before repair"
   },
+  "reviewInputs": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-fl-early-current.json",
+      "sha256": "13ff6c3f94779d656f69ef6eac4f852701f67df6a8e9102653b3853daefd36ed",
+      "byteLength": 43074
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/source-region-measurements.json",
+      "sha256": "702b13fc033e914dae498068af866823486f27b2acfe3dea81cc2a0db77af1b4",
+      "byteLength": 82355
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json",
+      "sha256": "c0d7c6b0c9f971e7aac664662c6b20d7043eb0fc19ff2896b6dd541b441c1e9a",
+      "byteLength": 19842
+    }
+  ],
   "source": {
     "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-EARLY-JUVENILE-SET__FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION__d9417ea382c9.pdf",
     "sha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
@@ -18,70 +41,123 @@
     "pageCount": 5,
     "custodyDetermination": "Build from the owner-custodied current FDLE early-juvenile application rendering.",
     "sourceBytesChanged": false,
-    "sourceIdentityChanged": false,
-    "sourceBinaryCommitted": true,
-    "defaultResolution": "DEFAULT_SOURCE resolves from repository ROOT to this governed reference/source-recovery path; PF20_FL_EARLY_JUVENILE_SOURCE remains a hash-checked override."
+    "sourceIdentityChanged": false
   },
   "causeAndCorrection": {
-    "priorMeasuredDefects": [
-      "page 1 arresting-agency text began at x=143/y=459 and crossed the source rule at y=464.674",
-      "page 3 surname began at x=65/y=704 and entered the printed Name: caption ending at x=71.96",
-      "actual-writes.json emitted literal zero geometry and appearance counters",
-      "completeness-counters.json and the builder result emitted literal allNineZero/nineCountersZero booleans"
-    ],
-    "additionalSameFunctionMeasurementsAuthorizedDuringRepair": [
-      "page 1 arrest-date and charge writes at y=419 crossed their source row rule at y=424.524; both now use y=427",
-      "the exact page 2 caption says Name (Last, First Middle), while the prior overlay emitted first-middle-last; the overlay now formats the held parts as last, first middle without changing the held full-name fact",
-      "the three page 1 legal-name writes remain at y=686 after exact glyph-bbox measurement proved they occupy their original named source regions",
-      "the page 1 phone remains at x=386/y=573 after source measurement proved it clears the printed closing parenthesis ending at x=384.216"
-    ],
-    "correctedPlacements": {
-      "page1_arresting_agency": {"before": {"x": 143, "y": 459, "width": 420}, "after": {"x": 136, "y": 467, "width": 427}},
-      "page1_arrest_date_1": {"beforeY": 419, "afterY": 427},
-      "page1_charge_1": {"beforeY": 419, "afterY": 427},
-      "page3_last_name": {"before": {"x": 65, "y": 704, "width": 145}, "after": {"x": 75, "y": 704, "width": 139}}
+    "cause": "The six fingerprint values used baselines 16.575 points above their printed rules. The first and middle names also started left of their own rule spans. Broad surrounding-block regions allowed the displaced values to pass byte-derived geometry checks.",
+    "page": 3,
+    "sourceRuleY": {
+      "nameParts": 687.425,
+      "demographics": 615.425
     },
-    "measurementRepair": "All 28 writes now have a named source caption and rule contract. The builder diffs text runs in the pinned source and final PDF, derives true Helvetica glyph bounds, assigns every added run to one source region, reads widget appearance objects from the PDF object graph, and fails before writing an artifact when a run is absent or leaves its region.",
-    "negativeCases": ["missing fact", "unfittable overflow", "coordinate drift", "source-anchor drift"]
+    "placements": [
+      {
+        "id": "page3_last_name",
+        "before": { "x": 75, "y": 704, "region": [71.96, 214.86, 687.425, 711] },
+        "after": { "x": 66, "y": 690, "sourceRuleSpan": [64.74, 214.86], "region": [64.74, 214.86, 687.425, 699.845] }
+      },
+      {
+        "id": "page3_first_name",
+        "before": { "x": 217, "y": 704, "region": [214.86, 387.558, 687.425, 711] },
+        "after": { "x": 247, "y": 690, "sourceRuleSpan": [245.778, 387.558], "region": [245.778, 387.558, 687.425, 699.845] }
+      },
+      {
+        "id": "page3_middle_name",
+        "before": { "x": 375, "y": 704, "region": [367, 561.342, 687.425, 711] },
+        "after": { "x": 426.5, "y": 690, "sourceRuleSpan": [425.122, 561.342], "region": [425.122, 561.342, 687.425, 699.845] }
+      },
+      {
+        "id": "page3_race",
+        "before": { "x": 79, "y": 632, "region": [75.84, 142.56, 615.425, 641.845] },
+        "after": { "x": 77, "y": 618, "sourceRuleSpan": [75.84, 142.56], "region": [75.84, 142.56, 615.425, 627.845] }
+      },
+      {
+        "id": "page3_sex",
+        "before": { "x": 176, "y": 632, "region": [173.36, 198.38, 615.425, 641.845] },
+        "after": { "x": 174.5, "y": 618, "sourceRuleSpan": [173.36, 198.38], "region": [173.36, 198.38, 615.425, 627.845] }
+      },
+      {
+        "id": "page3_dob",
+        "before": { "x": 231, "y": 632, "region": [228.49, 281.31, 615.425, 641.845] },
+        "after": { "x": 230, "y": 618, "sourceRuleSpan": [228.49, 281.31], "region": [228.49, 281.31, 615.425, 627.845] }
+      }
+    ],
+    "productionGuard": "Each fingerprint region must equal its measured source blank and each anchor lookup must find the exact rule x0, x1 and y. Output-byte glyph bounds must remain inside that region.",
+    "negativeCases": [
+      "each of the six prior displaced x/y placements is independently rejected",
+      "the six prior broad regions are rejected",
+      "missing fact, unfittable overflow, coordinate drift, source-anchor drift and mutated stored PDF remain rejected"
+    ]
   },
   "finalArtifacts": [
-    {"fixture": "canonical", "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "3f9c04c1740a45cd011e5898b71eda0457aca252e6c3bfc48f7e6215bc3b7d38", "byteLength": 28234, "pageCount": 5, "writesMeasured": 28, "addedGlyphsReadFromOutputBytes": 284, "widgetAppearancesReadFromSourceBytes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 0, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0},
-    {"fixture": "boundary", "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "87d6b842cf636c21fc2a76a5bd1054ae40f311c5aba5b30b9e9f27903c94104e", "byteLength": 28371, "pageCount": 5, "writesMeasured": 28, "addedGlyphsReadFromOutputBytes": 428, "widgetAppearancesReadFromSourceBytes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 0, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0}
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "f98816f1cd07d2e95918d416cc3776b6b54733523da0832b6943e12aa25b6f00",
+      "byteLength": 28239,
+      "pageCount": 5,
+      "changedPages": [3],
+      "writesMeasured": 28,
+      "addedGlyphsReadFromOutputBytes": 284,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "3ce5201d21b2e97d6142cd73ccbf21dfc27584672d66a9a10b30a97c01e56fc0",
+      "byteLength": 28376,
+      "pageCount": 5,
+      "changedPages": [3],
+      "writesMeasured": 28,
+      "addedGlyphsReadFromOutputBytes": 428,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+    }
   ],
-  "boundaryReadback": {
-    "heldFullName": "Maria-Alejandra Isabel O'Shaughnessy-Whitfield",
-    "page2PrintedValue": "O'Shaughnessy-Whitfield, Maria-Alejandra Isabel",
-    "printedCaption": "Name (Last, First Middle)",
-    "isabelPresent": true
+  "deterministicRepeat": {
+    "result": "PASS",
+    "filesCompared": {
+      "canonical.pdf": "f98816f1cd07d2e95918d416cc3776b6b54733523da0832b6943e12aa25b6f00",
+      "boundary.pdf": "3ce5201d21b2e97d6142cd73ccbf21dfc27584672d66a9a10b30a97c01e56fc0",
+      "reports/actual-writes.json": "65d1ba712789bb211df78dd0113937944e6ce241c0cfcc7f3231c1af574bb903",
+      "reports/rendered-artifacts.json": "80a40145d21bdc4faeffe73e2421d491a0ff8474033676427c7a7ce888364307"
+    },
+    "beforeAndAfterHashesIdentical": true
   },
   "verification": [
-    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node scripts/build-census-v1-fl-early-juvenile-set.mjs", "result": "COMPLETED; all nine builder counters zero; canonical and boundary are each five pages"},
-    {"command": "repeat the same build and diff sorted SHA-256 inventories", "result": "exit 0 with an empty diff; every family output byte reproduced"},
-    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node scripts/build-census-v1-fl-early-juvenile-set.mjs --check", "result": "CHECK_ONLY; each existing stored PDF was measured directly and its SHA-256 matched deterministic expected bytes; 28 source regions per fixture; zero outside glyphs; no writes"},
-    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node --test scripts/rcap-packet-recovery/fl-early-source-geometry.test.mjs", "result": "8 tests passed, 0 failed; both real fixtures, stored-artifact identity, tampered-stored-artifact rejection, and four input/geometry negative cases"},
-    {"command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set", "result": "PASS_COMPLETE, 28/93 written, all nine counters zero; no --write"},
-    {"command": "pdftotext -f 2 -l 2 -layout <boundary.pdf> -", "result": "read O'Shaughnessy-Whitfield, Maria-Alejandra Isabel beside 09/05/2006 and 850-555-0199"}
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-fl-early-juvenile-set.mjs --no-raster",
+      "result": "COMPLETED; both five-page fixtures rebuilt; all nine builder counters zero"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-fl-early-juvenile-set.mjs --check --no-raster",
+      "result": "CHECK_ONLY; both stored hashes equal deterministic expectations; 28 regions and zero outside glyphs per fixture"
+    },
+    {
+      "command": "node --test scripts/rcap-packet-recovery/fl-early-source-geometry.test.mjs",
+      "result": "15 passed, 0 failed; includes six prior-coordinate refusals and broad-region refusal"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
+      "result": "PASS_COMPLETE; 28/93 written; all nine counters zero; read only"
+    }
   ],
   "preservation": {
     "routeMetadataChanged": false,
-    "productWiringChanged": false,
     "protectedOfficialFieldsWritten": 0,
+    "sourceUuidDeterminationChanged": false,
+    "otherPdfPagesIntentionallyChanged": false,
     "commercialRoutesOpened": 0,
     "productionTouched": false
   },
+  "raster": {
+    "state": "BUILT_RASTER_PENDING",
+    "localRasterPerformed": false,
+    "manifest": "data/rcap-grade-a/packet-factory-24h/fix06/fl-early-source-geometry-20260911/raster-manifest.json"
+  },
   "remainingGates": [
-    "fresh independent completeness review",
-    "fresh visual/raster review against the new PDF hashes",
-    "source-freshness and counsel review already requested by approval-request.json",
-    "artifact provenance/accounting and any central admission decision"
+    "fresh central raster review against the new exact hashes",
+    "bounded independent recheck of FL-EARLY-VF64-01",
+    "central admission decision"
   ],
-  "authorVerdict": "No independent or live-readiness verdict is issued by the repair author.",
-  "integrationFollowup": {
-    "baseCommit": "fbbc3a4f02bb7b5bc39b3eebc657bdaf8c88199c",
-    "storedArtifactCheck": "--check now measures all 28 writes in each existing stored fixture, compares stored and expected SHA-256 values, and fails stale or tampered bytes. A readable temporary boundary copy with a trailing-byte mutation was rejected.",
-    "sourceDefault": {"path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-EARLY-JUVENILE-SET__FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION__d9417ea382c9.pdf", "resolvedAgainstRepositoryRoot": true, "overridePreserved": "PF20_FL_EARLY_JUVENILE_SOURCE", "sourceBinaryCommitted": true},
-    "results": ["default-source and explicit-override checks returned byte-identical results", "focused tests 8/8", "completeness PASS_COMPLETE 28/93 with nine zero counters", "default-source rebuild left both PDF SHA-256 values unchanged"],
-    "pdfBytesChanged": false,
-    "rasterOrReviewPerformed": false
-  }
+  "authorVerdict": "The repair author issues no independent, raster, admission or live-readiness verdict."
 }
