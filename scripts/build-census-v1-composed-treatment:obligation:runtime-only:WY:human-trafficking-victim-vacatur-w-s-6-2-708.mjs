@@ -120,11 +120,11 @@ const SPEC = {
         "",
         "A. AUTHORITY AND ROUTE",
         "",
-        "This Motion is brought under W.S. § 6-2-708(c) in the original criminal court and case. The authoritative decision for this packet is WY-TRAFFICKING-VACATUR-6-2-708C.",
+        "This Motion is brought under W.S. § 6-2-708(c) in the original criminal court and case and asks the Court to vacate the conviction identified below.",
         "",
-        "The compiled Wyoming profile records that a human-trafficking victim is not criminally liable for commercial sex acts or other criminal acts committed as a direct result of, or incident to, being a trafficking victim. At any time after conviction, the court that entered the conviction may vacate it if the person's participation in the offense resulted from being a victim.",
+        "Under W.S. § 6-2-708(c), the court that entered the conviction may vacate it when the person's participation in the offense resulted from being a victim of human trafficking.",
         "",
-        "The committed contract records these conditions on the route: Participation in the offense resulted from trafficking victimization; Statutory evidentiary and offense requirements satisfied.",
+        "This Motion states the conviction and relies on the attached participant declaration for trafficking-victim status, causal connection, and supporting evidence.",
         "",
         "B. THE MOVANT",
         "",
@@ -278,7 +278,7 @@ const SPEC = {
         "",
         "FEE",
         "",
-        "The compiled Wyoming profile states: Human-trafficking victim vacatur - Verify with clerk; statute is a motion route, not a standard expungement filing-fee route. It establishes no amount or waiver for this route. Ask the clerk of the original criminal court before filing; do not import a fee from another Wyoming route.",
+        "No statewide fee amount or waiver is stated for this Motion. Ask the clerk of the original criminal court about the fee before filing; do not use a fee from a different Wyoming record-clearing procedure.",
         "",
         "WHEN TO STOP AND GET HELP",
         "",
@@ -299,8 +299,8 @@ const SPEC = {
       "participant.street_address": "42 Magnolia Street, Springfield 62704",
       "participant.phone": "555-0142",
       "participant.email": "jordan.reyes@example.org",
-      "matter.original_criminal_court": "Example County District Court (synthetic fixture)",
-      "matter.original_case_number": "CR-EXAMPLE-2020-001 (synthetic fixture)"
+      "matter.original_criminal_court": "Example County District Court",
+      "matter.original_case_number": "CR-EXAMPLE-2020-001"
     },
     "boundary": {
       "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
@@ -328,11 +328,11 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER",
-      "The compiled Wyoming profile says to verify the fee with the clerk because this is a motion route, not a standard expungement-fee route. No amount or waiver is established for this route. Ask the clerk of the original criminal court before filing and do not import a fee from another Wyoming route."
+      "No statewide fee amount or waiver is stated for this Motion. Ask the clerk of the original criminal court before filing and do not use a fee from a different Wyoming record-clearing procedure."
     ],
     [
       "SERVICE",
-      "Serve the State/prosecutor under W.R.Cr.P. 49. The authoritative decision establishes no statewide hearing deadline, service mode, or certificate requirement, and this packet invents none."
+      "Serve the State/prosecutor under W.R.Cr.P. 49. No statewide hearing deadline, service mode, or certificate requirement is stated for this Motion, so this packet adds none."
     ],
     [
       "SENSITIVE_MATERIAL_HANDLING",
@@ -340,55 +340,43 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP",
-      "**Stop and get help if:** **this is the first thing the committed record says about this route:** the compiled Wyoming profile's own handling rule is to ask only what is necessary and then \"route to manual/legal review. Do not require graphic details.\"; **Stop and get help if:** the facts that establish the connection are yours to tell and yours alone. No page in this packet asks for an account of what was done to you, and nothing here should be written out for anyone who has not been engaged to act for you; **Stop and get help if:** your own safety is in question, now or once a filing becomes a public court record; **Stop and get help if:** there are other counts on the same case, or other cases — every committed contract in this group records other counts as a fact the route must collect; **Stop and get help if:** any immigration question is involved."
+      "Get legal help if you are unsure about trafficking-victim status or causal connection, if safety is at risk, if the original matter has other counts or related cases, if immigration consequences may be involved, or if the court record does not match this Motion. Do not include graphic details."
     ]
   ],
   "instructionsIntro": [
-    "This packet is a composed Motion and participant declaration; no committed record names an official Wyoming participant form for this route.",
-    "The canonical fixture demonstrates known original-court and original-case prefills with values explicitly marked synthetic. If either value is unavailable, the boundary fixture leaves a required labelled blank. In a participant packet, copy each from the court record and never infer it."
+    "This packet contains a Motion to Vacate Conviction and a supporting participant declaration under W.S. § 6-2-708(c).",
+    "Check the original criminal court and case number printed on both documents against the court record. If either is blank, copy it exactly from that record before filing; never infer it."
   ],
   "instrumentChoice": null,
-  "recordSays": [
-    [
-      "The compiled Wyoming profile",
-      "Wilma trauma rule: Ask only what is necessary: Then route to manual/legal review. Do not require graphic details."
-    ],
-    [
-      "The compiled Wyoming profile",
-      "A human-trafficking victim is not criminally liable for commercial sex acts or other criminal acts committed as a direct result of, or incident to, being a trafficking victim."
-    ],
-    [
-      "The committed route contract",
-      "Statutory documentation creates the stated evidentiary effect but is not the only possible proof; the intake must permit alternative nexus evidence. No nonconviction, misdemeanor, felony or juvenile waiting table may be imported."
-    ]
-  ],
+  "recordSays": [],
+  "documentsHeading": "Supporting evidence",
   "documentsToObtain": [
     [
-      "Nexus evidence — the committed contract names it as a component of this packet, and records that official documentation is not the only possible proof",
-      "whoever holds it; official documentation creates the recorded presumption but the record says it is not required"
+      "Evidence supporting trafficking-victim status or causal connection",
+      "Use official victim documentation if available. If it is unavailable, identify alternative evidence in declaration item 3; absence of official documentation alone does not stop filing."
     ]
   ],
   "steps": [
-    "**Read the filing instructions page.** It states the original-case, declaration, service and sensitive-material steps bound by the current decision.",
+    "**Read the filing instructions page.** It states the original-case, declaration, service and sensitive-material steps for this Motion.",
     "**Check the original criminal court and case number against the court record.** If either is blank, copy it exactly before filing; never infer it.",
     "**Complete the Motion and declaration from the court record and personal knowledge.** Do not add graphic detail.",
-    "**Sign and date both participant signature blocks personally.** The platform never signs or dates them.",
+    "**Sign and date both participant signature blocks personally.** Nothing in the packet signs or dates them for you.",
     "**Review and redact public copies and use the original court's Wyoming restricted-filing procedure where applicable.** Filing is not automatically sealed.",
     "**File in the original criminal court and serve the State/prosecutor under W.R.Cr.P. 49.** This packet states no statewide hearing deadline, service mode, or certificate requirement."
   ],
   "deliberatelyBlank": [
     "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
-    "**The original court and case number only when unavailable to the platform.** They are required participant record facts copied from the existing criminal case, never a future court-assigned number."
+    "**The original court and case number when either is blank.** They are required facts copied from the existing criminal case, never a future court-assigned number."
   ],
   "notTold": [],
   "stopConditions": [
-    "**this is the first thing the committed record says about this route:** the compiled Wyoming profile's own handling rule is to ask only what is necessary and then \"route to manual/legal review. Do not require graphic details.\";",
-    "the facts that establish the connection are yours to tell and yours alone. No page in this packet asks for an account of what was done to you, and nothing here should be written out for anyone who has not been engaged to act for you;",
+    "you are unsure whether the court record supports trafficking-victim status or the causal connection required by W.S. § 6-2-708(c);",
+    "you cannot state the required facts briefly from personal knowledge without risking your safety; do not include graphic details;",
     "your own safety is in question, now or once a filing becomes a public court record;",
-    "there are other counts on the same case, or other cases — every committed contract in this group records other counts as a fact the route must collect;",
+    "there are other counts in the same case or other related cases;",
     "any immigration question is involved."
   ],
-  "whatThisIsNot": "This is a composed Motion and declaration on one Wyoming route. It is not an official Wyoming form, legal advice, an automatic sealed filing, or a court decision.",
+  "whatThisIsNot": "This Motion and declaration are not an official Wyoming form, legal advice, an automatic sealed filing, or a court decision.",
   "receiptDoesNotEstablish": [
     "that any Wyoming conviction resulted from being a victim of trafficking"
   ],
@@ -574,7 +562,6 @@ function composedBody(componentId, facts) {
       return String(value);
     }));
   }
-  lines.push("", `Route: ${c.routeKey}`);
   return lines.join("\n");
 }
 
@@ -835,11 +822,11 @@ function participantInstructions(maps, rbf) {
 
   out.push("## What is in this packet", "");
   out.push("| Component | What it is |", "| --- | --- |");
-  for (const c of SPEC.components) out.push(`| \`${c.id}\` | ${c.description} |`);
+  for (const c of SPEC.components) out.push(`| ${c.title} | ${c.description} |`);
   out.push("");
 
   out.push("## Where this is filed, what it costs, and who must be served", "");
-  out.push("| Question | What the repository establishes, or the authority that answers it |", "| --- | --- |");
+  out.push("| Question | What to do |", "| --- | --- |");
   for (const [q, answer] of SPEC.obligationTable) out.push(`| ${q} | ${answer} |`);
   out.push("");
 
@@ -866,7 +853,7 @@ function participantInstructions(maps, rbf) {
   out.push("## The items you must supply", "");
   out.push("Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.", "");
   for (const [doc, items] of byDoc) {
-    out.push(`### ${doc} — ${COMPONENT[doc]?.title ?? doc}`, "");
+    out.push(`### ${COMPONENT[doc]?.title ?? doc}`, "");
     out.push("| The blank on the document | What to write |", "| --- | --- |");
     for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
     out.push("");
@@ -876,7 +863,7 @@ function participantInstructions(maps, rbf) {
   for (const [i, s] of SPEC.steps.entries()) out.push(`${i + 1}. ${s}`);
   out.push("");
 
-  out.push("## Things the platform deliberately left blank", "");
+  out.push("## What you must complete", "");
   for (const b of SPEC.deliberatelyBlank) out.push(`- ${b}`);
   out.push("");
 
@@ -891,8 +878,7 @@ function participantInstructions(maps, rbf) {
   out.push("");
 
   out.push("## What this packet is not", "");
-  out.push(SPEC.whatThisIsNot, "");
-  out.push(`_Route(s): ${SPEC.routes.map((r) => r.routeKey).join(" · ")}_`);
+  out.push(SPEC.whatThisIsNot);
   return `${out.join("\n")}\n`;
 }
 
@@ -935,7 +921,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     const facts = SPEC.fixtures[fixtureName];
     const packet = await PDFDocument.create();
     stampDeterministic(packet);
-    packet.setTitle(`${SPEC.legalName} — ${fixtureName} fixture`);
+    packet.setTitle(SPEC.legalName);
     const pageManifest = [];
     const documents = [];
 
@@ -1017,6 +1003,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     bindingMethod: "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
     routeKeys: SPEC.routes.map((r) => r.routeKey),
     statutoryAuthority: SPEC.statutes, legalName: SPEC.legalName,
+    fixtureFactNotice: "Fixture identities and case facts are synthetic test data. They are evidence of known-fact writing behavior and are never participant facts.",
     allSourcesExact: true,
     formIdentityNote: SPEC.formIdentityNote,
     /* Bound as committedRecords, not documents: these are the AUTHORITY this

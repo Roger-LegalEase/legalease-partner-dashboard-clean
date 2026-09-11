@@ -76,11 +76,12 @@ for (const field of ["original_criminal_court", "original_case_number"]) {
     assert.equal(unknown?.requiredBeforeFiling, true, `${componentId}.${field}: unknown fact was not required before filing`);
   }
 }
-assert.match(canonical.text, /Example County District Court \(synthetic fixture\)/);
-assert.match(canonical.text, /CR-EXAMPLE-2020-001 \(synthetic fixture\)/);
+assert.match(canonical.text, /Example County District Court/);
+assert.match(canonical.text, /CR-EXAMPLE-2020-001/);
 assert.doesNotMatch(boundary.text, /CR-EXAMPLE|Example County District Court/);
-assert.match(instructions, /copy each from the court record and never infer it/i);
+assert.match(instructions, /copy it exactly .*never infer it/i);
 assert.match(instructions, /existing criminal case, never a future court-assigned number/i);
+assert.doesNotMatch(allDeliveredText, /WY-TRAFFICKING-VACATUR-6-2-708C|synthetic fixture|compiled (?:Wyoming )?profile|committed (?:record|contract)|authoritative decision|current decision|What the repository|Route: obligation:/i);
 
 assert.match(allDeliveredText, /Participant Declaration in Support of Motion/i);
 assert.match(allDeliveredText, /trafficking-victim status/i);
@@ -108,6 +109,7 @@ assert.deepEqual(approval.counselQuestionsRaised, []);
 const decisionBinding = receipt.committedRecords.find((row) => row.recordId === "legal-decision:WY-TRAFFICKING-VACATUR-6-2-708C");
 assert.equal(decisionBinding?.pathInRepository, "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json");
 assert.equal(decisionBinding?.sha256, "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2");
+assert.match(receipt.fixtureFactNotice, /synthetic test data/i);
 
 const beforeCheck = treeDigest(OUT);
 const check = JSON.parse(execFileSync(process.execPath, [BUILDER, "--check"], {
