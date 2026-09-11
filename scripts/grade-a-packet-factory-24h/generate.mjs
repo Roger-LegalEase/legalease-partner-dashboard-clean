@@ -52,6 +52,37 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 process.chdir(ROOT);
 const CHECK = process.argv.includes("--check");
 
+const claimKey = (claim) => `${claim.subjectType}\u0000${claim.subjectId}\u0000${claim.operation}`;
+
+/* Preserve ownership, while allowing completed history to follow the current
+ * dispatch packing. A live prior claim wins by identity on every lane,
+ * including an external lane. A released prior claim contributes its release
+ * state to a currently generated identity, but its old lane is historical and
+ * cannot override the current assignment. Released identities absent from the
+ * current dispatch remain in the ledger as history. */
+function reconcileGeneratedClaimsWithPriorOwnership(generatedClaims, priorClaims) {
+  const priorByKey = new Map(priorClaims.map((claim) => [claimKey(claim), claim]));
+  let carriedReleases = 0;
+  for (const row of generatedClaims) {
+    const prior = priorByKey.get(claimKey(row));
+    if (prior?.released === true) {
+      row.released = true;
+      row.releasedAt = prior.releasedAt;
+      carriedReleases++;
+    }
+  }
+  const generatedKeys = new Set(generatedClaims.map(claimKey));
+  const priorPinned = new Map(priorClaims
+    .filter((claim) => claim.released !== true)
+    .map((claim) => [claimKey(claim), claim]));
+  return {
+    carriedReleases,
+    generatedClaims: generatedClaims.filter((claim) => !priorPinned.has(claimKey(claim))),
+    preservedClaims: priorClaims.filter((claim) => priorPinned.has(claimKey(claim))
+      || !generatedKeys.has(claimKey(claim)))
+  };
+}
+
 /*
  * A released verification claim means one of two very different things, and
  * this guard could not tell them apart.
@@ -143,6 +174,27 @@ if (focusedInvariantIndex >= 0) {
     .filter((assignment) => assignment.lane === "independent-verification")
     .reduce((total, assignment) => total + (assignment.items ?? []).length, 0);
   console.log(`VERIFICATION_CLAIMS_ASSERTABLE ${count}`);
+  process.exit(0);
+}
+
+const focusedPackingIndex = process.argv.indexOf("--check-prior-claim-packing");
+if (focusedPackingIndex >= 0) {
+  const generatedPath = process.argv[focusedPackingIndex + 1];
+  const priorPath = process.argv[focusedPackingIndex + 2];
+  if (!generatedPath || !priorPath) {
+    console.error("usage: generate.mjs --check-prior-claim-packing <generated-claims.json> <prior-claims.json>");
+    process.exit(2);
+  }
+  const generated = JSON.parse(fs.readFileSync(path.resolve(generatedPath), "utf8"));
+  const prior = JSON.parse(fs.readFileSync(path.resolve(priorPath), "utf8"));
+  const result = reconcileGeneratedClaimsWithPriorOwnership(
+    generated.claims ?? generated,
+    prior.claims ?? prior
+  );
+  console.log(JSON.stringify({
+    carriedReleases: result.carriedReleases,
+    claims: [...result.generatedClaims, ...result.preservedClaims]
+  }));
   process.exit(0);
 }
 
@@ -4374,14 +4426,6 @@ const priorLedgerPath = path.join(ROOT, `${OUT_DIR}/claim-ledger.json`);
 const priorLedger = fs.existsSync(priorLedgerPath)
   ? JSON.parse(fs.readFileSync(priorLedgerPath, "utf8"))
   : { claims: [], releases: [], reissues: [] };
-const claimKey = (c) => `${c.subjectType}\u0000${c.subjectId}\u0000${c.operation}`;
-const priorByKey = new Map((priorLedger.claims ?? []).map((c) => [claimKey(c), c]));
-
-let carriedReleases = 0;
-for (const row of claimRows) {
-  const prior = priorByKey.get(claimKey(row));
-  if (prior?.released === true) { row.released = true; row.releasedAt = prior.releasedAt; carriedReleases++; }
-}
 /*
  * Preserve only grants in lanes this generator does not manage.
  *
@@ -4413,9 +4457,6 @@ const externalLanes = new Set((() => {
   catch { return []; }
 })());
 
-const generatedLanes = new Set(claimRows.map((c) => c.lane));
-for (const lane of externalLanes) generatedLanes.delete(lane);
-const generatedKeys = new Set(claimRows.map(claimKey));
 /*
  * Preserve by IDENTITY, not by lane.
  *
@@ -4435,12 +4476,11 @@ const generatedKeys = new Set(claimRows.map(claimKey));
  * withdrawn from the ledger is absent from priorLedger and cannot return here.
  */
 /*
- * A prior claim on an EXTERNAL lane beats the freshly generated row for the
- * same identity. The generator packs its own lanes and knows nothing about
- * transfers, so re-emitting an identity moved to PF17 put it back on PF09 —
- * six build grants, one repair grant, silently, while their workers were
- * asserting them. Identity preservation without lane comparison is how it got
- * past the destruction guard.
+ * A LIVE prior claim on an EXTERNAL lane beats the freshly generated row for
+ * the same identity. The generator packs its own lanes and knows nothing about
+ * transfers, so re-emitting a live identity moved to PF17 put it back on PF09
+ * while its worker was asserting it. Once released, that lane is history and
+ * the current dispatch may pack the identity again.
  */
 /*
  * A LIVE prior claim beats the freshly generated row for the same identity,
@@ -4451,14 +4491,10 @@ const generatedKeys = new Set(claimRows.map(claimKey));
  * in this shift. A live grant is owned; only released history may be
  * re-packed.
  */
-const priorPinned = new Map((priorLedger.claims ?? [])
-  .filter((c) => c.released !== true || externalLanes.has(c.lane))
-  .map((c) => [claimKey(c), c]));
-const claimRowsRespectingExternal = claimRows.filter((c) => !priorPinned.has(claimKey(c)));
-const preservedGrants = (priorLedger.claims ?? [])
-  .filter((c) => priorPinned.has(claimKey(c))
-    ? true
-    : !generatedKeys.has(claimKey(c)) );
+const reconciledClaims = reconcileGeneratedClaimsWithPriorOwnership(claimRows, priorLedger.claims ?? []);
+const carriedReleases = reconciledClaims.carriedReleases;
+const claimRowsRespectingExternal = reconciledClaims.generatedClaims;
+const preservedGrants = reconciledClaims.preservedClaims;
 /*
  * DISSOLUTION (simplification directive): a live grant whose subject the
  * current dispatch no longer names — in ACTIVE_ASSIGNMENTS or the external

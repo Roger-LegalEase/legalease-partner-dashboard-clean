@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -82,6 +83,52 @@ mustRefuseAttestation("unknown superseded decision", (copy) => {
 mustRefuseAttestation("documentary permission claim", (copy) => {
   copy[0].document.documentaryPermissionStoredInRepository = true;
 }, /may not claim documentary permission is stored/);
+
+const packingFixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-claim-packing-"));
+try {
+  const generatedPath = path.join(packingFixtureDir, "generated.json");
+  const priorPath = path.join(packingFixtureDir, "prior.json");
+  const baseClaim = {
+    subjectType: "packet-family",
+    subjectId: "de_pardon_expungement-set",
+    operation: "independent-verification",
+    laneKind: "independent-verification"
+  };
+  const runPacking = (generated, prior) => {
+    fs.writeFileSync(generatedPath, JSON.stringify({ claims: generated }));
+    fs.writeFileSync(priorPath, JSON.stringify({ claims: prior }));
+    return JSON.parse(execFileSync(process.execPath, [
+      path.join(ROOT, "scripts/grade-a-packet-factory-24h/generate.mjs"),
+      "--check-prior-claim-packing", generatedPath, priorPath
+    ], { cwd: ROOT, encoding: "utf8" }));
+  };
+
+  const released = runPacking(
+    [{ ...baseClaim, lane: "VF02", released: false }],
+    [{ ...baseClaim, lane: "VF20", released: true, releasedAt: "2026-09-10T11:23:23.183Z" }]
+  );
+  assert.equal(released.claims.length, 1);
+  assert.equal(released.claims[0].lane, "VF02", "released external history must follow current packing");
+  assert.equal(released.claims[0].released, true);
+  assert.equal(released.claims[0].releasedAt, "2026-09-10T11:23:23.183Z");
+  assert.equal(released.carriedReleases, 1);
+
+  const live = runPacking(
+    [{ ...baseClaim, lane: "VF02", released: false }],
+    [{ ...baseClaim, lane: "VF20", released: false }]
+  );
+  assert.equal(live.claims.length, 1);
+  assert.equal(live.claims[0].lane, "VF20", "live external ownership must remain pinned");
+  assert.equal(live.claims[0].released, false);
+
+  const historicalOnly = runPacking([], [
+    { ...baseClaim, lane: "VF20", released: true, releasedAt: "2026-09-10T11:23:23.183Z" }
+  ]);
+  assert.equal(historicalOnly.claims.length, 1, "released identity absent from current dispatch must remain as history");
+  assert.equal(historicalOnly.claims[0].lane, "VF20");
+} finally {
+  fs.rmSync(packingFixtureDir, { recursive: true, force: true });
+}
 
 const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8" }).trim();
 for (const resolution of baseResolutions.byFamily.values()) assert.equal(
@@ -167,4 +214,4 @@ if (process.argv.includes("--generated")) {
   console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 36 legally clear; SC source/product gates preserved`);
 }
 
-console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1 clear and 6 hold; exact owner-attestation supersession yields 36 clear; malformed/conflicting records refused; exact review-base byte ordering enforced");
+console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1 clear and 6 hold; exact owner-attestation supersession yields 36 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");
