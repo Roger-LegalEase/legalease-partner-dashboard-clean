@@ -646,6 +646,7 @@ function readableCaption(label) {
  */
 const OUTPUT_GLYPH_READING_FAMILIES = new Set([
   "pa_6308_underage-set",
+  "nj_ordinance-set",
 ]);
 
 /** Reads the two glyph readings from produced bytes, or null when not enabled. */
