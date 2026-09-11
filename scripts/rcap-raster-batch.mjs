@@ -21,6 +21,7 @@ import { fileURLToPath } from "node:url";
 import { PDFDocument } from "pdf-lib";
 import sharp from "sharp";
 import { resolveChromium, rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
+import { reuseOriginalPageEvidence } from "./raster/reuse-original-page-evidence.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const flag = (n) => { const i = process.argv.indexOf(n); return i < 0 ? null : process.argv[i + 1]; };
@@ -54,8 +55,12 @@ const row = (queue.rows ?? []).find((r) => r.familyId === FAMILY);
 if (!row) fail(`${FAMILY} is not in ${MANIFEST}`);
 if (row.currentRasterState !== "RASTER_PENDING") fail(`${FAMILY} is ${row.currentRasterState}, not RASTER_PENDING`);
 
-const resolved = resolveChromium();
-if (!resolved.executablePath) {
+const allQueuedDocumentsReuseOriginalPages = (row.documents ?? []).length > 0
+  && row.documents.every((document) => document.reuseOriginalPageEvidence);
+const resolved = allQueuedDocumentsReuseOriginalPages
+  ? { executablePath: null, resolvedBy: "not-needed-all-pages-reused", tried: [] }
+  : resolveChromium();
+if (!allQueuedDocumentsReuseOriginalPages && !resolved.executablePath) {
   // An environment that cannot look at the packet has said nothing about the
   // packet. This is never RASTER_FAIL.
   fs.mkdirSync(OUT, { recursive: true });
@@ -68,7 +73,7 @@ if (!resolved.executablePath) {
   console.error(`RASTER_BLOCKED_ENVIRONMENT ${FAMILY}`);
   process.exit(1);
 }
-if (/headless_shell/.test(resolved.executablePath)) fail("headless_shell cannot render a PDF");
+if (resolved.executablePath && /headless_shell/.test(resolved.executablePath)) fail("headless_shell cannot render a PDF");
 
 const inkFraction = async (png, paper) => {
   // Inside the paper. Measured across the whole image, the viewer's grey ground
@@ -154,6 +159,7 @@ const rasterInputForTarget = async (abs, target, stage) => {
 
 fs.mkdirSync(OUT, { recursive: true });
 const artifacts = [];
+const documentEvidence = [];
 const problems = [];
 const environmentProblems = [];
 const decryptionTransforms = [];
@@ -182,17 +188,30 @@ const targets = (row.documents ?? []).length > 0
       kind: d.role, name: d.name, rel: d.path, expected: d.sha256,
       expectedPages: d.pageCount, pageCountBasis: d.pageCountBasis ?? null,
       pageCountEvidence: d.pageCountEvidence ?? null,
+      reuseOriginalPageEvidence: d.reuseOriginalPageEvidence ?? null,
     }))
   : [
       { kind: "canonical", name: "canonical", rel: row.canonicalPdfPath, expected: row.canonicalPdfSha256, expectedPages: row.expectedPages },
       { kind: "boundary", name: "boundary", rel: row.boundaryPdfPath, expected: row.boundaryPdfSha256, expectedPages: null },
     ];
+const hasReuseTargets = targets.some((target) => target.reuseOriginalPageEvidence);
 
 if (targets.some((t) => !t.rel)) fail(`${FAMILY}: a queued document names no path`);
 
+const repoFile = (relative, label) => {
+  if (typeof relative !== "string" || relative.length === 0 || path.isAbsolute(relative)) fail(`${label}: path must be repo-relative`);
+  const candidate = path.resolve(ROOT, relative);
+  if (!candidate.startsWith(`${path.resolve(ROOT)}${path.sep}`)) fail(`${label}: path escapes the repository`);
+  if (!fs.existsSync(candidate)) return candidate;
+  const realRoot = fs.realpathSync(ROOT);
+  const real = fs.realpathSync(candidate);
+  if (!real.startsWith(`${realRoot}${path.sep}`)) fail(`${label}: path resolves outside the repository`);
+  return real;
+};
+
 for (const target of targets) {
   const { kind, rel, expected } = target;
-  const abs = path.join(ROOT, rel);
+  const abs = hasReuseTargets ? repoFile(rel, `${target.name} PDF`) : path.join(ROOT, rel);
   if (!fs.existsSync(abs)) { problems.push(`${target.name}: ${rel} is absent at this commit`); continue; }
   const observed = sha256(abs);
   if (observed !== expected) {
@@ -211,6 +230,20 @@ for (const target of targets) {
   if (rasterInput.decryption) decryptionTransforms.push({ document: target.name, ...rasterInput.decryption });
   if (target.expectedPages && pages !== target.expectedPages) {
     problems.push(`${target.name}: ${pages} page(s) where the queue expected ${target.expectedPages}`);
+  }
+  if (target.reuseOriginalPageEvidence) {
+    try {
+      const reused = await reuseOriginalPageEvidence({
+        root: ROOT, out: OUT, familyId: FAMILY, familyPath: FAMILY_PATH,
+        target, descriptor: target.reuseOriginalPageEvidence, scale: SCALE,
+        currentPageCount: pages
+      });
+      artifacts.push(...reused.measurements);
+      documentEvidence.push(reused.document);
+    } catch (e) {
+      problems.push(`${target.name}: original-page reuse refused: ${String(e.message).split("\n")[0]}`);
+    }
+    continue;
   }
   /* One directory per DOCUMENT. Keying on kind alone made two canonical
    * documents of one family overwrite each other's PNGs. Both segments are
@@ -241,7 +274,12 @@ for (const target of targets) {
       expectedPx: { width: expectW, height: expectH, tolerancePx: tol },
       calibrationResidualPx: render.calibrationResidualPx,
       inkFractionInsidePaper: ink, nonblank: ink > 0.0005,
-      croppedToThePage: Math.abs(render.paper.width - expectW) <= tol && Math.abs(render.paper.height - expectH) <= tol
+      croppedToThePage: Math.abs(render.paper.width - expectW) <= tol && Math.abs(render.paper.height - expectH) <= tol,
+      ...(hasReuseTargets ? {
+        renderedInThisRun: true,
+        evidenceOrigin: "FRESH_RENDER_THIS_RUN",
+        originalOrigin: null
+      } : {})
     };
     if (!measurement.nonblank) problems.push(`${target.name} page ${i + 1}: blank (ink ${ink.toExponential(2)})`);
     if (!measurement.croppedToThePage) problems.push(`${target.name} page ${i + 1}: ${render.paper.width}x${render.paper.height}px does not match ${expectW.toFixed(0)}x${expectH.toFixed(0)}px for scale ${SCALE}`);
@@ -249,6 +287,10 @@ for (const target of targets) {
     artifacts.push({ kind, document: target.name, ...measurement });
   }
   if (pages === 0) problems.push(`${target.name}: the PDF reports zero pages`);
+  documentEvidence.push(hasReuseTargets ? {
+    role: target.kind, document: target.name, path: target.rel, pinned: target.expected,
+    renderedInThisRun: true, originalOrigin: null
+  } : { role: target.kind, document: target.name, path: target.rel, pinned: target.expected });
 }
 
 const verdict = problems.length > 0
@@ -267,7 +309,15 @@ const doc = {
   },
   /* What this verdict actually covers, so a reader never has to infer it from
    * the row it came from. */
-  documentsRendered: targets.map((t) => ({ role: t.kind, document: t.name, path: t.rel, pinned: t.expected })),
+  documentsRendered: hasReuseTargets
+    ? documentEvidence
+    : targets.map((target) => ({ role: target.kind, document: target.name, path: target.rel, pinned: target.expected })),
+  ...(hasReuseTargets ? {
+    freshRenderedDocuments: documentEvidence.filter((document) => document.renderedInThisRun),
+    reusedDocuments: documentEvidence.filter((document) => !document.renderedInThisRun),
+    freshRenderedPages: artifacts.filter((page) => page.renderedInThisRun === true).length,
+    reusedPages: artifacts.filter((page) => page.renderedInThisRun === false).length
+  } : {}),
   documentsDigest: row.documentsDigest ?? null,
   coversTheWholeFamily: row.coverage?.complete ?? null,
   decryptionTransforms,
