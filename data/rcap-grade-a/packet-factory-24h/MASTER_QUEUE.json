@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9385c2b0c2b8b0102bda92be0629a2453ba7a729",
+  "minimumCaptainSha": "8df74fc5d62c4decd7bdb5ada5279c1773f8bfa2",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -27,9 +27,9 @@
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
-    "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json": "ad53c40b70831ac8b82af377bcf9238a4e18dbc53dd08142b647a8a021d1213d",
+    "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json": "7d03705d29178719ae13b0a26a4d79eda92433123458df0feef2933a205a6609",
     "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
-    "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json": "3a84d6a6a7abee35c9523e989bf33c98a24a8359f669dfad47ee54213942a222",
+    "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json": "3e39ef0018140b10c0594108b3ddd232b6e7d759f15918f8b6dc2f858bf80d60",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "6634e3443f35b184630f09514f28adfff0a665939416959b2d3bc7bf15c2123a",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d",
@@ -79,15 +79,15 @@
     "sourceBlocked": 4,
     "legalBlocked": 0,
     "verifyPending": 3,
-    "repairRequired": 29,
+    "repairRequired": 28,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 235,
     "PRODUCT_PATH_PENDING": 10,
     "OUT_OF_SCOPE": 5,
-    "BUILT_RASTER_PENDING": 9,
-    "FAIL_REPAIR_REQUIRED": 30,
+    "BUILT_RASTER_PENDING": 10,
+    "FAIL_REPAIR_REQUIRED": 29,
     "SOURCE_READY": 34,
     "SOURCE_BLOCKED": 4,
     "GUIDANCE_READY": 12,
@@ -14862,7 +14862,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
@@ -45436,8 +45436,10 @@
         "notice_to_submit_or_notice_of_hearing",
         "proposed_order"
       ],
-      "officialFormFamily": "1501CR+1501CR-C+1502CR",
+      "officialFormFamily": "1110GE+1111GE+1501CR+1501CR-C+1502CR",
       "forms": [
+        "1110GE",
+        "1111GE",
         "1501CR",
         "1501CR-C",
         "1502CR"
@@ -45446,6 +45448,8 @@
         "official-form:1501CR",
         "official-form:1501CR-C",
         "official-form:1502CR",
+        "official-form:1110GE",
+        "official-form:1111GE",
         "official-form:1110GE or 1111GE"
       ],
       "sourceHashes": [
@@ -45465,6 +45469,18 @@
           "sourceId": "official-form:1502CR",
           "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1502CR__d23d74d35aaf.pdf",
           "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+          "tier": "exact_content_hash"
+        },
+        {
+          "sourceId": "official-form:1110GE",
+          "path": "reference/utah/1110GE-official-20260911.pdf",
+          "sha256": "c2ca5eb5fdb0303025b2fa5f24263cef225cc863161128c4b42a11b998981c72",
+          "tier": "exact_content_hash"
+        },
+        {
+          "sourceId": "official-form:1111GE",
+          "path": "reference/utah/1111GE-official-20260911.pdf",
+          "sha256": "3e623db96048111929a98c5a36a8e8f4d4dd6411d6b8baece81d3f2ce1512544",
           "tier": "exact_content_hash"
         }
       ],
@@ -45501,19 +45517,37 @@
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
             "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
+          },
+          {
+            "sourceId": "official-form:1110GE",
+            "path": "reference/utah/1110GE-official-20260911.pdf",
+            "sha256": "c2ca5eb5fdb0303025b2fa5f24263cef225cc863161128c4b42a11b998981c72",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json"
+          },
+          {
+            "sourceId": "official-form:1111GE",
+            "path": "reference/utah/1111GE-official-20260911.pdf",
+            "sha256": "3e623db96048111929a98c5a36a8e8f4d4dd6411d6b8baece81d3f2ce1512544",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
         "supersededSourceIds": [],
-        "namedOfficialForms": 3,
+        "namedOfficialForms": 5,
         "effectiveOfficialSourceIds": [
           "official-form:1501CR",
           "official-form:1501CR-C",
-          "official-form:1502CR"
+          "official-form:1502CR",
+          "official-form:1110GE",
+          "official-form:1111GE"
         ],
-        "boundCount": 3,
+        "boundCount": 5,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "directAttachment": true
