@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "053bc2589b3b0ee4d57d447c88417ec941a898cc",
+  "generatedAtCommit": "9f01c2f894f8d839e3f079b3204466ac2b0046d0",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -8596,10 +8596,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX143",
+      "lane": "FIX08",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-11T05:58:05.407Z"
     },
     {
       "subjectType": "packet-family",
@@ -15048,7 +15048,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "58c0105b301fcf175d1b903bcc71aed47a523accea86fa97ac60c5305c1bc55f",
+  "claimsDigest": "469f5cae85850c7adcf91669b6720827ddf804cb3b163731ac8fc51361a4bcd7",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39753,6 +39753,14 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-11T02:02:33.132Z"
+    },
+    {
+      "lane": "FIX143",
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-11T05:58:05.407Z"
     }
   ],
   "reissues": [

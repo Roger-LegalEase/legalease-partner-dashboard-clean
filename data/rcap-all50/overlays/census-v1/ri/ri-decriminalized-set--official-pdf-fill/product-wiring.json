@@ -53,18 +53,11 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33983515494",
-      "jobId": 101353182174,
-      "artifactId": null,
-      "boundToCanonicalSha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf90",
-      "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545"
+      "verdict": "PASS",
+      "lane": "vf03",
+      "verifiedAtBase": "9f01c2f894f8d839e3f079b3204466ac2b0046d0"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -74,7 +67,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+        "replacedByCanonicalSha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33983515494",
+          "jobId": 101353182174,
+          "artifactId": null,
+          "boundToCanonicalSha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -87,7 +95,7 @@
         "order": 1,
         "documentId": "ri_decriminalized-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+        "sha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
         "requirement": "required"
       },
       {
@@ -96,7 +104,7 @@
         "order": 2,
         "documentId": "ri_decriminalized-decriminalization-affidavit-3",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+        "sha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
         "requirement": "required"
       },
       {
@@ -105,7 +113,7 @@
         "order": 3,
         "documentId": "ri_decriminalized-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+        "sha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
         "requirement": "required"
       },
       {
@@ -114,7 +122,7 @@
         "order": 4,
         "documentId": "ri_decriminalized-filing-instructions-4",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+        "sha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
         "requirement": "required"
       }
     ]
