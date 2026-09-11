@@ -31,6 +31,7 @@
  */
 import crypto from "node:crypto";
 import { conditionalPacketDocuments } from "./conditional-raster-documents.mjs";
+import { retainRiNonconvictionRasterOrder } from "../rcap-packet-recovery/ri-nonconviction-raster-order.mjs";
 import { resolveMiMoRasterEnrollment } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
 import { resolveIaForm1RasterEnrollment } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
 import fs from "node:fs";
@@ -840,6 +841,10 @@ for (const f of master.families) {
        * queued, so a document the parser cannot open refuses the family here
        * rather than aborting the render job that was dispatched to prove it. */
       documents = prepared?.documents ?? await documentSet(dir, fixtures, pdfs);
+      if (f.familyId === "ri_nonconviction_sealing-set") {
+        documents = retainRiNonconvictionRasterOrder(f.familyId, documents,
+          read(`${DIR}/raster-runs/34602562081/ri_nonconviction_sealing-set.verdict.json`));
+      }
       const unreadable = documents.filter((d) => d.pageCount === null).map((d) => d.name);
       if (unreadable.length) {
         eligibility.push(`${unreadable.length} of ${documents.length} queued document(s) have neither a parser-readable page count nor a hash-bound builder count, so "every page rendered" cannot be proven about them: ${unreadable.join(", ")}`);
