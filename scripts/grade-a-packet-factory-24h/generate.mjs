@@ -404,6 +404,7 @@ const INPUTS = {
   wave2Repairs: `${LC}/WAVE_2_REPAIR_ASSIGNMENTS.json`,
   corpusIndex: "data/rcap-all50/local-source-corpus-index.json",
   sourceDeterminations: "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+  recoveredSourceWave1: "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
   ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
   legalHoldReclassification: "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
@@ -942,6 +943,9 @@ for (const evidencePath of sourceReconciliationDoc?.acquisitionEvidencePaths ?? 
   const doc = readIf(evidencePath);
   if (doc) walkAcquisitionEvidence(doc, evidencePath);
 }
+// Owner-returned bodies restored under their existing exact identities use the
+// same evidence reader. This is custody recovery, not a fabricated workflow receipt.
+walkAcquisitionEvidence(IN.recoveredSourceWave1, INPUTS.recoveredSourceWave1);
 
 /**
  * Can a builder actually open every byte this family needs?
