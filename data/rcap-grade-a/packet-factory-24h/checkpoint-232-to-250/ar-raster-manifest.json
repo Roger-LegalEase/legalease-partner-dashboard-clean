@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "boundaryPdfSha256": "ccfad986cb615a9679a5edabd15a55faba8118fdf3809926e3c95bf3b9313d23",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "canonicalPdfSha256": "e1063b2d1846c5372847ecacc7c597943d64f75abefc51dee647c4f9f5b01b41",
+      "coverage": {
+        "basis": "the family ships 2 canonical document(s) with no assembled packet, and the row renders all of them",
+        "complete": true,
+        "documents": [
+          "order-canonical-filled.pdf",
+          "petition-canonical-filled.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "order-canonical-filled.pdf",
+          "petition-canonical-filled.pdf",
+          "order-boundary-filled.pdf",
+          "petition-boundary-filled.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "order-canonical-filled.pdf",
+          "pageCount": 3,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 3,
+            "sourceSha256": "1dcb3519e63f783957254b9a45b55ab0bbbf693857b9947b95286adfaa824a17",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+          "role": "canonical",
+          "sha256": "1dcb3519e63f783957254b9a45b55ab0bbbf693857b9947b95286adfaa824a17"
+        },
+        {
+          "name": "petition-canonical-filled.pdf",
+          "pageCount": 5,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 5,
+            "sourceSha256": "e1063b2d1846c5372847ecacc7c597943d64f75abefc51dee647c4f9f5b01b41",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "role": "canonical",
+          "sha256": "e1063b2d1846c5372847ecacc7c597943d64f75abefc51dee647c4f9f5b01b41"
+        },
+        {
+          "name": "order-boundary-filled.pdf",
+          "pageCount": 3,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 3,
+            "sourceSha256": "5e663e1986dcdba4fe888b51d3fc48b4a3a15ff6bc354db70221cf94e40e756b",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+          "role": "boundary",
+          "sha256": "5e663e1986dcdba4fe888b51d3fc48b4a3a15ff6bc354db70221cf94e40e756b"
+        },
+        {
+          "name": "petition-boundary-filled.pdf",
+          "pageCount": 5,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 5,
+            "sourceSha256": "ccfad986cb615a9679a5edabd15a55faba8118fdf3809926e3c95bf3b9313d23",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "role": "boundary",
+          "sha256": "ccfad986cb615a9679a5edabd15a55faba8118fdf3809926e3c95bf3b9313d23"
+        }
+      ],
+      "documentsDigest": "c322a246c58f6b6d4559009d91d92a70afa1c948da6efd3ee55c903c8da89ba3",
+      "expectedPages": 5,
+      "familyId": "ar-misdemeanor-seal-set",
+      "fixtureSelection": {
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json",
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json"
+      },
+      "nextOwner": "RAS02",
+      "packetCommitSha": "8d62a80851336f90db936981821f3bc6950aea5d",
+      "requestedScale": 2.5
+    }
+  ]
+}
