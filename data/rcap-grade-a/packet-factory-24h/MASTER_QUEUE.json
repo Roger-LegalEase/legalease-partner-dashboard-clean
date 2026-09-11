@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "08d1157068ab93d7f5e2a3ecbecef548950a60c7",
+  "minimumCaptainSha": "64c679ac6218a72f6421b6d8ab203b3b4aaa6dc7",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -70,18 +70,18 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 2,
+    "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
-    "remaining": 344,
+    "remaining": 345,
     "sourceReady": 34,
     "sourceBlocked": 5,
     "legalBlocked": 0,
-    "verifyPending": 5,
-    "repairRequired": 29,
+    "verifyPending": 4,
+    "repairRequired": 30,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 231,
+    "COMPLETE_PACKET_PROVEN": 232,
     "PRODUCT_PATH_PENDING": 11,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 8,
@@ -90,7 +90,7 @@
     "SOURCE_BLOCKED": 5,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 5,
+    "VERIFY_PENDING": 4,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -115,8 +115,7 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "al-pardoned-felony-set",
-      "composed-treatment:nd-nonconviction-auto-close-verify"
+      "al-pardoned-felony-set"
     ],
     "staleRosterFamilies": [
       {
@@ -10304,8 +10303,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX112",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -10316,8 +10315,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
@@ -12086,10 +12084,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf07",
-        "verifiedAtBase": "a0fbceb30",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "08d1157068ab93d7f5e2a3ecbecef548950a60c7",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-wy-final.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -12108,18 +12106,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "a0fbceb30",
+          "verifiedAtBase": "08d1157068ab93d7f5e2a3ecbecef548950a60c7",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -12135,17 +12134,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
-        "foundBy": [
-          "vf07 (current independent verification)"
-        ],
-        "why": "FILING_DESTINATION: BLOCKED_LEGAL_INPUT, named exactly rather than softened. The obligation asks whether the instructions name the court the ROUTE names. The packet names a court and grounds that naming honestly in the compiled profile, and it discloses on its own face that the census records no destination. But the route names none, and the reason it names none is that the route-kind adjudication for this pathway is pending and legal design has not been performed. This lane cannot close that by reading bytes, and will not pass an obligation whose measuring stick does not exist. It is not a FAIL: nothing about the packet's destination statement is wrong on the evidence available to it. | SERVICE: BLOCKED_LEGAL_INPUT. The packet's disclosure is honest and is the right thing to print given what it holds — but the obligation asks who must be served and how, and the answer is absent from the legal record, not from the build. A survivor filing a motion in a criminal case is not told whether the prosecutor must be served, and no lane can supply that from bytes. Naming it here is the point of the result word.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule WY-TRAFFICKING-VACATUR-6-2-708C: Use a Motion to Vacate Conviction under W.S. Section 6-2-708(c) in the original criminal court/case. Collect a participant declaration/affidavit establishing trafficking-victim status and causal connection. Official victim documentation creates a presumption when available but its absence is not an automatic stop. Serve the State/prosecutor under W.R.Cr.P. 49; do not invent a statewide hearing deadline; apply Wyoming redaction/restricted-filing rules to sensitive material. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule WY-TRAFFICKING-VACATUR-6-2-708C: Use a Motion to Vacate Conviction under W.S. Section 6-2-708(c) in the original criminal court/case. Collect a participant declaration/affidavit establishing trafficking-victim status and causal connection. Official victim documentation creates a presumption when available but its absence is not an automatic stop. Serve the State/prosecutor under W.R.Cr.P. 49; do not invent a statewide hearing deadline; apply Wyoming redaction/restricted-filing rules to sensitive material. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -12166,7 +12158,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs",
