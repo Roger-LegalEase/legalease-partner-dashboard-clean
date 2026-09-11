@@ -1,0 +1,465 @@
+{
+  "familyId": "ut_pet_special_certificate-set",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "exhaustiveWithinAssignedScope": true,
+  "blockingDefectGroups": 9,
+  "defects": [
+    {
+      "defectId": "UT-VF62-01",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Three incorrect source-caption anchors repeat in both fixtures",
+      "finding": "1001EX writes County at y=443.28 below its printed county underline, and petitioner at y=343.60 directly over the printed Petitioner label. 1021EX writes County at y=514.20 through its source underline. Six visible field instances are defective; all bytes are present, so glyph-presence proof alone does not detect this.",
+      "governingBasis": "Held exact source captions and current original page ink; names must be readable and occupy their actual source blanks.",
+      "participantImplication": "The main sworn petition name is garbled against its label; county values occupy or cross the wrong source lines.",
+      "locations": [
+        {
+          "fixture": "canonical",
+          "packetPage": 6,
+          "formNumber": "1001EX",
+          "fieldId": "p1-manual-county-1001EX",
+          "writeBox": {
+            "x": 310.86,
+            "y": 443.28,
+            "width": 103.64,
+            "height": 12
+          },
+          "value": "Example County"
+        },
+        {
+          "fixture": "canonical",
+          "packetPage": 6,
+          "formNumber": "1001EX",
+          "fieldId": "p1-manual-petitioner-1001EX",
+          "writeBox": {
+            "x": 73.5,
+            "y": 343.6,
+            "width": 243.22,
+            "height": 12
+          },
+          "value": "Jordan Avery Reyes"
+        },
+        {
+          "fixture": "canonical",
+          "packetPage": 10,
+          "formNumber": "1021EX",
+          "fieldId": "p1-manual-county-1021EX",
+          "writeBox": {
+            "x": 310.86,
+            "y": 514.2,
+            "width": 103.64,
+            "height": 12
+          },
+          "value": "Example County"
+        },
+        {
+          "fixture": "boundary",
+          "packetPage": 6,
+          "formNumber": "1001EX",
+          "fieldId": "p1-manual-county-1001EX",
+          "writeBox": {
+            "x": 310.86,
+            "y": 443.28,
+            "width": 103.64,
+            "height": 12
+          },
+          "value": "Saint Bartholomew County"
+        },
+        {
+          "fixture": "boundary",
+          "packetPage": 6,
+          "formNumber": "1001EX",
+          "fieldId": "p1-manual-petitioner-1001EX",
+          "writeBox": {
+            "x": 73.5,
+            "y": 343.6,
+            "width": 243.22,
+            "height": 12
+          },
+          "value": "Alexandrina Montgomery-Vandenberg"
+        },
+        {
+          "fixture": "boundary",
+          "packetPage": 10,
+          "formNumber": "1021EX",
+          "fieldId": "p1-manual-county-1021EX",
+          "writeBox": {
+            "x": 310.86,
+            "y": 514.2,
+            "width": 103.64,
+            "height": 12
+          },
+          "value": "Saint Bartholomew County"
+        }
+      ],
+      "failedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/current-measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/source-caption-geometry.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/original-page-review.json"
+      ]
+    },
+    {
+      "defectId": "UT-VF62-02",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Boundary BCI indigency mark extends beyond the actual printed checkbox",
+      "finding": "The source census approximates the symbol as 9 by 9 points and selectedControl shrinks/shifts it as though it were a bracket pair. The actual original blank box ink is pixel x296\u2013315/y1103\u20131123; newly added boundary mark ink spans x307\u2013320/y1111\u20131126, extending five pixels right and three pixels below the box.",
+      "governingBasis": "Exact original canonical/boundary BCI page 2 comparison, with positive added-ink measurement.",
+      "participantImplication": "The elected fee-waiver mark is visibly off the checkbox, even though the author measurement accepts its own approximate box.",
+      "locations": [
+        {
+          "fixture": "boundary",
+          "packetPage": 2,
+          "formNumber": "UT-BCI-EXP-APPLICATION",
+          "fieldId": "p2-printed_glyph_u0002-x26.7-y453.75",
+          "caller": "scripts/build-census-v1-ut_pet_acquittal-set.mjs:1280, selectedControl; renderFixture at 2170"
+        }
+      ],
+      "failedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/waiver-original-pixel-measurement.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/current-measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/original-page-review.json"
+      ]
+    },
+    {
+      "defectId": "UT-VF62-03",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Held neutral case captions are left blank under blanket actor protection",
+      "finding": "Thirteen actual held caption instances are absent: petitioner, case number and county on each required 1146XX/1148XX in both fixtures, plus county on the elected boundary reply. The required-blank contract says a fact written elsewhere is available. Protecting the recipient/prosecutor act does not protect neutral case identifiers. 1149XX uses the same whole-form refusal; its future triggered use must distinguish neutral captions, but no extra missing-prefill count is assigned while its trigger is unrecorded.",
+      "governingBasis": "completeness-contract.mjs REQUIRED_BEFORE_FILING_CONDITIONS: GENUINELY UNAVAILABLE; a fact written elsewhere in the packet is held. Printed source captions and current petition/order values establish these neutral identifiers.",
+      "participantImplication": "The participant or receiving actor must re-enter known case identifiers and may detach a response from the correct matter.",
+      "locations": [
+        {
+          "fixture": "canonical",
+          "formNumber": "1146XX",
+          "packetPage": 12,
+          "sourcePage": 1,
+          "printedField": "Petitioner",
+          "heldFactId": "participant.full_legal_name",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "1146XX",
+          "packetPage": 12,
+          "sourcePage": 1,
+          "printedField": "Case Number",
+          "heldFactId": "matter.case_number",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "1146XX",
+          "packetPage": 12,
+          "sourcePage": 1,
+          "printedField": "County",
+          "heldFactId": "matter.county",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "1148XX",
+          "packetPage": 13,
+          "sourcePage": 1,
+          "printedField": "Petitioner",
+          "heldFactId": "participant.full_legal_name",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "1148XX",
+          "packetPage": 13,
+          "sourcePage": 1,
+          "printedField": "Case Number",
+          "heldFactId": "matter.case_number",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "1148XX",
+          "packetPage": 13,
+          "sourcePage": 1,
+          "printedField": "County",
+          "heldFactId": "matter.county",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "1146XX",
+          "packetPage": 12,
+          "sourcePage": 1,
+          "printedField": "Petitioner",
+          "heldFactId": "participant.full_legal_name",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "1146XX",
+          "packetPage": 12,
+          "sourcePage": 1,
+          "printedField": "Case Number",
+          "heldFactId": "matter.case_number",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "1146XX",
+          "packetPage": 12,
+          "sourcePage": 1,
+          "printedField": "County",
+          "heldFactId": "matter.county",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "1148XX",
+          "packetPage": 13,
+          "sourcePage": 1,
+          "printedField": "Petitioner",
+          "heldFactId": "participant.full_legal_name",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "1148XX",
+          "packetPage": 13,
+          "sourcePage": 1,
+          "printedField": "Case Number",
+          "heldFactId": "matter.case_number",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "1148XX",
+          "packetPage": 13,
+          "sourcePage": 1,
+          "printedField": "County",
+          "heldFactId": "matter.county",
+          "actual": "blank",
+          "classificationCause": "Whole-form actor protection, including neutral case caption; county/case census geometry also misses or mislabels actual source blanks."
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "1169XX",
+          "packetPage": 18,
+          "sourcePage": 1,
+          "printedField": "County",
+          "heldFactId": "matter.county",
+          "actual": "blank",
+          "classificationCause": "Reply write plan omits county; source has the same county line as 1001EX."
+        }
+      ],
+      "failedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/current-measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/source-caption-geometry.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/original-page-review.json"
+      ]
+    },
+    {
+      "defectId": "UT-VF62-04",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Boundary BCI name representation changes the held hyphenated name",
+      "finding": "factsFor records full legal name Alexandrina Montgomery-Vandenberg, but constructs the BCI Name field as Vandenberg, Alexandrina Montgomery. The same BCI page declaration uses the hyphenated full name. No participant-confirmed structured-name difference is recorded.",
+      "governingBasis": "Exact held fixture facts and current BCI page 2; preserve the participant legal-name spelling and structure unless genuinely confirmed otherwise.",
+      "participantImplication": "BCI receives inconsistent applicant identity spellings on a single application.",
+      "locations": [
+        {
+          "fixture": "boundary",
+          "packetPage": 2,
+          "formNumber": "UT-BCI-EXP-APPLICATION",
+          "fieldId": "p2-y681.70-x66.90",
+          "caller": "scripts/build-census-v1-ut_pet_acquittal-set.mjs:841, factsFor; addBciPlans at 1161"
+        }
+      ],
+      "failedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/current-measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/original-page-review.json"
+      ]
+    },
+    {
+      "defectId": "UT-VF62-05",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Conditional component metadata does not control assembly or reply activation",
+      "finding": "sourcePacket concatenates all nine receipt documents for both fixtures. Canonical therefore contains third-party release page 3 and 1149XX/1169XX pages 15\u201320 although third-party/reply elections are false and the victim-plus-prosecutor-request trigger is not held. Boundary includes 1149XX without that trigger as well. Reply text and self-representation mark test only reply_elected; they do not require an actually served statement or a measured 14-day window. Metadata names different combined condition keys that factsFor never populates.",
+      "governingBasis": "Exact registry/component conditions and the candidate guidance say include only after their specified triggers. Full review-fixture visibility is acknowledged, but it is not proof of a condition-enforced deliverable assembler.",
+      "participantImplication": "The candidate has no demonstrated way to produce the promised conditional subset or refuse a premature/late reply; instructions and artifact inclusion disagree.",
+      "locations": [
+        {
+          "fixture": "canonical",
+          "packetPages": [
+            3,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "packetPages": [
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "caller": "scripts/build-census-v1-ut_pet_acquittal-set.mjs:1194 textPlansFor; 1280 selectedControl; 1979 componentCondition; 2112 sourcePacket; 3084 common base assembled before fixture conditions"
+        }
+      ],
+      "failedObligations": [
+        "COMPONENT_SET",
+        "ROUTE_OPTIONS"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/current-measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/original-page-review.json"
+      ]
+    },
+    {
+      "defectId": "UT-VF62-06",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Known email address is treated as a BCI delivery election",
+      "finding": "The source prints: to receive correspondence via email instead of regular mail, provide the email address; otherwise leave blank. addBciPlans always writes participant.email. Neither fixture records an email-delivery election, and the guide treats email as an unanswered identity/contact requirement rather than a delivery choice.",
+      "governingBasis": "Held BCI application page 2 explicit EMAIL instruction; a known address does not establish participant consent to change delivery method.",
+      "participantImplication": "Both applicants are enrolled in email correspondence without a recorded choice.",
+      "locations": [
+        {
+          "fixture": "canonical",
+          "packetPage": 2,
+          "formNumber": "UT-BCI-EXP-APPLICATION",
+          "fieldId": "p2-y506.70-x97.47",
+          "caller": "scripts/build-census-v1-ut_pet_acquittal-set.mjs:1180"
+        },
+        {
+          "fixture": "boundary",
+          "packetPage": 2,
+          "formNumber": "UT-BCI-EXP-APPLICATION",
+          "fieldId": "p2-y506.70-x97.47",
+          "caller": "scripts/build-census-v1-ut_pet_acquittal-set.mjs:1180"
+        }
+      ],
+      "failedObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/current-measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/original-page-review.json"
+      ]
+    },
+    {
+      "defectId": "UT-VF62-07",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Special-certificate gate accepts absent episode and independently expected byte bindings",
+      "finding": "Sixteen direct probes of the exported production gate yield three unexpected ALLOW_STAGE_2 results: both episode identifiers omitted, expected document hash omitted, and both binding requirements omitted. A syntactically valid self-asserted certificate hash is accepted without its expected binding. The wrapper never calls the gate; its only direct callers are two tests, while the shared finalizer records the name as metadata. This is a bounded build/verification contract failure, not a claim that live fulfillment currently bypasses a gate.",
+      "governingBasis": "Current stageContract expressly requires a same-episode, exact-identity special certificate; held legal design requires actual special certificate, valid for no longer than 180 days.",
+      "participantImplication": "The claimed stage-two acceptance proof can approve a certificate without proving it belongs to this episode or these expected bytes.",
+      "locations": [
+        {
+          "source": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
+          "lines": "55\u201376 specialCertificateStageGate; 129\u2013178 buildUtahSpecialCertificate"
+        },
+        {
+          "source": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+          "lines": "3296 metadata name only"
+        }
+      ],
+      "failedObligations": [
+        "ROUTE_IDENTITY"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/stage-gate-probes.json"
+      ]
+    },
+    {
+      "defectId": "UT-VF62-08",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Petition assertions and alternatives are selected from branch alone",
+      "finding": "selectedControl chooses fixed sets of 1001EX assertions when the branch is with_conviction or without_conviction. Fourteen pure tests still select factual statements after the corresponding fact is made false; two more preserve filed-case/dismissed-with-prejudice marks for acquittal and never-filed records. The fixed sets include waiting time, no new arrest, no supervision/incarceration, no pending case/plea, protective orders, conviction counts, exclusions, and paid balances. specialSelectionFact also mislabels the self-representation and incarceration controls with its generic fallback because source captions are garbled. Current fixture assertions happen to agree with their affirmative synthetic facts; no false current-byte statement is alleged.",
+      "governingBasis": "Source participant statements require their actual facts, as the candidate guidance expressly says; family/branch membership alone establishes none of these facts.",
+      "participantImplication": "A false or missing eligibility condition does not prevent a sworn affirmative mark, and source-supported acquittal/unfiled alternatives cannot be represented correctly.",
+      "locations": [
+        {
+          "source": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+          "lines": "1280\u20131358 selectedControl; 1380 specialSelectionFact; 1522 selectionPlansFor; 3084\u20133094 actual caller chain"
+        },
+        {
+          "source": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+          "lines": "1079 addPetitionPlans unconditionally requires case number even under without-conviction branch"
+        }
+      ],
+      "failedObligations": [
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/source-election-probes.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/current-measurements.json"
+      ]
+    },
+    {
+      "defectId": "UT-VF62-09",
+      "severity": "BLOCKING_ACCEPTANCE",
+      "title": "Never-filed records lack their governed filing destination",
+      "finding": "The shared guide always directs stage two to the court that decided the case (or its successor). The held registry also permits records where charges were never filed, and expressly gives district court in the arrest county, or for traffic the court where the citation was received. The source petition offers the never-filed election, but the guide omits these venue rules.",
+      "governingBasis": "Exact ut_pet_special_certificate registry venue, unchanged and hash-bound; this applies an existing rule and requests no new legal decision.",
+      "participantImplication": "A participant on an offered never-filed path is told to find a court that never decided their case.",
+      "locations": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/participant-instructions.md",
+          "section": "The two stages, step 2"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "trackId": "ut_pet_special_certificate",
+          "property": "venue"
+        }
+      ],
+      "failedObligations": [
+        "FILING_DESTINATION"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/authority-bindings.json"
+      ]
+    }
+  ],
+  "nonblockingObservations": [
+    {
+      "observationId": "UT-VF62-OBS-01",
+      "severity": "NONBLOCKING_VERIFICATION_INTERFACE",
+      "finding": "The advertised --check is mutating: wrapper writes source receipt, manifest and map before calling the host, which removes --check and regenerates PDFs/reports. It was deliberately not executed. Read-only completeness, exact byte measurements and pure production function probes supply independent evidence; this limitation is not invented proof or an environment failure.",
+      "paths": [
+        "scripts/build-census-v1-ut_pet_special_certificate-set.mjs:149\u2013176",
+        "scripts/build-census-v1-ut_pet_acquittal-set.mjs:3049\u20133056 and 3084 onward"
+      ]
+    },
+    {
+      "observationId": "UT-VF62-OBS-02",
+      "severity": "NONBLOCKING_GUIDANCE_CLARITY",
+      "finding": "Participant instructions open with implementation/custody language and expose hashes, while court waiver instructions are brief. The held 1305GE form is identified in the authority list, the BCI original page gives its waiver source/action, fee amounts and conditional court/BCI consequences are stated, and manual completion remains necessary. Make the court-waiver acquisition/completion handoff and participant copy clearer; no new fee legal assignment or extra required PDF component is inferred from this observation."
+    }
+  ],
+  "countingRule": "Each cause appears once here and may be cross-referenced by multiple obligations. Current fixture facts are distinguished from pure production-control counterexamples; unavailable optional triggering facts are not invented."
+}
