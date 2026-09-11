@@ -4,10 +4,10 @@ This review artifact contains three components in the controlling PF17 family: t
 
 ## Two-stage sequence
 
-1. Stage 1 — verify the same record has remained sealed by court order for at least ten years, then complete and submit the fresh FDLE expunction application. Obtain the certified sealing order and any certified disposition the FDLE instructions require. Have fingerprints taken, obtain the State Attorney or Statewide Prosecutor written certified statement, sign before a notary or deputy clerk, and include the $75 nonrefundable FDLE processing fee stated by the held application.
-2. Stage 2 — wait for a fresh FDLE Certificate of Eligibility. Do not file the court petition before it arrives. Add its number and issue date, attach the certificate and certified sealing order, review and sign the petition, prepare the certificate of service described below, and confirm the current filing, fee, hearing, and local-format requirements with the clerk in the circuit of arrest.
+1. Stage 1 — verify the same record has remained sealed by court order for at least ten years, then complete and submit the fresh FDLE expunction application. Ask the clerk of the court that sealed the record for a certified copy of the sealing order, and obtain any certified disposition the FDLE instructions require. Have fingerprints taken, obtain the State Attorney or Statewide Prosecutor written certified statement, sign before a notary or deputy clerk, and include the $75 nonrefundable FDLE processing fee stated by the held application.
+2. Stage 2 — wait for a fresh FDLE Certificate of Eligibility. Do not file the court petition before it arrives. Add its number and issue date, attach the certificate and certified sealing order, complete the separate sworn court-stage affidavit described below, review and sign the petition, prepare the certificate of service described below, and confirm the current filing, fee, and local-format requirements with the clerk in the circuit of arrest.
 
-The prior sealing exception applies only to the same record that has remained sealed for at least ten years. Stop and obtain attorney review if a different prior sealing or expunction exists, the State objects, the sealing order is not in force, the record has not reached ten years, later record history changes eligibility, or immigration consequences matter.
+The prior sealing exception applies only to the same record that has remained sealed for at least ten years. Stop and obtain attorney review if a different prior sealing or expunction exists, the State objects, the sealing order is not in force, the record has not reached ten years, later record history changes eligibility, immigration consequences matter, or any hearing is required or set.
 
 Court-ordered expunction is discretionary. This packet does not promise relief and opens no route.
 
@@ -19,6 +19,14 @@ Court-ordered expunction is discretionary. This packet does not promise relief a
 | Fingerprint card place of birth | the participant's place of birth |
 | FDLE Certificate of Eligibility number | the number printed on the fresh FDLE Certificate of Eligibility |
 | FDLE Certificate of Eligibility issue date | the issue date printed on the fresh FDLE Certificate of Eligibility |
+
+## Court-stage sworn completion and sealing-order check
+
+The ordinary declaration and signature line printed on the petition is not the required sworn affidavit. Before filing at the court stage, complete a separate sworn affidavit. Have that affidavit notarized unless you swear it before a deputy clerk.
+
+This four-component packet does not contain or invent a fifth affidavit component. Ask the circuit clerk or an attorney for the currently accepted affidavit format before filing.
+
+Ask the clerk of the court that sealed the record for a certified copy of the sealing order. Compare your answer to "On what date was the record sealed by court order?" against that certified copy, and correct the packet if they disagree.
 
 ## Certificate of service
 

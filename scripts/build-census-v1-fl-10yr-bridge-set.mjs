@@ -6,8 +6,8 @@
  * builder writes only held participant and case facts onto its measured rules,
  * preserves all six official pages, and appends the Rule 3.989 petition and
  * proposed order that owner determination FL-RULE-3989 authorizes the factory
- * to compose from the committed authority record.  No source byte is copied
- * into the repository as a standalone file.
+ * to compose from the committed authority record. The builder reads the
+ * governed source byte without altering or repinning it.
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -19,6 +19,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyBlank, classifyField, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { carryForwardGovernance } from "./rcap-packet-completeness/governance-preservation.mjs";
 import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -35,9 +36,29 @@ const ORDER_ID = "FL-RULE-3.989-ORDER";
 const COMPONENTS = [SOURCE_ID, PETITION_ID, ORDER_ID];
 const EXPECTED_SOURCE_SHA256 = "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650";
 const EXPECTED_SOURCE_LENGTH = 26602;
-const DEFAULT_SOURCE = "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-expunction-blank.pdf";
+const DEFAULT_SOURCE = "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf";
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
+
+// Measured from the exact flat source's own content stream. The page-3 blanks
+// are literal space runs with these x/width/baseline values; page 1 uses the
+// cell bounds and printed parenthesis positions carried by the same stream.
+const SOURCE_PLACEMENTS = Object.freeze({
+  page1_last_name: { page: 1, x: 45, y: 696, width: 202, sourceBlank: { x: 44.817, leftLabelBaseline: 707.939, nextRowBaseline: 681.889 } },
+  page1_first_name: { page: 1, x: 256, y: 696, width: 150, sourceBlank: { x: 255.703, leftLabelBaseline: 707.939, nextRowBaseline: 681.889 } },
+  page1_middle_name: { page: 1, x: 415, y: 696, width: 148, sourceBlank: { x: 413.867, leftLabelBaseline: 707.939, nextRowBaseline: 681.889 } },
+  page1_phone: {
+    page: 1, format: "printed_parentheses", y: 576,
+    areaCode: { x: 359, width: 20, sourceBlank: { x: 358.202, width: 21.684, baseline: 574.612 } },
+    localNumber: { x: 386, width: 72, sourceBlank: { x: 384.215, width: 75.101, baseline: 574.612 } }
+  },
+  page3_last_name: { page: 3, x: 65, y: 691, width: 149, sourceBlank: { x: 64.74, width: 150.12, baseline: 689.845 } },
+  page3_first_name: { page: 3, x: 246, y: 691, width: 141, sourceBlank: { x: 245.778, width: 141.78, baseline: 689.845 } },
+  page3_middle_name: { page: 3, x: 426, y: 691, width: 135, sourceBlank: { x: 425.122, width: 136.22, baseline: 689.845 } },
+  page3_race: { page: 3, x: 76, y: 619, width: 66, sourceBlank: { x: 75.84, width: 66.72, baseline: 617.845 } },
+  page3_sex: { page: 3, x: 174, y: 619, width: 24, sourceBlank: { x: 173.36, width: 25.02, baseline: 617.845 } },
+  page3_dob: { page: 3, x: 229, y: 619, width: 52, sourceBlank: { x: 228.49, width: 52.82, baseline: 617.845 } }
+});
 
 const FIXTURES = Object.freeze({
   canonical: {
@@ -64,7 +85,7 @@ const FIXTURES = Object.freeze({
     "matter.sealing_order_date": "08/14/2015"
   },
   boundary: {
-    "participant.full_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
+    "participant.full_name": "Maria-Alejandra Isabel O'Shaughnessy-Whitfield",
     "participant.last_name": "O'Shaughnessy-Whitfield",
     "participant.first_name": "Maria-Alejandra",
     "participant.middle_name": "Isabel",
@@ -92,6 +113,18 @@ const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex"
 const sanitize = (text) => String(text).replaceAll("‑", "-").replaceAll("–", "-")
   .replaceAll("—", "-").replaceAll("’", "'").replaceAll("‘", "'")
   .replaceAll("“", "\"").replaceAll("”", "\"").replaceAll("§", "Sec. ");
+
+const joinedLegalName = facts => [facts["participant.first_name"], facts["participant.middle_name"],
+  facts["participant.last_name"]].filter(Boolean).join(" ");
+const certifiedStatementName = facts => `${facts["participant.last_name"]}, ${facts["participant.first_name"]}`
+  + (facts["participant.middle_name"] ? ` ${facts["participant.middle_name"]}` : "");
+
+function assertHeldNameParts(facts) {
+  for (const key of ["participant.last_name", "participant.first_name", "participant.middle_name"])
+    assert.ok(String(facts[key] ?? "").trim(), `held legal-name part is missing: ${key}`);
+  assert.equal(facts["participant.full_name"], joinedLegalName(facts),
+    "participant.full_name must preserve held first, middle and last name parts");
+}
 
 function writeJson(rel, value) {
   const absolute = path.join(ROOT, rel);
@@ -183,15 +216,58 @@ function serviceRequirement() {
   return { sentence: first.sentence, statedBy: stated.map((entry) => entry.record) };
 }
 
+function courtStageRequirements() {
+  const memoTrack = readRepoJson("data/record-clearing/legal-design-intake/FL.memo.json")
+    .tracks.find((track) => track.trackId === SERVICE_TRACK_ID);
+  const registryTrack = readRepoJson("data/record-clearing/legal-design-track-registry.json")
+    .tracks.find((track) => track.trackId === SERVICE_TRACK_ID);
+  const packetSet = readRepoJson("data/record-clearing/legal-design-packet-set-manifests.json")
+    .packetSets.find((entry) => entry.packetSetId === FAMILY_ID);
+  assert.ok(memoTrack && registryTrack && packetSet, "Florida bridge requirement records are incomplete");
+
+  const sworn = "Notarised signature on the FDLE application; sworn affidavit at the court stage.";
+  const notarization = "Required on the FDLE application and on the affidavit unless sworn before a deputy clerk.";
+  const obtainOrder = "Obtain Certified copy of the sealing order. Ask the clerk of the court that sealed the record for a certified copy of the order.";
+  const compareOrder = "Check your answer to \"On what date was the record sealed by court order?\" against Certified copy of the sealing order, and correct the packet if they disagree.";
+  for (const track of [memoTrack, registryTrack]) {
+    assert.equal(track.rules?.participantSignature, sworn,
+      "Florida bridge sworn court-stage requirement changed");
+    assert.equal(track.rules?.notarization, notarization,
+      "Florida bridge affidavit oath requirement changed");
+    assert.ok((track.selfHelpStopConditions ?? track.selfHelpBoundaries ?? []).includes("Any hearing."),
+      "Florida bridge Any hearing self-help stop is absent");
+  }
+  const requiredActions = packetSet.participantActionRequired.filter(action => action.requirement === "required");
+  for (const [kind, description] of [["sign", sworn], ["notarize", notarization],
+    ["obtain_document", obtainOrder], ["confirm_answer", compareOrder]]) {
+    assert.equal(requiredActions.filter(action => action.kind === kind && action.description === description).length, 1,
+      `Florida bridge packet set does not carry the exact required ${kind} action`);
+  }
+  return {
+    swornAffidavit: sworn, notarizationOrDeputyClerk: notarization,
+    obtainCertifiedSealingOrder: obtainOrder, compareAndCorrectSealingDate: compareOrder,
+    hearingStop: "Any hearing.",
+    statedBy: [
+      "data/record-clearing/legal-design-intake/FL.memo.json",
+      "data/record-clearing/legal-design-track-registry.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json"
+    ]
+  };
+}
+
 function sourceBytes() {
-  const sourcePath = process.env.PF17_FL_FDLE_SOURCE || DEFAULT_SOURCE;
+  const requestedPath = process.env.PF17_FL_FDLE_SOURCE || DEFAULT_SOURCE;
+  const sourcePath = path.isAbsolute(requestedPath) ? requestedPath : path.join(ROOT, requestedPath);
   assert.ok(fs.existsSync(sourcePath), `BLOCKED_SOURCE: ${SOURCE_ID} is absent at the read-only custody mount ${sourcePath}`);
   const bytes = fs.readFileSync(sourcePath);
   assert.equal(bytes.length, EXPECTED_SOURCE_LENGTH,
     `BLOCKED_SOURCE: ${SOURCE_ID} length ${bytes.length} != ${EXPECTED_SOURCE_LENGTH}`);
   assert.equal(sha256(bytes), EXPECTED_SOURCE_SHA256,
     `BLOCKED_SOURCE: ${SOURCE_ID} SHA-256 does not match the PF17 binding`);
-  return { sourcePath, bytes };
+  const relative = path.relative(ROOT, sourcePath);
+  const custodyPath = relative && !relative.startsWith("..") && !path.isAbsolute(relative)
+    ? relative.replaceAll(path.sep, "/") : sourcePath;
+  return { sourcePath, custodyPath, bytes };
 }
 
 function rowBase(document, id, label, page) {
@@ -204,7 +280,10 @@ function rowBase(document, id, label, page) {
 }
 
 const writeRow = (document, id, label, page, factId) => ({
-  ...rowBase(document, id, label, page), factId, kind: "text_write"
+  ...rowBase(document, id, label, page), factId, kind: "text_write",
+  ...(document === SOURCE_ID && SOURCE_PLACEMENTS[id]
+    ? { sourceMeasuredPlacement: structuredClone(SOURCE_PLACEMENTS[id]) }
+    : {})
 });
 
 const protectedRow = (document, id, label, page, category, why) => ({
@@ -407,6 +486,7 @@ function fitText(page, font, value, rect, preferred = 8.5, minimum = 5.5) {
 }
 
 async function overlayOfficialPdf(bytes, facts) {
+  assertHeldNameParts(facts);
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   stampDeterministic(doc);
   doc.setTitle("FDLE40-021 expunction application — PF17 fixture");
@@ -416,13 +496,16 @@ async function overlayOfficialPdf(bytes, facts) {
   const pages = doc.getPages();
   assert.equal(pages.length, 6, "the exact FDLE source must retain all six pages");
   const p1 = pages[0];
-  fitText(p1, font, facts["participant.last_name"], { x: 45, y: 686, width: 202 });
-  fitText(p1, font, facts["participant.first_name"], { x: 256, y: 686, width: 150 });
-  fitText(p1, font, facts["participant.middle_name"], { x: 415, y: 686, width: 148 });
+  fitText(p1, font, facts["participant.last_name"], SOURCE_PLACEMENTS.page1_last_name);
+  fitText(p1, font, facts["participant.first_name"], SOURCE_PLACEMENTS.page1_first_name);
+  fitText(p1, font, facts["participant.middle_name"], SOURCE_PLACEMENTS.page1_middle_name);
   fitText(p1, font, facts["participant.dob"], { x: 45, y: 573, width: 106 });
   fitText(p1, font, facts["participant.race"], { x: 157, y: 573, width: 116 });
   fitText(p1, font, facts["participant.sex"], { x: 283, y: 573, width: 64 });
-  fitText(p1, font, facts["participant.phone"], { x: 359, y: 573, width: 94 });
+  const phone = /^(\d{3})-(\d{3}-\d{4})$/.exec(facts["participant.phone"]);
+  assert.ok(phone, "participant.phone must use 000-000-0000 so it can fit the source parentheses");
+  fitText(p1, font, phone[1], { ...SOURCE_PLACEMENTS.page1_phone.areaCode, y: SOURCE_PLACEMENTS.page1_phone.y }, 8.5, 7);
+  fitText(p1, font, phone[2], { ...SOURCE_PLACEMENTS.page1_phone.localNumber, y: SOURCE_PLACEMENTS.page1_phone.y }, 8.5, 7);
   fitText(p1, font, facts["participant.street"], { x: 45, y: 547, width: 334 });
   fitText(p1, font, facts["participant.city"], { x: 388, y: 547, width: 113 });
   fitText(p1, font, facts["participant.state"], { x: 508, y: 547, width: 22 }, 7.5);
@@ -437,17 +520,17 @@ async function overlayOfficialPdf(bytes, facts) {
   fitText(p1, font, facts["matter.charge"], { x: 136, y: 419, width: 426 }, 7.5);
 
   const p2 = pages[1];
-  fitText(p2, font, facts["participant.full_name"], { x: 45, y: 686, width: 257 });
+  fitText(p2, font, certifiedStatementName(facts), { x: 45, y: 686, width: 257 });
   fitText(p2, font, facts["participant.dob"], { x: 309, y: 686, width: 125 });
   fitText(p2, font, facts["participant.phone"], { x: 441, y: 686, width: 126 });
 
   const p3 = pages[2];
-  fitText(p3, font, facts["participant.last_name"], { x: 65, y: 704, width: 145 });
-  fitText(p3, font, facts["participant.first_name"], { x: 217, y: 704, width: 150 });
-  fitText(p3, font, facts["participant.middle_name"], { x: 375, y: 704, width: 187 });
-  fitText(p3, font, facts["participant.race"], { x: 79, y: 632, width: 60 });
-  fitText(p3, font, facts["participant.sex"], { x: 176, y: 632, width: 45 });
-  fitText(p3, font, facts["participant.dob"], { x: 231, y: 632, width: 70 }, 7.5, 5);
+  fitText(p3, font, facts["participant.last_name"], SOURCE_PLACEMENTS.page3_last_name);
+  fitText(p3, font, facts["participant.first_name"], SOURCE_PLACEMENTS.page3_first_name);
+  fitText(p3, font, facts["participant.middle_name"], SOURCE_PLACEMENTS.page3_middle_name);
+  fitText(p3, font, facts["participant.race"], SOURCE_PLACEMENTS.page3_race);
+  fitText(p3, font, facts["participant.sex"], SOURCE_PLACEMENTS.page3_sex);
+  fitText(p3, font, facts["participant.dob"], SOURCE_PLACEMENTS.page3_dob, 7.5, 5);
 
   return Buffer.from(await doc.save({ useObjectStreams: false, updateMetadata: false }));
 }
@@ -537,6 +620,55 @@ async function textOfPages(bytes) {
     .map((line) => line.text).join(" ").replace(/\s+/g, " "));
 }
 
+const expectedWriteValue = (field, facts) => field.document === SOURCE_ID && field.field.endsWith(".page2_name")
+  ? certifiedStatementName(facts) : sanitize(facts[field.factId]);
+
+function assertPlacementItems(itemsByPage, facts) {
+  const close = (actual, expected, message) => assert.ok(Math.abs(actual - expected) <= 0.02,
+    `${message}: ${actual} != ${expected}`);
+  const findAt = (page, text, placement, label) => {
+    const candidates = itemsByPage[page - 1].filter(item => item.text === sanitize(text));
+    const item = candidates.find(candidate => Math.abs(candidate.x - placement.x) <= 0.02
+      && Math.abs(candidate.y - placement.y) <= 0.02);
+    assert.ok(item, `${label}: ${text} is absent from its measured source blank`);
+    close(item.x, placement.x, `${label} x`);
+    close(item.y, placement.y, `${label} y`);
+    assert.ok(item.width <= placement.width + 0.1, `${label}: ${text} exceeds its measured width`);
+    return item;
+  };
+  findAt(1, facts["participant.last_name"], SOURCE_PLACEMENTS.page1_last_name, "page 1 last name");
+  findAt(1, facts["participant.first_name"], SOURCE_PLACEMENTS.page1_first_name, "page 1 first name");
+  findAt(1, facts["participant.middle_name"], SOURCE_PLACEMENTS.page1_middle_name, "page 1 middle name");
+  const phone = /^(\d{3})-(\d{3}-\d{4})$/.exec(facts["participant.phone"]);
+  assert.ok(phone, "participant.phone must use 000-000-0000");
+  findAt(1, phone[1], { ...SOURCE_PLACEMENTS.page1_phone.areaCode, y: SOURCE_PLACEMENTS.page1_phone.y }, "page 1 phone area code");
+  findAt(1, phone[2], { ...SOURCE_PLACEMENTS.page1_phone.localNumber, y: SOURCE_PLACEMENTS.page1_phone.y }, "page 1 phone local number");
+  findAt(2, certifiedStatementName(facts), { x: 45, y: 686, width: 257 }, "page 2 Last, First Middle name");
+  for (const [key, factId] of [["page3_last_name", "participant.last_name"],
+    ["page3_first_name", "participant.first_name"], ["page3_middle_name", "participant.middle_name"],
+    ["page3_race", "participant.race"], ["page3_sex", "participant.sex"],
+    ["page3_dob", "participant.dob"]]) {
+    findAt(3, facts[factId], SOURCE_PLACEMENTS[key], `page 3 ${key.slice(6).replaceAll("_", " ")}`);
+  }
+  return true;
+}
+
+async function assertOfficialOverlayPlacements(bytes, facts) {
+  assertHeldNameParts(facts);
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  assert.equal(doc.getPageCount(), 8, "assembled packet must contain six source pages, petition, and order");
+  const itemsByPage = doc.getPages().map(page => extractTextItems(page));
+  assertPlacementItems(itemsByPage, facts);
+  const pagesText = itemsByPage.map(items => groupIntoLines(items).map(line => line.text).join(" ").replace(/\s+/g, " "));
+  assert.ok(pagesText[6].includes(joinedLegalName(facts)), "petition page must preserve the held full legal name");
+  assert.ok(pagesText[7].includes(joinedLegalName(facts)), "order page must preserve the held full legal name");
+  if (facts["participant.middle_name"] === "Isabel") {
+    for (const page of [2, 7, 8]) assert.ok(pagesText[page - 1].includes("Isabel"),
+      `boundary middle name Isabel must appear on page ${page}`);
+  }
+  return { pageCount: doc.getPageCount(), legalNamePages: [2, 7, 8] };
+}
+
 async function assembleFixture(source, fixtureName, facts, fieldMaps) {
   const officialBytes = await overlayOfficialPdf(source, facts);
   const petitionBytes = await renderTextPdf("Florida Rule 3.989 petition", petitionLines(facts));
@@ -563,6 +695,7 @@ async function assembleFixture(source, fixtureName, facts, fieldMaps) {
     spans.set(component, { start, end: packet.getPageCount() });
   }
   const bytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
+  await assertOfficialOverlayPlacements(bytes, facts);
   const rel = `${OUT}/fixtures/${fixtureName}.pdf`;
   fs.writeFileSync(path.join(ROOT, rel), bytes);
   const pagesText = await textOfPages(bytes);
@@ -572,14 +705,23 @@ async function assembleFixture(source, fixtureName, facts, fieldMaps) {
     const span = spans.get(map.formNumber);
     const documentText = pagesText.slice(span.start, span.end).join(" ").replace(/\s+/g, " ");
     for (const field of map.canonicalWrites) {
-      const expected = sanitize(facts[field.factId]);
+      const expected = expectedWriteValue(field, facts);
       assert.ok(expected, `${fixtureName} ${field.field} has no fixture fact`);
-      assert.ok(documentText.includes(expected), `${fixtureName} ${field.field}: expected value is not readable from final packet bytes`);
+      const splitPhone = field.document === SOURCE_ID && field.field.endsWith(".page1_phone");
+      if (!splitPhone) assert.ok(documentText.includes(expected),
+        `${fixtureName} ${field.field}: expected value is not readable from final packet bytes`);
       glyphs += expected.replace(/\s+/g, "").length;
       actualWrites.push({
         field: field.field, document: map.formNumber, factId: field.factId,
-        expected, drawnText: expected, foundInOutputBytes: true,
-        proof: "value extracted from the final packet pages assigned to this component"
+        expected,
+        drawnText: splitPhone ? "area code and local number drawn separately around the source-printed parentheses" : expected,
+        foundInOutputBytes: true,
+        ...(field.sourceMeasuredPlacement
+          ? { sourceMeasuredPlacement: field.sourceMeasuredPlacement, placementVerifiedInFinalBytes: true }
+          : {}),
+        proof: field.sourceMeasuredPlacement
+          ? "text extracted at the exact source-measured x/y and within the measured width in final packet bytes"
+          : "value extracted from the final packet pages assigned to this component"
       });
     }
   }
@@ -600,21 +742,25 @@ function requiredBeforeFiling(fieldMaps) {
     })));
 }
 
-function participantInstructions(items, service) {
+function participantInstructions(items, service, requirements) {
   const out = [
     "# Before you use the Florida ten-year sealed-record bridge packet", "",
     "This review artifact contains three components in the controlling PF17 family: the six-page FDLE Application for a Certificate of Eligibility, a composed Rule 3.989 petition, and a composed proposed order.", "",
     "## Two-stage sequence", "",
-    "1. Stage 1 — verify the same record has remained sealed by court order for at least ten years, then complete and submit the fresh FDLE expunction application. Obtain the certified sealing order and any certified disposition the FDLE instructions require. Have fingerprints taken, obtain the State Attorney or Statewide Prosecutor written certified statement, sign before a notary or deputy clerk, and include the $75 nonrefundable FDLE processing fee stated by the held application.",
-    "2. Stage 2 — wait for a fresh FDLE Certificate of Eligibility. Do not file the court petition before it arrives. Add its number and issue date, attach the certificate and certified sealing order, review and sign the petition, prepare the certificate of service described below, and confirm the current filing, fee, hearing, and local-format requirements with the clerk in the circuit of arrest.", "",
-    "The prior sealing exception applies only to the same record that has remained sealed for at least ten years. Stop and obtain attorney review if a different prior sealing or expunction exists, the State objects, the sealing order is not in force, the record has not reached ten years, later record history changes eligibility, or immigration consequences matter.", "",
+    "1. Stage 1 — verify the same record has remained sealed by court order for at least ten years, then complete and submit the fresh FDLE expunction application. Ask the clerk of the court that sealed the record for a certified copy of the sealing order, and obtain any certified disposition the FDLE instructions require. Have fingerprints taken, obtain the State Attorney or Statewide Prosecutor written certified statement, sign before a notary or deputy clerk, and include the $75 nonrefundable FDLE processing fee stated by the held application.",
+    "2. Stage 2 — wait for a fresh FDLE Certificate of Eligibility. Do not file the court petition before it arrives. Add its number and issue date, attach the certificate and certified sealing order, complete the separate sworn court-stage affidavit described below, review and sign the petition, prepare the certificate of service described below, and confirm the current filing, fee, and local-format requirements with the clerk in the circuit of arrest.", "",
+    "The prior sealing exception applies only to the same record that has remained sealed for at least ten years. Stop and obtain attorney review if a different prior sealing or expunction exists, the State objects, the sealing order is not in force, the record has not reached ten years, later record history changes eligibility, immigration consequences matter, or any hearing is required or set.", "",
     "Court-ordered expunction is discretionary. This packet does not promise relief and opens no route.", "",
     "## Required before filing or submission", "",
     "| Blank printed in the packet | What you must supply |", "| --- | --- |"
   ];
   for (const item of items) out.push(`| ${item.disclosureLabel.replaceAll("|", "-")} | ${item.participantMustSupply.replaceAll("|", "-")} |`);
   out.push(
-    "", "## Certificate of service", "",
+    "", "## Court-stage sworn completion and sealing-order check", "",
+    "The ordinary declaration and signature line printed on the petition is not the required sworn affidavit. Before filing at the court stage, complete a separate sworn affidavit. Have that affidavit notarized unless you swear it before a deputy clerk.", "",
+    "This four-component packet does not contain or invent a fifth affidavit component. Ask the circuit clerk or an attorney for the currently accepted affidavit format before filing.", "",
+    "Ask the clerk of the court that sealed the record for a certified copy of the sealing order. Compare your answer to \"On what date was the record sealed by court order?\" against that certified copy, and correct the packet if they disagree.", "",
+    "## Certificate of service", "",
     "The records this packet is built from state a service requirement for the court stage, in these words:", "",
     `> ${service.sentence}`, "",
     "A certificate of service is a short signed statement, filed together with the petition, saying who you gave a copy of it to and how. It is required on this route, and this packet does not contain one: the components here are the FDLE application, the petition, the proposed order, and these instructions.", "",
@@ -626,6 +772,95 @@ function participantInstructions(items, service) {
     `Route: ${ROUTE_KEY}`, ""
   );
   return out.join("\n");
+}
+
+function assertGuidanceRequirements(instructions, requirements) {
+  const requiredText = [
+    "ordinary declaration and signature line printed on the petition is not the required sworn affidavit",
+    "complete a separate sworn affidavit",
+    "notarized unless you swear it before a deputy clerk",
+    "does not contain or invent a fifth affidavit component",
+    "clerk of the court that sealed the record for a certified copy of the sealing order",
+    "Compare your answer to \"On what date was the record sealed by court order?\" against that certified copy, and correct the packet if they disagree",
+    "any hearing is required or set"
+  ];
+  for (const phrase of requiredText) assert.ok(instructions.includes(phrase),
+    `participant instructions omit held requirement: ${phrase}`);
+  assert.equal(requirements.hearingStop, "Any hearing.");
+  return { requiredStatements: requiredText.length, hearingStop: requirements.hearingStop };
+}
+
+function reconcileProductWiring(canonicalSha256) {
+  const rel = `${OUT}/product-wiring.json`;
+  const wiring = readRepoJson(rel);
+  const previousBinding = structuredClone(wiring.binding);
+  const nextBinding = { ...structuredClone(previousBinding), acceptanceReceipt: null };
+  carryForwardGovernance(previousBinding, nextBinding, { canonicalSha256 });
+  wiring.binding = nextBinding;
+  for (const component of wiring.proposedRepresentation?.components ?? []) {
+    if (component.file === `${OUT}/fixtures/canonical.pdf`) component.sha256 = canonicalSha256;
+  }
+  writeJson(rel, wiring);
+}
+
+async function inspectCurrentBuild(source, fieldMaps, requirements) {
+  const instructionsPath = path.join(ROOT, OUT, "participant-instructions.md");
+  assert.ok(fs.existsSync(instructionsPath), "current participant instructions are absent");
+  const instructions = fs.readFileSync(instructionsPath, "utf8");
+  const guidance = assertGuidanceRequirements(instructions, requirements);
+  const receipt = readRepoJson(`${OUT}/source-receipt.json`);
+  assert.equal(receipt.mountedReadOnlySource?.custodyPath, DEFAULT_SOURCE,
+    "source receipt must use the repository-reproducible governed custody path");
+  assert.equal(receipt.mountedReadOnlySource?.sha256, EXPECTED_SOURCE_SHA256);
+  assert.equal(receipt.mountedReadOnlySource?.byteLength, EXPECTED_SOURCE_LENGTH);
+  assert.equal(sha256(source), EXPECTED_SOURCE_SHA256);
+
+  const fieldMap = readRepoJson(`${OUT}/production-field-map.json`);
+  assert.deepEqual(fieldMap.sourceMeasuredPlacements, SOURCE_PLACEMENTS,
+    "production field map does not preserve the measured source placements");
+  assert.deepEqual(fieldMap.courtStagePrerequisites, requirements,
+    "production field map does not preserve the held court-stage prerequisites");
+  assert.deepEqual(fieldMap.componentSet, COMPONENTS);
+  const expectedMapCount = fieldMaps.reduce((sum, map) => sum + map.canonicalWrites.length, 0);
+  assert.equal(fieldMap.maps.reduce((sum, map) => sum + map.canonicalWrites.length, 0), expectedMapCount);
+
+  const rendered = readRepoJson(`${OUT}/reports/rendered-artifacts.json`);
+  assert.equal(rendered.artifacts.length, 2);
+  const artifactResults = [];
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const artifact = rendered.artifacts.find(entry => entry.fixture === fixtureName);
+    assert.ok(artifact, `rendered artifact declaration missing ${fixtureName}`);
+    const expectedFile = `${OUT}/fixtures/${fixtureName}.pdf`;
+    assert.equal(artifact.file, expectedFile);
+    const bytes = fs.readFileSync(path.join(ROOT, expectedFile));
+    assert.equal(artifact.sha256, sha256(bytes), `${fixtureName} PDF hash declaration is stale`);
+    assert.equal(artifact.byteLength, bytes.length, `${fixtureName} PDF length declaration is stale`);
+    assert.equal(artifact.pageCount, 8, `${fixtureName} PDF must have eight pages`);
+    assert.equal(artifact.pageManifest.length, 8, `${fixtureName} page manifest must cover every page`);
+    assert.deepEqual(artifact.pageManifest.slice(0, 6).map(page => page.component), Array(6).fill(SOURCE_ID));
+    assert.deepEqual(artifact.pageManifest.slice(0, 6).map(page => page.sourcePage), [1, 2, 3, 4, 5, 6]);
+    assert.ok(artifact.pageManifest.slice(0, 6).every(page => page.sourceSha256 === EXPECTED_SOURCE_SHA256));
+    assert.deepEqual(artifact.pageManifest.slice(6).map(page => page.component), [PETITION_ID, ORDER_ID]);
+    await assertOfficialOverlayPlacements(bytes, FIXTURES[fixtureName]);
+    artifactResults.push({ fixture: fixtureName, sha256: artifact.sha256, byteLength: artifact.byteLength, pageCount: 8 });
+  }
+  const counters = readRepoJson(`${OUT}/reports/completeness-counters.json`);
+  assert.equal(counters.allNineZero, true);
+  assert.ok(PASS_COUNTERS.every(counter => counters.counters?.[counter] === 0));
+  const blanks = readRepoJson(`${OUT}/reports/blanks-left-for-the-participant.json`);
+  assert.equal(blanks.everyRequiredBeforeFilingItemIsDisclosed, true);
+  assert.deepEqual(blanks.courtStagePrerequisites, requirements);
+  const wiring = readRepoJson(`${OUT}/product-wiring.json`);
+  const canonical = artifactResults.find(artifact => artifact.fixture === "canonical").sha256;
+  assert.equal(wiring.binding?.acceptanceReceipt, null,
+    "the superseded raster receipt must not claim the repaired canonical bytes");
+  assert.ok(wiring.binding?.acceptanceReceiptWithdrawn?.some(entry =>
+    entry.withdrawnReceipt?.workflowRunId === "33923497915"
+    && entry.withdrawnReceipt?.boundToCanonicalSha256 === "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43"),
+  "the prior exact raster receipt must remain as historical evidence");
+  assert.ok((wiring.proposedRepresentation?.components ?? []).every(component => component.sha256 === canonical),
+    "product wiring proposed-component hashes must identify the repaired canonical bytes");
+  return { artifacts: artifactResults, sourceSha256: EXPECTED_SOURCE_SHA256, guidance };
 }
 
 function countCompleteness(fieldMaps, artifacts, instructions) {
@@ -688,13 +923,17 @@ function countCompleteness(fieldMaps, artifacts, instructions) {
 
 async function run(argv = process.argv.slice(2)) {
   process.chdir(ROOT);
-  const { sourcePath, bytes } = sourceBytes();
+  const { custodyPath, bytes } = sourceBytes();
   const fieldMaps = maps();
+  const requirements = courtStageRequirements();
   if (argv.includes("--check")) {
+    const inspected = await inspectCurrentBuild(bytes, fieldMaps, requirements);
     return {
       familyId: FAMILY_ID, status: "CHECK_ONLY", sourceSha256: sha256(bytes), sourceByteLength: bytes.length,
       components: COMPONENTS, writes: fieldMaps.reduce((n, map) => n + map.canonicalWrites.length, 0),
-      blanks: fieldMaps.reduce((n, map) => n + map.canonicalRefusals.length, 0)
+      blanks: fieldMaps.reduce((n, map) => n + map.canonicalRefusals.length, 0),
+      artifactsInspected: inspected.artifacts, requiredCourtStageActionsInspected: 4,
+      selfHelpStopInspected: requirements.hearingStop, wroteFiles: 0
     };
   }
   fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
@@ -704,7 +943,8 @@ async function run(argv = process.argv.slice(2)) {
     artifacts.push(await assembleFixture(bytes, fixtureName, FIXTURES[fixtureName], fieldMaps));
   }
   const rbf = requiredBeforeFiling(fieldMaps);
-  const instructions = participantInstructions(rbf, serviceRequirement());
+  const instructions = participantInstructions(rbf, serviceRequirement(), requirements);
+  assertGuidanceRequirements(instructions, requirements);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructions);
   const counted = countCompleteness(fieldMaps, artifacts, instructions);
   assert.ok(PASS_COUNTERS.every((counter) => counted.counters[counter] === 0),
@@ -720,9 +960,9 @@ async function run(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID,
     jurisdiction: "FL", implementationStrategy: "official_pdf_fill",
     custodyClass: "SOURCE_BOUND_BY_HELD_BYTES", acquisitionCommissioned: false,
-    bindingMethod: "the exact held FDLE byte is read directly from mounted source custody; no acquisition, copy, research, or substitution",
-    allSourcesExact: true, routeKeys: [ROUTE_KEY], sourceBinaryCommitted: false,
-    mountedReadOnlySource: { documentId: SOURCE_ID, sourceId: `official-form:${SOURCE_ID}`, custodyPath: sourcePath, sha256: EXPECTED_SOURCE_SHA256, byteLength: EXPECTED_SOURCE_LENGTH },
+    bindingMethod: "the exact held FDLE byte is read directly from governed repository custody; no acquisition, copy, research, or substitution",
+    allSourcesExact: true, routeKeys: [ROUTE_KEY], sourceBinaryCommitted: true,
+    mountedReadOnlySource: { documentId: SOURCE_ID, sourceId: `official-form:${SOURCE_ID}`, custodyPath, sha256: EXPECTED_SOURCE_SHA256, byteLength: EXPECTED_SOURCE_LENGTH },
     documents: [
       { documentId: SOURCE_ID, formNumber: SOURCE_ID, kind: "held_official_pdf", sha256: EXPECTED_SOURCE_SHA256, byteLength: EXPECTED_SOURCE_LENGTH },
       { documentId: PETITION_ID, formNumber: PETITION_ID, kind: "composed_from_authority", ownerDetermination: "FL-RULE-3989" },
@@ -745,6 +985,9 @@ async function run(argv = process.argv.slice(2)) {
     routeSelectionsMade: [{ routeKey: ROUTE_KEY, selection: "FDLE request type Expunge and same-record ten-year sealed-record bridge", sourceSupport: "the exact FDLE expunction application and committed fl-10yr-bridge legal-design records" }],
     routeSelectionNote: "This family is fixed to the expunction branch for the same record after at least ten years under a court sealing order; no alternate relief election is left to the participant.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
+    sourceMeasuredPlacements: SOURCE_PLACEMENTS,
+    courtStagePrerequisites: requirements,
+    selfHelpStopConditions: [requirements.hearingStop],
     maps: fieldMaps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
   writeJson(`${OUT}/reports/rendered-artifacts.json`, {
@@ -759,7 +1002,7 @@ async function run(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/actual-writes.json`, {
     schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: FAMILY_ID,
     derivedFromArtifactBytes: true,
-    note: "Every reported fact value was extracted from the final packet pages assigned to its component.",
+    note: "Every reported value was extracted from its final component; each affected flat-source write was also verified at its exact measured placement, including the phone segments around the source-printed parentheses.",
     documents: artifacts.map((a) => ({
       fixture: a.fixture, valuesReportedByFinalizer: a.actualWrites.length,
       addedGlyphsReadFromOutputBytes: a.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: 0,
@@ -774,6 +1017,7 @@ async function run(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
     schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
     requiredBeforeFiling: rbf,
+    courtStagePrerequisites: requirements,
     protectedBlanks: fieldMaps.flatMap((map) => map.canonicalRefusals.filter((field) => field.requiredBeforeFiling !== true)
       .map((field) => ({ document: map.formNumber, field: field.field, label: field.effectiveLabel, refusalClass: field.category ?? null, why: field.why ?? field.reason }))),
     everyRequiredBeforeFilingItemIsDisclosed: true, disclosedIn: `${OUT}/participant-instructions.md`
@@ -799,7 +1043,10 @@ async function run(argv = process.argv.slice(2)) {
     findings: [
       { finding: "The exact held FDLE40-021 byte is a six-page flat PDF with Request Type: Expunge printed on page 1.", consequence: "The build uses a measured text overlay and preserves all six pages." },
       { finding: "Owner determination FL-RULE-3989 authorizes composition of the Rule 3.989 petition and order.", consequence: "Those components are clearly recorded as composed, not official source PDFs." },
-      { finding: "The State Attorney certified-statement body, fingerprint-official fields, signatures, notarization, and judicial order fields are protected.", consequence: "The build leaves them blank and participant instructions name the completion owner." }
+      { finding: "The State Attorney certified-statement body, fingerprint-official fields, signatures, notarization, and judicial order fields are protected.", consequence: "The build leaves them blank and participant instructions name the completion owner." },
+      { finding: requirements.swornAffidavit, consequence: "The instructions distinguish the petition declaration from the separately required sworn court-stage affidavit and preserve the four-component packet." },
+      { finding: requirements.obtainCertifiedSealingOrder, consequence: requirements.compareAndCorrectSealingDate },
+      { finding: requirements.hearingStop, consequence: "The participant instructions require an attorney-review stop when a hearing is required or set." }
     ]
   });
   writeJson(`${OUT}/approval-request.json`, {
@@ -817,16 +1064,28 @@ async function run(argv = process.argv.slice(2)) {
       "The builder has not independently verified its own packet."
     ]
   });
+  reconcileProductWiring(artifacts.find(artifact => artifact.fixture === "canonical").sha256);
+  await inspectCurrentBuild(bytes, fieldMaps, requirements);
   return {
     familyId: FAMILY_ID, status: "COMPLETED", counters: counted.counters,
     directory: OUT, implementationStrategy: "official_pdf_fill", components: COMPONENTS,
     writes: fieldMaps.reduce((n, map) => n + map.canonicalWrites.length, 0),
-    requiredBeforeFiling: rbf.length,
+    requiredBeforeFiling: rbf.length, requiredCourtStageActions: 4,
     artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, byteLength: a.byteLength, pages: a.pageCount })),
     rasterState: "BUILT_RASTER_PENDING", nineCountersZero: true,
     packetsSelfVerified: 0, commercialRoutesOpened: 0, productionTouched: false
   };
 }
 
-run().then((result) => console.log(JSON.stringify(result, null, 2)))
-  .catch((error) => { console.error(error); process.exit(1); });
+if (path.resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)) {
+  run().then((result) => console.log(JSON.stringify(result, null, 2)))
+    .catch((error) => { console.error(error); process.exit(1); });
+}
+
+export {
+  DEFAULT_SOURCE, EXPECTED_SOURCE_LENGTH, EXPECTED_SOURCE_SHA256, FIXTURES, OUT,
+  SOURCE_PLACEMENTS, assertGuidanceRequirements, assertHeldNameParts,
+  assertOfficialOverlayPlacements, assertPlacementItems, certifiedStatementName,
+  courtStageRequirements, inspectCurrentBuild, joinedLegalName, maps,
+  participantInstructions, run, sourceBytes
+};

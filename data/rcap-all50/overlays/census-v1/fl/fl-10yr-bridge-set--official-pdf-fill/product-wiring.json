@@ -52,14 +52,7 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33923497915",
-      "jobId": "101187692703",
-      "artifactId": "9956135550",
-      "boundToCanonicalSha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "BLOCKED_SOURCE",
       "lane": "vf02",
@@ -73,7 +66,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+        "replacedByCanonicalSha256": "ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33923497915",
+          "jobId": "101187692703",
+          "artifactId": "9956135550",
+          "boundToCanonicalSha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -86,7 +94,7 @@
         "order": 1,
         "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
         "file": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+        "sha256": "ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df",
         "requirement": "required"
       },
       {
@@ -95,7 +103,7 @@
         "order": 2,
         "documentId": "FL-RULE-3.989-PETITION",
         "file": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+        "sha256": "ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df",
         "requirement": "required"
       },
       {
@@ -104,7 +112,7 @@
         "order": 3,
         "documentId": "FL-RULE-3.989-ORDER",
         "file": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+        "sha256": "ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df",
         "requirement": "required"
       }
     ]

@@ -1,0 +1,393 @@
+{
+  "schemaVersion": "rcap-fix05-fl-bridge-complete-repair/v1",
+  "lane": "FIX05",
+  "laneKind": "repair",
+  "familyId": "fl-10yr-bridge-set",
+  "baseSha": "09bdb642bad6268dca3c0a91ad53ecfa874fb8ef",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "scope": "Repairs all four FL-VF01 defects against the exact held source and current artifacts. This is author repair evidence, not independent acceptance.",
+  "defectToFix": [
+    {
+      "defectId": "FL-VF01-01",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "fix": "Moved page-1 last/first/middle names to the measured applicant row; split phone around the source-printed parentheses; moved all six page-3 fingerprint identity values into the literal source blank runs.",
+      "proof": [
+        "sourceMeasuredPlacements in production-field-map.json",
+        "focused test rejects the old colliding y-coordinate",
+        "both saved PDFs pass exact x/y/width assertions"
+      ]
+    },
+    {
+      "defectId": "FL-VF01-02",
+      "obligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "fix": "Formats source page 2 as Last, First Middle and preserves the held boundary middle name Isabel in the full legal name used on composed pages 7 and 8.",
+      "proof": [
+        "canonical Reyes, Jordan Avery",
+        "boundary O'Shaughnessy-Whitfield, Maria-Alejandra Isabel",
+        "saved-byte checks on pages 2, 7, and 8"
+      ]
+    },
+    {
+      "defectId": "FL-VF01-03",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "fix": "Discloses the separate sworn court-stage affidavit, notarization unless sworn before a deputy clerk, certified sealing order from the sealing court clerk, and sealing-date comparison/correction. It distinguishes the petition declaration and preserves the four-component contract.",
+      "proof": [
+        "courtStagePrerequisites in production-field-map.json",
+        "participant-instructions.md",
+        "seven omission mutations refused"
+      ]
+    },
+    {
+      "defectId": "FL-VF01-04",
+      "obligations": [
+        "SELF_HELP_STOP"
+      ],
+      "fix": "Adds an explicit attorney-review stop when any hearing is required or set.",
+      "proof": [
+        "selfHelpStopConditions in production-field-map.json",
+        "participant-instructions.md",
+        "omission mutation refused"
+      ]
+    },
+    {
+      "defectId": "CHECK-READ-ONLY",
+      "obligations": [
+        "ARTIFACTS"
+      ],
+      "fix": "--check now reads and validates both current PDFs, report/map/receipt identities, held guidance, withdrawn raster provenance, and counters without writing.",
+      "proof": [
+        "check-readonly.json",
+        "default and override CLI logs"
+      ]
+    }
+  ],
+  "sourceIdentity": {
+    "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "custodyPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
+    "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+    "byteLength": 26602,
+    "pageCount": 6,
+    "sourceChanged": false
+  },
+  "measuredSourcePlacements": {
+    "page1_last_name": {
+      "page": 1,
+      "x": 45,
+      "y": 696,
+      "width": 202,
+      "sourceBlank": {
+        "x": 44.817,
+        "leftLabelBaseline": 707.939,
+        "nextRowBaseline": 681.889
+      }
+    },
+    "page1_first_name": {
+      "page": 1,
+      "x": 256,
+      "y": 696,
+      "width": 150,
+      "sourceBlank": {
+        "x": 255.703,
+        "leftLabelBaseline": 707.939,
+        "nextRowBaseline": 681.889
+      }
+    },
+    "page1_middle_name": {
+      "page": 1,
+      "x": 415,
+      "y": 696,
+      "width": 148,
+      "sourceBlank": {
+        "x": 413.867,
+        "leftLabelBaseline": 707.939,
+        "nextRowBaseline": 681.889
+      }
+    },
+    "page1_phone": {
+      "page": 1,
+      "format": "printed_parentheses",
+      "y": 576,
+      "areaCode": {
+        "x": 359,
+        "width": 20,
+        "sourceBlank": {
+          "x": 358.202,
+          "width": 21.684,
+          "baseline": 574.612
+        }
+      },
+      "localNumber": {
+        "x": 386,
+        "width": 72,
+        "sourceBlank": {
+          "x": 384.215,
+          "width": 75.101,
+          "baseline": 574.612
+        }
+      }
+    },
+    "page3_last_name": {
+      "page": 3,
+      "x": 65,
+      "y": 691,
+      "width": 149,
+      "sourceBlank": {
+        "x": 64.74,
+        "width": 150.12,
+        "baseline": 689.845
+      }
+    },
+    "page3_first_name": {
+      "page": 3,
+      "x": 246,
+      "y": 691,
+      "width": 141,
+      "sourceBlank": {
+        "x": 245.778,
+        "width": 141.78,
+        "baseline": 689.845
+      }
+    },
+    "page3_middle_name": {
+      "page": 3,
+      "x": 426,
+      "y": 691,
+      "width": 135,
+      "sourceBlank": {
+        "x": 425.122,
+        "width": 136.22,
+        "baseline": 689.845
+      }
+    },
+    "page3_race": {
+      "page": 3,
+      "x": 76,
+      "y": 619,
+      "width": 66,
+      "sourceBlank": {
+        "x": 75.84,
+        "width": 66.72,
+        "baseline": 617.845
+      }
+    },
+    "page3_sex": {
+      "page": 3,
+      "x": 174,
+      "y": 619,
+      "width": 24,
+      "sourceBlank": {
+        "x": 173.36,
+        "width": 25.02,
+        "baseline": 617.845
+      }
+    },
+    "page3_dob": {
+      "page": 3,
+      "x": 229,
+      "y": 619,
+      "width": 52,
+      "sourceBlank": {
+        "x": 228.49,
+        "width": 52.82,
+        "baseline": 617.845
+      }
+    }
+  },
+  "componentContract": {
+    "count": 4,
+    "documents": [
+      "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "FL-RULE-3.989-PETITION",
+      "FL-RULE-3.989-ORDER"
+    ],
+    "guidance": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/participant-instructions.md",
+    "additionalAffidavitComponentInvented": false
+  },
+  "courtStagePrerequisites": {
+    "swornAffidavit": "Notarised signature on the FDLE application; sworn affidavit at the court stage.",
+    "notarizationOrDeputyClerk": "Required on the FDLE application and on the affidavit unless sworn before a deputy clerk.",
+    "obtainCertifiedSealingOrder": "Obtain Certified copy of the sealing order. Ask the clerk of the court that sealed the record for a certified copy of the order.",
+    "compareAndCorrectSealingDate": "Check your answer to \"On what date was the record sealed by court order?\" against Certified copy of the sealing order, and correct the packet if they disagree.",
+    "hearingStop": "Any hearing.",
+    "statedBy": [
+      "data/record-clearing/legal-design-intake/FL.memo.json",
+      "data/record-clearing/legal-design-track-registry.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json"
+    ]
+  },
+  "changedArtifacts": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df",
+      "byteLength": 36138,
+      "pageCount": 8,
+      "componentPageOrder": [
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FL-RULE-3.989-PETITION",
+        "FL-RULE-3.989-ORDER"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "708cbd61b79b514298315a49f5b3d1e2f997c4757542868d12e8bb9125b473b1",
+      "byteLength": 36446,
+      "pageCount": 8,
+      "componentPageOrder": [
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FL-RULE-3.989-PETITION",
+        "FL-RULE-3.989-ORDER"
+      ]
+    }
+  ],
+  "priorArtifacts": [
+    {
+      "fixture": "canonical",
+      "sha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+      "byteLength": 36014,
+      "pageCount": 8
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "23821507cc98d2a708b0cf83e2f609edcf385841b68dceb69774d651194ca511",
+      "byteLength": 36249,
+      "pageCount": 8
+    }
+  ],
+  "centralRasterInventory": {
+    "ready": true,
+    "targets": [
+      {
+        "fixture": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df",
+        "pageCount": 8
+      },
+      {
+        "fixture": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "708cbd61b79b514298315a49f5b3d1e2f997c4757542868d12e8bb9125b473b1",
+        "pageCount": 8
+      }
+    ],
+    "conditionalDocumentsChanged": [],
+    "allComponentsStillRequired": true,
+    "priorWorkflowRunId": "33923497915",
+    "priorReceiptCurrent": false,
+    "priorReceiptPreservedAsHistory": true,
+    "freshGithubRasterPending": true
+  },
+  "actualCounts": {
+    "writesPerFixture": 44,
+    "writesAcrossFixtures": 88,
+    "declaredBlanksPerFixture": 96,
+    "fixtures": 2,
+    "pagesAcrossFixtures": 16,
+    "measuredCorrectedPlacements": 10,
+    "requiredPrintedOrLaterFields": 4,
+    "heldCourtStageActions": 4
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "node --test scripts/rcap-packet-recovery/fl-bridge-complete.test.mjs",
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "exitCode": 0
+    },
+    "build": {
+      "command": "RCAP_NO_LOCAL_RASTER=1 PF17_FL_FDLE_SOURCE=<repository exact path> node scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+      "exitCode": 0
+    },
+    "defaultCheck": {
+      "exitCode": 0,
+      "artifactsInspected": 2,
+      "wroteFiles": 0
+    },
+    "overrideCheck": {
+      "exitCode": 0,
+      "artifactsInspected": 2,
+      "wroteFiles": 0
+    },
+    "completeness": {
+      "verdict": "PASS_COMPLETE",
+      "written": 44,
+      "terminals": 140,
+      "allNineCountersZero": true,
+      "exitCode": 0
+    },
+    "deterministicRebuild": {
+      "runs": 2,
+      "sameOutputHashes": true
+    },
+    "localRasterRun": false
+  },
+  "substantiveVerdict": "All four assigned defect groups and read-only check behavior are repaired in current bytes. Exact-source, source-content geometry, field-map, saved-byte text, guidance, completeness, and deterministic checks pass. Fresh central GitHub raster and independent acceptance remain pending.",
+  "files": {
+    "builder": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+    "test": "scripts/rcap-packet-recovery/fl-bridge-complete.test.mjs",
+    "fieldMap": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/participant-instructions.md",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/source-receipt.json",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "logs": [
+      "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/build-override.log",
+      "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/check-default.log",
+      "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/check-override.log",
+      "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/focused-tests.log",
+      "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/completeness.log",
+      "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/check-readonly.json",
+      "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/deterministic-rebuild.json"
+    ]
+  },
+  "evidenceFileIdentities": {
+    "build-override.log": {
+      "sha256": "67ce8675690efe04e2b6853e48ebcc0526c3eb93f5e5eafe323bf3ece881fcd7",
+      "byteLength": 1258
+    },
+    "check-default.log": {
+      "sha256": "d2c8f4df0b08024414927c3649b57ebeb78b301bc1d8070bbf59d03f2dee7e82",
+      "byteLength": 839
+    },
+    "check-override.log": {
+      "sha256": "d2c8f4df0b08024414927c3649b57ebeb78b301bc1d8070bbf59d03f2dee7e82",
+      "byteLength": 839
+    },
+    "check-readonly.json": {
+      "sha256": "adb719a311418b1b25be7361a8ac24695a42aa2c6cf1259bee7b6bc393fbbe0e",
+      "byteLength": 7890
+    },
+    "completeness.log": {
+      "sha256": "3410911f262a4da432da21e4c0eaab21839e19878746053fc8538eb6ff89f705",
+      "byteLength": 391
+    },
+    "deterministic-rebuild.json": {
+      "sha256": "01094015f77736c1207ee98b2690dd1aa597764e483724c97f19f541dec8a74d",
+      "byteLength": 7292
+    },
+    "focused-tests.log": {
+      "sha256": "3c7c9e41d32e798d52cff4b22776c934f9233efc240bf640de8766738faf18ef",
+      "byteLength": 906
+    }
+  },
+  "claim": "CLAIM_OK FIX05 fl-10yr-bridge-set (repair, grant set fbce99771136d46d)"
+}
