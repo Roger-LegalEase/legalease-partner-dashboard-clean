@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "3b8740972dde964f2dac21ea3c32507b4f1ce28d",
+  "generatedAtCommit": "06f188498e030e7378429473d6bec0734b5e8a17",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1066,6 +1066,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T05:32:24.638Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-misdemeanor-seal-set",
+      "itemId": null,
+      "familyId": "ar-misdemeanor-seal-set",
+      "familyIds": [
+        "ar-misdemeanor-seal-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7021,9 +7036,9 @@
       "operation": "independent-verification",
       "lane": "VF64",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF42 finished all four reads and returned: rows at data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json, one PASS and three FAIL_REPAIR_REQUIRED. Closed at its return boundary."
+      "released": true,
+      "releasedAt": "2026-09-11T06:57:24.877Z",
+      "releaseReason": "Completed independent review of10 original central pages and all15 obligations on exact current packet bytes"
     },
     {
       "subjectType": "packet-family",
@@ -15050,24 +15065,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ar-misdemeanor-seal-set",
-      "itemId": null,
-      "familyId": "ar-misdemeanor-seal-set",
-      "familyIds": [
-        "ar-misdemeanor-seal-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "5bff2bfb5a438cc1c00dad96dfaaa55948083d62fa7aa58a52ece41f4eb040f9",
+  "claimsDigest": "d5c1207a365d6e8757342d88086f60becb2d7003498acaf0b064c936d8d3805a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39825,6 +39825,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-11T06:50:11.003Z",
       "reason": "Closed-source optional proof gate validates six real source fields; fullblankledger recomputed; focused adversarial and completeness tests pass; allfour PDFs unchanged; MD43fixture compatibility independently reviewed."
+    },
+    {
+      "lane": "VF64",
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-11T06:57:24.877Z",
+      "reason": "Completed independent review of10 original central pages and all15 obligations on exact current packet bytes"
     }
   ],
   "reissues": [
