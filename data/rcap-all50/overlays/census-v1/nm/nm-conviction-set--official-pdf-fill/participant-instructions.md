@@ -25,7 +25,7 @@ This packet names no particular lawyer, clinic or organisation, because the reco
 
 Do this before you fill anything in. The petition has to have your records attached to it, and two of them take time to arrive:
 
-1. **Your DPS Record of Arrest and Prosecution (RAP) sheet.** The New Mexico Department of Public Safety charges **$15.00** per record check. The DPS Authorization for Release of Information must carry your **original signature and be notarized**. **None of the court filings needs a notary** — only this authorisation does, and the notary block on page 4 of Form 4-222 if you file that.
+1. **Your DPS Record of Arrest and Prosecution (RAP) sheet.** The New Mexico Department of Public Safety charges **$15.00** per record check. The DPS Authorization for Release of Information must carry your **original signature and be notarized**. **None of the court filings needs a notary** — only this authorisation does, and the notarial certificate on pages 4–5 of Form 4-222 if you file that.
 2. **Your FBI Identity History Summary.** The FBI charges its own fee and takes longer than DPS.
 3. **Both RAP sheets must be dated no more than ninety (90) days before you file**, so do not order them and then wait months to file.
 4. **Your sentence, fines, fees and restitution paperwork** — documents showing you completed the sentence for each conviction you are asking to expunge, completed the sentence for any other conviction, paid the fines and fees, and completed any victim restitution.
@@ -64,11 +64,9 @@ At the hearing you may be asked about the petition and about any objection. The 
 
 There is **no statewide Supreme Court order form** in the mandatory 4-951 to 4-960.3 set. Each judicial district publishes its own _Order on Petition to Expunge_ in its expungement packet, and the order in this packet is one district's copy. **Before your hearing, check the expungement packet published by the judicial district you filed in and use that district's order form if it has one.** Either way, **complete only the caption** — your county, your judicial district and your name — and leave the rest blank, because the court fills in its findings and what it is ordering.
 
-## The court name printed on the fee-waiver form
+## The fee-waiver form caption
 
-**Form 4-222 and the order bound with it print `SIXTH JUDICIAL DISTRICT COURT` in the caption.** That is printed on the form itself, not a blank, so nothing can change it. If you are filing anywhere other than the Sixth Judicial District (Grant, Hidalgo or Luna County), **cross out that line by hand and write your own judicial district**, or ask the district court clerk for their copy of Form 4-222 NMRA. Do not file it with the wrong court named on it.
-
-**The county line above it is left empty for you on purpose.** That caption reads down the page -- state, then county, then court -- so a county printed above the wrong court name makes one caption that is wrong as a whole, and the packet does not add to it. Write your county there yourself, in the same hand and at the same moment as you correct the court line, or take your own district's copy of the form and complete its caption from the start. The same is true of the county line on the order bound at the back of it.
+The Form 4-222 in this packet is the statewide blank-caption form. Its county line and full judicial-district line are filled from the same held court facts used by the petition. Check that caption before filing, as you should check every caption in the packet.
 
 ## Boxes you tick with a pen
 
@@ -189,67 +187,13 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 
 ### NM-4-222
 
-- **Page 1, Marital status and interpretation** — Marital status: Single.
-- **Page 1, Marital status and interpretation** — Marital status: Married.
-- **Page 1, Marital status and interpretation** — Marital status: Divorced.
-- **Page 1, Marital status and interpretation** — Marital status: Separated.
-- **Page 1, Marital status and interpretation** — Marital status: Widowed.
-- **Page 1, Marital status and interpretation** — I request interpretation services: yes.
-- **Page 1, Marital status and interpretation** — I request interpretation services: no.
-- **Page 1, A. Public assistance** — I do not receive public assistance.
-- **Page 1, A. Public assistance** — I currently receive public assistance.
-- **Page 1, A. Public assistance** — Temporary Assistance for Needy Families (TANF).
-- **Page 1, A. Public assistance** — Food Stamps.
-- **Page 1, A. Public assistance** — Medicaid (for myself).
-- **Page 1, A. Public assistance** — General Assistance (GA).
-- **Page 1, A. Public assistance** — Supplemental Security Income (SSI).
-- **Page 1, A. Public assistance** — Public Housing.
-- **Page 1, A. Public assistance** — Disability Security Income (DSI).
-- **Page 1, A. Public assistance** — Department of Health Case Management Services (DHMS).
-- **Page 1, A. Public assistance** — Other public assistance.
-- **Page 2, B. Employment / unemployment** — I am currently unemployed.
-- **Page 2, B. Employment / unemployment** — I receive unemployment benefits.
-- **Page 2, B. Employment / unemployment** — I have no income because I am unemployed.
-- **Page 2, B. Employment / unemployment** — I am employed.
-- **Page 2, B. Employment / unemployment** — I am married and my spouse is unemployed.
-- **Page 2, B. Employment / unemployment** — I am married and my spouse is employed.
-- **Page 2, B. Employment / unemployment** — My spouse receives unemployment benefits.
-- **Page 2, C. Other sources of income** — I have income from another source.
-- **Page 2, C. Other sources of income** — I do not have any other sources of income.
-- **Page 2, C. Other sources of income** — My spouse has income from another source.
-- **Page 2, C. Other sources of income** — My spouse does not have any other sources of income.
-- **Page 2, C. Other sources of income** — Another adult contributes to household income.
-- **Page 2, C. Other sources of income** — My other income: Child Support.
-- **Page 2, C. Other sources of income** — My other income: Alimony.
-- **Page 2, C. Other sources of income** — My other income: Investments.
-- **Page 2, C. Other sources of income** — My other income: Community property from my spouse.
-- **Page 2, C. Other sources of income** — My other income: Other.
-- **Page 2, C. Other sources of income** — Spouse's other income: Child Support.
-- **Page 2, C. Other sources of income** — Spouse's other income: Alimony.
-- **Page 2, C. Other sources of income** — Spouse's other income: Investments.
-- **Page 2, C. Other sources of income** — Spouse's other income: Other, first line.
-- **Page 2, C. Other sources of income** — Spouse's other income: Other, second line.
-- **Page 3, F. Household** — Household member 1, whether you support them.
-- **Page 3, F. Household** — Household member 2, whether you support them.
-- **Page 3, F. Household** — Household member 3, whether you support them.
-- **Page 4, F. Household** — Household member 4, whether you support them.
-- **Page 4, F. Household** — Household member 5, whether you support them.
-- **Page 4, F. Household** — Household member 6, whether you support them.
-- **Page 4, F. Household** — Household member 7, whether you support them.
-- **Page 4, The applicant's oath** — The applicant is the Petitioner.
-- **Page 6, Form 4-223, the court's findings** — Finding: the applicant is entitled to free process under Rule 23-114(B)(2) NMRA.
-- **Page 6, Form 4-223, the court's findings** — Finding: the applicant receives public assistance and is entitled to free process.
-- **Page 6, Form 4-223, the court's findings** — Finding: the applicant's annual gross income does not exceed a stated share of the federal poverty guidelines.
-- **Page 6, Form 4-223, the court's findings** — Finding: the applicant's annual gross income exceeds a stated share of the guidelines but they cannot reasonably pay.
-- **Page 6, Form 4-223, the court's findings** — Finding: the applicant is not entitled to free process.
-- **Page 6, Form 4-223, what the court orders** — Order: the filing fee is waived.
-- **Page 6, Form 4-223, what the court orders** — Order: the filing fee is waived except for the alternative dispute resolution fee.
-- **Page 6, Form 4-223, what the court orders** — Order: free service of process by the Sheriff.
-- **Page 6, Form 4-223, what the court orders** — Order: free service by the Sheriff of a temporary restraining order.
-- **Page 6, Form 4-223, what the court orders** — Order: the applicant is to pay the filing fee on a stated date.
-- **Page 6, Form 4-223, what the court orders** — Order: interpretation services shall be provided.
-- **Page 6, Form 4-223, what the court orders** — Order: free process is denied.
-- **Page 6, Form 4-223, what the court orders** — Order: Other.
+- **Page 3, F. Household** — Household member 1, I Support.
+- **Page 4, F. Household** — Household member 2, I Support.
+- **Page 4, F. Household** — Household member 3, I Support.
+- **Page 4, F. Household** — Household member 4, I Support.
+- **Page 4, F. Household** — Household member 5, I Support.
+- **Page 4, F. Household** — Household member 6, I Support.
+- **Page 4, F. Household** — Household member 7, I Support.
 
 ## What you must do before you file
 
@@ -386,91 +330,89 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
-| Caption of the application | COUNTY OF | the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed "SIXTH JUDICIAL DISTRICT COURT" line, write your own judicial district, and write your county here |
-| Marital status and interpretation | Interpretation services needed, first line | what interpretation you need, and in what language, if you asked for an interpreter |
-| Marital status and interpretation | Interpretation services needed, second line | the second line of what interpretation you need, if the first line is not enough |
-| Marital status and interpretation | Interpretation services needed, third line | the third line of what interpretation you need, if you need it |
-| A. Public assistance | The county in which you receive public assistance | the county in which you receive public assistance, which may not be the county your case is in |
+| Marital status and interpretation | Interpretation services needed, first line | what interpretation you need and the language |
+| Marital status and interpretation | Interpretation services needed, second line | the second line of that description, if needed |
+| Marital status and interpretation | Interpretation services needed, third line | the third line of that description, if needed |
+| A. Public assistance | County in which public assistance is received | the county in which you receive public assistance |
 | A. Public assistance | Other public assistance, description | a description of any other public assistance you receive |
 | B. Employment / unemployment | Months unemployed in the past year | how many months you have been unemployed in the past year |
-| B. Employment / unemployment | Why you are unemployed | why you are unemployed |
-| B. Employment / unemployment | Unemployment benefits received per month | how much you receive in unemployment benefits each month |
-| B. Employment / unemployment | Your hourly pay | what you are paid per hour |
-| B. Employment / unemployment | Your hours per week | how many hours a week you work |
-| B. Employment / unemployment | Your employer's name, address and phone number, first line | your employer's name |
-| B. Employment / unemployment | Your employer's name, address and phone number, second line | your employer's address |
-| B. Employment / unemployment | Your employer's name, address and phone number, third line | your employer's phone number |
-| B. Employment / unemployment | Months your spouse has been unemployed in the past year | how many months your spouse has been unemployed in the past year |
-| B. Employment / unemployment | Why your spouse is unemployed | why your spouse is unemployed |
-| B. Employment / unemployment | Your spouse's unemployment benefits per month | how much your spouse receives in unemployment benefits each month |
-| B. Employment / unemployment | Your spouse's hourly pay | what your spouse is paid per hour |
-| B. Employment / unemployment | Your spouse's hours per week | how many hours a week your spouse works |
-| B. Employment / unemployment | Your spouse's employer's name, address and phone number, first line | your spouse's employer's name |
-| B. Employment / unemployment | Your spouse's employer's name, address and phone number, second line | your spouse's employer's address |
-| B. Employment / unemployment | Your spouse's employer's name, address and phone number, third line | your spouse's employer's phone number |
-| C. Other sources of income | Your child support, amount | how much child support you receive |
-| C. Other sources of income | Your alimony, amount | how much alimony you receive |
-| C. Other sources of income | Your investment income, amount | how much investment income you receive |
-| C. Other sources of income | Your community property income, amount | how much community property income you receive from your spouse |
-| C. Other sources of income | Your other income, description | what your other income is |
-| C. Other sources of income | Your other income, amount | how much that other income is |
-| C. Other sources of income | Your spouse's child support, amount | how much child support your spouse receives |
-| C. Other sources of income | Your spouse's alimony, amount | how much alimony your spouse receives |
-| C. Other sources of income | Your spouse's investment income, amount | how much investment income your spouse receives |
-| C. Other sources of income | Your spouse's other income, first amount | how much that other income of your spouse's is |
-| C. Other sources of income | Your spouse's other income, first description | what your spouse's other income is |
-| C. Other sources of income | Your spouse's other income, second description | what your spouse's second other income is |
-| C. Other sources of income | Your spouse's other income, second amount | how much that second other income of your spouse's is |
-| C. Other sources of income | Amount another adult contributes to household income | how much another adult contributes to your household each month |
+| B. Employment / unemployment | Why I am unemployed | why you are unemployed |
+| B. Employment / unemployment | Unemployment benefits per month | how much you receive in unemployment benefits each month |
+| B. Employment / unemployment | My hourly pay | what you are paid per hour |
+| B. Employment / unemployment | My hours per week | how many hours you work each week |
+| B. Employment / unemployment | My employer, first line | your employer's name |
+| B. Employment / unemployment | My employer, second line | your employer's address |
+| B. Employment / unemployment | My employer, third line | your employer's phone number |
+| B. Employment / unemployment | Months my spouse was unemployed | how many months your spouse has been unemployed in the past year |
+| B. Employment / unemployment | Why my spouse is unemployed | why your spouse is unemployed |
+| B. Employment / unemployment | My spouse's unemployment benefits per month | how much your spouse receives in unemployment benefits each month |
+| B. Employment / unemployment | My spouse's hourly pay | what your spouse is paid per hour |
+| B. Employment / unemployment | My spouse's hours per week | how many hours your spouse works each week |
+| B. Employment / unemployment | My spouse's employer, first line | your spouse's employer's name |
+| B. Employment / unemployment | My spouse's employer, second line | your spouse's employer's address |
+| B. Employment / unemployment | My spouse's employer, third line | your spouse's employer's phone number |
+| C. Other sources of income | My child support, amount | the monthly amount for my child support |
+| C. Other sources of income | My alimony, amount | the monthly amount for my alimony |
+| C. Other sources of income | My investment income, amount | the monthly amount for my investment income |
+| C. Other sources of income | My community-property income, amount | the monthly amount for my community-property income |
+| C. Other sources of income | My other income, description | a description of your other income |
+| C. Other sources of income | My other income, amount | the monthly amount of that other income |
+| C. Other sources of income | My spouse's child support, amount | the monthly amount for my spouse's child support |
+| C. Other sources of income | My spouse's alimony, amount | the monthly amount for my spouse's alimony |
+| C. Other sources of income | My spouse's investment income, amount | the monthly amount for my spouse's investment income |
+| C. Other sources of income | My spouse's first other income, description | a description of your spouse's first other income |
+| C. Other sources of income | My spouse's first other income, amount | the monthly amount of your spouse's first other income |
+| C. Other sources of income | My spouse's second other income, description | a description of your spouse's second other income |
+| C. Other sources of income | My spouse's second other income, amount | the monthly amount of your spouse's second other income |
+| C. Other sources of income | Another adult's household contribution | how much another adult contributes to your household each month |
 | D. Other assets | Cash on hand | how much cash you have on hand |
 | D. Other assets | Bank accounts | how much you have in bank accounts |
 | D. Other assets | Income tax refund | how much income tax refund you expect |
-| D. Other assets | Other asset, first description | a description of another asset you or your spouse own that can be turned into cash, not counting retirement accounts |
-| D. Other assets | Other asset, first amount | what that asset is worth |
-| D. Other assets | Other asset, second description | a description of a second other asset, if you have one |
-| D. Other assets | Other asset, second amount | what that second asset is worth |
-| D. Other assets | If you do not have access to your own or your spouse's income or assets, explain why, first line | why you cannot get at your own or your spouse's income or assets, if that is your situation |
-| D. Other assets | If you do not have access to your own or your spouse's income or assets, explain why, second line | the second line of that explanation |
-| D. Other assets | If you do not have access to your own or your spouse's income or assets, explain why, third line | the third line of that explanation |
-| D. Other assets | If you do not have access to your own or your spouse's income or assets, explain why, fourth line | the fourth line of that explanation |
-| E. Monthly expenses | Monthly expense: House Payment or Rent | what you pay each month in rent or house payments |
+| D. Other assets | Other asset 1, description | a description of another asset you or your spouse can turn into cash |
+| D. Other assets | Other asset 1, amount | what that asset is worth |
+| D. Other assets | Other asset 2, description | a description of a second other asset |
+| D. Other assets | Other asset 2, amount | what that second asset is worth |
+| D. Other assets | Why income or assets are inaccessible, first line | the first line explaining why you cannot access your or your spouse's income or assets |
+| D. Other assets | Why income or assets are inaccessible, second line | the second line explaining why you cannot access your or your spouse's income or assets |
+| D. Other assets | Why income or assets are inaccessible, third line | the third line explaining why you cannot access your or your spouse's income or assets |
+| D. Other assets | Why income or assets are inaccessible, fourth line | the fourth line explaining why you cannot access your or your spouse's income or assets |
+| E. Monthly expenses | Monthly expense: House payment or rent | what you pay each month for house payment or rent |
 | E. Monthly expenses | Monthly expense: Utilities | what you pay each month for utilities |
 | E. Monthly expenses | Monthly expense: Telephone | what you pay each month for telephone |
-| E. Monthly expenses | Monthly expense: Groceries (after food stamps) | what you spend each month on groceries after food stamps |
-| E. Monthly expenses | Monthly expense: Car Payments | what you pay each month on your car |
-| E. Monthly expenses | Monthly expense: Gasoline | what you spend each month on gasoline |
+| E. Monthly expenses | Monthly expense: Groceries after food stamps | what you pay each month for groceries after food stamps |
+| E. Monthly expenses | Monthly expense: Car payments | what you pay each month for car payments |
+| E. Monthly expenses | Monthly expense: Gasoline | what you pay each month for gasoline |
 | E. Monthly expenses | Monthly expense: Insurance | what you pay each month for insurance |
-| E. Monthly expenses | Monthly expense: Child Care | what you pay each month for child care |
-| E. Monthly expenses | Monthly expense: Student and Consumer Loans | what you pay each month on student and consumer loans |
-| E. Monthly expenses | Monthly expense: Court-ordered family support obligations | what you pay each month in court-ordered family support |
-| E. Monthly expenses | Monthly expense: Other court-ordered payments | what you pay each month on other court-ordered obligations |
-| E. Monthly expenses | Monthly expense: Medical expenses | what you pay each month in medical expenses |
-| E. Monthly expenses | Monthly expense: Other, description | a description of any other monthly expense |
-| E. Monthly expenses | Monthly expense: Other, amount | what that other monthly expense costs |
-| F. Household | The head of the household is | who the head of your household is, which may be you |
-| F. Household | Household member 1, Name | the name of household member 1, if you have that many |
-| F. Household | Household member 2, Name | the name of household member 2, if you have that many |
-| F. Household | Household member 1, Age | the age of household member 1, if you have that many |
-| F. Household | Household member 2, Age | the age of household member 2, if you have that many |
-| F. Household | Household member 1, Employment | the employment of household member 1, if you have that many |
-| F. Household | Household member 2, Employment | the employment of household member 2, if you have that many |
-| F. Household | Household member 3, Name | the name of household member 3, if you have that many |
-| F. Household | Household member 3, Age | the age of household member 3, if you have that many |
-| F. Household | Household member 3, Employment | the employment of household member 3, if you have that many |
-| F. Household | Household member 4, Name | the name of household member 4, if you have that many |
-| F. Household | Household member 5, Name | the name of household member 5, if you have that many |
-| F. Household | Household member 6, Name | the name of household member 6, if you have that many |
-| F. Household | Household member 7, Name | the name of household member 7, if you have that many |
-| F. Household | Household member 4, Age | the age of household member 4, if you have that many |
-| F. Household | Household member 5, Age | the age of household member 5, if you have that many |
-| F. Household | Household member 6, Age | the age of household member 6, if you have that many |
-| F. Household | Household member 7, Age | the age of household member 7, if you have that many |
-| F. Household | Household member 4, Employment | the employment of household member 4, if you have that many |
-| F. Household | Household member 5, Employment | the employment of household member 5, if you have that many |
-| F. Household | Household member 6, Employment | the employment of household member 6, if you have that many |
-| F. Household | Household member 7, Employment | the employment of household member 7, if you have that many |
+| E. Monthly expenses | Monthly expense: Child care | what you pay each month for child care |
+| E. Monthly expenses | Monthly expense: Student and consumer loans | what you pay each month for student and consumer loans |
+| E. Monthly expenses | Monthly expense: Court-ordered family support | what you pay each month for court-ordered family support |
+| E. Monthly expenses | Monthly expense: Other court-ordered payments | what you pay each month for other court-ordered payments |
+| E. Monthly expenses | Monthly expense: Medical expenses | what you pay each month for medical expenses |
+| E. Monthly expenses | Monthly expense: other, description | a description of any other monthly expense |
+| E. Monthly expenses | Monthly expense: other, amount | what that other monthly expense costs each month |
+| F. Household | Head of the household | the name of the head of your household |
+| F. Household | Household member 1, name | the name for household member 1, if you have that many household members |
+| F. Household | Household member 1, age | the age for household member 1, if you have that many household members |
+| F. Household | Household member 1, employment | the employment for household member 1, if you have that many household members |
+| F. Household | Household member 2, name | the name for household member 2, if you have that many household members |
+| F. Household | Household member 2, age | the age for household member 2, if you have that many household members |
+| F. Household | Household member 2, employment | the employment for household member 2, if you have that many household members |
+| F. Household | Household member 3, name | the name for household member 3, if you have that many household members |
+| F. Household | Household member 3, age | the age for household member 3, if you have that many household members |
+| F. Household | Household member 3, employment | the employment for household member 3, if you have that many household members |
+| F. Household | Household member 4, name | the name for household member 4, if you have that many household members |
+| F. Household | Household member 4, age | the age for household member 4, if you have that many household members |
+| F. Household | Household member 4, employment | the employment for household member 4, if you have that many household members |
+| F. Household | Household member 5, name | the name for household member 5, if you have that many household members |
+| F. Household | Household member 5, age | the age for household member 5, if you have that many household members |
+| F. Household | Household member 5, employment | the employment for household member 5, if you have that many household members |
+| F. Household | Household member 6, name | the name for household member 6, if you have that many household members |
+| F. Household | Household member 6, age | the age for household member 6, if you have that many household members |
+| F. Household | Household member 6, employment | the employment for household member 6, if you have that many household members |
+| F. Household | Household member 7, name | the name for household member 7, if you have that many household members |
+| F. Household | Household member 7, age | the age for household member 7, if you have that many household members |
+| F. Household | Household member 7, employment | the employment for household member 7, if you have that many household members |
 | The applicant's oath | Telephone of the applicant | your telephone number |
-| Caption of Form 4-223, Order on Application for Free Process | COUNTY OF, in the caption of the order for free process | the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file |
 
 ## One or two lines that may be blank on your copy
 
@@ -490,15 +432,14 @@ The court prints these lines at a fixed length, and this packet will not shrink 
 - **The hearing details, the judge's name and the court's signature block on Form 4-960.1.**
 - **Everything below the caption of the order.**
 - **Every attorney block, and the whole attorney certificate on page 5 of Form 4-222.** This packet is prepared for someone filing without a lawyer.
-- **The notary block on page 4 of Form 4-222, and every financial answer on it.** That form is sworn under oath and the platform holds none of your financial facts.
+- **The notarial certificate on pages 4–5 of Form 4-222, and every financial answer on it.** That form is sworn under oath and the platform holds none of your financial facts.
 
 ## Blanks that do not apply on this route
 
 | Form | Page | The blank | Why it does not apply |
 | --- | --- | --- | --- |
-| NM-4-222 | 1 | Name of the Respondent in the caption | there is no respondent in a Rule 1-077.1 expungement proceeding, so this half of the general civil caption is left empty and the packet says why |
-| NM-4-222 | 4 | The applicant is the Respondent | there is no respondent in a Rule 1-077.1 expungement proceeding, so this box is never the one to mark on this route and the packet says so |
-| NM-4-222 | 6 | Name of the Respondent in the caption of the order for free process | there is no respondent in a Rule 1-077.1 expungement proceeding, so this half of the order's caption is left empty |
+| NM-4-222 | 1 | Name of the Respondent in the caption | there is no respondent on this route, so the general civil respondent line stays empty |
+| NM-4-222 | 4 | The applicant is the Respondent | the Respondent choice does not apply to this expungement proceeding |
 
 ## After the order is signed
 

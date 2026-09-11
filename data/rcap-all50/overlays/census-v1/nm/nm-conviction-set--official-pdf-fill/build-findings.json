@@ -1,22 +1,17 @@
 {
   "schemaVersion": "rcap-family-build-findings/v1",
   "familyId": "nm_conviction-set",
-  "blocking": [
-    {
-      "severity": "blocking_for_release",
-      "finding": "Form 4-222's caption, and the caption of Form 4-223 bound with it on pages 6 and 7, print \"SIXTH JUDICIAL DISTRICT COURT\" as page content. No AcroForm widget covers those coordinates -- the field list was read first hand from the pinned binary and the nearest fields are COUNTY OF at y632.6 and Petitioner at y578.7 -- so the district cannot be set, cleared or corrected by filling the form. Every other form in this packet prints \"_______________JUDICIAL DISTRICT COURT\" and leaves the district blank.",
-      "consequence": "A participant filing outside the Sixth Judicial District (Grant, Hidalgo and Luna counties) would receive a fee-waiver application and a proposed order captioned for a court that is not theirs, on a document sworn under oath. The build does not alter the court's PDF and does not hide the defect: it is recorded here, listed for visual review, and stated to the participant in participant-instructions.md, which tells them to strike the printed line and write their own district or to obtain their district's copy of Form 4-222 NMRA. It also no longer writes the participant's county into the blank one line above the printed district, on page 1 or on Form 4-223's caption: that write composed with this printed ink into a caption naming a court the participant has not chosen, and the build's half of it is the half the build can withhold. The two blanks are left for the participant to complete on the copy they actually file. Counsel should decide whether the fee-waiver component may ship statewide on this binary at all, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it.",
-      "measuredFrom": "the pinned binary at 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
-    }
-  ],
+  "blocking": [],
   "findings": [
+    {
+      "severity": "resolved_by_governed_source_replacement",
+      "finding": "The governed Form 4-222 source prints STATE OF NEW MEXICO, a blank COUNTY OF line, and a blank court line. The county and full judicial-district designation can therefore be written from held matter facts without district-local page content beneath them.",
+      "measuredFrom": "the pinned statewide binary at ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
+      "supersedes": "The historical 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a source printed SIXTH JUDICIAL DISTRICT COURT."
+    },
     {
       "finding": "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an unavailable one.",
       "consequence": "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- participant.street_address, the registry's one participant address descriptor -- with the binding, and what the printed caption resolves to on its own, recorded on the field-map row. Nothing in scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short to show the value at the shared six-point readable floor, the host measures that with the same fitter the finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. Nothing is truncated and nothing is drawn outside a measured blank."
-    },
-    {
-      "finding": "THE PETITIONER'S NAME IN THE CAPTION OF FORM 4-223 WAS BLANK BECAUSE ITS WIDGET IS MISNAMED. The author of Form 4-223, bound at the back of Form 4-222 NMRA, named every field on pages 6 and 7 after the line printed ABOVE it, so the widget holding the petitioner's name in the order's caption is named \"SIXTH JUDICIAL DISTRICT COURT\" and the shared registry resolves matter.court from that name. An explicit mapping saying otherwise is refused as a mapping conflict, and that guard is right to refuse it. The same accident on the AcroForm field named \"I live at\" left the whole-address line of section F empty.",
-      "consequence": "Both are written through the shared finalizer's own named-fact channel, narrativeAcrossFields -- the caller names a fact id and a field and the shared module resolves, protects, fits and refuses. It is not a way past a protect rule: that channel applies protectCategoryOf to the field name AND to the caption before it writes, and the host asserts both are clean before it offers either row. What each authored name resolves to in the shared registry is recorded on the field-map row. The county blanks on both captions of that binary stay EMPTY, on FIX79's ground, and the open question about shipping that binary statewide is untouched."
     },
     {
       "finding": "THE PACKET OMITTED SIX OF THE TRACK'S TEN SELF-HELP STOP CONDITIONS, AND CALLED ONE OF THEM ENCOURAGEMENT. VF03 measured the delivered instructions against the registry's own selfHelpStopConditions for nm_conviction and found the felony, Crimes Against Household Members Act, unpaid-or-unclear financial obligation, intervening-conviction, multiple-district and justice-narrative stops missing, while paragraph 12 of Form 4-953 -- which condition 8 makes a stop -- was described to the participant as the part only they can write.",
@@ -43,10 +38,6 @@
       "consequence": "The packet asserts none of them. Choosing one is a legal characterisation of a code section, and the platform holds no charge degree for this route's intake; the instructions set out which period goes with which class of offence and the participant marks the box. Writing a period the record does not establish onto a petition sworn under penalty of perjury is the defect this refuses."
     },
     {
-      "finding": "Every glyph on Form 4-222 reports inexact metrics, and Form 4-953 page 3 prints five bullet characters that do the same.",
-      "consequence": "Measurability is decided per BASELINE rather than per page: a glyph positioned by a fallback advance shifts everything after it on its own line and nothing else. The bullets sit on the five lines of the statutory exclusions list, which carry no blanks, so Form 4-953 measures cleanly; every line of Form 4-222 is affected, so nothing on it is positioned from text geometry and only its exact AcroForm widget rectangles are used. The retained conviction order draws all thirty-six of its tick boxes as a symbol-font glyph, so the twenty-one blanks that sit to the right of one on their own baseline are recorded with no coordinate at all -- and none of them is a place this build writes."
-    },
-    {
       "finding": "The shared fact registry has no descriptor for other names or aliases, and Form 4-953 asks for them on three lines. The only name descriptor whose pattern reaches such a line is participant.full_legal_name.",
       "consequence": "The alias lines are left to the participant and named in the instructions. Binding them to full_legal_name would put the petitioner's own legal name on the alias line of a petition sworn under penalty of perjury, and adding a descriptor is a change to machinery forty-odd builders share, which a packet-build lane does not make mid-cohort. The gap is reported for the owner of the registry."
     },
@@ -55,8 +46,8 @@
       "consequence": "Those four are left to the participant with the reason stated. A street with no city, on the line the court writes to, is worse than a line the participant completes. Reported for the owner of the registry alongside the alias gap."
     },
     {
-      "finding": "Form 4-222's caption prints a judicial district that no field covers. See the blocking finding above.",
-      "consequence": "Recorded as blocking, named for visual review, and stated to the participant. The same finding is carried by every New Mexico family that binds this fee-waiver component."
+      "finding": "The adopted statewide Form 4-222 is a five-page flat PDF with 147 measured underscore blanks and no AcroForm fields.",
+      "consequence": "Every measured blank has an explicit dictionary disposition. Held caption and identity facts are written only inside measured blank rectangles; financial assertions, elections, signatures, notarization and court-use fields remain empty for the responsible actor."
     }
   ],
   "selfHelpStopConditionsAsPrinted": {
@@ -74,7 +65,7 @@
       "Any non-citizen participant, because the Judiciary's own packet directs non-citizens to seek legal advice about the consequences of expungement."
     ],
     "registry": "data/record-clearing/legal-design-track-registry.json",
-    "registrySha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+    "registrySha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
     "memo": "data/record-clearing/legal-design-intake/NM.memo.json",
     "memoSha256": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25",
     "quotedVerbatim": true

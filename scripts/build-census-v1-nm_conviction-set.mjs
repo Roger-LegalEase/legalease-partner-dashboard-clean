@@ -10,7 +10,7 @@
  *   STAGE ONE, filed together and then served
  *     4-953 NMRA                 Petition to expunge; upon conviction
  *     4-956 NMRA                 Certificate of service
- *     4-222 NMRA (+ 4-223)       Application for free process   — conditional
+ *     4-222 NMRA                 Application for free process   — conditional
  *
  *   STAGE TWO, at least sixty-three days later
  *     4-960 NMRA                 Notice of completion of briefing
@@ -54,7 +54,7 @@ import { fileURLToPath } from "node:url";
 import { runNmFamily, selfHelpStopConditions, selfHelpStopSection, heldNotWrittenSection }
   from "./rcap-nm-flat-forms/nm-packet-host.mjs";
 import { FORM_4_960_1, dictionary4960_1 } from "./rcap-nm-flat-forms/nm-form-4-960-1.mjs";
-import { FORM_4_222, DICTIONARY_4_222, PRINTED_BLANKS_4_223, PRINTED_DISTRICT_FINDING, PRINTED_DISTRICT_IN_THE_CAPTION }
+import { FORM_4_222, DICTIONARY_4_222, STATEWIDE_CAPTION_FINDING }
   from "./rcap-nm-flat-forms/nm-form-4-222.mjs";
 import {
   FORM_4_953, DICTIONARY_4_953, FORM_4_956, DICTIONARY_4_956,
@@ -95,6 +95,7 @@ const SERVICE_ON_THIS_TRACK =
  */
 const compose = (f) => ({
   ...f,
+  "matter.fee_waiver_court_caption": `${f["matter.court"]} Judicial District`,
   "participant.city_state_zip": `${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`,
   "participant.full_mailing_address":
     `${f["participant.street_address"]}, ${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`
@@ -156,7 +157,7 @@ function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }
     "1. **Your DPS Record of Arrest and Prosecution (RAP) sheet.** The New Mexico Department of Public Safety charges "
     + "**$15.00** per record check. The DPS Authorization for Release of Information must carry your **original "
     + "signature and be notarized**. **None of the court filings needs a notary** — only this authorisation does, and the "
-    + "notary block on page 4 of Form 4-222 if you file that.",
+    + "notarial certificate on pages 4–5 of Form 4-222 if you file that.",
     "2. **Your FBI Identity History Summary.** The FBI charges its own fee and takes longer than DPS.",
     "3. **Both RAP sheets must be dated no more than ninety (90) days before you file**, so do not order them and then "
     + "wait months to file.",
@@ -230,18 +231,11 @@ function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }
     + "it is ordering.", ""
   );
 
-  out.push("## The court name printed on the fee-waiver form", "");
+  out.push("## The fee-waiver form caption", "");
   out.push(
-    `**Form 4-222 and the order bound with it print \`${PRINTED_DISTRICT_IN_THE_CAPTION}\` in the caption.** That is `
-    + "printed on the form itself, not a blank, so nothing can change it. If you are filing anywhere other than the Sixth "
-    + "Judicial District (Grant, Hidalgo or Luna County), **cross out that line by hand and write your own judicial "
-    + "district**, or ask the district court clerk for their copy of Form 4-222 NMRA. Do not file it with the wrong court "
-    + "named on it.", "",
-    "**The county line above it is left empty for you on purpose.** That caption reads down the page -- state, then "
-    + "county, then court -- so a county printed above the wrong court name makes one caption that is wrong as a whole, "
-    + "and the packet does not add to it. Write your county there yourself, in the same hand and at the same moment as "
-    + "you correct the court line, or take your own district's copy of the form and complete its caption from the "
-    + "start. The same is true of the county line on the order bound at the back of it.", ""
+    "The Form 4-222 in this packet is the statewide blank-caption form. Its county line and full judicial-district "
+    + "line are filled from the same held court facts used by the petition. Check that caption before filing, as you "
+    + "should check every caption in the packet.", ""
   );
 
   out.push("## Boxes you tick with a pen", "");
@@ -282,7 +276,7 @@ function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }
   out.push("- **The hearing details, the judge's name and the court's signature block on Form 4-960.1.**");
   out.push("- **Everything below the caption of the order.**");
   out.push("- **Every attorney block, and the whole attorney certificate on page 5 of Form 4-222.** This packet is prepared for someone filing without a lawyer.");
-  out.push("- **The notary block on page 4 of Form 4-222, and every financial answer on it.** That form is sworn under oath and the platform holds none of your financial facts.");
+  out.push("- **The notarial certificate on pages 4–5 of Form 4-222, and every financial answer on it.** That form is sworn under oath and the platform holds none of your financial facts.");
   out.push("");
 
   if (inapplicable.length > 0) {
@@ -335,7 +329,7 @@ const FAMILY = {
     { ...NM_LOCAL_CONVICTION_ORDER, dictionary: DICTIONARY_CONVICTION_ORDER },
     {
       ...FORM_4_222, instrumentKind: "fee_waiver_application",
-      dictionary: DICTIONARY_4_222, printedBlankDictionary: PRINTED_BLANKS_4_223
+      dictionary: DICTIONARY_4_222
     }
   ],
   componentDelivery: {
@@ -354,8 +348,8 @@ const FAMILY = {
       note: "required by the manifest and by the track's own record, because no statewide Supreme Court order form exists in the mandatory 4-951 to 4-960.3 set."
     },
     "nm_conviction-fee-waiver-application-8": {
-      deliveredAs: "official_pdf_fill", deliveredBy: "NM-4-222 with Form 4-223, seven pages",
-      note: "conditional on the participant being unable to pay the $132.00 district court filing fee. See the blocking finding about the district printed in its caption."
+      deliveredAs: "official_pdf_fill", deliveredBy: "the governed statewide NM-4-222, five pages",
+      note: "conditional on the participant being unable to pay the $132.00 district court filing fee; the blank county and judicial-district caption lines are filled from held matter facts."
     },
     "nm_conviction-record-gathering-instructions-9": {
       deliveredAs: "process_guidance", deliveredBy: "participant-instructions.md",
@@ -412,21 +406,16 @@ const FAMILY = {
       + "blocks are the petitioner's to complete for any party that objected; they are required-before-filing rather "
       + "than not-applicable, and they are listed in the instructions.",
     "The Order on Petition to Expunge: the caption written on page 1 and NOTHING ELSE on the four pages.",
-    "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which "
-      + "this build cannot change -- and, one line above it on both pages, the COUNTY OF blank left EMPTY. It used "
-      + "to carry the participant's county, which composed with the printed district into a caption naming a court "
-      + "they have not chosen; both blanks are the participant's to complete on the copy they file.",
-    "Form 4-222 page 6, the caption of Form 4-223: the petitioner's NAME now written on the rule before "
-      + "\", Petitioner,\", the same value as the caption of page 1. The widget holding it is named \"SIXTH "
-      + "JUDICIAL DISTRICT COURT\" after the line printed above it, which is why it was blank before; it is written "
-      + "through the shared finalizer's named-fact channel and the field-map row records what that authored name "
-      + "resolves to. The respondent half of the caption stays empty -- Rule 1-077.1 styles the action In re.",
+    "Form 4-222 page 1: confirm the statewide blank caption carries the participant's county and judicial district, "
+      + "the petitioner's name is written, and all court-assigned case-number blanks remain empty. No district name "
+      + "is printed in the source binary.",
     "Form 4-222 page 3, section F: \"I live at ____\" now carries the whole one-line mailing address, which is the "
       + "same four parts written separately on page 4 of the same form. Read the two against each other."
   ],
-  blockingFindings: [PRINTED_DISTRICT_FINDING],
+  blockingFindings: [],
   selfHelpStops: STOP_CONDITIONS,
   findings: [
+    STATEWIDE_CAPTION_FINDING,
     {
       finding:
         "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at "
@@ -446,23 +435,6 @@ const FAMILY = {
         + "finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value "
         + "needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. "
         + "Nothing is truncated and nothing is drawn outside a measured blank."
-    },
-    {
-      finding:
-        "THE PETITIONER'S NAME IN THE CAPTION OF FORM 4-223 WAS BLANK BECAUSE ITS WIDGET IS MISNAMED. The author of "
-        + "Form 4-223, bound at the back of Form 4-222 NMRA, named every field on pages 6 and 7 after the line printed "
-        + "ABOVE it, so the widget holding the petitioner's name in the order's caption is named \"SIXTH JUDICIAL "
-        + "DISTRICT COURT\" and the shared registry resolves matter.court from that name. An explicit mapping saying "
-        + "otherwise is refused as a mapping conflict, and that guard is right to refuse it. The same accident on the "
-        + "AcroForm field named \"I live at\" left the whole-address line of section F empty.",
-      consequence:
-        "Both are written through the shared finalizer's own named-fact channel, narrativeAcrossFields -- the caller "
-        + "names a fact id and a field and the shared module resolves, protects, fits and refuses. It is not a way "
-        + "past a protect rule: that channel applies protectCategoryOf to the field name AND to the caption before it "
-        + "writes, and the host asserts both are clean before it offers either row. What each authored name resolves "
-        + "to in the shared registry is recorded on the field-map row. The county blanks on both captions of that "
-        + "binary stay EMPTY, on FIX79's ground, and the open question about shipping that binary statewide is "
-        + "untouched."
     },
     {
       finding:
@@ -550,19 +522,6 @@ const FAMILY = {
     },
     {
       finding:
-        "Every glyph on Form 4-222 reports inexact metrics, and Form 4-953 page 3 prints five bullet characters that do "
-        + "the same.",
-      consequence:
-        "Measurability is decided per BASELINE rather than per page: a glyph positioned by a fallback advance shifts "
-        + "everything after it on its own line and nothing else. The bullets sit on the five lines of the statutory "
-        + "exclusions list, which carry no blanks, so Form 4-953 measures cleanly; every line of Form 4-222 is affected, "
-        + "so nothing on it is positioned from text geometry and only its exact AcroForm widget rectangles are used. The "
-        + "retained conviction order draws all thirty-six of its tick boxes as a symbol-font glyph, so the twenty-one "
-        + "blanks that sit to the right of one on their own baseline are recorded with no coordinate at all -- and none "
-        + "of them is a place this build writes."
-    },
-    {
-      finding:
         "The shared fact registry has no descriptor for other names or aliases, and Form 4-953 asks for them on three "
         + "lines. The only name descriptor whose pattern reaches such a line is participant.full_legal_name.",
       consequence:
@@ -583,18 +542,16 @@ const FAMILY = {
     },
     {
       finding:
-        "Form 4-222's caption prints a judicial district that no field covers. See the blocking finding above.",
+        "The adopted statewide Form 4-222 is a five-page flat PDF with 147 measured underscore blanks and no AcroForm fields.",
       consequence:
-        "Recorded as blocking, named for visual review, and stated to the participant. The same finding is carried by "
-        + "every New Mexico family that binds this fee-waiver component."
+        "Every measured blank has an explicit dictionary disposition. Held caption and identity facts are written only "
+        + "inside measured blank rectangles; financial assertions, elections, signatures, notarization and court-use "
+        + "fields remain empty for the responsible actor."
     }
   ],
   mattersForTheReviewersAttention: [
-    "BLOCKING: Form 4-222 and Form 4-223 print \"SIXTH JUDICIAL DISTRICT COURT\" in their captions with no field over "
-      + "it. The build no longer writes the participant's county into the blank one line above it on either caption; "
-      + "both are left for the participant, who is told to complete that caption by hand or to use their own "
-      + "district's copy. Whether the component may ship statewide on this binary at all is still open and is "
-      + "counsel's.",
+    "Form 4-222 now comes from the adopted statewide five-page source. Confirm its blank caption carries the fixture's "
+      + "county and judicial district without any Sixth Judicial District text from the superseded source.",
     "Item 2 of Form 4-953 is an either/or about OTHER pending expungement cases. The two blanks on the branch that "
       + "asserts such cases exist used to carry the district this petition is filed in; the platform holds no "
       + "pending-expungement fact and they are now empty and the participant's, with both printed boxes unmarked as "

@@ -1,104 +1,61 @@
 /**
- * Form 4-222 NMRA — Application for Free Process and Affidavit of Indigency,
- * bound together with Form 4-223 NMRA, Order on Application for Free Process.
+ * Form 4-222 NMRA — Application for Free Process and Affidavit of Indigency.
  *
- * The fee-waiver component of all three New Mexico district-court expungement
- * families, at the identical digest
- * 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a. Seven
- * pages, 158 AcroForm fields on 161 widgets: pages 1 to 5 are the application
- * and the affidavit, pages 6 and 7 are Form 4-223, the order a judge signs on
- * it. Three fields -- the three segments of the case number -- carry two
- * widgets each, one on the application's caption and one on the order's.
+ * Governed statewide blank-caption source adopted on 2026-09-11. It is a
+ * five-page flat PDF. The former 809c66a7… binary was a seven-page AcroForm
+ * bundle that printed "SIXTH JUDICIAL DISTRICT COURT". It is deliberately
+ * absent here. All 147 underscore blanks in the statewide source are measured
+ * and classified on every build. The seven empty-parenthesis controls in the
+ * household table are separately inventoried below because they are controls,
+ * not writing lines.
  *
- * TWO THINGS ABOUT THIS BINARY A REVIEWER MUST SEE
- *
- * 1. THE CAPTION NAMES A DISTRICT, IN PRINTED TEXT, WITH NO FIELD OVER IT.
- *    Both captions read "SIXTH JUDICIAL DISTRICT COURT". That is printed page
- *    content, not a field value and not a field default: no widget covers those
- *    coordinates, so nothing this build can do will change it. Every other form
- *    in these packets prints "_______________JUDICIAL DISTRICT COURT" and
- *    leaves the district blank. The copy the Master Library holds was harvested
- *    from the New Mexico Courts self-representation site
- *    (selfrepresentation.nmcourts.gov), so it is the state's own published
- *    fillable copy rather than a district's -- and it still names one district.
- *    A participant filing anywhere but the Sixth Judicial District receives a
- *    sworn affidavit captioned for a court that is not theirs. This build does
- *    not paper over it: it is a blocking finding in build-findings.json, it is
- *    named for visual review, and the participant is told in plain words in
- *    participant-instructions.md to correct the court line by hand or to obtain
- *    their own district's copy.
- *
- *    And it no longer WRITES INTO that caption. The county blank one line above
- *    the printed district, on page 1 and again on Form 4-223's caption, is left
- *    empty: a county composed above a district the case does not use makes a
- *    caption that reads as a whole and is false as a whole, and the build's own
- *    ink is the half of it the build controls. Leaving it empty cures nothing
- *    about the printed district -- that question is open below -- and it stops
- *    the build from adding to a statement it cannot make true.
- *
- * 2. THE CASE NUMBER IS PRINTED AS A TEMPLATE. The caption reads "No. D- - -"
- *    with three small fields between the dashes. On an expungement petition
- *    there is no case number until the clerk assigns one at filing, so all
- *    three are left to the court.
- *
- * WHAT THE PLATFORM HOLDS FOR THIS FORM, AND WHAT IT DOES NOT
- *
- * Almost nothing. This is a sworn financial affidavit: marital status, public
- * assistance, employment, income, assets, monthly expenses, household members.
- * The platform holds none of it, and inventing any of it would be putting a
- * false statement on a document made under oath. What it holds is the caption
- * and the applicant's identity and address, and that is what it writes.
- *
- * Every one of the 49 checkboxes is left for the participant to mark. The
- * shared AcroForm finalizer writes text values only, and that is the right
- * behaviour here for a reason beyond the mechanism: each of these boxes is a
- * sworn assertion about the applicant's own finances.
+ * This is a sworn financial affidavit. The platform writes only held identity,
+ * address, and caption facts. It does not invent finances, mark choices, sign,
+ * notarize, or complete the attorney certificate.
  */
-import { WRITE, NAMED_FACT_WRITE, SUPPLY, PROTECT, ELECTION, ATTORNEY, INAPPLICABLE, COURT_OWNED, SIGNATURE }
-  from "./nm-packet-host.mjs";
+import {
+  WRITE, WRITE_BOUND_AS, SUPPLY, PROTECT, ELECTION, ATTORNEY, INAPPLICABLE,
+  SIGNATURE, COURT_OWNED
+} from "./nm-packet-host.mjs";
 
 export const FORM_4_222 = Object.freeze({
   sourceId: "official-form:4-222",
   documentId: "NM-4-222",
   formNumber: "4-222",
-  title: "Application for Free Process and Affidavit of Indigency (with Form 4-223, Order on Application for Free Process)",
-  sha256: "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-  strategy: "acroform_fill",
-  pages: 7
+  title: "Application for Free Process and Affidavit of Indigency",
+  sha256: "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
+  strategy: "measured_flat_overlay",
+  pages: 5,
+  additionalPrintedControls: Object.freeze([
+    { key: "p3-household-support-1", page: 3, y: 106.92, section: "F. Household", label: "Household member 1, I Support" },
+    { key: "p4-household-support-2", page: 4, y: 708.72, section: "F. Household", label: "Household member 2, I Support" },
+    { key: "p4-household-support-3", page: 4, y: 680.76, section: "F. Household", label: "Household member 3, I Support" },
+    { key: "p4-household-support-4", page: 4, y: 652.80, section: "F. Household", label: "Household member 4, I Support" },
+    { key: "p4-household-support-5", page: 4, y: 624.84, section: "F. Household", label: "Household member 5, I Support" },
+    { key: "p4-household-support-6", page: 4, y: 596.88, section: "F. Household", label: "Household member 6, I Support" },
+    { key: "p4-household-support-7", page: 4, y: 568.92, section: "F. Household", label: "Household member 7, I Support" }
+  ].map((control, index) => Object.freeze({
+    ...control,
+    printedLine: "(   )",
+    policy: "election",
+    refusalClass: "participant_sworn_narrative_or_legal_election",
+    what: `mark this only if you support household member ${index + 1}`,
+    why: `the participant decides whether they support household member ${index + 1}; the build holds no household-support answer and makes no financial selection`
+  })))
 });
 
-/**
- * The district this binary's caption names in printed text, and cannot be made
- * to stop naming. Exported so each family's instructions and findings quote one
- * value rather than three copies of a sentence.
- */
-export const PRINTED_DISTRICT_IN_THE_CAPTION = "SIXTH JUDICIAL DISTRICT COURT";
-
-export const PRINTED_DISTRICT_FINDING = Object.freeze({
-  severity: "blocking_for_release",
+export const STATEWIDE_CAPTION_FINDING = Object.freeze({
+  severity: "resolved_by_governed_source_replacement",
   finding:
-    "Form 4-222's caption, and the caption of Form 4-223 bound with it on pages 6 and 7, print "
-    + `"${PRINTED_DISTRICT_IN_THE_CAPTION}" as page content. No AcroForm widget covers those coordinates -- the field list `
-    + "was read first hand from the pinned binary and the nearest fields are COUNTY OF at y632.6 and Petitioner at y578.7 "
-    + "-- so the district cannot be set, cleared or corrected by filling the form. Every other form in this packet prints "
-    + "\"_______________JUDICIAL DISTRICT COURT\" and leaves the district blank.",
-  consequence:
-    "A participant filing outside the Sixth Judicial District (Grant, Hidalgo and Luna counties) would receive a fee-waiver "
-    + "application and a proposed order captioned for a court that is not theirs, on a document sworn under oath. The build "
-    + "does not alter the court's PDF and does not hide the defect: it is recorded here, listed for visual review, and "
-    + "stated to the participant in participant-instructions.md, which tells them to strike the printed line and write "
-    + "their own district or to obtain their district's copy of Form 4-222 NMRA. It also no longer writes the "
-    + "participant's county into the blank one line above the printed district, on page 1 or on Form 4-223's caption: "
-    + "that write composed with this printed ink into a caption naming a court the participant has not chosen, and the "
-    + "build's half of it is the half the build can withhold. The two blanks are left for the participant to complete on "
-    + "the copy they actually file. Counsel should decide whether the "
-    + "fee-waiver component may ship statewide on this binary at all, or whether it must be conditioned on the Sixth "
-    + "Judicial District the way the retained local order is conditioned on the district that published it.",
-  measuredFrom: "the pinned binary at 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+    "The governed Form 4-222 source prints STATE OF NEW MEXICO, a blank COUNTY OF line, and a blank court line. "
+    + "The county and full judicial-district designation can therefore be written from held matter facts without "
+    + "district-local page content beneath them.",
+  measuredFrom: "the pinned statewide binary at ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
+  supersedes:
+    "The historical 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a source printed SIXTH JUDICIAL DISTRICT COURT."
 });
 
 const CAPTION = "Caption of the application";
-const ORDER_CAPTION = "Caption of Form 4-223, Order on Application for Free Process";
 const STATUS = "Marital status and interpretation";
 const ASSISTANCE = "A. Public assistance";
 const EMPLOYMENT = "B. Employment / unemployment";
@@ -110,412 +67,224 @@ const OATH = "The applicant's oath";
 const JURAT = "Notarial certificate";
 const ATTORNEY_CERT = "Attorney's certificate (page 5)";
 
+const BOX = (section, label, what) => ({
+  section, label, ...ELECTION(`the applicant marks this sworn choice by hand: ${what}`)
+});
+const MONEY = (section, label, what) => ({ section, label, ...SUPPLY(what) });
 const NOTARY = (label) => ({
   section: JURAT, label,
-  ...PROTECT(SIGNATURE, "part of the notarial certificate, completed by the notary at the moment the applicant signs; signature or date field, and this build completes none of it")
+  ...PROTECT(SIGNATURE, "the notary completes this certificate when the applicant signs; no build signs, dates, or notarizes")
+});
+const ATTORNEY_FIELD = (label) => ({
+  section: ATTORNEY_CERT, label,
+  ...ATTORNEY("page 5 applies only when the applicant is represented by an attorney; this packet is prepared for a self-represented petitioner")
+});
+const HOUSEHOLD_FIELD = (row, label, what) => ({
+  section: HOUSEHOLD, label: `Household member ${row}, ${label}`,
+  ...SUPPLY(`${what} for household member ${row}, if you have that many household members`)
 });
 
-const MONEY = (section, label, what) => ({ section, label, ...SUPPLY(what) });
+const dictionary = {};
+const put = (key, entry) => { dictionary[key] = entry; };
 
-const BOX = (section, label, what) => ({
-  section, label,
-  ...ELECTION(
-    `a sworn assertion about the applicant's own finances, marked by the applicant. The control is a form checkbox and `
-    + `the shared finalizer writes text values only, so the participant marks it: ${what}`
+/* Page 1 — caption, status, interpretation, and public assistance. */
+put("p1-y63840-x14364", { section: CAPTION, label: "COUNTY OF", ...WRITE("matter.county") });
+put("p1-y62436-x7200", {
+  section: CAPTION,
+  label: "Full judicial district designation in the statewide Form 4-222 caption",
+  ...WRITE_BOUND_AS("matter.fee_waiver_court_caption", {
+    factId: "matter.court",
+    label: "Judicial district of the district court in the caption",
+    why:
+      "the statewide form prints one blank followed only by COURT, so the written value includes the held ordinal "
+      + "and the words Judicial District; the shared court descriptor supplies the governing matter fact"
+  })
+});
+put("p1-y58248-x7200", { section: CAPTION, label: "Name of the Petitioner in the caption", ...WRITE("participant.full_legal_name") });
+put("p1-y55452-x38066", {
+  section: CAPTION, label: "New civil case number assigned at filing",
+  ...PROTECT(COURT_OWNED, "the district court clerk assigns this new case number when the petition is filed")
+});
+put("p1-y54054-x7200", {
+  section: CAPTION, label: "Name of the Respondent in the caption",
+  ...INAPPLICABLE(
+    "Rule 1-077.1 NMRA styles this expungement proceeding with a petitioner and no respondent",
+    "there is no respondent on this route, so the general civil respondent line stays empty"
   )
 });
 
-const HOUSEHOLD_ROW = (n, part, label) => ({
-  section: HOUSEHOLD,
-  label: `Household member ${n}, ${label}`,
-  ...SUPPLY(`the ${label.toLowerCase()} of household member ${n}, if you have that many`)
+[
+  ["p1-y42864-x20709", "Single", "you are single"],
+  ["p1-y42864-x27582", "Married", "you are married"],
+  ["p1-y42864-x35056", "Divorced", "you are divorced"],
+  ["p1-y42864-x42196", "Separated", "you are separated"],
+  ["p1-y42864-x49560", "Widowed", "you are widowed"]
+].forEach(([key, label, what]) => put(key, BOX(STATUS, `Marital status: ${label}`, what)));
+put("p1-y40068-x24495", BOX(STATUS, "Interpretation services: yes", "you need interpretation services"));
+put("p1-y40068-x29269", BOX(STATUS, "Interpretation services: no", "you do not need interpretation services"));
+put("p1-y38670-x7200", { section: STATUS, label: "Interpretation services needed, first line", ...SUPPLY("what interpretation you need and the language") });
+put("p1-y37272-x7200", { section: STATUS, label: "Interpretation services needed, second line", ...SUPPLY("the second line of that description, if needed") });
+put("p1-y35874-x7200", { section: STATUS, label: "Interpretation services needed, third line", ...SUPPLY("the third line of that description, if needed") });
+
+put("p1-y28872-x7200", BOX(ASSISTANCE, "I do not receive public assistance", "you receive no public assistance"));
+put("p1-y26076-x7200", BOX(ASSISTANCE, "I currently receive public assistance", "you currently receive public assistance"));
+put("p1-y26076-x37055", { section: ASSISTANCE, label: "County in which public assistance is received", ...SUPPLY("the county in which you receive public assistance") });
+[
+  ["p1-y23280-x10800", "Temporary Assistance for Needy Families (TANF)"],
+  ["p1-y21882-x10800", "Food Stamps"],
+  ["p1-y20484-x10800", "Medicaid (for myself)"],
+  ["p1-y19086-x10800", "General Assistance (GA)"],
+  ["p1-y17688-x10800", "Supplemental Security Income (SSI)"],
+  ["p1-y16290-x10800", "Public Housing"],
+  ["p1-y14892-x10800", "Disability Security Income (DSI)"],
+  ["p1-y13494-x10800", "Department of Health Case Management Services (DHMS)"],
+  ["p1-y12096-x10800", "Other public assistance"]
+].forEach(([key, label]) => put(key, BOX(ASSISTANCE, label, `you receive ${label}`)));
+put("p1-y12096-x23640", { section: ASSISTANCE, label: "Other public assistance, description", ...SUPPLY("a description of any other public assistance you receive") });
+
+/* Page 2 — employment and other income. */
+put("p2-y70872-x7200", BOX(EMPLOYMENT, "I am currently unemployed", "you are currently unemployed"));
+put("p2-y70872-x39379", { section: EMPLOYMENT, label: "Months unemployed in the past year", ...SUPPLY("how many months you have been unemployed in the past year") });
+put("p2-y69474-x22882", { section: EMPLOYMENT, label: "Why I am unemployed", ...SUPPLY("why you are unemployed") });
+put("p2-y68076-x10800", BOX(EMPLOYMENT, "I receive unemployment benefits", "you receive unemployment benefits"));
+put("p2-y68076-x37764", MONEY(EMPLOYMENT, "Unemployment benefits per month", "how much you receive in unemployment benefits each month"));
+put("p2-y66678-x10800", BOX(EMPLOYMENT, "I have no income because I am unemployed", "you have no income because you are unemployed"));
+put("p2-y63882-x7200", BOX(EMPLOYMENT, "I am employed", "you are employed"));
+put("p2-y63882-x24315", MONEY(EMPLOYMENT, "My hourly pay", "what you are paid per hour"));
+put("p2-y63882-x37358", { section: EMPLOYMENT, label: "My hours per week", ...SUPPLY("how many hours you work each week") });
+put("p2-y61086-x10800", { section: EMPLOYMENT, label: "My employer, first line", ...SUPPLY("your employer's name") });
+put("p2-y59688-x10800", { section: EMPLOYMENT, label: "My employer, second line", ...SUPPLY("your employer's address") });
+put("p2-y58290-x10800", { section: EMPLOYMENT, label: "My employer, third line", ...SUPPLY("your employer's phone number") });
+put("p2-y55494-x7200", BOX(EMPLOYMENT, "My spouse is unemployed", "you are married and your spouse is unemployed"));
+put("p2-y55494-x46576", { section: EMPLOYMENT, label: "Months my spouse was unemployed", ...SUPPLY("how many months your spouse has been unemployed in the past year") });
+put("p2-y52698-x10800", { section: EMPLOYMENT, label: "Why my spouse is unemployed", ...SUPPLY("why your spouse is unemployed") });
+put("p2-y51282-x10800", BOX(EMPLOYMENT, "My spouse receives unemployment benefits", "your spouse receives unemployment benefits"));
+put("p2-y51282-x43070", MONEY(EMPLOYMENT, "My spouse's unemployment benefits per month", "how much your spouse receives in unemployment benefits each month"));
+put("p2-y48480-x7200", BOX(EMPLOYMENT, "My spouse is employed", "you are married and your spouse is employed"));
+put("p2-y48480-x40922", MONEY(EMPLOYMENT, "My spouse's hourly pay", "what your spouse is paid per hour"));
+put("p2-y47082-x10800", { section: EMPLOYMENT, label: "My spouse's hours per week", ...SUPPLY("how many hours your spouse works each week") });
+put("p2-y44286-x10800", { section: EMPLOYMENT, label: "My spouse's employer, first line", ...SUPPLY("your spouse's employer's name") });
+put("p2-y42888-x10800", { section: EMPLOYMENT, label: "My spouse's employer, second line", ...SUPPLY("your spouse's employer's address") });
+put("p2-y41490-x10800", { section: EMPLOYMENT, label: "My spouse's employer, third line", ...SUPPLY("your spouse's employer's phone number") });
+
+put("p2-y35880-x7200", BOX(OTHER_INCOME, "I have other income", "you have income from another source"));
+const incomeRows = [
+  ["p2-y34482", "My child support", "x21774"],
+  ["p2-y33084", "My alimony", "x19261"],
+  ["p2-y31686", "My investment income", "x20799"],
+  ["p2-y30288", "My community-property income", "x36596"]
+];
+for (const [prefix, label, amountX] of incomeRows) {
+  put(`${prefix}-x10800`, BOX(OTHER_INCOME, `${label}, selected`, `${label.toLowerCase()} applies`));
+  put(`${prefix}-${amountX}`, MONEY(OTHER_INCOME, `${label}, amount`, `the monthly amount for ${label.toLowerCase()}`));
+}
+put("p2-y28890-x10800", BOX(OTHER_INCOME, "My other income, selected", "you have another kind of income"));
+put("p2-y28890-x17134", { section: OTHER_INCOME, label: "My other income, description", ...SUPPLY("a description of your other income") });
+put("p2-y28890-x36601", MONEY(OTHER_INCOME, "My other income, amount", "the monthly amount of that other income"));
+put("p2-y26094-x7200", BOX(OTHER_INCOME, "I have no other income", "you have no other sources of income"));
+put("p2-y23298-x7200", BOX(OTHER_INCOME, "My spouse has other income", "your spouse has income from another source"));
+const spouseIncomeRows = [
+  ["p2-y21900", "My spouse's child support", "x21774"],
+  ["p2-y20502", "My spouse's alimony", "x19261"],
+  ["p2-y19104", "My spouse's investment income", "x20799"]
+];
+for (const [prefix, label, amountX] of spouseIncomeRows) {
+  put(`${prefix}-x10800`, BOX(OTHER_INCOME, `${label}, selected`, `${label.toLowerCase()} applies`));
+  put(`${prefix}-${amountX}`, MONEY(OTHER_INCOME, `${label}, amount`, `the monthly amount for ${label.toLowerCase()}`));
+}
+for (const [prefix, ordinal] of [["p2-y17706", "first"], ["p2-y16308", "second"]]) {
+  put(`${prefix}-x10800`, BOX(OTHER_INCOME, `My spouse's ${ordinal} other income, selected`, `your spouse has this ${ordinal} other source of income`));
+  put(`${prefix}-x17134`, { section: OTHER_INCOME, label: `My spouse's ${ordinal} other income, description`, ...SUPPLY(`a description of your spouse's ${ordinal} other income`) });
+  put(`${prefix}-x36601`, MONEY(OTHER_INCOME, `My spouse's ${ordinal} other income, amount`, `the monthly amount of your spouse's ${ordinal} other income`));
+}
+put("p2-y13512-x7200", BOX(OTHER_INCOME, "My spouse has no other income", "your spouse has no other sources of income"));
+put("p2-y10716-x7200", BOX(OTHER_INCOME, "Another adult contributes to household income", "another adult contributes to your household income"));
+put("p2-y10716-x46493", MONEY(OTHER_INCOME, "Another adult's household contribution", "how much another adult contributes to your household each month"));
+
+/* Page 3 — assets, expenses, household address, and first household row. */
+put("p3-y65250-x25800", MONEY(ASSETS, "Cash on hand", "how much cash you have on hand"));
+put("p3-y63852-x25798", MONEY(ASSETS, "Bank accounts", "how much you have in bank accounts"));
+put("p3-y62454-x25798", MONEY(ASSETS, "Income tax refund", "how much income tax refund you expect"));
+put("p3-y59658-x7200", { section: ASSETS, label: "Other asset 1, description", ...SUPPLY("a description of another asset you or your spouse can turn into cash") });
+put("p3-y59658-x25800", MONEY(ASSETS, "Other asset 1, amount", "what that asset is worth"));
+put("p3-y58260-x7200", { section: ASSETS, label: "Other asset 2, description", ...SUPPLY("a description of a second other asset") });
+put("p3-y58260-x25800", MONEY(ASSETS, "Other asset 2, amount", "what that second asset is worth"));
+[
+  ["p3-y52656-x7200", "first"], ["p3-y51258-x7200", "second"],
+  ["p3-y49860-x7200", "third"], ["p3-y48462-x7200", "fourth"]
+].forEach(([key, ordinal]) => put(key, { section: ASSETS, label: `Why income or assets are inaccessible, ${ordinal} line`, ...SUPPLY(`the ${ordinal} line explaining why you cannot access your or your spouse's income or assets`) }));
+
+const expenseRows = [
+  ["p3-y42864-x29400", "House payment or rent"],
+  ["p3-y41466-x29390", "Utilities"],
+  ["p3-y40068-x29399", "Telephone"],
+  ["p3-y38670-x29395", "Groceries after food stamps"],
+  ["p3-y37272-x29398", "Car payments"],
+  ["p3-y35874-x29397", "Gasoline"],
+  ["p3-y34476-x29396", "Insurance"],
+  ["p3-y33078-x29401", "Child care"],
+  ["p3-y31680-x29397", "Student and consumer loans"],
+  ["p3-y30282-x29395", "Court-ordered family support"],
+  ["p3-y28884-x29394", "Other court-ordered payments"],
+  ["p3-y27486-x29394", "Medical expenses"]
+];
+expenseRows.forEach(([key, label]) => put(key, MONEY(EXPENSES, `Monthly expense: ${label}`, `what you pay each month for ${label.toLowerCase()}`)));
+put("p3-y26070-x9936", { section: EXPENSES, label: "Monthly expense: other, description", ...SUPPLY("a description of any other monthly expense") });
+put("p3-y26070-x29400", MONEY(EXPENSES, "Monthly expense: other, amount", "what that other monthly expense costs each month"));
+
+put("p3-y20478-x11168", {
+  section: HOUSEHOLD, label: "I live at, full mailing address on one line",
+  ...WRITE_BOUND_AS("participant.full_mailing_address", {
+    factId: "participant.street_address", label: "Mailing Address",
+    why: "the form asks for the whole address on one line; the platform holds and composes its street, city, state, and ZIP parts"
+  })
 });
+put("p3-y19080-x22971", { section: HOUSEHOLD, label: "Head of the household", ...SUPPLY("the name of the head of your household") });
+put("p3-y10692-x7200", HOUSEHOLD_FIELD(1, "name", "the name"));
+put("p3-y10692-x28804", HOUSEHOLD_FIELD(1, "age", "the age"));
+put("p3-y10692-x36005", HOUSEHOLD_FIELD(1, "employment", "the employment"));
 
-const HOUSEHOLD_BOX = (n) => ({
-  section: HOUSEHOLD,
-  label: `Household member ${n}, whether you support them`,
-  ...ELECTION(`marked by the applicant to say whether they support household member ${n}. The control is a form checkbox and the shared finalizer writes text values only`)
+/* Page 4 — remaining household rows, oath, identity, and jurat. */
+const householdBaselines = ["p4-y70872", "p4-y68076", "p4-y65280", "p4-y62484", "p4-y59688", "p4-y56892"];
+householdBaselines.forEach((prefix, i) => {
+  const row = i + 2;
+  put(`${prefix}-x7200`, HOUSEHOLD_FIELD(row, "name", "the name"));
+  put(`${prefix}-x28804`, HOUSEHOLD_FIELD(row, "age", "the age"));
+  put(`${prefix}-x36005`, HOUSEHOLD_FIELD(row, "employment", "the employment"));
 });
+/* The source draws support controls as empty parentheses, not measured blanks. */
 
-export const DICTIONARY_4_222 = Object.freeze({
-  /* ---- page 1, the caption ------------------------------------------------ *
-   *
-   * THE COUNTY IS NOT WRITTEN ABOVE A DISTRICT THIS BUILD CANNOT MAKE TRUE.
-   *
-   * This blank sits one line above the printed "SIXTH JUDICIAL DISTRICT COURT"
-   * described at the head of this file, and the caption reads down the page:
-   * STATE OF NEW MEXICO / COUNTY OF ______ / SIXTH JUDICIAL DISTRICT COURT.
-   * Writing the participant's county there composed the build's own ink with
-   * the form's into a caption naming a court the participant has not chosen and
-   * cannot file in -- "COUNTY OF Bernalillo / SIXTH JUDICIAL DISTRICT COURT",
-   * where Bernalillo is in the Second -- on a document sworn on oath. The
-   * printed district is page content that no widget covers, so the build cannot
-   * correct it; what it can do is stop sharpening it.
-   *
-   * The county a Sixth District caption asks for is a county in the Sixth
-   * Judicial District, and the platform holds no such value for a participant
-   * filing anywhere else. The participant obtains their own district's copy of
-   * Form 4-222 NMRA, or strikes the printed line and completes the caption by
-   * hand, and the instructions say so in those words. The whole caption is then
-   * in one hand rather than half-machine and half-corrected.
-   *
-   * This is not a cure for the printed district and is not offered as one: the
-   * statewide-source question -- whether the fee-waiver component may ship at
-   * all on a binary that prints one district's caption -- is open in
-   * PRINTED_DISTRICT_FINDING and is counsel's, not this build's.
-   */
-  "COUNTY OF": {
-    section: CAPTION, label: "COUNTY OF",
-    ...SUPPLY(
-      "the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
-      "the caption of this pinned binary prints SIXTH JUDICIAL DISTRICT COURT immediately below this blank as page content that no widget covers. A county written above it composes with that ink into a caption naming a court the participant has not chosen, on a document sworn on oath. The county this caption asks for is a county of the Sixth Judicial District -- Grant, Hidalgo or Luna -- and the platform holds no such value for a petition filed anywhere else. See PRINTED_DISTRICT_FINDING: whether this component may ship statewide on this binary is an open legal-design question and is not settled by leaving the blank empty."
-    )
-  },
-  "Petitioner": { section: CAPTION, label: "Name of the Petitioner in the caption", ...WRITE("participant.full_legal_name") },
-  "Respondent": {
-    section: CAPTION, label: "Name of the Respondent in the caption",
-    ...INAPPLICABLE(
-      "Rule 1-077.1 NMRA styles an expungement action \"In re [petitioner]\" with a single party and no respondent -- every "
-      + "petition form in this packet prints \"In re ____, Petitioner.\" and none of them prints a respondent. Form 4-222 is "
-      + "the general civil application for free process and its caption is the two-party civil caption; the respondent half "
-      + "of it belongs to the ordinary civil case this form is usually filed in and not to an expungement petition.",
-      "there is no respondent in a Rule 1-077.1 expungement proceeding, so this half of the general civil caption is left "
-      + "empty and the packet says why"
-    )
-  },
-  "Text1": {
-    section: CAPTION, label: "Case number, first segment of No. D-__-__-____",
-    ...PROTECT(COURT_OWNED, "the district court clerk assigns the case number when the petition is filed; this application is filed with the petition, so no number exists yet. The same field appears again on the caption of Form 4-223 on page 6")
-  },
-  "Text2": {
-    section: CAPTION, label: "Case number, second segment of No. D-__-__-____",
-    ...PROTECT(COURT_OWNED, "the district court clerk assigns the case number when the petition is filed. The same field appears again on the caption of Form 4-223 on page 6")
-  },
-  "Text3": {
-    section: CAPTION, label: "Case number, third segment of No. D-__-__-____",
-    ...PROTECT(COURT_OWNED, "the district court clerk assigns the case number when the petition is filed. The same field appears again on the caption of Form 4-223 on page 6")
-  },
-
-  /* ---- page 1, marital status and interpretation -------------------------- */
-  "Check Box4": BOX(STATUS, "Marital status: Single", "mark it if you are single"),
-  "Check Box5": BOX(STATUS, "Marital status: Married", "mark it if you are married"),
-  "Check Box6": BOX(STATUS, "Marital status: Divorced", "mark it if you are divorced"),
-  "Check Box7": BOX(STATUS, "Marital status: Separated", "mark it if you are separated"),
-  "Check Box8": BOX(STATUS, "Marital status: Widowed", "mark it if you are widowed"),
-  "Check Box9": BOX(STATUS, "I request interpretation services: yes", "mark it if you need an interpreter at the hearing"),
-  "Check Box10": BOX(STATUS, "I request interpretation services: no", "mark it if you do not need an interpreter"),
-  "I request interpretation services 1": { section: STATUS, label: "Interpretation services needed, first line", ...SUPPLY("what interpretation you need, and in what language, if you asked for an interpreter") },
-  "I request interpretation services 2": { section: STATUS, label: "Interpretation services needed, second line", ...SUPPLY("the second line of what interpretation you need, if the first line is not enough") },
-  "I request interpretation services 3": { section: STATUS, label: "Interpretation services needed, third line", ...SUPPLY("the third line of what interpretation you need, if you need it") },
-
-  /* ---- page 1, section A -------------------------------------------------- */
-  "Check Box11": BOX(ASSISTANCE, "I do not receive public assistance", "mark it if you receive no public assistance, and then go straight to section B"),
-  "Check Box12": BOX(ASSISTANCE, "I currently receive public assistance", "mark it if you do receive public assistance"),
-  "County please": { section: ASSISTANCE, label: "The county in which you receive public assistance", ...SUPPLY("the county in which you receive public assistance, which may not be the county your case is in") },
-  "Check Box13": BOX(ASSISTANCE, "Temporary Assistance for Needy Families (TANF)", "mark it if you receive TANF"),
-  "Check Box14": BOX(ASSISTANCE, "Food Stamps", "mark it if you receive food stamps"),
-  "Check Box15": BOX(ASSISTANCE, "Medicaid (for myself)", "mark it if you receive Medicaid for yourself"),
-  "Check Box16": BOX(ASSISTANCE, "General Assistance (GA)", "mark it if you receive General Assistance"),
-  "Check Box17": BOX(ASSISTANCE, "Supplemental Security Income (SSI)", "mark it if you receive SSI"),
-  "Check Box18": BOX(ASSISTANCE, "Public Housing", "mark it if you receive public housing"),
-  "Check Box19": BOX(ASSISTANCE, "Disability Security Income (DSI)", "mark it if you receive DSI"),
-  "Check Box20": BOX(ASSISTANCE, "Department of Health Case Management Services (DHMS)", "mark it if you receive DHMS case management"),
-  "Check Box21": BOX(ASSISTANCE, "Other public assistance", "mark it if you receive some other public assistance and describe it on the line beside the box"),
-  "undefined_2": { section: ASSISTANCE, label: "Other public assistance, description", ...SUPPLY("a description of any other public assistance you receive") },
-
-  /* ---- page 2, section B -------------------------------------------------- */
-  "Check Box22": BOX(EMPLOYMENT, "I am currently unemployed", "mark it if you are unemployed"),
-  "months in the past year I": { section: EMPLOYMENT, label: "Months unemployed in the past year", ...SUPPLY("how many months you have been unemployed in the past year") },
-  "undefined_3": { section: EMPLOYMENT, label: "Why you are unemployed", ...SUPPLY("why you are unemployed") },
-  "Check Box26": BOX(EMPLOYMENT, "I receive unemployment benefits", "mark it if you receive unemployment benefits"),
-  "per month": { section: EMPLOYMENT, label: "Unemployment benefits received per month", ...SUPPLY("how much you receive in unemployment benefits each month") },
-  "Check Box27": BOX(EMPLOYMENT, "I have no income because I am unemployed", "mark it if you have no income at all"),
-  "Check Box23": BOX(EMPLOYMENT, "I am employed", "mark it if you are employed"),
-  "per hour and work": { section: EMPLOYMENT, label: "Your hourly pay", ...SUPPLY("what you are paid per hour") },
-  "hours per week": { section: EMPLOYMENT, label: "Your hours per week", ...SUPPLY("how many hours a week you work") },
-  "My employers name address and phone number is 1": { section: EMPLOYMENT, label: "Your employer's name, address and phone number, first line", ...SUPPLY("your employer's name") },
-  "My employers name address and phone number is 2": { section: EMPLOYMENT, label: "Your employer's name, address and phone number, second line", ...SUPPLY("your employer's address") },
-  "My employers name address and phone number is 3": { section: EMPLOYMENT, label: "Your employer's name, address and phone number, third line", ...SUPPLY("your employer's phone number") },
-  "Check Box24": BOX(EMPLOYMENT, "I am married and my spouse is unemployed", "mark it if you are married and your spouse is unemployed"),
-  "months": { section: EMPLOYMENT, label: "Months your spouse has been unemployed in the past year", ...SUPPLY("how many months your spouse has been unemployed in the past year") },
-  "undefined_4": { section: EMPLOYMENT, label: "Why your spouse is unemployed", ...SUPPLY("why your spouse is unemployed") },
-  "Check Box28": BOX(EMPLOYMENT, "My spouse receives unemployment benefits", "mark it if your spouse receives unemployment benefits"),
-  "per month_2": { section: EMPLOYMENT, label: "Your spouse's unemployment benefits per month", ...SUPPLY("how much your spouse receives in unemployment benefits each month") },
-  "Check Box25": BOX(EMPLOYMENT, "I am married and my spouse is employed", "mark it if you are married and your spouse is employed"),
-  "per hour and": { section: EMPLOYMENT, label: "Your spouse's hourly pay", ...SUPPLY("what your spouse is paid per hour") },
-  "hours per week_2": { section: EMPLOYMENT, label: "Your spouse's hours per week", ...SUPPLY("how many hours a week your spouse works") },
-  "My spouses employers name address and phone number is 1": { section: EMPLOYMENT, label: "Your spouse's employer's name, address and phone number, first line", ...SUPPLY("your spouse's employer's name") },
-  "My spouses employers name address and phone number is 2": { section: EMPLOYMENT, label: "Your spouse's employer's name, address and phone number, second line", ...SUPPLY("your spouse's employer's address") },
-  "My spouses employers name address and phone number is 3": { section: EMPLOYMENT, label: "Your spouse's employer's name, address and phone number, third line", ...SUPPLY("your spouse's employer's phone number") },
-
-  /* ---- page 2, section C -------------------------------------------------- */
-  "Check Box1": BOX(OTHER_INCOME, "I have income from another source", "mark it if you have income from a source not already listed"),
-  "Check Box2": BOX(OTHER_INCOME, "My other income: Child Support", "mark it if you receive child support"),
-  "undefined_5": MONEY(OTHER_INCOME, "Your child support, amount", "how much child support you receive"),
-  "Check Box3": BOX(OTHER_INCOME, "My other income: Alimony", "mark it if you receive alimony"),
-  "undefined_6": MONEY(OTHER_INCOME, "Your alimony, amount", "how much alimony you receive"),
-  "Check Box29": BOX(OTHER_INCOME, "My other income: Investments", "mark it if you have investment income"),
-  "undefined_7": MONEY(OTHER_INCOME, "Your investment income, amount", "how much investment income you receive"),
-  "Check Box30": BOX(OTHER_INCOME, "My other income: Community property from my spouse", "mark it if you receive community property income from your spouse"),
-  "undefined_8": MONEY(OTHER_INCOME, "Your community property income, amount", "how much community property income you receive from your spouse"),
-  "Check Box31": BOX(OTHER_INCOME, "My other income: Other", "mark it if you have other income of some other kind, and describe it"),
-  "undefined_9": { section: OTHER_INCOME, label: "Your other income, description", ...SUPPLY("what your other income is") },
-  "undefined_10": MONEY(OTHER_INCOME, "Your other income, amount", "how much that other income is"),
-  "Check Box32": BOX(OTHER_INCOME, "I do not have any other sources of income", "mark it if you have no other income"),
-  "Check Box33": BOX(OTHER_INCOME, "My spouse has income from another source", "mark it if your spouse has income from a source not already listed"),
-  "Check Box34": BOX(OTHER_INCOME, "Spouse's other income: Child Support", "mark it if your spouse receives child support"),
-  "undefined_11": MONEY(OTHER_INCOME, "Your spouse's child support, amount", "how much child support your spouse receives"),
-  "Check Box35": BOX(OTHER_INCOME, "Spouse's other income: Alimony", "mark it if your spouse receives alimony"),
-  "undefined_12": MONEY(OTHER_INCOME, "Your spouse's alimony, amount", "how much alimony your spouse receives"),
-  "Check Box36": BOX(OTHER_INCOME, "Spouse's other income: Investments", "mark it if your spouse has investment income"),
-  "undefined_13": MONEY(OTHER_INCOME, "Your spouse's investment income, amount", "how much investment income your spouse receives"),
-  "Check Box37": BOX(OTHER_INCOME, "Spouse's other income: Other, first line", "mark it if your spouse has other income of some other kind, and describe it"),
-  "1": { section: OTHER_INCOME, label: "Your spouse's other income, first description", ...SUPPLY("what your spouse's other income is") },
-  "undefined_14": MONEY(OTHER_INCOME, "Your spouse's other income, first amount", "how much that other income of your spouse's is"),
-  "Check Box38": BOX(OTHER_INCOME, "Spouse's other income: Other, second line", "mark it if your spouse has a second kind of other income, and describe it"),
-  "2": { section: OTHER_INCOME, label: "Your spouse's other income, second description", ...SUPPLY("what your spouse's second other income is") },
-  "undefined_15": MONEY(OTHER_INCOME, "Your spouse's other income, second amount", "how much that second other income of your spouse's is"),
-  "Check Box39": BOX(OTHER_INCOME, "My spouse does not have any other sources of income", "mark it if your spouse has no other income"),
-  "Check Box40": BOX(OTHER_INCOME, "Another adult contributes to household income", "mark it if another adult contributes to your household income"),
-  "undefined_16": MONEY(OTHER_INCOME, "Amount another adult contributes to household income", "how much another adult contributes to your household each month"),
-
-  /* ---- page 3, section D -------------------------------------------------- */
-  "undefined_17": MONEY(ASSETS, "Cash on hand", "how much cash you have on hand"),
-  "undefined_18": MONEY(ASSETS, "Bank accounts", "how much you have in bank accounts"),
-  "undefined_19": MONEY(ASSETS, "Income tax refund", "how much income tax refund you expect"),
-  "Other assets describe below": { section: ASSETS, label: "Other asset, first description", ...SUPPLY("a description of another asset you or your spouse own that can be turned into cash, not counting retirement accounts") },
-  "undefined_20": MONEY(ASSETS, "Other asset, first amount", "what that asset is worth"),
-  "IF YOU DO NOT HAVE ACCESS TO YOUR OWN OR YOUR SPOUSES INCOME OR": { section: ASSETS, label: "Other asset, second description", ...SUPPLY("a description of a second other asset, if you have one") },
-  "undefined_21": MONEY(ASSETS, "Other asset, second amount", "what that second asset is worth"),
-  "ASSETS EXPLAIN WHY 1": { section: ASSETS, label: "If you do not have access to your own or your spouse's income or assets, explain why, first line", ...SUPPLY("why you cannot get at your own or your spouse's income or assets, if that is your situation") },
-  "ASSETS EXPLAIN WHY 2": { section: ASSETS, label: "If you do not have access to your own or your spouse's income or assets, explain why, second line", ...SUPPLY("the second line of that explanation") },
-  "ASSETS EXPLAIN WHY 3": { section: ASSETS, label: "If you do not have access to your own or your spouse's income or assets, explain why, third line", ...SUPPLY("the third line of that explanation") },
-  "ASSETS EXPLAIN WHY 4": { section: ASSETS, label: "If you do not have access to your own or your spouse's income or assets, explain why, fourth line", ...SUPPLY("the fourth line of that explanation") },
-
-  /* ---- page 3, section E -------------------------------------------------- */
-  "undefined_22": MONEY(EXPENSES, "Monthly expense: House Payment or Rent", "what you pay each month in rent or house payments"),
-  "undefined_23": MONEY(EXPENSES, "Monthly expense: Utilities", "what you pay each month for utilities"),
-  "undefined_24": MONEY(EXPENSES, "Monthly expense: Telephone", "what you pay each month for telephone"),
-  "undefined_25": MONEY(EXPENSES, "Monthly expense: Groceries (after food stamps)", "what you spend each month on groceries after food stamps"),
-  "undefined_26": MONEY(EXPENSES, "Monthly expense: Car Payments", "what you pay each month on your car"),
-  "undefined_27": MONEY(EXPENSES, "Monthly expense: Gasoline", "what you spend each month on gasoline"),
-  "undefined_28": MONEY(EXPENSES, "Monthly expense: Insurance", "what you pay each month for insurance"),
-  "undefined_29": MONEY(EXPENSES, "Monthly expense: Child Care", "what you pay each month for child care"),
-  "undefined_30": MONEY(EXPENSES, "Monthly expense: Student and Consumer Loans", "what you pay each month on student and consumer loans"),
-  "undefined_31": MONEY(EXPENSES, "Monthly expense: Court-ordered family support obligations", "what you pay each month in court-ordered family support"),
-  "undefined_32": MONEY(EXPENSES, "Monthly expense: Other court-ordered payments", "what you pay each month on other court-ordered obligations"),
-  "undefined_33": MONEY(EXPENSES, "Monthly expense: Medical expenses", "what you pay each month in medical expenses"),
-  "Other_4": { section: EXPENSES, label: "Monthly expense: Other, description", ...SUPPLY("a description of any other monthly expense") },
-  "undefined_34": MONEY(EXPENSES, "Monthly expense: Other, amount", "what that other monthly expense costs"),
-
-  /* ---- page 3, section F -------------------------------------------------- */
-  /*
-   * "I live at ______________________," is one printed line, 383.28pt wide,
-   * asking for a whole address. The widget's authored name is the two words
-   * printed in front of it and matches no descriptor at all, so the shared
-   * semantics falls back to the printed caption and resolves
-   * participant.street_address -- the registry's one participant address
-   * descriptor -- while the line is asking for street, city, state and ZIP
-   * together. The row used to report that as "the registry has no one-line
-   * mailing-address fact", which is a statement about the descriptor list
-   * offered as a statement about what the platform holds. The platform holds
-   * all four parts and writes them in parts on page 4 of this same form.
-   *
-   * The value goes through the shared finalizer's named-fact channel, which
-   * applies the protect rules to the field name and to the caption before it
-   * writes; both are clean here, and the host asserts it on every build.
-   */
-  "I live at": {
-    section: HOUSEHOLD, label: "I live at, your full mailing address on one line",
-    ...NAMED_FACT_WRITE(
-      "participant.full_mailing_address",
-      "the printed line asks for the whole address on one line and the shared registry's one participant address "
-      + "descriptor is the street line, so the ordinary channel would write a street with no city onto a form sworn on "
-      + "oath. The platform holds the street, city, state and ZIP and writes them in parts on page 4 of this same form."
-    )
-  },
-  "and the head of the household is": { section: HOUSEHOLD, label: "The head of the household is", ...SUPPLY("who the head of your household is, which may be you") },
-  "Name 1": HOUSEHOLD_ROW(1, "name", "Name"),
-  "Age 1": HOUSEHOLD_ROW(1, "age", "Age"),
-  "Employment 1": HOUSEHOLD_ROW(1, "employment", "Employment"),
-  "Check Box41": HOUSEHOLD_BOX(1),
-  "Name 2": HOUSEHOLD_ROW(2, "name", "Name"),
-  "Age 2": HOUSEHOLD_ROW(2, "age", "Age"),
-  "Employment 2": HOUSEHOLD_ROW(2, "employment", "Employment"),
-  "Check Box42": HOUSEHOLD_BOX(2),
-  "undefined_35": HOUSEHOLD_ROW(3, "name", "Name"),
-  "undefined_36": HOUSEHOLD_ROW(3, "age", "Age"),
-  "undefined_37": HOUSEHOLD_ROW(3, "employment", "Employment"),
-  "Check Box43": HOUSEHOLD_BOX(3),
-  "1_2": HOUSEHOLD_ROW(4, "name", "Name"),
-  "1_3": HOUSEHOLD_ROW(4, "age", "Age"),
-  "1_4": HOUSEHOLD_ROW(4, "employment", "Employment"),
-  "Check Box45": HOUSEHOLD_BOX(4),
-  "2_2": HOUSEHOLD_ROW(5, "name", "Name"),
-  "2_3": HOUSEHOLD_ROW(5, "age", "Age"),
-  "2_4": HOUSEHOLD_ROW(5, "employment", "Employment"),
-  "Check Box46": HOUSEHOLD_BOX(5),
-  "3": HOUSEHOLD_ROW(6, "name", "Name"),
-  "3_2": HOUSEHOLD_ROW(6, "age", "Age"),
-  "3_3": HOUSEHOLD_ROW(6, "employment", "Employment"),
-  "Check Box47": HOUSEHOLD_BOX(6),
-  "4": HOUSEHOLD_ROW(7, "name", "Name"),
-  "4_2": HOUSEHOLD_ROW(7, "age", "Age"),
-  "4_3": HOUSEHOLD_ROW(7, "employment", "Employment"),
-  "Check Box48": HOUSEHOLD_BOX(7),
-
-  /* ---- page 4, the oath and the jurat ------------------------------------- */
-  "Signature": { section: OATH, label: "Signature of the applicant", ...PROTECT(SIGNATURE, "signature or date field; the applicant signs this statement under oath and no build signs it for them") },
-  "Print Name": { section: OATH, label: "Print Name of the applicant", ...WRITE("participant.full_legal_name") },
-  "Check Box50": {
-    section: OATH, label: "The applicant is the Petitioner",
-    ...ELECTION(
-      "the applicant marks which party they are. On this route they are the Petitioner -- an expungement petition under "
-      + "Rule 1-077.1 NMRA has a petitioner and no respondent -- and participant-instructions.md tells them to mark this "
-      + "box. The control is a form checkbox and the shared finalizer writes text values only"
-    )
-  },
-  "Check Box51": {
-    section: OATH, label: "The applicant is the Respondent",
-    ...INAPPLICABLE(
-      "Rule 1-077.1 NMRA styles an expungement action \"In re [petitioner]\" with a single party and no respondent, so the "
-      + "applicant on this route is always the Petitioner and never the Respondent. This box is the other half of Form "
-      + "4-222's general two-party civil caption.",
-      "there is no respondent in a Rule 1-077.1 expungement proceeding, so this box is never the one to mark on this route "
-      + "and the packet says so"
-    )
-  },
-  "Street Address": { section: OATH, label: "Street Address of the applicant", ...WRITE("participant.street_address") },
-  "City State Zip Code": { section: OATH, label: "City, State, Zip Code of the applicant", ...WRITE("participant.city_state_zip") },
-  "Telephone": { section: OATH, label: "Telephone of the applicant", ...SUPPLY("your telephone number") },
-  "State of": NOTARY("State of, in the notarial jurat"),
-  "County of": NOTARY("County of, in the notarial jurat"),
-  "name of applicant": NOTARY("Date the applicant signed and swore to the affidavit before the notary"),
-  "by": NOTARY("Name of the applicant, as recorded by the notary"),
-  "Notary": NOTARY("Signature of the notary"),
-  "My commission expires": NOTARY("The notary's commission expiry"),
-
-  /* ---- page 5, the attorney's certificate --------------------------------- */
-  "Name of attorney": {
-    section: ATTORNEY_CERT, label: "Name of attorney certifying that no attorney fee was received",
-    ...ATTORNEY("page 5 is headed \"IF YOU ARE REPRESENTED BY AN ATTORNEY, YOUR ATTORNEY MUST SIGN THE FOLLOWING CERTIFICATE\"; no attorney-representation fact is held for this participant and this packet is prepared for a self-represented petitioner")
-  },
-  "Name of applicant that I shall pay to the court clerk from such": {
-    section: ATTORNEY_CERT, label: "Name of the applicant the attorney represents, in the attorney's certificate",
-    ...ATTORNEY("part of the attorney's certificate on page 5; no attorney-representation fact is held for this participant")
-  },
-  "Attorney Signature": {
-    section: ATTORNEY_CERT, label: "Attorney signature",
-    ...ATTORNEY("signature field inside the attorney's certificate; no attorney-representation fact is held for this participant and no build signs for an attorney")
-  },
-  "Address": {
-    section: ATTORNEY_CERT, label: "Address of the attorney",
-    ...ATTORNEY("part of the attorney's certificate on page 5; no attorney-representation fact is held for this participant")
-  },
-  "City State Zip Code_2": {
-    section: ATTORNEY_CERT, label: "City, State, Zip Code of the attorney",
-    ...ATTORNEY("part of the attorney's certificate on page 5; no attorney-representation fact is held for this participant")
-  },
-  "TelephoneFax Number": {
-    section: ATTORNEY_CERT, label: "Telephone or fax number of the attorney",
-    ...ATTORNEY("part of the attorney's certificate on page 5; no attorney-representation fact is held for this participant")
-  },
-
-  /* ---- pages 6 and 7, Form 4-223 ------------------------------------------ */
-  /*
-   * The two caption fields of Form 4-223, whose AUTHORED NAMES are the lines
-   * printed above them rather than what they hold.
-   *
-   * "STATE OF NEW MEXICO" is the COUNTY blank and "SIXTH JUDICIAL DISTRICT
-   * COURT" is the PETITIONER blank -- the form's author named every field on
-   * pages 6 and 7 after the text above it, exactly as on page 1 where "COUNTY
-   * OF" is the county blank and "Petitioner" is the petitioner blank. On page 1
-   * that accident lands on the right fact and the caption is written. Here it
-   * does not: the shared semantics reads the authored field name first, and
-   * resolves "STATE OF NEW MEXICO" to the participant's STATE and "SIXTH
-   * JUDICIAL DISTRICT COURT" to the COURT. Both are the wrong fact for the
-   * blank, and the guard that refuses a conflicting explicit mapping is doing
-   * its job. This build does not go round it. The two blanks are left to the
-   * applicant with the reason stated, rather than filled with a fact the
-   * registry and the build disagree about.
-   */
-  "STATE OF NEW MEXICO": {
-    section: ORDER_CAPTION, label: "COUNTY OF, in the caption of the order for free process",
-    ...SUPPLY("the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file", "two reasons, either of which is enough. The caption of Form 4-223 prints SIXTH JUDICIAL DISTRICT COURT below this blank exactly as page 1 does, so a county written here composes into the same caption naming a court the participant has not chosen; the county blank on page 1 is left empty for that reason and this one is left empty with it. And the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county; the guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it.")
-  },
-  "SIXTH JUDICIAL DISTRICT COURT": {
-    section: ORDER_CAPTION, label: "Name of the Petitioner in the caption of the order for free process",
-    ...NAMED_FACT_WRITE(
-      "participant.full_legal_name",
-      "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so this widget -- "
-      + "the petitioner's name in the caption of the order -- is named after the court line above it and the shared "
-      + "registry resolves matter.court from that name. An explicit mapping saying otherwise is refused as a mapping "
-      + "conflict, and that guard is right to refuse it: it cannot tell which of the two readings is the true one. The "
-      + "named-fact channel is how the caller says which, and it is not a way past a protect rule -- neither the "
-      + "authored name nor the printed caption carries one, and the build asserts that before it offers the row. The "
-      + "name is the same value written into the caption of page 1 of this same form."
-    )
-  },
-  "v": {
-    section: ORDER_CAPTION, label: "Name of the Respondent in the caption of the order for free process",
-    ...INAPPLICABLE(
-      "the same two-party civil caption as page 1. Rule 1-077.1 NMRA styles an expungement action \"In re [petitioner]\" "
-      + "with a single party and no respondent.",
-      "there is no respondent in a Rule 1-077.1 expungement proceeding, so this half of the order's caption is left empty"
-    )
-  }
+put("p4-y41556-x28800", { section: OATH, label: "Signature of the applicant", ...PROTECT(SIGNATURE, "the applicant signs this sworn statement; no build signs it") });
+put("p4-y37380-x28800", { section: OATH, label: "Printed name of the applicant", ...WRITE("participant.full_legal_name") });
+put("p4-y33222-x28800", {
+  section: OATH,
+  label: "The applicant is the Petitioner",
+  policy: "route_selection",
+  why: "Rule 1-077.1 NMRA fixes the applicant's role as Petitioner on this route"
 });
-
-/**
- * The blanks Form 4-223 PRINTS on pages 6 and 7, which no widget covers.
- *
- * The order a judge signs on the application is bound into the same binary and
- * is not fillable: its findings boxes, its decretal blanks and its signature
- * line are printed characters with no field behind them. Twenty-seven of them,
- * every one the court's. They are carried here so the packet classifies every
- * blank on paper the participant receives, and they are keyed by page, baseline
- * and position along the printed line because this binary's absolute glyph x
- * cannot be measured -- see PRINTED_DISTRICT_FINDING and the glyph-metrics note
- * in the field census.
- */
-const ORDER_FINDINGS = "Form 4-223, the court's findings";
-const ORDER_DECREE = "Form 4-223, what the court orders";
-const ORDER_SIGNATURE = "Form 4-223, the judge's signature";
-
-const JUDGE = (section, label, why) => ({
-  section, label,
-  ...PROTECT(COURT_OWNED, `court, clerk, prosecutor, agency, or hearing field: ${why}`)
+put("p4-y33222-x37208", {
+  section: OATH, label: "The applicant is the Respondent",
+  ...INAPPLICABLE(
+    "Rule 1-077.1 NMRA makes the applicant the petitioner and has no respondent on this route",
+    "the Respondent choice does not apply to this expungement proceeding"
+  )
 });
+put("p4-y29064-x28800", { section: OATH, label: "Street Address of the applicant", ...WRITE("participant.street_address") });
+put("p4-y24906-x28800", { section: OATH, label: "City, State, Zip Code of the applicant", ...WRITE("participant.city_state_zip") });
+put("p4-y20748-x28800", { section: OATH, label: "Telephone of the applicant", ...SUPPLY("your telephone number") });
+put("p4-y16572-x11200", NOTARY("State in the notarial jurat"));
+put("p4-y13776-x12333", NOTARY("County in the notarial jurat"));
 
-export const PRINTED_BLANKS_4_223 = Object.freeze({
-  "p6-y46056-n1": JUDGE(ORDER_FINDINGS, "Finding: the applicant is entitled to free process under Rule 23-114(B)(2) NMRA", "a finding only the court makes, on the court's own order"),
-  "p6-y43296-n1": JUDGE(ORDER_FINDINGS, "Finding: the applicant receives public assistance and is entitled to free process", "a finding only the court makes"),
-  "p6-y41916-n1": JUDGE(ORDER_FINDINGS, "Finding: the applicant's annual gross income does not exceed a stated share of the federal poverty guidelines", "a finding only the court makes"),
-  "p6-y41916-n2": JUDGE(ORDER_FINDINGS, "The share of the federal poverty guidelines the applicant's income does not exceed", "the court states the figure in its own finding"),
-  "p6-y39156-n1": JUDGE(ORDER_FINDINGS, "Finding: the applicant's annual gross income exceeds a stated share of the guidelines but they cannot reasonably pay", "a finding only the court makes"),
-  "p6-y39156-n2": JUDGE(ORDER_FINDINGS, "The share of the federal poverty guidelines the applicant's income exceeds", "the court states the figure in its own finding"),
-  "p6-y35016-n1": JUDGE(ORDER_FINDINGS, "Finding: the applicant is not entitled to free process", "a finding only the court makes"),
-  "p6-y30276-n1": JUDGE(ORDER_DECREE, "Order: the filing fee is waived", "a decretal paragraph only a judge may make"),
-  "p6-y28896-n1": JUDGE(ORDER_DECREE, "Order: the filing fee is waived except for the alternative dispute resolution fee", "a decretal paragraph only a judge may make"),
-  "p6-y28896-n2": JUDGE(ORDER_DECREE, "The alternative dispute resolution fee that is not waived", "the court states the amount inside its own decree"),
-  "p6-y26136-n1": JUDGE(ORDER_DECREE, "Order: free service of process by the Sheriff", "a decretal paragraph only a judge may make"),
-  "p6-y26136-n2": JUDGE(ORDER_DECREE, "The county whose Sheriff is to serve process free", "the court names the county inside its own decree"),
-  "p6-y24756-n1": JUDGE(ORDER_DECREE, "The number of summonses covered by free service", "the court states the number inside its own decree"),
-  "p6-y21996-n1": JUDGE(ORDER_DECREE, "Order: free service by the Sheriff of a temporary restraining order", "a decretal paragraph only a judge may make"),
-  "p6-y21996-n2": JUDGE(ORDER_DECREE, "The county whose Sheriff is to serve the restraining order free", "the court names the county inside its own decree"),
-  "p6-y20616-n1": JUDGE(ORDER_DECREE, "What else the Sheriff is to serve free, besides a temporary restraining order", "the court states it inside its own decree"),
-  "p6-y19236-n1": JUDGE(ORDER_DECREE, "Order: the applicant is to pay the filing fee on a stated date", "a decretal paragraph only a judge may make"),
-  "p6-y19236-n2": JUDGE(ORDER_DECREE, "The date by which the applicant is to pay the filing fee", "the court sets the date inside its own decree"),
-  "p6-y19236-n3": JUDGE(ORDER_DECREE, "The year by which the applicant is to pay the filing fee", "the court sets the year inside its own decree"),
-  "p6-y17856-n1": JUDGE(ORDER_DECREE, "Order: interpretation services shall be provided", "a decretal paragraph only a judge may make"),
-  "p6-y16476-n1": JUDGE(ORDER_DECREE, "Order: free process is denied", "a decretal paragraph only a judge may make"),
-  "p6-y15096-n1": JUDGE(ORDER_DECREE, "Order: Other", "a decretal paragraph only a judge may make"),
-  "p6-y13716-n1": JUDGE(ORDER_DECREE, "Other orders, first line", "the court writes its own other orders here"),
-  "p6-y11736-n1": JUDGE(ORDER_DECREE, "Other orders, second line", "the court writes its own other orders here"),
-  "p6-y9756-n1": JUDGE(ORDER_DECREE, "Other orders, third line", "the court writes its own other orders here"),
-  "p6-y7788-n1": JUDGE(ORDER_DECREE, "Other orders, fourth line", "the court writes its own other orders here"),
-  "p7-y56400-n1": {
-    section: ORDER_SIGNATURE, label: "Signature of the JUDGE on the order for free process",
-    ...PROTECT(SIGNATURE, "signature or date field; the judge signs the order and no build signs for a judge")
-  }
-});
+/* Page 5 — balance of jurat and attorney-only certificate. */
+put("p5-y70872-x30444", NOTARY("Date signed and sworn before the notary"));
+put("p5-y69474-x8700", NOTARY("Name of the applicant in the notarial jurat"));
+put("p5-y65280-x28800", NOTARY("Signature of the notary"));
+put("p5-y62484-x40961", NOTARY("Notary commission expiration"));
+put("p5-y55482-x11801", ATTORNEY_FIELD("Name of attorney"));
+put("p5-y51300-x14905", ATTORNEY_FIELD("Name of applicant in the attorney certificate"));
+put("p5-y41514-x28800", ATTORNEY_FIELD("Attorney signature"));
+put("p5-y37332-x28800", ATTORNEY_FIELD("Attorney address"));
+put("p5-y33150-x28800", ATTORNEY_FIELD("Attorney city, state, and ZIP code"));
+put("p5-y28968-x28800", ATTORNEY_FIELD("Attorney telephone or fax number"));
+
+export const DICTIONARY_4_222 = Object.freeze(dictionary);

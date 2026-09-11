@@ -42,11 +42,10 @@
  *
  * WHAT THIS HOST NEVER DOES
  *
- *   * It never marks a selection control. New Mexico draws its tick boxes as
- *     printed "[ ]" characters, so there is no path geometry and no widget to
- *     mark; a box drawn from a derived coordinate is a mark nobody measured.
- *     Every control is named in participant-instructions.md instead, with what
- *     to mark and why.
+ *   * It marks a selection control only when the route itself settles the
+ *     answer and the source supplies measured control geometry. The Form 4-222
+ *     Petitioner role is that narrow case. Financial and other participant
+ *     elections remain unmarked and are named in participant-instructions.md.
  *   * It never writes a date on a document sworn under penalty of perjury.
  *   * It never writes below the caption of a proposed order. The New Mexico
  *     Judiciary's own instruction packet says the petitioner completes only the
@@ -658,7 +657,7 @@ export async function censusFlat(source, facts = {}) {
          * judge may tick into four missing required facts.
          */
         type: blank.kind === "underscore_run" || blank.kind === "stroke" ? "flat_overlay_text" : "printed_selection_control",
-        isSelectionControl: blank.kind === "bracket_box" || blank.kind === "glyph_selection_control",
+        isSelectionControl: blank.kind !== "underscore_run" && blank.kind !== "stroke",
         multiline: false, maxLength: null,
         section: entry.section, effectiveLabel: entry.label,
         policy: entry.policy, fact: entry.fact ?? null,
@@ -717,6 +716,56 @@ export async function censusFlat(source, facts = {}) {
       if (entry.policy === "not_a_blank") { notBlanks.push(row); continue; }
       rows.push(row);
     }
+  }
+
+  /*
+   * A few New Mexico forms print a selection control as an empty parenthesis
+   * pair rather than as "[ ]", a stroked box, or a symbol-font glyph. A form
+   * may inventory those controls explicitly so they enter the same field-map
+   * and participant-instruction paths as every measured control. They carry no
+   * geometry: the inventory exists to classify and disclose them, never to
+   * invent a mark location. Refuse a duplicate if the generic measurer learns
+   * to see the control later, so one control cannot silently be counted twice.
+   */
+  const additionalPrintedControls = source.additionalPrintedControls ?? [];
+  assert.equal(new Set(additionalPrintedControls.map((c) => c.key)).size, additionalPrintedControls.length,
+    `${source.documentId}: additional printed-control keys must be unique`);
+  for (const control of additionalPrintedControls) {
+    const detectedAtBaseline = rows.find((r) => r.isSelectionControl === true
+      && r.page === control.page && Math.abs((r.measuredBlank?.y ?? Number.NaN) - control.y) <= 1);
+    assert.equal(detectedAtBaseline, undefined,
+      `${source.documentId}/${control.key}: this explicitly inventoried control is now detected by the generic measurer; remove the additional entry rather than counting it twice`);
+    rows.push({
+      key: control.key,
+      name: control.key,
+      page: control.page,
+      measuredBlank: {
+        kind: "explicit_empty_parenthesis_control",
+        y: control.y,
+        geometryInvented: false
+      },
+      rect: null,
+      writeBox: null,
+      noGeometry: true,
+      rectBasis: "explicit inventory of the source's empty-parenthesis control; no mark geometry is claimed",
+      printedLine: control.printedLine,
+      printedTextImmediatelyBefore: control.label,
+      printedTextAtCoordinate: [{ y: control.y, extracted: control.printedLine }],
+      type: "printed_selection_control_with_no_widget",
+      isSelectionControl: true,
+      multiline: false,
+      maxLength: null,
+      section: control.section,
+      effectiveLabel: control.label,
+      anchorLabel: control.label,
+      policy: control.policy,
+      fact: control.fact ?? null,
+      refusalClass: control.refusalClass ?? PARTICIPANT_ELECTION,
+      what: control.what ?? null,
+      why: control.why ?? null,
+      buildNote: control.buildNote ?? null,
+      condition: control.condition ?? null
+    });
   }
   const stale = Object.keys(dictionary).filter((k) => !measured.some((p) => p.blanks.some((b) => b.key === k)));
   const writesWithUnmeasurableX = rows.filter((r) => r.policy === "write" && r.noGeometry === true)
@@ -886,6 +935,7 @@ function protectedRulesOf(census) {
 
 export async function renderFlat(source, census, facts) {
   const writable = census.rows.filter((r) => r.policy === "write");
+  const routeSelections = census.rows.filter((r) => r.policy === "route_selection");
   const protectedRules = protectedRulesOf(census);
   /*
    * An anchor is identified to the finalizer by the caption it is bound under,
@@ -903,7 +953,20 @@ export async function renderFlat(source, census, facts) {
   return finalizeFlatOverlay({
     sourceBytes: source.bytes,
     expectedSha256: source.sha256,
-    anchors, protectedRules,
+    anchors,
+    selections: routeSelections.map((r) => ({
+      page: r.page,
+      label: r.anchorLabel,
+      measured: r.rect !== null,
+      box: r.rect ? {
+        x0: r.rect.x,
+        y0: r.rect.y,
+        x1: r.rect.x + r.rect.width,
+        y1: r.rect.y + r.rect.height
+      } : null,
+      protectedRules
+    })),
+    protectedRules,
     explicitMappings: Object.fromEntries(writable.map((r) => [r.anchorLabel, r.binding?.theSharedRegistryResolvesTheBoundCaptionAs ?? r.fact])),
     facts,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
@@ -1102,6 +1165,7 @@ export function mapFor(source, census, report, isFlat) {
   const writtenNames = isFlat
     ? new Set(report.written.map((w) => w.anchor))
     : new Set(report.written.map((w) => w.field));
+  const selectedNames = new Set((report.selections ?? []).map((s) => s.control));
   const canonicalWrites = [];
   const canonicalRefusals = [];
   const selectionControls = [];
@@ -1140,6 +1204,28 @@ export function mapFor(source, census, report, isFlat) {
         category: null, completenessClass: null, class: null,
         requiredBeforeFiling: false, why: "reported rather than claimed, so the defect is visible to the audit"
       });
+      continue;
+    }
+
+    if (r.policy === "route_selection") {
+      if (selectedNames.has(r.anchorLabel)) {
+        canonicalWrites.push({
+          ...base,
+          factId: null,
+          kind: "selection_settled_by_route",
+          routeDetermined: true,
+          selected: true,
+          basis: r.why
+        });
+      } else {
+        canonicalRefusals.push({
+          ...base,
+          reason: "the route-determined selection was not drawn",
+          category: "route_selection_refused",
+          requiredBeforeFiling: false,
+          why: r.why
+        });
+      }
       continue;
     }
 
@@ -1598,6 +1684,8 @@ export async function runNmFamily(family, argv = []) {
           ? "text read back from the finalized bytes at every measured blank the overlay wrote on, with the source's own text at the same coordinates subtracted"
           : "flattened widget appearances read back at every measured /Rect of the finalized bytes",
         valuesReportedByFinalizer: report.written.length,
+        routeDeterminedSelectionMarksReportedByFinalizer: report.selections ?? [],
+        routeDeterminedSelectionMarksRefusedByFinalizer: report.selectionsRefused ?? [],
         flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
         addedGlyphsReadFromOutputBytes: proof.glyphs,
         nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: proof.outsideBoxes,
@@ -1708,9 +1796,10 @@ export async function runNmFamily(family, argv = []) {
     schemaVersion: "rcap-family-source-receipt/v1", familyId, worklistGroupId: familyId,
     jurisdiction: ROUTE.jurisdiction, implementationStrategy: "official_pdf_fill",
     implementationStrategyNote:
-      "The assignment names official_pdf_fill for this family. Form 4-222 NMRA is an AcroForm and is filled. Every other "
-      + "document in the packet is a flat New Mexico rule form with no AcroForm field on it, so it is built as a measured "
-      + "overlay against the blanks the form prints -- underscore glyph runs far more often than stroked rules. The "
+      "The assignment names official_pdf_fill for this family. Each flat New Mexico rule form in this packet, including "
+      + "the governed statewide Form 4-222, is built as a measured overlay against the blanks the form prints -- "
+      + "underscore glyph runs far more often than stroked rules. Any AcroForm component is filled through its authored "
+      + "widgets. The "
       + "strategy per document is recorded below rather than left to be inferred from the family's strategy field.",
     custodyClass: "SOURCE_ALREADY_HELD", acquisitionCommissioned: false,
     corpusRootFromEnvironment: "MASTER_LIBRARY_SOURCE_DIR",
@@ -1802,14 +1891,22 @@ export async function runNmFamily(family, argv = []) {
     routeKeys: [ROUTE.routeKey], routeSelectionId: ROUTE.routeSelectionId,
     renderStrategy: "acroform_fill_and_measured_flat_overlay",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION],
-    routeDeterminedSelections: [],
+    routeDeterminedSelections: [{
+      document: "NM-4-222",
+      field: "NM-4-222/p4-y33222-x28800",
+      label: "The applicant is the Petitioner",
+      mark: "two diagonal strokes inside the measured printed control",
+      reason: "Rule 1-077.1 NMRA fixes the applicant's role as Petitioner on each of these routes"
+    }],
     routeSelectionNote: family.routeSelectionNote,
     flatOverlayNote:
-      "Every document but Form 4-222 carries no AcroForm field. Every value written on one sits on a blank measured from "
+      "Every flat document, including the governed statewide Form 4-222, carries no AcroForm field. Every value written "
+      + "on one sits on a blank measured from "
       + "the page's own content stream; measuredBlank records the run, rule or bracket pair each write box was derived "
       + "from, and the build refuses if a measured blank has moved or if a measured blank has no dictionary row.",
     selectionControlNote:
-      "No selection control in this packet is marked. New Mexico draws its tick boxes as printed \"[ ]\" characters, so "
+      "Only the route-determined Petitioner identity mark on Form 4-222 is written. Financial and other participant "
+      + "selection controls remain unmarked. New Mexico draws most tick boxes as printed \"[ ]\" characters, so "
       + "checkboxCandidates finds no stroked box and there is no widget to set; a box drawn from a derived coordinate is a "
       + "mark nobody measured. Every control is listed in reports/blanks-left-for-the-participant.json and named in "
       + "participant-instructions.md with what to mark and why.",
