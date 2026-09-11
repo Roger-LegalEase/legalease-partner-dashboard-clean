@@ -1751,10 +1751,7 @@ async function main() {
     familyId: FAMILY_ID,
     derivedFromArtifactBytes: true,
     note:
-      "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report. "
-      + "The form's own Print Form and Reset Form pushbutton captions are recorded under flattenedFormOwnButtonCaptions: "
-      + "flattening materialises them, and counting them as ink on a refused field would report a protected write that "
-      + "never happened.",
+      "Read back from the finalized PDF bytes at measured widget rectangles. Source-authored control captions are distinguished from participant ink by the readback machinery. This family's finalizer suppresses on-screen Print Form and Reset Form controls; an empty flattenedFormOwnButtonCaptions list does not by itself prove protected-field or whole-page ink absence.",
     documents: writeProofs,
     artifacts: writeProofs.map((p) => ({
       fixture: p.fixture, formNumber: p.formNumber,
@@ -1973,9 +1970,7 @@ async function main() {
       + "this form from six misbound data fields to a prefilled oath. This family refuses all of them BY ROLE so "
       + "that none of its own refusals depends on the defect either way.",
     thisFamilysResponse:
-      "Nothing shared was edited. Every affected field is refused by role, the refusal reasons record what "
-      + "protects each field today and whether that protection survives the fix, and the refusals are proved "
-      + "from the rendered artifact bytes rather than from this report."
+      "The unguided caption behavior above is historical diagnostic evidence. This family uses explicit mappings for known participant values and separate role-based protection for jurat and court fields. Canonical name, email, phone, date of birth, street address and docket are filled; boundary name and docket are refused when they do not fit. Shared caption machinery was not changed."
   });
 
   writeJson(`${OUT}/reports/route-date-boundary.json`, {
@@ -2183,11 +2178,7 @@ async function main() {
       + "widening the map: each is either the participant's to complete, the court's, the swearing officer's, or "
       + "a value the platform does not hold or would state wrongly.",
     thisFormInParticular:
-      "Nineteen of twenty-two. That is a high proportion and it is the honest one: six fields are refused "
-      + "because the shared caption channel binds the wrong fact to them, four are a sworn attestation block, "
-      + "five are the court's own order section printed on the reverse, four are form buttons, and one is the "
-      + "crimes box, which binds the participant's name and which describes an eligibility question this family "
-      + "does not answer. See reports/caption-channel-defect.json.",
+      "The rows below enumerate unfilled fields by fixture with their actual refusal reasons. Court and jurat fields remain protected. Known participant values use explicit mappings; values that exceed fit limits remain blank. Court location and requested crimes remain participant-supplied. The count is derived from the listed rows, not from the historical caption-channel diagnostic.",
     count: blanksLeft.length,
     blanks: blanksLeft
   });
@@ -2216,8 +2207,7 @@ async function main() {
         "NOT addressed. Requested here; a human legal reviewer grants it or does not."
     },
     mattersForTheReviewersAttention: [
-      "reports/caption-channel-defect.json — a shared-infrastructure defect that both misbinds six fields on "
-        + "this form and is the only thing currently preventing a sworn attestation block from being prefilled.",
+      "reports/caption-channel-defect.json — historical unguided caption behavior; this family uses explicit participant mappings and independent role-based protection for jurat and court fields. Review the actual field decisions and both fixtures.",
       "reports/charge-caption-proof.json — the corpus charge-caption guard reports zero offending rows on this "
         + "form because its vocabulary has no word for 'crime', while the widened test finds one.",
       "reports/route-date-boundary.json — the form carries no conviction-date field, so the pre-2000 boundary "
@@ -2276,9 +2266,7 @@ async function main() {
       + "own byte-level verification is not a substitute: it can prove a value sits at a measured rectangle and "
       + "cannot see that a rectangle is the wrong place to put it.",
     whatToLookAt: [
-      "Page 1, the caption block: 'Name of defendant', 'E-mail address', 'Phone number', 'JD/GA number' and "
-        + "'Address of court' are all deliberately BLANK. Confirm that reads as an incomplete form to be "
-        + "finished, not as a filled form with missing data. See reports/caption-channel-defect.json.",
+      "Page 1, the caption block: confirm canonical name, email, phone, date of birth, street address and docket match the fixture. In the boundary fixture, name and docket remain blank because they exceed the measured fit limits. JD/GA number and court address remain participant-supplied in both fixtures.",
       "Page 1, the crimes box: blank, and it is the largest empty area on the form. Confirm the participant "
         + "would understand it is theirs to complete.",
       "Page 1, both jurat rows: signature, print name and date all blank for the defendant and the officer.",

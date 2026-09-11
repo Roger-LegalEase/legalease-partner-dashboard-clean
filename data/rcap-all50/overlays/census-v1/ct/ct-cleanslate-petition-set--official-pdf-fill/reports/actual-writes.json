@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-actual-writes-byte-proof/v1",
   "familyId": "ct-cleanslate-petition-set",
   "derivedFromArtifactBytes": true,
-  "note": "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report. The form's own Print Form and Reset Form pushbutton captions are recorded under flattenedFormOwnButtonCaptions: flattening materialises them, and counting them as ink on a refused field would report a protected write that never happened.",
+  "note": "Read back from the finalized PDF bytes at measured widget rectangles. Source-authored control captions are distinguished from participant ink by the readback machinery. This family's finalizer suppresses on-screen Print Form and Reset Form controls; an empty flattenedFormOwnButtonCaptions list does not by itself prove protected-field or whole-page ink absence.",
   "documents": [
     {
       "fixture": "petition-canonical",
