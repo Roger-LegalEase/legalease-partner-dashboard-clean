@@ -18,7 +18,9 @@
     "pageCount": 5,
     "custodyDetermination": "Build from the owner-custodied current FDLE early-juvenile application rendering.",
     "sourceBytesChanged": false,
-    "sourceIdentityChanged": false
+    "sourceIdentityChanged": false,
+    "sourceBinaryCommitted": true,
+    "defaultResolution": "DEFAULT_SOURCE resolves from repository ROOT to this governed reference/source-recovery path; PF20_FL_EARLY_JUVENILE_SOURCE remains a hash-checked override."
   },
   "causeAndCorrection": {
     "priorMeasuredDefects": [
@@ -55,8 +57,8 @@
   "verification": [
     {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node scripts/build-census-v1-fl-early-juvenile-set.mjs", "result": "COMPLETED; all nine builder counters zero; canonical and boundary are each five pages"},
     {"command": "repeat the same build and diff sorted SHA-256 inventories", "result": "exit 0 with an empty diff; every family output byte reproduced"},
-    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node scripts/build-census-v1-fl-early-juvenile-set.mjs --check", "result": "CHECK_ONLY; both in-memory PDF hashes equal committed outputs; 28 source regions per fixture; zero outside glyphs; before/after family inventories identical, proving no writes"},
-    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node --test scripts/rcap-packet-recovery/fl-early-source-geometry.test.mjs", "result": "6 tests passed, 0 failed; both real fixtures plus four negative cases"},
+    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node scripts/build-census-v1-fl-early-juvenile-set.mjs --check", "result": "CHECK_ONLY; each existing stored PDF was measured directly and its SHA-256 matched deterministic expected bytes; 28 source regions per fixture; zero outside glyphs; no writes"},
+    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node --test scripts/rcap-packet-recovery/fl-early-source-geometry.test.mjs", "result": "8 tests passed, 0 failed; both real fixtures, stored-artifact identity, tampered-stored-artifact rejection, and four input/geometry negative cases"},
     {"command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set", "result": "PASS_COMPLETE, 28/93 written, all nine counters zero; no --write"},
     {"command": "pdftotext -f 2 -l 2 -layout <boundary.pdf> -", "result": "read O'Shaughnessy-Whitfield, Maria-Alejandra Isabel beside 09/05/2006 and 850-555-0199"}
   ],
@@ -73,5 +75,13 @@
     "source-freshness and counsel review already requested by approval-request.json",
     "artifact provenance/accounting and any central admission decision"
   ],
-  "authorVerdict": "No independent or live-readiness verdict is issued by the repair author."
+  "authorVerdict": "No independent or live-readiness verdict is issued by the repair author.",
+  "integrationFollowup": {
+    "baseCommit": "fbbc3a4f02bb7b5bc39b3eebc657bdaf8c88199c",
+    "storedArtifactCheck": "--check now measures all 28 writes in each existing stored fixture, compares stored and expected SHA-256 values, and fails stale or tampered bytes. A readable temporary boundary copy with a trailing-byte mutation was rejected.",
+    "sourceDefault": {"path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-EARLY-JUVENILE-SET__FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION__d9417ea382c9.pdf", "resolvedAgainstRepositoryRoot": true, "overridePreserved": "PF20_FL_EARLY_JUVENILE_SOURCE", "sourceBinaryCommitted": true},
+    "results": ["default-source and explicit-override checks returned byte-identical results", "focused tests 8/8", "completeness PASS_COMPLETE 28/93 with nine zero counters", "default-source rebuild left both PDF SHA-256 values unchanged"],
+    "pdfBytesChanged": false,
+    "rasterOrReviewPerformed": false
+  }
 }

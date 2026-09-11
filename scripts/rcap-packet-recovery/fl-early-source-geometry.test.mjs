@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -8,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import {
   FIXTURES,
   WRITE_LAYOUT,
+  checkStoredFixtures,
   renderAndMeasure
 } from "../build-census-v1-fl-early-juvenile-set.mjs";
 
@@ -33,6 +35,30 @@ test("both real fixtures place all 28 writes inside named source regions", async
     assert.equal(result.measured.flattenedWidgetAppearancesReadFromOutputBytes, 0);
     assert.equal(result.measured.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, 0);
     assert.ok(result.measured.actualWrites.every((row) => row.insideNamedSourceRegion));
+  }
+});
+
+test("read-only artifact check measures and matches both stored fixtures", async () => {
+  const checked = await checkStoredFixtures(sourceBytes);
+  assert.equal(checked.length, 2);
+  assert.ok(checked.every((row) => row.expectedSha256 === row.storedSha256));
+  assert.ok(checked.every((row) => row.sourceRegionsMeasuredFromStoredBytes === 28));
+  assert.ok(checked.every((row) => row.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes === 0));
+});
+
+test("read-only artifact check rejects a mutated stored PDF", async () => {
+  const fixtureDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "fl-early-stored-check-"));
+  try {
+    for (const fixture of ["canonical", "boundary"]) {
+      fs.copyFileSync(path.join(ROOT,
+        `data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/${fixture}.pdf`),
+      path.join(fixtureDirectory, `${fixture}.pdf`));
+    }
+    fs.appendFileSync(path.join(fixtureDirectory, "boundary.pdf"), "\n% mutated stored artifact\n");
+    await assert.rejects(() => checkStoredFixtures(sourceBytes, fixtureDirectory),
+      /boundary: stored fixture is stale or tampered/);
+  } finally {
+    fs.rmSync(fixtureDirectory, { recursive: true, force: true });
   }
 });
 

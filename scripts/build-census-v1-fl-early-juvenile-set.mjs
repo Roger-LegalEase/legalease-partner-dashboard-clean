@@ -3,9 +3,9 @@
  * PF20 deterministic overlay builder for FDLE40-028, Florida's five-page
  * early-juvenile-expunction application packet.
  *
- * The source is read from the existing shared acquisition staging location,
- * asserted by byte length and SHA-256 before any output is written, and never
- * copied into the repository as a standalone source asset.
+ * The source is read from the governed repository source-recovery location,
+ * asserted by byte length and SHA-256 before any output is written, with an
+ * optional environment override that must satisfy the same identity checks.
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -37,7 +37,8 @@ const COMPONENTS = [SOURCE_ID];
 const EXPECTED_SOURCE_SHA256 = "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb";
 const EXPECTED_SOURCE_LENGTH = 22449;
 const EXPECTED_SOURCE_PAGES = 5;
-const DEFAULT_SOURCE = "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-early-juvenile-expunction-blank.pdf";
+const DEFAULT_SOURCE = path.join(ROOT, "reference/source-recovery/2026-09-11-wave1/"
+  + "CODEX-CS2-SRC2__FL-EARLY-JUVENILE-SET__FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION__d9417ea382c9.pdf");
 const SIGNATURE = "signature_or_date_participant_completion";
 const AGENCY_OWNED = "court_prosecutor_clerk_or_agency_owned";
 
@@ -570,6 +571,40 @@ async function renderAndMeasure(sourceBytes, facts, layout = WRITE_LAYOUT) {
   return { ...rendered, measured };
 }
 
+async function checkStoredFixtures(sourceBytes, fixtureDirectory = path.join(ROOT, OUT, "fixtures")) {
+  const checked = [];
+  for (const fixture of ["canonical", "boundary"]) {
+    const expected = await renderAndMeasure(sourceBytes, FIXTURES[fixture]);
+    const storedPath = path.join(fixtureDirectory, `${fixture}.pdf`);
+    assert.ok(fs.existsSync(storedPath), `${fixture}: committed fixture is absent at ${storedPath}`);
+    const storedBytes = fs.readFileSync(storedPath);
+    const storedMeasurement = await measureOverlay(sourceBytes, storedBytes, expected.plannedWrites);
+    assert.equal(storedMeasurement.actualWrites.length, WRITE_LAYOUT.length,
+      `${fixture}: stored fixture does not contain all declared writes`);
+    assert.equal(storedMeasurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, 0,
+      `${fixture}: stored fixture has glyphs outside named source regions`);
+    const expectedSha256 = sha256(expected.bytes);
+    const storedSha256 = sha256(storedBytes);
+    assert.equal(storedSha256, expectedSha256,
+      `${fixture}: stored fixture is stale or tampered; expected ${expectedSha256}, got ${storedSha256}`);
+    checked.push({
+      fixture,
+      expectedSha256,
+      storedSha256,
+      storedByteLength: storedBytes.length,
+      pageCount: (await PDFDocument.load(storedBytes)).getPageCount(),
+      sourceRegionsMeasuredFromStoredBytes: storedMeasurement.sourceRegionsMeasured,
+      addedGlyphsReadFromStoredBytes: storedMeasurement.addedGlyphsReadFromOutputBytes,
+      widgetAppearancesReadFromSourceBytes: storedMeasurement.widgetAppearancesReadFromSourceBytes,
+      flattenedWidgetAppearancesReadFromStoredBytes:
+        storedMeasurement.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:
+        storedMeasurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes
+    });
+  }
+  return checked;
+}
+
 async function textOfPages(bytes) {
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   return doc.getPages().map((page) => groupIntoLines(extractTextItems(page))
@@ -887,22 +922,7 @@ async function run(argv = process.argv.slice(2)) {
   assertFeeWaiverAndEveryCircuitAreDisclosed(instructions, filing);
   const { sourcePath, bytes } = sourceBytes();
   if (argv.includes("--check")) {
-    const checked = [];
-    for (const fixture of ["canonical", "boundary"]) {
-      const result = await renderAndMeasure(bytes, FIXTURES[fixture]);
-      checked.push({
-        fixture,
-        outputSha256: sha256(result.bytes),
-        pageCount: (await PDFDocument.load(result.bytes)).getPageCount(),
-        sourceRegionsMeasured: result.measured.sourceRegionsMeasured,
-        addedGlyphsReadFromOutputBytes: result.measured.addedGlyphsReadFromOutputBytes,
-        widgetAppearancesReadFromSourceBytes: result.measured.widgetAppearancesReadFromSourceBytes,
-        flattenedWidgetAppearancesReadFromOutputBytes:
-          result.measured.flattenedWidgetAppearancesReadFromOutputBytes,
-        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:
-          result.measured.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes
-      });
-    }
+    const checked = await checkStoredFixtures(bytes);
     return {
       familyId: FAMILY_ID,
       status: "CHECK_ONLY",
@@ -945,7 +965,7 @@ async function run(argv = process.argv.slice(2)) {
     bindingMethod: "the owner-custodied source byte expressly retained for this family is read from its recovered reference path and asserted by SHA-256 and byte length; no acquisition, research, or substitution occurs",
     allSourcesExact: true,
     routeKeys: [ROUTE_KEY],
-    sourceBinaryCommitted: false,
+    sourceBinaryCommitted: true,
     mountedReadOnlySource: {
       documentId: SOURCE_ID,
       sourceId: `official-form:${SOURCE_ID}`,
@@ -1210,7 +1230,15 @@ async function run(argv = process.argv.slice(2)) {
   };
 }
 
-export { FIXTURES, WRITE_LAYOUT, measureOverlay, overlayOfficialPdf, renderAndMeasure, run };
+export {
+  FIXTURES,
+  WRITE_LAYOUT,
+  checkStoredFixtures,
+  measureOverlay,
+  overlayOfficialPdf,
+  renderAndMeasure,
+  run
+};
 
 if (path.resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)) {
   run()
