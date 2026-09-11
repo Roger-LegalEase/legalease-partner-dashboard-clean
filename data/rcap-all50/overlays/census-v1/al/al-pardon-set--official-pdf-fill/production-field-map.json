@@ -1,0 +1,1428 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "al-pardon-set",
+  "jurisdiction": "AL",
+  "routeKeys": [
+    "obligation:track-only:AL:al-pardon"
+  ],
+  "routeSelectionId": "al-pardon-primary-filing-1",
+  "implementationStrategy": "official_pdf_fill",
+  "renderStrategy": "official_pdf_fill",
+  "componentSet": [
+    "al-pardon-primary-filing-1"
+  ],
+  "componentRoutes": {
+    "al-pardon-primary-filing-1": "obligation:track-only:AL:al-pardon"
+  },
+  "componentConditions": {},
+  "sourceSha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+  "writes": [
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Email",
+      "effectiveLabel": "Email",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 106.21,
+            "y": 567.891,
+            "width": 431.51,
+            "height": 19.937
+          }
+        }
+      ],
+      "factId": "participant.email",
+      "kind": "participant_fact",
+      "sourceAppearanceWasBlank": true
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Phone",
+      "effectiveLabel": "Phone",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 108.788,
+            "y": 544.689,
+            "width": 175.78,
+            "height": 20.969
+          }
+        }
+      ],
+      "factId": "participant.phone",
+      "kind": "participant_fact",
+      "sourceAppearanceWasBlank": true
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "DOB",
+      "effectiveLabel": "Date of birth",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 284.603,
+            "y": 522.519,
+            "width": 76.271,
+            "height": 20.453
+          }
+        }
+      ],
+      "factId": "participant.date_of_birth",
+      "kind": "participant_fact",
+      "sourceAppearanceWasBlank": true
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Pardon",
+      "effectiveLabel": "FOR: PARDON",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 153.178,
+            "y": 670.179,
+            "width": 18,
+            "height": 18
+          }
+        }
+      ],
+      "factId": null,
+      "kind": "route_selection",
+      "isSelectionControl": true,
+      "basis": "The selected packet route is obligation:track-only:AL:al-pardon; this is the form's PARDON box."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Print Name 1",
+      "effectiveLabel": "Applicant print name",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 71.666,
+            "y": 212.137,
+            "width": 240.228,
+            "height": 22.516
+          }
+        }
+      ],
+      "factId": "participant.full_legal_name",
+      "kind": "participant_fact",
+      "sourceAppearanceWasBlank": true
+    }
+  ],
+  "refusals": [
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Application received on",
+      "effectiveLabel": "Board use only — application received on",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 179.52,
+            "y": 157.68,
+            "width": 169.68,
+            "height": 12.895
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Tracking Number",
+      "effectiveLabel": "Board use only — tracking number",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 150.48,
+            "y": 144.36,
+            "width": 197.16,
+            "height": 11.465
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Signature",
+      "effectiveLabel": "Board use only — Board member signature",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 108,
+            "y": 89.76,
+            "width": 235.56,
+            "height": 12.895
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "signature_or_date_participant_completion",
+      "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Remission of Fines",
+      "effectiveLabel": "FOR: REMISSION OF FINES",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 286.15,
+            "y": 669.852,
+            "width": 18,
+            "height": 18
+          }
+        }
+      ],
+      "factId": null,
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "routeConditionThatMakesItInapplicable": "This control belongs to the remission-of-fines branch of ABPP-3; obligation:track-only:AL:al-pardon selects the pardon branch alone.",
+      "routeDetermined": false,
+      "reason": "The route is pardon-only, so this different top-line request box remains unmarked."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Both",
+      "effectiveLabel": "FOR: BOTH",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 336.677,
+            "y": 670.367,
+            "width": 18,
+            "height": 18
+          }
+        }
+      ],
+      "factId": null,
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "routeConditionThatMakesItInapplicable": "This control belongs to the remission-of-fines branch of ABPP-3; obligation:track-only:AL:al-pardon selects the pardon branch alone.",
+      "routeDetermined": false,
+      "reason": "The route is pardon-only, so this different top-line request box remains unmarked."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Name",
+      "effectiveLabel": "Name of applicant at time of conviction",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 172.205,
+            "y": 647.806,
+            "width": 186.091,
+            "height": 20.969
+          }
+        }
+      ],
+      "factId": null,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "AIS",
+      "effectiveLabel": "AIS number, if applicable",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 443.64,
+            "y": 647.413,
+            "width": 93.12,
+            "height": 25.13
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "optional_participant_authored_content",
+      "reason": "Optional participant-authored content, completed only when the condition printed on the form applies."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Current Name",
+      "effectiveLabel": "Current name, if different",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 260.37,
+            "y": 612.747,
+            "width": 278.381,
+            "height": 20.453
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "optional_participant_authored_content",
+      "reason": "Optional participant-authored content, completed only when the condition printed on the form applies."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Mailing Address",
+      "effectiveLabel": "Mailing address — street or P.O. Box, city, state, ZIP",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 310.898,
+            "y": 590.061,
+            "width": 226.822,
+            "height": 20.453
+          }
+        }
+      ],
+      "factId": null,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Mobile Phone",
+      "effectiveLabel": "Mobile phone",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 363.12,
+            "y": 545.64,
+            "width": 175.2,
+            "height": 19.974
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "optional_participant_authored_content",
+      "reason": "Optional participant-authored contact detail; the platform writes the separate Phone field when held."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Race",
+      "effectiveLabel": "Race",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 101.055,
+            "y": 521.488,
+            "width": 66.99,
+            "height": 20.453
+          }
+        }
+      ],
+      "factId": null,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Sex",
+      "effectiveLabel": "Sex",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 190.251,
+            "y": 521.488,
+            "width": 66.991,
+            "height": 20.969
+          }
+        }
+      ],
+      "factId": null,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "SSN",
+      "effectiveLabel": "Social Security number",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 383.595,
+            "y": 522.519,
+            "width": 154.64,
+            "height": 20.969
+          }
+        }
+      ],
+      "factId": null,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "State",
+      "effectiveLabel": "Convictions — State",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 168.596,
+            "y": 494.553,
+            "width": 18,
+            "height": 18
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "isSelectionControl": true,
+      "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Federal",
+      "effectiveLabel": "Convictions — Federal",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 225.826,
+            "y": 495.068,
+            "width": 18,
+            "height": 18
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "isSelectionControl": true,
+      "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Claim of Innocence",
+      "effectiveLabel": "Do you claim innocence of the crime for which you are seeking a pardon?",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 267.589,
+            "y": 463.227,
+            "width": 268.584,
+            "height": 20.969
+          }
+        }
+      ],
+      "factId": null,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Fines",
+      "effectiveLabel": "Previously applied for — Fines",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 419.21,
+            "y": 436.252,
+            "width": 18,
+            "height": 18
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "isSelectionControl": true,
+      "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Neither",
+      "effectiveLabel": "Previously applied for — Neither",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 472.332,
+            "y": 435.72,
+            "width": 18,
+            "height": 18
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "isSelectionControl": true,
+      "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Date",
+      "effectiveLabel": "Shared source field: date of last hearing; and applicant signature date",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 251.76,
+            "width": 191.76,
+            "height": 18.943
+          }
+        },
+        {
+          "widgetIndex": 1,
+          "page": 1,
+          "rect": {
+            "x": 165.503,
+            "y": 416.824,
+            "width": 74.724,
+            "height": 18.907
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "signature_or_date_participant_completion",
+      "reason": "The PDF reuses one field for two distinct printed blanks: date of last hearing and applicant signature date. Electronic fill would repeat one value into both; both widgets stay blank."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Text",
+      "effectiveLabel": "If previously pardoned: rights not restored and relief sought now",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 196.438,
+            "y": 393.107,
+            "width": 339.219,
+            "height": 20.969
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "optional_participant_authored_content",
+      "reason": "Optional participant-authored content, completed only when the condition printed on the form applies."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Signature 1",
+      "effectiveLabel": "Signature of applicant",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 71.666,
+            "y": 252.353,
+            "width": 240.743,
+            "height": 20.969
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "signature_or_date_participant_completion",
+      "reason": "The participant signs this attestation after reviewing the completed packet."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Print Name",
+      "effectiveLabel": "Board use only — Board member print name",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 108,
+            "y": 116.64,
+            "width": 235.56,
+            "height": 12.24
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Check Box25",
+      "effectiveLabel": "Previously applied for — Pardon",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 373.093,
+            "y": 434.944,
+            "width": 18,
+            "height": 18
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "isSelectionControl": true,
+      "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "Yes",
+      "effectiveLabel": "Board use only — waiver received: Yes",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 190.746,
+            "y": 129.217,
+            "width": 15.818,
+            "height": 13.855
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+    },
+    {
+      "sourceId": "official-form:ABPP-3",
+      "formNumber": "ABPP-3",
+      "field": "No",
+      "effectiveLabel": "Board use only — waiver received: No",
+      "page": 1,
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 234.983,
+            "y": 129.27,
+            "width": 15.818,
+            "height": 13.854
+          }
+        }
+      ],
+      "factId": null,
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+    }
+  ],
+  "maps": [
+    {
+      "formNumber": "ABPP-3",
+      "sourceId": "official-form:ABPP-3",
+      "sourceSha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+      "writes": [
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Email",
+          "effectiveLabel": "Email",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 106.21,
+                "y": 567.891,
+                "width": 431.51,
+                "height": 19.937
+              }
+            }
+          ],
+          "factId": "participant.email",
+          "kind": "participant_fact",
+          "sourceAppearanceWasBlank": true
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Phone",
+          "effectiveLabel": "Phone",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 108.788,
+                "y": 544.689,
+                "width": 175.78,
+                "height": 20.969
+              }
+            }
+          ],
+          "factId": "participant.phone",
+          "kind": "participant_fact",
+          "sourceAppearanceWasBlank": true
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "DOB",
+          "effectiveLabel": "Date of birth",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 284.603,
+                "y": 522.519,
+                "width": 76.271,
+                "height": 20.453
+              }
+            }
+          ],
+          "factId": "participant.date_of_birth",
+          "kind": "participant_fact",
+          "sourceAppearanceWasBlank": true
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Pardon",
+          "effectiveLabel": "FOR: PARDON",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 153.178,
+                "y": 670.179,
+                "width": 18,
+                "height": 18
+              }
+            }
+          ],
+          "factId": null,
+          "kind": "route_selection",
+          "isSelectionControl": true,
+          "basis": "The selected packet route is obligation:track-only:AL:al-pardon; this is the form's PARDON box."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Print Name 1",
+          "effectiveLabel": "Applicant print name",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 71.666,
+                "y": 212.137,
+                "width": 240.228,
+                "height": 22.516
+              }
+            }
+          ],
+          "factId": "participant.full_legal_name",
+          "kind": "participant_fact",
+          "sourceAppearanceWasBlank": true
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Application received on",
+          "effectiveLabel": "Board use only — application received on",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 179.52,
+                "y": 157.68,
+                "width": 169.68,
+                "height": 12.895
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Tracking Number",
+          "effectiveLabel": "Board use only — tracking number",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 150.48,
+                "y": 144.36,
+                "width": 197.16,
+                "height": 11.465
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Signature",
+          "effectiveLabel": "Board use only — Board member signature",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 108,
+                "y": 89.76,
+                "width": 235.56,
+                "height": 12.895
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Remission of Fines",
+          "effectiveLabel": "FOR: REMISSION OF FINES",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 286.15,
+                "y": 669.852,
+                "width": 18,
+                "height": 18
+              }
+            }
+          ],
+          "factId": null,
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "routeConditionThatMakesItInapplicable": "This control belongs to the remission-of-fines branch of ABPP-3; obligation:track-only:AL:al-pardon selects the pardon branch alone.",
+          "routeDetermined": false,
+          "reason": "The route is pardon-only, so this different top-line request box remains unmarked."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Both",
+          "effectiveLabel": "FOR: BOTH",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 336.677,
+                "y": 670.367,
+                "width": 18,
+                "height": 18
+              }
+            }
+          ],
+          "factId": null,
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "routeConditionThatMakesItInapplicable": "This control belongs to the remission-of-fines branch of ABPP-3; obligation:track-only:AL:al-pardon selects the pardon branch alone.",
+          "routeDetermined": false,
+          "reason": "The route is pardon-only, so this different top-line request box remains unmarked."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Name",
+          "effectiveLabel": "Name of applicant at time of conviction",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 172.205,
+                "y": 647.806,
+                "width": 186.091,
+                "height": 20.969
+              }
+            }
+          ],
+          "factId": null,
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "AIS",
+          "effectiveLabel": "AIS number, if applicable",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 443.64,
+                "y": 647.413,
+                "width": 93.12,
+                "height": 25.13
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "optional_participant_authored_content",
+          "reason": "Optional participant-authored content, completed only when the condition printed on the form applies."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Current Name",
+          "effectiveLabel": "Current name, if different",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 260.37,
+                "y": 612.747,
+                "width": 278.381,
+                "height": 20.453
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "optional_participant_authored_content",
+          "reason": "Optional participant-authored content, completed only when the condition printed on the form applies."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Mailing Address",
+          "effectiveLabel": "Mailing address — street or P.O. Box, city, state, ZIP",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 310.898,
+                "y": 590.061,
+                "width": 226.822,
+                "height": 20.453
+              }
+            }
+          ],
+          "factId": null,
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Mobile Phone",
+          "effectiveLabel": "Mobile phone",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 363.12,
+                "y": 545.64,
+                "width": 175.2,
+                "height": 19.974
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "optional_participant_authored_content",
+          "reason": "Optional participant-authored contact detail; the platform writes the separate Phone field when held."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Race",
+          "effectiveLabel": "Race",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 101.055,
+                "y": 521.488,
+                "width": 66.99,
+                "height": 20.453
+              }
+            }
+          ],
+          "factId": null,
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Sex",
+          "effectiveLabel": "Sex",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 190.251,
+                "y": 521.488,
+                "width": 66.991,
+                "height": 20.969
+              }
+            }
+          ],
+          "factId": null,
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "SSN",
+          "effectiveLabel": "Social Security number",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 383.595,
+                "y": 522.519,
+                "width": 154.64,
+                "height": 20.969
+              }
+            }
+          ],
+          "factId": null,
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "State",
+          "effectiveLabel": "Convictions — State",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 168.596,
+                "y": 494.553,
+                "width": 18,
+                "height": 18
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true,
+          "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Federal",
+          "effectiveLabel": "Convictions — Federal",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 225.826,
+                "y": 495.068,
+                "width": 18,
+                "height": 18
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true,
+          "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Claim of Innocence",
+          "effectiveLabel": "Do you claim innocence of the crime for which you are seeking a pardon?",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 267.589,
+                "y": 463.227,
+                "width": 268.584,
+                "height": 20.969
+              }
+            }
+          ],
+          "factId": null,
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "reason": "The official application requests this participant fact, but this route does not hold it in a safely typed field."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Fines",
+          "effectiveLabel": "Previously applied for — Fines",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 419.21,
+                "y": 436.252,
+                "width": 18,
+                "height": 18
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true,
+          "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Neither",
+          "effectiveLabel": "Previously applied for — Neither",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 472.332,
+                "y": 435.72,
+                "width": 18,
+                "height": 18
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true,
+          "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Date",
+          "effectiveLabel": "Shared source field: date of last hearing; and applicant signature date",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 324,
+                "y": 251.76,
+                "width": 191.76,
+                "height": 18.943
+              }
+            },
+            {
+              "widgetIndex": 1,
+              "page": 1,
+              "rect": {
+                "x": 165.503,
+                "y": 416.824,
+                "width": 74.724,
+                "height": 18.907
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "reason": "The PDF reuses one field for two distinct printed blanks: date of last hearing and applicant signature date. Electronic fill would repeat one value into both; both widgets stay blank."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Text",
+          "effectiveLabel": "If previously pardoned: rights not restored and relief sought now",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 196.438,
+                "y": 393.107,
+                "width": 339.219,
+                "height": 20.969
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "optional_participant_authored_content",
+          "reason": "Optional participant-authored content, completed only when the condition printed on the form applies."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Signature 1",
+          "effectiveLabel": "Signature of applicant",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 71.666,
+                "y": 252.353,
+                "width": 240.743,
+                "height": 20.969
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "reason": "The participant signs this attestation after reviewing the completed packet."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Print Name",
+          "effectiveLabel": "Board use only — Board member print name",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 108,
+                "y": 116.64,
+                "width": 235.56,
+                "height": 12.24
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Check Box25",
+          "effectiveLabel": "Previously applied for — Pardon",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 373.093,
+                "y": 434.944,
+                "width": 18,
+                "height": 18
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true,
+          "reason": "The participant must answer this form question from their own record; the builder does not infer or select it."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "Yes",
+          "effectiveLabel": "Board use only — waiver received: Yes",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 190.746,
+                "y": 129.217,
+                "width": 15.818,
+                "height": 13.855
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+        },
+        {
+          "sourceId": "official-form:ABPP-3",
+          "formNumber": "ABPP-3",
+          "field": "No",
+          "effectiveLabel": "Board use only — waiver received: No",
+          "page": 1,
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 234.983,
+                "y": 129.27,
+                "width": 15.818,
+                "height": 13.854
+              }
+            }
+          ],
+          "factId": null,
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "reason": "Reserved to the Alabama Board in the source's BOARD USE ONLY block."
+        }
+      ]
+    }
+  ],
+  "routeSelectionsMade": [
+    {
+      "field": "Pardon",
+      "value": true,
+      "basis": "Exact selected route obligation:track-only:AL:al-pardon."
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

@@ -7,7 +7,7 @@
   "engine": "GPT-5.6 Sol (assigned; runtime metadata not independently exposed)",
   "returnFilename": "rows-pf24-20260911-al-source-restored.json",
   "worktree": "/tmp/rcap-fix05-pa-disposition-20260911",
-  "shiftBaseSha": "08d1157068ab93d7f5e2a3ecbecef548950a60c7",
+  "shiftBaseSha": "70bae4ecf9c00789bfe06de7baad452a4fb761aa",
   "familiesAssignedByPrompt": 1,
   "familiesGrantedByClaimLedger": 1,
   "rowsReturned": 1,
@@ -17,86 +17,59 @@
   "rows": [
     {
       "itemId": "al-pardon-set",
-      "status": "STOPPED",
-      "stopClass": "NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING",
+      "status": "COMPLETED",
       "jurisdiction": "AL",
       "implementationStrategy": "official_pdf_fill",
       "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
-      "overlayDirectoryTouched": false,
-      "routeKeys": [
-        "obligation:track-only:AL:al-pardon"
-      ],
-      "packetComponents": [
-        "component:al-pardon-primary-filing-1"
-      ],
+      "routeKeys": ["obligation:track-only:AL:al-pardon"],
+      "packetComponents": ["al-pardon-primary-filing-1"],
       "builtBy": "scripts/build-census-v1-al-pardon-set.mjs",
-      "buildStatus": "not_started",
-      "reviewStatus": "not_applicable_build_stopped",
-      "claim": "CLAIM_OK PF24 al-pardon-set (packet-build, grant set 44b4b8cf4652dc16)",
+      "buildStatus": "qa_review_pending",
+      "reviewStatus": "independent_review_and_raster_pending",
+      "claim": "CLAIM_OK PF24 al-pardon-set (packet-build, grant set be2ed2c2baba7036)",
       "source": {
         "sourceId": "official-form:ABPP-3",
         "officialFormId": "ABPP-3",
         "pathInArchive": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
         "restoredIndexedCustodyPath": "private/source-imports/src05-worker-materialization-2026-09-02/LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
-        "heldReferencePath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__ABPP-3__874e738a83c3.pdf",
         "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
         "byteLength": 160009,
         "pageCount": 4,
         "acroFieldCount": 30,
-        "exact": true,
-        "boundBy": "exact_content_sha256",
-        "resolvedThrough": "the corpus index custody declaration"
+        "widgetCount": 31,
+        "exact": true
       },
-      "execution": {
-        "command": "MASTER_LIBRARY_SOURCE_DIR=$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_HUMAN_SOURCE_RETURNS_DIR=$PWD/private/human-source-returns RCAP_D_SOURCE_DIR=$PWD/private/source-imports/rcap-d-source-packs-2026-08-12 RCAP_NATIONWIDE_POOL_DIR=$PWD/private/source-imports/Nationwide_Recovery_Pool_2026-09-02 node scripts/build-census-v1-al-pardon-set.mjs",
-        "exitCode": 0,
-        "stdout": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/build.stdout.json",
-        "stderr": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/build.stderr.log",
-        "resultStatus": "STOPPED",
-        "resultStopClass": "NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING"
-      },
+      "executionEvidence": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/execution-verdict.json",
       "completeness": {
         "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardon-set",
         "writeMode": false,
-        "exitCode": 2,
-        "result": "REFUSED: --family al-pardon-set matches no auditable family. 303 are auditable at this head.",
-        "stdout": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/completeness.stdout.log",
-        "stderr": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/completeness.stderr.log"
-      },
-      "diagnosedBlocker": {
-        "materiallyDifferentCause": "The existing file is not a production packet builder. Its exact-source branch is intentionally limited to source binding and returns NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING.",
-        "effect": "No field census, field map, overlay, fixture PDF, participant instructions, source receipt, or completeness counters are produced.",
-        "requiredNextWork": "A separately authorized implementation lane must build the census, field map, overlay, and canonical/boundary fixtures against the restored ABPP-3 bytes.",
-        "outsideThisAssignment": "This execution-only assignment prohibits script redesign."
+        "exitCode": 0,
+        "result": "PASS_COMPLETE"
       },
       "counters": {
-        "knownRequiredFieldsMissing": null,
-        "requiredFactsNotCollected": null,
-        "unclassifiedBlanks": null,
-        "incompleteRows": null,
-        "requiredOptionsMissing": null,
-        "requiredComponentsMissing": null,
-        "invisibleWrites": null,
-        "protectedWrites": null,
-        "visualDefects": null
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
       },
-      "whyEveryCounterIsNull": "no packet was built, so no counter was measured",
-      "artifacts": [],
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "27810fee926dd4148e378310d923a979a2976446cdb03bbaa11989d705fcdc4e", "byteLength": 153873, "pageCount": 4 },
+        { "fixture": "boundary", "sha256": "9a745cfbc52accfa6f22343ecfa60dd786c80cb4e990977c2480e4e174eadb53", "byteLength": 153943, "pageCount": 4 }
+      ],
       "packetsSelfVerified": 0,
-      "rasterState": "NOT_ENROLLED_BUILD_STOPPED",
-      "independentVerificationStatus": "NOT_APPLICABLE_BUILD_STOPPED",
+      "rasterState": "RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
       "localRasterPerformed": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
     }
   ],
-  "familiesCompleted": 0,
-  "familiesStopped": 1,
-  "blockedSource": [],
-  "sourceRestoredAndExact": [
-    "al-pardon-set"
-  ],
-  "implementationBlocked": [
-    "al-pardon-set"
-  ]
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "sourceRestoredAndExact": ["al-pardon-set"]
 }
