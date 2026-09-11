@@ -9,7 +9,9 @@ This packet is prepared for **Expunction after trial court acquittal (Tex. Code 
 - **Within 30 days of the acquittal** — art. 55A.201. The order shall be entered not later than the 30th day after the date of acquittal, on your request after notice to the state. Use the **request to the trial court** and the **information package**. Do *not* prepare the order: the article assigns that to your attorney if you had one, and otherwise to the attorney representing the state.
 - **More than 30 days, or the court did not act** — art. 55A.251. Use the **verified ex parte petition** and the **proposed order**, filed with the **district clerk of the county of arrest** or of the alleged offence, which may not be the court that acquitted you.
 
-The platform filled in what it holds about you: your name, your date of birth and your address. Every case fact lives on records the platform has not seen. **Your sex and race are not filled in** on the information package — the platform does not collect either and will not guess them onto a court filing — and neither is your Social Security number.
+The platform filled in what it holds about you: your name, your date of birth and your address. On page 2 of the Statement, your date of birth is printed month, day, year, in the order the form asks for. Every case fact lives on records the platform has not seen. **Your sex and race are not filled in** on the information package — the platform does not collect either and will not guess them onto a court filing — and neither is your Social Security number.
+
+**Page 11 of the Statement asks for your date of birth again.** Copy the month, day and year from page 2 into those three boxes. The platform leaves the whole line blank because its month box shares a form field with the notary's month on page 12.
 
 ## What is in this packet
 
@@ -124,6 +126,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 | Court identity on the Statement caption (County / Condado) | the court number and county from the top of your petition - the form says to copy them from the petition |
 | County and state where the declaration is signed | the county and state where you sign this declaration |
 | Court identity on the Statement caption (Court Number / Número del Tribunal) | the court number and county from the top of your petition - the form says to copy them from the petition |
+| Date-of-birth box on the Option 1 declaration, page 11 (Day / Día) | the DAY and the YEAR of your date of birth, in the second and third boxes under "My date of birth is / Mi fecha de nacimiento es" on page 11 of the Statement - copy them from the date of birth already printed on page 2 of the Statement |
 | Property, expense or debt entry: Debt payments to list Pagos por deudas hechas a indíquelosRow1 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: Debt payments to list Pagos por deudas hechas a indíquelosRow2 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Income or employment entry: Describe  describa 1 | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
@@ -148,6 +151,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 | Income or employment entry: in unemployment  en beneficios de desempleo | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
 | Income or employment entry: is my total monthly income  son mis ingresos totales al mes | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
 | Mailing address line on the Statement | your mailing address, which you write here yourself - it is already printed on this form's other address line, so copy it across |
+| Month box of the date of birth on the Option 1 declaration, page 11 | the MONTH of your date of birth, in the first of the three boxes under "My date of birth is / Mi fecha de nacimiento es" on page 11 of the Statement - copy it from the date of birth already printed on page 2 of the Statement. The same form field is also the notary's month blank on page 12; leave that one for the notary |
 | Property, expense or debt entry: My debts include / Mis duedas incluyen 1 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: My debts include / Mis duedas incluyen 2 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: My debts include / Mis duedas incluyen 3 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
@@ -183,6 +187,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 | Property, expense or debt entry: Value / Valor 7 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: Value / Valor 8 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: Value / Valor 9 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
+| Date-of-birth box on the Option 1 declaration, page 11 (Year / Año) | the DAY and the YEAR of your date of birth, in the second and third boxes under "My date of birth is / Mi fecha de nacimiento es" on page 11 of the Statement - copy them from the date of birth already printed on page 2 of the Statement |
 | Income or employment entry: your | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
 | Income or employment entry: your job title for | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
 
@@ -209,6 +214,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 - **The TRN.** It comes from your own DPS criminal history record.
 - **The agency and entity list, and the separate private-entity list.** Which agencies hold your arrest record is not something the platform knows; art. 55A.253(c) makes the district clerk the publisher of that list.
 - **The art. 55A.151 statement** about a criminal episode. It looks at your whole record and at anything still pending.
+- **The three date-of-birth boxes on page 11 of the Statement.** Copy month, day and year from page 2. The month box shares a field with the notary's month on page 12, so the platform cannot safely fill the line.
 
 ## When to stop and get help instead
 

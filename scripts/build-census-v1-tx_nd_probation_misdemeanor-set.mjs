@@ -659,8 +659,28 @@ const SOI_RULES = [
     why: "the Statement is sworn by the participant and is never prefilled"
   },
   {
+    id: "option1_date_of_birth_month",
+    re: /^Month \/ Mes$/,
+    kind: "supply", section: S.SOI_DECLARATION,
+    label: () => "Month box of the date of birth on the Option 1 declaration, page 11",
+    caption: "My date of birth is / Mi fecha de nacimiento es",
+    captionAt: { page: 11, y: 521 },
+    what: "the MONTH of your date of birth, in the first of the three boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 of the Statement - copy it from the date of birth already printed on page 2 of the Statement. The same form field is also the notary's month blank on page 12; leave that one for the notary",
+    why: "this box is one widget of an AcroForm field whose other widget is the notary's month on page 12, and this factory writes a field rather than a widget, so filling the birth month here would also print it in the notary's blank. The box is declared instead of forced, and the fact it needs is already printed on page 2 of the same document"
+  },
+  {
+    id: "option1_date_of_birth_day_and_year",
+    re: /^(Day \/ Día|Year \/ Año)$/,
+    kind: "supply", section: S.SOI_DECLARATION,
+    label: (n) => `Date-of-birth box on the Option 1 declaration, page 11 (${n})`,
+    caption: "My date of birth is / Mi fecha de nacimiento es",
+    captionAt: { page: 11, y: 521 },
+    what: "the DAY and the YEAR of your date of birth, in the second and third boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 of the Statement - copy them from the date of birth already printed on page 2 of the Statement",
+    why: "the three boxes on this line are one date and are completed together. Their month box shares an AcroForm field with the notary's month on page 12 and cannot be written without writing the notary's blank, so the whole line is left to the participant rather than delivered two-thirds filled"
+  },
+  {
     id: "declaration_date",
-    re: /^(Day \/ Día|Month \/ Mes|Year \/ Año|Today|Year)$/,
+    re: /^(Today|Year)$/,
     kind: "protect", section: S.SOI_DECLARATION,
     label: (n) => `Date part of the sworn declaration (${n})`,
     why: "a date written before the Statement is actually sworn would be false"
@@ -748,7 +768,12 @@ function statementFields(fieldNames, selectionNames) {
     const rule = SOI_RULES.find((r) => (r.selectionOnly ? isSelection : (!r.selectionOnly && r.re && r.re.test(name))));
     if (!rule) { unmatched.push(name); continue; }
     used.add(rule.id);
-    const base = { section: rule.section, label: rule.label(name), ...(isSelection ? { selection: true } : {}) };
+    const base = {
+      section: rule.section, label: rule.label(name),
+      ...(rule.caption ? { caption: rule.caption } : {}),
+      ...(rule.captionAt ? { captionAt: rule.captionAt } : {}),
+      ...(isSelection ? { selection: true } : {})
+    };
     if (rule.kind === "write") spec[name] = { ...base, ...WRITE(rule.fact) };
     else if (rule.kind === "protect") spec[name] = { ...base, ...PROTECT(SIGNATURE, rule.why) };
     else if (rule.kind === "courtowned") spec[name] = { ...base, ...COURTOWN(rule.why) };
@@ -767,6 +792,15 @@ const FORM_FIELDS = {
   "TX-GC-411.073-PETITION": PETITION_FIELDS,
   "TX-GC-411.0725-073-0735-ORDER": ORDER_FIELDS,
   "TX-SCT-22-9090-STATEMENT-OF-INABILITY": statementFields
+};
+
+const PRINTED_DATE_ORDER_BY_FIELD = {
+  [STATEMENT]: { "My date of birth / Mi fecha de nacimiento es": "month_day_year" }
+};
+const PRINTED_DATE_ORDER_EVIDENCE = {
+  [STATEMENT]: {
+    "My date of birth / Mi fecha de nacimiento es": { page: 2, printedLine: /month\s+day\s+year/i }
+  }
 };
 
 /* ---- the pages this build authors ------------------------------------------ */
@@ -829,6 +863,7 @@ const COMPOSED_COMPONENTS = {
       L.push("NOW THE NUMBER TO IGNORE: $28. It belongs only to the no-petition route under Government Code Sec. 411.072(c), not this petition route under Sec. 411.073. Do not arrive at the clerk's window with $28.", "");
       L.push("IF YOU CANNOT AFFORD IT. Paragraph 6 of the petition lets you choose between paying the fees and costs and filing a STATEMENT OF INABILITY TO AFFORD PAYMENT OF COURT COSTS under Texas Rule of Civil Procedure 145. That Statement is in this packet, on the statewide bilingual form approved by the Supreme Court of Texas in Misc. Docket No. 22-9090. Rule 145 requires the clerk to make that form available WITHOUT CHARGE AND WITHOUT YOUR HAVING TO ASK, so you are entitled to it whether or not you use the copy here.", "");
       L.push("The Statement is sworn under penalty of perjury. Fill it from your own records - pay statements, benefit letters, bills - and not from memory. Nothing on it is filled in for you except your own name, date of birth, address, telephone number and email, because the platform holds no financial fact about anyone.", "");
+      L.push("On page 2 of the Statement, your date of birth is printed month, day, year. Page 11 asks for it again in three boxes. Copy all three parts from page 2; the platform leaves that line blank because its month box shares a form field with the notary's month on page 12.", "");
       L.push("WHO GIVES NOTICE TO THE STATE - AND IT IS NOT YOU. Under Sec. 411.0745(e), on receipt of your petition THE COURT provides notice to the State and an opportunity for a hearing. The committed record states that you should not be charged for that notice. OCA instructions do direct a petitioner to show proof that the district attorney received a copy, and some counties expect it, which is why this packet includes a proof-of-delivery page marked CONDITIONAL. Ask the clerk whether that county wants it.", "");
       L.push("WILL THERE BE A HEARING? A hearing is required UNLESS the State does not request one before the 45th day after receiving notice AND the court finds that you are entitled to file the petition and that issuing the order is in the best interest of justice.", "");
       L.push("NOTARIZATION. Subchapter E-1 does not require the petition to be notarized. County practice may differ. Ask the clerk.", "");
@@ -841,7 +876,7 @@ const COMPOSED_COMPONENTS = {
       L.push("- You do not know the Penal Code chapter or completion date needed to choose the immediate or two-year waiting branch.");
       L.push("- You have any other conviction or deferred adjudication other than a fine-only traffic offence, or you are not sure.");
       L.push("- The prosecutor opposes the petition or requests a hearing.");
-      L.push("- The court has made an affirmative finding of family violence, or any offence on the Sec. 411.074 exclusion list is in your history.");
+      L.push("- There is a family violence FINDING or a family violence ALLEGATION anywhere in your record - an allegation stops this route even where no court ever made a finding - or any offence on the Sec. 411.074 exclusion list is in your history.");
       L.push("- You are not a United States citizen.", "");
       L.push("DOCUMENTS TO GET FIRST, AND WHO HAS THEM.");
       L.push("- Your Texas DPS criminal history record - the Texas Department of Public Safety Crime Records Service, following DPS form CR-63. It establishes the disposition and shows every other conviction and deferred adjudication.");
@@ -910,7 +945,9 @@ const INSTRUCTIONS = {
     "",
     "**The order form covers three sections at once.** Its page 2 has a box for §§ 411.0725, 411.073 and 411.0735, and yours is 411.073. **None of the three is marked in this packet**, because the sentence above them says the *Court* finds which section applies.",
     "",
-    "The platform filled in what it holds about you, in the shape each form asks for it: your name on the petition, the proposed order and the Statement, your telephone number on the petition, and your date of birth, address, telephone number and email on the Statement.",
+    "The platform filled in what it holds about you, in the shape each form asks for it: your name on the petition, the proposed order and the Statement, your telephone number on the petition, and your date of birth, address, telephone number and email on the Statement. On page 2 of the Statement, your date of birth is printed month, day, year.",
+    "",
+    "**Page 11 of the Statement asks for your date of birth again.** Copy the month, day and year from page 2 into those three boxes. The platform leaves the whole line blank because its month box shares a form field with the notary's month on page 12.",
     "",
     "**Your address is not written on the petition, and that is deliberate.** That block splits it across Address and City/State/Zip, and the platform holds your address as a single line and will not guess where the street ends. The Statement asks for the whole address in one blank, so there it is filled in.",
     "",
@@ -946,6 +983,7 @@ const INSTRUCTIONS = {
     "- **The three section boxes on the order's page 2**, including the § 411.073 box that is yours. The court marks them because the sentence above them records the court's own finding.",
     "- **Both parts of your address on the petition**, because that block splits what the platform holds as one line.",
     "- **Every financial fact on the Statement of Inability.** It is sworn under penalty of perjury and the platform holds none of it.",
+    "- **The three date-of-birth boxes on page 11 of the Statement.** Copy month, day and year from page 2. The month box shares a field with the notary's month on page 12, so the platform cannot safely fill the line.",
     "- **The cause number on the Statement.** Its own face says the Clerk's office fills that in when you file.",
     "- **The district attorney's name and address**, if that county wants the proof of delivery."
   ],
@@ -955,7 +993,7 @@ const INSTRUCTIONS = {
     "- you cannot identify the Penal Code chapter or the completion date needed to choose the waiting branch;",
     "- you have any other conviction or deferred adjudication other than a fine-only traffic offence, or you are not sure;",
     "- **The prosecutor opposes the petition or requests a hearing.**",
-    "- the court has made an affirmative finding of family violence, or any offence on the § 411.074 exclusion list is in your history;",
+    "- there is a family violence **finding** or a family violence **allegation** anywhere in your record — an allegation stops this route even where no court ever made a finding — or any offence on the § 411.074 exclusion list is in your history;",
     "- you are not a United States citizen.",
     "",
     "Where self-help stops, the clerk of the court that sentenced you answers filing mechanics and the county's fee, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the other-offence question depends on."
@@ -1284,6 +1322,7 @@ async function renderDocument(source, census, fixtureName) {
     // See STATEMENT_SOURCE_CARRIED_VALUES. Named for this one document only;
     // every other component passes an empty list and is byte-unaffected.
     clearSourceCarriedTextValues: source.componentId === STATEMENT ? [...STATEMENT_SOURCE_CARRIED_VALUES] : [],
+    printedDateOrderByField: PRINTED_DATE_ORDER_BY_FIELD[source.componentId] ?? {},
     /*
      * FIX131, measured on this family's own delivered bytes. Every unwritten
      * selection on these forms carries the court's own `/AP /N /Off` appearance,
@@ -1847,6 +1886,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
     `the field dictionary names fields this form does not have: ${stale.map((s) => `${s.document}/${s.field}`).join(", ")}`);
   assert.equal(drift.length, 0,
     `a recorded caption is no longer printed where the dictionary says: ${drift.map((d) => `${d.field}@p${d.page}`).join(", ")}`);
+
+  for (const [componentId, orders] of Object.entries(PRINTED_DATE_ORDER_BY_FIELD)) {
+    const census = censusByForm.get(componentId);
+    assert.ok(census, `printed date order names missing component ${componentId}`);
+    for (const fieldName of Object.keys(orders)) {
+      assert.equal(census.rows.find((row) => row.name === fieldName)?.policy, "write");
+      const evidence = PRINTED_DATE_ORDER_EVIDENCE[componentId]?.[fieldName];
+      const lines = census.pageText.find((page) => page.page === evidence?.page)?.lines ?? [];
+      assert.ok(evidence && lines.some((line) => evidence.printedLine.test(line.text)),
+        `printed date order evidence missing for ${componentId}/${fieldName}`);
+    }
+  }
 
   fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });

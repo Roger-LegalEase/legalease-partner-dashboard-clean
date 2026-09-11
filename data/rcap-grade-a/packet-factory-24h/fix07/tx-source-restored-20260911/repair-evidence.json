@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "fix07-tx-source-restored-verification/v1",
+  "assignmentId": "FIX07",
+  "status": "COMPLETED",
+  "baseCommit": "734c67967a797aeb1533339d5f173c8b4f97e541",
+  "families": [
+    "tx_exp_acquittal-set",
+    "tx_nd_conviction_no_supervision-set",
+    "tx_nd_dwi_deferred-set",
+    "tx_nd_probation_misdemeanor-set"
+  ],
+  "sourceBinding": {
+    "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+    "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+    "byteLength": 6667524,
+    "pageCount": 12,
+    "custody": "human_source_returns"
+  },
+  "additionalBoundSources": [
+    {"families": ["tx_nd_conviction_no_supervision-set"], "role": "petition", "sha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13", "pageCount": 5},
+    {"families": ["tx_nd_conviction_no_supervision-set", "tx_nd_probation_misdemeanor-set"], "role": "proposed order", "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680", "pageCount": 3},
+    {"families": ["tx_nd_dwi_deferred-set"], "role": "petition", "sha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d", "pageCount": 5},
+    {"families": ["tx_nd_dwi_deferred-set"], "role": "proposed order", "sha256": "c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06", "pageCount": 3},
+    {"families": ["tx_nd_probation_misdemeanor-set"], "role": "petition", "sha256": "0f60ff4c10f3f670356907a4d571285e247b796980c674c9bd64737cdd6a068a", "pageCount": 5}
+  ],
+  "defectCoverage": [
+    {
+      "defect": "Statement page 2 received an ISO-formatted date despite its printed month/day/year order",
+      "fields": [
+        "TX-SCT-22-9090-STATEMENT-OF-INABILITY.My date of birth / Mi fecha de nacimiento es"
+      ],
+      "families": "all four",
+      "repair": "The source-bound formatter now writes MM/DD/YYYY and the builder proves the printed month/day/year instruction on source page 2."
+    },
+    {
+      "defect": "Page-11 Month / Mes, Day / Día and Year / Año were mislabeled as protected",
+      "fields": ["Month / Mes", "Day / Día", "Year / Año"],
+      "families": [
+        "tx_exp_acquittal-set",
+        "tx_nd_dwi_deferred-set",
+        "tx_nd_probation_misdemeanor-set"
+      ],
+      "repair": "All nine family-field rows are REQUIRED_BEFORE_FILING participant copy tasks with source caption and shared-widget explanation; the notary widgets remain protected."
+    },
+    {
+      "defect": "The acquittal composed declaration printed its DOB in ISO order",
+      "fields": ["tx_exp_acquittal-petition-3 unsworn declaration DOB"],
+      "families": ["tx_exp_acquittal-set"],
+      "repair": "Packet page 6 now prints MM/DD/YYYY for canonical and boundary facts."
+    },
+    {
+      "defect": "The acquittal proposed order exposed an internal route trailer and the probation guidance omitted the allegation stop",
+      "fields": ["tx_exp_acquittal-proposed-order-4 body", "tx_nd_probation_misdemeanor filing guidance"],
+      "families": ["tx_exp_acquittal-set", "tx_nd_probation_misdemeanor-set"],
+      "repair": "The order has no internal route key; both probation instruction surfaces carry the existing registry family-violence allegation stop."
+    }
+  ],
+  "outputs": [
+    {
+      "familyId": "tx_exp_acquittal-set",
+      "builderStatus": "BUILT_RASTER_PENDING",
+      "readOnlyCompletenessVerdict": "PASS_COMPLETE",
+      "writes": 17,
+      "mappedFields": 132,
+      "canonical": {"sha256": "11eea21f8c9de9599e4d61648f083f2cf71c95fddc2db9e7f901b5eccadc4538", "byteLength": 400361, "pageCount": 23},
+      "boundary": {"sha256": "92f970ae09fe218488a64423c9de79559df16252200b9959f25991c13d3747d8", "byteLength": 401006, "pageCount": 23}
+    },
+    {
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "builderStatus": "BUILT_RASTER_PENDING",
+      "readOnlyCompletenessVerdict": "PASS_COMPLETE",
+      "writes": 15,
+      "mappedFields": [17, 19, 132],
+      "canonical": {"sha256": "321703e1fed129963a0ec2aac85e81d67a267ee4eb4ac23aaed06f1e90b8b1ef", "byteLength": 665035, "pageCount": 24},
+      "boundary": {"sha256": "b13b15f655d47e618d8200467df220f0a8cca4760b79b2588bed24f27444ae8a", "byteLength": 665411, "pageCount": 24}
+    },
+    {
+      "familyId": "tx_nd_dwi_deferred-set",
+      "builderStatus": "BUILT_RASTER_PENDING",
+      "readOnlyCompletenessVerdict": "PASS_COMPLETE",
+      "writes": 15,
+      "mappedFields": [15, 14, 132],
+      "canonical": {"sha256": "18a69dfb244d4c8a0996e3f80baf8462a83b4763d877ad7ffe8b80a36d8b2d2c", "byteLength": 645138, "pageCount": 24},
+      "boundary": {"sha256": "c99b0deaccb10cc66abf4b23fac0dd3725a5e6cc1f675d346c8d21a94917b8fe", "byteLength": 645498, "pageCount": 24}
+    },
+    {
+      "familyId": "tx_nd_probation_misdemeanor-set",
+      "builderStatus": "BUILT_RASTER_PENDING",
+      "readOnlyCompletenessVerdict": "PASS_COMPLETE",
+      "writes": 15,
+      "mappedFields": [19, 19, 132],
+      "canonical": {"sha256": "03c28922704a2abc4f20b7013e65b6d3fe81ba57ec31b9552250b5af4c2da046", "byteLength": 646998, "pageCount": 24},
+      "boundary": {"sha256": "4f051899f3a6d8e3f6d2ff47ebaec74888d77b674baf5891730ea4127ee8816b", "byteLength": 647364, "pageCount": 24}
+    }
+  ],
+  "completenessCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "appliesToEachFamily": true
+  },
+  "commands": [
+    {"command": "RCAP_NO_LOCAL_RASTER=1 MASTER_LIBRARY_SOURCE_DIR=<absolute mounted source> node scripts/build-census-v1-<exact-family>.mjs", "families": 4, "exit": 0, "result": "four production builds completed; local raster skipped"},
+    {"command": "node scripts/build-census-v1-<exact-family>.mjs --check", "families": 4, "exit": 0, "result": "all fields mapped, zero stale keys/caption drift; before/after SHA-256 inventories identical"},
+    {"command": "node --test scripts/rcap-packet-recovery/tx-source-restored-dates.test.mjs", "exit": 0, "result": "11 passed, 0 failed; actual canonical/boundary PDF text and negative map variants checked"},
+    {"command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <exact-family>", "families": 4, "exit": 0, "result": "four PASS_COMPLETE; all nine counters zero; no --write"}
+  ],
+  "limits": [
+    "Changed PDF bytes require fresh central raster review.",
+    "Independent acceptance remains pending and no approval or commercial admission is issued here.",
+    "No local raster or full repository suite was run."
+  ],
+  "modelMetadata": "gpt-5.6-sol; reasoning effort high"
+}

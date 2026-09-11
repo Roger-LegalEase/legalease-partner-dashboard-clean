@@ -393,8 +393,28 @@ const SOI_RULES = [
     why: "the Statement is sworn by the participant and is never prefilled"
   },
   {
+    id: "option1_date_of_birth_month",
+    re: /^Month \/ Mes$/,
+    kind: "supply", section: S.SOI_DECLARATION,
+    label: () => "Month box of the date of birth on the Option 1 declaration, page 11",
+    caption: "My date of birth is / Mi fecha de nacimiento es",
+    captionAt: { page: 11, y: 521 },
+    what: "the MONTH of your date of birth, in the first of the three boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 of the Statement - copy it from the date of birth already printed on page 2 of the Statement. The same form field is also the notary's month blank on page 12; leave that one for the notary",
+    why: "this box is one widget of an AcroForm field whose other widget is the notary's month on page 12, and this factory writes a field rather than a widget, so filling the birth month here would also print it in the notary's blank. The box is declared instead of forced, and the fact it needs is already printed on page 2 of the same document"
+  },
+  {
+    id: "option1_date_of_birth_day_and_year",
+    re: /^(Day \/ Día|Year \/ Año)$/,
+    kind: "supply", section: S.SOI_DECLARATION,
+    label: (n) => `Date-of-birth box on the Option 1 declaration, page 11 (${n})`,
+    caption: "My date of birth is / Mi fecha de nacimiento es",
+    captionAt: { page: 11, y: 521 },
+    what: "the DAY and the YEAR of your date of birth, in the second and third boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 of the Statement - copy them from the date of birth already printed on page 2 of the Statement",
+    why: "the three boxes on this line are one date and are completed together. Their month box shares an AcroForm field with the notary's month on page 12 and cannot be written without writing the notary's blank, so the whole line is left to the participant rather than delivered two-thirds filled"
+  },
+  {
     id: "declaration_date",
-    re: /^(Day \/ Día|Month \/ Mes|Year \/ Año|Today|Year)$/,
+    re: /^(Today|Year)$/,
     kind: "protect", section: S.SOI_DECLARATION,
     label: (n) => `Date part of the sworn declaration (${n})`,
     why: "a date written before the Statement is actually sworn would be false"
@@ -482,7 +502,12 @@ function statementFields(fieldNames, selectionNames) {
     const rule = SOI_RULES.find((r) => (r.selectionOnly ? isSelection : (!r.selectionOnly && r.re && r.re.test(name))));
     if (!rule) { unmatched.push(name); continue; }
     used.add(rule.id);
-    const base = { section: rule.section, label: rule.label(name), ...(isSelection ? { selection: true } : {}) };
+    const base = {
+      section: rule.section, label: rule.label(name),
+      ...(rule.caption ? { caption: rule.caption } : {}),
+      ...(rule.captionAt ? { captionAt: rule.captionAt } : {}),
+      ...(isSelection ? { selection: true } : {})
+    };
     if (rule.kind === "write") spec[name] = { ...base, ...WRITE(rule.fact) };
     else if (rule.kind === "protect") spec[name] = { ...base, ...PROTECT(SIGNATURE, rule.why) };
     else if (rule.kind === "courtowned") spec[name] = { ...base, ...COURTOWN(rule.why) };
@@ -500,6 +525,21 @@ function statementFields(fieldNames, selectionNames) {
 const FORM_FIELDS = {
   "TX-SCT-22-9090-STATEMENT-OF-INABILITY": statementFields
 };
+
+const PRINTED_DATE_ORDER_BY_FIELD = {
+  [STATEMENT]: { "My date of birth / Mi fecha de nacimiento es": "month_day_year" }
+};
+const PRINTED_DATE_ORDER_EVIDENCE = {
+  [STATEMENT]: {
+    "My date of birth / Mi fecha de nacimiento es": { page: 2, printedLine: /month\s+day\s+year/i }
+  }
+};
+
+function monthDayYear(isoDate) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(isoDate));
+  assert.ok(match, `date of birth must be an ISO calendar date before display formatting: ${isoDate}`);
+  return `${match[2]}/${match[3]}/${match[1]}`;
+}
 
 /* ---- the pages this build authors ------------------------------------------ */
 const IDENTITY_BLANKS = (prefix) => ([
@@ -630,6 +670,7 @@ const COMPOSED_COMPONENTS = {
       const name = facts["participant.full_legal_name"];
       const dob = facts["participant.date_of_birth"];
       const address = facts["participant.street_address"];
+      const declarationDob = monthDayYear(dob);
       const L = [];
       L.push(COMPOSED_TITLES[PETITION].toUpperCase(), "");
       L.push("USE THIS PAGE IF THE 30-DAY WINDOW HAS CLOSED, OR THE COURT DID NOT ACT. Where the article 55A.201 window has passed, the person falls back to an ordinary verified ex parte petition under article 55A.251, which lists article 55A.002 among the qualifying entitlements.", "");
@@ -663,7 +704,7 @@ const COMPOSED_COMPONENTS = {
       L.push(DOTS(40));
       L.push("Notary Public, State of Texas", "");
       L.push("OR - UNSWORN DECLARATION UNDER PENALTY OF PERJURY:", "");
-      L.push(`My name is ${name}. My date of birth is ${dob}. My address is ${address}. I declare under penalty of perjury that the foregoing is true and correct.`, "");
+      L.push(`My name is ${name}. My date of birth is ${declarationDob}. My address is ${address}. I declare under penalty of perjury that the foregoing is true and correct.`, "");
       L.push("Executed on " + DOTS(24) + ".", "");
       L.push(DOTS(40));
       L.push(`${name}, Petitioner`, "");
@@ -707,7 +748,6 @@ const COMPOSED_COMPONENTS = {
       L.push(DOTS(40));
       L.push("JUDGE PRESIDING", "");
       L.push("(The findings, the date and the judge's signature are the Court's and are left blank.)");
-      L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   },
@@ -735,6 +775,7 @@ const COMPOSED_COMPONENTS = {
       L.push("THE COST THAT IS ACTUALLY IN YOUR CONTROL: $25 PER PAPER-ONLY AGENCY. Article 55A.254(e) forbids the clerk charging anything to transmit the petition or notice of hearing ELECTRONICALLY. Article 55A.254(f) requires the clerk to charge $25 FOR EACH LISTED ENTITY UNABLE TO RECEIVE AN ELECTRONIC TRANSMISSION - and the same structure repeats at the order stage under art. 55A.351(b-2) and (b-3). So the number of paper-only agencies you name is a direct dollar cost to you, and it lands twice.", "");
       L.push("WHICH IS WHY THE CLERK'S LIST MATTERS. Article 55A.253(c) requires each district clerk to compile and maintain, on the clerk's own website, a list of agencies and entities WITH E-MAIL ADDRESSES. Ask for it by name - the clerk is not always expecting the question - and use the e-mail addresses. Deduplicate your list. Every duplicate and every needless paper-only entry costs you $25 twice.", "");
       L.push("IF YOU STILL CANNOT AFFORD IT. Fill in the STATEMENT OF INABILITY TO AFFORD PAYMENT OF COURT COSTS in this packet, on the statewide bilingual form the Supreme Court of Texas approved in Misc. Docket No. 22-9090. Rule 145 requires the clerk to make that form available WITHOUT CHARGE AND WITHOUT YOUR HAVING TO ASK. It is sworn under penalty of perjury: fill it from your own records, not from memory.", "");
+      L.push("On page 2 of the Statement, your date of birth is printed month, day, year. Page 11 asks for it again in three boxes. Copy all three parts from page 2; the platform leaves that line blank because its month box shares a form field with the notary's month on page 12.", "");
       L.push("YOU DO NOT SERVE ANYONE. THE CLERK DOES. The clerk sends the petition and the notice of hearing by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. A state or local agency with a listed e-mail address MUST accept electronic service. A certificate of service is included only where local practice requires you to serve the prosecutor directly - ask the clerk.", "");
       L.push("THE HEARING. The court sets a hearing NOT EARLIER THAN THE 30TH DAY after the petition is filed, and gives a copy of the petition and the notice of hearing to each official, agency or entity listed, OTHER THAN central federal depositories.", "");
       L.push("AND YOU DO NOT CHASE THE FBI. On receipt, DPS notifies the central federal depositories itself.", "");
@@ -811,7 +852,9 @@ const INSTRUCTIONS = {
     "- **Within 30 days of the acquittal** — art. 55A.201. The order shall be entered not later than the 30th day after the date of acquittal, on your request after notice to the state. Use the **request to the trial court** and the **information package**. Do *not* prepare the order: the article assigns that to your attorney if you had one, and otherwise to the attorney representing the state.",
     "- **More than 30 days, or the court did not act** — art. 55A.251. Use the **verified ex parte petition** and the **proposed order**, filed with the **district clerk of the county of arrest** or of the alleged offence, which may not be the court that acquitted you.",
     "",
-    "The platform filled in what it holds about you: your name, your date of birth and your address. Every case fact lives on records the platform has not seen. **Your sex and race are not filled in** on the information package — the platform does not collect either and will not guess them onto a court filing — and neither is your Social Security number."
+    "The platform filled in what it holds about you: your name, your date of birth and your address. On page 2 of the Statement, your date of birth is printed month, day, year, in the order the form asks for. Every case fact lives on records the platform has not seen. **Your sex and race are not filled in** on the information package — the platform does not collect either and will not guess them onto a court filing — and neither is your Social Security number.",
+    "",
+    "**Page 11 of the Statement asks for your date of birth again.** Copy the month, day and year from page 2 into those three boxes. The platform leaves the whole line blank because its month box shares a form field with the notary's month on page 12."
   ],
   componentBlurbs: {
     [REQUEST]: "the request to the trial court under art. 55A.201 — **in-window branch only**",
@@ -848,7 +891,8 @@ const INSTRUCTIONS = {
     "- **Your Social Security number and driver's licence number.** The platform holds neither.",
     "- **The TRN.** It comes from your own DPS criminal history record.",
     "- **The agency and entity list, and the separate private-entity list.** Which agencies hold your arrest record is not something the platform knows; art. 55A.253(c) makes the district clerk the publisher of that list.",
-    "- **The art. 55A.151 statement** about a criminal episode. It looks at your whole record and at anything still pending."
+    "- **The art. 55A.151 statement** about a criminal episode. It looks at your whole record and at anything still pending.",
+    "- **The three date-of-birth boxes on page 11 of the Statement.** Copy month, day and year from page 2. The month box shares a field with the notary's month on page 12, so the platform cannot safely fill the line."
   ],
   stopsLines: [
     `**Stop and get a lawyer licensed in Texas rather than file if any of the following is true of your case.** Each of the twelve is carried word for word from this route's own committed track record — \`data/record-clearing/legal-design-track-registry.json\`, track \`${SELF_HELP_STOP_TRACK}\`, \`selfHelpStopConditions\` — and each is a point at which this packet stops being enough:`,
@@ -1203,6 +1247,7 @@ async function renderDocument(source, census, fixtureName) {
      */
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
       `${FAMILY_ID}:${source.componentId}`),
+    printedDateOrderByField: PRINTED_DATE_ORDER_BY_FIELD[source.componentId] ?? {},
     /*
      * FIX131, measured on this family's own delivered bytes. Every unwritten
      * selection on these forms carries the court's own `/AP /N /Off` appearance,
@@ -1738,6 +1783,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
     `the field dictionary names fields this form does not have: ${stale.map((s) => `${s.document}/${s.field}`).join(", ")}`);
   assert.equal(drift.length, 0,
     `a recorded caption is no longer printed where the dictionary says: ${drift.map((d) => `${d.field}@p${d.page}`).join(", ")}`);
+
+  for (const [componentId, orders] of Object.entries(PRINTED_DATE_ORDER_BY_FIELD)) {
+    const census = censusByForm.get(componentId);
+    assert.ok(census, `printed date order names missing component ${componentId}`);
+    for (const fieldName of Object.keys(orders)) {
+      assert.equal(census.rows.find((row) => row.name === fieldName)?.policy, "write");
+      const evidence = PRINTED_DATE_ORDER_EVIDENCE[componentId]?.[fieldName];
+      const lines = census.pageText.find((page) => page.page === evidence?.page)?.lines ?? [];
+      assert.ok(evidence && lines.some((line) => evidence.printedLine.test(line.text)),
+        `printed date order evidence missing for ${componentId}/${fieldName}`);
+    }
+  }
 
   fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });

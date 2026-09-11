@@ -811,6 +811,15 @@ const FORM_FIELDS = {
   "TX-SCT-22-9090-STATEMENT-OF-INABILITY": statementFields
 };
 
+const PRINTED_DATE_ORDER_BY_FIELD = {
+  [STATEMENT]: { "My date of birth / Mi fecha de nacimiento es": "month_day_year" }
+};
+const PRINTED_DATE_ORDER_EVIDENCE = {
+  [STATEMENT]: {
+    "My date of birth / Mi fecha de nacimiento es": { page: 2, printedLine: /month\s+day\s+year/i }
+  }
+};
+
 /* ---- the pages this build authors ------------------------------------------ */
 const COMPOSED_COMPONENTS = {
   [PROOF]: {
@@ -1342,6 +1351,7 @@ async function renderDocument(source, census, fixtureName) {
      */
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
       `${FAMILY_ID}:${source.componentId}`),
+    printedDateOrderByField: PRINTED_DATE_ORDER_BY_FIELD[source.componentId] ?? {},
     /*
      * FIX131, measured on this family's own delivered bytes. Every unwritten
      * selection on these three forms carries the court's own `/AP /N /Off`
@@ -1886,6 +1896,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
     `the field dictionary names fields this form does not have: ${stale.map((s) => `${s.document}/${s.field}`).join(", ")}`);
   assert.equal(drift.length, 0,
     `a recorded caption is no longer printed where the dictionary says: ${drift.map((d) => `${d.field}@p${d.page}`).join(", ")}`);
+
+  for (const [componentId, orders] of Object.entries(PRINTED_DATE_ORDER_BY_FIELD)) {
+    const census = censusByForm.get(componentId);
+    assert.ok(census, `printed date order names missing component ${componentId}`);
+    for (const fieldName of Object.keys(orders)) {
+      assert.equal(census.rows.find((row) => row.name === fieldName)?.policy, "write");
+      const evidence = PRINTED_DATE_ORDER_EVIDENCE[componentId]?.[fieldName];
+      const lines = census.pageText.find((page) => page.page === evidence?.page)?.lines ?? [];
+      assert.ok(evidence && lines.some((line) => evidence.printedLine.test(line.text)),
+        `printed date order evidence missing for ${componentId}/${fieldName}`);
+    }
+  }
 
   fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
