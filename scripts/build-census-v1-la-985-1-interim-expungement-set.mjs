@@ -706,15 +706,13 @@ function motionMap() {
  * place and the judge's signature all render blank, and the signature carries
  * NO INVENTED LABEL: the statute's own word, JUDGE, over a blank rule.
  *
- * The arresting agency on the PLEASE SERVE list IS written, because the
- * platform holds it and because the completeness contract refuses to let an
- * agency name hide inside a court-owned refusal class -- correctly, since the
- * mover knows which agency arrested them.
+ * All three PLEASE SERVE entries belong to the clerk under the committed
+ * Article 979 service rule. The arresting agency remains a participant fact
+ * on the motion; possession of that fact does not authorize ink on this order.
  */
 function orderMap() {
   const writes = [
-    ...CAPTION_WRITES(ORDER),
-    write(ORDER, "serve_arresting_agency", "Arresting Agency to be served", "case.arresting_law_enforcement_agency")
+    ...CAPTION_WRITES(ORDER)
   ];
   const blanks = [
     FELONY_CHARGES_SUPPLY(ORDER),
@@ -740,7 +738,11 @@ function orderMap() {
     courtRow(ORDER, "serve_district_attorney", "District Attorney to be served",
       "Article 979 makes service the clerk's act; the serve list is completed by the clerk"),
     courtRow(ORDER, "serve_bureau", "Louisiana Bureau of Criminal Identification and Information to be served",
-      "Article 979 makes service the clerk's act; the serve list is completed by the clerk")
+      "Article 979 makes service the clerk's act; the serve list is completed by the clerk"),
+    { ...courtRow(ORDER, "serve_arresting_agency", "Clerk's PLEASE SERVE list: Arresting Agency to be served",
+      "Article 979 makes service the clerk's act; the serve list is completed by the clerk, including its third row"),
+      sourcePrintedLabel: "3. Arresting Agency",
+      labelContextBasis: "The committed route limits this order to caption and felony-charge identifiers; the PLEASE SERVE block is the clerk's service instruction, not the motion's participant agency fact." }
   ];
   return {
     formNumber: ORDER,
@@ -1015,7 +1017,7 @@ function orderBody(facts, article995) {
       "PLEASE SERVE:",
       `1. District Attorney ${DOTS(48)}`,
       `2. Louisiana Bureau of Criminal Identification and Information ${DOTS(10)}`,
-      `3. Arresting Agency ${facts["case.arresting_law_enforcement_agency"]}`,
+      `3. Arresting Agency ${DOTS(48)}`,
       "",
       `Statutory source note: ${article995.statutorySourceNote}`,
       ""
@@ -1225,7 +1227,7 @@ function participantInstructions(binding, rbf, name, article995) {
     "",
     bullet("Sign and date the unrepresented-mover block on the Article 994 motion yourself, after reading it. If you are represented, give the packet to your attorney; the attorney block belongs to counsel and is left blank here."),
     bullet("Leave the whole decretal section of the Article 995 Order blank: the election between a hearing and Affidavits of No Opposition, the granted-or-denied choice, BOTH reasons for denial, the date, the place, and the signature line above the word JUDGE. Every one of those is the court's, and the two denial reasons are judicial findings."),
-    bullet("Leave the clerk's filed-on stamp, the clerk's certificate of service and the district attorney and Bureau lines of the PLEASE SERVE list blank. Article 979 makes service the clerk's act."),
+    bullet("Leave the clerk's filed-on stamp, the clerk's certificate of service and all three PLEASE SERVE lines (District Attorney, Bureau and Arresting Agency) blank. Article 979 makes service the clerk's act."),
     bullet("The Article 990 Affidavit of Response is the responding entity's own instrument. It is not printed in this packet and you never complete it."),
     "", `## Stop self-help and get legal help (all ${stops.length} stop conditions the record holds)`, ""
   );
@@ -1493,6 +1495,12 @@ async function proveWritesFromBytes(packetBytes, pageManifest, maps, facts, fixt
    * that is not there.
    */
   const orderLines = (linesByDocument.get(ORDER) ?? []).map((line) => line.trim()).filter((line) => line.length > 0);
+  for (const prefix of ["1. District Attorney", "2. Louisiana Bureau of Criminal Identification and Information", "3. Arresting Agency"]) {
+    const line = orderLines.find((value) => value.startsWith(prefix));
+    assert.ok(line, `${fixture}: missing clerk service row ${prefix}`);
+    assert.equal(/[A-Za-z0-9]/.test(line.slice(prefix.length)), false,
+      `${fixture}: clerk service row carries an unauthorized value: ${line}`);
+  }
   const judgeIndex = orderLines.findIndex((line) => line === "JUDGE");
   assert.ok(judgeIndex > 0,
     `${fixture}: the Article 995 order does not carry the statute's own JUDGE line alone on its own line; the committed note requires the rendering to carry that word and no signature label of its own`);

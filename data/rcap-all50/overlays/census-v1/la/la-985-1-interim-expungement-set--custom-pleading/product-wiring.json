@@ -54,14 +54,7 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34476556218",
-      "jobId": "102869652511",
-      "artifactId": null,
-      "boundToCanonicalSha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
@@ -89,6 +82,19 @@
           "boundToCanonicalSha256": "34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5",
           "coversTheWholeFamily": true
         }
+      },
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+        "replacedByCanonicalSha256": "f0300841fa1df4f6447c1eb243b47650a689e82fa95faaae7ce3b49d33069f08",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34476556218",
+          "jobId": "102869652511",
+          "artifactId": null,
+          "boundToCanonicalSha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+          "coversTheWholeFamily": true
+        }
       }
     ]
   },
@@ -103,7 +109,7 @@
         "order": 1,
         "documentId": "LA-CCRP-ART-994",
         "file": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+        "sha256": "f0300841fa1df4f6447c1eb243b47650a689e82fa95faaae7ce3b49d33069f08",
         "requirement": "required"
       },
       {
@@ -112,7 +118,7 @@
         "order": 2,
         "documentId": "LA-CCRP-ART-995",
         "file": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+        "sha256": "f0300841fa1df4f6447c1eb243b47650a689e82fa95faaae7ce3b49d33069f08",
         "requirement": "required"
       },
       {
@@ -121,7 +127,7 @@
         "order": 3,
         "documentId": "la-985-1-interim-expungement-instructions-4",
         "file": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+        "sha256": "f0300841fa1df4f6447c1eb243b47650a689e82fa95faaae7ce3b49d33069f08",
         "requirement": "required"
       }
     ]

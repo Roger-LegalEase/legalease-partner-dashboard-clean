@@ -172,7 +172,7 @@ The blanks on that list the record singles out are the ORIGINAL felony arrest ch
 
 - Sign and date the unrepresented-mover block on the Article 994 motion yourself, after reading it. If you are represented, give the packet to your attorney; the attorney block belongs to counsel and is left blank here.
 - Leave the whole decretal section of the Article 995 Order blank: the election between a hearing and Affidavits of No Opposition, the granted-or-denied choice, BOTH reasons for denial, the date, the place, and the signature line above the word JUDGE. Every one of those is the court's, and the two denial reasons are judicial findings.
-- Leave the clerk's filed-on stamp, the clerk's certificate of service and the district attorney and Bureau lines of the PLEASE SERVE list blank. Article 979 makes service the clerk's act.
+- Leave the clerk's filed-on stamp, the clerk's certificate of service and all three PLEASE SERVE lines (District Attorney, Bureau and Arresting Agency) blank. Article 979 makes service the clerk's act.
 - The Article 990 Affidavit of Response is the responding entity's own instrument. It is not printed in this packet and you never complete it.
 
 ## Stop self-help and get legal help (all 5 stop conditions the record holds)
