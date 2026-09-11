@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "40c409275eae51018dc6427c622916dfb1632e8b",
+  "minimumCaptainSha": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -75,12 +75,12 @@
     "sourceReady": 35,
     "sourceBlocked": 6,
     "legalBlocked": 0,
-    "verifyPending": 6,
+    "verifyPending": 5,
     "repairRequired": 30,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 228,
+    "COMPLETE_PACKET_PROVEN": 229,
     "PRODUCT_PATH_PENDING": 11,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 9,
@@ -89,7 +89,7 @@
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 11,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 6,
+    "VERIFY_PENDING": 5,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -35261,10 +35261,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf62",
-        "verifiedAtBase": "daf6b0b2812edc93bb55bf60107cb6bdf681a89d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-nj-ordinance-current.json"
+        "verifiedAtBase": "6463a0c47b557df7bfb5026a661170d73a7ff8d4",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-nj-final.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -35296,34 +35296,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/defects.json"
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/defects.json"
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/defects.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",

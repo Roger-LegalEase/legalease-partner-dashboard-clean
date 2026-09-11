@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `40c409275eae51018dc6427c622916dfb1632e8b`
+**Minimum required ancestor:** `bfdcdef3860edc7b1ca7bd693f07023690d8cd7d`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -480,7 +480,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf` — `ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf` — `afa8ec318bf716fd6d2657f90e14bdcf960a258f73f17da35001d3f444d669ef`
 - expected pages 15 · requested scale 2.5
-- built by VF05
+- built by VF02
 
 ### ri_nonconviction_sealing-set
 

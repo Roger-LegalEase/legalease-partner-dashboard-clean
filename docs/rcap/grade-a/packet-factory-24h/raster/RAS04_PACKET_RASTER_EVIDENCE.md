@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `40c409275eae51018dc6427c622916dfb1632e8b`
+**Minimum required ancestor:** `bfdcdef3860edc7b1ca7bd693f07023690d8cd7d`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -283,7 +283,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf` — `8b931df1a91a68f0313e8ec51f9cdd8aa3478695efe80a825513b59a28a624ca`
 - boundary `data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/boundary.pdf` — `8e967c9dfc1c41c0c41f851759d773360e001efb01574de1698774f4de9cec36`
 - expected pages 5 · requested scale 2.5
-- built by VF03
+- built by VF01
 
 ### ma-expunge-time-set
 

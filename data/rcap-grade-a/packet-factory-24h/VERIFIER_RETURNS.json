@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 240,
-    "rows": 1303,
+    "returnDirectories": 241,
+    "rows": 1304,
     "independentVerdicts": 301,
-    "failRepairRequired": 31,
-    "passIndependent": 247
+    "failRepairRequired": 30,
+    "passIndependent": 248
   },
   "failRepairRequiredFamilies": [
     "al-pardoned-felony-set",
@@ -56,7 +56,6 @@
     "ky_protective_order_record_expungement-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
-    "nj_ordinance-set",
     "nm_conviction-set",
     "nm_identity_theft-set",
     "nm_release_without_conviction-set",
@@ -20899,6 +20898,20 @@
     },
     {
       "familyId": "nj_ordinance-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6463a0c47b557df7bfb5026a661170d73a7ff8d4",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-nj-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nj_ordinance-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf62",
       "isIndependentVerification": true,
@@ -20932,7 +20945,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-nj-ordinance-current.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nm_conviction-set",
