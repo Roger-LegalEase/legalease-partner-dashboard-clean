@@ -18,6 +18,7 @@
  */
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import fs from "node:fs";
+import { suspendedTerminalState } from "./terminal-claim-suspension.mjs";
 import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC, GA_GUIDANCE, GA_PETITION } from "./treatment-reconciliation.mjs";
 import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
 import { assessGeorgiaReviewedGuidance, applyGeorgiaGuidanceAcceptance } from "./ga-reviewed-guidance.mjs";
@@ -2210,8 +2211,8 @@ for (const f of IN.scoreboard.familiesDetail) {
   // An explicit owner-directed containment suspends completion, not the
   // adopted delivery restriction. Keep terminalTreatment and the refusal on
   // the row so repairing a defective internal candidate cannot open checkout.
-  if (executionReclassification?.terminalClaimSuspended === true
-    && executionReclassification.stateOverride === "FAIL_REPAIR_REQUIRED") state = "FAIL_REPAIR_REQUIRED";
+  const suspendedState = suspendedTerminalState(executionReclassification);
+  if (suspendedState) state = suspendedState;
   else if (terminalTreatment) state = terminalTreatment.terminalTreatment;
   else if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
   else if (holdReclassificationNextState && comp && nineZero

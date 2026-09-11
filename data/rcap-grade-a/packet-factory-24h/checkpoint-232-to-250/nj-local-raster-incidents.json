@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-09-11T08:14:08.329256+00:00",
+  "familyId": "nj_clean_slate-set",
+  "prohibitedLocalReplayOccurred": true,
+  "knownIncidents": [
+    {
+      "actor": "hi_route_review",
+      "pages": 86,
+      "trigger": "--check invokes verifyFreshPopplerRaster",
+      "acceptanceUse": false
+    },
+    {
+      "actor": "root",
+      "pages": 86,
+      "trigger": "patch assertion failed; shell continued; unsupported --check-nonvisual fell through to build",
+      "log": "nj-clean-slate-unintended-local-rebuild-incident.log",
+      "trackedFamilyOutputDiffAfterCompletion": "empty",
+      "acceptanceUse": false
+    }
+  ],
+  "independentReviewerConfirmedNoBuilderExecution": true,
+  "repair": [
+    "shell env now set -e",
+    "NJ unknown modes rejected before build",
+    "explicit nonvisual check bypasses only fresh raster replay",
+    "RCAP_NO_LOCAL_RASTER guard prevents fresh replay"
+  ],
+  "freshCheckTemporaryImages": "deleted by existing check finally block; not retained as acceptance evidence",
+  "terminalCountUnchanged": 239,
+  "denominator": 346
+}

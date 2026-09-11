@@ -123,6 +123,7 @@ function assertFailClosedEvidence(value, context) {
 }
 
 async function verifyFreshPopplerRaster({ pdfFile, raster, pdfPages, label }) {
+  assert.notEqual(process.env.RCAP_NO_LOCAL_RASTER, "1", "Local raster replay prohibited by RCAP_NO_LOCAL_RASTER");
   assert.equal(raster.engine, "bundled_poppler_pdftoppm", `${label}: unexpected raster engine`);
   assert.equal(raster.dpi, RASTER_DPI, `${label}: unexpected raster DPI`);
   assert.deepEqual(raster.pages.map((page) => page.page),
@@ -6213,7 +6214,7 @@ async function buildOfficial(familyId, config) {
   }
 }
 
-async function checkOfficial(familyId, config) {
+async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
   const out = officialOut(familyId, config.jurisdiction);
   const required = ["source-receipt.json", "field-census.census-v1.json", "production-field-map.json",
     "reports/actual-writes.json", "reports/rendered-artifacts.json", "build-findings.json",
@@ -6363,7 +6364,7 @@ async function checkOfficial(familyId, config) {
       assert.equal(page.croppedToPage, recomputedCrop, `${page.file}: stored crop flag drift`);
       assert.equal(page.dpi, RASTER_DPI, `${page.file}: raster DPI mismatch`);
     }
-    await verifyFreshPopplerRaster({
+    if (replayRaster) await verifyFreshPopplerRaster({
       pdfFile: pdf.file, raster, pdfPages, label: `${familyId}/${pdf.file}`,
     });
   }
@@ -6535,7 +6536,11 @@ async function checkOfficial(familyId, config) {
   assert.equal(approval.runtimeSelectable, false);
   assertPrintedCaptionInvariants(config, map.documents,
     fs.readFileSync(abs(`${out}/participant-instructions.md`), "utf8"), familyId);
-  console.log(`build-census-v1-${familyId}: CHECK PASS (${rendered.pdfs.length} PDFs; ${rendered.rasters.reduce((n, row) => n + row.pages.length, 0)} rasters)`);
+  if (replayRaster) {
+    console.log(`build-census-v1-${familyId}: CHECK PASS (${rendered.pdfs.length} PDFs; ${rendered.rasters.reduce((n, row) => n + row.pages.length, 0)} rasters)`);
+  } else {
+    console.log(`build-census-v1-${familyId}: NONVISUAL CHECK PASS (${rendered.pdfs.length} PDFs; existing PNG hashes checked; no raster replay or new visual acceptance)`);
+  }
 }
 
 const OH_TRACKS = {
@@ -7801,6 +7806,14 @@ async function checkPa6308Stop() {
 }
 
 export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
+  const nonvisual = argv.includes("--check-nonvisual");
+  if (familyId === "nj_clean_slate-set") {
+    const allowed = new Set(["--check", "--check-nonvisual", "--self-test", "--self-test-fix88"]);
+    assert.ok(argv.every((arg) => allowed.has(arg)), `Unsupported NJ clean-slate argument: ${argv.filter((arg) => !allowed.has(arg)).join(", ")}`);
+    assert.ok(argv.length <= 1, "NJ clean-slate accepts exactly one execution mode");
+    assert.ok(argv.length > 0 || process.env.RCAP_NO_LOCAL_RASTER !== "1", "NJ clean-slate build prohibited while local raster is disabled");
+  }
+  assert.ok(!nonvisual || familyId === "nj_clean_slate-set", "Nonvisual check is supported only for NJ clean slate");
   if (argv.includes("--self-test-fix88")) { await selfTestFix88(); return; }
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
   const check = argv.includes("--check");
@@ -7810,7 +7823,7 @@ export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
     const pa790 = familyId === "pa_790_nonconviction-set"
       ? await import("./rcap-packet-recovery/pa-790-recovery.mjs") : null;
     const config = pa790 ? pa790.configurePa790Family(FAMILY[familyId]) : FAMILY[familyId];
-    if (check) await checkOfficial(familyId, config);
+    if (check || nonvisual) await checkOfficial(familyId, config, { replayRaster: !nonvisual });
     else await buildOfficial(familyId, config);
     if (pa790) await pa790.writePa790ConditionalFixtures(abs(officialOut(familyId, "PA")), { check });
     return;

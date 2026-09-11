@@ -54,9 +54,9 @@
         "scripts/grade-a-packet-factory-24h/ga-reviewed-guidance.mjs": "12ffc1c8b13f32bd4b7cf787b4d01bf7291961d1d1930fc9c8c0f89de8e7e5b9",
         "scripts/grade-a-packet-factory-24h/treatment-reconciliation.mjs": "e2405392c7eda47da317ac38ea9f4b4de0ca77384bfb7e0be94ead61b42e1ad5",
         "scripts/grade-a-packet-factory-24h/generate.mjs": "5320552349adc30971e1187accef8d9a02d038b6a830f4f6d49eaf2ed031392c",
-        "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs": "3c948f4d99d8045ce315ff329de0162f3c228925890c12e8506b4ed8a51791da"
+        "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs": "8917c4530833b1458049ea47276431147c7f11410820f4f91c86e361d18f73a2"
       },
-      "test": "node scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs PASS (12 mutation/refusal controls)",
+      "test": "node scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs PASS (GA isolation plus WA assessor regression and 12 mutation/refusal controls)",
       "findings": [
         "GA-specific GUIDANCE_READY transition was removed from shared preserveTreatmentAcceptance and isolated in applyGeorgiaGuidanceAcceptance export.",
         "generate.mjs captures stateBeforeTreatment and invokes the GA-only transition only for GA guidance after ordinary treatment computation; WA treatment no longer receives the GA exception.",
@@ -70,7 +70,7 @@
     "scripts/grade-a-packet-factory-24h/ga-reviewed-guidance.mjs": "12ffc1c8b13f32bd4b7cf787b4d01bf7291961d1d1930fc9c8c0f89de8e7e5b9",
     "scripts/grade-a-packet-factory-24h/treatment-reconciliation.mjs": "e2405392c7eda47da317ac38ea9f4b4de0ca77384bfb7e0be94ead61b42e1ad5",
     "scripts/grade-a-packet-factory-24h/generate.mjs": "5320552349adc30971e1187accef8d9a02d038b6a830f4f6d49eaf2ed031392c",
-    "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs": "3c948f4d99d8045ce315ff329de0162f3c228925890c12e8506b4ed8a51791da"
+    "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs": "8917c4530833b1458049ea47276431147c7f11410820f4f91c86e361d18f73a2"
   },
   "testResultCurrent": "PASS"
 }
