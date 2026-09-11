@@ -1,0 +1,13 @@
+PASS / EXIT 0 — git rev-parse HEAD && git status --short (current checkout)
+  28fb9b6a9df211c602de81482287d2343f6466ed; prior supplied claim/input WIP preserved
+PASS / EXIT 0 — git rev-parse HEAD && git status --short (baseline checkout)
+  7ab552e8ba14dc2eece3e81b7699ff452decae66; only private symlink untracked
+PASS / EXIT 0 — node /tmp/rcap-md-contract-comparison-20260911/prepare-baseline.mjs
+  BASELINE_MD_RAW_AUDIT_PASS fixtures=43 inputs=fd4942098b4ab52336c1b762d128402b4120a2c624b2355465d56a0e64477ae7 results=75d55036994f009caf2eb99f72ba6442640e5d0a7f51f648a59f5b752df29247
+PASS / EXIT 0 — node /tmp/rcap-md-contract-comparison-20260911/replay-current.mjs
+  CURRENT_MD_RAW_AUDIT_PASS fixtures=43 deepEqual=true results=75d55036994f009caf2eb99f72ba6442640e5d0a7f51f648a59f5b752df29247 bound=199 exact=198 changed=1 fixturePdfs=43 sources=4
+PASS / EXIT 0 — node /tmp/rcap-md-contract-comparison-20260911/verify-current-loader-refusal.mjs
+  CURRENT_MD_NORMAL_LOADER_EXPECTED_REFUSAL_PASS families=2 changed=contract-only renewal-required=true
+PASS / EXIT 0 — JSON parse of all durable JSON evidence and git diff --check
+
+No Maryland binding, loader, family code, source, PDF, report, review, grant, or central state file was changed.

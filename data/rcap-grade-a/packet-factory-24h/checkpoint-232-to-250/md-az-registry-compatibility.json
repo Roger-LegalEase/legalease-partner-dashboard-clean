@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-md-az-registry-compatibility/v1",
+  "scope": "Read-only compatibility comparison for the two Maryland conditional families whose retained 199-member binding pins the shared completeness contract.",
+  "baseline": {
+    "checkout": "/tmp/rcap-md-contract-baseline-20260911",
+    "head": "7ab552e8ba14dc2eece3e81b7699ff452decae66",
+    "contractSha256": "1ae9d4188df538a744de52138293c13301554c4ead5509d2faf716d1e30887c4",
+    "contractBytes": 40546
+  },
+  "current": {
+    "checkout": "/tmp/rcap-az-guidance-repair-20260911",
+    "comparisonCodeHead": "28fb9b6a9df211c602de81482287d2343f6466ed",
+    "contractSha256": "90e774f887dea4e74ecec55b611ad7c35a28cc8c5e4a4eff5a9d1ede2f9a33e2",
+    "contractBytes": 40759,
+    "newDependency": {
+      "path": "scripts/rcap-packet-completeness/az-source-optional-registry.json",
+      "sha256": "6b8a21feef1ce3438b21747567beb06469fe12fefe599966a81b9e58f15d7b96",
+      "bytes": 10913,
+      "importedByCurrentContract": true
+    }
+  },
+  "families": {
+    "md_10110_conviction-set": 25,
+    "md_cannabis_petition-set": 18
+  },
+  "comparison": {
+    "fixtures": 43,
+    "baselineNormalLoaderAuthenticatedAll199Inputs": true,
+    "serializedInputsSha256": "fd4942098b4ab52336c1b762d128402b4120a2c624b2355465d56a0e64477ae7",
+    "fullRawAuditResultsDeepEqual": true,
+    "baselineFullRawResultsSha256": "75d55036994f009caf2eb99f72ba6442640e5d0a7f51f648a59f5b752df29247",
+    "currentFullRawResultsSha256": "75d55036994f009caf2eb99f72ba6442640e5d0a7f51f648a59f5b752df29247",
+    "normalizationOrOmissionApplied": false,
+    "mockedClassifierUsed": false
+  },
+  "binding": {
+    "path": "scripts/rcap-packet-completeness/md-conditional-reviewed-inputs.json",
+    "sha256": "0870e0f36adc77c5c46779a2515e8d84a452844fb08daab770fbcf24bdf050ff",
+    "members": 199,
+    "currentExactMatches": 198,
+    "currentMismatches": 1,
+    "soleMismatch": {
+      "path": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "oldSha256": "1ae9d4188df538a744de52138293c13301554c4ead5509d2faf716d1e30887c4",
+      "newSha256": "90e774f887dea4e74ecec55b611ad7c35a28cc8c5e4a4eff5a9d1ede2f9a33e2"
+    },
+    "normalCurrentLoaderOutcome": "REFUSED_UNTIL_CAPTAIN_CONTROLLED_RENEWAL"
+  },
+  "bytes": {
+    "fixturePdfsHashed": 43,
+    "sourcePdfsHashed": 4,
+    "allMatchOriginalBinding": true,
+    "sourceOrPdfChanged": false
+  },
+  "precedentPreserved": {
+    "compatibilityPath": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/md-optional-compatibility.json",
+    "compatibilitySha256": "b822b9ce990977ffe91c0276aea9d6796f7107d297d5818fc84c5ee02fdd3927",
+    "independentReviewPath": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/md-optional-independent-review.json",
+    "independentReviewSha256": "7a1d50d78b4e5b758430bcefc43686a2b37a8d06d82341c3870958b7cefae1a0"
+  },
+  "rawArtifacts": {
+    "directory": "/tmp/rcap-md-contract-comparison-20260911",
+    "serializedInputs": "baseline-serialized-inputs.json",
+    "baselineFullRawResults": "baseline-full-raw-results.json",
+    "currentFullRawResults": "current-full-raw-results.json"
+  },
+  "admission": false,
+  "bindingRenewed": false,
+  "familyReopened": false,
+  "grantsAuthority": false
+}
