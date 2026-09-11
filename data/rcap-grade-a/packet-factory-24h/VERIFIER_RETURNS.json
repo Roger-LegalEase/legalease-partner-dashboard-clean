@@ -34,43 +34,32 @@
     }
   ],
   "counts": {
-    "returnDirectories": 204,
-    "rows": 1265,
-    "independentVerdicts": 295,
-    "failRepairRequired": 41,
-    "passIndependent": 230
+    "returnDirectories": 231,
+    "rows": 1293,
+    "independentVerdicts": 299,
+    "failRepairRequired": 29,
+    "passIndependent": 245
   },
   "failRepairRequiredFamilies": [
-    "al-felony-nonconviction-90-set",
     "al-pardoned-felony-set",
-    "ar-drug-court-set",
-    "ar-pardon-seal-set",
     "ca-17b-reduction-set",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
-    "co_multiple_conviction_seal-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-    "ct-cleanslate-petition-set",
     "de_discretionary_superior_court-set",
     "fl-early-juvenile-set",
     "il-seal-edu-set",
     "in_arrest_no_charges-set",
-    "in_infraction_nondisclosure-set",
     "in_section1_petition-set",
     "ks-21-6614-conviction-set",
     "ky_protective_order_record_expungement-set",
-    "la-985-1-interim-expungement-set",
-    "ne-setaside-custodial-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
     "nj_ordinance-set",
     "nm_conviction-set",
     "nm_identity_theft-set",
     "nm_release_without_conviction-set",
-    "pa_pardon_expungement-set",
     "rcap-in-custom-pleading",
-    "ri_decriminalized-set",
-    "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "tx_exp_acquittal-set",
     "tx_nd_conviction_no_supervision-set",
@@ -80,7 +69,6 @@
     "tx_nd_probation_misdemeanor-set",
     "tx_nd_veterans_court-set",
     "tx_nd_veterans_reemployment-set",
-    "wi_exp_cr266-set",
     "wv_acc_treatment_job_readiness-set"
   ],
   "refusedAtTheClaimGate": {
@@ -1477,6 +1465,36 @@
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf41",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "380620df6aa089ea5e0cfd58c2ab6dd2f472cd1d",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows-vf41-20260911-al90-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "STOPPED",
+      "lane": "vf41",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ecda700303690c9ba1bf795e9a1ab0a5abe0cfa9",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows-vf41-20260911-al90-preraster.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf41",
       "isIndependentVerification": true,
@@ -1496,7 +1514,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-misd-conviction-set",
@@ -2366,6 +2384,20 @@
     },
     {
       "familyId": "ar-drug-court-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2c8fcea7e1f0206d0bfc693b4263e2d0280cdc8b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-ar-20260911-central.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-drug-court-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-drug-court-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf05",
       "isIndependentVerification": true,
@@ -2452,7 +2484,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf63/rows-vf63-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-drug-court-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ar-felony-seal-set",
@@ -2787,6 +2819,20 @@
       "superseded": true
     },
     {
+      "familyId": "ar-misdemeanor-seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "06f188498e030e7378429473d6bec0734b5e8a17",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260911-ar-misdemeanor-preraster.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-misdemeanor-seal-set",
+      "superseded": false
+    },
+    {
       "familyId": "ar-nonconviction-seal-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
@@ -2959,6 +3005,20 @@
     },
     {
       "familyId": "ar-pardon-seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ba2ffe76cc9513a3b61127ce8d473debbecade97",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-ar-pardon-complete.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-pardon-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-pardon-seal-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
@@ -2999,7 +3059,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-pardon-seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_certificate_second_chance-set",
@@ -3421,6 +3481,22 @@
       "superseded": true
     },
     {
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "verdict": "STOPPED",
+      "lane": "vf68",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-preraster.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set",
+      "superseded": false
+    },
+    {
       "familyId": "az_record_sealing_conviction-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf01",
@@ -3432,6 +3508,22 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_record_sealing_dismissal_not_guilty-set",
+      "verdict": "STOPPED",
+      "lane": "vf69",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-preraster.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_dismissal_not_guilty-set",
       "superseded": false
     },
     {
@@ -5901,7 +5993,35 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows-vf29-20260910-cone.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows-vf29-20260911-co-multiple-original-final.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
       "superseded": false
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "verdict": "STOPPED",
+      "lane": "vf29",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "94d4340f01552990d34ecc7517834b63daf636ab",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows-vf29-20260911-co-multiple-preraster.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
+      "superseded": true
     },
     {
       "familyId": "co_multiple_conviction_seal-set",
@@ -8508,6 +8628,49 @@
     },
     {
       "familyId": "ct-cleanslate-petition-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "053bc2589b3b0ee4d57d447c88417ec941a898cc",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-20260911-ct-complete.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "verdict": "PASS",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9830a634200332ce92bb4dce9da05d880a5c77fa",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-20260911-ct-prose.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf44",
       "isIndependentVerification": true,
@@ -8540,7 +8703,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ct-cleanslate-petition-set",
@@ -12718,6 +12881,20 @@
     {
       "familyId": "in_infraction_nondisclosure-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0be76599ab712789bfbd92a8a80ed1f9ab17537f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-in-20260911.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_infraction_nondisclosure-set",
+      "superseded": false
+    },
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf07",
       "isIndependentVerification": true,
       "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
@@ -12841,7 +13018,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf63/rows-vf63-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_infraction_nondisclosure-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "in_section1_petition-set",
@@ -13776,7 +13953,37 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260910b.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "la-985-1-interim-expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "876a35b488629a7d2d700b59f31c7a8cbfd2bb13",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-la-complete.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set",
       "superseded": false
+    },
+    {
+      "familyId": "la-985-1-interim-expungement-set",
+      "verdict": "PASS",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-la-preraster.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set",
+      "superseded": true
     },
     {
       "familyId": "la-985-1-interim-expungement-set",
@@ -18402,7 +18609,37 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf64",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3b8740972dde964f2dac21ea3c32507b4f1ce28d",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-ne-complete.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
       "superseded": false
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "PASS",
+      "lane": "vf64",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "385c75f65302c5e97f12c6df7af6e7d441a58940",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-ne-preraster.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": true
     },
     {
       "familyId": "ne-setaside-custodial-set",
@@ -18427,6 +18664,36 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ne-setaside-noncustodial-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf64",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "de2722201caf4c686687c1099ebe6ff55c42957b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-ne-noncustodial-complete.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-noncustodial-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ne-setaside-noncustodial-set",
+      "verdict": "PASS",
+      "lane": "vf64",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "de2722201caf4c686687c1099ebe6ff55c42957b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-ne-noncustodial-preraster.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-noncustodial-set",
       "superseded": true
     },
     {
@@ -19449,7 +19716,60 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_clean_slate-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_clean_slate-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf66",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-20260911-nj-clean-slate-fit-complete.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_clean_slate-set",
       "superseded": false
+    },
+    {
+      "familyId": "nj_clean_slate-set",
+      "verdict": "STOPPED",
+      "lane": "vf66",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "129e9b04968d8d261c43bf02aa501b755f1c79e6",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-20260911-nj-clean-slate-fit-preraster.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_clean_slate-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_clean_slate-set",
+      "verdict": "STOPPED",
+      "lane": "vf66",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d33b68843761f917eba6afdbaa56c4fc21d39ab6",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Direct inspection found participant-name truncation at the field edge in boundary pages 18, 27, 30, 31, 35, 38, 40, and 43; canonical pages were clean.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-20260911-nj-clean-slate-repair-review.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_clean_slate-set",
+      "superseded": true
     },
     {
       "familyId": "nj_disorderly_persons-set",
@@ -23080,6 +23400,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "129e9b04968d8d261c43bf02aa501b755f1c79e6",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-pa-pardon-preraster.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
       "superseded": false
     },
     {
@@ -23296,7 +23630,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ga-guidance-implementation",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-ga-guidance-implementation",
@@ -23309,6 +23643,36 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ga-guidance-implementation",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-ga-guidance-implementation",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf65",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf65/rows-vf65-20260911-ga-guidance-complete.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ga-guidance-implementation",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ga-guidance-implementation",
+      "verdict": "PASS",
+      "lane": "vf65",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf65/rows-vf65-20260911-ga-guidance-preraster.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ga-guidance-implementation",
       "superseded": true
     },
@@ -26835,6 +27199,36 @@
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf03",
       "isIndependentVerification": true,
+      "verifiedAtBase": "7188fc54bc3d1482799d49d27aabd98dfb12e0d5",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260911-ri-complete.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_decriminalized-set",
+      "verdict": "PASS",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9f01c2f894f8d839e3f079b3204466ac2b0046d0",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260911-ri-preraster.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_decriminalized-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
       "verifiedAtBase": "5727d573f",
       "failedObligations": [],
       "failedObligationNames": [],
@@ -26979,7 +27373,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_deferred_sentence-set",
@@ -28135,6 +28529,22 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_nonconviction_sealing-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "verdict": "PASS",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_nonconviction_sealing-set",
       "superseded": false
@@ -36565,6 +36975,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows-vf33-20260910-wi.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wi_exp_cr266-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wi_exp_cr266-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf33",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "597b31522f411c5af653648cdcc5124fa8640a71",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows-vf33-20260911-wi-cr266.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wi_exp_cr266-set",
       "superseded": false
