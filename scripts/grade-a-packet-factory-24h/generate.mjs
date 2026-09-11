@@ -22,6 +22,7 @@ import {
   loadUserSourceAdoption,
   USER_SOURCE_ADOPTION_PATH,
 } from "./user-source-adoption.mjs";
+import { assessPacketSourceAdoption } from "./packet-source-adoption.mjs";
 import fs from "node:fs";
 import { suspendedTerminalState } from "./terminal-claim-suspension.mjs";
 import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC, GA_GUIDANCE, GA_PETITION } from "./treatment-reconciliation.mjs";
@@ -2325,6 +2326,7 @@ for (const f of IN.scoreboard.familiesDetail) {
    * but never a substantive repair; those still use rasterPassByFamily. */
   const postRepairRasterPassed = rasterPassByFamily.get(familyId) === true
     || artifactsOnlyBookkeepingRepair;
+  const packetSourceAdoption = assessPacketSourceAdoption(ROOT, directory, sourceReconciliation);
 
   const activeOwner = activeFamilies.get(familyId) ?? null;
   /* What KIND of lane holds it, read from the lane's own record rather than
@@ -2385,6 +2387,7 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (reviewedGuidance && legalBlocked) state = "LEGAL_BLOCKED";
   else if (reviewedGuidance) state = reviewedGuidance.eligible ? "GUIDANCE_READY" : "VERIFY_PENDING";
   else if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
+  else if (packetSourceAdoption?.ready === false) state = "FAIL_REPAIR_REQUIRED";
   /*
    * A returned verdict outranks an active-owner claim.
    *
@@ -2705,6 +2708,8 @@ for (const f of IN.scoreboard.familiesDetail) {
               ? { participantDocumentRequirements: structuredClone(sourceReconciliation.participantDocumentRequirements) } : {}),
             ...(Object.hasOwn(sourceReconciliation, "operationalBucket")
               ? { operationalBucket: sourceReconciliation.operationalBucket } : {}),
+            ...(Object.hasOwn(sourceReconciliation, "requiredPacketSourceBindings")
+              ? { requiredPacketSourceBindings: structuredClone(sourceReconciliation.requiredPacketSourceBindings) } : {}),
             sourceAdoptionId: sourceReconciliation.sourceAdoptionId,
             ...(Object.hasOwn(sourceReconciliation, "sourceResolutionId")
               ? { sourceResolutionId: sourceReconciliation.sourceResolutionId } : {}),
@@ -2745,7 +2750,10 @@ for (const f of IN.scoreboard.familiesDetail) {
         }
       : null,
     ...(reviewedGuidance ? {reviewedGuidanceAdmission: reviewedGuidance} : {}),
-    rasterEnrolmentRefusal: rasterNotEligible.get(familyId) ?? null,
+    ...(packetSourceAdoption ? { packetSourceAdoption } : {}),
+    rasterEnrolmentRefusal: packetSourceAdoption?.ready === false
+      ? [packetSourceAdoption.reason]
+      : rasterNotEligible.get(familyId) ?? null,
     legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
     /* Carried on the row so a reader sees the refusal and its grounds where the
      * state is, rather than having to know a separate decision file exists. */

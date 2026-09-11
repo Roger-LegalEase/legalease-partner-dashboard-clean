@@ -72,6 +72,7 @@ function validateAdoption(root, document) {
   if (!Array.isArray(document.familyDeterminations)) refuse("familyDeterminations must be an array");
 
   const sourceIds = new Set();
+  const sourceById = new Map();
   const itemIds = new Set();
   for (const [index, source] of document.sources.entries()) {
     const label = `sources[${index}]`;
@@ -90,6 +91,7 @@ function validateAdoption(root, document) {
       refuse(`duplicate sourceObligationId ${source.sourceObligationId}`);
     }
     sourceIds.add(source.sourceObligationId);
+    sourceById.set(source.sourceObligationId, source);
     stringArray(source.familyIds, `${label}.familyIds`);
     stringArray(source.itemIds, `${label}.itemIds`);
     for (const itemId of source.itemIds) {
@@ -121,6 +123,29 @@ function validateAdoption(root, document) {
     familyIds.add(determination.familyId);
     if (typeof determination.disposition !== "string" || determination.disposition.length === 0) {
       refuse(`${label}.disposition must be a nonempty string`);
+    }
+    if (Object.hasOwn(determination, "requiredPacketSourceBindings")) {
+      if (!Array.isArray(determination.requiredPacketSourceBindings)
+          || determination.requiredPacketSourceBindings.length === 0) {
+        refuse(`${label}.requiredPacketSourceBindings must be a nonempty array`);
+      }
+      const bindingIds = new Set();
+      for (const [bindingIndex, binding] of determination.requiredPacketSourceBindings.entries()) {
+        const bindingLabel = `${label}.requiredPacketSourceBindings[${bindingIndex}]`;
+        if (!binding || typeof binding !== "object" || Array.isArray(binding)
+            || typeof binding.sourceId !== "string" || !SHA256.test(String(binding.sha256 ?? ""))) {
+          refuse(`${bindingLabel} must name a sourceId and lowercase SHA-256 digest`);
+        }
+        if (bindingIds.has(binding.sourceId)) refuse(`${label}.requiredPacketSourceBindings contains duplicate ${binding.sourceId}`);
+        bindingIds.add(binding.sourceId);
+        const adopted = sourceById.get(binding.sourceId);
+        if (!adopted || !adopted.familyIds.includes(determination.familyId)) {
+          refuse(`${bindingLabel} is not an adopted source for ${determination.familyId}`);
+        }
+        if (binding.sha256 !== adopted.sha256) {
+          refuse(`${bindingLabel}.sha256 does not match the adopted source digest`);
+        }
+      }
     }
   }
   return document;

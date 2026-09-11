@@ -32,7 +32,8 @@ const adoption = {
   schemaVersion: "rcap-source-custody-adoption/v1",
   sources: [source],
   familyDeterminations: [
-    { familyId: "nm_conviction-set", group: "LATER", disposition: "SOURCE_READY", unresolvedObligations: [] },
+    { familyId: "nm_conviction-set", group: "LATER", disposition: "SOURCE_READY", unresolvedObligations: [],
+      requiredPacketSourceBindings: [{ sourceId: "official-form:4-222", sha256 }] },
     { familyId: "co_new-family-set", group: "LATER", disposition: "SOURCE_READY", additionalRequiredSourceIds: ["official-form:JDF-205"] },
   ],
 };
@@ -64,6 +65,10 @@ try {
   rejects((value) => { value.sources[0].familyIds.push(value.sources[0].familyIds[0]); }, /familyIds contains duplicates/);
   rejects((value) => { value.sources[0].itemIds = ["unknown-family::official-form:4-222"]; }, /familyIds::sourceObligationId exactly/);
   rejects((value) => { value.familyDeterminations.push(structuredClone(value.familyDeterminations[0])); }, /duplicate family determination/);
+  rejects((value) => { value.familyDeterminations[0].requiredPacketSourceBindings[0].sha256 = "0".repeat(64); },
+    /does not match the adopted source digest/);
+  rejects((value) => { value.familyDeterminations[0].requiredPacketSourceBindings[0].sourceId = "official-form:unadopted"; },
+    /is not an adopted source/);
 
   writeRecord(adoption);
   const historical = {
@@ -107,8 +112,12 @@ if (process.argv.includes("--generated")) {
   const repoRoot = process.cwd();
   const generated = JSON.parse(fs.readFileSync(path.join(repoRoot,
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"), "utf8"));
+  const raster = JSON.parse(fs.readFileSync(path.join(repoRoot,
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"), "utf8"));
   const baseline = JSON.parse(execFileSync("git", ["show",
-    "HEAD:data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"], { cwd: repoRoot, encoding: "utf8" }));
+    "HEAD:data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"], {
+      cwd: repoRoot, encoding: "utf8", maxBuffer: 1 << 28,
+    }));
   const currentAdoption = loadUserSourceAdoption(repoRoot);
   const currentHistorical = JSON.parse(fs.readFileSync(path.join(repoRoot,
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"), "utf8"));
@@ -125,6 +134,10 @@ if (process.argv.includes("--generated")) {
     assert.equal(family.sourceReadiness.ready, true);
     assert.deepEqual(family.failedObligationNames, failures);
     assert.equal(family.state, "FAIL_REPAIR_REQUIRED");
+    assert.equal(family.packetSourceAdoption.ready, false);
+    assert.equal(family.packetSourceAdoption.status, "PACKET_SOURCE_ADOPTION_REQUIRED");
+    assert.deepEqual(family.packetSourceAdoption.mismatches[0].observedSha256,
+      ["809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"]);
     assert.ok(family.sourceReadiness.boundSources.some((source) => source.sourceId === "official-form:4-222"
       && source.path === nmPath && source.sha256 === nmSha));
     assert.equal(family.sourceReconciliation.determinationInput,
@@ -143,7 +156,7 @@ if (process.argv.includes("--generated")) {
     && source.sha256 === "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647"));
   const coNonconviction = byId.get("co_motion_seal_nonconviction-set");
   assert.deepEqual(new Set(coNonconviction.sourceReconciliation.additionalRequiredSourceIds),
-    new Set(["official-form:JDF-492", "official-form:JDF-493", "official-form:JDF-205", "official-form:JDF-206"]));
+    new Set(["official-form:JDF-492", "official-form:JDF-493"]));
 
   const louisiana = byId.get("la-987-set-aside-and-dismiss-set");
   assert.equal(louisiana.sourceReconciliation.authorityBindings.length, 3);
@@ -172,8 +185,14 @@ if (process.argv.includes("--generated")) {
     && baselineStates.has(family.familyId) && baselineStates.get(family.familyId) !== family.state)
     .map((family) => `${family.familyId}: ${baselineStates.get(family.familyId)} -> ${family.state}`);
   assert.deepEqual(unrelatedStateChanges, [], "additive source adoption must not change unrelated family states");
-  const terminal = new Set(["COMPLETE_PACKET_PROVEN", "PASS_COMPLETE_INDEPENDENT", "LEGAL_APPROVED", "LIVE"]);
+  const terminal = new Set(["COMPLETE_PACKET_PROVEN", "GUIDANCE_READY", "OUT_OF_SCOPE", "HANDOFF_READY", "PASS_COMPLETE_INDEPENDENT", "LEGAL_APPROVED", "LIVE"]);
   assert.deepEqual([...adoptedIds].filter((familyId) => terminal.has(byId.get(familyId)?.state)), [],
     "source custody alone must not issue terminal packet or commercial authority");
+  assert.deepEqual(raster.rows.filter((row) => expectedNmFailures.has(row.familyId)).map((row) => row.familyId), [],
+    "a packet still bound to the superseded source cannot remain raster-enrolled");
+  for (const familyId of expectedNmFailures.keys()) {
+    assert.ok(raster.notEligible.some((row) => row.familyId === familyId
+      && row.why.includes("the current failed obligations have not been repaired")));
+  }
   console.log("PASS generated user source adoption: NM/CA/CO/LA/AZ exact effects, packet failures preserved, no unrelated state change or source-only terminal promotion");
 }
