@@ -8,7 +8,7 @@
   "verdict": "STOPPED",
   "terminalClaimSuspended": true,
   "commercialAuthority": false,
-  "scope": "Independent post-repair static review of current NJ clean-slate bytes and records. No source, packet, counter, queue or manifest edits; no rebuild. The 86-page central visual review remains outstanding.",
+  "scope": "Independent post-repair review of current NJ clean-slate bytes plus central original evidence. All 86 original PNGs were directly viewed (43 canonical, 43 boundary); no local raster or builder execution was performed. Internal owner guidance-only scope remains; no commercial or packet-delivery authority is granted.",
   "currentArtifacts": {
     "canonical": {
       "sha256": "d5064351b7abf88148666bd9c9a95e43dec722d9a9abd71ef2f97faae9a855c6",
@@ -20,7 +20,7 @@
     },
     "check": "Existing recorded nonvisual check passed under safe no-raster mode; this lane did not execute --check."
   },
-  "conclusion": "Static repair review passes the withdrawn-row and protected-field controls. This is VERIFY_PENDING, not packet PASS: visual central evidence for 86 pages is the sole remaining review gate identified here, while terminal claim remains suspended.",
+  "conclusion": "Central run 34578671112 is successful with RASTER_PASS and its receipt/current-byte identities verify, but direct review measured boundary long-name truncation on pages 18, 27, 30, 31, 35, 38, 40, and 43. The packet therefore remains STOPPED with terminal claim suspended; repair field-width/name-flow handling, publish changed bytes, and obtain a fresh central raster before admission.",
   "missingProofObligationBeforeRepair": "SELF_HELP_STOP was absent from the initial 14-key draft; added here to satisfy the standard 15-obligation schema.",
   "isIndependentVerification": true,
   "worker": "VF66",
@@ -32,7 +32,7 @@
       "jurisdiction": "NJ",
       "lane": "VF66",
       "verdict": "STOPPED",
-      "verdictScope": "Static nonvisual repair review passes; terminal claim is explicitly suspended pending central 86-page visual evidence. STOPPED is the accepted terminal vocabulary, and no packet PASS is asserted.",
+      "verdictScope": "Central raster receipt and all 86 original PNG bytes were consumed and directly viewed. Boundary long-name truncation is a measured visual defect, so no packet PASS is asserted.",
       "verifiedAtBase": "d33b68843761f917eba6afdbaa56c4fc21d39ab6",
       "proofObligations": {
         "ROUTE_IDENTITY": {
@@ -86,9 +86,9 @@
           "finding": "Current family retains 43 pages in each fixture; page order is unchanged by the row withdrawal."
         },
         "CLIPPING_AND_OVERLAP": {
-          "measured": false,
-          "result": "NOT_MEASURABLE_HERE",
-          "finding": "No local raster created and no central original 86-page raster receipt consumed; visual placement remains pending."
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Direct inspection found participant-name truncation at the field edge in boundary pages 18, 27, 30, 31, 35, 38, 40, and 43; canonical pages were clean."
         },
         "FILING_DESTINATION": {
           "measured": true,
@@ -120,21 +120,26 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": null,
+        "visualDefects": 8,
         "allZero": false,
         "measuredHere": true
       },
       "failedObligations": [],
       "remainingRequirements": [
-        "Consume central original raster evidence for all 86 pages and independently inspect it before restoring any terminal claim.",
-        "Keep owner guidance-only and packet-delivery refusal in force until central receipt and full admission sequence succeed."
+        "Repair participant-name field width/name-flow handling for the boundary fixture without changing source-owned or court-owned content.",
+        "Regenerate changed packet bytes, verify exact current hashes and all nonvisual obligations, then dispatch a fresh central raster and directly review its original evidence before any admission.",
+        "Keep terminal claim suspended and owner guidance-only/packet-delivery refusal in force until the repaired receipt is accepted."
       ],
       "evidenceRead": [
         "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json#nj_clean_slate-set",
         "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/reports/actual-writes.json",
         "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/production-field-map.json",
         "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/reports/rendered-artifacts.json",
-        "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/participant-instructions.md"
+        "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34578671112/nj_clean_slate-set.PAGE_IMAGES_SHA256.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34578671112/ORIGINAL_EVIDENCE_VERIFIED.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34578671112/nj_clean_slate-set.zip",
+        "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/nj-clean-slate-nonvisual-check.log"
       ],
       "terminalClaimSuspended": true,
       "commercialAuthority": false,
@@ -145,10 +150,976 @@
       },
       "reproduction": {
         "performed": false,
-        "reason": "No builder/check execution in this lane; consumed existing nonvisual-check log and current artifact proof only."
+        "reason": "No builder or --check execution in this lane; consumed central receipt and directly reviewed extracted original PNG bytes.",
+        "originalPagesDirectlyViewed": 86,
+        "canonicalPages": 43,
+        "boundaryPages": 43,
+        "hashMismatches": 0
       },
-      "executionState": "VERIFY_PENDING"
+      "executionState": "VERIFY_PENDING",
+      "centralRasterReceipt": {
+        "runId": "34578671112",
+        "artifactId": "10191353597",
+        "artifactDigest": "sha256:6ceb2af8f38084ff3d56fc1a0df8ddf9fccda13559b24bfffa3692dd492be089",
+        "packetCommit": "2b37cb626c3808e7a0b479edd65565526e64d64c",
+        "centralConclusion": "success",
+        "centralVerdict": "RASTER_PASS",
+        "pages": 86,
+        "originalPngBytesVerified": true,
+        "pageLedgerPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34578671112/nj_clean_slate-set.PAGE_IMAGES_SHA256.json",
+        "extractedReviewPath": "/tmp/nj345786review",
+        "hashMismatches": 0
+      },
+      "pageLedger": [
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-001.png",
+          "sha256": "cec3ae9e1478fc1607059f3de05f51b7269f94db4f12064d30932c56906641fd",
+          "byteLength": 543193,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-002.png",
+          "sha256": "c1ff84bcd7cc28327b0ad3e406e101bd05a43abd00957fdbbda79a0109f7f3b0",
+          "byteLength": 224739,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-003.png",
+          "sha256": "d53a0be640488d683503d278effb169e498e219837244a520a29e29afa6911e1",
+          "byteLength": 600705,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-004.png",
+          "sha256": "547ef864fc6ffd68d40fdb335896cc4b64ef1dc54d45131a1fa00725feb3a9af",
+          "byteLength": 199105,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-005.png",
+          "sha256": "141b578dc9a5629db44357a4f698f7bdb2710d3c4ad367da2e4512c6a62082c7",
+          "byteLength": 512383,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-006.png",
+          "sha256": "c609e2dbf9cb692607cc5c508a71e26c2331dce5531ec542bd4d69fafd5a69c8",
+          "byteLength": 591390,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-007.png",
+          "sha256": "b721aa6de961908425801984e95ea9760c03a1af237cf7c10213d8ef91745f15",
+          "byteLength": 336337,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-008.png",
+          "sha256": "b0092c180b3451ad4f051c90d44435d6c28fb328f34d25113979aa2c3c130de4",
+          "byteLength": 715099,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-009.png",
+          "sha256": "3ce5a900d6329b4ab5ecc3cac144dc74ca65c546757d988694a0f92254d14a87",
+          "byteLength": 712393,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-010.png",
+          "sha256": "59216308e6ee18e54ea3c05cd5e9632db1d6c0b0c9d5cc986bb3e490ba71fd77",
+          "byteLength": 641366,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-011.png",
+          "sha256": "fb6c454c2f487edf07b788c8331c5cfbbc9e0dc664366841b9581ff5f00a01b9",
+          "byteLength": 726772,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-012.png",
+          "sha256": "17f6ad0697d75c062701fa5782f554ee9d149ccc41cc8cc0132088b0f29b9aaf",
+          "byteLength": 625414,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-013.png",
+          "sha256": "f9d28349afcc8bb2390d7427ec972a3d734483a0ef3250917c1694d9d6b0c885",
+          "byteLength": 381583,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-014.png",
+          "sha256": "5ab131a922599744ca4acf9999efebceac979f2447fa589653483a297c05ca3c",
+          "byteLength": 340423,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-015.png",
+          "sha256": "d7a19a089b8896e1a2dfb5ecc0a85a9ee4e203d6f002da9a9ab7dc8772c65ded",
+          "byteLength": 616780,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-016.png",
+          "sha256": "8625c1d1bb8effd629044bae0ff9cb67c9bd4f297e40b485b79885a291f83554",
+          "byteLength": 740130,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-017.png",
+          "sha256": "31a6e38e296a96a3678b2422a8456fb1dd0a4a84bb766bd6fa10072c76e5fed7",
+          "byteLength": 371916,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-018.png",
+          "sha256": "b98eb1011976f1f9c9dcbbd41488848b9e83701aa7ceb07d5f2b2935155a681f",
+          "byteLength": 529589,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-019.png",
+          "sha256": "07c3290c08b4f563f2d26a345464318ba02e3ce284dbb16aa42a7816171f0799",
+          "byteLength": 324936,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-020.png",
+          "sha256": "b25a35afca39f00c0515f8e8cac818b14607aa7eb72063a205f600ae8d60cac1",
+          "byteLength": 503723,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-021.png",
+          "sha256": "7af9091b17159194ec6f815e3e7feb329dc9ab4ccc144279786f58f9fd55d582",
+          "byteLength": 151072,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-022.png",
+          "sha256": "3e1a27389df586515091fa5e38d45584537d6826670c285b2412814b1ecef1c5",
+          "byteLength": 535867,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-023.png",
+          "sha256": "949caa786dbfbb05b47131e1d9a1cf89f5fe9373f335e493062c399941b6545b",
+          "byteLength": 128252,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-024.png",
+          "sha256": "c837cc55e31c92ae4e8ccbfdc1194664a70ed2cc2f3e23b9c918e8763771200b",
+          "byteLength": 377674,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-025.png",
+          "sha256": "11e27b04693b879cd4a27e74b27e2859901e3186aabb87f973e1067dd8d71635",
+          "byteLength": 590613,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-026.png",
+          "sha256": "130f2006bac78c992f66957ab15ba7b2819ba441311e1f87f2951c5232019e0d",
+          "byteLength": 113703,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-027.png",
+          "sha256": "74a2083c22451edd1334be3d81ab1b535b34c1d3ec17c37bc0f9a8b01f31ac76",
+          "byteLength": 519806,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-028.png",
+          "sha256": "dc4dbf5c33e2a19e5728d949675f47a5359d72e3cbbc8b98e1ad176c610d7428",
+          "byteLength": 589945,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-029.png",
+          "sha256": "f301c817aa583bec14e6d5d2d9dc1399f4164a65c0b41a8a788f846880c66269",
+          "byteLength": 562674,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-030.png",
+          "sha256": "92a120e693f254dc83417f3e039969d6098cc239062f982ccbec99435eb04eb2",
+          "byteLength": 529281,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-031.png",
+          "sha256": "1578f43b00dba5c4069acd6572e5a7137ad5ad5cccbec2b3a56a837abc97ed97",
+          "byteLength": 581724,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-032.png",
+          "sha256": "98ab71991c3db18f701c305af301d72206e7c489e8578b0d2e070fa68ef7878d",
+          "byteLength": 544351,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-033.png",
+          "sha256": "b2ade8d54c0e1ae82461366ace68039e56a8c941f1ad488c994ab413d5c053e4",
+          "byteLength": 186391,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-034.png",
+          "sha256": "b8c1247812333ec62c915f0f4c4a945e1592a478ca245849087fdc6c3cf59396",
+          "byteLength": 210312,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-035.png",
+          "sha256": "5dff73e1053b5b438b02b6c27b12d08eb4cb9c48957b9cf0f758eda3350e37c4",
+          "byteLength": 302253,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-036.png",
+          "sha256": "6bee3a0c8fc2e978c0d0a000bfc175d7ba758dfc42b5d0db88cea9ebf0423a28",
+          "byteLength": 494359,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-037.png",
+          "sha256": "982a9f926fd50d8921914005c3e290ceb7a1f5b27142018784f1c4a8cdaca147",
+          "byteLength": 374302,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-038.png",
+          "sha256": "adb39532db7d1946162367c76a9b2f3c607c55fb886972d6369dbe3d96101479",
+          "byteLength": 225238,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-039.png",
+          "sha256": "6f4775775bbfc8ceff710e36f3daa2543aff0bf87a361684bd260d6a642bf945",
+          "byteLength": 451206,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-040.png",
+          "sha256": "773819645ccdf48a621781e8a0e02a725b06391d5de725ae677a91d4f376313f",
+          "byteLength": 465766,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-041.png",
+          "sha256": "3f9745c8c808a8bed3329599c20123280ec1a57a72e4d6dd0432a5bc5b7cb73c",
+          "byteLength": 456548,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-042.png",
+          "sha256": "421186397dc71aab0ff75a9f7dc158682eab7686db5442b9ddc46106f19f66f9",
+          "byteLength": 393489,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-canonical/page-043.png",
+          "sha256": "d7a840d743c88efd384b44efdbebdd8cc87439ac9f7b7f0ab5bce1e3724b3a19",
+          "byteLength": 201271,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-001.png",
+          "sha256": "cec3ae9e1478fc1607059f3de05f51b7269f94db4f12064d30932c56906641fd",
+          "byteLength": 543193,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-002.png",
+          "sha256": "c1ff84bcd7cc28327b0ad3e406e101bd05a43abd00957fdbbda79a0109f7f3b0",
+          "byteLength": 224739,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-003.png",
+          "sha256": "d53a0be640488d683503d278effb169e498e219837244a520a29e29afa6911e1",
+          "byteLength": 600705,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-004.png",
+          "sha256": "547ef864fc6ffd68d40fdb335896cc4b64ef1dc54d45131a1fa00725feb3a9af",
+          "byteLength": 199105,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-005.png",
+          "sha256": "141b578dc9a5629db44357a4f698f7bdb2710d3c4ad367da2e4512c6a62082c7",
+          "byteLength": 512383,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-006.png",
+          "sha256": "c609e2dbf9cb692607cc5c508a71e26c2331dce5531ec542bd4d69fafd5a69c8",
+          "byteLength": 591390,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-007.png",
+          "sha256": "b721aa6de961908425801984e95ea9760c03a1af237cf7c10213d8ef91745f15",
+          "byteLength": 336337,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-008.png",
+          "sha256": "b0092c180b3451ad4f051c90d44435d6c28fb328f34d25113979aa2c3c130de4",
+          "byteLength": 715099,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-009.png",
+          "sha256": "3ce5a900d6329b4ab5ecc3cac144dc74ca65c546757d988694a0f92254d14a87",
+          "byteLength": 712393,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-010.png",
+          "sha256": "59216308e6ee18e54ea3c05cd5e9632db1d6c0b0c9d5cc986bb3e490ba71fd77",
+          "byteLength": 641366,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-011.png",
+          "sha256": "fb6c454c2f487edf07b788c8331c5cfbbc9e0dc664366841b9581ff5f00a01b9",
+          "byteLength": 726772,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-012.png",
+          "sha256": "17f6ad0697d75c062701fa5782f554ee9d149ccc41cc8cc0132088b0f29b9aaf",
+          "byteLength": 625414,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-013.png",
+          "sha256": "f9d28349afcc8bb2390d7427ec972a3d734483a0ef3250917c1694d9d6b0c885",
+          "byteLength": 381583,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-014.png",
+          "sha256": "5ab131a922599744ca4acf9999efebceac979f2447fa589653483a297c05ca3c",
+          "byteLength": 340423,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-015.png",
+          "sha256": "d7a19a089b8896e1a2dfb5ecc0a85a9ee4e203d6f002da9a9ab7dc8772c65ded",
+          "byteLength": 616780,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-016.png",
+          "sha256": "8625c1d1bb8effd629044bae0ff9cb67c9bd4f297e40b485b79885a291f83554",
+          "byteLength": 740130,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-017.png",
+          "sha256": "31a6e38e296a96a3678b2422a8456fb1dd0a4a84bb766bd6fa10072c76e5fed7",
+          "byteLength": 371916,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-018.png",
+          "sha256": "36dc16bfe56efcb80fabe11e17167ad9331ac8fccaa9a7c756fbff0239dbb7b3",
+          "byteLength": 569560,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary long participant name visibly truncates at the field edge; measured visual defect."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-019.png",
+          "sha256": "07c3290c08b4f563f2d26a345464318ba02e3ce284dbb16aa42a7816171f0799",
+          "byteLength": 324936,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-020.png",
+          "sha256": "b25a35afca39f00c0515f8e8cac818b14607aa7eb72063a205f600ae8d60cac1",
+          "byteLength": 503723,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-021.png",
+          "sha256": "7af9091b17159194ec6f815e3e7feb329dc9ab4ccc144279786f58f9fd55d582",
+          "byteLength": 151072,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-022.png",
+          "sha256": "3e1a27389df586515091fa5e38d45584537d6826670c285b2412814b1ecef1c5",
+          "byteLength": 535867,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-023.png",
+          "sha256": "d87aef330c457adede8cb8ace6e27dcb5d73fdfa1f7b9eac8808f3fa877426fb",
+          "byteLength": 130599,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-024.png",
+          "sha256": "447089886aaf1e80cb8f1d66de32799638e37b1171e65bdc0c12f6011654771c",
+          "byteLength": 384231,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-025.png",
+          "sha256": "11e27b04693b879cd4a27e74b27e2859901e3186aabb87f973e1067dd8d71635",
+          "byteLength": 590613,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-026.png",
+          "sha256": "130f2006bac78c992f66957ab15ba7b2819ba441311e1f87f2951c5232019e0d",
+          "byteLength": 113703,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-027.png",
+          "sha256": "4f4fd9a487502b7ea64333f37dae8080ed5a0781a3e02240ce56e3f7a97ade2d",
+          "byteLength": 547738,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary long participant name visibly truncates at the field edge; measured visual defect."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-028.png",
+          "sha256": "dc4dbf5c33e2a19e5728d949675f47a5359d72e3cbbc8b98e1ad176c610d7428",
+          "byteLength": 589945,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-029.png",
+          "sha256": "f301c817aa583bec14e6d5d2d9dc1399f4164a65c0b41a8a788f846880c66269",
+          "byteLength": 562674,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-030.png",
+          "sha256": "bd19da08ece21452b54da205f4b1074579f7f8dbbfdf1bef63d6caa520c431a6",
+          "byteLength": 556981,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary long participant name visibly truncates at the field edge; measured visual defect."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-031.png",
+          "sha256": "16b02ceadec9ed33037d8489db55311d7e4305dc6b07016317b00e06e7bc2002",
+          "byteLength": 588410,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary long participant name visibly truncates at the field edge; measured visual defect."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-032.png",
+          "sha256": "98ab71991c3db18f701c305af301d72206e7c489e8578b0d2e070fa68ef7878d",
+          "byteLength": 544351,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-033.png",
+          "sha256": "b2ade8d54c0e1ae82461366ace68039e56a8c941f1ad488c994ab413d5c053e4",
+          "byteLength": 186391,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-034.png",
+          "sha256": "b8c1247812333ec62c915f0f4c4a945e1592a478ca245849087fdc6c3cf59396",
+          "byteLength": 210312,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-035.png",
+          "sha256": "7295d6335f51d346c5cf5a6db89df44579ebf83898fe219641b7515d1b5325b0",
+          "byteLength": 329026,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary long participant name visibly truncates at the field edge; measured visual defect."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-036.png",
+          "sha256": "6bee3a0c8fc2e978c0d0a000bfc175d7ba758dfc42b5d0db88cea9ebf0423a28",
+          "byteLength": 494359,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-037.png",
+          "sha256": "982a9f926fd50d8921914005c3e290ceb7a1f5b27142018784f1c4a8cdaca147",
+          "byteLength": 374302,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-038.png",
+          "sha256": "9e072d6c8058fdf8e43bd0f67f8c0ed53d0a6796f93161e8796cd08fb1c58d79",
+          "byteLength": 247801,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary long participant name visibly truncates at the field edge; measured visual defect."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-039.png",
+          "sha256": "6f4775775bbfc8ceff710e36f3daa2543aff0bf87a361684bd260d6a642bf945",
+          "byteLength": 451206,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-040.png",
+          "sha256": "9735fa94187c031afb685c050a4083f8fa64245b5efae8f9ee88e587140a6f03",
+          "byteLength": 489697,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary long participant name visibly truncates at the field edge; measured visual defect."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-041.png",
+          "sha256": "3f9745c8c808a8bed3329599c20123280ec1a57a72e4d6dd0432a5bc5b7cb73c",
+          "byteLength": 456548,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-042.png",
+          "sha256": "421186397dc71aab0ff75a9f7dc158682eab7686db5442b9ddc46106f19f66f9",
+          "byteLength": 393489,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Direct inspection found legible source text, stable page bounds, and no clipping, overlap, or stray ink."
+        },
+        {
+          "member": "nj_clean_slate-set/cn-10557-boundary/page-043.png",
+          "sha256": "84cf7d06b08d14b61142afc009c6b9c7d433932c6045dc22170e87099fcec935",
+          "byteLength": 225745,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary long participant name visibly truncates at the field edge; measured visual defect."
+        }
+      ]
     }
   ],
-  "whyThisLaneExists": "Independent repair review after owner correction; terminal claim remains suspended until central 86-page visual evidence is consumed."
+  "whyThisLaneExists": "Independent repair review after owner correction; terminal claim remains suspended until central 86-page visual evidence is consumed.",
+  "updatedAt": "2026-09-11T00:00:00.000Z"
 }

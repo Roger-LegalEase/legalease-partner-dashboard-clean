@@ -2892,6 +2892,8 @@ for (const familyId of FIX175_NJ_FAMILY_IDS) {
   doc.declareWithdrawnElectionsInFieldMap = true;
   doc.guardFieldMapSelectionsAgainstDeliveredMarks = true;
   if (familyId === "nj_clean_slate-set") {
+    // Each repeated name widget has its own width; one field-level font size clips narrower copies.
+    doc.fitTextPerWidget = true;
     doc.declarations = NJ_CONVICTION_BLANK_DECLARATIONS;
     doc.repeatingRowGroups = [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW,
       NJ_PETITION_CONVICTION_ROW];
@@ -5510,6 +5512,8 @@ function rowIntegrityWithholdings(doc, mappings, refusedFields) {
 }
 
 async function buildOfficialUnsafe(familyId, config) {
+  const noRaster = config.noLocalRaster === true;
+  assert.ok(!noRaster || (familyId === "nj_clean_slate-set" && !(config.supplementalDocuments ?? []).length), "Nonvisual build is scoped to the single NJ clean-slate source kit");
   const out = officialOut(familyId, config.jurisdiction);
   // Read what a repair lane installed on this family BEFORE the reset clears
   // it: the completeness classifications on the prior field map (carried
@@ -5521,7 +5525,9 @@ async function buildOfficialUnsafe(familyId, config) {
     fs.existsSync(priorMapFile) ? JSON.parse(fs.readFileSync(priorMapFile, "utf8")) : null);
   const wiringFile = abs(`${out}/product-wiring.json`);
   const installedWiring = fs.existsSync(wiringFile) ? fs.readFileSync(wiringFile) : null;
-  resetOwnedOutput(out);
+  // Preserve earlier original evidence during a changed-byte nonvisual build.
+  if (!noRaster) resetOwnedOutput(out);
+  else fs.mkdirSync(abs(out), { recursive: true });
   if (familyId === "pa_6308_underage-set") {
     fs.rmSync(abs(PA_6308_OUT), { recursive: true, force: true });
   }
@@ -5765,6 +5771,11 @@ async function buildOfficialUnsafe(familyId, config) {
       console.log(`  ${fixture}: wrote ${report.written.length}; refused ${report.refused.length}; `
         + `selections ${report.selections.length}; held-but-not-printed ${heldButNotPrinted.length}`);
 
+      if (noRaster) {
+        rasterReports.push({ documentId: doc.documentId, fixture, sourcePdf: file,
+          sourcePdfSha256: sha256(bytes), status: "RASTER_PENDING", engine: null, pages: [] });
+        continue;
+      }
       const rasterDir = `${out}/raster/${doc.key}-${fixture}`;
       const rasterRows = await rasterizePdf({ file: abs(file), outDir: abs(rasterDir), prefix: "page" });
       assert.equal(rasterRows.length, census.pageGeometry.length, `${doc.documentId}/${fixture}: not every page rastered`);
@@ -6109,7 +6120,8 @@ async function buildOfficialUnsafe(familyId, config) {
       "exact source path, SHA-256, and byte length matched the corpus index and installed source",
       "every field received an explicit candidate-write, route-selection, or refusal disposition",
       "signatures, dates, unperformed service, court, prosecutor, clerk, agency, and notary fields carried no generated ink",
-      "all emitted PDF pages were rasterized and byte-inventoried",
+      noRaster ? "changed PDF bytes inventoried; central raster and independent visual review remain required"
+        : "all emitted PDF pages were rasterized and byte-inventoried",
     ],
     blockers: [
       "completed-output legal approval has not been granted",
@@ -6334,6 +6346,13 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     assert.equal(pdfPages.length, pdf.pageCount, `${pdf.file}: PDF page-count drift`);
     const raster = rendered.rasters.find((row) => row.sourcePdf === pdf.file);
     assert.ok(raster, `${pdf.file}: raster record absent`);
+    if (raster.status === "RASTER_PENDING") {
+      assert.equal(familyId, "nj_clean_slate-set");
+      assert.equal(replayRaster, false, "Pending central raster cannot satisfy a visual check");
+      assert.equal(raster.sourcePdfSha256, pdf.sha256);
+      assert.deepEqual(raster.pages, []);
+      continue;
+    }
     assert.equal(raster.engine, "bundled_poppler_pdftoppm", `${pdf.file}: unexpected raster engine`);
     assert.equal(raster.dpi, RASTER_DPI, `${pdf.file}: unexpected raster DPI`);
     assert.equal(raster.pages.length, pdf.pageCount, `${pdf.file}: incomplete all-page raster`);
@@ -6539,7 +6558,7 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
   if (replayRaster) {
     console.log(`build-census-v1-${familyId}: CHECK PASS (${rendered.pdfs.length} PDFs; ${rendered.rasters.reduce((n, row) => n + row.pages.length, 0)} rasters)`);
   } else {
-    console.log(`build-census-v1-${familyId}: NONVISUAL CHECK PASS (${rendered.pdfs.length} PDFs; existing PNG hashes checked; no raster replay or new visual acceptance)`);
+    console.log(`build-census-v1-${familyId}: NONVISUAL CHECK PASS (${rendered.pdfs.length} PDFs; saved-byte proof checked; no raster replay or visual acceptance)`);
   }
 }
 
@@ -7808,11 +7827,12 @@ async function checkPa6308Stop() {
 export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
   const nonvisual = argv.includes("--check-nonvisual");
   if (familyId === "nj_clean_slate-set") {
-    const allowed = new Set(["--check", "--check-nonvisual", "--self-test", "--self-test-fix88"]);
+    const allowed = new Set(["--check", "--check-nonvisual", "--no-raster", "--self-test", "--self-test-fix88"]);
     assert.ok(argv.every((arg) => allowed.has(arg)), `Unsupported NJ clean-slate argument: ${argv.filter((arg) => !allowed.has(arg)).join(", ")}`);
     assert.ok(argv.length <= 1, "NJ clean-slate accepts exactly one execution mode");
     assert.ok(argv.length > 0 || process.env.RCAP_NO_LOCAL_RASTER !== "1", "NJ clean-slate build prohibited while local raster is disabled");
   }
+  assert.ok(!argv.includes("--no-raster") || familyId === "nj_clean_slate-set", "Nonvisual build is supported only for NJ clean slate");
   assert.ok(!nonvisual || familyId === "nj_clean_slate-set", "Nonvisual check is supported only for NJ clean slate");
   if (argv.includes("--self-test-fix88")) { await selfTestFix88(); return; }
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
@@ -7824,7 +7844,7 @@ export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
       ? await import("./rcap-packet-recovery/pa-790-recovery.mjs") : null;
     const config = pa790 ? pa790.configurePa790Family(FAMILY[familyId]) : FAMILY[familyId];
     if (check || nonvisual) await checkOfficial(familyId, config, { replayRaster: !nonvisual });
-    else await buildOfficial(familyId, config);
+    else await buildOfficial(familyId, argv.includes("--no-raster") ? { ...config, noLocalRaster: true } : config);
     if (pa790) await pa790.writePa790ConditionalFixtures(abs(officialOut(familyId, "PA")), { check });
     return;
   }
