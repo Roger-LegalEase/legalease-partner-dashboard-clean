@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "rcap-pf10-ky-misdemeanor-author-evidence/v1",
+  "assignmentId": "PF10",
+  "familyId": "ky_misdemeanor_expungement-set",
+  "status": "COMPLETED",
+  "scope": "Author build evidence only. This is not independent review, visual acceptance, legal approval, route promotion, or commercial authority.",
+  "sourceIdentity": [
+    {
+      "documentId": "AOC-496.2",
+      "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "verified": true
+    },
+    {
+      "documentId": "AOC-496",
+      "sha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "verified": true
+    }
+  ],
+  "electionMapping": {
+    "ordinaryMisdemeanorViolationOrQualifyingTraffic": "AOC-496.2 Check Box19 only",
+    "expressKrs218A2758Void": "AOC-496.2 Check Box20 only",
+    "expressKrs218A2768Void": "AOC-496.2 Check Box21 only",
+    "unknownAmbiguousOrConflictingRecord": "hard stop before output",
+    "aoc496": "Check Box2 through Check Box8 and both Check Box9 widgets remain court-owned and blank"
+  },
+  "commands": [
+    {
+      "command": "node scripts/build-census-v1-ky_misdemeanor_expungement-set.mjs",
+      "result": "6 PDFs, 32 pages, RASTER_PENDING"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/test-ky-misdemeanor.mjs data/rcap-grade-a/packet-factory-24h/pf10/ky-misdemeanor-20260911/author-qa.json",
+      "result": "25 passed, 0 failed"
+    },
+    {
+      "command": "node scripts/build-census-v1-ky_misdemeanor_expungement-set.mjs --check",
+      "result": "CHECK_PASS_RASTER_PENDING; 6 packets; 2 exact sources; independent verification PENDING"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_misdemeanor_expungement-set",
+      "result": "PASS_COMPLETE; 45/66 written; all nine counters zero"
+    },
+    {
+      "command": "two consecutive production builds, each followed by a sorted whole-output-tree SHA-256",
+      "result": "790878561be58fe22cc7a3977c6b0cfabda7d9dfe4f47242fe48eed4a214434f both times"
+    }
+  ],
+  "judicialBlankProof": "The focused test reads each delivered flattened appearance at all seven AOC-496 Check Box2-8 coordinates and both Check Box9 widget coordinates; all nine carry empty drawn text. The petition election appearance at the selected exact source coordinate carries ink and the other two do not.",
+  "refundQuestion": "The $50 unsuccessful-petition refund treatment remains expressly unresolved because the controlling record and AOC-496 wording do not settle actual handling. Participant guidance promises no refund and directs confirmation before reliance.",
+  "rasterStatus": "RASTER_PENDING",
+  "independentReviewStatus": "PENDING",
+  "modelMetadata": "unconfirmed"
+}
