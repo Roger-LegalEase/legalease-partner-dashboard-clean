@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "assignmentId": "PF01",
+  "lane": "packet-build",
+  "baseSha": "1e09363c514ddfabfe493be8685bc466afd7f723",
+  "rowsReturned": 1,
+  "familiesCompleted": 0,
+  "familiesStopped": 1,
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "ut_pet_remove_link-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_REQUIRED_COMPONENT_CONTENT",
+      "jurisdiction": "UT",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:UT:ut_pet_remove_link"
+      ],
+      "claim": "CLAIM_OK PF01 ut_pet_remove_link-set (packet-build, grant set 8d36722f0fed3651)",
+      "reason": "The binding judge branch requires 1110GE and the binding commissioner branch requires 1111GE. Neither form's official bytes or content-complete text is held. The three recovered motion/order PDFs bind exactly, but they cannot supply either required notice. Generating notice text, substituting old form 1164XX, or omitting the component would violate the assignment's explicit stop rule.",
+      "blockedComponents": [
+        "component:ut_pet_remove_link-notice-to-submit-or-notice-of-hearing-4::judge::1110GE",
+        "component:ut_pet_remove_link-notice-to-submit-or-notice-of-hearing-4::commissioner::1111GE"
+      ],
+      "sourcesThatBind": [
+        {
+          "formId": "1501CR",
+          "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+          "byteLength": 175626,
+          "pageCount": 4
+        },
+        {
+          "formId": "1501CR-C",
+          "sha256": "25e24089f588bf32121cf01fe0c3a32e5eb576c757670baad163bc4b4f023951",
+          "byteLength": 177335,
+          "pageCount": 4
+        },
+        {
+          "formId": "1502CR",
+          "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+          "byteLength": 106034,
+          "pageCount": 3
+        }
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "builderCreated": false,
+      "artifacts": [],
+      "counters": null,
+      "allNineCountersZero": null,
+      "rasterState": "NOT_BUILT",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/pf01/ut-remove-link-20260911/blocker-evidence.json",
+      "exactRemainingGate": "Supply content-complete, governed 1110GE and 1111GE inputs, then build and test both exact branches and all fail-closed selector cases.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
