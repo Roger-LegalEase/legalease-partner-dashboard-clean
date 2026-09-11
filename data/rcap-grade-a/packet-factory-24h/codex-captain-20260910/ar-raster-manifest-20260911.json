@@ -1,0 +1,154 @@
+{
+  "schemaVersion": "rcap-focused-raster-dispatch/v1",
+  "sourceQueue": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+  "scope": "Four repaired Arkansas PDFs; central images needed for outstanding independent visual review; no semantic approval.",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-boundary.pdf",
+      "boundaryPdfSha256": "1c73806e7c00c43bc81d949c1198d410a2a5b41ee96710afca56a8b06fedd1d7",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-canonical.pdf",
+      "canonicalPdfSha256": "87dafe5c83a0c958ee0e22a2b2fbad74156160d5e4c16ee56d83d4a6a5b91326",
+      "coverage": {
+        "basis": "the family ships 2 canonical document(s) with no assembled packet, and the row renders all of them",
+        "complete": true,
+        "documents": [
+          "post-adjudication-canonical.pdf",
+          "pre-adjudication-canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "post-adjudication-canonical.pdf",
+          "pre-adjudication-canonical.pdf",
+          "post-adjudication-boundary.pdf",
+          "pre-adjudication-boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "post-adjudication-canonical.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "503224a7b3d8b51a867beabbacd06b6fd40d81c4ae90f90cdce5d586b44a4aff",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-canonical.pdf",
+          "role": "canonical",
+          "sha256": "503224a7b3d8b51a867beabbacd06b6fd40d81c4ae90f90cdce5d586b44a4aff"
+        },
+        {
+          "name": "pre-adjudication-canonical.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "87dafe5c83a0c958ee0e22a2b2fbad74156160d5e4c16ee56d83d4a6a5b91326",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-canonical.pdf",
+          "role": "canonical",
+          "sha256": "87dafe5c83a0c958ee0e22a2b2fbad74156160d5e4c16ee56d83d4a6a5b91326"
+        },
+        {
+          "name": "post-adjudication-boundary.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "c10e941bfbc589d3d764db324c89c77a89816e065de452aaae232602a5e90f21",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-boundary.pdf",
+          "role": "boundary",
+          "sha256": "c10e941bfbc589d3d764db324c89c77a89816e065de452aaae232602a5e90f21"
+        },
+        {
+          "name": "pre-adjudication-boundary.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "1c73806e7c00c43bc81d949c1198d410a2a5b41ee96710afca56a8b06fedd1d7",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-boundary.pdf",
+          "role": "boundary",
+          "sha256": "1c73806e7c00c43bc81d949c1198d410a2a5b41ee96710afca56a8b06fedd1d7"
+        }
+      ],
+      "documentsDigest": "c5488ed8df4c1ab8a774487e3bdcc491009650237ad687750f262a17b26c8730",
+      "expectedPages": 9,
+      "familyId": "ar-drug-court-set",
+      "fixtureSelection": {
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json",
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "677f19ed078b33979478ebe9c5813d60e47e66ae",
+      "requestedScale": 2.5,
+      "supersededReceipts": [
+        {
+          "boundToBoundarySha256": "cc5470f4faf9a92eafdf529e386f015015517514988ca1c7415a961668028f98",
+          "boundToCanonicalSha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+          "coverageBasis": "the family ships 2 canonical document(s) with no assembled packet, and the row renders all of them",
+          "coverageReconciledFromTheRow": {
+            "wasClaimed": {
+              "coversTheWholeFamily": true,
+              "documentsCovered": [
+                "post-adjudication-canonical.pdf",
+                "pre-adjudication-canonical.pdf"
+              ],
+              "documentsNotCovered": [
+                "post-adjudication-boundary.pdf",
+                "pre-adjudication-boundary.pdf"
+              ],
+              "whatThisGateDidNotRender": [
+                "post-adjudication-boundary.pdf",
+                "pre-adjudication-boundary.pdf"
+              ]
+            },
+            "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
+          },
+          "coversTheWholeFamily": true,
+          "documentsCovered": [
+            "post-adjudication-canonical.pdf",
+            "pre-adjudication-canonical.pdf"
+          ],
+          "documentsNotCovered": [],
+          "everyCanonicalDocumentRendered": true,
+          "jobConclusion": "success",
+          "jobId": "101187692725",
+          "receiptArtifact": {
+            "id": "9956234562",
+            "name": "rcap-raster-ar-drug-court-set-33923497915",
+            "zipSha256": "sha256:a4e0b07ac38aba84c4e8f0efae7a1ab582ece56b8858143982bc02328653facc"
+          },
+          "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), the job conclusion, and the receipt artifact id and zip digest.",
+          "renderedCommitSha": "d6f430105dfc942be321b64243a77b666992547a",
+          "supersededAt": "2026-09-11T00:28:05Z",
+          "supersededBecause": "the row now renders a different set of documents",
+          "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+          "verdict": "RASTER_PASS",
+          "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+          "whatThisGateDidNotRender": [
+            "post-adjudication-boundary.pdf",
+            "pre-adjudication-boundary.pdf"
+          ],
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33923497915"
+        }
+      ]
+    }
+  ]
+}
