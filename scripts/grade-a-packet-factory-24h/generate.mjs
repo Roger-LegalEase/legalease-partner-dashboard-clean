@@ -25,6 +25,7 @@ import { assessGeorgiaReviewedGuidance, applyGeorgiaGuidanceAcceptance } from ".
 import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
 import { normalizeDeclaredDeGuidanceBuildInputs, declaredDeGuidanceSourceReadiness, DE_FAMILY } from "./de-guidance-binding.mjs";
+import { normalizeDeclaredUtPcraBuildInputs, UT_PCRA_FAMILY } from "./ut-pcra-declared-delivery.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
 import {
   applyLegalResolutionSupersessions,
@@ -2101,6 +2102,10 @@ for (const f of IN.scoreboard.familiesDetail) {
     familyId, routes, implementationStrategy: strategy, sourceReconciliation, treatment,
     legalResolution: currentLegalResolution
   }));
+  ({routes, implementationStrategy: strategy, sourceReconciliation, treatment} = normalizeDeclaredUtPcraBuildInputs(ROOT, {
+    familyId, routes, implementationStrategy: strategy, sourceReconciliation, treatment,
+    legalResolution: currentLegalResolution
+  }));
   const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
   const directory = treatment?.directory ?? comp?.directory
     ?? overlayDirs.find((d) => path.basename(d).startsWith(`${slugOf(familyId)}--`))
@@ -2934,6 +2939,19 @@ if (process.argv.includes('--inspect-de-current-guidance')) {
     instrumentKinds: family.instrumentKinds, routeKeys: family.routeKeys, sourceStatus: family.sourceStatus,
     sourceBound: family.sourceBound, reviewedGuidanceAdmission: family.reviewedGuidanceAdmission ?? null,
     legalInputStatus: family.legalInputStatus, currentLegalResolution: family.currentLegalResolution,
+    pdfsChanged: false, createsAdmission: false}, null, 2));
+  process.exit(0);
+}
+
+if (process.argv.includes('--inspect-ut-pcra-declared-delivery')) {
+  const family = families.find(row => row.familyId === UT_PCRA_FAMILY);
+  if (!family) throw new Error('Utah trafficking PCRA family is absent');
+  console.log(JSON.stringify({familyId: family.familyId, state: family.state,
+    implementationStrategy: family.implementationStrategy, packetComponents: family.packetComponents,
+    instrumentKinds: family.instrumentKinds, routeKeys: family.routeKeys, sourceStatus: family.sourceStatus,
+    sourceBound: family.sourceBound, acceptanceReceipt: family.acceptanceReceipt ?? null,
+    selectedIndependentVerdict: family.selectedIndependentVerdict,
+    generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0,
     pdfsChanged: false, createsAdmission: false}, null, 2));
   process.exit(0);
 }

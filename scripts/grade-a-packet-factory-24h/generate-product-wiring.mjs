@@ -15,6 +15,7 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { acceptedRasterFor, candidateRowsByFamily } from "./acceptance-identity.mjs";
 import { bindDeclaredDeGuidance, pdfPageCount, DE_FAMILY } from "./de-guidance-binding.mjs";
+import { bindDeclaredUtPcraDelivery, utPcraEvidenceFromRepository, UT_PCRA_FAMILY } from "./ut-pcra-declared-delivery.mjs";
 import { bindDeclaredNdDelivery, ND_FAMILY } from "./nd-declared-binding.mjs";
 import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
 import { bindDeclaredKyDelivery, KY_FAMILY } from "./ky-declared-delivery.mjs";
@@ -378,6 +379,8 @@ const alignFamilyDeclaredDelivery = (record, family) => ["md_10110_conviction-se
       raster: exactRasterFor(family.familyId),
       selectedIndependentVerdict: normalizedSelectedIndependentVerdict(family)
     })
+  : family.familyId === UT_PCRA_FAMILY
+  ? bindDeclaredUtPcraDelivery(record, family, utPcraEvidenceFromRepository(ROOT))
   : family.familyId !== DE_FAMILY ? record
   : bindDeclaredDeGuidance(record, family, {
       report: read(`${family.directory}/reports/rendered-artifacts.json`),
@@ -572,7 +575,7 @@ for (const f of selectedFamilies) {
         refreshed++;
       } else skipped++;
     } catch (error) {
-      if ([DE_FAMILY, ND_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, "md_10110_conviction-set", "md_cannabis_petition-set", GA_FAMILY, IA_FORM1_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
+      if ([DE_FAMILY, UT_PCRA_FAMILY, ND_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, "md_10110_conviction-set", "md_cannabis_petition-set", GA_FAMILY, IA_FORM1_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
       skipped++;
     }
     continue;
