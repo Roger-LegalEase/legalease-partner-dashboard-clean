@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "64c679ac6218a72f6421b6d8ab203b3b4aaa6dc7",
+  "minimumCaptainSha": "69a04a04687c56c04da90bdb1e6648d0d794e39a",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -77,16 +77,16 @@
     "sourceBlocked": 5,
     "legalBlocked": 0,
     "verifyPending": 4,
-    "repairRequired": 30,
+    "repairRequired": 29,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 232,
+    "COMPLETE_PACKET_PROVEN": 233,
     "PRODUCT_PATH_PENDING": 11,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 8,
     "SOURCE_READY": 34,
-    "FAIL_REPAIR_REQUIRED": 31,
+    "FAIL_REPAIR_REQUIRED": 30,
     "SOURCE_BLOCKED": 5,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
@@ -10184,10 +10184,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json"
+        "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-binding-final.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -10206,7 +10206,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+          "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -10225,9 +10225,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -10265,7 +10263,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule ND-NONCONVICTION-61-DAY-AUTO-CLOSE: Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule ND-NONCONVICTION-61-DAY-AUTO-CLOSE: Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -10282,27 +10280,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "COMPONENT_SET"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "Both current PDFs and the production field map/rendered manifest contain the existing clerk_correction_request, enforcement_motion, proposed_order and filing_instructions in full. However, current product-wiring.binding.instrumentKinds and packetComponents are empty. The four component IDs, order and conditional motion/order descriptions that FIX112 installed at 06bbbbab0 were removed by 4e722bf83. Physical completeness is intact; the required existing four-component binding disagrees with the delivered set. Defect ND-VF01-02. No additional notice/brief/service component design has been imposed.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json"
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "The current canonical 042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2 (17097 bytes, 7 pages) and boundary db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d (17490 bytes, 7 pages) match manifest, queue and original RASTER_PASS run 34628970364 pinned to ffa39d9bd9ddfb42b3c4e8318a5c63abf92fb0b8. All 14 PNGs match original ZIP members and durable hashes. Nevertheless product-wiring.lastIndependentVerification resurrects VF09 PASS_COMPLETE_INDEPENDENT at 7fcfb7d40aafe7bd7350fc735ea09d16524cb757, whose row explicitly binds different pre-repair PDFs. The superseded-history fields were deleted. This is not current-byte independent evidence (ND-VF01-01). The focused suite also fails its obsolete repair-stage requirement that a current raster receipt be null (ND-VF01-03); its real result is 9/10, not a passing suite.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",

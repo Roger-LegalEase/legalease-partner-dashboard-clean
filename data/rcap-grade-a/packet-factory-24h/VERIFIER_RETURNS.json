@@ -34,18 +34,17 @@
     }
   ],
   "counts": {
-    "returnDirectories": 249,
-    "rows": 1312,
+    "returnDirectories": 250,
+    "rows": 1313,
     "independentVerdicts": 302,
-    "failRepairRequired": 31,
-    "passIndependent": 251
+    "failRepairRequired": 30,
+    "passIndependent": 252
   },
   "failRepairRequiredFamilies": [
     "al-pardoned-felony-set",
     "ca-17b-reduction-set",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
-    "composed-treatment:nd-nonconviction-auto-close-verify",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "de_discretionary_superior_court-set",
     "fl-early-juvenile-set",
@@ -6412,6 +6411,20 @@
     },
     {
       "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-binding-final.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:nd-nonconviction-auto-close-verify",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
@@ -6438,7 +6451,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:nd-nonconviction-auto-close-verify",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
