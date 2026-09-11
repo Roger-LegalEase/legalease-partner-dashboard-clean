@@ -34,7 +34,7 @@
       "role": "notice_and_certificate_of_service",
       "requirement": "conditional",
       "disposition": "delivered_conditional_and_explained",
-      "where": "packet pages 4 and 5 (DC 1:15, Notice of Hearing and Certificate of Service, New 08/2019)",
+      "where": "packet pages 3 and 4 (DC 1:15, Notice of Hearing and Certificate of Service, New 08/2019)",
       "conditionStatedTo": "participant-instructions.md, \"Who must receive a copy, and how\": district court cases only; in county court the clerk schedules the hearing and mails the notice."
     },
     {
@@ -42,7 +42,7 @@
       "role": "instructions",
       "requirement": "required",
       "disposition": "delivered",
-      "where": "packet page 3 (CC 6:11a, Completing the Petition, Rev. 06/2024)"
+      "where": "packet page 5 (CC 6:11a, Completing the Petition, Rev. 06/2024)"
     },
     {
       "componentId": "ne-setaside-custodial-fee-waiver-5",
@@ -77,6 +77,7 @@
     ],
     "packetComponents": [
       "component:ne-setaside-custodial-instructions-4",
+      "component:ne-setaside-custodial-local-rules-check-6",
       "component:ne-setaside-custodial-notice-and-certificate-of-service-3",
       "component:ne-setaside-custodial-primary-filing-1",
       "component:ne-setaside-custodial-proposed-order-2"
@@ -107,14 +108,7 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34052906161",
-      "jobId": "101540064936",
-      "artifactId": null,
-      "boundToCanonicalSha256": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf64",
@@ -128,6 +122,7 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "whyTheAcceptanceReceiptIsNull": "The receipt was bound to canonical dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb (workflow run 34052906161), and this build wrote b02c3b62d14579e010deef29863fee2a85e28ed1abebc6acaa0514fdc1c0b7f4. A central raster of the new bytes is owed; nothing here is that receipt."
   }
 }

@@ -38,7 +38,7 @@ listed further down.
 
 ## The blanks on these forms that you must complete
 
-Required before filing: 21 field(s).
+Required before filing: 30 field(s).
 
 ### CC-6-11
 
@@ -61,27 +61,21 @@ Required before filing: 21 field(s).
 - **What the hearing is on, second line — the full-width blank underneath.** `Text40` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - **The judge’s name — the blank after "will be heard before the Honorable". The bailiff gives you this.** `Text41` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - **The court type on the hearing line — the blank in "Judge of the ______ Court of".** `Text43` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The county where the hearing takes place — the blank after the court type and immediately before County on the hearing-location line. Confirm it with the bailiff.** `Text44` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - **The courtroom number — the blank after "Courtroom No.". The bailiff gives you this.** `Text45` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The courthouse floor — the short blank after on the and before floor of the. Confirm it with the bailiff.** `Text46` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **Which courthouse the hearing is in — the blank before "County Courthouse or Justice Center".** `Text47` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The courthouse address — the blank at the end of that same line.** `Text48` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The courthouse street and city line — the long blank before ", Nebraska".** `Text49` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - **The hearing date — the blank after "Nebraska, on". The bailiff gives you this.** `Text50` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - **The hearing time — the blank after "at". The bailiff gives you this.** `Text51` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - **"a" or "p" for the hearing time — the one-letter blank immediately before ".m.".** `Text52` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The printed rule under "To: Name:" — a line the form draws, not a blank.** `Text59.0` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - **The "Address:" line in the "To:" block — the same physical blank as the address entry above it. Write the address once.** `Text60.0` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The name of the person you are serving — the "To: Name:" line, beside the address line above.** `Text64` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - **The address of the person you are serving — the "Address:" line in the "To:" block. In district court this is the prosecutor. The name line beside it is listed further down, under the blanks this packet does not fill; complete the whole block as "Who must receive a copy, and how" directs.** `Text65` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-
-## Blanks this packet does not fill, and does not ask you to supply
-
-These blanks exist on the paper and are deliberately not in the list above. Some are
-printed rules that nobody completes. The rest carry a value that comes from the court,
-the clerk or the prosecutor, or from the act of service itself — so they are not
-answered from your own knowledge, and are not a task you can finish at your desk.
-
-### DC-1-15
-
-- **Which courthouse the hearing is in — the blank before "County Courthouse or Justice Center".** `Text47` (page 1) — this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as "Who must receive a copy, and how" below directs.
-- **The courthouse address — the blank at the end of that same line.** `Text48` (page 1) — this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as "Who must receive a copy, and how" below directs.
-- **The courthouse street and city line — the long blank before ", Nebraska".** `Text49` (page 1) — this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as "Who must receive a copy, and how" below directs.
-- **The printed rule under "To: Name:" — a line the form draws, not a blank.** `Text59.0` (page 1) — this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as "Who must receive a copy, and how" below directs. The pinned form also marks this widget read-only and fills it with a printed rule, so there is nothing to write in.
-- **The name of the person you are serving — the "To: Name:" line, beside the address line above.** `Text64` (page 1) — this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as "Who must receive a copy, and how" below directs.
+- **The name of the person who actually mailed the notice — the first blank after I on page 2's Certificate of Service. Complete this certificate only after service has actually occurred.** `Text1` (page 2) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The actual date the notice was mailed — the blank after verify that on on page 2's Certificate of Service, captioned (date). Do not certify an act before it occurs.** `Text74` (page 2) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 
 
 Signature, signature date, and any certificate of mailing are deliberately left

@@ -541,6 +541,10 @@ const FAMILY_CONFIGS = Object.freeze({
         Text41: "The judge\u2019s name \u2014 the blank after \"will be heard before the Honorable\". The bailiff gives you this.",
         Text43: "The court type on the hearing line \u2014 the blank in \"Judge of the ______ Court of\".",
         Text45: "The courtroom number \u2014 the blank after \"Courtroom No.\". The bailiff gives you this.",
+        Text44: "The county where the hearing takes place — the blank after the court type and immediately before County on the hearing-location line. Confirm it with the bailiff.",
+        Text46: "The courthouse floor — the short blank after on the and before floor of the. Confirm it with the bailiff.",
+        Text1: "The name of the person who actually mailed the notice — the first blank after I on page 2's Certificate of Service. Complete this certificate only after service has actually occurred.",
+        Text74: "The actual date the notice was mailed — the blank after verify that on on page 2's Certificate of Service, captioned (date). Do not certify an act before it occurs.",
         Text50: "The hearing date \u2014 the blank after \"Nebraska, on\". The bailiff gives you this.",
         Text51: "The hearing time \u2014 the blank after \"at\". The bailiff gives you this.",
         Text52: "\"a\" or \"p\" for the hearing time \u2014 the one-letter blank immediately before \".m.\".",
@@ -3907,9 +3911,11 @@ async function buildOfficial(familyId, config) {
     const digest = sha256(packet.bytes);
     if (blockedHashes.has(digest)) findings.push({ fixture, check: "combined_packet_matches_stale_blocked_hash", sha256: digest });
     const rasterDir = `${out}/raster/${fixture}`;
-    const rasterResult = await rasterPacket(abs, rasterDir);
+    const rasterResult = config.deferRasterToActions
+      ? { pages: [], rasterProvenance: { engine: null, discoveryMode: null, version: null } }
+      : await rasterPacket(abs, rasterDir);
     const rasterPages = rasterResult.pages;
-    if (rasterPages.length !== packet.pageManifest.length) findings.push({ fixture, check: "not_every_packet_page_was_rastered", expected: packet.pageManifest.length, actual: rasterPages.length });
+    if (!config.deferRasterToActions && rasterPages.length !== packet.pageManifest.length) findings.push({ fixture, check: "not_every_packet_page_was_rastered", expected: packet.pageManifest.length, actual: rasterPages.length });
     for (const page of rasterPages) {
       if (page.looksBlank || !page.croppedToPage) findings.push({ fixture, page: page.page, check: "raster_is_blank_or_not_cropped_to_page", looksBlank: page.looksBlank, croppedToPage: page.croppedToPage });
     }
@@ -3925,6 +3931,7 @@ async function buildOfficial(familyId, config) {
       rasterEngineDiscoveryMode: rasterResult.rasterProvenance.discoveryMode,
       rasterEngineVersion: rasterResult.rasterProvenance.version,
       rasterDpi: RASTER_DPI,
+      ...(config.deferRasterToActions ? { rasterState: "BUILT_RASTER_PENDING", rasterPendingReason: "Local raster deliberately deferred to the central Actions receipt gate." } : {}),
       rasterPages
     });
   }
@@ -4766,8 +4773,14 @@ export async function runSelfTests() {
 }
 
 export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
-  const config = FAMILY_CONFIGS[familyId];
+  let config = FAMILY_CONFIGS[familyId];
   if (!config) throw new Error(`unknown CENTRAL family: ${familyId}`);
+  if (argv.includes('--no-raster')) {
+    assert.equal(familyId, 'ne-setaside-custodial-set', 'This bounded remote-raster path is enabled only for Nebraska custodial set-aside');
+    assert.deepEqual(argv, ['--no-raster'], 'Do not combine the deferred build with a local raster check');
+    config = { ...config, deferRasterToActions: true };
+    return buildOfficial(familyId, config);
+  }
   if (argv.includes("--self-test")) return runSelfTests();
   if (argv.includes("--check")) return checkFamily(familyId);
   if (argv.some((arg) => arg.startsWith("--"))) throw new Error(`${familyId}: unsupported option ${argv.find((arg) => arg.startsWith("--"))}`);
