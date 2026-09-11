@@ -1,0 +1,24 @@
+# Arizona record sealing
+
+Route: charge dismissed or not guilty verdict; underlying offense remains the actual charge fact. The filing court is determined only from the documented charging document and charging history. If those records do not establish the court, stop and ask the clerk; do not infer it from a remembered courthouse.
+
+Complete participant information and factual fields identified for participant completion. The source fields still blank are explicitly listed in the production field map and must be supplied before filing where marked required. Required source fields: participant required field Plaintiff; participant required field Case; participant required field Check Box2; participant required field ArrestOccured; participant required field Check Box3; participant required field Agency; participant required field Check Box4; participant required field ProAgency; participant required field CourtCase; participant required field CourtAdj2; participant required field CourtCaseNum; participant required field Count1; participant required field Count2; participant required field Count3; participant required field Count4; participant required field Check Box5; participant required field Check Box6; participant required field ArrestLoc; participant required field AgencyName; participant required field AgencyDate; participant required field ProsAgency1; participant required field ProsAgency2; participant required field JusticeCourt1; participant required field EnteredOn; participant required field EnteredOn1; participant required field Check Box10; participant required field Check Box11; participant required field Check Box12; participant required field Check Box13; participant required field Check Box14; participant required field Check Box15; participant required field PetDate; participant required field Check Box16; participant required field Check Box17; participant required field Discharge; participant required field Jurisdiction; participant required field ChargesFiled; participant required field DateofCharge; participant required field Check Box18; participant required field Consider1; participant required field Consider2; participant required field Consider3; participant required field Check Box19; participant required field Doc1; participant required field Doc2; participant required field Doc3; participant required field Date; participant required field ArrestOn; participant required field ArrestBy; participant required field ArrestBy1; participant required field Agency; participant required field Agency1; participant required field CaseNo; participant required field NameArrest; participant required field Case. Leave court-owned, judicial, clerk/prosecutor, signature, date, and order decision fields for the responsible participant or court; this packet does not fill judicial findings or signatures. Before filing, confirm the court’s filing fee and complete the applicable statutory DPS fee-waiver request under C2/C3 when seeking that waiver; the court supplies the filed copy and the participant does not serve the court’s copy. Gather the charging document or initial-appearance record, disposition record where applicable, identity/contact facts, and required signatures/dates; stop if the record does not establish the filing court.
+
+## Recorded route rules and self-help stops
+
+- **filing** — RECORDED: File in the court identified by § 13-911(C)(2) for the situation.
+- **fees** — RECORDED: No statutory filing fee identified. Confirm per court. Unresolved statewide.
+- **feeWaiver** — RECORDED: DPS fees are waived for a petitioner found not guilty or whose case was dismissed or not prosecuted where the petition is filed under § 13-911(C)(2) or (C)(3).
+- **notice** — RECORDED: The clerk provides a copy of the petition to the prosecutor. The court may not grant or deny for at least 60 days unless it has notice that the prosecutor and all noticed victims do not object.
+- **service** — RECORDED: none by the petitioner. The court provides the copy to the prosecuting agency.
+- **participantSignature** — RECORDED: Signature under penalty of perjury.
+- **notarization** — RECORDED: none
+- **The charging-document history shows that a justice-court complaint was followed by an information in superior court.** — SELECT_SUPERIOR_COURT_NAMED_BY_INFORMATION: 
+- **The charging-document history shows an indictment, information, citation, or complaint and no later superior-court information.** — SELECT_COURT_WHERE_CHARGING_INSTRUMENT_WAS_FILED: 
+
+- **Stop 1:** Prosecutor files an objection or requests a hearing.
+- **Stop 2:** A victim exercises the right to be heard.
+- **Stop 3:** A prior denial inside three years.
+- **Stop 4:** Pending charges.
+- **Stop 5:** Immigration consequences.
+- **Stop 6:** Any request to attack the conviction itself.

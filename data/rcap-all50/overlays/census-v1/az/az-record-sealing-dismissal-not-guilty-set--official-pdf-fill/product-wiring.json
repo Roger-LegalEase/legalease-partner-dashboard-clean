@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-product-wiring/v1",
+  "familyId": "az_record_sealing_dismissal_not_guilty-set",
+  "routeKeys": [
+    "obligation:track-only:AZ:az_record_sealing_dismissal_not_guilty"
+  ],
+  "buildScript": "scripts/build-census-v1-az_record_sealing_dismissal_not_guilty-set.mjs",
+  "runtimeSelectable": false,
+  "generationAllowed": false,
+  "acceptanceReceipt": null,
+  "commercialAuthority": false,
+  "note": "Built official forms with record-driven court mapping; central raster and independent review remain pending.",
+  "binding": {
+    "family": "az_record_sealing_dismissal_not_guilty-set",
+    "filingCourtSelection": {
+      "module": "scripts/rcap-packet-recovery/chat1/az-filing-court.mjs",
+      "export": "resolveArizonaSealingFilingCourt",
+      "familyId": "az_record_sealing_dismissal_not_guilty-set",
+      "routeKey": "obligation:track-only:AZ:az_record_sealing_dismissal_not_guilty",
+      "status": "IMPLEMENTED_NOT_INSTALLED",
+      "purpose": "Resolve filing-court metadata from established record facts; not eligibility or participant delivery.",
+      "missingOrInconsistentRecord": "STOPPED",
+      "evidenceBinding": "Each charging/appearance/arrest fact must share the supplied recordKey; no address-based fallback.",
+      "grantsEligibility": false,
+      "generationAllowed": false,
+      "grantsDeliveryAuthority": false
+    },
+    "jurisdiction": "AZ",
+    "routeKeys": [
+      "obligation:track-only:AZ:az_record_sealing_dismissal_not_guilty"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:az_record_sealing_dismissal_not_guilty-primary-filing-1",
+      "component:az_record_sealing_dismissal_not_guilty-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:AOCCRSL1F-050825",
+        "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:AOCCRSL2F-050825",
+        "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-az_record_sealing_dismissal_not_guilty-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}
