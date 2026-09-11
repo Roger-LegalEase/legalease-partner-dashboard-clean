@@ -1,32 +1,20 @@
 # Filing instructions — Motion to seal conviction records, the petition-based route for a Colorado conviction
 
-This packet is two Colorado Judicial Department forms, filed together:
+This packet contains the complete filing and conditional fee-waiver form set held for this route:
 
-- **JDF 612**, _Motion to Seal Conviction Records (County/District Court)_ — what you file.
-- **JDF 615**, _Order to Seal Conviction Records_ — the order you give the court to sign.
+- **JDF 612**, _Motion to Seal Conviction Records_ — the motion.
+- **JDF 613**, _Order Denying Request to Seal Conviction Records_ — complete only sections A–C; all findings and signatures remain for the court.
+- **JDF 614**, _Order and Notice of Hearing_ — submit it with the request after completing only sections A–C; the court uses it if it decides a hearing is necessary and supplies all hearing details.
+- **JDF 615**, _Order to Seal Conviction Records_ — complete only sections A–C; the court completes the numbered grant-order body.
+- **JDF 205**, _Motion to Waive Fees_, and **JDF 206**, _Order re Court Fees_ — use these two only if you cannot afford the fee and request a waiver. JDF 206's findings, payment terms and signature remain for the court.
 
-Both are prepared for one route — **Motion to seal conviction records, the petition-based route for a Colorado conviction** — under C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612 and JDF 615.
+The forms are prepared for one route — **Motion to seal conviction records, the petition-based route for a Colorado conviction** — under C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612, JDF 613, JDF 614, JDF 615 and conditional fee-waiver forms JDF 205/JDF 206.
 
-The platform filled in what it holds about you and your case: your name, your date of birth, your address, your phone, your e-mail, the county and the case number, on both forms. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in.
-
-## This packet is not the whole filing — read this before you file
-
-**Colorado's own guide for this route requires 4 documents, and this packet contains 2 of them.** The authoritative packet-set record for this route says so in its own words: “The official JDF-611 guide requires a motion, an order, a notice and a second order, and it names all four: JDF 612 (Motion), JDF 613 (Order), JDF 614 (Notice) and JDF 615 (Order). The verified Master Library holds JDF-612 and JDF-615, and this packet delivers those two. JDF 613 and JDF 614 are NOT delivered. Their official identities are established by the guide's own printed list, and their binaries are HELD: the committed index carries both in custody nationwide_recovery_pool_2026_09_02, that custody is declared in the index's own custodies array, and lane FIX157 found it mounted on 2026-09-10, re-hashed both files and got the exact digests the index records. What stops them being rendered is that the index carries those two entries with formNumber null and assetClass null, so no build can bind them by identity. The set is incomplete because two required documents are missing, and what is owed for them is a source-identity determination over the recovery-pool entries rather than a re-acquisition of bytes.” It records the state of this packet set as **incomplete**.
-
-The 2 documents this packet does not contain are named below, **and this packet knows their form numbers.** JDF 611, the Colorado Judicial Department's own guide for this route, lists all four documents by number under its heading “File the Request”: File these forms into your criminal case:  JDF 612 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 613 Order (just do §§ A-C)  JDF 614 Notice (Just do §§ A-C)  JDF 615 Order (just do §§ A-C)
-
-- **JDF 614 — a notice.** JDF 611 writes it “JDF 614 Notice (Just do §§ A-C)”. It is not in this packet, and the reason is a filing-cabinet problem rather than a missing document. The platform's own source index lists this exact form, at a fixed digital fingerprint, in a storage area it calls “nationwide_recovery_pool_2026_09_02” — but it lists it there WITHOUT recording which form it is. The platform only ever fills in a form it can identify by its official number in that index, so a file with no number recorded against it cannot be picked up and filled in, even when the file itself is right there. Nothing about your case is missing, and nothing about this form is in doubt.
-- **JDF 613 — a second order for the court to sign.** JDF 611 writes it “JDF 613 Order (just do §§ A-C)”. It is not in this packet, and the reason is a filing-cabinet problem rather than a missing document. The platform's own source index lists this exact form, at a fixed digital fingerprint, in a storage area it calls “nationwide_recovery_pool_2026_09_02” — but it lists it there WITHOUT recording which form it is. The platform only ever fills in a form it can identify by its official number in that index, so a file with no number recorded against it cannot be picked up and filled in, even when the file itself is right there. Nothing about your case is missing, and nothing about this form is in doubt.
-
-**Get both of them from Colorado, and do not file without them.** Ask the clerk of the court, or the Colorado Judicial Department's self-help centre, for the JDF 611 guide and for the two forms it lists that are not here. They are free and they are the same forms the guide names. Do not assume the two forms in this packet are a complete filing, and do not assume the court will supply the missing two for you.
-
-**What JDF 613 is, so it does not surprise you.** JDF 611 lists it simply as an order, and it is not a second order granting your request. JDF 613 is headed **“Order Denying Request to Seal Conviction Records”**. Its body is a finding the court makes — that the motion is insufficient on its face, or that after looking beyond the motion you are not entitled to relief under C.R.S. §§ 24-72-706 to 710 — over a signature block for a judge or a magistrate. Colorado's own guide still tells you to file it, in the same list as the order to seal: “File these forms into your criminal case:  JDF 612 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 613 Order (just do §§ A-C)  JDF 614 Notice (Just do §§ A-C)  JDF 615 Order (just do §§ A-C)” So do not read it as a bad sign and do not leave it out because of what it says. No source this packet holds explains why the court is given both orders, so this packet does not explain it either; ask the clerk if you want to know. Complete only §§ A–C on it, which is the caption — the court, the county, your name and the case number. The guide says the same in its own words: “JDF 613 Order (just do §§ A-C)”.
-
-Everything else in this packet — both forms, every blank named below and every choice left to you — is prepared and is accurate for the two documents it does contain. The gap above is about what is missing from the set, not about what is in it.
+The platform filled in what it holds about you and your case: your name, your date of birth, your address, your phone, your e-mail, the county and the case number wherever each form has a participant/case caption field for it. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in.
 
 ## Where you file this
 
-File both forms with the **clerk of the Colorado court that entered the conviction** — the District Court or the County Court named in section A of the motion, in the county already filled in for you. The Colorado Judicial Department publishes each courthouse's address; this packet does not state one, because the platform holds no court directory and an unsourced address in a filing instruction is worse than none.
+File the forms JDF 611 directs you to file with the **clerk of the Colorado court that entered the conviction** — the District Court or the County Court named in section A of the motion, in the county already filled in for you. The Colorado Judicial Department publishes each courthouse's address; this packet does not state one, because the platform holds no court directory and an unsourced address in a filing instruction is worse than none.
 
 ### The filing fee, and what to do if you cannot pay it
 
@@ -34,7 +22,7 @@ File both forms with the **clerk of the Colorado court that entered the convicti
 
 **If you cannot afford it, Colorado has a waiver and JDF 611 names the two forms for it:** “If you cannot afford the fees, also file:  JDF 205 Motion to Waive Fees  JDF 206 Order (Just do §§ A-C)” So: **JDF 205**, Motion to Waive Fees, and **JDF 206**, the order that goes with it, of which the guide says to complete only §§ A–C.
 
-**Neither JDF 205 nor JDF 206 is in this packet.** The platform holds no copy of either form, so it cannot prepare them and will not reproduce them from memory. Ask the clerk or the Colorado Judicial Department's self-help centre for both, the same way you ask for the two missing forms above. Do not let the fee stop you from filing without asking for the waiver first.
+**Both JDF 205 and JDF 206 are included in this packet.** File them only if you are requesting a fee waiver. Complete the participant financial information and sign JDF 205 yourself; complete only the caption and party information on JDF 206. The court decides indigency, any installment schedule, and every order field.
 
 ## The Colorado Bureau of Investigation is not optional
 
@@ -47,7 +35,9 @@ JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 3. **Get the offence, sentencing and supervision facts from the court record.** Section 7 of JDF 612 asks what you were convicted of, when you were sentenced, and when supervision ended. The clerk of the convicting court holds all three; do not estimate them.
 4. **Serve a copy on the prosecuting attorney**, then complete the certificate of service on JDF 612 — the date, the method, and who you sent it to. Do it after you have served, not before.
 5. **Sign JDF 612 yourself, and date it when you sign.** Neither is filled in for you.
-6. **Leave the court's own parts of JDF 615 alone.** Section 3 is the court's findings — every box there begins "The Court finds" — the other-orders box in section 4 is the court's, and section 5 is the judge's or magistrate's signature and date. The case number in the caption is already written for you. The two lines in section 4 that name the law enforcement agency's own file number and the arrest number ARE yours, and they are listed in the table below.
+6. **Submit JDF 612, JDF 613, JDF 614 and JDF 615 together, as JDF 611 directs.** Complete only sections A–C on JDF 613, JDF 614 and JDF 615.
+7. **Leave every numbered body on JDF 613, JDF 614 and JDF 615 for the court.** The court decides denial, hearing and grant terms; it supplies all hearing details, record-recipient entries, findings and signatures.
+8. **If you request a fee waiver, complete and sign JDF 205 and tender JDF 206.** Leave every indigency finding, fee amount, installment term and judicial signature on JDF 206 blank for the court.
 
 ## JDF-612 — Motion to Seal Conviction Records (County/District Court): the items you must supply
 
@@ -77,13 +67,91 @@ JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 | Section 9 — Other Proceedings | Appeal — when the appellate court decided it | when the appellate court decided the appeal, if there was one |
 | Section 11 — Statement in Support | Explain, in your own words, why the court should seal these records | your own statement of why the court should seal these records. The platform does not write a sworn narrative for you |
 
+## JDF-613 — Order Denying Request to Seal Conviction Records: the items you must supply
+
+| Section | The blank on the form | What to write |
+| --- | --- | --- |
+| A. Court | Court Address | the mailing address of the court that handled the case |
+
+## JDF-614 — Order and Notice of Hearing (re sealing conviction records): the items you must supply
+
+| Section | The blank on the form | What to write |
+| --- | --- | --- |
+| A. Court | Court Address | the mailing address of the court that handled the case |
+
 ## JDF-615 — Order to Seal Conviction Records: the items you must supply
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
 | A. Court | Court Mailing Address | the mailing address of the same courthouse, copied from the motion |
-| 4. Court Orders | Law Enforcement agency — that agency's own file number for the records ordered sealed | the law enforcement agency's own file number for these records, copied from the motion |
-| 4. Court Orders | Law Enforcement agency — the arrest number of the records ordered sealed | the arrest number, which is printed on your fingerprint card |
+
+## JDF-205 — Motion to Waive Fees: the items you must supply
+
+| Section | The blank on the form | What to write |
+| --- | --- | --- |
+| 4. Participant financial information | Enter the language in which you are fluent. | Enter the language in which you are fluent. This information is participant-specific and is not inferred by the packet. |
+| 5. Participant financial information | Enter which fee, not already listed, you are requesting the court waive. | Enter which fee, not already listed, you are requesting the court waive. This information is participant-specific and is not inferred by the packet. |
+| 7. Participant financial information | Explain if you checked that you don't own or rent your home. | Explain if you checked that you don't own or rent your home. This information is participant-specific and is not inferred by the packet. |
+| 7. Participant financial information | Enter the date of your last paycheck in (MM/DD/YYYY) format. | Enter the date of your last paycheck in (MM/DD/YYYY) format. This information is participant-specific and is not inferred by the packet. |
+| 7. Participant financial information | Enter your pay rate in U.S. dollars. | Enter your pay rate in U.S. dollars. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | How many people live in your home (include yourself)? | How many people live in your home (include yourself)? This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter the name of your first household member. | Enter the name of your first household member. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter the age of your first household member. | Enter the age of your first household member. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter how the first household member is related to you. | Enter how the first household member is related to you. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter the name of your second household member. | Enter the name of your second household member. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter the age of your second household member. | Enter the age of your second household member. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter how the second household member is related to you. | Enter how the second household member is related to you. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter the name of your third household member. | Enter the name of your third household member. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter the age of your third household member. | Enter the age of your third household member. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter how the third household member is related to you. | Enter how the third household member is related to you. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter the name of your fourth household member. | Enter the name of your fourth household member. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter the age of your fourth household member. | Enter the age of your fourth household member. This information is participant-specific and is not inferred by the packet. |
+| 8. Participant financial information | Enter how the fourth household member is related to you. | Enter how the fourth household member is related to you. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter your monthly income, including wages commision and tips. | Enter your monthly income, including wages commision and tips. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the monthly income of all household members, including their wages commisions and tips. | Enter the monthly income of all household members, including their wages commisions and tips. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the amount of monthly unemployment benefits you or your household members receive. | Enter the amount of monthly unemployment benefits you or your household members receive. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the amount of monthly retirement funds you or your household members receive. | Enter the amount of monthly retirement funds you or your household members receive. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the amount of monthly spousal support (maintenance/alimony) you receive. | Enter the amount of monthly spousal support (maintenance/alimony) you receive. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the first source of income, not aready listed in the table. Enter the amount of income in the next field. | Enter the first source of income, not aready listed in the table. Enter the amount of income in the next field. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the amount of income from your first listed source. | Enter the amount of income from your first listed source. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the second source of income, not aready listed in the table. Enter the amount of income in the next field. | Enter the second source of income, not aready listed in the table. Enter the amount of income in the next field. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the amount of income from your second listed source. | Enter the amount of income from your second listed source. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | The total monthly income is autocalculated from your entries above. | The total monthly income is autocalculated from your entries above. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter your monthly rent or mortgage payment. | Enter your monthly rent or mortgage payment. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter your monthly grocery bill (above any food stamps). | Enter your monthly grocery bill (above any food stamps). This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the amount of you your average monthly utility bills. | Enter the amount of you your average monthly utility bills. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the amount of child or spousal support you pay. | Enter the amount of child or spousal support you pay. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the average amount of monthly medical and dental costs. | Enter the average amount of monthly medical and dental costs. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the monthly amount of transportation costs (including car payments and insurance). | Enter the monthly amount of transportation costs (including car payments and insurance). This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter the monthly amount due in student loan and credit card payments. | Enter the monthly amount due in student loan and credit card payments. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | The total monthly expenses is autocalculated from your entries above. | The total monthly expenses is autocalculated from your entries above. This information is participant-specific and is not inferred by the packet. |
+| 9. Participant financial information | Enter how you pay your bills if your expenses are more than your income. | Enter how you pay your bills if your expenses are more than your income. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the amount of cash on you or at home. | Enter the amount of cash on you or at home. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the amount in a savings account. Enter the banks name in the next field. | Enter the amount in a savings account. Enter the banks name in the next field. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the bank's name where your savings account is held. | Enter the bank's name where your savings account is held. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the amount in a checking account. Enter the banks name in the next field. | Enter the amount in a checking account. Enter the banks name in the next field. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the bank's name where your checking account is held. | Enter the bank's name where your checking account is held. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the combined value of all cars, boats, or recreational vehicles you have. | Enter the combined value of all cars, boats, or recreational vehicles you have. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the make and model of any cars or boats. | Enter the make and model of any cars or boats. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the amount you still owe on all cars, boats, and recreational vehicles. | Enter the amount you still owe on all cars, boats, and recreational vehicles. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the combined value of home and land you have. | Enter the combined value of home and land you have. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the adress of those properties. | Enter the adress of those properties. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the amount you still owe on all homes and properties. | Enter the amount you still owe on all homes and properties. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the value of other valuable property you have. | Enter the value of other valuable property you have. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Decribe that other valuable property. | Decribe that other valuable property. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the amount you still owe on that other property. | Enter the amount you still owe on that other property. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the combined value of any stocks, bonds, jewelry, or other vaulables. | Enter the combined value of any stocks, bonds, jewelry, or other vaulables. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the vaule of any other investments not already listed in this table. | Enter the vaule of any other investments not already listed in this table. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Decribe those other investments. | Decribe those other investments. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter the amount you still owe on those other investments. | Enter the amount you still owe on those other investments. This information is participant-specific and is not inferred by the packet. |
+| 10. Participant financial information | Enter if there is anything else you want the Court to know about your financial situation. | Enter if there is anything else you want the Court to know about your financial situation. This information is participant-specific and is not inferred by the packet. |
+
+## JDF-206 — Order re Court Fees: the items you must supply
+
+| Section | The blank on the form | What to write |
+| --- | --- | --- |
+| A. Court | Court Mailing Address | the mailing address of the court that handled the case |
+| 1. Background | Name of party who filed the Motion to Waive Fees | write the name of the party who filed JDF 205; this is participant-supplied because a fee-order caption is protected from automatic writes |
 
 ## The choices that are yours
 
@@ -112,26 +180,51 @@ JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 | JDF-612 | Section 9 — Other Proceedings | Whether you have any pending criminal charges (selection) | a sworn answer about your own current charges; no held record establishes it |
 | JDF-612 | Section 10 — Restitution, Fines, Fees | Whether restitution, fines, fees, costs and surcharges ordered in this case have been paid (selection) | a sworn answer about what you have paid; the platform holds no ledger of your case obligations |
 | JDF-612 | Certificate of Service | Certificate of Service — how you sent it (selection) | you tick the method you actually used, at the time you serve the prosecuting attorney |
-| JDF-612 | Signature | Counsel signature — Esq. (selection) | attorney-only; no attorney-representation fact is held for this participant |
+| JDF-613 | A. Court | District Court or County Court (selection) | tick the court type for the existing criminal case |
+| JDF-614 | A. Court | District Court or County Court (selection) | tick the court type for the existing criminal case |
 | JDF-615 | A. Court | District Court or County Court (selection) | the proposed order names the same court the motion is filed in; tick the one your case is in |
-| JDF-615 | 3. Court Findings | By the Court — finding that the motion is for sealing a petty offence or petty drug offence | this box states a finding the court makes; the packet asks for the order, it does not make the finding |
-| JDF-615 | 3. Court Findings | By the Court — finding that the motion is for sealing an eligible misdemeanor or felony | this box states a finding the court makes; the packet asks for the order, it does not make the finding |
-| JDF-615 | 3. Court Findings | By the Court — finding that the harm to privacy outweighs the public interest in retention | this box states a finding the court makes; the packet asks for the order, it does not make the finding |
-| JDF-615 | 3. Court Findings | By the Court — finding that the conduct is no longer unlawful | this box states a finding the court makes; the packet asks for the order, it does not make the finding |
-| JDF-615 | 3. Court Findings | By the Court — finding that the defendant was a victim of human trafficking | this box states a finding the court makes; the packet asks for the order, it does not make the finding |
-| JDF-615 | 5. So Ordered | By the Court — Judge or Magistrate (selection) | the officer who signs states which they are |
+| JDF-205 | 4. Participant financial information | Do you need a language interpreter at Court proceedings? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | Do you receive on of the listed benefits below? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | What is your civil status? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 5. Participant financial information | Check if you have other fees or services that you wanted waived, not already listed. Enter which fee in the following field. | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 6. Participant financial information | Check if you receive Aid to the Blind Colorado. | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 6. Participant financial information | Check if you receive Old Age Pension A and B. | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 6. Participant financial information | Check if you receive Supplemental Security Income (SSI). | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 6. Participant financial information | Check if you receive Temporary Aid for Needy Families (TANF). | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 6. Participant financial information | Check if you receive Supplemental Nutrition Assistance Program (SNAP). | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 6. Participant financial information | Check if you receive Aid to the Needy and Diabled (AND). | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | Do you own your home? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | Do you have a job now? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | How frequently do you get paid that rate? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | How often do you get paid? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | Is your first household member financially depedent on you? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | Is your second household member financially depedent on you? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | Is your third household member financially depedent on you? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-205 | 4. Participant financial information | Is your fourth household member financially depedent on you? | this is an answer about the participant's own finances or household and must be selected by the participant |
+| JDF-206 | A. Court | District, County, Probate or Juvenile Court (selection) | tick the court type for the existing case |
 
 ## What the platform deliberately left blank
 
 - **Your signature on JDF 612, and the date beside it.** You sign it yourself, on the day you sign.
 - **The certificate of service on JDF 612** — the date, the method and the person served. Service has not happened when this packet is prepared, and a certificate dated before the act it certifies would be false.
 - **The counsel signature block.** You are filing this yourself; no attorney-representation fact is held for you.
-- **The Division and Courtroom boxes on both forms.** The form marks that box for court use.
-- **Section 3 of JDF 615 — the court's findings.** Every box there begins "The Court finds". A proposed order that pre-ticked the finding the judge is being asked to make would be drafting the ruling rather than requesting it.
-- **Sections 4 and 5 of JDF 615** — the court's other orders, and the judge's or magistrate's signature and date.
+- **The Division and Courtroom boxes in each court-use caption.** Those boxes remain for the court.
+- **Every decision and signature field on JDF 613 and JDF 614.** The denial findings, hearing details, attendance direction, reasons, deadlines and judicial signatures all remain for the court.
+- **Every finding, fee amount, installment term and signature field on JDF 206.** The court decides the fee-waiver motion and completes its own order.
+- **Every numbered body on JDF 615.** JDF 611 directs the filer to complete only sections A–C; the court supplies the defendant-information repetitions, findings, record-recipient entries, other orders and signature.
+
+## Where self-help ends
+
+Stop before filing and take the packet to a Colorado lawyer if any of these governed route conditions applies:
+
+- The district attorney objects.
+- The court sets a contested hearing.
+- Whether the offence is on the section 8 exclusion list is unclear.
+- Restitution or court debt is unpaid or disputed.
+- Immigration, licensing or firearm consequences are in play.
 
 ## What this packet is not
 
 This is a prepared set of official Colorado Judicial Department forms. It is not legal advice, it is not filed for you, and it does not decide whether your conviction is eligible to be sealed. JDF 612 sets out the eligibility conditions in its own words, including the offences section 8 lists as not eligible and the branch that depends on the district attorney's consent. Read them before you swear to them.
 
-_Route: obligation:track-pathway:CO:co_motion_seal_conviction:petition-based-conviction-sealing-jdf-612-24-72-706 — C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612 and JDF 615_
+_Colorado authority: C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612, JDF 613, JDF 614, JDF 615 and conditional fee-waiver forms JDF 205/JDF 206_

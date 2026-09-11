@@ -7,10 +7,10 @@
   "custodyClass": "SOURCE_ALREADY_HELD",
   "acquisitionCommissioned": false,
   "corpusRootFromEnvironment": "MASTER_LIBRARY_SOURCE_DIR",
-  "bindingMethod": "exact form number + committed corpus-index SHA-256 + on-disk SHA-256 + byte length",
+  "bindingMethod": "exact form number or governed exact-content path + pinned SHA-256 + on-disk SHA-256 + byte length",
   "routeKey": "obligation:track-pathway:CO:co_motion_seal_conviction:petition-based-conviction-sealing-jdf-612-24-72-706",
-  "routeSelectionId": "co-motion-seal-conviction-set-jdf-612-jdf-615",
-  "statutoryAuthority": "C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612 and JDF 615",
+  "routeSelectionId": "co-motion-seal-conviction-set-jdf-612-jdf-613-jdf-614-jdf-615-with-conditional-jdf-205-jdf-206",
+  "statutoryAuthority": "C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612, JDF 613, JDF 614, JDF 615 and conditional fee-waiver forms JDF 205/JDF 206",
   "allSourcesExact": true,
   "documents": [
     {
@@ -27,6 +27,30 @@
     },
     {
       "sourceIds": [
+        "official-form:JDF-613"
+      ],
+      "documentId": "JDF-613",
+      "formNumber": "JDF-613",
+      "revision": "REV-2024-08-07",
+      "pathInArchive": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
+      "sha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+      "byteLength": 545525,
+      "instrumentKind": "proposed_denial_order"
+    },
+    {
+      "sourceIds": [
+        "official-form:JDF-614"
+      ],
+      "documentId": "JDF-614",
+      "formNumber": "JDF-614",
+      "revision": "REV-2024-08-07",
+      "pathInArchive": "private/source-imports/user-upload-20260911/08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b.pdf",
+      "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+      "byteLength": 555787,
+      "instrumentKind": "conditional_hearing_notice"
+    },
+    {
+      "sourceIds": [
         "official-form:JDF-615"
       ],
       "documentId": "JDF-615",
@@ -35,7 +59,31 @@
       "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
       "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
       "byteLength": 565158,
-      "instrumentKind": "proposed_order"
+      "instrumentKind": "proposed_grant_order"
+    },
+    {
+      "sourceIds": [
+        "official-form:JDF-205"
+      ],
+      "documentId": "JDF-205",
+      "formNumber": "JDF-205",
+      "revision": "REV-2024-04-02",
+      "pathInArchive": "private/source-imports/user-upload-20260911/45b12f9ace73c369607a5b508d7010f2bc0eeaac1fa1a7357493d61dfb831f6b.pdf",
+      "sha256": "45b12f9ace73c369607a5b508d7010f2bc0eeaac1fa1a7357493d61dfb831f6b",
+      "byteLength": 676389,
+      "instrumentKind": "conditional_fee_waiver_motion"
+    },
+    {
+      "sourceIds": [
+        "official-form:JDF-206"
+      ],
+      "documentId": "JDF-206",
+      "formNumber": "JDF-206",
+      "revision": "REV-2024-08-20",
+      "pathInArchive": "private/source-imports/user-upload-20260911/36ad409286aa60f7af3195c5534a0f969a4682079271ba4cc6068f31cee71dc4.pdf",
+      "sha256": "36ad409286aa60f7af3195c5534a0f969a4682079271ba4cc6068f31cee71dc4",
+      "byteLength": 680690,
+      "instrumentKind": "conditional_fee_waiver_order"
     }
   ],
   "groundingRecords": [
@@ -45,99 +93,29 @@
       "byteLength": 3708050,
       "packetSetId": "co_motion_seal_conviction-set",
       "fieldsQuotedOnParticipantSurfaces": [
-        "packetSetCompleteness.state",
-        "packetSetCompleteness.basis",
-        "components[].sourceStatusBasis"
+        "components[].role",
+        "components[].requiredOfficialFormId"
       ],
-      "whyItIsBound": "participant-instructions.md now states that this route requires 4 required components and that this packet contains 2, quoting the manifest's own completeness basis and the per-component reason each missing identity is unresolved."
+      "whyItIsBound": "JDF 611 and the packet-set record identify the required motion, denial order, hearing notice and grant order; current source custody now supplies exact bytes for all four."
     }
   ],
   "componentSetDelivery": {
     "requiredComponents": 4,
-    "deliveredComponents": 2,
-    "packetSetCompletenessState": "incomplete",
-    "undelivered": [
-      {
-        "componentId": "co_motion_seal_conviction-notice-3",
-        "role": "required_filing",
-        "officialFormId": null,
-        "requiredOfficialFormId": "JDF-614",
-        "identityResolved": true,
-        "identityResolvedFrom": {
-          "document": "JDF-611 Guide to Sealing Conviction Records (single case)",
-          "sha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
-          "pathInArchive": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
-          "quotedAs": "JDF 614 Notice (Just do §§ A-C)",
-          "inTheGuidesOwnList": "File these forms into your criminal case:  JDF 612 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 613 Order (just do §§ A-C)  JDF 614 Notice (Just do §§ A-C)  JDF 615 Order (just do §§ A-C)",
-          "howItWasRead": "every quoted phrase asserted as a literal substring of the concatenated text items of the named page, in STREAM order. This document interleaves its glyph runs, so the repository's own groupIntoLines() reader returns them scrambled (\"JDF 2 M0o5tion to Waive Fees\"); the stream itself is clean, and pdftotext agrees with the stream."
-        },
-        "binaryHeldHere": false,
-        "binaryRecordedInCommittedIndex": {
-          "custody": "nationwide_recovery_pool_2026_09_02",
-          "identifiedByTheCommittedIndex": false,
-          "path": "LegalEase Colorado/JDF614.pdf",
-          "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
-          "byteLength": 555787,
-          "pageCount": 1,
-          "acroFieldCount": 16,
-          "indexIdentityMeasuredByThisBuild": {
-            "path": "LegalEase Colorado/JDF614.pdf",
-            "formNumber": null,
-            "assetClass": null,
-            "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
-            "byteLength": 555787,
-            "pageCount": 1,
-            "acroFieldCount": 16
-          },
-          "digestProvenance": "quoted from data/rcap-all50/local-source-corpus-index.json and NOT re-hashed by this build. This build reads only the committed index, so that its output is the same in a container that mounts the custody and one that does not. Lane FIX157 re-hashed both binaries on 2026-09-10 in a worktree that DOES mount it and got these exact digests; that measurement is recorded in the packet-set manifest and in the FIX157 lane row, not here.",
-          "whatThisFormIs": null
-        },
-        "sourceStatus": "held_in_a_custody_the_index_does_not_identify",
-        "sourceStatusBasis": "The official JDF-611 guide requires a notice, and IT NAMES IT: under the printed heading “File the Request — File these forms into your criminal case” the guide lists “JDF 612 Motion”, “JDF 613 Order (just do §§ A-C)”, “JDF 614 Notice (Just do §§ A-C)” and “JDF 615 Order (just do §§ A-C)”. The notice is JDF 614. The earlier basis recorded here said the identity was NOT established because the guide “renders those digits as vector glyphs”; that is false against the held bytes. The digits are ordinary text in the content stream. What misread them was this repository's own line-grouping extractor, which reorders the guide's interleaved glyph runs; the concatenated stream, and pdftotext, both recover the four form numbers as plain text. data/rcap-all50/local-source-corpus-index.json carries the official JDF-611 guide, sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e, 606,173 bytes, 2 pages, in three custodies including the mounted Master Library at STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf. What remains missing is neither the identity nor the binary. The committed index carries “LegalEase Colorado/JDF614.pdf”, sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, 555,787 bytes, 1 page, AcroForm with 16 fields, in custody nationwide_recovery_pool_2026_09_02. The earlier basis said this custody \"is not mounted in the packet-factory containers\" and that the digest was therefore quoted rather than measured. That is false of a container that has it. The index's own custodies array declares nationwide_recovery_pool_2026_09_02 at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02, pathsRelativeTo custodyRoot; Lane FIX157, 2026-09-10 found it mounted in its lane worktree and re-hashed the file there. data/rcap-grade-a/packet-factory-24h/PRIVATE_CUSTODY_MOUNT.json records why a lane can see it absent: private/ is gitignored and exists only where it was materialised, so its absence from a checkout proves nothing about custody. The bytes on disk hash to that exact digest, and the document is headed “JDF 614 Order and Notice of Hearing (re sealing conviction records)” with lettered sections A. Court, B. Parties to the Case and C. Case Details — the “§§ A-C” JDF 611 tells a filer to complete — and 16 AcroForm fields, matching the count the index records. WHAT ACTUALLY BLOCKS DELIVERY is the committed index's own identity fields, not the bytes and not the mount. This entry carries formNumber null and assetClass null. Every build in this factory binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it, so no build can bind a binary the index does not identify, and binding it by file name instead would rest the packet's source claim on a file name. What is owed is a source-identity determination over the nationwide_recovery_pool_2026_09_02 entries, not a re-acquisition of bytes. Corrected by lane FIX96 on 2026-09-06 (identity, from the mounted JDF-611 bytes) and again by Lane FIX157, 2026-09-10 (custody and blocker, from the mounted JDF-614 bytes and the committed index entry)."
-      },
-      {
-        "componentId": "co_motion_seal_conviction-second-order-4",
-        "role": "proposed_order",
-        "officialFormId": null,
-        "requiredOfficialFormId": "JDF-613",
-        "identityResolved": true,
-        "identityResolvedFrom": {
-          "document": "JDF-611 Guide to Sealing Conviction Records (single case)",
-          "sha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
-          "pathInArchive": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
-          "quotedAs": "JDF 613 Order (just do §§ A-C)",
-          "inTheGuidesOwnList": "File these forms into your criminal case:  JDF 612 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 613 Order (just do §§ A-C)  JDF 614 Notice (Just do §§ A-C)  JDF 615 Order (just do §§ A-C)",
-          "howItWasRead": "every quoted phrase asserted as a literal substring of the concatenated text items of the named page, in STREAM order. This document interleaves its glyph runs, so the repository's own groupIntoLines() reader returns them scrambled (\"JDF 2 M0o5tion to Waive Fees\"); the stream itself is clean, and pdftotext agrees with the stream."
-        },
-        "binaryHeldHere": false,
-        "binaryRecordedInCommittedIndex": {
-          "custody": "nationwide_recovery_pool_2026_09_02",
-          "identifiedByTheCommittedIndex": false,
-          "path": "LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
-          "sha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
-          "byteLength": 545525,
-          "pageCount": 1,
-          "acroFieldCount": 13,
-          "indexIdentityMeasuredByThisBuild": {
-            "path": "LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
-            "formNumber": null,
-            "assetClass": null,
-            "sha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
-            "byteLength": 545525,
-            "pageCount": 1,
-            "acroFieldCount": 13
-          },
-          "digestProvenance": "quoted from data/rcap-all50/local-source-corpus-index.json and NOT re-hashed by this build. This build reads only the committed index, so that its output is the same in a container that mounts the custody and one that does not. Lane FIX157 re-hashed both binaries on 2026-09-10 in a worktree that DOES mount it and got these exact digests; that measurement is recorded in the packet-set manifest and in the FIX157 lane row, not here.",
-          "whatThisFormIs": "The order DENYING the request to seal, confirmed by lane FIX157 on 2026-09-10 from the bytes at the digest above. Page 1 is headed \"JDF 613  Order Denying Request to Seal Conviction Records\"; section 1 Decision reads \"After reviewing the request to seal the Defendant’s records, the Court finds:\" with the alternatives \"The motion, on its face, is insufficient\" and \"After review of matters outside the motion, the Defendant is not entitled to relief under C.R.S. §§ 24-72-706 to 710\", followed by \"The Court denies the motion because:\"; and the footer reads \"JDF 613 - Order Denying Request to Seal Conviction Records   R: August 7, 2024   Page 1 of 1\" -- the same revision as JDF 611. So the \"second order\" the guide lists is the denial order tendered alongside the JDF 615 grant order, not a second grant. FIX96 recorded this as an open caution because the custody was not mounted to it; it is closed, and the packet now tells the participant what the form is instead of asking them to check."
-        },
-        "sourceStatus": "held_in_a_custody_the_index_does_not_identify",
-        "sourceStatusBasis": "The official JDF-611 guide requires a second order, and IT NAMES IT: the same printed list gives “JDF 613 Order (just do §§ A-C)” beside the JDF 615 order this packet does deliver. The second order is JDF 613. The earlier basis recorded the identity as unestablished for the same incorrect reason as the notice above, and it is corrected on the same evidence. The committed index carries “LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf”, sha256 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677, 545,525 bytes, 1 page, AcroForm with 13 fields, in custody nationwide_recovery_pool_2026_09_02. The earlier basis said this custody \"is not mounted in the packet-factory containers\" and that the digest was therefore quoted rather than measured. That is false of a container that has it. The index's own custodies array declares nationwide_recovery_pool_2026_09_02 at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02, pathsRelativeTo custodyRoot; Lane FIX157, 2026-09-10 found it mounted in its lane worktree and re-hashed the file there. data/rcap-grade-a/packet-factory-24h/PRIVATE_CUSTODY_MOUNT.json records why a lane can see it absent: private/ is gitignored and exists only where it was materialised, so its absence from a checkout proves nothing about custody. The bytes on disk hash to that exact digest. WHAT ACTUALLY BLOCKS DELIVERY is the committed index's own identity fields, not the bytes and not the mount. This entry carries formNumber null and assetClass null. Every build in this factory binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it, so no build can bind a binary the index does not identify, and binding it by file name instead would rest the packet's source claim on a file name. What is owed is a source-identity determination over the nationwide_recovery_pool_2026_09_02 entries, not a re-acquisition of bytes. THE CAUTION FIX96 LEFT OPEN IS NOW CLOSED. FIX96 recorded that the index file name calls JDF 613 the ORDER DENYING the request and that it could not confirm this, because the custody was not mounted to it. Lane FIX157, 2026-09-10 read the bytes at that digest and confirms it from the document's own printed face: page 1 is headed “JDF 613  Order Denying Request to Seal Conviction Records”; its section 1 Decision reads “After reviewing the request to seal the Defendant’s records, the Court finds:” with the alternatives “The motion, on its face, is insufficient” and “After review of matters outside the motion, the Defendant is not entitled to relief under C.R.S. §§ 24-72-706 to 710”, followed by “The Court denies the motion because:”; and its footer reads “JDF 613 - Order Denying Request to Seal Conviction Records   R: August 7, 2024   Page 1 of 1”, the same revision as JDF 611. So the “second order” JDF 611 lists is the DENIAL order tendered alongside the JDF 615 grant order, not a second grant, and a participant must not be told otherwise. The form carries lettered sections A. Court, B. Parties to the Case and C. Case Details, which is the “§§ A-C” the guide tells a filer to complete."
-      }
+    "deliveredComponents": 4,
+    "packetSetCompletenessState": "complete",
+    "undelivered": [],
+    "requiredFormsRendered": [
+      "JDF-612",
+      "JDF-615",
+      "JDF-614",
+      "JDF-613"
     ],
-    "disclosedToParticipant": true,
-    "whyTheyAreNotRendered": "Not because their identities are unknown. JDF 611 names all four documents of this set by form number -- File these forms into your criminal case:  JDF 612 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 613 Order (just do §§ A-C)  JDF 614 Notice (Just do §§ A-C)  JDF 615 Order (just do §§ A-C) -- and this build read that list out of the guide's own bytes, bound at sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e. The notice is JDF 614 and the second order is JDF 613. They are not rendered because the committed corpus index does not IDENTIFY the binaries it holds for them. Both are recorded in custody nationwide_recovery_pool_2026_09_02 at fixed digests, and both index entries carry formNumber null and assetClass null. resolveSources() binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it, so neither can be bound, and binding by file name would rest the packet's source claim on a file name. The earlier account here -- that no packet-factory container mounts the custody -- was corrected by lane FIX157 on 2026-09-10, which found it mounted, declared in the index's own custodies array, and holding both binaries at the exact digests recorded. The gap is disclosed with the identities named, and it is not filled.",
-    "whatWouldCloseIt": "A source-identity determination over the nationwide_recovery_pool_2026_09_02 entries: record state, formNumber and assetClass FORM against these two index rows (or promote the binaries into the Master Library under its naming), after which resolveSources() binds them by digest and the two components render. It is not a re-acquisition -- the bytes are held at the recorded digests -- and it is not a research task: the identities are established and no counsel question is open on them. It is also not this repair lane's to make: classifying a corpus entry is a source-conveyor act with its own governance, and a packet lane that wrote an identity into the index would be certifying a source in order to let its own family pass.",
-    "whatThisBuildRefusedToDo": "Substitute another form for either. A route sells only what a record proves it delivers, and a packet that filled the notice slot with something else would be delivering an official identity it never bound."
+    "conditionalFeeWaiverFormsRendered": [
+      "JDF-205",
+      "JDF-206"
+    ],
+    "conditionalFeeWaiverRule": "Use JDF 205 and JDF 206 only when the participant cannot afford the filing fee and requests a waiver.",
+    "currentHeldJdf615Preserved": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647"
   },
   "sourceBinaryCommitted": false,
   "commercialRoutesOpened": 0

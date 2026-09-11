@@ -512,7 +512,8 @@ function applyPerWidgetDefaultAppearanceSizes(handle, sizes, fieldDefaultAppeara
  * the whole point of naming the order is that it was read off the form.
  */
 export const PRINTED_DATE_ORDERS = Object.freeze({
-  month_day_year: ({ year, month, day }) => `${month}/${day}/${year}`
+  month_day_year: ({ year, month, day }) => `${month}/${day}/${year}`,
+  day_month_year: ({ year, month, day }) => `${day}/${month}/${year}`
 });
 
 /** An ISO date fact, written in the order the form prints beneath the blank. */

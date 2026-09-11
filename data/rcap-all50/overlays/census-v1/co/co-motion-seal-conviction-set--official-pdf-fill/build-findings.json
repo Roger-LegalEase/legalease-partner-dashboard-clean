@@ -20,8 +20,8 @@
       "consequence": "Each is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md, with the clerk of the convicting court as the place to get it. None is estimated: a sentencing date guessed onto a sworn motion is worse than a blank one."
     },
     {
-      "finding": "Both forms ask for the agencies holding records, and the completeness contract refuses to let a court or clerk refusal class excuse an agency fact.",
-      "consequence": "Every agency name, file number and address is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md, rather than being bundled into a protected class."
+      "finding": "JDF 612 asks the movant for the agencies holding records, while JDF 615 repeats record-recipient fields inside the court's numbered order body.",
+      "consequence": "The motion's agency names, file numbers and addresses are declared REQUIRED_BEFORE_FILING and named to the participant. JDF 615's numbered body remains court-owned because JDF 611 directs the filer to complete only sections A–C."
     },
     {
       "finding": "JDF 612 ships with the Colorado Bureau of Investigation box already ticked, because the form marks that agency required. The finished artifact therefore draws a tick at a rectangle this map refuses.",
@@ -36,8 +36,8 @@
       "consequence": "A value written into a hidden widget is invisible ink: the finalizer reports the write, the flattened bytes carry no appearance, and the paper is blank. This build measured that directly — a case-number write into 6A.1 was reported by the finalizer and read back as no ink at the widget's own rectangle — so the census now reads the annotation flags from the pinned binary and the build ASSERTS that no write lands on a hidden widget. 6A.1 is carried to the participant instead, with the reason stated: the packet holds the case number and prints it in the caption of the same page, and the participant copies it across once the box is revealed. Claiming it as a write would have been the worst available outcome."
     },
     {
-      "finding": "JDF 612 asks for the participant's address on ONE line — its caption reads \"Mailing Address: (with city/state/zip)\" — and JDF 615 asks for the same address in four boxes: street, city, state and zip. The packet holds one street fact and writes it in both places, so the order shows the town and the zip twice: once inside the mailing-address line and once in the boxes beside it.",
-      "consequence": "Deliberate, and recorded here so a reviewer does not read it as a stray write. The alternative was to hold a street-only fact, which would leave JDF 612's line short of the city, state and zip its own caption asks for; the shared semantic registry has no fact for a composed address line, and this build does not invent one. Neither statement on the paper is untrue. The sibling family co_decriminalized_conduct_seal-set does NOT have this shape: both of its forms give the street its own line, so the street fact there is the street alone."
+      "finding": "JDF 612 asks for one complete mailing-address line, while JDF 205 has separate street, city, state and ZIP fields.",
+      "consequence": "The shared semantic registry now binds only captions that expressly require city/state/ZIP to a derived participant.full_mailing_address value. JDF 612 receives the derived one-line postal address; JDF 205 receives the structured street, city, state and ZIP facts separately, so neither form omits or duplicates parts."
     },
     {
       "severity": "advisory",

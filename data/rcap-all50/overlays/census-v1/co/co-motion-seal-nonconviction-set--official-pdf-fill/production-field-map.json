@@ -4,7 +4,7 @@
   "routeKeys": [
     "track:CO:co_motion_seal_nonconviction"
   ],
-  "routeSelectionId": "co-motion-seal-nonconviction-set-jdf-477-jdf-478",
+  "routeSelectionId": "co-motion-seal-nonconviction-set-jdf-477-jdf-492-jdf-493-jdf-478",
   "renderStrategy": "acroform_fill",
   "captionBasis": "authored AcroForm field names plus printed section headings; see reports/caption-evidence.json",
   "dispositionVocabulary": [
@@ -12,25 +12,7 @@
     "court_prosecutor_clerk_or_agency_owned",
     "participant_sworn_narrative_or_legal_election"
   ],
-  "routeDeterminedSelections": [
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3D.0",
-      "printedQuestion": "Colorado Bureau of Investigation records to be sealed (selection)",
-      "answerTheRouteDetermines": "the Colorado Bureau of Investigation is on the list of record holders",
-      "markedByThePacket": false,
-      "statedOnTheDeliveredPage": false,
-      "basis": "JDF 478 section 3 prints \"Colorado Bureau of Investigation (required)\" and its address on the form's own face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the form's, it holds on every case this route reaches, and it turns on no fact about this participant.",
-      "refusedBy": [
-        {
-          "reason": "protected_category",
-          "category": "agency"
-        }
-      ],
-      "whyNotMarked": "the shared finalizer applies its protect rules to a selection's label before it will mark it, and this label matches the shared `agency` rule. The rule guards a slot that lists the agencies a court is ordering to seal, which is not the participant's to fill. Closing it needs a caption exemption in scripts/rcap-official-forms/rcap-field-semantics.mjs (PARTICIPANT_STATED_SUBJECT), which is the shared module and is not this family's to change.",
-      "carriedToTheParticipant": "tick this box yourself before you file; the form marks it required and the packet could not mark it"
-    }
-  ],
+  "routeDeterminedSelections": [],
   "sourceAuthoredSelections": [
     {
       "document": "JDF-477",
@@ -42,7 +24,7 @@
     }
   ],
   "routeSelectionNote": "C.R.S. § 24-72-705 is one simplified process covering all five grounds JDF 477 lists, so the route does not choose between them: which ground applies is a fact about how this case ended. The packet states the route it was built for and leaves the ground, the court type and the agency list to the participant rather than asserting a disposition it does not hold. One selection IS route-determined and is recorded above: the CBI line, which both forms mark required. On JDF 477 the issuer has already ticked it. On JDF 478 the packet asks the shared finalizer to tick it, the shared `agency` protect rule refuses, the refusal is recorded per fixture, and the participant is told to tick it before filing. The box is not relabelled to get past that rule.",
-  "requiredBeforeFilingCount": 23,
+  "requiredBeforeFilingCount": 16,
   "requiredBeforeFiling": [
     {
       "document": "JDF-477",
@@ -175,6 +157,26 @@
       "participantMustSupply": "the date you were arrested"
     },
     {
+      "document": "JDF-492",
+      "field": "JDF-492/Court Address",
+      "page": 1,
+      "section": "A. Court",
+      "disclosureLabel": "Court Address",
+      "identity": "JDF-492 field Court Address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the court that handled the case",
+      "participantMustSupply": "the mailing address of the court that handled the case"
+    },
+    {
+      "document": "JDF-493",
+      "field": "JDF-493/Court Address",
+      "page": 1,
+      "section": "A. Court",
+      "disclosureLabel": "Court Address",
+      "identity": "JDF-493 field Court Address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the court that handled the case",
+      "participantMustSupply": "the mailing address of the court that handled the case"
+    },
+    {
       "document": "JDF-478",
       "field": "JDF-478/Court Address",
       "page": 1,
@@ -183,96 +185,6 @@
       "identity": "JDF-478 field Court Address",
       "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the same courthouse, copied from the motion",
       "participantMustSupply": "the mailing address of the same courthouse, copied from the motion"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3A.2",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "County Court case number",
-      "identity": "JDF-478 field 478.3A.2",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the County Court case number, if the case was in County Court",
-      "participantMustSupply": "the County Court case number, if the case was in County Court"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3B.2",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "District Court case number",
-      "identity": "JDF-478 field 478.3B.2",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the District Court case number, if the case was in District Court",
-      "participantMustSupply": "the District Court case number, if the case was in District Court"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3C.1",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "Law Enforcement Agency — Name",
-      "identity": "JDF-478 field 478.3C.1",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the name of the law enforcement agency, copied from the motion",
-      "participantMustSupply": "the name of the law enforcement agency, copied from the motion"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3C.2",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "Law Enforcement Agency — Arrest number",
-      "identity": "JDF-478 field 478.3C.2",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the arrest number from your fingerprint card, copied from the motion",
-      "participantMustSupply": "the arrest number from your fingerprint card, copied from the motion"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3C.3",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "Law Enforcement Agency — Arrest date",
-      "identity": "JDF-478 field 478.3C.3",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the arrest date, copied from the motion",
-      "participantMustSupply": "the arrest date, copied from the motion"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3C.4",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "Law Enforcement Agency — Mailing Address",
-      "identity": "JDF-478 field 478.3C.4",
-      "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address, copied from the motion",
-      "participantMustSupply": "that agency's mailing address, copied from the motion"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3E.1",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "Other agency — name and mailing address",
-      "identity": "JDF-478 field 478.3E.1",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of any other agency holding records, copied from the motion",
-      "participantMustSupply": "the name and mailing address of any other agency holding records, copied from the motion"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3F.1",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "Second other agency — name and mailing address",
-      "identity": "JDF-478 field 478.3F.1",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of a second other agency, if there is one",
-      "participantMustSupply": "the name and mailing address of a second other agency, if there is one"
-    },
-    {
-      "document": "JDF-478",
-      "field": "JDF-478/478.3G.1",
-      "page": 1,
-      "section": "3. Records to be Sealed",
-      "disclosureLabel": "Third other agency — name and mailing address",
-      "identity": "JDF-478 field 478.3G.1",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of a third other agency, if there is one",
-      "participantMustSupply": "the name and mailing address of a third other agency, if there is one"
     }
   ],
   "maps": [
@@ -292,7 +204,7 @@
         "JDF-477/Case Number": "matter.case_number",
         "JDF-477/∆": "participant.full_legal_name",
         "JDF-477/∆ DoB": "participant.date_of_birth",
-        "JDF-477/Address": "participant.street_address",
+        "JDF-477/Address": "participant.full_mailing_address",
         "JDF-477/Phone": "participant.phone",
         "JDF-477/Email": "participant.email"
       },
@@ -779,58 +691,6 @@
           "class": "participant_sworn_narrative_or_legal_election",
           "requiredBeforeFiling": false,
           "routeDetermined": false
-        },
-        {
-          "field": "JDF-477/Sig_Esq",
-          "fieldName": "JDF-477/Sig_Esq",
-          "acroFieldName": "Sig_Esq",
-          "page": 3,
-          "rect": {
-            "x": 234.27,
-            "y": 533.62,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Counsel signature — Esq. (selection)",
-          "printedLine": "Counsel signature — Esq. (selection)",
-          "sectionHeading": "10. Verified Signature",
-          "regionHeading": "Counsel signature — Esq. (selection)",
-          "effectiveLabel": "Counsel signature — Esq. (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 535,
-              "extracted": "Esq. Reg No."
-            },
-            {
-              "y": 551,
-              "extracted": "Counsel S(if anyign a tur)e\u001d"
-            }
-          ],
-          "document": "JDF-477",
-          "selectionId": "JDF-477/Sig_Esq",
-          "kind": "selection_control",
-          "type": "checkbox",
-          "widgets": [
-            {
-              "page": 3,
-              "rect": {
-                "x": 234.27,
-                "y": 533.62,
-                "width": 9.36,
-                "height": 9.36
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "explicit_refusal",
-          "reason": "attorney-only; no attorney-representation fact is held for this participant",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
         }
       ],
       "canonicalWrites": [
@@ -991,7 +851,7 @@
             }
           ],
           "document": "JDF-477",
-          "factId": "participant.street_address",
+          "factId": "participant.full_mailing_address",
           "kind": "text"
         },
         {
@@ -2015,6 +1875,42 @@
           "why": "you sign this yourself, under penalty of perjury"
         },
         {
+          "field": "JDF-477/Sig_Esq",
+          "fieldName": "JDF-477/Sig_Esq",
+          "acroFieldName": "Sig_Esq",
+          "page": 3,
+          "rect": {
+            "x": 234.27,
+            "y": 533.62,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Counsel signature — Esq. (selection)",
+          "printedLine": "Counsel signature — Esq. (selection)",
+          "sectionHeading": "10. Verified Signature",
+          "regionHeading": "Counsel signature — Esq. (selection)",
+          "effectiveLabel": "Counsel signature — Esq. (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 535,
+              "extracted": "Esq. Reg No."
+            },
+            {
+              "y": 551,
+              "extracted": "Counsel S(if anyign a tur)e\u001d"
+            }
+          ],
+          "document": "JDF-477",
+          "reason": "attorney-only; no attorney-representation fact is held for this participant",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "why": "attorney-only; no attorney-representation fact is held for this participant"
+        },
+        {
           "field": "JDF-477/Sig_LawyerSignature",
           "fieldName": "JDF-477/Sig_LawyerSignature",
           "acroFieldName": "Sig_LawyerSignature",
@@ -2245,7 +2141,7 @@
             }
           ],
           "document": "JDF-477",
-          "factId": "participant.street_address",
+          "factId": "participant.full_mailing_address",
           "kind": "text"
         },
         {
@@ -3267,6 +3163,42 @@
           "class": "signature_or_date_participant_completion",
           "requiredBeforeFiling": false,
           "why": "you sign this yourself, under penalty of perjury"
+        },
+        {
+          "field": "JDF-477/Sig_Esq",
+          "fieldName": "JDF-477/Sig_Esq",
+          "acroFieldName": "Sig_Esq",
+          "page": 3,
+          "rect": {
+            "x": 234.27,
+            "y": 533.62,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Counsel signature — Esq. (selection)",
+          "printedLine": "Counsel signature — Esq. (selection)",
+          "sectionHeading": "10. Verified Signature",
+          "regionHeading": "Counsel signature — Esq. (selection)",
+          "effectiveLabel": "Counsel signature — Esq. (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 535,
+              "extracted": "Esq. Reg No."
+            },
+            {
+              "y": 551,
+              "extracted": "Counsel S(if anyign a tur)e\u001d"
+            }
+          ],
+          "document": "JDF-477",
+          "reason": "attorney-only; no attorney-representation fact is held for this participant",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "why": "attorney-only; no attorney-representation fact is held for this participant"
         },
         {
           "field": "JDF-477/Sig_LawyerSignature",
@@ -3343,9 +3275,1827 @@
       ]
     },
     {
+      "formNumber": "JDF-492",
+      "documentId": "JDF-492",
+      "documentRole": "proposed_denial_order",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "track:CO:co_motion_seal_nonconviction"
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {
+        "JDF-492/County": "matter.county",
+        "JDF-492/∆": "participant.full_legal_name",
+        "JDF-492/Case Number": "matter.case_number"
+      },
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "field": "JDF-492/Group_CourtType",
+          "fieldName": "JDF-492/Group_CourtType",
+          "acroFieldName": "Group_CourtType",
+          "page": 1,
+          "rect": {
+            "x": 90.11,
+            "y": 645,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "District Court or County Court (selection)",
+          "printedLine": "District Court or County Court (selection)",
+          "sectionHeading": "A. Court",
+          "regionHeading": "District Court or County Court (selection)",
+          "effectiveLabel": "District Court or County Court (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 648,
+              "extracted": "District County"
+            },
+            {
+              "y": 632,
+              "extracted": "Colorado County :"
+            }
+          ],
+          "document": "JDF-492",
+          "selectionId": "JDF-492/Group_CourtType",
+          "kind": "selection_control",
+          "type": "radiogroup",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.11,
+                "y": 645,
+                "width": 12.24,
+                "height": 12.24
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 140.07,
+                "y": 645,
+                "width": 12.24,
+                "height": 12.24
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick the court type for the existing criminal case",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        }
+      ],
+      "canonicalWrites": [
+        {
+          "field": "JDF-492/County",
+          "fieldName": "JDF-492/County",
+          "acroFieldName": "County",
+          "page": 1,
+          "rect": {
+            "x": 163.7,
+            "y": 630.35,
+            "width": 186.82,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Colorado County",
+          "printedLine": "Colorado County",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Colorado County",
+          "effectiveLabel": "Colorado County",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 632,
+              "extracted": "Colorado County :"
+            },
+            {
+              "y": 619,
+              "extracted": "Court Ad dress\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "factId": "matter.county",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-492/∆",
+          "fieldName": "JDF-492/∆",
+          "acroFieldName": "∆",
+          "page": 1,
+          "rect": {
+            "x": 137.51,
+            "y": 545.48,
+            "width": 213,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant — Full Name",
+          "printedLine": "Defendant — Full Name",
+          "sectionHeading": "B. Parties to the Case",
+          "regionHeading": "Defendant — Full Name",
+          "effectiveLabel": "Defendant — Full Name",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 547,
+              "extracted": "Defend ant:"
+            },
+            {
+              "y": 556,
+              "extracted": "This box is for court use only."
+            }
+          ],
+          "document": "JDF-492",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-492/Case Number",
+          "fieldName": "JDF-492/Case Number",
+          "acroFieldName": "Case Number",
+          "page": 1,
+          "rect": {
+            "x": 420.82,
+            "y": 516.14,
+            "width": 110.51,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 517,
+              "extracted": "NuPEer\u001d"
+            },
+            {
+              "y": 502,
+              "extracted": "Division\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "factId": "matter.case_number",
+          "kind": "text"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "JDF-492/Court Address",
+          "fieldName": "JDF-492/Court Address",
+          "acroFieldName": "Court Address",
+          "page": 1,
+          "rect": {
+            "x": 153.66,
+            "y": 617.43,
+            "width": 196.86,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Court Address",
+          "printedLine": "Court Address",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Court Address",
+          "effectiveLabel": "Court Address",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 619,
+              "extracted": "Court Ad dress\u001d"
+            },
+            {
+              "y": 632,
+              "extracted": "Colorado County :"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the participant supplies this before filing: the mailing address of the court that handled the case",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-492 field Court Address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the court that handled the case",
+          "participantMustSupply": "the mailing address of the court that handled the case"
+        },
+        {
+          "field": "JDF-492/Division",
+          "fieldName": "JDF-492/Division",
+          "acroFieldName": "Division",
+          "page": 1,
+          "rect": {
+            "x": 420.5,
+            "y": 500.59,
+            "width": 110.73,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Division",
+          "printedLine": "Division",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Division",
+          "effectiveLabel": "Division",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 502,
+              "extracted": "Division\u001d"
+            },
+            {
+              "y": 486,
+              "extracted": "CourtrooP\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the court-use caption field remains for the court",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court-use caption field remains for the court"
+        },
+        {
+          "field": "JDF-492/Courtroom",
+          "fieldName": "JDF-492/Courtroom",
+          "acroFieldName": "Courtroom",
+          "page": 1,
+          "rect": {
+            "x": 431.3,
+            "y": 485.21,
+            "width": 99.87,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Courtroom",
+          "printedLine": "Courtroom",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Courtroom",
+          "effectiveLabel": "Courtroom",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 486,
+              "extracted": "CourtrooP\u001d"
+            },
+            {
+              "y": 502,
+              "extracted": "Division\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the court-use caption field remains for the court",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court-use caption field remains for the court"
+        },
+        {
+          "field": "JDF-492/1.1",
+          "fieldName": "JDF-492/1.1",
+          "acroFieldName": "1.1",
+          "page": 1,
+          "rect": {
+            "x": 108.82,
+            "y": 392.56,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — motion insufficient",
+          "printedLine": "By the Court — motion insufficient",
+          "sectionHeading": "1. Decision",
+          "regionHeading": "By the Court — motion insufficient",
+          "effectiveLabel": "By the Court — motion insufficient",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 393,
+              "extracted": "The motion, on its face, is insufficient. Or,"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "this is a future court finding on the denial order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "this is a future court finding on the denial order"
+        },
+        {
+          "field": "JDF-492/1.2",
+          "fieldName": "JDF-492/1.2",
+          "acroFieldName": "1.2",
+          "page": 1,
+          "rect": {
+            "x": 108.97,
+            "y": 369.08,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — defendant not entitled to relief",
+          "printedLine": "By the Court — defendant not entitled to relief",
+          "sectionHeading": "1. Decision",
+          "regionHeading": "By the Court — defendant not entitled to relief",
+          "effectiveLabel": "By the Court — defendant not entitled to relief",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 370,
+              "extracted": "After review of matters outside the motion, the Defendant is not entitled to relief under"
+            },
+            {
+              "y": 353,
+              "extracted": "C.R.S. -72§-70§5 2 or, 4for convictions va-ca1-4te10d. t7(h5r)o(ubg)h, CC.R..R.SS. . §§ 1 8"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "this is a future court finding on the denial order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "this is a future court finding on the denial order"
+        },
+        {
+          "field": "JDF-492/1.3",
+          "fieldName": "JDF-492/1.3",
+          "acroFieldName": "1.3",
+          "page": 1,
+          "rect": {
+            "x": 108,
+            "y": 169.81,
+            "width": 432,
+            "height": 133.57
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — reason for denying the motion",
+          "printedLine": "By the Court — reason for denying the motion",
+          "sectionHeading": "1. Decision",
+          "regionHeading": "By the Court — reason for denying the motion",
+          "effectiveLabel": "By the Court — reason for denying the motion",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-492",
+          "reason": "the court states its own reason if it denies the motion",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court states its own reason if it denies the motion"
+        },
+        {
+          "field": "JDF-492/Sig-by",
+          "fieldName": "JDF-492/Sig-by",
+          "acroFieldName": "Sig-by",
+          "page": 1,
+          "rect": {
+            "x": 125.2,
+            "y": 112.67,
+            "width": 198.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — signature",
+          "printedLine": "By the Court — signature",
+          "sectionHeading": "2. So Ordered",
+          "regionHeading": "By the Court — signature",
+          "effectiveLabel": "By the Court — signature",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 114,
+              "extracted": "By:"
+            },
+            {
+              "y": 102,
+              "extracted": "Jud ge 0 agis trate"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the judicial officer signs the order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the judicial officer signs the order"
+        },
+        {
+          "field": "JDF-492/Group_Sig",
+          "fieldName": "JDF-492/Group_Sig",
+          "acroFieldName": "Group_Sig",
+          "page": 1,
+          "rect": {
+            "x": 125.36,
+            "y": 99.95,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Judge or Magistrate (selection)",
+          "printedLine": "By the Court — Judge or Magistrate (selection)",
+          "sectionHeading": "2. So Ordered",
+          "regionHeading": "By the Court — Judge or Magistrate (selection)",
+          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 102,
+              "extracted": "Jud ge 0 agis trate"
+            },
+            {
+              "y": 114,
+              "extracted": "By:"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the signing judicial officer identifies their role",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the signing judicial officer identifies their role"
+        },
+        {
+          "field": "JDF-492/Sig_date",
+          "fieldName": "JDF-492/Sig_date",
+          "acroFieldName": "Sig_date",
+          "page": 1,
+          "rect": {
+            "x": 139.88,
+            "y": 78.09,
+            "width": 147.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — date signed",
+          "printedLine": "By the Court — date signed",
+          "sectionHeading": "2. So Ordered",
+          "regionHeading": "By the Court — date signed",
+          "effectiveLabel": "By the Court — date signed",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 79,
+              "extracted": "Date d\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the court dates its own order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court dates its own order"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "JDF-492/County",
+          "fieldName": "JDF-492/County",
+          "acroFieldName": "County",
+          "page": 1,
+          "rect": {
+            "x": 163.7,
+            "y": 630.35,
+            "width": 186.82,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Colorado County",
+          "printedLine": "Colorado County",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Colorado County",
+          "effectiveLabel": "Colorado County",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 632,
+              "extracted": "Colorado County :"
+            },
+            {
+              "y": 619,
+              "extracted": "Court Ad dress\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "factId": "matter.county",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-492/∆",
+          "fieldName": "JDF-492/∆",
+          "acroFieldName": "∆",
+          "page": 1,
+          "rect": {
+            "x": 137.51,
+            "y": 545.48,
+            "width": 213,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant — Full Name",
+          "printedLine": "Defendant — Full Name",
+          "sectionHeading": "B. Parties to the Case",
+          "regionHeading": "Defendant — Full Name",
+          "effectiveLabel": "Defendant — Full Name",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 547,
+              "extracted": "Defend ant:"
+            },
+            {
+              "y": 556,
+              "extracted": "This box is for court use only."
+            }
+          ],
+          "document": "JDF-492",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-492/Case Number",
+          "fieldName": "JDF-492/Case Number",
+          "acroFieldName": "Case Number",
+          "page": 1,
+          "rect": {
+            "x": 420.82,
+            "y": 516.14,
+            "width": 110.51,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 517,
+              "extracted": "NuPEer\u001d"
+            },
+            {
+              "y": 502,
+              "extracted": "Division\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "factId": "matter.case_number",
+          "kind": "text"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "JDF-492/Court Address",
+          "fieldName": "JDF-492/Court Address",
+          "acroFieldName": "Court Address",
+          "page": 1,
+          "rect": {
+            "x": 153.66,
+            "y": 617.43,
+            "width": 196.86,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Court Address",
+          "printedLine": "Court Address",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Court Address",
+          "effectiveLabel": "Court Address",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 619,
+              "extracted": "Court Ad dress\u001d"
+            },
+            {
+              "y": 632,
+              "extracted": "Colorado County :"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the participant supplies this before filing: the mailing address of the court that handled the case",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-492 field Court Address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the court that handled the case",
+          "participantMustSupply": "the mailing address of the court that handled the case"
+        },
+        {
+          "field": "JDF-492/Division",
+          "fieldName": "JDF-492/Division",
+          "acroFieldName": "Division",
+          "page": 1,
+          "rect": {
+            "x": 420.5,
+            "y": 500.59,
+            "width": 110.73,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Division",
+          "printedLine": "Division",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Division",
+          "effectiveLabel": "Division",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 502,
+              "extracted": "Division\u001d"
+            },
+            {
+              "y": 486,
+              "extracted": "CourtrooP\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the court-use caption field remains for the court",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court-use caption field remains for the court"
+        },
+        {
+          "field": "JDF-492/Courtroom",
+          "fieldName": "JDF-492/Courtroom",
+          "acroFieldName": "Courtroom",
+          "page": 1,
+          "rect": {
+            "x": 431.3,
+            "y": 485.21,
+            "width": 99.87,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Courtroom",
+          "printedLine": "Courtroom",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Courtroom",
+          "effectiveLabel": "Courtroom",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 486,
+              "extracted": "CourtrooP\u001d"
+            },
+            {
+              "y": 502,
+              "extracted": "Division\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the court-use caption field remains for the court",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court-use caption field remains for the court"
+        },
+        {
+          "field": "JDF-492/1.1",
+          "fieldName": "JDF-492/1.1",
+          "acroFieldName": "1.1",
+          "page": 1,
+          "rect": {
+            "x": 108.82,
+            "y": 392.56,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — motion insufficient",
+          "printedLine": "By the Court — motion insufficient",
+          "sectionHeading": "1. Decision",
+          "regionHeading": "By the Court — motion insufficient",
+          "effectiveLabel": "By the Court — motion insufficient",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 393,
+              "extracted": "The motion, on its face, is insufficient. Or,"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "this is a future court finding on the denial order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "this is a future court finding on the denial order"
+        },
+        {
+          "field": "JDF-492/1.2",
+          "fieldName": "JDF-492/1.2",
+          "acroFieldName": "1.2",
+          "page": 1,
+          "rect": {
+            "x": 108.97,
+            "y": 369.08,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — defendant not entitled to relief",
+          "printedLine": "By the Court — defendant not entitled to relief",
+          "sectionHeading": "1. Decision",
+          "regionHeading": "By the Court — defendant not entitled to relief",
+          "effectiveLabel": "By the Court — defendant not entitled to relief",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 370,
+              "extracted": "After review of matters outside the motion, the Defendant is not entitled to relief under"
+            },
+            {
+              "y": 353,
+              "extracted": "C.R.S. -72§-70§5 2 or, 4for convictions va-ca1-4te10d. t7(h5r)o(ubg)h, CC.R..R.SS. . §§ 1 8"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "this is a future court finding on the denial order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "this is a future court finding on the denial order"
+        },
+        {
+          "field": "JDF-492/1.3",
+          "fieldName": "JDF-492/1.3",
+          "acroFieldName": "1.3",
+          "page": 1,
+          "rect": {
+            "x": 108,
+            "y": 169.81,
+            "width": 432,
+            "height": 133.57
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — reason for denying the motion",
+          "printedLine": "By the Court — reason for denying the motion",
+          "sectionHeading": "1. Decision",
+          "regionHeading": "By the Court — reason for denying the motion",
+          "effectiveLabel": "By the Court — reason for denying the motion",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-492",
+          "reason": "the court states its own reason if it denies the motion",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court states its own reason if it denies the motion"
+        },
+        {
+          "field": "JDF-492/Sig-by",
+          "fieldName": "JDF-492/Sig-by",
+          "acroFieldName": "Sig-by",
+          "page": 1,
+          "rect": {
+            "x": 125.2,
+            "y": 112.67,
+            "width": 198.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — signature",
+          "printedLine": "By the Court — signature",
+          "sectionHeading": "2. So Ordered",
+          "regionHeading": "By the Court — signature",
+          "effectiveLabel": "By the Court — signature",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 114,
+              "extracted": "By:"
+            },
+            {
+              "y": 102,
+              "extracted": "Jud ge 0 agis trate"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the judicial officer signs the order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the judicial officer signs the order"
+        },
+        {
+          "field": "JDF-492/Group_Sig",
+          "fieldName": "JDF-492/Group_Sig",
+          "acroFieldName": "Group_Sig",
+          "page": 1,
+          "rect": {
+            "x": 125.36,
+            "y": 99.95,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Judge or Magistrate (selection)",
+          "printedLine": "By the Court — Judge or Magistrate (selection)",
+          "sectionHeading": "2. So Ordered",
+          "regionHeading": "By the Court — Judge or Magistrate (selection)",
+          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 102,
+              "extracted": "Jud ge 0 agis trate"
+            },
+            {
+              "y": 114,
+              "extracted": "By:"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the signing judicial officer identifies their role",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the signing judicial officer identifies their role"
+        },
+        {
+          "field": "JDF-492/Sig_date",
+          "fieldName": "JDF-492/Sig_date",
+          "acroFieldName": "Sig_date",
+          "page": 1,
+          "rect": {
+            "x": 139.88,
+            "y": 78.09,
+            "width": 147.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — date signed",
+          "printedLine": "By the Court — date signed",
+          "sectionHeading": "2. So Ordered",
+          "regionHeading": "By the Court — date signed",
+          "effectiveLabel": "By the Court — date signed",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 79,
+              "extracted": "Date d\u001d"
+            }
+          ],
+          "document": "JDF-492",
+          "reason": "the court dates its own order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court dates its own order"
+        }
+      ]
+    },
+    {
+      "formNumber": "JDF-493",
+      "documentId": "JDF-493",
+      "documentRole": "conditional_hearing_notice",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "track:CO:co_motion_seal_nonconviction"
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {
+        "JDF-493/County": "matter.county",
+        "JDF-493/∆": "participant.full_legal_name",
+        "JDF-493/Case Number": "matter.case_number"
+      },
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "field": "JDF-493/Group_CourtType",
+          "fieldName": "JDF-493/Group_CourtType",
+          "acroFieldName": "Group_CourtType",
+          "page": 1,
+          "rect": {
+            "x": 90.11,
+            "y": 645,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "District Court or County Court (selection)",
+          "printedLine": "District Court or County Court (selection)",
+          "sectionHeading": "A. Court",
+          "regionHeading": "District Court or County Court (selection)",
+          "effectiveLabel": "District Court or County Court (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 648,
+              "extracted": "District County"
+            },
+            {
+              "y": 632,
+              "extracted": "Colorado County :"
+            }
+          ],
+          "document": "JDF-493",
+          "selectionId": "JDF-493/Group_CourtType",
+          "kind": "selection_control",
+          "type": "radiogroup",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.11,
+                "y": 645,
+                "width": 12.24,
+                "height": 12.24
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 140.07,
+                "y": 645,
+                "width": 12.24,
+                "height": 12.24
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick the court type for the existing criminal case",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        }
+      ],
+      "canonicalWrites": [
+        {
+          "field": "JDF-493/County",
+          "fieldName": "JDF-493/County",
+          "acroFieldName": "County",
+          "page": 1,
+          "rect": {
+            "x": 163.7,
+            "y": 630.35,
+            "width": 186.82,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Colorado County",
+          "printedLine": "Colorado County",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Colorado County",
+          "effectiveLabel": "Colorado County",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 632,
+              "extracted": "Colorado County :"
+            },
+            {
+              "y": 619,
+              "extracted": "Court Ad dress:"
+            }
+          ],
+          "document": "JDF-493",
+          "factId": "matter.county",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-493/∆",
+          "fieldName": "JDF-493/∆",
+          "acroFieldName": "∆",
+          "page": 1,
+          "rect": {
+            "x": 137.51,
+            "y": 545.48,
+            "width": 213,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant — Full Name",
+          "printedLine": "Defendant — Full Name",
+          "sectionHeading": "B. Parties to the Case",
+          "regionHeading": "Defendant — Full Name",
+          "effectiveLabel": "Defendant — Full Name",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 547,
+              "extracted": "Defend ant:"
+            },
+            {
+              "y": 549,
+              "extracted": "DiYision:"
+            }
+          ],
+          "document": "JDF-493",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-493/Case Number",
+          "fieldName": "JDF-493/Case Number",
+          "acroFieldName": "Case Number",
+          "page": 1,
+          "rect": {
+            "x": 420.39,
+            "y": 563.27,
+            "width": 110.51,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 564,
+              "extracted": "NumEer:"
+            },
+            {
+              "y": 562,
+              "extracted": "v."
+            }
+          ],
+          "document": "JDF-493",
+          "factId": "matter.case_number",
+          "kind": "text"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "JDF-493/Court Address",
+          "fieldName": "JDF-493/Court Address",
+          "acroFieldName": "Court Address",
+          "page": 1,
+          "rect": {
+            "x": 153.66,
+            "y": 617.43,
+            "width": 196.86,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Court Address",
+          "printedLine": "Court Address",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Court Address",
+          "effectiveLabel": "Court Address",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 619,
+              "extracted": "Court Ad dress:"
+            },
+            {
+              "y": 604,
+              "extracted": "This box is for court use only."
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the participant supplies this before filing: the mailing address of the court that handled the case",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-493 field Court Address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the court that handled the case",
+          "participantMustSupply": "the mailing address of the court that handled the case"
+        },
+        {
+          "field": "JDF-493/Division",
+          "fieldName": "JDF-493/Division",
+          "acroFieldName": "Division",
+          "page": 1,
+          "rect": {
+            "x": 420.06,
+            "y": 547.72,
+            "width": 110.73,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Division",
+          "printedLine": "Division",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Division",
+          "effectiveLabel": "Division",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 547,
+              "extracted": "Defend ant:"
+            },
+            {
+              "y": 549,
+              "extracted": "DiYision:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court-use caption field remains for the court",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court-use caption field remains for the court"
+        },
+        {
+          "field": "JDF-493/Courtroom",
+          "fieldName": "JDF-493/Courtroom",
+          "acroFieldName": "Courtroom",
+          "page": 1,
+          "rect": {
+            "x": 430.86,
+            "y": 532.34,
+            "width": 99.87,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Courtroom",
+          "printedLine": "Courtroom",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Courtroom",
+          "effectiveLabel": "Courtroom",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 533,
+              "extracted": "Courtroom:"
+            },
+            {
+              "y": 547,
+              "extracted": "Defend ant:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court-use caption field remains for the court",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court-use caption field remains for the court"
+        },
+        {
+          "field": "JDF-493/Group_Sig",
+          "fieldName": "JDF-493/Group_Sig",
+          "acroFieldName": "Group_Sig",
+          "page": 1,
+          "rect": {
+            "x": 125.36,
+            "y": 206.97,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Judge or Magistrate (selection)",
+          "printedLine": "By the Court — Judge or Magistrate (selection)",
+          "sectionHeading": "3. So Ordered",
+          "regionHeading": "By the Court — Judge or Magistrate (selection)",
+          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 209,
+              "extracted": "Jud ge 0 agis trate"
+            },
+            {
+              "y": 221,
+              "extracted": "By:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the signing judicial officer identifies their role",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the signing judicial officer identifies their role"
+        },
+        {
+          "field": "JDF-493/Sig_date",
+          "fieldName": "JDF-493/Sig_date",
+          "acroFieldName": "Sig_date",
+          "page": 1,
+          "rect": {
+            "x": 140.2,
+            "y": 184.46,
+            "width": 147.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — date signed",
+          "printedLine": "By the Court — date signed",
+          "sectionHeading": "3. So Ordered",
+          "regionHeading": "By the Court — date signed",
+          "effectiveLabel": "By the Court — date signed",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 186,
+              "extracted": "Date d:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court dates its own order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court dates its own order"
+        },
+        {
+          "field": "JDF-493/Sig-by",
+          "fieldName": "JDF-493/Sig-by",
+          "acroFieldName": "Sig-by",
+          "page": 1,
+          "rect": {
+            "x": 125.2,
+            "y": 219.69,
+            "width": 198.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — signature",
+          "printedLine": "By the Court — signature",
+          "sectionHeading": "3. So Ordered",
+          "regionHeading": "By the Court — signature",
+          "effectiveLabel": "By the Court — signature",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 221,
+              "extracted": "By:"
+            },
+            {
+              "y": 209,
+              "extracted": "Jud ge 0 agis trate"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the judicial officer signs the order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the judicial officer signs the order"
+        },
+        {
+          "field": "JDF-493/1.3",
+          "fieldName": "JDF-493/1.3",
+          "acroFieldName": "1.3",
+          "page": 1,
+          "rect": {
+            "x": 108.82,
+            "y": 403.69,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — defendant required to attend",
+          "printedLine": "By the Court — defendant required to attend",
+          "sectionHeading": "1. Hearing Scheduled",
+          "regionHeading": "By the Court — defendant required to attend",
+          "effectiveLabel": "By the Court — defendant required to attend",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 405,
+              "extracted": "If checked, the Defendant is required to attend the hearing."
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court decides whether attendance is required",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court decides whether attendance is required"
+        },
+        {
+          "field": "JDF-493/1.1",
+          "fieldName": "JDF-493/1.1",
+          "acroFieldName": "1.1",
+          "page": 1,
+          "rect": {
+            "x": 169.91,
+            "y": 433.01,
+            "width": 154.04,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — hearing date",
+          "printedLine": "By the Court — hearing date",
+          "sectionHeading": "1. Hearing Scheduled",
+          "regionHeading": "By the Court — hearing date",
+          "effectiveLabel": "By the Court — hearing date",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 434,
+              "extracted": "Dat e: Tim e:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court decides whether to set a hearing and supplies its date",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court decides whether to set a hearing and supplies its date"
+        },
+        {
+          "field": "JDF-493/1.2",
+          "fieldName": "JDF-493/1.2",
+          "acroFieldName": "1.2",
+          "page": 1,
+          "rect": {
+            "x": 389.67,
+            "y": 432.69,
+            "width": 114.76,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — hearing time",
+          "printedLine": "By the Court — hearing time",
+          "sectionHeading": "1. Hearing Scheduled",
+          "regionHeading": "By the Court — hearing time",
+          "effectiveLabel": "By the Court — hearing time",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 434,
+              "extracted": "Dat e: Tim e:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court decides whether to set a hearing and supplies its time",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court decides whether to set a hearing and supplies its time"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "JDF-493/County",
+          "fieldName": "JDF-493/County",
+          "acroFieldName": "County",
+          "page": 1,
+          "rect": {
+            "x": 163.7,
+            "y": 630.35,
+            "width": 186.82,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Colorado County",
+          "printedLine": "Colorado County",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Colorado County",
+          "effectiveLabel": "Colorado County",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 632,
+              "extracted": "Colorado County :"
+            },
+            {
+              "y": 619,
+              "extracted": "Court Ad dress:"
+            }
+          ],
+          "document": "JDF-493",
+          "factId": "matter.county",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-493/∆",
+          "fieldName": "JDF-493/∆",
+          "acroFieldName": "∆",
+          "page": 1,
+          "rect": {
+            "x": 137.51,
+            "y": 545.48,
+            "width": 213,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant — Full Name",
+          "printedLine": "Defendant — Full Name",
+          "sectionHeading": "B. Parties to the Case",
+          "regionHeading": "Defendant — Full Name",
+          "effectiveLabel": "Defendant — Full Name",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 547,
+              "extracted": "Defend ant:"
+            },
+            {
+              "y": 549,
+              "extracted": "DiYision:"
+            }
+          ],
+          "document": "JDF-493",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-493/Case Number",
+          "fieldName": "JDF-493/Case Number",
+          "acroFieldName": "Case Number",
+          "page": 1,
+          "rect": {
+            "x": 420.39,
+            "y": 563.27,
+            "width": 110.51,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 564,
+              "extracted": "NumEer:"
+            },
+            {
+              "y": 562,
+              "extracted": "v."
+            }
+          ],
+          "document": "JDF-493",
+          "factId": "matter.case_number",
+          "kind": "text"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "JDF-493/Court Address",
+          "fieldName": "JDF-493/Court Address",
+          "acroFieldName": "Court Address",
+          "page": 1,
+          "rect": {
+            "x": 153.66,
+            "y": 617.43,
+            "width": 196.86,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Court Address",
+          "printedLine": "Court Address",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Court Address",
+          "effectiveLabel": "Court Address",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 619,
+              "extracted": "Court Ad dress:"
+            },
+            {
+              "y": 604,
+              "extracted": "This box is for court use only."
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the participant supplies this before filing: the mailing address of the court that handled the case",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-493 field Court Address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the court that handled the case",
+          "participantMustSupply": "the mailing address of the court that handled the case"
+        },
+        {
+          "field": "JDF-493/Division",
+          "fieldName": "JDF-493/Division",
+          "acroFieldName": "Division",
+          "page": 1,
+          "rect": {
+            "x": 420.06,
+            "y": 547.72,
+            "width": 110.73,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Division",
+          "printedLine": "Division",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Division",
+          "effectiveLabel": "Division",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 547,
+              "extracted": "Defend ant:"
+            },
+            {
+              "y": 549,
+              "extracted": "DiYision:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court-use caption field remains for the court",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court-use caption field remains for the court"
+        },
+        {
+          "field": "JDF-493/Courtroom",
+          "fieldName": "JDF-493/Courtroom",
+          "acroFieldName": "Courtroom",
+          "page": 1,
+          "rect": {
+            "x": 430.86,
+            "y": 532.34,
+            "width": 99.87,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Courtroom",
+          "printedLine": "Courtroom",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Courtroom",
+          "effectiveLabel": "Courtroom",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 533,
+              "extracted": "Courtroom:"
+            },
+            {
+              "y": 547,
+              "extracted": "Defend ant:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court-use caption field remains for the court",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court-use caption field remains for the court"
+        },
+        {
+          "field": "JDF-493/Group_Sig",
+          "fieldName": "JDF-493/Group_Sig",
+          "acroFieldName": "Group_Sig",
+          "page": 1,
+          "rect": {
+            "x": 125.36,
+            "y": 206.97,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Judge or Magistrate (selection)",
+          "printedLine": "By the Court — Judge or Magistrate (selection)",
+          "sectionHeading": "3. So Ordered",
+          "regionHeading": "By the Court — Judge or Magistrate (selection)",
+          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 209,
+              "extracted": "Jud ge 0 agis trate"
+            },
+            {
+              "y": 221,
+              "extracted": "By:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the signing judicial officer identifies their role",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the signing judicial officer identifies their role"
+        },
+        {
+          "field": "JDF-493/Sig_date",
+          "fieldName": "JDF-493/Sig_date",
+          "acroFieldName": "Sig_date",
+          "page": 1,
+          "rect": {
+            "x": 140.2,
+            "y": 184.46,
+            "width": 147.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — date signed",
+          "printedLine": "By the Court — date signed",
+          "sectionHeading": "3. So Ordered",
+          "regionHeading": "By the Court — date signed",
+          "effectiveLabel": "By the Court — date signed",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 186,
+              "extracted": "Date d:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court dates its own order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court dates its own order"
+        },
+        {
+          "field": "JDF-493/Sig-by",
+          "fieldName": "JDF-493/Sig-by",
+          "acroFieldName": "Sig-by",
+          "page": 1,
+          "rect": {
+            "x": 125.2,
+            "y": 219.69,
+            "width": 198.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — signature",
+          "printedLine": "By the Court — signature",
+          "sectionHeading": "3. So Ordered",
+          "regionHeading": "By the Court — signature",
+          "effectiveLabel": "By the Court — signature",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 221,
+              "extracted": "By:"
+            },
+            {
+              "y": 209,
+              "extracted": "Jud ge 0 agis trate"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the judicial officer signs the order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the judicial officer signs the order"
+        },
+        {
+          "field": "JDF-493/1.3",
+          "fieldName": "JDF-493/1.3",
+          "acroFieldName": "1.3",
+          "page": 1,
+          "rect": {
+            "x": 108.82,
+            "y": 403.69,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — defendant required to attend",
+          "printedLine": "By the Court — defendant required to attend",
+          "sectionHeading": "1. Hearing Scheduled",
+          "regionHeading": "By the Court — defendant required to attend",
+          "effectiveLabel": "By the Court — defendant required to attend",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 405,
+              "extracted": "If checked, the Defendant is required to attend the hearing."
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court decides whether attendance is required",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court decides whether attendance is required"
+        },
+        {
+          "field": "JDF-493/1.1",
+          "fieldName": "JDF-493/1.1",
+          "acroFieldName": "1.1",
+          "page": 1,
+          "rect": {
+            "x": 169.91,
+            "y": 433.01,
+            "width": 154.04,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — hearing date",
+          "printedLine": "By the Court — hearing date",
+          "sectionHeading": "1. Hearing Scheduled",
+          "regionHeading": "By the Court — hearing date",
+          "effectiveLabel": "By the Court — hearing date",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 434,
+              "extracted": "Dat e: Tim e:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court decides whether to set a hearing and supplies its date",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court decides whether to set a hearing and supplies its date"
+        },
+        {
+          "field": "JDF-493/1.2",
+          "fieldName": "JDF-493/1.2",
+          "acroFieldName": "1.2",
+          "page": 1,
+          "rect": {
+            "x": 389.67,
+            "y": 432.69,
+            "width": 114.76,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — hearing time",
+          "printedLine": "By the Court — hearing time",
+          "sectionHeading": "1. Hearing Scheduled",
+          "regionHeading": "By the Court — hearing time",
+          "effectiveLabel": "By the Court — hearing time",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 434,
+              "extracted": "Dat e: Tim e:"
+            }
+          ],
+          "document": "JDF-493",
+          "reason": "the court decides whether to set a hearing and supplies its time",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court decides whether to set a hearing and supplies its time"
+        }
+      ]
+    },
+    {
       "formNumber": "JDF-478",
       "documentId": "JDF-478",
-      "documentRole": "proposed_order",
+      "documentRole": "proposed_grant_order",
       "documentPolicy": {
         "mode": "participant",
         "captionOnly": false,
@@ -3356,12 +5106,7 @@
       "explicitMappings": {
         "JDF-478/County": "matter.county",
         "JDF-478/Case Number": "matter.case_number",
-        "JDF-478/∆": "participant.full_legal_name",
-        "JDF-478/∆ DoB": "participant.date_of_birth",
-        "JDF-478/∆ Street Address": "participant.street_address",
-        "JDF-478/∆ City": "participant.city",
-        "JDF-478/∆ State": "participant.state",
-        "JDF-478/∆ Zip": "participant.zip"
+        "JDF-478/∆": "participant.full_legal_name"
       },
       "roleRefusals": [],
       "selectionControls": [
@@ -3424,407 +5169,6 @@
           "category": "participant_sworn_narrative_or_legal_election",
           "completenessClass": "participant_sworn_narrative_or_legal_election",
           "class": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "field": "JDF-478/478.3A.1",
-          "fieldName": "JDF-478/478.3A.1",
-          "acroFieldName": "478.3A.1",
-          "page": 1,
-          "rect": {
-            "x": 108.82,
-            "y": 279.98,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "County Court case records to be sealed (selection)",
-          "printedLine": "County Court case records to be sealed (selection)",
-          "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "County Court case records to be sealed (selection)",
-          "effectiveLabel": "County Court case records to be sealed (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 281,
-              "extracted": "Count\\ Court case number\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "selectionId": "JDF-478/478.3A.1",
-          "kind": "selection_control",
-          "type": "checkbox",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 108.82,
-                "y": 279.98,
-                "width": 9.36,
-                "height": 9.36
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "explicit_refusal",
-          "reason": "tick the courts and agencies that hold records in this case",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "field": "JDF-478/478.3B.1",
-          "fieldName": "JDF-478/478.3B.1",
-          "acroFieldName": "478.3B.1",
-          "page": 1,
-          "rect": {
-            "x": 108.97,
-            "y": 256.72,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "District Court case records to be sealed (selection)",
-          "printedLine": "District Court case records to be sealed (selection)",
-          "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "District Court case records to be sealed (selection)",
-          "effectiveLabel": "District Court case records to be sealed (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 257,
-              "extracted": "District Cour t case number\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "selectionId": "JDF-478/478.3B.1",
-          "kind": "selection_control",
-          "type": "checkbox",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 108.97,
-                "y": 256.72,
-                "width": 9.36,
-                "height": 9.36
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "explicit_refusal",
-          "reason": "tick the courts and agencies that hold records in this case",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "field": "JDF-478/478.3C.0",
-          "fieldName": "JDF-478/478.3C.0",
-          "acroFieldName": "478.3C.0",
-          "page": 1,
-          "rect": {
-            "x": 108.88,
-            "y": 233.57,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency records to be sealed (selection)",
-          "printedLine": "Law Enforcement Agency records to be sealed (selection)",
-          "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency records to be sealed (selection)",
-          "effectiveLabel": "Law Enforcement Agency records to be sealed (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 234,
-              "extracted": "/aZ (nforcem ent Agenc\\\u001d"
-            },
-            {
-              "y": 217,
-              "extracted": "Case\u0012Arrest number\u001d Date\u001d d"
-            }
-          ],
-          "document": "JDF-478",
-          "selectionId": "JDF-478/478.3C.0",
-          "kind": "selection_control",
-          "type": "checkbox",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 108.88,
-                "y": 233.57,
-                "width": 9.36,
-                "height": 9.36
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "explicit_refusal",
-          "reason": "tick the courts and agencies that hold records in this case",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "field": "JDF-478/478.3D.0",
-          "fieldName": "JDF-478/478.3D.0",
-          "acroFieldName": "478.3D.0",
-          "page": 1,
-          "rect": {
-            "x": 108.88,
-            "y": 175.97,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Colorado Bureau of Investigation records to be sealed (selection)",
-          "printedLine": "Colorado Bureau of Investigation records to be sealed (selection)",
-          "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Colorado Bureau of Investigation records to be sealed (selection)",
-          "effectiveLabel": "Colorado Bureau of Investigation records to be sealed (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 176,
-              "extracted": "Colorado Bureau(require of In ved)stigation"
-            },
-            {
-              "y": 160,
-              "extracted": "ATTN Identificati-Seals, 690 Kipling St. STE 3000, Lakewon ood, CO 80215"
-            }
-          ],
-          "document": "JDF-478",
-          "selectionId": "JDF-478/478.3D.0",
-          "kind": "selection_control",
-          "type": "checkbox",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 108.88,
-                "y": 175.97,
-                "width": 9.36,
-                "height": 9.36
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "route_settled_and_refused",
-          "reason": "JDF 478 section 3 prints \"Colorado Bureau of Investigation (required)\" and its address on the form's own face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the form's, it holds on every case this route reaches, and it turns on no fact about this participant.",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "routeDetermined": true,
-          "markedByThePacket": false,
-          "markBasis": null,
-          "refusedBy": [
-            {
-              "reason": "protected_category",
-              "category": "agency"
-            }
-          ],
-          "whatTheParticipantMustDoInstead": "tick this box yourself before you file; the form marks it required and the packet could not mark it",
-          "whyThePacketCouldNotMarkIt": "the shared finalizer applies its protect rules to a selection's label before it will mark it, and this label matches the shared `agency` rule. The rule guards a slot that lists the agencies a court is ordering to seal, which is not the participant's to fill. Closing it needs a caption exemption in scripts/rcap-official-forms/rcap-field-semantics.mjs (PARTICIPANT_STATED_SUBJECT), which is the shared module and is not this family's to change."
-        },
-        {
-          "field": "JDF-478/478.3E.0",
-          "fieldName": "JDF-478/478.3E.0",
-          "acroFieldName": "478.3E.0",
-          "page": 1,
-          "rect": {
-            "x": 109.14,
-            "y": 137,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Another agency's records to be sealed (selection)",
-          "printedLine": "Another agency's records to be sealed (selection)",
-          "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Another agency's records to be sealed (selection)",
-          "effectiveLabel": "Another agency's records to be sealed (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [],
-          "document": "JDF-478",
-          "selectionId": "JDF-478/478.3E.0",
-          "kind": "selection_control",
-          "type": "checkbox",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 109.14,
-                "y": 137,
-                "width": 9.36,
-                "height": 9.36
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "explicit_refusal",
-          "reason": "tick this if some other agency holds records in this case",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "field": "JDF-478/478.3F.0",
-          "fieldName": "JDF-478/478.3F.0",
-          "acroFieldName": "478.3F.0",
-          "page": 1,
-          "rect": {
-            "x": 109.14,
-            "y": 113.65,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "A second other agency's records to be sealed (selection)",
-          "printedLine": "A second other agency's records to be sealed (selection)",
-          "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "A second other agency's records to be sealed (selection)",
-          "effectiveLabel": "A second other agency's records to be sealed (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [],
-          "document": "JDF-478",
-          "selectionId": "JDF-478/478.3F.0",
-          "kind": "selection_control",
-          "type": "checkbox",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 109.14,
-                "y": 113.65,
-                "width": 9.36,
-                "height": 9.36
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "explicit_refusal",
-          "reason": "tick this if a second other agency holds records in this case",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "field": "JDF-478/478.3G.0",
-          "fieldName": "JDF-478/478.3G.0",
-          "acroFieldName": "478.3G.0",
-          "page": 1,
-          "rect": {
-            "x": 108.92,
-            "y": 90.31,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "A third other agency's records to be sealed (selection)",
-          "printedLine": "A third other agency's records to be sealed (selection)",
-          "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "A third other agency's records to be sealed (selection)",
-          "effectiveLabel": "A third other agency's records to be sealed (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [],
-          "document": "JDF-478",
-          "selectionId": "JDF-478/478.3G.0",
-          "kind": "selection_control",
-          "type": "checkbox",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 108.92,
-                "y": 90.31,
-                "width": 9.36,
-                "height": 9.36
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "explicit_refusal",
-          "reason": "tick this if a third other agency holds records in this case",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "field": "JDF-478/Group478.5B",
-          "fieldName": "JDF-478/Group478.5B",
-          "acroFieldName": "Group478.5B",
-          "page": 2,
-          "rect": {
-            "x": 125.73,
-            "y": 334.99,
-            "width": 12.24,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "By the Court — Judge or Magistrate (selection)",
-          "printedLine": "By the Court — Judge or Magistrate (selection)",
-          "sectionHeading": "5. So Ordered",
-          "regionHeading": "By the Court — Judge or Magistrate (selection)",
-          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 337,
-              "extracted": "Jud ge 0 agis trate"
-            },
-            {
-              "y": 349,
-              "extracted": "By:"
-            }
-          ],
-          "document": "JDF-478",
-          "selectionId": "JDF-478/Group478.5B",
-          "kind": "selection_control",
-          "type": "radiogroup",
-          "widgets": [
-            {
-              "page": 2,
-              "rect": {
-                "x": 125.73,
-                "y": 334.99,
-                "width": 12.24,
-                "height": 12.24
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            },
-            {
-              "page": 2,
-              "rect": {
-                "x": 181.04,
-                "y": 335.16,
-                "width": 12.24,
-                "height": 12.24
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
-            }
-          ],
-          "disposition": "explicit_refusal",
-          "reason": "the officer who signs states which they are",
-          "category": "court_prosecutor_clerk_or_agency_owned",
-          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
-          "class": "court_prosecutor_clerk_or_agency_owned",
           "requiredBeforeFiling": false,
           "routeDetermined": false
         }
@@ -3924,162 +5268,6 @@
           ],
           "document": "JDF-478",
           "factId": "participant.full_legal_name",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ DoB",
-          "fieldName": "JDF-478/∆ DoB",
-          "acroFieldName": "∆ DoB",
-          "page": 1,
-          "rect": {
-            "x": 194.08,
-            "y": 380.43,
-            "width": 166.09,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Birth Date",
-          "printedLine": "Birth Date",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "Birth Date",
-          "effectiveLabel": "Birth Date",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 381,
-              "extracted": "b) Birth Date\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.date_of_birth",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ Street Address",
-          "fieldName": "JDF-478/∆ Street Address",
-          "acroFieldName": "∆ Street Address",
-          "page": 1,
-          "rect": {
-            "x": 220.73,
-            "y": 357.35,
-            "width": 319.58,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Street Address",
-          "printedLine": "Street Address",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "Street Address",
-          "effectiveLabel": "Street Address",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 358,
-              "extracted": "c) 0ailin g Address\u001d"
-            },
-            {
-              "y": 341,
-              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.street_address",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ City",
-          "fieldName": "JDF-478/∆ City",
-          "acroFieldName": "∆ City",
-          "page": 1,
-          "rect": {
-            "x": 220.89,
-            "y": 340.16,
-            "width": 139.42,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "City",
-          "printedLine": "City",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "City",
-          "effectiveLabel": "City",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 341,
-              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
-            },
-            {
-              "y": 358,
-              "extracted": "c) 0ailin g Address\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.city",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ State",
-          "fieldName": "JDF-478/∆ State",
-          "acroFieldName": "∆ State",
-          "page": 1,
-          "rect": {
-            "x": 381.26,
-            "y": 340,
-            "width": 33.05,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "State",
-          "printedLine": "State",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "State",
-          "effectiveLabel": "State",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 341,
-              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
-            },
-            {
-              "y": 358,
-              "extracted": "c) 0ailin g Address\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.state",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ Zip",
-          "fieldName": "JDF-478/∆ Zip",
-          "acroFieldName": "∆ Zip",
-          "page": 1,
-          "rect": {
-            "x": 463.24,
-            "y": 340,
-            "width": 77.07,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Zip Code",
-          "printedLine": "Zip Code",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "Zip Code",
-          "effectiveLabel": "Zip Code",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 341,
-              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
-            },
-            {
-              "y": 358,
-              "extracted": "c) 0ailin g Address\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.zip",
           "kind": "text"
         }
       ],
@@ -4199,6 +5387,214 @@
           "why": "assigned by the court; the box beside it is marked for court use"
         },
         {
+          "field": "JDF-478/∆ DoB",
+          "fieldName": "JDF-478/∆ DoB",
+          "acroFieldName": "∆ DoB",
+          "page": 1,
+          "rect": {
+            "x": 194.08,
+            "y": 380.43,
+            "width": 166.09,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Birth Date",
+          "printedLine": "By the Court — Birth Date",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — Birth Date",
+          "effectiveLabel": "By the Court — Birth Date",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 381,
+              "extracted": "b) Birth Date\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/∆ Street Address",
+          "fieldName": "JDF-478/∆ Street Address",
+          "acroFieldName": "∆ Street Address",
+          "page": 1,
+          "rect": {
+            "x": 220.73,
+            "y": 357.35,
+            "width": 319.58,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Street Address",
+          "printedLine": "By the Court — Street Address",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — Street Address",
+          "effectiveLabel": "By the Court — Street Address",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 358,
+              "extracted": "c) 0ailin g Address\u001d"
+            },
+            {
+              "y": 341,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/∆ City",
+          "fieldName": "JDF-478/∆ City",
+          "acroFieldName": "∆ City",
+          "page": 1,
+          "rect": {
+            "x": 220.89,
+            "y": 340.16,
+            "width": 139.42,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — City",
+          "printedLine": "By the Court — City",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — City",
+          "effectiveLabel": "By the Court — City",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 341,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            },
+            {
+              "y": 358,
+              "extracted": "c) 0ailin g Address\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/∆ State",
+          "fieldName": "JDF-478/∆ State",
+          "acroFieldName": "∆ State",
+          "page": 1,
+          "rect": {
+            "x": 381.26,
+            "y": 340,
+            "width": 33.05,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — State",
+          "printedLine": "By the Court — State",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — State",
+          "effectiveLabel": "By the Court — State",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 341,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            },
+            {
+              "y": 358,
+              "extracted": "c) 0ailin g Address\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/∆ Zip",
+          "fieldName": "JDF-478/∆ Zip",
+          "acroFieldName": "∆ Zip",
+          "page": 1,
+          "rect": {
+            "x": 463.24,
+            "y": 340,
+            "width": 77.07,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Zip Code",
+          "printedLine": "By the Court — Zip Code",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — Zip Code",
+          "effectiveLabel": "By the Court — Zip Code",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 341,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            },
+            {
+              "y": 358,
+              "extracted": "c) 0ailin g Address\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3A.1",
+          "fieldName": "JDF-478/478.3A.1",
+          "acroFieldName": "478.3A.1",
+          "page": 1,
+          "rect": {
+            "x": 108.82,
+            "y": 279.98,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — County Court records",
+          "printedLine": "By the Court — County Court records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — County Court records",
+          "effectiveLabel": "By the Court — County Court records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 281,
+              "extracted": "Count\\ Court case number\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
           "field": "JDF-478/478.3A.2",
           "fieldName": "JDF-478/478.3A.2",
           "acroFieldName": "478.3A.2",
@@ -4210,11 +5606,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "County Court case number",
-          "printedLine": "County Court case number",
+          "printedLabel": "By the Court — County Court case number",
+          "printedLine": "By the Court — County Court case number",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "County Court case number",
-          "effectiveLabel": "County Court case number",
+          "regionHeading": "By the Court — County Court case number",
+          "effectiveLabel": "By the Court — County Court case number",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -4223,18 +5619,44 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the County Court case number, if the case was in County Court",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3A.2",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the County Court case number, if the case was in County Court",
-          "participantMustSupply": "the County Court case number, if the case was in County Court"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3B.1",
+          "fieldName": "JDF-478/478.3B.1",
+          "acroFieldName": "478.3B.1",
+          "page": 1,
+          "rect": {
+            "x": 108.97,
+            "y": 256.72,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — District Court records",
+          "printedLine": "By the Court — District Court records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — District Court records",
+          "effectiveLabel": "By the Court — District Court records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 257,
+              "extracted": "District Cour t case number\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3B.2",
@@ -4248,11 +5670,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "District Court case number",
-          "printedLine": "District Court case number",
+          "printedLabel": "By the Court — District Court case number",
+          "printedLine": "By the Court — District Court case number",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "District Court case number",
-          "effectiveLabel": "District Court case number",
+          "regionHeading": "By the Court — District Court case number",
+          "effectiveLabel": "By the Court — District Court case number",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -4261,18 +5683,48 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the District Court case number, if the case was in District Court",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3B.2",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the District Court case number, if the case was in District Court",
-          "participantMustSupply": "the District Court case number, if the case was in District Court"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3C.0",
+          "fieldName": "JDF-478/478.3C.0",
+          "acroFieldName": "478.3C.0",
+          "page": 1,
+          "rect": {
+            "x": 108.88,
+            "y": 233.57,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Law Enforcement Agency records",
+          "printedLine": "By the Court — Law Enforcement Agency records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Law Enforcement Agency records",
+          "effectiveLabel": "By the Court — Law Enforcement Agency records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 234,
+              "extracted": "/aZ (nforcem ent Agenc\\\u001d"
+            },
+            {
+              "y": 217,
+              "extracted": "Case\u0012Arrest number\u001d Date\u001d d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3C.1",
@@ -4286,11 +5738,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency — Name",
-          "printedLine": "Law Enforcement Agency — Name",
+          "printedLabel": "By the Court — Law Enforcement Agency name",
+          "printedLine": "By the Court — Law Enforcement Agency name",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency — Name",
-          "effectiveLabel": "Law Enforcement Agency — Name",
+          "regionHeading": "By the Court — Law Enforcement Agency name",
+          "effectiveLabel": "By the Court — Law Enforcement Agency name",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -4303,18 +5755,12 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the name of the law enforcement agency, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3C.1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the name of the law enforcement agency, copied from the motion",
-          "participantMustSupply": "the name of the law enforcement agency, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3C.2",
@@ -4328,11 +5774,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency — Arrest number",
-          "printedLine": "Law Enforcement Agency — Arrest number",
+          "printedLabel": "By the Court — Law Enforcement Agency arrest number",
+          "printedLine": "By the Court — Law Enforcement Agency arrest number",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency — Arrest number",
-          "effectiveLabel": "Law Enforcement Agency — Arrest number",
+          "regionHeading": "By the Court — Law Enforcement Agency arrest number",
+          "effectiveLabel": "By the Court — Law Enforcement Agency arrest number",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -4345,18 +5791,12 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the arrest number from your fingerprint card, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3C.2",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the arrest number from your fingerprint card, copied from the motion",
-          "participantMustSupply": "the arrest number from your fingerprint card, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3C.3",
@@ -4370,11 +5810,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency — Arrest date",
-          "printedLine": "Law Enforcement Agency — Arrest date",
+          "printedLabel": "By the Court — Law Enforcement Agency arrest date",
+          "printedLine": "By the Court — Law Enforcement Agency arrest date",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency — Arrest date",
-          "effectiveLabel": "Law Enforcement Agency — Arrest date",
+          "regionHeading": "By the Court — Law Enforcement Agency arrest date",
+          "effectiveLabel": "By the Court — Law Enforcement Agency arrest date",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -4387,18 +5827,12 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the arrest date, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3C.3",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the arrest date, copied from the motion",
-          "participantMustSupply": "the arrest date, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3C.4",
@@ -4412,11 +5846,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency — Mailing Address",
-          "printedLine": "Law Enforcement Agency — Mailing Address",
+          "printedLabel": "By the Court — Law Enforcement Agency address",
+          "printedLine": "By the Court — Law Enforcement Agency address",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency — Mailing Address",
-          "effectiveLabel": "Law Enforcement Agency — Mailing Address",
+          "regionHeading": "By the Court — Law Enforcement Agency address",
+          "effectiveLabel": "By the Court — Law Enforcement Agency address",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -4429,18 +5863,75 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: that agency's mailing address, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3C.4",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address, copied from the motion",
-          "participantMustSupply": "that agency's mailing address, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3D.0",
+          "fieldName": "JDF-478/478.3D.0",
+          "acroFieldName": "478.3D.0",
+          "page": 1,
+          "rect": {
+            "x": 108.88,
+            "y": 175.97,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Colorado Bureau of Investigation records to be sealed",
+          "printedLine": "By the Court — Colorado Bureau of Investigation records to be sealed",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Colorado Bureau of Investigation records to be sealed",
+          "effectiveLabel": "By the Court — Colorado Bureau of Investigation records to be sealed",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 176,
+              "extracted": "Colorado Bureau(require of In ved)stigation"
+            },
+            {
+              "y": 160,
+              "extracted": "ATTN Identificati-Seals, 690 Kipling St. STE 3000, Lakewon ood, CO 80215"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only JDF 478 sections A through C; this selection is in order section 3, so the court completes it even though the form prints CBI as a required recipient",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only JDF 478 sections A through C; this selection is in order section 3, so the court completes it even though the form prints CBI as a required recipient"
+        },
+        {
+          "field": "JDF-478/478.3E.0",
+          "fieldName": "JDF-478/478.3E.0",
+          "acroFieldName": "478.3E.0",
+          "page": 1,
+          "rect": {
+            "x": 109.14,
+            "y": 137,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Other agency records",
+          "printedLine": "By the Court — Other agency records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Other agency records",
+          "effectiveLabel": "By the Court — Other agency records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3E.1",
@@ -4454,26 +5945,47 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Other agency — name and mailing address",
-          "printedLine": "Other agency — name and mailing address",
+          "printedLabel": "By the Court — Other agency name and address",
+          "printedLine": "By the Court — Other agency name and address",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Other agency — name and mailing address",
-          "effectiveLabel": "Other agency — name and mailing address",
+          "regionHeading": "By the Court — Other agency name and address",
+          "effectiveLabel": "By the Court — Other agency name and address",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the name and mailing address of any other agency holding records, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3E.1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of any other agency holding records, copied from the motion",
-          "participantMustSupply": "the name and mailing address of any other agency holding records, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3F.0",
+          "fieldName": "JDF-478/478.3F.0",
+          "acroFieldName": "478.3F.0",
+          "page": 1,
+          "rect": {
+            "x": 109.14,
+            "y": 113.65,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Second other agency records",
+          "printedLine": "By the Court — Second other agency records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Second other agency records",
+          "effectiveLabel": "By the Court — Second other agency records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3F.1",
@@ -4487,26 +5999,47 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Second other agency — name and mailing address",
-          "printedLine": "Second other agency — name and mailing address",
+          "printedLabel": "By the Court — Second other agency name and address",
+          "printedLine": "By the Court — Second other agency name and address",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Second other agency — name and mailing address",
-          "effectiveLabel": "Second other agency — name and mailing address",
+          "regionHeading": "By the Court — Second other agency name and address",
+          "effectiveLabel": "By the Court — Second other agency name and address",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the name and mailing address of a second other agency, if there is one",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3F.1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of a second other agency, if there is one",
-          "participantMustSupply": "the name and mailing address of a second other agency, if there is one"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3G.0",
+          "fieldName": "JDF-478/478.3G.0",
+          "acroFieldName": "478.3G.0",
+          "page": 1,
+          "rect": {
+            "x": 108.92,
+            "y": 90.31,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Third other agency records",
+          "printedLine": "By the Court — Third other agency records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Third other agency records",
+          "effectiveLabel": "By the Court — Third other agency records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3G.1",
@@ -4520,26 +6053,20 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Third other agency — name and mailing address",
-          "printedLine": "Third other agency — name and mailing address",
+          "printedLabel": "By the Court — Third other agency name and address",
+          "printedLine": "By the Court — Third other agency name and address",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Third other agency — name and mailing address",
-          "effectiveLabel": "Third other agency — name and mailing address",
+          "regionHeading": "By the Court — Third other agency name and address",
+          "effectiveLabel": "By the Court — Third other agency name and address",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the name and mailing address of a third other agency, if there is one",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3G.1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of a third other agency, if there is one",
-          "participantMustSupply": "the name and mailing address of a third other agency, if there is one"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.4D",
@@ -4635,6 +6162,42 @@
           "class": "court_prosecutor_clerk_or_agency_owned",
           "requiredBeforeFiling": false,
           "why": "the court dates its own order"
+        },
+        {
+          "field": "JDF-478/Group478.5B",
+          "fieldName": "JDF-478/Group478.5B",
+          "acroFieldName": "Group478.5B",
+          "page": 2,
+          "rect": {
+            "x": 125.73,
+            "y": 334.99,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Judge or Magistrate (selection)",
+          "printedLine": "By the Court — Judge or Magistrate (selection)",
+          "sectionHeading": "5. So Ordered",
+          "regionHeading": "By the Court — Judge or Magistrate (selection)",
+          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 337,
+              "extracted": "Jud ge 0 agis trate"
+            },
+            {
+              "y": 349,
+              "extracted": "By:"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "the officer who signs states which they are",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the officer who signs states which they are"
         }
       ],
       "boundaryWrites": [
@@ -4732,162 +6295,6 @@
           ],
           "document": "JDF-478",
           "factId": "participant.full_legal_name",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ DoB",
-          "fieldName": "JDF-478/∆ DoB",
-          "acroFieldName": "∆ DoB",
-          "page": 1,
-          "rect": {
-            "x": 194.08,
-            "y": 380.43,
-            "width": 166.09,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Birth Date",
-          "printedLine": "Birth Date",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "Birth Date",
-          "effectiveLabel": "Birth Date",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 381,
-              "extracted": "b) Birth Date\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.date_of_birth",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ Street Address",
-          "fieldName": "JDF-478/∆ Street Address",
-          "acroFieldName": "∆ Street Address",
-          "page": 1,
-          "rect": {
-            "x": 220.73,
-            "y": 357.35,
-            "width": 319.58,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Street Address",
-          "printedLine": "Street Address",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "Street Address",
-          "effectiveLabel": "Street Address",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 358,
-              "extracted": "c) 0ailin g Address\u001d"
-            },
-            {
-              "y": 341,
-              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.street_address",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ City",
-          "fieldName": "JDF-478/∆ City",
-          "acroFieldName": "∆ City",
-          "page": 1,
-          "rect": {
-            "x": 220.89,
-            "y": 340.16,
-            "width": 139.42,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "City",
-          "printedLine": "City",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "City",
-          "effectiveLabel": "City",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 341,
-              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
-            },
-            {
-              "y": 358,
-              "extracted": "c) 0ailin g Address\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.city",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ State",
-          "fieldName": "JDF-478/∆ State",
-          "acroFieldName": "∆ State",
-          "page": 1,
-          "rect": {
-            "x": 381.26,
-            "y": 340,
-            "width": 33.05,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "State",
-          "printedLine": "State",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "State",
-          "effectiveLabel": "State",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 341,
-              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
-            },
-            {
-              "y": 358,
-              "extracted": "c) 0ailin g Address\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.state",
-          "kind": "text"
-        },
-        {
-          "field": "JDF-478/∆ Zip",
-          "fieldName": "JDF-478/∆ Zip",
-          "acroFieldName": "∆ Zip",
-          "page": 1,
-          "rect": {
-            "x": 463.24,
-            "y": 340,
-            "width": 77.07,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Zip Code",
-          "printedLine": "Zip Code",
-          "sectionHeading": "2. Defendant's Information",
-          "regionHeading": "Zip Code",
-          "effectiveLabel": "Zip Code",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 341,
-              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
-            },
-            {
-              "y": 358,
-              "extracted": "c) 0ailin g Address\u001d"
-            }
-          ],
-          "document": "JDF-478",
-          "factId": "participant.zip",
           "kind": "text"
         }
       ],
@@ -5007,6 +6414,214 @@
           "why": "assigned by the court; the box beside it is marked for court use"
         },
         {
+          "field": "JDF-478/∆ DoB",
+          "fieldName": "JDF-478/∆ DoB",
+          "acroFieldName": "∆ DoB",
+          "page": 1,
+          "rect": {
+            "x": 194.08,
+            "y": 380.43,
+            "width": 166.09,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Birth Date",
+          "printedLine": "By the Court — Birth Date",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — Birth Date",
+          "effectiveLabel": "By the Court — Birth Date",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 381,
+              "extracted": "b) Birth Date\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/∆ Street Address",
+          "fieldName": "JDF-478/∆ Street Address",
+          "acroFieldName": "∆ Street Address",
+          "page": 1,
+          "rect": {
+            "x": 220.73,
+            "y": 357.35,
+            "width": 319.58,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Street Address",
+          "printedLine": "By the Court — Street Address",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — Street Address",
+          "effectiveLabel": "By the Court — Street Address",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 358,
+              "extracted": "c) 0ailin g Address\u001d"
+            },
+            {
+              "y": 341,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/∆ City",
+          "fieldName": "JDF-478/∆ City",
+          "acroFieldName": "∆ City",
+          "page": 1,
+          "rect": {
+            "x": 220.89,
+            "y": 340.16,
+            "width": 139.42,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — City",
+          "printedLine": "By the Court — City",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — City",
+          "effectiveLabel": "By the Court — City",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 341,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            },
+            {
+              "y": 358,
+              "extracted": "c) 0ailin g Address\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/∆ State",
+          "fieldName": "JDF-478/∆ State",
+          "acroFieldName": "∆ State",
+          "page": 1,
+          "rect": {
+            "x": 381.26,
+            "y": 340,
+            "width": 33.05,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — State",
+          "printedLine": "By the Court — State",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — State",
+          "effectiveLabel": "By the Court — State",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 341,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            },
+            {
+              "y": 358,
+              "extracted": "c) 0ailin g Address\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/∆ Zip",
+          "fieldName": "JDF-478/∆ Zip",
+          "acroFieldName": "∆ Zip",
+          "page": 1,
+          "rect": {
+            "x": 463.24,
+            "y": 340,
+            "width": 77.07,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Zip Code",
+          "printedLine": "By the Court — Zip Code",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "By the Court — Zip Code",
+          "effectiveLabel": "By the Court — Zip Code",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 341,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            },
+            {
+              "y": 358,
+              "extracted": "c) 0ailin g Address\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3A.1",
+          "fieldName": "JDF-478/478.3A.1",
+          "acroFieldName": "478.3A.1",
+          "page": 1,
+          "rect": {
+            "x": 108.82,
+            "y": 279.98,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — County Court records",
+          "printedLine": "By the Court — County Court records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — County Court records",
+          "effectiveLabel": "By the Court — County Court records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 281,
+              "extracted": "Count\\ Court case number\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
           "field": "JDF-478/478.3A.2",
           "fieldName": "JDF-478/478.3A.2",
           "acroFieldName": "478.3A.2",
@@ -5018,11 +6633,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "County Court case number",
-          "printedLine": "County Court case number",
+          "printedLabel": "By the Court — County Court case number",
+          "printedLine": "By the Court — County Court case number",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "County Court case number",
-          "effectiveLabel": "County Court case number",
+          "regionHeading": "By the Court — County Court case number",
+          "effectiveLabel": "By the Court — County Court case number",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -5031,18 +6646,44 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the County Court case number, if the case was in County Court",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3A.2",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the County Court case number, if the case was in County Court",
-          "participantMustSupply": "the County Court case number, if the case was in County Court"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3B.1",
+          "fieldName": "JDF-478/478.3B.1",
+          "acroFieldName": "478.3B.1",
+          "page": 1,
+          "rect": {
+            "x": 108.97,
+            "y": 256.72,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — District Court records",
+          "printedLine": "By the Court — District Court records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — District Court records",
+          "effectiveLabel": "By the Court — District Court records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 257,
+              "extracted": "District Cour t case number\u001d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3B.2",
@@ -5056,11 +6697,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "District Court case number",
-          "printedLine": "District Court case number",
+          "printedLabel": "By the Court — District Court case number",
+          "printedLine": "By the Court — District Court case number",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "District Court case number",
-          "effectiveLabel": "District Court case number",
+          "regionHeading": "By the Court — District Court case number",
+          "effectiveLabel": "By the Court — District Court case number",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -5069,18 +6710,48 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the District Court case number, if the case was in District Court",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3B.2",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the District Court case number, if the case was in District Court",
-          "participantMustSupply": "the District Court case number, if the case was in District Court"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3C.0",
+          "fieldName": "JDF-478/478.3C.0",
+          "acroFieldName": "478.3C.0",
+          "page": 1,
+          "rect": {
+            "x": 108.88,
+            "y": 233.57,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Law Enforcement Agency records",
+          "printedLine": "By the Court — Law Enforcement Agency records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Law Enforcement Agency records",
+          "effectiveLabel": "By the Court — Law Enforcement Agency records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 234,
+              "extracted": "/aZ (nforcem ent Agenc\\\u001d"
+            },
+            {
+              "y": 217,
+              "extracted": "Case\u0012Arrest number\u001d Date\u001d d"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3C.1",
@@ -5094,11 +6765,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency — Name",
-          "printedLine": "Law Enforcement Agency — Name",
+          "printedLabel": "By the Court — Law Enforcement Agency name",
+          "printedLine": "By the Court — Law Enforcement Agency name",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency — Name",
-          "effectiveLabel": "Law Enforcement Agency — Name",
+          "regionHeading": "By the Court — Law Enforcement Agency name",
+          "effectiveLabel": "By the Court — Law Enforcement Agency name",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -5111,18 +6782,12 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the name of the law enforcement agency, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3C.1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the name of the law enforcement agency, copied from the motion",
-          "participantMustSupply": "the name of the law enforcement agency, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3C.2",
@@ -5136,11 +6801,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency — Arrest number",
-          "printedLine": "Law Enforcement Agency — Arrest number",
+          "printedLabel": "By the Court — Law Enforcement Agency arrest number",
+          "printedLine": "By the Court — Law Enforcement Agency arrest number",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency — Arrest number",
-          "effectiveLabel": "Law Enforcement Agency — Arrest number",
+          "regionHeading": "By the Court — Law Enforcement Agency arrest number",
+          "effectiveLabel": "By the Court — Law Enforcement Agency arrest number",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -5153,18 +6818,12 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the arrest number from your fingerprint card, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3C.2",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the arrest number from your fingerprint card, copied from the motion",
-          "participantMustSupply": "the arrest number from your fingerprint card, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3C.3",
@@ -5178,11 +6837,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency — Arrest date",
-          "printedLine": "Law Enforcement Agency — Arrest date",
+          "printedLabel": "By the Court — Law Enforcement Agency arrest date",
+          "printedLine": "By the Court — Law Enforcement Agency arrest date",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency — Arrest date",
-          "effectiveLabel": "Law Enforcement Agency — Arrest date",
+          "regionHeading": "By the Court — Law Enforcement Agency arrest date",
+          "effectiveLabel": "By the Court — Law Enforcement Agency arrest date",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -5195,18 +6854,12 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the arrest date, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3C.3",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the arrest date, copied from the motion",
-          "participantMustSupply": "the arrest date, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3C.4",
@@ -5220,11 +6873,11 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Law Enforcement Agency — Mailing Address",
-          "printedLine": "Law Enforcement Agency — Mailing Address",
+          "printedLabel": "By the Court — Law Enforcement Agency address",
+          "printedLine": "By the Court — Law Enforcement Agency address",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Law Enforcement Agency — Mailing Address",
-          "effectiveLabel": "Law Enforcement Agency — Mailing Address",
+          "regionHeading": "By the Court — Law Enforcement Agency address",
+          "effectiveLabel": "By the Court — Law Enforcement Agency address",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
@@ -5237,18 +6890,75 @@
             }
           ],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: that agency's mailing address, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3C.4",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address, copied from the motion",
-          "participantMustSupply": "that agency's mailing address, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3D.0",
+          "fieldName": "JDF-478/478.3D.0",
+          "acroFieldName": "478.3D.0",
+          "page": 1,
+          "rect": {
+            "x": 108.88,
+            "y": 175.97,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Colorado Bureau of Investigation records to be sealed",
+          "printedLine": "By the Court — Colorado Bureau of Investigation records to be sealed",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Colorado Bureau of Investigation records to be sealed",
+          "effectiveLabel": "By the Court — Colorado Bureau of Investigation records to be sealed",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 176,
+              "extracted": "Colorado Bureau(require of In ved)stigation"
+            },
+            {
+              "y": 160,
+              "extracted": "ATTN Identificati-Seals, 690 Kipling St. STE 3000, Lakewon ood, CO 80215"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "JDF 491 directs the filer to complete only JDF 478 sections A through C; this selection is in order section 3, so the court completes it even though the form prints CBI as a required recipient",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "JDF 491 directs the filer to complete only JDF 478 sections A through C; this selection is in order section 3, so the court completes it even though the form prints CBI as a required recipient"
+        },
+        {
+          "field": "JDF-478/478.3E.0",
+          "fieldName": "JDF-478/478.3E.0",
+          "acroFieldName": "478.3E.0",
+          "page": 1,
+          "rect": {
+            "x": 109.14,
+            "y": 137,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Other agency records",
+          "printedLine": "By the Court — Other agency records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Other agency records",
+          "effectiveLabel": "By the Court — Other agency records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3E.1",
@@ -5262,26 +6972,47 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Other agency — name and mailing address",
-          "printedLine": "Other agency — name and mailing address",
+          "printedLabel": "By the Court — Other agency name and address",
+          "printedLine": "By the Court — Other agency name and address",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Other agency — name and mailing address",
-          "effectiveLabel": "Other agency — name and mailing address",
+          "regionHeading": "By the Court — Other agency name and address",
+          "effectiveLabel": "By the Court — Other agency name and address",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the name and mailing address of any other agency holding records, copied from the motion",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3E.1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of any other agency holding records, copied from the motion",
-          "participantMustSupply": "the name and mailing address of any other agency holding records, copied from the motion"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3F.0",
+          "fieldName": "JDF-478/478.3F.0",
+          "acroFieldName": "478.3F.0",
+          "page": 1,
+          "rect": {
+            "x": 109.14,
+            "y": 113.65,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Second other agency records",
+          "printedLine": "By the Court — Second other agency records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Second other agency records",
+          "effectiveLabel": "By the Court — Second other agency records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3F.1",
@@ -5295,26 +7026,47 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Second other agency — name and mailing address",
-          "printedLine": "Second other agency — name and mailing address",
+          "printedLabel": "By the Court — Second other agency name and address",
+          "printedLine": "By the Court — Second other agency name and address",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Second other agency — name and mailing address",
-          "effectiveLabel": "Second other agency — name and mailing address",
+          "regionHeading": "By the Court — Second other agency name and address",
+          "effectiveLabel": "By the Court — Second other agency name and address",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the name and mailing address of a second other agency, if there is one",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3F.1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of a second other agency, if there is one",
-          "participantMustSupply": "the name and mailing address of a second other agency, if there is one"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
+        },
+        {
+          "field": "JDF-478/478.3G.0",
+          "fieldName": "JDF-478/478.3G.0",
+          "acroFieldName": "478.3G.0",
+          "page": 1,
+          "rect": {
+            "x": 108.92,
+            "y": 90.31,
+            "width": 9.36,
+            "height": 9.36
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Third other agency records",
+          "printedLine": "By the Court — Third other agency records",
+          "sectionHeading": "3. Records to be Sealed",
+          "regionHeading": "By the Court — Third other agency records",
+          "effectiveLabel": "By the Court — Third other agency records",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-478",
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.3G.1",
@@ -5328,26 +7080,20 @@
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Third other agency — name and mailing address",
-          "printedLine": "Third other agency — name and mailing address",
+          "printedLabel": "By the Court — Third other agency name and address",
+          "printedLine": "By the Court — Third other agency name and address",
           "sectionHeading": "3. Records to be Sealed",
-          "regionHeading": "Third other agency — name and mailing address",
-          "effectiveLabel": "Third other agency — name and mailing address",
+          "regionHeading": "By the Court — Third other agency name and address",
+          "effectiveLabel": "By the Court — Third other agency name and address",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [],
           "document": "JDF-478",
-          "reason": "the participant supplies this before filing: the name and mailing address of a third other agency, if there is one",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "JDF-478 field 478.3G.1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the name and mailing address of a third other agency, if there is one",
-          "participantMustSupply": "the name and mailing address of a third other agency, if there is one"
+          "reason": "the court completes the numbered order body",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court completes the numbered order body"
         },
         {
           "field": "JDF-478/478.4D",
@@ -5443,6 +7189,42 @@
           "class": "court_prosecutor_clerk_or_agency_owned",
           "requiredBeforeFiling": false,
           "why": "the court dates its own order"
+        },
+        {
+          "field": "JDF-478/Group478.5B",
+          "fieldName": "JDF-478/Group478.5B",
+          "acroFieldName": "Group478.5B",
+          "page": 2,
+          "rect": {
+            "x": 125.73,
+            "y": 334.99,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Judge or Magistrate (selection)",
+          "printedLine": "By the Court — Judge or Magistrate (selection)",
+          "sectionHeading": "5. So Ordered",
+          "regionHeading": "By the Court — Judge or Magistrate (selection)",
+          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 337,
+              "extracted": "Jud ge 0 agis trate"
+            },
+            {
+              "y": 349,
+              "extracted": "By:"
+            }
+          ],
+          "document": "JDF-478",
+          "reason": "the officer who signs states which they are",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the officer who signs states which they are"
         }
       ]
     }

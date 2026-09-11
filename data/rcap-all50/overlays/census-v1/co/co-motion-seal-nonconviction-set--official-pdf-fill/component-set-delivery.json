@@ -4,10 +4,10 @@
   "countedFrom": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[packetSetId=co_motion_seal_nonconviction-set].components",
   "groundingRecordSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
   "requiredByTheRoute": 4,
-  "renderedHere": 2,
-  "complete": false,
-  "packetSetCompletenessState": "incomplete",
-  "packetSetCompletenessBasis": "The official JDF 491 guide requires a motion, an order, a notice and a second order, and it names all four: JDF 477 (Motion), JDF 492 (Order), JDF 493 (Notice) and JDF 478 (Order). The verified Master Library holds JDF-477 and JDF-478, and this packet delivers those two. JDF 492 and JDF 493 are NOT delivered. Until 2026-09-10 this manifest declared only the two delivered components, so no committed record said this route owes four documents, and the delivered participant guide stated without qualification that the packet is “two Colorado Judicial Department forms, filed together”. The two undelivered components are not owed the same thing: JDF 492's identity is established from its own printed face and its bytes are held at the digest the committed index records, blocked only because that index entry carries formNumber null and assetClass null; the JDF 493 the recovery pool holds is a 2019-08 flat PDF with zero form fields against a 2024-08-07 guide, so acquisition at the named revision is owed for it. The set is incomplete because two required documents are missing.",
+  "renderedHere": 4,
+  "complete": true,
+  "packetSetCompletenessState": "complete",
+  "packetSetCompletenessBasis": "All four forms named by JDF 491 are bound to exact held bytes and rendered: JDF 477, JDF 492, JDF 493 and JDF 478.",
   "guide": {
     "formNumber": "JDF-491",
     "title": "Guide to Sealing Non-Conviction Records (simplified process)",
@@ -17,68 +17,6 @@
     "fileTheRequest": "File these forms into your criminal case:  JDF 477 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 492 Order (just do §§ A-C)  JDF 493 Notice (Just do §§ A-C)  JDF 478 Order (just do §§ A-C)",
     "howItWasRead": "every quoted phrase asserted as a literal substring of the concatenated text items of the named page, in stream order. Unlike JDF 477 and JDF 478 this document does not interleave its glyph runs; the stream is clean prose and pdftotext agrees with it."
   },
-  "undelivered": [
-    {
-      "componentId": "co_motion_seal_nonconviction-notice-3",
-      "role": "required_filing",
-      "requiredOfficialFormId": "JDF-493",
-      "identityResolvedFrom": "JDF-491 (sha256 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685) names it \"JDF 493 Notice (Just do §§ A-C)\" in its own \"File the Request\" list, read from the guide's bytes at build time",
-      "blockedBy": "held_bytes_are_a_flat_pdf_at_a_superseded_revision",
-      "binaryRecordedInCommittedIndex": {
-        "custody": "nationwide_recovery_pool_2026_09_02",
-        "path": "LegalEase Colorado/reference-only/JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf",
-        "sha256": "fb500eb1d0f04e7ab5a7bd1f4932cff27edb451a5c2d66c60288fad96726ef1c",
-        "byteLength": 51649,
-        "pageCount": 1,
-        "acroFieldCount": 0,
-        "indexIdentity": {
-          "path": "LegalEase Colorado/reference-only/JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf",
-          "formNumber": null,
-          "assetClass": null,
-          "sha256": "fb500eb1d0f04e7ab5a7bd1f4932cff27edb451a5c2d66c60288fad96726ef1c",
-          "byteLength": 51649,
-          "pageCount": 1,
-          "acroFieldCount": 0,
-          "structuralClassObserved": "flat_pdf"
-        },
-        "digestProvenance": "quoted from the committed corpus index and NOT re-hashed here, so that this build's output is the same in a container that mounts the custody and one that does not. Lane FIX157 re-hashed both binaries on 2026-09-10 in a worktree that DOES mount it and got these exact digests."
-      },
-      "whatThisFormIs": null,
-      "sourceStatus": "held_binary_is_a_flat_pdf_at_a_superseded_revision",
-      "sourceStatusBasis": "The official JDF 491 guide, “Guide to Sealing Non-Conviction Records (simplified process)”, R: August 7, 2024, names four forms under its printed heading “File the Request — File these forms into your criminal case”, with no branch and no condition between them: “JDF 477 Motion”, “JDF 492 Order (just do §§ A-C)”, “JDF 493 Notice (Just do §§ A-C)” and “JDF 478 Order (just do §§ A-C)”. Its page 2 confirms one process for cases ending in acquittal, a completed diversion agreement, a completed deferred judgment or a vacated conviction, under C.R.S. §§ 24-72-705 and 707 — the same statute and the same dispositions as this route. The guide is held at sha256 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685 in the mounted Master Library at STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf. The notice is JDF 493. TWO THINGS ABOUT THE HELD BINARY TRAVEL WITH THIS COMPONENT. FIRST, the committed index carries “LegalEase Colorado/reference-only/JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf”, sha256 fb500eb1d0f04e7ab5a7bd1f4932cff27edb451a5c2d66c60288fad96726ef1c, 51,649 bytes, 1 page, in custody nationwide_recovery_pool_2026_09_02, with formNumber null, assetClass null, acroFormPresent false, acroFieldCount 0 and structuralClassObserved flat_pdf. Lane FIX157, 2026-09-10 found that custody mounted and re-hashed the file: the bytes on disk carry that exact digest. SECOND, the held revision is 2019-08 and the guide that names it is R: August 7, 2024. The guide says to complete “§§ A-C” and the held 2019 document has no lettered sections at all — its caption band is unlettered and it prints a CERTIFICATE OF SERVICE that the 2024-revision orders in this family do not. So this component is not blocked in the same way as its sibling: the held binary carries zero form fields and cannot be filled by the official_pdf_fill strategy this component declares, and there is affirmative evidence on its own face that it is not the revision the 2024 guide names. What is owed here is acquisition of JDF 493 at the revision JDF 491 R: August 7, 2024 names, not a classification of the held bytes.",
-      "disclosedToTheParticipant": true
-    },
-    {
-      "componentId": "co_motion_seal_nonconviction-second-order-4",
-      "role": "proposed_order",
-      "requiredOfficialFormId": "JDF-492",
-      "identityResolvedFrom": "JDF-491 (sha256 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685) names it \"JDF 492 Order (just do §§ A-C)\" in its own \"File the Request\" list, read from the guide's bytes at build time",
-      "blockedBy": "committed_index_does_not_identify_the_entry",
-      "binaryRecordedInCommittedIndex": {
-        "custody": "nationwide_recovery_pool_2026_09_02",
-        "path": "LegalEase Colorado/JDF492.pdf",
-        "sha256": "6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996",
-        "byteLength": 546426,
-        "pageCount": 1,
-        "acroFieldCount": 13,
-        "indexIdentity": {
-          "path": "LegalEase Colorado/JDF492.pdf",
-          "formNumber": null,
-          "assetClass": null,
-          "sha256": "6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996",
-          "byteLength": 546426,
-          "pageCount": 1,
-          "acroFieldCount": 13,
-          "structuralClassObserved": "acroform"
-        },
-        "digestProvenance": "quoted from the committed corpus index and NOT re-hashed here, so that this build's output is the same in a container that mounts the custody and one that does not. Lane FIX157 re-hashed both binaries on 2026-09-10 in a worktree that DOES mount it and got these exact digests."
-      },
-      "whatThisFormIs": "The order DENYING the request to seal, confirmed by lane FIX157 on 2026-09-10 from the bytes at the digest above. Page 1 is headed \"JDF 492  Order Denying Request to Seal Non-Conviction Records\"; it carries lettered sections A. Court, B. Parties to the Case and C. Case Details -- the \"§§ A-C\" the guide tells a filer to complete -- and its footer reads \"JDF 492 - Order Denying Request to Seal Non-Conviction Records   R: August 7, 2024   Page 1 of 1\", the same revision as JDF 491. So the \"second order\" the guide lists is the denial order tendered alongside the JDF 478 grant order, not a second grant.",
-      "sourceStatus": "held_in_a_custody_the_index_does_not_identify",
-      "sourceStatusBasis": "The official JDF 491 guide, “Guide to Sealing Non-Conviction Records (simplified process)”, R: August 7, 2024, names four forms under its printed heading “File the Request — File these forms into your criminal case”, with no branch and no condition between them: “JDF 477 Motion”, “JDF 492 Order (just do §§ A-C)”, “JDF 493 Notice (Just do §§ A-C)” and “JDF 478 Order (just do §§ A-C)”. Its page 2 confirms one process for cases ending in acquittal, a completed diversion agreement, a completed deferred judgment or a vacated conviction, under C.R.S. §§ 24-72-705 and 707 — the same statute and the same dispositions as this route. The guide is held at sha256 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685 in the mounted Master Library at STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf. The second order is JDF 492. The committed index carries “LegalEase Colorado/JDF492.pdf”, sha256 6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996, 546,426 bytes, 1 page, AcroForm with 13 fields, in custody nationwide_recovery_pool_2026_09_02. The earlier basis said this custody \"is not mounted in the packet-factory containers\" and that the digest was therefore quoted rather than measured. That is false of a container that has it. The index's own custodies array declares nationwide_recovery_pool_2026_09_02 at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02, pathsRelativeTo custodyRoot; Lane FIX157, 2026-09-10 found it mounted in its lane worktree and re-hashed the file there. data/rcap-grade-a/packet-factory-24h/PRIVATE_CUSTODY_MOUNT.json records why a lane can see it absent: private/ is gitignored and exists only where it was materialised, so its absence from a checkout proves nothing about custody. The bytes on disk hash to that exact digest, and Lane FIX157, 2026-09-10 read the document: it is headed “JDF 492  Order Denying Request to Seal Non-Conviction Records”, carries lettered sections A. Court, B. Parties to the Case and C. Case Details — the “§§ A-C” the guide tells a filer to complete — and its footer reads “JDF 492 - Order Denying Request to Seal Non-Conviction Records   R: August 7, 2024   Page 1 of 1”, the same revision as the guide. So the identity is established from the document's own printed face, and the “second order” this route requires is the DENIAL order tendered alongside the JDF 478 grant order, not a second grant; a participant must not be told otherwise. WHAT ACTUALLY BLOCKS DELIVERY is the committed index's own identity fields, not the bytes and not the mount. This entry carries formNumber null and assetClass null. Every build in this factory binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it, so no build can bind a binary the index does not identify, and binding it by file name instead would rest the packet's source claim on a file name. What is owed is a source-identity determination over the nationwide_recovery_pool_2026_09_02 entries, not a re-acquisition of bytes.",
-      "disclosedToTheParticipant": true
-    }
-  ],
-  "whatThisBuildRefusedToDo": "Substitute another form for either, and fill JDF 493 from the 2019-08 flat copy the index holds. A route sells only what a record proves it delivers.",
-  "grantsNothing": "Disclosing an absent component is not delivering it. This family remains COMPONENT_SET-incomplete and this record is the evidence of that, not a waiver of it."
+  "undelivered": [],
+  "supersessionBasis": "The old packet and its FAIL evidence remain preserved. This rebuilt set uses exact current JDF 493 bytes and the exact held JDF 492 bytes and renders every form JDF 491 names."
 }

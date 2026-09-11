@@ -86,12 +86,27 @@ const TRACK_ID = "co_motion_seal_nonconviction";
 const ROUTE = Object.freeze({
   jurisdiction: "CO",
   routeKey: "track:CO:co_motion_seal_nonconviction",
-  routeSelectionId: "co-motion-seal-nonconviction-set-jdf-477-jdf-478",
+  routeSelectionId: "co-motion-seal-nonconviction-set-jdf-477-jdf-492-jdf-493-jdf-478",
   publicLabel: "Motion to seal non-conviction records, simplified backstop",
-  authority: "C.R.S. § 24-72-705(2) and (3); Colorado Judicial Department forms JDF 477 and JDF 478",
+  authority: "C.R.S. § 24-72-705(2) and (3); Colorado Judicial Department forms JDF 477, JDF 492, JDF 493 and JDF 478",
   documents: [
     { formNumber: "JDF-477", title: "Motion to Seal Non-Conviction Records (Simplified Process)", instrumentKind: "primary_filing" },
-    { formNumber: "JDF-478", title: "Order to Seal Non-Conviction Records", instrumentKind: "proposed_order" }
+    {
+      formNumber: "JDF-492", title: "Order Denying Request to Seal Non-Conviction Records",
+      instrumentKind: "proposed_denial_order",
+      sourcePath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/JDF492.pdf",
+      sha256: "6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996",
+      revision: "REV-2024-08-07", acroFieldCount: 13, pageCount: 1
+    },
+    {
+      formNumber: "JDF-493", title: "Order and Notice of Hearing (re sealing non-conviction records)",
+      instrumentKind: "conditional_hearing_notice",
+      sourcePath: "private/source-imports/user-upload-20260911/3dbd29f70847fc488fdba00b0a549b2276ea335bcfd1e72eb19ac2dd220d68d9.pdf",
+      sha256: "3dbd29f70847fc488fdba00b0a549b2276ea335bcfd1e72eb19ac2dd220d68d9",
+      revision: "REV-2024-08-07", acroFieldCount: 13, pageCount: 1,
+      conditionDescription: "The court determines that a hearing is necessary. Only sections A-C are participant/case caption fields; every hearing and ruling field remains for the court."
+    },
+    { formNumber: "JDF-478", title: "Order to Seal Non-Conviction Records", instrumentKind: "proposed_grant_order" }
   ]
 });
 
@@ -236,10 +251,19 @@ function loadPacketSetGrounding(deliveredFormNumbers) {
   const required = (packetSet.components ?? []).filter((row) => row.requirement === "required");
   assert.ok(required.length > 0, `${FAMILY_ID} declares no required components`);
 
-  const delivered = required.filter((row) => row.officialFormId
-    && deliveredFormNumbers.includes(String(row.officialFormId).replace(/\s+/g, "-")));
+  const delivered = required.filter((row) => {
+    const formId = row.officialFormId ?? row.requiredOfficialFormId;
+    return formId && deliveredFormNumbers.includes(String(formId).replace(/\s+/g, "-"));
+  });
   const undelivered = required.filter((row) => !delivered.includes(row));
-  const completeness = packetSet.packetSetCompleteness ?? null;
+  const recordedCompleteness = packetSet.packetSetCompleteness ?? null;
+  const completeness = undelivered.length === 0
+    ? {
+        state: "complete",
+        basis: "All four forms named by JDF 491 are bound to exact held bytes and rendered: JDF 477, JDF 492, JDF 493 and JDF 478.",
+        supersedesRecordedSourceGap: recordedCompleteness
+      }
+    : recordedCompleteness;
 
   assert.ok(completeness && typeof completeness.state === "string",
     `${FAMILY_ID} records no packetSetCompleteness.state`);
@@ -296,15 +320,6 @@ const WRITE = (fact) => ({ policy: "write", fact });
 const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
 const ELECTION = (why) => ({ policy: "election", why });
 const ATTORNEY = (why) => ({ policy: "attorney", why });
-/*
- * A selection the ROUTE settles, marked by the packet rather than left to the
- * participant. It goes through the shared finalizer's selectionsFromHeldFacts
- * channel, which honours only a true, requires a basis in the same call, and
- * applies every protect gate unchanged -- so this cannot reach a signature, a
- * certificate of service, or a court-, clerk- or prosecutor-owned box.
- */
-const SETTLED_SELECTION = (basis) => ({ policy: "settled_selection", basis });
-
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 const PARTICIPANT_ELECTION = "participant_sworn_narrative_or_legal_election";
@@ -348,7 +363,7 @@ const FORM_FIELDS = {
      * is handed to the participant in participant-instructions.md rather than
      * being left for them to notice.
      */
-    Address: { section: "5. My Information", label: "Current Mailing Address (with city/state/zip)", ...WRITE("participant.street_address") },
+    Address: { section: "5. My Information", label: "Current Mailing Address (with city/state/zip)", ...WRITE("participant.full_mailing_address") },
     Phone: { section: "5. My Information", label: "Phone", ...WRITE("participant.phone") },
     Email: { section: "5. My Information", label: "Email", ...WRITE("participant.email") },
 
@@ -418,6 +433,38 @@ const FORM_FIELDS = {
     Sig_Bar: { section: "10. Verified Signature", label: "Counsel attorney registration number", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") }
   },
 
+  "JDF-492": {
+    Group_CourtType: { section: "A. Court", label: "District Court or County Court (selection)", selection: true, ...ELECTION("tick the court type for the existing criminal case") },
+    County: { section: "A. Court", label: "Colorado County", ...WRITE("matter.county") },
+    "Court Address": { section: "A. Court", label: "Court Address", ...SUPPLY("the mailing address of the court that handled the case") },
+    "∆": { section: "B. Parties to the Case", label: "Defendant — Full Name", ...WRITE("participant.full_legal_name") },
+    "Case Number": { section: "C. Case Details", label: "Case Number", ...WRITE("matter.case_number") },
+    Division: { section: "C. Case Details", label: "Division", ...PROTECT(COURT_OWNED, "the court-use caption field remains for the court") },
+    Courtroom: { section: "C. Case Details", label: "Courtroom", ...PROTECT(COURT_OWNED, "the court-use caption field remains for the court") },
+    "1.1": { section: "1. Decision", label: "By the Court — motion insufficient", selection: true, ...PROTECT(COURT_OWNED, "this is a future court finding on the denial order") },
+    "1.2": { section: "1. Decision", label: "By the Court — defendant not entitled to relief", selection: true, ...PROTECT(COURT_OWNED, "this is a future court finding on the denial order") },
+    "1.3": { section: "1. Decision", label: "By the Court — reason for denying the motion", ...PROTECT(COURT_OWNED, "the court states its own reason if it denies the motion") },
+    "Sig-by": { section: "2. So Ordered", label: "By the Court — signature", ...PROTECT(COURT_OWNED, "the judicial officer signs the order") },
+    Group_Sig: { section: "2. So Ordered", label: "By the Court — Judge or Magistrate (selection)", selection: true, ...PROTECT(COURT_OWNED, "the signing judicial officer identifies their role") },
+    Sig_date: { section: "2. So Ordered", label: "By the Court — date signed", ...PROTECT(COURT_OWNED, "the court dates its own order") }
+  },
+
+  "JDF-493": {
+    Group_CourtType: { section: "A. Court", label: "District Court or County Court (selection)", selection: true, ...ELECTION("tick the court type for the existing criminal case") },
+    County: { section: "A. Court", label: "Colorado County", ...WRITE("matter.county") },
+    "Court Address": { section: "A. Court", label: "Court Address", ...SUPPLY("the mailing address of the court that handled the case") },
+    "∆": { section: "B. Parties to the Case", label: "Defendant — Full Name", ...WRITE("participant.full_legal_name") },
+    "Case Number": { section: "C. Case Details", label: "Case Number", ...WRITE("matter.case_number") },
+    Division: { section: "C. Case Details", label: "Division", ...PROTECT(COURT_OWNED, "the court-use caption field remains for the court") },
+    Courtroom: { section: "C. Case Details", label: "Courtroom", ...PROTECT(COURT_OWNED, "the court-use caption field remains for the court") },
+    "1.1": { section: "1. Hearing Scheduled", label: "By the Court — hearing date", ...PROTECT(COURT_OWNED, "the court decides whether to set a hearing and supplies its date") },
+    "1.2": { section: "1. Hearing Scheduled", label: "By the Court — hearing time", ...PROTECT(COURT_OWNED, "the court decides whether to set a hearing and supplies its time") },
+    "1.3": { section: "1. Hearing Scheduled", label: "By the Court — defendant required to attend", selection: true, ...PROTECT(COURT_OWNED, "the court decides whether attendance is required") },
+    Group_Sig: { section: "3. So Ordered", label: "By the Court — Judge or Magistrate (selection)", selection: true, ...PROTECT(COURT_OWNED, "the signing judicial officer identifies their role") },
+    Sig_date: { section: "3. So Ordered", label: "By the Court — date signed", ...PROTECT(COURT_OWNED, "the court dates its own order") },
+    "Sig-by": { section: "3. So Ordered", label: "By the Court — signature", ...PROTECT(COURT_OWNED, "the judicial officer signs the order") }
+  },
+
   "JDF-478": {
     /* --- A. Court, B. Parties, C. Case details --------------------------- */
     Group_CourtType: {
@@ -433,91 +480,34 @@ const FORM_FIELDS = {
     Division: { section: "C. Case Details", label: "Division", ...PROTECT(COURT_OWNED, "assigned by the court; the box beside it is marked for court use") },
     Courtroom: { section: "C. Case Details", label: "Courtroom", ...PROTECT(COURT_OWNED, "assigned by the court; the box beside it is marked for court use") },
     "∆": { section: "B. Parties to the Case", label: "Defendant — Full Name", ...WRITE("participant.full_legal_name") },
-    "∆ DoB": { section: "2. Defendant's Information", label: "Birth Date", ...WRITE("participant.date_of_birth") },
-    /*
-     * Labelled by the widget's DECLARED PURPOSE, not by the printed caption
-     * beside it. Colorado's tooltip for this field is "Enter the Defendant's
-     * street address."; the caption reads "Mailing Address", and labelling the
-     * write from the caption is how a whole-address value read clean here.
-     */
-    "∆ Street Address": { section: "2. Defendant's Information", label: "Street Address", ...WRITE("participant.street_address") },
-    "∆ City": { section: "2. Defendant's Information", label: "City", ...WRITE("participant.city") },
-    "∆ State": { section: "2. Defendant's Information", label: "State", ...WRITE("participant.state") },
-    "∆ Zip": { section: "2. Defendant's Information", label: "Zip Code", ...WRITE("participant.zip") },
+    "∆ DoB": { section: "2. Defendant's Information", label: "By the Court — Birth Date", ...PROTECT(COURT_OWNED, "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body") },
+    "∆ Street Address": { section: "2. Defendant's Information", label: "By the Court — Street Address", ...PROTECT(COURT_OWNED, "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body") },
+    "∆ City": { section: "2. Defendant's Information", label: "By the Court — City", ...PROTECT(COURT_OWNED, "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body") },
+    "∆ State": { section: "2. Defendant's Information", label: "By the Court — State", ...PROTECT(COURT_OWNED, "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body") },
+    "∆ Zip": { section: "2. Defendant's Information", label: "By the Court — Zip Code", ...PROTECT(COURT_OWNED, "JDF 491 directs the filer to complete only sections A through C of JDF 478; the court completes the numbered order body") },
 
     /* --- 3. Records to be sealed ----------------------------------------- */
-    "478.3A.1": { section: "3. Records to be Sealed", selection: true, label: "County Court case records to be sealed (selection)", ...ELECTION("tick the courts and agencies that hold records in this case") },
-    "478.3A.2": { section: "3. Records to be Sealed", label: "County Court case number", ...SUPPLY("the County Court case number, if the case was in County Court") },
-    "478.3B.1": { section: "3. Records to be Sealed", selection: true, label: "District Court case records to be sealed (selection)", ...ELECTION("tick the courts and agencies that hold records in this case") },
-    "478.3B.2": { section: "3. Records to be Sealed", label: "District Court case number", ...SUPPLY("the District Court case number, if the case was in District Court") },
-    "478.3C.0": { section: "3. Records to be Sealed", selection: true, label: "Law Enforcement Agency records to be sealed (selection)", ...ELECTION("tick the courts and agencies that hold records in this case") },
-    "478.3C.1": { section: "3. Records to be Sealed", label: "Law Enforcement Agency — Name", ...AGENCY("the name of the law enforcement agency, copied from the motion") },
-    "478.3C.2": { section: "3. Records to be Sealed", label: "Law Enforcement Agency — Arrest number", ...AGENCY("the arrest number from your fingerprint card, copied from the motion") },
-    "478.3C.3": { section: "3. Records to be Sealed", label: "Law Enforcement Agency — Arrest date", ...AGENCY("the arrest date, copied from the motion") },
-    "478.3C.4": { section: "3. Records to be Sealed", label: "Law Enforcement Agency — Mailing Address", ...AGENCY("that agency's mailing address, copied from the motion") },
-    /*
-     * THE ONE AGENCY THE FORM ITSELF MARKS REQUIRED.
-     *
-     * JDF 478 prints "Colorado Bureau of Investigation (required)" in section 3
-     * with the CBI's address already set out beneath it, and section 5 directs
-     * the clerk to send the CBI a copy of the signed order. Nothing about which
-     * case this is changes that: on this route the CBI is on the list, and the
-     * form says so on its own face. Leaving it to the participant left the box
-     * EMPTY on both delivered fixtures while this packet's own instructions
-     * told them the CBI was not optional -- VF01 read that contradiction out of
-     * the bytes at base ed0e3b308 -- and an order that omits the one agency the
-     * form requires is an order that does not reach the state repository.
-     *
-     * It is marked from the ROUTE, not from a case fact, and the basis travels
-     * with the mark into the finalizer's report and from there into the field
-     * map. JDF 477's own CBI box (8C.0) is NOT marked here: the Colorado
-     * Judicial Department ships that one already ticked, and marking it again
-     * would claim a write over the issuer's own value.
-     */
+    "478.3A.1": { section: "3. Records to be Sealed", selection: true, label: "By the Court — County Court records", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3A.2": { section: "3. Records to be Sealed", label: "By the Court — County Court case number", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3B.1": { section: "3. Records to be Sealed", selection: true, label: "By the Court — District Court records", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3B.2": { section: "3. Records to be Sealed", label: "By the Court — District Court case number", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3C.0": { section: "3. Records to be Sealed", selection: true, label: "By the Court — Law Enforcement Agency records", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3C.1": { section: "3. Records to be Sealed", label: "By the Court — Law Enforcement Agency name", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3C.2": { section: "3. Records to be Sealed", label: "By the Court — Law Enforcement Agency arrest number", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3C.3": { section: "3. Records to be Sealed", label: "By the Court — Law Enforcement Agency arrest date", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3C.4": { section: "3. Records to be Sealed", label: "By the Court — Law Enforcement Agency address", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
     "478.3D.0": {
       section: "3. Records to be Sealed", selection: true,
-      label: "Colorado Bureau of Investigation records to be sealed (selection)",
-      ...SETTLED_SELECTION(
-        "JDF 478 section 3 prints \"Colorado Bureau of Investigation (required)\" and its address on the form's own "
-        + "face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the "
-        + "form's, it holds on every case this route reaches, and it turns on no fact about this participant.")
+      label: "By the Court — Colorado Bureau of Investigation records to be sealed",
+      ...PROTECT(COURT_OWNED,
+        "JDF 491 directs the filer to complete only JDF 478 sections A through C; this selection is in order section 3, so the court completes it even though the form prints CBI as a required recipient")
     },
-    /*
-     * AND THE SHARED INSTRUMENT REFUSES THE MARK, ON PURPOSE.
-     *
-     * The mark above is asked for and does not happen. The finalizer's
-     * settled-selection pass applies protectCategoryOf() to the field's label
-     * before it will tick anything, and this label -- "Colorado Bureau of
-     * Investigation records to be sealed" -- matches the shared `agency`
-     * protect rule on the word "Bureau". The refusal comes back as
-     * protected_category / agency and is recorded, per fixture, in
-     * production-field-map.json and reports/blanks-left-for-the-participant.json.
-     *
-     * That rule is not a bug and this lane does not route around it. It exists
-     * because a slot listing the agencies a court is ordering to seal is not
-     * the participant's to fill, and KY AOC-334 proved it by printing the
-     * petitioner's own name as the list of agencies ordered. The shared module
-     * already carries a narrow, caption-by-caption exemption list
-     * (PARTICIPANT_STATED_SUBJECT) for the cases where the participant states
-     * the agency rather than owning the blank -- Alabama CR-65 items 3 and 4,
-     * the Oregon set-aside citing/arresting agency -- and this Colorado caption
-     * is the same shape. Adding an entry there is a change to
-     * scripts/rcap-official-forms/**, the shared finalizer, which one repair
-     * lane holding three families is not entitled to make: it would move every
-     * family that shares the module.
-     *
-     * So the state of this box is: the route requires it, the packet asks for
-     * it, the shared safeguard refuses it, the refusal is measured and
-     * recorded, and the participant is told in plain words to tick it. The box
-     * is NOT relabelled to get past the gate. A label chosen to dodge a protect
-     * rule is the defect the gate exists to catch.
-     */
-    "478.3E.0": { section: "3. Records to be Sealed", selection: true, label: "Another agency's records to be sealed (selection)", ...ELECTION("tick this if some other agency holds records in this case") },
-    "478.3E.1": { section: "3. Records to be Sealed", label: "Other agency — name and mailing address", ...AGENCY("the name and mailing address of any other agency holding records, copied from the motion") },
-    "478.3F.0": { section: "3. Records to be Sealed", selection: true, label: "A second other agency's records to be sealed (selection)", ...ELECTION("tick this if a second other agency holds records in this case") },
-    "478.3F.1": { section: "3. Records to be Sealed", label: "Second other agency — name and mailing address", ...AGENCY("the name and mailing address of a second other agency, if there is one") },
-    "478.3G.0": { section: "3. Records to be Sealed", selection: true, label: "A third other agency's records to be sealed (selection)", ...ELECTION("tick this if a third other agency holds records in this case") },
-    "478.3G.1": { section: "3. Records to be Sealed", label: "Third other agency — name and mailing address", ...AGENCY("the name and mailing address of a third other agency, if there is one") },
+    "478.3E.0": { section: "3. Records to be Sealed", selection: true, label: "By the Court — Other agency records", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3E.1": { section: "3. Records to be Sealed", label: "By the Court — Other agency name and address", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3F.0": { section: "3. Records to be Sealed", selection: true, label: "By the Court — Second other agency records", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3F.1": { section: "3. Records to be Sealed", label: "By the Court — Second other agency name and address", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3G.0": { section: "3. Records to be Sealed", selection: true, label: "By the Court — Third other agency records", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
+    "478.3G.1": { section: "3. Records to be Sealed", label: "By the Court — Third other agency name and address", ...PROTECT(COURT_OWNED, "the court completes the numbered order body") },
 
     /* --- 4. and 5.: the court's own orders and signature ------------------ */
     "478.4D": { section: "4. Court Orders", label: "By the Court — other orders", ...PROTECT(COURT_OWNED, "the decree is the court's; a proposed order that wrote the court's other orders would be drafting the judge's ruling") },
@@ -529,40 +519,9 @@ const FORM_FIELDS = {
 
 /* ---- fixtures ------------------------------------------------------------ */
 /*
- * TWO CORRECTIONS VF22 FOUND HERE, BOTH INVISIBLE TO EVERY COUNTER.
- *
- * ONE. participant.street_address used to hold the WHOLE address --
- * "412 Cherry Creek Way, Denver, CO 80202" -- because JDF 477's single line is
- * captioned "Current Mailing Address: (with city/state/zip)". JDF 478 writes the
- * same fact into a field Colorado names "∆ Street Address" and whose own tooltip
- * says "Enter the Defendant's street address.", beside separate ∆ City, ∆ State
- * and ∆ Zip boxes that this packet also fills. So delivered page 4 printed the
- * town and the ZIP twice, and the street field carried something the widget's
- * declared purpose says is not its. Every value was present, non-empty, inside
- * its rect and equal to what was expected, so nothing measured it.
- *
- * The fact now holds the street alone, which is what the shared semantic
- * registry declares participant.street_address to BE -- its descriptor at
- * scripts/rcap-official-forms/rcap-field-semantics.mjs refuses a caption naming
- * a city, a state or a ZIP -- and which is what this family's own municipal
- * sibling has always held. JDF 477's line therefore carries the street and the
- * participant completes it; the guide says so in its own section rather than
- * leaving them to notice. Composing a combined value for that one line was not
- * available: the finalizer refuses an explicit mapping that disagrees with the
- * fact the shared registry derives from the field's own name
- * (explicit_mapping_conflicts_with_field_name), so a composed-address fact would
- * have to be added to a shared module, and a repair lane holding two families
- * does not get to move every family that shares it.
- *
- * TWO. ∆ State declares "Enter the state (use two letter abbreviation)" and the
- * boundary fixture held "Colorado". It fits the 33.1pt field and renders
- * cleanly, so no geometry check sees it; it simply contradicts the field's own
- * printed instruction. The fixture now holds "CO". This packet has no
- * fact-transformation layer and should not grow one here: what it writes is what
- * it holds, so a held value in a shape the issuer's field forbids is a defect at
- * the fact, not at the write. That the shared finalizer enforces no per-field
- * FORMAT is a real gap and is recorded in build-findings.json; it is not this
- * lane's to close.
+ * Address facts remain structured. renderDocument derives the one-line postal
+ * value JDF 477 expressly requests; JDF 478's numbered body stays court-owned
+ * under JDF 491's instruction to complete only sections A through C.
  */
 const FIXTURES = {
   canonical: {
@@ -590,6 +549,13 @@ const FIXTURES = {
     "matter.case_number": "2024CR0011882-SUPPLEMENTAL"
   }
 };
+function factsForFixture(fixtureName) {
+  const fixture = FIXTURES[fixtureName];
+  return {
+    ...fixture,
+    "participant.full_mailing_address": `${fixture["participant.street_address"]}, ${fixture["participant.city"]}, ${fixture["participant.state"]} ${fixture["participant.zip"]}`
+  };
+}
 
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 
@@ -601,6 +567,26 @@ function resolveSources() {
   const resolved = [];
   const failures = [];
   for (const wanted of ROUTE.documents) {
+    if (wanted.sourcePath) {
+      const abs = path.resolve(ROOT, wanted.sourcePath);
+      if (!fs.existsSync(abs)) {
+        failures.push({ sourceId: `official-form:${wanted.formNumber}`, pathInArchive: wanted.sourcePath,
+          why: `the governed exact-content source does not exist on disk: ${wanted.sourcePath}` });
+        continue;
+      }
+      const bytes = fs.readFileSync(abs);
+      const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+      if (sha256 !== wanted.sha256) {
+        failures.push({ sourceId: `official-form:${wanted.formNumber}`, pathInArchive: wanted.sourcePath,
+          why: `SHA-256 drift: the governed binding says ${wanted.sha256}, the held bytes are ${sha256}` });
+        continue;
+      }
+      resolved.push({
+        ...wanted, sourceId: `official-form:${wanted.formNumber}`, pathInArchive: wanted.sourcePath,
+        sha256, byteLength: bytes.length, bytes
+      });
+      continue;
+    }
     const entry = all.find((e) => e.state === "CO" && e.formNumber === wanted.formNumber && e.assetClass === "FORM");
     if (!entry) { failures.push({ sourceId: `official-form:${wanted.formNumber}`, why: "no entry for this form number in the committed corpus index" }); continue; }
     const rel = entry.path;
@@ -759,20 +745,12 @@ async function censusOf(source) {
 
 /* ---- render ---------------------------------------------------------------- */
 async function renderDocument(source, census, fixtureName) {
-  const facts = FIXTURES[fixtureName];
+  const facts = factsForFixture(fixtureName);
   const writable = census.rows.filter((r) => r.policy === "write");
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
   const writableNames = new Set(writable.map((r) => r.name));
-  /*
-   * A route-settled selection is not unwritable by role, and listing it here
-   * would make the finalizer refuse the mark with classified_unwritable_by_role
-   * before the settled-selection pass ever saw it.
-   */
-  const settledSelections = Object.fromEntries(census.rows
-    .filter((r) => r.policy === "settled_selection")
-    .map((r) => [r.name, { checked: true, basis: r.basis }]));
   const unwritableFields = census.rows
-    .filter((r) => !writableNames.has(r.name) && r.policy !== "settled_selection")
+    .filter((r) => !writableNames.has(r.name))
     .map((r) => ({ field: r.name }));
 
   /* CLIPPING_AND_OVERLAP, measured by VF08 at 150 dpi and recorded in
@@ -819,9 +797,6 @@ async function renderDocument(source, census, fixtureName) {
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
     facts, explicitMappings, unwritableFields,
-    /* The route's own selections. Checkbox-only, true-only, and each carries
-     * its basis into the report; the protect gates apply unchanged. */
-    selectionsFromHeldFacts: settledSelections,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
@@ -853,8 +828,12 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
         actualWrites.push({
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
           section: r.section, effectiveLabel: r.effectiveLabel,
-          drawnText: text, expected: FIXTURES[fixtureName][r.fact] ?? null,
-          matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim()
+          drawnText: text, expected: factsForFixture(fixtureName)[r.fact] ?? null,
+          // pdfjs surfaces WinAnsi 0x92 as U+0092 when reading a flattened
+          // appearance. Interpret that byte as the curly apostrophe it draws
+          // before comparing; keep drawnText raw so the byte proof remains
+          // independently inspectable.
+          matchesExpected: ink.replace(/\u0092/g, "\u2019") === String(factsForFixture(fixtureName)[r.fact] ?? "").trim()
         });
         continue;
       }
@@ -909,38 +888,8 @@ function mapFor(source, census, report) {
       continue;
     }
 
-    if (r.isSelectionControl) {
-      /*
-       * A selection the ROUTE settles is not an explicit refusal and is not the
-       * participant's to make. It is recorded as marked only when the finalizer
-       * says it marked it, so the map can never claim a tick the bytes do not
-       * carry.
-       */
-      if (r.policy === "settled_selection") {
-        const marked = (report.selectionsMarked ?? []).find((m) => m.field === r.name) ?? null;
-        selectionControls.push({
-          ...base, selectionId: base.field, kind: "selection_control", type: r.type,
-          widgets: r.widgets, disposition: marked ? "route_settled_and_marked" : "route_settled_and_refused",
-          reason: r.basis, category: null, completenessClass: null, class: null,
-          requiredBeforeFiling: marked ? false : true,
-          routeDetermined: true,
-          markedByThePacket: Boolean(marked),
-          markBasis: marked?.basis ?? null,
-          refusedBy: marked ? null : (report.refused ?? [])
-            .filter((x) => x.field === r.name)
-            .map((x) => ({ reason: x.reason, category: x.category ?? null })),
-          whatTheParticipantMustDoInstead: marked ? null
-            : "tick this box yourself before you file; the form marks it required and the packet could not mark it",
-          whyThePacketCouldNotMarkIt: marked ? null
-            : "the shared finalizer applies its protect rules to a selection's label before it will mark it, and this "
-              + "label matches the shared `agency` rule. The rule guards a slot that lists the agencies a court is "
-              + "ordering to seal, which is not the participant's to fill. Closing it needs a caption exemption in "
-              + "scripts/rcap-official-forms/rcap-field-semantics.mjs (PARTICIPANT_STATED_SUBJECT), which is the "
-              + "shared module and is not this family's to change."
-        });
-        continue;
-      }
-      const cls = r.policy === "protect" ? r.refusalClass : r.policy === "attorney" ? null : PARTICIPANT_ELECTION;
+    if (r.isSelectionControl && r.policy === "election") {
+      const cls = PARTICIPANT_ELECTION;
       selectionControls.push({
         ...base, selectionId: base.field, kind: "selection_control", type: r.type,
         widgets: r.widgets, disposition: "explicit_refusal",
@@ -1210,9 +1159,11 @@ function participantInstructions(maps, rbf, fitRefusals = [], packetSet = null, 
   out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
   const undelivered = packetSet?.undelivered ?? [];
   out.push(
-    "This packet is two Colorado Judicial Department forms, filed together:", "",
-    "- **JDF 477**, _Motion to Seal Non-Conviction Records (Simplified Process)_ — what you file.",
-    "- **JDF 478**, _Order to Seal Non-Conviction Records_ — the order you give the court to sign.", ""
+    "This packet contains the four Colorado Judicial Department forms named by JDF 491:", "",
+    "- **JDF 477**, _Motion to Seal Non-Conviction Records (Simplified Process)_ — the motion.",
+    "- **JDF 492**, _Order Denying Request to Seal Non-Conviction Records_ — complete only sections A–C; every decision and signature field remains for the court.",
+    "- **JDF 493**, _Order and Notice of Hearing_ — complete only sections A–C. The court uses it only if it decides a hearing is necessary and supplies every hearing field.",
+    "- **JDF 478**, _Order to Seal Non-Conviction Records_ — the proposed grant order; its findings and signature remain for the court.", ""
   );
   if (undelivered.length > 0) {
     out.push(
@@ -1221,7 +1172,7 @@ function participantInstructions(maps, rbf, fitRefusals = [], packetSet = null, 
       + "you file anything.", ""
     );
   }
-  out.push(`Both are prepared for **${ROUTE.publicLabel.toLowerCase()}** under ${ROUTE.authority}.`, "");
+  out.push(`All four are prepared for **${ROUTE.publicLabel.toLowerCase()}** under ${ROUTE.authority}.`, "");
   /*
    * The second sentence sends the reader to a section that only exists when a
    * value was refused for width, and after the street/city/state/zip repair no
@@ -1230,10 +1181,9 @@ function participantInstructions(maps, rbf, fitRefusals = [], packetSet = null, 
    * section it names is printed.
    */
   out.push(
-    "The platform filled in what it holds about you and your case — your name, your date of birth, your address, your "
-    + "phone, your e-mail, the county and the case number — **wherever the value fits the line the form prints for "
-    + "it**. Everything else is yours, and every one of those blanks is listed below by the section of the form it is "
-    + "in."
+    "The platform filled the participant and case facts it holds on JDF 477 and the A–C caption fields on JDF 492, "
+    + "JDF 493 and JDF 478. It leaves each numbered order or notice body for the court. Every remaining participant "
+    + "blank is listed below by the section of the form it is in."
     + (fitRefusals.length > 0
       ? " Where a value the platform holds did NOT fit, it is named in its own section further down rather than "
         + "shrunk until it cannot be read or run off the end of the line: **check that section, because a blank "
@@ -1337,7 +1287,7 @@ function participantInstructions(maps, rbf, fitRefusals = [], packetSet = null, 
 
   out.push("## Where you file this", "");
   out.push(
-    "File both forms with the **clerk of the Colorado court that handled the case** — the District Court or the County "
+    "File the forms JDF 491 directs you to file with the **clerk of the Colorado court that handled the case** — the District Court or the County "
     + "Court named in section 1 of the motion, in the county already filled in for you. The Colorado Judicial Department "
     + "publishes each courthouse's address; this packet does not state one, because the platform holds no court directory "
     + "and an unsourced address in a filing instruction is worse than none.", ""
@@ -1347,53 +1297,26 @@ function participantInstructions(maps, rbf, fitRefusals = [], packetSet = null, 
     + "is not established in any source this packet holds, so it is not stated here.", ""
   );
 
-  out.push("## One line on JDF 477 you must finish by hand", "");
-  out.push(
-    "JDF 477 section 5 asks for your **Current Mailing Address (with city/state/zip)** on a single printed line. The "
-    + "packet wrote your **street address** on that line and stopped there. It did not add the city, the state or "
-    + "the ZIP.", ""
-  );
-  out.push(
-    "That is deliberate. The order in this same packet, JDF 478 section 2c, has a box the Colorado Judicial "
-    + "Department labels as the defendant's **street address** and three more boxes beside it for city, state and "
-    + "ZIP. When one combined value was written into both forms, your town and your ZIP were printed twice on the "
-    + "order the judge signs. The packet now holds the street on its own, which is right for the order and leaves "
-    + "JDF 477's line one step short.", ""
-  );
-  out.push(
-    "**So finish that line before you file.** Add your city, your state and your ZIP after the street address on "
-    + "JDF 477 section 5. They are already printed on JDF 478 section 2c in this same packet, in their own boxes, if "
-    + "you want to copy them across.", ""
-  );
-
-  out.push("## The Colorado Bureau of Investigation is not optional — and one box is yours to tick", "");
+  out.push("## Colorado Bureau of Investigation treatment", "");
   out.push(
     "Both forms print the CBI's address for you — ATTN Identification-Seals, 690 Kipling St. STE 3000, Lakewood, CO 80215 "
     + "— and JDF 478 prints **(required)** beside it. JDF 478 also directs the court's clerk to send the CBI a copy of "
-    + "the signed order within 28 days. The two forms reach you in different states, and the difference matters:", ""
+    + "the signed order within 28 days. The two forms treat that required recipient differently:", ""
   );
   out.push(
     "- **JDF 477, section 8 — already ticked, and not by us.** The Colorado Judicial Department ships this form with "
     + "the CBI box checked. Leave it as it is.",
-    "- **JDF 478, section 3 — BLANK, and you must tick it.** The packet did not tick it. Look at the delivered page "
-    + "and check: if that box is empty when you file, the order the judge signs leaves out the one agency the form "
-    + "marks required.", ""
-  );
-  out.push(
-    "The reason the packet left it is worth one sentence, because it is not an oversight: the platform refuses to tick "
-    + "any box whose line names a law-enforcement agency, so that it can never fill in the agency list on a court's own "
-    + "order. That safeguard is right in general and it costs you one tick here. Make it.", ""
+    "- **JDF 478, section 3 — leave it for the court.** JDF 491 directs you to complete only sections A–C of this "
+    + "order. Section 3 is part of the court's numbered order body, including the required CBI recipient.", ""
   );
 
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in every item in the tables below.** Each names the form, the section and the blank.");
   out.push("2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.");
-  out.push("3. **Serve a copy on the prosecuting attorney**, then complete the certificate of service in section 9 of JDF 477 — the date, the method, and who you sent it to. Do it after you have served, not before.");
-  out.push("4. **Sign the verification in section 10 of JDF 477.** It is a declaration under penalty of perjury under the law of Colorado. The whole block — the date, the place, your printed name and your signature — is completed by you at the moment you declare, so none of it is filled in for you.");
-  out.push("5. **Tick the Colorado Bureau of Investigation box in section 3 of JDF 478.** It is the one required agency and the packet left it blank — see the section above.");
-  out.push("6. **Leave sections 4 and 5 of JDF 478 alone.** Those are the court's orders and the judge's or magistrate's signature.");
-  out.push("7. **Add the city, state and ZIP to JDF 477's mailing-address line** — see the section above.");
-  out.push("8. **Mail a copy of your motion to the Prosecuting Attorney's office.** JDF 491 § ③ Send a Copy says so in as many words: “" + GUIDE_QUOTATIONS.sendACopy.text + "” No held source states a deadline or a method for that mailing, so none is stated here.");
+  out.push("3. **Submit all four forms named by JDF 491:** JDF 477, JDF 492, JDF 493 and JDF 478. Complete only sections A–C on JDF 492, JDF 493 and JDF 478; the court uses the notice if it sets a hearing and completes every numbered body.");
+  out.push("4. **Serve a copy on the prosecuting attorney**, then complete the certificate of service in section 9 of JDF 477 — the date, the method, and who you sent it to. Do it after you have served, not before.");
+  out.push("5. **Sign the verification in section 10 of JDF 477.** It is a declaration under penalty of perjury under the law of Colorado. The whole block — the date, the place, your printed name and your signature — is completed by you at the moment you declare, so none of it is filled in for you.");
+  out.push("6. **Mail a copy of your motion to the Prosecuting Attorney's office.** JDF 491 § ③ Send a Copy says so in as many words: “" + GUIDE_QUOTATIONS.sendACopy.text + "” No held source states a deadline or a method for that mailing, so none is stated here.");
   out.push("");
 
   if (packetSet?.requiredBeforeFiling?.length) {
@@ -1464,14 +1387,14 @@ function participantInstructions(maps, rbf, fitRefusals = [], packetSet = null, 
   out.push("- **The verification in section 10 of JDF 477** — the date, the city, the state, your printed name and your signature. It is sworn under penalty of perjury and is completed at the moment of declaring.");
   out.push("- **The certificate of service in section 9 of JDF 477** — the date, the method and the person served. Service has not happened when this packet is prepared.");
   out.push("- **The counsel signature block.** You are filing this yourself; no attorney-representation fact is held for you.");
-  out.push("- **The Division and Courtroom boxes on both forms.** The form marks that box for court use.");
-  out.push("- **Sections 4 and 5 of JDF 478** — the court's orders and the judge's or magistrate's signature and date.");
+  out.push("- **The Division and Courtroom boxes on all four forms.** Each caption marks that box for court use.");
+  out.push("- **Every numbered body on JDF 492, JDF 493 and JDF 478.** JDF 491 directs the filer to complete only sections A–C; the court makes the denial, hearing, sealing and signature entries.");
   out.push("");
 
   const stops = selfHelpStops();
   out.push("## Where self-help ends", "");
   out.push(
-    "This packet prepares JDF 477 and JDF 478 for you to review, complete, sign and file yourself. The committed track "
+    "This packet prepares JDF 477, JDF 492, JDF 493 and JDF 478 for you to review and submit. The committed track "
     + "registry records these as the points where self-help ends on this route, in its own words. If any of them "
     + "describes your case, stop before you file and take it to a lawyer rather than filing:", ""
   );
@@ -1512,7 +1435,7 @@ function participantInstructions(maps, rbf, fitRefusals = [], packetSet = null, 
     + "marijuana and paraphernalia offences, and charges dismissed under C.R.S. § 18-1.3-101. Read them before you swear to them."
   );
   out.push("");
-  out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
+  out.push(`_Colorado authority: ${ROUTE.authority}_`);
   return `${out.join("\n")}\n`;
 }
 
@@ -1534,9 +1457,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
    * documents this build can actually render from held sources. */
   const packetSet = loadPacketSetGrounding(resolved.map((r) => r.formNumber));
 
-  /* And why the two it cannot render cannot be rendered, proved from the
-   * committed index rather than asserted. See the RECOVERY_POOL comment. */
-  const recoveryPoolIdentity = assertRecoveryPoolEntriesAreRecordedAsExpected();
+  const recoveryPoolIdentity = [];
 
   /* The official guide, bound by digest, with every phrase this packet quotes
    * proved present in its bytes. See GUIDE_QUOTATIONS. */
@@ -1693,7 +1614,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     groundingRecordSha256: packetSet.record.sha256,
     requiredByTheRoute: packetSet.required.length,
     renderedHere: packetSet.delivered.length,
-    complete: false,
+    complete: packetSet.undelivered.length === 0,
     packetSetCompletenessState: packetSet.completeness.state,
     packetSetCompletenessBasis: packetSet.completeness.basis,
     guide: {
@@ -1729,12 +1650,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
         disclosedToTheParticipant: true
       };
     }),
-    whatThisBuildRefusedToDo:
-      "Substitute another form for either, and fill JDF 493 from the 2019-08 flat copy the index holds. A route "
-      + "sells only what a record proves it delivers.",
-    grantsNothing:
-      "Disclosing an absent component is not delivering it. This family remains COMPONENT_SET-incomplete and this "
-      + "record is the evidence of that, not a waiver of it."
+    supersessionBasis:
+      "The old packet and its FAIL evidence remain preserved. This rebuilt set uses exact current JDF 493 bytes and the exact held JDF 492 bytes and renders every form JDF 491 names."
   });
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1742,7 +1659,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     jurisdiction: ROUTE.jurisdiction, implementationStrategy: "official_pdf_fill",
     custodyClass: "SOURCE_ALREADY_HELD", acquisitionCommissioned: false,
     corpusRootFromEnvironment: "MASTER_LIBRARY_SOURCE_DIR",
-    bindingMethod: "exact form number + committed corpus-index SHA-256 + on-disk SHA-256 + byte length",
+    bindingMethod: "exact form number or governed exact-content path + pinned SHA-256 + on-disk SHA-256 + byte length",
     routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId, statutoryAuthority: ROUTE.authority,
     allSourcesExact: true,
     documents: resolved.map((r) => ({
@@ -1755,7 +1672,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/field-census.census-v1.json`, {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1", familyId: FAMILY_ID,
     captionBasis:
-      "These two forms interleave their glyph runs, so text extracted from the content stream comes back scrambled "
+      "The issuer forms may interleave glyph runs, so text extracted from the content stream can come back scrambled "
       + "(\"Case NumEer\", \"Motion to -CSoeanvil ctNoinon Records\"). A printed-caption check cannot be run on them, and a "
       + "match loose enough to accept the scrambled text would pass on anything. Captions here are the AcroForm field "
       + "names Colorado authored, which are meaningful and section-keyed, plus the printed section heading. The scrambled "
@@ -1776,7 +1693,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/caption-evidence.json`, {
     schemaVersion: "rcap-caption-evidence/v1", familyId: FAMILY_ID,
     finding:
-      "JDF 477 and JDF 478 interleave their glyph runs. Text extracted from the content stream is scrambled at the "
+      "The issuer forms may interleave their glyph runs. Text extracted from the content stream can be scrambled at the "
       + "character level, so no printed-caption check can be run against them.",
     whyThisIsNotWorkedAround:
       "A fuzzy match loose enough to accept \"NumEer\" as \"Number\" would pass on almost anything, and a check that "
@@ -1897,24 +1814,20 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "here: these two forms cannot be caption-checked from their own text stream, so a reviewer reading the paper is "
       + "the check that a value sits under the heading it belongs to.",
     whatToLookAt: [
-      "JDF 477 sections 1, 2, 3 and 5, and JDF 478 sections A, B, C and 2: confirm the county, case number, defendant "
-        + "name, birth date, address, phone and e-mail each sit under the heading they belong to. The text stream is "
-        + "scrambled, so this is the check.",
+      "JDF 477 sections 1, 2, 3 and 5: confirm the county, case number, defendant name, birth date, complete mailing "
+        + "address, phone and e-mail each sit under the heading they belong to. Confirm JDF 492, JDF 493 and JDF 478 "
+        + "carry only the A–C caption values. The text stream is scrambled, so this is the check.",
       "JDF 477 section 6: all five grounds unticked and their date boxes blank.",
       "JDF 477 section 8: the agency boxes unticked and the agency names, numbers and addresses blank — EXCEPT the "
         + "Colorado Bureau of Investigation box, which the Colorado Judicial Department ships already checked. That "
         + "tick is the issuer's own and reports/actual-writes.json records it as a documentAuthoredAppearance; a "
         + "reader should confirm it is there, not that it is absent.",
-      "JDF 478 section 3: every agency box unticked, INCLUDING the Colorado Bureau of Investigation box the form "
-        + "marks (required). That empty box is a KNOWN, MEASURED DEFECT, not a clean page: the route requires the "
-        + "tick, this packet asks the shared finalizer for it, and the shared `agency` protect rule refuses because "
-        + "the label names a law-enforcement agency. See production-field-map.json routeDeterminedSelections. The "
-        + "participant is told in participant-instructions.md to tick it before filing. Confirm that instruction is "
-        + "present and unmissable; do not read the empty box as correct.",
-      "JDF 478 section 3, the agency names, numbers and addresses: blank.",
+      "JDF 478 numbered body: every defendant-information repetition, record-recipient line, agency selection, "
+        + "court order, signature and date remains blank, including the CBI selection. JDF 491 tells the filer to "
+        + "complete only sections A–C; the court completes this body.",
       "JDF 477 section 9: the certificate of service blank — no date, no method, no recipient.",
       "JDF 477 section 10: the verification blank — no date, no place, no printed name, no signature — and the counsel block blank.",
-      "JDF 478 sections 4 and 5: the court's orders, signature and date blank, and neither Judge nor Magistrate ticked."
+      "JDF 492 and JDF 493 numbered bodies: all denial findings, hearing details, attendance selection, signatures and dates blank."
     ],
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, file: a.file, sha256: a.sha256, pageCount: a.pageCount })),
     rasterPages: rasterPages.map((p) => ({ fixture: p.fixture, page: p.page, file: p.file, sha256: p.sha256 }))
@@ -1986,36 +1899,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding:
-          "participant.street_address held the WHOLE address, and two forms in this packet want it two different "
-          + "ways. JDF 477's single line is captioned \"Current Mailing Address: (with city/state/zip)\"; JDF 478 "
-          + "section 2c has a field Colorado names \"∆ Street Address\", whose own tooltip reads \"Enter the "
-          + "Defendant's street address.\", beside separate ∆ City, ∆ State and ∆ Zip boxes this packet also fills. "
-          + "So the delivered order printed the town and the ZIP twice, and the street field carried something the "
-          + "widget's declared purpose says is not its. VF22 found it at base 8db74d6e5; no counter could, because "
-          + "every value was present, non-empty, inside its declared rect and equal to its expected value.",
+          "JDF 477 asks for one complete mailing-address line, while JDF 478 repeats address fields inside the court's numbered order body.",
         consequence:
-          "The fact now holds the street alone -- which is what the shared semantic registry declares "
-          + "participant.street_address to be, and what this family's municipal sibling has always held -- so "
-          + "nothing is printed twice on the order. JDF 477's line is one step short of its own caption as a result, "
-          + "and participant-instructions.md carries a section telling the participant to add the city, state and "
-          + "ZIP to it and where to copy them from. Composing a combined value for that one line was not available: "
-          + "the shared finalizer refuses an explicit mapping that disagrees with the fact its registry derives from "
-          + "the field's own name, so a composed-address fact would have to be added to a shared module, and a "
-          + "repair lane holding two families does not get to move every family that shares it."
+          "The packet derives participant.full_mailing_address from structured street, city, state and ZIP facts and "
+          + "writes it to JDF 477. JDF 478 receives only its A–C caption because JDF 491 directs the filer to complete "
+          + "only those sections; the numbered order body stays blank for the court, eliminating the prior duplication."
       },
       {
         finding:
-          "JDF 478's ∆ State field declares \"Enter the state (use two letter abbreviation)\" and the boundary "
-          + "fixture held \"Colorado\". It fits the 33.1pt field and renders cleanly, so no geometry check sees it; "
-          + "it simply contradicts the field's own printed instruction.",
+          "JDF 491 directs the filer to complete only sections A–C of JDF 478; the form's numbered body includes defendant details, record recipients and the court's ruling.",
         consequence:
-          "The fixture now holds \"CO\". THE UNDERLYING GAP IS NOT CLOSED AND IS NOT THIS LANE'S TO CLOSE: this "
-          + "packet has no fact-transformation layer and should not grow one, so what it writes is what it holds -- "
-          + "and nothing in this build or in the shared finalizer enforces a per-field FORMAT declared by a widget's "
-          + "own tooltip. Correcting the fixture removes the contradiction from the delivered bytes; a real "
-          + "participant record holding \"Colorado\" would reproduce it. Enforcing a declared field format belongs "
-          + "in scripts/rcap-official-forms/**, which every family shares.",
-        severity: "advisory"
+          "All 25 widgets in that numbered body are protected as court-owned. The packet no longer asks the participant "
+          + "to tick the CBI line or populate record-recipient and address fields on the order."
       },
       {
         finding:
@@ -2026,15 +1921,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "guide, which said flatly that the packet is two forms filed together. VF22 found it at base 8db74d6e5 "
           + "by reading JDF 491 itself.",
         consequence:
-          "Lane FIX157 added both components to the manifest with a measured sourceStatusBasis each and recorded "
-          + "packetSetCompleteness incomplete; this build now reads that record, asserts the guide's own list "
-          + "against the guide's bytes, and discloses the gap to the participant by form number. THE OBLIGATION IS "
-          + "NOT SATISFIED: a truthful account of an absent component is honesty, not delivery, and this packet "
-          + "still delivers two of four. The two are blocked differently and the record says which is which -- "
-          + "JDF 492's index entry carries formNumber null and assetClass null so it cannot be bound by identity, "
-          + "while the JDF 493 the index holds is a 2019-08 flat PDF with zero form fields against a 2024-08-07 "
-          + "guide. Neither reason is a mount: FIX157 found the custody mounted, declared in the index's own "
-          + "custodies array, and holding both binaries at exactly the digests recorded."
+          "The governed current source bindings now resolve JDF 492 and the adopted current JDF 493 by exact SHA-256. "
+          + "The rebuilt canonical and boundary packets contain all four forms in JDF 491's filing order, and the "
+          + "effective packet-set completeness record explicitly supersedes the earlier source-gap state without erasing it."
       },
       {
         finding:

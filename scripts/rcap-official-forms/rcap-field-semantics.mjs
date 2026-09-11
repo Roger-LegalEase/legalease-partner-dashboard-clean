@@ -231,6 +231,12 @@ export function captionDescribesChargeValue(subject) {
 }
 
 export const FACT_DESCRIPTORS = [
+  {
+    factId: "participant.full_mailing_address",
+    valueType: "string",
+    match: /mailing\s*address.*(?:with\s*)?city\s*[/,]?\s*state\s*[/,]?\s*zip/,
+    preferWhenExplicit: true
+  },
   { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.date_of_birth", valueType: "date", match: /\bdob\b|date\s*of\s*birth|birth\s*date/ },
   { factId: "participant.first_name", valueType: "string", match: /first\s*name/, refuseWhenCaption: captionAsksForEveryNamePart },
@@ -538,6 +544,23 @@ export function decideBinding(field, options = {}) {
   // checked against refuseWhen exactly as the name is.
   let factBasis = "field_name";
   let matches = descriptorsMatching(name);
+  const explicit = explicitMappings[name];
+  /*
+   * Some issuers give a generic AcroForm name to a more specific printed
+   * slot. Colorado calls its one-line full postal slot simply `Address`, while
+   * its printed caption expressly requires city, state, and ZIP. A descriptor
+   * may opt into this narrow preference: only an explicit mapping to the fact
+   * matched by the printed label can outrank the generic field-name match.
+   * Protect and region gates above still run first.
+   */
+  if (explicit && effectiveLabel) {
+    const preferred = descriptorsMatching(effectiveLabel)
+      .find((d) => d.factId === explicit && d.preferWhenExplicit === true);
+    if (preferred) {
+      matches = [preferred];
+      factBasis = "printed_label_explicit";
+    }
+  }
   // A date component is excluded from the fallback entirely, whatever the label
   // offers. Arkansas's ACIC petition names three blanks DAY, MONTH and YEAR and
   // prints "1.The Defendant was arrested on the ___ day of ______, ____" across
@@ -577,7 +600,6 @@ export function decideBinding(field, options = {}) {
   // list rather than something to resolve at runtime.
   const descriptor = matches[0];
 
-  const explicit = explicitMappings[name];
   if (descriptor.requiresExplicitMapping && explicit !== descriptor.factId) {
     return { writable: false, reason: "requires_explicit_mapping", category: "sensitive_fact", factId: descriptor.factId };
   }

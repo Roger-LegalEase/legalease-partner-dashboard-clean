@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-family-pre-repair-byte-snapshot/v1",
+  "recordedAt": "2026-09-11T00:00:00Z",
+  "recordedBeforeRebuild": true,
+  "families": [
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "historicalVerdict": "FAIL_REPAIR_REQUIRED",
+      "historicalEvidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "failedObligations": ["COMPONENT_SET", "FEE_AND_WAIVER"],
+      "fixtures": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "455f7387b715af77fc6b89a1c5ca9fb497f0dfb4c4d413376c572fa97bfad3da"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "66ca31e0c3ccd8181f3c67d085401ca0bd22a57b2ae8332d4733d1c287b1726d"
+        }
+      ]
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "historicalVerdict": "FAIL_REPAIR_REQUIRED",
+      "historicalEvidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json",
+      "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+      "failedObligations": ["COMPONENT_SET", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+      "fixtures": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "e6e0179dd0c8069a2b701831a4b50497a5445f63f1409358e84bccb242de9ad9"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "0039d263c65cf619ab0d6110b4ef651bc87b80fc7baaeceac886b767b136689c"
+        }
+      ]
+    }
+  ],
+  "historyPolicy": "The historical FAIL evidence remains unchanged. Any later supersession must bind to rebuilt fixture hashes and current-byte raster and independent-review evidence."
+}
