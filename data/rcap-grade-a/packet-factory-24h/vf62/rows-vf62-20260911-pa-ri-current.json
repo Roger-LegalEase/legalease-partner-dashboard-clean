@@ -1,0 +1,298 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF62",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "reviewer": "/root/pa_ri_independent_acceptance",
+  "sessionIdentity": "/root/pa_ri_independent_acceptance",
+  "worktree": "/tmp/rcap-vf62-pa-ri-current-20260911",
+  "branch": "vf62-pa-ri-current-20260911",
+  "verifiedAtBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5",
+  "grantSet": "68b7fb4c3981d80b",
+  "reviewAssignment": "One complete pass per current candidate; RI reuses 14 unchanged current-byte findings and completes only the remaining original-raster obligation. PA full pass is being finalized in this same return.",
+  "builtAnything": false,
+  "repairsMade": false,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "centralAdmissionChanged": false,
+  "rows": [
+    {
+      "itemId": "ri_nonconviction_sealing-set",
+      "familyId": "ri_nonconviction_sealing-set",
+      "lane": "VF62",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "priorFindingDisposition": {
+        "priorFailure": "Earlier VF62 review found KNOWN_PREFILLS contradictions between refusal categories and actual held-but-not-printed values.",
+        "currentDisposition": "Resolved as a report-only defect: the family-only helper reconciles all seven contradictions, records truthful refusal categories and fit measurements, preserves raw diagnostics as history, and confirms packetBytesChanged:false."
+      },
+      "repairVerification": {
+        "reportRepair": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-report-repair.log",
+        "tests": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-tests.log",
+        "packetBytesChanged": false,
+        "canonicalSha256": "1aa3581fc9297cc60ad555e6abad34d5c8f5c8028be255abf1ec4cfc96734c3b",
+        "boundarySha256": "9853b49eeb385ac8719132831e5dc245c985249fb82e86ff72bf1671a15d7594",
+        "sourceSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+        "widthChecks": {
+          "longChargeRequiredPt": 215.01,
+          "longChargeUsablePt": 206,
+          "caseNumber2RequiredPt": 118.05,
+          "caseNumber2UsablePt": 116,
+          "minimumFontSize": 6
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-report-repair.log",
+        "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-tests.log",
+        "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/completeness-ri.log"
+      ],
+      "jurisdiction": "RI",
+      "reviewer": "/root/pa_ri_independent_acceptance",
+      "sessionIdentity": "/root/pa_ri_independent_acceptance",
+      "verifiedAtBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
+      "allRequiredObligationsScored": 15,
+      "obligationSummary": {
+        "PASS": 15,
+        "FAIL": 0,
+        "NOT_MEASURABLE_HERE": 0
+      },
+      "failedObligations": [],
+      "defects": [],
+      "builtThisFamily": false,
+      "selfVerified": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both committed route keys are present consistently in the source receipt and family records: the automatic/administrative sealing verification branch and the fallback motion-to-seal branch.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "ROUTE_IDENTITY"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "RI-DC-33 is bound to the exact held source SHA-256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908, 307164 bytes, four pages and 77 AcroForm fields.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "SOURCE_IDENTITY"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The current guide answers all four declared components: primary DC-33 filing, verification instructions, service/notice package and escalation instructions; the committed guide headings and rendered-artifacts manifest agree.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "COMPONENT_SET"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The actual output writes only participant name, date of birth and case number where fit. The repaired report-only helper reconciles the seven historical contradictions into truthful categories: participant case facts, row-integrity withholding, and unfittable values. It preserves the raw finalizer diagnostic as history and does not change packet bytes. Boundary measurements independently record required widths 118.05pt versus 116pt for Case Number_2 and 215.01pt versus 206pt for the long charge at 6pt, so those held values remain blank with explicit participant instructions.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "KNOWN_PREFILLS"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide identifies the BCI number, counts, charges, dispositions, court division, notice/certification and applicable affidavit selections as participant work before filing; every held-but-not-printed value has a stated reason and hand-completion direction.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "REQUIRED_BEFORE_FILING"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide explicitly preserves the default verification branch and explains that the motion is fallback only when automatic or administrative sealing does not reach the record. Sealed/expunged elections are left to the participant/court as applicable.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "ROUTE_OPTIONS"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The DC-33 repeating count, charge and disposition rows remain intact. The repaired reconciliation correctly withholds a whole row when one required cell is unavailable, preventing partial row writes.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "REPEATING_ROWS"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Current actual-writes and field-map roles preserve court, clerk, notice, affidavit, signature and notary fields. The source-owned Group2 Off appearance is retained; no protected ink is introduced by the report-only repair.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "PROTECTED_FIELDS"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Current canonical.pdf is 1aa3581fc9297cc60ad555e6abad34d5c8f5c8028be255abf1ec4cfc96734c3b (280113 bytes) and boundary.pdf is 9853b49eeb385ac8719132831e5dc245c985249fb82e86ff72bf1671a15d7594 (279820 bytes), each four pages. The report repair states packetBytesChanged:false; the exact files were rehashed directly.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "ARTIFACTS"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both fixtures parse as four-page RI-DC-33 documents in the source order; no component or page mutation occurred.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "PAGE_ORDER"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json",
+          "basis": "All 8 original GHA pages at run 34602562081 independently read. Ten expected text-write instances are readable in the correct widgets on pages 2/3; all source text, charge rows and affidavit pages remain present. Current-byte readback and calibrated original-pixel checks corroborate visibility. No clipped added ink, added-text overlap or protected-field mark observed.",
+          "independentlyMeasuredHere": true
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide directs the participant to the District Court division where the case was heard and names the clerk's office as the filing destination.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "FILING_DESTINATION"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide accurately says the held sources do not establish a filing fee or waiver and directs the participant to ask the relevant clerk; it does not invent a fee answer.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "FEE_AND_WAIVER"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide carries the source-backed ten-day notice requirement to the Office of the Attorney General and charging police department, while stating that the service method is unresolved and must be confirmed with the clerk.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "SERVICE"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The six route self-help stop conditions are carried in the guide, including uncertainty over the applicable sealing route and issues requiring legal assistance.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ri-nonconviction-preraster.json",
+          "reusedFrom": {
+            "reviewer": "/root/ar_independent_review",
+            "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+            "proofObligation": "SELF_HELP_STOP"
+          },
+          "reuseJustification": "The already-valid current-byte pre-raster PASS is retained. All five directly named family dependencies are byte-identical to the prior reviewed base; both PDFs and exact held source were rehashed. No changed dependency or contradictory new evidence was found."
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "counterNote": "Seven finite zeros measured by the real scoped completeness command; its exit 0 does not mean PASS (substantive result NOT_MEASURABLE_HERE). The two UNMEASURED counters, invisibleWrites and visualDefects, are independently closed here by all 8 original-image readings and 10 current-byte text-write instances; protectedWrites 0 is also corroborated visually. No absent measurement was converted to zero. Completeness union-field writes 8/77 are distinct from the 10 physical write instances across both fixtures."
+      },
+      "rasterAcceptance": {
+        "state": "RASTER_PASS",
+        "workflowRunId": "34602562081",
+        "renderedCommitSha": "daf6b0b2812edc93bb55bf60107cb6bdf681a89d",
+        "originalDocumentsDigest": "be8f1f3314801c62ed39caa84a171629015ec5e90a533b67acbecd5b013025cd",
+        "documents": [
+          {
+            "file": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf",
+            "documentId": "RI-DC-33",
+            "fixture": "boundary",
+            "sha256": "9853b49eeb385ac8719132831e5dc245c985249fb82e86ff72bf1671a15d7594",
+            "bytes": 279820,
+            "pages": 4
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf",
+            "documentId": "RI-DC-33",
+            "fixture": "canonical",
+            "sha256": "1aa3581fc9297cc60ad555e6abad34d5c8f5c8028be255abf1ec4cfc96734c3b",
+            "bytes": 280113,
+            "pages": 4
+          }
+        ],
+        "pagesRead": 8,
+        "receipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602562081/ri_nonconviction_sealing-set.verdict.json",
+        "originalArchiveSha256": "9d8dbb95c45961883c206edf833e8c166f91bd4cf30417dd1211096404bc6e6a",
+        "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json",
+        "enrollmentOrderNote": "Original boundary-first ordering is preserved. Canonical-first central enumeration has the identical complete role/path/hash tuple set; Captain is handling its ingestion. No receipt relabeling, reraster, or acceptance-gate change was made."
+      },
+      "sourceFreshnessAndLegalLimits": "Reuses the existing 14 current-byte findings, including the conservative ask-clerk fee/waiver and service-method treatment. No new freshness lookup, legal decision, local-practice approval, route authority or production admission is asserted.",
+      "remainingRequirements": []
+    }
+  ],
+  "grantsNothing": "Independent evidence only. Captain handles central state and any separate authority gates. No packet, source, legal decision, acceptance gate or runtime route was modified.",
+  "returnWrittenAtUtc": "2026-09-11T13:29:12.553476+00:00"
+}
