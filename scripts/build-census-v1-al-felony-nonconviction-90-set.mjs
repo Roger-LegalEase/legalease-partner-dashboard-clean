@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import zlib from "node:zlib";
 import { normalizeInvertedWidgetRectangles } from "./rcap-official-forms/rcap-active-content.mjs";
+import { baselineInk, proveDeliveredInk } from "./rcap-official-forms/delivered-ink-measurement.mjs";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 
 const require = createRequire(import.meta.url);
@@ -825,6 +826,33 @@ async function assertRepairInvariants(out) {
   }
 }
 
+/** Read every source widget's position against the saved packet; no report literal stands in for ink. */
+export async function measureAl90Packet(bytes, sources, packet, options = {}) {
+  const boxes = [], baselines = {};
+  let pageOffset = 0;
+  for (const source of sources) {
+    const pdf = await PDFDocument.load(source.bytes);
+    const form = pdf.getForm();
+    normalizeInvertedWidgetRectangles(pdf, form);
+    baselines[source.documentId] = await baselineInk(source);
+    for (const field of form.getFields()) {
+      const fieldId = `${source.documentId}:${field.getName()}`;
+      const write = packet.writes.find(w => w.fieldId === fieldId);
+      const refusal = packet.refusals.find(w => w.fieldId === fieldId);
+      if (!write && !refusal) continue;
+      for (const widget of field.acroField.getWidgets()) {
+        const page = pdf.getPages().findIndex(p => p.ref.toString() === widget.P()?.toString()) + 1;
+        assert.ok(page > 0, `${fieldId}: no source widget page`);
+        boxes.push({ fieldId, documentId: source.documentId, page, packetPage: pageOffset + page,
+          rect: widget.getRectangle(), expectInk: Boolean(write), expectText: write?.drawnText });
+      }
+    }
+    pageOffset += pdf.getPageCount();
+  }
+  const proof = await proveDeliveredInk(bytes, { boxes }, baselines, options);
+  return { ...proof, measurementScope: 'Differential decoded glyphs and actual flattened appearance placements; source painting and visible clipping remain subject to original raster review.' };
+}
+
 export async function buildAlabamaFamily(familyId) {
   assert.equal(familyId, "al-felony-nonconviction-90-set", "this family-owned builder may only build al-felony-nonconviction-90-set");
   const base = FAMILY_CONFIG[familyId];
@@ -867,13 +895,23 @@ export async function buildAlabamaFamily(familyId) {
     schemaVersion: "rcap-source-receipt/v2", familyId, allSourcesExact: true,
     sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds }))
   });
+  const deliveredProofs = {};
+  for (const [fixture, packet] of Object.entries(packets)) {
+    deliveredProofs[fixture] = await measureAl90Packet(fs.readFileSync(path.join(out, "fixtures", `${fixture}.pdf`)), sources, packet);
+    assert.deepEqual(deliveredProofs[fixture].invisibleWrites, [], `${fixture}: invisible writes`);
+    assert.deepEqual(deliveredProofs[fixture].incompleteValues, [], `${fixture}: incomplete values`);
+    assert.deepEqual(deliveredProofs[fixture].refusedFieldsWithInk, [], `${fixture}: refused fields carry added ink`);
+  }
+  writeJson(path.join(out, "reports", "delivered-ink-proof.json"), { familyId, derivedFromSavedBytes: true, fixtures: deliveredProofs });
   writeJson(path.join(out, "reports", "actual-writes.json"), {
     schemaVersion: "rcap-actual-writes/v2", familyId,
     documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
     /* Measured, not typed. See measureOutputByteGlyphs. */
     artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length,
-      addedGlyphsReadFromOutputBytes: config.measureOutputByteGlyphs ? measureOutputByteGlyphs(packet.bytes).addedGlyphsReadFromOutputBytes : 0,
-      flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] }))
+      addedGlyphsReadFromOutputBytes: deliveredProofs[fixture].addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: deliveredProofs[fixture].flattenedWidgetAppearancePlacementsReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: deliveredProofs[fixture].nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      refusedFieldsWithInk: deliveredProofs[fixture].refusedFieldsWithInk }))
   });
   writeJson(path.join(out, "reports", "rendered-artifacts.json"), {
     schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING",
