@@ -28,6 +28,10 @@ import { protectCategoryOf, regionProtectCategoryOf, resolveFact } from "./rcap-
 import { fitTextToWidget, HORIZONTAL_PADDING } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
 import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-reading.mjs";
+import {
+  NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY,
+  njParticipantLaterCompletionSourceStage,
+} from "./rcap-packet-completeness/nj-participant-later-completion.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
@@ -2147,7 +2151,7 @@ Object.assign(FAMILY, {
     "obligation:track-only:NJ:nj_ordinance", ["guilty"], {
       guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge", guiltyCrt: "matter.court",
     },
-    "The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. The ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.",
+    "The item (d) conviction election on page 19 is unresolved and withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The null election is not a held answer; it is recorded separately as an unresolved participant election. The ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.",
     {
       unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       // FIX105, SELF_HELP_STOP: this guide said nowhere where self-help ends
@@ -3062,52 +3066,210 @@ const NJ_FIX175_EXTRA_PRINTED_CAPTIONS = Object.freeze({
 });
 
 /*
- * FIX03, nj_ordinance-set, KNOWN_PREFILLS / REQUIRED_BEFORE_FILING.
+ * FIX03 complete, nj_ordinance-set, VF62 source-semantics repair.
  *
- * VF62 found fifteen rows whose generic caption classifier called them the
- * participant's sworn narrative or legal election. Fourteen are cells in
- * dismissal, acquittal, diversion, or additional-conviction branches that this
- * exact municipal-ordinance packet route does not use. The fifteenth is the
- * expungement docket number on the two post-filing cover letters; the source
- * kit says the clerk fills that number in. These declarations state those two
- * different truths on the closed completeness channels rather than using one
- * permissive refusal class for both.
- *
- * This table is installed on nj_ordinance-set alone below. It does not change
- * the shared CN-10557 source, the other four NJ families, or any PDF write.
+ * CN-10557 pp6 and 15-16 require the petition to list every arrest, charge and
+ * prosecution, including matters for which relief is not requested, and tell
+ * the participant to choose every disposition branch that applies. The packet
+ * route therefore cannot make a dismissal/acquittal/diversion/additional-case
+ * branch inapplicable. These facts remain conditional on the participant's
+ * record, but an unknown condition is a fact to verify, not route-wide N/A.
  */
-const NJ_ORDINANCE_ROUTE_INAPPLICABLE_FIELDS = Object.freeze({
-  dismissOff1: "Form A item (a) is the dismissal branch; this exact packet family is the municipal-ordinance conviction branch and uses item (d), not item (a).",
-  dismissPlea: "The plea-bargain choice belongs to Form A item (a), the dismissal branch; this exact packet family is the municipal-ordinance conviction branch and uses item (d).",
-  acquitOff1: "Form A item (b) is the acquittal branch; this exact packet family is the municipal-ordinance conviction branch and uses item (d), not item (b).",
-  dismissPtiOff1: "Form A item (c) is the diversion-dismissal branch; this exact packet family is the municipal-ordinance conviction branch and uses item (d), not item (c).",
-  contDismissOff1: "This cell belongs to item (a), the dismissal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
-  contDismissPlea: "This plea-bargain choice belongs to item (a), the dismissal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
-  contAcquitOff1: "This cell belongs to item (b), the acquittal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
-  contAcquitCrt: "This court-name cell belongs to item (b), the acquittal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
-  contDismissPtiOff1: "This cell belongs to item (c), the diversion-dismissal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
-  contDismissPtiCrt: "This court-name cell belongs to item (c), the diversion-dismissal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
-  contGuiltyDt: "This cell belongs to item (d) on an additional-arrest addendum; this exact packet is limited to the ordinance conviction selected for this matter and does not assert an additional conviction row.",
-  contGuiltyStatute: "This statute cell belongs to item (d) on an additional-arrest addendum; this exact packet is limited to the ordinance conviction selected for this matter and does not assert an additional conviction row.",
-  contGuiltyCrt: "This court-name cell belongs to item (d) on an additional-arrest addendum; this exact packet is limited to the ordinance conviction selected for this matter and does not assert an additional conviction row.",
-  contGuiltyProbDt: "This probation-completion cell belongs to item (d) on an additional-arrest addendum; this exact packet is limited to the ordinance conviction selected for this matter and does not assert an additional conviction row.",
+const NJ_ORDINANCE_HISTORY_LABELS = Object.freeze({
+  dismissDt: "On (date) — Petition for Expungement (Form A), item (a), page 18",
+  dismissOff1: "the charge(s) of (name of offense(s)), first line — Form A, item (a), page 18",
+  dismissOff2: "the charge(s) of (name of offense(s)), continuation line — Form A, item (a), page 18",
+  dismissPlea: "Was the dismissal a result of a plea bargain? Yes or No — Form A, item (a), page 18",
+  acquitDt: "On (date) — Petition for Expungement (Form A), item (b), page 18",
+  acquitOff1: "I was acquitted of (name of offense(s)), first line — Form A, item (b), page 18",
+  acquitOff2: "I was acquitted of (name of offense(s)), continuation line — Form A, item (b), page 18",
+  acquitCrt: "in the (name of Court) Court — Form A, item (b), page 18",
+  dismissPtiDt: "On (date) — Petition for Expungement (Form A), item (c), page 19",
+  dismissPtiOff1: "the charge(s) of (name of offense(s)), first line — Form A, item (c), page 19",
+  dismissPtiOff2: "the charge(s) of (name of offense(s)), continuation line — Form A, item (c), page 19",
+  dismissCrt: "name of Court that dismissed the charge — Form A, items (a) and (c), pages 18-19",
+  contDismissDt: "On (date) — Form A Addendum, item (a), page 20",
+  contDismissOff1: "the charge(s) of (name of offense(s)), first line — Form A Addendum, item (a), page 20",
+  contDismissCrt: "name of Court that dismissed the charge — Form A Addendum, item (a), page 20",
+  contDismissPlea: "Was the dismissal a result of a plea bargain? Yes or No — Form A Addendum, item (a), page 20",
+  contAcquitDt: "On (date) — Form A Addendum, item (b), page 20",
+  contAcquitOff1: "I was acquitted of (name of offense(s)), first line — Form A Addendum, item (b), page 20",
+  contAcquitOff2: "I was acquitted of (name of offense(s)), continuation line — Form A Addendum, item (b), page 20",
+  contAcquitCrt: "in the (name of Court) Court — Form A Addendum, item (b), page 20",
+  contDismissPtiDt: "On (date) — Form A Addendum, item (c), page 20",
+  contDismissPtiOff1: "the charge(s) of (name of offense(s)), first line — Form A Addendum, item (c), page 20",
+  contDismissPtiOff2: "the charge(s) of (name of offense(s)), continuation line — Form A Addendum, item (c), page 20",
+  contDismissPtiCrt: "name of Court that dismissed the charge after diversion — Form A Addendum, item (c), page 20",
+  contGuiltyDt: "On (date) — Form A Addendum, item (d), page 20",
+  contGuiltyOff1: "pled or was found guilty or adjudicated delinquent of the charge(s), first line — Form A Addendum, item (d), page 20",
+  contGuiltyOff2: "name of offense(s), continuation line — Form A Addendum, item (d), page 20",
+  contGuiltyStatute: "in violation of N.J.S.A. (statute(s)) — Form A Addendum, item (d), page 20",
+  contGuiltyFinal1: "final sentence, first line — Form A Addendum, item (d), page 20",
+  contGuiltyFinal2: "final sentence, continuation line — Form A Addendum, item (d), page 20",
+  contGuiltyCrt: "by the (name of Court) Court — Form A Addendum, item (d), page 20",
+  contGuiltyTimeType: "jail/prison/incarceration time completed — Form A Addendum, item (d), page 20",
+  contGuiltyDocCmpltDt: "date jail/prison/incarceration was completed — Form A Addendum, item (d), page 20",
+  contGuiltyProbDt: "date probation was completed — Form A Addendum, item (d), page 21",
+  contGuiltyFineDt: "date fines were paid — Form A Addendum, item (d), page 21",
 });
-const NJ_ORDINANCE_ROUTE_DECLARATIONS = Object.freeze(Object.fromEntries(
-  Object.entries(NJ_ORDINANCE_ROUTE_INAPPLICABLE_FIELDS).map(([field, condition]) => [field, {
+const NJ_ORDINANCE_HISTORY_ELECTIONS = new Set(["dismissPlea", "contDismissPlea"]);
+const NJ_ORDINANCE_HISTORY_DECLARATIONS = Object.freeze(Object.fromEntries(
+  Object.entries(NJ_ORDINANCE_HISTORY_LABELS).map(([field, effectiveLabel]) => [field, {
     refusalClass: null,
-    blankTreatment: "NOT_APPLICABLE_ON_THIS_ROUTE",
-    completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
-    requiredBeforeFiling: false,
+    blankTreatment: "REQUIRED_BEFORE_FILING",
+    completenessDisposition: "REQUIRED_BEFORE_FILING",
+    requiredBeforeFiling: true,
+    requiredBeforeInitialFiling: true,
     routeDetermined: false,
-    routeConditionThatMakesItInapplicable: condition,
+    conditionalCaseHistory: true,
+    caseApplicability: "UNKNOWN_REQUIRES_PARTICIPANT_VERIFICATION",
+    notApplicableOnlyWhen: "A verified complete record establishes that the corresponding disposition branch does not apply to this arrest or charge.",
     identity: `NJ-CN-10557 field ${field}`,
-    reason: condition,
+    effectiveLabel,
+    reason: "REQUIRED_BEFORE_FILING: CN-10557 requires every arrest, charge and prosecution and every applicable disposition branch. Verify this case-history item from the complete court/SBI record; complete it when the branch applies, and treat it as not applicable only when that record establishes it does not apply.",
+    ...(NJ_ORDINANCE_HISTORY_ELECTIONS.has(field) ? {
+      participantElection: true,
+      determinedByTheCaseNotTheRoute: true,
+      whyTheRouteCannotDetermineIt: "Whether a dismissal resulted from a plea bargain is a fact of the participant's particular charge and disposition; membership in the municipal-ordinance route does not answer it.",
+    } : {}),
   }]),
 ));
-const NJ_ORDINANCE_DOCKET_CAPTION = Object.freeze({
-  caption: "Expungement Docket Number — Cover Letter – Notice of Hearing (Form E), page 38, and Cover Letter – Notice Expungement Granted (Form G), page 43",
-  refusalClass: "court_prosecutor_clerk_or_agency_owned",
-  reason: "The source kit captions the Expungement Docket Number ‘leave blank – clerk will fill in.’ These cover-letter fields use that clerk-assigned number after filing; the participant does not create or prefill it.",
+
+const njParticipantRequirement = (effectiveLabel, reason, extra = {}) => Object.freeze({
+  refusalClass: null,
+  blankTreatment: "REQUIRED_BEFORE_FILING",
+  completenessDisposition: "REQUIRED_BEFORE_FILING",
+  requiredBeforeFiling: true,
+  routeDetermined: false,
+  participantOwnedCompletion: true,
+  effectiveLabel,
+  reason: `REQUIRED_BEFORE_FILING: ${reason}`,
+  ...extra,
+});
+
+const njParticipantLaterCompletion = (field, effectiveLabel, reason, extra = {}) => {
+  const sourceStage = njParticipantLaterCompletionSourceStage(field);
+  const expected = NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY[field];
+  assert.ok(expected, `${field}: no closed NJ participant later-completion source-stage entry`);
+  return Object.freeze({
+    ...extra,
+    refusalClass: null,
+    blankTreatment: "PARTICIPANT_LATER_COMPLETION",
+    completenessDisposition: "PARTICIPANT_LATER_COMPLETION",
+    requiredBeforeFiling: false,
+    requiredBeforeInitialFiling: false,
+    routeDetermined: false,
+    participantOwnedCompletion: true,
+    effectiveLabel,
+    reason: `PARTICIPANT_LATER_COMPLETION: ${reason}`,
+    completionStage: sourceStage.trigger,
+    completesAfterService: expected.completesAfterService,
+    sourceStage,
+  });
+};
+
+/* The clerk/court creates these facts, but CN-10557 pp36, 39 and 41 directs the
+ * participant to copy them onto Forms E, F and G after the initial filing. */
+const NJ_ORDINANCE_LATER_COURT_COPY_DECLARATIONS = Object.freeze({
+  ExpungeDocketNum: njParticipantLaterCompletion("ExpungeDocketNum",
+    "Expungement Docket Number — Cover Letter – Notice of Hearing (Form E), page 38, and Cover Letter – Notice Expungement Granted (Form G), page 43",
+    "the participant copies the clerk-assigned number from the filed petition/order copies onto Form E and later from the signed Expungement Order onto Form G; never invent it before the court assigns it.",
+    { factOrigin: "court_assigned_participant_copied" }),
+  expungDocketNum: njParticipantLaterCompletion("expungDocketNum",
+    "Expungement Docket Number — Proof of Notice (Form F), page 40",
+    "the participant copies the clerk-assigned number onto Form F when proof of the completed mailing is required; never invent it.",
+    { factOrigin: "court_assigned_participant_copied" }),
+  CoverLtrEHearDt: njParticipantLaterCompletion("CoverLtrEHearDt",
+    "Expungement Hearing (date) — Cover Letter – Notice of Hearing (Form E), page 38",
+    "the participant copies the hearing date from the signed Order for Hearing when preparing Form E after filed copies return.",
+    { factOrigin: "court_set_participant_copied" }),
+  CoverLtrEHearTime: njParticipantLaterCompletion("CoverLtrEHearTime",
+    "Expungement Hearing (time) — Cover Letter – Notice of Hearing (Form E), page 38",
+    "the participant copies the hearing time from the signed Order for Hearing when preparing Form E after filed copies return.",
+    { factOrigin: "court_set_participant_copied" }),
+});
+
+const NJ_ORDINANCE_RECIPIENT_LABELS = Object.freeze({
+  prosCntys: "The Prosecutor of ___ County — Forms B, C and F, pages 27, 30 and 40",
+  PoliceLoc: "town for the Chief(s) of the ___ Police Department(s) — Forms B, C, E, F and G, pages 27, 31, 37, 40 and 42",
+  WardenLoc: "name of jail or prison for the Warden — Forms B, C, E, F and G, pages 27, 31, 37, 40 and 42",
+  SuperintendentLoc: "name of institution for juveniles for the Superintendent — Forms B, C, E, F and G, pages 27, 31, 37, 40 and 42",
+  deputyClerkSCCOCnty: "Deputy Clerk of the Superior Court of New Jersey, ___ County — Form C, page 31",
+  SheriffLoc: "___ County Sheriff — Form E address section, page 37",
+  SheriffAddrStr: "address under County Sheriff — Form E, page 37",
+  SheriffAddr2: "city, state, zip code under County Sheriff — Form E, page 37",
+  ProsCntyName: "county name under Prosecutor — Forms E and G, pages 37 and 42",
+  ProsAddrStr: "address under Prosecutor — Forms E and G, pages 37 and 42",
+  PoliceAddrStr: "address under Chief of Police — Forms E and G, pages 37 and 42",
+  PoliceAddr2: "city, state, zip code under Chief of Police — Forms E and G, pages 37 and 42",
+  SuperintendentAddrStr: "address under Superintendent (juveniles only) — Forms E and G, pages 37 and 42",
+  SuperintendentAddr2: "city, state, zip code under Superintendent (juveniles only) — Forms E and G, pages 37 and 42",
+  WardenAddrStr: "name/address of jail or prison under Warden — Forms E and G, pages 37 and 42",
+  WardenAddr2: "city, state, zip code under Warden — Forms E and G, pages 37 and 42",
+});
+const NJ_ORDINANCE_INITIAL_RECIPIENT_FIELDS = new Set([
+  "prosCntys", "PoliceLoc", "WardenLoc", "SuperintendentLoc", "deputyClerkSCCOCnty",
+]);
+const NJ_ORDINANCE_RECIPIENT_DECLARATIONS = Object.freeze(Object.fromEntries(
+  Object.entries(NJ_ORDINANCE_RECIPIENT_LABELS).map(([field, effectiveLabel]) => {
+    const initial = NJ_ORDINANCE_INITIAL_RECIPIENT_FIELDS.has(field);
+    const declare = initial
+      ? (label, reason, extra) => njParticipantRequirement(label, reason, extra)
+      : (label, reason, extra) => njParticipantLaterCompletion(field, label, reason, extra);
+    return [field, declare(effectiveLabel,
+      "the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.",
+      { requiredBeforeInitialFiling: initial,
+        conditionalRecipient: true,
+        completionStage: initial
+          ? "INITIAL_PACKET_PREPARATION_AND_LATER_RECIPIENT_REUSE"
+          : "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+        completesAfterService: false,
+        notApplicableOnlyWhen: "The complete case record establishes that this recipient category was not involved and the source instructions permit omitting or crossing it off." })];
+  }),
+));
+
+const NJ_ORDINANCE_MAILING_DECLARATIONS = Object.freeze({
+  CoverLtrEDt: njParticipantLaterCompletion("CoverLtrEDt",
+    "date Form E is mailed — Cover Letter – Notice of Hearing, page 37",
+    "enter the actual mailing date when Form E and the filed package are sent; this event occurs only after the signed Order for Hearing returns.",
+    {}),
+  mailPetition: njParticipantLaterCompletion("mailPetition",
+    "date the filed Petition, Order for Hearing and proposed Final Order were mailed — Proof of Notice (Form F), page 40",
+    "copy the actual mailing date from the certified-mail receipt or electronic confirmation, and complete Form F only if the clerk requires proof before the hearing.",
+    { conditionalRecipient: true }),
+  CoverLtrGDt: njParticipantLaterCompletion("CoverLtrGDt",
+    "date Form G is mailed — Cover Letter – Notice Expungement Granted, page 42",
+    "enter the actual mailing date when Form G and the signed filed Expungement Order are sent to each applicable agency.",
+    {}),
+});
+
+const NJ_ORDINANCE_SPECIAL_ELECTION_DECLARATIONS = Object.freeze({
+  gradDC: Object.freeze({
+    refusalClass: "participant_sworn_narrative_or_legal_election", blankTreatment: null,
+    requiredBeforeFiling: false, routeDetermined: false, participantElection: true,
+    effectiveLabel: NJ_FIX175_EXTRA_PRINTED_CAPTIONS.gradDC.caption,
+    reason: "CN-10557 tells the participant to check this only for successful drug-court graduation before April 18, 2016. This exact ordinance treatment does not establish that special relief, so the control remains unmarked unless verified case facts support it.",
+  }),
+  marijuana: Object.freeze({
+    refusalClass: "participant_sworn_narrative_or_legal_election", blankTreatment: null,
+    requiredBeforeFiling: false, routeDetermined: false, participantElection: true,
+    effectiveLabel: NJ_FIX175_EXTRA_PRINTED_CAPTIONS.marijuana.caption,
+    reason: "CN-10557 tells the participant to check this only for the marijuana/hashish relief named on the form. This exact ordinance treatment does not establish that special relief, so the control remains unmarked unless verified case facts support it.",
+  }),
+  cleanSlate: Object.freeze({
+    refusalClass: "participant_sworn_narrative_or_legal_election", blankTreatment: null,
+    requiredBeforeFiling: false, routeDetermined: false, participantElection: true,
+    effectiveLabel: NJ_FIX175_EXTRA_PRINTED_CAPTIONS.cleanSlate.caption,
+    reason: "CN-10557 tells the participant to check this only for a Clean Slate Expungement under the condition printed on the form. This exact ordinance treatment does not establish that special relief, so the control remains unmarked unless verified case facts support it.",
+  }),
+});
+
+const NJ_ORDINANCE_COMPLETE_SEMANTIC_DECLARATIONS = Object.freeze({
+  ...NJ_ORDINANCE_HISTORY_DECLARATIONS,
+  ...NJ_ORDINANCE_LATER_COURT_COPY_DECLARATIONS,
+  ...NJ_ORDINANCE_RECIPIENT_DECLARATIONS,
+  ...NJ_ORDINANCE_MAILING_DECLARATIONS,
+  ...NJ_ORDINANCE_SPECIAL_ELECTION_DECLARATIONS,
 });
 for (const familyId of FIX175_NJ_FAMILY_IDS) {
   const doc = FAMILY[familyId].documents[0];
@@ -3131,13 +3293,20 @@ for (const familyId of FIX175_NJ_FAMILY_IDS) {
   const ordinanceDocument = ordinance.documents[0];
   ordinanceDocument.captions = {
     ...ordinanceDocument.captions,
-    ExpungeDocketNum: NJ_ORDINANCE_DOCKET_CAPTION,
+    ...Object.fromEntries(Object.entries(NJ_ORDINANCE_COMPLETE_SEMANTIC_DECLARATIONS)
+      .map(([field, declaration]) => [field, declaration.effectiveLabel])),
   };
   ordinanceDocument.declarations = {
     ...ordinanceDocument.declarations,
-    ...NJ_ORDINANCE_ROUTE_DECLARATIONS,
+    ...NJ_ORDINANCE_COMPLETE_SEMANTIC_DECLARATIONS,
   };
   ordinance.metadataOnlyRepairPreservesPdfBytes = true;
+  ordinance.njOrdinanceCompleteSemantics = true;
+  ordinance.participantCopiesAssignedDocketNumbers = true;
+  ordinance.conditionalParticipantElectionFields = ["guilty", "gradDC", "marijuana", "cleanSlate"];
+  ordinance.notes = ordinance.notes.map((note) => note.includes("signature, date, notary, service, court")
+    ? "Court-signed order dates, judge/clerk acts, signatures and notarization remain blank for the proper actor. The participant supplies every applicable case-history and recipient fact, then completes notice, proof and post-order fields at the stage stated in this guide."
+    : note);
 }
 
 const COMPOSED_FAMILY_IDS = new Set(["oh_marijuana_expungement-set", "rcap-oh-custom-pleading-clean-tracks"]);
@@ -5414,7 +5583,9 @@ function registryGuidanceSections(config) {
     out.push(`\n## After the order is signed\n\n`
       + `- **${served.item}** — ${served.whereInPacket}. ${served.why}\n`
       + `- **Use the letter the kit provides for that mailing.** Cover Letter — Notice Expungement Granted (Form G) is bound into this packet at delivered pages 41 to 43, and the Proof of Notice (Form F) at pages 39 and 40 is where the kit puts proof of the earlier mailing.\n`
-      + `- **Leave the docket number and the signature to their owners.** The kit captions the Expungement Docket Number "(leave blank - clerk will fill in)", and the judge signs the order.\n\n`
+      + (config.participantCopiesAssignedDocketNumbers === true
+        ? `- **Copy the assigned docket number; leave the judge's signature alone.** The clerk fills the initial Expungement Docket Number captions on Forms A, B and C. After filing, you copy that assigned number from the filed court papers onto Forms E and F, and after the order is granted you copy it from the signed Expungement Order onto Form G. The judge's signature remains the judge's act.\n\n`
+        : `- **Leave the docket number and the signature to their owners.** The kit captions the Expungement Docket Number "(leave blank - clerk will fill in)", and the judge signs the order.\n\n`)
       + (notes.length
         ? `This route's own recorded notes on what follows, carried word for word from ${cite}, \`packetInstructions\`:\n\n${notes.join("\n")}\n`
         : "")
@@ -5479,6 +5650,51 @@ function unwidgetedBlanksSection(config) {
     + `${rows.map((row) => `| ${row.page} | ${row.printed} | ${row.whatGoesThere} |`).join("\n")}\n`;
 }
 
+function sourceFieldList(rows) {
+  return [...new Map(rows.map((field) => [field.field, field.effectiveLabel ?? field.field])).entries()]
+    .map(([field, label]) => `- ${label} (source field: \`${field}\`)`)
+    .join("\n");
+}
+
+const NJ_ORDINANCE_STAGE_LABELS = Object.freeze({
+  AFTER_COURT_ASSIGNMENT_COPY_TO_LATER_FORMS: "After the court assigns the docket number",
+  AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING: "After the court returns the signed Order for Hearing",
+  AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT: "After the initial filing, when preparing service for each applicable recipient",
+  NOTICE_OF_HEARING_MAILING: "When mailing the Notice of Hearing package",
+  AFTER_NOTICE_SERVICE_PROOF: "After notice is mailed, when preparing proof",
+  POST_ORDER_SERVICE: "After the Expungement Order is signed, when mailing the order",
+});
+
+function njOrdinanceStageSections(config, fieldMaps) {
+  if (config.njOrdinanceCompleteSemantics !== true) return null;
+  const fields = fieldMaps.flatMap((document) => document.fields);
+  const electionNames = new Set(config.conditionalParticipantElectionFields ?? []);
+  const initial = fields.filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING"
+    && field.requiredBeforeInitialFiling !== false && !electionNames.has(field.field));
+  const later = fields.filter((field) => field.blankTreatment === "PARTICIPANT_LATER_COMPLETION");
+  const elections = fields.filter((field) => electionNames.has(field.field));
+  const electionRows = elections.map((field) => {
+    const explanation = field.field === "guilty"
+      ? "This is unresolved, not a held answer. Verify the complete conviction paragraph and obtain the court clarification named below before deciding whether to mark it; the packet leaves the whole row and box unmarked."
+      : `${field.reason} The packet leaves this box unmarked.`;
+    return `- ${field.effectiveLabel ?? field.field} (source field: \`${field.field}\`) — ${explanation}`;
+  }).join("\n");
+  const laterRows = later.map((field) => {
+    const stageLabel = NJ_ORDINANCE_STAGE_LABELS[field.completionStage];
+    assert.ok(stageLabel, `${field.field}: no participant-facing label for ${field.completionStage}`);
+    return `- **${stageLabel}.** ${field.effectiveLabel ?? field.field} `
+      + `(source field: \`${field.field}\`) <!-- source-stage: ${field.completionStage} --> — `
+      + field.reason.replace(/^PARTICIPANT_LATER_COMPLETION:\s*/i, "");
+  }).join("\n");
+  return {
+    initial: sourceFieldList(initial),
+    elections: `\n## Conditional participant elections left unmarked\n\n`
+      + `These are decisions for the participant based on verified case facts. A blank box is not a held answer and is not an instruction to copy a value. Do not mark any box merely because this is the ordinance packet family.\n\n${electionRows}\n`,
+    later: `\n## Participant tasks after the initial filing\n\n`
+      + `These fields are not prerequisites to the initial petition filing. Complete each only at the named stage, from the filed or signed court papers and the actual mailing record; never invent a docket number, hearing setting, recipient, address or mailing date.\n\n${laterRows}\n`,
+  };
+}
+
 function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   // FIX84: the guided template dropped this list on the floor. The host already
   // computed every value it held and could not print; the guided path took two
@@ -5501,11 +5717,16 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   // to render if a family somehow declares both.
   const selfHelpEnds = `${selfHelpStopSection(config)}${registrySelfHelpStopSection(config)}`;
   const confirmBeforeFiling = confirmBeforeFilingLine(config);
-  const requiredBeforeFiling = [...new Map(fieldMaps.flatMap((document) => document.fields)
-    .filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING")
-    .map((field) => [field.field, field.effectiveLabel ?? field.field])).entries()]
-    .map(([field, label]) => `- ${label} (source field: \`${field}\`)`)
-    .join("\n");
+  const stageSections = njOrdinanceStageSections(config, fieldMaps);
+  const requiredBeforeFiling = stageSections?.initial ?? sourceFieldList(fieldMaps.flatMap((document) => document.fields)
+    .filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING"));
+  const actorLine = config.njOrdinanceCompleteSemantics === true
+    ? `- Court-signed dates, judge/clerk acts, signatures and notarization stay blank for those actors. You supply applicable case-history and recipient facts, then copy court-assigned facts and record actual service at the later stage named below.\n`
+    : `- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\n`;
+  const requiredBeforeFilingSection = !requiredBeforeFiling ? ""
+    : config.njOrdinanceCompleteSemantics === true
+      ? `\n## Exact facts to verify before the initial filing\n\nThe platform does not hold the facts below. Supply each item that applies to the complete record before the initial filing; CN-10557 requires all arrests, charges and prosecutions, including matters for which relief is not sought. A disposition branch is not N/A merely because this is the ordinance route. Treat a conditional branch as N/A only when the complete source record establishes that it does not apply; if the record is missing or unclear, obtain the record or court clarification instead of guessing.\n\n${requiredBeforeFiling}\n`
+      : `\n## Exact facts still required before filing\n\nThe platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${requiredBeforeFiling}\n`;
   return `# Participant and reviewer instructions\n\n`
     + `These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\n\n`
     + `${routeLines}\n\n## Required participant/local completion\n\n`
@@ -5513,7 +5734,7 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
     + `- Complete service certificates only after service actually occurs.\n`
     + (config.governedPa6308Requirements
       ? `- Historical judge, court-address, and affiant information is copied from the participant's old case record. Future judicial rulings, judicial dates and signatures remain for the court.\n`
-      : `- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\n`)
+      : actorLine)
     + confirmBeforeFiling
     + verifyFirst
     + fees
@@ -5521,9 +5742,9 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
     + whoIsServed
     + heldButNotPrintedSection(heldButNotPrinted)
     + registryGuidanceSections(config)
-    + (requiredBeforeFiling
-      ? `\n## Exact facts still required before filing\n\nThe platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${requiredBeforeFiling}\n`
-      : "")
+    + (stageSections?.elections ?? "")
+    + requiredBeforeFilingSection
+    + (stageSections?.later ?? "")
     + unwidgetedBlanksSection(config)
     + selfHelpEnds
     + `${notes}\n`;
@@ -5822,6 +6043,42 @@ function rowIntegrityWithholdings(doc, mappings, refusedFields) {
   return { cells, elections };
 }
 
+function durableNjOrdinanceRefusals(familyId, map, refused, heldButNotPrinted,
+  unresolvedParticipantElections) {
+  if (familyId !== "nj_ordinance-set") return refused;
+  const declarations = new Map(map.map((row) => [row.field, row]));
+  const actualReasons = new Map([
+    ...heldButNotPrinted.map((row) => [row.field, row]),
+    ...unresolvedParticipantElections.map((row) => [row.field, row]),
+  ]);
+  return refused.map((row) => {
+    const actual = actualReasons.get(row.field);
+    if (actual) {
+      const category = actual.reason === "withheld_for_row_integrity"
+        ? "row_integrity"
+        : actual.reason === "value_exceeds_widget_width_at_minimum_font"
+          ? "unfittable"
+          : actual.election === true ? "participant_election_unresolved" : "mapping_conflict";
+      return { ...row, reason: actual.reason, category,
+        semanticDisposition: category === "participant_election_unresolved"
+          ? "PARTICIPANT_ELECTION_GENUINE" : "KNOWN_FACT_HELD_BUT_NOT_PRINTED" };
+    }
+    const declared = declarations.get(row.field);
+    if (!declared || declared.decision !== "refuse") return row;
+    const category = declared.completenessDisposition === "PARTICIPANT_LATER_COMPLETION"
+      ? "participant_later_completion"
+      : declared.requiredBeforeFiling === true ? "participant_required_case_fact"
+        : declared.participantElection === true ? "participant_election"
+          : declared.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE"
+            ? "route_not_applicable" : "protected_owner";
+    return { ...row, reason: declared.reason, category,
+      semanticDisposition: declared.completenessDisposition
+        ?? (declared.requiredBeforeFiling === true ? "REQUIRED_BEFORE_FILING"
+          : declared.participantElection === true ? "PARTICIPANT_ELECTION_GENUINE"
+            : "PROTECTED_FIELD") };
+  });
+}
+
 async function buildOfficialUnsafe(familyId, config) {
   const noRaster = config.noLocalRaster === true;
   assert.ok(!noRaster || (familyId === "nj_clean_slate-set" && !(config.supplementalDocuments ?? []).length)
@@ -6003,7 +6260,7 @@ async function buildOfficialUnsafe(familyId, config) {
           requiredHeightAtMinimumPt: row.requiredHeightAtMin ?? null,
         } };
       };
-      const heldButNotPrinted = [
+      const heldAndUnresolved = [
         ...report.refused
           .filter((row) => Object.hasOwn(mappings, row.field) && row.category === "unfittable")
           .map((row) => ({
@@ -6080,14 +6337,31 @@ async function buildOfficialUnsafe(familyId, config) {
           })),
       ].filter((row, index, rows) => rows.findIndex((other) => other.field === row.field) === index)
         .sort((a, b) => a.field.localeCompare(b.field));
+      const unresolvedNames = new Set(config.conditionalParticipantElectionFields ?? []);
+      const unresolvedParticipantElections = heldAndUnresolved
+        .filter((row) => row.election === true && unresolvedNames.has(row.field))
+        .map((row) => ({ ...row,
+          reason: "conditional_participant_election_unresolved",
+          why: map.find((entry) => entry.field === row.field)?.reason ?? row.why,
+          resolution: "Verify the supporting case facts and obtain any court clarification named in the field map before deciding whether to mark this election.",
+        }));
+      const heldButNotPrinted = heldAndUnresolved
+        .filter((row) => !unresolvedNames.has(row.field));
+      const durableReport = {
+        ...report,
+        refused: durableNjOrdinanceRefusals(familyId, map, report.refused,
+          heldButNotPrinted, unresolvedParticipantElections),
+      };
       const outputGlyphReading = await outputGlyphReadingFor(familyId, bytes, sourceRow.bytes);
       artifactReports.push({
         documentId: doc.documentId, documentKey: doc.key, fixture, file,
         sha256: sha256(bytes), byteLength: bytes.length, pageCount: census.pageGeometry.length,
-        report, proof, heldButNotPrinted, outputGlyphReading,
+        report: durableReport, proof, heldButNotPrinted, unresolvedParticipantElections,
+        outputGlyphReading,
       });
       console.log(`  ${fixture}: wrote ${report.written.length}; refused ${report.refused.length}; `
-        + `selections ${report.selections.length}; held-but-not-printed ${heldButNotPrinted.length}`);
+        + `selections ${report.selections.length}; held-but-not-printed ${heldButNotPrinted.length}; `
+        + `unresolved elections ${unresolvedParticipantElections.length}`);
 
       if (noRaster) {
         const existingRaster = installedRendered?.rasters?.find((row) => row.sourcePdf === file);
@@ -6356,6 +6630,7 @@ async function buildOfficialUnsafe(familyId, config) {
       // this separation a dropped charge and a dropped docket number are
       // indistinguishable from the form's own blank lines.
       heldButNotPrinted: row.heldButNotPrinted ?? [],
+      unresolvedParticipantElections: row.unresolvedParticipantElections ?? [],
       selections: row.report.selections,
       choiceNeutralization: row.report.fieldFinalizer.choiceNeutralization,
       ...(row.report.fieldFinalizer.appearanceSubtypesNormalized ? {
@@ -6903,7 +7178,17 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
       `${artifact.file}: deterministic live build byte-length drift`);
     assert.deepEqual(recomputedReport.written, artifact.written,
       `${artifact.file}: live write report drift`);
-    assert.deepEqual(recomputedReport.refused, artifact.refused,
+    const recomputedUnresolvedNames = recomputedWithholdings.elections
+      .map((row) => row.control)
+      .filter((field) => (config.conditionalParticipantElectionFields ?? []).includes(field))
+      .sort();
+    assert.deepEqual(recomputedUnresolvedNames,
+      (artifact.unresolvedParticipantElections ?? []).map((row) => row.field).sort(),
+      `${artifact.file}: unresolved participant-election report drift`);
+    const durableRecomputedRefusals = durableNjOrdinanceRefusals(familyId, liveMap,
+      recomputedReport.refused, artifact.heldButNotPrinted ?? [],
+      artifact.unresolvedParticipantElections ?? []);
+    assert.deepEqual(durableRecomputedRefusals, artifact.refused,
       `${artifact.file}: live refusal report drift`);
     assert.deepEqual(recomputedReport.selections, artifact.selections,
       `${artifact.file}: live route-selection report drift`);

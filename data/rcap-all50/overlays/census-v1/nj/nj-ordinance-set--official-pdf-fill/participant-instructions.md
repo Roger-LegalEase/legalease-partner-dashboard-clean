@@ -8,7 +8,7 @@ These files are deterministic review fixtures made from exact held official sour
 
 - Review every page, choose only legally applicable elections, and complete every required signature and date yourself.
 - Complete service certificates only after service actually occurs.
-- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
+- Court-signed dates, judge/clerk acts, signatures and notarization stay blank for those actors. You supply applicable case-history and recipient facts, then copy court-assigned facts and record actual service at the later stage named below.
 - Confirm current revision, local procedures, fees, attachments, and proposed-order requirements before filing. Where to file and Who must be served are each answered in their own section below.
 
 ## Values this platform holds but did not print
@@ -21,7 +21,6 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 | `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrestOff1` | `matter.charge` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `ExpungeCntyName` | `matter.county` | this blank is a chooser the form fills from its own list of options, not a free-text line, and the held value is not one of those options | canonical, boundary |
-| `guilty` | the election this row states on the printed form | this box is the election for that row, and another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, so the election is withdrawn with the row: a row is completed or left untouched, and a marked election over an empty row is a half-written row | canonical, boundary |
 | `guiltyCrt` | `matter.court` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `guiltyDt` | `matter.conviction_date` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `guiltyOff1` | `matter.charge` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
@@ -60,7 +59,7 @@ Venue, destination and the e-filing item are carried from `data/record-clearing/
 
 - **Serving a certified copy of the signed order on every record-holding agency** — The service checklist built from the SBI history. An agency that is not served keeps its copy.
 - **Use the letter the kit provides for that mailing.** Cover Letter — Notice Expungement Granted (Form G) is bound into this packet at delivered pages 41 to 43, and the Proof of Notice (Form F) at pages 39 and 40 is where the kit puts proof of the earlier mailing.
-- **Leave the docket number and the signature to their owners.** The kit captions the Expungement Docket Number "(leave blank - clerk will fill in)", and the judge signs the order.
+- **Copy the assigned docket number; leave the judge's signature alone.** The clerk fills the initial Expungement Docket Number captions on Forms A, B and C. After filing, you copy that assigned number from the filed court papers onto Forms E and F, and after the order is granted you copy it from the signed Expungement Order onto Form G. The judge's signature remains the judge's act.
 
 This route's own recorded notes on what follows, carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `nj_ordinance`, `packetInstructions`:
 
@@ -70,14 +69,34 @@ This route's own recorded notes on what follows, carried word for word from `dat
 
 The first item is carried from `data/record-clearing/legal-design-track-registry.json`, track `nj_ordinance`, `manualCompletionItems`.
 
-## Exact facts still required before filing
+## Conditional participant elections left unmarked
 
-The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.
+These are decisions for the participant based on verified case facts. A blank box is not a held answer and is not an instruction to copy a value. Do not mark any box merely because this is the ordinance packet family.
+
+- the election box beside “d.” — Petition for Expungement (Form A), item (d), delivered page 19 (source field: `guilty`) — This is unresolved, not a held answer. Verify the complete conviction paragraph and obtain the court clarification named below before deciding whether to mark it; the packet leaves the whole row and box unmarked.
+- Successful graduation from drug court prior to 4/18/2016 pursuant to N.J.S.A. 2C:35-14(m). — Expungement Order (Form C), page 30 (source field: `gradDC`) — CN-10557 tells the participant to check this only for successful drug-court graduation before April 18, 2016. This exact ordinance treatment does not establish that special relief, so the control remains unmarked unless verified case facts support it. The packet leaves this box unmarked.
+- Expungement of the marijuana or hashish offenses included in N.J.S.A. 2C:52-5.1. — Expungement Order (Form C), page 30 (source field: `marijuana`) — CN-10557 tells the participant to check this only for the marijuana/hashish relief named on the form. This exact ordinance treatment does not establish that special relief, so the control remains unmarked unless verified case facts support it. The packet leaves this box unmarked.
+- Clean Slate Expungement pursuant to N.J.S.A. 2C:52-5.3. — Expungement Order (Form C), page 30 (source field: `cleanSlate`) — CN-10557 tells the participant to check this only for a Clean Slate Expungement under the condition printed on the form. This exact ordinance treatment does not establish that special relief, so the control remains unmarked unless verified case facts support it. The packet leaves this box unmarked.
+
+## Exact facts to verify before the initial filing
+
+The platform does not hold the facts below. Supply each item that applies to the complete record before the initial filing; CN-10557 requires all arrests, charges and prosecutions, including matters for which relief is not sought. A disposition branch is not N/A merely because this is the ordinance route. Treat a conditional branch as N/A only when the complete source record establishes that it does not apply; if the record is missing or unclear, obtain the record or court clarification instead of guessing.
 
 - “and was charged with (name of offense(s))”, the second line — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestOff2`)
 - “in violation of N.J.S.A. (statute(s))” — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestStatute`)
 - “arising out of (municipalities)” — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestMuni`)
-- the election box beside “d.” — Petition for Expungement (Form A), item (d), delivered page 19 (source field: `guilty`)
+- On (date) — Petition for Expungement (Form A), item (a), page 18 (source field: `dismissDt`)
+- the charge(s) of (name of offense(s)), first line — Form A, item (a), page 18 (source field: `dismissOff1`)
+- the charge(s) of (name of offense(s)), continuation line — Form A, item (a), page 18 (source field: `dismissOff2`)
+- Was the dismissal a result of a plea bargain? Yes or No — Form A, item (a), page 18 (source field: `dismissPlea`)
+- On (date) — Petition for Expungement (Form A), item (b), page 18 (source field: `acquitDt`)
+- I was acquitted of (name of offense(s)), first line — Form A, item (b), page 18 (source field: `acquitOff1`)
+- I was acquitted of (name of offense(s)), continuation line — Form A, item (b), page 18 (source field: `acquitOff2`)
+- in the (name of Court) Court — Form A, item (b), page 18 (source field: `acquitCrt`)
+- On (date) — Petition for Expungement (Form A), item (c), page 19 (source field: `dismissPtiDt`)
+- the charge(s) of (name of offense(s)), first line — Form A, item (c), page 19 (source field: `dismissPtiOff1`)
+- the charge(s) of (name of offense(s)), continuation line — Form A, item (c), page 19 (source field: `dismissPtiOff2`)
+- name of Court that dismissed the charge — Form A, items (a) and (c), pages 18-19 (source field: `dismissCrt`)
 - name of offense(s), continuation line if needed — Form A, item (d), delivered page 19 (source field: `guiltyOff2`)
 - in violation of N.J.S.A. (statute(s)) — Form A, item (d), delivered page 19 (source field: `guiltyStatute`)
 - final sentence, first line — Form A, item (d), delivered page 19 (source field: `guiltyFinal1`)
@@ -96,15 +115,43 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - “in violation of N.J.S.A. (statute(s))” — Form A – Addendum Page, page 20 (source field: `contStatute`)
 - “arising out of (municipalities)” — Form A – Addendum Page, page 20 (source field: `contArrestMuni`)
 - “as set forth in the (original indictment/accusation/summons/warrant/complaint/docket number (include FJ and FO docket number(s) in Family Part matters))” — Form A – Addendum Page, page 20 (source field: `contOrigNums`)
+- On (date) — Form A Addendum, item (a), page 20 (source field: `contDismissDt`)
+- the charge(s) of (name of offense(s)), first line — Form A Addendum, item (a), page 20 (source field: `contDismissOff1`)
 - “the charge(s) of (name of offense(s))”, the second line of item a — Form A – Addendum Page, page 20 (source field: `contDsmissOff2`)
+- name of Court that dismissed the charge — Form A Addendum, item (a), page 20 (source field: `contDismissCrt`)
+- Was the dismissal a result of a plea bargain? Yes or No — Form A Addendum, item (a), page 20 (source field: `contDismissPlea`)
+- On (date) — Form A Addendum, item (b), page 20 (source field: `contAcquitDt`)
+- I was acquitted of (name of offense(s)), first line — Form A Addendum, item (b), page 20 (source field: `contAcquitOff1`)
+- I was acquitted of (name of offense(s)), continuation line — Form A Addendum, item (b), page 20 (source field: `contAcquitOff2`)
+- in the (name of Court) Court — Form A Addendum, item (b), page 20 (source field: `contAcquitCrt`)
+- On (date) — Form A Addendum, item (c), page 20 (source field: `contDismissPtiDt`)
+- the charge(s) of (name of offense(s)), first line — Form A Addendum, item (c), page 20 (source field: `contDismissPtiOff1`)
+- the charge(s) of (name of offense(s)), continuation line — Form A Addendum, item (c), page 20 (source field: `contDismissPtiOff2`)
+- name of Court that dismissed the charge after diversion — Form A Addendum, item (c), page 20 (source field: `contDismissPtiCrt`)
+- On (date) — Form A Addendum, item (d), page 20 (source field: `contGuiltyDt`)
+- pled or was found guilty or adjudicated delinquent of the charge(s), first line — Form A Addendum, item (d), page 20 (source field: `contGuiltyOff1`)
+- name of offense(s), continuation line — Form A Addendum, item (d), page 20 (source field: `contGuiltyOff2`)
+- in violation of N.J.S.A. (statute(s)) — Form A Addendum, item (d), page 20 (source field: `contGuiltyStatute`)
+- final sentence, first line — Form A Addendum, item (d), page 20 (source field: `contGuiltyFinal1`)
+- final sentence, continuation line — Form A Addendum, item (d), page 20 (source field: `contGuiltyFinal2`)
+- by the (name of Court) Court — Form A Addendum, item (d), page 20 (source field: `contGuiltyCrt`)
+- jail/prison/incarceration time completed — Form A Addendum, item (d), page 20 (source field: `contGuiltyTimeType`)
+- date jail/prison/incarceration was completed — Form A Addendum, item (d), page 20 (source field: `contGuiltyDocCmpltDt`)
+- date probation was completed — Form A Addendum, item (d), page 21 (source field: `contGuiltyProbDt`)
+- date fines were paid — Form A Addendum, item (d), page 21 (source field: `contGuiltyFineDt`)
 - I am seeking an expungement pursuant to N.J.S.A. 2C:52-2(a)(2) (after four years), or pursuant to N.J.S.A. 2C:52-3(b)(2) (after three years), but less than five years have passed since my most recent conviction, payment of court-ordered financial assessment, satisfactory completion of probation or parole, or release from incarceration, whichever is later, and I have not otherwise been convicted of a crime, disorderly persons offense, or petty disorderly persons offense since the most recent conviction — Petition for Expungement (Form A), page 22 (source field: `seek5yrs`)
 - I am seeking an expungement pursuant to N.J.S.A. 2C:52-2(c)(3) of a third or fourth degree controlled dangerous substance crime — Petition for Expungement (Form A), page 22 (source field: `seek34degree`)
 - “The compelling circumstances for the Court to grant me an expungement are as follows”, both boxes on Form A page 22, and the name-change explanation on the Verification, page 24. One form field serves all three, so one answer appears in all three places (source field: `seek5yrsDetails`)
 - I am seeking expungement of a conviction on a criminal case or an adjudication of delinquency on a juvenile case pursuant to N.J.S.A. 2C:52-2, and I have never been granted an expungement, sealing or similar relief regarding a criminal conviction, by any state or federal court — Verification (Form A), page 24 (source field: `seekJuvNever`)
 - I have legally changed my name. I have explained the details of my name change(s) below, included my previous legal name(s), and the date of the court order for the name change(s) — Verification (Form A), page 24 (source field: `changeName`)
 - State Bureau of Identification (SBI number, if available, is (SBI number, if available)) — Expungement Order (Form C), page 30 (source field: `DefSbiNum`)
+- The Prosecutor of ___ County — Forms B, C and F, pages 27, 30 and 40 (source field: `prosCntys`)
 - “The administrator(s) of the ___ Municipal Court(s)” — Order for Hearing (Form B) page 27, Expungement Order (Form C) page 30, Proof of Notice (Form F) page 40, and the Form E and Form G cover letters, pages 37 and 42 (source field: `MuniCrts`)
+- town for the Chief(s) of the ___ Police Department(s) — Forms B, C, E, F and G, pages 27, 31, 37, 40 and 42 (source field: `PoliceLoc`)
 - “The ___ County(ies) Probation Division” — Order for Hearing (Form B) page 27, Expungement Order (Form C - Continued) page 31, and Proof of Notice (Form F) page 40 (source field: `probDivCntys`)
+- name of jail or prison for the Warden — Forms B, C, E, F and G, pages 27, 31, 37, 40 and 42 (source field: `WardenLoc`)
+- name of institution for juveniles for the Superintendent — Forms B, C, E, F and G, pages 27, 31, 37, 40 and 42 (source field: `SuperintendentLoc`)
+- Deputy Clerk of the Superior Court of New Jersey, ___ County — Form C, page 31 (source field: `deputyClerkSCCOCnty`)
 - “(statute)”, arrest row (1) — Expungement Order (Form C - Continued), page 31 (source field: `arrest1Statute`)
 - “(date)”, arrest row (2) — Expungement Order (Form C - Continued), page 31 (source field: `arrest2Dt`)
 - “(statute)”, arrest row (2) — Expungement Order (Form C - Continued), page 31 (source field: `arrest2Statute`)
@@ -124,9 +171,6 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - “(address)”, the court address block — Cover Letter to Court – For Filing (Form D), page 35 (source field: `SccAddrStr`)
 - “(city, state, zip code)”, the court address block — Cover Letter to Court – For Filing (Form D), page 35 (source field: `SccAddr2`)
 - “Enc:”, what you are enclosing — Cover Letter to Court – For Filing (Form D), page 35 (source field: `enc`)
-- “(date)” — Cover Letter – Notice of Hearing (Form E), page 37; written when Form E is mailed, which is after the signed Order for Hearing comes back (source field: `CoverLtrEDt`)
-- On (date), I mailed a copy of the Petition for Expungement, Order for Hearing and Proposed Final Order — Proof of Notice (Form F), page 40 (source field: `mailPetition`)
-- “(date)” — Cover Letter – Notice Expungement Granted (Form G), page 42; written when Form G is mailed, which is after the Expungement Order is signed (source field: `CoverLtrGDt`)
 - “(city, state, zip code)” under “Prosecutor,” — the Form E and Form G cover letters, pages 37 and 42 (source field: `ProsAddr2`)
 - “___ County Probation”, Original County — the Form E and Form G cover letters, pages 37 and 42 (source field: `ProbCntyName`)
 - “(address)” under “County Probation, Original County” — the Form E and Form G cover letters, pages 37 and 42 (source field: `ProbAddrStr`)
@@ -142,6 +186,29 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - “(address)” under “County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42 (source field: `FamDivAddrStr`)
 - “(city, state, zip code)” under “County Identification Bureau” and under “County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42; one form field serves both blocks, so one value appears in both (source field: `FamDivAddr2`)
 - “The administrator(s) of the ___ Municipal Court(s)” — Expungement Order (Form C - Continued), page 31 (source field: `AdminMuniCts`)
+
+## Participant tasks after the initial filing
+
+These fields are not prerequisites to the initial petition filing. Complete each only at the named stage, from the filed or signed court papers and the actual mailing record; never invent a docket number, hearing setting, recipient, address or mailing date.
+
+- **When mailing the Notice of Hearing package.** date Form E is mailed — Cover Letter – Notice of Hearing, page 37 (source field: `CoverLtrEDt`) <!-- source-stage: NOTICE_OF_HEARING_MAILING --> — enter the actual mailing date when Form E and the filed package are sent; this event occurs only after the signed Order for Hearing returns.
+- **After the initial filing, when preparing service for each applicable recipient.** ___ County Sheriff — Form E address section, page 37 (source field: `SheriffLoc`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** address under County Sheriff — Form E, page 37 (source field: `SheriffAddrStr`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** city, state, zip code under County Sheriff — Form E, page 37 (source field: `SheriffAddr2`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the court returns the signed Order for Hearing.** Expungement Hearing (date) — Cover Letter – Notice of Hearing (Form E), page 38 (source field: `CoverLtrEHearDt`) <!-- source-stage: AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING --> — the participant copies the hearing date from the signed Order for Hearing when preparing Form E after filed copies return.
+- **After the court returns the signed Order for Hearing.** Expungement Hearing (time) — Cover Letter – Notice of Hearing (Form E), page 38 (source field: `CoverLtrEHearTime`) <!-- source-stage: AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING --> — the participant copies the hearing time from the signed Order for Hearing when preparing Form E after filed copies return.
+- **After notice is mailed, when preparing proof.** Expungement Docket Number — Proof of Notice (Form F), page 40 (source field: `expungDocketNum`) <!-- source-stage: AFTER_NOTICE_SERVICE_PROOF --> — the participant copies the clerk-assigned number onto Form F when proof of the completed mailing is required; never invent it.
+- **After notice is mailed, when preparing proof.** date the filed Petition, Order for Hearing and proposed Final Order were mailed — Proof of Notice (Form F), page 40 (source field: `mailPetition`) <!-- source-stage: AFTER_NOTICE_SERVICE_PROOF --> — copy the actual mailing date from the certified-mail receipt or electronic confirmation, and complete Form F only if the clerk requires proof before the hearing.
+- **After the Expungement Order is signed, when mailing the order.** date Form G is mailed — Cover Letter – Notice Expungement Granted, page 42 (source field: `CoverLtrGDt`) <!-- source-stage: POST_ORDER_SERVICE --> — enter the actual mailing date when Form G and the signed filed Expungement Order are sent to each applicable agency.
+- **After the initial filing, when preparing service for each applicable recipient.** county name under Prosecutor — Forms E and G, pages 37 and 42 (source field: `ProsCntyName`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** address under Prosecutor — Forms E and G, pages 37 and 42 (source field: `ProsAddrStr`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** address under Chief of Police — Forms E and G, pages 37 and 42 (source field: `PoliceAddrStr`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** city, state, zip code under Chief of Police — Forms E and G, pages 37 and 42 (source field: `PoliceAddr2`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** address under Superintendent (juveniles only) — Forms E and G, pages 37 and 42 (source field: `SuperintendentAddrStr`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** city, state, zip code under Superintendent (juveniles only) — Forms E and G, pages 37 and 42 (source field: `SuperintendentAddr2`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** name/address of jail or prison under Warden — Forms E and G, pages 37 and 42 (source field: `WardenAddrStr`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the initial filing, when preparing service for each applicable recipient.** city, state, zip code under Warden — Forms E and G, pages 37 and 42 (source field: `WardenAddr2`) <!-- source-stage: AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT --> — the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form.
+- **After the court assigns the docket number.** Expungement Docket Number — Cover Letter – Notice of Hearing (Form E), page 38, and Cover Letter – Notice Expungement Granted (Form G), page 43 (source field: `ExpungeDocketNum`) <!-- source-stage: AFTER_COURT_ASSIGNMENT_COPY_TO_LATER_FORMS --> — the participant copies the clerk-assigned number from the filed petition/order copies onto Form E and later from the signed Expungement Order onto Form G; never invent it before the court assigns it.
 
 ## Blanks the form prints with no fill-in box
 
@@ -169,5 +236,5 @@ The lines below are printed on delivered pages of this packet and there is no fo
 - Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.
 
 **If you are not a United States citizen, the immigration condition above is a hard stop, not a caveat.** Ask a New Jersey immigration attorney before you sign or file.
-- The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. The ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.
-- The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused.
+- The item (d) conviction election on page 19 is unresolved and withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The null election is not a held answer; it is recorded separately as an unresolved participant election. The ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.
+- Court-signed order dates, judge/clerk acts, signatures and notarization remain blank for the proper actor. The participant supplies every applicable case-history and recipient fact, then completes notice, proof and post-order fields at the stage stated in this guide.
