@@ -34,15 +34,16 @@
     }
   ],
   "counts": {
-    "returnDirectories": 255,
-    "rows": 1318,
-    "independentVerdicts": 302,
-    "failRepairRequired": 29,
-    "passIndependent": 254
+    "returnDirectories": 257,
+    "rows": 1328,
+    "independentVerdicts": 304,
+    "failRepairRequired": 30,
+    "passIndependent": 255
   },
   "failRepairRequiredFamilies": [
     "al-pardoned-felony-set",
     "ca-17b-reduction-set",
+    "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
@@ -1720,6 +1721,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-nonconviction-90-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-pardon-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1e09363c514ddfabfe493be8685bc466afd7f723",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-al-ut-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardon-set",
       "superseded": false
     },
     {
@@ -5127,6 +5142,76 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family census-pending-family:ME:juvenile-sealing",
+      "superseded": false
+    },
+    {
+      "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1e09363c514ddfabfe493be8685bc466afd7f723",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All 48 canonical/81 boundary declared writes have current-byte readback, but correct text presence is insufficient: 19 text placement instances (2 canonical, 17 boundary) use white-backed boxes that remove source labels; the petitioner print name is placed on the label itself. These facts are not correctly placed in their intended source blanks. Exact fields and operators are enumerated with the original PNGs.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-direct-placement-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The guide names the printed signatures and external attachments, but 12 required content subfacts in the current fixtures are nonanswers marked complete: 2 canonical reasons, 4 boundary grounds descriptions and 6 known-but-untranscribed attorney addresses. No precise incomplete/unknown disclosure covers these. Generic review-all-answers wording does not disclose them as missing.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-required-content-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-source-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-canonical-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-boundary-text.stdout"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Held procedural and plea branches select 7 canonical and 10 boundary controls, and the values are semantically traceable to the fixtures. All 17 X placements damage/replace source bracket ink; the No placements also remove part of the label. The original printed selection controls are not safely marked within their source boxes. The unselected appointed-counsel election stays participant-owned.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-fixture-facts.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Both fixtures have all seven attorney-stage rows and the nexus/evidence schedules contain complete entries (1/2 nexus entries, 2/3 evidence entries). However 3 canonical and 3 boundary attorney rows supply a name while replacing the required known address with a pointer to another record. These six incomplete name/address rows are a subset of the 12 required-content gaps.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-required-content-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-fixture-facts.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "36 confirmed defective field placements: 9 canonical and 27 boundary, affecting 31 distinct field definitions. Actual PDF white rectangle operators overlap source labels/brackets, corroborated by original PNGs and Poppler source-word bounds. This includes 17 displaced selection marks and 19 damaged text placements. A retained list of small bounding-box candidates is not counted as visible defects without direct confirmation.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-al-ut-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
       "superseded": false
     },
     {
@@ -29472,6 +29557,34 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx-fix131-reread.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_exp_acquittal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request', 'obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition']. FAIL: internal route identifiers remain visible on packet pages [2, 4, 6, 23] in each fixture and in participant-instructions.md. The acquittal order page 7 was repaired but its request, information-package and petition trailers remain.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
       "superseded": false
     },
     {
@@ -29677,6 +29790,34 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx-fix131-reread.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-pathway:TX:tx_nd_conviction_no_supervision:petitioned-nondisclosure-for-an-eligible-conviction-411-0735']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set",
       "superseded": false
     },
     {
@@ -29792,6 +29933,34 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_deferred_other-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_deferred_other-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: Statement source page 2, packet page 12, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_deferred_other-set",
       "superseded": false
@@ -29954,6 +30123,34 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx-fix131-reread.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_deferred-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_dwi_deferred-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-only:TX:tx_nd_dwi_deferred']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_deferred-set",
       "superseded": false
     },
     {
@@ -30028,6 +30225,46 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_probation-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_dwi_probation-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: Statement source page 2, packet page 11, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 20, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: 113 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 20, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_probation-set",
       "superseded": false
@@ -30253,6 +30490,34 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx-fix131-reread.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_probation_misdemeanor-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_probation_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-only:TX:tx_nd_probation_misdemeanor']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_probation_misdemeanor-set",
       "superseded": false
     },
     {
@@ -30343,6 +30608,46 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_court-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_veterans_court-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: Statement source page 2, packet page 12, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 21, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: 114 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 21, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_court-set",
       "superseded": false
     },
     {
@@ -30389,6 +30694,46 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_reemployment-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_veterans_reemployment-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: Statement source page 2, packet page 11, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 20, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: 108 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 20, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_reemployment-set",
       "superseded": false
