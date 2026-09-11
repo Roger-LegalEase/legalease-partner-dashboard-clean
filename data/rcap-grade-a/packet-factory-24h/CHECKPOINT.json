@@ -9,19 +9,19 @@
   "completePacketProven": 228,
   "states": {
     "SOURCE_BLOCKED": 6,
-    "SOURCE_READY": 33,
-    "LEGAL_BLOCKED": 19,
+    "SOURCE_READY": 35,
+    "LEGAL_BLOCKED": 0,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
-    "BUILT_RASTER_PENDING": 0,
+    "BUILT_RASTER_PENDING": 9,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 0,
-    "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 28,
+    "VERIFY_PENDING": 6,
+    "VERIFYING": 1,
+    "FAIL_REPAIR_REQUIRED": 31,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
-    "PRODUCT_PATH_PENDING": 13,
+    "PRODUCT_PATH_PENDING": 11,
     "COMPLETE_PACKET_PROVEN": 228,
     "LEGITIMATE_GUIDANCE_ONLY": 0,
     "WRONG_DELIVERY_TYPE": 1,
@@ -30,17 +30,17 @@
     "AGENCY_APPLICATION_READY": 0,
     "OUT_OF_SCOPE": 5
   },
-  "sourceReady": 33,
+  "sourceReady": 35,
   "sourceBlocked": 6,
-  "assigned": 33,
+  "assigned": 35,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
   "returnedForRepair": 0,
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 57,
-    "lanesWithWorkAtDispatch": 28,
-    "lanesProvisionedEmpty": 29,
+    "lanesWithWorkAtDispatch": 32,
+    "lanesProvisionedEmpty": 25,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -79,120 +79,6 @@
       "exactBlocker": "SOURCE_ALREADY_HELD: official-form:4-222, official-form:4-952, official-form:4-955, official-form:4-959, official-form:4-960.1, official-form:4-960.2, official-form:NM-SAN-JUAN-NONCONVICTION-PACKET",
       "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "al-diversion-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "al-misd-conviction-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "al-misd-dwop-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "composed-treatment:nd-nonconviction-auto-close-verify",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "de_mandatory_expungement-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "de_pardon_expungement-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "ky_felony_expungement_after_pardon-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "la-987-set-aside-and-dismiss-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "ma-bmc-multi-set",
-      "exactBlocker": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT: no document-shaped source named",
-      "owner": "PROMO03",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "ne-trafficking-setaside-and-seal-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "nh_petition_vacated-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "pa_790_nonconviction-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "rcap-or-official-pdf-fill",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "ri_first_offender_felony-set",
-      "exactBlocker": "SOURCE_BOUND_BY_HELD_BYTES: official-form:Superior-55, official-form:Superior-55-ORDER",
-      "owner": "PROMO03",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "va_exp_nonconviction-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
-      "family": "wa_vac_homicide_victim_prostitution-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
     }
   ],
   "commercialRoutesOpened": 0,

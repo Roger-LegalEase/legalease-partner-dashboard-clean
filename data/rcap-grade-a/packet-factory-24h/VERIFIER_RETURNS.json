@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 239,
-    "rows": 1301,
-    "independentVerdicts": 299,
-    "failRepairRequired": 29,
+    "returnDirectories": 240,
+    "rows": 1303,
+    "independentVerdicts": 301,
+    "failRepairRequired": 31,
     "passIndependent": 247
   },
   "failRepairRequiredFamilies": [
@@ -52,6 +52,7 @@
     "in_arrest_no_charges-set",
     "in_section1_petition-set",
     "ks-21-6614-conviction-set",
+    "ky_misdemeanor_expungement-set",
     "ky_protective_order_record_expungement-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
@@ -59,6 +60,7 @@
     "nm_conviction-set",
     "nm_identity_theft-set",
     "nm_release_without_conviction-set",
+    "pa_6308_underage-set",
     "rcap-in-custom-pleading",
     "sd_arrest_expungement-set",
     "tx_exp_acquittal-set",
@@ -13553,6 +13555,64 @@
       "superseded": false
     },
     {
+      "familyId": "ky_misdemeanor_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/original-page-review.json"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ky-current.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_misdemeanor_expungement-set",
+      "superseded": false
+    },
+    {
       "familyId": "ky_nonconviction_expungement-set",
       "verdict": "PASS",
       "lane": "ky-independent-review",
@@ -22756,6 +22816,57 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_490_nonconviction-set",
       "superseded": true
+    },
+    {
+      "familyId": "pa_6308_underage-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-pa-ri-current.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set",
+      "superseded": false
     },
     {
       "familyId": "pa_790_nonconviction-set",
