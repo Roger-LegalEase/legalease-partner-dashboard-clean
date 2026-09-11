@@ -1,0 +1,550 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "status": "COMPLETED",
+  "worktree": "/tmp/rcap-vf02-de-pardon-final-20260911",
+  "branch": "vf02-al-ut-current-20260911",
+  "verifiedAtBase": "1e09363c514ddfabfe493be8685bc466afd7f723",
+  "actualHeadAtReview": "1e09363c514ddfabfe493be8685bc466afd7f723",
+  "grantSet": "8d36722f0fed3651",
+  "grantEvidence": [
+    "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/preflight.json",
+    "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-claim.stdout",
+    "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-claim.stdout"
+  ],
+  "reviewAssignment": "Captain-assigned consequential independent current-original-source/output review; neither family authored or repaired by this lane. All 32 original packet images inspected, no local raster or new legal research.",
+  "builtAnything": false,
+  "repairsMade": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "centralAdmissionChanged": false,
+  "rows": [
+    {
+      "itemId": "al-pardon-set",
+      "familyId": "al-pardon-set",
+      "jurisdiction": "AL",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "1e09363c514ddfabfe493be8685bc466afd7f723",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "allRequiredObligationsScored": 15,
+      "obligationSummary": {
+        "PASS": 15
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "The exact al-pardon track calls for ABPP-3 as its standalone participant-filed pardon application. The current four-page ABPP-3 has only FOR: PARDON marked; remission and both are unmarked. Investigation and Board disposition remain subsequent agency acts.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/route-and-contract-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Rehashed the held 160009-byte ABPP-3: 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327. Direct parser measures 4 pages, 30 fields and 31 widgets, including the 2 distinct widgets of Date. Original page content streams survive in both PDFs.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-source-text.stdout"
+          ]
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "The exact route and family manifest name one generated component, al-pardon-primary-filing-1 (ABPP-3), and all four pages are delivered in each fixture. The separately obtained waiver and participant conviction list are expressly required and disclosed as external filing materials; this score does not claim either is generated or waive their necessity.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/route-and-contract-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-source-text.stdout"
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Four held facts per fixture (email, phone, DOB, print name) are read back at their original widgets and visible in the original PNGs. Dates are correctly printed 04/17/1991 and 12/31/1960. The long boundary email, phone and legal name remain complete. Current conviction-name and address facts are not safely held in these inputs; their manual completion is explicitly disclosed.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Compared all 6 map REQUIRED_BEFORE_FILING fields with the actual guide: conviction-time name, mailing address, race, sex, SSN and innocence answer are each named. State/federal and prior-application elections, conditional current name/AIS/mobile/prior-pardon relief, conviction list, separate release waiver, signatures and both dates are also disclosed. No unavailable fact is inferred.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-source-text.stdout"
+          ]
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "The source Pardon checkbox carries its flattened checkmark in both artifacts. Remission and Both remain unmarked for the pardon-only route. All 5 State/Federal and prior-application participant controls remain present, unmarked and named for truthful completion; they are not route-inferred.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "ABPP-3 has no internal repeating conviction table. It explicitly requires an attached complete conviction list with counties and dates, and the guide instructs the participant to supply it. No half-populated table row is delivered. The shared Date field is correctly treated as two separate handwritten dates rather than a repeating value.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-source-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json"
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Independently enumerated 8 protected source fields / 9 widgets: six Board-owned fields, participant Signature 1, and the shared Date field with its hearing and signature widgets. All are blank in both output appearance readings and original page-1 PNGs. No Board receipt, tracking, waiver-receipt election, signature or date is manufactured.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Both current 4-page PDFs match their author artifact hashes and the original raster run pins; all 8 original packet PNG bodies independently match custody hashes and byte lengths. PNGs are 2448x3168; the measured paper is 2040x2640. Canary/negative/runtime receipts are pinned separately and establish raster custody only.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/authority-and-helper-pins.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/commands.json"
+          ]
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Source and delivery both have 4 pages: application, first pardon instructions, continued pardon/remission instructions, continued remission instructions. Independent source content-stream preservation and all 8 original images confirm the order.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Inspected all 8 original images. Four text values and the pardon marker per fixture remain legible within their actual source field areas; no overlay clips a required value or obscures a source label. Source instruction pages 2-4 are unmodified. Boundary email is long but remains within the broad Email widget and does not touch other printed ink.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-direct-field-and-stream-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Guide names Alabama Bureau/Board of Pardons and Paroles, the exact printed 301 South Ripley Street, Montgomery AL 36104 and pardons.application@paroles.alabama.gov. It also preserves the held route local-probation-office starting instruction and directs confirmation before submission; it does not invent a court venue.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-source-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/route-and-contract-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Guide truthfully states the held source and route do not specify a filing fee or fee-waiver process and tells the participant to confirm with the office/Board. The release-of-information waiver is separately identified and is not confused with a fee waiver. No unsupported zero fee or automatic waiver is asserted.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-source-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/route-and-contract-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json"
+          ]
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Held source describes the Bureau investigation and later notifications to victim/government/applicant; no participant service step is stated. Guide makes the source limitation explicit and directs confirmation; it supplies no invented recipient, service certificate or completed agency notice.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-source-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Guide carries both exact held stop triggers: need for individualized Board advocacy and immigration/licensing/firearm consequences. It preserves investigation/Board decision as later acts and says the guide neither decides eligibility nor guarantees approval.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/route-and-contract-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json"
+          ]
+        }
+      },
+      "failedObligations": [],
+      "countersThisLaneMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterJustifications": {
+        "knownRequiredFieldsMissing": "Zero untranscribed held fact values among the 4 AL facts or the 48/81 UT declared writes. UT placement defects are scored separately and do not become invented absent strings.",
+        "requiredFactsNotCollected": "AL: every unavailable source fact is precisely classified/disclosed. UT: independently identified 12 source-requested content subfacts replaced by nonanswers; see exact fixture field instances.",
+        "unclassifiedBlanks": "AL: all 30 fields classified (5 writes, 25 refusals). UT: all 111 official positions partition as 36 writes/75 refusals canonical and 65 writes/46 refusals boundary. UT semantic nonanswers are not misrepresented as empty PDF strings.",
+        "incompleteRows": "AL: no repeating printed conviction table. UT: 6 attorney name/address rows contain a name and a missing known address; these are 6 of the 12 required-content gaps.",
+        "requiredOptionsMissing": "No printed control or required branch choice is absent. UT selected markers are geometrically defective, explicitly failing ROUTE_OPTIONS and counted under visualDefects.",
+        "requiredComponentsMissing": "Zero missing components among the exact declared generated delivery. Participant-supplied evidence/waivers remain required external attachments, explicitly disclosed; no claim those materials are generated.",
+        "invisibleWrites": "All intended AL 5 nonempty appearances and UT 48/81 declared writes are present in current PDF content and original PNGs. UT incorrect placement and source-label erasure are not mislabeled as invisible text.",
+        "protectedWrites": "Direct source controls, current PDF output and original images show no added signature, signature date, court-assigned or attorney-certification value.",
+        "visualDefects": "AL: 0 confirmed after all 8 original PNGs. UT: exactly 36 confirmed field-by-fixture defective placements after all 24 original PNGs; 9 canonical/27 boundary. Detailed list distinguishes additional geometric candidates from confirmed defects."
+      },
+      "realCompletenessReader": {
+        "exitCode": 0,
+        "verdict": "PASS_COMPLETE",
+        "reportedCounters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "written": 5,
+        "total": 30,
+        "log": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/al-completeness.stdout",
+        "interpretation": "Actual read-only command, not independent visual/content approval. UT zeroes are contradicted by the source-grounded current-output findings."
+      },
+      "sourceIdentity": {
+        "path": "private/source-imports/src05-worker-materialization-2026-09-02/LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+        "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+        "byteLength": 160009
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "27810fee926dd4148e378310d923a979a2976446cdb03bbaa11989d705fcdc4e",
+          "byteLength": 153873,
+          "rasterPinnedSha256": "27810fee926dd4148e378310d923a979a2976446cdb03bbaa11989d705fcdc4e",
+          "matches": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "9a745cfbc52accfa6f22343ecfa60dd786c80cb4e990977c2480e4e174eadb53",
+          "byteLength": 153943,
+          "rasterPinnedSha256": "9a745cfbc52accfa6f22343ecfa60dd786c80cb4e990977c2480e4e174eadb53",
+          "matches": true
+        }
+      ],
+      "metadataAndRasterHashes": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+      "productAndAuthorityHashes": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/authority-and-helper-pins.json",
+      "originalRasterRun": "34644046027",
+      "rasterPinnedCommit": "3c799170ea5f0bdf4bdc75338b5defb364cec9b1",
+      "originalPacketImagesInspected": 8,
+      "rasterVerdict": "RASTER_PASS",
+      "rasterAcceptanceIsIndependentApproval": false,
+      "commands": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/commands.json",
+      "priorApprovalsReused": [],
+      "priorReviewTrace": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/prior-review-trace.json",
+      "selfVerified": false,
+      "builtThisFamily": false,
+      "repairsMade": 0,
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "limitations": [
+        "Current exact source custody and output are reviewed; no new source freshness research or individualized legal conclusion.",
+        "External participant filings/evidence remain required as disclosed. This review grants no fulfillment, runtime, payment, sponsorship or live authority."
+      ],
+      "nextAction": "Captain may consume this independent artifact approval under existing gates; no route is promoted by this return."
+    },
+    {
+      "itemId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "jurisdiction": "UT",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "1e09363c514ddfabfe493be8685bc466afd7f723",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "allRequiredObligationsScored": 15,
+      "obligationSummary": {
+        "PASS": 10,
+        "FAIL": 5
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Applied the binding resolved implementation: generic Rule 65C PCRA in district court of conviction, ground 78B-9-104(1)(h), source-identified nexus/evidence, clear-and-convincing burden, vacatur and resulting statutory expungement. Petition p8 and Attachment B carry these; the 1231XX catalog alias is not reopened. This is implementation conformance, not a new legal determination.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/route-and-contract-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-canonical-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-boundary-text.stdout"
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Rehashed the actual 128059-byte, 10-page held PCRA source: 9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09. Direct parser confirms no AcroForm. Source content streams remain in pages 1-10 of both PDFs. That preservation does not excuse later white rectangles obscuring the printed labels.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-direct-placement-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-source-text.stdout"
+          ]
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Current declarations bind UT-RULE-65C-PCRA (pages 1-10) and UT-PCRA-ATTACHMENTS-A-B (pages 11-12); ordered manifest identifies A and B separately and both are present. Judgment, actual supporting exhibits and conditional appellate/prior-PCRA/financial documents remain clearly disclosed participant-supplied external attachments. No missing generated component is observed.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-declaration-tests.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "All 48 canonical/81 boundary declared writes have current-byte readback, but correct text presence is insufficient: 19 text placement instances (2 canonical, 17 boundary) use white-backed boxes that remove source labels; the petitioner print name is placed on the label itself. These facts are not correctly placed in their intended source blanks. Exact fields and operators are enumerated with the original PNGs.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-direct-placement-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json"
+          ]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "The guide names the printed signatures and external attachments, but 12 required content subfacts in the current fixtures are nonanswers marked complete: 2 canonical reasons, 4 boundary grounds descriptions and 6 known-but-untranscribed attorney addresses. No precise incomplete/unknown disclosure covers these. Generic review-all-answers wording does not disclose them as missing.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-required-content-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-source-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-canonical-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-boundary-text.stdout"
+          ]
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Held procedural and plea branches select 7 canonical and 10 boundary controls, and the values are semantically traceable to the fixtures. All 17 X placements damage/replace source bracket ink; the No placements also remove part of the label. The original printed selection controls are not safely marked within their source boxes. The unselected appointed-counsel election stays participant-owned.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-fixture-facts.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "REPEATING_ROWS": {
+          "result": "FAIL",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Both fixtures have all seven attorney-stage rows and the nexus/evidence schedules contain complete entries (1/2 nexus entries, 2/3 evidence entries). However 3 canonical and 3 boundary attorney rows supply a name while replacing the required known address with a pointer to another record. These six incomplete name/address rows are a subset of the 12 required-content gaps.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-required-content-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-fixture-facts.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "All 8 protected fields per fixture remain empty: court-assigned PCRA case number and judge, participant signature/location/date, attorney certification name/signature/date. Direct readback and original pages 1 and 10 confirm no invented protected act. The petitioner Printed Name label damage is counted as an ordinary prefill/visual failure, not a forged signature.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-direct-placement-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Both current 12-page PDF hashes match their reports and original run 34644046027 pins. Independently rehashed all 24 original page PNGs and measured their actual 2448x3168 dimensions, distinguished from 2040x2640 paper. Valid current custody proves these are the defective delivered pages being reviewed; raster PASS is not packet approval.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/authority-and-helper-pins.json"
+          ]
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Independently inspected both 12-page sequences: official source pages 1-10 followed by Attachment A and B on pages 11 and 12. Printed cross-page continuations and source stream identities agree with the manifest.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-direct-placement-measurement.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "36 confirmed defective field placements: 9 canonical and 27 boundary, affecting 31 distinct field definitions. Actual PDF white rectangle operators overlap source labels/brackets, corroborated by original PNGs and Poppler source-word bounds. This includes 17 displaced selection marks and 19 damaged text placements. A retained list of small bounding-box candidates is not counted as visible defects without direct confirmation.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Current guide and memorandum direct filing in district court of conviction. Fixtures name Third/Salt Lake and Fifth/Washington district courts and hold confirmation gates; current byte readback matches those provided venue facts. Court/record facts must be verified before filing; no filing method or deadline is invented.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-fixture-facts.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-canonical-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-boundary-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/route-and-contract-bindings.json"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "The source Q19(e) requires an Inmate Accounting Office certificate when asking to waive the fee; Q19(g)/20 require a financial declaration for appointed counsel. Guide states both conditional documents, does not invent an amount or determine financial eligibility, and tells the participant to confirm current details. Focused tests independently execute both missing-document refusals.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-source-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-focused-test.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json"
+          ]
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "The binding decision and guide require court-screened Rule 65C service after filing and following the screening order. Guide explicitly says not to invent recipients or serve automatically. No prefilled service certificate or assumed service date is present.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/route-and-contract-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/page-by-page-original-image-review.json"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_INDEPENDENT_SOURCE_AND_CURRENT_OUTPUT_REVIEW",
+          "finding": "Official page 1 directs questions to an attorney and says clerks cannot give legal advice; pages 7 and 9-10 warn about omitted grounds, facts, required attachments and expiring limitations. Guide calls for prompt clerk/lawyer confirmation and actual evidence under the required burden. Builder gates refuse unknown/false venue, qualifying-offense, nexus and evidence readiness. These boundaries do not cure the independently found content/geometry defects.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-source-text.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-focused-test.stdout",
+            "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json"
+          ]
+        }
+      },
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "countersThisLaneMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 12,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 6,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 36
+      },
+      "counterJustifications": {
+        "knownRequiredFieldsMissing": "Zero untranscribed held fact values among the 4 AL facts or the 48/81 UT declared writes. UT placement defects are scored separately and do not become invented absent strings.",
+        "requiredFactsNotCollected": "AL: every unavailable source fact is precisely classified/disclosed. UT: independently identified 12 source-requested content subfacts replaced by nonanswers; see exact fixture field instances.",
+        "unclassifiedBlanks": "AL: all 30 fields classified (5 writes, 25 refusals). UT: all 111 official positions partition as 36 writes/75 refusals canonical and 65 writes/46 refusals boundary. UT semantic nonanswers are not misrepresented as empty PDF strings.",
+        "incompleteRows": "AL: no repeating printed conviction table. UT: 6 attorney name/address rows contain a name and a missing known address; these are 6 of the 12 required-content gaps.",
+        "requiredOptionsMissing": "No printed control or required branch choice is absent. UT selected markers are geometrically defective, explicitly failing ROUTE_OPTIONS and counted under visualDefects.",
+        "requiredComponentsMissing": "Zero missing components among the exact declared generated delivery. Participant-supplied evidence/waivers remain required external attachments, explicitly disclosed; no claim those materials are generated.",
+        "invisibleWrites": "All intended AL 5 nonempty appearances and UT 48/81 declared writes are present in current PDF content and original PNGs. UT incorrect placement and source-label erasure are not mislabeled as invisible text.",
+        "protectedWrites": "Direct source controls, current PDF output and original images show no added signature, signature date, court-assigned or attorney-certification value.",
+        "visualDefects": "AL: 0 confirmed after all 8 original PNGs. UT: exactly 36 confirmed field-by-fixture defective placements after all 24 original PNGs; 9 canonical/27 boundary. Detailed list distinguishes additional geometric candidates from confirmed defects."
+      },
+      "realCompletenessReader": {
+        "exitCode": 0,
+        "verdict": "PASS_COMPLETE",
+        "reportedCounters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "written": 48,
+        "total": 123,
+        "log": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-completeness.stdout",
+        "interpretation": "Actual read-only command, not independent visual/content approval. UT zeroes are contradicted by the source-grounded current-output findings."
+      },
+      "sourceIdentity": {
+        "path": "reference/utah/04_PCRA_Petition-2022-06-13.pdf",
+        "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09",
+        "byteLength": 128059
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "63f42d6f2871b84a6af1cd7a525d865e4ca4a2d7d75aff413c87f37295dc787d",
+          "byteLength": 182408,
+          "rasterPinnedSha256": "63f42d6f2871b84a6af1cd7a525d865e4ca4a2d7d75aff413c87f37295dc787d",
+          "matches": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "0d6e5a39e149c8508f570db3716a60e580fce26aa64da7de876ab1baa3e6a138",
+          "byteLength": 185117,
+          "rasterPinnedSha256": "0d6e5a39e149c8508f570db3716a60e580fce26aa64da7de876ab1baa3e6a138",
+          "matches": true
+        }
+      ],
+      "metadataAndRasterHashes": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/current-bindings.json",
+      "productAndAuthorityHashes": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/authority-and-helper-pins.json",
+      "originalRasterRun": "34644046027",
+      "rasterPinnedCommit": "3c799170ea5f0bdf4bdc75338b5defb364cec9b1",
+      "originalPacketImagesInspected": 24,
+      "rasterVerdict": "RASTER_PASS",
+      "rasterAcceptanceIsIndependentApproval": false,
+      "commands": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/commands.json",
+      "priorApprovalsReused": [],
+      "priorReviewTrace": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/prior-review-trace.json",
+      "selfVerified": false,
+      "builtThisFamily": false,
+      "repairsMade": 0,
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "limitations": [
+        "Current exact source custody and output are reviewed; no new source freshness research or individualized legal conclusion.",
+        "External participant filings/evidence remain required as disclosed. This review grants no fulfillment, runtime, payment, sponsorship or live authority."
+      ],
+      "nextAction": "Repair the entire enumerated geometry/content defect set, refresh both fixtures and source-bound reports, obtain fresh original rasters, then perform a new independent review."
+    }
+  ],
+  "grantsNothing": "Independent artifact verdicts only. No central admission, production, runtime, payment, sponsorship, fulfillment or route authority is created.",
+  "returnWrittenAtUtc": "2026-09-11T21:32:40.683186+00:00"
+}

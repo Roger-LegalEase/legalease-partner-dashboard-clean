@@ -1,0 +1,42 @@
+{
+  "lane": "VF02",
+  "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "failedObligations": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "repairs": [
+    {
+      "id": "UT-VF02-GEOMETRY",
+      "cause": "drawField emits broad white backing from hand-set boxes that intersect printed labels/brackets. Existing tests prove text identity/box presence but never verify the actual source answer blank or preserved label ink.",
+      "affectedPlacements": 36,
+      "affectedFieldDefinitions": 31,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json",
+      "requiredRepair": "Measure actual source answer blanks and selection interiors, repair all 31 affected field definitions, preserve source labels/brackets, and validate both output fixtures against the originals. Do not merely enlarge white rectangles or suppress the finding."
+    },
+    {
+      "id": "UT-VF02-CONTENT",
+      "cause": "Nonempty fixture strings are accepted as complete even when they restate missing procedure or point to grounds/addresses elsewhere.",
+      "requiredContentGaps": 12,
+      "incompleteRows": 6,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-required-content-findings.json",
+      "requiredRepair": "Supply responsive record-derived example reasons/grounds/addresses, or explicitly declare and disclose genuinely unavailable participant content; retain prior-stage/branch and evidence provenance. Do not fabricate real participant facts."
+    }
+  ],
+  "additionalCopyObservations": [
+    {
+      "severity": "nonblocking_copy_refinement",
+      "locations": [
+        "participant-instructions.md: raw attachments.judgment / attachments.memorandum field IDs",
+        "Attachment B page 12: controlling implementation decision",
+        "participant-instructions.md: runtime and commercial-delivery engineering status"
+      ],
+      "observation": "The participant/court copy exposes internal identifiers and internal approval terminology. Replace them with self-contained plain-language descriptions while preserving the already-resolved relief and gating in internal metadata. This is not a new legal blocker."
+    }
+  ],
+  "scope": "One complete repair list from all 15 obligations and both fixtures; no repair performed by VF02. AL generated component review passed with explicitly external waiver/conviction-list requirements."
+}
