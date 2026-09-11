@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9716ed5571ba66f3d9f4760826859fa33dffbfb7",
+  "minimumCaptainSha": "9385c2b0c2b8b0102bda92be0629a2453ba7a729",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "2b8e00cbc8c9b9fb64d3de377c5f69e9809cffe87b5896bf99adda5983183245",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "bc2300e495441342f3425cccc68fe135051d651ea1f0d08523f9703ff2369164",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -27,6 +27,7 @@
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
+    "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json": "ad53c40b70831ac8b82af377bcf9238a4e18dbc53dd08142b647a8a021d1213d",
     "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
     "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json": "3a84d6a6a7abee35c9523e989bf33c98a24a8359f669dfad47ee54213942a222",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
@@ -78,15 +79,15 @@
     "sourceBlocked": 4,
     "legalBlocked": 0,
     "verifyPending": 3,
-    "repairRequired": 28,
+    "repairRequired": 29,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 234,
-    "PRODUCT_PATH_PENDING": 11,
+    "COMPLETE_PACKET_PROVEN": 235,
+    "PRODUCT_PATH_PENDING": 10,
     "OUT_OF_SCOPE": 5,
-    "BUILT_RASTER_PENDING": 10,
-    "FAIL_REPAIR_REQUIRED": 29,
+    "BUILT_RASTER_PENDING": 9,
+    "FAIL_REPAIR_REQUIRED": 30,
     "SOURCE_READY": 34,
     "SOURCE_BLOCKED": 4,
     "GUIDANCE_READY": 12,
@@ -14559,15 +14560,13 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "7a7a484dced5c4033c518703aa683905a560c60b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-fl-source-restored.json"
+        "verifiedAtBase": "7dc4c078409979b5aa480d83fbd4294332d4bbdb",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-fl-bridge-current.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -14596,41 +14595,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "All88 declared write values are present within their intended document components, but correct placement and complete source-specific identity are not proved by that test. FL-VF01-01 records displaced/colliding values; FL-VF01-02 records wrong name order on page2 in both fixtures and omitted held boundary middle name.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The four declared manual/later fields are named, and the two-stage FDLE-certificate wait is explicit. Full authoritative-action comparison nevertheless finds missing court-stage sworn-affidavit/notarization and certified-order verification instructions. FL-VF01-03. The prior four-blank check was insufficient.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Fresh original-image review and independent Poppler word rectangles show ten distinct added-word locations colliding with source labels/parentheses across both fixtures, totaling18 source-word intersections. Fingerprint identity values also miss intended blank rows. FL-VF01-01 supersedes the previous automated visual PASS; successful raster transport does not erase visible defects.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "State objection, different prior relief, seal/timing/history problems and immigration are addressed, but Any hearing is a separate explicit exact-track stop and is absent. FL-VF01-04. Confirm hearing requirements with the clerk does not communicate the held attorney-review boundary.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
@@ -14831,8 +14800,8 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf64",
-        "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260910.json"
+        "verifiedAtBase": "43943cb16223b0701449cb9bef8671f8a9233231",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-fl-early-current.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
@@ -14869,33 +14838,26 @@
       "failedObligationNames": [
         "ARTIFACTS",
         "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS",
-        "SOURCE_IDENTITY"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
           "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
+          "finding": "All56 declared writes contain the held values; boundary page2 now includes Isabel and correct Last, First Middle ordering. Nevertheless page3 first/middle values do not occupy their actual named source blanks and all six identity/demographic values are displaced above the intended row. FL-EARLY-VF64-01; text existence alone is insufficient.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
         },
         {
           "obligation": "ARTIFACTS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
+          "finding": "Both current PDFs/reports/source pins and all10 original raster images bind exactly. The stale wiring hash/receipt was corrected at43943cb16 and is closed. Current reports still present broad region containment as correct source-region placement and publish visualDefects0/allNineZero=true despite six displaced page3 fields. The production check and raw completeness PASS cannot establish that those regions are actual labelled blanks. FL-EARLY-VF64-01.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Original page1 name/agency/arrest-row placements are clear and the surname now clears Name:. No source-word intersections remain. Six page3 values are still16.575pt above their actual source rules, with first/middle starting28.778/50.122pt before their blanks; both middle values and canonical first name lie wholly left of their target span. FL-EARLY-VF64-01.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
         }
       ],
       "continuationResult": null,
@@ -42341,9 +42303,7 @@
       "selectedIndependentVerdict": null,
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -42359,15 +42319,25 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_AUDITED",
-      "allNineCountersZero": null,
-      "counters": null,
+      "completenessStatus": "NOT_MEASURABLE_HERE",
+      "allNineCountersZero": false,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",
@@ -45550,12 +45520,12 @@
       },
       "sourceReconciliation": {
         "group": "B",
-        "disposition": "PRODUCT_PATH_PENDING",
+        "disposition": "SOURCE_READY",
         "unresolvedObligations": [],
-        "exactNextAction": "Bind held 1501CR, 1501CR-C, and 1502CR; add the route-fact decision that selects hearing form 1110GE or no-hearing form 1111GE.",
+        "exactNextAction": "Implement the clerk/court-confirmed judgeOrCommissioner selector and missing packet builder under data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json#bindingProductRule. Judge:1501CR +1502CR +1110GE; commissioner:1501CR-C +1502CR +1111GE; otherwise STOP without filing packet (configuration_ambiguous / clerk-confirmation-required). Reconcile recovered custody preflight; no district/category mapping prerequisite.",
         "exactResidual": null,
         "permissionHold": null,
-        "productQuestion": "Which route/case fact selects 1110GE versus 1111GE?",
+        "productQuestion": null,
         "sourceReplacements": null,
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
@@ -45564,6 +45534,7 @@
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -45588,7 +45559,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "PRODUCT_PATH_PENDING",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_remove_link-set.mjs",

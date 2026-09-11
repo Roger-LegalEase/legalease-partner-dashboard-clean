@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 253,
-    "rows": 1316,
+    "returnDirectories": 255,
+    "rows": 1318,
     "independentVerdicts": 302,
-    "failRepairRequired": 30,
-    "passIndependent": 253
+    "failRepairRequired": 29,
+    "passIndependent": 254
   },
   "failRepairRequiredFamilies": [
     "al-pardoned-felony-set",
@@ -47,7 +47,6 @@
     "co_motion_seal_nonconviction-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "de_discretionary_superior_court-set",
-    "fl-10yr-bridge-set",
     "fl-early-juvenile-set",
     "il-seal-edu-set",
     "in_arrest_no_charges-set",
@@ -9715,6 +9714,20 @@
     },
     {
       "familyId": "fl-10yr-bridge-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7dc4c078409979b5aa480d83fbd4294332d4bbdb",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-fl-bridge-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set",
+      "superseded": false
+    },
+    {
+      "familyId": "fl-10yr-bridge-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
@@ -9755,7 +9768,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-fl-source-restored.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "fl-10yr-bridge-set",
@@ -9931,6 +9944,43 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260910.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
+      "superseded": true
+    },
+    {
+      "familyId": "fl-early-juvenile-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf64",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "43943cb16223b0701449cb9bef8671f8a9233231",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All56 declared writes contain the held values; boundary page2 now includes Isabel and correct Last, First Middle ordering. Nevertheless page3 first/middle values do not occupy their actual named source blanks and all six identity/demographic values are displaced above the intended row. FL-EARLY-VF64-01; text existence alone is insufficient.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Both current PDFs/reports/source pins and all10 original raster images bind exactly. The stale wiring hash/receipt was corrected at43943cb16 and is closed. Current reports still present broad region containment as correct source-region placement and publish visualDefects0/allNineZero=true despite six displaced page3 fields. The production check and raw completeness PASS cannot establish that those regions are actual labelled blanks. FL-EARLY-VF64-01.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Original page1 name/agency/arrest-row placements are clear and the surname now clears Name:. No source-word intersections remain. Six page3 values are still16.575pt above their actual source rules, with first/middle starting28.778/50.122pt before their blanks; both middle values and canonical first name lie wholly left of their target span. FL-EARLY-VF64-01.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-fl-early-current.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
       "superseded": false

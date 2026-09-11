@@ -405,6 +405,7 @@ const INPUTS = {
   wave2Repairs: `${LC}/WAVE_2_REPAIR_ASSIGNMENTS.json`,
   corpusIndex: "data/rcap-all50/local-source-corpus-index.json",
   sourceDeterminations: "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+  utRemoveLinkSelector: "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
   recoveredSourceWave1: "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
   recoveredKnownResidual: "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
@@ -871,6 +872,25 @@ for (const e of IN.corpusIndex.entries ?? []) {
 const sourceReconciliationDoc = IN.sourceDeterminations?.reconciliation42 ?? null;
 const sourceReconciliationByFamily = new Map((sourceReconciliationDoc?.families ?? [])
   .map((r) => [r.familyId, r]));
+// This additive owner decision changes only Utah's selector hold. Preserve the
+// shared determination bytes already bound to unrelated independent reviews.
+const utSelector = IN.utRemoveLinkSelector;
+const utSelectorRule = utSelector?.bindingProductRule;
+if (utSelector?.familyId === "ut_pet_remove_link-set" && utSelector.ownerAnswer === "RESOLVED"
+  && utSelectorRule?.requiredFact === "judgeOrCommissioner"
+  && JSON.stringify(utSelectorRule.factSource) === JSON.stringify(["clerk-confirmed", "court-confirmed"])
+  && utSelectorRule.otherwise?.action === "STOP"
+  && JSON.stringify(utSelectorRule.judge) === JSON.stringify(["1501CR", "1502CR", "1110GE"])
+  && JSON.stringify(utSelectorRule.commissioner) === JSON.stringify(["1501CR-C", "1502CR", "1111GE"])
+  && utSelectorRule.otherwise?.generateFilingPacket === false
+  && utSelectorRule.otherwise?.status === "configuration_ambiguous"
+  && utSelectorRule.otherwise?.reason === "clerk-confirmation-required") {
+  const prior = sourceReconciliationByFamily.get(utSelector.familyId);
+  if (prior) sourceReconciliationByFamily.set(utSelector.familyId, { ...prior,
+    disposition: "SOURCE_READY", productQuestion: null,
+    exactNextAction: `Implement the clerk/court-confirmed judgeOrCommissioner selector and missing packet builder under ${INPUTS.utRemoveLinkSelector}#bindingProductRule. Judge:1501CR +1502CR +1110GE; commissioner:1501CR-C +1502CR +1111GE; otherwise STOP without filing packet (configuration_ambiguous / clerk-confirmation-required). Reconcile recovered custody preflight; no district/category mapping prerequisite.`
+  });
+}
 const sharedExactBindingBySourceId = new Map((sourceReconciliationDoc?.sharedExactBindings ?? [])
   .map((r) => [r.sourceId, r]));
 const acquisitionEvidenceByItem = new Map();
