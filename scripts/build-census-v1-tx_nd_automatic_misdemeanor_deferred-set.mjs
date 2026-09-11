@@ -14,7 +14,8 @@ import { sanitizeAndFlatten, scanBytesForActiveContent } from "./rcap-official-f
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
-import { PASS_COUNTERS, classifyField } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { PASS_COUNTERS, BLANK_DISPOSITIONS, classifyField, classifyBlank, rowKeyOf }
+  from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -87,7 +88,7 @@ export const FIXTURES = Object.freeze({
     "matter.cause_number": "2276543", "matter.name_on_deferred_order": "Alexandra Rivera Soto",
     "matter.plea": "nolo contendere", "matter.offense": "Criminal mischief, Class A misdemeanor",
     "matter.placement_date": "09/01/2017", "matter.supervision_end_date": "02/28/2018",
-    "matter.attach_deferred_order": "have not", "matter.discharge_dismissal_date": "09/01/2017",
+    "matter.attach_deferred_order": "have not", "matter.discharge_dismissal_date": "02/28/2018",
     "matter.attach_discharge_order": "have not" })
 });
 
@@ -173,6 +174,19 @@ function pageOfWidget(doc, widget) {
   }
   return -1;
 }
+function decodedAppearance(stream) {
+  const raw = Buffer.from(stream.contents);
+  try { return zlib.inflateSync(raw); } catch { return raw; }
+}
+function authoredMarkFrom(normal, state) {
+  if (!(normal instanceof PDFDict) || state === "Off") return null;
+  const on = normal.lookup(PDFName.of(state)), off = normal.lookup(PDFName.of("Off"));
+  if (!(on instanceof PDFRawStream) || !(off instanceof PDFRawStream)) return null;
+  const onBytes = decodedAppearance(on), offBytes = decodedAppearance(off);
+  if (!onBytes.subarray(0, offBytes.length).equals(offBytes)) return null;
+  const mark = onBytes.subarray(offBytes.length);
+  return mark.length ? mark : null;
+}
 function statementPolicy(name, kind) {
   const participantLabel = String(name).replace(/Row(\d+)$/, " — row $1").replaceAll("_", " ");
   const facts = {
@@ -214,8 +228,22 @@ async function censusOf(source, bytes) {
     const widgets = field.acroField.getWidgets().map((widget, index) => {
       const r = widget.getRectangle(); let normal = null;
       try { normal = widget.getNormalAppearance(); } catch { normal = null; }
-      return { index, page: pageOfWidget(doc, widget), rect: { x: +r.x.toFixed(4), y: +r.y.toFixed(4), width: +r.width.toFixed(4), height: +r.height.toFixed(4) },
-        appearanceStates: normal instanceof PDFDict ? normal.keys().map((k) => k.decodeText()).sort() : [] };
+      const appearanceSha256ByState = {}, appearanceMarkSha256ByState = {}, appearanceMarkContentByState = {};
+      if (normal instanceof PDFDict) for (const key of normal.keys()) {
+        const stream = normal.lookup(key);
+        if (stream instanceof PDFRawStream) {
+          const state = key.decodeText(), mark = authoredMarkFrom(normal, state);
+          appearanceSha256ByState[state] = sha256(Buffer.from(stream.contents));
+          if (mark) {
+            appearanceMarkSha256ByState[state] = sha256(mark);
+            appearanceMarkContentByState[state] = mark;
+          }
+        }
+      }
+      const result = { index, page: pageOfWidget(doc, widget), rect: { x: +r.x.toFixed(4), y: +r.y.toFixed(4), width: +r.width.toFixed(4), height: +r.height.toFixed(4) },
+        appearanceStates: Object.keys(appearanceSha256ByState).sort(), appearanceSha256ByState, appearanceMarkSha256ByState };
+      Object.defineProperty(result, "appearanceMarkContentByState", { value: appearanceMarkContentByState });
+      return result;
     });
     let sourceValue = null; try { sourceValue = field.getText?.() ?? field.getSelected?.() ?? (field.isChecked?.() ? true : null); } catch {}
     rows.push({ name, kind, type: kind.replace(/^PDF/, "").toLowerCase().replace("textfield", "text"), widgets, page: widgets[0]?.page ?? null,
@@ -236,6 +264,26 @@ function validateFixture(facts) {
   for (const key of ["matter.represented_by_legal_aid", "matter.cannot_afford_court_costs"])
     assert.equal(typeof facts[key], "boolean", `${key} must be explicit, not inferred from route identity`);
   assert.equal(facts["matter.cannot_afford_court_costs"], true, "fee-waiver component cannot be generated when inability to pay is false");
+  const parseMdy = (key) => {
+    const value = facts[key], match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(value ?? ""));
+    assert.ok(match, `${key} must be a complete MM/DD/YYYY calendar date`);
+    const month = Number(match[1]), day = Number(match[2]), year = Number(match[3]);
+    const date = new Date(Date.UTC(year, month - 1, day));
+    assert.ok(date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day,
+      `${key} is not a possible calendar date`);
+    return date;
+  };
+  const birth = /^(\d{4})-(\d{2})-(\d{2})$/.exec(facts["participant.date_of_birth"]);
+  assert.ok(birth, "participant.date_of_birth must be a complete YYYY-MM-DD calendar date");
+  const birthDate = new Date(Date.UTC(Number(birth[1]), Number(birth[2]) - 1, Number(birth[3])));
+  assert.ok(birthDate.getUTCFullYear() === Number(birth[1]) && birthDate.getUTCMonth() === Number(birth[2]) - 1
+    && birthDate.getUTCDate() === Number(birth[3]), "participant.date_of_birth is not a possible calendar date");
+  const placed = parseMdy("matter.placement_date"), ended = parseMdy("matter.supervision_end_date");
+  const dismissed = parseMdy("matter.discharge_dismissal_date");
+  assert.ok(ended >= placed, "supervision end cannot precede placement");
+  assert.ok(dismissed >= ended, "discharge and dismissal cannot precede the supervision end");
+  assert.ok((ended - placed) / 86400000 >= 180, "the established deferred-supervision period must be at least 180 days");
+  assert.ok(dismissed >= new Date(Date.UTC(2017, 8, 1)), "this route requires discharge and dismissal on or after September 1, 2017");
 }
 const GROUP10 = {
   legalAid: { fact: "matter.represented_by_legal_aid", trueIndex: 0, falseIndex: 1, page: 3 },
@@ -379,7 +427,7 @@ function participantInstructions(maps) {
     "First obtain your Texas DPS criminal history and the court's discharge-and-dismissal record. Confirm that the discharge and dismissal was on or after September 1, 2017, that at least 180 days of deferred supervision were served, that the misdemeanor and your history satisfy the exclusions, and whether the order already issued. If the DPS record shows the matter is already sealed, there is nothing to submit.", "",
     "This is not a petition. Use the OCA model letter only when the record establishes eligibility and the court did not issue the automatic order. Submit it through the clerk of the court that placed you on deferred adjudication. No prosecutor has a role on this automatic route.", "",
     "The $28 amount is payable to the clerk before the court issues the order; the OCA instructions say it is not a filing fee. The Statement of Inability appears only because the packet facts explicitly say the participant cannot afford that cost. Complete its financial and household answers from your own records.", "",
-    "Review both answers on the Statement: it says the participant is not represented by legal aid and cannot afford court costs. Correct either answer before signing if it is not true.", "",
+    "Review the two separate selections on the Statement: legal-aid representation and ability to pay court costs. Each selection comes from the participant's supplied answer; correct either one before signing if it is not true.", "",
     "The proposed order remains entirely for the court. Ask the clerk whether that court expects it with the recovery letter; do not sign, date, or mark findings on it.", "", "## Complete these blanks before submission", ""
   ];
   for (const r of required) out.push(`- **${r.effectiveLabel}** — ${r.why}`);
@@ -388,36 +436,88 @@ function participantInstructions(maps) {
     `_Routes: ${ROUTE_KEYS.join(" · ")}_`, "");
   return out.join("\n");
 }
-async function provePacket(file, maps, reports, manifest) {
-  const packetBytes = fs.readFileSync(path.join(ROOT, file));
-  const widgets = await flattenedWidgets(path.join(ROOT, file)), writes = [];
-  const packetDoc = await PDFDocument.load(packetBytes, { updateMetadata: false });
-  const native = [];
-  for (const [pageIndex, page] of packetDoc.getPages().entries()) {
+function normalizedText(value) { return String(value ?? "").replace(/\s+/g, " ").trim(); }
+export function assertAppearanceMatches({ field, expectedText = null, observedText = null, expectedSha256 = null, observedSha256 = null }) {
+  if (expectedSha256 !== null) {
+    assert.equal(observedSha256, expectedSha256, `${field}: flattened selection does not use the expected source-authored appearance`);
+    return true;
+  }
+  assert.equal(normalizedText(observedText), normalizedText(expectedText), `${field}: flattened appearance value disagrees with the held fact`);
+  return true;
+}
+export function refusedInkFinding({ field, selection = false, observedText = "", selectedMarkPresent = false }) {
+  if (selection) {
+    if (!selectedMarkPresent) return null;
+    return { fieldId: field, why: "refused selection carries a source-authored selected mark in final bytes" };
+  }
+  return normalizedText(observedText) === "" ? null : { fieldId: field, why: "refused text field carries text in final bytes", drawnText: normalizedText(observedText) };
+}
+function pageAppearancePlacements(doc) {
+  const rows = [];
+  for (const [pageIndex, page] of doc.getPages().entries()) {
     const resources = page.node.Resources(), xObjects = resources && resources.lookup(PDFName.of("XObject"));
     if (!xObjects) continue;
     const contents = page.node.Contents(), refs = contents instanceof PDFArray ? contents.asArray() : contents ? [contents] : [];
     let source = "";
     for (const ref of refs) {
-      let bytes = Buffer.from(packetDoc.context.lookup(ref).contents);
+      let bytes = Buffer.from(doc.context.lookup(ref).contents);
       try { bytes = zlib.inflateSync(bytes); } catch {}
       source += bytes.toString("latin1");
     }
-    for (const match of source.matchAll(/q\s+1 0 0 1 (-?[\d.]+) (-?[\d.]+) cm\s+\/(NativeWidget-\d+) Do/g)) {
-      const stream = xObjects.lookup(PDFName.of(match[3]));
-      native.push({ page: pageIndex + 1, x: +Number(match[1]).toFixed(4), y: +Number(match[2]).toFixed(4),
-        sha256: sha256(Buffer.from(stream.contents)) });
+    const placement = /q((?:\s*-?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ cm)+)\s*\/((?:FlatWidget|NativeWidget)-\d+)\s+Do/g;
+    let match;
+    while ((match = placement.exec(source))) {
+      let x = 0, y = 0;
+      for (const cm of match[1].matchAll(/(-?[\d.]+) (-?[\d.]+) (-?[\d.]+) (-?[\d.]+) (-?[\d.]+) (-?[\d.]+) cm/g)) {
+        x += Number(cm[5]); y += Number(cm[6]);
+      }
+      const stream = xObjects.lookup(PDFName.of(match[2]));
+      rows.push({ page: pageIndex + 1, x: +x.toFixed(4), y: +y.toFixed(4), name: match[2],
+        sha256: sha256(Buffer.from(stream.contents)), decoded: decodedAppearance(stream) });
     }
   }
+  return rows;
+}
+function placementAt(placements, page, rect, prefix = null) {
+  return placements.filter((r) => r.page === page && Math.abs(r.x - rect.x) < 0.01 && Math.abs(r.y - rect.y) < 0.01
+    && (prefix === null || r.name.startsWith(prefix)));
+}
+async function provePacket(file, maps, reports, manifest, censuses, facts) {
+  const packetBytes = fs.readFileSync(path.join(ROOT, file));
+  const widgets = await flattenedWidgets(path.join(ROOT, file)), writes = [];
+  const packetDoc = await PDFDocument.load(packetBytes, { updateMetadata: false });
+  const placements = pageAppearancePlacements(packetDoc), native = placements.filter((r) => r.name.startsWith("NativeWidget"));
   for (const map of maps) for (const row of map.canonicalWrites) {
     if (row.kind === "native_acroform_appearance") continue;
     const packetPage = manifest.find((p) => p.component === map.documentId && p.sourcePage === row.page)?.packetPage;
-    const hit = drawnAt(widgets, { page: packetPage, rect: row.rect });
+    const hit = drawnAt(widgets, { page: packetPage, rect: row.rect }), flat = placementAt(placements, packetPage, row.rect, "FlatWidget");
     const report = (reports.get(map.documentId)?.written ?? []).find((r) => r.field === row.fieldName);
     assert.ok(report && hit.length, `write not found at ${row.field}`);
+    const censusRow = censuses.get(map.documentId).rows.find((r) => r.name === row.fieldName);
+    let expected = report.value ?? facts[row.factId];
+    if (row.factId === "participant.date_of_birth") {
+      const [year, month, day] = String(expected).split("-"); expected = `${month}/${day}/${year}`;
+    }
+    let expectedAppearanceSha256 = null, observedAppearanceSha256 = null;
+    if (row.kind === "acroform_selection") {
+      const authoredOnStates = Object.keys(censusRow.widgets[0].appearanceSha256ByState).filter((state) => state !== "Off");
+      assert.equal(authoredOnStates.length, 1, `${row.field}: source checkbox must have exactly one authored on state`);
+      const state = authoredOnStates[0], mark = censusRow.widgets[0].appearanceMarkContentByState[state] ?? Buffer.alloc(0);
+      assert.ok(mark.length, `${row.field}: source-authored selected-mark content could not be isolated`);
+      expectedAppearanceSha256 = censusRow.widgets[0].appearanceMarkSha256ByState[state];
+      assert.equal(flat.length, 1, `${row.field}: expected one flattened selection appearance`);
+      assert.ok(flat[0].decoded.includes(mark), `${row.field}: flattened appearance does not contain the source-authored selected mark`);
+      observedAppearanceSha256 = sha256(mark);
+      assertAppearanceMatches({ field: row.field, expectedSha256: expectedAppearanceSha256, observedSha256: observedAppearanceSha256 });
+    } else {
+      const observed = hit.map((r) => r.text).join("");
+      assertAppearanceMatches({ field: row.field, expectedText: String(expected), observedText: observed });
+    }
     writes.push({ field: row.field, document: map.documentId, factId: row.factId, page: packetPage,
-      expected: String(report.value), appearancePlacements: hit.length, foundInOutputBytes: true,
-      proof: "flattened widget XObject at the original source rectangle in assembled packet bytes" });
+      expected: String(expected), drawnText: hit.map((r) => r.text).join(""), appearancePlacements: hit.length,
+      expectedAppearanceSha256, observedAppearanceSha256, foundInOutputBytes: true,
+      proof: row.kind === "acroform_selection" ? "flattened XObject contains the exact source-authored checked-mark content at the original rectangle"
+        : "flattened widget text equals the held value at the original source rectangle" });
   }
   for (const row of reports.get(STATEMENT).nativeGroup10.filter((r) => r.selected)) {
     const suffix = row.question === "legal_aid" ? "legalAid" : "inability";
@@ -444,29 +544,123 @@ async function provePacket(file, maps, reports, manifest) {
     const ink = drawnAt(widgets, { page: packetPage, rect: row.rect }).map((r) => r.text).join("").trim();
     assert.equal(ink, "", `${fieldName} source-carried default remains in assembled packet bytes`);
   }
-  return writes;
+  const refusedFieldsWithInk = []; let refusedWidgetsMeasured = 0;
+  for (const [componentId, census] of censuses) for (const row of census.rows) {
+    if (row.policy === "write" || row.name === "Group10") continue;
+    for (const widget of row.widgets) {
+      refusedWidgetsMeasured += 1;
+      const packetPage = manifest.find((p) => p.component === componentId && p.sourcePage === widget.page)?.packetPage;
+      const observedText = drawnAt(widgets, { page: packetPage, rect: widget.rect }).map((r) => r.text).join("");
+      const flat = placementAt(placements, packetPage, widget.rect, "FlatWidget");
+      const selectedMarks = Object.values(widget.appearanceMarkContentByState);
+      if (row.isSelectionControl) assert.ok(selectedMarks.length, `${componentId}.${row.name}: selected-mark content is not measurable`);
+      const finding = refusedInkFinding({ field: `${componentId}.${row.name}[${widget.index}]`, selection: row.isSelectionControl,
+        observedText, selectedMarkPresent: flat.some((appearance) => selectedMarks.some((mark) => appearance.decoded.includes(mark))) });
+      if (finding) refusedFieldsWithInk.push({ ...finding, refusalClass: row.refusalClass ?? null });
+    }
+  }
+  assert.equal(refusedFieldsWithInk.length, 0,
+    `refused or protected fields carry ink: ${refusedFieldsWithInk.map((r) => r.fieldId).join(", ")}`);
+  return { actualWrites: writes, refusedFieldsWithInk, refusedWidgetsMeasured, nativeAppearancesMeasured: native.length };
 }
 function measureCounters(maps, proofs, instructions, artifacts) {
-  const writes = maps.flatMap((m) => m.canonicalWrites), blanks = maps.flatMap((m) => m.canonicalRefusals);
-  const writeKeys = new Set(writes.map((r) => r.field));
-  const proofSets = proofs.map((p) => new Set(p.actualWrites.filter((r) => r.foundInOutputBytes).map((r) => r.field)));
-  const protectedWrites = writes.filter((r) => classifyField(r.effectiveLabel ?? r.field,
-    maps.some((m) => m.selectionControls.some((s) => s.selectionId === r.field))).requirement === "PROTECTED").length;
-  const unclassified = blanks.filter((r) => r.requiredBeforeFiling !== true && !r.completenessClass).length;
-  const required = blanks.filter((r) => r.requiredBeforeFiling === true);
-  const missingComponents = COMPONENTS.filter((id) => !artifacts.every((a) => a.documents.includes(id))).length;
-  const group10Writes = writes.filter((r) => r.field.includes(".Group10."));
-  return {
-    knownRequiredFieldsMissing: writes.filter((r) => !r.factId).length,
-    requiredFactsNotCollected: required.filter((r) => !instructions.includes(r.effectiveLabel)).length,
-    unclassifiedBlanks: unclassified,
-    incompleteRows: writes.filter((r) => /matter\.charges\[/.test(r.factId ?? "") && !r.field).length,
-    requiredOptionsMissing: group10Writes.length === 2 && proofSets.every((set) => group10Writes.every((r) => set.has(r.field))) ? 0 : 1,
-    requiredComponentsMissing: missingComponents,
-    invisibleWrites: proofSets.reduce((n, set) => n + [...writeKeys].filter((key) => !set.has(key)).length, 0),
-    protectedWrites,
-    visualDefects: proofs.reduce((n, p) => n + p.refusedFieldsWithInk.length, 0)
-  };
+  const counters = Object.fromEntries(PASS_COUNTERS.map((key) => [key, 0])), findings = [];
+  const note = (counter, detail) => { counters[counter] += 1; findings.push({ counter, ...detail }); };
+  const selectionIds = new Set(maps.flatMap((m) => m.selectionControls.map((s) => s.selectionId)));
+  const normalize = (r) => ({ id: r.field, name: r.fieldName ?? r.field, label: r.effectiveLabel ?? "",
+    reason: r.reason ?? "", refusalClass: r.category ?? null, page: r.page ?? null, document: r.document ?? null,
+    factId: r.factId ?? null, isSelectionControl: selectionIds.has(r.field),
+    declared: { disposition: r.completenessDisposition ?? null,
+      ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
+      ...(Object.hasOwn(r, "routeDetermined") ? { routeDetermined: r.routeDetermined === true } : {}),
+      identity: r.field, factId: r.factId ?? null } });
+  const writes = maps.flatMap((m) => m.canonicalWrites.map(normalize));
+  const blanks = maps.flatMap((m) => m.canonicalRefusals.map(normalize));
+  const availableFacts = new Set(writes.map((r) => r.factId).filter(Boolean));
+  const norm = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const writtenByDocument = new Map();
+  for (const row of writes) {
+    if (!writtenByDocument.has(row.document)) writtenByDocument.set(row.document, new Set());
+    writtenByDocument.get(row.document).add(norm(row.label)); writtenByDocument.get(row.document).add(norm(row.name));
+  }
+  const ledger = [];
+  for (const blank of blanks) {
+    const here = writtenByDocument.get(blank.document) ?? new Set();
+    const declared = { ...blank.declared,
+      factAvailable: (blank.factId ? availableFacts.has(blank.factId) : false) || here.has(norm(blank.label)) || here.has(norm(blank.name)) };
+    const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared); ledger.push({ ...blank, ...verdict });
+    if (BLANK_DISPOSITIONS[verdict.disposition]?.allowed) continue;
+    if (verdict.disposition === "KNOWN_FACT_NOT_WRITTEN") note("knownRequiredFieldsMissing", { field: blank.id, basis: verdict.basis });
+    else if (verdict.disposition === "ROUTE_OPTION_NOT_SELECTED") note("requiredOptionsMissing", { field: blank.id, basis: verdict.basis });
+    else note("unclassifiedBlanks", { field: blank.id, basis: verdict.basis });
+  }
+  const hay = instructions.toLowerCase();
+  for (const blank of ledger.filter((r) => r.disposition === "REQUIRED_BEFORE_FILING")) {
+    const needles = [blank.label, blank.id, blank.declared.identity].map((x) => String(x ?? "").trim()).filter((x) => x.length >= 3);
+    if (!needles.some((needle) => hay.includes(needle.toLowerCase().slice(0, 60))))
+      note("requiredFactsNotCollected", { field: blank.id, why: "required item is absent from participant instructions" });
+  }
+  const rows = new Map();
+  for (const field of [...writes.map((r) => ({ ...r, written: true })), ...blanks.map((r) => ({ ...r, written: false }))]) {
+    const key = rowKeyOf(field); if (!key) continue;
+    if (!rows.has(key)) rows.set(key, []); rows.get(key).push(field);
+  }
+  for (const [key, cells] of rows) {
+    if (!cells.some((r) => r.written)) continue;
+    const missing = cells.filter((r) => !r.written && classifyField(r.label, r.isSelectionControl).requirement === "REQUIRED_KNOWN");
+    if (missing.length) note("incompleteRows", { row: key, missingCells: missing.map((r) => r.label) });
+  }
+  for (const row of writes) if (classifyField(row.label, row.isSelectionControl).requirement === "PROTECTED")
+    note("protectedWrites", { field: row.id, why: "a protected field was written" });
+  const expectedWriteIds = new Set(writes.map((r) => r.id));
+  for (const proof of proofs) {
+    const proven = new Set(proof.actualWrites.filter((r) => r.foundInOutputBytes).map((r) => r.field));
+    for (const id of expectedWriteIds) if (!proven.has(id)) note("invisibleWrites", { fixture: proof.fixture, field: id });
+    for (const refused of proof.refusedFieldsWithInk) {
+      note("visualDefects", { fixture: proof.fixture, field: refused.fieldId, why: refused.why });
+      if (refused.refusalClass === SIGNATURE || refused.refusalClass === COURT_OWNED)
+        note("protectedWrites", { fixture: proof.fixture, field: refused.fieldId, why: refused.why });
+    }
+  }
+  for (const component of COMPONENTS) if (!artifacts.every((artifact) => artifact.documents.includes(component)))
+    note("requiredComponentsMissing", { component });
+  return { counters, findings, ledger, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
+}
+
+export async function verifyBuiltOutputs(directory = path.join(ROOT, OUT_REL)) {
+  const renderedPath = path.join(directory, "reports/rendered-artifacts.json");
+  const mapPath = path.join(directory, "production-field-map.json");
+  const receiptPath = path.join(directory, "source-receipt.json");
+  for (const required of [renderedPath, mapPath, receiptPath])
+    assert.ok(fs.existsSync(required), `required build artifact missing: ${path.relative(directory, required)}`);
+  const rendered = JSON.parse(fs.readFileSync(renderedPath, "utf8"));
+  const map = JSON.parse(fs.readFileSync(mapPath, "utf8"));
+  const receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
+  assert.equal(rendered.familyId, FAMILY_ID, "rendered artifact family drift");
+  assert.equal(map.familyId, FAMILY_ID, "field-map family drift");
+  assert.equal(receipt.familyId, FAMILY_ID, "source-receipt family drift");
+  assert.deepEqual(map.componentSet, COMPONENTS, "field-map component set drift");
+  assert.deepEqual(rendered.componentSet, COMPONENTS, "artifact component set drift");
+  assert.equal(map.group10NativeAppearancePolicy?.synthesizedMarks, 0);
+  assert.equal(map.group10NativeAppearancePolicy?.outsideControlMarks, 0);
+  const receiptSources = new Map((receipt.documents ?? []).map((row) => [row.documentId, row.sha256]));
+  for (const source of SOURCES)
+    assert.equal(receiptSources.get(source.componentId), source.sha256, `${source.componentId} receipt source drift`);
+  const expectedFixtures = ["boundary", "canonical"];
+  const pdfs = rendered.pdfs ?? [];
+  assert.deepEqual(pdfs.map((row) => row.fixture).sort(), expectedFixtures, "rendered artifacts must bind canonical and boundary PDFs exactly once");
+  for (const fixture of expectedFixtures) {
+    const pdf = pdfs.find((row) => row.fixture === fixture);
+    const actualPath = path.join(directory, "fixtures", `${fixture}.pdf`);
+    assert.ok(fs.existsSync(actualPath), `required ${fixture} PDF missing`);
+    const bytes = fs.readFileSync(actualPath);
+    assert.equal(sha256(bytes), pdf.sha256, `${fixture} artifact hash drift`);
+    assert.equal(bytes.length, pdf.byteLength, `${fixture} artifact byte-length drift`);
+    assert.equal((await PDFDocument.load(bytes, { updateMetadata: false })).getPageCount(), 22, `${fixture} page-count drift`);
+    assert.deepEqual(pdf.documents ?? rendered.artifacts?.find((row) => row.fixture === fixture)?.documents,
+      COMPONENTS, `${fixture} component coverage drift`);
+  }
+  return { artifactsVerified: 2, mapsVerified: true, sourceReceiptVerified: true };
 }
 
 export async function runFamily(argv = process.argv.slice(2), options = {}) {
@@ -485,24 +679,12 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
     assert.equal((await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false })).getPageCount(), source.pageCount);
   }
   if (checkOnly) {
-    const renderedPath = path.join(ROOT, OUT_REL, "reports/rendered-artifacts.json");
-    const mapPath = path.join(ROOT, OUT_REL, "production-field-map.json");
-    let artifactsVerified = 0, mapsVerified = false;
-    if (fs.existsSync(renderedPath) && fs.existsSync(mapPath)) {
-      const rendered = readJson(`${OUT_REL}/reports/rendered-artifacts.json`), map = readJson(`${OUT_REL}/production-field-map.json`);
-      assert.deepEqual(map.componentSet, COMPONENTS); assert.equal(map.group10NativeAppearancePolicy?.synthesizedMarks, 0);
-      for (const pdf of rendered.pdfs ?? []) {
-        const bytes = fs.readFileSync(path.join(ROOT, pdf.file));
-        assert.equal(sha256(bytes), pdf.sha256, `${pdf.fixture} artifact hash drift`);
-        assert.equal((await PDFDocument.load(bytes, { updateMetadata: false })).getPageCount(), 22);
-        artifactsVerified += 1;
-      }
-      mapsVerified = true;
-    }
+    const { artifactsVerified, mapsVerified, sourceReceiptVerified } = await verifyBuiltOutputs();
     return { familyId: FAMILY_ID, status: "CHECK_ONLY", boundSources: 3,
       sourceHashes: resolved.map((r) => ({ sourceId: r.sourceId, sha256: r.sha256, pages: r.pageCount })),
       fields: [{ component: LETTER, actual: 25 }, { component: ORDER, actual: 0 }, { component: STATEMENT, actual: 132 }],
-      group10: group.widgets, letterDerivativeSha256: letterDerivative.sha256, artifactsVerified, mapsVerified, outputWritten: false };
+      group10: group.widgets, letterDerivativeSha256: letterDerivative.sha256, artifactsVerified, mapsVerified, sourceReceiptVerified,
+      outputWritten: false };
   }
 
   const factsByFixture = options.fixtures ?? FIXTURES;
@@ -522,18 +704,18 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
     if (!maps) maps = mapsFrom(censuses, reports);
     const packet = await combine(rendered, fixture), file = `${OUT_REL}/fixtures/${fixture}.pdf`;
     fs.writeFileSync(path.join(ROOT, file), packet.bytes);
-    const writes = await provePacket(file, maps, reports, packet.pageManifest);
-    assert.equal(writes.length, maps.reduce((n, m) => n + m.canonicalWrites.length, 0));
+    const proof = await provePacket(file, maps, reports, packet.pageManifest, censuses, facts);
+    assert.equal(proof.actualWrites.length, maps.reduce((n, m) => n + m.canonicalWrites.length, 0));
     proofs.push({ fixture, valuesReportedByFinalizer: [...reports.values()].reduce((n, r) => n + r.written.length, 0),
-      nativeGroup10Selections: reports.get(STATEMENT).nativeGroup10.filter((r) => r.selected), actualWrites: writes,
-      refusedFieldsWithInk: [], protectedSourceDefaultsCleared: reports.get(STATEMENT).sourceCarriedValuesCleared });
+      nativeGroup10Selections: reports.get(STATEMENT).nativeGroup10.filter((r) => r.selected),
+      protectedSourceDefaultsCleared: reports.get(STATEMENT).sourceCarriedValuesCleared, ...proof });
     artifacts.push({ fixture, file, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount,
       documents: COMPONENTS, components: COMPONENTS, pageManifest: packet.pageManifest });
   }
   assert.ok(artifacts.every((a) => a.pageCount === 22));
   const instructions = participantInstructions(maps); fs.writeFileSync(path.join(ROOT, OUT_REL, "participant-instructions.md"), instructions);
   const requiredBeforeFiling = maps.flatMap((m) => m.canonicalRefusals).filter((r) => r.requiredBeforeFiling);
-  const counters = measureCounters(maps, proofs, instructions, artifacts);
+  const counted = measureCounters(maps, proofs, instructions, artifacts), counters = counted.counters;
   assert.deepEqual(Object.keys(counters), PASS_COUNTERS);
   assert.ok(PASS_COUNTERS.every((key) => counters[key] === 0), `nonzero measured counters: ${JSON.stringify(counters)}`);
   const conditions = Object.fromEntries(resolved.map((r) => [r.componentId, r.conditional]));
@@ -571,14 +753,17 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
     derivedFromArtifactBytes: true, nativeAppearanceProof: true, documents: proofs,
     artifacts: proofs.map((p) => ({ fixture: p.fixture, valuesReportedByFinalizer: p.valuesReportedByFinalizer,
       nativeGroup10Selections: p.nativeGroup10Selections.length, flattenedWidgetAppearancesReadFromOutputBytes: p.actualWrites.length,
+      refusedWidgetsMeasured: p.refusedWidgetsMeasured, nativeAppearancesMeasured: p.nativeAppearancesMeasured,
       refusedFieldsWithInk: p.refusedFieldsWithInk })), blockingFindings: [] });
   writeJson(`${OUT_REL}/reports/blanks-left-for-the-participant.json`, { schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
     requiredBeforeFiling, protectedBlanks: maps.flatMap((m) => m.canonicalRefusals.filter((r) => !r.requiredBeforeFiling)),
     everyRequiredBeforeFilingItemIsDisclosed: true, disclosedIn: `${OUT_REL}/participant-instructions.md` });
   writeJson(`${OUT_REL}/reports/completeness-counters.json`, { schemaVersion: "rcap-builder-completeness-counters/v1", familyId: FAMILY_ID,
-    counters, allNineZero: PASS_COUNTERS.every((key) => counters[key] === 0), findings: [],
+    counters, allNineZero: PASS_COUNTERS.every((key) => counters[key] === 0), findings: counted.findings,
     measurementBasis: { censusFields: 157, mappedComponents: maps.length, packetFixtures: proofs.length,
       declaredWrites: maps.reduce((n, m) => n + m.canonicalWrites.length, 0), requiredBeforeFiling: requiredBeforeFiling.length,
+      terminalFieldsClassified: counted.terminalFields, blankDispositionLedgerEntries: counted.ledger.length,
+      refusedWidgetsMeasuredFromFinalBytes: proofs.reduce((n, p) => n + p.refusedWidgetsMeasured, 0),
       rasterState: "RASTER_PENDING", visualDefectsCountsOnlyStructurallyDetectedInk: true },
     note: "Derived from the exhaustive source census, three-component page manifest, and actual-write proofs. No visual acceptance is claimed." });
   writeJson(`${OUT_REL}/product-wiring.json`, { schemaVersion: "rcap-census-v1-product-wiring/v1", family: FAMILY_ID, routeKey: ROUTE_KEYS[1], routeKeys: ROUTE_KEYS,

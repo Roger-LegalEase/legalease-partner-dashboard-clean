@@ -7,7 +7,7 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import {
   FAMILY_ID, OUT_REL, FIXTURES, assertSourceIdentity,
-  nativeGroup10Derivative, runFamily
+  assertAppearanceMatches, refusedInkFinding, nativeGroup10Derivative, verifyBuiltOutputs, runFamily
 } from "../build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -44,6 +44,23 @@ for (const facts of [
 const represented = await nativeGroup10Derivative(statementBytes, { ...FIXTURES.canonical, "matter.represented_by_legal_aid": true });
 assert.deepEqual(represented.appearances.filter((r) => r.selected).map((r) => r.state), ["Choice1", "Choice3"],
   "legal-aid answer changes independently while inability answer stays selected");
+assertAppearanceMatches({ field: "text", expectedText: "held fact", observedText: "held fact" });
+assert.throws(() => assertAppearanceMatches({ field: "text", expectedText: "held fact", observedText: "wrong value" }), /disagrees/);
+assertAppearanceMatches({ field: "selection", expectedSha256: "authored-on", observedSha256: "authored-on" });
+assert.throws(() => assertAppearanceMatches({ field: "selection", expectedSha256: "authored-on", observedSha256: "different-ap" }),
+  /expected source-authored appearance/);
+assert.equal(refusedInkFinding({ field: "signature", observedText: "" }), null);
+assert.ok(refusedInkFinding({ field: "signature", observedText: "Jordan Avery" }), "protected text ink must be detected");
+assert.equal(refusedInkFinding({ field: "choice", selection: true, selectedMarkPresent: false }), null);
+assert.ok(refusedInkFinding({ field: "choice", selection: true, selectedMarkPresent: true }),
+  "protected selection ink must be detected");
+for (const facts of [
+  { ...FIXTURES.boundary, "matter.discharge_dismissal_date": "02/30/2018" },
+  { ...FIXTURES.boundary, "matter.discharge_dismissal_date": "02/27/2018" },
+  { ...FIXTURES.boundary, "matter.placement_date": "09/31/2017" },
+  { ...FIXTURES.boundary, "participant.date_of_birth": "1993-02-29" }
+]) await assert.rejects(() => nativeGroup10Derivative(statementBytes, facts));
+await nativeGroup10Derivative(statementBytes, FIXTURES.boundary);
 
 const check = await runFamily(["--check", "--no-raster"]);
 assert.equal(check.status, "CHECK_ONLY");
@@ -55,12 +72,31 @@ const firstHashes = first.artifactHashes.map((r) => r.packetSha256);
 const second = await runFamily(["--no-raster"]);
 assert.deepEqual(second.artifactHashes.map((r) => r.packetSha256), firstHashes, "build must be deterministic");
 assert.ok(second.artifactHashes.every((r) => r.pages === 22));
+assert.deepEqual(await verifyBuiltOutputs(path.join(ROOT, OUT_REL)),
+  { artifactsVerified: 2, mapsVerified: true, sourceReceiptVerified: true });
 const canonicalPath = path.join(ROOT, OUT_REL, "fixtures/canonical.pdf");
-const beforeInvalid = sha256(fs.readFileSync(canonicalPath));
+const boundaryPath = path.join(ROOT, OUT_REL, "fixtures/boundary.pdf");
+const beforeInvalid = [canonicalPath, boundaryPath].map((file) => sha256(fs.readFileSync(file)));
 await assert.rejects(() => runFamily(["--no-raster"], { fixtures: {
   canonical: { ...FIXTURES.canonical, "matter.represented_by_legal_aid": "unknown" }, boundary: FIXTURES.boundary
 } }));
-assert.equal(sha256(fs.readFileSync(canonicalPath)), beforeInvalid, "invalid facts refuse before writing an artifact");
+await assert.rejects(() => runFamily(["--no-raster"], { fixtures: {
+  canonical: FIXTURES.canonical, boundary: { ...FIXTURES.boundary, "matter.discharge_dismissal_date": "02/27/2018" }
+} }));
+assert.deepEqual([canonicalPath, boundaryPath].map((file) => sha256(fs.readFileSync(file))), beforeInvalid,
+  "invalid facts and impossible chronology refuse before writing either artifact");
+
+const incomplete = fs.mkdtempSync(path.join(process.env.TMPDIR ?? "/tmp", "rcap-tx072-check-"));
+try {
+  fs.mkdirSync(path.join(incomplete, "reports"), { recursive: true });
+  fs.mkdirSync(path.join(incomplete, "fixtures"), { recursive: true });
+  for (const rel of ["reports/rendered-artifacts.json", "source-receipt.json"])
+    fs.copyFileSync(path.join(ROOT, OUT_REL, rel), path.join(incomplete, rel));
+  fs.copyFileSync(path.join(ROOT, OUT_REL, "fixtures/canonical.pdf"), path.join(incomplete, "fixtures/canonical.pdf"));
+  await assert.rejects(() => verifyBuiltOutputs(incomplete), /production-field-map\.json/);
+  fs.copyFileSync(path.join(ROOT, OUT_REL, "production-field-map.json"), path.join(incomplete, "production-field-map.json"));
+  await assert.rejects(() => verifyBuiltOutputs(incomplete), /boundary PDF missing/);
+} finally { fs.rmSync(incomplete, { recursive: true, force: true }); }
 
 const map = JSON.parse(fs.readFileSync(path.join(ROOT, OUT_REL, "production-field-map.json")));
 assert.deepEqual(map.componentSet, [
@@ -96,4 +132,7 @@ const status = JSON.parse(fs.readFileSync(path.join(ROOT, OUT_REL, "build-status
 assert.equal(status.rasterState, "BUILT_RASTER_PENDING");
 assert.equal(status.selfVerified, false);
 assert.equal(status.generationAllowed, false);
-console.log("PASS tx automatic native controls: exact sources, independent Group10 states, defaults cleared, protected order, deterministic 22-page packets, and fail-closed facts");
+const instructions = fs.readFileSync(path.join(ROOT, OUT_REL, "participant-instructions.md"), "utf8");
+assert.match(instructions, /Each selection comes from the participant's supplied answer/);
+assert.doesNotMatch(instructions, /not represented by Legal Aid/i);
+console.log("PASS tx automatic native controls: exact values and source-authored APs, measured refused ink, strict dates, required check artifacts, protected order, deterministic packets, and fail-closed facts");

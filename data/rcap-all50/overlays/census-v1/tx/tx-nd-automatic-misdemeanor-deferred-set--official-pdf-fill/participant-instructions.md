@@ -6,7 +6,7 @@ This is not a petition. Use the OCA model letter only when the record establishe
 
 The $28 amount is payable to the clerk before the court issues the order; the OCA instructions say it is not a filing fee. The Statement of Inability appears only because the packet facts explicitly say the participant cannot afford that cost. Complete its financial and household answers from your own records.
 
-Review both answers on the Statement: it says the participant is not represented by legal aid and cannot afford court costs. Correct either answer before signing if it is not true.
+Review the two separate selections on the Statement: legal-aid representation and ability to pay court costs. Each selection comes from the participant's supplied answer; correct either one before signing if it is not true.
 
 The proposed order remains entirely for the court. Ask the clerk whether that court expects it with the recovery letter; do not sign, date, or mark findings on it.
 

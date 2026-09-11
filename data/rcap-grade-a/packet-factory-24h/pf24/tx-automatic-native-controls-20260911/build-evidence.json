@@ -1,20 +1,20 @@
 {
-  "schemaVersion": "rcap-pf24-build-evidence/v1",
+  "schemaVersion": "rcap-pf24-build-evidence/v2",
   "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
   "base": "2e900757aed813504bc7a0b38693c47f63737b72",
   "result": "COMPLETED_RASTER_PENDING",
   "commands": [
     {
       "command": "PYTHONPATH=/tmp/rcap-pf24-pikepdf RCAP_PIKEPDF_PYTHON=python3.12 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs --no-raster",
-      "result": "COMPLETED; two deterministic 22-page artifacts; all nine builder counters measured zero; BUILT_RASTER_PENDING"
+      "result": "COMPLETED; canonical retained and chronology-corrected boundary rebuilt; two deterministic 22-page artifacts; all nine builder counters zero from classified obligations and final-byte structural ink measurement; BUILT_RASTER_PENDING"
     },
     {
       "command": "PYTHONPATH=/tmp/rcap-pf24-pikepdf RCAP_PIKEPDF_PYTHON=python3.12 RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-recovery/tx-automatic-native-controls.test.mjs",
-      "result": "PASS"
+      "result": "PASS; exact/wrong text and AP values, protected ink, missing artifact, impossible dates, dismissal chronology, Group10 independence, defaults, protected order, and deterministic rebuild"
     },
     {
       "command": "PYTHONPATH=/tmp/rcap-pf24-pikepdf RCAP_PIKEPDF_PYTHON=python3.12 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs --check --no-raster",
-      "result": "CHECK_ONLY; 3 exact sources, 157 fields, 2 artifacts and field map verified; no writes"
+      "result": "CHECK_ONLY; 3 exact sources, 157 fields, exactly 2 required artifacts, their hashes/pages/component coverage, source receipt, and field map verified; no writes"
     },
     {
       "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_automatic_misdemeanor_deferred-set",
@@ -27,19 +27,46 @@
     "statementOfInability": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"
   },
   "deterministicLetterDerivativeSha256": "8197d7bba301f97bbaef5e1434975fc3aeb1650faae66ad007d57e9aeb4bb240",
-  "fieldCensus": { "recoveryLetter": 25, "proposedOrder": 0, "statementOfInability": 132 },
+  "fieldCensus": {
+    "recoveryLetter": 25,
+    "proposedOrder": 0,
+    "statementOfInability": 132
+  },
   "nativeGroup10": {
     "sourceField": "Group10",
     "sourceWidgets": 4,
     "questions": 2,
     "canonicalSelections": [
-      { "question": "legal_aid", "factId": "matter.represented_by_legal_aid", "state": "Choice2", "page": 3, "rect": { "x": 74.6448, "y": 135.653, "width": 18, "height": 18 } },
-      { "question": "ability_to_pay", "factId": "matter.cannot_afford_court_costs", "state": "Choice3", "page": 9, "rect": { "x": 90.8819, "y": 316.952, "width": 18.0001, "height": 18 } }
+      {
+        "question": "legal_aid",
+        "factId": "matter.represented_by_legal_aid",
+        "state": "Choice2",
+        "page": 3,
+        "rect": {
+          "x": 74.6448,
+          "y": 135.653,
+          "width": 18,
+          "height": 18
+        }
+      },
+      {
+        "question": "ability_to_pay",
+        "factId": "matter.cannot_afford_court_costs",
+        "state": "Choice3",
+        "page": 9,
+        "rect": {
+          "x": 90.8819,
+          "y": 316.952,
+          "width": 18.0001,
+          "height": 18
+        }
+      }
     ],
     "selectedSourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2",
     "radioStructureEdited": false,
     "outsideControlMarks": 0,
-    "synthesizedMarks": 0
+    "synthesizedMarks": 0,
+    "selectedSourceAppearanceMarkSha256": "c886ee6098a606e2b4dd780847ad03a7532c8cc931f1b20916c25ea9469995b8"
   },
   "sourceCarriedDefaultsClearedAndReadBackBlank": {
     "Today": "12/15/2022",
@@ -47,8 +74,21 @@
     "Amount Cantidad 15": "0"
   },
   "artifacts": [
-    { "fixture": "canonical", "sha256": "b6c2532b99fea6a8e7fafaffeee7e57f8335c6a389b6699d2b06eafe2f2cb8c8", "bytes": 714530, "pages": 22 },
-    { "fixture": "boundary", "sha256": "f9f326415a1f28a99cb4cae4c1940362847889030efb8f7c75a3a19fc80abeef", "bytes": 714653, "pages": 22 }
+    {
+      "fixture": "canonical",
+      "sha256": "b6c2532b99fea6a8e7fafaffeee7e57f8335c6a389b6699d2b06eafe2f2cb8c8",
+      "bytes": 714530,
+      "pages": 22,
+      "changeFromInitial": "unchanged"
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "c904c423f5330a8bdce372f27d605009be048eeb80d596ee12b99f1ab15927fa",
+      "bytes": 714654,
+      "pages": 22,
+      "previousSha256": "f9f326415a1f28a99cb4cae4c1940362847889030efb8f7c75a3a19fc80abeef",
+      "reason": "discharge/dismissal corrected from 09/01/2017 to 02/28/2018 so it no longer precedes supervision end"
+    }
   ],
   "measuredWritesPerFixture": 33,
   "measuredRequiredBeforeFiling": 98,
@@ -70,5 +110,19 @@
   },
   "approval": "none",
   "commercialRoutesOpened": 0,
-  "rasterState": "BUILT_RASTER_PENDING"
+  "rasterState": "BUILT_RASTER_PENDING",
+  "proofClosure": {
+    "heldValueReadback": "31 finalizer writes plus 2 native Group10 selections per fixture agree with held facts; ordinary checkbox output contains exact source-authored selected-mark content",
+    "refusedInkMeasurement": {
+      "widgetsMeasuredPerFixture": 131,
+      "fixtures": 2,
+      "refusedFieldsWithInk": 0,
+      "basis": "flattened final artifact bytes at each original widget rectangle; selected controls checked for source-authored on-mark absence and text controls checked for blank text"
+    },
+    "completeness": "159 terminal map entries classified through the shared completeness contract; 126 blank disposition ledger entries; no structurally guaranteed missing-field counters",
+    "checkGate": "canonical PDF, boundary PDF, production map, source receipt, exact hashes, byte lengths, pages, and component coverage are mandatory",
+    "calendarGate": "strict YYYY-MM-DD birth date and MM/DD/YYYY matter calendar dates; end cannot precede placement; dismissal cannot precede end; established 180-day and September 1, 2017 gates retained",
+    "participantCopy": "describes both selections as supplied answers and does not hardcode legal-aid=false"
+  },
+  "builderCounterScope": "All nine counters are zero for mapped/completeness and final-byte structural checks. Pixel-level visualDefects remains UNMEASURED in the independent verifier until central raster."
 }
