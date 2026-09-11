@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "cad70bac23d0510262d6aa6e2d34ca44b08ab5ab",
+  "generatedAtCommit": "ada5a1985117a5f52f02f729e600fd1826500cf0",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5224,8 +5224,9 @@
       "operation": "independent-verification",
       "lane": "VF62",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-11T15:29:29.250Z",
+      "releaseReason": "Complete independent PASS return 2a6a26d032f58cecb7d3df2dd50a0d8584d9ccf9 integrated as ada5a1985; all15 obligations measured on current bytes. Utah VF62 grant remains active."
     },
     {
       "subjectType": "packet-family",
@@ -5242,21 +5243,6 @@
       "released": true,
       "releasedAt": "2026-09-11T14:13:53.668Z",
       "releaseReason": "Completed builder and all-six-PDF native raster enrollment integrated; central raster and independent review remain pending"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ky_misdemeanor_expungement-set",
-      "familyId": "ky_misdemeanor_expungement-set",
-      "itemId": null,
-      "familyIds": [
-        "ky_misdemeanor_expungement-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX02",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15347,7 +15333,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "3df3ce4f2aa6cf76ba08e6525240096f8eaf4adee0134b88b63595cf34da19eb",
+  "claimsDigest": "ee60b7138a8d088f5d6330501e5a8062c5540357c73cc4a80725b4aaa5c3f2c3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40491,6 +40477,15 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-11T15:01:56.600Z"
+    },
+    {
+      "lane": "VF62",
+      "subjectType": "packet-family",
+      "subjectId": "ky_misdemeanor_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-11T15:29:29.250Z",
+      "reason": "Complete independent PASS return 2a6a26d032f58cecb7d3df2dd50a0d8584d9ccf9 integrated as ada5a1985; all15 obligations measured on current bytes. Utah VF62 grant remains active."
     }
   ],
   "reissues": [
@@ -67067,6 +67062,14 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-11T15:25:06Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky_misdemeanor_expungement-set",
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "withdrawnAt": "2026-09-11T15:29:40Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

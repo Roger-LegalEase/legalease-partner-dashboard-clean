@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "cad70bac23d0510262d6aa6e2d34ca44b08ab5ab",
+  "minimumCaptainSha": "ada5a1985117a5f52f02f729e600fd1826500cf0",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -76,16 +76,16 @@
     "sourceBlocked": 6,
     "legalBlocked": 0,
     "verifyPending": 4,
-    "repairRequired": 30,
+    "repairRequired": 29,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 229,
+    "COMPLETE_PACKET_PROVEN": 230,
     "PRODUCT_PATH_PENDING": 12,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 9,
     "SOURCE_READY": 35,
-    "FAIL_REPAIR_REQUIRED": 31,
+    "FAIL_REPAIR_REQUIRED": 30,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 11,
     "HANDOFF_READY": 2,
@@ -23374,10 +23374,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf62",
-        "verifiedAtBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ky-current.json"
+        "verifiedAtBase": "1dd3c9aabb2e402181670d4545681a73e1f58f30",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ky-final.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -23396,27 +23396,26 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f",
+          "verifiedAtBase": "1dd3c9aabb2e402181670d4545681a73e1f58f30",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/KY_COMPANION_CHARGES_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/KY_COMPANION_CHARGES_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/KY_COMPANION_CHARGES_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/KY_COMPANION_CHARGES_RESOLUTION_2026-09-11.json",
               "currentSha256": "ee9a2a2486a6bdf9017da938ba944168ce733b3c04bd340688c10a6119959a95",
-              "matches": false
+              "reviewedSha256": "ee9a2a2486a6bdf9017da938ba944168ce733b3c04bd340688c10a6119959a95",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -23465,55 +23464,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/original-page-review.json"
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_misdemeanor_expungement-set.mjs",
