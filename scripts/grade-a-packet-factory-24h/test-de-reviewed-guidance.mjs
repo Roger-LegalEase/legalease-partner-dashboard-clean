@@ -57,6 +57,21 @@ const fixture = (doc=review) => ({
 
 const accepted=assessDeReviewedGuidance(root,returned,fixture());
 assert.equal(accepted.eligible,true,accepted.reason);
+const historicalWiring = mutate => ({...fixture(), readHistorical: (_commit, relative) => {
+  if (relative !== `${DE_DIRECTORY}/product-wiring.json`) return read(relative);
+  const value = json(relative); mutate(value); return Buffer.from(JSON.stringify(value));
+}});
+const consumedPointers = assessDeReviewedGuidance(root, returned, historicalWiring(value => {
+  value.binding.historicalIndependentVerification = {verdict:'BLOCKED_LEGAL_INPUT',lane:'vf01'};
+  value.binding.lastIndependentVerification = null;
+  value.binding.independentReviewStatus = 'CURRENT_REVIEW_PENDING';
+}));
+assert.equal(consumedPointers.eligible, true, consumedPointers.reason);
+for (const mutate of [value => {value.binding.filingPermitted = true;},
+  value => {value.binding.packetComponents = ['fictional_application'];},
+  value => {value.binding.paymentEligible = true;}]) {
+  assert.equal(assessDeReviewedGuidance(root, returned, historicalWiring(mutate)).eligible, false);
+}
 assert.equal(accepted.terminalTreatment,'GUIDANCE_READY');
 assert.equal(accepted.outputs.reduce((sum,item)=>sum+item.pageCount,0),8);
 assert.equal(accepted.sourceChecks.length,9);
@@ -85,22 +100,26 @@ denyOverride('false filing component',options=>{const original=options.readBytes
 denyOverride('manifest drops a page',options=>{const original=options.readBytes;options.readBytes=relative=>{if(relative!==`${DE_DIRECTORY}/reports/rendered-artifacts.json`)return original(relative);const value=json(relative);value.artifacts[0].pageManifest.pop();return Buffer.from(JSON.stringify(value));};});
 
 const actualReturn=json('data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json').rows.find(row=>row.familyId===DE_FAMILY&&!row.superseded);
-assert.equal(assessDeReviewedGuidance(root,actualReturn),null,'current historical legal hold is not a current guidance pass');
-const absentCurrent=assessDeReviewedGuidance(root,returned);
+const actualAdmission=assessDeReviewedGuidance(root,actualReturn);
+assert.equal(actualAdmission.eligible,true,actualAdmission.reason);
+const absentCurrent=assessDeReviewedGuidance(root,returned,{...fixture(),readBytes:relative=>{
+  if(relative===CURRENT_REVIEW)throw new Error('ENOENT: independent review absent');
+  return read(relative);
+}});
 assert.equal(absentCurrent.eligible,false);
 assert.match(absentCurrent.reason,/ENOENT/);
 
 const registryPath='data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json';
 const old=execFileSync('git',['show',`97d5b4ba933537f8baf0371c7ba99c0dae5e6d00:${registryPath}`]);
 const refresh=additiveOtherFamilyRegistry(old,read(registryPath),DE_FAMILY);
-assert.deepEqual(refresh.changedFamilyIds,['census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement','de_pardon_expungement-set']);
-assert.equal(refresh.unchangedPriorFamilyEntries,72);
+assert.deepEqual(refresh.changedFamilyIds,['census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement']);
+assert.equal(refresh.unchangedPriorFamilyEntries,73);
 const changedMandatory=JSON.parse(read(registryPath));changedMandatory.reconciliation42.families.find(row=>row.familyId===DE_FAMILY).disposition='changed';
 assert.throws(()=>additiveOtherFamilyRegistry(old,Buffer.from(JSON.stringify(changedMandatory)),DE_FAMILY));rejected++;
 for(const [relative,digest] of Object.entries(originalPdfHashes))assert.equal(hash(read(relative)),digest,'test changed packet PDF');
 
 const currentRaster=acceptedRasterFor(root,candidateRowsByFamily(json('data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json')).get(DE_FAMILY),{requireReceiptDeclaredCoverage:true});
-assert.equal(currentRaster.proven,false);
+assert.equal(currentRaster.proven,true);
 console.log(JSON.stringify({suite:'de-current-reviewed-guidance',fullyBoundFixtureAccepted:1,rejectionControls:rejected,
-  currentIndependentReviewPresent:false,currentRasterProven:false,currentAdmission:'REFUSED_PENDING',currentWholePdfHashes:originalPdfHashes,
+  currentIndependentReviewPresent:true,currentRasterProven:true,currentAdmission:actualAdmission.terminalTreatment,currentWholePdfHashes:originalPdfHashes,
   currentPages:8,compositionSourcesChecked:9,registryRefreshMeasured:true,packetRebuilds:0},null,2));

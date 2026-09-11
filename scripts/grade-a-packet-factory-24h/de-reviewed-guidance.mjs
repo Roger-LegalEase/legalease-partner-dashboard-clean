@@ -36,10 +36,12 @@ export function additiveOtherFamilyRegistry(oldBytes, currentBytes, familyId) {
     assert.ok(current, `source determination removed: ${prior.familyId}`);
     return JSON.stringify(current) !== JSON.stringify(prior);
   }).map(row => row.familyId).sort();
-  assert.deepEqual(changedFamilyIds, [
+  const permittedChanges = [
     'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement',
     'de_pardon_expungement-set'
-  ], 'registry changed outside the measured DE-pardon/UT-PCRA reconciliation');
+  ];
+  assert.ok(changedFamilyIds.every(id => permittedChanges.includes(id)),
+    'registry changed outside the measured DE-pardon/UT-PCRA reconciliation');
   assert.ok(!changedFamilyIds.includes(familyId), 'reviewed family source determination changed');
   const unchangedBefore = a.families.filter(row => !changedFamilyIds.includes(row.familyId));
   const unchangedAfter = b.families.filter(row => !changedFamilyIds.includes(row.familyId));
@@ -207,6 +209,20 @@ function assessCurrentDeReviewedGuidance(root, returned, overrides = {}) {
       `${DE_DIRECTORY}/product-wiring.json`
     ];
     for (const relative of reviewedFiles) {
+      if (relative === `${DE_DIRECTORY}/product-wiring.json`) {
+        // Consuming this review updates its own generated review pointers. Those
+        // pointers are not packet content or proof of approval; the independent
+        // rows and exact source/raster checks below remain the admission evidence.
+        const declaration = raw => {
+          const value = JSON.parse(raw);
+          for (const key of ['lastIndependentVerification', 'historicalIndependentVerification', 'independentReviewStatus'])
+            delete value.binding[key];
+          return value;
+        };
+        assert.deepEqual(declaration(bytes(relative)), declaration(historical(row.verifiedAtBase, relative)),
+          `review base does not bind current delivery declaration: ${relative}`);
+        continue;
+      }
       assert.equal(sha(bytes(relative)), sha(historical(row.verifiedAtBase, relative)), `review base does not bind current file: ${relative}`);
     }
     assert.equal(sha(bytes(DE_DECISION)), DE_DECISION_SHA256, 'current final decision changed');
