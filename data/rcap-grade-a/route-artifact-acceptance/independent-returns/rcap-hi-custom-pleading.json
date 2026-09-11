@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-route-artifact-independent-verifier-return/v1",
+  "familyId": "rcap-hi-custom-pleading",
+  "jurisdiction": "HI",
+  "reviewedAtBase": "c6a8059e9f473e002a2dc48e6493e92b2bfbd86c",
+  "verifier": {
+    "id": "HI-ROUTE-VERIFY-/root/hi_route_review",
+    "independent": true,
+    "builtOrAuthoredThisFamily": false,
+    "authoredRouteScopingMachinery": false,
+    "method": "Fresh route-scoped read-only verifier run, current-byte SHA-256 and pdfinfo recomputation, participant-instruction/source/report checks, and inspection of all 40 original PNGs from the existing central-run ZIPs. No PDF was edited, rerendered, or rebuilt."
+  },
+  "route": {
+    "routeKeys": [
+      "obligation:track-pathway:HI:hi_first_time_drug_offender_expungement:first-time-drug-conviction",
+      "obligation:track-only:HI:hi_first_time_property_offender_expungement",
+      "obligation:track-only:HI:hi_marijuana_three_grams_expungement",
+      "obligation:track-pathway:HI:hi_pre_2004_drug_offender_expungement:first-time-drug-conviction",
+      "obligation:track-pathway:HI:hi_under_21_dui_expungement:dui-under-21-conviction"
+    ],
+    "routeSlugs": ["hi-first-time-drug-offender", "hi-first-time-property-offender", "hi-marijuana-three-grams", "hi-pre-2004-drug-offender", "hi-under-21-dui"],
+    "artifactCount": 10,
+    "contractPacketFamily": "rcap-hi-custom-pleading",
+    "unitOfDelivery": "route_artifact"
+  },
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "obligationsScored": 15,
+  "failedObligations": [],
+  "unmeasuredObligations": [],
+  "results": {
+    "ROUTE_IDENTITY": {"result": "PASS", "finding": "All five route keys match production-field-map componentRoutes and each artifact carries exactly its three declared components."},
+    "SOURCE_IDENTITY": {"result": "PASS", "finding": "HCJDC 159(b) source recomputed to 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a; controlling registry hash matches source receipt."},
+    "COMPONENT_SET": {"result": "PASS", "finding": "Read-only route verifier returned exact component sets for all ten fixtures."},
+    "KNOWN_PREFILLS": {"result": "PASS", "finding": "Independent text read-back found all seven bound values in each route fixture; no known value was absent."},
+    "REQUIRED_BEFORE_FILING": {"result": "PASS", "finding": "Required participant inputs and the signed court-order prerequisite are explicitly disclosed in participant-instructions.md and remain blank where participant/court completion is required."},
+    "ROUTE_OPTIONS": {"result": "PASS", "finding": "Each route's statute and route-specific motion text were checked on the inspected pages and against route records."},
+    "REPEATING_ROWS": {"result": "PASS", "finding": "Read-only route verifier returned incompleteRows=0 for all ten fixtures."},
+    "PROTECTED_FIELDS": {"result": "PASS", "finding": "Verifier returned protectedWrites=0; inspected pages show participant signature/date, court fields, service fields, and HCJDC-use-only box blank."},
+    "ARTIFACTS": {"result": "PASS", "finding": "All ten current PDFs recompute to the central pins and rendered-artifact hashes; each parses as four pages."},
+    "PAGE_ORDER": {"result": "PASS", "finding": "ZIP member inventories and route manifests show canonical/boundary pages 001–004 in order; all 40 source images were inspected."},
+    "CLIPPING_AND_OVERLAP": {"result": "PASS", "finding": "All 40 original PNGs were inspected; no visible clipping, overlap, edge corruption, or unexpected ink."},
+    "FILING_DESTINATION": {"result": "PASS", "finding": "Instructions and inspected official page identify the court entering the judgment for stage one and HCJDC at 465 South King Street, Room 102, Honolulu, HI 96813 for stage two."},
+    "FEE_AND_WAIVER": {"result": "PASS", "finding": "Inspected official page and instructions state first-time $35, non-first-time $50, duplicate certificate $20, and money-order/cashier-check payment terms."},
+    "SERVICE": {"result": "PASS", "finding": "Instructions and inspected motion page state service on the prosecuting attorney/office and certificate-of-service completion requirements."},
+    "SELF_HELP_STOP": {"result": "PASS", "finding": "Instructions state the court filing and signed-order boundary and do not represent court acceptance or completion by LegalEase."}
+  },
+  "determinismEvidence": {
+    "inherited": true,
+    "reviewer": "VF01",
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/hi-evidence/rebuild-measurement/measurement.json",
+    "evidenceSha256": "4920a1ad8e78531740eae97f886b53cbcd7e113ce959f465d19921b93b13e22d",
+    "verifiedAtBase": "3ce50a3e65e7bcc9567d3c1a522f0d52476ae7a8",
+    "result": "MEASURED_ALL_12_REPRODUCE",
+    "identityComparison": "VF01 pass1/pass2 and committed inventories match all ten current route PDF hashes and byte lengths exactly; current builder SHA-256 is 545dc3a1cd5418bccb855278286c90c83041d2b476d1b33e5a185982f0745567, equal to VF01 staged builder hash.",
+    "noRebuildClaimedByThisReview": true
+  },
+  "artifacts": {
+    "centralRasterRun": 34548353001,
+    "originalEvidence": "data/rcap-grade-a/packet-factory-24h/raster-runs/34548353001/ORIGINAL_EVIDENCE_VERIFIED.json",
+    "reviewEvidenceDirectory": "data/rcap-grade-a/packet-factory-24h/codex-captain-20260910/hi-independent-review"
+  },
+  "packetPdfsModified": 0,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "visualAdvisoriesNotUsedAsVerdictFailures": [],
+  "consumer": "No automatic exact-route consumer was found for route-artifact-acceptance/independent-returns/. scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs scans codex-cloud, factory vfNN, and chat review inputs, but has no reference to this independent-returns directory. This return therefore requires explicit controlled placement/registration by the owning integration lane; it does not claim automatic ingestion, family substitution, or promotion."
+}
