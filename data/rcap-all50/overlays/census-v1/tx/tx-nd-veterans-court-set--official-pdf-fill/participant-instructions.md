@@ -222,5 +222,3 @@ This is the state's own petition and order, a conditional proof of delivery, the
 **Nondisclosure is sealing, not expunction.** The order prohibits criminal justice agencies from disclosing the record *to the public*, and the information is still disclosed to the individuals and agencies listed in Government Code § 411.076(a). The record is not destroyed. Never say it does not exist.
 
 **An order covers one offence.** If more than one offence is on your record, sealing them takes more than one order.
-
-_Route: obligation:track-only:TX:tx_nd_veterans_court_

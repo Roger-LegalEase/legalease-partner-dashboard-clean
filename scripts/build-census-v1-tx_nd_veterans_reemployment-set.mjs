@@ -748,7 +748,6 @@ const COMPOSED_COMPONENTS = {
       L.push("- The judgment or the order placing you on community supervision - the clerk of that court. It carries the offence wording and the cause number.");
       L.push("- The record that you successfully completed the veterans reemployment programme and all other conditions of community supervision - the programme, or the clerk of that court. It carries the completion date this section turns on.");
       L.push("- Your discharge paperwork or other proof of veteran status.");
-      L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   },
@@ -773,10 +772,6 @@ const COMPOSED_COMPONENTS = {
       L.push("WHAT YOU MAY SAY AFTERWARDS. Nondisclosure lets you deny the offence in most, not all, settings, and the exceptions are the agencies and entities in Government Code Sec. 411.076(a). This packet does not advise you on any particular question about any particular employer, licence or application. If the answer matters, ask a lawyer before you answer.", "");
       L.push("ONE ORDER, ONE OFFENCE. If more than one offence is on your record, this order sealed one of them. The others need their own orders and may fall under other sections entirely.", "");
       L.push("IF THE COURT REFUSED. Section 411.0729 lets the court decline where it finds that issuance is NOT in the best interest of justice. That is a finding, not a formality, and the committed record records it as a point where self-help ends. Get advice rather than refiling.");
-      /* The route footer is kept in the SAME block as the paragraph above it.
-       * Pushed after a blank it is a block of its own, and when the page above
-       * is full the packet ends on a sheet carrying nothing but a route key. */
-      L.push(`Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   }
@@ -1885,8 +1880,7 @@ function participantInstructions(maps, rbf) {
   out.push(...INSTRUCTIONS.stopsLines, "");
 
   out.push("## What this packet is not", "");
-  out.push(...INSTRUCTIONS.notLines, "");
-  out.push(`_Route: ${ROUTE.routeKeys.join(" · ")}_`);
+  out.push(...INSTRUCTIONS.notLines);
   return `${out.join("\n")}\n`;
 }
 

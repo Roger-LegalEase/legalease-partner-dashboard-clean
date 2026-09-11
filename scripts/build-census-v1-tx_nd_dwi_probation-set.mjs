@@ -715,7 +715,6 @@ const COMPOSED_COMPONENTS = {
       L.push(`${name}`);
       L.push("Date: " + DOTS(30), "");
       L.push("(You sign and date this when the copy has actually been delivered. Nothing on this page is signed or dated for you, and no district attorney's name or address is printed here: the platform holds none for any Texas county and does not guess one.)");
-      L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   },
@@ -759,7 +758,6 @@ const COMPOSED_COMPONENTS = {
       L.push("- Your Texas DPS criminal history record - the Texas Department of Public Safety Crime Records Service, following DPS form CR-63. It establishes the disposition and shows every other conviction and deferred adjudication.");
       L.push("- The judgment and order of community supervision, and the discharge or dismissal order - the clerk of the court that sentenced you or placed you on community supervision.");
       L.push("- The written conditions of community supervision showing any ignition interlock condition AND ITS DURATION - the same clerk. The six-month threshold is what decides your waiting period.");
-      L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   }
@@ -1709,8 +1707,7 @@ function participantInstructions(maps, rbf) {
   out.push(...INSTRUCTIONS.stopsLines, "");
 
   out.push("## What this packet is not", "");
-  out.push(...INSTRUCTIONS.notLines, "");
-  out.push(`_Route: ${ROUTE.routeKeys.join(" · ")}_`);
+  out.push(...INSTRUCTIONS.notLines);
   return `${out.join("\n")}\n`;
 }
 
