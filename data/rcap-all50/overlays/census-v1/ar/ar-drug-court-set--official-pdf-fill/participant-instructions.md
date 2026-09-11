@@ -8,6 +8,10 @@ File in **the underlying criminal court** after program completion. The committe
 
 Stop self-help for any objection or contested hearing, uncertainty about completion or posture, prosecutor-concurrence negotiation, or immigration, licensing, or firearm consequences.
 
+## Petition elections and the conditional paragraph
+
+The eight checkbox controls on the two petitions (four on each petition) form participant elections. Mark exactly one in each pair from the case record. The printed offense branches are “A Class _____ [_] felony or A Class _____ [_] misdemeanor”. The pre-adjudication petition's pending-felony branches are “The Defendant has no pending felony charge in any state or federal court; or The Defendant has one or more pending felony charge in state or federal court and the status of that/those charges is/are as follows”; the post-adjudication petition's are “The Defendant has no pending felony charges in any state or federal court; or The Defendant has one or more pending felony charges in state or federal court and the status of that/those charges is/are as follows”. Complete the status the form requests. The six checkbox controls on each proposed order are court acts and stay blank. The **FURTHER, if applicable** paragraph concerns a separate prior offense; this packet does not decide whether it applies and does not prefill the participant name in that paragraph.
+
 ## Blanks the packet may leave for your hand
 
 Some facts this service holds are longer than the blank the official ACIC form prints for them — a long case number, or a long name in the "WHEREFORE, the Defendant, ____, prays" and "Defendant, ____, to Dismiss and Seal" clauses. When a value will not fit its printed blank at the smallest size that is still readable on paper, this packet leaves the blank EMPTY. It does not shorten the value, and it does not write past the edge of the blank onto the form.
@@ -37,6 +41,10 @@ Before filing, obtain the fingerprint card and the ACIC criminal history when th
   - Supplied when: before the petition is signed and filed.
   - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
 - **in violation of ACA, the 1st of 1 blank on the printed line "in violation of A.C.A. § ___________________."** (`ACIC-PETITION-DRUG-COURT-PRE:in violation of ACA`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **FURTHER if applicable the Defendant, the 1st of 1 blank on the printed line "FURTHER, if applicable, the Defendant, ______________________,"** (`ACIC-PETITION-DRUG-COURT-PRE:FURTHER if applicable the Defendant`, page 3)
   - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
   - Supplied when: before the petition is signed and filed.
   - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
@@ -145,6 +153,10 @@ Before filing, obtain the fingerprint card and the ACIC criminal history when th
   - Supplied when: before the petition is signed and filed.
   - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
 - **in violation of ACA, the 1st of 1 blank on the printed line "in violation of A.C.A. § ___________________."** (`ACIC-PETITION-DRUG-COURT-POST:in violation of ACA`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **FURTHER if applicable the Defendant, the 1st of 1 blank on the printed line "FURTHER, if applicable, the Defendant, ______________________,"** (`ACIC-PETITION-DRUG-COURT-POST:FURTHER if applicable the Defendant`, page 3)
   - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
   - Supplied when: before the petition is signed and filed.
   - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "rcap-ar-drug-court-production-proof/v1",
+  "familyId": "ar-drug-court-set",
+  "base": "e6de2ceeae7a4e019286823012f3ac04a83e3aa6",
+  "laneCommit": "c5560e470cfb5c95f22b57b8dabf0668cc74cf27",
+  "valid": {
+    "command": "RCAP_D_SOURCE_DIR=private/source-imports/rcap-d-source-packs-2026-08-12 node scripts/build-census-v1-ar-drug-court-set.mjs",
+    "isolatedStage": "/tmp/rcap-ar-drug-stage-20260911h",
+    "exit": 0,
+    "artifacts": [
+      {
+        "packetId": "pre-adjudication-canonical",
+        "sha256": "87dafe5c83a0c958ee0e22a2b2fbad74156160d5e4c16ee56d83d4a6a5b91326",
+        "byteLength": 693051,
+        "pageCount": 9,
+        "annotationRefsRemoved": 2,
+        "annotationRefsRemaining": 0
+      },
+      {
+        "packetId": "pre-adjudication-boundary",
+        "sha256": "1c73806e7c00c43bc81d949c1198d410a2a5b41ee96710afca56a8b06fedd1d7",
+        "byteLength": 693709,
+        "pageCount": 9,
+        "annotationRefsRemoved": 2,
+        "annotationRefsRemaining": 0
+      },
+      {
+        "packetId": "post-adjudication-canonical",
+        "sha256": "503224a7b3d8b51a867beabbacd06b6fd40d81c4ae90f90cdce5d586b44a4aff",
+        "byteLength": 1430795,
+        "pageCount": 9,
+        "annotationRefsRemoved": 4,
+        "annotationRefsRemaining": 0
+      },
+      {
+        "packetId": "post-adjudication-boundary",
+        "sha256": "c10e941bfbc589d3d764db324c89c77a89816e065de452aaae232602a5e90f21",
+        "byteLength": 1431401,
+        "pageCount": 9,
+        "annotationRefsRemoved": 4,
+        "annotationRefsRemaining": 0
+      }
+    ],
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": null
+    },
+    "selectionControlInventory": {
+      "total": 20,
+      "participantPetitionControls": 8,
+      "courtProposedOrderControls": 12,
+      "markedByPacket": 0,
+      "disclosure": "The participant petition controls are disclosed in the guidance; proposed-order controls remain blank because they are court acts."
+    },
+    "byteProofs": [
+      {
+        "fixture": "pre-adjudication-canonical",
+        "declaredWrites": 12,
+        "inkedAppearances": 12,
+        "flattenedWidgetFormXObjects": 94,
+        "officialWidgets": 94,
+        "addedInkOutsideWriteBoxes": 0,
+        "refusedFieldsWithInk": []
+      },
+      {
+        "fixture": "pre-adjudication-boundary",
+        "declaredWrites": 8,
+        "inkedAppearances": 8,
+        "flattenedWidgetFormXObjects": 94,
+        "officialWidgets": 94,
+        "addedInkOutsideWriteBoxes": 0,
+        "refusedFieldsWithInk": []
+      },
+      {
+        "fixture": "post-adjudication-canonical",
+        "declaredWrites": 8,
+        "inkedAppearances": 8,
+        "flattenedWidgetFormXObjects": 99,
+        "officialWidgets": 99,
+        "addedInkOutsideWriteBoxes": 0,
+        "refusedFieldsWithInk": []
+      },
+      {
+        "fixture": "post-adjudication-boundary",
+        "declaredWrites": 4,
+        "inkedAppearances": 4,
+        "flattenedWidgetFormXObjects": 99,
+        "officialWidgets": 99,
+        "addedInkOutsideWriteBoxes": 0,
+        "refusedFieldsWithInk": []
+      }
+    ]
+  },
+  "mutations": [
+    {
+      "kind": "annots",
+      "command": "mutation sets annotationRefsRemoved=0; actual production entrypoint",
+      "exit": 1,
+      "outputInventoryUnchanged": true,
+      "log": "mutation-annots-production.log"
+    },
+    {
+      "kind": "further",
+      "command": "mutation restores FURTHER participant-name safe fact; actual production entrypoint",
+      "exit": 1,
+      "outputInventoryUnchanged": true,
+      "log": "mutation-further-production.log"
+    },
+    {
+      "kind": "guidance",
+      "command": "mutation removes offense election disclosure; actual production entrypoint",
+      "exit": 1,
+      "outputInventoryUnchanged": true,
+      "log": "mutation-guidance-production.log"
+    }
+  ],
+  "sourceInkEvidence": "source-ink-preservation.json",
+  "sourceMountCustody": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (read-only mounted Master Library)",
+  "peakScratch": "~20MB /tmp staged files plus page extraction"
+}

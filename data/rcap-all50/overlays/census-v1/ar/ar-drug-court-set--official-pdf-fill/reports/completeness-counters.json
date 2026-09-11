@@ -17,7 +17,7 @@
     "requiredFactsNotCollected": "Mapped fact keys with no value in a fixture this build renders.",
     "unclassifiedBlanks": "AcroForm terminals across the four pinned forms (190) minus terminals carrying exactly one decision in the field map (190).",
     "incompleteRows": "Blanks sharing one printed line where the map failed to record which of them this one is. A participant cannot act on such a row, which is the defect VF56 failed eight rows on.",
-    "requiredOptionsMissing": "These four ACIC drug-court forms declare no selection control at all -- the field map's selection-control set is empty -- so the reading is over an empty set and is 0 for that reason, not because an election was found and passed.",
+    "requiredOptionsMissing": "The pinned forms carry 20 checkbox controls (8 participant elections on the petitions and 12 court-act controls on the proposed orders). The packet marks none; the participant election pairs are disclosed on the guidance page, so the missing-option count is 0 because no route option is selected by this build, not because the set is empty.",
     "requiredComponentsMissing": "Components the packet-set manifest declares required, absent from any delivered fixture.",
     "invisibleWrites": "Declared writes with no matching inked flattened appearance in the delivered component bytes.",
     "protectedWrites": "Written fields whose field-map refusal class is a participant signature/date or court/clerk/prosecutor-owned.",
@@ -29,5 +29,12 @@
     "visualDefects"
   ],
   "everyMeasuredCounterZero": true,
+  "selectionControlInventory": {
+    "total": 20,
+    "participantPetitionControls": 8,
+    "courtProposedOrderControls": 12,
+    "markedByPacket": 0,
+    "disclosure": "The participant petition controls are disclosed in the guidance; proposed-order controls remain blank because they are court acts."
+  },
   "whatThisIsNot": "An independent verdict, raster receipt, or visual review. Eight of these nine are readings taken by the builder that produced the bytes; that is not independent verification either."
 }
