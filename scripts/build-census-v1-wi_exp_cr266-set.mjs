@@ -63,10 +63,8 @@
  * even if a later edit tried to map one. Its eight printed check boxes — the
  * hearing finding, GRANTED, DENIED and the four denial reasons — and its three
  * fill-in rules are the court's, and they are left alone. Those check boxes are
- * drawn on the page but are not measurable: `checkboxCandidates` finds zero
- * stroked paths and the text extractor finds no glyph at them, while a 300 dpi
- * render plainly shows eight boxes. No geometry was invented for them; they are
- * recorded as printedSelectionControlsNotMeasured and named in the guide.
+ * measured from decoded page streams. Their geometry is recorded alongside
+ * the court-owned labels. None is a participant election.
  *
  * NOTHING INTERNAL REACHES A FILED PAGE. Route keys, component ids, digests and
  * build vocabulary appear only in participant-instructions.md and in the JSON
@@ -95,7 +93,7 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, PDFRawStream, decodePDFRawStream } = require("pdf-lib");
 
 const FAMILY_ID = "wi_exp_cr266-set";
 const BUILD_SCRIPT = "scripts/build-census-v1-wi_exp_cr266-set.mjs";
@@ -291,12 +289,10 @@ const ANCHORS = {
 };
 
 /*
- * CR-267's printed check boxes. A 300 dpi render of the pinned page shows eight
- * of them; `checkboxCandidates` finds zero stroked paths and the text extractor
- * finds no glyph at any of them, so there is no measured box to point a
- * refusal at and none was invented. All eight are the court's.
+ * CR-267's eight court-owned checkbox labels, in descending source y order.
+ * Geometry is obtained from decoded source streams, never invented from labels.
  */
-const PRINTED_SELECTION_CONTROLS_NOT_MEASURED = [
+const COURT_SELECTION_LABELS = [
   { document: "CR-267", page: 1, section: "THE COURT FINDS", printedNear: "4. The court conducted a hearing on", owner: "court" },
   { document: "CR-267", page: 1, section: "THE COURT ORDERS", printedNear: "1. GRANTED. The clerk is ordered to expunge the court's record of the conviction.", owner: "court" },
   { document: "CR-267", page: 1, section: "THE COURT ORDERS", printedNear: "2. DENIED because", owner: "court" },
@@ -306,6 +302,16 @@ const PRINTED_SELECTION_CONTROLS_NOT_MEASURED = [
   { document: "CR-267", page: 1, section: "THE COURT ORDERS — 2. DENIED because", printedNear: "between the date of conviction in this case and completion of the sentence, the defendant was convicted of another criminal offense.", owner: "court" },
   { document: "CR-267", page: 1, section: "THE COURT ORDERS — 2. DENIED because", printedNear: "Other:", owner: "court" }
 ];
+
+
+function measuredCourtControls(formNumber, census) {
+  const labels = COURT_SELECTION_LABELS.filter(c => c.document === formNumber);
+  const boxes = census.strokedBoxes.flatMap(p => p.boxes.map(box => ({ page: p.page, ...box })))
+    .sort((a, b) => a.page - b.page || b.y0 - a.y0 || a.x0 - b.x0);
+  assert.equal(boxes.length, labels.length, `${formNumber}: source control/label count mismatch`);
+  return boxes.map((box, index) => ({ ...labels[index], geometry: box,
+    measurement: "checkboxCandidates over pdf-lib decoded page content streams", participantMayFill: false }));
+}
 
 /* ---- fixtures ------------------------------------------------------------ */
 /*
@@ -460,7 +466,9 @@ async function censusFlat(source) {
   const strokedBoxes = pages.map((p, i) => {
     let content = "";
     for (const stream of p.node.normalizedEntries?.().Contents?.asArray?.() ?? []) {
-      try { content += Buffer.from(doc.context.lookup(stream).getContents()).toString("latin1"); } catch { /* not a stream */ }
+      const raw = doc.context.lookup(stream);
+      const decoded = raw instanceof PDFRawStream ? decodePDFRawStream(raw).decode() : raw.getUnencodedContents();
+      content += Buffer.from(decoded).toString("latin1") + "\n";
     }
     return { page: i + 1, boxes: content ? checkboxCandidates(content) : [] };
   });
@@ -516,6 +524,7 @@ async function censusFlat(source) {
   return {
     rows, ruleDrift, pageText, pageCount: pages.length,
     acroFieldCount, annotationCount,
+    strokedBoxes,
     strokedCheckboxCount: strokedBoxes.reduce((n, p) => n + p.boxes.length, 0),
     measuredRuleCount: measured.reduce((n, m) => n + m.horizontal.length, 0)
   };
@@ -775,17 +784,15 @@ function mapFor(source, census, report) {
     selectionControlsOnThisDocument: {
       acroFormSelectionFields: 0,
       annotations: 0,
-      strokedCheckBoxPaths: 0,
-      printedSelectionControlsNotMeasured:
-        PRINTED_SELECTION_CONTROLS_NOT_MEASURED.filter((c) => c.document === source.formNumber),
+      strokedCheckBoxPaths: census.strokedCheckboxCount,
+      measuredCourtSelectionControls: measuredCourtControls(source.formNumber, census),
+      printedSelectionControlsNotMeasured: [],
       note: source.formNumber === "CR-266"
         ? "CR-266 carries NO selection control of any kind. The three marks under paragraph 1 are SymbolMT "
           + "glyph 0x78, whose own /ToUnicode CMap maps it to U+F0B7 — the Symbol bullet — and they head a "
           + "three-item list of consequences, not a set of options. Every one of the six numbered declarations "
           + "is unconditional pre-printed text adopted by the petitioner's signature."
-        : "CR-267 prints eight check boxes that a render shows and no extractor can measure: zero stroked "
-          + "paths and no glyph at any of them. All eight are the court's — the hearing finding, GRANTED, "
-          + "DENIED and the four denial reasons. No geometry was invented for them and none is marked."
+        : "CR-267 has eight stroked checkbox squares measured from decoded source streams. All are court-owned findings or order choices; ownership, not absence of geometry, requires leaving them blank."
     }
   };
 }
@@ -1060,7 +1067,7 @@ function participantInstructions({ maps, rbf, declarations, packetSet, phrases, 
     + "case number. Everything below the caption is the judge's, including **eight printed check boxes** this packet "
     + "does not mark:", ""
   );
-  for (const c of PRINTED_SELECTION_CONTROLS_NOT_MEASURED) {
+  for (const c of COURT_SELECTION_LABELS) {
     out.push(`- **${c.section}** — beside _${c.printedNear}_`);
   }
   out.push("");
@@ -1206,8 +1213,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
       `${source.formNumber}: the corpus index records this form as flat and it now carries ${census.acroFieldCount} AcroForm field(s)`);
     assert.equal(census.annotationCount, 0,
       `${source.formNumber}: this form now carries ${census.annotationCount} annotation(s); the overlay strategy and the source render both assume none`);
-    assert.equal(census.strokedCheckboxCount, 0,
-      `${source.formNumber}: ${census.strokedCheckboxCount} stroked tick box(es) are now measurable, so the printed controls this build leaves alone should be mapped instead`);
+    assert.equal(census.strokedCheckboxCount, source.formNumber === "CR-267" ? 8 : 0,
+      `${source.formNumber}: decoded source checkbox geometry changed; inspect source controls before building`);
     assert.equal(census.rows.length, Object.keys(ANCHORS[source.formNumber]).length,
       `${source.formNumber}: ${census.rows.length} of ${Object.keys(ANCHORS[source.formNumber]).length} anchors resolved`);
     if (source.pageCount != null) {
@@ -1381,9 +1388,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
       acroFieldsOnTheForm: census.acroFieldCount,
       annotationsOnTheForm: census.annotationCount,
       strokedTickBoxesOnTheForm: census.strokedCheckboxCount,
+      measuredCourtSelectionControls: measuredCourtControls(source.formNumber, census),
       measuredHorizontalRulesOnTheForm: census.measuredRuleCount,
-      printedSelectionControlsNotMeasured:
-        PRINTED_SELECTION_CONTROLS_NOT_MEASURED.filter((c) => c.document === source.formNumber),
+      printedSelectionControlsNotMeasured: [],
       fields: census.rows.map((r) => ({
         field: r.key, page: r.page, rect: r.rect, rectBasis: r.rectBasis,
         measuredRule: r.measuredRule,
@@ -1475,13 +1482,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
     schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
     requiredBeforeFiling: rbf,
-    handMarkedControls: PRINTED_SELECTION_CONTROLS_NOT_MEASURED,
+    handMarkedControls: censuses.flatMap(({ source, census }) => measuredCourtControls(source.formNumber, census)),
     handMarkedControlsNote:
-      "All eight are on CR-267 and all eight are the COURT'S, not the participant's: the hearing finding, "
-      + "GRANTED, DENIED and the four denial reasons. A 300 dpi render of the pinned page shows them; "
-      + "checkboxCandidates finds zero stroked paths and the text extractor finds no glyph at any of them, so "
-      + "there is no measured box and none was invented. Nothing marks them and the participant is told to leave "
-      + "them alone.",
+      "All eight CR-267 controls are measured from decoded source streams and are court-owned findings or order choices. The participant must leave them blank.",
     participantElections: [],
     participantElectionsNote:
       "None. CR-266 offers the participant no election of any kind — no field, no annotation, no check box, no "
@@ -1554,8 +1557,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         finding:
           "The owner's action asks for established discharge facts to be mapped to exact CR-266 SELECTIONS. "
-          + "CR-266 has none. Measured on every run: zero AcroForm fields, zero annotations, zero stroked "
-          + "check-box paths, and the only symbol glyphs on the page are three SymbolMT marks that the font's own "
+          + "CR-266 has none: zero AcroForm fields, annotations and decoded stroked checkbox paths. CR-267 has eight measured court-owned checkbox squares. CR-266's only symbol glyphs are three SymbolMT marks that the font's own "
           + "/ToUnicode CMap maps to U+F0B7, the Symbol bullet, heading the three-item list under paragraph 1.",
         consequence:
           "The mapping resolves to a PRECONDITION rather than a mark: the four established discharge facts select "
@@ -1676,4 +1678,4 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile))
     .catch((e) => { console.error(e); process.exit(1); });
 }
 
-export { runFamily as build, FAMILY_ID, OUT };
+export { runFamily as build, FAMILY_ID, OUT, censusFlat, measuredCourtControls, resolveSources, dischargeGate, DISCHARGE_GATE, FIXTURES };
