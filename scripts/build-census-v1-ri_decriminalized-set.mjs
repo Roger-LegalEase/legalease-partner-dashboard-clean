@@ -1456,6 +1456,11 @@ const FAMILIES = {
   "ri_decriminalized-set": {
     trackId: "ri_decriminalized", form: "DC-33", partId: "TWO", orderVariant: "DISTRICT_COURT",
     splitAffidavitComponent: true, singleGuidanceComponent: true,
+    // Exact DC-33 Group2 /Off bytes contain an issuer-authored white mask.
+    // Preserve the full appearance; its bevel is not synthesized ink to erase.
+    preserveSourceAuthoredSelectionPaint: true,
+    // Keep machine route identity out of filed documents, as on repaired siblings.
+    machineRouteTrailerIsInternalRecordText: true,
     routeKeys: ["obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement"],
     routeSelectionId: "ri_decriminalized-set-district-court-part-two",
     statute: "R.I. Gen. Laws Sec. 12-1.3-2(g) and Sec. 12-1.3-3(e)",
