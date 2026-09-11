@@ -17850,7 +17850,7 @@
         ],
         "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -17967,7 +17967,47 @@
           "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
           "workflowRunId": "34130973793"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34650539599",
+        "jobId": "103432213375",
+        "jobConclusion": "success",
+        "packetCommitSha": "1e09363c514ddfabfe493be8685bc466afd7f723",
+        "packetCommitShaIsAGenerationStampNotAByteBinding": "This records which commit the render ran at. What the receipt BINDS is the canonical and boundary digests below, and only those.",
+        "boundToCanonicalSha256": "f98816f1cd07d2e95918d416cc3776b6b54733523da0832b6943e12aa25b6f00",
+        "boundToBoundarySha256": "3ce5201d21b2e97d6142cd73ccbf21dfc27584672d66a9a10b30a97c01e56fc0",
+        "documentsDigest": "49cc52695c0aabaff66e03a58625693bc6a09dd31fde1d8264e90bda42a14e51",
+        "documentsRendered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "whatThisGateDidNotRender": [],
+        "everyCanonicalDocumentRendered": true,
+        "coversTheWholeFamily": true,
+        "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "documentsMeasured": 2,
+        "pagesMeasured": 10,
+        "problems": [],
+        "environmentProblems": [],
+        "requestedScale": 2.5,
+        "browserExecutable": "/home/runner/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+        "receiptArtifact": {
+          "id": "10284195263",
+          "name": "rcap-raster-fl-early-juvenile-set-34650539599",
+          "digest": "4fcae833de8ea556655584eb12d1bc012d7cdd12079227b6e4dab88b202cdb88",
+          "expiresAt": "2026-09-25T21:47:50Z"
+        },
+        "howThisReceiptWasRead": "The artifact blob store answers 403 at this environment's egress proxy, so the verdict was read from the job log server-side and parsed programmatically. Every digest, run id, job id and artifact id here comes from that payload or from the Actions API; none was transcribed by hand. This ingest refused to write unless the payload's canonical, boundary and documents digests each equalled the queued row's.",
+        "ingestedBy": "scripts/grade-a-packet-factory-24h/ingest-raster-receipt.mjs",
+        "whatThisDoesNotDecide": "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/boundary.pdf",
