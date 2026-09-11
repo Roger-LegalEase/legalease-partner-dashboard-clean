@@ -26,7 +26,7 @@ import { BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-cont
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDict, PDFDocument, PDFName, PDFTextField, PDFCheckBox, StandardFonts, decodePDFRawStream, rgb } = require("pdf-lib");
+const { PDFArray, PDFDict, PDFDocument, PDFName, PDFTextField, PDFCheckBox, StandardFonts, decodePDFRawStream, rgb } = require("pdf-lib");
 
 const FAMILY_ID = "ar-drug-court-set";
 const OUT = "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill";
@@ -94,7 +94,6 @@ const FIXTURES = Object.freeze({
 const SAFE_FACT_BY_FIELD = Object.freeze({
   "First Middle and Last name": "fullName",
   "WHEREFORE the Defendant": "fullName",
-  "FURTHER if applicable the Defendant": "fullName",
   "Defendant": "fullName",
   "Case No": "caseNumber",
   "DOB": "dateOfBirth",
@@ -102,6 +101,36 @@ const SAFE_FACT_BY_FIELD = Object.freeze({
   "City": "city",
   "State": "state",
   "Zip code": "zip"
+});
+
+/* Flattening must leave no stale widget annotation references behind. The
+ * official fields have already been materialised into appearance streams by
+ * form.flatten(); after that point /Annots is neither a participant control
+ * nor a required appearance. The old assembly retained dangling references
+ * to objects that were removed during flattening, which made four delivered
+ * PDFs structurally malformed even though their pixels were unchanged. */
+function annotationRefsOnDocument(pdf) {
+  return pdf.getPages().reduce((total, page) => {
+    const annots = page.node.lookupMaybe(PDFName.of("Annots"), PDFArray);
+    return total + (annots?.size?.() ?? 0);
+  }, 0);
+}
+
+function removeFlattenedAnnotationRefs(pdf) {
+  let removed = 0;
+  for (const page of pdf.getPages()) {
+    const annots = page.node.lookupMaybe(PDFName.of("Annots"), PDFArray);
+    if (!annots) continue;
+    removed += annots.size();
+    page.node.delete(PDFName.of("Annots"));
+  }
+  return removed;
+}
+
+const PETITION_ELECTION_COPY = Object.freeze({
+  offense: "A Class _____ [_] felony or A Class _____ [_] misdemeanor",
+  prePending: "The Defendant has no pending felony charge in any state or federal court; or The Defendant has one or more pending felony charge in state or federal court and the status of that/those charges is/are as follows",
+  postPending: "The Defendant has no pending felony charges in any state or federal court; or The Defendant has one or more pending felony charges in state or federal court and the status of that/those charges is/are as follows"
 });
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
@@ -858,9 +887,14 @@ async function filledComponent(source, sourceBytes, fields, fixtureName) {
   }
   form.updateFieldAppearances(font);
   form.flatten();
+  assert.equal(written.some((row) => row.fieldName === "FURTHER if applicable the Defendant"), false,
+    `${source.documentId}/${fixtureName}: conditional FURTHER paragraph must not receive an invented participant name`);
+  const annotationRefsRemoved = removeFlattenedAnnotationRefs(pdf);
   stampDeterministic(pdf);
   const bytes = await pdf.save({ useObjectStreams: false, updateMetadata: false });
   const reread = await PDFDocument.load(bytes, { updateMetadata: false });
+  assert.equal(annotationRefsOnDocument(reread), 0,
+    `${source.documentId}/${fixtureName}: flattened output retains annotation references`);
   const text = reread.getPages().flatMap((page) => extractTextItems(page).map((item) => item.text));
   for (const row of written) {
     assert.ok(text.some((item) => item.includes(row.expected)),
@@ -912,6 +946,7 @@ async function filledComponent(source, sourceBytes, fields, fixtureName) {
     flattenedAppearancesWithInk: flattened.appearances,
     glyphsInFlattenedAppearances: flattened.glyphs,
     flattenedWidgetFormXObjects: formXObjects,
+    annotationRefsRemoved,
     officialWidgets,
     refusedFieldsWithInk };
 }
@@ -947,6 +982,11 @@ function requiredComponentIds() {
 }
 
 function measureCounters({ writes, refusals, artifacts, terminals, fieldsById }) {
+  const selectionControls = refusals.filter((row) => row.isSelectionControl === true);
+  const participantSelectionControls = selectionControls.filter((row) =>
+    SOURCES.find((source) => source.documentId === row.documentId)?.role === "petition");
+  const courtSelectionControls = selectionControls.filter((row) =>
+    SOURCES.find((source) => source.documentId === row.documentId)?.role === "order");
   const decided = new Set([...writes, ...refusals].map((row) => row.fieldId));
   const protectedFields = new Set(refusals
     .filter((row) => PROTECTED_REFUSAL_CLASSES.has(row.refusalClass))
@@ -966,6 +1006,9 @@ function measureCounters({ writes, refusals, artifacts, terminals, fieldsById })
     unclassifiedBlanks: terminals - decided.size,
     incompleteRows: refusals.filter((row) => row.blanksOnPrintedLine > 1
       && row.blankOrdinalOnPrintedLine == null).length,
+    /* The forms carry real controls. None is selected by this build, so the
+     * missing-option count is zero for the measured reason below, rather than
+     * because the inventory was treated as empty. */
     requiredOptionsMissing: 0,
     requiredComponentsMissing: requiredComponentIds().filter((componentId) => !artifacts.every((a) => {
       if (componentId === "ar-drug-court-process-guidance-1") return a.documents.includes(componentId);
@@ -984,7 +1027,7 @@ function measureCounters({ writes, refusals, artifacts, terminals, fieldsById })
       requiredFactsNotCollected: "Mapped fact keys with no value in a fixture this build renders.",
       unclassifiedBlanks: `AcroForm terminals across the four pinned forms (${terminals}) minus terminals carrying exactly one decision in the field map (${decided.size}).`,
       incompleteRows: "Blanks sharing one printed line where the map failed to record which of them this one is. A participant cannot act on such a row, which is the defect VF56 failed eight rows on.",
-      requiredOptionsMissing: "These four ACIC drug-court forms declare no selection control at all -- the field map's selection-control set is empty -- so the reading is over an empty set and is 0 for that reason, not because an election was found and passed.",
+      requiredOptionsMissing: `The pinned forms carry ${selectionControls.length} checkbox controls (${participantSelectionControls.length} participant elections on the petitions and ${courtSelectionControls.length} court-act controls on the proposed orders). The packet marks none; the participant election pairs are disclosed on the guidance page, so the missing-option count is 0 because no route option is selected by this build, not because the set is empty.`,
       requiredComponentsMissing: "Components the packet-set manifest declares required, absent from any delivered fixture.",
       invisibleWrites: "Declared writes with no matching inked flattened appearance in the delivered component bytes.",
       protectedWrites: "Written fields whose field-map refusal class is a participant signature/date or court/clerk/prosecutor-owned.",
@@ -1081,6 +1124,10 @@ async function guidancePage(posture, fixtureName, withheld = []) {
   draw("Stage 2 begins after completion. This assembly places the applicable official ACIC petition first and its matching proposed order second. Do not mix the pre-adjudication petition with the post-adjudication order, or the reverse.");
   draw("Before filing: obtain a fingerprint card; obtain and check the Arkansas criminal history when the records step applies; confirm the court, county, charge, completion date, and pre/post posture; complete every classified blank; and sign/date the petition yourself.");
   draw("Destination: the underlying criminal court. Service in the committed track: serve the prosecuting attorney within three days after filing; the track records a 30-day objection window. Stop for Arkansas legal help if an objection or contested hearing occurs.");
+  draw("Petition elections — mark exactly one in each pair, from your case record:", { font: bold });
+  draw(`Offense level (exact printed branches): “${PETITION_ELECTION_COPY.offense}”.`);
+  draw(`Pending felony branch (exact printed ${posture} petition wording): “${posture === "pre-adjudication" ? PETITION_ELECTION_COPY.prePending : PETITION_ELECTION_COPY.postPending}”.`);
+  draw("The six checkbox controls on the proposed order are court acts; leave them blank. The FURTHER paragraph is conditional on a separate prior offense: do not prefill the participant name or decide that condition here.");
   draw("Fee and notarization: the committed route says the source review does not state a filing fee, fee-waiver procedure, or notarization requirement, while its review flags preserve conflicts on those points. Confirm those items with the filing court before signing or filing; this packet does not invent an answer.");
   draw("Self-help also stops if program completion is uncertain, prosecutor concurrence requires negotiation, or immigration, licensing, or firearm consequences are involved.");
   if (withheld.length > 0) {
@@ -1093,7 +1140,7 @@ async function guidancePage(posture, fixtureName, withheld = []) {
         + `"${row.printedRow ?? row.effectiveLabel}". Write: ${row.withheldValue}`, { size: 8, gap: 2 });
     }
   }
-  draw(`Routes: ${ROUTE_KEYS.join(" | ")}`, { size: 7 });
+  draw(`Routes: ${ROUTE_KEYS.join(" | ")}`, { size: 7, gap: 0 });
   /* The disclosure is only a disclosure if it is ON the page. A page that ran
    * out of room would drop the last refusals silently, which is the defect this
    * block exists to close, so the build stops instead. */
@@ -1115,6 +1162,7 @@ async function assemble(posture, fixtureName, builtById) {
   let glyphsInFlattenedAppearances = 0;
   let flattenedWidgetFormXObjects = 0;
   let officialWidgets = 0;
+  let annotationRefsRemoved = 0;
   const refusedFieldsWithInk = [];
   for (const role of ["petition", "order"]) {
     const source = SOURCES.find((item) => item.posture === posture && item.role === role);
@@ -1129,20 +1177,37 @@ async function assemble(posture, fixtureName, builtById) {
     glyphsInFlattenedAppearances += built.glyphsInFlattenedAppearances;
     flattenedWidgetFormXObjects += built.flattenedWidgetFormXObjects;
     officialWidgets += built.officialWidgets;
+    annotationRefsRemoved += built.annotationRefsRemoved;
     refusedFieldsWithInk.push(...built.refusedFieldsWithInk);
   }
   stampDeterministic(packet);
   const bytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
   const assembled = await PDFDocument.load(bytes);
   assert.equal(assembled.getPageCount(), 9, `${posture}/${fixtureName}: assembly page count`);
+  const annotationRefsRemaining = annotationRefsOnDocument(assembled);
+  assert.equal(annotationRefsRemaining, 0,
+    `${posture}/${fixtureName}: assembled artifact retains annotation references`);
   /*
    * EVERY WITHHELD FACT IS ON A DELIVERED PAGE, read back from the finished
    * packet bytes rather than from the report that composed them. A refusal the
    * build records internally and the page does not carry is the defect VF56
    * failed this family on, so it stops the build.
    */
-  const deliveredPageOne = extractTextItems(assembled.getPages()[0]).map((item) => item.text).join("")
+  const deliveredPageOne = extractTextItems(assembled.getPages()[0]).map((item) => item.text).join(" ")
     .replace(/\s+/g, " ");
+  /* These disclosures are part of the production contract for the real
+   * checkbox inventory. If a future edit drops the quoted branches, the
+   * builder must stop before publishing a packet that leaves the participant
+   * to infer what a control means from the form alone. */
+  assert.ok(deliveredPageOne.includes(PETITION_ELECTION_COPY.offense),
+    `${posture}/${fixtureName}: delivered guidance omitted the printed offense election branches`);
+  assert.ok(deliveredPageOne.includes(posture === "pre-adjudication"
+    ? PETITION_ELECTION_COPY.prePending : PETITION_ELECTION_COPY.postPending),
+  `${posture}/${fixtureName}: delivered guidance omitted the printed pending-felony election branches`);
+  assert.ok(deliveredPageOne.includes("The six checkbox controls on the proposed order are court acts"),
+    `${posture}/${fixtureName}: delivered guidance omitted the court-act checkbox boundary`);
+  assert.ok(deliveredPageOne.includes("do not prefill the participant name or decide that condition here"),
+    `${posture}/${fixtureName}: delivered guidance omitted the conditional FURTHER boundary`);
   for (const row of withheld) {
     assert.ok(deliveredPageOne.includes(row.withheldValue.replace(/\s+/g, " ")),
       `${posture}/${fixtureName}: withheld value for ${row.fieldId} is not printed on the delivered guidance page`);
@@ -1157,7 +1222,7 @@ async function assemble(posture, fixtureName, builtById) {
     sha256: sha256(bytes), byteLength: bytes.length, pageCount: 9, documents, written,
     widthRefusals, addedInkGlyphs, addedInkRunsOutsideMeasuredWriteBoxes,
     flattenedAppearancesWithInk, glyphsInFlattenedAppearances,
-    flattenedWidgetFormXObjects, officialWidgets, refusedFieldsWithInk };
+    flattenedWidgetFormXObjects, officialWidgets, annotationRefsRemoved, annotationRefsRemaining, refusedFieldsWithInk };
 }
 
 function instructions(allRefusals) {
@@ -1167,6 +1232,8 @@ function instructions(allRefusals) {
     + `## Destination, fee, service, and stops\n\n`
     + `File in **the underlying criminal court** after program completion. The committed route says to serve the prosecuting attorney within three days after filing and records a 30-day objection window. It also says the source review does not state a filing fee, fee-waiver procedure, or notarization requirement. Because the committed review preserves conflicts on those points, confirm them with the filing court rather than guessing.\n\n`
     + `Stop self-help for any objection or contested hearing, uncertainty about completion or posture, prosecutor-concurrence negotiation, or immigration, licensing, or firearm consequences.\n\n`
+    + `## Petition elections and the conditional paragraph\n\n`
+    + `The four checkbox controls on the two petitions are participant elections. Mark exactly one in each pair from the case record. The printed offense branches are “${PETITION_ELECTION_COPY.offense}”. The pre-adjudication petition's pending-felony branches are “${PETITION_ELECTION_COPY.prePending}”; the post-adjudication petition's are “${PETITION_ELECTION_COPY.postPending}”. Complete the status the form requests. The six checkbox controls on the proposed orders are court acts and stay blank. The **FURTHER, if applicable** paragraph concerns a separate prior offense; this packet does not decide whether it applies and does not prefill the participant name in that paragraph.\n\n`
     + `## Blanks the packet may leave for your hand\n\n`
     + `Some facts this service holds are longer than the blank the official ACIC form prints for them — a long case number, or a long name in the "WHEREFORE, the Defendant, ____, prays" and "Defendant, ____, to Dismiss and Seal" clauses. When a value will not fit its printed blank at the smallest size that is still readable on paper, this packet leaves the blank EMPTY. It does not shorten the value, and it does not write past the edge of the blank onto the form.\n\n`
     + `**A blank left that way is always listed, by packet page, on page 1 of your own packet, with the value to write.** If page 1 lists none, nothing was left out. Where one is listed, write it on the printed line by hand before filing, or ask the clerk how a value that long is recorded on this form. The case number in the caption of both the petition and the proposed order, and the Defendant's name in the two prayer clauses and in the proposed order's operative clause, are the blanks this most often affects.\n\n`
@@ -1195,7 +1262,7 @@ function instructions(allRefusals) {
     + `Routes: ${ROUTE_KEYS.join("; ")}\n`;
 }
 
-function checkOutputs() {
+async function checkOutputs() {
   const rendered = readJson(`${OUT}/reports/rendered-artifacts.json`);
   assert.equal(rendered.artifacts.length, 4);
   for (const artifact of rendered.artifacts) {
@@ -1204,6 +1271,8 @@ function checkOutputs() {
     assert.equal(bytes.length, artifact.byteLength, `${artifact.packetId}: report length moved`);
     assert.equal((artifact.documents ?? []).length, 3, `${artifact.packetId}: component count`);
     assert.equal(artifact.pageCount, 9, `${artifact.packetId}: page count`);
+    assert.equal(annotationRefsOnDocument(await PDFDocument.load(bytes, { updateMetadata: false })), 0,
+      `${artifact.packetId}: saved artifact retains annotation references`);
   }
   const map = readJson(`${OUT}/production-field-map.json`);
   assert.deepEqual(map.routeKeys, ROUTE_KEYS); assert.equal(map.generationAllowed, false);
@@ -1354,6 +1423,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     flattenedWidgetAppearancesDefinition: "Flattened widget Form XObjects in the delivered component bytes whose decompressed appearance stream draws at least one non-whitespace glyph. This field was artifact.written.length -- the finalizer's own write count -- until FIX169, which is why the four fixtures published 13/13, 8/8, 9/9 and 4/4: an identity, not a measurement.",
     glyphsInFlattenedWidgetAppearances: artifact.glyphsInFlattenedAppearances,
     flattenedWidgetFormXObjectsInDeliveredBytes: artifact.flattenedWidgetFormXObjects,
+    annotationRefsRemovedDuringFlatten: artifact.annotationRefsRemoved,
+    annotationRefsRemainingInAssembledBytes: artifact.annotationRefsRemaining,
     officialWidgetsDeclaredByTheTwoPinnedForms: artifact.officialWidgets,
     nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: artifact.addedInkRunsOutsideMeasuredWriteBoxes,
     measuredOn: "the two official components, diffed page by page against their bound source before ordered assembly; the guidance page this builder authors outright carries no source to diff against",
@@ -1371,20 +1442,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
     assert.ok(proof.flattenedWidgetAppearancesReadFromOutputBytes
       < proof.flattenedWidgetFormXObjectsInDeliveredBytes,
       `${proof.fixture}: inked appearances cannot equal the total -- most widgets on these forms are left blank`);
-    /*
-     * Every declared write must have produced exactly ONE inked flattened
-     * appearance. The two numbers coincide on this family because every mapped
-     * blank here is a text field and none of these four ACIC forms carries a
-     * check-box election -- which is exactly why the old constant went
-     * unnoticed. Now that the left side is decompressed out of the delivered
-     * bytes, the equality is a check rather than a tautology: a value that
-     * flattens to nothing, or an appearance nobody declared, breaks it.
-     */
+    /* Every declared text write must have produced exactly one inked flattened
+     * appearance. Checkbox controls are intentionally withheld and are
+     * inventoried separately in the completeness report. */
     assert.equal(proof.flattenedWidgetAppearancesReadFromOutputBytes, proof.valuesReportedByFinalizer,
       `${proof.fixture}: ${proof.flattenedWidgetAppearancesReadFromOutputBytes} inked flattened appearances `
       + `for ${proof.valuesReportedByFinalizer} declared writes`);
     assert.deepEqual(proof.refusedFieldsWithInk, [],
       `${proof.fixture}: a value refused for width left ink in its blank: ${proof.refusedFieldsWithInk.join(", ")}`);
+    assert.equal(proof.annotationRefsRemainingInAssembledBytes, 0,
+      `${proof.fixture}: assembled bytes retain annotation references`);
   }
   writeJson(`${OUT}/reports/actual-writes.json`, {
     schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: FAMILY_ID, derivedFromArtifactBytes: true,
@@ -1417,6 +1484,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     rasterState: "BUILT_RASTER_PENDING", artifacts: artifacts.map(({ packetId, file, sha256: hash, pageCount }) => ({ packetId, file, sha256: hash, pageCount })) });
   const measured = measureCounters({ writes, refusals, artifacts,
     terminals: writes.length + refusals.length, fieldsById });
+  const selectionControls = refusals.filter((row) => row.isSelectionControl === true);
+  const participantSelectionControls = selectionControls.filter((row) =>
+    SOURCES.find((source) => source.documentId === row.documentId)?.role === "petition");
+  const courtSelectionControls = selectionControls.filter((row) =>
+    SOURCES.find((source) => source.documentId === row.documentId)?.role === "order");
   writeJson(`${OUT}/reports/completeness-counters.json`, { schemaVersion: "rcap-builder-completeness-counters/v1",
     familyId: FAMILY_ID, counters: measured.counters,
     howEachWasTaken: measured.howEachWasTaken,
@@ -1424,6 +1496,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
     countersMeasured: measured.countersMeasured,
     countersNotMeasured: measured.countersNotMeasured,
     everyMeasuredCounterZero: measured.everyMeasuredCounterZero,
+    selectionControlInventory: {
+      total: selectionControls.length,
+      participantPetitionControls: participantSelectionControls.length,
+      courtProposedOrderControls: courtSelectionControls.length,
+      markedByPacket: 0,
+      disclosure: "The participant petition controls are disclosed in the guidance; proposed-order controls remain blank because they are court acts."
+    },
     whatThisIsNot: "An independent verdict, raster receipt, or visual review. Eight of these nine are readings taken "
       + "by the builder that produced the bytes; that is not independent verification either." });
   const refusedForWidth = artifacts.flatMap((artifact) => artifact.widthRefusals);
@@ -1437,6 +1516,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
       "Fee, waiver, notarization, objection-window, and output-review conflicts remain fail-closed.",
       `Values are fitted against real widget geometry before they are drawn. ${refusedForWidth.length} boundary-fixture values do not fit their printed blank at the smallest readable size and are refused rather than truncated; each refusal records the usable width it was measured against and the width it needed. Both canonical fixtures fit entirely and are byte-identical to the pre-repair build.`,
       `${correctedLabels.length} widget captions were harvested from a printed row other than the widget's own and are re-read from the row the widget sits on: ${correctedLabels.join(", ")}. ACIC-PETITION-DRUG-COURT-POST:Sex was the decisive one — it was labelled "Race", so the packet asked for Race twice and never asked for Sex.`,
+      `The four petition checkbox elections are disclosed in the guidance with both printed branches and an instruction to mark exactly one per pair; the ${selectionControls.length} total checkbox controls are inventoried as ${participantSelectionControls.length} participant petition elections and ${courtSelectionControls.length} proposed-order court acts. The packet marks none.`,
+      "The conditional FURTHER paragraph is not selected by this build: its participant name remains blank because the packet does not hold the applicability facts, and the guidance tells the participant not to decide or prefill that court-facing paragraph.",
+      `Flattened component bytes retain 0 annotation references after removing ${artifacts.reduce((n, artifact) => n + artifact.annotationRefsRemoved, 0)} stale widget references; required flattened appearances remain present and are checked from the saved bytes.`,
       "Both boundary fixtures moved in this repair, so the family's RASTER_PASS receipt no longer covers it and a fresh whole-family raster is required before any further read."
     ],
     widthRefusalCount: refusedForWidth.length,
