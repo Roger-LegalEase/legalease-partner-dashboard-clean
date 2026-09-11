@@ -20,6 +20,119 @@ function setText(form,name,value,writes){if(value==='')return;const field=form.g
 const SOURCE_ROLE_TABLE={petition:{participant:new Set(['Filer','Address','City','Telephone','Email','Plaintiff','Defendant','PetName','PetAddr','PetDOB','PetEmail','PetName1','Charge','CourtAdj1','Case','Check Box9','Court','County','PetDate','DateofCharge','Agency','AttorneyFor','Bar','ArrestOccured','Check Box1','Check Box2','Check Box3','Check Box4','Check Box5','Check Box6','Check Box7','Check Box8','Check Box10','Check Box11','Check Box12','Check Box13','Check Box14','Check Box15','Check Box16','Check Box17','Check Box18','Check Box19','CourtAdj2','ArrestLoc','AgencyName','AgencyDate','CourtCase','CourtCaseNum','Count1','Count2','Count3','Count4','ProAgency','ProsAgency1','ProsAgency2','JusticeCourt1','EnteredOn','EnteredOn1','Discharge','Jurisdiction','ChargesFiled','Consider1','Consider2','Consider3','Doc1','Doc2','Doc3','Addr','Print','Date']),protected:new Set(['Reset'])},order:{participant:new Set(['Court','County','Defendant','DName','ArrestOn','ArrestBy','ArrestBy1','Agency','Agency1','CaseNo','PetName','PetDOB','NameArrest','Case']),protected:new Set(['Reset','Other','OtherFindings','OtherDismiss','Date',...Array.from({length:22},(_,i)=>`Check Box${i+1}`)])}};
 function isRouteOffControl(name,role,kind){return role==='petition'&&kind==='arrest'&&['Check Box4','Check Box5'].includes(name);}
 function isConditionalCaption(name,role,kind){return role==='order'&&((kind==='arrest'&&name==='Defendant')||(kind!=='arrest'&&name==='DName'));}
+const SOURCE_CONDITIONED_REQUIREMENTS = new Map([
+  ['petition.Check Box2', ['CONDITIONAL_ELECTION', 'Select only when amending an existing petition.']],
+  ['petition.Check Box3', ['CONDITIONAL_ELECTION', 'Select only when requesting the arrest-record scope; the source says to check only the scopes that apply.']],
+  ['petition.ArrestOccured', ['CONDITIONAL_SCOPE_DETAIL', 'Supply the arrest date only when requesting the arrest-record scope.']],
+  ['petition.Agency', ['CONDITIONAL_SCOPE_DETAIL', 'Supply the arresting agency only when requesting the arrest-record scope.']],
+  ['petition.Check Box4', ['CONDITIONAL_ELECTION', 'Select only when requesting the charging-document scope.']],
+  ['petition.ProAgency', ['CONDITIONAL_SCOPE_DETAIL', 'Supply the prosecuting agency only when requesting the charging-document scope.']],
+  ['petition.Check Box5', ['CONDITIONAL_ELECTION', 'Select only when requesting the eligible-charge court-record scope.']],
+  ['petition.CourtCase', ['CONDITIONAL_SCOPE_DETAIL', 'Supply this case number only when requesting the eligible-charge court-record scope.']],
+  ['petition.CourtAdj2', ['OPTIONAL_CONTINUATION', 'Use only when the court identity does not fit on CourtAdj1.']],
+  ['petition.Count1', ['CONDITIONAL_REPEATING_ROW', 'Complete only for an actual charged count established by the record; do not invent a count or require four counts.']],
+  ['petition.Count2', ['CONDITIONAL_REPEATING_ROW', 'Complete only for an actual charged count established by the record; do not invent a count or require four counts.']],
+  ['petition.Count3', ['CONDITIONAL_REPEATING_ROW', 'Complete only for an actual charged count established by the record; do not invent a count or require four counts.']],
+  ['petition.Count4', ['CONDITIONAL_REPEATING_ROW', 'Complete only for an actual charged count established by the record; do not invent a count or require four counts.']],
+  ['petition.Check Box6', ['CONDITIONAL_ELECTION', 'Select only when actual additional counts continue beyond the four supplied rows.']],
+  ['petition.ArrestLoc', ['SOURCE_OPTIONAL', 'Supply only if the arrest location is known.']],
+  ['petition.AgencyName', ['SOURCE_OPTIONAL', 'Supply only if the arresting agency is known.']],
+  ['petition.AgencyDate', ['SOURCE_OPTIONAL', 'Supply only if the arrest date is known.']],
+  ['petition.ProsAgency1', ['SOURCE_OPTIONAL', 'Supply only if the prosecuting agency is known and charges were filed.']],
+  ['petition.ProsAgency2', ['OPTIONAL_CONTINUATION', 'Use only when the applicable prosecuting-agency name needs a second line.']],
+  ['petition.JusticeCourt1', ['CONDITIONAL_SOURCE_OPTIONAL', 'Supply if known and the case began in justice court before transfer to superior court; the single source field spans two widgets.']],
+  ['petition.PetDate', ['CONDITIONAL_HISTORY_DETAIL', 'Supply only after answering Yes to the prior-petition question in Section III.1.']],
+  ['petition.Discharge', ['CONDITIONAL_HISTORY_DETAIL', 'Supply only after answering Yes to the prior-sealing question in Section III.2.']],
+  ['petition.Check Box16', ['CONDITIONAL_ELECTION', 'This conviction-history question applies only when sealing a conviction. These arrest/dismissal routes are nonconviction routes; review the source N/A choice and do not invent a conviction-history fact.']],
+  ['petition.Jurisdiction', ['CONDITIONAL_PENDING_DETAIL', 'Supply only if the separate pending-charges response says additional pending charges exist.']],
+  ['petition.ChargesFiled', ['CONDITIONAL_PENDING_DETAIL', 'Supply only if the separate pending-charges response says additional pending charges exist.']],
+  ['petition.DateofCharge', ['CONDITIONAL_PENDING_DETAIL', 'Supply only if the separate pending-charges response says additional pending charges exist.']],
+  ['petition.Consider1', ['SOURCE_OPTIONAL', 'Use only for further information the participant wants the court to consider; do not require every continuation line.']],
+  ['petition.Consider2', ['SOURCE_OPTIONAL', 'Use only for further information the participant wants the court to consider; do not require every continuation line.']],
+  ['petition.Consider3', ['SOURCE_OPTIONAL', 'Use only for further information the participant wants the court to consider; do not require every continuation line.']],
+  ['petition.Check Box19', ['CONDITIONAL_ELECTION', 'Select only when other pertinent documents are attached.']],
+  ['petition.Doc1', ['CONDITIONAL_ATTACHMENT_DETAIL', 'List an actual attached document and use only as many lines as the attachments require.']],
+  ['petition.Doc2', ['CONDITIONAL_ATTACHMENT_DETAIL', 'List an actual attached document and use only as many lines as the attachments require.']],
+  ['petition.Doc3', ['CONDITIONAL_ATTACHMENT_DETAIL', 'List an actual attached document and use only as many lines as the attachments require.']],
+  ['order.ArrestOn', ['CONDITIONAL_SCOPE_DETAIL', 'Complete only when the arrest-record scope is requested; the order election remains court-owned.']],
+  ['order.ArrestBy', ['CONDITIONAL_SCOPE_DETAIL', 'Complete only when the arrest-record scope is requested; the order election remains court-owned.']],
+  ['order.ArrestBy1', ['OPTIONAL_CONTINUATION', 'Use only when the applicable arresting-agency description needs a second line.']],
+  ['order.Agency', ['CONDITIONAL_SCOPE_DETAIL', 'Complete only when the corresponding record scope is requested; the order election remains court-owned.']],
+  ['order.Agency1', ['OPTIONAL_CONTINUATION', 'Use only when the applicable prosecuting-agency description needs a second line.']],
+  ['order.CaseNo', ['CONDITIONAL_SCOPE_DETAIL', 'Complete only when the corresponding record scope is requested; the separate charged-case order caption Case remains applicable.']],
+  ['order.NameArrest', ['CONDITIONAL_IDENTITY_DETAIL', 'Supply only when the name at arrest differs from the petitioner name.']],
+]);
+const HUMAN_SOURCE_LABELS = new Map([
+  ['petition.Plaintiff', 'OR if no charges were filed: In Re the Matter of: Name (FIRST, MI, LAST)'],
+  ['petition.Defendant', 'Defendant (FIRST, MI, LAST) — charged-case caption'],
+  ['petition.Check Box2', 'Amended (corrected) petition; select if you are amending an existing petition'],
+  ['petition.Check Box3', 'Arrest records of an arrest occurring on or about a date by the law enforcement agency'],
+  ['petition.ArrestOccured', 'Date of arrest for the requested arrest records'],
+  ['petition.Agency', 'Law enforcement agency for the requested arrest records'],
+  ['petition.Check Box4', 'Charging documents created by the prosecuting agency'],
+  ['petition.ProAgency', 'Prosecuting agency for the requested charging documents'],
+  ['petition.Check Box5', 'All records relating to the eligible charges in the court case'],
+  ['petition.CourtCase', 'Court case number for the requested eligible-charge records'],
+  ['petition.CourtAdj2', 'Court that adjudicated the charges — second continuation line'],
+  ['petition.Count1', 'Court case number if charges were filed — Count I'],
+  ['petition.Count2', 'Court case number if charges were filed — Count II'],
+  ['petition.Count3', 'Court case number if charges were filed — Count III'],
+  ['petition.Count4', 'Court case number if charges were filed — Count IV'],
+  ['petition.Check Box6', 'Additional counts continue on a separate page'],
+  ['petition.ArrestLoc', 'Additional case record information, if known — location of arrest'],
+  ['petition.AgencyName', 'Additional case record information, if known — name of arresting agency'],
+  ['petition.AgencyDate', 'Additional case record information, if known — date of arrest'],
+  ['petition.ProsAgency1', 'Additional case record information, if known — prosecuting agency if charges were filed'],
+  ['petition.ProsAgency2', 'Prosecuting agency if charges were filed — continuation line'],
+  ['petition.JusticeCourt1', 'Justice court name and case number if the case transferred to superior court'],
+  ['petition.EnteredOn', 'Date a dismissal or not guilty verdict was entered'],
+  ['petition.EnteredOn1', 'Date a judgment of guilt was entered'],
+  ['petition.Check Box10', 'All required monetary terms of the sentence satisfied — Yes, No, or N/A'],
+  ['petition.Check Box11', 'All other terms of the sentence completed — Yes, No, or N/A'],
+  ['petition.Check Box12', 'Absolute discharge received from the Arizona Department of Corrections — Yes, No, or N/A'],
+  ['petition.Check Box13', 'Discharged from probation — Yes, No, or N/A'],
+  ['petition.PetDate', 'If a prior sealing petition was filed in this case, date of the last petition'],
+  ['petition.Discharge', 'If records were sealed in a previous case, date non-monetary conditions were completed and discharge occurred'],
+  ['petition.Check Box16', 'If sealing a conviction, any later conviction — Yes, No, or N/A'],
+  ['petition.Jurisdiction', 'Additional pending charges — jurisdiction'],
+  ['petition.ChargesFiled', 'Additional pending charges — charges filed'],
+  ['petition.DateofCharge', 'Additional pending charges — date of charges'],
+  ['petition.Consider1', 'Anything else for the court to consider — first line'],
+  ['petition.Consider2', 'Anything else for the court to consider — second line'],
+  ['petition.Consider3', 'Anything else for the court to consider — third line'],
+  ['petition.Check Box19', 'Other pertinent documentation attached'],
+  ['petition.Doc1', 'Attached pertinent documents — first line'],
+  ['petition.Doc2', 'Attached pertinent documents — second line'],
+  ['petition.Doc3', 'Attached pertinent documents — third line'],
+  ['order.ArrestOn', 'Order arrest-record description — arrest date'],
+  ['order.ArrestBy', 'Order arrest-record description — law enforcement agency'],
+  ['order.ArrestBy1', 'Order arrest-record description — law enforcement agency continuation'],
+  ['order.Agency', 'Order charging-document description — prosecuting agency'],
+  ['order.Agency1', 'Order charging-document description — prosecuting agency continuation'],
+  ['order.CaseNo', 'Order eligible-charge records description — court case number'],
+  ['order.NameArrest', 'Name at the time of arrest, if different from the petitioner name'],
+]);
+const ROUTE_SPECIFIC_REQUIREMENTS = {
+  arrest: new Map([
+    ['petition.Defendant', ['OFF_ROUTE', 'No charges were filed; use the In Re caption and leave the charged-case Defendant caption blank.']],
+    ['petition.EnteredOn', ['OFF_ROUTE', 'The selected no-charge situation skips the dismissal/not-guilty date.']],
+    ['petition.EnteredOn1', ['OFF_ROUTE', 'The selected no-charge situation skips the guilty-judgment date.']],
+    ...['Check Box10','Check Box11','Check Box12','Check Box13'].map(name => [`petition.${name}`, ['OFF_ROUTE', 'The selected no-charge situation expressly skips Section II.']]),
+  ]),
+  dismissal: new Map([
+    ['petition.Plaintiff', ['OFF_ROUTE', 'Charges were filed; use the Defendant caption and leave the no-charge In Re caption blank.']],
+    ['petition.EnteredOn1', ['OFF_ROUTE', 'The dismissal/not-guilty route uses EnteredOn and does not use the guilty-judgment date.']],
+  ]),
+};
+function sourceConditionedRequirement(name,role,kind){
+  if(!['arrest','dismissal'].includes(kind))return null;
+  const key=`${role}.${name}`;
+  if(isRouteOffControl(name,role,kind))return {sourceConditionClass:'OFF_ROUTE',completenessDisposition:'NOT_APPLICABLE_ON_THIS_ROUTE',condition:'No charges were filed; the source excludes charging documents and eligible-charge court case records from this no-charge request.',participantLabel:HUMAN_SOURCE_LABELS.get(key)};
+  const [sourceConditionClass,condition]=ROUTE_SPECIFIC_REQUIREMENTS[kind].get(key)??SOURCE_CONDITIONED_REQUIREMENTS.get(key)??[];
+  if(!sourceConditionClass)return null;
+  const completenessDisposition=sourceConditionClass==='OFF_ROUTE'?'NOT_APPLICABLE_ON_THIS_ROUTE':sourceConditionClass==='CONDITIONAL_ELECTION'?'PARTICIPANT_ELECTION_GENUINE':'OPTIONAL_PARTICIPANT_CONTENT';
+  return {sourceConditionClass,completenessDisposition,condition,participantLabel:HUMAN_SOURCE_LABELS.get(key)};
+}
 function isProtectedSourceField(name,role='order'){const table=SOURCE_ROLE_TABLE[role]||SOURCE_ROLE_TABLE.order;if(table.participant.has(name))return false;if(table.protected.has(name))return true;throw new Error(`${role}: source field ${name} missing from explicit role table`);}
 function sourceFieldInfo(source,name){const field=source.form.getField(name);const labels={Plaintiff:'Name (FIRST, MI, LAST) — In Re caption when no charges were filed',Print:'Printed Name:',Addr:'Address',Defendant:'Defendant (FIRST, MI, LAST) — charged-case caption',DName:'Name (FIRST, MI, LAST) — In Re caption when no charges were filed',NameArrest:'Name at the time of arrest, if not the same as above', 'Check Box2':'Amended (corrected) petition', 'Check Box4':'Charging documents created by prosecuting agency', 'Check Box9':'Describe your situation: 1 arrested/no charges; 2 dismissed/not guilty; 3 judgment of guilt'};return {field:name,sourceWidgets:field.acroField.getWidgets().map(w=>({page:source.pages.findIndex(p=>p.ref?.toString()===w.P()?.toString())+1,rect:w.getRectangle(),onState:w.getOnValue?.()?.decodeText?.()??null})),printedLabel:labels[name]||`source field ${name} (label retained in official PDF)`};}
 export function markBinary(form,name,value,writes=[]){const field=form.getCheckBox(name);const widgets=field.acroField.getWidgets();const target=String(value);const widget=widgets.find(w=>w.getOnValue()?.decodeText?.()===target);assert.ok(widget,`${name} has no source-defined state ${target}`);field.acroField.dict.set(PDFName.of('V'),PDFName.of(target));const states=widgets.map((w,index)=>({index,onState:w.getOnValue()?.decodeText?.()??null,appearanceState:w===widget?target:'Off',selected:w===widget}));for(const w of widgets)w.dict.set(PDFName.of('AS'),w===widget?PDFName.of(target):PDFName.of('Off'));writes.push({field:name,value:target,printedSourceSelection:true,factHeld:true,sourceWidgetStates:states,selectionVisualProof:'PENDING_SOURCE_AP_RECT_BYTE_PROOF'});return states;}
@@ -29,7 +142,27 @@ async function make(source,role,facts,venue,request,outFile,fixture,routeKind){l
     // widget-level state map, leave those conditional questions explicit in the
     // participant fact record rather than marking an unrelated widget.
     }else for(const [n,v] of [['Court',venue.court],['County',facts.county],[(routeKind==='arrest'?'DName':'Defendant'),facts.name],['PetName',facts.name],['PetDOB',facts.dob]])setText(form,n,v,writes);if(facts.nameAtArrest && facts.nameAtArrest!==facts.name)setText(form,'NameArrest',facts.nameAtArrest,writes);const sanitized=await sanitizeAndFlatten(doc,{alreadyFlattened:false});doc=sanitized.clean;doc.setCreationDate(new Date(0));doc.setModificationDate(new Date(0));const bytes=Buffer.from(await doc.save({useObjectStreams:false,updateMetadata:false}));fs.writeFileSync(outFile,bytes);const byteProof=await measureAzActualWrites({sourceBytes:source.bytes,outputBytes:fs.readFileSync(outFile),writes});const text=execFileSync('pdftotext',[outFile,'-'],{encoding:'utf8'});const readback=writes.map(w=>(w.printedSituationState||w.printedSourceSelection)?({...w,finalPdfReadback:null}):({...w,finalPdfReadback:text.includes(String(w.value))}));assert.ok(readback.filter(w=>!w.printedSituationState&&!w.printedSourceSelection).every(w=>w.finalPdfReadback),`${fixture}/${role} final PDF write readback failed`);return{fixture,role,path:path.relative(ROOT,outFile),sha256:digest(bytes),byteLength:bytes.length,writes:readback,byteProof,textSha256:digest(Buffer.from(text)),selectionVisualProof:writes.some(w=>w.printedSituationState)?'PENDING_SOURCE_AP_RECT_BYTE_PROOF':null};}
-export async function buildArizonaRecordSealing({familyId,trackId,routeKey,kind,outDir}){const ps=sourceBytes('petition'),os=sourceBytes('order'),sc=[];for(const s of [ps,os]){const d=await PDFDocument.load(s.bytes);sc.push({...s,form:d.getForm(),pages:d.getPages()});}const outputs=[];const genuineProofs=[];for(const fixture of ['canonical','boundary']){const facts=FACTS[fixture],mapper=kind==='arrest'?{noChargesFiled:facts.noChargesFiled,initialAppearanceOccurred:facts.initialAppearanceOccurred,countyOfArrest:facts.countyOfArrest,initialAppearanceCourt:facts.initialAppearanceCourt}:{justiceCourtComplaintFollowedByInformation:facts.justiceCourtComplaintFollowedByInformation,chargingInstrumentProgression:facts.chargingInstrumentProgression,chargingDocumentCourt:facts.chargingDocumentCourt,superiorCourt:facts.chargingDocumentCourt};const venue=mapArizonaRecordSealingCourt({familyId,record:mapper});assert.equal(venue.status,'ROUTED',venue.reason);mkdir(path.join(ROOT,outDir,'fixtures',fixture));outputs.push({...await make(ps,'petition',facts,venue,kind==='arrest'?'1':kind==='dismissal'?'2':'3',path.join(ROOT,outDir,'fixtures',fixture,'petition.pdf'),fixture,kind),venue},{...await make(os,'order',facts,venue,null,path.join(ROOT,outDir,'fixtures',fixture,'order.pdf'),fixture,kind),venue});}const componentIds = [`${trackId}-primary-filing-1`, `${trackId}-proposed-order-2`];
+export async function buildArizonaRecordSealing(options){
+  const result=await buildArizonaRecordSealingBase(options);
+  const {familyId,routeKey,kind,outDir}=options;
+  if(!['arrest','dismissal'].includes(kind))return result;
+  const mapRecord=JSON.parse(fs.readFileSync(path.join(ROOT,outDir,'production-field-map.json'),'utf8'));
+  const refusals=mapRecord.maps.flatMap(map=>map.canonicalRefusals);
+  const requiredFields=refusals.filter(r=>r.requiredBeforeFiling).map(r=>r.effectiveLabel);
+  const conditionedFields=refusals.filter(r=>r.sourceConditionClass&&r.sourceConditionClass!=='OFF_ROUTE').map(r=>`- **${r.effectiveLabel}** — ${r.conditionalRequirement}`);
+  const offRouteFields=refusals.filter(r=>r.sourceConditionClass==='OFF_ROUTE').map(r=>`- **${r.effectiveLabel}** — ${r.routeConditionThatMakesItInapplicable}`);
+  const route=kind==='arrest'?'arrest with no charges filed':'charge dismissed or not guilty verdict; underlying offense remains the actual charge fact';
+  const sectionTwoInstruction=kind==='arrest'
+    ? 'The selected no-charge situation expressly skips Section II. Leave EnteredOn, EnteredOn1, and Section II controls Check Box10 through Check Box13 blank.'
+    : 'Section II remains active on this dismissal/not-guilty route. Before filing, answer each of Check Box10 through Check Box13 with the source\'s Yes, No, or N/A choice. Keep EnteredOn as the dismissal/not-guilty disposition date; leave guilty-date EnteredOn1 blank. Also answer the prior-petition, prior-sealing, pending-charge, and hearing questions, and complete the participant signature and Date. The charged-case Case, CourtCaseNum, and order Case fields remain required.';
+  const registryRules=mapRecord.registryGuidance.rules;
+  const stopConditions=mapRecord.registryGuidance.selfHelpStopConditions;
+  fs.writeFileSync(path.join(ROOT,outDir,'participant-instructions.md'),`# Arizona record sealing\n\nRoute: ${route}. The filing court is determined only from the documented ${kind==='arrest'?'initial-appearance record or county of arrest when no initial appearance occurred':'charging document and charging history'}. If those records do not establish the court, stop and ask the clerk; do not infer it from a remembered courthouse.\n\nComplete participant information and factual fields identified for participant completion. The source fields still blank are explicitly classified in the production field map. Required source fields on this route: ${requiredFields.join('; ')}.\n\n${sectionTwoInstruction}\n\nThe conviction-history field Check Box16 is not an unconditional requirement on either nonconviction route. The build leaves that source choice blank; review the source question and use its N/A choice where accurate.\n\n## Complete only when the source condition applies\n\n${conditionedFields.join('\n')}\n\n## Leave blank on this route\n\n${offRouteFields.join('\n')}\n\nComplete the participant signature and date fields. Leave judicial decisions, court signatures/dates, and clerk/prosecutor fields to the responsible official; this packet does not fill them. Before filing, confirm the court’s filing fee and complete the applicable statutory DPS fee-waiver request under C2/C3 when seeking that waiver; the court supplies the filed copy and the participant does not serve the court’s copy. Gather the charging document or initial-appearance record, disposition record where applicable, identity/contact facts, and required signatures/dates; stop if the record does not establish the filing court.\n\n## Recorded route rules and self-help stops\n\n${registryRules.map(r=>`- **${r.when||'Rule'}** — ${r.result||'RECORDED'}: ${r.statement||''}`).join('\n')}\n\n${stopConditions.map((r,i)=>`- **Stop ${i+1}:** ${typeof r==='string'?r:(r.statement||r.description||JSON.stringify(r))}`).join('\n')}\n`);
+  assert.equal(mapRecord.familyId,familyId);
+  assert.deepEqual(mapRecord.routeKeys,[routeKey]);
+  return result;
+}
+async function buildArizonaRecordSealingBase({familyId,trackId,routeKey,kind,outDir}){const ps=sourceBytes('petition'),os=sourceBytes('order'),sc=[];for(const s of [ps,os]){const d=await PDFDocument.load(s.bytes);sc.push({...s,form:d.getForm(),pages:d.getPages()});}const outputs=[];const genuineProofs=[];for(const fixture of ['canonical','boundary']){const facts=FACTS[fixture],mapper=kind==='arrest'?{noChargesFiled:facts.noChargesFiled,initialAppearanceOccurred:facts.initialAppearanceOccurred,countyOfArrest:facts.countyOfArrest,initialAppearanceCourt:facts.initialAppearanceCourt}:{justiceCourtComplaintFollowedByInformation:facts.justiceCourtComplaintFollowedByInformation,chargingInstrumentProgression:facts.chargingInstrumentProgression,chargingDocumentCourt:facts.chargingDocumentCourt,superiorCourt:facts.chargingDocumentCourt};const venue=mapArizonaRecordSealingCourt({familyId,record:mapper});assert.equal(venue.status,'ROUTED',venue.reason);mkdir(path.join(ROOT,outDir,'fixtures',fixture));outputs.push({...await make(ps,'petition',facts,venue,kind==='arrest'?'1':kind==='dismissal'?'2':'3',path.join(ROOT,outDir,'fixtures',fixture,'petition.pdf'),fixture,kind),venue},{...await make(os,'order',facts,venue,null,path.join(ROOT,outDir,'fixtures',fixture,'order.pdf'),fixture,kind),venue});}const componentIds = [`${trackId}-primary-filing-1`, `${trackId}-proposed-order-2`];
   const registry=JSON.parse(fs.readFileSync(path.join(ROOT,'data/record-clearing/legal-design-track-registry.json'),'utf8')); const registryTrack=(registry.tracks??[]).find(t=>t.trackId===trackId); assert.ok(registryTrack,`${trackId}: registry track missing`); const registryRules=[...(Array.isArray(registryTrack.rules)?registryTrack.rules:Object.entries(registryTrack.rules??{}).map(([when,statement])=>({when,statement}))),...(registryTrack.recordDrivenFilingCourtSelection?.rules??[])]; assert.ok(registryRules.length>0,`${trackId}: registry rules missing`); assert.ok((registryTrack.selfHelpStopConditions??[]).length>0,`${trackId}: registry stop conditions missing`); const artifacts = [];
   for (const fixture of ['canonical','boundary']) {
     const p = outputs.find(x => x.fixture === fixture && x.role === 'petition');
@@ -49,6 +182,24 @@ export async function buildArizonaRecordSealing({familyId,trackId,routeKey,kind,
     map.canonicalWrites = map.canonicalWrites.filter(w => !controls.has(w.fieldName));
     map.canonicalRefusals = map.canonicalRefusals.filter(r => !controls.has(r.fieldName));
     for (const r of map.canonicalRefusals) {
+      const sourceCondition = sourceConditionedRequirement(r.fieldName, role, kind);
+      if (sourceCondition) {
+        r.printedLabel = r.sourceFieldInfo.printedLabel;
+        r.effectiveLabel = sourceCondition.participantLabel;
+        assert.ok(r.effectiveLabel, `${role}.${r.fieldName}: source-conditioned field lacks a human-readable source label`);
+        r.reason = sourceCondition.condition;
+        r.completenessDisposition = sourceCondition.completenessDisposition;
+        r.disposition = sourceCondition.completenessDisposition;
+        r.requiredBeforeFiling = false;
+        r.unconditionallyRequiredBeforeFiling = false;
+        r.conditionalRequirement = sourceCondition.condition;
+        r.sourceConditionClass = sourceCondition.sourceConditionClass;
+        if (!['OFF_ROUTE','CONDITIONAL_ELECTION'].includes(sourceCondition.sourceConditionClass)) {
+          r.sourceOptional = true;
+          r.sourceOptionalCondition = sourceCondition.condition;
+        }
+        if (sourceCondition.sourceConditionClass === 'OFF_ROUTE') r.routeConditionThatMakesItInapplicable = sourceCondition.condition;
+      }
       if (isConditionalCaption(r.fieldName, role, kind)) {
         r.routeConditionThatMakesItInapplicable = kind === 'arrest'
           ? 'No charges were filed; the source requires the In Re name caption instead of its charged-case Defendant caption.'

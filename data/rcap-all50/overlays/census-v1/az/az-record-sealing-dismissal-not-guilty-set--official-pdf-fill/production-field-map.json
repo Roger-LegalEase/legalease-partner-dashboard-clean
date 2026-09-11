@@ -1219,8 +1219,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Plaintiff",
           "fieldName": "Plaintiff",
-          "printedLabel": "participant required field Plaintiff",
-          "effectiveLabel": "participant required field Plaintiff",
+          "printedLabel": "Name (FIRST, MI, LAST) — In Re caption when no charges were filed",
+          "effectiveLabel": "OR if no charges were filed: In Re the Matter of: Name (FIRST, MI, LAST)",
           "regionHeading": "Plaintiff",
           "sourceFieldInfo": {
             "field": "Plaintiff",
@@ -1239,11 +1239,15 @@
             "printedLabel": "Name (FIRST, MI, LAST) — In Re caption when no charges were filed"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Plaintiff"
+          "reason": "Charges were filed; use the Defendant caption and leave the no-charge In Re caption blank.",
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Charges were filed; use the Defendant caption and leave the no-charge In Re caption blank.",
+          "identity": "Plaintiff",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "OFF_ROUTE",
+          "routeConditionThatMakesItInapplicable": "Charges were filed; use the Defendant caption and leave the no-charge In Re caption blank."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Case",
@@ -1317,8 +1321,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box2",
           "fieldName": "Check Box2",
-          "printedLabel": "participant required field Check Box2",
-          "effectiveLabel": "participant required field Check Box2",
+          "printedLabel": "Amended (corrected) petition",
+          "effectiveLabel": "Amended (corrected) petition; select if you are amending an existing petition",
           "regionHeading": "Check Box2",
           "sourceFieldInfo": {
             "field": "Check Box2",
@@ -1337,17 +1341,20 @@
             "printedLabel": "Amended (corrected) petition"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Check Box2"
+          "reason": "Select only when amending an existing petition.",
+          "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Select only when amending an existing petition.",
+          "identity": "Check Box2",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ELECTION"
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.ArrestOccured",
           "fieldName": "ArrestOccured",
-          "printedLabel": "participant required field ArrestOccured",
-          "effectiveLabel": "participant required field ArrestOccured",
+          "printedLabel": "source field ArrestOccured (label retained in official PDF)",
+          "effectiveLabel": "Date of arrest for the requested arrest records",
           "regionHeading": "ArrestOccured",
           "sourceFieldInfo": {
             "field": "ArrestOccured",
@@ -1366,17 +1373,22 @@
             "printedLabel": "source field ArrestOccured (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ArrestOccured"
+          "reason": "Supply the arrest date only when requesting the arrest-record scope.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply the arrest date only when requesting the arrest-record scope.",
+          "identity": "ArrestOccured",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply the arrest date only when requesting the arrest-record scope."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box3",
           "fieldName": "Check Box3",
-          "printedLabel": "participant required field Check Box3",
-          "effectiveLabel": "participant required field Check Box3",
+          "printedLabel": "source field Check Box3 (label retained in official PDF)",
+          "effectiveLabel": "Arrest records of an arrest occurring on or about a date by the law enforcement agency",
           "regionHeading": "Check Box3",
           "sourceFieldInfo": {
             "field": "Check Box3",
@@ -1395,17 +1407,20 @@
             "printedLabel": "source field Check Box3 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Check Box3"
+          "reason": "Select only when requesting the arrest-record scope; the source says to check only the scopes that apply.",
+          "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Select only when requesting the arrest-record scope; the source says to check only the scopes that apply.",
+          "identity": "Check Box3",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ELECTION"
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Agency",
           "fieldName": "Agency",
-          "printedLabel": "participant required field Agency",
-          "effectiveLabel": "participant required field Agency",
+          "printedLabel": "source field Agency (label retained in official PDF)",
+          "effectiveLabel": "Law enforcement agency for the requested arrest records",
           "regionHeading": "Agency",
           "sourceFieldInfo": {
             "field": "Agency",
@@ -1424,17 +1439,22 @@
             "printedLabel": "source field Agency (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Agency"
+          "reason": "Supply the arresting agency only when requesting the arrest-record scope.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply the arresting agency only when requesting the arrest-record scope.",
+          "identity": "Agency",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply the arresting agency only when requesting the arrest-record scope."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box4",
           "fieldName": "Check Box4",
-          "printedLabel": "participant required field Check Box4",
-          "effectiveLabel": "participant required field Check Box4",
+          "printedLabel": "Charging documents created by prosecuting agency",
+          "effectiveLabel": "Charging documents created by the prosecuting agency",
           "regionHeading": "Check Box4",
           "sourceFieldInfo": {
             "field": "Check Box4",
@@ -1453,17 +1473,20 @@
             "printedLabel": "Charging documents created by prosecuting agency"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Check Box4"
+          "reason": "Select only when requesting the charging-document scope.",
+          "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Select only when requesting the charging-document scope.",
+          "identity": "Check Box4",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ELECTION"
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.ProAgency",
           "fieldName": "ProAgency",
-          "printedLabel": "participant required field ProAgency",
-          "effectiveLabel": "participant required field ProAgency",
+          "printedLabel": "source field ProAgency (label retained in official PDF)",
+          "effectiveLabel": "Prosecuting agency for the requested charging documents",
           "regionHeading": "ProAgency",
           "sourceFieldInfo": {
             "field": "ProAgency",
@@ -1482,17 +1505,22 @@
             "printedLabel": "source field ProAgency (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ProAgency"
+          "reason": "Supply the prosecuting agency only when requesting the charging-document scope.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply the prosecuting agency only when requesting the charging-document scope.",
+          "identity": "ProAgency",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply the prosecuting agency only when requesting the charging-document scope."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.CourtCase",
           "fieldName": "CourtCase",
-          "printedLabel": "participant required field CourtCase",
-          "effectiveLabel": "participant required field CourtCase",
+          "printedLabel": "source field CourtCase (label retained in official PDF)",
+          "effectiveLabel": "Court case number for the requested eligible-charge records",
           "regionHeading": "CourtCase",
           "sourceFieldInfo": {
             "field": "CourtCase",
@@ -1511,17 +1539,22 @@
             "printedLabel": "source field CourtCase (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "CourtCase"
+          "reason": "Supply this case number only when requesting the eligible-charge court-record scope.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply this case number only when requesting the eligible-charge court-record scope.",
+          "identity": "CourtCase",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply this case number only when requesting the eligible-charge court-record scope."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.CourtAdj2",
           "fieldName": "CourtAdj2",
-          "printedLabel": "participant required field CourtAdj2",
-          "effectiveLabel": "participant required field CourtAdj2",
+          "printedLabel": "source field CourtAdj2 (label retained in official PDF)",
+          "effectiveLabel": "Court that adjudicated the charges — second continuation line",
           "regionHeading": "CourtAdj2",
           "sourceFieldInfo": {
             "field": "CourtAdj2",
@@ -1540,11 +1573,16 @@
             "printedLabel": "source field CourtAdj2 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "CourtAdj2"
+          "reason": "Use only when the court identity does not fit on CourtAdj1.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Use only when the court identity does not fit on CourtAdj1.",
+          "identity": "CourtAdj2",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "OPTIONAL_CONTINUATION",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Use only when the court identity does not fit on CourtAdj1."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.CourtCaseNum",
@@ -1578,8 +1616,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Count1",
           "fieldName": "Count1",
-          "printedLabel": "participant required field Count1",
-          "effectiveLabel": "participant required field Count1",
+          "printedLabel": "source field Count1 (label retained in official PDF)",
+          "effectiveLabel": "Court case number if charges were filed — Count I",
           "regionHeading": "Count1",
           "sourceFieldInfo": {
             "field": "Count1",
@@ -1598,17 +1636,22 @@
             "printedLabel": "source field Count1 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Count1"
+          "reason": "Complete only for an actual charged count established by the record; do not invent a count or require four counts.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Complete only for an actual charged count established by the record; do not invent a count or require four counts.",
+          "identity": "Count1",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_REPEATING_ROW",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Complete only for an actual charged count established by the record; do not invent a count or require four counts."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Count2",
           "fieldName": "Count2",
-          "printedLabel": "participant required field Count2",
-          "effectiveLabel": "participant required field Count2",
+          "printedLabel": "source field Count2 (label retained in official PDF)",
+          "effectiveLabel": "Court case number if charges were filed — Count II",
           "regionHeading": "Count2",
           "sourceFieldInfo": {
             "field": "Count2",
@@ -1627,17 +1670,22 @@
             "printedLabel": "source field Count2 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Count2"
+          "reason": "Complete only for an actual charged count established by the record; do not invent a count or require four counts.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Complete only for an actual charged count established by the record; do not invent a count or require four counts.",
+          "identity": "Count2",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_REPEATING_ROW",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Complete only for an actual charged count established by the record; do not invent a count or require four counts."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Count3",
           "fieldName": "Count3",
-          "printedLabel": "participant required field Count3",
-          "effectiveLabel": "participant required field Count3",
+          "printedLabel": "source field Count3 (label retained in official PDF)",
+          "effectiveLabel": "Court case number if charges were filed — Count III",
           "regionHeading": "Count3",
           "sourceFieldInfo": {
             "field": "Count3",
@@ -1656,17 +1704,22 @@
             "printedLabel": "source field Count3 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Count3"
+          "reason": "Complete only for an actual charged count established by the record; do not invent a count or require four counts.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Complete only for an actual charged count established by the record; do not invent a count or require four counts.",
+          "identity": "Count3",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_REPEATING_ROW",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Complete only for an actual charged count established by the record; do not invent a count or require four counts."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Count4",
           "fieldName": "Count4",
-          "printedLabel": "participant required field Count4",
-          "effectiveLabel": "participant required field Count4",
+          "printedLabel": "source field Count4 (label retained in official PDF)",
+          "effectiveLabel": "Court case number if charges were filed — Count IV",
           "regionHeading": "Count4",
           "sourceFieldInfo": {
             "field": "Count4",
@@ -1685,17 +1738,22 @@
             "printedLabel": "source field Count4 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Count4"
+          "reason": "Complete only for an actual charged count established by the record; do not invent a count or require four counts.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Complete only for an actual charged count established by the record; do not invent a count or require four counts.",
+          "identity": "Count4",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_REPEATING_ROW",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Complete only for an actual charged count established by the record; do not invent a count or require four counts."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box5",
           "fieldName": "Check Box5",
-          "printedLabel": "participant required field Check Box5",
-          "effectiveLabel": "participant required field Check Box5",
+          "printedLabel": "source field Check Box5 (label retained in official PDF)",
+          "effectiveLabel": "All records relating to the eligible charges in the court case",
           "regionHeading": "Check Box5",
           "sourceFieldInfo": {
             "field": "Check Box5",
@@ -1714,17 +1772,20 @@
             "printedLabel": "source field Check Box5 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Check Box5"
+          "reason": "Select only when requesting the eligible-charge court-record scope.",
+          "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Select only when requesting the eligible-charge court-record scope.",
+          "identity": "Check Box5",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ELECTION"
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box6",
           "fieldName": "Check Box6",
-          "printedLabel": "participant required field Check Box6",
-          "effectiveLabel": "participant required field Check Box6",
+          "printedLabel": "source field Check Box6 (label retained in official PDF)",
+          "effectiveLabel": "Additional counts continue on a separate page",
           "regionHeading": "Check Box6",
           "sourceFieldInfo": {
             "field": "Check Box6",
@@ -1743,17 +1804,20 @@
             "printedLabel": "source field Check Box6 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Check Box6"
+          "reason": "Select only when actual additional counts continue beyond the four supplied rows.",
+          "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Select only when actual additional counts continue beyond the four supplied rows.",
+          "identity": "Check Box6",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ELECTION"
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.ArrestLoc",
           "fieldName": "ArrestLoc",
-          "printedLabel": "participant required field ArrestLoc",
-          "effectiveLabel": "participant required field ArrestLoc",
+          "printedLabel": "source field ArrestLoc (label retained in official PDF)",
+          "effectiveLabel": "Additional case record information, if known — location of arrest",
           "regionHeading": "ArrestLoc",
           "sourceFieldInfo": {
             "field": "ArrestLoc",
@@ -1772,17 +1836,22 @@
             "printedLabel": "source field ArrestLoc (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ArrestLoc"
+          "reason": "Supply only if the arrest location is known.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only if the arrest location is known.",
+          "identity": "ArrestLoc",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "SOURCE_OPTIONAL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only if the arrest location is known."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.AgencyName",
           "fieldName": "AgencyName",
-          "printedLabel": "participant required field AgencyName",
-          "effectiveLabel": "participant required field AgencyName",
+          "printedLabel": "source field AgencyName (label retained in official PDF)",
+          "effectiveLabel": "Additional case record information, if known — name of arresting agency",
           "regionHeading": "AgencyName",
           "sourceFieldInfo": {
             "field": "AgencyName",
@@ -1801,17 +1870,22 @@
             "printedLabel": "source field AgencyName (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "AgencyName"
+          "reason": "Supply only if the arresting agency is known.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only if the arresting agency is known.",
+          "identity": "AgencyName",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "SOURCE_OPTIONAL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only if the arresting agency is known."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.AgencyDate",
           "fieldName": "AgencyDate",
-          "printedLabel": "participant required field AgencyDate",
-          "effectiveLabel": "participant required field AgencyDate",
+          "printedLabel": "source field AgencyDate (label retained in official PDF)",
+          "effectiveLabel": "Additional case record information, if known — date of arrest",
           "regionHeading": "AgencyDate",
           "sourceFieldInfo": {
             "field": "AgencyDate",
@@ -1830,17 +1904,22 @@
             "printedLabel": "source field AgencyDate (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "AgencyDate"
+          "reason": "Supply only if the arrest date is known.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only if the arrest date is known.",
+          "identity": "AgencyDate",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "SOURCE_OPTIONAL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only if the arrest date is known."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.ProsAgency1",
           "fieldName": "ProsAgency1",
-          "printedLabel": "participant required field ProsAgency1",
-          "effectiveLabel": "participant required field ProsAgency1",
+          "printedLabel": "source field ProsAgency1 (label retained in official PDF)",
+          "effectiveLabel": "Additional case record information, if known — prosecuting agency if charges were filed",
           "regionHeading": "ProsAgency1",
           "sourceFieldInfo": {
             "field": "ProsAgency1",
@@ -1859,17 +1938,22 @@
             "printedLabel": "source field ProsAgency1 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ProsAgency1"
+          "reason": "Supply only if the prosecuting agency is known and charges were filed.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only if the prosecuting agency is known and charges were filed.",
+          "identity": "ProsAgency1",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "SOURCE_OPTIONAL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only if the prosecuting agency is known and charges were filed."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.ProsAgency2",
           "fieldName": "ProsAgency2",
-          "printedLabel": "participant required field ProsAgency2",
-          "effectiveLabel": "participant required field ProsAgency2",
+          "printedLabel": "source field ProsAgency2 (label retained in official PDF)",
+          "effectiveLabel": "Prosecuting agency if charges were filed — continuation line",
           "regionHeading": "ProsAgency2",
           "sourceFieldInfo": {
             "field": "ProsAgency2",
@@ -1888,17 +1972,22 @@
             "printedLabel": "source field ProsAgency2 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ProsAgency2"
+          "reason": "Use only when the applicable prosecuting-agency name needs a second line.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Use only when the applicable prosecuting-agency name needs a second line.",
+          "identity": "ProsAgency2",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "OPTIONAL_CONTINUATION",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Use only when the applicable prosecuting-agency name needs a second line."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.JusticeCourt1",
           "fieldName": "JusticeCourt1",
-          "printedLabel": "participant required field JusticeCourt1",
-          "effectiveLabel": "participant required field JusticeCourt1",
+          "printedLabel": "source field JusticeCourt1 (label retained in official PDF)",
+          "effectiveLabel": "Justice court name and case number if the case transferred to superior court",
           "regionHeading": "JusticeCourt1",
           "sourceFieldInfo": {
             "field": "JusticeCourt1",
@@ -1927,11 +2016,16 @@
             "printedLabel": "source field JusticeCourt1 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "JusticeCourt1"
+          "reason": "Supply if known and the case began in justice court before transfer to superior court; the single source field spans two widgets.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply if known and the case began in justice court before transfer to superior court; the single source field spans two widgets.",
+          "identity": "JusticeCourt1",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SOURCE_OPTIONAL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply if known and the case began in justice court before transfer to superior court; the single source field spans two widgets."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.EnteredOn",
@@ -1965,8 +2059,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.EnteredOn1",
           "fieldName": "EnteredOn1",
-          "printedLabel": "participant required field EnteredOn1",
-          "effectiveLabel": "participant required field EnteredOn1",
+          "printedLabel": "source field EnteredOn1 (label retained in official PDF)",
+          "effectiveLabel": "Date a judgment of guilt was entered",
           "regionHeading": "EnteredOn1",
           "sourceFieldInfo": {
             "field": "EnteredOn1",
@@ -1985,11 +2079,15 @@
             "printedLabel": "source field EnteredOn1 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "EnteredOn1"
+          "reason": "The dismissal/not-guilty route uses EnteredOn and does not use the guilty-judgment date.",
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "The dismissal/not-guilty route uses EnteredOn and does not use the guilty-judgment date.",
+          "identity": "EnteredOn1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "OFF_ROUTE",
+          "routeConditionThatMakesItInapplicable": "The dismissal/not-guilty route uses EnteredOn and does not use the guilty-judgment date."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box10",
@@ -2268,8 +2366,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.PetDate",
           "fieldName": "PetDate",
-          "printedLabel": "participant required field PetDate",
-          "effectiveLabel": "participant required field PetDate",
+          "printedLabel": "source field PetDate (label retained in official PDF)",
+          "effectiveLabel": "If a prior sealing petition was filed in this case, date of the last petition",
           "regionHeading": "PetDate",
           "sourceFieldInfo": {
             "field": "PetDate",
@@ -2288,17 +2386,22 @@
             "printedLabel": "source field PetDate (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "PetDate"
+          "reason": "Supply only after answering Yes to the prior-petition question in Section III.1.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only after answering Yes to the prior-petition question in Section III.1.",
+          "identity": "PetDate",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_HISTORY_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only after answering Yes to the prior-petition question in Section III.1."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box16",
           "fieldName": "Check Box16",
-          "printedLabel": "participant required field Check Box16",
-          "effectiveLabel": "participant required field Check Box16",
+          "printedLabel": "source field Check Box16 (label retained in official PDF)",
+          "effectiveLabel": "If sealing a conviction, any later conviction — Yes, No, or N/A",
           "regionHeading": "Check Box16",
           "sourceFieldInfo": {
             "field": "Check Box16",
@@ -2337,11 +2440,14 @@
             "printedLabel": "source field Check Box16 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Check Box16"
+          "reason": "This conviction-history question applies only when sealing a conviction. These arrest/dismissal routes are nonconviction routes; review the source N/A choice and do not invent a conviction-history fact.",
+          "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "This conviction-history question applies only when sealing a conviction. These arrest/dismissal routes are nonconviction routes; review the source N/A choice and do not invent a conviction-history fact.",
+          "identity": "Check Box16",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ELECTION"
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box17",
@@ -2395,8 +2501,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Discharge",
           "fieldName": "Discharge",
-          "printedLabel": "participant required field Discharge",
-          "effectiveLabel": "participant required field Discharge",
+          "printedLabel": "source field Discharge (label retained in official PDF)",
+          "effectiveLabel": "If records were sealed in a previous case, date non-monetary conditions were completed and discharge occurred",
           "regionHeading": "Discharge",
           "sourceFieldInfo": {
             "field": "Discharge",
@@ -2415,17 +2521,22 @@
             "printedLabel": "source field Discharge (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Discharge"
+          "reason": "Supply only after answering Yes to the prior-sealing question in Section III.2.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only after answering Yes to the prior-sealing question in Section III.2.",
+          "identity": "Discharge",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_HISTORY_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only after answering Yes to the prior-sealing question in Section III.2."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Jurisdiction",
           "fieldName": "Jurisdiction",
-          "printedLabel": "participant required field Jurisdiction",
-          "effectiveLabel": "participant required field Jurisdiction",
+          "printedLabel": "source field Jurisdiction (label retained in official PDF)",
+          "effectiveLabel": "Additional pending charges — jurisdiction",
           "regionHeading": "Jurisdiction",
           "sourceFieldInfo": {
             "field": "Jurisdiction",
@@ -2444,17 +2555,22 @@
             "printedLabel": "source field Jurisdiction (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Jurisdiction"
+          "reason": "Supply only if the separate pending-charges response says additional pending charges exist.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only if the separate pending-charges response says additional pending charges exist.",
+          "identity": "Jurisdiction",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_PENDING_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only if the separate pending-charges response says additional pending charges exist."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.ChargesFiled",
           "fieldName": "ChargesFiled",
-          "printedLabel": "participant required field ChargesFiled",
-          "effectiveLabel": "participant required field ChargesFiled",
+          "printedLabel": "source field ChargesFiled (label retained in official PDF)",
+          "effectiveLabel": "Additional pending charges — charges filed",
           "regionHeading": "ChargesFiled",
           "sourceFieldInfo": {
             "field": "ChargesFiled",
@@ -2473,17 +2589,22 @@
             "printedLabel": "source field ChargesFiled (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ChargesFiled"
+          "reason": "Supply only if the separate pending-charges response says additional pending charges exist.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only if the separate pending-charges response says additional pending charges exist.",
+          "identity": "ChargesFiled",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_PENDING_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only if the separate pending-charges response says additional pending charges exist."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.DateofCharge",
           "fieldName": "DateofCharge",
-          "printedLabel": "participant required field DateofCharge",
-          "effectiveLabel": "participant required field DateofCharge",
+          "printedLabel": "source field DateofCharge (label retained in official PDF)",
+          "effectiveLabel": "Additional pending charges — date of charges",
           "regionHeading": "DateofCharge",
           "sourceFieldInfo": {
             "field": "DateofCharge",
@@ -2502,11 +2623,16 @@
             "printedLabel": "source field DateofCharge (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "DateofCharge"
+          "reason": "Supply only if the separate pending-charges response says additional pending charges exist.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only if the separate pending-charges response says additional pending charges exist.",
+          "identity": "DateofCharge",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_PENDING_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only if the separate pending-charges response says additional pending charges exist."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box18",
@@ -2550,8 +2676,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Consider1",
           "fieldName": "Consider1",
-          "printedLabel": "participant required field Consider1",
-          "effectiveLabel": "participant required field Consider1",
+          "printedLabel": "source field Consider1 (label retained in official PDF)",
+          "effectiveLabel": "Anything else for the court to consider — first line",
           "regionHeading": "Consider1",
           "sourceFieldInfo": {
             "field": "Consider1",
@@ -2570,17 +2696,22 @@
             "printedLabel": "source field Consider1 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Consider1"
+          "reason": "Use only for further information the participant wants the court to consider; do not require every continuation line.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Use only for further information the participant wants the court to consider; do not require every continuation line.",
+          "identity": "Consider1",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "SOURCE_OPTIONAL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Use only for further information the participant wants the court to consider; do not require every continuation line."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Consider2",
           "fieldName": "Consider2",
-          "printedLabel": "participant required field Consider2",
-          "effectiveLabel": "participant required field Consider2",
+          "printedLabel": "source field Consider2 (label retained in official PDF)",
+          "effectiveLabel": "Anything else for the court to consider — second line",
           "regionHeading": "Consider2",
           "sourceFieldInfo": {
             "field": "Consider2",
@@ -2599,17 +2730,22 @@
             "printedLabel": "source field Consider2 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Consider2"
+          "reason": "Use only for further information the participant wants the court to consider; do not require every continuation line.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Use only for further information the participant wants the court to consider; do not require every continuation line.",
+          "identity": "Consider2",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "SOURCE_OPTIONAL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Use only for further information the participant wants the court to consider; do not require every continuation line."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Consider3",
           "fieldName": "Consider3",
-          "printedLabel": "participant required field Consider3",
-          "effectiveLabel": "participant required field Consider3",
+          "printedLabel": "source field Consider3 (label retained in official PDF)",
+          "effectiveLabel": "Anything else for the court to consider — third line",
           "regionHeading": "Consider3",
           "sourceFieldInfo": {
             "field": "Consider3",
@@ -2628,17 +2764,22 @@
             "printedLabel": "source field Consider3 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Consider3"
+          "reason": "Use only for further information the participant wants the court to consider; do not require every continuation line.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Use only for further information the participant wants the court to consider; do not require every continuation line.",
+          "identity": "Consider3",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "SOURCE_OPTIONAL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Use only for further information the participant wants the court to consider; do not require every continuation line."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Check Box19",
           "fieldName": "Check Box19",
-          "printedLabel": "participant required field Check Box19",
-          "effectiveLabel": "participant required field Check Box19",
+          "printedLabel": "source field Check Box19 (label retained in official PDF)",
+          "effectiveLabel": "Other pertinent documentation attached",
           "regionHeading": "Check Box19",
           "sourceFieldInfo": {
             "field": "Check Box19",
@@ -2657,17 +2798,20 @@
             "printedLabel": "source field Check Box19 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Check Box19"
+          "reason": "Select only when other pertinent documents are attached.",
+          "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Select only when other pertinent documents are attached.",
+          "identity": "Check Box19",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ELECTION"
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Doc1",
           "fieldName": "Doc1",
-          "printedLabel": "participant required field Doc1",
-          "effectiveLabel": "participant required field Doc1",
+          "printedLabel": "source field Doc1 (label retained in official PDF)",
+          "effectiveLabel": "Attached pertinent documents — first line",
           "regionHeading": "Doc1",
           "sourceFieldInfo": {
             "field": "Doc1",
@@ -2686,17 +2830,22 @@
             "printedLabel": "source field Doc1 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Doc1"
+          "reason": "List an actual attached document and use only as many lines as the attachments require.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "List an actual attached document and use only as many lines as the attachments require.",
+          "identity": "Doc1",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ATTACHMENT_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "List an actual attached document and use only as many lines as the attachments require."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Doc2",
           "fieldName": "Doc2",
-          "printedLabel": "participant required field Doc2",
-          "effectiveLabel": "participant required field Doc2",
+          "printedLabel": "source field Doc2 (label retained in official PDF)",
+          "effectiveLabel": "Attached pertinent documents — second line",
           "regionHeading": "Doc2",
           "sourceFieldInfo": {
             "field": "Doc2",
@@ -2715,17 +2864,22 @@
             "printedLabel": "source field Doc2 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Doc2"
+          "reason": "List an actual attached document and use only as many lines as the attachments require.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "List an actual attached document and use only as many lines as the attachments require.",
+          "identity": "Doc2",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ATTACHMENT_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "List an actual attached document and use only as many lines as the attachments require."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Doc3",
           "fieldName": "Doc3",
-          "printedLabel": "participant required field Doc3",
-          "effectiveLabel": "participant required field Doc3",
+          "printedLabel": "source field Doc3 (label retained in official PDF)",
+          "effectiveLabel": "Attached pertinent documents — third line",
           "regionHeading": "Doc3",
           "sourceFieldInfo": {
             "field": "Doc3",
@@ -2744,11 +2898,16 @@
             "printedLabel": "source field Doc3 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Doc3"
+          "reason": "List an actual attached document and use only as many lines as the attachments require.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "List an actual attached document and use only as many lines as the attachments require.",
+          "identity": "Doc3",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_ATTACHMENT_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "List an actual attached document and use only as many lines as the attachments require."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-primary-filing-1.Date",
@@ -3034,8 +3193,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.ArrestOn",
           "fieldName": "ArrestOn",
-          "printedLabel": "participant required field ArrestOn",
-          "effectiveLabel": "participant required field ArrestOn",
+          "printedLabel": "source field ArrestOn (label retained in official PDF)",
+          "effectiveLabel": "Order arrest-record description — arrest date",
           "regionHeading": "ArrestOn",
           "sourceFieldInfo": {
             "field": "ArrestOn",
@@ -3054,17 +3213,22 @@
             "printedLabel": "source field ArrestOn (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ArrestOn"
+          "reason": "Complete only when the arrest-record scope is requested; the order election remains court-owned.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Complete only when the arrest-record scope is requested; the order election remains court-owned.",
+          "identity": "ArrestOn",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Complete only when the arrest-record scope is requested; the order election remains court-owned."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.ArrestBy",
           "fieldName": "ArrestBy",
-          "printedLabel": "participant required field ArrestBy",
-          "effectiveLabel": "participant required field ArrestBy",
+          "printedLabel": "source field ArrestBy (label retained in official PDF)",
+          "effectiveLabel": "Order arrest-record description — law enforcement agency",
           "regionHeading": "ArrestBy",
           "sourceFieldInfo": {
             "field": "ArrestBy",
@@ -3083,17 +3247,22 @@
             "printedLabel": "source field ArrestBy (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ArrestBy"
+          "reason": "Complete only when the arrest-record scope is requested; the order election remains court-owned.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Complete only when the arrest-record scope is requested; the order election remains court-owned.",
+          "identity": "ArrestBy",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Complete only when the arrest-record scope is requested; the order election remains court-owned."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.ArrestBy1",
           "fieldName": "ArrestBy1",
-          "printedLabel": "participant required field ArrestBy1",
-          "effectiveLabel": "participant required field ArrestBy1",
+          "printedLabel": "source field ArrestBy1 (label retained in official PDF)",
+          "effectiveLabel": "Order arrest-record description — law enforcement agency continuation",
           "regionHeading": "ArrestBy1",
           "sourceFieldInfo": {
             "field": "ArrestBy1",
@@ -3112,11 +3281,16 @@
             "printedLabel": "source field ArrestBy1 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "ArrestBy1"
+          "reason": "Use only when the applicable arresting-agency description needs a second line.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Use only when the applicable arresting-agency description needs a second line.",
+          "identity": "ArrestBy1",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "OPTIONAL_CONTINUATION",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Use only when the applicable arresting-agency description needs a second line."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.Check Box2",
@@ -3150,8 +3324,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.Agency",
           "fieldName": "Agency",
-          "printedLabel": "participant required field Agency",
-          "effectiveLabel": "participant required field Agency",
+          "printedLabel": "source field Agency (label retained in official PDF)",
+          "effectiveLabel": "Order charging-document description — prosecuting agency",
           "regionHeading": "Agency",
           "sourceFieldInfo": {
             "field": "Agency",
@@ -3170,17 +3344,22 @@
             "printedLabel": "source field Agency (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Agency"
+          "reason": "Complete only when the corresponding record scope is requested; the order election remains court-owned.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Complete only when the corresponding record scope is requested; the order election remains court-owned.",
+          "identity": "Agency",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Complete only when the corresponding record scope is requested; the order election remains court-owned."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.Agency1",
           "fieldName": "Agency1",
-          "printedLabel": "participant required field Agency1",
-          "effectiveLabel": "participant required field Agency1",
+          "printedLabel": "source field Agency1 (label retained in official PDF)",
+          "effectiveLabel": "Order charging-document description — prosecuting agency continuation",
           "regionHeading": "Agency1",
           "sourceFieldInfo": {
             "field": "Agency1",
@@ -3199,11 +3378,16 @@
             "printedLabel": "source field Agency1 (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "Agency1"
+          "reason": "Use only when the applicable prosecuting-agency description needs a second line.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Use only when the applicable prosecuting-agency description needs a second line.",
+          "identity": "Agency1",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "OPTIONAL_CONTINUATION",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Use only when the applicable prosecuting-agency description needs a second line."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.Check Box3",
@@ -3237,8 +3421,8 @@
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.CaseNo",
           "fieldName": "CaseNo",
-          "printedLabel": "participant required field CaseNo",
-          "effectiveLabel": "participant required field CaseNo",
+          "printedLabel": "source field CaseNo (label retained in official PDF)",
+          "effectiveLabel": "Order eligible-charge records description — court case number",
           "regionHeading": "CaseNo",
           "sourceFieldInfo": {
             "field": "CaseNo",
@@ -3257,17 +3441,22 @@
             "printedLabel": "source field CaseNo (label retained in official PDF)"
           },
           "document": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "CaseNo"
+          "reason": "Complete only when the corresponding record scope is requested; the separate charged-case order caption Case remains applicable.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Complete only when the corresponding record scope is requested; the separate charged-case order caption Case remains applicable.",
+          "identity": "CaseNo",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Complete only when the corresponding record scope is requested; the separate charged-case order caption Case remains applicable."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.NameArrest",
           "fieldName": "NameArrest",
-          "printedLabel": "participant required field NameArrest",
-          "effectiveLabel": "participant required field NameArrest",
+          "printedLabel": "Name at the time of arrest, if not the same as above",
+          "effectiveLabel": "Name at the time of arrest, if different from the petitioner name",
           "regionHeading": "NameArrest",
           "sourceFieldInfo": {
             "field": "NameArrest",
@@ -3286,11 +3475,16 @@
             "printedLabel": "Name at the time of arrest, if not the same as above"
           },
           "document": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "NameArrest"
+          "reason": "Supply only when the name at arrest differs from the petitioner name.",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "Supply only when the name at arrest differs from the petitioner name.",
+          "identity": "NameArrest",
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "CONDITIONAL_IDENTITY_DETAIL",
+          "sourceOptional": true,
+          "sourceOptionalCondition": "Supply only when the name at arrest differs from the petitioner name."
         },
         {
           "field": "az_record_sealing_dismissal_not_guilty-proposed-order-2.Case",

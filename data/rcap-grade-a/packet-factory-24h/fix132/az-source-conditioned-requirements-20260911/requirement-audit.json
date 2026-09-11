@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-fix132-az-source-conditioned-requirement-audit/v1",
+  "lane": "FIX132",
+  "claimsAsserted": [
+    "az_record_sealing_arrest_no_charges-set",
+    "az_record_sealing_dismissal_not_guilty-set"
+  ],
+  "independentInputs": {
+    "vf68ArrestDefectSha256": "a58f3c4ec9e35555b33f1545988677706ce68921db46c815ff499617a79df907",
+    "vf69DismissalDefectSha256": "576441c99104fe8b8f7feee6cbcec0dd70cf3f154aeb08a71f8b2a05b56f9761"
+  },
+  "dismissal": {
+    "exactDefectRows": 42,
+    "unsupportedUnconditionalRequirementsRemaining": 0,
+    "everyRowCarriesExactDefectCategoryAndParticipantCondition": true,
+    "retainedRequiredFields": [
+      "petition.Case",
+      "petition.CourtCaseNum",
+      "petition.EnteredOn",
+      "petition.Check Box10",
+      "petition.Check Box11",
+      "petition.Check Box12",
+      "petition.Check Box13",
+      "petition.Check Box14",
+      "petition.Check Box15",
+      "petition.Check Box17",
+      "petition.Check Box18",
+      "petition.Date",
+      "order.Case"
+    ],
+    "sectionTwoBlanketSuppression": false
+  },
+  "arrest": {
+    "exactDefectFields": [
+      "petition.Defendant",
+      "petition.EnteredOn",
+      "petition.EnteredOn1",
+      "petition.Check Box10",
+      "petition.Check Box11",
+      "petition.Check Box12",
+      "petition.Check Box13"
+    ],
+    "allSevenDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+    "sharedSourceConditionedRowsApplied": 40,
+    "strongerExistingRouteOffRulesPreserved": [
+      "petition.Check Box4",
+      "petition.Check Box5"
+    ]
+  },
+  "supportedDispositionVocabularyOnly": [
+    "NOT_APPLICABLE_ON_THIS_ROUTE",
+    "PARTICIPANT_ELECTION_GENUINE",
+    "OPTIONAL_PARTICIPANT_CONTENT"
+  ],
+  "convictionPathTouchedOrBuilt": false,
+  "approval": "PENDING_INDEPENDENT_APPROVAL",
+  "grantsRelease": false
+}
