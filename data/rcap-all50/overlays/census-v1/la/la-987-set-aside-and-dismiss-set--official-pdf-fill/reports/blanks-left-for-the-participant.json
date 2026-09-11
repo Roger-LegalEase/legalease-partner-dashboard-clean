@@ -1,48 +1,22 @@
 {
   "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
   "familyId": "la-987-set-aside-and-dismiss-set",
-  "requiredBeforeFiling": [
-    {
-      "document": "LA-CCRP-ART-987",
-      "field": "LA-CCRP-ART-987.conviction_offense",
-      "page": 1,
-      "printedContext": "Conviction offense wording",
-      "disclosureLabel": "Conviction offense wording",
-      "identity": "LA-CCRP-ART-987 field conviction_offense",
-      "why": "the committed Article 987 record collects the offense and the statute of conviction as the participant's own answer to \"What offence were you convicted of, and under what statute?\", and the court record this fixture declares carries neither, so this build holds no value to print and prints none",
-      "participantMustSupply": "write the offense exactly as it is worded on your court record, taken from the minute entry or sentencing order for this docket that the clerk of the sentencing court holds"
-    },
-    {
-      "document": "LA-CCRP-ART-987",
-      "field": "LA-CCRP-ART-987.conviction_statute",
-      "page": 1,
-      "printedContext": "Conviction statute",
-      "disclosureLabel": "Conviction statute",
-      "identity": "LA-CCRP-ART-987 field conviction_statute",
-      "why": "the committed Article 987 record collects the offense and the statute of conviction as the participant's own answer to \"What offence were you convicted of, and under what statute?\", and the court record this fixture declares carries neither, so this build holds no value to print and prints none",
-      "participantMustSupply": "write the statutory citation exactly as it appears on your court record, taken from the same minute entry or sentencing order"
-    },
-    {
-      "document": "LA-CCRP-ART-987",
-      "field": "LA-CCRP-ART-987.deferred_period_run_assertion",
-      "page": 1,
-      "printedContext": "Has the period of the deferred sentence run? [ ] YES [ ] NO",
-      "disclosureLabel": "Has the period of the deferred sentence run? [ ] YES [ ] NO",
-      "identity": "LA-CCRP-ART-987 field deferred_period_run_assertion",
-      "why": "the committed legal-design limitation says this factual assertion must not be auto-completed",
-      "participantMustSupply": "mark YES or NO from the sentencing record; this assertion is yours and the build does not make it"
-    },
-    {
-      "document": "LA-CCRP-ART-987",
-      "field": "LA-CCRP-ART-987.probation_completion_assertion",
-      "page": 1,
-      "printedContext": "Did you successfully complete the terms of your probation? [ ] YES [ ] NO",
-      "disclosureLabel": "Did you successfully complete the terms of your probation? [ ] YES [ ] NO",
-      "identity": "LA-CCRP-ART-987 field probation_completion_assertion",
-      "why": "the participant owns the completion assertion and the committed record forbids auto-completing it",
-      "participantMustSupply": "mark YES or NO only after checking your probation discharge or completion record; this assertion is yours"
-    }
-  ],
+  "requiredBeforeFiling": [],
+  "requiredBeforeFilingByFixture": {
+    "canonical": [],
+    "boundary": [
+      {
+        "document": "LA-CCRP-ART-987",
+        "field": "LA-CCRP-ART-987.arresting_agency",
+        "page": 1,
+        "printedContext": "ARRESTING AGENCY",
+        "disclosureLabel": "ARRESTING AGENCY",
+        "identity": "LA-CCRP-ART-987 field arresting_agency",
+        "why": "Article 987 prints this field; the packet leaves it blank when the participant/case record does not provide it and never substitutes another date, agency, place, charge, or case",
+        "participantMustSupply": "provide arresting agency exactly from the court or arrest record before filing"
+      }
+    ]
+  },
   "protectedBlanks": [
     {
       "document": "LA-CCRP-ART-987",
@@ -73,6 +47,15 @@
     },
     {
       "document": "LA-CCRP-ART-987",
+      "field": "LA-CCRP-ART-987.attorney_city_state_zip",
+      "page": 1,
+      "label": "Attorney city, state, ZIP code in represented-mover block",
+      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "refusalClass": null,
+      "why": "the fixture selects the unrepresented mover block"
+    },
+    {
+      "document": "LA-CCRP-ART-987",
       "field": "LA-CCRP-ART-987.attorney_telephone",
       "page": 1,
       "label": "Attorney telephone in represented-mover block",
@@ -97,15 +80,6 @@
       "disposition": "PROTECTED_FIELD",
       "refusalClass": "signature_or_date_participant_completion",
       "why": "the mover signs personally after completing and reviewing the motion"
-    },
-    {
-      "document": "LA-CCRP-ART-987",
-      "field": "LA-CCRP-ART-987.mover_signature_date",
-      "page": 1,
-      "label": "Date of unrepresented mover signature",
-      "disposition": "PROTECTED_FIELD",
-      "refusalClass": "signature_or_date_participant_completion",
-      "why": "a date supplied before signing would be false"
     },
     {
       "document": "LA-CCRP-ART-987",
@@ -145,24 +119,6 @@
     },
     {
       "document": "LA-CCRP-ART-987",
-      "field": "LA-CCRP-ART-987.order_findings",
-      "page": 3,
-      "label": "Court findings on the Order of Dismissal",
-      "disposition": "PROTECTED_FIELD",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
-      "why": "the court enters findings after the contradictory hearing"
-    },
-    {
-      "document": "LA-CCRP-ART-987",
-      "field": "LA-CCRP-ART-987.order_decretal_paragraphs",
-      "page": 3,
-      "label": "Court use only - granting, denying, and decretal paragraphs",
-      "disposition": "PROTECTED_FIELD",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
-      "why": "the court alone decides and enters the disposition"
-    },
-    {
-      "document": "LA-CCRP-ART-987",
       "field": "LA-CCRP-ART-987.order_date",
       "page": 3,
       "label": "Date of the court order",
@@ -187,6 +143,24 @@
       "disposition": "PROTECTED_FIELD",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned",
       "why": "the judge signs only if and when the court enters an order"
+    },
+    {
+      "document": "LA-CCRP-ART-987",
+      "field": "LA-CCRP-ART-987.rule_district_attorney_service",
+      "page": 2,
+      "label": "District Attorney service recipient on the Rule to Show Cause",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the clerk completes the official service address"
+    },
+    {
+      "document": "LA-CCRP-ART-987",
+      "field": "LA-CCRP-ART-987.order_district_attorney_service",
+      "page": 3,
+      "label": "District Attorney service recipient on the Order of Dismissal",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the clerk completes the official service address"
     }
   ],
   "everyIntentionalBlankClassified": true,

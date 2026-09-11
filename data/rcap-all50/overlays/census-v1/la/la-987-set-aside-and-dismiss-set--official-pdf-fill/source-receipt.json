@@ -8,16 +8,16 @@
   ],
   "implementationStrategy": "official_pdf_fill",
   "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
-  "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
   "officialFormFamily": "LA-CCRP-ART-987",
   "acquisitionCommissioned": false,
   "sourceAcquisitionAuthorized": false,
   "sourceBinariesRequired": 0,
-  "sourceBinaryCommitted": false,
-  "sourceBinarySha256": null,
+  "sourceBinaryCommitted": true,
+  "sourceBinarySha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850",
   "allSourcesExact": true,
-  "allSourcesExactNote": "Authority-only composition: the assigned family requires zero source binaries, so no binary source hash exists or is owed, and every record this packet is grounded in binds. This flag was lowered by hand to false in an earlier pin sweep, correctly, because one grounding record did not bind: MASTER_QUEUE.json, whose pin that sweep held rather than refreshed. The flag reads true again because the reason it was lowered is gone -- the queue is no longer a grounding record at all -- and because this value is written by the builder from the binding it just performed rather than edited into the receipt afterwards.",
-  "bindingMethod": "the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record carrying legal content this build relies on are re-read at build time and bound twice by SHA-256: the whole file, and this family's own entry inside it over a key-ordered canonical form",
+  "allSourcesExactNote": "The builder re-hashes the exact held Article 986, 978.1, and 987 authority bytes adopted on 2026-09-11 and refuses a mismatch. Article 987 remains composed from codified text rather than overlaid onto an issuer PDF.",
+  "bindingMethod": "the governed 2026-09-11 source-adoption family entry and all three held authority files are re-read and hash-checked at build time; committed legal-design records are also bound by whole-file and family-entry SHA-256",
   "notGroundedIn": {
     "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "why": "The queue is a generated file describing this packet's own build state, so binding it proves nothing about the packet's legal content and goes stale on every regeneration. It was pinned here at 484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078 / 2010084 B and hashed 3a37b3f9cb02bd15cb6aea11639d0f084ac18cb7f022fb7bb9f28732301c23cc / 2016844 B when a verifier read it. The Louisiana node had also changed meaning, not just position, so no identity-refresh note could honestly cure the pin and none was written. Every assertion this build made against the queue is now made against a record that carries legal content.",
@@ -42,11 +42,65 @@
   "officialForm": {
     "officialFormId": "LA-CCRP-ART-987",
     "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919680",
-    "sourceBinarySha256": null,
+    "heldSourcePath": "reference/louisiana/LA-CCRP-Art-987-20260911.html",
+    "sourceBinarySha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850",
     "compositionTreatment": "COMPOSE_FROM_AUTHORITY"
   },
-  "sources": [],
-  "documents": [],
+  "sources": [
+    {
+      "sourceId": "official-authority:LA-CCRP-ART-986",
+      "title": "Article 986. Forms for the expungement of records",
+      "issuingAuthority": "Louisiana Legislature",
+      "officialUrl": "https://legis.la.gov/legis/LawPrint.aspx?d=919679",
+      "heldCorpusPath": "private/source-imports/user-upload-20260911/fd66fa19bf5fbfb1953d629a9e703dd2e56920758b903afef9f4c1549a286968.pdf",
+      "sha256": "fd66fa19bf5fbfb1953d629a9e703dd2e56920758b903afef9f4c1549a286968",
+      "byteLength": 51556
+    },
+    {
+      "sourceId": "official-authority:LA-CCRP-ART-978.1",
+      "title": "Article 978.1. Requirements for submitting motion to expunge arrest information",
+      "issuingAuthority": "Louisiana Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=1484240",
+      "heldCorpusPath": "private/source-imports/user-upload-20260911/141be4863d1789aa5c85cbd1e13d7fc753b8c1b513dd5562bf352820f8e9247a.pdf",
+      "sha256": "141be4863d1789aa5c85cbd1e13d7fc753b8c1b513dd5562bf352820f8e9247a",
+      "byteLength": 52904
+    },
+    {
+      "sourceId": "official-authority:LA-CCRP-ART-987",
+      "title": "Article 987. Motion to set aside conviction and dismiss prosecution; rule to show cause; order of dismissal forms to be used",
+      "issuingAuthority": "Louisiana Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919680",
+      "heldCorpusPath": "reference/louisiana/LA-CCRP-Art-987-20260911.html",
+      "sha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850",
+      "byteLength": 44421
+    }
+  ],
+  "documents": [
+    {
+      "sourceId": "official-authority:LA-CCRP-ART-986",
+      "path": "private/source-imports/user-upload-20260911/fd66fa19bf5fbfb1953d629a9e703dd2e56920758b903afef9f4c1549a286968.pdf",
+      "sha256": "fd66fa19bf5fbfb1953d629a9e703dd2e56920758b903afef9f4c1549a286968",
+      "byteLength": 51556,
+      "issuingAuthority": "Louisiana Legislature",
+      "officialUrl": "https://legis.la.gov/legis/LawPrint.aspx?d=919679"
+    },
+    {
+      "sourceId": "official-authority:LA-CCRP-ART-978.1",
+      "path": "private/source-imports/user-upload-20260911/141be4863d1789aa5c85cbd1e13d7fc753b8c1b513dd5562bf352820f8e9247a.pdf",
+      "sha256": "141be4863d1789aa5c85cbd1e13d7fc753b8c1b513dd5562bf352820f8e9247a",
+      "byteLength": 52904,
+      "issuingAuthority": "Louisiana Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=1484240"
+    },
+    {
+      "sourceId": "official-authority:LA-CCRP-ART-987",
+      "path": "reference/louisiana/LA-CCRP-Art-987-20260911.html",
+      "sha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850",
+      "byteLength": 44421,
+      "issuingAuthority": "Louisiana Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919680"
+    }
+  ],
   "groundingRecords": [
     {
       "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
@@ -61,52 +115,41 @@
     },
     {
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-      "byteLength": 2625273,
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+      "byteLength": 2629290,
       "boundEntry": {
         "pointer": "routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss]",
         "sha256": "0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349",
         "canonicalByteLength": 3071,
         "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
-      },
-      "identityRefresh": {
-        "refreshedOn": "2026-09-05",
-        "was": {
-          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-          "byteLength": 2607149
-        },
-        "why": "The shared route-obligation census was regenerated at the five-route runtime head (2d01b84f7), the only commit to touch the file since the previous pin, and it gave five other jurisdictions' routes a runtime identity of their own without touching the row this family binds. The anchor this receipt quotes -- routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss] -- was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk; it is present in the re-pinned record and identical, canonicalising to the same 3071 bytes and the same 0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349 the boundEntry beside this block records. The route count is 708 in both. Only the whole-file identity moved, so the pin is refreshed and the source is not rebuilt.",
-        "anchorsCompared": 1,
-        "anchorsIdentical": 1,
-        "previousPinLastSeenAtCommit": "ecd2bde79"
       }
     },
     {
       "path": "data/record-clearing/legal-design-intake/LA.memo.json",
-      "sha256": "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
-      "byteLength": 364706,
+      "sha256": "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a",
+      "byteLength": 366869,
       "boundEntry": {
         "pointer": "tracks[trackId=la-987-set-aside-and-dismiss]",
-        "sha256": "ca14592386024bc340eb6b41ba7073206190c66989f59b4a3d13afaa12e4c677",
-        "canonicalByteLength": 21036,
+        "sha256": "415cabf6481a3a6ec392d721758322e7109c8d0393025ad9728d7d805aac25d9",
+        "canonicalByteLength": 23088,
         "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
       }
     },
     {
       "path": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
-      "byteLength": 16586150,
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
       "boundEntry": {
         "pointer": "tracks[trackId=la-987-set-aside-and-dismiss]",
-        "sha256": "786aa38aca5880024a901b47d0215372cfb4c0ea23e949b2670739a54bbac67f",
-        "canonicalByteLength": 32990,
+        "sha256": "396076ca91731230f0254c93e0f4ef6499ad16aca0209900f0887c6297347688",
+        "canonicalByteLength": 35042,
         "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
       }
     },
     {
       "path": "data/record-clearing/legal-design-specifications.json",
-      "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
-      "byteLength": 16829391,
+      "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+      "byteLength": 16830109,
       "boundEntry": {
         "pointer": "officialFormAssignments[trackId=la-987-set-aside-and-dismiss]",
         "sha256": "a58d9bf9f8ea947aa83b38fc2100b5e6a89f04ecb89fae5e3010d707ec8e1453",
@@ -156,6 +199,17 @@
         "canonicalByteLength": 270,
         "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
       }
+    },
+    {
+      "path": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json",
+      "sha256": "cd427f907b35214c58818f251c9eed6fc1aa618d3fa0be1b6b14a542c9789103",
+      "byteLength": 25825,
+      "boundEntry": {
+        "pointer": "familyDeterminations[familyId=la-987-set-aside-and-dismiss-set]",
+        "sha256": "1cf396cf8b573e69ee12e9ffc00fe82bfb8083fd76a1ea2c9da9b9722365fa26",
+        "canonicalByteLength": 3156,
+        "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
+      }
     }
   ],
   "composedComponentsAuthoredByThisBuild": [
@@ -165,7 +219,8 @@
   "commercialRoutesOpened": 0,
   "whatThisReceiptDoesNotEstablish": [
     "independent verification, raster acceptance, visual acceptance, counsel approval, or approval for participant delivery",
-    "that the deferred-sentence period has run or that probation was successfully completed",
+    "that any real participant's deferred-sentence period has run or that probation was successfully completed; fixture confirmations are synthetic",
+    "that Article 978.1 participant documents exist or passed content review merely because fixture metadata says provided",
     "that any parish charges or waives a particular filing cost",
     "that any commercial route is open"
   ]

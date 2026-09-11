@@ -1,0 +1,59 @@
+{
+  "itemId": "la-987-set-aside-and-dismiss-set",
+  "routeKeys": [
+    "obligation:track-only:LA:la-987-set-aside-and-dismiss"
+  ],
+  "status": "COMPLETED",
+  "claim": "CLAIM_OK FIX04 la-987-set-aside-and-dismiss-set (repair, grant set 230ce4b81d560ca5)",
+  "factoryState": "BUILT_RASTER_PENDING",
+  "obligationRepaired": [
+    "STATUTORY_PACKET_COMPOSITION",
+    "OFFICIAL_FORM_TREATMENT",
+    "PARTICIPANT_DOCUMENT_COLLECTION",
+    "DOCUMENT_FRESHNESS_VALIDATION",
+    "SELF_HELP_STOP"
+  ],
+  "whatWasDone": "Replaced the bespoke Article 987 questionnaire with the prescribed Motion, Rule to Show Cause, and Order of Dismissal; preserved all court-owned blanks and service recipients; and modeled each Article 978.1 supporting document as later-stage participant input with provided, missing, stale, invalid, and pending-human-review distinctions. Freshness is computed from a validated planned filing date, and metadata never stands in for the actual document.",
+  "deterministicRebuild": "Two consecutive no-raster builds produced identical exact bytes for both six-page fixtures.",
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "sha256": "60a02dedae1ee57114c73a613257388f5ce7a87b5bd19308025f9e49b5047382",
+      "byteLength": 15622,
+      "pageCount": 6
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "71534f30ea3c53985dd9fd01b5a7194e0e186794a05e4df343eefa5c56aa456c",
+      "byteLength": 15940,
+      "pageCount": 6
+    }
+  ],
+  "focusedEvidence": [
+    "node scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs --check => CHECK_ONLY with 3 held authorities and 8 bound records",
+    "node data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/la/verify-la-repair.mjs => PASS",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set => PASS_COMPLETE 14/30 written",
+    "sha256sum before/after second build => both artifact hashes unchanged"
+  ],
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null
+  },
+  "oldReviewLinkage": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+    "repairContract": "docs/rcap/grade-a/research/2026-09-06-batch-02/Louisiana_Article_987_Repair_Contract.md",
+    "lineage": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/la/pre-rebuild-byte-lineage.json",
+    "supersededOnlyAfterCurrentByteIndependentAcceptance": true
+  },
+  "rasterManifest": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/la/raster-manifest.json",
+  "rasterRunId": null,
+  "independentReview": "PENDING",
+  "commercialRoutesOpened": 0
+}
