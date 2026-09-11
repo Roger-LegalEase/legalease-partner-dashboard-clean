@@ -20,7 +20,7 @@ import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints
 import fs from "node:fs";
 import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC, GA_GUIDANCE, GA_PETITION } from "./treatment-reconciliation.mjs";
 import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
-import { assessGeorgiaReviewedGuidance } from "./ga-reviewed-guidance.mjs";
+import { assessGeorgiaReviewedGuidance, applyGeorgiaGuidanceAcceptance } from "./ga-reviewed-guidance.mjs";
 import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
@@ -2479,7 +2479,11 @@ for (const f of IN.scoreboard.familiesDetail) {
   const ctGuidanceAssessment = assessConnecticutReviewedGuidance(ROOT, familyId);
   let reviewedTreatmentGuidance = familyId === GA_GUIDANCE ? assessGeorgiaReviewedGuidance(ROOT)
     : familyId === WA_AUTOMATIC ? assessWashingtonReviewedGuidance(ROOT) : ctGuidanceAssessment;
+  const stateBeforeTreatment = state;
   state = preserveTreatmentAcceptance(state, treatment, reviewedTreatmentGuidance);
+  if (familyId === GA_GUIDANCE) state = applyGeorgiaGuidanceAcceptance(
+    stateBeforeTreatment, state, reviewedTreatmentGuidance);
+
   if (ctGuidanceAssessment) {
     state = applyConnecticutGuidanceAcceptance(state, ctGuidanceAssessment, {
       independentReturn, verifierSourceHold, readiness, nineZero, legalBlocked, deliveryTypeRefusal

@@ -61,3 +61,8 @@ export function assessGeorgiaReviewedGuidance(root, overrides = {}) {
     return { eligible: false, familyId: GA_GUIDANCE, reviewPath: GA_STAGE_REVIEW, reason: error.message };
   }
 }
+
+export function applyGeorgiaGuidanceAcceptance(priorState, treatmentState, reviewed) {
+  return priorState === 'COMPLETE_PACKET_PROVEN' && reviewed?.familyId === GA_GUIDANCE
+    && reviewed.eligible === true ? 'GUIDANCE_READY' : treatmentState;
+}

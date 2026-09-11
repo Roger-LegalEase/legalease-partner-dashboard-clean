@@ -41,6 +41,36 @@
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json#rcap-ga-guidance-implementation",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json#composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
     "data/rcap-grade-a/packet-factory-24h/vf12/rows.json#7526",
-    "scripts/grade-a-packet-factory-24h/generate.mjs"
-  ]
+    "scripts/grade-a-packet-factory-24h/generate.mjs",
+    "scripts/grade-a-packet-factory-24h/generate.mjs#GA stateBeforeTreatment/applyGeorgiaGuidanceAcceptance",
+    "scripts/grade-a-packet-factory-24h/treatment-reconciliation.mjs#shared preserveTreatmentAcceptance",
+    "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs"
+  ],
+  "repairFollowups": [
+    {
+      "reviewedAt": "2026-09-11",
+      "scope": "GA isolation repair; no PDF/output changes",
+      "currentCodeHashes": {
+        "scripts/grade-a-packet-factory-24h/ga-reviewed-guidance.mjs": "12ffc1c8b13f32bd4b7cf787b4d01bf7291961d1d1930fc9c8c0f89de8e7e5b9",
+        "scripts/grade-a-packet-factory-24h/treatment-reconciliation.mjs": "e2405392c7eda47da317ac38ea9f4b4de0ca77384bfb7e0be94ead61b42e1ad5",
+        "scripts/grade-a-packet-factory-24h/generate.mjs": "5320552349adc30971e1187accef8d9a02d038b6a830f4f6d49eaf2ed031392c",
+        "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs": "3c948f4d99d8045ce315ff329de0162f3c228925890c12e8506b4ed8a51791da"
+      },
+      "test": "node scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs PASS (12 mutation/refusal controls)",
+      "findings": [
+        "GA-specific GUIDANCE_READY transition was removed from shared preserveTreatmentAcceptance and isolated in applyGeorgiaGuidanceAcceptance export.",
+        "generate.mjs captures stateBeforeTreatment and invokes the GA-only transition only for GA guidance after ordinary treatment computation; WA treatment no longer receives the GA exception.",
+        "The ordinary prerequisite remains priorState COMPLETE_PACKET_PROVEN plus eligible exact GA review. The post-loop current familyIndex check for exact separate petition COMPLETE_PACKET_PROVEN remains in place.",
+        "Current treatment-reconciliation bytes match the restored baseline expected by the repair. No WA PDF/review/raster change is required."
+      ],
+      "conclusion": "PASS isolation repair; preserves prior limitation that adapter/stage review and ordinary central/raster gates grant no commercial authority."
+    }
+  ],
+  "codeHashesCurrent": {
+    "scripts/grade-a-packet-factory-24h/ga-reviewed-guidance.mjs": "12ffc1c8b13f32bd4b7cf787b4d01bf7291961d1d1930fc9c8c0f89de8e7e5b9",
+    "scripts/grade-a-packet-factory-24h/treatment-reconciliation.mjs": "e2405392c7eda47da317ac38ea9f4b4de0ca77384bfb7e0be94ead61b42e1ad5",
+    "scripts/grade-a-packet-factory-24h/generate.mjs": "5320552349adc30971e1187accef8d9a02d038b6a830f4f6d49eaf2ed031392c",
+    "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs": "3c948f4d99d8045ce315ff329de0162f3c228925890c12e8506b4ed8a51791da"
+  },
+  "testResultCurrent": "PASS"
 }
