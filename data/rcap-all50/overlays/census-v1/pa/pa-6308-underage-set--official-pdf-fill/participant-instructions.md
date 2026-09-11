@@ -195,7 +195,7 @@ The complaint/citation date is collected independently from the offense date. Ne
 
 If the Pennsylvania State Police report is not attached, ReasonForMissingHistory is the participant's own explanation. The governed route still requires a report obtained within 60 days before filing, so the explanation is not presented as a substitute for the report.
 
-For Rule 490 `SpecificCharges` and Rule 790 `Text15`, the packet holds the charge description but not its actual disposition, so it leaves the whole item blank. Before filing, copy the charge from the charging document and its applicable disposition from the docket or clerk-certified disposition; do not write the charge alone.
+For the specific charges and applicable dispositions entry on each proposed order, the packet holds the charge description but not its actual disposition, so it leaves the whole item blank. Before filing, copy the charge from the charging document and its applicable disposition from the docket or clerk-certified disposition; do not write the charge alone.
 
 ## Values this platform holds but did not print
 
