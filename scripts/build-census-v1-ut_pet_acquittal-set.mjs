@@ -568,6 +568,8 @@ const CONFIGS = Object.freeze({
     statesRegistryStopConditions: "ut_pet_special_certificate",
     declarationNameBoxClearsPrePrintedI: true,
     deliversInManifestComponentOrder: true,
+    specialCaptionGeometryRepair: true,
+    specialBciWaiverGeometryRepair: true,
     noLocalRaster: true
   },
   "ut_pet_traffic-set": {
@@ -848,7 +850,10 @@ function factsFor(config, fixture) {
   const last = boundary ? "Vandenberg" : "Reyes";
   const facts = {
     "participant.full_legal_name": fullName,
-    "participant.bci_name": `${last}, ${first} ${middle}`,
+    // The special-certificate fixture holds a full legal name but no separately
+    // confirmed surname structure. Keep that exact structure on the BCI form;
+    // a hyphenated or multi-part surname may not be split by inference.
+    "participant.bci_name": config.specialCertificate ? fullName : `${last}, ${first} ${middle}`,
     "participant.street_address": boundary
       ? "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B"
       : "118 Maple Street",
@@ -879,6 +884,7 @@ function factsFor(config, fixture) {
     "matter.no_conviction_case_filed": true,
     "matter.no_conviction_disposition": "dismissed_with_prejudice",
     "matter.special_certificate_id": boundary ? "UT-SPECIAL-2026-EXTENDED-000123456789" : "UT-SPECIAL-2026-001234",
+    "matter.filing_type_criminal_expungement": true,
     "matter.no_new_arrest_since_certificate": true,
     "matter.not_on_probation_or_parole": true,
     "matter.no_active_protective_or_stalking_order": true,
@@ -890,14 +896,21 @@ function factsFor(config, fixture) {
     "matter.all_obligations_paid": true,
     "matter.waiting_period_elapsed": true,
     "matter.bci_fee_waiver_requested": boundary,
+    "matter.bci_email_delivery_consent": boundary,
     "matter.third_party_recipient_requested": boundary,
     "matter.third_party_recipient_name": boundary ? "Morgan Lee Chen" : null,
     "matter.third_party_recipient_organization": boundary ? "Utah Reentry Legal Services" : null,
     "matter.third_party_recipient_address": boundary ? "450 South State Street, Suite 1200, Salt Lake City, UT 84111" : null,
     "matter.third_party_recipient_phone": boundary ? "801-555-0198" : null,
     "matter.third_party_recipient_email": boundary ? "records@utahreentry.example" : null,
+    "matter.victim_exists": boundary,
+    "matter.prosecutor_requests_statement": boundary,
+    "matter.victim_exists_and_prosecutor_requests_statement": boundary,
     "matter.victim_or_prosecutor_statement_received": boundary,
+    "matter.statement_served_at": boundary ? "2026-08-25" : null,
     "matter.reply_elected": boundary,
+    "matter.reply_filing_at": boundary ? "2026-09-05" : null,
+    "matter.reply_elected_after_statement_received": boundary,
     "matter.reply_statement_challenged": boundary
       ? "I disagree with the statement's description of the disposition and the criminal episode."
       : null,
@@ -906,6 +919,44 @@ function factsFor(config, fixture) {
       : null
   });
   return facts;
+}
+
+function hasNonemptyFact(facts, factId) {
+  return typeof facts?.[factId] === "string" && facts[factId].trim().length > 0;
+}
+
+function specialReplyWindow(facts) {
+  if (facts?.["matter.victim_or_prosecutor_statement_received"] !== true
+      || facts?.["matter.reply_elected"] !== true
+      || !hasNonemptyFact(facts, "matter.statement_served_at")
+      || !hasNonemptyFact(facts, "matter.reply_filing_at")) return false;
+  const parseRecordedDate = (value) => new Date(value.includes("T") ? value : `${value}T00:00:00Z`);
+  const served = parseRecordedDate(facts["matter.statement_served_at"]);
+  const filed = parseRecordedDate(facts["matter.reply_filing_at"]);
+  if (Number.isNaN(served.valueOf()) || Number.isNaN(filed.valueOf())) return false;
+  const elapsed = (filed - served) / 86400000;
+  return elapsed >= 0 && elapsed <= 14;
+}
+
+function specialComponentIncluded(formNumber, facts) {
+  if (formNumber === "UT-BCI-THIRD-PARTY-RELEASE") {
+    return facts?.["matter.third_party_recipient_requested"] === true;
+  }
+  if (formNumber === "1149XX") {
+    return facts?.["matter.victim_exists"] === true
+      && facts?.["matter.prosecutor_requests_statement"] === true
+      && facts?.["matter.victim_exists_and_prosecutor_requests_statement"] === true;
+  }
+  if (formNumber === "1169XX") {
+    return facts?.["matter.reply_elected_after_statement_received"] === true
+      && specialReplyWindow(facts);
+  }
+  return true;
+}
+
+function specialNeverFiled(facts) {
+  return facts?.["matter.special_certificate_branch"] === "without_conviction"
+    && facts?.["matter.no_conviction_case_filed"] === false;
 }
 
 function censusFields(census, formNumber) {
@@ -973,7 +1024,8 @@ function addCaptionFacts(plans, census, formNumber, facts, config) {
   let county = matching(pageOne, (field) => /Judicial District/i.test(normalize(field.caption))
     && field.measured.x0 > 250)[0];
   if (!county && ["1001EX", "1002EX", "1020EX", "1021EX", "1022EX"].includes(formNumber)) {
-    const baselineY = formNumber === "1001EX" ? 443.28
+    const baselineY = formNumber === "1001EX" && config.specialCaptionGeometryRepair ? 460.23
+      : formNumber === "1001EX" ? 443.28
       : ["1020EX", "1021EX"].includes(formNumber) ? 514.2
         : formNumber === "1022EX" ? 478.2 : 464.2;
     county = {
@@ -986,13 +1038,15 @@ function addCaptionFacts(plans, census, formNumber, facts, config) {
     };
   }
   assert.ok(county, `${formNumber}: county blank was not measured`);
-  const countyOverride = config.captionTextClearsPrintedLines && ["1000EX", "1020EX"].includes(formNumber)
+  const countyNeedsRepair = config.captionTextClearsPrintedLines && ["1000EX", "1020EX"].includes(formNumber);
+  const specialCountyNeedsRepair = config.specialCaptionGeometryRepair && ["1001EX", "1021EX"].includes(formNumber);
+  const countyOverride = countyNeedsRepair || specialCountyNeedsRepair
     ? {
       field: "County",
       // Source underscore baselines are 458.23 (1000EX) and 517.2 (1020EX).
       // At 300 dpi their ink tops are 456.72 and 515.52. A two-point
       // baseline lift clears the descenders; the county fact stays the same.
-      writeBox: { ...textBox(county), y: formNumber === "1000EX" ? 460.23 : 519.2 },
+      writeBox: { ...textBox(county), y: ["1000EX", "1001EX"].includes(formNumber) ? 460.23 : 519.2 },
       geometryBasis: "county source underline measured from pinned PDF glyphs and 300 dpi ink; baseline raised above the printed line"
     }
     : { field: "County" };
@@ -1039,10 +1093,11 @@ function addCaptionFacts(plans, census, formNumber, facts, config) {
     addTextPlan(plans, formNumber, petitioner, "participant.full_legal_name", facts,
       { writeBox: { x: 73.5, y: 415.52, width: 243.22, height: 12 } });
   } else if (petitioner) {
-    const nameOverride = formNumber === "1000EX" && config.captionTextClearsPrintedLines
+    const nameOverride = (formNumber === "1000EX" && config.captionTextClearsPrintedLines)
+        || (formNumber === "1001EX" && config.specialCaptionGeometryRepair)
       ? {
         writeBox: { ...textBox(petitioner), y: 356.4 },
-        geometryBasis: "1000EX source petitioner underline ink tops at y352.8; baseline 356.4 clears both fixtures' descenders"
+        geometryBasis: `${formNumber} source petitioner underline measured from the pinned source; baseline 356.4 clears both fixtures' descenders`
       }
       : {};
     addTextPlan(plans, formNumber, petitioner, "participant.full_legal_name", facts, nameOverride);
@@ -1056,7 +1111,7 @@ function addCaptionFacts(plans, census, formNumber, facts, config) {
    * proceeding that does not exist, written onto a petition. The four blanks
    * are left blank and refusalFor says, on the registry's own words, why.
    */
-  if (!config.noCaseNumberOnThisRoute) {
+  if (!config.noCaseNumberOnThisRoute && !specialNeverFiled(facts)) {
     for (const field of caseFields) addTextPlan(plans, formNumber, field, "matter.case_number", facts,
       { field: "Case Number" });
   }
@@ -1093,8 +1148,10 @@ function addPetitionPlans(plans, census, formNumber, facts, config) {
         { field: "Arresting organization" });
       addTextPlan(plans, formNumber, byId("p1-y139.60-x162.00"), "matter.arrest_file_number", facts,
         { field: "Arrest file number" });
-      addTextPlan(plans, formNumber, byId("p2-y652.10-x180.00"), "matter.case_number", facts,
-        { field: "Case number resulting from arrest" });
+      if (!specialNeverFiled(facts)) {
+        addTextPlan(plans, formNumber, byId("p2-y652.10-x180.00"), "matter.case_number", facts,
+          { field: "Case number resulting from arrest" });
+      }
     } else {
       addTextPlan(plans, formNumber, byId("p2-y407.50-x162.00"), "matter.case_number", facts,
         { field: "Conviction case number" });
@@ -1130,6 +1187,47 @@ function addCoverSheetPlans(plans, census, facts) {
     "participant.phone", facts, { field: "First Plaintiff/Petitioner Phone" });
   addTextPlan(plans, formNumber, at(171, 601.26, "first petitioner email"),
     "participant.email", facts, { field: "First Plaintiff/Petitioner Email" });
+}
+
+function addSpecialNeutralCaptionPlans(plans, census, formNumber, facts) {
+  const fields = censusFields(census, formNumber);
+  const specifications = {
+    "1146XX": { countyY: 489.4, countyId: "p1-y487.40-x257.18", combinedId: "p1-y381.90-x72.02", nameY: 383.9, caseY: 383.9 },
+    "1148XX": { countyY: 483.4, countyId: "p1-y481.40-x258.05", combinedId: "p1-y363.10-x72.02", caseId: "p1-y363.10-x329.83", nameY: 363.1, caseY: 363.1 },
+    "1149XX": { countyY: 448.71, combinedId: "p1-y330.10-x72.12", nameY: 330.1, caseY: 330.1 },
+    "1169XX": { countyY: 460.23, combinedId: "p1-y341.70-x72.12", nameY: 343.7, caseY: 343.7 }
+  };
+  const spec = specifications[formNumber];
+  assert.ok(spec, `${formNumber}: no neutral-caption geometry`);
+  const combined = fields.find((field) => field.blankId === spec.combinedId);
+  assert.ok(combined, `${formNumber}: missing measured petitioner caption rule`);
+  addTextPlan(plans, formNumber, combined, "participant.full_legal_name", facts, {
+    field: "Petitioner",
+    writeBox: { x: 73.5, y: spec.nameY, width: 243.22, height: 12 },
+    geometryBasis: `${formNumber} left petitioner underline measured from the pinned source caption`
+  });
+  if (!specialNeverFiled(facts)) {
+    const caseField = spec.caseId
+      ? fields.find((field) => field.blankId === spec.caseId)
+      : null;
+    addTextPlan(plans, formNumber, caseField ?? {
+      blankId: `p1-manual-case-number-${formNumber}`, page: 1, caption: "Case Number",
+      construction: "printed_blank", measured: { x0: 329.76, x1: 536.76, baselineY: spec.caseY }
+    }, "matter.case_number", facts, {
+      field: "Case Number",
+      writeBox: { x: 331.26, y: spec.caseY, width: 203.5, height: 12 },
+      geometryBasis: `${formNumber} right case-number underline measured from the pinned source caption`
+    });
+  }
+  const countyField = spec.countyId ? fields.find((field) => field.blankId === spec.countyId) : null;
+  addTextPlan(plans, formNumber, countyField ?? {
+    blankId: `p1-manual-county-${formNumber}`, page: 1, caption: "County",
+    construction: "printed_blank", measured: { x0: 308.66, x1: 415.63, baselineY: spec.countyY }
+  }, "matter.county", facts, {
+    field: "County",
+    writeBox: { x: 310.16, y: spec.countyY, width: 103.47, height: 12 },
+    geometryBasis: `${formNumber} county underline measured from the pinned source caption`
+  });
 }
 
 /**
@@ -1177,8 +1275,10 @@ function addBciPlans(plans, census, facts, config) {
     { field: "MAILING ADDRESS", writeBox: { x: 132.99, y: 602.1, width: 440, height: 12 } });
   addTextPlan(plans, formNumber, byId("p2-y545.10-x171.66"), "participant.phone", facts,
     { field: "PRIMARY PHONE NUMBER" });
-  addTextPlan(plans, formNumber, byId("p2-y506.70-x97.47"), "participant.email", facts,
-    { field: "EMAIL" });
+  if (!config.specialCertificate || facts["matter.bci_email_delivery_consent"] === true) {
+    addTextPlan(plans, formNumber, byId("p2-y506.70-x97.47"), "participant.email", facts,
+      { field: "EMAIL correspondence election" });
+  }
   addTextPlan(plans, formNumber, {
     blankId: "p2-manual-declaration-name", page: 2, caption: "Name of Petitioner",
     geometryBasis: "existing printed declaration blank measured from the pinned source page",
@@ -1192,7 +1292,7 @@ function addBciPlans(plans, census, facts, config) {
 }
 
 function textPlansFor(config, census, fixture) {
-  const facts = factsFor(config, fixture);
+  const facts = config.recordedFacts ?? factsFor(config, fixture);
   const plans = [];
   const petition = config.petitionForm ?? (config.traffic ? "1002EX" : "1000EX");
   const order = config.orderForm ?? (config.traffic ? "1022EX" : "1020EX");
@@ -1200,7 +1300,14 @@ function textPlansFor(config, census, fixture) {
   addOrderPlans(plans, census, order, facts, config);
   addCoverSheetPlans(plans, census, facts);
   if (!config.traffic) addBciPlans(plans, census, facts, config);
-  if (config.specialCertificate && facts["matter.third_party_recipient_requested"] === true) {
+  if (config.specialCertificate) {
+    for (const formNumber of ["1146XX", "1148XX", "1149XX", "1169XX"]) {
+      if (specialComponentIncluded(formNumber, facts)) {
+        addSpecialNeutralCaptionPlans(plans, census, formNumber, facts);
+      }
+    }
+  }
+  if (config.specialCertificate && specialComponentIncluded("UT-BCI-THIRD-PARTY-RELEASE", facts)) {
     const thirdParty = censusFields(census, "UT-BCI-THIRD-PARTY-RELEASE");
     const put = (id, factId, field) => {
       const sourceField = thirdParty.find((row) => row.blankId === id);
@@ -1214,7 +1321,7 @@ function textPlansFor(config, census, fixture) {
     put("p1-y523.90-x387.43", "matter.third_party_recipient_email", "Authorized recipient email");
     put("p1-y440.40-x142.32", "participant.full_legal_name", "Applicant printed name");
   }
-  if (config.specialCertificate && facts["matter.reply_elected"] === true) {
+  if (config.specialCertificate && specialComponentIncluded("1169XX", facts)) {
     const reply = censusFields(census, "1169XX");
     const put = (id, factId, field) => {
       const sourceField = reply.find((row) => row.blankId === id);
@@ -1226,20 +1333,6 @@ function textPlansFor(config, census, fixture) {
     put("p1-y610.08-x66.60", "participant.city_state_zip", "City, State, Zip");
     put("p1-y582.48-x66.60", "participant.phone", "Phone");
     put("p1-y552.00-x66.60", "participant.email", "Email");
-    const combinedCaptionRule = reply.find((row) => row.blankId === "p1-y341.70-x72.12");
-    assert.ok(combinedCaptionRule, "1169XX: missing measured combined petitioner/case caption rule");
-    addTextPlan(plans, "1169XX", combinedCaptionRule, "participant.full_legal_name", facts, {
-      field: "Petitioner",
-      writeBox: { x: 73.62, y: 343.7, width: 243, height: 12 },
-      geometryBasis: "left underscore run of the measured combined petitioner/case caption rule"
-    });
-    addTextPlan(plans, "1169XX", {
-      blankId: "p1-manual-case-number-1169", page: 1, caption: "Case Number",
-      construction: "printed_blank", measured: { x0: 324.6, x1: 536.76, baselineY: 341.7 }
-    }, "matter.case_number", facts, {
-      field: "Case Number",
-      geometryBasis: "right underscore run of the measured combined petitioner/case caption rule"
-    });
     put("p1-y165.00-x108.00", "matter.reply_statement_challenged", "Statement I disagree with");
     put("p2-y549.00-x108.00", "matter.reply_reason", "Reason for disagreement");
     put("p2-y179.88-x327.84", "participant.full_legal_name", "Printed Name");
@@ -1277,6 +1370,46 @@ function isProsecutorConsentFinding(control, formNumber) {
     && control.selectionId === "p2-printed_bracket_pair-x121.5-y654.1";
 }
 
+const SPECIAL_PETITION_CONTROL_RULES = Object.freeze({
+  "p1-printed_bracket_pair-x126-y525.01": ["participant.self_represented", true],
+  "p1-printed_bracket_pair-x108-y218.4": ["matter.special_certificate_branch", "without_conviction"],
+  "p1-printed_bracket_pair-x162-y83.2": ["matter.no_conviction_case_filed", false],
+  "p2-printed_bracket_pair-x162-y669.7": ["matter.no_conviction_case_filed", true],
+  "p2-printed_bracket_pair-x183.36-y622.3": ["matter.no_conviction_disposition", "dismissed_with_prejudice"],
+  "p2-printed_bracket_pair-x183.36-y602.5": ["matter.no_conviction_disposition", "acquitted"],
+  "p2-printed_bracket_pair-x162-y550.1": ["matter.waiting_period_elapsed", true],
+  "p2-printed_bracket_pair-x162-y530.3": ["matter.no_new_arrest_since_certificate", true],
+  "p2-printed_bracket_pair-x162-y510.5": ["matter.not_on_probation_or_parole", true],
+  "p2-printed_bracket_pair-x162-y490.7": ["matter.no_active_protective_or_stalking_order", true],
+  "p2-printed_bracket_pair-x108-y445.1": ["matter.special_certificate_branch", "with_conviction"],
+  "p2-printed_bracket_pair-x162-y364.9": ["matter.no_disqualifying_conviction", true],
+  "p2-printed_bracket_pair-x162-y228.7": ["matter.no_pending_nontraffic_proceeding", true],
+  "p2-printed_bracket_pair-x162-y195.1": ["matter.no_pending_nontraffic_plea_in_abeyance", true],
+  "p2-printed_bracket_pair-x453.6-y181.3": ["matter.not_incarcerated_or_supervised", true],
+  "p2-printed_bracket_pair-x162-y133.9": ["matter.no_active_protective_or_stalking_order", true],
+  "p2-printed_bracket_pair-x162-y100.3": ["matter.conviction_count_below_limits", true],
+  "p3-printed_bracket_pair-x162-y553.3": ["matter.all_obligations_paid", true],
+  "p3-printed_bracket_pair-x162-y533.5": ["matter.waiting_period_elapsed", true]
+});
+
+function specialControlRule(control, formNumber) {
+  if (formNumber === "1001EX") return SPECIAL_PETITION_CONTROL_RULES[control.selectionId] ?? null;
+  if (formNumber === "1044XX" && control.page === 2
+      && Math.abs((control.measured?.x0 ?? -1) - 355.98) < 1
+      && Math.abs((control.measured?.y0 ?? -1) - 358.1) < 1) {
+    return ["matter.filing_type_criminal_expungement", true];
+  }
+  if (formNumber === "UT-BCI-EXP-APPLICATION"
+      && control.selectionId === "p2-printed_glyph_u0002-x26.7-y453.75") {
+    return ["matter.bci_fee_waiver_requested", true];
+  }
+  if (formNumber === "1169XX"
+      && control.selectionId === "p1-printed_bracket_pair-x126-y525.01") {
+    return ["participant.self_represented", true];
+  }
+  return null;
+}
+
 function selectedControl(control, formNumber, config) {
   const x = config.specialCertificate
     ? control.sourceMeasured?.x0 ?? control.measured?.x0 ?? -1
@@ -1304,56 +1437,25 @@ function selectedControl(control, formNumber, config) {
   if (config.prosecutorConsentNotHeld && isProsecutorConsentFinding(control, formNumber)) return false;
   if (config.specialCertificate) {
     const facts = config.recordedFacts ?? {};
-    const selected = (() => {
-      if (formNumber === "1044XX") return control.page === 2
-        && Math.abs(x - 355.98) < 1 && Math.abs(y - 358.1) < 1;
-      if (formNumber === "UT-BCI-EXP-APPLICATION") return Boolean(facts["matter.bci_fee_waiver_requested"])
-        && control.selectionId === "p2-printed_glyph_u0002-x26.7-y453.75";
-      if (formNumber === "1169XX") return Boolean(facts["matter.reply_elected"])
-        && control.selectionId === "p1-printed_bracket_pair-x126-y525.01"
-        && facts["participant.self_represented"] === true;
-      if (formNumber !== "1001EX") return false;
-      const branch = facts["matter.special_certificate_branch"];
-      if (control.selectionId === "p1-printed_bracket_pair-x126-y525.01") {
-        return facts["participant.self_represented"] === true;
-      }
-      if (branch === "without_conviction") {
-        const selectedIds = new Set([
-          "p1-printed_bracket_pair-x108-y218.4",
-          "p2-printed_bracket_pair-x162-y669.7",
-          "p2-printed_bracket_pair-x183.36-y622.3",
-          "p2-printed_bracket_pair-x162-y550.1",
-          "p2-printed_bracket_pair-x162-y530.3",
-          "p2-printed_bracket_pair-x162-y510.5",
-          "p2-printed_bracket_pair-x162-y490.7"
-        ]);
-        return selectedIds.has(control.selectionId);
-      }
-      if (branch === "with_conviction") {
-        const selectedIds = new Set([
-          "p2-printed_bracket_pair-x108-y445.1",
-          "p2-printed_bracket_pair-x162-y364.9",
-          "p2-printed_bracket_pair-x162-y228.7",
-          "p2-printed_bracket_pair-x162-y195.1",
-          "p2-printed_bracket_pair-x453.6-y181.3",
-          "p2-printed_bracket_pair-x162-y133.9",
-          "p2-printed_bracket_pair-x162-y100.3",
-          "p3-printed_bracket_pair-x162-y553.3",
-          "p3-printed_bracket_pair-x162-y533.5"
-        ]);
-        return selectedIds.has(control.selectionId);
-      }
-      return false;
-    })();
+    const rule = specialControlRule(control, formNumber);
+    const selected = Boolean(rule)
+      && facts[rule[0]] === rule[1]
+      && (formNumber !== "1169XX" || specialComponentIncluded("1169XX", facts));
     if (selected) {
       // The census box encloses both printed brackets. Move the generated X
       // into its measured interior and preserve the unmodified source box.
       control.sourceMeasured ??= { ...control.measured };
-      control.measured = {
-        ...control.sourceMeasured,
-        x0: round(control.sourceMeasured.x0 + 2.5),
-        width: round(Math.max(4, control.sourceMeasured.width - 5))
-      };
+      control.measured = formNumber === "UT-BCI-EXP-APPLICATION" && config.specialBciWaiverGeometryRepair
+        ? {
+          ...control.sourceMeasured,
+          x0: 27.95, y0: 455, width: 4.75, height: 8,
+          x1: 32.7, y1: 463
+        }
+        : {
+          ...control.sourceMeasured,
+          x0: round(control.sourceMeasured.x0 + 2.5),
+          width: round(Math.max(4, control.sourceMeasured.width - 5))
+        };
       control.measured.x1 = round(control.measured.x0 + control.measured.width);
     }
     return selected;
@@ -1378,6 +1480,8 @@ function selectedControl(control, formNumber, config) {
 }
 
 function specialSelectionFact(control, formNumber) {
+  const governed = specialControlRule(control, formNumber);
+  if (governed) return governed[0];
   const label = normalize(control.label);
   if (formNumber === "UT-BCI-EXP-APPLICATION") return "matter.bci_fee_waiver_requested";
   if (formNumber === "1044XX") return "matter.filing_type_criminal_expungement";
@@ -1535,6 +1639,9 @@ async function selectionPlansFor(config, fieldMap, receipt) {
       const gap = config.marksCentredInBracketGap
         ? await bracketGapFor(receipt, map.formNumber, control)
         : null;
+      const measuredSpecialBox = config.specialCertificate
+        && map.formNumber === "UT-BCI-EXP-APPLICATION"
+        && control.selectionId === "p2-printed_glyph_u0002-x26.7-y453.75";
       plans.push({
         kind: "selection",
         formNumber: map.formNumber,
@@ -1551,9 +1658,11 @@ async function selectionPlansFor(config, fieldMap, receipt) {
             x: round(control.measured.x0), y: round(control.measured.y0),
             width: round(control.measured.width), height: round(control.measured.height)
           },
-        centreInWriteBox: gap !== null,
+        centreInWriteBox: gap !== null || measuredSpecialBox,
         ...(gap ? { bracketInk: { left: gap.leftBracketInk, right: gap.rightBracketInk, measuredAtDpi: gap.dpi } } : {}),
-        geometryBasis: gap
+        geometryBasis: measuredSpecialBox
+          ? "actual BCI indigency checkbox ink bounds measured on the held original at 300 dpi"
+          : gap
           ? `printed bracket-pair interior gap measured as ink from the pinned source binary at ${gap.dpi} dpi`
           : "CTM-tracked source selection-control geometry",
         routeDetermined: true
@@ -1645,6 +1754,12 @@ function refusalFor(field, formNumber, config, agencyBaselines = new Map()) {
       ...common, actorOwner: "source_publisher", why: "viewer UI control or source-layout artifact; never a filing fact: printed revision, approval, page, or layout matter",
       approvedBlankDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE"
     };
+    if (formNumber === "UT-BCI-EXP-APPLICATION" && field.blankId === "p2-y506.70-x97.47") return {
+      ...common, actorOwner: "participant",
+      condition: "Write only after explicit consent to receive BCI correspondence by email instead of regular mail.",
+      why: "optional participant-authored delivery election; a known email address does not establish consent to email delivery",
+      approvedBlankDisposition: "PARTICIPANT_ELECTION_GENUINE"
+    };
     if (formNumber === "1146XX") return {
       ...common, actorOwner: "prosecutor_or_actual_service_recipient",
       class: signature ? "signature_or_date_participant_completion" : "responsible_third_party_completion",
@@ -1717,6 +1832,15 @@ function refusalFor(field, formNumber, config, agencyBaselines = new Map()) {
       if (field.protectCategory === "attorney") return {
         ...common, actorOwner: "attorney", why: "attorney-only field; not filled for the recorded self-represented participant",
         approvedBlankDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE"
+      };
+      if (specialNeverFiled(config.recordedFacts)
+          && (isCaseNumberBlank(field) || field.blankId === "p2-y652.10-x180.00")) return {
+        ...common,
+        field: "Case Number",
+        actorOwner: "court",
+        condition: "The without-conviction record says charges were never filed, so no existing criminal case number exists.",
+        why: "no case number is invented; the filing court assigns a new number after filing",
+        approvedBlankDisposition: "LATER_COMPLETION"
       };
       return {
         ...common,
@@ -1977,10 +2101,13 @@ function repairFieldMap(config, original, census, canonicalPlans, boundaryPlans,
     },
     "1149XX": {
       factId: "matter.victim_exists_and_prosecutor_requests_statement", includeWhen: true,
+      allOf: ["matter.victim_exists", "matter.prosecutor_requests_statement"],
       description: "Include only when a victim exists and the prosecutor requests this victim/prosecutor statement."
     },
     "1169XX": {
       factId: "matter.reply_elected_after_statement_received", includeWhen: true,
+      allOf: ["matter.victim_or_prosecutor_statement_received", "matter.reply_elected", "matter.statement_served_at", "matter.reply_filing_at"],
+      windowDaysInclusive: [0, 14],
       description: "Include only after an actual victim, prosecutor, or AP&P statement and a participant election to reply within 14 days."
     }
   }[formNumber] ?? null) : null;
@@ -2117,7 +2244,10 @@ async function sourcePacket(receipt, config) {
   packet.setTitle(`Official-form review fixture: ${receipt.familyId}`);
   const pageManifest = [];
   let packetPage = 1;
-  for (const document of manifestOrderedDocuments(receipt, config)) {
+  const documents = manifestOrderedDocuments(receipt, config)
+    .filter((document) => !config.specialCertificate
+      || specialComponentIncluded(document.formNumber, config.recordedFacts ?? {}));
+  for (const document of documents) {
     const sourcePath = path.join(master, document.pathInArchive);
     const bytes = fs.readFileSync(sourcePath);
     assert.equal(sha256(bytes), document.sha256, `${document.formNumber}: source SHA-256 drift`);
@@ -2464,7 +2594,7 @@ function participantInstructions(config, authorities) {
       "## The two stages",
       "",
       "1. Submit the BCI application with government-issued identification and fingerprints. Give BCI a complete history of every criminal case in every state, including already-expunged cases. If BCI will send the certificate to another person or organization, use the third-party release only after you record that recipient and authorize the delivery.",
-      "2. After BCI issues a special certificate, file the 1044XX cover sheet, 1001EX petition, 1021EX proposed order, and the still-valid certificate in the **district or justice court that decided the case**. If that court no longer exists, use the court that would have jurisdiction today. Confirm the District/Justice choice, judicial district, county, court address, and case number from the actual court record; the packet does not infer them.",
+      "2. After BCI issues a special certificate, file the 1044XX cover sheet, 1001EX petition, 1021EX proposed order, and the still-valid certificate. For a filed case, use the **district or justice court that decided the case**; if that court no longer exists, use the court that would have jurisdiction today. If charges were never filed, use the **district court in the county where the arrest occurred**. For a traffic citation with no filed case, use the **court where the citation was received**. A never-filed record has no existing criminal case number; leave that source blank unfilled and the filing court assigns a number after filing. Confirm the actual branch, court type, judicial district, county, address, and any existing case number; the packet does not infer them.",
       "",
       "The court sends the filing to the prosecuting attorney in the ordinary case. The participant does not effect ordinary service. Form 1146XX is retained for the prosecutor or actual recipient to complete only if a non-ordinary acceptance event occurs; no acceptance, signature, or service date is pre-certified.",
       "",
@@ -2477,7 +2607,7 @@ function participantInstructions(config, authorities) {
       "## Facts and choices to complete before filing",
       "",
       "- Confirm the certificate's type, exact document identity, criminal episode, issue date, and expiration date.",
-      "- On the BCI application, supply every genuine identity and contact fact the platform does not hold: all prior names (or an explicit none), date of birth, gender, Social Security number, driver-license number and state, complete mailing address, phone, email, government ID, and fingerprint-taker details. Choose payment or the BCI indigency-waiver path from your actual decision; do not leave a required application fact unanswered.",
+      "- On the BCI application, supply every genuine identity and contact fact the platform does not hold: all prior names (or an explicit none), date of birth, gender, Social Security number, driver-license number and state, complete mailing address, phone, government ID, and fingerprint-taker details. The EMAIL line is a delivery election: enter an email address there only after you explicitly consent to receive BCI correspondence by email instead of regular mail. A known email address alone chooses nothing. Choose payment or the BCI indigency-waiver path from your actual decision; do not leave a required application fact unanswered.",
       "- Choose the 1001EX branch from the actual record: crimes without a conviction or crimes with a conviction. Supply the arrest, agency, file, disposition, and case facts that branch asks for. Family membership selects no branch.",
       "- Confirm that all fines, fees, restitution, and interest are paid; that no disqualifying pending case, incarceration, probation, parole, protective order, or stalking injunction exists; and that any applicable waiting period and conviction-count rule is satisfied.",
       "- Supply the special-certificate identification number, the incomplete-episode records you can obtain, your eligibility explanation, and your public-interest explanation. Do not guess when the source record is incomplete.",
@@ -2489,7 +2619,7 @@ function participantInstructions(config, authorities) {
       "",
       "Form 1149XX is **not a generic required participant form**. Include it only when there is a victim and the prosecutor requests a victim or prosecutor statement. The victim/prosecutor supplies identity, position, reasons, recommendation, signature, and any actual service record.",
       "",
-      "Form 1169XX is included only after a victim, prosecutor, or AP&P statement was actually served and the participant elects to reply. The reply is due within **14 days after service**. The participant supplies the response and signs it; service rows are completed only after actual delivery.",
+      "Form 1169XX is included only after a victim, prosecutor, or AP&P statement was actually served, the participant elects to reply, and the recorded reply date falls within **14 days** after the recorded service date (day 0 through day 14). A missing service date, missing reply date, premature date, or late date leaves the reply out. The participant supplies the response and signs it; service rows are completed only after actual delivery.",
       "",
       "After filing, the court waits **60 days**; the registry records a **35-day prosecutor response period** and a **60-day victim response period**. Request certified copies within **28 days after an order is granted**.",
       "",
@@ -3046,13 +3176,72 @@ function updateRows(familyId, config, canonicalPlans, blankLedger, artifactSumma
   writeJson(WAVE_ROWS, doc);
 }
 
-export async function runUtahCompletenessRepair(familyId, argv = process.argv.slice(2)) {
+export const utSpecialCertificateTestHooks = Object.freeze({
+  factsForFixture(fixture) {
+    return structuredClone(factsFor(CONFIGS["ut_pet_special_certificate-set"], fixture));
+  },
+  includedDocumentForms(receipt, facts) {
+    const config = { ...CONFIGS["ut_pet_special_certificate-set"], recordedFacts: facts };
+    return manifestOrderedDocuments(receipt, config)
+      .filter((document) => specialComponentIncluded(document.formNumber, facts))
+      .map((document) => document.formNumber);
+  },
+  selectedControlIds(fieldMap, facts) {
+    const config = { ...CONFIGS["ut_pet_special_certificate-set"], recordedFacts: facts };
+    return fieldMap.maps.flatMap((map) => (map.selectionControls ?? [])
+      .filter((control) => selectedControl(structuredClone(control), map.formNumber, config))
+      .map((control) => `${map.formNumber}:${control.selectionId}`));
+  },
+  textPlans(census, facts) {
+    const config = { ...CONFIGS["ut_pet_special_certificate-set"], recordedFacts: facts };
+    return textPlansFor(config, census, "test");
+  },
+  replyWithinGovernedWindow: specialReplyWindow,
+  componentIncluded: specialComponentIncluded
+});
+
+async function checkSpecialCertificateOutput(config, receipt, census, fieldMap, citedAuthorities) {
+  const out = outputRoot(config);
+  assert.equal(receipt.documents.length, 9);
+  assert.equal(census.documents.length, 9);
+  assert.equal(fieldMap.maps.length, 9);
+  for (const document of receipt.documents) {
+    const bytes = fs.readFileSync(path.join(sourceRoot(), document.pathInArchive));
+    assert.equal(sha256(bytes), document.sha256, `${document.formNumber}: checked source SHA-256 drift`);
+    assert.equal(bytes.length, document.byteLength, `${document.formNumber}: checked source byte-length drift`);
+  }
+  const rendered = readJson(`${out}/reports/rendered-artifacts.json`);
+  assert.equal(rendered.artifacts.length, 2);
+  for (const artifact of rendered.artifacts) {
+    const bytes = fs.readFileSync(path.join(rootDir, artifact.file));
+    assert.equal(sha256(bytes), artifact.sha256, `${artifact.fixture}: fixture SHA-256 drift`);
+    assert.equal(bytes.length, artifact.byteLength, `${artifact.fixture}: fixture byte-length drift`);
+    const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+    assert.equal(pdf.getPageCount(), artifact.pageCount, `${artifact.fixture}: fixture page-count drift`);
+    const facts = factsFor(config, artifact.fixture);
+    const expectedForms = manifestOrderedDocuments(receipt, config)
+      .filter((document) => specialComponentIncluded(document.formNumber, facts))
+      .map((document) => document.formNumber);
+    const actualForms = [...new Set(artifact.pageManifest.map((page) => page.formNumber))];
+    assert.deepEqual(actualForms, expectedForms, `${artifact.fixture}: conditional document inventory drift`);
+  }
+  assert.equal(fs.readFileSync(path.join(rootDir, `${out}/participant-instructions.md`), "utf8"),
+    participantInstructions(config, citedAuthorities), "participant instructions drift");
+  const status = readJson(`${out}/build-status.json`);
+  assert.equal(status.stageGate, "specialCertificateStageGate");
+  assert.equal(status.completenessPreparedStatus, "PASS_COMPLETE");
+  console.log(`${receipt.familyId}: read-only check passed for nine sources and two conditional fixtures`);
+  return { familyId: receipt.familyId, status: "CHECKED_READ_ONLY" };
+}
+
+export async function runUtahCompletenessRepair(familyId, argv = process.argv.slice(2), options = {}) {
   const config = CONFIGS[familyId];
   assert.ok(config, `unknown P1 Utah family ${familyId}`);
   if (argv.includes("--check") && !config.specialCertificate) {
     throw new Error(`${familyId}: independent verification belongs to the assigned V shard; this repair lane does not self-verify`);
   }
-  if (argv.includes("--check") && config.specialCertificate) argv = argv.filter((arg) => arg !== "--check");
+  const check = argv.includes("--check") && config.specialCertificate;
+  if (check) argv = argv.filter((arg) => arg !== "--check");
   if (argv.some((arg) => arg.startsWith("--"))) throw new Error(`${familyId}: unsupported option ${argv[0]}`);
   process.chdir(rootDir);
   const out = outputRoot(config);
@@ -3081,7 +3270,12 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
     }
   }
 
-  const base = await sourcePacket(receipt, config);
+  if (check) return checkSpecialCertificateOutput(config, receipt, census, originalMap, citedAuthorities);
+  if (config.specialCertificate) {
+    assert.equal(options.specialCertificateStageGateResult?.status, "ALLOW_STAGE_2",
+      `${familyId}: real finalizer requires a successful special-certificate stage gate`);
+  }
+
   const canonicalConfig = config.specialCertificate
     ? { ...config, recordedFacts: factsFor(config, "canonical"), routeKind: "recorded_special_certificate_without_conviction" }
     : config;
@@ -3094,14 +3288,23 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
     ...await selectionPlansFor(boundaryConfig, originalMap, receipt)];
   const repaired = repairFieldMap(canonicalConfig, originalMap, census, canonicalPlans, boundaryPlans, citedAuthorities);
 
+  const canonicalBase = await sourcePacket(receipt, canonicalConfig);
+  const boundaryBase = config.specialCertificate
+    ? await sourcePacket(receipt, boundaryConfig)
+    : canonicalBase;
+
   const artifacts = [];
   const documentProofs = [];
   for (const [fixture, plans] of [["canonical", canonicalPlans], ["boundary", boundaryPlans]]) {
+    const base = fixture === "canonical" ? canonicalBase : boundaryBase;
     const rel = `${out}/fixtures/${fixture}.pdf`;
     const abs = path.join(rootDir, rel);
     const rendered = await renderFixture(base, plans, fixture, abs);
     const added = await addedGlyphs(base.bytes, rendered.bytes);
-    const proof = byteProof(added, plans, repaired.blankLedger, base.pageManifest);
+    const fixtureLedger = config.specialCertificate
+      ? repaired.blankLedger.filter((row) => base.pageManifest.some((page) => page.formNumber === row.formNumber))
+      : repaired.blankLedger;
+    const proof = byteProof(added, plans, fixtureLedger, base.pageManifest);
     const noLocalRaster = config.specialCertificate && process.env.RCAP_NO_LOCAL_RASTER === "1";
     assert.equal(config.specialCertificate ? noLocalRaster : true, true,
       `${familyId}: RCAP_NO_LOCAL_RASTER=1 is required for the special-certificate production build`);
@@ -3111,6 +3314,11 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
     artifacts.push({
       fixture, file: rel, sha256: sha256(rendered.bytes), byteLength: rendered.bytes.length,
       pageCount: base.pageManifest.length, pageManifest: base.pageManifest,
+      ...(config.specialCertificate ? {
+        includedDocuments: [...new Set(base.pageManifest.map((page) => page.formNumber))],
+        excludedConditionalDocuments: ["UT-BCI-THIRD-PARTY-RELEASE", "1149XX", "1169XX"]
+          .filter((formNumber) => !base.pageManifest.some((page) => page.formNumber === formNumber))
+      } : {}),
       activeContentScan: rendered.activeContentScan,
       rasterEngine: raster.provenance.engine,
       rasterEngineDiscoveryMode: raster.provenance.discoveryMode,
@@ -3142,7 +3350,13 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
       dispatchCommit: DISPATCH_COMMIT,
       reboundFromMasterLibrary: true,
       everyDocumentHashExact: true,
-      sourceBinaryCommitted: false
+      sourceBinaryCommitted: false,
+      ...(config.specialCertificate ? {
+        fixtureStageTwoGateProof: {
+          ...options.specialCertificateStageGateResult,
+          scope: "deterministic build fixture only; not a participant certificate or a source-document pin"
+        }
+      } : {})
     }
   });
   writeJson(`${out}/reports/actual-writes.json`, {
@@ -3214,7 +3428,7 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
       "The current held findings support a $65 nonrefundable BCI application fee, $65 per eligible special certificate/case, $150 District Court filing fee and $135 Justice Court filing fee, with the BCI FAQ's missing effective-date caveat and the applicable waiver steps stated.",
       "Forms 1044XX, 1146XX and 1148XX print revision dates but no approval date; none is invented. Forms 1149XX and 1169XX carry their printed Board approval dates.",
       "The stage gate rejects an ordinary, absent, expired, wrong-episode, over-180-day or identity-mismatched certificate before court-stage use.",
-      "Both 20-page fixtures were produced without local raster; final PDF bytes contain every declared value, zero non-whitespace glyphs outside measured write boxes and zero refused fields with ink.",
+      "The condition-enforced canonical fixture contains 13 pages from six source documents; the full conditional boundary fixture contains 20 pages from all nine. Both were produced without local raster, and final PDF bytes contain every declared value, zero non-whitespace glyphs outside measured write boxes and zero refused fields with ink.",
       "This is an author repair only. Remote raster review, independent completeness verification and attorney review remain pending; generation, runtime selection and commercial authority remain disabled."
     ] : [
       "Known participant and case facts are written at committed source-measured geometry.",
@@ -3294,6 +3508,8 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
       guidanceComponents: 1,
       componentCount: 10,
       stageGate: "specialCertificateStageGate",
+      fixtureStageGateStatus: options.specialCertificateStageGateResult.status,
+      fixtureStageGateReason: options.specialCertificateStageGateResult.reason,
       remainingGates: ["remote raster review", "independent completeness verification", "attorney review"]
     } : {}),
     generationAllowed: false,

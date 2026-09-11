@@ -11,7 +11,7 @@ BCI offers a special certificate only after reasonable research cannot establish
 ## The two stages
 
 1. Submit the BCI application with government-issued identification and fingerprints. Give BCI a complete history of every criminal case in every state, including already-expunged cases. If BCI will send the certificate to another person or organization, use the third-party release only after you record that recipient and authorize the delivery.
-2. After BCI issues a special certificate, file the 1044XX cover sheet, 1001EX petition, 1021EX proposed order, and the still-valid certificate in the **district or justice court that decided the case**. If that court no longer exists, use the court that would have jurisdiction today. Confirm the District/Justice choice, judicial district, county, court address, and case number from the actual court record; the packet does not infer them.
+2. After BCI issues a special certificate, file the 1044XX cover sheet, 1001EX petition, 1021EX proposed order, and the still-valid certificate. For a filed case, use the **district or justice court that decided the case**; if that court no longer exists, use the court that would have jurisdiction today. If charges were never filed, use the **district court in the county where the arrest occurred**. For a traffic citation with no filed case, use the **court where the citation was received**. A never-filed record has no existing criminal case number; leave that source blank unfilled and the filing court assigns a number after filing. Confirm the actual branch, court type, judicial district, county, address, and any existing case number; the packet does not infer them.
 
 The court sends the filing to the prosecuting attorney in the ordinary case. The participant does not effect ordinary service. Form 1146XX is retained for the prosecutor or actual recipient to complete only if a non-ordinary acceptance event occurs; no acceptance, signature, or service date is pre-certified.
 
@@ -24,7 +24,7 @@ Utah Courts' fee table effective May 6, 2026 lists a criminal-expungement petiti
 ## Facts and choices to complete before filing
 
 - Confirm the certificate's type, exact document identity, criminal episode, issue date, and expiration date.
-- On the BCI application, supply every genuine identity and contact fact the platform does not hold: all prior names (or an explicit none), date of birth, gender, Social Security number, driver-license number and state, complete mailing address, phone, email, government ID, and fingerprint-taker details. Choose payment or the BCI indigency-waiver path from your actual decision; do not leave a required application fact unanswered.
+- On the BCI application, supply every genuine identity and contact fact the platform does not hold: all prior names (or an explicit none), date of birth, gender, Social Security number, driver-license number and state, complete mailing address, phone, government ID, and fingerprint-taker details. The EMAIL line is a delivery election: enter an email address there only after you explicitly consent to receive BCI correspondence by email instead of regular mail. A known email address alone chooses nothing. Choose payment or the BCI indigency-waiver path from your actual decision; do not leave a required application fact unanswered.
 - Choose the 1001EX branch from the actual record: crimes without a conviction or crimes with a conviction. Supply the arrest, agency, file, disposition, and case facts that branch asks for. Family membership selects no branch.
 - Confirm that all fines, fees, restitution, and interest are paid; that no disqualifying pending case, incarceration, probation, parole, protective order, or stalking injunction exists; and that any applicable waiting period and conviction-count rule is satisfied.
 - Supply the special-certificate identification number, the incomplete-episode records you can obtain, your eligibility explanation, and your public-interest explanation. Do not guess when the source record is incomplete.
@@ -36,7 +36,7 @@ Form 1148XX is presented to the prosecuting attorney. Only that attorney decides
 
 Form 1149XX is **not a generic required participant form**. Include it only when there is a victim and the prosecutor requests a victim or prosecutor statement. The victim/prosecutor supplies identity, position, reasons, recommendation, signature, and any actual service record.
 
-Form 1169XX is included only after a victim, prosecutor, or AP&P statement was actually served and the participant elects to reply. The reply is due within **14 days after service**. The participant supplies the response and signs it; service rows are completed only after actual delivery.
+Form 1169XX is included only after a victim, prosecutor, or AP&P statement was actually served, the participant elects to reply, and the recorded reply date falls within **14 days** after the recorded service date (day 0 through day 14). A missing service date, missing reply date, premature date, or late date leaves the reply out. The participant supplies the response and signs it; service rows are completed only after actual delivery.
 
 After filing, the court waits **60 days**; the registry records a **35-day prosecutor response period** and a **60-day victim response period**. Request certified copies within **28 days after an order is granted**.
 

@@ -100,7 +100,7 @@ assert.equal(rendered.conditionalRasterContract.omittedSelectableVariants.length
 
 assert.equal(writes.artifacts.length, 2);
 for (const artifact of writes.artifacts) {
-  assert.equal(artifact.valuesReportedByFinalizer, artifact.fixture === "canonical" ? 42 : 59);
+  assert.equal(artifact.valuesReportedByFinalizer, artifact.fixture === "canonical" ? 55 : 74);
   assert.ok(artifact.addedGlyphsReadFromOutputBytes > 0);
   assert.equal(artifact.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, 0);
   assert.deepEqual(artifact.refusedFieldsWithInk, []);
@@ -112,16 +112,52 @@ const boundaryMail = writes.artifacts.find((row) => row.fixture === "boundary").
 assert.ok(boundaryMail.textReadFromOutputBytes.length > 100, "boundary fixture does not exercise overlong fitting");
 assert.ok(boundaryMail.glyphCountReadFromOutputBytes > 100, "overlong value was not read back from the output bytes");
 const boundaryWrites = writes.artifacts.find((row) => row.fixture === "boundary").actualWrites;
+for (const [fieldId, expectedY] of [
+  ["p1-manual-county-1001EX", 460.23],
+  ["p1-manual-petitioner-1001EX", 356.4],
+  ["p1-manual-county-1021EX", 519.2]
+]) {
+  assert.equal(boundaryWrites.find((row) => row.fieldId === fieldId)?.writeBox.y, expectedY,
+    `${fieldId}: source-caption repair geometry drift`);
+}
 assert.equal(boundaryWrites.filter((row) => row.formNumber === "UT-BCI-THIRD-PARTY-RELEASE" && row.kind === "text").length, 6);
-assert.equal(boundaryWrites.filter((row) => row.formNumber === "1169XX" && row.kind === "text").length, 10);
+assert.equal(boundaryWrites.filter((row) => row.formNumber === "1169XX" && row.kind === "text").length, 11);
 assert.ok(boundaryWrites.some((row) => row.formNumber === "UT-BCI-EXP-APPLICATION"
   && row.factId === "matter.bci_fee_waiver_requested" && row.kind === "selection"));
+assert.deepEqual(boundaryWrites.find((row) => row.formNumber === "UT-BCI-EXP-APPLICATION"
+  && row.factId === "matter.bci_fee_waiver_requested" && row.kind === "selection").writeBox,
+  { x: 27.95, y: 455, width: 4.75, height: 8 });
 assert.ok(boundaryWrites.some((row) => row.formNumber === "1169XX"
   && row.factId === "participant.self_represented" && row.kind === "selection"));
 assert.ok(map.maps.flatMap((row) => row.selectionControls)
   .every((row) => Array.isArray(row.selectedInFixtures)), "a conditional control omits its fixture selection record");
 
-for (const required of ["180 days", "60 days", "35-day", "14 days", "28 days", "$65", "$150", "$135", "fee waiver", "confirm current BCI amounts", "no approval date", "not a tenth PDF"]) {
+const canonicalArtifact = rendered.artifacts.find((row) => row.fixture === "canonical");
+const boundaryArtifact = rendered.artifacts.find((row) => row.fixture === "boundary");
+assert.equal(canonicalArtifact.pageCount, 13);
+assert.deepEqual(canonicalArtifact.excludedConditionalDocuments,
+  ["UT-BCI-THIRD-PARTY-RELEASE", "1149XX", "1169XX"]);
+assert.equal(boundaryArtifact.pageCount, 20);
+assert.deepEqual(boundaryArtifact.excludedConditionalDocuments, []);
+const canonicalWrites = writes.artifacts.find((row) => row.fixture === "canonical").actualWrites;
+assert.equal(canonicalWrites.some((row) => row.formNumber === "UT-BCI-EXP-APPLICATION"
+  && row.fieldId === "p2-y506.70-x97.47"), false, "known email selected BCI email delivery");
+assert.ok(boundaryWrites.some((row) => row.formNumber === "UT-BCI-EXP-APPLICATION"
+  && row.fieldId === "p2-y506.70-x97.47"), "recorded BCI email-delivery consent was not applied");
+assert.ok(boundaryWrites.some((row) => row.formNumber === "UT-BCI-EXP-APPLICATION"
+  && row.fieldId === "p2-y681.70-x66.90"
+  && row.textReadFromOutputBytes === "Alexandrina Montgomery-Vandenberg"), "hyphenated legal name structure changed");
+for (const [artifact, artifactWrites] of [[canonicalArtifact, canonicalWrites], [boundaryArtifact, boundaryWrites]]) {
+  for (const formNumber of ["1146XX", "1148XX", "1149XX", "1169XX"]) {
+    if (!artifact.includedDocuments.includes(formNumber)) continue;
+    for (const factId of ["participant.full_legal_name", "matter.case_number", "matter.county"]) {
+      assert.ok(artifactWrites.some((row) => row.formNumber === formNumber && row.factId === factId),
+        `${artifact.fixture}/${formNumber}: neutral caption omits ${factId}`);
+    }
+  }
+}
+
+for (const required of ["180 days", "60 days", "35-day", "14 days", "28 days", "$65", "$150", "$135", "fee waiver", "confirm current BCI amounts", "no approval date", "not a tenth PDF", "county where the arrest occurred", "court where the citation was received", "known email address alone chooses nothing"]) {
   assert.ok(instructions.includes(required), `guidance omits ${required}`);
 }
 

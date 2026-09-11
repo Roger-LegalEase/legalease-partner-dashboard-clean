@@ -1,0 +1,319 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h/focused-repair-evidence/v1",
+  "assignmentId": "FIX03",
+  "familyId": "ut_pet_special_certificate-set",
+  "assignedBase": "8abc1e8f5b02e5e72767e043bedb13736aba048d",
+  "branch": "fix03-ut-complete-20260911",
+  "worktree": "/tmp/rcap-fix03-ut-complete-20260911",
+  "claim": {
+    "status": "CLAIM_OK",
+    "grantSet": "bf4bf8ff0efd78ef"
+  },
+  "defectToFix": [
+    {
+      "defectId": "UT-VF62-01",
+      "obligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "repair": "Measured 1001EX petitioner/county and 1021EX county anchors corrected.",
+      "evidence": "completeness test asserts exact write boxes; central raster pending",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "UT-VF62-02",
+      "obligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "repair": "BCI waiver mark uses the original-box measured inset rather than bracket-pair shrink logic.",
+      "evidence": "boundary write box 27.95,455,4.75,8; central raster pending",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "UT-VF62-03",
+      "obligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "repair": "Neutral petitioner/case/county captions are filled on each included 1146XX/1148XX/1149XX/1169XX while actor acts remain protected.",
+      "evidence": "byte-read writes and protected-write audit",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "UT-VF62-04",
+      "obligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "repair": "BCI name preserves the confirmed full legal-name structure.",
+      "evidence": "boundary output reads Alexandrina Montgomery-Vandenberg",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "UT-VF62-05",
+      "obligations": [
+        "COMPONENT_SET",
+        "ROUTE_OPTIONS"
+      ],
+      "repair": "Assembly now evaluates third-party, victim-plus-prosecutor, and actual served-statement/0–14-day reply facts.",
+      "evidence": "13-page base subset and 20-page full conditional variant",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "UT-VF62-06",
+      "obligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "repair": "BCI email writes only after explicit email-delivery consent.",
+      "evidence": "canonical omits; consented boundary writes",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "UT-VF62-07",
+      "obligations": [
+        "ROUTE_IDENTITY"
+      ],
+      "repair": "Episode and independently expected exact certificate hash are mandatory in wrapper and real finalizer path.",
+      "evidence": "stage-gate and real-builder refusal tests",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "UT-VF62-08",
+      "obligations": [
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "repair": "Every sworn selection is keyed to its exact recorded fact; acquitted and never-filed alternatives are represented.",
+      "evidence": "14 false-fact probes plus two alternate records",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "UT-VF62-09",
+      "obligations": [
+        "FILING_DESTINATION"
+      ],
+      "repair": "Guidance carries arrest-county district-court and traffic-citation venue rules, with no existing number invented.",
+      "evidence": "guide assertions and never-filed text-plan probe",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    },
+    {
+      "defectId": "CHECK-READ-ONLY",
+      "obligations": [
+        "ARTIFACTS"
+      ],
+      "repair": "Wrapper and host --check validate without writes.",
+      "evidence": "recursive SHA-256,size,mode,mtime snapshot unchanged",
+      "status": "REPAIRED_BY_AUTHOR_LANE"
+    }
+  ],
+  "sourceIdentities": [
+    {
+      "componentId": "ut_pet_special_certificate-bci-certificate-application-1",
+      "formNumber": "UT-BCI-EXP-APPLICATION",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+      "requirement": "required",
+      "sha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+      "byteLength": 2337718,
+      "sha256Exact": true
+    },
+    {
+      "componentId": "ut_pet_special_certificate-bci-third-party-release-2",
+      "formNumber": "UT-BCI-THIRD-PARTY-RELEASE",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+      "requirement": "conditional",
+      "sha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+      "byteLength": 349009,
+      "sha256Exact": true
+    },
+    {
+      "componentId": "ut_pet_special_certificate-civil-cover-sheet-3",
+      "formNumber": "1044XX",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+      "requirement": "required",
+      "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+      "byteLength": 119736,
+      "sha256Exact": true
+    },
+    {
+      "componentId": "ut_pet_special_certificate-petition-4",
+      "formNumber": "1001EX",
+      "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
+      "requirement": "required",
+      "sha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed",
+      "byteLength": 112139,
+      "sha256Exact": true
+    },
+    {
+      "componentId": "ut_pet_special_certificate-proposed-order-5",
+      "formNumber": "1021EX",
+      "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
+      "requirement": "required",
+      "sha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174",
+      "byteLength": 104276,
+      "sha256Exact": true
+    },
+    {
+      "componentId": "ut_pet_special_certificate-acceptance-of-service-6",
+      "formNumber": "1146XX",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+      "requirement": "required",
+      "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+      "byteLength": 192790,
+      "sha256Exact": true
+    },
+    {
+      "componentId": "ut_pet_special_certificate-consent-and-waiver-of-hearing-7",
+      "formNumber": "1148XX",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+      "requirement": "required",
+      "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+      "byteLength": 191518,
+      "sha256Exact": true
+    },
+    {
+      "componentId": "ut_pet_special_certificate-victim-notice-form-8",
+      "formNumber": "1149XX",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+      "requirement": "conditional",
+      "sha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+      "byteLength": 108630,
+      "sha256Exact": true
+    },
+    {
+      "componentId": "ut_pet_special_certificate-reply-to-prosecutor-or-victim-statement-9",
+      "formNumber": "1169XX",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+      "requirement": "conditional",
+      "sha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+      "byteLength": 104506,
+      "sha256Exact": true
+    }
+  ],
+  "componentCount": 10,
+  "sourceBackedComponents": 9,
+  "guidanceComponents": 1,
+  "measuredSourceTerminals": 459,
+  "artifactIdentities": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "315c6c75ef5fbf0570cebb5ec3559db077f5826151f6c70ba0b62c679a3136e4",
+      "byteLength": 2617622,
+      "pageCount": 13,
+      "includedDocuments": [
+        "UT-BCI-EXP-APPLICATION",
+        "1044XX",
+        "1001EX",
+        "1021EX",
+        "1146XX",
+        "1148XX"
+      ],
+      "excludedConditionalDocuments": [
+        "UT-BCI-THIRD-PARTY-RELEASE",
+        "1149XX",
+        "1169XX"
+      ],
+      "writes": 55,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": 0
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "5db587eca482bcd070f66c4d758c14a23e3a6c725c9b4ca1bfe67d5047195a48",
+      "byteLength": 3079683,
+      "pageCount": 20,
+      "includedDocuments": [
+        "UT-BCI-EXP-APPLICATION",
+        "UT-BCI-THIRD-PARTY-RELEASE",
+        "1044XX",
+        "1001EX",
+        "1021EX",
+        "1146XX",
+        "1148XX",
+        "1149XX",
+        "1169XX"
+      ],
+      "excludedConditionalDocuments": [],
+      "writes": 74,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": 0
+    }
+  ],
+  "fixtureStageProof": {
+    "status": "ALLOW_STAGE_2",
+    "reason": "VALID_SPECIAL_CERTIFICATE",
+    "episodeId": "fixture-episode-ut-special-001",
+    "expiresAt": "2027-01-28T00:00:00.000Z",
+    "certificateDocumentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+    "independentlyExpectedDocumentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+    "scope": "deterministic build fixture only; not a participant certificate or a source-document pin"
+  },
+  "checks": [
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
+      "exit": 0,
+      "result": "9 sources, 10 components, 2 conditional fixtures, zero local rasters"
+    },
+    {
+      "command": "node scripts/lib/ut-special-certificate-stage-gate.test.mjs",
+      "exit": 0,
+      "result": "ordinary/absent/episode/hash/expiry/180-day cases pass"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/ut-special-certificate-completeness.test.mjs",
+      "exit": 0,
+      "result": "PASS_COMPLETE; byte-read outputs; protected writes zero"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/ut-special-certificate-repair.test.mjs",
+      "exit": 0,
+      "result": "14 false facts, two alternatives, component conditions, real gate, read-only check"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_special_certificate-set",
+      "exit": 0,
+      "result": "PASS_COMPLETE 55/447 written; all nine counters zero"
+    }
+  ],
+  "completeness": {
+    "result": "PASS_COMPLETE",
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "written": "55/447"
+  },
+  "originalRasterEvidence": {
+    "runId": "34612514356",
+    "verifiedPngs": 40,
+    "pageManifest": {
+      "sha256": "434dd705cdfdd3c704d286bc11cf381b3821502eb75d19c902ee19058520bac3",
+      "byteLength": 12183
+    },
+    "verdict": {
+      "sha256": "017507580bed709c7cdd58790c602e5a63a05a90cb31f00151d589f68ae4351f",
+      "byteLength": 38042
+    },
+    "use": "read-only source-caption and BCI-waiver diagnosis only; no original or new image changed"
+  },
+  "nonSpecialUtahControl": {
+    "command": "git diff --quiet 8abc1e8f5b02e5e72767e043bedb13736aba048d -- seven named sibling Utah overlay directories",
+    "exit": 0,
+    "changedSiblingOverlayFiles": 0,
+    "codeGuard": "All new assembly, caption, selection, refusal, report, and check behavior is under config.specialCertificate or the special family config; the BCI email branch explicitly preserves !config.specialCertificate behavior."
+  },
+  "noLocalRaster": true,
+  "remainingGates": [
+    "fresh central GitHub raster for both changed conditional inventories",
+    "independent completeness/acceptance review",
+    "attorney review"
+  ],
+  "independentAcceptance": false,
+  "commercialAuthorityGranted": false,
+  "routesOpened": 0
+}

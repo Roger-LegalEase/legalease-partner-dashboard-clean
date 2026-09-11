@@ -58,11 +58,14 @@ export function specialCertificateStageGate({ certificate, episodeId, expectedDo
   if (!certificate || typeof certificate !== "object") return { status: "REFUSE", reason: "SPECIAL_CERTIFICATE_REQUIRED" };
   if (certificate.type !== "UT_BCI_SPECIAL_CERTIFICATE") return { status: "REFUSE", reason: "WRONG_CERTIFICATE_TYPE" };
   if (certificate.familyId !== FAMILY_ID) return { status: "REFUSE", reason: "WRONG_CERTIFICATE_FAMILY" };
-  if ((episodeId || certificate.episodeId) && (!episodeId || !certificate.episodeId)) return { status: "REFUSE", reason: "CERTIFICATE_EPISODE_REQUIRED" };
-  if (episodeId && certificate.episodeId !== episodeId) return { status: "REFUSE", reason: "WRONG_CERTIFICATE_EPISODE" };
+  if (typeof episodeId !== "string" || episodeId.trim() === ""
+      || typeof certificate.episodeId !== "string" || certificate.episodeId.trim() === "") {
+    return { status: "REFUSE", reason: "CERTIFICATE_EPISODE_REQUIRED" };
+  }
+  if (certificate.episodeId !== episodeId) return { status: "REFUSE", reason: "WRONG_CERTIFICATE_EPISODE" };
   if (!/^[0-9a-f]{64}$/.test(certificate.documentSha256 ?? "")) return { status: "REFUSE", reason: "CERTIFICATE_IDENTITY_PROOF_REQUIRED" };
-  if (expectedDocumentSha256 !== undefined && !/^[0-9a-f]{64}$/.test(expectedDocumentSha256)) return { status: "REFUSE", reason: "EXPECTED_CERTIFICATE_IDENTITY_REQUIRED" };
-  if (expectedDocumentSha256 && certificate.documentSha256 !== expectedDocumentSha256) return { status: "REFUSE", reason: "CERTIFICATE_IDENTITY_MISMATCH" };
+  if (!/^[0-9a-f]{64}$/.test(expectedDocumentSha256 ?? "")) return { status: "REFUSE", reason: "EXPECTED_CERTIFICATE_IDENTITY_REQUIRED" };
+  if (certificate.documentSha256 !== expectedDocumentSha256) return { status: "REFUSE", reason: "CERTIFICATE_IDENTITY_MISMATCH" };
   const issued = new Date(certificate.issuedAt);
   const expires = new Date(certificate.expiresAt);
   if (!certificate.issuedAt || !certificate.expiresAt || Number.isNaN(issued.valueOf()) || Number.isNaN(expires.valueOf())) return { status: "REFUSE", reason: "CERTIFICATE_DATES_REQUIRED" };
@@ -70,8 +73,30 @@ export function specialCertificateStageGate({ certificate, episodeId, expectedDo
   if (expires <= now) return { status: "REFUSE", reason: "SPECIAL_CERTIFICATE_EXPIRED" };
   const life = expires - issued;
   if (life <= 0 || life > 180 * 86400000) return { status: "REFUSE", reason: "SPECIAL_CERTIFICATE_VALIDITY_EXCEEDS_180_DAYS" };
-  return { status: "ALLOW_STAGE_2", reason: "VALID_SPECIAL_CERTIFICATE", episodeId, expiresAt: certificate.expiresAt };
+  return {
+    status: "ALLOW_STAGE_2", reason: "VALID_SPECIAL_CERTIFICATE", episodeId,
+    expiresAt: certificate.expiresAt,
+    certificateDocumentSha256: certificate.documentSha256,
+    independentlyExpectedDocumentSha256: expectedDocumentSha256
+  };
 }
+
+// A deterministic fixture certificate exercises the same gate used by the
+// production builder. The expected hash is supplied independently: the gate
+// never accepts the certificate's own assertion as its source of truth.
+export const SPECIAL_CERTIFICATE_FIXTURE_STAGE_INPUT = Object.freeze({
+  episodeId: "fixture-episode-ut-special-001",
+  expectedDocumentSha256: "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+  asOf: "2026-09-11T00:00:00.000Z",
+  certificate: Object.freeze({
+    type: "UT_BCI_SPECIAL_CERTIFICATE",
+    familyId: FAMILY_ID,
+    episodeId: "fixture-episode-ut-special-001",
+    documentSha256: "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+    issuedAt: "2026-08-01T00:00:00.000Z",
+    expiresAt: "2027-01-28T00:00:00.000Z"
+  })
+});
 
 function hostPathFor(sourcePath) {
   const prefix = `${MASTER_REL}/`;
@@ -126,7 +151,7 @@ function seedNativeMap(census, track) {
   };
 }
 
-export async function buildUtahSpecialCertificate({ noRaster = true, check = false } = {}) {
+export async function buildUtahSpecialCertificate({ noRaster = true, check = false, stageInput } = {}) {
   assert.equal(noRaster, true, "local raster is forbidden for this family");
   process.chdir(ROOT);
   process.env.RCAP_NO_LOCAL_RASTER = "1";
@@ -151,6 +176,14 @@ export async function buildUtahSpecialCertificate({ noRaster = true, check = fal
     const bytes = fs.readFileSync(path.join(process.env.MASTER_LIBRARY_SOURCE_DIR, document.pathInArchive));
     assert.equal(sha256(bytes), document.sha256, `${document.formNumber}: host path resolves to different bytes`);
   }
+  if (check) {
+    await runUtahCompletenessRepair(FAMILY_ID, ["--check"]);
+    return { familyId: FAMILY_ID, sourceCount: 9, componentCount: 10,
+      noLocalRaster: true, status: "CHECKED_READ_ONLY" };
+  }
+  const stageGateResult = specialCertificateStageGate(stageInput ?? {});
+  assert.equal(stageGateResult.status, "ALLOW_STAGE_2",
+    `ut_pet_special_certificate-set: stage two refused (${stageGateResult.reason})`);
   writeJson(`${OUT_REL}/source-receipt.json`, {
     schemaVersion: "rcap-source-receipt/v1-native-utah-completeness", familyId: FAMILY_ID,
     sources, documents, sourceHashesExact: true,
@@ -173,7 +206,7 @@ export async function buildUtahSpecialCertificate({ noRaster = true, check = fal
     }
   });
   writeJson(`${OUT_REL}/production-field-map.json`, seedNativeMap(census, track));
-  await runUtahCompletenessRepair(FAMILY_ID, check ? ["--check"] : []);
+  await runUtahCompletenessRepair(FAMILY_ID, [], { specialCertificateStageGateResult: stageGateResult });
   return { familyId: FAMILY_ID, sourceCount: 9, componentCount: 10,
     noLocalRaster: true, status: "BUILT_REVIEW_PENDING" };
 }
@@ -182,5 +215,8 @@ if (path.resolve(process.argv[1] ?? "") === path.resolve(thisFile)) {
   const check = process.argv.includes("--check");
   const unsupported = process.argv.slice(2).filter((arg) => arg !== "--check");
   assert.deepEqual(unsupported, [], `unsupported option(s): ${unsupported.join(", ")}`);
-  console.log(JSON.stringify(await buildUtahSpecialCertificate({ check })));
+  console.log(JSON.stringify(await buildUtahSpecialCertificate({
+    check,
+    stageInput: check ? undefined : SPECIAL_CERTIFICATE_FIXTURE_STAGE_INPUT
+  })));
 }
