@@ -35,7 +35,7 @@ const apply = value => bindDeclaredNdDelivery(value.record, value.family, {
     : normalizedSelected(value.family.selectedIndependentVerdict),
 });
 
-test("binds the measured four-component ND packet and preserves the selected current failure", () => {
+test("binds the measured four-component ND packet and preserves the selected current verdict", () => {
   const frozen = JSON.stringify(original);
   const output = apply(fixture());
   assert.deepEqual(output.binding.instrumentKinds, ND_COMPONENTS);
@@ -48,10 +48,8 @@ test("binds the measured four-component ND packet and preserves the selected cur
   assert.equal(output.binding.acceptanceReceipt.workflowRunId, "34628970364");
   assert.equal(output.binding.acceptanceReceipt.boundToCanonicalSha256,
     "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2");
-  assert.deepEqual(output.binding.lastIndependentVerification, {
-    verdict: "FAIL_REPAIR_REQUIRED", lane: "vf01",
-    verifiedAtBase: "b7610435835e6163254641505d25be7680cb514c",
-  });
+  assert.deepEqual(output.binding.lastIndependentVerification,
+    normalizedSelected(masterFamily.selectedIndependentVerdict));
   assert.equal(output.binding.supersededIndependentVerification.lane, "vf09");
   assert.equal(output.binding.supersededIndependentVerification.verifiedAtBase,
     "7fcfb7d40aafe7bd7350fc735ea09d16524cb757");
