@@ -54,58 +54,16 @@
     ],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "33923497915",
-      "jobId": "101187692725",
-      "artifactId": "9956234562",
-      "boundToCanonicalSha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
-      "coversTheWholeFamily": false,
-      "invalidatedBy": "the CLIPPING_AND_OVERLAP repair moved both boundary fixtures; a raster receipt binds exact bytes and this one no longer covers the family",
-      "movedFixtures": [
-        {
-          "packetId": "pre-adjudication-boundary",
-          "oldSha256": "cc5470f4faf9a92eafdf529e386f015015517514988ca1c7415a961668028f98",
-          "newSha256": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4"
-        },
-        {
-          "packetId": "post-adjudication-boundary",
-          "oldSha256": "5ee9b46cac392fd7f6af81179084cf92906ed38d05578656057566d9f0dedd0f",
-          "newSha256": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422"
-        }
-      ],
-      "unchangedFixtures": [
-        {
-          "packetId": "pre-adjudication-canonical",
-          "sha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09"
-        },
-        {
-          "packetId": "post-adjudication-canonical",
-          "sha256": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c"
-        }
-      ],
-      "wholeFamilyReRasterRequired": true,
-      "movedAgainBy": {
-        "lane": "FIX165",
-        "why": "The KNOWN_PREFILLS repair prints the ten withheld blanks on the delivered per-packet guidance page, which is packet page 1 of each assembly. Only the two boundary fixtures withhold anything, so only those two moved; both canonical fixtures are byte-identical across this repair and still carry the digests this receipt binds.",
-        "movedFixtures": [
-          {
-            "packetId": "pre-adjudication-boundary",
-            "oldSha256": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4",
-            "newSha256": "2c4bf29088d5561ecb6f7b15ac0db242c39c02b32229423c48196b31ad865758"
-          },
-          {
-            "packetId": "post-adjudication-boundary",
-            "oldSha256": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422",
-            "newSha256": "8e96fb584f474149be2b557a762b535d4a141362df844bf665475bd0979c325e"
-          }
-        ],
-        "theMovedFixturesAboveAreNowSTALE": "The `movedFixtures` list in this receipt records the FIRST move, made by the CLIPPING_AND_OVERLAP repair. Its `newSha256` values are no longer the bytes on disk. They are kept as the history of that move; the bytes on disk are the `newSha256` values in this block and in currentFixtureSha256.",
-        "wholeFamilyReRasterRequired": true
-      }
+      "workflowRunId": "34549310330",
+      "jobId": "103109340324",
+      "artifactId": "10180460304",
+      "boundToCanonicalSha256": "87dafe5c83a0c958ee0e22a2b2fbad74156160d5e4c16ee56d83d4a6a5b91326",
+      "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf63",
-      "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894"
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "verifiedAtBase": "2c8fcea7e1f0206d0bfc693b4263e2d0280cdc8b"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -115,6 +73,63 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+        "replacedByCanonicalSha256": "503224a7b3d8b51a867beabbacd06b6fd40d81c4ae90f90cdce5d586b44a4aff,87dafe5c83a0c958ee0e22a2b2fbad74156160d5e4c16ee56d83d4a6a5b91326",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33923497915",
+          "jobId": "101187692725",
+          "artifactId": "9956234562",
+          "boundToCanonicalSha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+          "coversTheWholeFamily": false,
+          "invalidatedBy": "the CLIPPING_AND_OVERLAP repair moved both boundary fixtures; a raster receipt binds exact bytes and this one no longer covers the family",
+          "movedFixtures": [
+            {
+              "packetId": "pre-adjudication-boundary",
+              "oldSha256": "cc5470f4faf9a92eafdf529e386f015015517514988ca1c7415a961668028f98",
+              "newSha256": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4"
+            },
+            {
+              "packetId": "post-adjudication-boundary",
+              "oldSha256": "5ee9b46cac392fd7f6af81179084cf92906ed38d05578656057566d9f0dedd0f",
+              "newSha256": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422"
+            }
+          ],
+          "unchangedFixtures": [
+            {
+              "packetId": "pre-adjudication-canonical",
+              "sha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09"
+            },
+            {
+              "packetId": "post-adjudication-canonical",
+              "sha256": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c"
+            }
+          ],
+          "wholeFamilyReRasterRequired": true,
+          "movedAgainBy": {
+            "lane": "FIX165",
+            "why": "The KNOWN_PREFILLS repair prints the ten withheld blanks on the delivered per-packet guidance page, which is packet page 1 of each assembly. Only the two boundary fixtures withhold anything, so only those two moved; both canonical fixtures are byte-identical across this repair and still carry the digests this receipt binds.",
+            "movedFixtures": [
+              {
+                "packetId": "pre-adjudication-boundary",
+                "oldSha256": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4",
+                "newSha256": "2c4bf29088d5561ecb6f7b15ac0db242c39c02b32229423c48196b31ad865758"
+              },
+              {
+                "packetId": "post-adjudication-boundary",
+                "oldSha256": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422",
+                "newSha256": "8e96fb584f474149be2b557a762b535d4a141362df844bf665475bd0979c325e"
+              }
+            ],
+            "theMovedFixturesAboveAreNowSTALE": "The `movedFixtures` list in this receipt records the FIRST move, made by the CLIPPING_AND_OVERLAP repair. Its `newSha256` values are no longer the bytes on disk. They are kept as the history of that move; the bytes on disk are the `newSha256` values in this block and in currentFixtureSha256.",
+            "wholeFamilyReRasterRequired": true
+          }
+        }
+      }
+    ]
   }
 }

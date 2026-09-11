@@ -34,16 +34,14 @@
     }
   ],
   "counts": {
-    "returnDirectories": 235,
-    "rows": 1297,
+    "returnDirectories": 237,
+    "rows": 1299,
     "independentVerdicts": 299,
-    "failRepairRequired": 31,
-    "passIndependent": 245
+    "failRepairRequired": 29,
+    "passIndependent": 247
   },
   "failRepairRequiredFamilies": [
     "al-pardoned-felony-set",
-    "az_record_sealing_arrest_no_charges-set",
-    "az_record_sealing_dismissal_not_guilty-set",
     "ca-17b-reduction-set",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
@@ -3484,6 +3482,20 @@
     },
     {
       "familyId": "az_record_sealing_arrest_no_charges-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf68",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ec913f1b613da6bc4918b149efa03f54b95974c6",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-closed-proof-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_record_sealing_arrest_no_charges-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf68",
       "isIndependentVerification": true,
@@ -3547,7 +3559,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-requirements-final.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_record_sealing_conviction-set",
@@ -3561,6 +3573,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_record_sealing_dismissal_not_guilty-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf69",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f2334e4e95a4811f3e5dc31abb1d3299f8317532",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-closed-proof-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_dismissal_not_guilty-set",
       "superseded": false
     },
     {
@@ -3635,7 +3661,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-requirements-final.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_dismissal_not_guilty-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_wrongful_arrest_clearance-set",
