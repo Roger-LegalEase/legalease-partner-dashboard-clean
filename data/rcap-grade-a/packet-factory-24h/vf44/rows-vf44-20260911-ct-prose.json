@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF44",
+  "laneKind": "independent-verification",
+  "worker": "VF44",
+  "reviewer": "/root/ar_independent_review",
+  "sessionIdentity": "/root/ar_independent_review",
+  "familyId": "ct-cleanslate-petition-set",
+  "grantAsserted": true,
+  "grantSet": "3c78081b2c1f05cd",
+  "reviewedAtBase": "9830a634200332ce92bb4dce9da05d880a5c77fa",
+  "scope": "Scoped reread of the repaired ARTIFACTS obligation only. Prior VF44 measurements for CLIPPING_AND_OVERLAP and SOURCE_IDENTITY are retained as prior evidence; the other twelve obligations were not opened here and are not promoted.",
+  "verdict": "PASS_SCOPED_ARTIFACTS",
+  "rows": [
+    {
+      "itemId": "ct-cleanslate-petition-set",
+      "familyId": "ct-cleanslate-petition-set",
+      "lane": "VF44",
+      "baseSha": "9830a634200332ce92bb4dce9da05d880a5c77fa",
+      "verifiedAtBase": "9830a634200332ce92bb4dce9da05d880a5c77fa",
+      "obligation": "ARTIFACTS",
+      "verdict": "PASS",
+      "result": "PASS",
+      "measured": true,
+      "proofObligations": {
+        "ARTIFACTS": {"measured":true,"result":"PASS","finding":"The two stale prose blocks were independently reread after correction; current builder and retained participant/reviewer artifacts no longer assert that Print Form or Reset Form captions print, while both repaired PDF digests remain exact."},
+        "ROUTE_IDENTITY": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of this scoped ARTIFACTS reread."},
+        "SOURCE_IDENTITY": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Prior VF44 source measurement retained separately; not rerun here."},
+        "COMPONENT_SET": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "KNOWN_PREFILLS": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "REQUIRED_BEFORE_FILING": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "ROUTE_OPTIONS": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "REPEATING_ROWS": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "PROTECTED_FIELDS": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "CLIPPING_AND_OVERLAP": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Prior VF44 byte measurement retained separately; not rerun here."},
+        "PAGE_ORDER": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "FILING_DESTINATION": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "FEE_AND_WAIVER": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "SERVICE": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."},
+        "SELF_HELP_STOP": {"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Out of scope."}
+      },
+      "pdfsUnchanged": [
+        {"path":"data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf","sha256":"d3e379c8dbc4c716cd80ec107edcc069b585cc4934b28adb1db40fe19c26c09c","bytes":247117,"pages":2},
+        {"path":"data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf","sha256":"28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77","bytes":247096,"pages":2}
+      ],
+      "priorMeasurementRetained": {
+        "sourceBase":"ca8f8909064882b38db1a732a72aad12a2fedb58",
+        "sourcePin":"b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+        "pdfRepairConfirmed":"The prior VF44 read measured the delivered PDFs with the button captions removed, page 2 identical to the court source, and the DENIED/GRANTED outlines unchanged.",
+        "priorArtifactDigests":["28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77","d3e379c8dbc4c716cd80ec107edcc069b585cc4934b28adb1db40fe19c26c09c"]
+      },
+      "proseCorrectionMeasuredHere": {
+        "participantInstructionsSha256":"39a12f448241072a6eca0b148bc8a7f06098dfd87bfe69e13a6686b98ae225a9",
+        "independentVisualReviewSha256":"ae898c3c4c19a9d22b1a08a69f23fc0bd8575bdad055f8fd6f54d7ab64028312",
+        "builderSha256":"48a0dfe29b339835faea98f3610be5ccfdeb49e325e8229959ce496d4789f2b1",
+        "cause":"FIX143 correctly removed the flattened Print Form and Reset Form ink from both PDFs, but retained participant instructions and reviewer guidance still described those captions as printing; the builder emitted both stale prose blocks.",
+        "correction":"At the reviewed base, participant instructions describe the address section without the stale caption claim, and independent visual review guidance asks the reviewer to confirm the controls are omitted while court page content remains intact. The builder contains the same corrected strings.",
+        "checks":"I read the exact current files and compared the committed correction diff. The old false assertion is absent from both retained artifacts; remaining source-code mentions are explanatory comments or the corrected omission check, not claims that the captions print. The two PDF bytes remain exactly the prior repaired digests."
+      },
+      "priorFindingsDisposition": "The prior ARTIFACTS FAIL was specifically the stale prose and is now repaired and independently re-read as PASS. Prior CLIPPING_AND_OVERLAP and SOURCE_IDENTITY PASS measurements remain separate prior evidence and were not re-promoted here.",
+      "remainingAdmissionRequirements": [
+        "Fresh central raster acceptance bound to the exact current PDF digests is still required.",
+        "A full-family independent review of the twelve unmeasured obligations remains required before any overall family approval or route admission."
+      ],
+      "nineCounters": {"knownRequiredFieldsMissing":null,"requiredFactsNotCollected":null,"unclassifiedBlanks":null,"incompleteRows":null,"requiredOptionsMissing":null,"requiredComponentsMissing":null,"invisibleWrites":null,"protectedWrites":null,"visualDefects":null,"measuredHere":false},
+      "sharedWrites": {"queue":false,"manifests":false,"familyArtifacts":false,"commits":false,"dispatch":false}
+    }
+  ]
+}
