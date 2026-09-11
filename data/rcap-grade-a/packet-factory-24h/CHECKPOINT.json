@@ -8,7 +8,7 @@
   "liveFamilyDenominator": 346,
   "completePacketProven": 245,
   "states": {
-    "SOURCE_BLOCKED": 4,
+    "SOURCE_BLOCKED": 1,
     "SOURCE_READY": 34,
     "LEGAL_BLOCKED": 0,
     "ASSIGNED_TO_BUILD": 0,
@@ -17,7 +17,7 @@
     "PASS_COMPLETE": 0,
     "VERIFY_PENDING": 3,
     "VERIFYING": 1,
-    "FAIL_REPAIR_REQUIRED": 22,
+    "FAIL_REPAIR_REQUIRED": 25,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
@@ -31,7 +31,7 @@
     "OUT_OF_SCOPE": 5
   },
   "sourceReady": 34,
-  "sourceBlocked": 4,
+  "sourceBlocked": 1,
   "assigned": 34,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
@@ -39,8 +39,8 @@
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 57,
-    "lanesWithWorkAtDispatch": 32,
-    "lanesProvisionedEmpty": 25,
+    "lanesWithWorkAtDispatch": 31,
+    "lanesProvisionedEmpty": 26,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -48,24 +48,6 @@
       "family": "az_set_aside-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:R-26-0001 adopted Form 31(a), official-form:R-26-0001 adopted Form 31(b), official-form:AOCCR41FORM31A-082224-CONT",
       "owner": "SRC04",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "nm_conviction-set",
-      "exactBlocker": "SOURCE_ALREADY_HELD: official-form:4-222, official-form:4-953, official-form:4-956, official-form:4-960, official-form:4-960.1, official-form:4-960.3, official-form:NM-LOCAL-CONVICTION-ORDER",
-      "owner": "SRC01",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "nm_identity_theft-set",
-      "exactBlocker": "SOURCE_ALREADY_HELD: official-form:4-222, official-form:4-951, official-form:4-960.1, official-form:NM-LOCAL-IDENTITY-THEFT-ORDER",
-      "owner": "SRC01",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "nm_release_without_conviction-set",
-      "exactBlocker": "SOURCE_ALREADY_HELD: official-form:4-222, official-form:4-952, official-form:4-955, official-form:4-959, official-form:4-960.1, official-form:4-960.2, official-form:NM-SAN-JUAN-NONCONVICTION-PACKET",
-      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     }
   ],

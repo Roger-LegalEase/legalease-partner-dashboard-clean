@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-09T18:20:45.049Z",
-  "captainHead": "557bcdb27bd2199105277cab6baae24d992db2d9",
+  "generatedAt": "2026-09-11T23:09:50.263Z",
+  "captainHead": "78d2f386abb2a61187e16ae519ee00cd29fc74d0",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-09T18:40:45.049Z",
-    "nextSourceReleaseDeadline": "2026-09-09T18:50:45.049Z",
+    "nextIntegrationDeadline": "2026-09-11T23:29:50.263Z",
+    "nextSourceReleaseDeadline": "2026-09-11T23:39:50.263Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 10,
+        "measured": 4,
         "threshold": 20,
         "triggered": false
       },
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 24,
+        "measured": 25,
         "threshold": 20,
         "triggered": true
       },
@@ -62,7 +62,7 @@
           "PF23",
           "PF24"
         ],
-        "measured": 55,
+        "measured": 34,
         "threshold": 80,
         "triggered": false
       }
@@ -78,24 +78,24 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 55,
-    "sourceBlocked": 6,
-    "legalBlocked": 17,
-    "verifyPending": 10,
-    "repairRequired": 24,
+    "sourceReady": 34,
+    "sourceBlocked": 1,
+    "legalBlocked": 0,
+    "verifyPending": 4,
+    "repairRequired": 25,
     "byState": {
-      "COMPLETE_PACKET_PROVEN": 186,
-      "PRODUCT_PATH_PENDING": 21,
+      "COMPLETE_PACKET_PROVEN": 245,
+      "PRODUCT_PATH_PENDING": 10,
       "OUT_OF_SCOPE": 5,
-      "LEGAL_BLOCKED": 17,
-      "BUILT_RASTER_PENDING": 9,
-      "SOURCE_READY": 55,
-      "FAIL_REPAIR_REQUIRED": 24,
-      "VERIFY_PENDING": 10,
-      "SOURCE_BLOCKED": 6,
-      "GUIDANCE_READY": 10,
+      "BUILT_RASTER_PENDING": 7,
+      "FAIL_REPAIR_REQUIRED": 25,
+      "SOURCE_READY": 34,
+      "SOURCE_BLOCKED": 1,
+      "GUIDANCE_READY": 12,
       "HANDOFF_READY": 2,
-      "WRONG_DELIVERY_TYPE": 1
+      "VERIFY_PENDING": 3,
+      "WRONG_DELIVERY_TYPE": 1,
+      "VERIFYING": 1
     }
   },
   "commercialRoutesOpened": 0,

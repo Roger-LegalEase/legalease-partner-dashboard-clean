@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 259,
-    "rows": 1337,
-    "independentVerdicts": 304,
-    "failRepairRequired": 21,
+    "returnDirectories": 260,
+    "rows": 1338,
+    "independentVerdicts": 305,
+    "failRepairRequired": 22,
     "passIndependent": 264
   },
   "failRepairRequiredFamilies": [
@@ -61,6 +61,7 @@
     "pa_6308_underage-set",
     "rcap-in-custom-pleading",
     "sd_arrest_expungement-set",
+    "tx_nd_automatic_misdemeanor_deferred-set",
     "wv_acc_treatment_job_readiness-set"
   ],
   "refusedAtTheClaimGate": {
@@ -29669,6 +29670,43 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
       "superseded": true
+    },
+    {
+      "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "665f6cdbf95322b11e77defafffff6ea193bd2cc",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "TX072-VF02-01/02/03: 6 unique text fields are missing or incomplete across 11 fixture-field occurrences: court number, mailing address, birth month/day/year, and boundary complete declaration address. All 26 declared text writes per fixture match their mapped facts, demonstrating that the omission is in the map/semantic treatment rather than a lost write.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "All 98 declared labels occur in participant-instructions.md (0 missing declared labels), but the declarations are not all valid: held court number, mailing address and birth year are not genuinely unavailable; birth month/day are not properly identified manual tasks; and the source clerk-owned cause number is incorrectly assigned to the participant. TX072-VF02-01/02/03/04.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The recovery-letter five eligibility marks and both native Group10 answers render correctly. The known destination court type remains unselected on the Statement: Choice3 County Court at Law should follow the held court identity in both fixtures; all five control centers contain 0 dark pixels. TX072-VF02-01.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-tx-automatic-current.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_automatic_misdemeanor_deferred-set",
+      "superseded": false
     },
     {
       "familyId": "tx_nd_conviction_no_supervision-set",

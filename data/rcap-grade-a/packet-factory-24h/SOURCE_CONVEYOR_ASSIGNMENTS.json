@@ -2,8 +2,8 @@
   "schemaVersion": "rcap-source-conveyor/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
   "question": "What actually stands between 47 buildable families and 346?",
-  "answer": "Source identity. 8 active obligations across 6 families; 1 have a recorded official URL and 7 need discovery first.",
-  "captainHead": "557bcdb27bd2199105277cab6baae24d992db2d9",
+  "answer": "Source identity. 2 active obligations across 1 families; 0 have a recorded official URL and 2 need discovery first.",
+  "captainHead": "78d2f386abb2a61187e16ae519ee00cd29fc74d0",
   "preservedFactoryLanes": {
     "rule": "The base thirty-two factory lanes are preserved. Nothing here rewrites PF01-PF16, FIX01-FIX04 or VF01-VF08, and SRC01-SRC04 keep their identifiers and take the reconciliation operation; live-grant-retained or elastic lanes may exist above that baseline.",
     "packetBuild": [
@@ -30,7 +30,8 @@
       "PF21",
       "PF22",
       "PF23",
-      "PF24"
+      "PF24",
+      "PF25"
     ],
     "rapidRepair": [
       "FIX01",
@@ -385,14 +386,11 @@
     {
       "assignmentId": "SRC01",
       "operation": "held-inventory-reconciliation",
-      "status": "ACTIVE",
-      "obligations": 4,
-      "familiesReleasedByThisLane": 4,
+      "status": "QUEUED_EMPTY",
+      "obligations": 0,
+      "familiesReleasedByThisLane": 0,
       "familiesAdvancedButNotReleasedHere": 0,
-      "issuingHosts": [
-        "LA",
-        "NM"
-      ],
+      "issuingHosts": [],
       "mustRecord": [
         "custody path",
         "SHA-256",
@@ -521,12 +519,11 @@
       "assignmentId": "SRC04",
       "operation": "held-inventory-reconciliation",
       "status": "ACTIVE",
-      "obligations": 4,
-      "familiesReleasedByThisLane": 3,
+      "obligations": 2,
+      "familiesReleasedByThisLane": 1,
       "familiesAdvancedButNotReleasedHere": 0,
       "issuingHosts": [
-        "AZ",
-        "UT"
+        "AZ"
       ],
       "mustRecord": [
         "custody path",
@@ -838,25 +835,21 @@
     "src": 4,
     "acq": 3,
     "promo": 3,
-    "obligations": 8,
-    "familiesReleased": 7,
+    "obligations": 2,
+    "familiesReleased": 1,
     "manifestEntries": 62
   },
   "reconciliationScope": {
-    "completedNonAcquisitionFamilyCount": 74,
+    "completedNonAcquisitionFamilyCount": 77,
     "laterSourceBlockersKeptSeparate": [],
     "laterSourceBlockersSinceResolved": [
-      {
-        "familyId": "co_motion_seal_conviction-set",
-        "nowInState": "FAIL_REPAIR_REQUIRED"
-      },
       {
         "familyId": "ga-jail-k2-set",
         "nowInState": "COMPLETE_PACKET_PROVEN"
       },
       {
         "familyId": "ma-bmc-multi-set",
-        "nowInState": "LEGAL_BLOCKED"
+        "nowInState": "BUILT_RASTER_PENDING"
       },
       {
         "familyId": "vt_seal_under_25-set",

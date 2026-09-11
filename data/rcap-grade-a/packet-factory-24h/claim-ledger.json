@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b5c29395c77771e1a83ea4243c6a0710413eb1c8",
+  "generatedAtCommit": "78d2f386abb2a61187e16ae519ee00cd29fc74d0",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7681,11 +7681,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX95",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T00:22:21.823Z",
-      "releaseReason": "FIX95 returned COMPLETED at 5798d9529: KNOWN_PREFILLS repaired by writing the held facts through the registry-resolved binding and the finalizer's named-fact channel, with unfittable values disclosed as KNOWN_FACT_NOT_WRITTEN rather than dropped; nine counters zero, rebuilt twice byte-identically, 7695 sibling overlay files untouched. Central raster and an independent read are owed; the statewide 4-222 scope question remains the owner's and no wrong-scope source was substituted"
+      "releasedAt": "2026-09-09T00:22:21.823Z"
     },
     {
       "subjectType": "packet-family",
@@ -7728,11 +7727,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX95",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T00:22:21.923Z",
-      "releaseReason": "FIX95 returned COMPLETED at 5798d9529: KNOWN_PREFILLS repaired by writing the held facts through the registry-resolved binding and the finalizer's named-fact channel, with unfittable values disclosed as KNOWN_FACT_NOT_WRITTEN rather than dropped; nine counters zero, rebuilt twice byte-identically, 7695 sibling overlay files untouched. Central raster and an independent read are owed; the statewide 4-222 scope question remains the owner's and no wrong-scope source was substituted"
+      "releasedAt": "2026-09-09T00:22:21.923Z"
     },
     {
       "subjectType": "packet-family",
@@ -7776,11 +7774,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX142",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-10T15:31:00.723Z",
-      "releaseReason": "Lane returned: rows committed in this tree and integrated; no process is executing it and its assignment is complete"
+      "releasedAt": "2026-09-10T15:31:00.723Z"
     },
     {
       "subjectType": "packet-family",
@@ -8130,7 +8127,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-07T07:42:02.829Z"
@@ -9223,7 +9220,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.619Z"
@@ -9287,8 +9284,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-11T22:59:47.383Z",
+      "releaseReason": "Independent review committed at 39c53654b: 12 PASS / 3 FAIL; FIX05 repair remains owed, no terminal promotion."
     },
     {
       "subjectType": "packet-family",
@@ -11847,8 +11845,9 @@
       "operation": "source-reconciliation",
       "lane": "SRC10",
       "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-11T22:59:46.592Z",
+      "releaseReason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
     },
     {
       "subjectType": "source-obligation",
@@ -11860,8 +11859,9 @@
       "operation": "source-reconciliation",
       "lane": "SRC10",
       "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-11T22:59:46.743Z",
+      "releaseReason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
     },
     {
       "subjectType": "source-obligation",
@@ -14422,7 +14422,9 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-11T22:59:46.908Z",
+      "releaseReason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
     },
     {
       "subjectType": "source-obligation",
@@ -14505,7 +14507,9 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-11T22:59:47.071Z",
+      "releaseReason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
     },
     {
       "subjectType": "source-obligation",
@@ -14546,7 +14550,9 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-11T22:59:47.225Z",
+      "releaseReason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
     },
     {
       "subjectType": "source-obligation",
@@ -15461,7 +15467,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "eb15b8fa311e56a0c06b492562f04f03a1454579c2c0fedca69efc504e1b9364",
+  "claimsDigest": "d1f0b83c9231446518f59466fe7f9852c3a64eb20736bac01f40ac9eddbace04",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -41196,6 +41202,60 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-11T22:29:55.700Z",
       "reason": "Current-byte complete15-PASS independent return committed at b5c29395c; exact original raster verified and existing extractor consumed the superseding return."
+    },
+    {
+      "lane": "SRC10",
+      "subjectType": "source-obligation",
+      "subjectId": "co_motion_seal_conviction-set",
+      "operation": "source-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-11T22:59:46.592Z",
+      "reason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
+    },
+    {
+      "lane": "SRC10",
+      "subjectType": "source-obligation",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "source-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-11T22:59:46.743Z",
+      "reason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
+    },
+    {
+      "lane": "SRC01",
+      "subjectType": "source-obligation",
+      "subjectId": "nm_conviction-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-11T22:59:46.908Z",
+      "reason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
+    },
+    {
+      "lane": "SRC01",
+      "subjectType": "source-obligation",
+      "subjectId": "nm_identity_theft-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-11T22:59:47.071Z",
+      "reason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
+    },
+    {
+      "lane": "SRC01",
+      "subjectType": "source-obligation",
+      "subjectId": "nm_release_without_conviction-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-11T22:59:47.225Z",
+      "reason": "Exact source custody adopted and hash-verified at fa84a0c4ba24a183e059f952508a86989110dbe4; downstream packet repair remains required."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-11T22:59:47.383Z",
+      "reason": "Independent review committed at 39c53654b: 12 PASS / 3 FAIL; FIX05 repair remains owed, no terminal promotion."
     }
   ],
   "reissues": [
