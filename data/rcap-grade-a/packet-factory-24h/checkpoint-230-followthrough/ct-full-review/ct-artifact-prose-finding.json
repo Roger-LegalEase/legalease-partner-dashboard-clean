@@ -1,0 +1,25 @@
+{
+  "schemaVersion":"rcap-scoped-repair-finding/v1",
+  "familyId":"ct-cleanslate-petition-set",
+  "lane":"VF44",
+  "reviewer":"/root/ar_independent_review",
+  "reviewedAtBase":"9830a634200332ce92bb4dce9da05d880a5c77fa",
+  "obligation":"ARTIFACTS",
+  "result":"FAIL_REPAIR_REQUIRED",
+  "finding":"The current PDF bytes correctly prefill fitting participant name, email and phone values, but three retained artifact descriptions still describe them as blank or refused.",
+  "staleArtifacts":[
+    {"path":"data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/independent-visual-review.json","location":"whatToLookAt[0]","issue":"says Name of defendant, E-mail address and Phone number are deliberately BLANK"},
+    {"path":"data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/caption-channel-defect.json","location":"thisFamilysResponse","issue":"says every affected field is refused by role, conflicting with current explicit mappings and rendered participant values"},
+    {"path":"data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/blanks-left-for-the-participant.json","location":"thisFormInParticular","issue":"claims nineteen of twenty-two blanks and six shared-caption refusals, while current field decisions report six written fields and sixteen blanks"},
+    {"path":"scripts/build-census-v1-ct-cleanslate-petition-set.mjs","location":"generated report strings around lines 1975 and 2279 and blanks prose around line 2186","issue":"rebuild would re-emit the stale descriptions"}
+  ],
+  "directChecks":{
+    "canonicalPdfSha256":"28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77",
+    "boundaryPdfSha256":"d3e379c8dbc4c716cd80ec107edcc069b585cc4934b28adb1db40fe19c26c09c",
+    "canonicalText":"contains Jordan Avery Reyes, jordan.reyes@example.com, 203-555-0142 and the fitting address/docket/DOB",
+    "boundaryText":"contains jordan.reyes@example.com, 203-555-0142 ext. 44821, DOB and address; over-width name and docket are explicitly refused",
+    "currentFieldDecision":"written=6, undecided=0, refusedByRole=12, refusedBySharedRules=4"
+  },
+  "requiredRepair":"Update the three retained report descriptions and their builder-emitted strings to distinguish current explicit participant mappings from role refusals. Rebuild reports if the builder is the source of truth, then reread ARTIFACTS. Leave PDFs unchanged.",
+  "admission":"ARTIFACTS remains FAIL_REPAIR_REQUIRED until prose is corrected; central raster and the remaining full-family gates stay separate."
+}

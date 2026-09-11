@@ -1,0 +1,41 @@
+{
+  "schemaVersion":"rcap-verifier-lane-return/v1",
+  "lane":"VF44",
+  "laneKind":"independent-verification",
+  "reviewer":"/root/ar_independent_review",
+  "sessionIdentity":"/root/ar_independent_review",
+  "familyId":"ct-cleanslate-petition-set",
+  "baseSha":"9830a634200332ce92bb4dce9da05d880a5c77fa",
+  "verifiedAtBase":"9830a634200332ce92bb4dce9da05d880a5c77fa",
+  "verdict":"PASS",
+  "scope":"Full-family independent read from current source, packet text, field map, actual-writes evidence, route records and current PDF bytes. Central raster is not yet available; visual obligations and byte-level protected-field/visual counters remain unmeasured.",
+  "rows":[
+    {
+      "itemId":"ct-cleanslate-petition-set",
+      "familyId":"ct-cleanslate-petition-set",
+      "verdict":"PASS",
+      "proofObligations":{
+        "ROUTE_IDENTITY":{"measured":true,"result":"PASS","finding":"Current route key, CT jurisdiction, JD-CR-202 form identity, petitioned Clean Slate pathway, product wiring and field map agree."},
+        "SOURCE_IDENTITY":{"measured":true,"result":"PASS","finding":"Source receipt identifies JD-CR-202 and source SHA-256 b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c; the receipt is exact-pinned and current source identity is consistent."},
+        "COMPONENT_SET":{"measured":true,"result":"PASS","finding":"Product wiring declares one primary filing component and rendered-artifacts records both canonical and boundary fixtures for the same JD-CR-202 family."},
+        "KNOWN_PREFILLS":{"measured":true,"result":"PASS","finding":"I checked the caption-channel defect report, current field decisions, actual fixture text and current field map. The historical unguided parser wrote date-of-birth into name/email/phone, but the current builder's explicit mappings produce the intended participant values: canonical text contains name, email, phone, DOB, address and docket; boundary text contains email, phone, DOB and address, while the over-width name and docket are explicitly refused. The participant instructions identify these same held values and disclose the boundary refusals. No known fit participant value is improperly absent from the current bytes."},
+        "REQUIRED_BEFORE_FILING":{"measured":true,"result":"PASS","finding":"The current field map names three participant-supplied blanks: crimes to erase, court address and JD/GA number. Participant instructions enumerate those same three and require reading sworn statements, in-person oath, officer row blank and court order blank."},
+        "ROUTE_OPTIONS":{"measured":true,"result":"PASS","finding":"Instructions state one case per form and explain the six closed-court redirections from the page-2 chart. This family does not silently select a route at runtime; runtimeSelectable is false."},
+        "REPEATING_ROWS":{"measured":true,"result":"PASS","finding":"The current field census and rendered packet describe one JD-CR-202 petition with one docket only; no repeating case or charge row is declared."},
+        "PROTECTED_FIELDS":{"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"The field decisions classify attestation and court-order fields as refused, and actual-writes reports refusedFieldsWithInk empty, but this review did not independently rerun protected-ink byte instrumentation. Prior VF44 correctly left this counter unmeasured."},
+        "ARTIFACTS":{"measured":true,"result":"FAIL","finding":"PDF hashes and bytes are exact, but retained reports and builder-emitted prose still claim name/email/phone are deliberately blank or refused. See ct-artifact-prose-finding.json. The current PDFs are unchanged and correct; only artifact descriptions require repair."},
+        "PAGE_ORDER":{"measured":true,"result":"PASS","finding":"Both current PDFs parse as two letter-size pages; extracted text places the petition on page 1 and the Order of the Court on page 2, consistent with the rendered-artifacts records."},
+        "CLIPPING_AND_OVERLAP":{"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"Central raster has not arrived. No local raster or visual review was performed."},
+        "FILING_DESTINATION":{"measured":true,"result":"PASS","finding":"Instructions and local-filing record state filing at the sentencing court location, with the six page-2 closed-court redirections and receiving addresses disclosed."},
+        "FEE_AND_WAIVER":{"measured":true,"result":"PASS","finding":"Instructions disclose a $0 petition fee with the cited C.G.S. § 54-142a basis, separate from the agency record-check cost, and do not invent a waiver procedure."},
+        "SERVICE":{"measured":true,"result":"PASS","finding":"The packet explicitly says no held source establishes service recipients or timing, directs the participant to ask the filing clerk, and avoids asserting that service is unnecessary."},
+        "SELF_HELP_STOP":{"measured":true,"result":"PASS","finding":"Instructions require the participant to read sworn eligibility and waiting-period statements, sign before a proper officer, leave officer and court rows blank, and state that the packet does not decide eligibility."}
+      },
+      "nineCounters":{"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":null,"protectedWrites":null,"visualDefects":null,"measuredHere":false,"counterScope":"Zeros are limited to the explicit field/map/route/component checks in this review. Invisible writes, protected writes and visual defects remain null because no raster or protected-ink instrumentation was rerun."},
+      "knownPrefillEvidence":{"captionDefect":"data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/caption-channel-defect.json","currentFixturesChecked":"pdftotext -layout on both exact current PDFs; canonical contains all six fit values, boundary contains four fit values and explicitly refuses over-width name and docket","currentMap":"data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-decisions.json"},
+      "priorEvidence":{"vf44Rows":"data/rcap-grade-a/packet-factory-24h/vf44/rows.json","scopedProseReturn":"data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-20260911-ct-prose.json","priorVisualAndByteFinding":"PDF repair confirmed; stale prose corrected; central raster remains owed."},
+      "remainingRequirements":["Repair and reread stale participant-field descriptions in reports/caption-channel-defect.json, reports/independent-visual-review.json, reports/blanks-left-for-the-participant.json and their builder strings; ARTIFACTS is currently FAIL_REPAIR_REQUIRED.","Fresh central raster acceptance bound to both exact current PDF hashes.","Independent measurement of CLIPPING_AND_OVERLAP from original central raster evidence.","Independent protected-field ink check or equivalent byte evidence before family terminal admission."],
+      "sharedWrites":{"queue":false,"manifests":false,"familyArtifacts":false,"commits":false,"dispatch":false}
+    }
+  ]
+}
