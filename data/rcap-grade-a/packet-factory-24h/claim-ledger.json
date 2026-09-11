@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+  "generatedAtCommit": "e23cce33028b530f3fec8b675744abfec30cb8ed",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1202,6 +1202,21 @@
       "operation": "packet-build",
       "lane": "PF04",
       "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "familyId": "az_certificate_second_chance-set",
+      "itemId": null,
+      "familyIds": [
+        "az_certificate_second_chance-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -3304,7 +3319,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-11T15:01:56.600Z"
     },
     {
       "subjectType": "packet-family",
@@ -5223,8 +5239,8 @@
       "operation": "independent-verification",
       "lane": "VF62",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-11T13:58:41.814Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12001,6 +12017,20 @@
     },
     {
       "subjectType": "source-obligation",
+      "subjectId": "de_pardon_expungement-set::official-form:CIV_EXP_08_A",
+      "itemId": "de_pardon_expungement-set::official-form:CIV_EXP_08_A",
+      "familyIds": [
+        "de_pardon_expungement-set"
+      ],
+      "sourceId": "official-form:CIV_EXP_08_A",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "laneKind": "source-reconciliation",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "source-obligation",
       "subjectId": "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
       "itemId": "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
       "familyIds": [
@@ -15329,9 +15359,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_special_certificate-set",
+      "itemId": null,
+      "familyId": "ut_pet_special_certificate-set",
+      "familyIds": [
+        "ut_pet_special_certificate-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF62",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "85c2c49dccac496210d900da82dfa8d88981f3eedad02f19c42e5b21ab297540",
+  "claimsDigest": "426d087e4c6d759dcfc0d12f67458c4858048907955ba75489b57fd6e2c82c54",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40467,6 +40512,14 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-11T14:47:59.755Z"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "de_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-11T15:01:56.600Z"
     }
   ],
   "reissues": [
@@ -50205,6 +50258,16 @@
       "previouslyReleasedAt": "2026-09-11T14:43:46.135Z",
       "reissuedAt": "2026-09-11T14:43:56.648Z",
       "reason": "Captain corrects premature release: source custody verification did not complete; original source ownership restored"
+    },
+    {
+      "lane": "VF62",
+      "subjectType": "packet-family",
+      "subjectId": "ky_misdemeanor_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-11T13:58:41.814Z",
+      "reissuedAt": "2026-09-11T15:13:25.782Z",
+      "reason": "Fresh repaired six-PDF raster34612514356 verified; independent complete recheck against counsel-approved companion rule"
     }
   ],
   "transfers": [
@@ -62396,6 +62459,17 @@
       "grantedAt": "2026-09-11T13:42:00.393Z",
       "grantedBy": "Captain",
       "reason": "Current six PDF candidate has original raster 34602920153 and needs one exhaustive independent terminal acceptance review",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF62",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_special_certificate-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-11T15:13:25.943Z",
+      "grantedBy": "Captain",
+      "reason": "Complete ten-component build and fresh40page original raster34612514356 ready for independent acceptance by non-author reviewer",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
