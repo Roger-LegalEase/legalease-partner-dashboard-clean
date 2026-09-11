@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { specialCertificateStageGate, FAMILY_ID } from '../build-census-v1-ut_pet_special_certificate-set.mjs';
+const now=new Date('2026-09-11T00:00:00Z');
+assert.equal(specialCertificateStageGate({asOf:now}).reason,'SPECIAL_CERTIFICATE_REQUIRED');
+assert.equal(specialCertificateStageGate({asOf:now,certificate:{type:'UT_BCI_CERTIFICATE',issuedAt:'2026-01-01',expiresAt:'2026-06-30'}}).reason,'WRONG_CERTIFICATE_TYPE');
+assert.equal(specialCertificateStageGate({asOf:now,certificate:{type:'UT_BCI_SPECIAL_CERTIFICATE',documentSha256:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',familyId:'other',issuedAt:'2026-01-01',expiresAt:'2026-06-30'}}).reason,'WRONG_CERTIFICATE_FAMILY');
+assert.equal(specialCertificateStageGate({asOf:now,certificate:{type:'UT_BCI_SPECIAL_CERTIFICATE',documentSha256:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',familyId:FAMILY_ID,issuedAt:'2025-01-01',expiresAt:'2026-01-01'}}).reason,'SPECIAL_CERTIFICATE_EXPIRED');
+assert.equal(specialCertificateStageGate({asOf:now,certificate:{type:'UT_BCI_SPECIAL_CERTIFICATE',familyId:FAMILY_ID,documentSha256:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',issuedAt:'2026-08-01',expiresAt:'2027-01-28'}}).status,'ALLOW_STAGE_2');
+console.log('UT special-certificate stage-gate tests passed');
+assert.equal(specialCertificateStageGate({asOf:now,certificate:{type:'UT_BCI_SPECIAL_CERTIFICATE',familyId:FAMILY_ID,documentSha256:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',issuedAt:'2026-08-01',expiresAt:'2027-03-01'}}).reason,'SPECIAL_CERTIFICATE_VALIDITY_EXCEEDS_180_DAYS');

@@ -1,0 +1,3 @@
+# Utah special certificate expungement
+
+Stage one: submit the BCI application and any conditional third-party release; BCI may issue a special certificate valid for 180 days. Stage two: file the petition packet in the court that decided the case while the certificate remains valid. The court sends the filing to the prosecuting attorney; the participant does not serve. Victim or prosecutor statement and reply forms are conditional and must be used when the applicable record or response exists. Participant field completion and required blank disclosures remain under measured source-label review.
