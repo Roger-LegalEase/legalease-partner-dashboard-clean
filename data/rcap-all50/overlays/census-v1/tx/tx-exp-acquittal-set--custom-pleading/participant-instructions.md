@@ -250,5 +250,3 @@ Where self-help stops, the district clerk of the county where the petition will 
 This is a request, an information package, a verified petition, a proposed order, the statewide fee-waiver Statement and their instructions — **of which only some apply to you**, depending on how long ago you were acquitted. It is not legal advice, and it is not filed for you.
 
 **This packet will not tell you what expunction used to cost.** Article 102.006 was repealed effective 1 September 2025 and permanently replaced by art. 102.0061 effective 1 January 2026. The $250-to-$500 range that circulates online comes from the repealed statute and is not reproduced here.
-
-_Route: obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request · obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition_

@@ -927,6 +927,15 @@ const FORM_FIELDS = {
   "TX-SCT-22-9090-STATEMENT-OF-INABILITY": statementFields
 };
 
+const PRINTED_DATE_ORDER_BY_FIELD = {
+  [STATEMENT]: { "My date of birth / Mi fecha de nacimiento es": "month_day_year" }
+};
+const PRINTED_DATE_ORDER_EVIDENCE = {
+  [STATEMENT]: {
+    "My date of birth / Mi fecha de nacimiento es": { page: 2, printedLine: /month\s+day\s+year/i }
+  }
+};
+
 /* ---- the pages this build authors ------------------------------------------ */
 const COMPOSED_COMPONENTS = {
   [PROOF]: {
@@ -1543,6 +1552,7 @@ async function renderDocument(source, census, fixtureName) {
      */
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
       `${FAMILY_ID}:${source.componentId}`),
+    printedDateOrderByField: PRINTED_DATE_ORDER_BY_FIELD[source.componentId] ?? {},
     /*
      * FIX06, measured on this family's own delivered bytes against the pinned
      * source. Every unwritten selection on the Statement of Inability carries the
@@ -2147,6 +2157,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const drift = [...censusByForm.values()].flatMap((c) => c.captionDrift);
   const unmapped = [...censusByForm.entries()].flatMap(([id, c]) => c.unmapped.map((u) => ({ document: id, ...u })));
   const stale = [...censusByForm.entries()].flatMap(([id, c]) => c.stale.map((s) => ({ document: id, field: s })));
+
+  for (const [componentId, orders] of Object.entries(PRINTED_DATE_ORDER_BY_FIELD)) {
+    const census = censusByForm.get(componentId);
+    assert.ok(census, `printed date order names missing component ${componentId}`);
+    for (const fieldName of Object.keys(orders)) {
+      assert.equal(census.rows.find((row) => row.name === fieldName)?.policy, "write");
+      const evidence = PRINTED_DATE_ORDER_EVIDENCE[componentId]?.[fieldName];
+      const lines = census.pageText.find((page) => page.page === evidence?.page)?.lines ?? [];
+      assert.ok(evidence && lines.some((line) => evidence.printedLine.test(line.text)),
+        `printed date order evidence missing for ${componentId}/${fieldName}`);
+    }
+  }
 
   if (checkOnly) {
     return {

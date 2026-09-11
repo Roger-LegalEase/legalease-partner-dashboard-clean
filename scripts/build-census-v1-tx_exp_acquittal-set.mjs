@@ -586,7 +586,6 @@ const COMPOSED_COMPONENTS = {
       L.push("DATE " + DOTS(28) + "   SIGNATURE " + DOTS(40), "");
       L.push(`PRINTED NAME: ${name}`, "");
       L.push("(You sign and date this when you actually make the request. Nothing on this page is signed or dated for you.)");
-      L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   },
@@ -645,7 +644,6 @@ const COMPOSED_COMPONENTS = {
       L.push(DOTS());
       L.push(DOTS(), "");
       L.push("YOU DO NOT HAVE TO CHASE THE FBI. The court gives a copy of the petition and the notice of hearing to each official, agency or entity named, OTHER THAN central federal depositories, and on receipt DPS notifies the central federal depositories itself.");
-      L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   },
@@ -709,7 +707,6 @@ const COMPOSED_COMPONENTS = {
       L.push(DOTS(40));
       L.push(`${name}, Petitioner`, "");
       L.push("(You sign and date whichever block your clerk accepts. Nothing on this page is signed or dated for you.)");
-      L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   },
@@ -792,7 +789,6 @@ const COMPOSED_COMPONENTS = {
       L.push("- The district clerk's published list of agencies and e-mail addresses - the district clerk of the county where the petition will be filed, under art. 55A.253(c).");
       L.push("- The court file and cause number - the district or county clerk of the county of arrest or prosecution. Some counties also want a certified disposition attached; ask when you call about the agency list.");
       L.push("- The judgment of acquittal - the clerk of the trial court. Article 55A.301 requires it to be attached to and incorporated by reference in the order.");
-      L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
     }
   }
@@ -1733,8 +1729,7 @@ function participantInstructions(maps, rbf) {
   out.push(...INSTRUCTIONS.stopsLines, "");
 
   out.push("## What this packet is not", "");
-  out.push(...INSTRUCTIONS.notLines, "");
-  out.push(`_Route: ${ROUTE.routeKeys.join(" · ")}_`);
+  out.push(...INSTRUCTIONS.notLines);
   return `${out.join("\n")}\n`;
 }
 

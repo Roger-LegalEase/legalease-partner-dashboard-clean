@@ -22,11 +22,18 @@ const families = [
   ["tx_nd_conviction_no_supervision-set", "tx-nd-conviction-no-supervision-set--official-pdf-fill"],
   ["tx_nd_dwi_deferred-set", "tx-nd-dwi-deferred-set--official-pdf-fill"],
   ["tx_nd_probation_misdemeanor-set", "tx-nd-probation-misdemeanor-set--official-pdf-fill"],
+  ["tx_nd_deferred_other-set", "tx-nd-deferred-other-set--official-pdf-fill"],
+  ["tx_nd_dwi_probation-set", "tx-nd-dwi-probation-set--official-pdf-fill"],
+  ["tx_nd_veterans_court-set", "tx-nd-veterans-court-set--official-pdf-fill"],
+  ["tx_nd_veterans_reemployment-set", "tx-nd-veterans-reemployment-set--official-pdf-fill"],
 ];
 const disclosureFamilies = new Set([
   "tx_exp_acquittal-set",
   "tx_nd_dwi_deferred-set",
   "tx_nd_probation_misdemeanor-set",
+  "tx_nd_dwi_probation-set",
+  "tx_nd_veterans_court-set",
+  "tx_nd_veterans_reemployment-set",
 ]);
 
 const overlay = (dir, rel) => path.join(ROOT, "data/rcap-all50/overlays/census-v1/tx", dir, rel);
@@ -57,6 +64,13 @@ function assertParticipantDobDisclosure(map) {
     assert.match(row.printedLabel, /My date of birth is \/ Mi fecha de nacimiento es/);
     assert.match(row.participantMustSupply, /date of birth/i);
     assert.match(row.why, /(?:shares|other widget is).*notary/i);
+  }
+  const protectedDates = map.maps.flatMap((entry) => entry.canonicalRefusals ?? [])
+    .filter((row) => row.fieldName === "Today" || row.fieldName === "Year");
+  assert.deepEqual(protectedDates.map((row) => [row.fieldName, row.page]).sort(), [["Today", 11], ["Year", 12]]);
+  for (const row of protectedDates) {
+    assert.equal(row.requiredBeforeFiling, false);
+    assert.match(row.why, /Statement is actually sworn/);
   }
 }
 
