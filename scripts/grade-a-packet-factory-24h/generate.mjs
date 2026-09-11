@@ -24,7 +24,7 @@ import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
 import { assessGeorgiaReviewedGuidance, applyGeorgiaGuidanceAcceptance } from "./ga-reviewed-guidance.mjs";
 import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
-import { normalizeDeclaredDeGuidanceBuildInputs } from "./de-guidance-binding.mjs";
+import { normalizeDeclaredDeGuidanceBuildInputs, declaredDeGuidanceSourceReadiness, DE_FAMILY } from "./de-guidance-binding.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
 import {
   applyLegalResolutionSupersessions,
@@ -973,7 +973,9 @@ for (const evidencePath of sourceReconciliationDoc?.acquisitionEvidencePaths ?? 
 function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, implementationStrategy, reconciliation) {
   const reasons = [];
   const bound = [];
-  const guidanceAuthority = guidanceSourceReadiness(ROOT, familyId, reconciliation);
+  const guidanceAuthority = familyId === DE_FAMILY
+    ? declaredDeGuidanceSourceReadiness(ROOT, reconciliation)
+    : guidanceSourceReadiness(ROOT, familyId, reconciliation);
   reasons.push(...guidanceAuthority.reasons);
   const boundIds = new Set();
   const customPleading = implementationStrategy === "custom_pleading"

@@ -144,3 +144,19 @@ export function normalizeDeclaredDeGuidanceBuildInputs(root, input) {
     declaredGuidance: declared
   };
 }
+
+// Keep this exact-family readiness path out of shared treatment code whose
+// unchanged bytes are already bound to other families' independent approvals.
+export function declaredDeGuidanceSourceReadiness(root, reconciliation) {
+  const records = reconciliation?.guidanceAuthorityRecords ?? [];
+  if (records.length !== 1 || records[0].path !== DE_DECISION || records[0].sha256 !== DE_DECISION_SHA256) {
+    return {ready: false, records: [], reasons: ['GUIDANCE_AUTHORITY_UNBOUND: exact Delaware final decision required']};
+  }
+  try {
+    const actual = crypto.createHash('sha256').update(fs.readFileSync(path.join(root, DE_DECISION))).digest('hex');
+    assert.equal(actual, DE_DECISION_SHA256, 'record digest does not match current bytes');
+    return {ready: true, records: [{...records[0], actualSha256: actual}], reasons: []};
+  } catch (error) {
+    return {ready: false, records: [], reasons: [`GUIDANCE_AUTHORITY_UNBOUND: ${DE_DECISION}: ${error.message}`]};
+  }
+}
