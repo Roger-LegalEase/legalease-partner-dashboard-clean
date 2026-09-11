@@ -194,8 +194,8 @@
     {
       "fixture": "canonical",
       "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf",
-      "sha256": "315c6c75ef5fbf0570cebb5ec3559db077f5826151f6c70ba0b62c679a3136e4",
-      "byteLength": 2617622,
+      "sha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+      "byteLength": 2617228,
       "pageCount": 13,
       "includedDocuments": [
         "UT-BCI-EXP-APPLICATION",
@@ -210,15 +210,15 @@
         "1149XX",
         "1169XX"
       ],
-      "writes": 55,
+      "writes": 47,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": 0
     },
     {
       "fixture": "boundary",
       "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf",
-      "sha256": "5db587eca482bcd070f66c4d758c14a23e3a6c725c9b4ca1bfe67d5047195a48",
-      "byteLength": 3079683,
+      "sha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+      "byteLength": 3079393,
       "pageCount": 20,
       "includedDocuments": [
         "UT-BCI-EXP-APPLICATION",
@@ -232,7 +232,7 @@
         "1169XX"
       ],
       "excludedConditionalDocuments": [],
-      "writes": 74,
+      "writes": 68,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": 0
     }
@@ -265,7 +265,7 @@
     {
       "command": "node scripts/rcap-packet-recovery/ut-special-certificate-repair.test.mjs",
       "exit": 0,
-      "result": "14 false facts, two alternatives, component conditions, real gate, read-only check"
+      "result": "22-control hierarchy audit, 14 false facts, two alternatives, component conditions, real gate, read-only check"
     },
     {
       "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_special_certificate-set",
@@ -286,7 +286,7 @@
       "protectedWrites": 0,
       "visualDefects": 0
     },
-    "written": "55/447"
+    "written": "47/447"
   },
   "originalRasterEvidence": {
     "runId": "34612514356",
@@ -315,5 +315,24 @@
   ],
   "independentAcceptance": false,
   "commercialAuthorityGranted": false,
-  "routesOpened": 0
+  "routesOpened": 0,
+  "regressionCorrection": {
+    "base": "b9b83b383d2e7e307cbde7c9365494faff693164",
+    "claimGrantSet": "f322523baa7bfd8a",
+    "defect": "FIX03-REGRESSION-01",
+    "cause": "Exact fact equality replaced the former 1001EX parent-branch guards, allowing true but inapplicable sibling facts to select controls.",
+    "repair": "Nested without-conviction controls require that branch; its disposition controls also require case-filed=true; nested with-conviction controls require that branch. Unknown branches select neither branch nor nested assertions.",
+    "tests": {
+      "canonicalCrossBranchAssertionsSelected": 0,
+      "boundaryCrossBranchAssertionsSelected": 0,
+      "unknownBranchNestedAssertionsSelected": 0,
+      "neverFiledStaleDispositionAssertionsSelected": 0,
+      "mapped1001ControlsAudited": 22
+    },
+    "deterministicRebuild": {
+      "runs": 2,
+      "identicalPdfHashes": true,
+      "noLocalRaster": true
+    }
+  }
 }

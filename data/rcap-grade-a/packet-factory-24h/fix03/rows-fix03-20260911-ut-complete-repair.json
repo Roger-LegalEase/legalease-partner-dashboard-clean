@@ -37,7 +37,8 @@
         "UT-VF62-07",
         "UT-VF62-08",
         "UT-VF62-09",
-        "CHECK-READ-ONLY"
+        "CHECK-READ-ONLY",
+        "FIX03-REGRESSION-01"
       ],
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -54,8 +55,8 @@
         {
           "fixture": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "315c6c75ef5fbf0570cebb5ec3559db077f5826151f6c70ba0b62c679a3136e4",
-          "byteLength": 2617622,
+          "sha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+          "byteLength": 2617228,
           "pageCount": 13,
           "includedDocuments": [
             "UT-BCI-EXP-APPLICATION",
@@ -70,15 +71,15 @@
             "1149XX",
             "1169XX"
           ],
-          "writes": 55,
+          "writes": 47,
           "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
           "refusedFieldsWithInk": 0
         },
         {
           "fixture": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "5db587eca482bcd070f66c4d758c14a23e3a6c725c9b4ca1bfe67d5047195a48",
-          "byteLength": 3079683,
+          "sha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+          "byteLength": 3079393,
           "pageCount": 20,
           "includedDocuments": [
             "UT-BCI-EXP-APPLICATION",
@@ -92,7 +93,7 @@
             "1169XX"
           ],
           "excludedConditionalDocuments": [],
-          "writes": 74,
+          "writes": 68,
           "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
           "refusedFieldsWithInk": 0
         }
@@ -109,7 +110,16 @@
         "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/source-receipt.json",
         "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/rendered-artifacts.json",
         "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/actual-writes.json"
-      ]
+      ],
+      "regressionCorrection": {
+        "base": "b9b83b383d2e7e307cbde7c9365494faff693164",
+        "repaired": true,
+        "canonicalCrossBranchAssertionsSelected": 0,
+        "boundaryCrossBranchAssertionsSelected": 0,
+        "unknownBranchNestedAssertionsSelected": 0,
+        "neverFiledStaleDispositionAssertionsSelected": 0,
+        "mapped1001ControlsAudited": 22
+      }
     }
   ]
 }

@@ -47,12 +47,55 @@ for (const [fixture, factId, selectionId] of falseFactProbes) {
 }
 
 let selected;
+const withoutNested = [
+  "p1-printed_bracket_pair-x162-y83.2",
+  "p2-printed_bracket_pair-x162-y669.7",
+  "p2-printed_bracket_pair-x183.36-y622.3",
+  "p2-printed_bracket_pair-x183.36-y602.5",
+  "p2-printed_bracket_pair-x162-y550.1",
+  "p2-printed_bracket_pair-x162-y530.3",
+  "p2-printed_bracket_pair-x162-y510.5",
+  "p2-printed_bracket_pair-x162-y490.7"
+];
+const withNested = [
+  "p2-printed_bracket_pair-x162-y364.9",
+  "p2-printed_bracket_pair-x162-y228.7",
+  "p2-printed_bracket_pair-x162-y195.1",
+  "p2-printed_bracket_pair-x453.6-y181.3",
+  "p2-printed_bracket_pair-x162-y133.9",
+  "p2-printed_bracket_pair-x162-y100.3",
+  "p3-printed_bracket_pair-x162-y553.3",
+  "p3-printed_bracket_pair-x162-y533.5"
+];
+const canonicalBranch = hooks.factsForFixture("canonical");
+selected = hooks.selectedControlIds(fieldMap, canonicalBranch);
+const canonicalSelected = new Set(selected.map((id) => id.replace(/^1001EX:/, "")));
+assert.ok(withNested.every((id) => !selected.includes(`1001EX:${id}`)),
+  "without-conviction branch selected a with-conviction assertion");
+const boundaryBranch = hooks.factsForFixture("boundary");
+selected = hooks.selectedControlIds(fieldMap, boundaryBranch);
+const boundarySelected = new Set(selected.map((id) => id.replace(/^1001EX:/, "")));
+assert.ok(withoutNested.every((id) => !selected.includes(`1001EX:${id}`)),
+  "with-conviction branch selected a without-conviction assertion");
+const petitionControls = fieldMap.maps.find((map) => map.formNumber === "1001EX").selectionControls;
+assert.equal(petitionControls.length, 22);
+for (const control of petitionControls) {
+  const fixtures = [
+    ...(canonicalSelected.has(control.selectionId) ? ["canonical"] : []),
+    ...(boundarySelected.has(control.selectionId) ? ["boundary"] : [])
+  ];
+  assert.deepEqual(control.selectedInFixtures, fixtures,
+    `${control.selectionId}: committed selection inventory disagrees with guarded production selector`);
+}
+
 const unknownChoices = hooks.factsForFixture("canonical");
 delete unknownChoices["matter.special_certificate_branch"];
 delete unknownChoices["matter.bci_fee_waiver_requested"];
 selected = hooks.selectedControlIds(fieldMap, unknownChoices);
 assert.equal(selected.some((id) => id === "1001EX:p1-printed_bracket_pair-x108-y218.4"
   || id === "1001EX:p2-printed_bracket_pair-x108-y445.1"), false, "unknown branch was selected");
+assert.ok([...withoutNested, ...withNested].every((id) => !selected.includes(`1001EX:${id}`)),
+  "unknown branch selected a nested assertion");
 assert.equal(selected.includes("UT-BCI-EXP-APPLICATION:p2-printed_glyph_u0002-x26.7-y453.75"), false,
   "unknown BCI waiver election was selected");
 
@@ -64,11 +107,12 @@ assert.equal(selected.includes("1001EX:p2-printed_bracket_pair-x183.36-y622.3"),
 
 const neverFiled = hooks.factsForFixture("canonical");
 neverFiled["matter.no_conviction_case_filed"] = false;
-neverFiled["matter.no_conviction_disposition"] = null;
+neverFiled["matter.no_conviction_disposition"] = "dismissed_with_prejudice";
 selected = hooks.selectedControlIds(fieldMap, neverFiled);
 assert.ok(selected.includes("1001EX:p1-printed_bracket_pair-x162-y83.2"));
 assert.equal(selected.includes("1001EX:p2-printed_bracket_pair-x162-y669.7"), false);
 assert.equal(selected.includes("1001EX:p2-printed_bracket_pair-x183.36-y622.3"), false);
+assert.equal(selected.includes("1001EX:p2-printed_bracket_pair-x183.36-y602.5"), false);
 assert.equal(hooks.textPlans(census, neverFiled).some((plan) => plan.factId === "matter.case_number"), false,
   "never-filed branch invented an existing case number");
 
@@ -145,4 +189,4 @@ assert.equal(checked.status, 0, checked.stderr);
 assert.match(checked.stdout, /CHECKED_READ_ONLY/);
 assert.deepEqual(snapshotTree(OUT), before, "--check changed output bytes or metadata");
 
-console.log("UT special-certificate repair tests passed: 14 false facts, 2 alternatives, conditions, real gate, read-only check");
+console.log("UT special-certificate repair tests passed: 22-control hierarchy audit, 14 false facts, 2 alternatives, conditions, real gate, read-only check");

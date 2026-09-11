@@ -100,7 +100,7 @@ assert.equal(rendered.conditionalRasterContract.omittedSelectableVariants.length
 
 assert.equal(writes.artifacts.length, 2);
 for (const artifact of writes.artifacts) {
-  assert.equal(artifact.valuesReportedByFinalizer, artifact.fixture === "canonical" ? 55 : 74);
+  assert.equal(artifact.valuesReportedByFinalizer, artifact.fixture === "canonical" ? 47 : 68);
   assert.ok(artifact.addedGlyphsReadFromOutputBytes > 0);
   assert.equal(artifact.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, 0);
   assert.deepEqual(artifact.refusedFieldsWithInk, []);
@@ -112,6 +112,19 @@ const boundaryMail = writes.artifacts.find((row) => row.fixture === "boundary").
 assert.ok(boundaryMail.textReadFromOutputBytes.length > 100, "boundary fixture does not exercise overlong fitting");
 assert.ok(boundaryMail.glyphCountReadFromOutputBytes > 100, "overlong value was not read back from the output bytes");
 const boundaryWrites = writes.artifacts.find((row) => row.fixture === "boundary").actualWrites;
+assert.deepEqual(boundaryWrites.filter((row) => row.formNumber === "1001EX" && row.kind === "selection")
+  .map((row) => row.fieldId), [
+  "p1-printed_bracket_pair-x126-y525.01",
+  "p2-printed_bracket_pair-x108-y445.1",
+  "p2-printed_bracket_pair-x162-y364.9",
+  "p2-printed_bracket_pair-x162-y228.7",
+  "p2-printed_bracket_pair-x162-y195.1",
+  "p2-printed_bracket_pair-x453.6-y181.3",
+  "p2-printed_bracket_pair-x162-y133.9",
+  "p2-printed_bracket_pair-x162-y100.3",
+  "p3-printed_bracket_pair-x162-y553.3",
+  "p3-printed_bracket_pair-x162-y533.5"
+]);
 for (const [fieldId, expectedY] of [
   ["p1-manual-county-1001EX", 460.23],
   ["p1-manual-petitioner-1001EX", 356.4],
@@ -140,6 +153,17 @@ assert.deepEqual(canonicalArtifact.excludedConditionalDocuments,
 assert.equal(boundaryArtifact.pageCount, 20);
 assert.deepEqual(boundaryArtifact.excludedConditionalDocuments, []);
 const canonicalWrites = writes.artifacts.find((row) => row.fixture === "canonical").actualWrites;
+assert.deepEqual(canonicalWrites.filter((row) => row.formNumber === "1001EX" && row.kind === "selection")
+  .map((row) => row.fieldId), [
+  "p1-printed_bracket_pair-x126-y525.01",
+  "p1-printed_bracket_pair-x108-y218.4",
+  "p2-printed_bracket_pair-x162-y669.7",
+  "p2-printed_bracket_pair-x183.36-y622.3",
+  "p2-printed_bracket_pair-x162-y550.1",
+  "p2-printed_bracket_pair-x162-y530.3",
+  "p2-printed_bracket_pair-x162-y510.5",
+  "p2-printed_bracket_pair-x162-y490.7"
+]);
 assert.equal(canonicalWrites.some((row) => row.formNumber === "UT-BCI-EXP-APPLICATION"
   && row.fieldId === "p2-y506.70-x97.47"), false, "known email selected BCI email delivery");
 assert.ok(boundaryWrites.some((row) => row.formNumber === "UT-BCI-EXP-APPLICATION"

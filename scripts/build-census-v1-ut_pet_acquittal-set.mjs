@@ -1392,6 +1392,47 @@ const SPECIAL_PETITION_CONTROL_RULES = Object.freeze({
   "p3-printed_bracket_pair-x162-y533.5": ["matter.waiting_period_elapsed", true]
 });
 
+const SPECIAL_WITHOUT_CONVICTION_CONTROLS = new Set([
+  "p1-printed_bracket_pair-x162-y83.2",
+  "p2-printed_bracket_pair-x162-y669.7",
+  "p2-printed_bracket_pair-x183.36-y622.3",
+  "p2-printed_bracket_pair-x183.36-y602.5",
+  "p2-printed_bracket_pair-x162-y550.1",
+  "p2-printed_bracket_pair-x162-y530.3",
+  "p2-printed_bracket_pair-x162-y510.5",
+  "p2-printed_bracket_pair-x162-y490.7"
+]);
+
+const SPECIAL_FILED_DISPOSITION_CONTROLS = new Set([
+  "p2-printed_bracket_pair-x183.36-y622.3",
+  "p2-printed_bracket_pair-x183.36-y602.5"
+]);
+
+const SPECIAL_WITH_CONVICTION_CONTROLS = new Set([
+  "p2-printed_bracket_pair-x162-y364.9",
+  "p2-printed_bracket_pair-x162-y228.7",
+  "p2-printed_bracket_pair-x162-y195.1",
+  "p2-printed_bracket_pair-x453.6-y181.3",
+  "p2-printed_bracket_pair-x162-y133.9",
+  "p2-printed_bracket_pair-x162-y100.3",
+  "p3-printed_bracket_pair-x162-y553.3",
+  "p3-printed_bracket_pair-x162-y533.5"
+]);
+
+function specialControlApplicable(control, formNumber, facts) {
+  if (formNumber !== "1001EX") return true;
+  const id = control.selectionId;
+  const branch = facts?.["matter.special_certificate_branch"];
+  if (SPECIAL_WITHOUT_CONVICTION_CONTROLS.has(id)) {
+    if (branch !== "without_conviction") return false;
+    if (SPECIAL_FILED_DISPOSITION_CONTROLS.has(id)) {
+      return facts?.["matter.no_conviction_case_filed"] === true;
+    }
+  }
+  if (SPECIAL_WITH_CONVICTION_CONTROLS.has(id)) return branch === "with_conviction";
+  return true;
+}
+
 function specialControlRule(control, formNumber) {
   if (formNumber === "1001EX") return SPECIAL_PETITION_CONTROL_RULES[control.selectionId] ?? null;
   if (formNumber === "1044XX" && control.page === 2
@@ -1439,6 +1480,7 @@ function selectedControl(control, formNumber, config) {
     const facts = config.recordedFacts ?? {};
     const rule = specialControlRule(control, formNumber);
     const selected = Boolean(rule)
+      && specialControlApplicable(control, formNumber, facts)
       && facts[rule[0]] === rule[1]
       && (formNumber !== "1169XX" || specialComponentIncluded("1169XX", facts));
     if (selected) {
