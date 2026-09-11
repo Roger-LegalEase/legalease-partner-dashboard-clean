@@ -1,0 +1,186 @@
+{
+  "commands": [
+    {
+      "name": "claim-can-assert",
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--can-assert",
+        "VF02",
+        "ut_pet_special_certificate-set"
+      ],
+      "exitCode": 0,
+      "familyFilesMeasured": 15,
+      "unchangedBytesAndMetadata": true,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/claim-can-assert.log"
+    },
+    {
+      "name": "claim-assert",
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--assert",
+        "VF02",
+        "ut_pet_special_certificate-set"
+      ],
+      "exitCode": 0,
+      "familyFilesMeasured": 15,
+      "unchangedBytesAndMetadata": true,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/claim-assert.log"
+    },
+    {
+      "name": "builder-check",
+      "command": [
+        "node",
+        "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
+        "--check"
+      ],
+      "exitCode": 0,
+      "familyFilesMeasured": 15,
+      "unchangedBytesAndMetadata": true,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/builder-check.log"
+    },
+    {
+      "name": "author-stage-test",
+      "command": [
+        "node",
+        "scripts/lib/ut-special-certificate-stage-gate.test.mjs"
+      ],
+      "exitCode": 0,
+      "familyFilesMeasured": 15,
+      "unchangedBytesAndMetadata": true,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/author-stage-test.log"
+    },
+    {
+      "name": "author-repair-test",
+      "command": [
+        "node",
+        "scripts/rcap-packet-recovery/ut-special-certificate-repair.test.mjs"
+      ],
+      "exitCode": 0,
+      "familyFilesMeasured": 15,
+      "unchangedBytesAndMetadata": true,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/author-repair-test.log"
+    },
+    {
+      "name": "completeness-readonly",
+      "command": [
+        "node",
+        "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/completeness-readonly.mjs"
+      ],
+      "exitCode": 0,
+      "familyFilesMeasured": 15,
+      "unchangedBytesAndMetadata": true,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/completeness-readonly.log"
+    }
+  ],
+  "originalCompletenessTestNotRun": "Original test writes a temporary corrupted source tree outside this grant. Its read-only remainder was run verbatim in completeness-readonly.mjs; exact source identity measured independently.",
+  "familyBefore": {
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/approval-request.json": {
+      "sha256": "1d54901474acaa961366b9a0f0e11679d79677fa53814766f912c060be85e944",
+      "size": 437,
+      "mtimeNs": 1789151643542439817,
+      "ctimeNs": 1789151643542439817,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/build-findings.json": {
+      "sha256": "7f22d521673ef8294654bdb351911789c4ca42945031205be8af80dfc4380695",
+      "size": 6735,
+      "mtimeNs": 1789151643542439817,
+      "ctimeNs": 1789151643542439817,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/build-status.json": {
+      "sha256": "1c11b5c00bf5ec0e2f7d6c2ba39d86f99b9099cda927b7e4235394dd5ad9e605",
+      "size": 805,
+      "mtimeNs": 1789151643542439817,
+      "ctimeNs": 1789151643542439817,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/field-census.census-v1.json": {
+      "sha256": "94d5bd065c38af9e00f2f336aafe08d1792ec03d4229d032f502c24d07f63cfb",
+      "size": 638071,
+      "mtimeNs": 1789151643543439817,
+      "ctimeNs": 1789151643543439817,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf": {
+      "sha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+      "size": 3079393,
+      "mtimeNs": 1789151643554439816,
+      "ctimeNs": 1789151643554439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf": {
+      "sha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+      "size": 2617228,
+      "mtimeNs": 1789151643567439816,
+      "ctimeNs": 1789151643567439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/packet-set-manifest.json": {
+      "sha256": "ee48fdce8fdebf94d653de58b88c0103b537c35199f5992ae01eaea30577a2c8",
+      "size": 5599,
+      "mtimeNs": 1789151643567439816,
+      "ctimeNs": 1789151643567439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/participant-instructions.md": {
+      "sha256": "3be4b67d0d367f3ad7cb1e1998a825f67196b44aa4adb693d45b2d524d81d14b",
+      "size": 9189,
+      "mtimeNs": 1789151643567439816,
+      "ctimeNs": 1789151643567439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/product-wiring.json": {
+      "sha256": "ee665c3cd1793ed2816a7a58664ed7b70ef5840bc8790c26cce6021f24139d90",
+      "size": 10661,
+      "mtimeNs": 1789152275867430740,
+      "ctimeNs": 1789152275867430740,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/production-field-map.json": {
+      "sha256": "c39be4fec01bdd6cdf1155e70ace7b571480b1d90d72a281a71865ac18ac160b",
+      "size": 503075,
+      "mtimeNs": 1789151643569439816,
+      "ctimeNs": 1789151643569439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/actual-writes.json": {
+      "sha256": "2a3f8a785888074085504f3f71e6f17331db39eda4ba33c1d5fb0541a5443904",
+      "size": 146412,
+      "mtimeNs": 1789151643569439816,
+      "ctimeNs": 1789151643569439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/conditional-role-review.json": {
+      "sha256": "15195faa75dde3a43ab805508c8dd94d4c0cf3eacaa66a1c2f7e84e5c4ecb94d",
+      "size": 1275,
+      "mtimeNs": 1789151643569439816,
+      "ctimeNs": 1789151643569439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/manual-blank-inventory.json": {
+      "sha256": "b1ee569f27d077b1c42c10e881c009e1305ad4f37b45a35cc1a6895b04f660c7",
+      "size": 181998,
+      "mtimeNs": 1789151643570439816,
+      "ctimeNs": 1789151643570439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/rendered-artifacts.json": {
+      "sha256": "c41226c977c9b2870fdf5f852082d0759e7084e3268316cce79234fa245d99ac",
+      "size": 9191,
+      "mtimeNs": 1789151643570439816,
+      "ctimeNs": 1789151643570439816,
+      "mode": 33190
+    },
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/source-receipt.json": {
+      "sha256": "bd943ad02bc4022251fe1b5290217d90e5993492c902eeb83c626bd65fe2a636",
+      "size": 11573,
+      "mtimeNs": 1789151643570439816,
+      "ctimeNs": 1789151643570439816,
+      "mode": 33190
+    }
+  },
+  "unchangedAfterAll": true
+}

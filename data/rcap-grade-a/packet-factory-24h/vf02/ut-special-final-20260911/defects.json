@@ -1,0 +1,80 @@
+{
+  "familyId": "ut_pet_special_certificate-set",
+  "base": "64c679ac6218a72f6421b6d8ab203b3b4aaa6dc7",
+  "blockingDefectGroups": 1,
+  "defects": [
+    {
+      "defectId": "UT-VF02-CURRENT-01",
+      "familyId": "ut_pet_special_certificate-set",
+      "result": "FAIL_REPAIR_REQUIRED",
+      "failedObligations": [
+        "ROUTE_IDENTITY"
+      ],
+      "severity": "blocking gate validation defect",
+      "title": "Real special-certificate builder accepts impossible issue, expiry and check dates",
+      "productionFile": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
+      "productionLines": [
+        54,
+        55,
+        69,
+        70,
+        71,
+        184,
+        185,
+        187
+      ],
+      "trigger": "A correctly typed/same-episode/exact-hash certificate uses a nonexistent calendar date that JavaScript Date normalizes. No upstream validator checks calendar components before the gate.",
+      "smallestReproductionCommand": "node data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs",
+      "actualCaller": "buildUtahSpecialCertificate({stageInput}) -> source/registry/census exactness checks -> specialCertificateStageGate(stageInput) -> assert ALLOW_STAGE_2 -> writeJson(source-receipt.json). Filesystem barrier intercepts the first mkdir before mutation; no PDF/render call occurs.",
+      "examples": [
+        {
+          "asOf": "2026-09-11",
+          "issuedAt": "2026-06-31",
+          "expiresAt": "2026-12-01",
+          "actual": "accepted as July1 issue date"
+        },
+        {
+          "asOf": "2026-09-11",
+          "issuedAt": "2026-09-10",
+          "expiresAt": "2027-02-30",
+          "actual": "accepted as March2 expiry date"
+        },
+        {
+          "asOf": "2026-09-31",
+          "issuedAt": "2026-08-01",
+          "expiresAt": "2027-01-28",
+          "actual": "accepted as October1 check date"
+        }
+      ],
+      "expected": "Refuse impossible recorded calendar dates before ALLOW_STAGE_2; dates cannot establish certificate validity if the stated day does not exist.",
+      "measurement": "All 3 impossible-date real-wrapper calls cross the gate; valid positive control crosses too. Missing certificate, missing expected hash and unparseable date controls refuse first. Every family file hash, size,mtime andctime unchanged.",
+      "smallestCompleteCorrection": "Validate issuedAt, expiresAt and asOf as actual calendar dates before converting or comparing them; reject date rollover and preserve supported valid Date objects/date/timestamp inputs, current UTC default, exactepisode/hash checks and180 day bound. Keep the current PDF bytes and their33 page receipt. Add narrow refusal/positive tests and rerun existing read-only checks; no new PDF/raster evidence required for unchanged bytes.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/builder-caller-probes.json",
+        "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/production-probes.json"
+      ],
+      "scopeLimit": "Proves the real exported review-builder gate accepts invalid dates. It does not claim any participant runtime route is open or any current fixture date is invalid."
+    }
+  ],
+  "nonblockingObservations": [
+    {
+      "id": "UT-VF02-OBS-01",
+      "blocking": false,
+      "title": "Unknownbranch helper plans a conviction case number",
+      "fact": "Five direct textPlans hook inputs with absent/null/empty/unknown/boolean branch plan1001EX field p2-y407.50-x162.00 despite no branch selection. addPetitionPlans has an else fallback at1158.",
+      "callerBoundary": "runUtahCompletenessRepair3321\u20133325 creates explicit without_conviction/with_conviction facts for every actual call. No caller accepts participant recordedFacts. This cannot alter the current artifacts and is not counted as a reachable failure.",
+      "futureCorrection": "If this planner is later used with external facts, make the conviction text arm require branch === with_conviction or reject unknown branch upstream."
+    },
+    {
+      "id": "UT-VF02-OBS-02",
+      "blocking": false,
+      "title": "Impossible replydate helper rolls over",
+      "fact": "Direct reply component hooks accept impossible served/filed dates such as2026-02-30. specialReplyWindow928\u2013939 uses newDate without calendar validation.",
+      "callerBoundary": "Actual sourcePacket and textPlansFor receive only fixed valid factsFor fixture dates. No participant-fact input reaches these current paths; existing actual day0\u201314, missingdate and late/premature tests pass.",
+      "futureCorrection": "Before accepting external reply dates, reject calendar rollover in the reply parser."
+    }
+  ],
+  "allOriginalPagesReviewed": 33,
+  "currentPdfVisualDefects": 0,
+  "priorNineGroups": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/prior-defect-closure.json"
+}
