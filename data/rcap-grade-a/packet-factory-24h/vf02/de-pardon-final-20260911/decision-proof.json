@@ -1,0 +1,41 @@
+{
+  "familyId": "de_pardon_expungement-set",
+  "decisionDocument": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+  "decisionDocumentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+  "decision": {
+    "decisionId": "DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW",
+    "priority": "P1",
+    "disposition": "LEGAL_CLEAR",
+    "familyIds": [
+      "de_pardon_expungement-set"
+    ],
+    "bindingProductRule": "Use the official Superior Court petition workflow for discretionary expungement after unconditional pardon plus the pardon-specific CIV_EXP_08_A order. No custom-pleading legal hold remains.",
+    "authority": "Current Delaware Superior Court instructions/FAQ and CIV_EXP_08_A cited in the supplied disposition."
+  },
+  "priorBlockedObligation": "ROUTE_IDENTITY",
+  "priorBlockedFinding": "The route this family is wired to is 'obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375', carried identically in product-wiring.json routeKey/routeKeys and source-receipt.json routeKeys. On the delivered bytes, page 1 recites 'Pursuant to 11 Del. C. \u00a7 4374, Marcus Elijah Whitfield (Petitioner), hereby petitions Superior Court for expungement of the following case(s)' and no \u00a7 4375 recital appears anywhere on that page; \u00a7 4375 appears on page 2 in the Court's own printed order text and on the composed cover sheet, which is captioned 'Petition for Expungement After a Pardon, 11 Del. C. \u00a7 4375 / Procedure under 11 Del. C. \u00a7 4374(c) through (h) and (j)'. The petition form is the Court's own CIV_EXP_02_A and the \u00a7 4374 caption is the Court's printing, not this build's: my pixel diff against the pinned source shows the build added nothing to that sentence but the petitioner's name. Whether stating the \u00a7 4375 basis in the body of a \u00a7 4374-captioned form suffices is DE-5, carried in the committed track registry (sha256 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc, recomputed here) as a build_blocker on the eligibility branch with the source statement 'the scope of the pardon exception and how it interacts with the petition form's statutory caption remain dispositive'. That is counsel's to settle and I have neither cured nor softened it.",
+  "routeKeys": [
+    "obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375"
+  ],
+  "currentOfficialWorkflowDocuments": [
+    "CIV_EXP_02_A",
+    "CIV_EXP_08_A"
+  ],
+  "currentDeliveredCaptionLines": [
+    "Pursuant to 11 Del. C. \u00a7 4374, Marcus Elijah Whitfield                               (Petitioner), hereby petitions Superior Court for",
+    "CIV_EXP_02_A                                                                                                     Updated 6/12/2024",
+    "below case(s), and charge or set of charges related to that case(s), expunged pursuant to 11 Del. C. \u00a7 4375 (expungement after",
+    "CIV_EXP_08_A                                                                                          Updated 05/30/2024",
+    "Petition for Expungement After a Pardon, 11 Del. C. \u00a7 4375",
+    "Procedure under 11 Del. C. \u00a7 4374(c) through (h) and (j)",
+    "1. CIV_EXP_02_A - Petition for Expungement of Adult Record (updated 6/12/2024).",
+    "2. CIV_EXP_08_A - Expungement New Order Granting after Pardon (updated 05/30/2024), proposed"
+  ],
+  "finding": "RESOLVED. The binding decision expressly authorizes the same official Superior Court petition workflow after an unconditional pardon with the same pardon-specific CIV_EXP_08_A order. This answers VF20 DE-5: the CIV_EXP_02_A printed section4374 caption does not require inventing a custom pleading or preserving the old legal hold on this exact section4375 route. The packet uses those exact sources; the section4375 basis remains named on the order/cover sheet and in the already-approved participant instructions. No factual attestation, county, charge, signature or judicial act is inferred from the decision.",
+  "staleHoldTreatment": "Unchanged builder comments, guide counsel-question text and registry DE-5 markers are historical status statements superseded for this route-identity question by the later binding decision. They do not change the delivered instrument. This lane does not edit them, decide eligibility or reopen the fourteen prior approvals.",
+  "authorityLimit": "The family's legal-design question is resolved and LEGAL_BLOCKED should no longer be the controlling blocker. This does not make the family production-terminal and does not supersede source, implementation, custody, raster, independent-review, owner, or acceptance blockers.",
+  "newLegalResearch": false,
+  "newLegalOpinion": false,
+  "remainingRouteIdentityDefects": [],
+  "overallAcceptance": "BLOCKED_SOURCE: the route/instrument legal block is resolved, but current CIV_EXP_08_A original source custody is unavailable."
+}
