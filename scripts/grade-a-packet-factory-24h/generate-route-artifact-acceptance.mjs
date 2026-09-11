@@ -37,7 +37,8 @@ const git = (a) => { try { return execFileSync("git", a, { cwd: ROOT, encoding: 
 const read = (rel) => { const p = path.join(ROOT, rel); return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")) : null; };
 const sha256 = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
 
-const central = read(`${DIR}/CENTRAL_RASTER_RUN.json`);
+const centralPath = flag("--central-run") ?? `${DIR}/CENTRAL_RASTER_RUN.json`;
+const central = read(centralPath);
 const determinism = read(`${DIR}/ROUTE_ARTIFACT_DETERMINISM.json`);
 const completeness = read(`${DIR}/ROUTE_ARTIFACT_COMPLETENESS.json`);
 const queue = read(`${DIR}/ROUTE_ARTIFACT_RASTER_QUEUE.json`);
@@ -141,13 +142,14 @@ for (const c of completeness.results) {
         browserExecutable: receipt.verdict.browserExecutable,
         receipt: receipt.file,
         doesNotInheritTheFamilyReceipt: "the RASTER_PASS on rcap-ks-custom-pleading and rcap-tn-custom-pleading in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's; it is not read as covering this artifact",
-        renderedWhere: "twice: once in the build container by scripts/rcap-raster-batch.mjs against this lane's own manifest, after scripts/rcap-raster-canary.mjs returned CANARY_PASSED and RCAP_RASTER_NEGATIVE_CONTROLS_HELD in the same container; and once on a GitHub-hosted runner through the central workflow",
+        renderedWhere: "GitHub-hosted runner through the central workflow; this acceptance generation does not render locally",
         centralRun: (() => {
           const r = (central?.routes ?? []).find((x) => x.route === c.route && x.packetFamilyId === c.familyId);
-          if (!r) return { ran: false, why: "this artifact's route is not in CENTRAL_RASTER_RUN.json" };
+          if (!r) return { ran: false, why: `this artifact's route is not in ${centralPath}` };
           const pinned = (r.documentsPinned ?? []).find((d) => d.role === c.fixture) ?? null;
           return {
             ran: true,
+            record: centralPath,
             workflow: central.workflow, workflowRunId: central.workflowRunId, runUrl: central.runUrl,
             renderedCommitSha: central.renderedCommitSha,
             jobId: r.jobId, jobConclusion: r.jobConclusion,
@@ -159,7 +161,7 @@ for (const c of completeness.results) {
           };
         })(),
         pngPagesRetained: false,
-        whyPngPagesAreNotCommitted: "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
+        whyPngPagesAreNotCommitted: "The original page images remain in the identified Actions artifact; inspect that evidence without rerendering passing unchanged packet bytes."
       }
       : qrow?.preexistingRasterAcceptance
         ? (() => {
@@ -203,7 +205,7 @@ for (const c of completeness.results) {
         receipt?.file ?? (qrow?.preexistingRasterAcceptance?.source
           ? `${qrow.preexistingRasterAcceptance.source} — the existing receipt binds the same family-assembly bytes that are this one route's artifact`
           : `${DIR}/raster-receipts/ — no receipt exists for this artifact`),
-        `${DIR}/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download`,
+        `${centralPath} — the GitHub-hosted run, its job for this route, and the receipt artifact to download`,
         `${DIR}/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on`
       ],
       recomputeRatherThanRead: [
@@ -249,7 +251,7 @@ const doc = {
       jobsSucceeded: `${central.jobsSucceeded}/${central.jobsTotal}`,
       routesCovered: central.routesCovered, pagesCovered: central.pagesCovered,
       rasterQueueJsonInvolved: central.rasterQueueJsonInvolved,
-      record: `${DIR}/CENTRAL_RASTER_RUN.json`
+      record: centralPath
     }
     : null,
   whyTheBuilderFlagsWereNotFlipped: "Builder reports are not edited by this evidence assembler. Existing multi-route artifacts retain their builder-time pending flags; exact one-route family aliases retain their original family-artifact rows and create no copied PDF. Current raster and verification state lives here, keyed to exact SHA-256, so the build remains reproducible and this record carries only evidence gathered later.",

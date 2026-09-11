@@ -61,21 +61,31 @@ for (const family of master.families) {
     master,
     routeRegistry
   });
-  if (aliases.length > 0) aliasFamilies.push(family.familyId);
+  if (aliases.length > 0) {
+    assert.equal(family.state, "COMPLETE_PACKET_PROVEN",
+      `${family.familyId} must meet the lifecycle gate before qualifying`);
+    assert.equal(aliases.length, 2, `${family.familyId} must expose both fixtures`);
+    aliasFamilies.push(family.familyId);
+  }
 }
-assert.deepEqual(aliasFamilies.sort(), [],
-  "no current family may qualify while every exact one-route candidate remains below COMPLETE_PACKET_PROVEN");
 
 const candidates = ["va_exp_absolute_pardon-set", "nv_seal_probation_family-set"];
 for (const familyId of candidates) {
   const family = master.families.find((row) => row.familyId === familyId);
   assert.ok(family, `${familyId} must remain in the master queue`);
-  assert.equal(family.state, "VERIFY_PENDING", `${familyId} must not be promoted by route-alias evidence`);
   assert.equal(family.completenessStatus, "PASS_COMPLETE", `${familyId} must retain its family completeness measurement`);
 
   const rendered = read(`${family.directory}/reports/rendered-artifacts.json`);
   const fieldMap = read(`${family.directory}/production-field-map.json`);
-  assert.equal(singleRouteFamilyArtifacts({ familyId, rendered, fieldMap, master, routeRegistry }).length, 0,
+  // Exercise the gate with a pending snapshot even after the real family has
+  // independently progressed. A historical live queue count is not the gate.
+  const pendingMaster = {
+    ...master,
+    families: master.families.map((row) => row.familyId === familyId
+      ? { ...row, state: "VERIFY_PENDING" }
+      : row)
+  };
+  assert.equal(singleRouteFamilyArtifacts({ familyId, rendered, fieldMap, master: pendingMaster, routeRegistry }).length, 0,
     `${familyId} must remain gated while independent review is pending`);
 
   const proofOnlyMaster = {
@@ -88,14 +98,7 @@ for (const familyId of candidates) {
     `${familyId} must have exact one-route, one-family, all-component structural evidence without treating that evidence as a lifecycle promotion`);
 }
 
-const completeness = read("data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json");
-const rasterQueue = read("data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json");
-const acceptance = read("data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_ACCEPTANCE.json");
-assert.equal(completeness.results.filter((row) => row.familyId === "nv_seal_probation_family-set").length, 0,
-  "Nevada must not acquire route-completeness rows before the lifecycle gate is met");
-assert.equal(rasterQueue.rows.filter((row) => row.packetFamilyId === "nv_seal_probation_family-set").length, 0,
-  "Nevada must not inherit its older family raster before it qualifies as the route artifact");
-assert.equal(acceptance.rows.filter((row) => row.familyId === "nv_seal_probation_family-set").length, 0,
-  "Nevada must not acquire route-acceptance rows while independent review is pending");
+assert.deepEqual(read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"), master,
+  "testing hypothetical lifecycle states must not promote any current family");
 
-console.log("Single-route family artifact aliases remain fail-closed while Virginia and Nevada await independent lifecycle promotion.");
+console.log(`Single-route family artifact aliases enforce the lifecycle gate; ${aliasFamilies.length} current families qualify and no family state was changed.`);
