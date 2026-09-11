@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 246,
-    "rows": 1309,
+    "returnDirectories": 248,
+    "rows": 1311,
     "independentVerdicts": 302,
-    "failRepairRequired": 30,
+    "failRepairRequired": 31,
     "passIndependent": 250
   },
   "failRepairRequiredFamilies": [
@@ -45,6 +45,7 @@
     "ca-17b-reduction-set",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
+    "composed-treatment:nd-nonconviction-auto-close-verify",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "de_discretionary_superior_court-set",
     "fl-early-juvenile-set",
@@ -6411,6 +6412,36 @@
     },
     {
       "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Both current PDFs and the production field map/rendered manifest contain the existing clerk_correction_request, enforcement_motion, proposed_order and filing_instructions in full. However, current product-wiring.binding.instrumentKinds and packetComponents are empty. The four component IDs, order and conditional motion/order descriptions that FIX112 installed at 06bbbbab0 were removed by 4e722bf83. Physical completeness is intact; the required existing four-component binding disagrees with the delivered set. Defect ND-VF01-02. No additional notice/brief/service component design has been imposed.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The current canonical 042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2 (17097 bytes, 7 pages) and boundary db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d (17490 bytes, 7 pages) match manifest, queue and original RASTER_PASS run 34628970364 pinned to ffa39d9bd9ddfb42b3c4e8318a5c63abf92fb0b8. All 14 PNGs match original ZIP members and durable hashes. Nevertheless product-wiring.lastIndependentVerification resurrects VF09 PASS_COMPLETE_INDEPENDENT at 7fcfb7d40aafe7bd7350fc735ea09d16524cb757, whose row explicitly binds different pre-repair PDFs. The superseded-history fields were deleted. This is not current-byte independent evidence (ND-VF01-01). The focused suite also fails its obsolete repair-stage requirement that a current raster receipt be null (ND-VF01-03); its real result is 9/10, not a passing suite.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json"
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:nd-nonconviction-auto-close-verify",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
       "verdict": "PASS",
       "lane": "vf06",
       "isIndependentVerification": true,
@@ -6435,7 +6466,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:nd-nonconviction-auto-close-verify",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
@@ -9556,6 +9587,20 @@
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "de_mandatory_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
       "superseded": false
     },

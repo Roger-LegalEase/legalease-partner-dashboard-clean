@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "cc2bd5505e5599e35d28897da1a6525438ac77b7",
+  "minimumCaptainSha": "08d1157068ab93d7f5e2a3ecbecef548950a60c7",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "88f1d5863a08a985151fb8c3620c06363d6af9af6dc27f6fa6e08d5242a9ed0c",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "ae68b3d3c0a369a4d8b183fdd67b8ccfd180c7d920aada15355055ddbc2c8762",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -27,6 +27,7 @@
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
+    "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "6634e3443f35b184630f09514f28adfff0a665939416959b2d3bc7bf15c2123a",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d",
@@ -69,36 +70,36 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 1,
+    "activeFamiliesExcluded": 2,
     "guidanceOnly": 0,
-    "remaining": 345,
+    "remaining": 344,
     "sourceReady": 34,
     "sourceBlocked": 5,
     "legalBlocked": 0,
-    "verifyPending": 6,
+    "verifyPending": 5,
     "repairRequired": 29,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 231,
-    "PRODUCT_PATH_PENDING": 12,
+    "PRODUCT_PATH_PENDING": 11,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 8,
     "SOURCE_READY": 34,
-    "FAIL_REPAIR_REQUIRED": 30,
+    "FAIL_REPAIR_REQUIRED": 31,
     "SOURCE_BLOCKED": 5,
-    "GUIDANCE_READY": 11,
-    "VERIFY_PENDING": 6,
+    "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
+    "VERIFY_PENDING": 5,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 85,
     "GUIDANCE_AUTHORITY_BOUND": 5,
-    "SOURCE_BOUND_BY_HELD_BYTES": 243,
+    "SOURCE_BOUND_BY_HELD_BYTES": 244,
     "SOURCE_GENUINELY_MISSING": 1,
-    "SOURCE_IDENTITY_UNRESOLVED": 6,
+    "SOURCE_IDENTITY_UNRESOLVED": 5,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3,
     "SOURCE_ALREADY_HELD": 3
   },
@@ -114,7 +115,8 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "al-pardoned-felony-set"
+      "al-pardoned-felony-set",
+      "composed-treatment:nd-nonconviction-auto-close-verify"
     ],
     "staleRosterFamilies": [
       {
@@ -3397,9 +3399,9 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:ABPP-3",
-          "path": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__ABPP-3__874e738a83c3.pdf",
           "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         }
       ],
       "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
@@ -3410,10 +3412,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:ABPP-3",
-            "path": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__ABPP-3__874e738a83c3.pdf",
             "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
-            "tier": "exact_form_number",
-            "resolvedBy": "census_form_number_against_committed_index"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -3824,7 +3827,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
-          "path": "google-drive:1cVTkd6IS4iCaKzbwnmbdmmnMHFVzwCq_",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-ACT346-SET__ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS__b90179f471d3.pdf",
           "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
           "tier": "exact_content_hash"
         },
@@ -3843,11 +3846,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
-            "path": "google-drive:1cVTkd6IS4iCaKzbwnmbdmmnMHFVzwCq_",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-ACT346-SET__ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS__b90179f471d3.pdf",
             "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
@@ -5222,7 +5225,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
-          "path": "google-drive:1fd3o7fV3S0BUug-aPRPd4NmPbe0_LDvX",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-VETERANS-COURT-SET__ACIC-ORDER-VETERANS-COURT__dd73dfdee29c.pdf",
           "sha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
           "tier": "exact_content_hash"
         },
@@ -5241,11 +5244,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
-            "path": "google-drive:1fd3o7fV3S0BUug-aPRPd4NmPbe0_LDvX",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-VETERANS-COURT-SET__ACIC-ORDER-VETERANS-COURT__dd73dfdee29c.pdf",
             "sha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
@@ -7836,7 +7839,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:SDSC-CRM-307",
-          "path": "LegalEase California/source-acquisition-2026-09-04/crm307.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
           "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
           "tier": "exact_content_hash"
         }
@@ -7849,10 +7852,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:SDSC-CRM-307",
-            "path": "LegalEase California/source-acquisition-2026-09-04/crm307.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
             "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -8374,10 +8378,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -8389,22 +8390,32 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state PRODUCT_PATH_PENDING; all ordinary gates remain. Binding product rule UT-TRAFFICKING-PCRA-RULE-65C: Stop searching for an undefined trafficking-specific 1231XX form. Use the Post-Conviction Remedies Act ground in Utah Code Section 78B-9-104(1)(h) and the court's Rule 65C PCRA petition in the district court where the conviction was entered. Collect the qualifying offense, trafficking/force/fraud/coercion relationship and supporting evidence, and apply the burden/attachment/service treatment identified in the supplied disposition. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule UT-TRAFFICKING-PCRA-RULE-65C: Stop searching for an undefined trafficking-specific 1231XX form. Use the Post-Conviction Remedies Act ground in Utah Code Section 78B-9-104(1)(h) and the court's Rule 65C PCRA petition in the district court where the conviction was entered. Collect the qualifying offense, trafficking/force/fraud/coercion relationship and supporting evidence, and apply the burden/attachment/service treatment identified in the supplied disposition. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "PRODUCT_PATH_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill",
       "ownedPaths": [
@@ -10174,10 +10185,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf09",
-        "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -10196,31 +10207,31 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+          "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -10255,7 +10266,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule ND-NONCONVICTION-61-DAY-AUTO-CLOSE: Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule ND-NONCONVICTION-61-DAY-AUTO-CLOSE: Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -10272,13 +10283,29 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Both current PDFs and the production field map/rendered manifest contain the existing clerk_correction_request, enforcement_motion, proposed_order and filing_instructions in full. However, current product-wiring.binding.instrumentKinds and packetComponents are empty. The four component IDs, order and conditional motion/order descriptions that FIX112 installed at 06bbbbab0 were removed by 4e722bf83. Physical completeness is intact; the required existing four-component binding disagrees with the delivered set. Defect ND-VF01-02. No additional notice/brief/service component design has been imposed.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The current canonical 042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2 (17097 bytes, 7 pages) and boundary db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d (17490 bytes, 7 pages) match manifest, queue and original RASTER_PASS run 34628970364 pinned to ffa39d9bd9ddfb42b3c4e8318a5c63abf92fb0b8. All 14 PNGs match original ZIP members and durable hashes. Nevertheless product-wiring.lastIndependentVerification resurrects VF09 PASS_COMPLETE_INDEPENDENT at 7fcfb7d40aafe7bd7350fc735ea09d16524cb757, whose row explicitly binds different pre-repair PDFs. The superseded-history fields were deleted. This is not current-byte independent evidence (ND-VF01-01). The focused suite also fails its obsolete repair-stage requirement that a current raster receipt be null (ND-VF01-03); its real result is 9/10, not a passing suite.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX112",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -10289,7 +10316,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
@@ -13703,13 +13731,13 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:FORM-281",
-          "path": "LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+          "path": "reference/source-recovery/2026-09-11-wave1/281---petition-for-expungement-of-adult-record-11192025.doc",
           "sha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:FORM-281E",
-          "path": "STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+          "path": "reference/source-recovery/2026-09-11-wave1/281e---adult-expungement-charge-extension-sheet-09212018.docx",
           "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
           "tier": "exact_content_hash"
         }
@@ -13722,17 +13750,19 @@
         "boundSources": [
           {
             "sourceId": "official-form:FORM-281",
-            "path": "LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+            "path": "reference/source-recovery/2026-09-11-wave1/281---petition-for-expungement-of-adult-record-11192025.doc",
             "sha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:FORM-281E",
-            "path": "STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+            "path": "reference/source-recovery/2026-09-11-wave1/281e---adult-expungement-charge-extension-sheet-09212018.docx",
             "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -14093,10 +14123,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf01",
-        "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf62",
+        "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -14115,23 +14145,103 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+          "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
+      },
+      "reviewedGuidanceAdmission": {
+        "eligible": true,
+        "terminalTreatment": "GUIDANCE_READY",
+        "reviewPath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json",
+        "reviewSha256": "bae675f79ad8c302df4f111c3821751b4702f9f55b781a8ad018f60ef86e16bb",
+        "reviewer": "Astra independent reviewer",
+        "sessionIdentity": "/root/ky_current_independent",
+        "reviewedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
+        "outputs": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+            "byteLength": 13688,
+            "pageCount": 4
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+            "byteLength": 13761,
+            "pageCount": 4
+          }
+        ],
+        "sourceChecks": [
+          {
+            "path": "data/record-clearing/legal-decisions/2026-09-07-de-sbi-fee-scope-correction.json",
+            "sha256": "75c5466ab6807ec872c768e11611a9b98b3c3d5d2bcaddb2ab7073327a9cbe86",
+            "matched": true
+          },
+          {
+            "path": "reference/delaware/DE-Service-Code-Form_27S23V.pdf",
+            "sha256": "963c85833f87a99563f2ed2ea3414332232c550f4c64bcd887f51a9d0039557a",
+            "matched": true
+          },
+          {
+            "path": "reference/delaware/sbi-process-20260907.html",
+            "sha256": "47c8cc44de90f49cea3bbedfe0f3426b70b2544cab5b6fdcd87e5a831a355e5f",
+            "matched": true
+          },
+          {
+            "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+            "sha256": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
+            "matched": true
+          },
+          {
+            "path": "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/sources/DE-SBI-MANDATORY/receipt.json",
+            "sha256": "1a26621dca464d4d8da3f0922e8a8e1f323a984c0cf2d4bfa51d750daaa85a12",
+            "matched": true
+          },
+          {
+            "path": "data/record-clearing/legal-design-intake/DE.memo.json",
+            "sha256": "fdb976a3cf5b47de42ebca1285dbd4f067bfa5461a0fac0c6efc98668fd1e618",
+            "matched": true
+          },
+          {
+            "path": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+            "sha256": "6e86afdbe8cb283c261dc043f86bf2234b37b7ed10df760e7fd24c299566b801",
+            "matched": true
+          },
+          {
+            "path": "data/expungement-ai/route-product-metadata.json",
+            "sha256": "b4db39f66438f59caf5994de1c40fa8cb67c40d888c27f1ce258c1f260c8d05d",
+            "matched": true
+          },
+          {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "matched": true
+          }
+        ],
+        "rasterRunId": "34628970364",
+        "reviewAuthoredByIntegrator": false,
+        "packetBytesChanged": false,
+        "runtimeInstalled": false,
+        "filingPermitted": false,
+        "paymentEligible": false,
+        "sponsorshipEligible": false
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -14142,17 +14252,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "de_mandatory_expungement-set",
-        "foundBy": [
-          "vf01 (current independent verification)"
-        ],
-        "why": "COMPONENT_SET: This is the same conflict as blockedLegalInput below and it is scored here rather than passed. A guide cannot replace an owed application: the delivered document says on its own face that it is filed nowhere, so if the memo's reclassification governs, the required component of this packet set does not exist. This lane does not resolve which record governs and did not compose an application, because composing one would require asserting a form, format and submission destination SBI has not published and which CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json forbids inventing.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY: Treat this as an SBI-controlled administrative pathway, not a participant-created Superior Court application. LegalEase may prepare information/instructions and route the person through SBI but must not manufacture a fictional court application. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state GUIDANCE_READY; all ordinary gates remain. Binding product rule DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY: Treat this as an SBI-controlled administrative pathway, not a participant-created Superior Court application. LegalEase may prepare information/instructions and route the person through SBI but must not manufacture a fictional court application. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -14173,7 +14276,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "GUIDANCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
@@ -14404,7 +14507,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
-          "path": "google-drive:1FZX9Kpd_9Q6D1abJNRBSyBwPjbmKSEOk",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
           "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
           "tier": "exact_content_hash"
         }
@@ -14423,11 +14526,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
-            "path": "google-drive:1FZX9Kpd_9Q6D1abJNRBSyBwPjbmKSEOk",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
             "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -14657,7 +14760,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
-          "path": "google-drive:1oyQ5_MEMY5hW0xfnxn3oiqHbnLgXZeoq",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-EARLY-JUVENILE-SET__FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION__d9417ea382c9.pdf",
           "sha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
           "tier": "exact_content_hash"
         }
@@ -14670,11 +14773,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
-            "path": "google-drive:1oyQ5_MEMY5hW0xfnxn3oiqHbnLgXZeoq",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-EARLY-JUVENILE-SET__FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION__d9417ea382c9.pdf",
             "sha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -14828,7 +14931,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
-          "path": "google-drive:137cVeCPkL7bRTlicUQlLr1DhwMUnLv2T",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
           "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
           "tier": "exact_content_hash"
         }
@@ -14848,11 +14951,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
-            "path": "google-drive:137cVeCPkL7bRTlicUQlLr1DhwMUnLv2T",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
             "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -14954,7 +15057,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
-          "path": "google-drive:1d3mIZRcxe-tfWuvmMwIPRtjf24lUGYST",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf",
           "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
           "tier": "exact_content_hash"
         }
@@ -14967,11 +15070,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
-            "path": "google-drive:1d3mIZRcxe-tfWuvmMwIPRtjf24lUGYST",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf",
             "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -15079,7 +15182,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
-          "path": "google-drive:1zq1D8ZuvPkxPOxOLA4OOcdvT0kV6CgK-",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-SEALING-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__1d07f48487cc.pdf",
           "sha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
           "tier": "exact_content_hash"
         }
@@ -15099,11 +15202,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
-            "path": "google-drive:1zq1D8ZuvPkxPOxOLA4OOcdvT0kV6CgK-",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-SEALING-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__1d07f48487cc.pdf",
             "sha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -16978,7 +17081,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:Rule 2.86 Form 3",
-          "path": "google-drive:1B9EqDhgSht4QSkDazS7yJF-gmfgeB-r1",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-12346-SET__RULE-2-86-FORM-3__dd7685c6caf6.pdf",
           "sha256": "dd7685c6caf6d87979a31ce1639be6d08067a5c006a3d57eab68c1d097df49a5",
           "tier": "exact_content_hash"
         }
@@ -16995,11 +17098,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:Rule 2.86 Form 3",
-            "path": "google-drive:1B9EqDhgSht4QSkDazS7yJF-gmfgeB-r1",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-12346-SET__RULE-2-86-FORM-3__dd7685c6caf6.pdf",
             "sha256": "dd7685c6caf6d87979a31ce1639be6d08067a5c006a3d57eab68c1d097df49a5",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc02/CODEX_CS2_SRC3_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -17508,7 +17611,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:Rule 2.86 Form 2",
-          "path": "google-drive:1w5SQ5CIpGUSUyBO-vRt5LGNPdsjhBwpc",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
           "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
           "tier": "exact_content_hash"
         }
@@ -17526,11 +17629,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:Rule 2.86 Form 2",
-            "path": "google-drive:1w5SQ5CIpGUSUyBO-vRt5LGNPdsjhBwpc",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
             "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -17634,13 +17737,13 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:DCI-76 Criminal History Record Check Billing Form",
-          "path": "google-drive:1cgNkclodlyJ6MiMOMzLpHR4tdPcAirAt",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
           "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
-          "path": "google-drive:15Ts_wps2vvJhPamwj-OFrez9IUZFsYac",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
           "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
           "tier": "exact_content_hash"
         }
@@ -17653,19 +17756,19 @@
         "boundSources": [
           {
             "sourceId": "official-form:DCI-76 Criminal History Record Check Billing Form",
-            "path": "google-drive:1cgNkclodlyJ6MiMOMzLpHR4tdPcAirAt",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
             "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc02/CODEX_CS2_SRC3_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
-            "path": "google-drive:15Ts_wps2vvJhPamwj-OFrez9IUZFsYac",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
             "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc02/CODEX_CS2_SRC3_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -19291,25 +19394,25 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:PRB Certificate of Expungement for Military Application",
-          "path": "google-drive:1_HjEk-NnIkKVq1l2ZJeB69wn9ZHO7O0l",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION__87d693a24931.pdf",
           "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
-          "path": "google-drive:1btGZPdwdvxdgJrMDq9Qu4bVWftqnEvfu",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ELIGIBILITY-ACKNOWLEDGEMENT__691ce0bffc30.pdf",
           "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:PRB Certificate of Sealing Application",
-          "path": "google-drive:1GAxZVzStjHTLm-5Wybmy5yb7qgsgvyCN",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-APPLICATION__5aa1b7803bfa.pdf",
           "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
-          "path": "google-drive:1Fi0H317CpZJgDZkrr1HhSI5IuU5rz0sW",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-ELIGIBILITY-ACKNOWLEDGEMENT__b204190533f2.pdf",
           "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
           "tier": "exact_content_hash"
         },
@@ -19328,35 +19431,35 @@
         "boundSources": [
           {
             "sourceId": "official-form:PRB Certificate of Expungement for Military Application",
-            "path": "google-drive:1_HjEk-NnIkKVq1l2ZJeB69wn9ZHO7O0l",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION__87d693a24931.pdf",
             "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
-            "path": "google-drive:1btGZPdwdvxdgJrMDq9Qu4bVWftqnEvfu",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ELIGIBILITY-ACKNOWLEDGEMENT__691ce0bffc30.pdf",
             "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:PRB Certificate of Sealing Application",
-            "path": "google-drive:1GAxZVzStjHTLm-5Wybmy5yb7qgsgvyCN",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-APPLICATION__5aa1b7803bfa.pdf",
             "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
-            "path": "google-drive:1Fi0H317CpZJgDZkrr1HhSI5IuU5rz0sW",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-ELIGIBILITY-ACKNOWLEDGEMENT__b204190533f2.pdf",
             "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:EXP-AD Request",
@@ -23655,7 +23758,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:AOC-275.18",
-          "path": "LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/275.18.pdf",
           "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
           "tier": "exact_content_hash"
         }
@@ -23668,10 +23771,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:AOC-275.18",
-            "path": "LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/275.18.pdf",
             "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -28664,9 +28768,9 @@
         },
         {
           "sourceId": "official-form:CR310",
-          "path": "LegalEase Missouri/MO_CR310.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR310__2592efa5a9cb.pdf",
           "sha256": "2592efa5a9cbe170a7a7f19e3e0e13c9687d9ab9c92049998f3685c0183b6509",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:FI-05",
@@ -28696,10 +28800,11 @@
           },
           {
             "sourceId": "official-form:CR310",
-            "path": "LegalEase Missouri/MO_CR310.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR310__2592efa5a9cb.pdf",
             "sha256": "2592efa5a9cbe170a7a7f19e3e0e13c9687d9ab9c92049998f3685c0183b6509",
-            "tier": "exact_form_number",
-            "resolvedBy": "census_form_number_against_committed_index"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:FI-05",
@@ -28824,9 +28929,9 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:CR143",
-          "path": "LegalEase Missouri/MO_CR143.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR143__e39619185578.pdf",
           "sha256": "e39619185578a4a29ef99e7c91b71c1346309bf91ab2b4670a01711b5a4c1441",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:CR145",
@@ -28855,10 +28960,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:CR143",
-            "path": "LegalEase Missouri/MO_CR143.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR143__e39619185578.pdf",
             "sha256": "e39619185578a4a29ef99e7c91b71c1346309bf91ab2b4670a01711b5a4c1441",
-            "tier": "exact_form_number",
-            "resolvedBy": "census_form_number_against_committed_index"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:CR145",
@@ -29002,9 +29108,9 @@
         },
         {
           "sourceId": "official-form:CR370",
-          "path": "LegalEase Missouri/MO_CR370.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
           "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:FI-05",
@@ -29034,10 +29140,11 @@
           },
           {
             "sourceId": "official-form:CR370",
-            "path": "LegalEase Missouri/MO_CR370.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
             "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
-            "tier": "exact_form_number",
-            "resolvedBy": "census_form_number_against_committed_index"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:FI-05",
@@ -29169,9 +29276,9 @@
         },
         {
           "sourceId": "official-form:CR370",
-          "path": "LegalEase Missouri/MO_CR370.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
           "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:FI-05",
@@ -29201,10 +29308,11 @@
           },
           {
             "sourceId": "official-form:CR370",
-            "path": "LegalEase Missouri/MO_CR370.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
             "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
-            "tier": "exact_form_number",
-            "resolvedBy": "census_form_number_against_committed_index"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:FI-05",
@@ -31313,15 +31421,15 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:AOC-CR-293",
-          "path": "LegalEase North Carolina/AOC-CR-293_Rev-3-25.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-CR-293__37308914289a.pdf",
           "sha256": "37308914289a01649bd5cf009a91902386d6ec9658de8d7a1f99054b31310086",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:AOC-CR-293-INSTRUCTIONS",
-          "path": "LegalEase North Carolina/AOC-CR-293-INSTRUCTIONS_Rev-3-25.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-CR-293-INSTRUCTIONS__ae9e161bf5a1.pdf",
           "sha256": "ae9e161bf5a190b2956662216afe5738f99be4416d5902e66a3c3bea5fe87fe3",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:AOC-CV-226",
@@ -31350,17 +31458,19 @@
         "boundSources": [
           {
             "sourceId": "official-form:AOC-CR-293",
-            "path": "LegalEase North Carolina/AOC-CR-293_Rev-3-25.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-CR-293__37308914289a.pdf",
             "sha256": "37308914289a01649bd5cf009a91902386d6ec9658de8d7a1f99054b31310086",
-            "tier": "exact_form_number",
-            "resolvedBy": "census_form_number_against_committed_index"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:AOC-CR-293-INSTRUCTIONS",
-            "path": "LegalEase North Carolina/AOC-CR-293-INSTRUCTIONS_Rev-3-25.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-CR-293-INSTRUCTIONS__ae9e161bf5a1.pdf",
             "sha256": "ae9e161bf5a190b2956662216afe5738f99be4416d5902e66a3c3bea5fe87fe3",
-            "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:AOC-CV-226",
@@ -31889,9 +31999,9 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:AOC-G-260",
-          "path": "LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-G-260__cf998cecefea.pdf",
           "sha256": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         }
       ],
       "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
@@ -31902,10 +32012,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:AOC-G-260",
-            "path": "LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-G-260__cf998cecefea.pdf",
             "sha256": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
-            "tier": "exact_form_number",
-            "resolvedBy": "census_form_number_against_committed_index"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -32251,25 +32362,25 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
-          "path": "google-drive:1iGbM-7o4S22e79V-CzGqQw4dL8HqIA0m",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-BRIEF-PROHIBIT-PUBLIC-ACCESS__60a50d5f3c2c.pdf",
           "sha256": "60a50d5f3c2c96a4cc804fba3c35ab3fa19d3e1c7d438917867130408e1ffe2d",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
-          "path": "google-drive:1rrzO9uJ9jmVeebvzyboOkkgPhDKtD9Lu",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-DECLARATION-OF-SERVICE__ad05e9e15182.pdf",
           "sha256": "ad05e9e15182e04408119a84a5c2fc557324400c2f33e02037b8886c64195fb3",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
-          "path": "google-drive:1BARTiKbxTJdej15_UbRWwO7133rzRNKX",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-MOTION-PROHIBIT-PUBLIC-ACCESS__0bc80466174c.pdf",
           "sha256": "0bc80466174c034c79ac60487d079088ee91f86c07eb8ee1bea7213fd6c02e0a",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
-          "path": "google-drive:1x1LmPZFuLjP0YUzGMJnsipHysTF1Fjt4",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS__4e8d129f8ef2.pdf",
           "sha256": "4e8d129f8ef27e9b78ddd3c8968bd93add41a71586f2e91149f0ac1d1be1d250",
           "tier": "exact_content_hash"
         }
@@ -32282,35 +32393,35 @@
         "boundSources": [
           {
             "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
-            "path": "google-drive:1iGbM-7o4S22e79V-CzGqQw4dL8HqIA0m",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-BRIEF-PROHIBIT-PUBLIC-ACCESS__60a50d5f3c2c.pdf",
             "sha256": "60a50d5f3c2c96a4cc804fba3c35ab3fa19d3e1c7d438917867130408e1ffe2d",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
-            "path": "google-drive:1rrzO9uJ9jmVeebvzyboOkkgPhDKtD9Lu",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-DECLARATION-OF-SERVICE__ad05e9e15182.pdf",
             "sha256": "ad05e9e15182e04408119a84a5c2fc557324400c2f33e02037b8886c64195fb3",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
-            "path": "google-drive:1BARTiKbxTJdej15_UbRWwO7133rzRNKX",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-MOTION-PROHIBIT-PUBLIC-ACCESS__0bc80466174c.pdf",
             "sha256": "0bc80466174c034c79ac60487d079088ee91f86c07eb8ee1bea7213fd6c02e0a",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
-            "path": "google-drive:1x1LmPZFuLjP0YUzGMJnsipHysTF1Fjt4",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS__4e8d129f8ef2.pdf",
             "sha256": "4e8d129f8ef27e9b78ddd3c8968bd93add41a71586f2e91149f0ac1d1be1d250",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -41991,7 +42102,7 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         }
@@ -42004,10 +42115,11 @@
         "boundSources": [
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -42146,7 +42258,7 @@
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         },
@@ -42172,10 +42284,11 @@
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
@@ -42295,7 +42408,7 @@
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         }
@@ -42322,10 +42435,11 @@
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -42460,7 +42574,7 @@
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         }
@@ -42487,10 +42601,11 @@
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -42613,19 +42728,19 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
-          "path": "LegalEase Texas/source-acquisition-2026-09-04/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
           "sha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
-          "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
           "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
           "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         }
@@ -42638,24 +42753,27 @@
         "boundSources": [
           {
             "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
-            "path": "LegalEase Texas/source-acquisition-2026-09-04/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
             "sha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
-            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
             "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -42772,7 +42890,7 @@
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         },
@@ -42798,10 +42916,11 @@
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           },
           {
             "sourceId": "official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726",
@@ -42950,7 +43069,7 @@
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         }
@@ -42977,10 +43096,11 @@
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -43115,7 +43235,7 @@
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         }
@@ -43142,10 +43262,11 @@
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -43294,7 +43415,7 @@
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         }
@@ -43321,10 +43442,11 @@
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -43457,7 +43579,7 @@
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
           "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
           "tier": "exact_content_hash"
         }
@@ -43484,10 +43606,11 @@
           },
           {
             "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-            "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
             "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
             "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -45332,21 +45455,61 @@
         "official-form:1502CR",
         "official-form:1110GE or 1111GE"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:1501CR",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR__69c37d4da60e.pdf",
+          "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+          "tier": "exact_content_hash"
+        },
+        {
+          "sourceId": "official-form:1501CR-C",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR-C__25e24089f588.pdf",
+          "sha256": "25e24089f588bf32121cf01fe0c3a32e5eb576c757670baad163bc4b4f023951",
+          "tier": "exact_content_hash"
+        },
+        {
+          "sourceId": "official-form:1502CR",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1502CR__d23d74d35aaf.pdf",
+          "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+          "tier": "exact_content_hash"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:1501CR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:1501CR-C: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:1502CR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "satisfiedByRelationship": [
           "official-form:1110GE or 1111GE"
         ],
         "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
-        "boundSources": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:1501CR",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR__69c37d4da60e.pdf",
+            "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
+          },
+          {
+            "sourceId": "official-form:1501CR-C",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR-C__25e24089f588.pdf",
+            "sha256": "25e24089f588bf32121cf01fe0c3a32e5eb576c757670baad163bc4b4f023951",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
+          },
+          {
+            "sourceId": "official-form:1502CR",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1502CR__d23d74d35aaf.pdf",
+            "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
+          }
+        ],
         "boundGuidanceAuthorityRecords": [],
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
@@ -45357,7 +45520,7 @@
           "official-form:1501CR-C",
           "official-form:1502CR"
         ],
-        "boundCount": 0,
+        "boundCount": 3,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "directAttachment": true
@@ -45710,7 +45873,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",

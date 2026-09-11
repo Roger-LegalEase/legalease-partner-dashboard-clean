@@ -13,12 +13,16 @@
   "opensCommercialRoute": false,
   "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill",
   "binding": {
+    "family": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
     "jurisdiction": "UT",
-    "deliveryType": "official_pdf_fill",
-    "packetComponents": [
-      "UT-RULE-65C-PCRA",
-      "UT-PCRA-ATTACHMENTS-A-B"
+    "routeKeys": [
+      "obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement"
     ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Utah Trafficking Vacatur and Expungement Petition"
+    ],
+    "packetComponents": [],
     "fieldMap": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/participant-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/rendered-artifacts.json",
@@ -27,11 +31,20 @@
       {
         "sourceId": "official-form:1231XX",
         "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09",
-        "tier": "exact_held_generic_rule65c_form"
+        "tier": "exact_content_hash"
       }
     ],
     "acceptanceReceipt": null,
-    "lastIndependentVerification": null
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   },
   "centralReconciliationRequired": {
     "runtimePathwayId": "path-l-vacatur-human-trafficking-related-expungement",
