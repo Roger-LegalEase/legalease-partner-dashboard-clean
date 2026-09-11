@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 241,
-    "rows": 1304,
+    "returnDirectories": 242,
+    "rows": 1305,
     "independentVerdicts": 301,
     "failRepairRequired": 30,
     "passIndependent": 248
@@ -9561,6 +9561,22 @@
     },
     {
       "familyId": "de_pardon_expungement-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-final.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_pardon_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "de_pardon_expungement-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -9609,7 +9625,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_pardon_expungement-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "fl-10yr-bridge-set",

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+  "minimumCaptainSha": "cad70bac23d0510262d6aa6e2d34ca44b08ab5ab",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -26,7 +26,7 @@
     "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json": "8a3643fcfca028c08ccc10e8e6738a2bceff6a83aa318d01e50208492bf418d2",
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
-    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "a5c912e7e2d472f3d2b7357cf405ecf317da3d9221563e23ca0f089eb4b9756a",
+    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "37e5c719239a3e91a98b4e32398e6244519baadb5515e2a0d81e9de82704cf7b",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "6634e3443f35b184630f09514f28adfff0a665939416959b2d3bc7bf15c2123a",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d",
@@ -75,13 +75,13 @@
     "sourceReady": 35,
     "sourceBlocked": 6,
     "legalBlocked": 0,
-    "verifyPending": 5,
+    "verifyPending": 4,
     "repairRequired": 30,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 229,
-    "PRODUCT_PATH_PENDING": 11,
+    "PRODUCT_PATH_PENDING": 12,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 9,
     "SOURCE_READY": 35,
@@ -89,7 +89,7 @@
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 11,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 5,
+    "VERIFY_PENDING": 4,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -97,8 +97,8 @@
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
     "GUIDANCE_AUTHORITY_BOUND": 4,
     "SOURCE_BOUND_BY_HELD_BYTES": 242,
-    "SOURCE_GENUINELY_MISSING": 1,
-    "SOURCE_IDENTITY_UNRESOLVED": 7,
+    "SOURCE_GENUINELY_MISSING": 2,
+    "SOURCE_IDENTITY_UNRESOLVED": 6,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3,
     "SOURCE_ALREADY_HELD": 3
   },
@@ -8297,15 +8297,29 @@
       "sourceIds": [
         "official-form:1231XX"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:1231XX",
+          "path": "reference/utah/04_PCRA_Petition-2022-06-13.pdf",
+          "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09",
+          "tier": "exact_content_hash"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:1231XX: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:1231XX",
+            "path": "reference/utah/04_PCRA_Petition-2022-06-13.pdf",
+            "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-pcra-source-adoption-20260911.json"
+          }
         ],
-        "boundSources": [],
         "boundGuidanceAuthorityRecords": [],
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
@@ -8314,17 +8328,17 @@
         "effectiveOfficialSourceIds": [
           "official-form:1231XX"
         ],
-        "boundCount": 0,
+        "boundCount": 1,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "directAttachment": true
       },
       "sourceReconciliation": {
         "group": "C",
-        "disposition": "SOURCE_BLOCKED",
+        "disposition": "PRODUCT_PATH_PENDING",
         "unresolvedObligations": [],
-        "exactNextAction": "Acquire Form 1231XX into governed custody and correct the route from Title 77 Chapter 40a-only custom pleading to the official PCRA petition plus an authority-grounded attachment.",
-        "exactResidual": "The current official PCRA petition is identified, but its binary is not held and the route authority/strategy still names the wrong legal vehicle.",
+        "exactNextAction": "Implement the resolved Rule65C/PCRA route using the exact held generic Utah Courts petition and required authority-grounded attachment; do not search for a trafficking-specific1231XX form.",
+        "exactResidual": "Generic court PCRA source is now held and hash-bound; route authority/strategy and complete packet implementation remain to be corrected.",
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": null,
@@ -8362,7 +8376,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -8376,7 +8389,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state SOURCE_BLOCKED; all ordinary gates remain. Binding product rule UT-TRAFFICKING-PCRA-RULE-65C: Stop searching for an undefined trafficking-specific 1231XX form. Use the Post-Conviction Remedies Act ground in Utah Code Section 78B-9-104(1)(h) and the court's Rule 65C PCRA petition in the district court where the conviction was entered. Collect the qualifying offense, trafficking/force/fraud/coercion relationship and supporting evidence, and apply the burden/attachment/service treatment identified in the supplied disposition. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state PRODUCT_PATH_PENDING; all ordinary gates remain. Binding product rule UT-TRAFFICKING-PCRA-RULE-65C: Stop searching for an undefined trafficking-specific 1231XX form. Use the Post-Conviction Remedies Act ground in Utah Code Section 78B-9-104(1)(h) and the court's Rule 65C PCRA petition in the district court where the conviction was entered. Collect the qualifying offense, trafficking/force/fraud/coercion relationship and supporting evidence, and apply the burden/attachment/service treatment identified in the supplied disposition. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
@@ -8387,7 +8400,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "PRODUCT_PATH_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs",
@@ -14201,31 +14214,20 @@
           "path": "LegalEase Delaware/download.aspx.pdf",
           "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
           "tier": "exact_content_hash"
-        },
-        {
-          "sourceId": "official-form:CIV_EXP_08_A",
-          "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
-          "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
-          "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-      "sourceBound": true,
+      "sourceStatus": "SOURCE_GENUINELY_MISSING",
+      "sourceBound": false,
       "sourceReadiness": {
-        "ready": true,
-        "reasons": [],
+        "ready": false,
+        "reasons": [
+          "official-form:CIV_EXP_08_A: SOURCE_IDENTITY_DETERMINATION_UNRESOLVED — The recorded CIV_EXP_08_A custody path is absent in the current mount and one exact recorded-URL recovery returned HTML instead of PDF. The source identity remains known; current physical availability is unproved."
+        ],
         "boundSources": [
           {
             "sourceId": "official-form:CIV_EXP_02_A",
             "path": "LegalEase Delaware/download.aspx.pdf",
             "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
-            "tier": "exact_content_hash",
-            "resolvedBy": "captain_shared_exact_binding"
-          },
-          {
-            "sourceId": "official-form:CIV_EXP_08_A",
-            "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
-            "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
             "tier": "exact_content_hash",
             "resolvedBy": "captain_shared_exact_binding"
           }
@@ -14239,29 +14241,50 @@
           "official-form:CIV_EXP_02_A",
           "official-form:CIV_EXP_08_A"
         ],
-        "boundCount": 2,
+        "boundCount": 1,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "custodyClassContradictedByThisRow": "custodyClass says SOURCE_GENUINELY_MISSING while this family binds 2 source(s) and readiness is ready. The binding is the measurement. The queue's own bySourceStatus, derived from readiness, does not count this family as missing.",
-        "directAttachment": true
+        "directAttachment": true,
+        "unresolvedObligations": [
+          "official-form:CIV_EXP_08_A"
+        ],
+        "rejectedBindings": [
+          {
+            "sourceId": "official-form:CIV_EXP_08_A",
+            "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+            "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+            "tier": "exact_content_hash",
+            "resolvedBy": "captain_shared_exact_binding"
+          }
+        ]
       },
       "sourceReconciliation": {
         "group": "D",
-        "disposition": "SOURCE_READY",
-        "unresolvedObligations": [],
-        "exactNextAction": "Build from exact CIV EXP 02A and 08A sources.",
-        "exactResidual": null,
+        "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [
+          "official-form:CIV_EXP_08_A"
+        ],
+        "exactNextAction": "Recover original CIV_EXP_08_A bytes with SHA256 0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b into accessible governed custody; preserve all current source identities and valid unchanged review/raster evidence.",
+        "exactResidual": "The recorded CIV_EXP_08_A custody path is absent in the current mount and one exact recorded-URL recovery returned HTML instead of PDF. The source identity remains known; current physical availability is unproved.",
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": null,
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
-      "verifierSourceHold": null,
+      "verifierSourceHold": {
+        "lane": "vf02",
+        "verdict": "BLOCKED_SOURCE",
+        "blockedObligations": [
+          "SOURCE_IDENTITY"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-final.json"
+      },
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf20",
-        "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
+        "verdict": "BLOCKED_SOURCE",
+        "lane": "vf02",
+        "verifiedAtBase": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-final.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -14280,25 +14303,28 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+          "verifiedAtBase": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "sources do not bind"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -14307,17 +14333,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "de_pardon_expungement-set",
-        "foundBy": [
-          "vf20 (current independent verification)"
-        ],
-        "why": "ROUTE_IDENTITY: The route this family is wired to is 'obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375', carried identically in product-wiring.json routeKey/routeKeys and source-receipt.json routeKeys. On the delivered bytes, page 1 recites 'Pursuant to 11 Del. C. § 4374, Marcus Elijah Whitfield (Petitioner), hereby petitions Superior Court for expungement of the following case(s)' and no § 4375 recital appears anywhere on that page; § 4375 appears on page 2 in the Court's own printed order text and on the composed cover sheet, which is captioned 'Petition for Expungement After a Pardon, 11 Del. C. § 4375 / Procedure under 11 Del. C. § 4374(c) through (h) and (j)'. The petition form is the Court's own CIV_EXP_02_A and the § 4374 caption is the Court's printing, not this build's: my pixel diff against the pinned source shows the build added nothing to that sentence but the petitioner's name. Whether stating the § 4375 basis in the body of a § 4374-captioned form suffices is DE-5, carried in the committed track registry (sha256 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc, recomputed here) as a build_blocker on the eligibility branch with the source statement 'the scope of the pardon exception and how it interacts with the petition form's statutory caption remain dispositive'. That is counsel's to settle and I have neither cured nor softened it.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW: Use the official Superior Court petition workflow for discretionary expungement after unconditional pardon plus the pardon-specific CIV_EXP_08_A order. No custom-pleading legal hold remains. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state SOURCE_BLOCKED; all ordinary gates remain. Binding product rule DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW: Use the official Superior Court petition workflow for discretionary expungement after unconditional pardon plus the pardon-specific CIV_EXP_08_A order. No custom-pleading legal hold remains. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -14338,7 +14357,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "SOURCE_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_pardon_expungement-set.mjs",

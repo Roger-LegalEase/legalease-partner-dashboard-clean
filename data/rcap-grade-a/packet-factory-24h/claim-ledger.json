@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "e23cce33028b530f3fec8b675744abfec30cb8ed",
+  "generatedAtCommit": "cad70bac23d0510262d6aa6e2d34ca44b08ab5ab",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1202,21 +1202,6 @@
       "operation": "packet-build",
       "lane": "PF04",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "az_certificate_second_chance-set",
-      "familyId": "az_certificate_second_chance-set",
-      "itemId": null,
-      "familyIds": [
-        "az_certificate_second_chance-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -9763,6 +9748,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "ut_pet_special_certificate-set",
+      "itemId": null,
+      "familyId": "ut_pet_special_certificate-set",
+      "familyIds": [
+        "ut_pet_special_certificate-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF62",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_special_certificate-set",
       "familyId": "ut_pet_special_certificate-set",
       "itemId": null,
       "familyIds": [
@@ -11666,20 +11666,6 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:54.067Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::official-form:1231XX",
-      "itemId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::official-form:1231XX",
-      "familyIds": [
-        "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"
-      ],
-      "sourceId": "official-form:1231XX",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -15359,24 +15345,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ut_pet_special_certificate-set",
-      "itemId": null,
-      "familyId": "ut_pet_special_certificate-set",
-      "familyIds": [
-        "ut_pet_special_certificate-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF62",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "426d087e4c6d759dcfc0d12f67458c4858048907955ba75489b57fd6e2c82c54",
+  "claimsDigest": "3df3ce4f2aa6cf76ba08e6525240096f8eaf4adee0134b88b63595cf34da19eb",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -67080,6 +67051,22 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "withdrawnAt": "2026-09-11T14:31:17Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::official-form:1231XX",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC04",
+      "withdrawnAt": "2026-09-11T15:20:49Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-11T15:25:06Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
