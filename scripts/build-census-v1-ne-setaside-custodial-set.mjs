@@ -161,7 +161,7 @@ const utRoutes = (track) => [
   `obligation:unit:UT:${track}:${track}-court-petition`
 ];
 
-const FAMILY_CONFIGS = Object.freeze({
+const FAMILY_CONFIGS = {
   "ne-setaside-custodial-set": {
     state: "ne",
     action: "BUILD",
@@ -597,9 +597,10 @@ const FAMILY_CONFIGS = Object.freeze({
   },
   "ne-setaside-noncustodial-set": {
     state: "ne",
-    action: "STOP",
-    outputVehicle: "custom-pleading",
-    assignmentOwnedPath: "data/rcap-all50/overlays/census-v1/ne/ne-setaside-noncustodial-set--custom-pleading",
+    action: "BUILD",
+    outputVehicle: "official-pdf-fill",
+    deferRasterToActions: true,
+    assignmentOwnedPath: "data/rcap-all50/overlays/census-v1/ne/ne-setaside-noncustodial-set--official-pdf-fill",
     routeKeys: ["obligation:track-pathway:NE:ne-setaside-noncustodial:set-aside-probation-fine-community-service"],
     selectionId: "ne-noncustodial-vehicle-redirect-stop",
     sourceIds: ["official-form:CC-6-11", "official-form:CC-6-11.2", "official-form:CC-6-11a", "official-form:DC-1-15"],
@@ -713,7 +714,59 @@ const FAMILY_CONFIGS = Object.freeze({
     sourceIds: ["official-form:SCA-C906"],
     chargeCount: 1, chargeLabel: "Single eligible misdemeanor conviction"
   }
-});
+};
+
+/* The owner decision binds the noncustodial route to this same official
+ * packet. Reuse its measured source policies, fact bindings, and component
+ * declarations, while keeping the route's own closed wiring and guidance
+ * identity. STOP-only fields are deliberately excluded from the active route.
+ */
+{
+  const { sourceProtectedFields: _protected, carryProductBinding: _binding,
+    selectionId: _selectionId, stopCode: _stopCode, stopSummary: _stopSummary,
+    requiredResolution: _requiredResolution, ...sharedOfficialPolicies } =
+    FAMILY_CONFIGS["ne-setaside-custodial-set"];
+  const { selectionId: _ncSelectionId, stopCode: _ncStopCode,
+    stopSummary: _ncStopSummary, requiredResolution: _ncRequiredResolution,
+    ...noncustodial } = FAMILY_CONFIGS["ne-setaside-noncustodial-set"];
+  const noncustodialTrack = JSON.parse(fs.readFileSync(path.join(rootDir,
+    "data/record-clearing/legal-design-track-registry.json"), "utf8")).tracks
+    .find(row => row.trackId === "ne-setaside-noncustodial");
+  assert.equal(noncustodialTrack?.controllingVehicle?.implementationStrategy, "official_pdf_fill");
+  assert.equal(noncustodialTrack.controllingVehicle.primaryOfficialFormId, "CC-6-11");
+  assert.equal(noncustodialTrack.controllingVehicle.customPleadingAuthorized, false);
+  assert.ok(noncustodialTrack.selfHelpStopConditions.length > 0);
+  FAMILY_CONFIGS["ne-setaside-noncustodial-set"] = {
+    ...sharedOfficialPolicies,
+    ...noncustodial,
+    sourceProtectedFields: FAMILY_CONFIGS["ne-setaside-custodial-set"].sourceProtectedFields,
+    participantGuidance: {
+      ...sharedOfficialPolicies.participantGuidance,
+      heldSourceNote: "Every statement in this packet's guidance is grounded in the committed NE noncustodial set-aside track record and the exact official forms bound below; no custodial-route facts are imported.",
+      whereSelfHelpEnds: [...noncustodialTrack.selfHelpStopConditions],
+      recordsBeforeFiling: noncustodialTrack.packetSet.participantActionRequired.map(item => item.description),
+      whereYouFile: [noncustodialTrack.rules.filing, noncustodialTrack.destination.detail],
+      whatItCosts: [noncustodialTrack.rules.fees, noncustodialTrack.rules.feeWaiver,
+        "Ask the clerk of the sentencing court what this filing costs and, if you cannot pay, how to apply for a waiver for this petition. This packet does not include a waiver form."],
+      whoYouServe: [noncustodialTrack.rules.notice, noncustodialTrack.rules.service,
+        noncustodialTrack.rules.participantSignature],
+      localRulesCheck: sharedOfficialPolicies.participantGuidance.localRulesCheck.map((line) =>
+        line.replaceAll("ne-setaside-custodial-local-rules-check-6", "ne-setaside-noncustodial-local-rules-check-6")
+          .replaceAll("track ne-setaside-custodial", "track ne-setaside-noncustodial"))
+    },
+    routeKeys: noncustodial.routeKeys,
+    sourceIds: ["official-form:CC-6-11", "official-form:CC-6-11.2", "official-form:DC-1-15", "official-form:CC-6-11a"],
+    assignmentOwnedPath: noncustodial.assignmentOwnedPath,
+    componentDisposition: (sharedOfficialPolicies.componentDisposition ?? []).map((row) => ({
+      ...row,
+      componentId: String(row.componentId).replaceAll("ne-setaside-custodial", "ne-setaside-noncustodial")
+    })),
+    outputVehicle: "official-pdf-fill",
+    action: "BUILD",
+    deferRasterToActions: true
+  };
+}
+Object.freeze(FAMILY_CONFIGS);
 
 const DOCUMENT_POLICIES = Object.freeze({
   "CC-6-11": { mode: "participant" },
@@ -898,7 +951,7 @@ function sourceReceipt(familyId, config, resolved) {
     acquisitionCommissioned: false,
     corpusRootFromEnvironment: "MASTER_LIBRARY_SOURCE_DIR",
     bindingMethod: "exact path + custody SHA-256 + corpus-index SHA-256 + on-disk SHA-256 + byte length",
-    routeSelectionId: config.selectionId,
+    ...(config.selectionId ? { routeSelectionId: config.selectionId } : {}),
     documents: resolved.sources.map((source) => ({
       sourceIds: source.relationshipIds,
       formNumber: source.formNumber,
@@ -1806,11 +1859,14 @@ export function withCompletenessDisposition(row, context = null) {
  * the blank exists and learns it is not theirs -- which is what the old list,
  * by mixing the two, prevented.
  */
-export function withholdBlanksTheParticipantMayNotFill(maps) {
+export function withholdBlanksTheParticipantMayNotFill(maps, { includeSelectionControls = true, selectionControlExemptFields = [] } = {}) {
   const withheld = [];
+  const exemptSelectionFields = new Set(selectionControlExemptFields);
   for (const map of maps) {
     const evidence = map.documentPolicy?.sourceFieldEvidence ?? {};
-    const arrays = [map.canonicalRefusals, map.boundaryRefusals, map.roleRefusals, map.selectionControls];
+    const arrays = [map.canonicalRefusals, map.boundaryRefusals, map.roleRefusals,
+      ...(includeSelectionControls ? [map.selectionControls?.filter((row) =>
+        !exemptSelectionFields.has(row.field ?? row.blankId ?? null))] : [])];
     /*
      * Decided per FIELD, then applied to every array, because the same blank
      * appears in several of them under different words: DC 1:15 Text64 is
@@ -2104,6 +2160,10 @@ function assertManifestRequiredBeforeFilingIsCarried(familyId, declared, markdow
  * amendment A3. A family that declares no guidance renders none and its bytes do
  * not move.
  */
+export function noncustodialParticipantGuidance() {
+  return participantGuidanceMarkdown(FAMILY_CONFIGS["ne-setaside-noncustodial-set"].participantGuidance);
+}
+
 export function participantGuidanceMarkdown(guidance) {
   if (!guidance) return [];
   const out = [];
@@ -2119,6 +2179,7 @@ export function participantGuidanceMarkdown(guidance) {
     for (const item of items) out.push(`- ${item}`);
     out.push("");
   };
+  section("Records and checks before filing", guidance.recordsBeforeFiling);
   section("Where you file this", guidance.whereYouFile);
   section("What it costs, and what to do if you cannot pay", guidance.whatItCosts);
   section("Who must receive a copy, and how", guidance.whoYouServe);
@@ -3306,7 +3367,7 @@ function commonClosedProductRecord(familyId, config, canonicalSha256 = null) {
     schemaVersion: "rcap-family-product-wiring/v1",
     familyId,
     routeKeys: config.routeKeys,
-    routeSelectionId: config.selectionId,
+    ...(config.selectionId ? { routeSelectionId: config.selectionId } : {}),
     implementationStrategy: config.outputVehicle.replaceAll("-", "_"),
     generationAllowed: false,
     runtimeSelectable: false,
@@ -3400,12 +3461,13 @@ async function buildStop(familyId, config) {
  * the section and fail to render it and the third throws. A check that cannot
  * fail proves nothing, so none of them is written as a comment.
  */
-function assertLocalRulesCheckIsTheMemos() {
+function assertLocalRulesCheckIsTheMemos(familyId = "ne-setaside-custodial-set") {
   const memo = readJson(LEGAL_DESIGN_MEMO);
-  const track = (memo?.tracks ?? []).find((row) => row.trackId === "ne-setaside-custodial");
-  assert.ok(track, `${LEGAL_DESIGN_MEMO}: track ne-setaside-custodial is absent`);
+  const trackId = familyId === "ne-setaside-noncustodial-set" ? "ne-setaside-noncustodial" : "ne-setaside-custodial";
+  const track = (memo?.tracks ?? []).find((row) => row.trackId === trackId);
+  assert.ok(track, `${LEGAL_DESIGN_MEMO}: track ${trackId} is absent`);
   const component = (track.components ?? []).find((row) => row.role === "local_rules_check");
-  assert.ok(component, "NE.memo.json: track ne-setaside-custodial declares no local_rules_check component");
+  assert.ok(component, `NE.memo.json: track ${trackId} declares no local_rules_check component`);
   assert.equal(component.requirement, "required");
   assert.equal(component.outputStrategy, "process_guidance");
   assert.equal(component.notes, LOCAL_RULES_CHECK_NOTE,
@@ -3712,7 +3774,7 @@ function assertNoOutputWrittenBeforeTheGates(familyId, out, fingerprintAtEntry) 
 }
 
 async function buildOfficial(familyId, config) {
-  assertLocalRulesCheckIsTheMemos();
+  assertLocalRulesCheckIsTheMemos(familyId);
   assertComponentDispositionMatchesTheManifest(familyId, config);
   const out = outputRoot(familyId, config);
   /* FIX171. Taken before a single byte is written, and checked at the last gate. */
@@ -3865,7 +3927,15 @@ async function buildOfficial(familyId, config) {
   /* FIX102. Role-protected and source-read-only rows lose the flag BEFORE the
    * disclosure is collected, so the participant's list and the field map's own
    * requiredBeforeFiling array are built from one decision rather than two. */
-  const withheldBlanks = withholdBlanksTheParticipantMayNotFill(maps);
+  const withheldBlanks = withholdBlanksTheParticipantMayNotFill(maps, {
+    /* The noncustodial official-form route leaves its court-type screen choice
+     * as an explicit participant election. Its canonical refusal rows may
+     * carry nearby role classifications, but those must not reclassify this
+     * route's selection-control rows as protected court fields. */
+    includeSelectionControls: true,
+    selectionControlExemptFields: familyId === "ne-setaside-noncustodial-set"
+      ? ["TYPEOFCOURTDROPDOWN", "DROPDOWNCOUNTY2"] : []
+  });
   const requiredBeforeFiling = nameDisclosedBlanks(config, requiredBeforeFilingItems(maps));
   assertEveryDisclosedBlankIsNamed(familyId, config, requiredBeforeFiling);
 
@@ -4253,7 +4323,7 @@ export async function checkFamily(familyId) {
   assert.equal(rendered.renderedFresh, true);
   assert.equal(rendered.byteDerivedHashes, true);
   assert.equal(rendered.artifacts.length, 2);
-  assert.equal(rendered.everyPageRastered, true);
+  assert.equal(rendered.everyPageRastered, config.deferRasterToActions !== true);
   for (const artifact of rendered.artifacts) {
     const pdfBytes = fs.readFileSync(path.join(rootDir, artifact.file));
     assert.equal(sha256(pdfBytes), artifact.sha256, `${familyId}/${artifact.fixture}: PDF hash drift`);
@@ -4263,6 +4333,7 @@ export async function checkFamily(familyId) {
     assert.equal(pages.length, artifact.pageCount, `${familyId}/${artifact.fixture}: PDF page-count drift`);
     assert.equal(artifact.pageManifest.length, artifact.pageCount,
       `${familyId}/${artifact.fixture}: page manifest is incomplete`);
+    if (config.deferRasterToActions) continue;
     const storedRasterProvenance = {
       engine: artifact.rasterEngine,
       discoveryMode: artifact.rasterEngineDiscoveryMode,
@@ -4541,7 +4612,15 @@ export async function runSelfTests() {
   ], syntheticControls).length, 1, "added vector selection ink must be detected from artifact bytes");
   assert.equal(RASTER_DPI >= 72 && RASTER_DPI <= 96, true, "raster DPI must stay in the approved modest range");
   assert.equal(classifyFamilyAction("ne-setaside-custodial-set"), "BUILD");
-  assert.equal(classifyFamilyAction("ne-setaside-noncustodial-set"), "STOP");
+  assert.equal(classifyFamilyAction("ne-setaside-noncustodial-set"), "BUILD");
+  const noncustodialTrack = JSON.parse(fs.readFileSync(path.join(rootDir,
+    "data/record-clearing/legal-design-track-registry.json"), "utf8")).tracks.find(row => row.trackId === "ne-setaside-noncustodial");
+  assert.deepEqual(FAMILY_CONFIGS["ne-setaside-noncustodial-set"].participantGuidance.whereSelfHelpEnds,
+    noncustodialTrack.selfHelpStopConditions, "No noncustodial stop may be omitted or replaced with custodial exclusions");
+  assert.deepEqual(FAMILY_CONFIGS["ne-setaside-noncustodial-set"].participantGuidance.recordsBeforeFiling,
+    noncustodialTrack.packetSet.participantActionRequired.map(row => row.description));
+  assertComponentDispositionMatchesTheManifest("ne-setaside-noncustodial-set", FAMILY_CONFIGS["ne-setaside-noncustodial-set"]);
+
   assert.equal(classifyFamilyAction("ne-trafficking-setaside-and-seal-set"), "STOP");
   assert.equal(classifyFamilyAction("ut_pet_traffic-set"), "BUILD");
   assert.equal(classifyFamilyAction("not-a-family"), "UNKNOWN");
@@ -4680,6 +4759,24 @@ export async function runSelfTests() {
     assert.equal(roleMap[0].canonicalRefusals[1].completenessDisposition, "MATERIALIZED_SOURCE_CONTROL",
       "a settled source presentation must survive the withholding pass untouched");
 
+    // The noncustodial route has two exact caption controls that remain
+    // participant elections; every other selection control keeps protection.
+    const routeMap = [{
+      formNumber: "CC-6-11",
+      selectionControls: [
+        { field: "TYPEOFCOURTDROPDOWN", requiredBeforeFiling: true, buildPolicyCategory: "role" },
+        { field: "JUDGE_ELECTION", requiredBeforeFiling: true, buildPolicyCategory: "role" }
+      ]
+    }];
+    const routeWithheld = withholdBlanksTheParticipantMayNotFill(routeMap, {
+      selectionControlExemptFields: ["TYPEOFCOURTDROPDOWN", "DROPDOWNCOUNTY2"]
+    });
+    assert.equal(routeWithheld.length, 1, "a non-caption judicial selection must remain protected");
+    assert.equal(routeMap[0].selectionControls[0].requiredBeforeFiling, true,
+      "the exact participant court control must remain an election");
+    assert.equal(routeMap[0].selectionControls[1].completenessClass, "court_prosecutor_clerk_or_agency_owned",
+      "an unrelated judicial selection must remain protected");
+
     // Every disclosed blank is named by its meaning, and the negative case.
     const named = nameDisclosedBlanks(family, [{ document: "CC-6-11", field: "Text5", printedContext: "CRIMINAL CONVICTION · 1.I was convicted of" }]);
     assert.equal(named[0].labelIsPlainMeaning, true);
@@ -4780,6 +4877,12 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     assert.deepEqual(argv, ['--no-raster'], 'Do not combine the deferred build with a local raster check');
     config = { ...config, deferRasterToActions: true };
     return buildOfficial(familyId, config);
+  }
+  if (argv.includes('--release-official')) {
+    assert.equal(familyId, 'ne-setaside-noncustodial-set', 'bounded vehicle release is only for NE noncustodial set-aside');
+    assert.deepEqual(argv, ['--release-official'], 'Do not combine the bounded vehicle release with other options');
+    const releaseConfig = { ...config, deferRasterToActions: true };
+    return buildOfficial(familyId, releaseConfig);
   }
   if (argv.includes("--self-test")) return runSelfTests();
   if (argv.includes("--check")) return checkFamily(familyId);

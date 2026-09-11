@@ -1,0 +1,172 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: ne-setaside-noncustodial-set: the packet's required-before-filing disclosure has drifted from the field map
++ actual - expected
+... Skipped lines
+
+  '# Before you file: ne-setaside-noncustodial-set\n' +
+    '\n' +
+    'This packet is built for obligation:track-pathway:NE:ne-setaside-noncustodial:set-aside-probation-fine-community-service.\n' +
+    '\n' +
+    'Complete the applicable unresolved filing items below by hand before filing.\n' +
+...
+    '- **The hearing time — the blank after "at". The bailiff gives you this.** `Text51` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
++   '- **"a" or "p" for the hearing time — the one-letter blank immediately before ".'... 8278 more characters
+-   '- **"a" or "p" for the hearing time — the one-letter blank immediately before ".'... 8277 more characters
+
+    at checkFamily (file:///workspaces/legalease-partner-dashboard-clean/scripts/build-census-v1-ne-setaside-custodial-set.mjs:4306:10)
+    at runFamilyById (file:///workspaces/legalease-partner-dashboard-clean/scripts/build-census-v1-ne-setaside-custodial-set.mjs:4888:40)
+    at file:///workspaces/legalease-partner-dashboard-clean/scripts/build-census-v1-ne-setaside-noncustodial-set.mjs:3:7 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '# Before you file: ne-setaside-noncustodial-set\n' +
+    '\n' +
+    'This packet is built for obligation:track-pathway:NE:ne-setaside-noncustodial:set-aside-probation-fine-community-service.\n' +
+    '\n' +
+    'Complete the applicable unresolved filing items below by hand before filing.\n' +
+    'The court type is filled from the known case information. Confirm the county\n' +
+    'against the existing case: the available county value could not be matched\n' +
+    'to an official county option, so no substitute is printed. These PDFs have no\n' +
+    'interactive form fields. CC 6:11a is an instruction sheet, not a filing to complete.\n' +
+    '\n' +
+    '**Where the county goes on the caption, and why it looks empty.** On the first\n' +
+    'line of every caption, between "COURT OF" and "COUNTY, NEBRASKA", there is a\n' +
+    'space for the county. DC 1:15 prints a ruled line there. CC 6:11 and CC 6:11.2\n' +
+    'print nothing at all — just blank space — so on those two pages there is no mark\n' +
+    'to show you where to write. Write the county in that space on all three.\n' +
+    '\n' +
+    'The official forms do carry a "Choose the county" prompt there, but only on a\n' +
+    'screen, in a drop-down control the form marks as not-for-printing. It is absent\n' +
+    'from this packet because it is absent from any printed copy of these forms.\n' +
+    '\n' +
+    '## Everything this route requires before filing\n' +
+    '\n' +
+    'These are the steps and the blanks the committed packet-set manifest declares for\n' +
+    'this route. Work through all of them before you file, not only the form blanks\n' +
+    'listed further down.\n' +
+    '\n' +
+    '- Check your answer to "What crime were you convicted of, exactly as it appears on the court papers?" against Nebraska State Patrol criminal history report, and correct the packet if they disagree.\n' +
+    '- Check your answer to "What is the case number on the original case?" against Nebraska court case search result, and correct the packet if they disagree.\n' +
+    '- Check your answer to "If you were on probation, did you complete the full term, or were you discharged early?" against Probation discharge order or notice of set-aside eligibility, and correct the packet if they disagree.\n' +
+    '- Signature and date on the petition — CC 6:11, signature block.\n' +
+    '- The date and judge lines on the proposed order — CC 6:11.2.\n' +
+    '- The hearing date, time, courtroom and judge on the notice of hearing — DC 1:15, district court cases only.\n' +
+    '- Signature on the certificate of service and mailing the copy to the prosecutor — DC 1:15, page two, district court cases only.\n' +
+    '- The petitioner signs and dates the petition, and signs the certificate of service where DC 1:15 applies.\n' +
+    '- none required on the face of the forms.\n' +
+    '- Not established. The statewide fee schedule carries no line item for a petition filed within an existing criminal case, so no figure may be shown to a participant.\n' +
+    '- Available in principle under Neb. Rev. Stat. § 25-2301.01, which reaches criminal cases in any county or state court. The official DC 6:7.1 form does not fit, which is recorded as a release blocker.\n' +
+    '\n' +
+    '## The blanks on these forms that you must complete\n' +
+    '\n' +
+    'Required before filing: 30 field(s).\n' +
+    '\n' +
+    '### CC-6-11\n' +
+    '\n' +
+    '- **The box to check ONLY if you cannot receive email — "By checking this box, I am letting the court know that I do not have the ability to receive emails." Leave it alone if you gave an email address.** `Check Box7` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.\n' +
+    '- **Why you cannot receive email, first line — the blank after "The reason I cannot receive email is:". Leave blank unless you checked the box above.** `noemailreason` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **Why you cannot receive email, second line. Leave blank unless you checked the box above.** `noemailreason2` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text2` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.\n' +
+    '- **The crime you were convicted of, exactly as it appears on the court papers — item 1, the blank after "I was convicted of", captioned "(Crime convicted of)".** `Text5` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The date of the conviction — item 1, the blank on the following line, captioned "(Date of conviction)".** `Text6` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '### CC-6-11.2\n' +
+    '\n' +
+    '- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.\n' +
+    '- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text2` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.\n' +
+    '### DC-1-15\n' +
+    '\n' +
+    '- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.\n' +
+    '- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text38` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.\n' +
+    '- **What the hearing is on, first line — the blank after "You are hereby notified that a hearing on the".** `Text39` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **What the hearing is on, second line — the full-width blank underneath.** `Text40` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The judge’s name — the blank after "will be heard before the Honorable". The bailiff gives you this.** `Text41` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The court type on the hearing line — the blank in "Judge of the ______ Court of".** `Text43` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The county where the hearing takes place — the blank after the court type and immediately before County on the hearing-location line. Confirm it with the bailiff.** `Text44` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The courtroom number — the blank after "Courtroom No.". The bailiff gives you this.** `Text45` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The courthouse floor — the short blank after on the and before floor of the. Confirm it with the bailiff.** `Text46` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **Which courthouse the hearing is in — the blank before "County Courthouse or Justice Center".** `Text47` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The courthouse address — the blank at the end of that same line.** `Text48` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The courthouse street and city line — the long blank before ", Nebraska".** `Text49` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The hearing date — the blank after "Nebraska, on". The bailiff gives you this.** `Text50` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The hearing time — the blank after "at". The bailiff gives you this.** `Text51` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **"a" or "p" for the hearing time — the one-letter blank immediately before ".'... 8278 more characters,
+  expected: '# Before you file: ne-setaside-noncustodial-set\n' +
+    '\n' +
+    'This packet is built for obligation:track-pathway:NE:ne-setaside-noncustodial:set-aside-probation-fine-community-service.\n' +
+    '\n' +
+    'Complete the applicable unresolved filing items below by hand before filing.\n' +
+    'The court type is filled from the known case information. Confirm the county\n' +
+    'against the existing case: the available county value could not be matched\n' +
+    'to an official county option, so no substitute is printed. These PDFs have no\n' +
+    'interactive form fields. CC 6:11a is an instruction sheet, not a filing to complete.\n' +
+    '\n' +
+    '**Where the county goes on the caption, and why it looks empty.** On the first\n' +
+    'line of every caption, between "COURT OF" and "COUNTY, NEBRASKA", there is a\n' +
+    'space for the county. DC 1:15 prints a ruled line there. CC 6:11 and CC 6:11.2\n' +
+    'print nothing at all — just blank space — so on those two pages there is no mark\n' +
+    'to show you where to write. Write the county in that space on all three.\n' +
+    '\n' +
+    'The official forms do carry a "Choose the county" prompt there, but only on a\n' +
+    'screen, in a drop-down control the form marks as not-for-printing. It is absent\n' +
+    'from this packet because it is absent from any printed copy of these forms.\n' +
+    '\n' +
+    '## Everything this route requires before filing\n' +
+    '\n' +
+    'These are the steps and the blanks the committed packet-set manifest declares for\n' +
+    'this route. Work through all of them before you file, not only the form blanks\n' +
+    'listed further down.\n' +
+    '\n' +
+    '- Check your answer to "What crime were you convicted of, exactly as it appears on the court papers?" against Nebraska State Patrol criminal history report, and correct the packet if they disagree.\n' +
+    '- Check your answer to "What is the case number on the original case?" against Nebraska court case search result, and correct the packet if they disagree.\n' +
+    '- Check your answer to "If you were on probation, did you complete the full term, or were you discharged early?" against Probation discharge order or notice of set-aside eligibility, and correct the packet if they disagree.\n' +
+    '- Signature and date on the petition — CC 6:11, signature block.\n' +
+    '- The date and judge lines on the proposed order — CC 6:11.2.\n' +
+    '- The hearing date, time, courtroom and judge on the notice of hearing — DC 1:15, district court cases only.\n' +
+    '- Signature on the certificate of service and mailing the copy to the prosecutor — DC 1:15, page two, district court cases only.\n' +
+    '- The petitioner signs and dates the petition, and signs the certificate of service where DC 1:15 applies.\n' +
+    '- none required on the face of the forms.\n' +
+    '- Not established. The statewide fee schedule carries no line item for a petition filed within an existing criminal case, so no figure may be shown to a participant.\n' +
+    '- Available in principle under Neb. Rev. Stat. § 25-2301.01, which reaches criminal cases in any county or state court. The official DC 6:7.1 form does not fit, which is recorded as a release blocker.\n' +
+    '\n' +
+    '## The blanks on these forms that you must complete\n' +
+    '\n' +
+    'Required before filing: 30 field(s).\n' +
+    '\n' +
+    '### CC-6-11\n' +
+    '\n' +
+    '- **The box to check ONLY if you cannot receive email — "By checking this box, I am letting the court know that I do not have the ability to receive emails." Leave it alone if you gave an email address.** `Check Box7` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.\n' +
+    '- **Why you cannot receive email, first line — the blank after "The reason I cannot receive email is:". Leave blank unless you checked the box above.** `noemailreason` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **Why you cannot receive email, second line. Leave blank unless you checked the box above.** `noemailreason2` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text2` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.\n' +
+    '- **The crime you were convicted of, exactly as it appears on the court papers — item 1, the blank after "I was convicted of", captioned "(Crime convicted of)".** `Text5` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The date of the conviction — item 1, the blank on the following line, captioned "(Date of conviction)".** `Text6` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '### CC-6-11.2\n' +
+    '\n' +
+    '- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.\n' +
+    '- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text2` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.\n' +
+    '### DC-1-15\n' +
+    '\n' +
+    '- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.\n' +
+    '- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text38` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.\n' +
+    '- **What the hearing is on, first line — the blank after "You are hereby notified that a hearing on the".** `Text39` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **What the hearing is on, second line — the full-width blank underneath.** `Text40` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The judge’s name — the blank after "will be heard before the Honorable". The bailiff gives you this.** `Text41` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The court type on the hearing line — the blank in "Judge of the ______ Court of".** `Text43` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The county where the hearing takes place — the blank after the court type and immediately before County on the hearing-location line. Confirm it with the bailiff.** `Text44` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The courtroom number — the blank after "Courtroom No.". The bailiff gives you this.** `Text45` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The courthouse floor — the short blank after on the and before floor of the. Confirm it with the bailiff.** `Text46` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **Which courthouse the hearing is in — the blank before "County Courthouse or Justice Center".** `Text47` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The courthouse address — the blank at the end of that same line.** `Text48` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The courthouse street and city line — the long blank before ", Nebraska".** `Text49` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The hearing date — the blank after "Nebraska, on". The bailiff gives you this.** `Text50` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **The hearing time — the blank after "at". The bailiff gives you this.** `Text51` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing\n' +
+    '- **"a" or "p" for the hearing time — the one-letter blank immediately before ".'... 8277 more characters,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.20.0
