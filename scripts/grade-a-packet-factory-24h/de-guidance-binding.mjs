@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 export function pdfPageCount(bytes) {
@@ -9,6 +12,10 @@ export function pdfPageCount(bytes) {
 }
 export const DE_FAMILY = 'de_mandatory_expungement-set';
 export const DE_ROUTE = 'obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a';
+export const DE_DIRECTORY = 'data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill';
+export const DE_DECISION = 'data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json';
+export const DE_DECISION_ID = 'DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY';
+export const DE_DECISION_SHA256 = '5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2';
 
 // This corrects an existing declared deliverable; it does not infer that all
 // agency routes are guidance or approve this guide's legal contents.
@@ -85,4 +92,55 @@ export function bindDeclaredDeGuidance(record, family, { report, receipt, instru
     createsApproval: false, opensCheckout: false
   };
   return result;
+}
+
+/** Apply the already-declared guidance identity to the queue inputs. This is a
+ * metadata normalization only; every non-component source obligation survives. */
+export function normalizeDeclaredDeGuidanceBuildInputs(root, input) {
+  if (input.familyId !== DE_FAMILY) return input;
+  assert.equal(input.legalResolution?.disposition, 'LEGAL_CLEAR', 'Delaware guidance normalization requires final LEGAL_CLEAR');
+  assert.equal(input.legalResolution?.decisionId, DE_DECISION_ID, 'Wrong Delaware legal disposition');
+  assert.equal(input.legalResolution?.decisionRecord, DE_DECISION, 'Wrong Delaware legal decision record');
+  assert.deepEqual(input.routes.map(route => route.routeKey), [DE_ROUTE], 'Delaware guidance normalization cannot change route scope');
+  const bytes = relative => fs.readFileSync(path.join(root, relative));
+  const hashFile = relative => crypto.createHash('sha256').update(bytes(relative)).digest('hex');
+  assert.equal(hashFile(DE_DECISION), DE_DECISION_SHA256, 'Delaware legal decision bytes changed');
+  const decision = JSON.parse(bytes(DE_DECISION));
+  const row = decision.decisions.find(item => item.decisionId === DE_DECISION_ID);
+  assert.equal(row?.disposition, 'LEGAL_CLEAR');
+  assert.deepEqual(row.familyIds, [DE_FAMILY]);
+  assert.match(row.bindingProductRule, /SBI-controlled administrative pathway/);
+  assert.match(row.bindingProductRule, /must not manufacture a fictional court application/);
+
+  const wiring = JSON.parse(bytes(`${DE_DIRECTORY}/product-wiring.json`));
+  const report = JSON.parse(bytes(`${DE_DIRECTORY}/reports/rendered-artifacts.json`));
+  const receipt = JSON.parse(bytes(`${DE_DIRECTORY}/source-receipt.json`));
+  const declared = bindDeclaredDeGuidance(wiring, {
+    familyId: DE_FAMILY, routeKeys: [DE_ROUTE], directory: DE_DIRECTORY, state: 'VERIFY_PENDING'
+  }, {report, receipt, instructions: bytes(`${DE_DIRECTORY}/participant-instructions.md`).toString('utf8'),
+    hashFile, pageCountFile: relative => pdfPageCount(bytes(relative))});
+  assert.equal(declared.binding.deliveryType, 'process_guidance');
+  assert.equal(declared.binding.filingPermitted, false);
+  assert.deepEqual(declared.binding.packetComponents, ['agency_preparation_guide']);
+
+  const routes = input.routes.map(route => ({
+    ...route,
+    participantFacingInstrument: 'no filing — process guidance: agency_preparation_guide',
+    currentOutputStrategy: 'process_guidance',
+    requiredSourceIds: [...new Set((route.requiredSourceIds ?? [])
+      .filter(id => !String(id).startsWith('component:')).concat('component:agency_preparation_guide'))]
+  }));
+  return {
+    ...input,
+    routes,
+    implementationStrategy: 'process_guidance',
+    sourceReconciliation: {
+      ...(input.sourceReconciliation ?? {}),
+      implementationStrategyOverride: 'process_guidance',
+      guidanceAuthorityRecords: [{path: DE_DECISION, sha256: DE_DECISION_SHA256}],
+      exactNextAction: 'Obtain current whole-family raster and a current independent 15-obligation review of the declared non-filed SBI guide.',
+      disposition: 'GUIDANCE_DECLARATION_BOUND'
+    },
+    declaredGuidance: declared
+  };
 }

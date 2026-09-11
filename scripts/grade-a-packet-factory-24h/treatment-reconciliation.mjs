@@ -11,6 +11,7 @@ export const WA_AUTOMATIC = "census-pending-family:WA:juvenile-record-sealing-un
 export const WA_GUIDANCE_DIRECTORY = "data/rcap-all50/guidance-packets/wa-juvenile-court-initiated";
 export const GA_GUIDANCE = "rcap-ga-guidance-implementation";
 export const GA_PETITION = "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route";
+const DE_MANDATORY_GUIDANCE = "de_mandatory_expungement-set";
 const WA_PREFIX = "obligation:runtime-contract-cohort:WA:juvenile-record-sealing-under-rcw-13-50-260:";
 export const WA_MOTION_ROUTE = `${WA_PREFIX}participant_motion_branch`;
 export const WA_GUIDANCE_ROUTES = [
@@ -131,7 +132,7 @@ export function reconcileFamilyBuildInputs({ familyId, routes, implementationStr
 
 export function guidanceSourceReadiness(root, familyId, reconciliation) {
   const records = reconciliation?.guidanceAuthorityRecords ?? [];
-  if (![CT_DESTRUCTION, CT_PROVISIONAL, CT_ABSOLUTE, WA_AUTOMATIC].includes(familyId) || records.length === 0) {
+  if (![CT_DESTRUCTION, CT_PROVISIONAL, CT_ABSOLUTE, WA_AUTOMATIC, DE_MANDATORY_GUIDANCE].includes(familyId) || records.length === 0) {
     return { ready: false, records: [], reasons: [] };
   }
   const bound = [], reasons = [];

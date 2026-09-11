@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "fix07-de-current-guidance-verification/v1",
+  "assignmentId": "FIX07",
+  "familyId": "de_mandatory_expungement-set",
+  "status": "COMPLETED",
+  "baseCommit": "4328c56318fb26ebd864221ac5d913f2189f481a",
+  "scope": "Compatibility and effective metadata repair only. No PDF, source fact, independent verdict, raster receipt, admission, runtime, or commercial state was authored.",
+  "effectiveMetadata": {
+    "implementationStrategy": "process_guidance",
+    "packetComponents": [
+      "component:agency_preparation_guide"
+    ],
+    "instrumentKinds": [
+      "no filing — process guidance"
+    ],
+    "routeKeys": [
+      "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+    ],
+    "sourceStatus": "GUIDANCE_AUTHORITY_BOUND",
+    "sourceBound": true,
+    "legalInputStatus": "SETTLED",
+    "currentState": "BUILT_RASTER_PENDING",
+    "reviewedGuidanceAdmission": null
+  },
+  "currentGateResult": {
+    "independentReviewPath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json",
+    "independentReviewPresent": false,
+    "currentRasterProven": false,
+    "state": "BUILT_RASTER_PENDING",
+    "admissionCreated": false
+  },
+  "adapterTest": {
+    "suite": "de-current-reviewed-guidance",
+    "fullyBoundFixtureAccepted": 1,
+    "rejectionControls": 18,
+    "currentIndependentReviewPresent": false,
+    "currentRasterProven": false,
+    "currentAdmission": "REFUSED_PENDING",
+    "currentWholePdfHashes": {
+      "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+      "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb"
+    },
+    "currentPages": 8,
+    "compositionSourcesChecked": 9,
+    "registryRefreshMeasured": true,
+    "packetRebuilds": 0
+  },
+  "bindingTest": {
+    "familyId": "de_mandatory_expungement-set",
+    "positiveCases": 3,
+    "rejectedCases": 24,
+    "inputRecordsUnchanged": true,
+    "onlyMetadataChanged": true,
+    "independentApproval": false
+  },
+  "pdfs": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+      "byteLength": 13688,
+      "pageCount": 4
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+      "byteLength": 13761,
+      "pageCount": 4
+    }
+  ],
+  "identityRefreshEvidence": "data/rcap-grade-a/packet-factory-24h/fix07/de-current-guidance-20260911/identity-refresh-proof.json",
+  "commands": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-de-reviewed-guidance.mjs",
+      "result": "fully bound v2 fixture accepted; 18 rejection controls; actual current review/raster refused pending"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-de-guidance-binding.mjs",
+      "result": "3 positive and 24 negative declaration-binding cases"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate.mjs --inspect-de-current-guidance",
+      "result": "BUILT_RASTER_PENDING; process_guidance; agency_preparation_guide; filing false through declared binding; LEGAL_CLEAR consumed without admission"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-treatment-reconciliation.mjs",
+      "result": "all 346 identities and existing CT/WA/GA treatment outcomes preserved"
+    },
+    {
+      "command": "node --check on the three changed implementation modules",
+      "result": "PASS"
+    }
+  ],
+  "limits": [
+    "The current v2 independent review file does not exist yet.",
+    "The current RASTER_QUEUE row has no accepted receipt for the two four-page PDFs.",
+    "The legacy three-page review remains historical compatibility only."
+  ],
+  "modelMetadata": "gpt-5.6-sol; reasoning effort high"
+}

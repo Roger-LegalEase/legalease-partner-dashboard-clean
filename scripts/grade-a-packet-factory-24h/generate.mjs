@@ -24,6 +24,7 @@ import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
 import { assessGeorgiaReviewedGuidance, applyGeorgiaGuidanceAcceptance } from "./ga-reviewed-guidance.mjs";
 import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
+import { normalizeDeclaredDeGuidanceBuildInputs } from "./de-guidance-binding.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
 import {
   applyLegalResolutionSupersessions,
@@ -2085,11 +2086,15 @@ for (const f of IN.scoreboard.familiesDetail) {
     : null;
 
   const originalSourceReconciliation = sourceReconciliationByFamily.get(familyId) ?? null;
-  const { routes, implementationStrategy: strategy, sourceReconciliation, treatment } = reconcileFamilyBuildInputs({
+  let { routes, implementationStrategy: strategy, sourceReconciliation, treatment } = reconcileFamilyBuildInputs({
     familyId, routes: originalRoutes,
     implementationStrategy: originalSourceReconciliation?.implementationStrategyOverride ?? f.implementationStrategy,
     sourceReconciliation: originalSourceReconciliation
   }, treatmentReconciliations);
+  ({routes, implementationStrategy: strategy, sourceReconciliation, treatment} = normalizeDeclaredDeGuidanceBuildInputs(ROOT, {
+    familyId, routes, implementationStrategy: strategy, sourceReconciliation, treatment,
+    legalResolution: currentLegalResolution
+  }));
   const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
   const directory = treatment?.directory ?? comp?.directory
     ?? overlayDirs.find((d) => path.basename(d).startsWith(`${slugOf(familyId)}--`))
@@ -2915,6 +2920,18 @@ for (const f of families) {
     f.activeOwnerLane = null;
   }
 }
+if (process.argv.includes('--inspect-de-current-guidance')) {
+  const family = families.find(row => row.familyId === 'de_mandatory_expungement-set');
+  if (!family) throw new Error('Delaware mandatory guidance family is absent');
+  console.log(JSON.stringify({familyId: family.familyId, state: family.state,
+    implementationStrategy: family.implementationStrategy, packetComponents: family.packetComponents,
+    instrumentKinds: family.instrumentKinds, routeKeys: family.routeKeys, sourceStatus: family.sourceStatus,
+    sourceBound: family.sourceBound, reviewedGuidanceAdmission: family.reviewedGuidanceAdmission ?? null,
+    legalInputStatus: family.legalInputStatus, currentLegalResolution: family.currentLegalResolution,
+    pdfsChanged: false, createsAdmission: false}, null, 2));
+  process.exit(0);
+}
+
 const active = families.filter((f) => f.activeOwner);
 const guidance = families.filter((f) => f.state === "LEGITIMATE_GUIDANCE_ONLY");
 const remaining = families.filter((f) => !f.activeOwner && f.state !== "LEGITIMATE_GUIDANCE_ONLY");
