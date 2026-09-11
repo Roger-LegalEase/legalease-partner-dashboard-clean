@@ -1,20 +1,32 @@
 {
   "schemaVersion": "rcap-fix112-repair-evidence/v1",
   "lane": "FIX112",
-  "generatedAt": "2026-09-11T18:32:46Z",
-  "baseSha": "ebb0a9221dd68a0ebabc6f9ea0765aca047817f5",
+  "generatedAt": "2026-09-11T18:39:15Z",
+  "baseSha": "520bda7e5734efe90c6c6fd098e5541961a23362",
+  "initialRepairBaseSha": "ebb0a9221dd68a0ebabc6f9ea0765aca047817f5",
   "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
   "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
   "reviewInput": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
   "regressionInput": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/binding-regression.diff",
-  "claim": "CLAIM_OK FIX112 composed-treatment:nd-nonconviction-auto-close-verify (repair, grant set 44b4b8cf4652dc16)",
+  "claim": "CLAIM_OK FIX112 composed-treatment:nd-nonconviction-auto-close-verify (repair, grant set be2ed2c2baba7036)",
   "result": "REPAIR_COMPLETE_INDEPENDENT_RECHECK_PENDING",
+  "integrationFollowup": {
+    "cause": "Central extraction consumed the exhaustive VF01 return and correctly selected its newer FAIL_REPAIR_REQUIRED tuple. The first binder revision rejected every non-null tuple except stale VF09, so regeneration would have rejected the current failure and any later independent pass.",
+    "correction": "The generator now forwards the queue's selectedIndependentVerdict as an explicit normalized verdict/lane/verifiedAtBase tuple. The ND binder demotes only the exact stale VF09 tuple and otherwise requires exact equality before preserving current failure or pass metadata.",
+    "currentSelectedIndependentVerdict": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c"
+    },
+    "passingObligationsReusable": 13,
+    "targetedRecheckRequired": ["ARTIFACTS", "COMPONENT_SET"]
+  },
   "defectToFix": [
     {
       "defectId": "ND-VF01-01",
       "finding": "The generator exposed VF09 at 7fcfb7d as a current independent verdict even though it read pre-repair PDFs and deleted the superseded-history fields.",
-      "repair": "The exact-family binder recognizes that exact stale verdict, stores it as supersededIndependentVerification with its byte-change reason, restores the old raster receipt as history, and leaves lastIndependentVerification null.",
-      "proof": "test-nd-declared-binding rejects an unrecognized verdict while the family carries its moved-since-verdict lapse; generated product-wiring has no current VF09 approval."
+      "repair": "The exact-family binder recognizes only that exact stale tuple and stores it as superseded history. It preserves the explicitly selected newer VF01 failure, and will preserve a future failure or pass only when the generated tuple exactly matches the normalized queue selection.",
+      "proof": "The generated record carries VF01 FAIL_REPAIR_REQUIRED as current and VF09 only as superseded. Tests exercise exact stale demotion, future valid failure/pass preservation, null selection, forged mismatch and opaque-metadata refusals."
     },
     {
       "defectId": "ND-VF01-02",
@@ -25,8 +37,8 @@
     {
       "defectId": "ND-VF01-03",
       "finding": "The focused timing suite still required acceptanceReceipt to be null after a valid current raster receipt was ingested.",
-      "repair": "The production-entrypoint test now requires RASTER_PASS workflow 34628970364, current canonical SHA-256 and whole-family coverage while continuing to require no current independent verdict.",
-      "proof": "Combined focused suite passes 13/13."
+      "repair": "The production-entrypoint test now requires RASTER_PASS workflow 34628970364, current canonical SHA-256 and whole-family coverage; it also requires current independent metadata to equal the normalized selected record and rejects stale VF09 as current.",
+      "proof": "Combined focused suite passes 15/15."
     }
   ],
   "declaredDelivery": {
@@ -44,7 +56,11 @@
       "boundToCanonicalSha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
       "coversTheWholeFamily": true
     },
-    "currentIndependentVerification": null,
+    "currentIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c"
+    },
     "historicalIndependentVerification": {
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
@@ -65,9 +81,9 @@
   },
   "commands": [
     { "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert FIX112 <family> && node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX112 <family>", "exit": 0, "result": "claim and write scope accepted" },
-    { "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family <family>", "exit": 0, "result": "1 exact-family wiring refreshed" },
+    { "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family <family>", "exit": 0, "result": "0 refreshed, 1 unchanged at the integration base; the consumed VF01 failure and corrected component binding were preserved" },
     { "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family <family>", "exit": 0, "result": "0 need creation, 0 need refresh, 1 unchanged" },
-    { "command": "node --test scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs", "exit": 0, "result": "13 passed, 0 failed; includes 17 binder corruption/refusal cases and production --check read-only proof" },
+    { "command": "node --test scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs", "exit": 0, "result": "15 passed, 0 failed; includes 21 binder corruption/refusal cases, future valid failure/pass cases and production --check read-only proof" },
     { "command": "node scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs", "exit": 0, "result": "PASS; unselected-family bytes unchanged and 10 existing generator CLI checks passed" },
     { "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>", "exit": 0, "result": "PASS_COMPLETE; 42/49 written; all nine counters zero" },
     { "command": "git diff --quiet <base> -- <PDF/source/guide/map/rendered paths>", "exit": 0, "result": "all protected packet/source/guide bytes unchanged" }
@@ -88,5 +104,5 @@
     "raster workflow, because original workflow 34628970364 remains bound to the unchanged PDFs",
     "full repository test suite"
   ],
-  "remainingGate": "A new independent reviewer must recheck the repaired current-byte binding; this repair author grants no approval, admission, deployment or commercial authority."
+  "remainingGate": "A targeted independent closure must recheck ARTIFACTS and COMPONENT_SET. The other 13 exhaustive VF01 obligations remain reusable; this repair author grants no approval, admission, deployment or commercial authority."
 }

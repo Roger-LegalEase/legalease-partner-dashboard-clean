@@ -336,6 +336,13 @@ const miMoOptions = (family) => ({
   hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
   raster: exactRasterFor(family.familyId)
 });
+const normalizedSelectedIndependentVerdict = (family) => family.selectedIndependentVerdict
+  ? {
+      verdict: family.selectedIndependentVerdict.verdict,
+      lane: family.selectedIndependentVerdict.lane,
+      verifiedAtBase: family.selectedIndependentVerdict.verifiedAtBase ?? null
+    }
+  : null;
 const alignFamilyDeclaredDelivery = (record, family) => ["md_10110_conviction-set", "md_cannabis_petition-set"].includes(family.familyId)
   ? bindDeclaredMdConditionalDelivery(record, family, miMoOptions(family))
   : family.familyId === IA_FORM1_FAMILY
@@ -368,7 +375,8 @@ const alignFamilyDeclaredDelivery = (record, family) => ["md_10110_conviction-se
       sourceReceipt: read(`${family.directory}/source-receipt.json`),
       fieldMap: read(`${family.directory}/production-field-map.json`),
       hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
-      raster: exactRasterFor(family.familyId)
+      raster: exactRasterFor(family.familyId),
+      selectedIndependentVerdict: normalizedSelectedIndependentVerdict(family)
     })
   : family.familyId !== DE_FAMILY ? record
   : bindDeclaredDeGuidance(record, family, {

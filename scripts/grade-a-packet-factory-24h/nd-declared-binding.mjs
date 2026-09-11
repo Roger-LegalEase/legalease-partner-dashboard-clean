@@ -90,7 +90,9 @@ function assertCurrentRaster(raster, report) {
 // This is an exact-family repair for a composed packet whose queue row does not
 // carry its document inventory. It describes existing bytes and creates no
 // delivery, payment, eligibility, raster, or independent-review authority.
-export function bindDeclaredNdDelivery(record, family, { report, sourceReceipt, fieldMap, hashFile, raster }) {
+export function bindDeclaredNdDelivery(record, family, {
+  report, sourceReceipt, fieldMap, hashFile, raster, selectedIndependentVerdict,
+}) {
   if (family.familyId !== ND_FAMILY) return record;
   assert.equal(record.family, ND_FAMILY);
   assert.equal(family.directory, ND_DIRECTORY);
@@ -141,18 +143,28 @@ export function bindDeclaredNdDelivery(record, family, { report, sourceReceipt, 
     coversTheWholeFamily: true,
   }, "Generated binding did not carry the exact accepted current raster identity");
   result.binding.supersededAcceptanceReceipt = structuredClone(SUPERSEDED_RASTER);
-  if (result.binding.lastIndependentVerification) {
-    assert.deepEqual(result.binding.lastIndependentVerification, STALE_VF09,
-      "An unrecognized independent verdict must not be demoted by the ND repair");
+  if (selectedIndependentVerdict !== null) {
+    assert.deepEqual(Object.keys(selectedIndependentVerdict).sort(),
+      ["lane", "verdict", "verifiedAtBase"], "Selected independent verdict must use the normalized identity tuple");
+  }
+  const currentVerdict = result.binding.lastIndependentVerification;
+  const isExactStaleVf09 = currentVerdict
+    && Object.keys(currentVerdict).length === Object.keys(STALE_VF09).length
+    && Object.keys(STALE_VF09).every(key => currentVerdict[key] === STALE_VF09[key]);
+  if (isExactStaleVf09) {
+    assert.deepEqual(selectedIndependentVerdict, STALE_VF09,
+      "Stale VF09 cannot displace a newer selected independent verdict");
     result.binding.supersededIndependentVerification = {
       ...structuredClone(STALE_VF09), supersededBecause: supersededReason,
     };
     result.binding.lastIndependentVerification = null;
-  } else if (!result.binding.supersededIndependentVerification) {
-    result.binding.supersededIndependentVerification = {
-      ...structuredClone(STALE_VF09), supersededBecause: supersededReason,
-    };
+  } else {
+    assert.deepEqual(currentVerdict, selectedIndependentVerdict,
+      "Generated current verdict does not match the queue's explicit selected independent verdict");
   }
+  result.binding.supersededIndependentVerification = {
+    ...structuredClone(STALE_VF09), supersededBecause: supersededReason,
+  };
   result.proposedRepresentation.note = "A specification for a later lane, derived from the corrected four-component packet. Current raster evidence is bound; current-byte independent acceptance is still required before any later installation decision.";
   result.proposedRepresentation.outputStrategy = "custom_pleading";
   const canonical = report.artifacts.find(row => row.fixture === "canonical");

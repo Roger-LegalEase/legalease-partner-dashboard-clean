@@ -254,7 +254,17 @@ test("generated four-component maps carry collected case facts and preserve cour
   assert.equal(wiring.binding.acceptanceReceipt.workflowRunId, "34628970364");
   assert.equal(wiring.binding.acceptanceReceipt.boundToCanonicalSha256, canonical.sha256);
   assert.equal(wiring.binding.acceptanceReceipt.coversTheWholeFamily, true);
-  assert.equal(wiring.binding.lastIndependentVerification, null);
+  const selected = JSON.parse(fs.readFileSync(path.join(ROOT,
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"), "utf8")).families
+    .find((row) => row.familyId === "composed-treatment:nd-nonconviction-auto-close-verify")
+    .selectedIndependentVerdict;
+  assert.deepEqual(wiring.binding.lastIndependentVerification, selected
+    ? { verdict: selected.verdict, lane: selected.lane, verifiedAtBase: selected.verifiedAtBase ?? null }
+    : null);
+  assert.notDeepEqual(wiring.binding.lastIndependentVerification, {
+    verdict: "PASS_COMPLETE_INDEPENDENT", lane: "vf09",
+    verifiedAtBase: "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+  });
   assert.equal(wiring.binding.supersededIndependentVerification.lane, "vf09");
   assert.match(wiring.binding.supersededAcceptanceReceipt.supersededBecause, /changed both fixture PDFs/);
   assert.deepEqual(wiring.binding.packetComponents.map((row) => row.componentId), map.componentSet);

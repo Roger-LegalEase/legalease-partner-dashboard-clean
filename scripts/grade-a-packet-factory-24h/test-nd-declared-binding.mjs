@@ -9,7 +9,8 @@ const read = relative => JSON.parse(fs.readFileSync(`${root}/${relative}`, "utf8
 const hashFile = relative => crypto.createHash("sha256").update(fs.readFileSync(`${root}/${relative}`)).digest("hex");
 const masterFamily = read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json").families
   .find(row => row.familyId === ND_FAMILY);
-const raster = read("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json").rows
+const rasterQueue = read("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json");
+const raster = [...(rasterQueue.historicalRasterRows ?? []), ...(rasterQueue.rows ?? [])]
   .find(row => row.familyId === ND_FAMILY);
 const original = {
   record: read(`${ND_DIRECTORY}/product-wiring.json`),
@@ -20,24 +21,23 @@ const original = {
   raster,
 };
 const fixture = () => structuredClone(original);
+const normalizedSelected = row => row
+  ? { verdict: row.verdict, lane: row.lane, verifiedAtBase: row.verifiedAtBase ?? null }
+  : null;
 const apply = value => bindDeclaredNdDelivery(value.record, value.family, {
   report: value.report,
   sourceReceipt: value.sourceReceipt,
   fieldMap: value.fieldMap,
   raster: value.raster,
   hashFile: value.hashFile ?? hashFile,
+  selectedIndependentVerdict: Object.hasOwn(value, "selectedIndependentVerdict")
+    ? value.selectedIndependentVerdict
+    : normalizedSelected(value.family.selectedIndependentVerdict),
 });
 
-test("binds the measured four-component ND packet, current raster, and historical VF09 verdict", () => {
+test("binds the measured four-component ND packet and preserves the selected current failure", () => {
   const frozen = JSON.stringify(original);
-  const regression = fixture();
-  regression.record.binding.lastIndependentVerification = {
-    verdict: "PASS_COMPLETE_INDEPENDENT", lane: "vf09",
-    verifiedAtBase: "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
-  };
-  delete regression.record.binding.supersededAcceptanceReceipt;
-  delete regression.record.binding.supersededIndependentVerification;
-  const output = apply(regression);
+  const output = apply(fixture());
   assert.deepEqual(output.binding.instrumentKinds, ND_COMPONENTS);
   assert.deepEqual(output.binding.packetComponents.map(row => row.componentId), ND_COMPONENTS);
   assert.deepEqual(output.binding.packetComponents.map(row => row.order), [1, 2, 3, 4]);
@@ -48,7 +48,10 @@ test("binds the measured four-component ND packet, current raster, and historica
   assert.equal(output.binding.acceptanceReceipt.workflowRunId, "34628970364");
   assert.equal(output.binding.acceptanceReceipt.boundToCanonicalSha256,
     "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2");
-  assert.equal(output.binding.lastIndependentVerification, null);
+  assert.deepEqual(output.binding.lastIndependentVerification, {
+    verdict: "FAIL_REPAIR_REQUIRED", lane: "vf01",
+    verifiedAtBase: "b7610435835e6163254641505d25be7680cb514c",
+  });
   assert.equal(output.binding.supersededIndependentVerification.lane, "vf09");
   assert.equal(output.binding.supersededIndependentVerification.verifiedAtBase,
     "7fcfb7d40aafe7bd7350fc735ea09d16524cb757");
@@ -60,6 +63,36 @@ test("binds the measured four-component ND packet, current raster, and historica
   again.record = output;
   assert.deepEqual(apply(again), output, "ND binding is not idempotent");
   assert.equal(JSON.stringify(original), frozen, "ND binding mutated its inputs");
+});
+
+test("demotes only the exact stale VF09 tuple", () => {
+  const value = fixture();
+  const stale = {
+    verdict: "PASS_COMPLETE_INDEPENDENT", lane: "vf09",
+    verifiedAtBase: "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+  };
+  value.record.binding.lastIndependentVerification = stale;
+  value.selectedIndependentVerdict = stale;
+  delete value.record.binding.supersededIndependentVerification;
+  const output = apply(value);
+  assert.equal(output.binding.lastIndependentVerification, null);
+  assert.deepEqual(output.binding.supersededIndependentVerification, {
+    ...stale,
+    supersededBecause: "The entry-date, whole-case and appeal-gate repair changed both fixture PDFs; exact-byte review must be earned again.",
+  });
+});
+
+test("preserves future selected failures and passes, and accepts an explicit empty selection", () => {
+  for (const selectedIndependentVerdict of [
+    { verdict: "FAIL_REPAIR_REQUIRED", lane: "vf44", verifiedAtBase: "a".repeat(40) },
+    { verdict: "PASS_COMPLETE_INDEPENDENT", lane: "vf45", verifiedAtBase: "b".repeat(40) },
+    null,
+  ]) {
+    const value = fixture();
+    value.selectedIndependentVerdict = selectedIndependentVerdict;
+    value.record.binding.lastIndependentVerification = selectedIndependentVerdict;
+    assert.deepEqual(apply(value).binding.lastIndependentVerification, selectedIndependentVerdict);
+  }
 });
 
 test("leaves every unopted family byte-for-byte unchanged", () => {
@@ -89,6 +122,24 @@ test("refuses mismatched route, component, byte, raster, governance, and current
     ["unknown current verdict", value => {
       value.record.binding.lastIndependentVerification = { verdict: "PASS", lane: "vf01", verifiedAtBase: "future" };
     }],
+    ["missing selected verdict", value => { value.selectedIndependentVerdict = null; }],
+    ["forged selected verdict", value => {
+      value.selectedIndependentVerdict = { verdict: "PASS", lane: "vf99", verifiedAtBase: "c".repeat(40) };
+    }],
+    ["opaque selected metadata", value => {
+      value.selectedIndependentVerdict = {
+        verdict: "FAIL_REPAIR_REQUIRED", lane: "vf01",
+        verifiedAtBase: "b7610435835e6163254641505d25be7680cb514c", evidencePath: "opaque",
+      };
+    }],
+    ["opaque stale current metadata", value => {
+      const stale = {
+        verdict: "PASS_COMPLETE_INDEPENDENT", lane: "vf09",
+        verifiedAtBase: "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      };
+      value.record.binding.lastIndependentVerification = { ...stale, evidencePath: "opaque" };
+      value.selectedIndependentVerdict = stale;
+    }],
   ];
   let rejected = 0;
   for (const [name, mutate] of cases) {
@@ -97,7 +148,7 @@ test("refuses mismatched route, component, byte, raster, governance, and current
     assert.throws(() => apply(value), undefined, name);
     rejected++;
   }
-  assert.equal(rejected, 17);
+  assert.equal(rejected, 21);
   assert.deepEqual(routeSet(masterFamily.routeKeys), routeSet(ND_ROUTES));
 });
 
