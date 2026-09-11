@@ -1304,6 +1304,12 @@ const PA_6308_ORDER_CARRIED_FACTS = Object.freeze({
   DateAndArrestingAgency: "matter.complaint_or_arrest_date_and_arresting_agency",
   PetitionersAddress: "participant.address_one_line",
 });
+// Rule 490 item 11 is one charge-and-disposition composite. This family holds
+// only the charge, so the shared order allowlist must not make a partial write.
+const {
+  SpecificCharges: _pa6308Rule490PartialCharge,
+  ...PA_6308_490_ORDER_ALLOW
+} = { ...PA_ORDER_ALLOW, ...PA_6308_ORDER_CARRIED_FACTS };
 const PA_6308_HISTORICAL_JUDGE_DECLARATIONS = Object.freeze(Object.fromEntries([
   "Judge", "JudgeAddr1", "JudgeAddr2", "JudgeAddrCity", "JudgeAddrState", "JudgeAddrZip",
   "NameAddrOfJudge",
@@ -1334,7 +1340,7 @@ const PA_6308_ROW1_PARTIAL_CHARGE = Object.freeze({
     whyNotWrittenHere: "row_integrity: all seven offense-row cells must be completed together from the participant's source records",
   }),
 });
-const PA_6308_790_ORDER_CHARGE_DISPOSITION = Object.freeze({
+const PA_6308_ORDER_CHARGE_DISPOSITION = Object.freeze({
   refusalClass: null, blankTreatment: "REQUIRED_BEFORE_FILING",
   requiredBeforeFiling: true, routeDetermined: false, completesAfterService: false,
   effectiveLabel: "Specific charges and the disposition of each charge",
@@ -1445,11 +1451,12 @@ Object.assign(FAMILY, {
         },
       }),
       cloneDoc(PA_490_ORDER, {
-        allow: { ...PA_ORDER_ALLOW, ...PA_6308_ORDER_CARRIED_FACTS }, routeVehicle: "rule_490",
+        allow: PA_6308_490_ORDER_ALLOW, routeVehicle: "rule_490",
         declarations: {
           ...PA_6308_HISTORICAL_JUDGE_DECLARATIONS,
           ...PA_AFFIANT_RECORD_DECLARATIONS,
           Disposition: PA_6308_FUTURE_ORDER_DISPOSITION,
+          SpecificCharges: PA_6308_ORDER_CHARGE_DISPOSITION,
         },
       }),
       cloneDoc(PA_790_PETITION, {
@@ -1470,7 +1477,7 @@ Object.assign(FAMILY, {
           ...PA_6308_HISTORICAL_JUDGE_DECLARATIONS,
           ...PA_AFFIANT_RECORD_DECLARATIONS,
           Disposition: PA_6308_FUTURE_ORDER_DISPOSITION,
-          Text15: PA_6308_790_ORDER_CHARGE_DISPOSITION,
+          Text15: PA_6308_ORDER_CHARGE_DISPOSITION,
         },
       }),
     ],
@@ -1520,6 +1527,7 @@ Object.assign(FAMILY, {
         "The judge and court-address fields and the affiant fields describe the old case. Copy them from the docket, complaint/citation, or clerk-certified disposition; they are participant-supplied record facts, not future court or service acts.",
         "The complaint/citation date is collected independently from the offense date. Never copy the offense date into that field unless the participant's source record independently shows the dates are the same.",
         "If the Pennsylvania State Police report is not attached, ReasonForMissingHistory is the participant's own explanation. The governed route still requires a report obtained within 60 days before filing, so the explanation is not presented as a substitute for the report.",
+        "For Rule 490 `SpecificCharges` and Rule 790 `Text15`, the packet holds the charge description but not its actual disposition, so it leaves the whole item blank. Before filing, copy the charge from the charging document and its applicable disposition from the docket or clerk-certified disposition; do not write the charge alone.",
       ],
       selfHelpEnds: [
         "This packet prepares the Pennsylvania Rule 490 or Rule 790 petition, matching proposed order, and certificate of service for the participant to review, complete, sign, file, and serve. It does not decide eligibility and it stops when any governed condition below is true.",

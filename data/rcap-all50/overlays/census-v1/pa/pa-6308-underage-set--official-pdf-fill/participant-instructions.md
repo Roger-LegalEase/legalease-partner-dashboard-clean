@@ -19,7 +19,7 @@ These files are deterministic review fixtures made from exact held official sour
 
 The platform holds no value for any of these, and this packet never guesses at one. Each row names the page of the component, the form field as the source PDF names it, and the words the measurement read next to the blank. Where the measurement could reach no printed caption, read the printed page to see what the blank asks for.
 
-3 rows below are exceptions and say so on their own lines: the packet holds at least part of the answer. Each row states exactly what is held, what is missing, and why the complete entry was left blank. Complete it from your own court records.
+4 rows below are exceptions and say so on their own lines: the packet holds at least part of the answer. Each row states exactly what is held, what is missing, and why the complete entry was left blank. Complete it from your own court records.
 
 ### PA-RCRIM-P-490-PETITION
 
@@ -99,6 +99,7 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 2 | `NameAddrOfJudge` | the form prints `Name and address of the judge who accepted the plea or heard the old case` beside it |
 | 2 | `PetitionersSSN` | the form prints `5.PetitionerÕs Social Security Number` beside it |
 | 1 | `PresentedBy` | the form prints `_______________________________________ presented by` beside it |
+| 2 | `SpecificCharges` | the form prints `Specific charges and the disposition of each charge` beside it — this packet holds `matter.charge` but does not hold charge disposition; the whole entry remains blank (composite_integrity: the source asks for both the charge and its disposition, and the disposition is not held) |
 
 ### PA-RCRIM-P-790-PETITION
 
@@ -193,6 +194,8 @@ The judge and court-address fields and the affiant fields describe the old case.
 The complaint/citation date is collected independently from the offense date. Never copy the offense date into that field unless the participant's source record independently shows the dates are the same.
 
 If the Pennsylvania State Police report is not attached, ReasonForMissingHistory is the participant's own explanation. The governed route still requires a report obtained within 60 days before filing, so the explanation is not presented as a substitute for the report.
+
+For Rule 490 `SpecificCharges` and Rule 790 `Text15`, the packet holds the charge description but not its actual disposition, so it leaves the whole item blank. Before filing, copy the charge from the charging document and its applicable disposition from the docket or clerk-certified disposition; do not write the charge alone.
 
 ## Values this platform holds but did not print
 

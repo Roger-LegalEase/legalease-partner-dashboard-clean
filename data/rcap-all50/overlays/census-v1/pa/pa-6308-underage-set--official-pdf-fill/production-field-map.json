@@ -2429,9 +2429,15 @@
         },
         {
           "field": "SpecificCharges",
-          "decision": "candidate_write",
-          "factId": "matter.charge",
-          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-490-ORDER field SpecificCharges",
+          "effectiveLabel": "Specific charges and the disposition of each charge",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds a plain-language charge description but no exact disposition for that charge. Complete the charge-and-disposition entry from the charging document and disposition; the whole entry remains blank rather than implying that the held charge alone is a complete answer.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2444,7 +2450,17 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null,
+          "partialFactsHeldButNotPrinted": {
+            "factIds": [
+              "matter.charge"
+            ],
+            "missingFacts": [
+              "charge disposition"
+            ],
+            "whyNotWrittenHere": "composite_integrity: the source asks for both the charge and its disposition, and the disposition is not held"
+          }
         },
         {
           "field": "DocketNumber",

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
@@ -84,15 +85,46 @@ test("PA 6308 carries composites where they fit and discloses partial answers", 
   assert.ok(boundaryOrder.heldButNotPrinted.some((row) =>
     row.field === "PetitionersAddress" && row.factId === "participant.address_one_line"));
   for (const documentId of ["PA-RCRIM-P-490-PETITION", "PA-RCRIM-P-790-PETITION"]) {
-    assert.deepEqual(field(documentId, "Statute DescriptionRow1").partialFactsHeldButNotPrinted.factIds,
-      ["matter.charge"]);
+    const row = field(documentId, "Statute DescriptionRow1");
+    assert.equal(row.decision, "refuse", `${documentId}/Statute DescriptionRow1`);
+    assert.equal(row.factId, null, `${documentId}/Statute DescriptionRow1`);
+    assert.equal(row.requiredBeforeFiling, true, `${documentId}/Statute DescriptionRow1`);
+    assert.deepEqual(row.partialFactsHeldButNotPrinted, {
+      factIds: ["matter.charge"],
+      missingFacts: ["statutory title", "section", "subsection", "counts", "grade", "charge disposition"],
+      whyNotWrittenHere: "row_integrity: all seven offense-row cells must be completed together from the participant's source records",
+    }, `${documentId}/Statute DescriptionRow1`);
   }
-  assert.deepEqual(field("PA-RCRIM-P-790-ORDER", "Text15").partialFactsHeldButNotPrinted, {
+  const expectedPartialCharge = {
     factIds: ["matter.charge"],
     missingFacts: ["charge disposition"],
     whyNotWrittenHere: "composite_integrity: the source asks for both the charge and its disposition, and the disposition is not held",
-  });
-  assert.match(guide, /Text15.*holds `matter\.charge` but does not hold charge disposition/i);
+  };
+  for (const [documentId, fieldName] of [
+    ["PA-RCRIM-P-490-ORDER", "SpecificCharges"],
+    ["PA-RCRIM-P-790-ORDER", "Text15"],
+  ]) {
+    const composite = field(documentId, fieldName);
+    assert.equal(composite.decision, "refuse", `${documentId}/${fieldName}`);
+    assert.equal(composite.factId, null, `${documentId}/${fieldName}`);
+    assert.equal(composite.blankTreatment, "REQUIRED_BEFORE_FILING", `${documentId}/${fieldName}`);
+    assert.equal(composite.requiredBeforeFiling, true, `${documentId}/${fieldName}`);
+    assert.deepEqual(composite.partialFactsHeldButNotPrinted, expectedPartialCharge,
+      `${documentId}/${fieldName}`);
+    const artifact = writes.artifacts.find((row) => row.documentId === documentId);
+    assert.ok(!artifact.proof.writtenProof.some((row) => row.field === fieldName),
+      `${documentId}/${fieldName} must not print the held charge alone`);
+    assert.ok(artifact.refused.some((row) => row.field === fieldName),
+      `${documentId}/${fieldName} must remain an unwritten widget in the real artifact report`);
+    const extracted = spawnSync("pdftotext", [path.join(ROOT, artifact.file), "-"], { encoding: "utf8" });
+    assert.equal(extracted.status, 0, `${documentId}: pdftotext must read the real built PDF`);
+    assert.doesNotMatch(extracted.stdout, /SYNTHETIC FIXTURE/i,
+      `${documentId}/${fieldName} real PDF must not contain the charge without its disposition`);
+    assert.match(guide,
+      new RegExp(`${fieldName}.*holds ` + "`matter\\.charge`" + " but does not hold charge disposition", "i"));
+  }
+  assert.match(guide,
+    /Before filing, copy the charge from the charging document and its applicable disposition from the docket or clerk-certified disposition; do not write the charge alone/i);
 });
 
 test("PA 6308 guide carries the governed questions, evidence, venue, cost, and all three stops", () => {
