@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "69a04a04687c56c04da90bdb1e6648d0d794e39a",
+  "minimumCaptainSha": "3c799170ea5f0bdf4bdc75338b5defb364cec9b1",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "ae68b3d3c0a369a4d8b183fdd67b8ccfd180c7d920aada15355055ddbc2c8762",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "9061e84b09407069ae062407ecfbf7afc3c66e9ca6bdc0dfe29920295f220c0e",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -28,6 +28,7 @@
     "data/rcap-all50/local-source-corpus-index.json": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
     "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+    "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json": "1e52f3e380a6b0bcecd339a8937b4bc3eaca56c907478db3ad9184a472d2d762",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "6634e3443f35b184630f09514f28adfff0a665939416959b2d3bc7bf15c2123a",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d",
@@ -74,32 +75,32 @@
     "guidanceOnly": 0,
     "remaining": 345,
     "sourceReady": 34,
-    "sourceBlocked": 5,
+    "sourceBlocked": 4,
     "legalBlocked": 0,
-    "verifyPending": 4,
-    "repairRequired": 29,
+    "verifyPending": 3,
+    "repairRequired": 30,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 233,
     "PRODUCT_PATH_PENDING": 11,
     "OUT_OF_SCOPE": 5,
-    "BUILT_RASTER_PENDING": 8,
+    "BUILT_RASTER_PENDING": 9,
+    "FAIL_REPAIR_REQUIRED": 31,
     "SOURCE_READY": 34,
-    "FAIL_REPAIR_REQUIRED": 30,
-    "SOURCE_BLOCKED": 5,
+    "SOURCE_BLOCKED": 4,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 4,
+    "VERIFY_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 85,
     "GUIDANCE_AUTHORITY_BOUND": 5,
-    "SOURCE_BOUND_BY_HELD_BYTES": 244,
+    "SOURCE_BOUND_BY_HELD_BYTES": 245,
     "SOURCE_GENUINELY_MISSING": 1,
-    "SOURCE_IDENTITY_UNRESOLVED": 5,
+    "SOURCE_IDENTITY_UNRESOLVED": 4,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3,
     "SOURCE_ALREADY_HELD": 3
   },
@@ -168,7 +169,7 @@
     "familiesPerBuilder": 1.4,
     "targetPerBuilder": "15 to 25",
     "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 34 do, so a full roster of 25 builders averages 1.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 6 source obligations across 5 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 5 source obligations across 4 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -3435,11 +3436,7 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -3453,16 +3450,26 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-pardon-set.mjs",
@@ -8289,9 +8296,12 @@
       ],
       "routeCount": 1,
       "implementationStrategy": "official_pdf_fill",
-      "packetComponents": [],
+      "packetComponents": [
+        "component:UT-PCRA-ATTACHMENTS-A-B",
+        "component:UT-RULE-65C-PCRA"
+      ],
       "instrumentKinds": [
-        "Utah Trafficking Vacatur and Expungement Petition"
+        "generic Rule 65C PCRA petition plus Attachments A-B"
       ],
       "officialFormFamily": "1231XX",
       "forms": [
@@ -8447,15 +8457,29 @@
       "sourceIds": [
         "official-form:1174XX"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:1174XX",
+          "path": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+          "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+          "tier": "exact_content_hash"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:1174XX: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:1174XX",
+            "path": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+            "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json"
+          }
         ],
-        "boundSources": [],
         "boundGuidanceAuthorityRecords": [],
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
@@ -8464,7 +8488,7 @@
         "effectiveOfficialSourceIds": [
           "official-form:1174XX"
         ],
-        "boundCount": 0,
+        "boundCount": 1,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "directAttachment": true
@@ -8510,7 +8534,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-census-pending-family:UT:path-m-juvenile-expungement.mjs",
@@ -35338,12 +35362,12 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "PASS_COMPLETE",
-      "allNineCountersZero": true,
+      "completenessStatus": "FAIL_MISSING_PREFILLS",
+      "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
+        "unclassifiedBlanks": 18,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
@@ -35351,7 +35375,9 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [],
+      "failingCounters": [
+        "unclassifiedBlanks"
+      ],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
@@ -45758,9 +45784,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf62",
-        "verifiedAtBase": "1dd3c9aabb2e402181670d4545681a73e1f58f30",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ut-special-final.json"
+        "lane": "vf02",
+        "verifiedAtBase": "64c679ac6218a72f6421b6d8ab203b3b4aaa6dc7",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-ut-special-final.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -45793,61 +45819,19 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "COMPONENT_SET",
-        "FILING_DESTINATION",
-        "KNOWN_PREFILLS",
-        "ROUTE_IDENTITY",
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP"
+        "ROUTE_IDENTITY"
       ],
       "failedObligations": [
         {
           "obligation": "ROUTE_IDENTITY",
           "finding": null,
           "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/stage-gate-probes.json"
-        },
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/defects.json"
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/defects.json"
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/source-election-probes.json"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/original-page-review.json"
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/defects.json"
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/source-election-probes.json"
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/builder-caller-probes.json"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
@@ -51358,12 +51342,12 @@
     "sourceLanes": 16,
     "repairLanes": 8,
     "familiesAssignedToBuilders": 34,
-    "sourceObligationsAssigned": 6,
+    "sourceObligationsAssigned": 5,
     "actualPromotedAndReleased": 34,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 5,
+    "prospectiveReleasesAcrossSourceLanes": 4,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 250,
-    "rows": 1313,
+    "returnDirectories": 251,
+    "rows": 1314,
     "independentVerdicts": 302,
     "failRepairRequired": 30,
     "passIndependent": 252
@@ -32754,6 +32754,29 @@
     {
       "familyId": "ut_pet_special_certificate-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "64c679ac6218a72f6421b6d8ab203b3b4aaa6dc7",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/builder-caller-probes.json"
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-ut-special-final.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_special_certificate-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ut_pet_special_certificate-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf62",
       "isIndependentVerification": true,
       "verifiedAtBase": "1dd3c9aabb2e402181670d4545681a73e1f58f30",
@@ -32814,7 +32837,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ut-special-final.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_special_certificate-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ut_pet_traffic-set",
