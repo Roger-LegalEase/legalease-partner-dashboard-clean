@@ -52,9 +52,34 @@ export function resolveExactSources(root = ROOT) {
     });
 }
 
+function exactCalendarInstant(value) {
+  if (value instanceof Date) {
+    return Number.isFinite(value.valueOf()) ? new Date(value.valueOf()) : null;
+  }
+  if (typeof value !== "string") return null;
+  const text = value.trim();
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text);
+  const timestamp = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{1,9}))?)?(Z|[+-](\d{2}):(\d{2}))?$/.exec(text);
+  const match = dateOnly ?? timestamp;
+  if (!match) return null;
+  const year = Number(match[1]), month = Number(match[2]), day = Number(match[3]);
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  if (month < 1 || month > 12 || day < 1 || day > days[month - 1]) return null;
+  if (timestamp) {
+    const hour = Number(timestamp[4]), minute = Number(timestamp[5]);
+    const second = timestamp[6] === undefined ? 0 : Number(timestamp[6]);
+    const offsetHour = timestamp[9] === undefined ? 0 : Number(timestamp[9]);
+    const offsetMinute = timestamp[10] === undefined ? 0 : Number(timestamp[10]);
+    if (hour > 23 || minute > 59 || second > 59 || offsetHour > 23 || offsetMinute > 59) return null;
+  }
+  const parsed = new Date(dateOnly ? `${text}T00:00:00.000Z` : text);
+  return Number.isFinite(parsed.valueOf()) ? parsed : null;
+}
+
 export function specialCertificateStageGate({ certificate, episodeId, expectedDocumentSha256, asOf = new Date() }) {
-  const now = new Date(asOf);
-  if (Number.isNaN(now.valueOf())) return { status: "REFUSE", reason: "INVALID_AS_OF" };
+  const now = exactCalendarInstant(asOf);
+  if (!now) return { status: "REFUSE", reason: "INVALID_AS_OF" };
   if (!certificate || typeof certificate !== "object") return { status: "REFUSE", reason: "SPECIAL_CERTIFICATE_REQUIRED" };
   if (certificate.type !== "UT_BCI_SPECIAL_CERTIFICATE") return { status: "REFUSE", reason: "WRONG_CERTIFICATE_TYPE" };
   if (certificate.familyId !== FAMILY_ID) return { status: "REFUSE", reason: "WRONG_CERTIFICATE_FAMILY" };
@@ -66,9 +91,9 @@ export function specialCertificateStageGate({ certificate, episodeId, expectedDo
   if (!/^[0-9a-f]{64}$/.test(certificate.documentSha256 ?? "")) return { status: "REFUSE", reason: "CERTIFICATE_IDENTITY_PROOF_REQUIRED" };
   if (!/^[0-9a-f]{64}$/.test(expectedDocumentSha256 ?? "")) return { status: "REFUSE", reason: "EXPECTED_CERTIFICATE_IDENTITY_REQUIRED" };
   if (certificate.documentSha256 !== expectedDocumentSha256) return { status: "REFUSE", reason: "CERTIFICATE_IDENTITY_MISMATCH" };
-  const issued = new Date(certificate.issuedAt);
-  const expires = new Date(certificate.expiresAt);
-  if (!certificate.issuedAt || !certificate.expiresAt || Number.isNaN(issued.valueOf()) || Number.isNaN(expires.valueOf())) return { status: "REFUSE", reason: "CERTIFICATE_DATES_REQUIRED" };
+  const issued = exactCalendarInstant(certificate.issuedAt);
+  const expires = exactCalendarInstant(certificate.expiresAt);
+  if (!issued || !expires) return { status: "REFUSE", reason: "CERTIFICATE_DATES_REQUIRED" };
   if (issued > now) return { status: "REFUSE", reason: "CERTIFICATE_ISSUED_IN_FUTURE" };
   if (expires <= now) return { status: "REFUSE", reason: "SPECIAL_CERTIFICATE_EXPIRED" };
   const life = expires - issued;

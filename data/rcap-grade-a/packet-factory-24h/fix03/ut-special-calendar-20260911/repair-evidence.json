@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h/focused-repair-evidence/v1",
+  "assignmentId": "FIX03",
+  "familyId": "ut_pet_special_certificate-set",
+  "assignedBase": "3c799170ea5f0bdf4bdc75338b5defb364cec9b1",
+  "worktree": "/tmp/rcap-fix05-pa-disposition-20260911",
+  "claim": {
+    "status": "CLAIM_OK",
+    "grantSet": "c177980611f40d72"
+  },
+  "defect": {
+    "defectId": "UT-VF02-CURRENT-01",
+    "obligation": "ROUTE_IDENTITY",
+    "before": "JavaScript Date normalized nonexistent calendar days in issuedAt, expiresAt and asOf, allowing them through ALLOW_STAGE_2.",
+    "repair": "The production specialCertificateStageGate now accepts only valid Date objects, ISO date-only strings, or structurally valid ISO timestamps whose stated year/month/day and time components exist before constructing Date values.",
+    "failureReasonsPreserved": {
+      "asOf": "INVALID_AS_OF",
+      "certificateDates": "CERTIFICATE_DATES_REQUIRED"
+    },
+    "status": "REPAIRED_BY_AUTHOR_LANE"
+  },
+  "actualWrapperBarrier": {
+    "export": "buildUtahSpecialCertificate",
+    "input": "stageInput",
+    "invalidCases": 11,
+    "validCases": 6,
+    "allInvalidRefusedBeforeFirstMkdir": true,
+    "allValidReachedFirstMkdirBarrier": true,
+    "covered": [
+      "impossible June 31, February 30, and nonleap February 29",
+      "impossible asOf date",
+      "null, number, object and malformed values",
+      "valid leap/nonleap date-only strings",
+      "UTC and offset timestamps",
+      "valid Date objects and omitted asOf current-Date default"
+    ],
+    "log": "data/rcap-grade-a/packet-factory-24h/fix03/ut-special-calendar-20260911/calendar-wrapper-test.log"
+  },
+  "existingBehavior": {
+    "episodeAndHashGatesPreserved": true,
+    "expiredAndFutureGatesPreserved": true,
+    "maximumValidityDays": 180,
+    "existingStageTest": "PASS",
+    "existingRepairTest": "PASS",
+    "existingCompletenessTest": "PASS_COMPLETE",
+    "readOnlyBuilderCheck": "CHECKED_READ_ONLY"
+  },
+  "artifactIdentity": [
+    {
+      "fixture": "canonical",
+      "sha256AtBase": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+      "sha256After": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+      "pageCount": 13,
+      "unchanged": true
+    },
+    {
+      "fixture": "boundary",
+      "sha256AtBase": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+      "sha256After": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+      "pageCount": 20,
+      "unchanged": true
+    }
+  ],
+  "existingIndependentReviewPreserved": {
+    "rasterRunId": "34629454670",
+    "reviewFindingsPassed": 14,
+    "pdfBytesChanged": false
+  },
+  "commands": [
+    {
+      "command": "node scripts/rcap-packet-recovery/ut-special-certificate-calendar.test.mjs",
+      "exitCode": 0,
+      "result": "17 real-wrapper mutation-barrier cases PASS"
+    },
+    {
+      "command": "node scripts/lib/ut-special-certificate-stage-gate.test.mjs",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/ut-special-certificate-repair.test.mjs",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/ut-special-certificate-completeness.test.mjs",
+      "exitCode": 0,
+      "result": "PASS_COMPLETE"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-ut_pet_special_certificate-set.mjs --check",
+      "exitCode": 0,
+      "result": "CHECKED_READ_ONLY; noRaster is enforced by the exported build wrapper"
+    },
+    {
+      "command": "node data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/completeness-readonly.mjs",
+      "exitCode": 0,
+      "result": "PASS_COMPLETE"
+    }
+  ],
+  "pdfsChanged": 0,
+  "localRasterPerformed": false,
+  "independentAcceptancePerformed": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
