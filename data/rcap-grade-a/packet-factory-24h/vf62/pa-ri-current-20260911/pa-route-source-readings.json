@@ -1,0 +1,111 @@
+{
+  "trackId": "pa_6308_underage",
+  "authority": [
+    "18 Pa.C.S. \u00a7 6308",
+    "18 Pa.C.S. \u00a7 9122(a)",
+    "Pa.R.Crim.P. 490",
+    "Pa.R.Crim.P. 790"
+  ],
+  "reviewedAsOf": "2026-07-31",
+  "mechanism": "Where a person who is 21 years of age or older was convicted of violating \u00a7 6308 for the purchase, consumption, possession or transportation of liquor or malt or brewed beverages, and has satisfied all terms and conditions of the sentence, the court shall order expungement of the record of the conviction.",
+  "destination": {
+    "kind": "clerk",
+    "name": "Clerk of the courts of the judicial district in which the charges were disposed",
+    "detail": "File on the rule form matching the court that disposed of the case, with service on the attorney for the Commonwealth concurrently with filing."
+  },
+  "venue": "The clerk of the courts of the judicial district in which the charges were disposed.",
+  "rules": {
+    "filing": "File the verified petition and blank order on the rule form matching the court that disposed of the case.",
+    "fees": "County filing fees vary and no confirmed statewide schedule exists.",
+    "feeWaiver": "In forma pauperis relief is available on the statewide forms.",
+    "notice": "Service on the attorney for the Commonwealth concurrently with filing; 30 days under Rule 490 and 60 days under Rule 790.",
+    "service": "Service on the attorney for the Commonwealth concurrently with filing.",
+    "participantSignature": "The petitioner signs and verifies the petition.",
+    "notarization": "none"
+  },
+  "generationRequirements": [
+    {
+      "key": "currentAge21OrOver",
+      "question": "Are you 21 years of age or older?",
+      "requirement": "required"
+    },
+    {
+      "key": "docketNumber",
+      "question": "What is the docket number for the underage alcohol conviction?",
+      "requirement": "required"
+    },
+    {
+      "key": "courtLevel",
+      "question": "Was the case handled by a magisterial district judge or the court of common pleas?",
+      "requirement": "required"
+    },
+    {
+      "key": "offenseAge",
+      "question": "How old were you when the offence occurred?",
+      "requirement": "required"
+    },
+    {
+      "key": "sentenceConditionsSatisfied",
+      "question": "Have you satisfied every term and condition of the sentence?",
+      "requirement": "required"
+    },
+    {
+      "key": "licenseSuspensionServed",
+      "question": "If your driving privileges were suspended for this offence, has the suspension been completed?",
+      "requirement": "required"
+    }
+  ],
+  "participantFilingRequirements": [
+    {
+      "name": "Proof that the driving-privilege suspension was completed",
+      "obtainedFrom": "Pennsylvania Department of Transportation",
+      "requirement": "conditional",
+      "conditionDescription": "Only where a licence suspension was imposed for the offence.",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request a driver history from PennDOT showing the suspension was served and restoration completed. LegalEase never collects, inspects or authenticates it.",
+      "confirms": "licenseSuspensionServed"
+    },
+    {
+      "name": "Pennsylvania State Police criminal history report obtained within 60 days before filing",
+      "obtainedFrom": "Pennsylvania State Police",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request the criminal history report within 60 days before filing and attach it."
+    }
+  ],
+  "selfHelpStopConditions": [
+    "A licence suspension imposed for the offence has not been completed, which is the condition most often overlooked.",
+    "Any other term or condition of the sentence remains unsatisfied.",
+    "The participant is under 21."
+  ],
+  "legalDesignStatus": "legal_design_approved_with_limitations",
+  "openLegalQuestions": [
+    {
+      "question": "The commencement date of the \u00a7 6308 expungement provision itself, which the reviewed authority does not state. The \u00a7 9122 framework date is carried in the interim.",
+      "impact": "nonblocking_research_note",
+      "affectedElement": "eligibility_branch",
+      "provenance": {
+        "classificationBasis": "counsel_confirmation_required",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "TRACK 7 / Controlling statute",
+        "sourceStatement": "**Controlling statute:** 18 Pa.C.S. \u00a7 6308.",
+        "counselQuestion": "The review cites \u00a7 6308 without an effective date. This normalization carries the \u00a7 9122 framework commencement. Please confirm the correct effective date for the \u00a7 6308 expungement provision."
+      }
+    }
+  ],
+  "sourceFile": "data/record-clearing/legal-design-track-registry.json",
+  "sourceSha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+  "participantGuideSha256": "ff7d9af84215fd37445ce65c78c078715ef52f5613a15a548d9399d44808d9d7",
+  "participantGuideContains": {
+    "PennDOT": false,
+    "driverHistory": false,
+    "statePoliceReport": false,
+    "60Days": false,
+    "feeWaiver": false,
+    "inFormaPauperis": false,
+    "clerkOfCourts": false,
+    "age21": false,
+    "licenceSuspension": false,
+    "unsatisfiedSentence": false
+  }
+}

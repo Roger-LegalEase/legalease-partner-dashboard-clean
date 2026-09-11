@@ -9,7 +9,7 @@
   "branch": "vf62-pa-ri-current-20260911",
   "verifiedAtBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5",
   "grantSet": "68b7fb4c3981d80b",
-  "reviewAssignment": "One complete pass per current candidate; RI reuses 14 unchanged current-byte findings and completes only the remaining original-raster obligation. PA full pass is being finalized in this same return.",
+  "reviewAssignment": "One complete pass per current candidate. RI reuses 14 unchanged findings and completes original-raster measurement. PA independently scores all 15 obligations and returns every defect together.",
   "builtAnything": false,
   "repairsMade": false,
   "packetsSelfVerified": 0,
@@ -291,8 +291,354 @@
       },
       "sourceFreshnessAndLegalLimits": "Reuses the existing 14 current-byte findings, including the conservative ask-clerk fee/waiver and service-method treatment. No new freshness lookup, legal decision, local-practice approval, route authority or production admission is asserted.",
       "remainingRequirements": []
+    },
+    {
+      "itemId": "pa_6308_underage-set",
+      "familyId": "pa_6308_underage-set",
+      "lane": "VF62",
+      "jurisdiction": "PA",
+      "reviewer": "/root/pa_ri_independent_acceptance",
+      "sessionIdentity": "/root/pa_ri_independent_acceptance",
+      "verifiedAtBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "allRequiredObligationsScored": 15,
+      "obligationSummary": {
+        "PASS": 10,
+        "FAIL": 5,
+        "NOT_MEASURABLE_HERE": 0
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Exact underage route key agrees across source receipt, route map, component specification and governed track. Canonical established magisterial_district_judge selects Rule 490; boundary court_of_common_pleas selects Rule 790. Unknown court level throws before selection; guide preserves court-record/no-inference stop. Generic fixture facts do not establish an eligible underage case (secondary finding S1).",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/route-vehicle-map.json",
+            "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-route-source-readings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json"
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Four exact held official PDFs independently opened and rehashed: SHA-256, length, parsed pages and 76/29/76/29 fields match receipt. No source substitution. This establishes custody, not current freshness/local practice; archive revision-label limitations are retained.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Each fixture contains its own one-page petition, matching two-page order and one-page custom service certificate. Six PDFs total; no missing declared generated component or cross-vehicle order. Separate guide exists. Component presence does not cure missing guide substance.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "basis": "All 37 declared text-write instances read back and are visible, but both orders omit known complete addresses and arrest/agency composites. The 790 charge box and petition row-1 charge explanations deny held facts. Both complaint-date fields use offense_date without an established equivalence; historical case facts are falsely externally owned. PA-VF62-01 through 03.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "basis": "The repair preserves 116 official declarations and explicitly identifies three blank service facts. Whole-route completion still fails: historical judge/affiant/history-explanation facts are misowned, future court dispositions are demanded before filing, and governed PennDOT/State Police evidence and eligibility questions are absent. PA-VF62-02 and 04.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "The 490/790 vehicle is selected from established court level. No guessed judicial ruling, payment/attachment event or participant legal election is marked. Case-dependent assertions await facts; judicial choices remain blank. Missing eligibility questions are independently failed under REQUIRED_BEFORE_FILING; no eligibility decision is granted here.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/route-vehicle-map.json",
+            "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-route-source-readings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json"
+          ]
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "All five seven-cell offense rows in each petition remain wholly blank. No charge is printed alone beside missing required table cells. The false held-charge withholding explanation is failed under KNOWN_PREFILLS; no-half-written-row passes.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/nonvisual-pa.log"
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "All eight original pages show no generated signature/date, future judicial ruling/date/signature or performed-service office/address/method/date. Current nonvisual saved-byte proof corroborates no protected ink. Participant identifiers in order captions are distinct from judicial acts. Incorrect role labels and instructions are failed separately.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/nonvisual-pa.log"
+          ]
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "All six current PDFs independently hash and parse to rendered-artifacts.json and original run 34602289097 at packet commit 3bb298d136ccca78f63256dc6bef210692f42331. Original ZIP ffe836e0433b8cc405443c78f541c0a89d84be56a5e30f411495744eeb3576c7 and all eight PNG hashes/lengths match. Stale DECLARED_NOT_INSTALLED product-wiring is separately identified and not used as current identity.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Each vehicle retains petition page 1, order pages 1/2 in source order and certificate page. Current PDF parsing confirms 1/2/1 counts per vehicle; all eight original raster page bindings agree. Separate fixture records are not interpreted as one mixed packet.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/nonvisual-pa.log"
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "All eight original GHA pages independently read, with 37 current-byte write instances located at their source widgets and corroborated by original pixels. No clipped/overlapping added text; refused long values stay blank; service pages and source text/footers remain readable. Measured paper 2040x2640 at 3.3333333333333335 px/pt is distinguished from 2448x3168 canvas.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/nonvisual-pa.log"
+          ]
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "basis": "Guide never names the governed clerk of the courts of the judicial district in which charges were disposed. Generic confirmation advice and correct court-level selection do not state where to file. PA-VF62-05.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "basis": "Guide omits known county-fee variability/no statewide schedule and the statewide in forma pauperis waiver route. Both are already in the governed record; no new fee amount or research is needed. PA-VF62-06.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Packet names attorney for the Commonwealth and concurrent-with-filing timing; honestly states the held record does not establish a locally accepted method, and directs completion after following the filing court accepted procedure. Three performed-service facts and signature/date remain blank until the act occurs.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/route-vehicle-map.json",
+            "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-route-source-readings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "basis": "All three governed stops absent: incomplete license suspension, any other unsatisfied sentence condition, and participant under 21. Correct unknown-court stop does not replace them. PA-VF62-07.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json"
+        }
+      },
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
+      "defectIds": [
+        "PA-VF62-01",
+        "PA-VF62-02",
+        "PA-VF62-03",
+        "PA-VF62-04",
+        "PA-VF62-05",
+        "PA-VF62-06",
+        "PA-VF62-07"
+      ],
+      "defectEvidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json",
+      "secondaryFindings": [
+        {
+          "id": "PA-VF62-S1",
+          "kind": "fixture_representativeness_limit",
+          "finding": "The canonical proposed order\u2019s SpecificCharges field visibly says Possession of a controlled substance, and the boundary facts carry a longer version of that drug charge. These are generic layout fixtures, not demonstrations of a qualifying \u00a76308 alcohol conviction. Court-level vehicle selection is tested, but no valid underage-route factual example or satisfaction of its eligibility conditions is established. This limitation is not treated as a new legal conclusion about a real participant."
+        },
+        {
+          "id": "PA-VF62-S2",
+          "kind": "stale_nonruntime_metadata",
+          "finding": "product-wiring.json is DECLARED_NOT_INSTALLED and still lists the old canonical hashes (1048b627..., a7b5f371..., 79101f2b...) and a custom_pleading delivery representation. Current rendered-artifacts.json correctly binds all six new PDFs and the route-vehicle map controls the review. The stale nonruntime descriptor cannot be used as an acceptance or delivery identity. Captain owns shared/generated integration; this reviewer did not change it."
+        },
+        {
+          "id": "PA-VF62-S3",
+          "kind": "source_freshness_limit",
+          "finding": "Exact held PDF custody is established; current form freshness and local practice are not. Archive revision tags for the two petitions and 490 order differ from their visible footers (03/09/12, 03/06/14); they are retained archive labels, not a newly verified current-edition claim. The 790 order footer is 07/21/21. No official-site lookup or new freshness conclusion was made."
+        }
+      ],
+      "positiveRepairFindings": {
+        "caption": {
+          "faultyContextsCorrected": 10,
+          "conservativePriorCensusDifferences": 18,
+          "remeasurementMatchesCommittedEvidence": true
+        },
+        "officialFieldMapRowsPreserved": 210,
+        "officialRequiredDeclarationsPreserved": 116,
+        "serviceCertificate": "All 3 performed-service facts required and blank; signature and signature date protected and blank; recipient and timing are source-backed."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": false,
+        "counterNote": "Scoped completeness reports nine zeros/PASS_COMPLETE, but its known/missing/blank classifications are contradicted by source review. Those three semantic counters are not adopted as zero; no invented aggregate replaces them. Seven enumerated defect groups supply failure evidence. Whole-row withholding, component/vehicle presence, declared-write visibility and protected/visual ink were directly checked."
+      },
+      "completenessCommand": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set",
+        "exitCode": 0,
+        "substantiveResult": "PASS_COMPLETE",
+        "reportedWritten": "43/217",
+        "reportedCounters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "independentConclusion": "Mechanical PASS does not override current source/route defects.",
+        "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/completeness-pa.log"
+      },
+      "rasterAcceptance": {
+        "state": "RASTER_PASS",
+        "workflowRunId": "34602289097",
+        "renderedCommitSha": "3bb298d136ccca78f63256dc6bef210692f42331",
+        "documentsDigest": "3d6fc9ec01545fa24c61622bef9e864524c887a129413891276005c66d00da77",
+        "receipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.verdict.json",
+        "originalArchiveSha256": "ffe836e0433b8cc405443c78f541c0a89d84be56a5e30f411495744eeb3576c7",
+        "pagesRead": 8,
+        "documents": [
+          {
+            "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+            "documentId": "pa_6308_underage-certificate-of-service-3",
+            "fixture": "canonical",
+            "sha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad",
+            "bytes": 2711,
+            "pages": 1
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-490-order-canonical.pdf",
+            "documentId": "PA-RCRIM-P-490-ORDER",
+            "fixture": "canonical",
+            "sha256": "2339fbe6c7e9ee2d7a255ad5976083af54d86362b331d32fb76ed2dc265954ea",
+            "bytes": 220816,
+            "pages": 2
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-490-petition-canonical.pdf",
+            "documentId": "PA-RCRIM-P-490-PETITION",
+            "fixture": "canonical",
+            "sha256": "c2d6a4b36adb93a94a5fd495b231f448a31bffec726cf93a41646cc20799643c",
+            "bytes": 123064,
+            "pages": 1
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+            "documentId": "pa_6308_underage-certificate-of-service-3",
+            "fixture": "boundary",
+            "sha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8",
+            "bytes": 2778,
+            "pages": 1
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-790-order-boundary.pdf",
+            "documentId": "PA-RCRIM-P-790-ORDER",
+            "fixture": "boundary",
+            "sha256": "b61ec40aa8d9d9a1a4caadc659b576068b585caf529f95b114b414f92a707c7c",
+            "bytes": 194831,
+            "pages": 2
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-790-petition-boundary.pdf",
+            "documentId": "PA-RCRIM-P-790-PETITION",
+            "fixture": "boundary",
+            "sha256": "2752be17246bbaaecef7992f131a9d6e861b9ea3024a84e4076539c561282c69",
+            "bytes": 120325,
+            "pages": 1
+          }
+        ],
+        "evidence": [
+          "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json",
+          "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json"
+        ],
+        "negativeControls": {
+          "refused": 5,
+          "notExercised": 1
+        }
+      },
+      "sourceBindings": [
+        {
+          "documentId": "PA-RCRIM-P-490-PETITION",
+          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
+          "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+          "bytes": 87204,
+          "pages": 1,
+          "fieldCount": 76
+        },
+        {
+          "documentId": "PA-RCRIM-P-490-ORDER",
+          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
+          "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+          "bytes": 143399,
+          "pages": 2,
+          "fieldCount": 29
+        },
+        {
+          "documentId": "PA-RCRIM-P-790-PETITION",
+          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+          "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+          "bytes": 87647,
+          "pages": 1,
+          "fieldCount": 76
+        },
+        {
+          "documentId": "PA-RCRIM-P-790-ORDER",
+          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+          "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+          "bytes": 151853,
+          "pages": 2,
+          "fieldCount": 29
+        }
+      ],
+      "commands": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/commands.json",
+      "sourceFreshnessAndLegalLimits": "Exact held custody and committed route evidence were measured. No new legal approval, freshness finding, local-practice answer, fee amount, service method or owner decision. No lookup repeated: missing guide content is already established by the governed record.",
+      "nextAction": "Repair all seven identified groups together while retaining accepted caption/service/vehicle safeguards. Obtain fresh raster only for changed PDFs and independently review changed dependencies. Preserve existing freshness/local-practice/output approval gates.",
+      "builtThisFamily": false,
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "evidenceRead": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-held-source-text-readings.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-route-source-readings.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-defects.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/caption-remeasurement.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/original-page-review.json"
+      ]
     }
   ],
   "grantsNothing": "Independent evidence only. Captain handles central state and any separate authority gates. No packet, source, legal decision, acceptance gate or runtime route was modified.",
-  "returnWrittenAtUtc": "2026-09-11T13:29:12.553476+00:00"
+  "returnWrittenAtUtc": "2026-09-11T13:36:09.671595+00:00",
+  "status": "COMPLETE_REVIEW_FINISHED",
+  "summary": {
+    "familiesReviewed": 2,
+    "obligationsScored": 30,
+    "PASS_COMPLETE_INDEPENDENT": [
+      "ri_nonconviction_sealing-set"
+    ],
+    "FAIL_REPAIR_REQUIRED": [
+      "pa_6308_underage-set"
+    ],
+    "paDefectGroups": 7
+  }
 }
