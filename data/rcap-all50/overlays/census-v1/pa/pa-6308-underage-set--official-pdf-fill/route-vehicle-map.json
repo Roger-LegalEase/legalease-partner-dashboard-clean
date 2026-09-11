@@ -50,6 +50,97 @@
       "courtLevel": "court_of_common_pleas"
     }
   ],
+  "governedParticipantRequirements": {
+    "source": "data/record-clearing/legal-design-track-registry.json",
+    "trackId": "pa_6308_underage",
+    "generationRequirements": [
+      {
+        "key": "currentAge21OrOver",
+        "question": "Are you 21 years of age or older?",
+        "requirement": "required"
+      },
+      {
+        "key": "docketNumber",
+        "question": "What is the docket number for the underage alcohol conviction?",
+        "requirement": "required"
+      },
+      {
+        "key": "courtLevel",
+        "question": "Was the case handled by a magisterial district judge or the court of common pleas?",
+        "requirement": "required"
+      },
+      {
+        "key": "offenseAge",
+        "question": "How old were you when the offence occurred?",
+        "requirement": "required"
+      },
+      {
+        "key": "sentenceConditionsSatisfied",
+        "question": "Have you satisfied every term and condition of the sentence?",
+        "requirement": "required"
+      },
+      {
+        "key": "licenseSuspensionServed",
+        "question": "If your driving privileges were suspended for this offence, has the suspension been completed?",
+        "requirement": "required"
+      }
+    ],
+    "participantFilingRequirements": [
+      {
+        "name": "Proof that the driving-privilege suspension was completed",
+        "obtainedFrom": "Pennsylvania Department of Transportation",
+        "requirement": "conditional",
+        "conditionDescription": "Only where a licence suspension was imposed for the offence.",
+        "requiredBeforeFiling": true,
+        "howToObtain": "Request a driver history from PennDOT showing the suspension was served and restoration completed. LegalEase never collects, inspects or authenticates it.",
+        "confirms": "licenseSuspensionServed"
+      },
+      {
+        "name": "Pennsylvania State Police criminal history report obtained within 60 days before filing",
+        "obtainedFrom": "Pennsylvania State Police",
+        "requirement": "required",
+        "requiredBeforeFiling": true,
+        "howToObtain": "Request the criminal history report within 60 days before filing and attach it."
+      }
+    ],
+    "selfHelpStopConditions": [
+      "A licence suspension imposed for the offence has not been completed, which is the condition most often overlooked.",
+      "Any other term or condition of the sentence remains unsatisfied.",
+      "The participant is under 21."
+    ]
+  },
+  "syntheticFixtureExamples": [
+    {
+      "fixture": "canonical",
+      "synthetic": true,
+      "notice": "All names and record facts in this fixture are synthetic examples.",
+      "routeExample": {
+        "charge": "18 Pa.C.S. Section 6308 underage alcohol offense (SYNTHETIC FIXTURE)",
+        "offenseDate": "2019-03-08",
+        "arrestDate": "2019-03-09",
+        "complaintOrCitationDate": "2019-03-11",
+        "offenseAge": 19,
+        "currentAge21OrOver": true,
+        "sentenceConditionsSatisfied": true,
+        "licenseSuspensionServed": true
+      }
+    },
+    {
+      "fixture": "boundary",
+      "synthetic": true,
+      "notice": "All names and record facts in this fixture are synthetic examples.",
+      "routeExample": {
+        "charge": "18 Pa.C.S. Section 6308 underage alcohol offense with a long description (SYNTHETIC FIXTURE)",
+        "offenseDate": "2019-03-08",
+        "arrestDate": "2019-03-09",
+        "complaintOrCitationDate": "2019-03-12",
+        "offenseAge": 19,
+        "currentAge21OrOver": true,
+        "sentenceConditionsSatisfied": true,
+        "licenseSuspensionServed": true
+      }
+    }
+  ],
   "generationAllowed": false,
   "runtimeSelectable": false,
   "commercialRoutesOpened": 0

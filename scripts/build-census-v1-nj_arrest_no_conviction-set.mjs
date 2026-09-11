@@ -320,6 +320,40 @@ function factsForJurisdiction(jurisdiction, boundary = false) {
  */
 function familyFacts(config, boundary = false) {
   const facts = factsForJurisdiction(config.jurisdiction, boundary);
+  /*
+   * PF26/PA-VF62-S1 and PA-VF62-03. The shared fixture seed is intentionally
+   * generic because most families use it only to exercise layout. PA 6308 is
+   * narrower: a controlled-substance example cannot demonstrate this route,
+   * and equal offense/complaint dates conceal a semantically wrong mapping.
+   * Keep the override on the exact family configuration. These are labelled
+   * synthetic review facts, describe a Section 6308 alcohol offense, and make
+   * the complaint/citation date unequal to the offense and arrest dates.
+   */
+  if (config.fixtureProfile === "pa_6308_synthetic") {
+    const charge = boundary
+      ? "18 Pa.C.S. Section 6308 underage alcohol offense with a long description (SYNTHETIC FIXTURE)"
+      : "18 Pa.C.S. Section 6308 underage alcohol offense (SYNTHETIC FIXTURE)";
+    Object.assign(facts, {
+      "fixture.synthetic": true,
+      "fixture.synthetic_notice": "All names and record facts in this fixture are synthetic examples.",
+      "participant.date_of_birth": "1999-04-17",
+      "matter.offense_date": "2019-03-08",
+      "matter.arrest_date": "2019-03-09",
+      "matter.complaint_or_citation_date": boundary ? "2019-03-12" : "2019-03-11",
+      "matter.charge": charge,
+      "matter.offense_age": 19,
+      "matter.current_age_21_or_over": true,
+      "matter.sentence_conditions_satisfied": true,
+      "matter.license_suspension_served": true,
+      "matter.charges": facts["matter.charges"].map((row) => ({
+        ...row,
+        charge,
+        offense_date: "2019-03-08",
+        arrest_date: "2019-03-09",
+        complaint_or_citation_date: boundary ? "2019-03-12" : "2019-03-11",
+      })),
+    });
+  }
   for (const [factId, derive] of Object.entries(config.derivedFacts ?? {})) {
     const value = derive(facts);
     assert.equal(typeof value, "string", `${factId}: a derived fact must compose to a string`);
@@ -540,6 +574,25 @@ function factMappingsForDocument(doc) {
   }
   const merged = { ...shared, ...(doc.allow ?? {}) };
   for (const field of denied) delete merged[field];
+  /*
+   * PF26/PA-VF62-03. A route may correct a shared terminal-name mapping only
+   * through this explicit, exact-family gate. PA 6308 independently collects
+   * the complaint/citation date; the shared PA mapping to offense_date is not
+   * an established equivalence and is therefore replaced for these two cloned
+   * document configurations only. No sibling PA or non-PA document opts in.
+   */
+  const overrides = doc.exactFactMappingOverrides ?? {};
+  if (Object.keys(overrides).length) {
+    assert.equal(doc.exactFactMappingOverrideScope, "pa_6308_underage-set",
+      `${doc.documentId}: exact mapping override is outside the PA 6308 repair scope`);
+    assert.deepEqual(Object.keys(overrides), ["Date on Complaint"],
+      `${doc.documentId}: PA 6308 may override only the complaint/citation-date field`);
+    assert.equal(shared["Date on Complaint"], "matter.offense_date",
+      `${doc.documentId}: the shared mapping being repaired has drifted`);
+    assert.equal(overrides["Date on Complaint"], "matter.complaint_or_citation_date",
+      `${doc.documentId}: complaint/citation date must remain independently collected`);
+    Object.assign(merged, overrides);
+  }
   return merged;
 }
 
@@ -725,6 +778,7 @@ const PA_6308_SERVICE_CERTIFICATE = Object.freeze({
   documentId: "pa_6308_underage-certificate-of-service-3",
   documentRole: "certificate_of_service",
   key: "certificate-of-service",
+  ruleCitation: "The applicable Pennsylvania Rule of Criminal Procedure (490 or 790)",
   renderText(facts, vehicle) {
     const L = PA_6308_CERTIFICATE_LINES;
     return [
@@ -1230,6 +1284,64 @@ const PA_AFFIANT_RECORD_DECLARATIONS = Object.freeze(Object.fromEntries([
   reason: "REQUIRED_BEFORE_FILING: copy the affiant's name and mailing address from the complaint or citation, if available. The platform holds no affiant identity. This is a source-record fact, not proof of service; do not wait until after service or guess a missing value.",
 })])));
 
+/*
+ * PF26 complete PA repair. These declarations belong only to the Section 6308
+ * family. The judge/affiant fields describe the old case and are copied from
+ * its record; the order's Disposition is a future judicial act. Field-name
+ * keywords cannot decide that distinction.
+ */
+const PA_6308_COMPOSED_ORDER_FACTS = Object.freeze({
+  "matter.complaint_or_arrest_date_and_arresting_agency": (facts) =>
+    `Date on complaint or citation ${facts["matter.complaint_or_citation_date"]}; date of arrest `
+    + `${facts["matter.arrest_date"]}; arresting agency ${facts["matter.citing_or_arresting_agency"]}`,
+  "participant.address_one_line": PA_490_COMPOSED_ORDER_FACTS["participant.address_one_line"],
+});
+const PA_6308_ORDER_CARRIED_FACTS = Object.freeze({
+  DateAndArrestingAgency: "matter.complaint_or_arrest_date_and_arresting_agency",
+  PetitionersAddress: "participant.address_one_line",
+});
+const PA_6308_HISTORICAL_JUDGE_DECLARATIONS = Object.freeze(Object.fromEntries([
+  "Judge", "JudgeAddr1", "JudgeAddr2", "JudgeAddrCity", "JudgeAddrState", "JudgeAddrZip",
+  "NameAddrOfJudge",
+].map((field) => [field, Object.freeze({
+  refusalClass: null, blankTreatment: "REQUIRED_BEFORE_FILING",
+  requiredBeforeFiling: true, routeDetermined: false, completesAfterService: false,
+  effectiveLabel: "Name and address of the judge who accepted the plea or heard the old case",
+  reason: "REQUIRED_BEFORE_FILING: copy the historical judge's name and court address from the docket, complaint/citation, or clerk-certified disposition. This is a fact about the old case, not a future court act; the platform holds no exact value and does not guess.",
+})])));
+const PA_6308_MISSING_HISTORY_DECLARATION = Object.freeze({
+  refusalClass: null, blankTreatment: "REQUIRED_BEFORE_FILING",
+  requiredBeforeFiling: true, routeDetermined: false, completesAfterService: false,
+  conditionalRequirement: "Only if the Pennsylvania State Police criminal history is not attached; the governed route separately requires the report before filing.",
+  effectiveLabel: "Participant's reason for not attaching the Pennsylvania State Police criminal history report",
+  reason: "REQUIRED_BEFORE_FILING: this is the petitioner's own explanation if the report is not attached, not an agency-owned field. The governed route requires a State Police report obtained within 60 days before filing, so do not treat this explanation as a substitute unless the filing court directs otherwise.",
+});
+const PA_6308_FUTURE_ORDER_DISPOSITION = Object.freeze({
+  refusalClass: "court_prosecutor_clerk_or_agency_owned", blankTreatment: null,
+  requiredBeforeFiling: false, routeDetermined: false,
+  effectiveLabel: "Future judicial disposition of the petition or motion",
+  reason: "The source says it is ORDERED that the Petition/Motion is left blank. The court decides and completes this future disposition; it is not a participant fact required before filing.",
+});
+const PA_6308_ROW1_PARTIAL_CHARGE = Object.freeze({
+  reason: "REQUIRED_BEFORE_FILING: the platform holds a plain-language charge description, but this is one of seven cells in the petition's offense row and it does not hold the exact Title, Section, Subsection, Counts, Grade, and Disposition values. Complete the whole row from the charging document and disposition; it stays wholly blank rather than presenting a partial row as complete.",
+  partialFactsHeldButNotPrinted: Object.freeze({
+    factIds: ["matter.charge"],
+    missingFacts: ["statutory title", "section", "subsection", "counts", "grade", "charge disposition"],
+    whyNotWrittenHere: "row_integrity: all seven offense-row cells must be completed together from the participant's source records",
+  }),
+});
+const PA_6308_790_ORDER_CHARGE_DISPOSITION = Object.freeze({
+  refusalClass: null, blankTreatment: "REQUIRED_BEFORE_FILING",
+  requiredBeforeFiling: true, routeDetermined: false, completesAfterService: false,
+  effectiveLabel: "Specific charges and the disposition of each charge",
+  reason: "REQUIRED_BEFORE_FILING: the platform holds a plain-language charge description but no exact disposition for that charge. Complete the charge-and-disposition entry from the charging document and disposition; the whole entry remains blank rather than implying that the held charge alone is a complete answer.",
+  partialFactsHeldButNotPrinted: Object.freeze({
+    factIds: ["matter.charge"],
+    missingFacts: ["charge disposition"],
+    whyNotWrittenHere: "composite_integrity: the source asks for both the charge and its disposition, and the disposition is not held",
+  }),
+});
+
 const NJ_CONTACT_ALLOW = {
   DefPhone: "participant.phone", DefAddrStr2: "participant.street_address",
   DefAddrCity: "participant.city", DefAddrSt: "participant.state", DefAddrZip: "participant.zip",
@@ -1277,6 +1389,7 @@ Object.assign(FAMILY, {
   "pa_6308_underage-set": {
     jurisdiction: "PA",
     implementationStrategy: "official_pdf_fill_with_custom_service_certificate",
+    fixtureProfile: "pa_6308_synthetic",
     routeKeys: ["obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"],
     routeVehicle: {
       factId: "matter.court_level",
@@ -1315,14 +1428,62 @@ Object.assign(FAMILY, {
        * two ORDERS have no filled selection widget at all and are left as they
        * are. /MK /BG is still removed, no mark is added and no box is ticked.
        */
-      cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_490",
-        preserveUnwrittenSelectionBackgrounds: true }),
-      cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW, routeVehicle: "rule_490" }),
-      cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_790",
-        preserveUnwrittenSelectionBackgrounds: true }),
-      cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW, routeVehicle: "rule_790" }),
+      cloneDoc(PA_490_PETITION, {
+        allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_490",
+        preserveUnwrittenSelectionBackgrounds: true,
+        exactFactMappingOverrideScope: "pa_6308_underage-set",
+        exactFactMappingOverrides: { "Date on Complaint": "matter.complaint_or_citation_date" },
+        declarations: {
+          ...PA_6308_HISTORICAL_JUDGE_DECLARATIONS,
+          ...PA_AFFIANT_RECORD_DECLARATIONS,
+          ReasonForMissingHistory: PA_6308_MISSING_HISTORY_DECLARATION,
+          "Statute DescriptionRow1": PA_6308_ROW1_PARTIAL_CHARGE,
+        },
+      }),
+      cloneDoc(PA_490_ORDER, {
+        allow: { ...PA_ORDER_ALLOW, ...PA_6308_ORDER_CARRIED_FACTS }, routeVehicle: "rule_490",
+        declarations: {
+          ...PA_6308_HISTORICAL_JUDGE_DECLARATIONS,
+          ...PA_AFFIANT_RECORD_DECLARATIONS,
+          Disposition: PA_6308_FUTURE_ORDER_DISPOSITION,
+        },
+      }),
+      cloneDoc(PA_790_PETITION, {
+        allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_790",
+        preserveUnwrittenSelectionBackgrounds: true,
+        exactFactMappingOverrideScope: "pa_6308_underage-set",
+        exactFactMappingOverrides: { "Date on Complaint": "matter.complaint_or_citation_date" },
+        declarations: {
+          ...PA_6308_HISTORICAL_JUDGE_DECLARATIONS,
+          ...PA_AFFIANT_RECORD_DECLARATIONS,
+          ReasonForMissingHistory: PA_6308_MISSING_HISTORY_DECLARATION,
+          "Statute DescriptionRow1": PA_6308_ROW1_PARTIAL_CHARGE,
+        },
+      }),
+      cloneDoc(PA_790_ORDER, {
+        allow: { ...PA_ORDER_ALLOW, ...PA_6308_ORDER_CARRIED_FACTS }, routeVehicle: "rule_790",
+        declarations: {
+          ...PA_6308_HISTORICAL_JUDGE_DECLARATIONS,
+          ...PA_AFFIANT_RECORD_DECLARATIONS,
+          Disposition: PA_6308_FUTURE_ORDER_DISPOSITION,
+          Text15: PA_6308_790_ORDER_CHARGE_DISPOSITION,
+        },
+      }),
     ],
     supplementalDocuments: [PA_6308_SERVICE_CERTIFICATE],
+    derivedFacts: PA_6308_COMPOSED_ORDER_FACTS,
+    discloseHeldButNotPrinted: true,
+    governedPa6308Requirements: {
+      trackId: "pa_6308_underage",
+      packetSetId: "pa_6308_underage-set",
+    },
+    filingDestination: [
+      "File the verified petition and blank order with the Clerk of the courts of the judicial district in which the charges were disposed. File on the Rule 490 or Rule 790 form selected from the court record, and ask that clerk for its current street address and local filing procedure.",
+    ],
+    feeAndWaiver: [
+      "County filing fees vary and no confirmed statewide schedule exists. Ask the clerk of the courts of the judicial district in which the charges were disposed for the current amount; this packet does not invent one.",
+      "In forma pauperis relief is available on the statewide forms. If you cannot pay the filing fee, ask that clerk for the current statewide form matching the court that disposed of the case and the local filing procedure.",
+    ],
     service: [
       "The attorney for the Commonwealth is served concurrently with filing. The included certificate records that required recipient and timing.",
       "The governed record does not establish a locally accepted service method. The certificate leaves the method, recipient office and address, service date, and signature blank; complete them only after following the filing court's accepted local procedure and after service actually occurs.",
@@ -1345,10 +1506,26 @@ Object.assign(FAMILY, {
      * verbatim, and those are internal records that no participant receives.
      */
     notes: [
+      "All names and record facts printed in the canonical and boundary files are synthetic examples created only to test the Section 6308 packet; they are not facts about a real participant.",
       "Rule 490 applies only where the court record establishes that a magisterial district judge handled the case, and Rule 790 only where it establishes a court of common pleas case. The two rules use different petitions and different proposed orders.",
       "If your court record does not establish which of those two courts handled the case, this packet does not choose one for you and produces no petition. Obtain the docket or a clerk-certified disposition that states the court, and do not work the court level out from the charge, from the name of a file, or from memory.",
       "The certificate of service enclosed with this packet states only the recipient and the timing that the governed record establishes. Every local-method and performed-service fact on it is left blank for you to complete after service actually occurs.",
     ],
+    guidance: {
+      afterTheTable: [
+        "The judge and court-address fields and the affiant fields describe the old case. Copy them from the docket, complaint/citation, or clerk-certified disposition; they are participant-supplied record facts, not future court or service acts.",
+        "The complaint/citation date is collected independently from the offense date. Never copy the offense date into that field unless the participant's source record independently shows the dates are the same.",
+        "If the Pennsylvania State Police report is not attached, ReasonForMissingHistory is the participant's own explanation. The governed route still requires a report obtained within 60 days before filing, so the explanation is not presented as a substitute for the report.",
+      ],
+      selfHelpEnds: [
+        "This packet prepares the Pennsylvania Rule 490 or Rule 790 petition, matching proposed order, and certificate of service for the participant to review, complete, sign, file, and serve. It does not decide eligibility and it stops when any governed condition below is true.",
+      ],
+      notYours: [
+        "**The proposed order's Disposition field** is the court's future ruling on the petition or motion. Leave it blank for the court.",
+        "**The proposed order's judicial date, selections, and signature** remain blank for the court.",
+        "**The performed-service office/address, method, date, signature, and signature date** remain blank until service actually occurs.",
+      ],
+    },
   },
   "nj_arrest_no_conviction-set": njFamily(
     "obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
@@ -4693,6 +4870,65 @@ function requiredAttachmentsSection(config) {
 }
 
 /*
+ * PF26/PA-VF62-04 and PA-VF62-07. The Section 6308 guide carries the route's
+ * governed questions and outside-record steps directly from the committed
+ * registry, intake memo, and packet-set manifest. This opt-in hook is scoped
+ * to PA 6308; every other family returns the same empty string as before.
+ */
+function governedPa6308RequirementsSection(config) {
+  const spec = config.governedPa6308Requirements ?? null;
+  if (!spec) return "";
+  assert.equal(spec.trackId, "pa_6308_underage");
+  assert.equal(spec.packetSetId, "pa_6308_underage-set");
+  const track = njRegistryTrackRecord(spec.trackId);
+  const memo = intakeMemoTrackRecord("PA", spec.trackId);
+  const packetSet = packetSetManifestFor(spec.packetSetId);
+  assert.deepEqual(memo.participantInputs, track.generationRequirements,
+    `${spec.trackId}: intake questions and governed generation requirements disagree`);
+  assert.deepEqual(memo.supportingDocuments, track.participantFilingRequirements,
+    `${spec.trackId}: intake evidence and governed filing requirements disagree`);
+  const actions = packetSet.participantActionRequired.filter((row) =>
+    row.kind === "obtain_document" || row.kind === "confirm_answer");
+  assert.deepEqual(actions.map((row) => row.kind),
+    ["obtain_document", "confirm_answer", "obtain_document"],
+    `${spec.packetSetId}: governed record-acquisition actions changed`);
+  const questions = track.generationRequirements.map((row) =>
+    `- **${row.question}** — ${row.requirement}.`);
+  const records = actions.map((row) => {
+    const condition = row.conditionDescription ? ` ${row.conditionDescription}` : "";
+    const source = row.obtainedFrom ? ` Obtain it from ${row.obtainedFrom}.` : "";
+    return `- **${row.kind === "confirm_answer" ? "Verify and correct the packet answer" : "Obtain the record"}.** `
+      + `${row.description}${condition}${source}`;
+  });
+  return `\n## Route questions and records to verify before filing\n\n`
+    + `The questions below are carried from \`data/record-clearing/legal-design-track-registry.json\`, `
+    + `track \`${spec.trackId}\`, \`generationRequirements\`, and match the Pennsylvania intake memo. `
+    + `They must be answered for the participant's own case before this route is used; these synthetic review fixtures answer them only to test the document build.\n\n`
+    + `${questions.join("\n")}\n\n`
+    + `The outside-record steps below are carried from \`data/record-clearing/legal-design-packet-set-manifests.json\`, `
+    + `packet set \`${spec.packetSetId}\`, \`participantActionRequired\`. LegalEase does not obtain, inspect, or authenticate the PennDOT record.\n\n`
+    + `${records.join("\n")}\n`;
+}
+
+function governedPa6308SelfHelpStops(config) {
+  const spec = config.governedPa6308Requirements ?? null;
+  if (!spec) return "";
+  const track = njRegistryTrackRecord(spec.trackId);
+  const memo = intakeMemoTrackRecord("PA", spec.trackId);
+  const stops = track.selfHelpStopConditions ?? [];
+  assert.deepEqual(stops, [
+    "A licence suspension imposed for the offence has not been completed, which is the condition most often overlooked.",
+    "Any other term or condition of the sentence remains unsatisfied.",
+    "The participant is under 21.",
+  ], `${spec.trackId}: the three governed self-help stops changed`);
+  assert.deepEqual(memo.selfHelpStopConditions, stops,
+    `${spec.trackId}: registry and intake memo self-help stops disagree`);
+  return `\nEvery condition below is carried word for word from \`data/record-clearing/legal-design-track-registry.json\`, `
+    + `track \`${spec.trackId}\`, \`selfHelpStopConditions\`, and matches the Pennsylvania intake memo:\n\n`
+    + `${stops.map((row) => `- ${row}`).join("\n")}\n`;
+}
+
+/*
  * FIX84 (SELF_HELP_STOP). Every boundary the route's own record records, in the
  * record's words.
  *
@@ -5275,7 +5511,9 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
     + `${routeLines}\n\n## Required participant/local completion\n\n`
     + `- Review every page, choose only legally applicable elections, and complete every required signature and date yourself.\n`
     + `- Complete service certificates only after service actually occurs.\n`
-    + `- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\n`
+    + (config.governedPa6308Requirements
+      ? `- Historical judge, court-address, and affiant information is copied from the participant's old case record. Future judicial rulings, judicial dates and signatures remain for the court.\n`
+      : `- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\n`)
     + confirmBeforeFiling
     + verifyFirst
     + fees
@@ -5316,7 +5554,9 @@ function guidedParticipantInstructions(config, fieldMaps, heldButNotPrinted = []
    * finding was.
    */
   const heldElsewhere = fieldMaps.flatMap((document) => document.fields
-    .filter((field) => field.requiredBeforeFiling === true && field.factHeldElsewhereInThisPacket));
+    .filter((field) => field.requiredBeforeFiling === true
+      && (field.factHeldElsewhereInThisPacket || field.partialFactsHeldButNotPrinted)));
+  const partialHeldCount = heldElsewhere.filter((field) => field.partialFactsHeldButNotPrinted).length;
   const tables = fieldMaps
     .filter((document) => document.generatedParticipantArtifact)
     .map((document) => {
@@ -5334,8 +5574,12 @@ function guidedParticipantInstructions(config, fieldMaps, heldButNotPrinted = []
           const heldNote = held
             ? ` — this packet holds \`${held.factId}\` and prints it on ${held.printedOn}; it is not written here (${held.whyNotWrittenHere})`
             : "";
+          const partial = field.partialFactsHeldButNotPrinted;
+          const partialNote = partial
+            ? ` — this packet holds ${partial.factIds.map((factId) => `\`${factId}\``).join(", ")} but does not hold ${partial.missingFacts.join(", ")}; the whole entry remains blank (${partial.whyNotWrittenHere})`
+            : "";
           const page = field.widgets?.[0]?.page ?? field.page ?? "?";
-          return `| ${page} | \`${field.field}\` | ${caption}${serviceNote}${heldNote} |`;
+          return `| ${page} | \`${field.field}\` | ${caption}${serviceNote}${heldNote}${partialNote} |`;
         });
       if (rows.length === 0) return "";
       return `### ${document.documentId}\n\n| Page | Form field | What the form says |\n| --- | --- | --- |\n${rows.join("\n")}\n`;
@@ -5360,6 +5604,7 @@ function guidedParticipantInstructions(config, fieldMaps, heldButNotPrinted = []
       filingDestinationSection(config),
       serviceSection(config),
       requiredAttachmentsSection(config),
+      governedPa6308RequirementsSection(config),
     ].filter(Boolean).map((section) => section.replace(/^\n/, ""));
     return sections.length ? `${sections.join("\n")}\n` : "";
   })();
@@ -5378,13 +5623,16 @@ function guidedParticipantInstructions(config, fieldMaps, heldButNotPrinted = []
     + `\n## The blanks you must fill in before filing\n\n`
     + `The platform holds no value for any of these, and this packet never guesses at one. Each row names the page of the component, the form field as the source PDF names it, and the words the measurement read next to the blank. Where the measurement could reach no printed caption, read the printed page to see what the blank asks for.\n\n`
     + (heldElsewhere.length
-      ? `${heldElsewhere.length === 1 ? "One row below is an exception and says so on its own line" : `${heldElsewhere.length} rows below are exceptions and say so on their own lines`}: the packet holds that value and prints it on another component of this same packet, and the row states why it is not written into this blank. Read the row, and complete the blank from your own court records.\n\n`
+      ? (partialHeldCount
+        ? `${heldElsewhere.length === 1 ? "One row below is an exception and says so on its own line" : `${heldElsewhere.length} rows below are exceptions and say so on their own lines`}: the packet holds at least part of the answer. Each row states exactly what is held, what is missing, and why the complete entry was left blank. Complete it from your own court records.\n\n`
+        : `${heldElsewhere.length === 1 ? "One row below is an exception and says so on its own line" : `${heldElsewhere.length} rows below are exceptions and say so on their own lines`}: the packet holds that value and prints it on another component of this same packet, and the row states why it is not written into this blank. Read the row, and complete the blank from your own court records.\n\n`)
       : "")
     + `${tables}\n`
     + `${g.afterTheTable.map((p) => `${p}\n`).join("\n")}\n`
     + declaredSections
     + `## Where self-help ends\n\n`
     + `${g.selfHelpEnds.map((p) => `${p}\n`).join("\n")}\n`
+    + governedPa6308SelfHelpStops(config)
     + boundaries
     + `## Blanks that are not yours to fill\n\n`
     + `${g.notYours.map((p) => `- ${p}`).join("\n")}\n`
@@ -6150,6 +6398,8 @@ async function buildOfficialUnsafe(familyId, config) {
     ...(componentDelivery ? { manifestComponentDelivery: componentDelivery } : {}),
   });
   if (config.routeVehicle) {
+    const governedTrack = config.governedPa6308Requirements
+      ? njRegistryTrackRecord(config.governedPa6308Requirements.trackId) : null;
     writeJson(`${out}/route-vehicle-map.json`, {
       schemaVersion: "rcap-route-vehicle-map/v1",
       familyId,
@@ -6163,8 +6413,38 @@ async function buildOfficialUnsafe(familyId, config) {
       generatedFixtures: artifactReports.map((artifact) => ({
         fixture: artifact.fixture,
         documentId: artifact.documentId,
-        courtLevel: factsForJurisdiction(config.jurisdiction, artifact.fixture === "boundary")[config.routeVehicle.factId],
+        courtLevel: familyFacts(config, artifact.fixture === "boundary")[config.routeVehicle.factId],
       })),
+      ...(governedTrack ? {
+        governedParticipantRequirements: {
+          source: "data/record-clearing/legal-design-track-registry.json",
+          trackId: governedTrack.trackId,
+          generationRequirements: governedTrack.generationRequirements,
+          participantFilingRequirements: governedTrack.participantFilingRequirements,
+          selfHelpStopConditions: governedTrack.selfHelpStopConditions,
+        },
+        syntheticFixtureExamples: ["canonical", "boundary"].map((fixture) => {
+          const facts = familyFacts(config, fixture === "boundary");
+          assert.equal(facts["fixture.synthetic"], true);
+          assert.notEqual(facts["matter.complaint_or_citation_date"], facts["matter.offense_date"],
+            `${fixture}: complaint/citation date regression control must differ from offense date`);
+          return {
+            fixture,
+            synthetic: true,
+            notice: facts["fixture.synthetic_notice"],
+            routeExample: {
+              charge: facts["matter.charge"],
+              offenseDate: facts["matter.offense_date"],
+              arrestDate: facts["matter.arrest_date"],
+              complaintOrCitationDate: facts["matter.complaint_or_citation_date"],
+              offenseAge: facts["matter.offense_age"],
+              currentAge21OrOver: facts["matter.current_age_21_or_over"],
+              sentenceConditionsSatisfied: facts["matter.sentence_conditions_satisfied"],
+              licenseSuspensionServed: facts["matter.license_suspension_served"],
+            },
+          };
+        }),
+      } : {}),
       generationAllowed: false,
       runtimeSelectable: false,
       commercialRoutesOpened: 0,
@@ -6197,6 +6477,17 @@ async function buildOfficialUnsafe(familyId, config) {
         `${out}/route-vehicle-map.json`,
         "data/record-clearing/legal-design-track-registry.json",
       ],
+      ...(governedTrack ? {
+        participantRequirements: {
+          carriedWithoutSubstitutionIn: [
+            `${out}/participant-instructions.md`,
+            `${out}/route-vehicle-map.json`,
+          ],
+          generationRequirementCount: governedTrack.generationRequirements.length,
+          filingRequirementCount: governedTrack.participantFilingRequirements.length,
+          selfHelpStopCount: governedTrack.selfHelpStopConditions.length,
+        },
+      } : {}),
       generationAllowed: false,
       runtimeSelectable: false,
       commercialRoutesOpened: 0,
@@ -6209,7 +6500,9 @@ async function buildOfficialUnsafe(familyId, config) {
     hardRulesVerified: [
       "exact source path, SHA-256, and byte length matched the corpus index and installed source",
       "every field received an explicit candidate-write, route-selection, or refusal disposition",
-      "signatures, dates, unperformed service, court, prosecutor, clerk, agency, and notary fields carried no generated ink",
+      config.governedPa6308Requirements
+        ? "future judicial rulings, judicial dates and signatures, unperformed service, prosecutor, clerk, and notary fields carried no generated ink; historical record facts and the held arresting agency follow their declared participant-fact treatment"
+        : "signatures, dates, unperformed service, court, prosecutor, clerk, agency, and notary fields carried no generated ink",
       noRaster && config.metadataOnlyRepairPreservesPdfBytes === true
         ? "unchanged PDF bytes inventoried; the exact prior whole-family raster inventory remains bound to those bytes"
         : noRaster ? "changed PDF bytes inventoried; central raster and independent visual review remain required"

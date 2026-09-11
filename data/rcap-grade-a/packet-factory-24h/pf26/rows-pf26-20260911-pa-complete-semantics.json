@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "PF26",
+  "laneKind": "packet-build",
+  "generatedAtBase": "c74fed1dc8c163ea024187901c477286e3736ea5",
+  "branch": "pf26-pa-complete-20260911",
+  "worktree": "/tmp/rcap-pf26-pa-complete-20260911",
+  "rows": [
+    {
+      "itemId": "pa_6308_underage-set",
+      "familyId": "pa_6308_underage-set",
+      "jurisdiction": "PA",
+      "implementationStrategy": "official_pdf_fill_with_custom_service_certificate",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK PF26 pa_6308_underage-set (packet-build, grant set 80e57194bc1b44bf)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-pa_6308_underage-set.mjs",
+      "sharedBuildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "artifactsCommitted": true,
+      "defectIdsAddressed": [
+        "PA-VF62-01",
+        "PA-VF62-02",
+        "PA-VF62-03",
+        "PA-VF62-04",
+        "PA-VF62-05",
+        "PA-VF62-06",
+        "PA-VF62-07"
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBeforeMeasuredBy": "VF62 independent review retained null for the three semantic counters because the prior mechanical zeroes contradicted source review; the other six values are its direct findings on the prior bytes.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set against the rebuilt tree; --write was not passed. These are the verifier's measured nonvisual counters, and fresh raster remains independently required for the four changed PDFs.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set against the rebuilt tree; --write was not passed. Fresh raster remains independently required for the four changed PDFs and this nonvisual counter report is not a raster verdict.",
+      "allNineCountersZero": true,
+      "pdfsChanged": 4,
+      "pdfsUnchanged": 2,
+      "freshRasterRequired": true,
+      "rasterDispatchPerformed": false,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf26/pa-complete-semantics-20260911/verification.json",
+      "packetsSelfVerified": 0,
+      "verdictSet": "none",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "centralArtifactsEdited": "none",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY 10/13 because the dispatched isolated checkout is shallow and its task-provided private source symlink is untracked/not ignored; exact family sources nevertheless bind 2/2 by SHA-256 and the full corpus is mounted and complete.",
+      "remainingGates": "Fresh central raster and independent review for the four changed official-form PDFs; completed-output legal approval; source freshness and local-practice review. Commercial authority and runtime selection remain false."
+    }
+  ],
+  "agentMetadata": {
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "high"
+  }
+}
