@@ -5,17 +5,17 @@
   "worker": "VF08",
   "reviewer": "/root/pending_readiness",
   "sessionIdentity": "/root/pending_readiness",
-  "verifiedAtBase": "b3570e4742877488133e5f9a3753699df100cbc4",
+  "verifiedAtBase": "129e9b04968d8d261c43bf02aa501b755f1c79e6",
   "isIndependentVerification": true,
-  "verdict": "STOPPED",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
   "rows": [
     {
       "itemId": "pa_pardon_expungement-set",
       "familyId": "pa_pardon_expungement-set",
       "jurisdiction": "PA",
-      "verdict": "STOPPED",
-      "executionState": "VERIFY_PENDING",
-      "verdictScope": "Independent static review passes 14 nonvisual obligations on current repaired bytes; visual raster review remains pending. No packet or commercial authority asserted.",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "executionState": "COMPLETE",
+      "verdictScope": "Central receipt is RASTER_PASS, all 10 original PNGs were directly viewed, all current-byte hashes match the pinned packet, and all 15 obligations passed. This remains an independent verification record and does not itself grant commercial authority.",
       "proofObligations": {
         "ROUTE_IDENTITY": {
           "measured": true,
@@ -68,9 +68,9 @@
           "finding": "Petition and order component ordering agrees with current rendered artifact records."
         },
         "CLIPPING_AND_OVERLAP": {
-          "measured": false,
-          "result": "NOT_MEASURABLE_HERE",
-          "finding": "No local raster created; central visual evidence remains required."
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 10 original PNGs were directly inspected. Participant address/name content is legible; the boundary guidance truthfully discloses the two values that do not fit the official blanks. No clipping, overlap, stray ink, or protected-field contamination observed."
         },
         "FILING_DESTINATION": {
           "measured": true,
@@ -102,28 +102,171 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": null,
-        "allZero": false,
+        "visualDefects": 0,
+        "allZero": true,
         "measuredHere": true
       },
       "deliveredDigestsHashedByThisLane": {
         "canonical": "772b55cb8d62821f1349e42b0242ad7edbca88a666a04cbe6473ab410cf5f69a",
-        "boundary": "614c6faeb0988b74333bfaae744b4c0c82388187800c7f16f6fb4a462a82a23b"
+        "boundary": "614c6faeb0988b74333bfaae744b4c0c82388187800c7f16f6fb4a462a82a23b",
+        "pagesEach": 5
       },
       "remainingRequirements": [
-        "Central raster receipt and direct visual review of both current five-page fixture sets.",
-        "Captain consumption and required integration after visual evidence; fallback petition components remain conditional on the automatic route not clearing the record."
+        "Captain must consume this independent return through the existing importer and complete the required product-wiring/generation/integration sequence.",
+        "This record grants no commercial authority and does not replace the central admission path."
       ],
       "evidenceRead": [
         "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/pa-pardon-focused-verifier.log",
         "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/pa-pardon-source-check.log",
         "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/production-field-map.json",
         "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/actual-writes.json",
-        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md"
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34579817725/ORIGINAL_EVIDENCE_VERIFIED.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34579817725/pa_pardon_expungement-set.zip",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34579817725/pa_pardon_expungement-set.PAGE_IMAGES_SHA256.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34579817725/pa_pardon_expungement-set.verdict.json"
       ],
       "commercialAuthority": false,
       "terminalClaimSuspended": false,
-      "verifiedAtBase": "b3570e4742877488133e5f9a3753699df100cbc4"
+      "verifiedAtBase": "129e9b04968d8d261c43bf02aa501b755f1c79e6",
+      "centralRasterReceipt": {
+        "runId": 34579817725,
+        "artifactId": "10191444964",
+        "artifactDigest": "sha256:a53922b96bd55bfcb713b75b72776b53325091ed626235ba03f7a77b89e4228b",
+        "packetCommit": "129e9b04968d8d261c43bf02aa501b755f1c79e6",
+        "centralConclusion": "success",
+        "centralVerdict": "RASTER_PASS",
+        "pagesMeasured": 10,
+        "currentAndPinnedPdfHashesVerified": true,
+        "originalPngBytesVerified": true,
+        "archivePath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34579817725/pa_pardon_expungement-set.zip",
+        "archiveSha256": "a53922b96bd55bfcb713b75b72776b53325091ed626235ba03f7a77b89e4228b",
+        "pageLedgerPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34579817725/pa_pardon_expungement-set.PAGE_IMAGES_SHA256.json",
+        "extractedReviewPath": "/tmp/pa345798review",
+        "hashMismatches": 0
+      },
+      "pageLedger": [
+        {
+          "member": "pa_pardon_expungement-set/canonical/page-001.png",
+          "sha256": "88f3e0a538a0a53114b1612ab0248869a408f2eb61130c78b4e4a5d584aee71d",
+          "byteLength": 381332,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Process guidance page clearly states unconditional-pardon route, Rule 790 fallback, participant verification, and stop conditions; no clipping or stray ink."
+        },
+        {
+          "member": "pa_pardon_expungement-set/canonical/page-002.png",
+          "sha256": "bd13a6a7ee4274aef5556424e543de4af40744cc54f4029d186e1fc7e0b030b9",
+          "byteLength": 164346,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Rule 790 petition is legible; Jordan Avery Reyes and 42 Maple Street, Philadelphia PA 19107 are readable; judge/affiant/OTN/charge and court fields remain blank as required; no protected selections."
+        },
+        {
+          "member": "pa_pardon_expungement-set/canonical/page-003.png",
+          "sha256": "775a04a2c61c6e47207a564740391ed2a9d573e4dc0d25f6ed7417deef7d402a",
+          "byteLength": 462726,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Rule 790 order is legible with docket CP-51-CR-0004170-2021; all judicial order checkboxes and court signature remain blank."
+        },
+        {
+          "member": "pa_pardon_expungement-set/canonical/page-004.png",
+          "sha256": "096a8c983450946824af3df7aae4356a7920a7643bb1de314c6eeb62de429428",
+          "byteLength": 333014,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Rule 790 attached information page is legible; participant name, full address, DOB, and docket are readable; judge/affiant/charges/reason/service fields remain blank."
+        },
+        {
+          "member": "pa_pardon_expungement-set/canonical/page-005.png",
+          "sha256": "b3be02322b79e5febe723fbd7aa81ec2b156c21b276c0e91a11dcee1c1055709",
+          "byteLength": 267992,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Process guidance for the second fixture is legible and explicitly discloses the two address values that could not fit; no silent truncation or unsupported fill."
+        },
+        {
+          "member": "pa_pardon_expungement-set/boundary/page-001.png",
+          "sha256": "6bdc6b3748a20a3ef01922cde4e6967a0e1dd4e56cd68a6f421e8edb3b7c6896",
+          "byteLength": 385294,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary process guidance is legible and preserves the unconditional-pardon route and stop conditions."
+        },
+        {
+          "member": "pa_pardon_expungement-set/boundary/page-002.png",
+          "sha256": "063e0067c5c9ca999c105348b9a1dde4ab58c164699b860cbeab413c4a03ed52",
+          "byteLength": 277772,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary Rule 790 petition is legible; long participant name and full address print within the form without clipping; protected judicial fields remain blank."
+        },
+        {
+          "member": "pa_pardon_expungement-set/boundary/page-003.png",
+          "sha256": "4b77258c94a7573f328f5b172e4148841d8114c8d806210c1b317be27ba3d6c2",
+          "byteLength": 471527,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary Rule 790 order is legible; all court checkboxes and signature remain blank."
+        },
+        {
+          "member": "pa_pardon_expungement-set/boundary/page-004.png",
+          "sha256": "8362f327967c1472e3f6b777abdb77747b8696a1b4e41c0f38c7ea61aefaf413",
+          "byteLength": 334270,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary attached information page is legible; long participant name and full address remain readable within their fields; court-owned fields remain blank."
+        },
+        {
+          "member": "pa_pardon_expungement-set/boundary/page-005.png",
+          "sha256": "41eff172badb33e5a3577d99c09eaebd184eeeddf26d76abfe1a2f6f3d1ffb3e",
+          "byteLength": 275714,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "viewedDirectly": true,
+          "observation": "Boundary guidance explicitly records address and ZIP values that did not fit the official blanks; no value was shortened or guessed."
+        }
+      ],
+      "reproduction": {
+        "performed": false,
+        "reason": "No builder or local raster execution; consumed the central receipt and directly reviewed extracted original PNG bytes.",
+        "originalPagesDirectlyViewed": 10,
+        "canonicalPages": 5,
+        "boundaryPages": 5,
+        "hashMismatches": 0
+      }
     }
-  ]
+  ],
+  "scope": "Independent post-raster review of current PA pardon-expungement bytes and central original evidence. All 10 original PNGs were directly viewed (five canonical and five boundary), with receipt identity and current PDF hashes verified. Internal review scope only; commercial authority remains false.",
+  "conclusion": "Central run 34579817725 succeeded with RASTER_PASS. Receipt, artifact digest, packet commit, current PDF hashes, and all 10 original PNG hashes agree. Direct visual review found no defects; VF08 is PASS_COMPLETE_INDEPENDENT pending captain import and required integration."
 }
