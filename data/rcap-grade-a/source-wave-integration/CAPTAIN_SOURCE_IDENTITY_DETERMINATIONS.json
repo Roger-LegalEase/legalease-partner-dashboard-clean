@@ -328,7 +328,8 @@
       "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/acquisition-summary.json",
       "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/acquisition-summary.json",
       "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/supplement-disposition-summary.json",
-      "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
+      "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json",
+      "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-pcra-source-adoption-20260911.json"
     ],
     "sharedExactBindings": [
       {
@@ -1012,7 +1013,7 @@
       {
         "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
         "group": "C",
-        "disposition": "SOURCE_BLOCKED",
+        "disposition": "PRODUCT_PATH_PENDING",
         "additionalRequiredSourceIds": [
           "official-form:1231XX"
         ],
@@ -1024,10 +1025,14 @@
           "officialBinary": "https://legacy.utcourts.gov/resources/forms/criminal/04_PCRA_Petition.pdf",
           "revision": "Revised June 13, 2022",
           "requiredPacketRole": "primary_filing_with_authority_grounded_attachment",
-          "controllingAuthority": "Utah Code 78B-9-104(1)(h), 78B-9-108(2), and 77-40a-402"
+          "controllingAuthority": "Utah Code 78B-9-104(1)(h), 78B-9-108(2), and 77-40a-402",
+          "heldCorpusPath": "reference/utah/04_PCRA_Petition-2022-06-13.pdf",
+          "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09",
+          "byteLength": 128059
         },
-        "exactNextAction": "Acquire Form 1231XX into governed custody and correct the route from Title 77 Chapter 40a-only custom pleading to the official PCRA petition plus an authority-grounded attachment.",
-        "exactResidual": "The current official PCRA petition is identified, but its binary is not held and the route authority/strategy still names the wrong legal vehicle."
+        "exactNextAction": "Implement the resolved Rule65C/PCRA route using the exact held generic Utah Courts petition and required authority-grounded attachment; do not search for a trafficking-specific1231XX form.",
+        "exactResidual": "Generic court PCRA source is now held and hash-bound; route authority/strategy and complete packet implementation remain to be corrected.",
+        "currentSourceAcquisitionEvidence": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-pcra-source-adoption-20260911.json"
       },
       {
         "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
