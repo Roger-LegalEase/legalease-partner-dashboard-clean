@@ -39,7 +39,7 @@ So look at that block before you file. **If the state or the ZIP is blank, write
 3. **Record the quarterly verification date** when you check whether the automatic Board-to-AOPC-to-court process cleared your record: ____________________.
 4. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
 5. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.
-6. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.
+6. **Sign and date your petition yourself; leave the judicial order unsigned.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.
 7. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.
 8. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.
 
@@ -58,10 +58,10 @@ So look at that block before you file. **If the state or the ZIP is blank, write
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
 | 1 | Judicial District number | the number of the judicial district the case was in |
-| 1 | Docket No: CP- ---20 | what the form asks for beside "Docket No: CP- ---20" |
-| 1 | Docket No: CP- ---20 | what the form asks for beside "Docket No: CP- ---20" |
-| 1 | Docket No: CP- ---20 | what the form asks for beside "Docket No: CP- ---20" |
-| 1 | Docket No: CP- ---20 | what the form asks for beside "Docket No: CP- ---20" |
+| 1 | Caption docket segment 2: case type letters | copy the case type letters from the complete docket number already printed in this packet; verify against the docket sheet. The caption already prints CP- and the year prefix 20 |
+| 1 | Caption docket segment 4: last two digits of the four-digit year | copy the last two digits of the four-digit year from the complete docket number already printed in this packet; verify against the docket sheet. The caption already prints CP- and the year prefix 20 |
+| 1 | Caption docket segment 1: two-digit county code | copy the two-digit county code from the complete docket number already printed in this packet; verify against the docket sheet. The caption already prints CP- and the year prefix 20 |
+| 1 | Caption docket segment 3: seven-digit sequence number | copy the seven-digit sequence number from the complete docket number already printed in this packet; verify against the docket sheet. The caption already prints CP- and the year prefix 20 |
 | 1 | Social Security Number | your Social Security number - the platform never stores it and never writes it for you |
 | 1 | Alias, first | any other name you have been known by, if there is one |
 | 1 | Address, second line | a second line of your address, only if it needs one |
@@ -130,7 +130,6 @@ So look at that block before you file. **If the state or the ZIP is blank, write
 | 2 | Alias, first, on the Rule 790 information page | any other name you have been known by, if there is one |
 | 2 | Alias, second, on the Rule 790 information page | a second other name, if there is one |
 | 2 | Alias, third, on the Rule 790 information page | a third other name, if there is one |
-| 2 | Petitioner's Address on the Rule 790 information page | your address, as the Rule 790 information page asks for it |
 | 2 | Petitioner's Social Security Number on the Rule 790 information page | your Social Security number - the platform never stores it and never writes it for you |
 | 2 | Name and address of the presiding official, on the Rule 790 information page | the name and mailing address of the presiding official who accepted the plea or heard the case |
 | 2 | Name and address of the affiant, on the Rule 790 information page | the name and mailing address of the affiant shown on the complaint, if available |
@@ -144,8 +143,8 @@ So look at that block before you file. **If the state or the ZIP is blank, write
 ## Things the platform deliberately left blank
 
 - **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.
-- **The whole of the proposed order.** PA-RCRIM-P-790-ORDER is the order the judge signs. It is tendered with your petition, and the platform has written only the style of the case into it. Do not fill it in and do not sign it.
-- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.
+- **The judicial order on the first page of PA-RCRIM-P-790-ORDER.** The court owns its ordering paragraphs, findings, signature and date. Leave those blank. Complete the participant information requested on its second page, including the required blanks listed above.
+- **Petition checkboxes:** read each statement and complete only those supported by your record. **Order checkboxes:** leave all three ordering paragraphs blank for the court.
 
 ## Stop and get help
 

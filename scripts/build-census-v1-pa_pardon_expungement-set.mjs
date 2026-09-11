@@ -298,14 +298,9 @@ const ORDER_NAMED = {
   "DocketNumber": { ...WRITE("matter.case_number"), label: "Docket No. in the style of the case" },
   "PetitionerName": { ...WRITE("participant.full_legal_name"), label: "Petitioner Name on the Rule 790 information page" },
   "PetitionersDOB": { ...WRITE("participant.date_of_birth"), label: "Petitioner's Date of Birth on the Rule 790 information page" },
-  /*
-   * Caption mode admits the style of the case and nothing else, and a street
-   * address is not one of the caption facts. The shared semantics refused it as
-   * court_issued_order_accepts_caption_facts_only, which is the right answer:
-   * the Rule 790 information page is an attachment to the court's own order, and
-   * the petitioner completes it rather than the platform.
-   */
-  "PetitionersAddress": { ...SUPPLY("your address, as the Rule 790 information page asks for it"), label: "Petitioner's Address on the Rule 790 information page" },
+  // Page 2 is the participant information sheet attached to the judicial order.
+  // Its address line accepts the same held address as the petition, composed without abbreviation.
+  "PetitionersAddress": { ...WRITE("participant.mailing_address"), label: "Petitioner's Address on the Rule 790 information page" },
   "Docket#": { ...WRITE("matter.case_number"), label: "Docket Number on the Rule 790 information page" },
   "CourtSignature": { ...PROTECT(COURT_OWNED), label: "Signature of the court" },
   "Day": { ...PROTECT(COURT_OWNED), label: "Day of the order" },
@@ -426,6 +421,18 @@ const FIXTURES = {
   }
 };
 
+const ADDRESS_FACTS = ["participant.street_address", "participant.city", "participant.state", "participant.zip"];
+for (const facts of Object.values(FIXTURES)) {
+  facts["participant.mailing_address"] = ADDRESS_FACTS.map(key => facts[key]).join(", ");
+}
+for (const [index, description] of ["two-digit county code", "case type letters", "seven-digit sequence number", "last two digits of the four-digit year"].entries()) {
+  PETITION_NAMED[`DocketSeg${index + 1}`] = {
+    ...SUPPLY(`copy the ${description} from the complete docket number already printed in this packet; verify against the docket sheet. The caption already prints CP- and the year prefix 20`),
+    label: `Caption docket segment ${index + 1}: ${description}`,
+    heldFact: "matter.case_number"
+  };
+}
+
 /* ---- source binding ------------------------------------------------------ */
 function resolveSources(familyId) {
   const config = FAMILY_CONFIGS[familyId];
@@ -516,7 +523,7 @@ async function censusOf(source) {
         captionAt: nearest ? { page, y: nearest.y, basis: "nearest printed line to this widget's own baseline, read from the pinned binary at build time" } : null,
         effectiveLabel: entry.label ?? nearest?.text ?? key,
         regionHeading: entry.label ?? nearest?.text ?? key,
-        policy: entry.policy, fact: entry.fact ?? null,
+        policy: entry.policy, fact: entry.fact ?? null, heldFact: entry.heldFact ?? null,
         refusalClass: entry.refusalClass ?? null, what: entry.what ?? null,
         isSelectionControl: pdfClass === "PDFCheckBox",
         multiline: typeof field.isMultiline === "function" ? field.isMultiline() : false,
@@ -609,6 +616,9 @@ async function renderDocument(source, census, fixtureName) {
       widgets: [{ page: r.page, rect: r.rect }], multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
     facts, explicitMappings, unwritableFields,
+    // This measured participant-information line is separate from the order's judicial fields.
+    narrativeAcrossFields: source.formNumber === "PA-RCRIM-P-790-ORDER"
+      ? [{ factId: "participant.mailing_address", fields: ["PetitionersAddress"] }] : [],
     // The order is the judge's. Caption mode is the shared field semantics'
     // own name for that, and it refuses anything outside the style of the case
     // whatever this builder's policy table says.
@@ -864,7 +874,7 @@ function officialFieldMap(source, census, report, config, marks = [], boundaryRe
     };
     if (r.policy === "write") {
       assert.ok(written.has(r.name), `${source.formNumber} ${r.key} is mapped as a write and the finalizer did not write it`);
-      canonicalWrites.push({ ...base, factId: r.fact, kind: r.type, document: source.formNumber });
+      canonicalWrites.push({ ...base, factId: r.fact, ...(r.fact === "participant.mailing_address" ? { composedFrom: ADDRESS_FACTS, compositionRule: "join held components with comma and space; no abbreviation" } : {}), kind: r.type, document: source.formNumber });
       if (boundaryReport) {
         if (boundaryWritten.has(r.name)) {
           boundaryWrites.push({ ...base, factId: r.fact, kind: r.type, document: source.formNumber });
@@ -916,12 +926,12 @@ function officialFieldMap(source, census, report, config, marks = [], boundaryRe
         ...base, selectionId: r.key, kind: "selection_control", type: "checkbox",
         widgets: [{ page: r.page, rect: r.rect, rectBasis: r.rectBasis }],
         disposition: "explicit_refusal",
-        reason: protect ? "signature or date field; never prefilled by this build"
+        reason: protect ? "judicial ordering paragraph; only the court may select it"
           : offroute ? OFFROUTE_REASON(r.routeReason)
             : "a sworn assertion or legal election the route does not determine; only the participant may make it",
         category: cls, completenessClass: cls, class: cls,
         requiredBeforeFiling: false, routeDetermined: false, document: source.formNumber,
-        why: protect ? "the participant signs and dates this themselves at filing time"
+        why: protect ? "the court owns this ordering election; the participant must leave it blank"
           : offroute ? r.routeReason : "only the participant may make this election"
       });
       continue;
@@ -951,7 +961,8 @@ function officialFieldMap(source, census, report, config, marks = [], boundaryRe
       category: null, completenessClass: null, class: null,
       disposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, routeDetermined: false,
       identity: `${source.formNumber} field ${r.key}`, factId: null, document: source.formNumber,
-      why: `the platform holds no value for this and the participant supplies it before filing: ${r.what}`,
+      why: r.heldFact ? `the platform holds ${r.heldFact}; this segmented caption requires participant verification against the docket sheet: ${r.what}` : `the platform holds no value for this and the participant supplies it before filing: ${r.what}`,
+      heldFact: r.heldFact,
       participantMustSupply: r.what
     });
   }
@@ -1103,7 +1114,7 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("3. **Record the quarterly verification date** when you check whether the automatic Board-to-AOPC-to-court process cleared your record: ____________________.");
   out.push("4. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("5. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.");
-  out.push("6. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
+  out.push("6. **Sign and date your petition yourself; leave the judicial order unsigned.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
   out.push("7. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.");
   out.push("8. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.", "");
   out.push("## The items you must supply", "");
@@ -1115,8 +1126,8 @@ function instructionsMarkdown(config, resolved, rbf) {
   }
   out.push("## Things the platform deliberately left blank", "");
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
-  out.push("- **The whole of the proposed order.** PA-RCRIM-P-790-ORDER is the order the judge signs. It is tendered with your petition, and the platform has written only the style of the case into it. Do not fill it in and do not sign it.");
-  out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
+  out.push("- **The judicial order on the first page of PA-RCRIM-P-790-ORDER.** The court owns its ordering paragraphs, findings, signature and date. Leave those blank. Complete the participant information requested on its second page, including the required blanks listed above.");
+  out.push("- **Petition checkboxes:** read each statement and complete only those supported by your record. **Order checkboxes:** leave all three ordering paragraphs blank for the court.", "");
   out.push("## Stop and get help", "");
   out.push("- The participant has not yet obtained a pardon. If that is you, the pardon application itself is outside this packet and requires a referral.");
   out.push("- You cannot determine from the pardon document whether it is conditional or unconditional.");
