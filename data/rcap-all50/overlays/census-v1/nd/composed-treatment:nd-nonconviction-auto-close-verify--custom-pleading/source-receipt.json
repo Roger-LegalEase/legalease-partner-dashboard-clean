@@ -14,7 +14,43 @@
   "statutoryAuthority": [
     "N.D.C.C. § 12-60.1-05"
   ],
-  "legalName": "Correction Instruments for Mandatory Non-Conviction Record Closure Under N.D.C.C. § 12-60.1-05 (Still Public on Day 62)",
+  "legalName": "Correction Instruments for Mandatory Non-Conviction Record Closure Under N.D.C.C. § 12-60.1-05 (Still Public After the Verified Period)",
+  "eligibilityGate": {
+    "controllingDecision": "ND-NONCONVICTION-61-DAY-AUTO-CLOSE",
+    "cutoff": {
+      "field": "case.order_entry_date",
+      "onOrAfter": "2025-08-01",
+      "olderRoute": "separate official petition mechanism"
+    },
+    "timing": {
+      "anchor": "entry of the order of nonconviction",
+      "excludeEntryDate": true,
+      "calendarDays": 61,
+      "extendWeekendOrVerifiedLegalHoliday": true,
+      "mailServiceDays": 0,
+      "firstPublicAccessCheck": "next business day after adjusted expiration",
+      "firstCheckClassification": "LegalEase product step; not additional statutory time",
+      "automaticCalculationRequires": "caller-supplied complete verified North Dakota calendar coverage",
+      "alternative": "explicitly collected verified adjusted expiration and first-check date"
+    },
+    "wholeCaseAllowed": [
+      "ALL_CHARGES_DISMISSED",
+      "ALL_CHARGES_ACQUITTED"
+    ],
+    "appealAllowed": "case.was_ever_appealed must be exactly false; any appeal history stops",
+    "statutoryExceptionsMustBeFalse": [
+      "case.dismissal_in_plea_involving_conviction",
+      "case.unfit_to_proceed_disposition",
+      "case.lack_criminal_responsibility_acquittal"
+    ],
+    "failureBranchRequires": [
+      "case.public_access_checked_on at or after derived.first_check_date",
+      "case.record_still_public exactly true",
+      "dated case.public_access_evidence"
+    ],
+    "unknownGateBehavior": "STOP_NO_PACKET",
+    "participantInstruction": "Obtain the entered order and use its entry date. Confirm that every criminal charge in the case was dismissed or every charge was acquitted, that the case was never appealed, and that none of the listed statutory exceptions applies. For the deadline, supply a complete verified North Dakota court-calendar window covering day 61 through the next business day, or supply both a verified adjusted expiration and verified first-check date. Do not add mail-service days. Check public access on or after that first-check date and keep dated evidence."
+  },
   "allSourcesExact": true,
   "formIdentityNote": "No dedicated statewide enforcement form exists for a § 12-60.1-05 closure that did not happen — the controlling LA-IMM-03 decision records exactly that — so both correction instruments are composed by this build from the committed records. The official pre-2025-08-01 petition is a DIFFERENT instrument on a different branch (pre_effective_date_petition) and is deliberately not in this packet: the record states that pre-August 1, 2025 dispositions remain on the official petition route. No form was substituted and none was invented.",
   "committedRecords": [
@@ -27,7 +63,7 @@
       "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
       "byteLength": 37333,
       "instrumentKind": "committed_record_bound_as_authority",
-      "role": "the committed route contract: the automatic parent, the 61-day/day-62 timing, the nd_still_public_day_62 failure branch this family implements, and the recorded separations (pre-2025 petition route; agency correction; contested eligibility)",
+      "role": "the historical route contract, bound for the automatic parent, failure-branch sequence and recorded separations; its generic disposition/day-62 wording is superseded here by the final order-entry LEGAL_CLEAR decision",
       "anchorStatementsVerified": 6
     },
     {
@@ -40,6 +76,18 @@
       "byteLength": 184365,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the controlling LA-IMM-03 decision naming both composed correction instruments, their contents, and the recorded absence of a dedicated statewide enforcement form",
+      "anchorStatementsVerified": 6
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      ],
+      "recordId": "legal-clear:2026-09-11:ND-NONCONVICTION-61-DAY-AUTO-CLOSE",
+      "pathInRepository": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "byteLength": 22372,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the final LEGAL_CLEAR decision controlling order-entry timing, the August 1, 2025 cutoff, whole-case treatment, appeal gates, and correction/enforcement after a qualifying record stays public",
       "anchorStatementsVerified": 6
     }
   ],

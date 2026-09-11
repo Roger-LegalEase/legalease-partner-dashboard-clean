@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "rcap-repair-evidence/v1",
+  "lane": "FIX112",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "status": "COMPLETED",
+  "baseSha": "a7a0b267215019c0f619ad6390b493baffc95890",
+  "controllingDecision": {
+    "decisionId": "ND-NONCONVICTION-61-DAY-AUTO-CLOSE",
+    "disposition": "LEGAL_CLEAR",
+    "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+    "bindingProductRule": "61 days from entry of the order; post-August 1, 2025 automatic closure; statutory exceptions, whole-case and appeal gates; correction/enforcement only after a qualifying record remains public after the period."
+  },
+  "repairEvidence": [
+    {
+      "defect": "ENTRY_ORDER_AND_61_DAY_TIMING",
+      "fix": "Uses order-entry date for cutoff and clock; excludes entry date; counts 61 calendar days; extends weekend/supplied legal-holiday last day; adds zero mail days; labels next-business-day check as product step. Automatic calculation requires complete caller-supplied ND calendar coverage or explicit verified adjusted/first-check dates.",
+      "examples": [
+        {
+          "entered": "2025-08-01",
+          "rawDay61": "2025-10-01",
+          "adjustedExpiration": "2025-10-01",
+          "firstCheck": "2025-10-02"
+        },
+        {
+          "entered": "2025-08-04",
+          "rawDay61": "2025-10-04",
+          "adjustedExpiration": "2025-10-06",
+          "firstCheck": "2025-10-07"
+        },
+        {
+          "entered": "2025-08-06",
+          "suppliedHoliday": "2025-10-06",
+          "rawDay61": "2025-10-06",
+          "adjustedExpiration": "2025-10-07",
+          "firstCheck": "2025-10-08"
+        }
+      ]
+    },
+    {
+      "defect": "WHOLE_CASE_AND_STATUTORY_EXCEPTIONS",
+      "fix": "Only all-charges-dismissed or all-charges-acquitted cases enter; mixed, partial, unknown, plea-with-conviction, unfitness, and lack-of-criminal-responsibility cases stop."
+    },
+    {
+      "defect": "ANY_APPEAL_AND_FAILURE_BRANCH",
+      "fix": "case.was_ever_appealed must be exactly false. Any appeal or unknown history stops. The post-period check must be timely, known, still public, and evidenced before request/enforcement generation."
+    }
+  ],
+  "carriedFacts": {
+    "clerkRequest": 18,
+    "enforcementMotion": 19,
+    "proposedOrderCaption": 4,
+    "filingInstructions": 1,
+    "totalWrites": 42,
+    "factsInBothRequestAndMotion": [
+      "court name",
+      "court location",
+      "case number",
+      "whole-case disposition",
+      "order entry date",
+      "raw day 61",
+      "Rule 45 adjusted expiration",
+      "product first-check date",
+      "verified deadline method",
+      "calendar/deadline verification source",
+      "no-appeal statement",
+      "statutory-exception statement",
+      "public-access check date",
+      "public-access evidence"
+    ],
+    "protectedActs": [
+      "request signature/date",
+      "motion signature/date",
+      "court decision/signature/date"
+    ]
+  },
+  "componentSet": [
+    "clerk_correction_request",
+    "enforcement_motion",
+    "proposed_order",
+    "filing_instructions"
+  ],
+  "sourceBindings": [
+    {
+      "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
+      "byteLength": 37333,
+      "anchors": 6
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+      "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+      "byteLength": 184365,
+      "anchors": 6
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "byteLength": 22372,
+      "anchors": 6
+    }
+  ],
+  "artifacts": {
+    "previous": {
+      "canonicalSha256": "61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96",
+      "boundarySha256": "6088a70b8bd9b67f92862393562c3a0dd9feadee39a4f445a7e56c740d7790b7"
+    },
+    "current": {
+      "canonical": {
+        "sha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+        "byteLength": 17097,
+        "pageCount": 7
+      },
+      "boundary": {
+        "sha256": "db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d",
+        "byteLength": 17490,
+        "pageCount": 7
+      }
+    },
+    "bytesChanged": true,
+    "rasterPagesGenerated": 0,
+    "rasterState": "BUILT_RASTER_PENDING"
+  },
+  "completeness": {
+    "verdict": "PASS_COMPLETE",
+    "written": 42,
+    "totalFields": 49,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    }
+  },
+  "staleReviewHandling": {
+    "counselQuestionsRaised": [],
+    "oldRasterReceiptMovedTo": "product-wiring.json#binding.supersededAcceptanceReceipt",
+    "oldIndependentReviewMovedTo": "product-wiring.json#binding.supersededIndependentVerification",
+    "currentRasterReceipt": null,
+    "currentIndependentVerification": null
+  },
+  "checkReadOnlyProof": "Focused test snapshots every family-output file SHA-256, byte length, mtime and ctime before and after runFamily([\"--check\"]) and requires exact equality plus overlayDirectoryTouched=false.",
+  "validation": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert FIX112 'composed-treatment:nd-nonconviction-auto-close-verify' && node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX112 'composed-treatment:nd-nonconviction-auto-close-verify'",
+      "exit": 0,
+      "result": "CLAIM_OK, grant set 08d9289c5f807503"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node 'scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs' --no-raster",
+      "exit": 0,
+      "result": "COMPLETED; 4 components; 42 writes; 7 protected blanks; 2 seven-page PDFs; all nine builder counters zero; BUILT_RASTER_PENDING"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node --test scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs",
+      "exit": 0,
+      "result": "9 tests passed; entry/disposition distinction, cutoff, whole-case, any appeal, statutory exceptions, boundaries, weekend, supplied holiday, missing/incomplete calendar, premature/non-public, carried facts, read-only --check and generated maps"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node 'scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs' --check",
+      "exit": 0,
+      "result": "CHECK_ONLY; 3 records/18 anchors; 2 eligibility fixtures; 38 writes/7 blanks; overlayDirectoryTouched=false"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:nd-nonconviction-auto-close-verify'",
+      "exit": 0,
+      "result": "PASS_COMPLETE; 42/49 written; all nine real counters zero"
+    },
+    {
+      "command": "sha256sum/stat three bound records and both generated PDFs; git diff --check",
+      "exit": 0,
+      "result": "Exact identities recorded below; no whitespace errors"
+    }
+  ],
+  "checksNotRun": [
+    "No local raster rendering.",
+    "No full repository suite.",
+    "No fresh independent verification, visual/raster acceptance, counsel review, admission, runtime wiring, deployment or source research."
+  ],
+  "remainingBlockers": [
+    "Fresh raster acceptance for current PDF hashes.",
+    "Fresh independent packet/completeness acceptance for current bytes."
+  ],
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This repair author does not approve, admit, deploy or commercially activate the packet."
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * FABLE-B12 composed-treatment builder — North Dakota mandatory-closure
- * correction instruments (N.D.C.C. § 12-60.1-05, day-62 failure branch).
+ * correction instruments (N.D.C.C. § 12-60.1-05, post-period failure branch).
  *
  *   node "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs" [--check] [--no-raster]
  *
@@ -13,10 +13,11 @@
  * THE CLASSIFICATION, READ FROM THE COMMITTED RECORDS
  *
  * The parent route is AUTOMATIC: for a qualifying non-conviction disposition
- * entered on or after 2025-08-01, "the court closes the record by operation
- * of the statute; the participant waits 61 complete days from the qualifying
- * disposition, verifies on day 62 or the next business day, and files nothing
- * to obtain the closure itself" (route contract,
+ * entered on or after 2025-08-01, the final LEGAL_CLEAR decision requires 61
+ * days from ENTRY OF THE ORDER, whole-case nonconviction and no appeal history.
+ * Rule 45 excludes the entry day and extends a weekend/legal-holiday last day.
+ * The next-business-day public-index check is a labelled product step, not an
+ * additional statutory waiting period, and no mail-service days are added.
  * src/lib/legal-authority/routes/national-report-2026-08-28.json). This
  * family is NOT the automatic branch: it is the recorded failure branch,
  * nd_still_public_day_62, whose treatment the controlling LA-IMM-03 decision
@@ -51,8 +52,8 @@ const SPEC = {
   buildScript: "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
   outDir: "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
   jurisdiction: "ND",
-  legalName: "Correction Instruments for Mandatory Non-Conviction Record Closure Under N.D.C.C. § 12-60.1-05 (Still Public on Day 62)",
-  routeName: "correcting a North Dakota non-conviction court record that should have closed automatically under N.D.C.C. § 12-60.1-05 and is still public on day 62",
+  legalName: "Correction Instruments for Mandatory Non-Conviction Record Closure Under N.D.C.C. § 12-60.1-05 (Still Public After the Verified Period)",
+  routeName: "correcting a qualifying North Dakota non-conviction court record that remains public after the Rule 45 adjusted period and the next-business-day product check",
   statutes: ["N.D.C.C. § 12-60.1-05"],
   routes: [
     { routeKey: "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request" },
@@ -68,7 +69,7 @@ const SPEC = {
     {
       recordId: "route-contract:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       path: "src/lib/legal-authority/routes/national-report-2026-08-28.json",
-      role: "the committed route contract: the automatic parent, the 61-day/day-62 timing, the nd_still_public_day_62 failure branch this family implements, and the recorded separations (pre-2025 petition route; agency correction; contested eligibility)",
+      role: "the historical route contract, bound for the automatic parent, failure-branch sequence and recorded separations; its generic disposition/day-62 wording is superseded here by the final order-entry LEGAL_CLEAR decision",
       mustContain: [
         "the court closes the record by operation of the statute; the participant waits 61 complete days from the qualifying disposition, verifies on day 62 or the next business day, and files nothing to obtain the closure itself",
         "First a written request to the clerk of the original court to implement the closure. If the clerk cannot correct it, a motion to enforce in the original criminal case.",
@@ -89,6 +90,19 @@ const SPEC = {
         "Because no dedicated statewide enforcement form exists, contested eligibility goes to counsel.",
         "Pre-August 1, 2025 dispositions remain on the official petition route.",
         "SECOND CORRECTION"
+      ]
+    },
+    {
+      recordId: "legal-clear:2026-09-11:ND-NONCONVICTION-61-DAY-AUTO-CLOSE",
+      path: "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      role: "the final LEGAL_CLEAR decision controlling order-entry timing, the August 1, 2025 cutoff, whole-case treatment, appeal gates, and correction/enforcement after a qualifying record stays public",
+      mustContain: [
+        "ND-NONCONVICTION-61-DAY-AUTO-CLOSE",
+        "Use 61 days from entry of the order of nonconviction.",
+        "For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism.",
+        "Preserve statutory exceptions, whole-case treatment and appeal gates.",
+        "If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required.",
+        "LEGAL_CLEAR"
       ]
     }
   ],
@@ -126,21 +140,58 @@ const SPEC = {
       "participant.date_of_birth": "1991-04-17",
       "participant.street_address": "42 Prairie Rose Street, Bismarck, ND 58501",
       "participant.phone": "701-555-0142",
-      "participant.email": "jordan.reyes@example.org"
+      "participant.email": "jordan.reyes@example.org",
+      "case.court_name": "District Court, South Central Judicial District",
+      "case.court_location": "Burleigh County, North Dakota",
+      "case.number": "08-2025-CR-01234",
+      "case.order_entry_date": "2025-08-01",
+      "case.whole_case_disposition": "ALL_CHARGES_DISMISSED",
+      "case.was_ever_appealed": false,
+      "case.dismissal_in_plea_involving_conviction": false,
+      "case.unfit_to_proceed_disposition": false,
+      "case.lack_criminal_responsibility_acquittal": false,
+      "case.calendar_coverage": {
+        "jurisdiction": "ND", "start": "2025-10-01", "end": "2025-10-03",
+        "legalHolidays": [], "confirmedComplete": true,
+        "verificationSource": "caller-supplied verified North Dakota court calendar for October 1-3, 2025"
+      },
+      "case.public_access_checked_on": "2025-10-02",
+      "case.record_still_public": true,
+      "case.public_access_evidence": "Dated October 2, 2025 public-index printout showing the case remained publicly accessible.",
+      "case.clerk_response": "The clerk's office advised that judicial action was required; a copy of the written request and response is attached."
     },
     boundary: {
       "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
       "participant.date_of_birth": "1968-12-31",
       "participant.street_address": "1188 Upper Sheyenne Crossing Road, Apartment 14B, Fargo, North Dakota 58103-2214",
       "participant.phone": "(701) 555-0199 ext. 4417",
-      "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+      "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "case.court_name": "District Court, East Central Judicial District",
+      "case.court_location": "Cass County, North Dakota",
+      "case.number": "09-2025-CR-987654",
+      "case.order_entry_date": "2025-08-04",
+      "case.whole_case_disposition": "ALL_CHARGES_ACQUITTED",
+      "case.was_ever_appealed": false,
+      "case.dismissal_in_plea_involving_conviction": false,
+      "case.unfit_to_proceed_disposition": false,
+      "case.lack_criminal_responsibility_acquittal": false,
+      "case.calendar_coverage": {
+        "jurisdiction": "ND", "start": "2025-10-04", "end": "2025-10-08",
+        "legalHolidays": [], "confirmedComplete": true,
+        "verificationSource": "caller-supplied verified North Dakota court calendar for October 4-8, 2025"
+      },
+      "case.public_access_checked_on": "2025-10-07",
+      "case.record_still_public": true,
+      "case.public_access_evidence": "Dated October 7, 2025 public-index printout showing the case remained publicly accessible.",
+      "case.clerk_response": "The clerk's office did not correct the public-access status after receiving the written request; the request and delivery record are attached."
     }
   },
 
   composedFromNote:
     "the committed route contract (src/lib/legal-authority/routes/national-report-2026-08-28.json, "
-    + "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05) and the controlling LA-IMM-03 decision "
-    + "(data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json), both bound by SHA-256 and "
+    + "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05), the controlling LA-IMM-03 decision "
+    + "(data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json), and final decision "
+    + "ND-NONCONVICTION-61-DAY-AUTO-CLOSE (data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json), all bound by SHA-256 and "
     + "anchor-verified at build time",
 
   formIdentityNote:
@@ -160,29 +211,72 @@ const SPEC = {
     + "participant has reached turns on what happened to their own request, so the condition is printed on the "
     + "motion's face and neither instrument is selected for them.",
 
+  eligibilityGate: {
+    controllingDecision: "ND-NONCONVICTION-61-DAY-AUTO-CLOSE",
+    cutoff: { field: "case.order_entry_date", onOrAfter: "2025-08-01", olderRoute: "separate official petition mechanism" },
+    timing: {
+      anchor: "entry of the order of nonconviction", excludeEntryDate: true,
+      calendarDays: 61, extendWeekendOrVerifiedLegalHoliday: true, mailServiceDays: 0,
+      firstPublicAccessCheck: "next business day after adjusted expiration",
+      firstCheckClassification: "LegalEase product step; not additional statutory time",
+      automaticCalculationRequires: "caller-supplied complete verified North Dakota calendar coverage",
+      alternative: "explicitly collected verified adjusted expiration and first-check date"
+    },
+    wholeCaseAllowed: ["ALL_CHARGES_DISMISSED", "ALL_CHARGES_ACQUITTED"],
+    appealAllowed: "case.was_ever_appealed must be exactly false; any appeal history stops",
+    statutoryExceptionsMustBeFalse: [
+      "case.dismissal_in_plea_involving_conviction",
+      "case.unfit_to_proceed_disposition",
+      "case.lack_criminal_responsibility_acquittal"
+    ],
+    failureBranchRequires: [
+      "case.public_access_checked_on at or after derived.first_check_date",
+      "case.record_still_public exactly true",
+      "dated case.public_access_evidence"
+    ],
+    unknownGateBehavior: "STOP_NO_PACKET",
+    participantInstruction: ND_NONCONVICTION_PARTICIPANT_INSTRUCTION,
+  },
+
+  supersededReviewEvidence: {
+    acceptanceReceipt: {
+      verdict: "RASTER_PASS", workflowRunId: "33579500812", jobId: "100091041747",
+      artifactId: "9828004789",
+      boundToCanonicalSha256: "61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96",
+      coversTheWholeFamily: true,
+    },
+    independentVerification: {
+      verdict: "PASS_COMPLETE_INDEPENDENT", lane: "vf09",
+      verifiedAtBase: "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+    },
+    reason: "The entry-date, whole-case and appeal-gate repair changed both fixture PDFs; exact-byte review must be earned again.",
+  },
+
   instructionsIntro: [
-    "For a qualifying non-conviction disposition entered on or after August 1, 2025, the recorded North Dakota rule is that the court closes the record by operation of N.D.C.C. § 12-60.1-05: you wait 61 complete days from the qualifying disposition, verify on day 62 or the next business day, and file NOTHING to obtain the closure itself. This packet exists for one situation only: the record is STILL PUBLIC on day 62. It carries the two recorded correction instruments, in their recorded order.",
-    "The platform filled in what it holds about you: your name, your mailing address, your telephone number and your email. Every case fact belongs to your court record, so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory."
+    "For a qualifying order of nonconviction entered on or after August 1, 2025, the North Dakota rule is automatic closure after the statutory period. Exclude the order-entry date, count 61 calendar days, and extend the last day when it falls on a weekend or verified legal holiday. Do not add mail-service days. The next-business-day public-index check is a LegalEase product step, not additional statutory time. File NOTHING to obtain the automatic closure itself. This packet exists only when the qualifying record is still public after that check.",
+    "The packet may carry only facts collected and verified from the whole case record: the court and case number, the all-charges disposition, the entered-order date, no appeal history, absence of the statutory exceptions, the verified deadline/calendar basis, and dated continuing-public-access evidence. An unknown gate stops this branch; the build does not infer it."
   ],
   instrumentChoice: {
     heading: "Which page you use, and in what order",
     intro: ["This packet carries two instruments and the recorded sequence uses them in order:"],
     rows: [
-      ["`clerk_correction_request` — the written request", "FIRST, always: send it to the office of the court in the original criminal case once the day-62 check shows the record still public"],
+      ["`clerk_correction_request` — the written request", "FIRST, always: send it to the office of the court in the original criminal case only after the verified next-business-day check shows the record still public"],
       ["`enforcement_motion` — the motion to enforce, with its proposed order", "only if that office states that judicial action is required, or does not correct the record"]
     ],
     footnotes: [
-      "If eligibility for the closure is contested at any point, stop: the recorded rule is that a contested eligibility question is individualized advocacy, and this packet is not that."
+      "If any whole-case fact, appeal history, exception, calendar coverage, adjusted deadline or post-period public-access fact is unknown or contested, stop. This packet does not decide those facts."
     ]
   },
   documentsToObtain: [
-    ["The disposition record for the case, showing the qualifying non-conviction disposition and its exact date", "the office of the court in the original criminal case"],
-    ["Evidence of continuing public access on day 62 or later - for example a dated printout of the public index entry", "the public case search, checked on day 62 or the next business day"]
+    ["The entered order and complete disposition record for every criminal charge in the case", "the office of the court in the original criminal case"],
+    ["Verified North Dakota calendar coverage for day 61 through the next business day, or explicitly verified adjusted-expiration and first-check dates", "the applicable court calendar and closure information verified for this case"],
+    ["Evidence of continuing public access on or after the verified first-check date - for example a dated printout of the public index entry", "the public case search, checked no earlier than the verified first-check date"]
   ],
   steps: [
-    "**Confirm the branch.** This packet applies only where the qualifying disposition was entered ON OR AFTER August 1, 2025. The record states that pre-August 1, 2025 dispositions remain on the official petition route, which is a different instrument this packet does not carry.",
-    "**Count 61 complete days from the qualifying disposition, and verify on day 62** or the next business day. No individualized notice is promised by any recorded source — checking is yours to do.",
-    "**If the record is still public, fill in and send the written request** to the office of the court in the original criminal case. It identifies the case, the disposition date, the calculated deadline, the statutory basis and your evidence of continuing public access — the exact contents the controlling decision names.",
+    "**Confirm every gate from the whole case record.** The order of nonconviction must have been entered ON OR AFTER August 1, 2025; every criminal charge must have been dismissed or every charge acquitted; the case must never have been appealed; and none of the stated statutory exceptions may apply. An older order uses the separate petition mechanism. A mixed, partial, appealed, excluded or unknown case does not enter this failure branch.",
+    "**Calculate from entry of the order, not a generic disposition date.** Exclude the entry date and count 61 calendar days. Extend the last day for a weekend or verified legal holiday. Do not add mail-service days. Automatic calculation requires supplied complete calendar coverage; otherwise supply an explicitly verified adjusted expiration and first-check date.",
+    "**Check public access on the next business day after the adjusted expiration.** That check date is a labelled LegalEase product step, not extra statutory days. No individualized notice is promised. Keep dated evidence; a premature check, an unknown result, or a record that is no longer public does not use this packet.",
+    "**If the qualifying record is still public after that check, send the written request** to the office of the court in the original criminal case. It carries the collected whole-case facts, order-entry date, adjusted expiration, no-appeal and exception confirmations, and dated public-access evidence.",
     "**Only if that office says judicial action is required, or does not correct the record, file the enforcement motion** in the original criminal case, with the unsigned proposed order.",
     "**Sign and date each page yourself.** The platform never signs for you and never dates a signature.",
     "**Keep the agency question separate.** If a BCI or originating-agency criminal history still shows the matter after the court record closes, that is a separate challenge to that agency — the record states the two must not be presented as one step, and this packet does not carry it."
@@ -190,15 +284,18 @@ const SPEC = {
   deliberatelyBlank: [
     "**Your signature, and every date beside a signature.** A signature is yours alone, and a date written before you sign would be false.",
     "**Every line of the proposed order that decides anything**, including the court's signature and date. The order is the court's to make.",
-    "**The response of the office of the original court to your request.** What that office said or did is a fact only you can state, and the motion asks you to state it in your own words."
+    "**Any fact that was not collected and verified from the complete case record or actual clerk response.** Unknown facts stop generation rather than becoming blanks or guesses."
   ],
   notTold: [
     "**Whether a filing fee applies to the enforcement motion, and how the request or motion must be delivered.** Neither is established by the committed records this packet is built from. The office of the court in the original criminal case is the authority that can answer both — ask before you send or file.",
-    "**Whether your disposition qualifies.** The recorded rule requires a qualifying non-conviction disposition; whether yours is one is decided against the record, and a contested answer is an attorney question."
+    "**Whether a disputed record qualifies.** The gate admits only verified whole-case facts. A contested answer is an attorney question."
   ],
   stopConditions: [
-    "eligibility for the closure is contested — the recorded rule is that a contested eligibility question is individualized advocacy;",
-    "the qualifying disposition was entered before August 1, 2025 — that is the official petition route, not this packet;",
+    "any gate is unknown or eligibility is contested — the recorded rule is that a contested eligibility question is individualized advocacy;",
+    "the order of nonconviction was entered before August 1, 2025 — that is the official petition route, not this packet;",
+    "the case has a mixed or partial disposition, any appeal history, or any stated statutory exception;",
+    "the verified first-check date has not arrived, public access was checked too early, or the record is no longer public;",
+    "complete calendar coverage or explicitly verified adjusted-expiration and first-check dates are unavailable;",
     "the court record closed but a BCI or originating-agency history still shows the matter — that is a separate agency challenge, not a court filing from this packet;",
     "any immigration question is involved."
   ],
@@ -215,6 +312,14 @@ const SPEC = {
   ],
 
   buildFindings: [
+    {
+      finding:
+        "The final LEGAL_CLEAR decision replaces generic-disposition timing with 61 days from entry of the order "
+        + "and requires the whole-case, statutory-exception and any-appeal gates.",
+      consequence:
+        "Generation now fails closed unless all gates are verified. Calendar arithmetic excludes the entry date, "
+        + "extends weekend/verified-holiday last days, adds no mail days, and labels the next-business-day check as a product step."
+    },
     {
       finding:
         "The MASTER_QUEUE row binds no document source, and that is the recorded design: the controlling LA-IMM-03 "
@@ -237,7 +342,7 @@ const SPEC = {
     {
       finding:
         "The route contract walls three things off from this branch: the automatic parent (nothing is filed), "
-        + "pre-2025-08-01 dispositions (the official petition route), and agency-history correction (a separate "
+        + "pre-2025-08-01 entered orders (the official petition route), and agency-history correction (a separate "
         + "challenge that must not be presented as one step with court closure).",
       consequence:
         "All three separations are printed in the filing instructions as non-grants, and the packet carries no "
@@ -252,15 +357,10 @@ const SPEC = {
         + "figure was guessed."
     }
   ],
-  counselQuestions: [
-    "The written request and the enforcement motion state the mandatory-closure ground in the committed records' own words (61 complete days; day-62 verification; closure by operation of the statute). Confirm the composed instruments are sufficient where no dedicated statewide enforcement form exists.",
-    "The request instrument asks the office of the original court to implement closure and correct public-access status; the motion asks the court to enforce it. Confirm the two-step presentation with the condition printed on the motion's face.",
-    "No committed record states the enforcement motion's filing fee or either instrument's delivery method; the packet delegates both to the office of the original court. Confirm the delegation or supply the content.",
-    "The proposed order grants closure under § 12-60.1-05 with every decision line blank. Confirm its wording."
-  ],
+  counselQuestions: [],
   reviewersAttention: [
     "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT; confirm that is legible to reviewers.",
-    "This family covers ONLY the nd_still_public_day_62 failure branch; the automatic parent, the pre-2025 petition branch and the agency challenge are deliberately outside it."
+    "This family covers ONLY the verified post-period still-public failure branch; the automatic parent, pre-effective petition branch, mixed/partial case, any appeal, statutory exceptions and agency challenge are outside it."
   ],
 
   /* ---- composed bodies ------------------------------------------------------- */
@@ -269,52 +369,62 @@ const SPEC = {
     const address = facts["participant.street_address"];
     const phone = facts["participant.phone"];
     const email = facts["participant.email"];
+    const courtName = facts["case.court_name"];
+    const courtLocation = facts["case.court_location"];
+    const caseNumber = facts["case.number"];
+    const wholeCaseStatement = facts["derived.whole_case_statement"];
+    const orderEntryDate = facts["case.order_entry_date"];
+    const rawDay61 = facts["derived.raw_day_61"];
+    const adjustedExpiration = facts["derived.adjusted_expiration"];
+    const firstCheckDate = facts["derived.first_check_date"];
+    const deadlineMethod = facts["derived.deadline_method"];
+    const calendarVerificationSource = facts["derived.calendar_verification_source"];
+    const appealStatement = facts["derived.appeal_history_statement"];
+    const exceptionsStatement = facts["derived.statutory_exceptions_statement"];
+    const publicAccessEvidence = facts["case.public_access_evidence"];
+    const publicAccessCheckedOn = facts["case.public_access_checked_on"];
+    const clerkResponse = facts["case.clerk_response"];
     const L = [];
     L.push(this.componentTitles[componentId].toUpperCase(), "");
     if (componentId === "clerk_correction_request") {
-      L.push("To: the office of the ............................................................ court");
-      L.push("for ..........................................................");
-      L.push("(THE COURT IN THE ORIGINAL CRIMINAL CASE, AND ITS COUNTY OR LOCATION - that court's own office can confirm both)", "");
+      L.push(`To: the office of the ${courtName}`);
+      L.push(`for ${courtLocation}`, "");
       L.push(`From: ${name}`);
       L.push(`${address}`);
       L.push(`Telephone: ${phone}  Email: ${email}`, "");
       L.push("Re: request to implement mandatory closure under N.D.C.C. Sec. 12-60.1-05, and to correct the public-access status of the record", "");
-      L.push("Case number of the original criminal case:");
-      L.push(DOTS(), "");
-      L.push("Qualifying non-conviction disposition, worded exactly as the court record words it:");
-      L.push(DOTS(), "");
-      L.push("Date the qualifying disposition was entered (it must be on or after August 1, 2025 for this request to apply):");
-      L.push(DOTS(), "");
-      L.push("Date 61 complete days after the disposition date (the calculated deadline):");
-      L.push(DOTS(), "");
-      L.push("1. Under N.D.C.C. Sec. 12-60.1-05, for a qualifying non-conviction disposition entered on or after August 1, 2025, the court closes the record by operation of the statute. The recorded period is 61 complete days from the qualifying disposition, with verification on day 62 or the next business day. Nothing is filed to obtain the closure itself.", "");
-      L.push("2. The record identified above is still publicly accessible after that calculated deadline. My evidence of continuing public access, checked on day 62 or the next business day (attach it - for example a dated printout of the public index entry):");
-      L.push(DOTS());
-      L.push(DOTS(), "");
+      L.push(`Case number of the original criminal case: ${caseNumber}`, "");
+      L.push(`Whole-case qualifying disposition: ${wholeCaseStatement}`);
+      L.push(`Date the order of nonconviction was entered: ${orderEntryDate}`, "");
+      L.push(`Day 61, after excluding the entry date: ${rawDay61}`);
+      L.push(`Rule 45 adjusted expiration: ${adjustedExpiration}`);
+      L.push(`LegalEase first public-access check (next business day; product step, not added statutory time): ${firstCheckDate}`, "");
+      L.push(`Deadline verification method: ${deadlineMethod}`);
+      L.push(`Calendar/deadline verification source: ${calendarVerificationSource}`, "");
+      L.push(`Appeal gate: ${appealStatement}`);
+      L.push(`Statutory-exception gate: ${exceptionsStatement}`, "");
+      L.push("1. Under N.D.C.C. Sec. 12-60.1-05, this whole case qualifies for closure after 61 calendar days from entry of the order of nonconviction. The entry date was excluded; no mail-service days were added; and a weekend or verified legal-holiday last day was extended under Rule 45. Nothing was filed to obtain automatic closure.", "");
+      L.push(`2. The record was checked on ${publicAccessCheckedOn}, no earlier than the product first-check date, and remained publicly accessible. Evidence attached: ${publicAccessEvidence}`, "");
       L.push("3. I therefore ask this office to implement the mandatory closure the statute directs, and to correct the public-access status of the record. If this office's position is that judicial action is required, please say so in writing.", "");
       L.push("DATE " + DOTS(30) + "   SIGNATURE " + DOTS(44), "");
       L.push("(You sign and date this request personally. Nothing on this page is signed or dated for you.)");
     } else if (componentId === "enforcement_motion") {
       L.push("USE THIS PAGE ONLY AFTER THE WRITTEN REQUEST. The recorded sequence is: first the written request to the office of the court in the original criminal case; then this motion, only if that office states that judicial action is required or does not correct the record. If your request corrected the record, do not file this motion.", "");
-      L.push("IN THE ............................................................ COURT");
-      L.push("FOR ..........................................................", "");
+      L.push(`IN THE ${courtName}`);
+      L.push(`FOR ${courtLocation}`, "");
       L.push("STATE OF NORTH DAKOTA,");
       L.push("PLAINTIFF,", "");
       L.push("v.", "");
       L.push(`${name},`);
       L.push("DEFENDANT.", "");
-      L.push("Case number of the original criminal case:");
-      L.push(DOTS(), "");
+      L.push(`Case number of the original criminal case: ${caseNumber}`, "");
       L.push("MOTION TO ENFORCE MANDATORY CLOSURE UNDER N.D.C.C. Sec. 12-60.1-05", "");
-      L.push(`1. The defendant, ${name}, states that the disposition in this case was a qualifying non-conviction disposition entered on or after August 1, 2025, and that under N.D.C.C. Sec. 12-60.1-05 the court closes such a record by operation of the statute after 61 complete days.`, "");
-      L.push("Qualifying non-conviction disposition, worded exactly as the court record words it:");
-      L.push(DOTS(), "");
-      L.push("Date the qualifying disposition was entered:");
-      L.push(DOTS(), "");
-      L.push("2. More than 61 complete days have passed and the record remains publicly accessible. A written request to implement the closure was made to the office of this court. What that office said or did in response (state it in your own words, and attach a copy of your request):");
-      L.push(DOTS());
-      L.push(DOTS(), "");
-      L.push("3. The defendant asks the Court to enforce the mandatory closure that N.D.C.C. Sec. 12-60.1-05 directs, and to order the public-access status of the record corrected. A proposed order accompanies this motion.", "");
+      L.push(`1. The defendant, ${name}, states: ${wholeCaseStatement} The order of nonconviction was entered on ${orderEntryDate}. ${appealStatement} ${exceptionsStatement}`, "");
+      L.push(`2. Excluding the entry date, day 61 was ${rawDay61}; the Rule 45 adjusted expiration was ${adjustedExpiration}. No mail-service days were added. The LegalEase next-business-day check on ${firstCheckDate} is a product step, not additional statutory time.`, "");
+      L.push(`Deadline verification method and source: ${deadlineMethod}; ${calendarVerificationSource}`, "");
+      L.push(`3. The record was checked on ${publicAccessCheckedOn} and remained publicly accessible. Evidence attached: ${publicAccessEvidence}`, "");
+      L.push(`4. A written request to implement closure was made first. Office response: ${clerkResponse}`, "");
+      L.push("5. The defendant asks the Court to enforce the mandatory closure that N.D.C.C. Sec. 12-60.1-05 directs, and to order the public-access status of the record corrected. A proposed order accompanies this motion.", "");
       L.push("DATE " + DOTS(30) + "   SIGNATURE OF DEFENDANT " + DOTS(38), "");
       L.push("(The defendant signs and dates this motion personally.)", "");
       L.push(`PRINTED NAME: ${name}`);
@@ -322,15 +432,14 @@ const SPEC = {
       L.push(`TELEPHONE: ${phone}`);
       L.push(`EMAIL: ${email}`);
     } else if (componentId === "proposed_order") {
-      L.push("IN THE ............................................................ COURT");
-      L.push("FOR ..........................................................", "");
+      L.push(`IN THE ${courtName}`);
+      L.push(`FOR ${courtLocation}`, "");
       L.push("STATE OF NORTH DAKOTA,");
       L.push("PLAINTIFF,", "");
       L.push("v.", "");
       L.push(`${name},`);
       L.push("DEFENDANT.", "");
-      L.push("Case number of the original criminal case:");
-      L.push(DOTS(), "");
+      L.push(`Case number of the original criminal case: ${caseNumber}`, "");
       L.push("PROPOSED ORDER", "");
       L.push("This matter came before the Court on the defendant's Motion to Enforce Mandatory Closure Under N.D.C.C. Sec. 12-60.1-05. The Court, having considered the motion,", "");
       L.push("ORDERS that " + DOTS(56), "");
@@ -342,21 +451,26 @@ const SPEC = {
       L.push(`This packet is prepared for ${this.routeName}.`, "");
       L.push(`Prepared for: ${name}`, "");
       L.push("THE ONE SITUATION THIS PACKET IS FOR", "");
-      L.push("A qualifying non-conviction disposition entered ON OR AFTER August 1, 2025 closes by operation of N.D.C.C. Sec. 12-60.1-05: you wait 61 complete days, verify on day 62 or the next business day, and file nothing to obtain the closure itself. This packet is only for the case where that check shows the record STILL PUBLIC.", "");
+      L.push(`VERIFIED CASE: ${wholeCaseStatement} Order entered ${orderEntryDate}. ${appealStatement} ${exceptionsStatement}`, "");
+      L.push(`VERIFIED TIMING: day 61 was ${rawDay61}; Rule 45 adjusted expiration ${adjustedExpiration}; LegalEase first public-access check ${firstCheckDate}. The check is a product step, not extra statutory time. No mail-service days were added.`, "");
+      L.push(`VERIFIED FAILURE: checked ${publicAccessCheckedOn}; ${publicAccessEvidence}`, "");
       L.push("WHAT YOU DO, IN ORDER", "");
-      L.push("STEP ONE. Confirm the disposition date is on or after August 1, 2025. If it is earlier, stop: the record states that pre-August 1, 2025 dispositions remain on the official petition route, and this packet does not carry that petition.");
-      L.push("STEP TWO. Count 61 complete days from the qualifying disposition and check the public index on day 62 or the next business day. No recorded source promises you individualized notice of closure - checking is yours to do. Keep dated evidence of what you find.");
+      L.push("STEP ONE. Confirm the complete case record shows every charge dismissed or every charge acquitted, no appeal history, and none of the stated statutory exceptions. A mixed, partial, appealed, excluded or unknown case stops.");
+      L.push("STEP TWO. Use the order-entry date. Exclude that date, count 61 calendar days, extend a weekend or verified legal-holiday last day, and do not add mail-service days. Check on the next business day after the adjusted expiration; this is a product step, not added statutory time.");
       L.push("STEP THREE. If the record is still public, complete and send the WRITTEN REQUEST to the office of the court in the original criminal case. Ask that office how it accepts delivery, and use that method.");
       L.push("STEP FOUR. Only if that office states that judicial action is required, or does not correct the record, complete and file the ENFORCEMENT MOTION in the original criminal case, with the unsigned proposed order. Ask the office of that court whether a filing fee applies - no committed record this packet is built from states one.");
       L.push("STEP FIVE. Sign and date each page yourself.", "");
       L.push("WHAT THIS PACKET DELIBERATELY DOES NOT COVER", "");
       L.push("- The automatic closure itself. Nothing is filed to obtain it.");
-      L.push("- Pre-August 1, 2025 dispositions. They remain on the official petition route, a different instrument.");
+      L.push("- Orders entered before August 1, 2025. They remain on the official petition route, a different instrument.");
+      L.push("- Mixed or partial case dispositions, any appeal history, a stated statutory exception, or any unknown gate.");
       L.push("- BCI or originating-agency history correction. Closing the court record does not correct an agency history; that is a separate challenge to that agency, and the record states the two must not be presented as one step.");
       L.push("- Contested eligibility. The recorded rule: a contested eligibility question is individualized advocacy. Take it to a lawyer.", "");
       L.push("WHEN TO STOP AND GET HELP INSTEAD OF FILING", "");
       L.push("- eligibility for the closure is contested;");
-      L.push("- the disposition date is before August 1, 2025;");
+      L.push("- the order-entry date is before August 1, 2025;");
+      L.push("- any whole-case, appeal, statutory-exception, calendar or public-access gate is unknown;");
+      L.push("- the first-check date has not arrived or the record is not public after the period;");
       L.push("- an agency history still shows the matter after the court record closes;");
       L.push("- any immigration question is involved.", "");
       L.push("WHAT THIS PACKET IS NOT", "");
@@ -375,27 +489,23 @@ const SPEC = {
         h.write("requester_name", "Person named in the From block of the request", "participant.full_legal_name"),
         h.write("mailing_address", "Mailing address in the From block of the request", "participant.street_address"),
         h.write("telephone", "Telephone number in the From block of the request", "participant.phone"),
-        h.write("email", "Email address in the From block of the request", "participant.email")
+        h.write("email", "Email address in the From block of the request", "participant.email"),
+        h.write("court_name", "Court name in the To block of the request", "case.court_name"),
+        h.write("court_location", "County or location in the To block of the request", "case.court_location"),
+        h.write("case_number", "Case number of the original criminal case, on the request", "case.number"),
+        h.write("whole_case_disposition", "Whole-case qualifying disposition on the request", "derived.whole_case_statement"),
+        h.write("order_entry_date", "Date the order of nonconviction was entered, on the request", "case.order_entry_date"),
+        h.write("raw_day_61", "Day 61 after excluding the order-entry date, on the request", "derived.raw_day_61"),
+        h.write("adjusted_expiration", "Rule 45 adjusted expiration, on the request", "derived.adjusted_expiration"),
+        h.write("first_check_date", "LegalEase next-business-day public-access check date, on the request", "derived.first_check_date"),
+        h.write("deadline_method", "Verified deadline computation method, on the request", "derived.deadline_method"),
+        h.write("calendar_verification_source", "Calendar or deadline verification source, on the request", "derived.calendar_verification_source"),
+        h.write("appeal_history", "No-appeal-history confirmation on the request", "derived.appeal_history_statement"),
+        h.write("statutory_exceptions", "Statutory-exception confirmation on the request", "derived.statutory_exceptions_statement"),
+        h.write("public_access_checked_on", "Date public access was checked, on the request", "case.public_access_checked_on"),
+        h.write("public_access_evidence", "Dated evidence of continuing public access, on the request", "case.public_access_evidence")
       );
       refusals.push(
-        h.rbf("addressed_court", "Court name and county or location in the To block of the request",
-          "the name of the court in the original criminal case, and its county or location - that court's own office can confirm both",
-          "which court holds the original case belongs to the participant's record"),
-        h.rbf("case_number", "Case number of the original criminal case, on the request",
-          "the case number of the original criminal case, copied from the court record",
-          "no case identifier is held for a record the platform has not seen"),
-        h.rbf("qualifying_disposition", "Qualifying non-conviction disposition, worded exactly as the court record words it, on the request",
-          "the qualifying non-conviction disposition, worded exactly as the court record words it",
-          "no disposition fact is held for a record the platform has not seen"),
-        h.rbf("disposition_date", "Date the qualifying disposition was entered, on the request",
-          "the exact date the qualifying disposition was entered, from the court record - it must be on or after August 1, 2025 for this branch to apply",
-          "the recorded rule makes the exact disposition date decide which branch governs, and it lives on the record"),
-        h.rbf("calculated_deadline", "Date 61 complete days after the disposition date, on the request",
-          "the calculated deadline: the date 61 complete days after the disposition date",
-          "the deadline is computed from a disposition date the platform does not hold"),
-        h.rbf("public_access_evidence", "Your evidence of continuing public access, described on the request",
-          "what your day-62 check showed, in your own words, with a dated printout or similar evidence attached",
-          "what the public index showed on day 62 is a fact only the participant can state"),
         h.protectedBlank("request_signature", "Signature on the request",
           "the participant signs the request personally"),
         h.protectedBlank("request_signature_date", "Date beside the signature on the request",
@@ -406,38 +516,37 @@ const SPEC = {
         h.write("defendant_name", "Defendant named in the caption of this motion", "participant.full_legal_name"),
         h.write("mailing_address", "Mailing address of the defendant in the contact block at the foot of the motion", "participant.street_address"),
         h.write("telephone", "Telephone number of the defendant in the contact block at the foot of the motion", "participant.phone"),
-        h.write("email", "Email address of the defendant in the contact block at the foot of the motion", "participant.email")
+        h.write("email", "Email address of the defendant in the contact block at the foot of the motion", "participant.email"),
+        h.write("motion_court", "Court named in the caption of the motion", "case.court_name"),
+        h.write("motion_court_location", "County or location in the caption of the motion", "case.court_location"),
+        h.write("motion_case_number", "Case number of the original criminal case, in the caption of the motion", "case.number"),
+        h.write("motion_whole_case_disposition", "Whole-case qualifying disposition stated in the motion", "derived.whole_case_statement"),
+        h.write("motion_order_entry_date", "Date the order of nonconviction was entered, in the motion", "case.order_entry_date"),
+        h.write("motion_raw_day_61", "Day 61 after excluding the order-entry date, in the motion", "derived.raw_day_61"),
+        h.write("motion_adjusted_expiration", "Rule 45 adjusted expiration stated in the motion", "derived.adjusted_expiration"),
+        h.write("motion_first_check_date", "LegalEase next-business-day public-access check date in the motion", "derived.first_check_date"),
+        h.write("motion_deadline_method", "Verified deadline computation method, in the motion", "derived.deadline_method"),
+        h.write("motion_calendar_verification_source", "Calendar or deadline verification source, in the motion", "derived.calendar_verification_source"),
+        h.write("motion_appeal_history", "No-appeal-history confirmation in the motion", "derived.appeal_history_statement"),
+        h.write("motion_statutory_exceptions", "Statutory-exception confirmation in the motion", "derived.statutory_exceptions_statement"),
+        h.write("motion_public_access_checked_on", "Date public access was checked, in the motion", "case.public_access_checked_on"),
+        h.write("motion_public_access_evidence", "Dated evidence of continuing public access, in the motion", "case.public_access_evidence"),
+        h.write("office_response", "What the office of this court said or did in response to the written request", "case.clerk_response")
       );
       refusals.push(
-        h.rbf("motion_court", "Court named in the caption of the motion, and its county or location",
-          "the same court and county or location as the original criminal case",
-          "which court holds the original case belongs to the participant's record"),
-        h.rbf("motion_case_number", "Case number of the original criminal case, in the caption of the motion",
-          "the case number of the original criminal case, copied from the court record",
-          "no case identifier is held for a record the platform has not seen"),
-        h.rbf("motion_disposition", "Qualifying non-conviction disposition, worded exactly as the court record words it, on the motion",
-          "the qualifying non-conviction disposition, worded exactly as the court record words it",
-          "no disposition fact is held for a record the platform has not seen"),
-        h.rbf("motion_disposition_date", "Date the qualifying disposition was entered, on the motion",
-          "the exact date the qualifying disposition was entered, from the court record",
-          "the recorded rule makes the exact disposition date decide which branch governs, and it lives on the record"),
-        h.rbf("office_response", "What the office of this court said or did in response to your written request",
-          "what the office of the court said or did in response to your written request, in your own words, with a copy of your request attached",
-          "the response to the participant's own request is a fact only the participant can state"),
         h.protectedBlank("motion_signature", "Signature of the defendant on the motion",
           "the defendant signs the motion personally"),
         h.protectedBlank("motion_signature_date", "Date beside the defendant's signature on the motion",
           "a date written before the motion is signed would be false")
       );
     } else if (componentId === "proposed_order") {
-      writes.push(h.write("defendant_name", "Defendant named in the caption of the proposed order", "participant.full_legal_name"));
+      writes.push(
+        h.write("defendant_name", "Defendant named in the caption of the proposed order", "participant.full_legal_name"),
+        h.write("order_court_name", "Court named in the caption of the proposed order", "case.court_name"),
+        h.write("order_court_location", "County or location in the caption of the proposed order", "case.court_location"),
+        h.write("order_case_number", "Case number of the original criminal case, in the caption of the proposed order", "case.number")
+      );
       refusals.push(
-        h.rbf("order_court_name", "Court named in the caption of the proposed order, and its county or location",
-          "the same court name and county or location you wrote in the motion's caption",
-          "the proposed order travels with the motion and carries the same caption the participant establishes"),
-        h.rbf("order_case_number", "Case number of the original criminal case, in the caption of the proposed order",
-          "the same original criminal case number you wrote in the motion's caption",
-          "no case identifier is held for a record the platform has not seen"),
         h.clerkBlank("order_decision", "The decision line of the proposed order, decided by the court",
           "every decision on the proposed order is the court's"),
         h.clerkBlank("order_signature", "Signature line of the proposed order, for the court",
@@ -473,6 +582,10 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import {
+  evaluateNdNonconvictionFailureBranch,
+  ND_NONCONVICTION_PARTICIPANT_INSTRUCTION,
+} from "./rcap-packet-recovery/nd-nonconviction-timing.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -485,6 +598,41 @@ const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 const OUT = SPEC.outDir;
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 export const DOTS = (n = 84) => ".".repeat(n);
+
+export function prepareNdNonconvictionPacketFacts(facts) {
+  const gate = evaluateNdNonconvictionFailureBranch({
+    orderEntryDate: facts["case.order_entry_date"],
+    wholeCaseDisposition: facts["case.whole_case_disposition"],
+    caseWasEverAppealed: facts["case.was_ever_appealed"],
+    dismissalInPleaAgreementInvolvingConviction: facts["case.dismissal_in_plea_involving_conviction"],
+    unfitToProceedDisposition: facts["case.unfit_to_proceed_disposition"],
+    lackCriminalResponsibilityAcquittal: facts["case.lack_criminal_responsibility_acquittal"],
+    calendarCoverage: facts["case.calendar_coverage"],
+    verifiedAdjustedExpiration: facts["case.verified_adjusted_expiration"],
+    verifiedFirstCheckDate: facts["case.verified_first_check_date"],
+    deadlineVerificationSource: facts["case.deadline_verification_source"],
+    publicAccessCheckedOn: facts["case.public_access_checked_on"],
+    recordStillPublicAfterPeriod: facts["case.record_still_public"],
+    publicAccessEvidence: facts["case.public_access_evidence"],
+  });
+  assert.equal(gate.eligible, true,
+    `${SPEC.familyId}: fixture/caller facts fail closed at ${gate.code}: ${gate.detail}. ${gate.participantInstruction}`);
+  for (const factId of ["case.court_name", "case.court_location", "case.number", "case.clerk_response"]) {
+    assert.ok(typeof facts[factId] === "string" && facts[factId].trim().length > 0,
+      `${SPEC.familyId}: required collected fact ${factId} is unavailable`);
+  }
+  return Object.freeze({
+    ...facts,
+    "derived.whole_case_statement": gate.wholeCaseStatement,
+    "derived.appeal_history_statement": gate.appealHistoryStatement,
+    "derived.statutory_exceptions_statement": gate.statutoryExceptionsStatement,
+    "derived.raw_day_61": gate.rawDay61,
+    "derived.adjusted_expiration": gate.adjustedExpiration,
+    "derived.first_check_date": gate.firstAdministrativeCheckDate,
+    "derived.deadline_method": gate.computationMethod,
+    "derived.calendar_verification_source": gate.calendarVerificationSource,
+  });
+}
 
 /* ---- committed-record binding ------------------------------------------------ *
  * This family binds no Master Library binary: its sourceStatus is
@@ -787,13 +935,18 @@ function participantInstructions(maps, rbf) {
     out.push("");
   }
 
-  out.push("## The items you must supply", "");
-  out.push("Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.", "");
-  for (const [doc, items] of byDoc) {
-    out.push(`### ${doc} — ${SPEC.componentTitles[doc] ?? doc}`, "");
-    out.push("| The blank on the document | What to write |", "| --- | --- |");
-    for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
-    out.push("");
+  if (rbf.length > 0) {
+    out.push("## The items you must supply", "");
+    out.push("Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.", "");
+    for (const [doc, items] of byDoc) {
+      out.push(`### ${doc} — ${SPEC.componentTitles[doc] ?? doc}`, "");
+      out.push("| The blank on the document | What to write |", "| --- | --- |");
+      for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
+      out.push("");
+    }
+  } else {
+    out.push("## Collected facts and remaining acts", "");
+    out.push("Every case fact in the request, motion and caption was carried from the verified inputs described above. Do not alter those facts without checking the complete record again. Your signatures and signature dates, and every court decision, date and signature, remain blank for the proper actor.", "");
   }
 
   out.push("## What you do, in order", "");
@@ -833,6 +986,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
       overlayDirectoryTouched: false
     };
   }
+  const preparedFixtures = Object.fromEntries(Object.entries(SPEC.fixtures)
+    .map(([fixture, facts]) => [fixture, prepareNdNonconvictionPacketFacts(facts)]));
 
   if (checkOnly) {
     const maps = SPEC.components.map((c) => composedMap(c));
@@ -841,8 +996,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
       recordsBound: resolved.length,
       anchorsVerified: resolved.reduce((n, r) => n + r.anchorsVerified, 0),
       components: SPEC.components,
+      eligibilityGatesValidated: Object.keys(preparedFixtures).length,
       writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
-      blanks: maps.reduce((n, m) => n + m.canonicalRefusals.length, 0)
+      blanks: maps.reduce((n, m) => n + m.canonicalRefusals.length, 0),
+      overlayDirectoryTouched: false,
     };
   }
 
@@ -856,7 +1013,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const pdfsDeclared = [];
 
   for (const fixtureName of ["canonical", "boundary"]) {
-    const facts = SPEC.fixtures[fixtureName];
+    const facts = preparedFixtures[fixtureName];
     const packet = await PDFDocument.create();
     stampDeterministic(packet);
     packet.setTitle(`${SPEC.legalName} — ${fixtureName} fixture`);
@@ -941,6 +1098,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     bindingMethod: "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
     routeKeys: SPEC.routes.map((r) => r.routeKey),
     statutoryAuthority: SPEC.statutes, legalName: SPEC.legalName,
+    eligibilityGate: SPEC.eligibilityGate,
     allSourcesExact: true,
     formIdentityNote: SPEC.formIdentityNote,
     /* Bound as committedRecords, not documents: these are the AUTHORITY this
@@ -972,6 +1130,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     boundReferenceRole: "none — this family composes from committed records; no official binary is bound and none is included",
     componentSet: SPEC.components,
     componentConditions: SPEC.componentConditions,
+    eligibilityGate: SPEC.eligibilityGate,
     dispositionVocabulary: [SIGNATURE, COURT_OWNED],
     routeSelectionsMade: [],
     routeSelectionNote: SPEC.routeSelectionNote,
@@ -985,6 +1144,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     renderedFresh: true, derivedFromBytes: true,
     componentSet: SPEC.components,
     componentConditions: SPEC.componentConditions,
+    eligibilityGate: SPEC.eligibilityGate,
     boundReferenceSource: null,
     pdfs: pdfsDeclared,
     artifacts,
@@ -994,6 +1154,41 @@ export async function runFamily(argv = process.argv.slice(2)) {
     rasterEngine: skipRaster ? null : RASTER_ENGINE, rasterSkipped: skipRaster, rasterPages,
     independentVerificationPending: true
   });
+
+  const productWiringPath = path.join(ROOT, OUT, "product-wiring.json");
+  assert.ok(fs.existsSync(productWiringPath), `${SPEC.familyId}: product-wiring.json is missing`);
+  const productWiring = JSON.parse(fs.readFileSync(productWiringPath, "utf8"));
+  assert.equal(productWiring.family, SPEC.familyId, "product wiring belongs to a different family");
+  const canonicalArtifact = artifacts.find((artifact) => artifact.fixture === "canonical");
+  assert.ok(canonicalArtifact, "canonical artifact is missing from the build");
+  productWiring.proposedRepresentation = {
+    ...productWiring.proposedRepresentation,
+    note: "A specification for a later lane, derived from the corrected four-component packet. Fresh raster and independent acceptance are required before any later installation decision.",
+    components: [{
+      ...(productWiring.proposedRepresentation?.components?.[0] ?? {}),
+      componentId: `${SPEC.familyId}-component-1`,
+      role: "assembled_four_component_packet", order: 1, documentId: "canonical",
+      file: canonicalArtifact.file, sha256: canonicalArtifact.sha256, requirement: "required",
+    }],
+  };
+  productWiring.binding = {
+    ...productWiring.binding,
+    instrumentKinds: [...SPEC.components],
+    packetComponents: SPEC.components.map((componentId, index) => ({
+      componentId, order: index + 1, condition: SPEC.componentConditions[componentId] ?? null,
+    })),
+    acceptanceReceipt: null,
+    supersededAcceptanceReceipt: {
+      ...SPEC.supersededReviewEvidence.acceptanceReceipt,
+      supersededBecause: SPEC.supersededReviewEvidence.reason,
+    },
+    lastIndependentVerification: null,
+    supersededIndependentVerification: {
+      ...SPEC.supersededReviewEvidence.independentVerification,
+      supersededBecause: SPEC.supersededReviewEvidence.reason,
+    },
+  };
+  writeJson(`${OUT}/product-wiring.json`, productWiring);
 
   writeJson(`${OUT}/reports/actual-writes.json`, {
     schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: SPEC.familyId, derivedFromArtifactBytes: true,
@@ -1054,7 +1249,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/approval-request.json`, {
     schemaVersion: "rcap-family-approval-request/v1", familyId: SPEC.familyId,
-    requested: "independent completeness verification, visual review and counsel review",
+    requested: "fresh raster review and independent completeness/packet verification for the corrected bytes",
     buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     counselQuestionsRaised: SPEC.counselQuestions,
