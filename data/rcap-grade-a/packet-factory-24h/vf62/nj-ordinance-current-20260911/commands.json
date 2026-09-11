@@ -1,0 +1,40 @@
+[
+  {
+    "command": "git rev-parse HEAD",
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/preflight.log"
+  },
+  {
+    "command": "git status --short",
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/status-before.log"
+  },
+  {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VF62 nj_ordinance-set",
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/claim-can-assert.log"
+  },
+  {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF62 nj_ordinance-set",
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/claim-assert.log"
+  },
+  {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_ordinance-set.mjs --check-nonvisual",
+    "exitCode": 0,
+    "substantiveVerdict": "NONVISUAL CHECK PASS;2 PDFs; saved-byte proof checked; no raster replay or visual acceptance",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/check-nonvisual.log"
+  },
+  {
+    "command": "node --test scripts/rcap-packet-completeness/nj-ordinance-refusals.test.mjs",
+    "exitCode": 0,
+    "substantiveVerdict": "4 tests pass; these implementation assertions do not establish source semantics",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/focused-tests.log"
+  },
+  {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+    "exitCode": 0,
+    "substantiveVerdict": "PASS_COMPLETE; all9 measured counters0; independently overridden by semantic failures",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/completeness.log"
+  }
+]
