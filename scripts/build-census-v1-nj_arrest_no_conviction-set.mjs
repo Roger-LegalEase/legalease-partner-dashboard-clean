@@ -2882,6 +2882,55 @@ const NJ_FIX175_EXTRA_PRINTED_CAPTIONS = Object.freeze({
     reason: "This proposed-order election is completed by the Court if applicable; the participant does not pre-answer it.",
   },
 });
+
+/*
+ * FIX03, nj_ordinance-set, KNOWN_PREFILLS / REQUIRED_BEFORE_FILING.
+ *
+ * VF62 found fifteen rows whose generic caption classifier called them the
+ * participant's sworn narrative or legal election. Fourteen are cells in
+ * dismissal, acquittal, diversion, or additional-conviction branches that this
+ * exact municipal-ordinance packet route does not use. The fifteenth is the
+ * expungement docket number on the two post-filing cover letters; the source
+ * kit says the clerk fills that number in. These declarations state those two
+ * different truths on the closed completeness channels rather than using one
+ * permissive refusal class for both.
+ *
+ * This table is installed on nj_ordinance-set alone below. It does not change
+ * the shared CN-10557 source, the other four NJ families, or any PDF write.
+ */
+const NJ_ORDINANCE_ROUTE_INAPPLICABLE_FIELDS = Object.freeze({
+  dismissOff1: "Form A item (a) is the dismissal branch; this exact packet family is the municipal-ordinance conviction branch and uses item (d), not item (a).",
+  dismissPlea: "The plea-bargain choice belongs to Form A item (a), the dismissal branch; this exact packet family is the municipal-ordinance conviction branch and uses item (d).",
+  acquitOff1: "Form A item (b) is the acquittal branch; this exact packet family is the municipal-ordinance conviction branch and uses item (d), not item (b).",
+  dismissPtiOff1: "Form A item (c) is the diversion-dismissal branch; this exact packet family is the municipal-ordinance conviction branch and uses item (d), not item (c).",
+  contDismissOff1: "This cell belongs to item (a), the dismissal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
+  contDismissPlea: "This plea-bargain choice belongs to item (a), the dismissal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
+  contAcquitOff1: "This cell belongs to item (b), the acquittal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
+  contAcquitCrt: "This court-name cell belongs to item (b), the acquittal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
+  contDismissPtiOff1: "This cell belongs to item (c), the diversion-dismissal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
+  contDismissPtiCrt: "This court-name cell belongs to item (c), the diversion-dismissal branch, on an additional-arrest addendum; this exact municipal-ordinance conviction packet does not use that branch.",
+  contGuiltyDt: "This cell belongs to item (d) on an additional-arrest addendum; this exact packet is limited to the ordinance conviction selected for this matter and does not assert an additional conviction row.",
+  contGuiltyStatute: "This statute cell belongs to item (d) on an additional-arrest addendum; this exact packet is limited to the ordinance conviction selected for this matter and does not assert an additional conviction row.",
+  contGuiltyCrt: "This court-name cell belongs to item (d) on an additional-arrest addendum; this exact packet is limited to the ordinance conviction selected for this matter and does not assert an additional conviction row.",
+  contGuiltyProbDt: "This probation-completion cell belongs to item (d) on an additional-arrest addendum; this exact packet is limited to the ordinance conviction selected for this matter and does not assert an additional conviction row.",
+});
+const NJ_ORDINANCE_ROUTE_DECLARATIONS = Object.freeze(Object.fromEntries(
+  Object.entries(NJ_ORDINANCE_ROUTE_INAPPLICABLE_FIELDS).map(([field, condition]) => [field, {
+    refusalClass: null,
+    blankTreatment: "NOT_APPLICABLE_ON_THIS_ROUTE",
+    completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+    requiredBeforeFiling: false,
+    routeDetermined: false,
+    routeConditionThatMakesItInapplicable: condition,
+    identity: `NJ-CN-10557 field ${field}`,
+    reason: condition,
+  }]),
+));
+const NJ_ORDINANCE_DOCKET_CAPTION = Object.freeze({
+  caption: "Expungement Docket Number — Cover Letter – Notice of Hearing (Form E), page 38, and Cover Letter – Notice Expungement Granted (Form G), page 43",
+  refusalClass: "court_prosecutor_clerk_or_agency_owned",
+  reason: "The source kit captions the Expungement Docket Number ‘leave blank – clerk will fill in.’ These cover-letter fields use that clerk-assigned number after filing; the participant does not create or prefill it.",
+});
 for (const familyId of FIX175_NJ_FAMILY_IDS) {
   const doc = FAMILY[familyId].documents[0];
   doc.captions = {
@@ -2898,6 +2947,19 @@ for (const familyId of FIX175_NJ_FAMILY_IDS) {
     doc.repeatingRowGroups = [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW,
       NJ_PETITION_CONVICTION_ROW];
   }
+}
+{
+  const ordinance = FAMILY["nj_ordinance-set"];
+  const ordinanceDocument = ordinance.documents[0];
+  ordinanceDocument.captions = {
+    ...ordinanceDocument.captions,
+    ExpungeDocketNum: NJ_ORDINANCE_DOCKET_CAPTION,
+  };
+  ordinanceDocument.declarations = {
+    ...ordinanceDocument.declarations,
+    ...NJ_ORDINANCE_ROUTE_DECLARATIONS,
+  };
+  ordinance.metadataOnlyRepairPreservesPdfBytes = true;
 }
 
 const COMPOSED_FAMILY_IDS = new Set(["oh_marijuana_expungement-set", "rcap-oh-custom-pleading-clean-tracks"]);
@@ -5514,8 +5576,9 @@ function rowIntegrityWithholdings(doc, mappings, refusedFields) {
 async function buildOfficialUnsafe(familyId, config) {
   const noRaster = config.noLocalRaster === true;
   assert.ok(!noRaster || (familyId === "nj_clean_slate-set" && !(config.supplementalDocuments ?? []).length)
+    || (familyId === "nj_ordinance-set" && config.metadataOnlyRepairPreservesPdfBytes === true)
     || familyId === "pa_6308_underage-set",
-  "Nonvisual build is scoped to NJ clean slate and the PF26 PA 6308 repair");
+  "Nonvisual build is scoped to NJ clean slate, the NJ ordinance metadata repair, and the PF26 PA 6308 repair");
   const out = officialOut(familyId, config.jurisdiction);
   // Read what a repair lane installed on this family BEFORE the reset clears
   // it: the completeness classifications on the prior field map (carried
@@ -5525,6 +5588,10 @@ async function buildOfficialUnsafe(familyId, config) {
   const priorMapFile = abs(`${out}/production-field-map.json`);
   const installed = installedRefusalRows(
     fs.existsSync(priorMapFile) ? JSON.parse(fs.readFileSync(priorMapFile, "utf8")) : null);
+  const priorRenderedFile = abs(`${out}/reports/rendered-artifacts.json`);
+  const installedRendered = config.metadataOnlyRepairPreservesPdfBytes === true
+    && fs.existsSync(priorRenderedFile)
+    ? JSON.parse(fs.readFileSync(priorRenderedFile, "utf8")) : null;
   const wiringFile = abs(`${out}/product-wiring.json`);
   const installedWiring = fs.existsSync(wiringFile) ? fs.readFileSync(wiringFile) : null;
   // Preserve earlier original evidence during a changed-byte nonvisual build.
@@ -5774,8 +5841,22 @@ async function buildOfficialUnsafe(familyId, config) {
         + `selections ${report.selections.length}; held-but-not-printed ${heldButNotPrinted.length}`);
 
       if (noRaster) {
-        rasterReports.push({ documentId: doc.documentId, fixture, sourcePdf: file,
-          sourcePdfSha256: sha256(bytes), status: "RASTER_PENDING", engine: null, pages: [] });
+        const existingRaster = installedRendered?.rasters?.find((row) => row.sourcePdf === file);
+        if (config.metadataOnlyRepairPreservesPdfBytes === true) {
+          assert.ok(existingRaster, `${familyId}/${fixture}: prior raster identity is absent`);
+          const existingPdf = installedRendered?.pdfs?.find((row) => row.file === file);
+          const rasterBoundPdfSha256 = existingRaster.sourcePdfSha256 ?? existingPdf?.sha256;
+          assert.equal(rasterBoundPdfSha256, sha256(bytes),
+            `${familyId}/${fixture}: metadata-only repair moved PDF bytes and cannot retain prior raster evidence`);
+          assert.equal(existingRaster.engine, "bundled_poppler_pdftoppm",
+            `${familyId}/${fixture}: prior raster evidence is not the established Poppler inventory`);
+          assert.equal(existingRaster.pages?.length, census.pageGeometry.length,
+            `${familyId}/${fixture}: prior raster evidence does not cover every PDF page`);
+          rasterReports.push(existingRaster);
+        } else {
+          rasterReports.push({ documentId: doc.documentId, fixture, sourcePdf: file,
+            sourcePdfSha256: sha256(bytes), status: "RASTER_PENDING", engine: null, pages: [] });
+        }
         continue;
       }
       const rasterDir = `${out}/raster/${doc.key}-${fixture}`;
@@ -6128,7 +6209,9 @@ async function buildOfficialUnsafe(familyId, config) {
       "exact source path, SHA-256, and byte length matched the corpus index and installed source",
       "every field received an explicit candidate-write, route-selection, or refusal disposition",
       "signatures, dates, unperformed service, court, prosecutor, clerk, agency, and notary fields carried no generated ink",
-      noRaster ? "changed PDF bytes inventoried; central raster and independent visual review remain required"
+      noRaster && config.metadataOnlyRepairPreservesPdfBytes === true
+        ? "unchanged PDF bytes inventoried; the exact prior whole-family raster inventory remains bound to those bytes"
+        : noRaster ? "changed PDF bytes inventoried; central raster and independent visual review remain required"
         : "all emitted PDF pages were rasterized and byte-inventoried",
     ],
     blockers: [
@@ -6355,7 +6438,8 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     const raster = rendered.rasters.find((row) => row.sourcePdf === pdf.file);
     assert.ok(raster, `${pdf.file}: raster record absent`);
     if (raster.status === "RASTER_PENDING") {
-      assert.ok(familyId === "nj_clean_slate-set" || familyId === "pa_6308_underage-set");
+      assert.ok(familyId === "nj_clean_slate-set" || familyId === "nj_ordinance-set"
+        || familyId === "pa_6308_underage-set");
       assert.equal(replayRaster, false, "Pending central raster cannot satisfy a visual check");
       assert.equal(raster.sourcePdfSha256, pdf.sha256);
       assert.deepEqual(raster.pages, []);
@@ -7834,16 +7918,18 @@ async function checkPa6308Stop() {
 
 export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
   const nonvisual = argv.includes("--check-nonvisual");
-  if (familyId === "nj_clean_slate-set") {
+  if (familyId === "nj_clean_slate-set" || familyId === "nj_ordinance-set") {
     const allowed = new Set(["--check", "--check-nonvisual", "--no-raster", "--self-test", "--self-test-fix88"]);
-    assert.ok(argv.every((arg) => allowed.has(arg)), `Unsupported NJ clean-slate argument: ${argv.filter((arg) => !allowed.has(arg)).join(", ")}`);
-    assert.ok(argv.length <= 1, "NJ clean-slate accepts exactly one execution mode");
-    assert.ok(argv.length > 0 || process.env.RCAP_NO_LOCAL_RASTER !== "1", "NJ clean-slate build prohibited while local raster is disabled");
+    assert.ok(argv.every((arg) => allowed.has(arg)), `Unsupported ${familyId} argument: ${argv.filter((arg) => !allowed.has(arg)).join(", ")}`);
+    assert.ok(argv.length <= 1, `${familyId} accepts exactly one execution mode`);
+    assert.ok(argv.length > 0 || process.env.RCAP_NO_LOCAL_RASTER !== "1", `${familyId} build prohibited while local raster is disabled`);
   }
   assert.ok(!argv.includes("--no-raster") || familyId === "nj_clean_slate-set"
-    || familyId === "pa_6308_underage-set", "Nonvisual build is supported only for NJ clean slate and PA 6308");
+    || familyId === "nj_ordinance-set"
+    || familyId === "pa_6308_underage-set", "Nonvisual build is supported only for NJ clean slate, NJ ordinance, and PA 6308");
   assert.ok(!nonvisual || familyId === "nj_clean_slate-set"
-    || familyId === "pa_6308_underage-set", "Nonvisual check is supported only for NJ clean slate and PA 6308");
+    || familyId === "nj_ordinance-set"
+    || familyId === "pa_6308_underage-set", "Nonvisual check is supported only for NJ clean slate, NJ ordinance, and PA 6308");
   if (argv.includes("--self-test-fix88")) { await selfTestFix88(); return; }
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
   const check = argv.includes("--check");
