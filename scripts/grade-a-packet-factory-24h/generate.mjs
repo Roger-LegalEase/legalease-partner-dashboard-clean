@@ -25,6 +25,11 @@ import { assessGeorgiaReviewedGuidance, applyGeorgiaGuidanceAcceptance } from ".
 import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
+import {
+  applyLegalResolutionSupersessions,
+  assessLegalResolutionAtReviewBase,
+  mergeLegalBlockResolutionRecords
+} from "./legal-block-resolution.mjs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -348,9 +353,29 @@ const INPUTS = {
   sourceDeterminations: "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
   ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
-  legalHoldReclassification: "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
+  legalHoldReclassification: "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+  legalBlockResolution: "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+  kyCompanionChargesResolution: "data/rcap-grade-a/legal-decisions/KY_COMPANION_CHARGES_RESOLUTION_2026-09-11.json",
+  kjcPermissionAttestation: "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
 };
 const IN = Object.fromEntries(Object.entries(INPUTS).map(([k, p]) => [k, read(p)]));
+/*
+ * Authoritative legal dispositions are additive inputs to the state machine,
+ * not edits to historical returns. The shared validator refuses malformed
+ * schemas, duplicate decisions, duplicate/conflicting family decisions, or a
+ * summary list that differs from the decisions it purports to summarize.
+ */
+const baseLegalBlockResolutions = mergeLegalBlockResolutionRecords([
+  { path: INPUTS.legalBlockResolution, document: IN.legalBlockResolution,
+    bytes: fs.readFileSync(path.join(ROOT, INPUTS.legalBlockResolution)) },
+  { path: INPUTS.kyCompanionChargesResolution, document: IN.kyCompanionChargesResolution,
+    bytes: fs.readFileSync(path.join(ROOT, INPUTS.kyCompanionChargesResolution)) },
+]);
+const legalBlockResolutions = applyLegalResolutionSupersessions(baseLegalBlockResolutions, [{
+  path: INPUTS.kjcPermissionAttestation,
+  document: IN.kjcPermissionAttestation,
+  bytes: fs.readFileSync(path.join(ROOT, INPUTS.kjcPermissionAttestation)),
+}]);
 
 /* An identity established by reading the document is exact in the only sense
  * this set cares about: the custody row names one path and one SHA-256, and
@@ -2002,6 +2027,10 @@ for (const f of IN.scoreboard.familiesDetail) {
   const verdict = verdictByFamily.get(familyId) ?? null;
   const independentReturn = independentReturnByFamily.get(familyId) ?? null;
   const independentFail = independentReturn?.verdict === "FAIL_REPAIR_REQUIRED";
+  const currentLegalResolution = legalBlockResolutions.byFamily.get(familyId) ?? null;
+  const legalResolutionReview = currentLegalResolution?.disposition === "LEGAL_CLEAR"
+    ? assessLegalResolutionAtReviewBase(ROOT, independentReturn?.verifiedAtBase, currentLegalResolution)
+    : null;
 
   const originalSourceReconciliation = sourceReconciliationByFamily.get(familyId) ?? null;
   const { routes, implementationStrategy: strategy, sourceReconciliation, treatment } = reconcileFamilyBuildInputs({
@@ -2144,12 +2173,19 @@ for (const f of IN.scoreboard.familiesDetail) {
   const holdReclassificationNextState = ["POST_REPAIR_REREAD_REQUIRED", "SELECT_SUBSTANTIVE_VERDICT"]
     .includes(holdReclassification?.disposition)
     && !reclassificationRereadReturned ? "VERIFY_PENDING" : null;
-  const legalBlocked = (executionReclassification || holdReclassification) ? false : (
+  const historicalLegalBlocked = (executionReclassification || holdReclassification) ? false : (
     routes.some((r) => openCounselRoutes.has(r.routeKey))
     || (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true)
     || Boolean(laneHold)
     || (Boolean(ownerCorrection) && !ownerCorrectionAwaitsReread)
   );
+  /* The additive authority decides only whether the legal gate stands. Every
+   * source/build/raster/review/product gate below continues to decide itself. */
+  const legalBlocked = currentLegalResolution?.disposition === "LEGAL_HOLD"
+    ? true
+    : currentLegalResolution?.disposition === "LEGAL_CLEAR"
+      ? false
+      : historicalLegalBlocked;
   const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
   const notAFamily = routes.length === 0;
   const routeMappingOpen = executionReclassification?.stateOverride === "PRODUCT_PATH_PENDING" || notAFamily;
@@ -2212,7 +2248,8 @@ for (const f of IN.scoreboard.familiesDetail) {
   // adopted delivery restriction. Keep terminalTreatment and the refusal on
   // the row so repairing a defective internal candidate cannot open checkout.
   const suspendedState = suspendedTerminalState(executionReclassification);
-  if (suspendedState) state = suspendedState;
+  if (currentLegalResolution?.disposition === "LEGAL_HOLD") state = "LEGAL_BLOCKED";
+  else if (suspendedState) state = suspendedState;
   else if (terminalTreatment) state = terminalTreatment.terminalTreatment;
   else if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
   else if (holdReclassificationNextState && comp && nineZero
@@ -2225,9 +2262,11 @@ for (const f of IN.scoreboard.familiesDetail) {
    * these nine families sat at VERIFIED_PASS, which L4 and F30 read as proven —
    * so a family the owner had expressly not approved would have counted among
    * the proven ones. */
-  else if (ownerCorrection && !ownerCorrectionAwaitsReread && !executionReclassification) state = "LEGAL_BLOCKED";
+  else if (ownerCorrection && !ownerCorrectionAwaitsReread && !executionReclassification
+    && currentLegalResolution?.disposition !== "LEGAL_CLEAR") state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "PRODUCT_PATH_PENDING") state = "PRODUCT_PATH_PENDING";
-  else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
+  else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT"
+    && currentLegalResolution?.disposition !== "LEGAL_CLEAR") state = "LEGAL_BLOCKED";
   /* A rejected source binding is not repaired by a prior completeness or
    * semantic result. Preserve those findings, but do not call it buildable. */
   else if (readiness.unresolvedObligations?.length && !legalBlocked) state = "SOURCE_BLOCKED";
@@ -2378,6 +2417,7 @@ for (const f of IN.scoreboard.familiesDetail) {
    * covering every failed obligation qualifies -- a partial stop leaves
    * repairable work, and the family stays in repair. */
   else if (independentFail
+    && legalBlocked
     && repairLegalStopsByFamily.has(familyId)
     && (independentReturn.failedObligationNames ?? []).every((o) =>
       repairLegalStopsByFamily.get(familyId).unrepaired.includes(o))) state = "LEGAL_BLOCKED";
@@ -2460,6 +2500,20 @@ for (const f of IN.scoreboard.familiesDetail) {
   if (sourceReconciliation?.disposition === "PRODUCT_PATH_PENDING"
     && ["SOURCE_BLOCKED", "SOURCE_READY"].includes(state)) state = "PRODUCT_PATH_PENDING";
 
+  /*
+   * A PASS written before the additive decision existed did not review the
+   * binding rule. It remains historical proof about the old inputs, but cannot
+   * create a proven/admitted state. Exact `git show base:path` byte equality is
+   * the minimum ordering proof; the ordinary current-byte obligations remain
+   * independently enforced by the existing pass branches above.
+   */
+  const packetAdmissionStates = new Set([
+    "PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "COMPLETE_PACKET_PROVEN"
+  ]);
+  if (currentLegalResolution?.disposition === "LEGAL_CLEAR"
+    && packetAdmissionStates.has(state)
+    && legalResolutionReview?.available !== true) state = "VERIFY_PENDING";
+
   if (state === "VERIFY_PENDING"
     && independentFail
     && packetArtifactsMovedAfterVerdict === false
@@ -2495,6 +2549,19 @@ for (const f of IN.scoreboard.familiesDetail) {
       currentTreatmentHold: ctGuidanceAssessment.eligible && state !== "GUIDANCE_READY" ? state : null
     };
   }
+  const ordinaryNextExecutableAction = reviewedTreatmentGuidance?.eligible
+    ? (ctGuidanceAssessment
+        ? "Static preparation guidance accepted. The participant still completes the receiving authority's own later process; runtime installation is a separate product obligation."
+        : "Static court-initiated guidance accepted. Install exact runtime cohort behavior separately; the participant-motion obligation remains open.")
+    : reviewedTreatmentGuidance?.currentTreatmentHold
+      ? `Resolve the current ${reviewedTreatmentGuidance.currentTreatmentHold} hold; it is not closed by the prior guidance review.`
+      : treatment?.nextExecutableAction ?? executionReclassification?.nextExecutableAction
+        ?? holdReclassification?.nextExecutableAction ?? null;
+  const legalResolutionNextAction = !currentLegalResolution
+    ? ordinaryNextExecutableAction
+    : currentLegalResolution.disposition === "LEGAL_HOLD"
+      ? `LEGAL HOLD ${currentLegalResolution.decisionId}: ${currentLegalResolution.bindingProductRule} Lift only when: ${currentLegalResolution.liftCondition} Decision record: ${currentLegalResolution.decisionRecord}.`
+      : `${ordinaryNextExecutableAction ?? `Continue from the current nonlegal state ${state}; all ordinary gates remain.`} Binding product rule ${currentLegalResolution.decisionId}: ${currentLegalResolution.bindingProductRule} Decision record: ${currentLegalResolution.decisionRecord}.`;
   families.push({
     familyId,
     treatmentReconciliation: treatment,
@@ -2533,6 +2600,26 @@ for (const f of IN.scoreboard.familiesDetail) {
           lane: independentReturn.lane,
           verifiedAtBase: independentReturn.verifiedAtBase ?? null,
           evidencePath: independentReturn.evidencePath ?? null
+        }
+      : null,
+    currentLegalResolution: currentLegalResolution
+      ? {
+          disposition: currentLegalResolution.disposition,
+          decisionId: currentLegalResolution.decisionId,
+          bindingProductRule: currentLegalResolution.bindingProductRule,
+          authority: currentLegalResolution.authority,
+          liftCondition: currentLegalResolution.liftCondition,
+          producedOn: currentLegalResolution.producedOn,
+          decisionRecord: currentLegalResolution.decisionRecord,
+          decisionRecords: currentLegalResolution.decisionRecords ?? [currentLegalResolution.decisionRecord],
+          supersedesDecisionId: currentLegalResolution.supersedesDecisionId ?? null,
+          supersededDecisionRecord: currentLegalResolution.supersededDecisionRecord ?? null,
+          evidenceType: currentLegalResolution.evidenceType ?? "legal_design_disposition",
+          documentaryPermissionStoredInRepository: currentLegalResolution.documentaryPermissionStoredInRepository ?? null,
+          owner: currentLegalResolution.owner ?? null,
+          independentReviewSawExactDecisionRecord: legalResolutionReview,
+          historicalLegalEntrancesRemainEvidenceOnly: true,
+          changesNoSourceBuildRasterReviewOwnerOrProductGate: true
         }
       : null,
     ...(reviewedGuidance ? {reviewedGuidanceAdmission: reviewedGuidance} : {}),
@@ -2583,7 +2670,9 @@ for (const f of IN.scoreboard.familiesDetail) {
       : null,
     /* Where the hold came from, so a reader can tell a counsel-queue route key
      * from a lane that tried to build the family and hit a legal wall. */
-    legalInputBasis: (executionReclassification || holdReclassification) ? null
+    legalInputBasis: currentLegalResolution?.disposition === "LEGAL_HOLD" ? "AUTHORITATIVE_LEGAL_HOLD"
+      : currentLegalResolution?.disposition === "LEGAL_CLEAR" ? null
+      : (executionReclassification || holdReclassification) ? null
       : (ownerCorrection && !ownerCorrectionAwaitsReread) ? "OWNER_CORRECTION_REQUIRED"
       : laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
       : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
@@ -2599,13 +2688,7 @@ for (const f of IN.scoreboard.familiesDetail) {
     laneReturnLegalHold: laneHoldNarrowed,
     executionReclassification,
     executionOwner: executionReclassification?.executionOwner ?? holdReclassification?.executionOwner ?? null,
-    nextExecutableAction: reviewedTreatmentGuidance?.eligible
-      ? (ctGuidanceAssessment
-          ? "Static preparation guidance accepted. The participant still completes the receiving authority's own later process; runtime installation is a separate product obligation."
-          : "Static court-initiated guidance accepted. Install exact runtime cohort behavior separately; the participant-motion obligation remains open.")
-      : reviewedTreatmentGuidance?.currentTreatmentHold
-        ? `Resolve the current ${reviewedTreatmentGuidance.currentTreatmentHold} hold; it is not closed by the prior guidance review.`
-        : treatment?.nextExecutableAction ?? executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
+    nextExecutableAction: legalResolutionNextAction,
     routeMappingStatus: routeMappingOpen
       ? (executionReclassification ? "OWNER_DIRECTED_MAPPING_PENDING" : "UNBOUND_TO_A_PACKET_FAMILY")
       : "BOUND",
@@ -2761,6 +2844,7 @@ const rosterLaneHasReturnedThisFamily = (f) => {
     && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner));
 };
 const ownerStillHolds = (f) => f.activeOwner
+  && f.currentLegalResolution?.disposition !== "LEGAL_HOLD"
   && !(f.state === "WRONG_DELIVERY_TYPE" && f.activeOwnerLane === "independent-verification")
   && !(f.state === "FAIL_REPAIR_REQUIRED" && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner)))
   && !rosterLaneHasReturnedThisFamily(f);
@@ -2770,7 +2854,9 @@ const ownerStillHolds = (f) => f.activeOwner
 for (const f of families) {
   if (f.activeOwner && !ownerStillHolds(f)) {
     f.staleRosterOwner = f.activeOwner;
-    f.whyTheRosterOwnerNoLongerHolds = rosterLaneHasReturnedThisFamily(f)
+    f.whyTheRosterOwnerNoLongerHolds = f.currentLegalResolution?.disposition === "LEGAL_HOLD"
+      ? `${f.currentLegalResolution.decisionId} now authoritatively holds this family at LEGAL_BLOCKED; packet build and repair grants cannot remain executable until ${f.currentLegalResolution.liftCondition}`
+      : rosterLaneHasReturnedThisFamily(f)
       ? `${f.activeOwner} returned a verdict for this family in data/rcap-grade-a/codex-cloud/${returnedRosterLanes.get(f.activeOwner).dir}/rows.json and holds no live claim on it; a lane that has returned is not still verifying`
       : "the roster names an owner the ledger does not back on a family carrying a returned FAIL";
     f.activeOwner = null;
@@ -3274,7 +3360,9 @@ for (let i = 0; i < PF_LANES; i += 1) {
       familyId: f.familyId, jurisdiction: f.jurisdiction, strategy: f.implementationStrategy,
       forms: f.forms, components: f.packetComponents.length, instrumentKinds: f.instrumentKinds,
       routeCount: f.routeCount, directory: f.directory, buildScript: f.buildScript,
-      sharedBuildHost: f.sharedBuildHost, sourceStatus: f.sourceStatus, sourceHashes: f.sourceHashes
+      sharedBuildHost: f.sharedBuildHost, sourceStatus: f.sourceStatus, sourceHashes: f.sourceHashes,
+      currentLegalResolution: f.currentLegalResolution,
+      nextExecutableAction: f.nextExecutableAction
     })),
     builderObligations: BUILDER_OBLIGATIONS,
     rowStopContract: ROW_STOP_CONTRACT,
@@ -3448,6 +3536,17 @@ for (let i = 0; i < VF_LANES; i += 1) {
      */
     verifiesCommit: launchable ? PACKET_COMMIT : null,
     packetDirectories: seedItems.map((f) => familyIndex.get(f)?.directory).filter(Boolean),
+    authoritativeLegalResolutions: seedItems.map((familyId) => familyIndex.get(familyId))
+      .filter((family) => family?.currentLegalResolution)
+      .map((family) => ({
+        familyId: family.familyId,
+        decisionId: family.currentLegalResolution.decisionId,
+        disposition: family.currentLegalResolution.disposition,
+        bindingProductRule: family.currentLegalResolution.bindingProductRule,
+        decisionRecord: family.currentLegalResolution.decisionRecord,
+        decisionRecords: family.currentLegalResolution.decisionRecords,
+        reviewRequirement: "Read every exact decision record and apply the binding product rule. PASS_COMPLETE_INDEPENDENT must declare a verifiedAtBase where git show of every path equals the current authoritative bytes."
+      })),
     mayNotBeRunBy: [
       "the worker that built or last repaired any family below",
       "any PF or FIX lane in this dispatch"
@@ -3700,7 +3799,11 @@ for (let i = 0; i < FIX_LANES; i += 1) {
        * exact obligations a verifier failed, and a dispatch that does not name
        * them hands the lane a family and a shrug. */
       failedObligationNames: f.failedObligationNames ?? [],
-      failedObligations: f.failedObligations ?? []
+      failedObligations: f.failedObligations ?? [],
+      currentLegalResolution: f.currentLegalResolution,
+      nextRepairAction: f.currentLegalResolution?.disposition === "LEGAL_CLEAR"
+        ? `Repair the named packet defects under ${f.currentLegalResolution.decisionId}: ${f.currentLegalResolution.bindingProductRule} The authoritative record is ${f.currentLegalResolution.decisionRecord}; it clears only the historical legal hold.`
+        : null
     })),
     ownedPaths: [`${FACT}/${slug}/**`, ...items.map((f) => `${f.directory}/**`), ...items.filter((f) => f.exclusiveScript).map((f) => f.buildScript)],
     prohibitedPaths: ["scripts/rcap-packet-completeness/**", `${LC}/**`, ...activePaths.map((p) => p.path)],
@@ -4400,6 +4503,12 @@ const survivingClaims = [...claimRowsRespectingExternal, ...preservedGrants].fil
   /* Active ownership derived from this exact live claim is an intentional
    * hold, not a retired-lane orphan or a dissolved obligation. */
   const heldFamily = c.subjectType === "packet-family" ? familyIndex.get(c.subjectId) : null;
+  if (heldFamily?.currentLegalResolution?.disposition === "LEGAL_HOLD") {
+    withdrawnNow.push({ subjectType: c.subjectType, subjectId: c.subjectId, operation: c.operation, lane: c.lane,
+      withdrawnAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+      reason: `authoritative legal hold ${heldFamily.currentLegalResolution.decisionId}: ${heldFamily.currentLegalResolution.bindingProductRule} Lift only when: ${heldFamily.currentLegalResolution.liftCondition}` });
+    return false;
+  }
   if (heldFamily?.activeOwner === c.lane) return true;
   /* A live grant the Captain dealt on the record (transfer, reissue or grant
    * with a stated reason, in this tenure) is deliberate work the dispatch does

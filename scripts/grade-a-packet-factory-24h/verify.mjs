@@ -25,6 +25,10 @@ import { pathsOverlap } from "./path-ownership.mjs";
 import { boundedRepairAuthorization } from "./bounded-repair-authorization.mjs";
 import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
 import { assessConnecticutReviewedGuidance, connecticutGuidanceClosesReturnedFailure } from "./ct-reviewed-guidance.mjs";
+import {
+  assessLegalResolutionAtReviewBase,
+  loadLegalBlockResolutions
+} from "./legal-block-resolution.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -85,6 +89,7 @@ const CLAIM = "scripts/grade-a-packet-factory-24h/claim.mjs";
 const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+const legalBlockResolutions = loadLegalBlockResolutions(ROOT);
 
 const gitOk = (args) => { try { execFileSync("git", args, { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
 
@@ -970,6 +975,15 @@ function run() {
         }
         continue;
       }
+      const authoritativeLegalHold = legalBlockResolutions.byFamily.get(r.familyId);
+      if (authoritativeLegalHold?.disposition === "LEGAL_HOLD") {
+        for (const name of r.failedObligationNames ?? []) {
+          if (!(fam.failedObligationNames ?? []).includes(name)) {
+            returnedVerdictProblems.push(`${r.familyId} lost pending ${name} while ${authoritativeLegalHold.decisionId} holds repair execution`);
+          }
+        }
+        continue;
+      }
       if (!dispatchedSomewhere(r.familyId)) returnedVerdictProblems.push(`${r.familyId} was failed and is dispatched to no repair lane`);
       const forThisFamily = evidenceFor(r.familyId);
       for (const o of r.failedObligationNames ?? []) {
@@ -1497,12 +1511,15 @@ function run() {
   const legalProblems = [];
   const stale = fs.existsSync(path.join(ROOT, STALE)) ? read(STALE) : null;
   if (stale) {
+    const authoritativeClear = new Set(legalBlockResolutions.clearFamilyIds);
+    const authoritativeHold = new Set(legalBlockResolutions.holdFamilyIds);
     const ownerReclassified = new Set(master.families
       .filter((f) => f.executionReclassification || f.legalHoldReclassification)
       .map((f) => f.familyId));
+    const historicalHoldSuperseded = new Set([...ownerReclassified, ...authoritativeClear]);
     const currentVerifierHolds = (vr?.rows ?? []).filter((r) => r.isIndependentVerification
       && r.verdict === "BLOCKED_LEGAL_INPUT" && !r.superseded
-      && !ownerReclassified.has(r.familyId));
+      && !historicalHoldSuperseded.has(r.familyId));
     for (const r of currentVerifierHolds) {
       if (!(r.blockedLegalObligations ?? []).some((o) => o.finding))
         legalProblems.push(`${r.familyId} has a current BLOCKED_LEGAL_INPUT verdict without an extracted finding`);
@@ -1513,7 +1530,7 @@ function run() {
     for (const family of master.families) {
       const ref = family.laneReturnLegalHold?.evidencePath;
       if (family.legalInputBasis !== "LANE_RETURN_BLOCKED_LEGAL_INPUT"
-        || ownerReclassified.has(family.familyId) || !ref) continue;
+        || historicalHoldSuperseded.has(family.familyId) || !ref) continue;
       try {
         const absolute = path.resolve(ROOT, ref);
         if (!absolute.startsWith(`${ROOT}${path.sep}`)) throw new Error("outside repository");
@@ -1527,9 +1544,10 @@ function run() {
     }
     const heldByLane = [...new Set([
       ...stoppedRepairHolds,
-      ...(stale.rows ?? []).filter((r) => r.destination === "LEGAL" && !ownerReclassified.has(r.familyId)).map((r) => r.familyId),
+      ...(stale.rows ?? []).filter((r) => r.destination === "LEGAL" && !historicalHoldSuperseded.has(r.familyId)).map((r) => r.familyId),
       ...currentVerifierHolds.map((r) => r.familyId),
     ])];
+    const heldNow = [...new Set([...heldByLane, ...authoritativeHold])];
     /* ACTIVE_ASSIGNMENTS is an audit history as well as a live roster. A
      * released repair in that file is not a current dispatch; only live grants
      * can conflict with a legal hold. */
@@ -1537,20 +1555,25 @@ function run() {
       .filter((c) => c.released !== true);
     const builders = new Set(liveClaims.filter((c) => c.laneKind === "packet-build").flatMap((c) => c.familyIds ?? (c.familyId ? [c.familyId] : [])));
     const repairers = new Set(liveClaims.filter((c) => c.laneKind === "repair" || c.laneKind === "shared-host-repair").flatMap((c) => c.familyIds ?? (c.familyId ? [c.familyId] : [])));
-    for (const f of heldByLane) {
-      if (builders.has(f)) legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a builder`);
+    for (const f of heldNow) {
+      const authoritative = legalBlockResolutions.byFamily.get(f) ?? null;
+      const authoritativeKsHold = authoritative?.disposition === "LEGAL_HOLD";
+      if (builders.has(f)) legalProblems.push(`${f} is legally held and is granted to a builder`);
       const relatedRepairClaims = liveClaims.filter((c) =>
         ["repair", "shared-host-repair"].includes(c.laneKind)
         && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(f));
       const boundedOnly = relatedRepairClaims.length === 1
         && boundedRepairAuthorization(familyById.get(f), relatedRepairClaims[0], read(LEDGER), read);
-      if (repairers.has(f) && !boundedOnly)
-        legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a repairer without recorded bounded-work authority`);
+      if (repairers.has(f) && (authoritativeKsHold || !boundedOnly))
+        legalProblems.push(`${f} is legally held and is granted to a repairer${authoritativeKsHold ? " despite the authoritative hold" : " without recorded bounded-work authority"}`);
       const fam = familyById.get(f);
       if (fam && fam.legalInputStatus !== "OPEN_LEGAL_INPUT") {
         legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and the queue still calls it ${fam.legalInputStatus}`);
       }
-      if (fam && fam.legalInputBasis !== "LANE_RETURN_BLOCKED_LEGAL_INPUT" && fam.legalInputStatus === "OPEN_LEGAL_INPUT" && !fam.laneReturnLegalHold) {
+      if (fam && authoritativeKsHold && (fam.state !== "LEGAL_BLOCKED"
+        || fam.legalInputBasis !== "AUTHORITATIVE_LEGAL_HOLD")) {
+        legalProblems.push(`${f} does not carry the authoritative ${authoritative.decisionId} hold as its controlling state/basis`);
+      } else if (fam && !authoritativeKsHold && fam.legalInputBasis !== "LANE_RETURN_BLOCKED_LEGAL_INPUT" && fam.legalInputStatus === "OPEN_LEGAL_INPUT" && !fam.laneReturnLegalHold) {
         legalProblems.push(`${f} is held but does not record that a lane return is why`);
       }
     }
@@ -1571,9 +1594,42 @@ function run() {
     if (claimsLaneHold.length !== heldByLane.length) {
       legalProblems.push(`${heldByLane.length} lane-return legal finding(s) and ${claimsLaneHold.length} family(ies) held on that basis; the two must agree`);
     }
-    check("F26", "no family a lane found legally blocked is sent to a builder or a repairer, and every hold has a finding behind it",
+
+    /* Validate the family projection from the authoritative records themselves,
+     * never from a family-authored clear flag. An old independent PASS can be
+     * used for history, but not for packet admission unless its declared base
+     * contained the exact additive record bytes. */
+    const packetAdmissionStates = new Set([
+      "PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "COMPLETE_PACKET_PROVEN"
+    ]);
+    for (const [familyId, resolution] of legalBlockResolutions.byFamily) {
+      const fam = familyById.get(familyId);
+      if (!fam) { legalProblems.push(`${familyId} has an authoritative legal resolution but no family row`); continue; }
+      const projected = fam.currentLegalResolution;
+      for (const key of ["disposition", "decisionId", "bindingProductRule", "decisionRecord"]) {
+        if (projected?.[key] !== resolution[key]) legalProblems.push(`${familyId} projects the wrong authoritative legal ${key}`);
+      }
+      if (resolution.disposition === "LEGAL_CLEAR") {
+        if (fam.state === "LEGAL_BLOCKED" || fam.legalInputStatus !== "SETTLED" || fam.legalInputBasis) {
+          legalProblems.push(`${familyId} is authoritatively clear but still uses a historical legal entrance as controlling state`);
+        }
+        if (packetAdmissionStates.has(fam.state)) {
+          const review = assessLegalResolutionAtReviewBase(ROOT,
+            fam.selectedIndependentVerdict?.verifiedAtBase, resolution);
+          if (fam.selectedIndependentVerdict?.verdict !== "PASS_COMPLETE_INDEPENDENT" || !review.available) {
+            legalProblems.push(`${familyId} reached ${fam.state} without decision-aware independent acceptance`);
+          }
+        }
+      }
+    }
+    for (const fam of master.families) {
+      if (!legalBlockResolutions.byFamily.has(fam.familyId) && fam.currentLegalResolution) {
+        legalProblems.push(`${fam.familyId} invents currentLegalResolution without an authoritative additive record`);
+      }
+    }
+    check("F26", "authoritative legal resolutions clear only historical legal entrances, retain exact holds, and never bypass independent admission",
       legalProblems.length === 0,
-      `${heldByLane.length} finding(s), ${claimsLaneHold.length} held on that basis; ${legalProblems.length} problem(s): ${legalProblems.slice(0, 2).join(" | ")}`);
+      `${authoritativeClear.size} clear, ${authoritativeHold.size} held, ${heldByLane.length} unresolved historical finding(s); ${legalProblems.length} problem(s): ${legalProblems.slice(0, 2).join(" | ")}`);
   } else {
     check("F26", "no family a lane found legally blocked is sent to a builder or a repairer",
       false, "no STALE_LANE_RETURNS.json, so the lane-return legal holds cannot be checked at all");

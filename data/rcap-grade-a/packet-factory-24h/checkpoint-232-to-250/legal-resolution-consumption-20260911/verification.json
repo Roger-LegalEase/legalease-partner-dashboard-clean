@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-legal-resolution-consumption-verification/v1",
+  "base": "a58af333e73ceb54ec98cb80829d2cabff10b5af",
+  "records": [
+    {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2"
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/KY_COMPANION_CHARGES_RESOLUTION_2026-09-11.json",
+      "sha256": "ee9a2a2486a6bdf9017da938ba944168ce733b3c04bd340688c10a6119959a95"
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+      "sha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6"
+    }
+  ],
+  "implementation": [
+    "normal generator INPUTS consume both base legal-disposition records and the exact owner attestation",
+    "validation refuses malformed schemas, duplicate decisions/families, inconsistent clear/hold lists, mismatched supersession decision or family scope, and any claim that documentary permission is stored",
+    "all 36 effective resolutions are LEGAL_CLEAR; historical legal entrances remain evidence only",
+    "packet admission requires an independent PASS whose verifiedAtBase contains exact bytes of every record needed by the effective disposition"
+  ],
+  "results": {
+    "focusedTests": {
+      "exitStatus": 0,
+      "summary": "base 30 clear/6 hold; exact attestation => 36 clear/0 hold; negative schema/conflict/scope tests pass; exact review-base ordering enforced"
+    },
+    "realGenerator": {
+      "exitStatus": 0,
+      "summary": "346-family production generator completed; 19 scoped state changes; 0 outside-scope state changes; 0 legal-blocked; 0 sole-clear packet admissions"
+    },
+    "targetVerifierF26": {
+      "status": "PASS",
+      "summary": "36 authoritative clears; stale legal returns no longer control; arbitrary family flags are not trusted"
+    },
+    "fullVerifier": {
+      "exitStatus": 1,
+      "passed": 35,
+      "total": 37,
+      "remainingBaselineFailures": [
+        "F34: 16 stale live verifier grants",
+        "F24: 2 stale Colorado source-reconciliation grants"
+      ],
+      "baselineComparison": "The unmodified verifier on the unmodified base was already 34/37 and failed the same F34 and F24, plus the target F26. This change makes F26 pass and introduces no new verifier failure."
+    },
+    "generatorConvergence": {
+      "exitStatus": 1,
+      "remainingBaselineDrift": "iterative claim-dependent lane packing plus four pre-existing VF09-VF12 orphan prompts; Captain must regenerate centrally after integration"
+    }
+  },
+  "stateDelta": "state-delta.json",
+  "logs": [
+    "generator.log",
+    "focused-tests.log",
+    "verifier.log",
+    "base-verifier.log",
+    "generator-convergence.log"
+  ],
+  "remainingChecks": [
+    "Captain integrates the already-owned attestation record with this consumer",
+    "Captain regenerates central outputs and runs the mandatory sequence",
+    "F34/F24 baseline claim-ledger cleanup remains outside this bounded legal-resolution consumer"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
