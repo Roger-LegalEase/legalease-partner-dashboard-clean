@@ -102,6 +102,7 @@ import { participantInstructionsMarkdown as renderIndianaCcaSection1Guide, measu
   from "./lib/indiana-cca-section1-guide.mjs";
 import { CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, protectCategoryOf, decideBinding }
   from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { APPEARANCE_DISPOSITION } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
@@ -968,10 +969,15 @@ function maxLengthOverflows(doc, census, facts) {
 }
 
 // ---- prove it from the ARTIFACT, not from the report --------------------------
-async function verifyFromBytes({ file, census, report, label, documentId }) {
+async function verifyFromBytes({ file, census, report, label, documentId, sourcePreservedFields = new Set() }) {
   const drawn = await flattenedWidgets(file);
   const findings = [];
   const chargeBlanks = [];
+  const ownsAppearance = (field, appearance) => field.widgets.some((w) => {
+    const x = Math.min(w.rect.x, w.rect.x + w.rect.width);
+    const y = Math.min(w.rect.y, w.rect.y + w.rect.height);
+    return w.page === appearance.page && Math.abs(x - appearance.x) <= 3 && Math.abs(y - appearance.y) <= 3;
+  });
 
   for (const field of census.fields) {
     const w = field.widgets[0];
@@ -996,7 +1002,7 @@ async function verifyFromBytes({ file, census, report, label, documentId }) {
       }
     }
 
-    if (!wasWritten && text !== "") {
+    if (!wasWritten && text !== "" && !sourcePreservedFields.has(field.name)) {
       findings.push({ severity: "blocking", fixture: label, field: field.name,
         check: "refused_field_carries_ink", drawnText: text });
     }
@@ -1028,9 +1034,7 @@ async function verifyFromBytes({ file, census, report, label, documentId }) {
     if (!text) continue;
     const hit = NAME_TOKENS.filter((tok) => text.toLowerCase().includes(tok.toLowerCase()));
     if (!hit.length) continue;
-    const owner = census.fields.find((f) => f.widgets.some((w) =>
-      w.page === appearance.page
-      && Math.abs(w.rect.x - appearance.x) <= 3 && Math.abs(w.rect.y - appearance.y) <= 3));
+    const owner = census.fields.find((f) => ownsAppearance(f, appearance));
     const field = owner?.name ?? null;
     namePlacements.push({ field, page: appearance.page, text, tokens: hit, allowed: allowed.has(field) });
     if (!allowed.has(field)) {
@@ -1042,9 +1046,7 @@ async function verifyFromBytes({ file, census, report, label, documentId }) {
 
   const outside = drawn.filter((appearance) => {
     if (!String(appearance.text ?? "").trim()) return false;
-    return !census.fields.some((f) => f.widgets.some((w) =>
-      w.page === appearance.page
-      && Math.abs(w.rect.x - appearance.x) <= 3 && Math.abs(w.rect.y - appearance.y) <= 3));
+    return !census.fields.some((f) => ownsAppearance(f, appearance));
   });
 
   /*
@@ -1304,6 +1306,14 @@ async function main() {
         census: censusFittedToTheNarrowestWidget,
         facts,
         explicitMappings: doc.explicitMappings,
+        // Preserve the source's own unselected choice/dropdown appearance by
+        // actual census field identity. This does not choose an option or
+        // invent a case fact; it prevents the sanitizer from dropping the
+        // official source blank and its authored background.
+        appearanceDispositions: new Map(census.fields
+          .filter((field) => field.type === "dropdown" || field.type === "optionlist")
+          .map((field) => [field.name, APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE])),
+        preserveUnwrittenChoiceAppearances: true,
         unwritableFields: [
           ...doc.unwritable.map((u) => ({ field: u.field, class: u.class })),
           ...overflows.map((o) => ({ field: o.field, class: o.class }))
@@ -1362,7 +1372,10 @@ async function main() {
 
       const proof = await verifyFromBytes({
         file: path.join(rootDir, rel), census, report: result.report,
-        label: `${doc.key}-${label}`, documentId: doc.documentId
+        label: `${doc.key}-${label}`, documentId: doc.documentId,
+        sourcePreservedFields: new Set(census.fields
+          .filter((field) => field.type === "dropdown" || field.type === "optionlist")
+          .map((field) => field.name))
       });
       allFindings.push(...proof.findings);
 

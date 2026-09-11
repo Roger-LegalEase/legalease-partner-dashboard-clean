@@ -1317,7 +1317,8 @@ export function drawDeclaredUnderlineBorders(pdfDoc, pending) {
  * the participant answered and one still showing the form's prompt.
  */
 export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), dispositions = new Map(),
-  detachOptions = {}, { suppressSynthesizedWidgetBorders = false, preserveUnwrittenSelectionBackgrounds = false } = {}) {
+  detachOptions = {}, { suppressSynthesizedWidgetBorders = false, preserveUnwrittenSelectionBackgrounds = false,
+    preserveUnwrittenChoiceAppearances = false } = {}) {
   const report = { commandControlsDropped: [], unselectedChoicesDropped: [], unwrittenParticipantInputsDropped: [],
     sourceAppearancesPreserved: [], backgroundsNeutralized: 0, nonDisplayedWidgetsDropped: 0,
     fieldsWithNonDisplayedWidgets: [], dispositionsApplied: {},
@@ -1382,8 +1383,9 @@ export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Se
     // A written participant input and preserved source text are treated alike
     // from here: the appearance stays, and only an opaque background painted
     // over the page is removed from it.
-    const preserveAuthoredPaint = preserveUnwrittenSelectionBackgrounds
-      && unwritten && (field instanceof PDFCheckBox || field instanceof PDFRadioGroup)
+    const preserveAuthoredPaint = (preserveUnwrittenSelectionBackgrounds || preserveUnwrittenChoiceAppearances)
+      && unwritten && (field instanceof PDFCheckBox || field instanceof PDFRadioGroup
+        || preserveUnwrittenChoiceAppearances && isChoiceField(acroField))
       && disposition === APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE;
     if (preserveAuthoredPaint) {
       (report.sourceSelectionBackgroundsPreserved ??= []).push(name);
@@ -1511,7 +1513,8 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
   // PA490/790 use a white blank-state rectangle to cover a smaller printed box;
   // stripping it reveals two frames. Defaults remain unchanged for other callers.
   // Dynamic actions and MK/BG characteristics are still removed; no mark is added.
-  preserveUnwrittenSelectionBackgrounds = false } = {}) {
+  preserveUnwrittenSelectionBackgrounds = false,
+  preserveUnwrittenChoiceAppearances = false } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -1541,7 +1544,7 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // background afterwards would mean editing generated streams instead of
       // never asking for the rectangle at all.
       report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions,
-        { walkFieldTree: detachNestedControlFields }, { suppressSynthesizedWidgetBorders, preserveUnwrittenSelectionBackgrounds });
+        { walkFieldTree: detachNestedControlFields }, { suppressSynthesizedWidgetBorders, preserveUnwrittenSelectionBackgrounds, preserveUnwrittenChoiceAppearances });
       // Before appearances are generated, for the same reason the two steps
       // around it run there: pdf-lib builds the border into the stream it
       // generates from `/MK /BC`, so the colour comes off first and the line

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-rows/v1",
+  "lane": "FIX132",
+  "laneKind": "repair",
+  "generatedBy": "lane FIX132, isolated checkout /tmp/rcap-in-choice-proof-20260911, base a83c8edf48e7f328b81270f9093dbed7f62e2fb3",
+  "whatThisLaneDidNotDo": "Issued no independent Grade-A approval, set no commercial or live verdict, dispatched no raster, zeroed no visual counter, released or transferred no claim, changed no source, legal decision, shared queue or claim ledger, and edited none of the four preserved WIP implementation inputs.",
+  "grantsNothing": "These repair-author rows record successful builders and a byte-level regression proof. Independent verification, visual review, counsel review, source-freshness review, route promotion and commercial authority remain separate gates.",
+  "proofImplementation": {
+    "path": "scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-byte-proof.mjs",
+    "beforeSha256": "32e1aa3ba41f05a828358e874a0da84abfbf56c9b1c9b57fdfe34080beb567c0",
+    "afterSha256": "1d44a0c40b602760068678e8bd3c0f5c27742e10afa4b9de709a0ce2ca0a2dd2",
+    "change": "The byte proof now loops over both exact Indiana families and treats PDFDropdown and PDFOptionList as source choice fields. For every choice widget in all eight artifacts it matches the flattened appearance by source field, page and rectangle, then compares the exact decoded source and delivered AP-stream SHA-256. Each family separately proves that removing one classified appearance and mutating one saved output appearance stream are rejected.",
+    "currentPinnedSourceTypes": "The proof exercises classification of both PDFDropdown and PDFOptionList with pdf-lib instances. Each family currently binds 33 PDFDropdown fields (66 widgets: 4 bundle and 62 inserts) and 0 PDFOptionList fields. The evidence does not claim a current option-list instance.",
+    "testCommand": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-byte-proof.mjs",
+    "exit": 0,
+    "substantiveVerdict": "PASS: 8 artifacts, 264 per-artifact widget checks, 0 placement mismatches, 264 exact source AP-stream hashes matched, and 4/4 negative controls rejected. Each stream-mutation control preserves its painting operators and is required to fail specifically at the exact AP-byte hash assertion.",
+    "preservationCommand": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-preservation.mjs",
+    "preservationExit": 0,
+    "preservationVerdict": "PASS: both families retain 33 source choice fields; 105 flattened appearances in each packet artifact and 140 in each insert artifact; no raster."
+  },
+  "rows": [
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "lane": "FIX132",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedAtBase": "a83c8edf48e7f328b81270f9093dbed7f62e2fb3",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "claimStatus": {
+        "assertedBeforeAnyFamilyContentWasRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX132 in_arrest_no_charges-set",
+        "exit": 0,
+        "result": "CLAIM_OK FIX132 in_arrest_no_charges-set (repair, grant set 0c633886d426e7cc)",
+        "released": false,
+        "transferred": false
+      },
+      "builder": {
+        "command": "env MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 TMPDIR=/tmp node scripts/build-census-v1-in_arrest_no_charges-set.mjs",
+        "exit": 0,
+        "verdict": "OK: source receipts matched, both documents built for canonical and boundary, repair invariants passed, and builder findings were 0."
+      },
+      "sourceReceipt": {
+        "matched": true,
+        "bundleSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "insertsSha256": "65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707"
+      },
+      "choiceAppearanceProof": {
+        "result": "PASS",
+        "artifactsChecked": 4,
+        "sourceChoiceWidgetsCheckedAcrossArtifacts": 132,
+        "placementMismatches": 0,
+        "exactSourceAppearanceStreamHashesMatched": 132,
+        "negativeControls": [
+          {"control":"one-source-appearance-removed","result":"REJECTED"},
+          {"control":"one-source-appearance-stream-mutated","result":"REJECTED"}
+        ]
+      },
+      "artifactProofRows": [
+        {"documentId":"IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE","fixture":"canonical","sha256":"2f2501aec02a5bc6990c0bab0fc631215fa99265572ac9b2fca2672ee4840e01","bytes":253422,"pages":15,"sourceChoiceWidgets":4,"sourceChoiceFields":1,"sourceDropdownFields":1,"sourceOptionListFields":0,"flattenedAppearances":105,"placementMismatches":0,"exactSourceAppearanceStreamHashesMatched":4},
+        {"documentId":"IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE","fixture":"boundary","sha256":"281ce746b220f65619c83e10a4e777745e9dcecf9da5c8fa37137f2e854ef526","bytes":252496,"pages":15,"sourceChoiceWidgets":4,"sourceChoiceFields":1,"sourceDropdownFields":1,"sourceOptionListFields":0,"flattenedAppearances":105,"placementMismatches":0,"exactSourceAppearanceStreamHashesMatched":4},
+        {"documentId":"IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS","fixture":"canonical","sha256":"4100192989f47a233c1efea767388995042c19c6308a9c0564fcd9e423d9466e","bytes":197086,"pages":4,"sourceChoiceWidgets":62,"sourceChoiceFields":32,"sourceDropdownFields":32,"sourceOptionListFields":0,"flattenedAppearances":140,"placementMismatches":0,"exactSourceAppearanceStreamHashesMatched":62},
+        {"documentId":"IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS","fixture":"boundary","sha256":"4100192989f47a233c1efea767388995042c19c6308a9c0564fcd9e423d9466e","bytes":197086,"pages":4,"sourceChoiceWidgets":62,"sourceChoiceFields":32,"sourceDropdownFields":32,"sourceOptionListFields":0,"flattenedAppearances":140,"placementMismatches":0,"exactSourceAppearanceStreamHashesMatched":62}
+      ],
+      "artifactBytes": "All four artifact hashes and lengths reproduced exactly across the assigned lane's before/after rebuild snapshots.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": null,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "visualDefectsNote": "Not measured in this lane. No raster was produced or inspected, so this repair row does not report a zero visual counter."
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "lane": "FIX132",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedAtBase": "a83c8edf48e7f328b81270f9093dbed7f62e2fb3",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "claimStatus": {
+        "assertedBeforeAnyFamilyContentWasRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX132 in_section1_petition-set",
+        "exit": 0,
+        "result": "CLAIM_OK FIX132 in_section1_petition-set (repair, grant set 0c633886d426e7cc)",
+        "released": false,
+        "transferred": false
+      },
+      "builder": {
+        "command": "env MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 TMPDIR=/tmp node scripts/build-census-v1-in_section1_petition-set.mjs",
+        "exit": 0,
+        "verdict": "OK: source receipts matched, both documents built for canonical and boundary, repair invariants passed, and builder findings were 0."
+      },
+      "sourceReceipt": {
+        "matched": true,
+        "bundleSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "insertsSha256": "65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707"
+      },
+      "choiceAppearanceProof": {
+        "result": "PASS",
+        "artifactsChecked": 4,
+        "sourceChoiceWidgetsCheckedAcrossArtifacts": 132,
+        "placementMismatches": 0,
+        "exactSourceAppearanceStreamHashesMatched": 132,
+        "negativeControls": [
+          {"control":"one-source-appearance-removed","result":"REJECTED"},
+          {"control":"one-source-appearance-stream-mutated","result":"REJECTED"}
+        ]
+      },
+      "artifactProofRows": [
+        {"documentId":"IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE","fixture":"canonical","sha256":"65553145c032861d64ec5ec8f4c413eeb771c04d3135f92c3fffe9afabfc3854","bytes":253421,"pages":15,"sourceChoiceWidgets":4,"sourceChoiceFields":1,"sourceDropdownFields":1,"sourceOptionListFields":0,"flattenedAppearances":105,"placementMismatches":0,"exactSourceAppearanceStreamHashesMatched":4},
+        {"documentId":"IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE","fixture":"boundary","sha256":"281ce746b220f65619c83e10a4e777745e9dcecf9da5c8fa37137f2e854ef526","bytes":252496,"pages":15,"sourceChoiceWidgets":4,"sourceChoiceFields":1,"sourceDropdownFields":1,"sourceOptionListFields":0,"flattenedAppearances":105,"placementMismatches":0,"exactSourceAppearanceStreamHashesMatched":4},
+        {"documentId":"IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS","fixture":"canonical","sha256":"4100192989f47a233c1efea767388995042c19c6308a9c0564fcd9e423d9466e","bytes":197086,"pages":4,"sourceChoiceWidgets":62,"sourceChoiceFields":32,"sourceDropdownFields":32,"sourceOptionListFields":0,"flattenedAppearances":140,"placementMismatches":0,"exactSourceAppearanceStreamHashesMatched":62},
+        {"documentId":"IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS","fixture":"boundary","sha256":"4100192989f47a233c1efea767388995042c19c6308a9c0564fcd9e423d9466e","bytes":197086,"pages":4,"sourceChoiceWidgets":62,"sourceChoiceFields":32,"sourceDropdownFields":32,"sourceOptionListFields":0,"flattenedAppearances":140,"placementMismatches":0,"exactSourceAppearanceStreamHashesMatched":62}
+      ],
+      "artifactBytes": "All four artifact hashes and lengths reproduced exactly across the assigned lane's before/after rebuild snapshots.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": null,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "visualDefectsNote": "Not measured in this lane. No raster was produced or inspected, so this repair row does not report a zero visual counter."
+    }
+  ]
+}

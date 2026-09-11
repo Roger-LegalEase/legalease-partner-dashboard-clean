@@ -13,6 +13,7 @@ import { fitTextToWidget, applyFitToTextField, wrapToWidth, usableWidthOf, MIN_R
   from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
 import { detectNonFilingNotice } from "./rcap-source-notice.mjs";
+import { APPEARANCE_DISPOSITION } from "./rcap-appearance-semantics.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFDropdown, PDFCheckBox, PDFName, PDFString, PDFHexString, StandardFonts, rgb } = require("pdf-lib");
@@ -1034,7 +1035,8 @@ export async function finalizeOfficialForm({
   honorWidgetBorderStyle = false,
   // Keep authored blank-state paint only on unwritten selections. This remains
   // opt-in; written fields, other field types and the default path are unchanged.
-  preserveUnwrittenSelectionBackgrounds = false
+  preserveUnwrittenSelectionBackgrounds = false,
+  preserveUnwrittenChoiceAppearances = false
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -1511,6 +1513,10 @@ export async function finalizeOfficialForm({
   for (const handle of form.getFields()) {
     const name = handle.getName();
     if (written.has(name)) continue;
+    // A family may explicitly preserve a source-owned blank choice prompt.
+    // Do not erase its /AP in the generic chooser suppression pass; the
+    // disposition is scoped by the caller's actual censused field identity.
+    if (preserveUnwrittenChoiceAppearances && appearanceDispositions.get(name) === APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE) continue;
     if (typeof handle.getOptions !== "function" || typeof handle.getSelected !== "function") continue;
     let selected = [];
     let options = [];
@@ -1564,7 +1570,8 @@ export async function finalizeOfficialForm({
     normalizeInvertedWidgetRects,
     suppressSynthesizedWidgetBorders,
     honorWidgetBorderStyle,
-    preserveUnwrittenSelectionBackgrounds
+    preserveUnwrittenSelectionBackgrounds,
+    preserveUnwrittenChoiceAppearances
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 

@@ -1,0 +1,48 @@
+PASS  1-with-the-option-off-an-unwritten-box-whose-AS-state-has-no-appearance-is-delivered-as-a-bordered-square
+PASS  2-with-the-option-on-the-same-widget-flattens-to-zero-ink-at-its-rect
+PASS  3-the-count-is-reported-per-document-and-only-when-the-option-is-on
+PASS  4-a-written-checked-box-still-renders-its-mark-with-the-option-on
+PASS  5-a-widget-that-ships-its-own-Off-appearance-is-byte-identical-either-way
+{
+  "control": "synthesized off-state appearances",
+  "dpi": 300,
+  "results": [
+    {
+      "control": "1-with-the-option-off-an-unwritten-box-whose-AS-state-has-no-appearance-is-delivered-as-a-bordered-square",
+      "darkPixelsInWidgetRect": 240,
+      "synthesizedBy": "pdf-lib defaultCheckBoxAppearanceProvider via form.updateFieldAppearances()",
+      "pass": true
+    },
+    {
+      "control": "2-with-the-option-on-the-same-widget-flattens-to-zero-ink-at-its-rect",
+      "darkPixelsInWidgetRect": 0,
+      "wasBefore": 240,
+      "matchesAConformingViewer": "ISO 32000-1 12.5.5: no stream is named by /AS, so nothing is painted",
+      "pass": true
+    },
+    {
+      "control": "3-the-count-is-reported-per-document-and-only-when-the-option-is-on",
+      "withOptionOn": {
+        "installedCount": 1,
+        "state": "/Off"
+      },
+      "withOptionOff": "no key in the sanitize report",
+      "pass": true
+    },
+    {
+      "control": "4-a-written-checked-box-still-renders-its-mark-with-the-option-on",
+      "darkPixelsInWidgetRect": 706,
+      "installedOnThisField": 0,
+      "skippedBecauseWritten": 1,
+      "pass": true
+    },
+    {
+      "control": "5-a-widget-that-ships-its-own-Off-appearance-is-byte-identical-either-way",
+      "bytes": 1172,
+      "identical": true,
+      "sourceBoxStillPrinted": 948,
+      "covering": "RI-OFF-APPEARANCE: an unchanged /Off appearance is source-owned form structure",
+      "pass": true
+    }
+  ]
+}
