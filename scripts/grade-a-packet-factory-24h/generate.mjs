@@ -18,8 +18,9 @@
  */
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import fs from "node:fs";
-import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC } from "./treatment-reconciliation.mjs";
+import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC, GA_GUIDANCE, GA_PETITION } from "./treatment-reconciliation.mjs";
 import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
+import { assessGeorgiaReviewedGuidance } from "./ga-reviewed-guidance.mjs";
 import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
@@ -2476,7 +2477,8 @@ for (const f of IN.scoreboard.familiesDetail) {
   }
 
   const ctGuidanceAssessment = assessConnecticutReviewedGuidance(ROOT, familyId);
-  let reviewedTreatmentGuidance = familyId === WA_AUTOMATIC ? assessWashingtonReviewedGuidance(ROOT) : ctGuidanceAssessment;
+  let reviewedTreatmentGuidance = familyId === GA_GUIDANCE ? assessGeorgiaReviewedGuidance(ROOT)
+    : familyId === WA_AUTOMATIC ? assessWashingtonReviewedGuidance(ROOT) : ctGuidanceAssessment;
   state = preserveTreatmentAcceptance(state, treatment, reviewedTreatmentGuidance);
   if (ctGuidanceAssessment) {
     state = applyConnecticutGuidanceAcceptance(state, ctGuidanceAssessment, {
@@ -2638,6 +2640,14 @@ for (const f of IN.scoreboard.familiesDetail) {
  * unassigned family imports it. Computed after every record exists. */
 const familyByScript = new Map(families.map((f) => [path.basename(f.buildScript), f]));
 const familyIndex = new Map(families.map((f) => [f.familyId, f]));
+// Evaluate this dependency after both current family rows exist. A prior queue
+// snapshot cannot stand in for the separate petition's current acceptance.
+const gaGuide = familyIndex.get(GA_GUIDANCE);
+if (gaGuide?.state === "GUIDANCE_READY" && familyIndex.get(GA_PETITION)?.state !== "COMPLETE_PACKET_PROVEN") {
+  gaGuide.state = "PRODUCT_PATH_PENDING";
+  gaGuide.nextExecutableAction = "Restore independent current acceptance of the separate Georgia post-consent petition family; this guidance does not discharge it.";
+}
+
 for (const f of families) {
   const base = path.basename(f.buildScript);
   const importers = importersOf(base).map(familyOfScript);

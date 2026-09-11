@@ -147,6 +147,13 @@ export function guidanceSourceReadiness(root, familyId, reconciliation) {
 }
 
 export function preserveTreatmentAcceptance(state, treatment, reviewedGuidance = null) {
+  // GA's two guidance stages may be admitted only after the ordinary packet
+  // gates have all earned COMPLETE_PACKET_PROVEN on the current bytes.
+  if (treatment?.familyId === GA_GUIDANCE && state === "COMPLETE_PACKET_PROVEN"
+    && reviewedGuidance?.familyId === GA_GUIDANCE && reviewedGuidance.eligible === true) {
+    return "GUIDANCE_READY";
+  }
+
   // Only the file-backed adapter can supply a current independent guide read.
   // A later factual/source/owner hold still takes precedence over that read.
   if (treatment?.familyId === WA_AUTOMATIC && reviewedGuidance?.eligible === true

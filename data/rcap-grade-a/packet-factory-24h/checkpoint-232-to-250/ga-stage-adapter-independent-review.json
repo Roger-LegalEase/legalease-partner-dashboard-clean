@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-ga-guidance-stage-adapter-review/v1",
+  "familyId": "rcap-ga-guidance-implementation",
+  "reviewer": "/root/pending_readiness",
+  "lane": "VF65",
+  "verifiedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+  "independentlyReviewed": true,
+  "editsNothingItVerifies": true,
+  "scope": "static_family_guidance_adapter",
+  "verdict": "PASS",
+  "failedObligations": [],
+  "codeHashes": {
+    "scripts/grade-a-packet-factory-24h/ga-reviewed-guidance.mjs": "dc42d827f5d026df5f89ac5fff7733e2338da15b723a5050b25fb9f2b10a0663",
+    "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs": "056042c21aea1cf84d2eaa2cc3289b7e667229a1758b2771b74b3f749c04b5d2",
+    "scripts/grade-a-packet-factory-24h/treatment-reconciliation.mjs": "50c7241ea9910484e3925046d913fd604ba1bc2cce996d2b63a003e3d28869c2",
+    "scripts/grade-a-packet-factory-24h/generate.mjs": "0e277b7c97587ae89b535c190f62c9426162a4c5c173431edce37e0dac2541d4"
+  },
+  "findings": [
+    "Adapter requires the exact GA stage-review schema, PASS verdict, VF lane, full review pin, both stage IDs, exact separate petition family, no second petition and no commercial authority.",
+    "Adapter requires and hash-checks the builder, source receipt, rendered-artifacts report, field map, actual-writes report, participant guidance, every committed source-receipt path, and both current assembled PDFs against current bytes and git at the review pin.",
+    "Adapter rejects missing/tampered review members, altered current bytes, historical pin mismatch, wrong petition family, incomplete stages, commercial authority and malformed review metadata.",
+    "Treatment reconciliation maps verified_written_consent to the separate petition family and keeps qualifying post-order tracking on the guidance family; the guide cannot satisfy the consent gate.",
+    "The separate petition family identity is composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route, matching the current MASTER_QUEUE and VF12 record.",
+    "generate.mjs calls assessGeorgiaReviewedGuidance after ordinary family state computation, then preserveTreatmentAcceptance can produce GUIDANCE_READY only from current COMPLETE_PACKET_PROVEN and an eligible adapter result.",
+    "After the family loop, generate.mjs checks the current family index and demotes GA guidance to PRODUCT_PATH_PENDING unless the exact separate petition family is COMPLETE_PACKET_PROVEN; this is a current index lookup, not a stale queue assertion."
+  ],
+  "testResult": "node scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs PASS; current review and twelve mutation/refusal controls passed",
+  "remainingRequirements": [
+    "The caller/current family index must separately verify the existing petition family is COMPLETE_PACKET_PROVEN with its own independent and raster evidence before Guidance Ready is exposed.",
+    "The guidance family still needs central raster acceptance and direct visual review before its own ordinary COMPLETE_PACKET_PROVEN state.",
+    "The adapter does not grant commercial or runtime authority; product wiring remains a separate closed sequence.",
+    "The adapter hashes the stage-review bytes and requires every reviewed evidence path to match current bytes and the review pin, but the stage-review JSON itself is not included in reviewedFiles and therefore is not independently required to exist at the historical review commit. This is a provenance limitation to retain explicitly.",
+    "Central raster and independent visual acceptance remain ordinary prerequisites for the guidance family COMPLETE_PACKET_PROVEN state."
+  ],
+  "evidenceRead": [
+    "scripts/grade-a-packet-factory-24h/ga-reviewed-guidance.mjs",
+    "scripts/grade-a-packet-factory-24h/test-ga-reviewed-guidance.mjs",
+    "scripts/grade-a-packet-factory-24h/treatment-reconciliation.mjs",
+    "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ga-guidance-stage-review.json",
+    "data/rcap-grade-a/packet-factory-24h/vf65/rows-vf65-20260911-ga-guidance-preraster.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json#rcap-ga-guidance-implementation",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json#composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+    "data/rcap-grade-a/packet-factory-24h/vf12/rows.json#7526",
+    "scripts/grade-a-packet-factory-24h/generate.mjs"
+  ]
+}
