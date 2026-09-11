@@ -19,6 +19,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
+import azSourceOptionalRegistry from "./az-source-optional-registry.json" with { type: "json" };
 
 // This contract closes that by inverting the question. Every blank must earn its
 // blankness against a CLOSED vocabulary, and three of the nine dispositions are
@@ -281,7 +282,8 @@ const OPTIONAL_SOURCE_REGISTRY = new Map([
   ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|guilty of the offenses of 3", { page: 1, rect: { x: 117, y: 306, width: 420.48, height: 14.52 }, sourceText: "guilty of the offense(s) of:", condition: "additional_convicted_offence_exists" }],
   ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|Defendant Address 02", { page: 3, rect: { x: 69.84, y: 332.16, width: 225.84, height: 23.4 }, sourceText: "Defendant’s Address", condition: "address_needs_second_line" }],
   ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|FBI No if known", { page: 4, rect: { x: 355.92, y: 115.92, width: 159, height: 21.84 }, sourceText: "FBI No. (if known)", condition: "identifier_known_to_participant" }],
-  ["4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8|FBI No if known", { page: 3, rect: { x: 355.92, y: 191.04, width: 159, height: 15.72 }, sourceText: "FBI No. (if known)", condition: "identifier_known_to_participant" }]
+  ["4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8|FBI No if known", { page: 3, rect: { x: 355.92, y: 191.04, width: 159, height: 15.72 }, sourceText: "FBI No. (if known)", condition: "identifier_known_to_participant" }],
+  ...azSourceOptionalRegistry.entries.map(({ sourceSha256, field, ...proof }) => [`${sourceSha256}|${field}`, proof])
 ]);
 
 function verifySourceOptional(proof, field) {
@@ -290,7 +292,7 @@ function verifySourceOptional(proof, field) {
   if (typeof proof.sourcePath !== "string" || typeof proof.sourceSha256 !== "string") return fail("sourceOptional proof is incomplete");
   const fieldName = String(field.name ?? "");
   const expected = OPTIONAL_SOURCE_REGISTRY.get(`${proof.sourceSha256.toLowerCase()}|${fieldName}`);
-  if (!expected || JSON.stringify(expected) !== JSON.stringify({ page: proof.page, rect: proof.rect, sourceText: proof.sourceText, condition: proof.condition })) return fail("sourceOptional proof does not match the closed AR source registry");
+  if (!expected || JSON.stringify(expected) !== JSON.stringify({ page: proof.page, rect: proof.rect, sourceText: proof.sourceText, condition: proof.condition })) return fail("sourceOptional proof does not match the closed source registry");
   const sourcePath = path.resolve(process.cwd(), proof.sourcePath);
   if (!fs.existsSync(sourcePath)) return fail("sourceOptional source bytes are unavailable");
   const actualHash = crypto.createHash("sha256").update(fs.readFileSync(sourcePath)).digest("hex");

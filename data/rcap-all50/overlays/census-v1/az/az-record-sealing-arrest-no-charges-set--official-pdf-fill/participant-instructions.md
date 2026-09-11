@@ -2,7 +2,7 @@
 
 Route: arrest with no charges filed. The filing court is determined only from the documented initial-appearance record or county of arrest when no initial appearance occurred. If those records do not establish the court, stop and ask the clerk; do not infer it from a remembered courthouse.
 
-Complete participant information and factual fields identified for participant completion. The source fields still blank are explicitly classified in the production field map. Required source fields on this route: participant required field Case; participant required field CourtCaseNum; participant required field Check Box14; participant required field Check Box15; participant required field Check Box17; participant required field Check Box18; participant required field Date; participant required field Case.
+Complete participant information and factual fields identified for participant completion. The source fields still blank are explicitly classified in the production field map. Required source fields on this route: participant required field Case; participant required field Check Box14; participant required field Check Box15; participant required field Check Box17; participant required field Check Box18; participant required field Date; participant required field Case.
 
 The selected no-charge situation expressly skips Section II. Leave EnteredOn, EnteredOn1, and Section II controls Check Box10 through Check Box13 blank.
 
@@ -53,6 +53,7 @@ The conviction-history field Check Box16 is not an unconditional requirement on 
 
 - **Defendant (FIRST, MI, LAST) — charged-case caption** — No charges were filed; use the In Re caption and leave the charged-case Defendant caption blank.
 - **Charging documents created by the prosecuting agency** — No charges were filed; the source excludes charging documents and eligible-charge court case records from this no-charge request.
+- **Court case number if charges were filed** — No charges were filed; Section I.2.c asks for a court case number only if charges were filed.
 - **All records relating to the eligible charges in the court case** — No charges were filed; the source excludes charging documents and eligible-charge court case records from this no-charge request.
 - **Date a dismissal or not guilty verdict was entered** — The selected no-charge situation skips the dismissal/not-guilty date.
 - **Date a judgment of guilt was entered** — The selected no-charge situation skips the guilty-judgment date.

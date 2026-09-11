@@ -8,10 +8,12 @@ import { mapArizonaRecordSealingCourt } from './az-record-sealing-court-mapping.
 import { sanitizeAndFlatten } from '../rcap-official-forms/rcap-active-content.mjs';
 import { measureAzActualWrites } from './az-record-sealing-byte-proof.mjs';
 import { extractTextItems, groupIntoLines } from '../rcap-official-forms/rcap-pdf-anchor-capture.mjs';
+import azSourceOptionalRegistry from '../rcap-packet-completeness/az-source-optional-registry.json' with { type: 'json' };
 const require = createRequire(import.meta.url); const { PDFDocument, PDFName } = require('pdf-lib');
 const ROOT = path.resolve(new URL('../..', import.meta.url).pathname);
 const SOURCES = { petition:'private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf', order:'private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf' };
 const EXPECTED={petition:{sha256:'32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05',bytes:299110},order:{sha256:'436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1',bytes:213882}};
+const AZ_SOURCE_OPTIONAL_REGISTRY=new Map(azSourceOptionalRegistry.entries.map(({sourceSha256,field,...proof})=>[`${sourceSha256}|${field}`,proof]));
 const FACTS={canonical:{name:'Dana Marie Whitfield',address:'417 North Cordova Avenue',city:'Tucson, AZ 85701',phone:'520-555-0147',email:'dana.whitfield@example.com',dob:'03/14/1988',filerRole:'self',offense:'Possession of a dangerous drug, A.R.S. 13-3407(A)(1)',county:'PIMA',countyOfArrest:'Pima',noChargesFiled:true,initialAppearanceOccurred:false,initialAppearanceInThisCourt:false,chargingInstrumentProgression:'direct_charging_document'},boundary:{name:"Maria-Alejandra O'Shaughnessy-Whitfield",address:'1188 West Upper Notch Crossing Road, Apartment 14B',city:'Phoenix, AZ 85001',phone:'602-555-0188',email:'maria.whitfield@example.com',dob:'12/31/1972',filerRole:'self',offense:'Possession of a dangerous drug, A.R.S. 13-3407(A)(1)',county:'MARICOPA',countyOfArrest:'Maricopa',noChargesFiled:true,initialAppearanceOccurred:true,initialAppearanceCourt:'MARICOPA COUNTY SUPERIOR COURT',initialAppearanceInThisCourt:true,chargingInstrumentProgression:'justice_complaint_then_information'}};
 FACTS.canonical.chargingDocumentCourt='PIMA COUNTY SUPERIOR COURT'; FACTS.boundary.chargingDocumentCourt='MARICOPA COUNTY SUPERIOR COURT'; FACTS.canonical.justiceCourtComplaintFollowedByInformation=false; FACTS.boundary.justiceCourtComplaintFollowedByInformation=true;
 const digest=b=>crypto.createHash('sha256').update(b).digest('hex'); const mkdir=p=>fs.mkdirSync(p,{recursive:true});
@@ -73,6 +75,7 @@ const HUMAN_SOURCE_LABELS = new Map([
   ['petition.ProAgency', 'Prosecuting agency for the requested charging documents'],
   ['petition.Check Box5', 'All records relating to the eligible charges in the court case'],
   ['petition.CourtCase', 'Court case number for the requested eligible-charge records'],
+  ['petition.CourtCaseNum', 'Court case number if charges were filed'],
   ['petition.CourtAdj2', 'Court that adjudicated the charges — second continuation line'],
   ['petition.Count1', 'Court case number if charges were filed — Count I'],
   ['petition.Count2', 'Court case number if charges were filed — Count II'],
@@ -115,6 +118,7 @@ const HUMAN_SOURCE_LABELS = new Map([
 const ROUTE_SPECIFIC_REQUIREMENTS = {
   arrest: new Map([
     ['petition.Defendant', ['OFF_ROUTE', 'No charges were filed; use the In Re caption and leave the charged-case Defendant caption blank.']],
+    ['petition.CourtCaseNum', ['OFF_ROUTE', 'No charges were filed; Section I.2.c asks for a court case number only if charges were filed.']],
     ['petition.EnteredOn', ['OFF_ROUTE', 'The selected no-charge situation skips the dismissal/not-guilty date.']],
     ['petition.EnteredOn1', ['OFF_ROUTE', 'The selected no-charge situation skips the guilty-judgment date.']],
     ...['Check Box10','Check Box11','Check Box12','Check Box13'].map(name => [`petition.${name}`, ['OFF_ROUTE', 'The selected no-charge situation expressly skips Section II.']]),
@@ -132,6 +136,11 @@ function sourceConditionedRequirement(name,role,kind){
   if(!sourceConditionClass)return null;
   const completenessDisposition=sourceConditionClass==='OFF_ROUTE'?'NOT_APPLICABLE_ON_THIS_ROUTE':sourceConditionClass==='CONDITIONAL_ELECTION'?'PARTICIPANT_ELECTION_GENUINE':'OPTIONAL_PARTICIPANT_CONTENT';
   return {sourceConditionClass,completenessDisposition,condition,participantLabel:HUMAN_SOURCE_LABELS.get(key)};
+}
+function sourceOptionalProof(source,name){
+  const proof=AZ_SOURCE_OPTIONAL_REGISTRY.get(`${source.sha256}|${name}`);
+  assert.ok(proof,`${name}: exact Arizona sourceOptional registry entry missing for ${source.sha256}`);
+  return {sourcePath:source.path,sourceSha256:source.sha256,...proof};
 }
 function isProtectedSourceField(name,role='order'){const table=SOURCE_ROLE_TABLE[role]||SOURCE_ROLE_TABLE.order;if(table.participant.has(name))return false;if(table.protected.has(name))return true;throw new Error(`${role}: source field ${name} missing from explicit role table`);}
 function sourceFieldInfo(source,name){const field=source.form.getField(name);const labels={Plaintiff:'Name (FIRST, MI, LAST) — In Re caption when no charges were filed',Print:'Printed Name:',Addr:'Address',Defendant:'Defendant (FIRST, MI, LAST) — charged-case caption',DName:'Name (FIRST, MI, LAST) — In Re caption when no charges were filed',NameArrest:'Name at the time of arrest, if not the same as above', 'Check Box2':'Amended (corrected) petition', 'Check Box4':'Charging documents created by prosecuting agency', 'Check Box9':'Describe your situation: 1 arrested/no charges; 2 dismissed/not guilty; 3 judgment of guilt'};return {field:name,sourceWidgets:field.acroField.getWidgets().map(w=>({page:source.pages.findIndex(p=>p.ref?.toString()===w.P()?.toString())+1,rect:w.getRectangle(),onState:w.getOnValue?.()?.decodeText?.()??null})),printedLabel:labels[name]||`source field ${name} (label retained in official PDF)`};}
@@ -178,6 +187,7 @@ async function buildArizonaRecordSealingBase({familyId,trackId,routeKey,kind,out
   // Canonical admission records describe canonical decisions; boundary-only choices stay separate.
   for (const map of maps) {
     const role = map.documentRole;
+    const source = sc[role==='petition'?0:1];
     const controls = new Set(map.selectionControls.map(c => c.field));
     map.canonicalWrites = map.canonicalWrites.filter(w => !controls.has(w.fieldName));
     map.canonicalRefusals = map.canonicalRefusals.filter(r => !controls.has(r.fieldName));
@@ -195,8 +205,16 @@ async function buildArizonaRecordSealingBase({familyId,trackId,routeKey,kind,out
         r.conditionalRequirement = sourceCondition.condition;
         r.sourceConditionClass = sourceCondition.sourceConditionClass;
         if (!['OFF_ROUTE','CONDITIONAL_ELECTION'].includes(sourceCondition.sourceConditionClass)) {
-          r.sourceOptional = true;
+          r.sourceOptional = sourceOptionalProof(source,r.fieldName);
           r.sourceOptionalCondition = sourceCondition.condition;
+        }
+        if (role==='petition'&&['Check Box2','Check Box3','Check Box4','Check Box5','Check Box6','Check Box16','Check Box19'].includes(r.fieldName)) {
+          r.isSelectionControl = true;
+          r.routeDetermined = false;
+          if (sourceCondition.sourceConditionClass === 'CONDITIONAL_ELECTION') {
+            r.completenessClass = 'participant_sworn_narrative_or_legal_election';
+            r.refusalClass = 'participant_sworn_narrative_or_legal_election';
+          }
         }
         if (sourceCondition.sourceConditionClass === 'OFF_ROUTE') r.routeConditionThatMakesItInapplicable = sourceCondition.condition;
       }

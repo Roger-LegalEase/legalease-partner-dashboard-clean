@@ -1514,7 +1514,11 @@
           "identity": "Check Box2",
           "disposition": "PARTICIPANT_ELECTION_GENUINE",
           "unconditionallyRequiredBeforeFiling": false,
-          "sourceConditionClass": "CONDITIONAL_ELECTION"
+          "sourceConditionClass": "CONDITIONAL_ELECTION",
+          "isSelectionControl": true,
+          "routeDetermined": false,
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
         },
         {
           "field": "az_record_sealing_arrest_no_charges-primary-filing-1.ArrestOccured",
@@ -1547,7 +1551,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 351.608,
+              "y": 703.364,
+              "width": 98,
+              "height": 17.199999999999932
+            },
+            "sourceText": "Arrest records of an arrest occurring on or about",
+            "condition": "record_scope_arrest_records_selected"
+          },
           "sourceOptionalCondition": "Supply the arrest date only when requesting the arrest-record scope."
         },
         {
@@ -1580,7 +1596,11 @@
           "identity": "Check Box3",
           "disposition": "PARTICIPANT_ELECTION_GENUINE",
           "unconditionallyRequiredBeforeFiling": false,
-          "sourceConditionClass": "CONDITIONAL_ELECTION"
+          "sourceConditionClass": "CONDITIONAL_ELECTION",
+          "isSelectionControl": true,
+          "routeDetermined": false,
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
         },
         {
           "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Agency",
@@ -1613,7 +1633,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 220.108,
+              "y": 686.364,
+              "width": 281,
+              "height": 17.199999999999932
+            },
+            "sourceText": "Arrest records of an arrest occurring on or about",
+            "condition": "record_scope_arrest_records_selected"
+          },
           "sourceOptionalCondition": "Supply the arresting agency only when requesting the arrest-record scope."
         },
         {
@@ -1647,6 +1679,8 @@
           "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "OFF_ROUTE",
+          "isSelectionControl": true,
+          "routeDetermined": false,
           "routeConditionThatMakesItInapplicable": "No charges were filed; the source excludes charging documents and eligible-charge court case records from this no-charge request."
         },
         {
@@ -1680,7 +1714,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 213.608,
+              "y": 642.8,
+              "width": 358.99999999999994,
+              "height": 17.200000000000045
+            },
+            "sourceText": "Charging documents created by the following prosecuting agency",
+            "condition": "record_scope_charging_documents_selected"
+          },
           "sourceOptionalCondition": "Supply the prosecuting agency only when requesting the charging-document scope."
         },
         {
@@ -1714,7 +1760,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 436.608,
+              "y": 618.364,
+              "width": 136.99999999999994,
+              "height": 17.199999999999932
+            },
+            "sourceText": "All records relating to the eligible charge(s) in court case number",
+            "condition": "record_scope_eligible_charge_records_selected"
+          },
           "sourceOptionalCondition": "Supply this case number only when requesting the eligible-charge court-record scope."
         },
         {
@@ -1748,14 +1806,26 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "OPTIONAL_CONTINUATION",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 108.108,
+              "y": 312.292,
+              "width": 468.99999999999994,
+              "height": 17.200000000000045
+            },
+            "sourceText": "Court that adjudicated the charge(s) or if charges were not filed",
+            "condition": "adjudicating_court_name_requires_second_line"
+          },
           "sourceOptionalCondition": "Use only when the court identity does not fit on CourtAdj1."
         },
         {
           "field": "az_record_sealing_arrest_no_charges-primary-filing-1.CourtCaseNum",
           "fieldName": "CourtCaseNum",
-          "printedLabel": "participant required field CourtCaseNum",
-          "effectiveLabel": "participant required field CourtCaseNum",
+          "printedLabel": "source field CourtCaseNum (label retained in official PDF)",
+          "effectiveLabel": "Court case number if charges were filed",
           "regionHeading": "CourtCaseNum",
           "sourceFieldInfo": {
             "field": "CourtCaseNum",
@@ -1774,11 +1844,15 @@
             "printedLabel": "source field CourtCaseNum (label retained in official PDF)"
           },
           "document": "az_record_sealing_arrest_no_charges-primary-filing-1",
-          "reason": "participant must supply this source field before filing",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "conditionalRequirement": null,
-          "identity": "CourtCaseNum"
+          "reason": "No charges were filed; Section I.2.c asks for a court case number only if charges were filed.",
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "requiredBeforeFiling": false,
+          "conditionalRequirement": "No charges were filed; Section I.2.c asks for a court case number only if charges were filed.",
+          "identity": "CourtCaseNum",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "unconditionallyRequiredBeforeFiling": false,
+          "sourceConditionClass": "OFF_ROUTE",
+          "routeConditionThatMakesItInapplicable": "No charges were filed; Section I.2.c asks for a court case number only if charges were filed."
         },
         {
           "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Count1",
@@ -1811,7 +1885,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_REPEATING_ROW",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 185.608,
+              "y": 271.292,
+              "width": 354.99999999999994,
+              "height": 17.200000000000045
+            },
+            "sourceText": "1. Count I:",
+            "condition": "actual_charged_count_1_exists"
+          },
           "sourceOptionalCondition": "Complete only for an actual charged count established by the record; do not invent a count or require four counts."
         },
         {
@@ -1845,7 +1931,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_REPEATING_ROW",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 190.608,
+              "y": 254.292,
+              "width": 349.99999999999994,
+              "height": 17.200000000000017
+            },
+            "sourceText": "2. Count II:",
+            "condition": "actual_charged_count_2_exists"
+          },
           "sourceOptionalCondition": "Complete only for an actual charged count established by the record; do not invent a count or require four counts."
         },
         {
@@ -1879,7 +1977,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_REPEATING_ROW",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 194.108,
+              "y": 236.51,
+              "width": 346.99999999999994,
+              "height": 17.200000000000017
+            },
+            "sourceText": "3. Count III:",
+            "condition": "actual_charged_count_3_exists"
+          },
           "sourceOptionalCondition": "Complete only for an actual charged count established by the record; do not invent a count or require four counts."
         },
         {
@@ -1913,7 +2023,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_REPEATING_ROW",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 2,
+            "rect": {
+              "x": 194.608,
+              "y": 219.51,
+              "width": 346.99999999999994,
+              "height": 17.200000000000017
+            },
+            "sourceText": "4. Count IV:",
+            "condition": "actual_charged_count_4_exists"
+          },
           "sourceOptionalCondition": "Complete only for an actual charged count established by the record; do not invent a count or require four counts."
         },
         {
@@ -1947,6 +2069,8 @@
           "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "OFF_ROUTE",
+          "isSelectionControl": true,
+          "routeDetermined": false,
           "routeConditionThatMakesItInapplicable": "No charges were filed; the source excludes charging documents and eligible-charge court case records from this no-charge request."
         },
         {
@@ -1979,7 +2103,11 @@
           "identity": "Check Box6",
           "disposition": "PARTICIPANT_ELECTION_GENUINE",
           "unconditionallyRequiredBeforeFiling": false,
-          "sourceConditionClass": "CONDITIONAL_ELECTION"
+          "sourceConditionClass": "CONDITIONAL_ELECTION",
+          "isSelectionControl": true,
+          "routeDetermined": false,
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
         },
         {
           "field": "az_record_sealing_arrest_no_charges-primary-filing-1.ArrestLoc",
@@ -2012,7 +2140,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "SOURCE_OPTIONAL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 3,
+            "rect": {
+              "x": 200.108,
+              "y": 687.619,
+              "width": 375.99999999999994,
+              "height": 17.199999999999932
+            },
+            "sourceText": "ADDITIONAL CASE RECORD INFORMATION (if known) a. Location of arrest",
+            "condition": "arrest_location_known"
+          },
           "sourceOptionalCondition": "Supply only if the arrest location is known."
         },
         {
@@ -2046,7 +2186,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "SOURCE_OPTIONAL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 3,
+            "rect": {
+              "x": 255.108,
+              "y": 670.619,
+              "width": 320.99999999999994,
+              "height": 17.199999999999932
+            },
+            "sourceText": "Name of the arresting agency",
+            "condition": "arresting_agency_known"
+          },
           "sourceOptionalCondition": "Supply only if the arresting agency is known."
         },
         {
@@ -2080,7 +2232,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "SOURCE_OPTIONAL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 3,
+            "rect": {
+              "x": 179.608,
+              "y": 652.619,
+              "width": 97,
+              "height": 17.199999999999932
+            },
+            "sourceText": "Date of arrest",
+            "condition": "arrest_date_known"
+          },
           "sourceOptionalCondition": "Supply only if the arrest date is known."
         },
         {
@@ -2114,7 +2278,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "SOURCE_OPTIONAL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 3,
+            "rect": {
+              "x": 369.608,
+              "y": 635.619,
+              "width": 205.99999999999994,
+              "height": 17.199999999999932
+            },
+            "sourceText": "Name of the prosecuting agency if charges were filed",
+            "condition": "charges_filed_and_prosecuting_agency_known"
+          },
           "sourceOptionalCondition": "Supply only if the prosecuting agency is known and charges were filed."
         },
         {
@@ -2148,7 +2324,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "OPTIONAL_CONTINUATION",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 3,
+            "rect": {
+              "x": 108.108,
+              "y": 618.619,
+              "width": 467.99999999999994,
+              "height": 17.199999999999932
+            },
+            "sourceText": "Name of the prosecuting agency if charges were filed",
+            "condition": "prosecuting_agency_name_requires_second_line"
+          },
           "sourceOptionalCondition": "Use only when the applicable prosecuting-agency name needs a second line."
         },
         {
@@ -2192,7 +2380,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SOURCE_OPTIONAL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 3,
+            "rect": {
+              "x": 368.108,
+              "y": 583.619,
+              "width": 208.99999999999994,
+              "height": 17.199999999999932
+            },
+            "sourceText": "Name of the justice court and the justice court case number if the case was initially filed in a justice court but was transferred to the superior court",
+            "condition": "justice_to_superior_transfer_and_justice_court_known"
+          },
           "sourceOptionalCondition": "Supply if known and the case began in justice court before transfer to superior court; the single source field spans two widgets."
         },
         {
@@ -2582,7 +2782,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_HISTORY_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 314.108,
+              "y": 627.764,
+              "width": 98,
+              "height": 17.200000000000045
+            },
+            "sourceText": "If yes, what was the date of your last petition?",
+            "condition": "prior_sealing_petition_in_this_case_answer_yes"
+          },
           "sourceOptionalCondition": "Supply only after answering Yes to the prior-petition question in Section III.1."
         },
         {
@@ -2635,7 +2847,11 @@
           "identity": "Check Box16",
           "disposition": "PARTICIPANT_ELECTION_GENUINE",
           "unconditionallyRequiredBeforeFiling": false,
-          "sourceConditionClass": "CONDITIONAL_ELECTION"
+          "sourceConditionClass": "CONDITIONAL_ELECTION",
+          "isSelectionControl": true,
+          "routeDetermined": false,
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
         },
         {
           "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Check Box17",
@@ -2717,7 +2933,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_HISTORY_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 236.108,
+              "y": 543.819,
+              "width": 98,
+              "height": 17.200000000000045
+            },
+            "sourceText": "If yes, what was the date you completed the non-monetary conditions of probation or sentence and were discharged by the court?",
+            "condition": "prior_case_sealed_answer_yes"
+          },
           "sourceOptionalCondition": "Supply only after answering Yes to the prior-sealing question in Section III.2."
         },
         {
@@ -2751,7 +2979,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_PENDING_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 188.108,
+              "y": 363.255,
+              "width": 387.99999999999994,
+              "height": 17.19999999999999
+            },
+            "sourceText": "If you have additional pending charges, please provide",
+            "condition": "additional_pending_charges_exist"
+          },
           "sourceOptionalCondition": "Supply only if the separate pending-charges response says additional pending charges exist."
         },
         {
@@ -2785,7 +3025,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_PENDING_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 195.108,
+              "y": 346.565,
+              "width": 380.99999999999994,
+              "height": 17.19999999999999
+            },
+            "sourceText": "If you have additional pending charges, please provide",
+            "condition": "additional_pending_charges_exist"
+          },
           "sourceOptionalCondition": "Supply only if the separate pending-charges response says additional pending charges exist."
         },
         {
@@ -2819,7 +3071,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_PENDING_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 224.608,
+              "y": 328.255,
+              "width": 97,
+              "height": 17.19999999999999
+            },
+            "sourceText": "If you have additional pending charges, please provide",
+            "condition": "additional_pending_charges_exist"
+          },
           "sourceOptionalCondition": "Supply only if the separate pending-charges response says additional pending charges exist."
         },
         {
@@ -2892,7 +3156,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "SOURCE_OPTIONAL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 90.1084,
+              "y": 244.692,
+              "width": 487.99959999999993,
+              "height": 17.19999999999999
+            },
+            "sourceText": "Is there anything else you would like the court to consider regarding this petition?",
+            "condition": "participant_elects_to_supply_additional_information_line_1"
+          },
           "sourceOptionalCondition": "Use only for further information the participant wants the court to consider; do not require every continuation line."
         },
         {
@@ -2926,7 +3202,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "SOURCE_OPTIONAL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 90.1084,
+              "y": 227.692,
+              "width": 487.99959999999993,
+              "height": 17.19999999999999
+            },
+            "sourceText": "Is there anything else you would like the court to consider regarding this petition?",
+            "condition": "participant_elects_to_supply_additional_information_line_2"
+          },
           "sourceOptionalCondition": "Use only for further information the participant wants the court to consider; do not require every continuation line."
         },
         {
@@ -2960,7 +3248,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "SOURCE_OPTIONAL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 90.1084,
+              "y": 210.692,
+              "width": 487.99959999999993,
+              "height": 17.19999999999999
+            },
+            "sourceText": "Is there anything else you would like the court to consider regarding this petition?",
+            "condition": "participant_elects_to_supply_additional_information_line_3"
+          },
           "sourceOptionalCondition": "Use only for further information the participant wants the court to consider; do not require every continuation line."
         },
         {
@@ -2993,7 +3293,11 @@
           "identity": "Check Box19",
           "disposition": "PARTICIPANT_ELECTION_GENUINE",
           "unconditionallyRequiredBeforeFiling": false,
-          "sourceConditionClass": "CONDITIONAL_ELECTION"
+          "sourceConditionClass": "CONDITIONAL_ELECTION",
+          "isSelectionControl": true,
+          "routeDetermined": false,
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
         },
         {
           "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Doc1",
@@ -3026,7 +3330,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_ATTACHMENT_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 90.1084,
+              "y": 167.692,
+              "width": 487.99959999999993,
+              "height": 17.19999999999999
+            },
+            "sourceText": "Attached is other pertinent documentation (non-originals). List attached documents",
+            "condition": "pertinent_attachment_1_exists"
+          },
           "sourceOptionalCondition": "List an actual attached document and use only as many lines as the attachments require."
         },
         {
@@ -3060,7 +3376,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_ATTACHMENT_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 90.1084,
+              "y": 150.692,
+              "width": 487.99959999999993,
+              "height": 17.19999999999999
+            },
+            "sourceText": "Attached is other pertinent documentation (non-originals). List attached documents",
+            "condition": "pertinent_attachment_2_exists"
+          },
           "sourceOptionalCondition": "List an actual attached document and use only as many lines as the attachments require."
         },
         {
@@ -3094,7 +3422,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_ATTACHMENT_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "page": 4,
+            "rect": {
+              "x": 90.1084,
+              "y": 133.692,
+              "width": 487.99959999999993,
+              "height": 17.19999999999999
+            },
+            "sourceText": "Attached is other pertinent documentation (non-originals). List attached documents",
+            "condition": "pertinent_attachment_3_exists"
+          },
           "sourceOptionalCondition": "List an actual attached document and use only as many lines as the attachments require."
         },
         {
@@ -3409,7 +3749,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+            "page": 1,
+            "rect": {
+              "x": 351.212,
+              "y": 264.655,
+              "width": 97.19800000000004,
+              "height": 15.452000000000055
+            },
+            "sourceText": "Arrest records of an arrest occurring on or about",
+            "condition": "record_scope_arrest_records_selected"
+          },
           "sourceOptionalCondition": "Complete only when the arrest-record scope is requested; the order election remains court-owned."
         },
         {
@@ -3443,7 +3795,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+            "page": 1,
+            "rect": {
+              "x": 220.212,
+              "y": 247.655,
+              "width": 356.198,
+              "height": 15.452000000000027
+            },
+            "sourceText": "Arrest records of an arrest occurring on or about",
+            "condition": "record_scope_arrest_records_selected"
+          },
           "sourceOptionalCondition": "Complete only when the arrest-record scope is requested; the order election remains court-owned."
         },
         {
@@ -3477,7 +3841,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "OPTIONAL_CONTINUATION",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+            "page": 1,
+            "rect": {
+              "x": 116.712,
+              "y": 229.655,
+              "width": 457.198,
+              "height": 15.451999999999998
+            },
+            "sourceText": "Arrest records of an arrest occurring on or about",
+            "condition": "arresting_agency_description_requires_second_line"
+          },
           "sourceOptionalCondition": "Use only when the applicable arresting-agency description needs a second line."
         },
         {
@@ -3540,7 +3916,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+            "page": 1,
+            "rect": {
+              "x": 435.212,
+              "y": 205.706,
+              "width": 141.19799999999998,
+              "height": 15.451999999999998
+            },
+            "sourceText": "Charging documents created by the following prosecuting agency",
+            "condition": "record_scope_charging_documents_selected"
+          },
           "sourceOptionalCondition": "Complete only when the corresponding record scope is requested; the order election remains court-owned."
         },
         {
@@ -3574,7 +3962,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "OPTIONAL_CONTINUATION",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+            "page": 1,
+            "rect": {
+              "x": 117.212,
+              "y": 186.706,
+              "width": 456.198,
+              "height": 15.451999999999998
+            },
+            "sourceText": "Charging documents created by the following prosecuting agency",
+            "condition": "prosecuting_agency_description_requires_second_line"
+          },
           "sourceOptionalCondition": "Use only when the applicable prosecuting-agency description needs a second line."
         },
         {
@@ -3637,7 +4037,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_SCOPE_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+            "page": 1,
+            "rect": {
+              "x": 434.712,
+              "y": 162.706,
+              "width": 140.19799999999998,
+              "height": 15.451999999999998
+            },
+            "sourceText": "All records relating to the eligible charge(s) in court case number",
+            "condition": "record_scope_eligible_charge_records_selected"
+          },
           "sourceOptionalCondition": "Complete only when the corresponding record scope is requested; the separate charged-case order caption Case remains applicable."
         },
         {
@@ -3671,7 +4083,19 @@
           "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
           "unconditionallyRequiredBeforeFiling": false,
           "sourceConditionClass": "CONDITIONAL_IDENTITY_DETAIL",
-          "sourceOptional": true,
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+            "sourceSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+            "page": 1,
+            "rect": {
+              "x": 368.573,
+              "y": 74.4028,
+              "width": 208.19799999999998,
+              "height": 15.451999999999998
+            },
+            "sourceText": "Name at the time of arrest, if not the same as above",
+            "condition": "name_at_arrest_differs_from_petitioner_name"
+          },
           "sourceOptionalCondition": "Supply only when the name at arrest differs from the petitioner name."
         },
         {

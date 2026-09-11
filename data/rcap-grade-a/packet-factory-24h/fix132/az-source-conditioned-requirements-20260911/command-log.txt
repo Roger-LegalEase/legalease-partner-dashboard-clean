@@ -4,11 +4,15 @@ PASS node --check scripts/lib/az-record-sealing-official-builder.mjs
 PASS node scripts/build-census-v1-az_record_sealing_arrest_no_charges-set.mjs
 PASS node scripts/build-census-v1-az_record_sealing_dismissal_not_guilty-set.mjs
 PASS node scripts/lib/az-record-sealing-required-fields.test.mjs
-  AZ_SOURCE_CONDITIONED_REQUIRED_FIELDS_PASS 42 dismissal rows; 7 arrest defects; 12 PDFs byte-identical
+  AZ_SOURCE_CONDITIONED_REQUIRED_FIELDS_PASS 42 dismissal rows; 33 exact sourceOptional proofs per route; 7 elections; arrest CourtCaseNum route-off; 12 PDFs byte-identical; 4 negative controls
 PASS node scripts/lib/az-record-sealing-court-mapping.test.mjs
   AZ record-sealing court mapping tests passed
 PASS node scripts/rcap-packet-recovery/chat1/test-az-filing-court.mjs
   10 positive cases; 40 rejected cases; exact metadata bindings for both families passed
+PASS node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set
+  PASS_COMPLETE 25/112 written; all nine counters zero
+PASS node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_dismissal_not_guilty-set
+  PASS_COMPLETE 24/112 written; all nine counters zero
 PASS git diff --check
 
 No raster was generated or read. No source PDF, product route, central state, release gate, or conviction family was changed.

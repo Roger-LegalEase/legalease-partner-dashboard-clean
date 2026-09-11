@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { BLANK_DISPOSITIONS } from '../rcap-packet-completeness/completeness-contract.mjs';
+import { auditPreparedInputs } from '../rcap-packet-completeness/verify-packet-completeness.mjs';
 
 const ROOT = path.resolve(new URL('../..', import.meta.url).pathname);
 const AZ_ROOT = path.join(ROOT, 'data/rcap-all50/overlays/census-v1/az');
@@ -29,6 +30,9 @@ const digest = file => crypto.createHash('sha256').update(fs.readFileSync(file))
 const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const mapEntries = map => map.maps.flatMap(document => document.canonicalRefusals.map(field => ({ ...field, documentRole: document.documentRole })));
 const key = (role, field) => `${role}.${field}`;
+const sourceOptionalRegistry = readJson(path.join(ROOT, 'scripts/rcap-packet-completeness/az-source-optional-registry.json'));
+assert.equal(sourceOptionalRegistry.entries.length, 33, 'Arizona closed sourceOptional registry must contain exactly 33 entries');
+const sourceOptionalByKey = new Map(sourceOptionalRegistry.entries.map(({ sourceSha256, field, ...proof }) => [`${sourceSha256}|${field}`, proof]));
 
 for (const [relative, expected] of Object.entries(EXPECTED_PDF_HASHES)) {
   assert.equal(digest(path.join(AZ_ROOT, relative)), expected, `pre-build PDF drift: ${relative}`);
@@ -82,8 +86,49 @@ for (const defect of dismissalDefect.rows.filter(row => !['Plaintiff', 'EnteredO
   assert.ok(row.conditionalRequirement, `${id} lacks the shared source condition on arrest route`);
 }
 for (const field of ['Check Box4', 'Check Box5']) {
-  assert.equal(arrestEntries.get(key('petition', field)).sourceConditionClass, 'OFF_ROUTE', `${field} lost the stronger no-charge route exclusion`);
+  const row = arrestEntries.get(key('petition', field));
+  assert.equal(row.sourceConditionClass, 'OFF_ROUTE', `${field} lost the stronger no-charge route exclusion`);
+  assert.equal(row.isSelectionControl, true, `${field} lost truthful source-selection metadata`);
+  assert.equal(row.completenessClass, undefined, `${field} election class must not override its stronger route-off disposition`);
 }
+
+for (const entries of [arrestEntries, dismissalEntries]) {
+  const optionalRows = [...entries.values()].filter(row => row.sourceOptional);
+  assert.equal(optionalRows.length, 33, 'each Arizona route must carry all 33 sourceOptional proof objects');
+  for (const row of optionalRows) {
+    assert.equal(typeof row.sourceOptional, 'object', `${row.documentRole}.${row.fieldName} sourceOptional was normalized to a boolean`);
+    const { sourcePath, sourceSha256, ...proof } = row.sourceOptional;
+    assert.ok(sourcePath && sourceSha256, `${row.documentRole}.${row.fieldName} sourceOptional identity is incomplete`);
+    assert.deepEqual(proof, sourceOptionalByKey.get(`${sourceSha256}|${row.fieldName}`), `${row.documentRole}.${row.fieldName} differs from the closed Arizona registry`);
+  }
+}
+
+const electionFields = ['Check Box2', 'Check Box3', 'Check Box4', 'Check Box5', 'Check Box6', 'Check Box16', 'Check Box19'];
+for (const field of electionFields) {
+  const dismissal = dismissalEntries.get(key('petition', field));
+  assert.equal(dismissal.isSelectionControl, true, `${field} is not classified as a source selection control`);
+  assert.equal(dismissal.completenessClass, 'participant_sworn_narrative_or_legal_election', `${field} lacks the trusted election refusal class`);
+  assert.equal(dismissal.routeDetermined, false, `${field} was incorrectly declared route-determined`);
+  const arrest = arrestEntries.get(key('petition', field));
+  assert.equal(arrest.isSelectionControl, true, `${field} lost source selection metadata on arrest route`);
+  if (!['Check Box4', 'Check Box5'].includes(field)) assert.equal(arrest.completenessClass, 'participant_sworn_narrative_or_legal_election');
+}
+
+const arrestCourtCaseNumber = arrestEntries.get(key('petition', 'CourtCaseNum'));
+assert.equal(arrestCourtCaseNumber.completenessDisposition, 'NOT_APPLICABLE_ON_THIS_ROUTE');
+assert.match(arrestCourtCaseNumber.routeConditionThatMakesItInapplicable, /only if charges were filed/);
+
+const proofSample = dismissalEntries.get(key('petition', 'ArrestOccured'));
+const auditSourceOptional = (row, writes = []) => auditPreparedInputs('synthetic-source-optional-control', 'synthetic-source-optional-control', {
+  fieldMap: { writes, refusals: [row] }, actualWrites: null, rendered: null, receipt: null, census: null, approval: null,
+});
+assert.equal(auditSourceOptional(proofSample).counters.unclassifiedBlanks, 0, 'closed Arizona sourceOptional proof must survive verifier normalization');
+assert.equal(auditSourceOptional({ ...proofSample, sourceOptional: { ...proofSample.sourceOptional, condition: 'caller_invented_condition' } }).counters.unclassifiedBlanks, 1, 'malformed sourceOptional proof must fail closed through the verifier');
+assert.equal(auditSourceOptional({ ...proofSample, sourceOptional: { ...proofSample.sourceOptional, sourceSha256: '436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1' } }).counters.unclassifiedBlanks, 1, 'foreign-source proof must fail closed through the verifier');
+const knownFactId = 'synthetic.source_optional_fact';
+const knownFactWrite = { fieldId: 'synthetic-known-write', fieldName: 'synthetic-known-write', effectiveLabel: 'Synthetic known write', factId: knownFactId };
+assert.equal(auditSourceOptional({ ...proofSample, factId: knownFactId }, [knownFactWrite]).counters.knownRequiredFieldsMissing, 1, 'known-fact safeguard must survive verifier normalization');
+assert.equal(auditSourceOptional({ ...proofSample, routeDetermined: true }).counters.requiredOptionsMissing, 1, 'route-determined safeguard must survive verifier normalization');
 
 for (const id of [
   'petition.Case', 'petition.CourtCaseNum', 'petition.EnteredOn',
@@ -105,4 +150,4 @@ for (const row of dismissalEntries.values()) {
   assert.ok(dismissalInstructions.includes(row.conditionalRequirement), `instructions omit condition for ${row.documentRole}.${row.fieldName}`);
 }
 
-console.log('AZ_SOURCE_CONDITIONED_REQUIRED_FIELDS_PASS 42 dismissal rows; 7 arrest defects; 12 PDFs byte-identical');
+console.log('AZ_SOURCE_CONDITIONED_REQUIRED_FIELDS_PASS 42 dismissal rows; 33 exact sourceOptional proofs per route; 7 elections; arrest CourtCaseNum route-off; 12 PDFs byte-identical; 4 negative controls');
