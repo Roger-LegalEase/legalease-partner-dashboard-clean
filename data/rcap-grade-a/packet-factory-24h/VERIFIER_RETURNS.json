@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 252,
-    "rows": 1315,
+    "returnDirectories": 253,
+    "rows": 1316,
     "independentVerdicts": 302,
-    "failRepairRequired": 29,
+    "failRepairRequired": 30,
     "passIndependent": 253
   },
   "failRepairRequiredFamilies": [
@@ -47,6 +47,7 @@
     "co_motion_seal_nonconviction-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "de_discretionary_superior_court-set",
+    "fl-10yr-bridge-set",
     "fl-early-juvenile-set",
     "il-seal-edu-set",
     "in_arrest_no_charges-set",
@@ -9714,6 +9715,50 @@
     },
     {
       "familyId": "fl-10yr-bridge-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7a7a484dced5c4033c518703aa683905a560c60b",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All88 declared write values are present within their intended document components, but correct placement and complete source-specific identity are not proved by that test. FL-VF01-01 records displaced/colliding values; FL-VF01-02 records wrong name order on page2 in both fixtures and omitted held boundary middle name.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The four declared manual/later fields are named, and the two-stage FDLE-certificate wait is explicit. Full authoritative-action comparison nevertheless finds missing court-stage sworn-affidavit/notarization and certified-order verification instructions. FL-VF01-03. The prior four-blank check was insufficient.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Fresh original-image review and independent Poppler word rectangles show ten distinct added-word locations colliding with source labels/parentheses across both fixtures, totaling18 source-word intersections. Fingerprint identity values also miss intended blank rows. FL-VF01-01 supersedes the previous automated visual PASS; successful raster transport does not erase visible defects.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "State objection, different prior relief, seal/timing/history problems and immigration are addressed, but Any hearing is a separate explicit exact-track stop and is absent. FL-VF01-04. Confirm hearing requirements with the clerk does not communicate the held attorney-review boundary.",
+          "findingReadFrom": "detail",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/fl-source-restored-20260911/review-evidence.json"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-fl-source-restored.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set",
+      "superseded": false
+    },
+    {
+      "familyId": "fl-10yr-bridge-set",
       "verdict": "BLOCKED_SOURCE",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -9740,7 +9785,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "fl-administrative-set",
