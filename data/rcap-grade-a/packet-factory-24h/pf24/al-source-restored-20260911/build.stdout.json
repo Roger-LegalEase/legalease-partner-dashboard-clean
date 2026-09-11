@@ -1,0 +1,46 @@
+{
+  "familyId": "al-pardon-set",
+  "status": "STOPPED",
+  "stopClass": "NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING",
+  "routeKeys": [
+    "obligation:track-only:AL:al-pardon"
+  ],
+  "packetComponents": [
+    "component:al-pardon-primary-filing-1"
+  ],
+  "directory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
+  "overlayDirectoryTouched": false,
+  "counters": {
+    "knownRequiredFieldsMissing": null,
+    "requiredFactsNotCollected": null,
+    "unclassifiedBlanks": null,
+    "incompleteRows": null,
+    "requiredOptionsMissing": null,
+    "requiredComponentsMissing": null,
+    "invisibleWrites": null,
+    "protectedWrites": null,
+    "visualDefects": null
+  },
+  "countersAreNullBecause": "no packet was built, so no counter was measured",
+  "sourceBinding": {
+    "sourceId": "official-form:ABPP-3",
+    "officialFormId": "ABPP-3",
+    "pathInArchive": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+    "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+    "byteLength": 160009,
+    "custody": "src05_worker_materialization_2026_09_02",
+    "resolvedThrough": "the corpus index custody declaration",
+    "boundBy": "exact_content_sha256",
+    "readBackFromTheBinary": {
+      "pageCount": 4,
+      "acroFieldCount": 30,
+      "indexClaimedPageCount": 4,
+      "indexClaimedAcroFieldCount": 30,
+      "agreesWithTheCommittedIndex": true
+    }
+  },
+  "why": "The source binds. The fill for this family was never written: at the time this builder was authored the bytes had never been present in any container this repository runs in, and a fill drafted against a form nobody could open would assert a capability that was never exercised. The next lane implements the census, the field map, the overlay and the two fixtures against these now-present bytes.",
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

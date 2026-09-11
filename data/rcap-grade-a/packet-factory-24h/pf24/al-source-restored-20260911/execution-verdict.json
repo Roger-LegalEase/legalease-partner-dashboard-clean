@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "pf24-al-source-restored-execution/v1",
+  "assignmentId": "PF24",
+  "familyId": "al-pardon-set",
+  "status": "STOPPED",
+  "requiredBase": "08d1157068ab93d7f5e2a3ecbecef548950a60c7",
+  "headBeforeReturn": "5cc3dcb2f11cc31a3f9090e63250208da9f8ec4b",
+  "sourceProof": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/source-verification.json",
+  "row": {
+    "itemId": "al-pardon-set",
+    "status": "STOPPED",
+    "stopClass": "NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING",
+    "jurisdiction": "AL",
+    "implementationStrategy": "official_pdf_fill",
+    "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
+    "overlayDirectoryTouched": false,
+    "routeKeys": [
+      "obligation:track-only:AL:al-pardon"
+    ],
+    "packetComponents": [
+      "component:al-pardon-primary-filing-1"
+    ],
+    "builtBy": "scripts/build-census-v1-al-pardon-set.mjs",
+    "buildStatus": "not_started",
+    "reviewStatus": "not_applicable_build_stopped",
+    "claim": "CLAIM_OK PF24 al-pardon-set (packet-build, grant set 44b4b8cf4652dc16)",
+    "source": {
+      "sourceId": "official-form:ABPP-3",
+      "officialFormId": "ABPP-3",
+      "pathInArchive": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+      "restoredIndexedCustodyPath": "private/source-imports/src05-worker-materialization-2026-09-02/LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+      "heldReferencePath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__ABPP-3__874e738a83c3.pdf",
+      "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+      "byteLength": 160009,
+      "pageCount": 4,
+      "acroFieldCount": 30,
+      "exact": true,
+      "boundBy": "exact_content_sha256",
+      "resolvedThrough": "the corpus index custody declaration"
+    },
+    "execution": {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_HUMAN_SOURCE_RETURNS_DIR=$PWD/private/human-source-returns RCAP_D_SOURCE_DIR=$PWD/private/source-imports/rcap-d-source-packs-2026-08-12 RCAP_NATIONWIDE_POOL_DIR=$PWD/private/source-imports/Nationwide_Recovery_Pool_2026-09-02 node scripts/build-census-v1-al-pardon-set.mjs",
+      "exitCode": 0,
+      "stdout": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/build.stdout.json",
+      "stderr": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/build.stderr.log",
+      "resultStatus": "STOPPED",
+      "resultStopClass": "NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING"
+    },
+    "completeness": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardon-set",
+      "writeMode": false,
+      "exitCode": 2,
+      "result": "REFUSED: --family al-pardon-set matches no auditable family. 303 are auditable at this head.",
+      "stdout": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/completeness.stdout.log",
+      "stderr": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/completeness.stderr.log"
+    },
+    "diagnosedBlocker": {
+      "materiallyDifferentCause": "The existing file is not a production packet builder. Its exact-source branch is intentionally limited to source binding and returns NOT_IMPLEMENTED_BEYOND_SOURCE_BINDING.",
+      "effect": "No field census, field map, overlay, fixture PDF, participant instructions, source receipt, or completeness counters are produced.",
+      "requiredNextWork": "A separately authorized implementation lane must build the census, field map, overlay, and canonical/boundary fixtures against the restored ABPP-3 bytes.",
+      "outsideThisAssignment": "This execution-only assignment prohibits script redesign."
+    },
+    "counters": {
+      "knownRequiredFieldsMissing": null,
+      "requiredFactsNotCollected": null,
+      "unclassifiedBlanks": null,
+      "incompleteRows": null,
+      "requiredOptionsMissing": null,
+      "requiredComponentsMissing": null,
+      "invisibleWrites": null,
+      "protectedWrites": null,
+      "visualDefects": null
+    },
+    "whyEveryCounterIsNull": "no packet was built, so no counter was measured",
+    "artifacts": [],
+    "packetsSelfVerified": 0,
+    "rasterState": "NOT_ENROLLED_BUILD_STOPPED",
+    "independentVerificationStatus": "NOT_APPLICABLE_BUILD_STOPPED",
+    "localRasterPerformed": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "checksSupported": {
+    "builderNoRasterMode": "The builder writes no artifacts and invokes no renderer.",
+    "builderCheckFlag": false,
+    "familyNonvisualCheck": false,
+    "reason": "The existing script defines no --check or nonvisual mode; passing an ignored flag would rerun the same source-binding refusal and would not verify a packet."
+  },
+  "grantsNothing": "This source-binding result is not a built packet, review, raster verdict, approval, commercial authority, or live-route change."
+}
