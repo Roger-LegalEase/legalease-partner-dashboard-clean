@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "vf62-complete-defect-list/v1",
+  "familyId": "ky_misdemeanor_expungement-set",
+  "reviewer": "/root/ky_current_independent",
+  "baseSha": "040caaf6c283e13cc5916f6bb38eb989632bfa9f",
+  "completeness": "Every identifiable issue from this bounded independent review is recorded once; cross-obligation impacts reference the same IDs.",
+  "blockingDefectGroups": 7,
+  "nonblockingObservations": 2,
+  "defects": [
+    {
+      "id": "KY-VF62-01",
+      "severity": "medium",
+      "obligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "finding": "The phone value overlaps the source’s preprinted parentheses on AOC-496.2 page 1 in every fixture and AOC-496 page 1 in boundary. The raw 859-555-0142 string starts inside the left parenthesis and runs through the right parenthesis. This is visible added-ink overlap, despite the appearance fitting inside its AcroForm rectangle.",
+      "occurrences": 7,
+      "currentArtifactDefect": true,
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/current-evidence-measurements.json#artifacts[].phoneOverlaps",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/original-page-review.json"
+      ],
+      "measurement": "Petition phone bbox [42.2888,287.929,104.5488,297.179] pt overlaps static left/right parenthesis boxes by 11.33125/27.72225 square pt. Original pixels corroborate the visible collisions. Order occurrence independently measured in the same evidence.",
+      "repairRequirement": "Fit the phone to the actual printed phone layout, including its fixed punctuation; verify both source forms and all resulting packet hashes.",
+      "blocking": true,
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    },
+    {
+      "id": "KY-VF62-02",
+      "severity": "medium",
+      "obligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "finding": "Every petition page 2 carries two superimposed versions of LIST AGENCIES AND ADDRESSES HERE. One is static source artwork (including ADRESSES) and the other is the retained Text1 default. The held source already contains the duplication; the current finalizer preserves it, so the source identity is correct but the delivered heading is visibly doubled.",
+      "occurrences": 6,
+      "currentArtifactDefect": true,
+      "sourceOrigin": true,
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/current-evidence-measurements.json#sources",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/current-evidence-measurements.json#artifacts[].agencyHeadingWords",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/original-page-review.json"
+      ],
+      "measurement": "First LIST word at [154.343,112.188,176.013,121.438] overlaps the static LIST at [156.6816,109.4203,178.3516,123.3603] pt. Source/output word boxes agree; no source repinning is proposed.",
+      "repairRequirement": "Resolve the duplicate source presentation in an authorized repair while preserving the official instruction and exact source custody; do not silently treat the raster geometry PASS as readable output.",
+      "blocking": true,
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    },
+    {
+      "id": "KY-VF62-03",
+      "severity": "high",
+      "obligations": [
+        "SELF_HELP_STOP"
+      ],
+      "finding": "The held KY-MISD self-help rule stops for any participant who is not a US citizen. All current guides weaken that to if immigration advice is needed, and the input validator accepts a record with no citizenship or immigration answer. It only rejects an explicitly true immigrationAdviceNeeded flag. A participant may not know that advice is needed.",
+      "currentArtifactDefect": true,
+      "evidence": [
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/01_LEGAL_REVIEW/KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md:311",
+        "data/record-clearing/legal-design-intake/KY.memo.json:512",
+        "scripts/rcap-packet-recovery/ky-misdemeanor.mjs:195",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#guideProbes",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#cases"
+      ],
+      "repairRequirement": "Carry the source’s explicit non-US-citizen stop into participant instructions and require the facts needed to apply it, without requiring the participant to diagnose their own immigration risk.",
+      "blocking": true,
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    },
+    {
+      "id": "KY-VF62-04",
+      "severity": "medium",
+      "obligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "finding": "The packet tells a participant with an already-granted in forma pauperis order that the clerk may accept filing without fee/certification, but gives no procedure to request that relief. The held review identifies a motion to proceed in forma pauperis with an affidavit of indigency under KRS 453.190. Neither the motion nor affidavit is named in any current guide, and no actionable referral for obtaining them is provided.",
+      "currentArtifactDefect": true,
+      "evidence": [
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/01_LEGAL_REVIEW/KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md:263",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/01_LEGAL_REVIEW/KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md:277",
+        "data/record-clearing/legal-design-intake/KY.memo.json:424",
+        "data/rcap-all50/overlays/census-v1/ky/ky-misdemeanor-expungement-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#guideProbes"
+      ],
+      "repairRequirement": "Add the source-backed motion/affidavit request steps or an exact clerk/legal-aid handoff for obtaining them. Preserve the unresolved refund and any waiver-scope limitations; this finding does not decide those legal questions.",
+      "blocking": true,
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    },
+    {
+      "id": "KY-VF62-05",
+      "severity": "medium",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "The certification attachment guide and filing guide refer only to the Kentucky expungement-certification supporting action. They do not identify the Administrative Office of the Courts Records Unit, the AOC-RU-009 request form, a request channel, or a working link to that action. The exact track’s supporting-document instruction supplies both issuer and request form. The required certification is acknowledged and its 30-day receipt window is preserved, but the standalone packet does not give a participant an actionable way to obtain it.",
+      "currentArtifactDefect": true,
+      "evidence": [
+        "data/record-clearing/legal-design-intake/KY.memo.json:431",
+        "data/rcap-all50/overlays/census-v1/ky/ky-misdemeanor-expungement-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#guideProbes",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/original-page-review.json"
+      ],
+      "repairRequirement": "Provide an identifiable, usable handoff to the certification supporting action or the held source’s issuer/request-form instructions. Do not generate a substitute eligibility certificate.",
+      "blocking": true,
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    },
+    {
+      "id": "KY-VF62-06",
+      "severity": "high",
+      "obligations": [
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS"
+      ],
+      "finding": "The exact route includes same-case dismissed or amended companion charges, but the builder requires a single classification for every charge and never collects/uses a charge-specific disposition or disposition date. Pure probes pass an explicitly dismissed or amended companion through validateKy; the actual scheduleSections function then describes it as convicted on the global record date. A mixed misdemeanor/violation case instead fails CHARGE_AND_RECORD_CLASSIFICATION_CONFLICT. The six retained fixtures are homogeneous and do not expose these failures.",
+      "currentArtifactDefect": false,
+      "scope": "Directly measured current-builder/source-contract defect, not a claim that any retained fixture contains an undisclosed dismissed charge.",
+      "evidence": [
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/01_LEGAL_REVIEW/KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md:186",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/01_LEGAL_REVIEW/KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md:325",
+        "data/record-clearing/legal-design-intake/KY.memo.json:273",
+        "scripts/rcap-packet-recovery/ky-misdemeanor.mjs:169",
+        "scripts/rcap-packet-recovery/ky-misdemeanor.mjs:423",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#cases",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#scheduleFunctionSource"
+      ],
+      "consequentialLegalAmbiguity": "The held review expressly leaves unresolved how clerks handle dismissed/amended charges on the 2016 AOC form. Independent acceptance cannot silently settle that issue.",
+      "repairRequirement": "Preserve each charge’s actual classification/disposition/date, and safely stop or explicitly hand off the unresolved companion-charge treatment until the exact form handling is decided. Do not silently relabel a dismissed/amended charge as convicted or claim complete route coverage from homogeneous fixtures.",
+      "blocking": true,
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    },
+    {
+      "id": "KY-VF62-07",
+      "severity": "medium",
+      "obligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "finding": "validateKy rejects every participant mailing state except KENTUCKY, even when the held source dropdown expressly permits the exact value Ohio and the case remains a Fayette County Kentucky case. The exact route restricts offense jurisdiction to Kentucky; it does not declare a Kentucky-residence requirement.",
+      "currentArtifactDefect": false,
+      "scope": "Current builder limitation independently reproduced; all retained fixtures happen to have Kentucky addresses.",
+      "evidence": [
+        "scripts/rcap-packet-recovery/ky-misdemeanor.mjs:160",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/01_LEGAL_REVIEW/KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md:197",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/current-evidence-measurements.json#sources[].fields[Def.Address.State]",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#cases"
+      ],
+      "repairRequirement": "Use the held source’s valid mailing-state options, preserving the Kentucky case/venue restriction separately.",
+      "blocking": true,
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    },
+    {
+      "id": "KY-VF62-08",
+      "severity": "low",
+      "blocking": false,
+      "obligations": [
+        "COMPONENT_SET"
+      ],
+      "finding": "The conditional continuation schedule is appended to every current packet even when no text used fallback and only one charge exists. The petitionUsedFallback comparison treats the selected checkbox’s undefined completeValue as unequal to true. Thus the canonical schedule is caused by the checkbox, not overflow. The extra schedule accurately repeats current facts and does not itself invalidate filing.",
+      "currentArtifactDefect": true,
+      "evidence": [
+        "scripts/rcap-packet-recovery/ky-misdemeanor.mjs:504",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#unconditionalScheduleTrigger"
+      ],
+      "repairRequirement": "Evaluate fallback only for relevant text writes so the declared conditional schedule trigger is truthful.",
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    },
+    {
+      "id": "KY-VF62-09",
+      "severity": "low",
+      "blocking": false,
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "Participant/court-facing custom pages expose internal identifiers: qualifying_traffic_infraction in the traffic schedules, Check Box2 through Check Box9 in the optional-order instructions, and source-receipt.json plus central-raster status in every filing guide. These are readable but do not help a participant find a printed form field or complete a filing step.",
+      "currentArtifactDefect": true,
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/source-contract-measurements.json#currentPdfTextPages",
+        "data/rcap-grade-a/packet-factory-24h/vf62/ky-current-20260911/original-page-review.json"
+      ],
+      "repairRequirement": "Use ordinary participant labels and printed section references; keep build metadata in review evidence.",
+      "status": "OPEN",
+      "measuredAgainstBase": "040caaf6c283e13cc5916f6bb38eb989632bfa9f"
+    }
+  ]
+}
