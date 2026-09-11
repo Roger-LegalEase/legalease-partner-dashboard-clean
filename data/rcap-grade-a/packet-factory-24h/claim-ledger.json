@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9f01c2f894f8d839e3f079b3204466ac2b0046d0",
+  "generatedAtCommit": "7188fc54bc3d1482799d49d27aabd98dfb12e0d5",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -8567,9 +8567,9 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF03 PASS_COMPLETE_INDEPENDENT at 5727d573f: fifteen of fifteen on the FIX59 bytes (canonical f11ec351, boundary 3b50486a; RASTER_PASS run 33983515494); synthesized square gone with the isolating control live; the FIX61 sweep reproduces 8 mismatched appearances, all the empty /Tx BMC EMC stream, 0 px outside any Rect, so no fitAppearancesToRect opt-in is owed. Return at data/rcap-grade-a/packet-factory-24h/vf03/rows.json (Captain release after integrating VF03 commit 3ca274df5)."
+      "released": true,
+      "releasedAt": "2026-09-11T06:15:04.802Z",
+      "releaseReason": "Complete independent return at 7188fc54; all15/all9 measured, original20page central run34568277548 bound to current bytes."
     },
     {
       "subjectType": "packet-family",
@@ -15048,7 +15048,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "469f5cae85850c7adcf91669b6720827ddf804cb3b163731ac8fc51361a4bcd7",
+  "claimsDigest": "8853e8eddf5856f982ba7251b6fe740a476867ecfab59697bcf9a6b49f85e1fd",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39761,6 +39761,15 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-11T05:58:05.407Z"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-11T06:15:04.802Z",
+      "reason": "Complete independent return at 7188fc54; all15/all9 measured, original20page central run34568277548 bound to current bytes."
     }
   ],
   "reissues": [
