@@ -1,0 +1,15 @@
+$ node --check scripts/build-census-v1-ca-1203-4-set.mjs
+PASS
+$ dedicated builder --self-test
+SELF_TEST_OK official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b
+$ dedicated builder --check
+CHECK_OK official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b
+$ packet completeness
+  ok   official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b PASS_COMPLETE                29/170 written
+
+  1 famil(ies) audited · 1 PASS_COMPLETE
+
+  counters: knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0
+$ PF12 claim assert
+ledger: /workspaces/legalease-partner-dashboard-clean/data/rcap-grade-a/packet-factory-24h/claim-ledger.json  (1033 claims, generatedAtCommit 78d2f386abb2a61187e16ae519ee00cd29fc74d0)
+CLAIM_OK PF12 official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b (packet-build, grant set 78f401b31bc4d51b)
