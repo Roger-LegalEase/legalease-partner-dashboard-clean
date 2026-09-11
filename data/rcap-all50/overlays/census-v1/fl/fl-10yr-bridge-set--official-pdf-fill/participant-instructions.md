@@ -24,7 +24,7 @@ Court-ordered expunction is discretionary. This packet does not promise relief a
 
 The ordinary declaration and signature line printed on the petition is not the required sworn affidavit. Before filing at the court stage, complete a separate sworn affidavit. Have that affidavit notarized unless you swear it before a deputy clerk.
 
-This four-component packet does not contain or invent a fifth affidavit component. Ask the circuit clerk or an attorney for the currently accepted affidavit format before filing.
+Obtain the currently accepted affidavit format from the circuit clerk or an attorney before filing.
 
 Ask the clerk of the court that sealed the record for a certified copy of the sealing order. Compare your answer to "On what date was the record sealed by court order?" against that certified copy, and correct the packet if they disagree.
 

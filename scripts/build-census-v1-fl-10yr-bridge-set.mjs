@@ -60,6 +60,32 @@ const SOURCE_PLACEMENTS = Object.freeze({
   page3_dob: { page: 3, x: 229, y: 619, width: 52, sourceBlank: { x: 228.49, width: 52.82, baseline: 617.845 } }
 });
 
+// Every declared write on the exact six-page source has an output box. These
+// boxes are also the ruler for the source/output byte difference below. The
+// ten corrected boxes above retain the additional source-caption measurements
+// that explain this repair; the remaining boxes preserve the existing map.
+const SOURCE_WRITE_BOXES = Object.freeze({
+  ...SOURCE_PLACEMENTS,
+  page1_dob: { page: 1, x: 45, y: 573, width: 106 },
+  page1_race: { page: 1, x: 157, y: 573, width: 116 },
+  page1_sex: { page: 1, x: 283, y: 573, width: 64 },
+  page1_mailing_address: { page: 1, x: 45, y: 547, width: 334 },
+  page1_mailing_city: { page: 1, x: 388, y: 547, width: 113 },
+  page1_mailing_state: { page: 1, x: 508, y: 547, width: 22 },
+  page1_mailing_zip: { page: 1, x: 535, y: 547, width: 32 },
+  page1_permanent_address: { page: 1, x: 45, y: 521, width: 334 },
+  page1_permanent_city: { page: 1, x: 388, y: 521, width: 113 },
+  page1_permanent_state: { page: 1, x: 508, y: 521, width: 22 },
+  page1_permanent_zip: { page: 1, x: 535, y: 521, width: 32 },
+  page1_email: { page: 1, x: 230, y: 495, width: 334 },
+  page1_arresting_agency: { page: 1, x: 143, y: 459, width: 420 },
+  page1_arrest_date_1: { page: 1, x: 63, y: 419, width: 64 },
+  page1_charge_1: { page: 1, x: 136, y: 419, width: 426 },
+  page2_name: { page: 2, x: 45, y: 686, width: 257 },
+  page2_dob: { page: 2, x: 309, y: 686, width: 125 },
+  page2_phone: { page: 2, x: 441, y: 686, width: 126 }
+});
+
 const FIXTURES = Object.freeze({
   canonical: {
     "participant.full_name": "Jordan Avery Reyes",
@@ -623,6 +649,138 @@ async function textOfPages(bytes) {
 const expectedWriteValue = (field, facts) => field.document === SOURCE_ID && field.field.endsWith(".page2_name")
   ? certifiedStatementName(facts) : sanitize(facts[field.factId]);
 
+const nonWhitespaceGlyphCount = text => Array.from(String(text)).filter(character => !/\s/u.test(character)).length;
+const itemIdentity = item => JSON.stringify([
+  item.text, Number(item.x.toFixed(3)), Number(item.y.toFixed(3)), Number(item.size.toFixed(3)),
+  item.width === null ? null : Number(item.width.toFixed(3)), item.baseFont
+]);
+
+function sourceWriteExpectations(fieldMaps, facts) {
+  const writes = fieldMaps.find(map => map.formNumber === SOURCE_ID)?.canonicalWrites ?? [];
+  return writes.flatMap(field => {
+    const id = field.field.slice(field.field.lastIndexOf(".") + 1);
+    const box = SOURCE_WRITE_BOXES[id];
+    assert.ok(box, `source write has no declared output box: ${field.field}`);
+    if (id === "page1_phone") {
+      const match = /^(\d{3})-(\d{3}-\d{4})$/.exec(facts[field.factId]);
+      assert.ok(match, "participant.phone must use 000-000-0000");
+      return [
+        { field: field.field, segment: "area_code", text: match[1], page: box.page,
+          x: box.areaCode.x, y: box.y, width: box.areaCode.width },
+        { field: field.field, segment: "local_number", text: match[2], page: box.page,
+          x: box.localNumber.x, y: box.y, width: box.localNumber.width }
+      ];
+    }
+    return [{ field: field.field, segment: null, text: expectedWriteValue(field, facts),
+      page: box.page, x: box.x, y: box.y, width: box.width }];
+  });
+}
+
+async function measureSourceOutputDifference(sourceBytes, packetBytes, facts, fieldMaps) {
+  const source = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
+  const packet = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
+  assert.equal(source.getPageCount(), 6, "source/output measurement expects the exact six-page source");
+  assert.equal(packet.getPageCount(), 8, "source/output measurement expects the complete eight-page packet");
+  const added = [];
+  const missingSourceItems = [];
+  let sourceTextItemsMatched = 0;
+  for (let pageIndex = 0; pageIndex < source.getPageCount(); pageIndex += 1) {
+    const sourceItems = extractTextItems(source.getPages()[pageIndex]);
+    const remaining = new Map();
+    for (const item of sourceItems) {
+      const key = itemIdentity(item);
+      if (!remaining.has(key)) remaining.set(key, []);
+      remaining.get(key).push(item);
+    }
+    for (const item of extractTextItems(packet.getPages()[pageIndex])) {
+      const key = itemIdentity(item);
+      const sourceMatches = remaining.get(key) ?? [];
+      if (sourceMatches.length) {
+        sourceMatches.pop();
+        sourceTextItemsMatched += 1;
+      } else added.push({ page: pageIndex + 1, ...item });
+    }
+    for (const items of remaining.values()) {
+      for (const item of items) missingSourceItems.push({ page: pageIndex + 1, text: item.text, x: item.x, y: item.y });
+    }
+  }
+
+  const expectations = sourceWriteExpectations(fieldMaps, facts).map(entry => ({ ...entry, matched: false }));
+  const measuredAddedTextRuns = [];
+  const outsideAddedTextRuns = [];
+  for (const item of added) {
+    const expectation = expectations.find(entry => !entry.matched && entry.page === item.page
+      && entry.text === item.text && Math.abs(entry.x - item.x) <= 0.02
+      && Math.abs(entry.y - item.y) <= 0.02 && item.width !== null
+      && item.width <= entry.width + 0.1);
+    const measured = {
+      page: item.page, text: item.text, x: item.x, y: item.y, width: item.width, size: item.size,
+      nonWhitespaceGlyphs: nonWhitespaceGlyphCount(item.text)
+    };
+    if (expectation) {
+      expectation.matched = true;
+      measuredAddedTextRuns.push({ ...measured, field: expectation.field, segment: expectation.segment });
+    } else outsideAddedTextRuns.push(measured);
+  }
+  const missingDeclaredWriteRuns = expectations.filter(entry => !entry.matched)
+    .map(({ matched, ...entry }) => entry);
+  const pageText = packet.getPages().map(page => groupIntoLines(extractTextItems(page))
+    .map(line => line.text).join(" ").replace(/\s+/g, " "));
+  const span = new Map([[SOURCE_ID, [0, 6]], [PETITION_ID, [6, 7]], [ORDER_ID, [7, 8]]]);
+  const declaredWritesMissingFromFinalBytes = [];
+  let declaredWritesVerifiedFromFinalBytes = 0;
+  for (const map of fieldMaps) {
+    const [start, end] = span.get(map.formNumber);
+    const componentText = pageText.slice(start, end).join(" ");
+    for (const field of map.canonicalWrites) {
+      if (field.field.endsWith(".page1_phone")) {
+        const runs = measuredAddedTextRuns.filter(run => run.field === field.field);
+        if (runs.length === 2) declaredWritesVerifiedFromFinalBytes += 1;
+        else declaredWritesMissingFromFinalBytes.push(field.field);
+      } else if (componentText.includes(expectedWriteValue(field, facts))) declaredWritesVerifiedFromFinalBytes += 1;
+      else declaredWritesMissingFromFinalBytes.push(field.field);
+    }
+  }
+  const sourceFields = source.getForm().getFields().length;
+  const outputFields = packet.getForm().getFields().length;
+  return {
+    method: "multiset difference of exact text runs on the six pinned source pages versus the first six final packet pages; every added run is consumed by one declared source write box",
+    sourcePagesCompared: 6, sourceTextItemsMatched, missingSourceItems,
+    sourceBoundDeclaredWrites: fieldMaps.find(map => map.formNumber === SOURCE_ID).canonicalWrites.length,
+    composedDeclaredWrites: fieldMaps.filter(map => map.formNumber !== SOURCE_ID)
+      .reduce((sum, map) => sum + map.canonicalWrites.length, 0),
+    declaredWritesVerifiedFromFinalBytes, declaredWritesMissingFromFinalBytes,
+    expectedAddedTextRuns: expectations.length, measuredAddedTextRuns, missingDeclaredWriteRuns,
+    addedTextRunsReadFromOutputBytes: added.length,
+    addedGlyphsReadFromOutputBytes: added.reduce((sum, item) => sum + nonWhitespaceGlyphCount(item.text), 0),
+    nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: outsideAddedTextRuns
+      .reduce((sum, item) => sum + item.nonWhitespaceGlyphs, 0),
+    outsideAddedTextRuns,
+    flattenedWidgetAppearancesReadFromOutputBytes: outputFields === 0 && sourceFields === 0 ? 0 : null,
+    widgetMeasurement: {
+      method: "enumerated AcroForm fields in the exact source and final packet bytes; neither contains a widget that could be filled or flattened",
+      sourceInteractiveFields: sourceFields, outputInteractiveFields: outputFields,
+      status: outputFields === 0 && sourceFields === 0 ? "MEASURED_NO_WIDGET_APPEARANCES" : "UNKNOWN"
+    }
+  };
+}
+
+function assertSourceOutputMeasurement(measurement, expectedDeclaredWrites) {
+  assert.equal(measurement.missingSourceItems.length, 0, "final packet dropped or moved exact source text");
+  assert.equal(measurement.missingDeclaredWriteRuns.length ?? 0, 0);
+  assert.equal(measurement.declaredWritesMissingFromFinalBytes.length, 0,
+    "a declared write is absent from final packet bytes");
+  assert.equal(measurement.declaredWritesVerifiedFromFinalBytes, expectedDeclaredWrites,
+    "not every declared write was verified from final bytes");
+  assert.equal(measurement.measuredAddedTextRuns.length, measurement.expectedAddedTextRuns,
+    "not every expected source write run was measured");
+  assert.equal(measurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, 0,
+    "final source pages contain undeclared or out-of-box added ink");
+  assert.equal(measurement.flattenedWidgetAppearancesReadFromOutputBytes, 0,
+    "widget appearance count is not measurable as zero for this flat source packet");
+  return true;
+}
+
 function assertPlacementItems(itemsByPage, facts) {
   const close = (actual, expected, message) => assert.ok(Math.abs(actual - expected) <= 0.02,
     `${message}: ${actual} != ${expected}`);
@@ -696,11 +854,14 @@ async function assembleFixture(source, fixtureName, facts, fieldMaps) {
   }
   const bytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
   await assertOfficialOverlayPlacements(bytes, facts);
+  const declaredWriteCount = fieldMaps.reduce((sum, map) => sum + map.canonicalWrites.length, 0);
+  const byteMeasurement = await measureSourceOutputDifference(source, bytes, facts, fieldMaps);
+  assertSourceOutputMeasurement(byteMeasurement, declaredWriteCount);
   const rel = `${OUT}/fixtures/${fixtureName}.pdf`;
   fs.writeFileSync(path.join(ROOT, rel), bytes);
   const pagesText = await textOfPages(bytes);
   const actualWrites = [];
-  let glyphs = 0;
+  let declaredValueNonWhitespaceCharacters = 0;
   for (const map of fieldMaps) {
     const span = spans.get(map.formNumber);
     const documentText = pagesText.slice(span.start, span.end).join(" ").replace(/\s+/g, " ");
@@ -710,7 +871,7 @@ async function assembleFixture(source, fixtureName, facts, fieldMaps) {
       const splitPhone = field.document === SOURCE_ID && field.field.endsWith(".page1_phone");
       if (!splitPhone) assert.ok(documentText.includes(expected),
         `${fixtureName} ${field.field}: expected value is not readable from final packet bytes`);
-      glyphs += expected.replace(/\s+/g, "").length;
+      declaredValueNonWhitespaceCharacters += nonWhitespaceGlyphCount(expected);
       actualWrites.push({
         field: field.field, document: map.formNumber, factId: field.factId,
         expected,
@@ -728,7 +889,7 @@ async function assembleFixture(source, fixtureName, facts, fieldMaps) {
   return {
     fixture: fixtureName, file: rel, sha256: sha256(bytes), byteLength: bytes.length,
     pageCount: packet.getPageCount(), pageManifest: manifest, documents: COMPONENTS,
-    actualWrites, glyphs
+    actualWrites, declaredValueNonWhitespaceCharacters, byteMeasurement
   };
 }
 
@@ -758,7 +919,7 @@ function participantInstructions(items, service, requirements) {
   out.push(
     "", "## Court-stage sworn completion and sealing-order check", "",
     "The ordinary declaration and signature line printed on the petition is not the required sworn affidavit. Before filing at the court stage, complete a separate sworn affidavit. Have that affidavit notarized unless you swear it before a deputy clerk.", "",
-    "This four-component packet does not contain or invent a fifth affidavit component. Ask the circuit clerk or an attorney for the currently accepted affidavit format before filing.", "",
+    "Obtain the currently accepted affidavit format from the circuit clerk or an attorney before filing.", "",
     "Ask the clerk of the court that sealed the record for a certified copy of the sealing order. Compare your answer to \"On what date was the record sealed by court order?\" against that certified copy, and correct the packet if they disagree.", "",
     "## Certificate of service", "",
     "The records this packet is built from state a service requirement for the court stage, in these words:", "",
@@ -779,7 +940,7 @@ function assertGuidanceRequirements(instructions, requirements) {
     "ordinary declaration and signature line printed on the petition is not the required sworn affidavit",
     "complete a separate sworn affidavit",
     "notarized unless you swear it before a deputy clerk",
-    "does not contain or invent a fifth affidavit component",
+    "Obtain the currently accepted affidavit format from the circuit clerk or an attorney before filing",
     "clerk of the court that sealed the record for a certified copy of the sealing order",
     "Compare your answer to \"On what date was the record sealed by court order?\" against that certified copy, and correct the packet if they disagree",
     "any hearing is required or set"
@@ -818,6 +979,8 @@ async function inspectCurrentBuild(source, fieldMaps, requirements) {
   const fieldMap = readRepoJson(`${OUT}/production-field-map.json`);
   assert.deepEqual(fieldMap.sourceMeasuredPlacements, SOURCE_PLACEMENTS,
     "production field map does not preserve the measured source placements");
+  assert.deepEqual(fieldMap.sourceWriteBoxes, SOURCE_WRITE_BOXES,
+    "production field map does not preserve every declared source write box");
   assert.deepEqual(fieldMap.courtStagePrerequisites, requirements,
     "production field map does not preserve the held court-stage prerequisites");
   assert.deepEqual(fieldMap.componentSet, COMPONENTS);
@@ -825,6 +988,7 @@ async function inspectCurrentBuild(source, fieldMaps, requirements) {
   assert.equal(fieldMap.maps.reduce((sum, map) => sum + map.canonicalWrites.length, 0), expectedMapCount);
 
   const rendered = readRepoJson(`${OUT}/reports/rendered-artifacts.json`);
+  const actualWrites = readRepoJson(`${OUT}/reports/actual-writes.json`);
   assert.equal(rendered.artifacts.length, 2);
   const artifactResults = [];
   for (const fixtureName of ["canonical", "boundary"]) {
@@ -842,6 +1006,19 @@ async function inspectCurrentBuild(source, fieldMaps, requirements) {
     assert.ok(artifact.pageManifest.slice(0, 6).every(page => page.sourceSha256 === EXPECTED_SOURCE_SHA256));
     assert.deepEqual(artifact.pageManifest.slice(6).map(page => page.component), [PETITION_ID, ORDER_ID]);
     await assertOfficialOverlayPlacements(bytes, FIXTURES[fixtureName]);
+    const measurement = await measureSourceOutputDifference(source, bytes, FIXTURES[fixtureName], fieldMaps);
+    assertSourceOutputMeasurement(measurement, expectedMapCount);
+    const actualDocument = actualWrites.documents.find(entry => entry.fixture === fixtureName);
+    const actualArtifact = actualWrites.artifacts.find(entry => entry.fixture === fixtureName);
+    assert.ok(actualDocument && actualArtifact, `actual-writes report missing ${fixtureName}`);
+    assert.deepEqual(actualDocument.sourceOutputDifferenceMeasurement, measurement,
+      `${fixtureName} detailed source/output measurement is stale`);
+    for (const key of ["addedGlyphsReadFromOutputBytes", "flattenedWidgetAppearancesReadFromOutputBytes",
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes"]) {
+      assert.equal(actualDocument[key], measurement[key], `${fixtureName} ${key} is stale`);
+      assert.equal(actualArtifact[key], measurement[key], `${fixtureName} artifact ${key} is stale`);
+    }
+    assert.equal(actualArtifact.declaredWritesVerifiedFromFinalBytes, expectedMapCount);
     artifactResults.push({ fixture: fixtureName, sha256: artifact.sha256, byteLength: artifact.byteLength, pageCount: 8 });
   }
   const counters = readRepoJson(`${OUT}/reports/completeness-counters.json`);
@@ -916,7 +1093,15 @@ function countCompleteness(fieldMaps, artifacts, instructions) {
   }
   for (const field of writes) if (classifyField(field.label, field.isSelectionControl).requirement === "PROTECTED") note("protectedWrites", { field: field.id });
   for (const artifact of artifacts) {
-    if (artifact.actualWrites.length > 0 && artifact.glyphs === 0) note("invisibleWrites", { fixture: artifact.fixture });
+    const measurement = artifact.byteMeasurement;
+    const visible = [measurement.addedGlyphsReadFromOutputBytes,
+      measurement.flattenedWidgetAppearancesReadFromOutputBytes]
+      .filter(value => typeof value === "number").reduce((sum, value) => sum + value, 0);
+    if (artifact.actualWrites.length > 0 && visible === 0) note("invisibleWrites", { fixture: artifact.fixture });
+    if (measurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes > 0) note("visualDefects", {
+      fixture: artifact.fixture,
+      glyphsOutsideMeasuredBoxes: measurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes
+    });
   }
   return { counters, findings, ledger };
 }
@@ -986,6 +1171,7 @@ async function run(argv = process.argv.slice(2)) {
     routeSelectionNote: "This family is fixed to the expunction branch for the same record after at least ten years under a court sealing order; no alternate relief election is left to the participant.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     sourceMeasuredPlacements: SOURCE_PLACEMENTS,
+    sourceWriteBoxes: SOURCE_WRITE_BOXES,
     courtStagePrerequisites: requirements,
     selfHelpStopConditions: [requirements.hearingStop],
     maps: fieldMaps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
@@ -994,7 +1180,7 @@ async function run(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID,
     renderedFresh: true, derivedFromBytes: true, componentSet: COMPONENTS,
     pdfs: artifacts.map((a) => ({ file: a.file, documentId: "assembled_packet", role: "assembled_packet", fixture: a.fixture, sha256: a.sha256, byteLength: a.byteLength, pageCount: a.pageCount })),
-    artifacts: artifacts.map(({ actualWrites, glyphs, ...artifact }) => artifact),
+    artifacts: artifacts.map(({ actualWrites, declaredValueNonWhitespaceCharacters, byteMeasurement, ...artifact }) => artifact),
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     everyPageRastered: false, byteDerivedHashes: true, rasterEngine: null,
     rasterSkipped: true, rasterPages: [], independentVerificationPending: true
@@ -1005,13 +1191,28 @@ async function run(argv = process.argv.slice(2)) {
     note: "Every reported value was extracted from its final component; each affected flat-source write was also verified at its exact measured placement, including the phone segments around the source-printed parentheses.",
     documents: artifacts.map((a) => ({
       fixture: a.fixture, valuesReportedByFinalizer: a.actualWrites.length,
-      addedGlyphsReadFromOutputBytes: a.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: 0,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [], actualWrites: a.actualWrites
+      declaredValueNonWhitespaceCharacters: a.declaredValueNonWhitespaceCharacters,
+      addedGlyphsReadFromOutputBytes: a.byteMeasurement.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: a.byteMeasurement.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: a.byteMeasurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      refusedFieldsWithInk: [],
+      refusedFieldInkMeasurement: "Every added source-page text run was consumed by a declared write box; no added run remained for a refused source field. The saved composed output contains only the authored blank labels and lines for protected fields.",
+      sourceOutputDifferenceMeasurement: a.byteMeasurement,
+      actualWrites: a.actualWrites
     })),
     artifacts: artifacts.map((a) => ({
       fixture: a.fixture, valuesReportedByFinalizer: a.actualWrites.length,
-      addedGlyphsReadFromOutputBytes: a.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: 0,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: []
+      addedGlyphsReadFromOutputBytes: a.byteMeasurement.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: a.byteMeasurement.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: a.byteMeasurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      refusedFieldsWithInk: [],
+      measurementMethod: a.byteMeasurement.method,
+      sourcePagesCompared: a.byteMeasurement.sourcePagesCompared,
+      sourceBoundDeclaredWrites: a.byteMeasurement.sourceBoundDeclaredWrites,
+      composedDeclaredWritesVerifiedFromFinalBytes: a.byteMeasurement.composedDeclaredWrites,
+      declaredWritesVerifiedFromFinalBytes: a.byteMeasurement.declaredWritesVerifiedFromFinalBytes,
+      addedTextRunsReadFromOutputBytes: a.byteMeasurement.addedTextRunsReadFromOutputBytes,
+      widgetMeasurement: a.byteMeasurement.widgetMeasurement
     })), blockingFindings: []
   });
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
@@ -1084,8 +1285,8 @@ if (path.resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)) {
 
 export {
   DEFAULT_SOURCE, EXPECTED_SOURCE_LENGTH, EXPECTED_SOURCE_SHA256, FIXTURES, OUT,
-  SOURCE_PLACEMENTS, assertGuidanceRequirements, assertHeldNameParts,
-  assertOfficialOverlayPlacements, assertPlacementItems, certifiedStatementName,
-  courtStageRequirements, inspectCurrentBuild, joinedLegalName, maps,
-  participantInstructions, run, sourceBytes
+  SOURCE_PLACEMENTS, SOURCE_WRITE_BOXES, assertGuidanceRequirements, assertHeldNameParts,
+  assertOfficialOverlayPlacements, assertPlacementItems, assertSourceOutputMeasurement,
+  certifiedStatementName, courtStageRequirements, inspectCurrentBuild, joinedLegalName,
+  maps, measureSourceOutputDifference, participantInstructions, run, sourceBytes
 };

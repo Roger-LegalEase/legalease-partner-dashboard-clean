@@ -17,7 +17,8 @@
         "FL-VF01-02",
         "FL-VF01-03",
         "FL-VF01-04",
-        "CHECK-READ-ONLY"
+        "CHECK-READ-ONLY",
+        "MEASUREMENT-FOLLOWTHROUGH"
       ],
       "obligationsRepaired": [
         "KNOWN_PREFILLS",
@@ -81,11 +82,19 @@
         "declaredTerminalsPerFixture": 140,
         "measuredCorrectedSourcePlacements": 10,
         "heldCourtStageActions": 4,
-        "conditionalDocumentsChanged": 0
+        "conditionalDocumentsChanged": 0,
+        "sourceBoundWritesMeasuredPerFixture": 28,
+        "composedWritesVerifiedFromFinalBytesPerFixture": 16,
+        "addedTextRunsMeasuredPerFixture": 29,
+        "canonicalAddedGlyphsMeasured": 249,
+        "boundaryAddedGlyphsMeasured": 425,
+        "outsideBoxGlyphsMeasuredPerFixture": 0,
+        "flattenedWidgetAppearancesMeasuredPerFixture": 0,
+        "measurementUnknowns": 0
       },
       "verification": {
         "focusedTests": {
-          "pass": 8,
+          "pass": 9,
           "fail": 0,
           "exitCode": 0
         },
@@ -116,6 +125,10 @@
         "readOnlyMetadataProof": {
           "filesInspected": 13,
           "hashesAndMetadataUnchanged": true
+        },
+        "outOfBoxNegative": {
+          "injectedGlyphs": 8,
+          "refused": true
         }
       },
       "rasterState": "BUILT_RASTER_PENDING",
@@ -132,7 +145,8 @@
         "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/check-readonly.json",
         "data/rcap-grade-a/packet-factory-24h/fix05/fl-bridge-complete-20260911/deterministic-rebuild.json"
       ],
-      "claim": "CLAIM_OK FIX05 fl-10yr-bridge-set (repair, grant set fbce99771136d46d)"
+      "claim": "CLAIM_OK FIX05 fl-10yr-bridge-set (repair, grant set fbce99771136d46d)",
+      "followup": "Replaced hardcoded counters with exact pinned-source versus final-byte measurements for every declared write; participant instructions now use only actionable affidavit guidance."
     }
   ]
 }

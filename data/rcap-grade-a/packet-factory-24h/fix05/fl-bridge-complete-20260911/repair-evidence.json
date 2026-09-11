@@ -309,8 +309,8 @@
   "verification": {
     "focusedTests": {
       "command": "node --test scripts/rcap-packet-recovery/fl-bridge-complete.test.mjs",
-      "tests": 8,
-      "pass": 8,
+      "tests": 9,
+      "pass": 9,
       "fail": 0,
       "exitCode": 0
     },
@@ -339,9 +339,14 @@
       "runs": 2,
       "sameOutputHashes": true
     },
-    "localRasterRun": false
+    "localRasterRun": false,
+    "outOfBoxNegative": {
+      "injectedText": "STRAYINK",
+      "measuredOutsideGlyphs": 8,
+      "refusedByRealMeasurementPath": true
+    }
   },
-  "substantiveVerdict": "All four assigned defect groups and read-only check behavior are repaired in current bytes. Exact-source, source-content geometry, field-map, saved-byte text, guidance, completeness, and deterministic checks pass. Fresh central GitHub raster and independent acceptance remain pending.",
+  "substantiveVerdict": "All assigned repairs remain complete. Actual exact-source/output measurement verifies all 44 declared writes per fixture, measures added glyphs, widget appearances, and out-of-box ink without hardcoded zeros, and rejects injected stray ink. PDFs remain byte-identical to the accepted repair. Fresh central GitHub raster and independent acceptance remain pending.",
   "files": {
     "builder": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
     "test": "scripts/rcap-packet-recovery/fl-bridge-complete.test.mjs",
@@ -373,21 +378,63 @@
       "byteLength": 839
     },
     "check-readonly.json": {
-      "sha256": "adb719a311418b1b25be7361a8ac24695a42aa2c6cf1259bee7b6bc393fbbe0e",
-      "byteLength": 7890
+      "sha256": "6949655355afacd549d77e24d72de14674b05b08077f1977fd1e2b2effc8be7c",
+      "byteLength": 7942
     },
     "completeness.log": {
       "sha256": "3410911f262a4da432da21e4c0eaab21839e19878746053fc8538eb6ff89f705",
       "byteLength": 391
     },
     "deterministic-rebuild.json": {
-      "sha256": "01094015f77736c1207ee98b2690dd1aa597764e483724c97f19f541dec8a74d",
+      "sha256": "78efd138bbe46f4bb9c871c2ddbb5a1e822780a3f202b128678c95de8bea9b3d",
       "byteLength": 7292
     },
     "focused-tests.log": {
-      "sha256": "3c7c9e41d32e798d52cff4b22776c934f9233efc240bf640de8766738faf18ef",
-      "byteLength": 906
+      "sha256": "6f531c8f726c53800ad77d09f1347ab3b1d3bbcc7e59988d59280b2cfb4ab870",
+      "byteLength": 993
     }
   },
-  "claim": "CLAIM_OK FIX05 fl-10yr-bridge-set (repair, grant set fbce99771136d46d)"
+  "claim": "CLAIM_OK FIX05 fl-10yr-bridge-set (repair, grant set fbce99771136d46d)",
+  "followup": "Captain integration follow-through at commit 7dbf90dff: replaced hardcoded/expected-value counters with actual exact-source versus saved-output measurement; removed internal component-design prose from participant instructions.",
+  "sourceOutputMeasurement": {
+    "canonical": {
+      "sourcePagesCompared": 6,
+      "sourceTextItemsMatched": 1225,
+      "sourceBoundDeclaredWrites": 28,
+      "composedDeclaredWritesVerifiedFromFinalBytes": 16,
+      "allDeclaredWritesVerifiedFromFinalBytes": 44,
+      "addedTextRunsReadFromOutputBytes": 29,
+      "addedGlyphsReadFromOutputBytes": 249,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "widgetMeasurement": {
+        "method": "enumerated AcroForm fields in the exact source and final packet bytes; neither contains a widget that could be filled or flattened",
+        "sourceInteractiveFields": 0,
+        "outputInteractiveFields": 0,
+        "status": "MEASURED_NO_WIDGET_APPEARANCES"
+      },
+      "missingSourceItems": 0,
+      "missingDeclaredWriteRuns": 0
+    },
+    "boundary": {
+      "sourcePagesCompared": 6,
+      "sourceTextItemsMatched": 1225,
+      "sourceBoundDeclaredWrites": 28,
+      "composedDeclaredWritesVerifiedFromFinalBytes": 16,
+      "allDeclaredWritesVerifiedFromFinalBytes": 44,
+      "addedTextRunsReadFromOutputBytes": 29,
+      "addedGlyphsReadFromOutputBytes": 425,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "widgetMeasurement": {
+        "method": "enumerated AcroForm fields in the exact source and final packet bytes; neither contains a widget that could be filled or flattened",
+        "sourceInteractiveFields": 0,
+        "outputInteractiveFields": 0,
+        "status": "MEASURED_NO_WIDGET_APPEARANCES"
+      },
+      "missingSourceItems": 0,
+      "missingDeclaredWriteRuns": 0
+    }
+  },
+  "measurementUnknowns": []
 }
