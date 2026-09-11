@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "rcap-fix06-fl-early-source-geometry-repair-evidence/v1",
+  "assignmentId": "FIX06",
+  "assignedBase": "2e900757aed813504bc7a0b38693c47f63737b72",
+  "branch": "fix06-fl-early-geometry-20260911",
+  "familyId": "fl-early-juvenile-set",
+  "preflight": {
+    "worktree": "/tmp/rcap-fix06-tx-route-20260911",
+    "headMatchedAssignedBase": true,
+    "initialStatus": "only the expected untracked private symlink",
+    "grant": "CLAIM_OK FIX06 fl-early-juvenile-set (repair, grant set 363e1994019fad31)",
+    "grantLedgerGeneratedAtCommit": "b2cb08b4e9c42201ded34ae873e4b612f0392e34"
+  },
+  "source": {
+    "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-EARLY-JUVENILE-SET__FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION__d9417ea382c9.pdf",
+    "sha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+    "byteLength": 22449,
+    "pageCount": 5,
+    "custodyDetermination": "Build from the owner-custodied current FDLE early-juvenile application rendering.",
+    "sourceBytesChanged": false,
+    "sourceIdentityChanged": false
+  },
+  "causeAndCorrection": {
+    "priorMeasuredDefects": [
+      "page 1 arresting-agency text began at x=143/y=459 and crossed the source rule at y=464.674",
+      "page 3 surname began at x=65/y=704 and entered the printed Name: caption ending at x=71.96",
+      "actual-writes.json emitted literal zero geometry and appearance counters",
+      "completeness-counters.json and the builder result emitted literal allNineZero/nineCountersZero booleans"
+    ],
+    "additionalSameFunctionMeasurementsAuthorizedDuringRepair": [
+      "page 1 arrest-date and charge writes at y=419 crossed their source row rule at y=424.524; both now use y=427",
+      "the exact page 2 caption says Name (Last, First Middle), while the prior overlay emitted first-middle-last; the overlay now formats the held parts as last, first middle without changing the held full-name fact",
+      "the three page 1 legal-name writes remain at y=686 after exact glyph-bbox measurement proved they occupy their original named source regions",
+      "the page 1 phone remains at x=386/y=573 after source measurement proved it clears the printed closing parenthesis ending at x=384.216"
+    ],
+    "correctedPlacements": {
+      "page1_arresting_agency": {"before": {"x": 143, "y": 459, "width": 420}, "after": {"x": 136, "y": 467, "width": 427}},
+      "page1_arrest_date_1": {"beforeY": 419, "afterY": 427},
+      "page1_charge_1": {"beforeY": 419, "afterY": 427},
+      "page3_last_name": {"before": {"x": 65, "y": 704, "width": 145}, "after": {"x": 75, "y": 704, "width": 139}}
+    },
+    "measurementRepair": "All 28 writes now have a named source caption and rule contract. The builder diffs text runs in the pinned source and final PDF, derives true Helvetica glyph bounds, assigns every added run to one source region, reads widget appearance objects from the PDF object graph, and fails before writing an artifact when a run is absent or leaves its region.",
+    "negativeCases": ["missing fact", "unfittable overflow", "coordinate drift", "source-anchor drift"]
+  },
+  "finalArtifacts": [
+    {"fixture": "canonical", "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "3f9c04c1740a45cd011e5898b71eda0457aca252e6c3bfc48f7e6215bc3b7d38", "byteLength": 28234, "pageCount": 5, "writesMeasured": 28, "addedGlyphsReadFromOutputBytes": 284, "widgetAppearancesReadFromSourceBytes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 0, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0},
+    {"fixture": "boundary", "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "87d6b842cf636c21fc2a76a5bd1054ae40f311c5aba5b30b9e9f27903c94104e", "byteLength": 28371, "pageCount": 5, "writesMeasured": 28, "addedGlyphsReadFromOutputBytes": 428, "widgetAppearancesReadFromSourceBytes": 0, "flattenedWidgetAppearancesReadFromOutputBytes": 0, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0}
+  ],
+  "boundaryReadback": {
+    "heldFullName": "Maria-Alejandra Isabel O'Shaughnessy-Whitfield",
+    "page2PrintedValue": "O'Shaughnessy-Whitfield, Maria-Alejandra Isabel",
+    "printedCaption": "Name (Last, First Middle)",
+    "isabelPresent": true
+  },
+  "verification": [
+    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node scripts/build-census-v1-fl-early-juvenile-set.mjs", "result": "COMPLETED; all nine builder counters zero; canonical and boundary are each five pages"},
+    {"command": "repeat the same build and diff sorted SHA-256 inventories", "result": "exit 0 with an empty diff; every family output byte reproduced"},
+    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node scripts/build-census-v1-fl-early-juvenile-set.mjs --check", "result": "CHECK_ONLY; both in-memory PDF hashes equal committed outputs; 28 source regions per fixture; zero outside glyphs; before/after family inventories identical, proving no writes"},
+    {"command": "RCAP_NO_LOCAL_RASTER=1 PF20_FL_EARLY_JUVENILE_SOURCE=<exact recovered source> node --test scripts/rcap-packet-recovery/fl-early-source-geometry.test.mjs", "result": "6 tests passed, 0 failed; both real fixtures plus four negative cases"},
+    {"command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set", "result": "PASS_COMPLETE, 28/93 written, all nine counters zero; no --write"},
+    {"command": "pdftotext -f 2 -l 2 -layout <boundary.pdf> -", "result": "read O'Shaughnessy-Whitfield, Maria-Alejandra Isabel beside 09/05/2006 and 850-555-0199"}
+  ],
+  "preservation": {
+    "routeMetadataChanged": false,
+    "productWiringChanged": false,
+    "protectedOfficialFieldsWritten": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "remainingGates": [
+    "fresh independent completeness review",
+    "fresh visual/raster review against the new PDF hashes",
+    "source-freshness and counsel review already requested by approval-request.json",
+    "artifact provenance/accounting and any central admission decision"
+  ],
+  "authorVerdict": "No independent or live-readiness verdict is issued by the repair author."
+}

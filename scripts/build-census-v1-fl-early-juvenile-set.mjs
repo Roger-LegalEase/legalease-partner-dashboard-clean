@@ -14,7 +14,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
-import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { extractPageGeometry, extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import {
   BLANK_DISPOSITIONS,
@@ -26,7 +26,7 @@ import {
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
-const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDict, PDFDocument, PDFName, StandardFonts, rgb } = require("pdf-lib");
 
 const FAMILY_ID = "fl-early-juvenile-set";
 const ROUTE_KEY = "obligation:track-pathway:FL:fl-early-juvenile:early-juvenile-expunction-943-0515";
@@ -86,6 +86,71 @@ const FIXTURES = Object.freeze({
     "matter.charge": "Criminal mischief, Fla. Stat. 806.13"
   }
 });
+
+/*
+ * These are placement contracts, not rectangles inferred from our own draw
+ * calls. Every region is tied to a caption or rule read from the pinned FDLE
+ * source. The final-PDF audit below diffs source and output text runs and
+ * refuses any run whose actual Helvetica glyph bounds leave its source region.
+ */
+const WRITE_LAYOUT = Object.freeze([
+  { id: "page1_last_name", factId: "participant.last_name", page: 1, x: 45, y: 686, width: 202,
+    region: [41.967, 253.278, 684.158, 710.208], anchor: { text: "Last Name", x: 44.817, y: 702.939, ruleY: 684.158 } },
+  { id: "page1_first_name", factId: "participant.first_name", page: 1, x: 256, y: 686, width: 150,
+    region: [253.278, 411.442, 684.158, 710.208], anchor: { text: "First Name", x: 255.703, y: 702.939, ruleY: 684.158 } },
+  { id: "page1_middle_name", factId: "participant.middle_name", page: 1, x: 415, y: 686, width: 148,
+    region: [411.442, 570.031, 684.158, 710.208], anchor: { text: "Middle Name", x: 413.867, y: 702.939, ruleY: 684.158 } },
+  { id: "page1_dob", factId: "participant.dob", page: 1, x: 45, y: 573, width: 106,
+    region: [41.967, 153.107, 564.708, 590.758], anchor: { text: "Date of Birth (MM/DD/YYYY)", x: 44.817, y: 583.489, ruleY: 564.708 } },
+  { id: "page1_race", factId: "participant.race", page: 1, x: 157, y: 573, width: 116,
+    region: [153.107, 279.638, 564.708, 590.758], anchor: { text: "Race", x: 155.532, y: 583.489, ruleY: 564.708 } },
+  { id: "page1_sex", factId: "participant.sex", page: 1, x: 283, y: 573, width: 64,
+    region: [279.638, 353.448, 564.708, 590.758], anchor: { text: "Sex", x: 282.063, y: 583.489, ruleY: 564.708 } },
+  { id: "page1_phone", factId: "participant.phone", page: 1, x: 386, y: 573, width: 67,
+    region: [384.216, 458.891, 564.708, 590.758], anchor: { text: "Phone", x: 355.873, y: 583.489, ruleY: 564.708 } },
+  { id: "page1_mailing_address", factId: "participant.street", page: 1, x: 45, y: 547, width: 334,
+    region: [41.967, 385.082, 538.658, 564.708], anchor: { text: "Mailing Address", x: 44.817, y: 557.439, ruleY: 538.658 } },
+  { id: "page1_mailing_city", factId: "participant.city", page: 1, x: 388, y: 547, width: 113,
+    region: [385.082, 506.341, 538.658, 564.708], anchor: { text: "City", x: 387.507, y: 557.439, ruleY: 538.658 } },
+  { id: "page1_mailing_state", factId: "participant.state", page: 1, x: 508, y: 547, width: 22, preferred: 7.5,
+    region: [506.341, 532.701, 538.658, 564.708], anchor: { text: "State", x: 508.766, y: 557.439, ruleY: 538.658 } },
+  { id: "page1_mailing_zip", factId: "participant.zip", page: 1, x: 535, y: 547, width: 32, preferred: 7.5, minimum: 4.5,
+    region: [532.701, 570.031, 538.658, 564.708], anchor: { text: "Zip", x: 535.126, y: 557.439, ruleY: 538.658 } },
+  { id: "page1_permanent_address", factId: "participant.street", page: 1, x: 45, y: 521, width: 334,
+    region: [41.967, 385.082, 512.608, 538.658], anchor: { text: "Permanent Address", x: 44.817, y: 531.389, ruleY: 512.608 } },
+  { id: "page1_permanent_city", factId: "participant.city", page: 1, x: 388, y: 521, width: 113,
+    region: [385.082, 506.341, 512.608, 538.658], anchor: { text: "City", x: 387.507, y: 531.389, ruleY: 512.608 } },
+  { id: "page1_permanent_state", factId: "participant.state", page: 1, x: 508, y: 521, width: 22, preferred: 7.5,
+    region: [506.341, 532.701, 512.608, 538.658], anchor: { text: "State", x: 508.766, y: 531.389, ruleY: 512.608 } },
+  { id: "page1_permanent_zip", factId: "participant.zip", page: 1, x: 535, y: 521, width: 32, preferred: 7.5, minimum: 4.5,
+    region: [532.701, 570.031, 512.608, 538.658], anchor: { text: "Zip", x: 535.126, y: 531.389, ruleY: 512.608 } },
+  { id: "page1_email", factId: "participant.email", page: 1, x: 230, y: 495, width: 334,
+    region: [226.917, 570.032, 486.558, 512.608], anchor: { text: "Email Address", x: 229.342, y: 505.339, ruleY: 486.558 } },
+  { id: "page1_arresting_agency", factId: "matter.arresting_agency", page: 1, x: 136, y: 467, width: 427,
+    region: [130.812, 563.107, 464.674, 477.863], anchor: { text: "Arresting Agency:", x: 51.892, y: 468.619, ruleY: 464.674 } },
+  { id: "page1_arrest_date_1", factId: "matter.arrest_date", page: 1, x: 63, y: 427, width: 64, preferred: 7.5,
+    region: [61.872, 129.562, 424.524, 442.463], anchor: { text: "Date(s) of Arrest", x: 64.381, y: 448.93, ruleY: 424.524 } },
+  { id: "page1_charge_1", factId: "matter.charge", page: 1, x: 136, y: 427, width: 426, preferred: 7.5,
+    region: [134.562, 563.107, 424.524, 442.463], anchor: { text: "Charge(s) Description", x: 307.05, y: 448.93, ruleY: 424.524 } },
+  { id: "page2_name", factId: "participant.full_name", printedFormat: "last_comma_first_middle", page: 2, x: 45, y: 670, width: 257,
+    region: [40.975, 306, 666.15, 693.4], anchor: { text: "Name (Last, First Middle)", x: 43.825, y: 685.276, ruleY: 666.15 } },
+  { id: "page2_dob", factId: "participant.dob", page: 2, x: 309, y: 670, width: 125,
+    region: [306, 438.3, 666.15, 693.4], anchor: { text: "DOB (MM/DD/YYYY)", x: 308.425, y: 685.276, ruleY: 666.15 } },
+  { id: "page2_phone", factId: "participant.phone", page: 2, x: 441, y: 670, width: 126,
+    region: [438.3, 571.025, 666.15, 693.4], anchor: { text: "Phone", x: 440.725, y: 685.276, ruleY: 666.15 } },
+  { id: "page3_last_name", factId: "participant.last_name", page: 3, x: 75, y: 704, width: 139,
+    region: [71.96, 214.86, 687.425, 711], anchor: { text: "Name:", x: 41.4, y: 701.845, ruleY: 687.425 } },
+  { id: "page3_first_name", factId: "participant.first_name", page: 3, x: 217, y: 704, width: 150,
+    region: [214.86, 387.558, 687.425, 711], anchor: { text: "First", x: 221.328, y: 689.845, ruleY: 687.425 } },
+  { id: "page3_middle_name", factId: "participant.middle_name", page: 3, x: 375, y: 704, width: 187,
+    region: [367, 561.342, 687.425, 711], anchor: { text: "Middle", x: 390.672, y: 689.845, ruleY: 687.425 } },
+  { id: "page3_race", factId: "participant.race", page: 3, x: 79, y: 632, width: 60,
+    region: [75.84, 142.56, 615.425, 641.845], anchor: { text: "RACE:", x: 41.4, y: 617.845, ruleY: 615.425 } },
+  { id: "page3_sex", factId: "participant.sex", page: 3, x: 176, y: 632, width: 45,
+    region: [173.36, 198.38, 615.425, 641.845], anchor: { text: "SEX:", x: 147.24, y: 617.845, ruleY: 615.425 } },
+  { id: "page3_dob", factId: "participant.dob", page: 3, x: 231, y: 632, width: 70, preferred: 7.5,
+    region: [228.49, 281.31, 615.425, 641.845], anchor: { text: "DOB:", x: 200.16, y: 617.845, ruleY: 615.425 } }
+]);
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const sanitize = (text) => String(text).replaceAll("‑", "-").replaceAll("–", "-")
@@ -305,16 +370,54 @@ function maps() {
   }];
 }
 
-function fitText(page, font, value, rect, preferred = 8.5, minimum = 5) {
+function fitText(page, font, value, placement) {
+  assert.equal(typeof value, "string", `${placement.id}: required fixture value must be a string`);
   const text = sanitize(value);
-  let size = preferred;
-  while (size > minimum && font.widthOfTextAtSize(text, size) > rect.width) size -= 0.25;
-  assert.ok(font.widthOfTextAtSize(text, size) <= rect.width + 0.1,
-    `value does not fit measured rectangle: ${text}`);
-  page.drawText(text, { x: rect.x, y: rect.y, size, font, color: rgb(0, 0, 0) });
+  assert.ok(text.trim(), `${placement.id}: required fixture value is empty`);
+  const minimum = placement.minimum ?? 5;
+  let size = placement.preferred ?? 8.5;
+  while (size > minimum && font.widthOfTextAtSize(text, size) > placement.width) size -= 0.25;
+  const width = font.widthOfTextAtSize(text, size);
+  assert.ok(width <= placement.width + 0.1,
+    `${placement.id}: value does not fit measured rectangle: ${text}`);
+  page.drawText(text, { x: placement.x, y: placement.y, size, font, color: rgb(0, 0, 0) });
+  return { ...placement, text, size, drawnWidth: width };
 }
 
-async function overlayOfficialPdf(bytes, facts) {
+function printedValueFor(placement, facts) {
+  if (placement.printedFormat !== "last_comma_first_middle") return facts[placement.factId];
+  const last = facts["participant.last_name"];
+  const first = facts["participant.first_name"];
+  const middle = facts["participant.middle_name"];
+  for (const [name, value] of [["last", last], ["first", first], ["middle", middle]]) {
+    assert.equal(typeof value, "string", `${placement.id}: ${name} name must be a string for printed ordering`);
+    assert.ok(value.trim(), `${placement.id}: ${name} name is empty for printed ordering`);
+  }
+  return `${last}, ${first} ${middle}`;
+}
+
+const close = (a, b, tolerance = 0.02) => Math.abs(a - b) <= tolerance;
+const rounded = (number) => Number(number.toFixed(3));
+
+function assertSourceAnchors(pages, layout) {
+  const geometry = pages.map((page) => extractPageGeometry(page));
+  for (const placement of layout) {
+    const page = geometry[placement.page - 1];
+    assert.ok(page, `${placement.id}: source page ${placement.page} is absent`);
+    const label = page.text.find((item) => item.text.trim() === placement.anchor.text
+      && close(item.x, placement.anchor.x) && close(item.y, placement.anchor.y));
+    assert.ok(label,
+      `${placement.id}: named source anchor ${JSON.stringify(placement.anchor.text)} moved or disappeared`);
+    if (placement.anchor.ruleY !== undefined) {
+      const rule = page.paths.find((item) => Math.abs(item.height) <= 0.5
+        && close(item.y, placement.anchor.ruleY)
+        && item.x < placement.region[1] && item.x + item.width > placement.region[0]);
+      assert.ok(rule, `${placement.id}: source blank rule y=${placement.anchor.ruleY} moved or disappeared`);
+    }
+  }
+}
+
+async function overlayOfficialPdf(bytes, facts, layout = WRITE_LAYOUT) {
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   stampDeterministic(doc);
   doc.setTitle("FDLE40-028 Early Juvenile Expunction Application - PF20 fixture");
@@ -323,44 +426,148 @@ async function overlayOfficialPdf(bytes, facts) {
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const pages = doc.getPages();
   assert.equal(pages.length, EXPECTED_SOURCE_PAGES, "the exact FDLE source must retain all five pages");
+  assertSourceAnchors(pages, layout);
+  const plannedWrites = layout.map((placement) => ({
+    ...fitText(pages[placement.page - 1], font, printedValueFor(placement, facts), placement),
+    heldValue: sanitize(facts[placement.factId]),
+    reformattedForPrintedCaption: Boolean(placement.printedFormat)
+  }));
+  return {
+    bytes: Buffer.from(await doc.save({ useObjectStreams: false, updateMetadata: false })),
+    plannedWrites
+  };
+}
 
-  const p1 = pages[0];
-  fitText(p1, font, facts["participant.last_name"], { x: 45, y: 686, width: 202 });
-  fitText(p1, font, facts["participant.first_name"], { x: 256, y: 686, width: 150 });
-  fitText(p1, font, facts["participant.middle_name"], { x: 415, y: 686, width: 148 });
-  fitText(p1, font, facts["participant.dob"], { x: 45, y: 573, width: 106 });
-  fitText(p1, font, facts["participant.race"], { x: 157, y: 573, width: 116 });
-  fitText(p1, font, facts["participant.sex"], { x: 283, y: 573, width: 64 });
-  // FDLE prints its closing area-code parenthesis through x=384.22.
-  // Move the actual whole-number write beyond that ink; do not merely widen its box.
-  fitText(p1, font, facts["participant.phone"], { x: 386, y: 573, width: 67 });
-  fitText(p1, font, facts["participant.street"], { x: 45, y: 547, width: 334 });
-  fitText(p1, font, facts["participant.city"], { x: 388, y: 547, width: 113 });
-  fitText(p1, font, facts["participant.state"], { x: 508, y: 547, width: 22 }, 7.5);
-  fitText(p1, font, facts["participant.zip"], { x: 535, y: 547, width: 32 }, 7.5, 4.5);
-  fitText(p1, font, facts["participant.street"], { x: 45, y: 521, width: 334 });
-  fitText(p1, font, facts["participant.city"], { x: 388, y: 521, width: 113 });
-  fitText(p1, font, facts["participant.state"], { x: 508, y: 521, width: 22 }, 7.5);
-  fitText(p1, font, facts["participant.zip"], { x: 535, y: 521, width: 32 }, 7.5, 4.5);
-  fitText(p1, font, facts["participant.email"], { x: 230, y: 495, width: 334 });
-  fitText(p1, font, facts["matter.arresting_agency"], { x: 143, y: 459, width: 420 });
-  fitText(p1, font, facts["matter.arrest_date"], { x: 63, y: 419, width: 64 }, 7.5, 5);
-  fitText(p1, font, facts["matter.charge"], { x: 136, y: 419, width: 426 }, 7.5);
+function textRunKey(page, item) {
+  return `${page}|${item.x.toFixed(2)}|${item.y.toFixed(2)}|${Number(item.size || 0).toFixed(2)}|${item.text}`;
+}
 
-  const p2 = pages[1];
-  fitText(p2, font, facts["participant.full_name"], { x: 45, y: 670, width: 257 });
-  fitText(p2, font, facts["participant.dob"], { x: 309, y: 670, width: 125 });
-  fitText(p2, font, facts["participant.phone"], { x: 441, y: 670, width: 126 });
+async function addedTextRuns(sourceBytes, outputBytes) {
+  const source = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
+  const output = await PDFDocument.load(outputBytes, { ignoreEncryption: true, updateMetadata: false });
+  const sourceRuns = new Map();
+  source.getPages().forEach((page, index) => {
+    for (const item of extractTextItems(page)) {
+      const key = textRunKey(index + 1, item);
+      sourceRuns.set(key, (sourceRuns.get(key) ?? 0) + 1);
+    }
+  });
+  const added = [];
+  output.getPages().forEach((page, index) => {
+    for (const item of extractTextItems(page)) {
+      const key = textRunKey(index + 1, item);
+      const left = sourceRuns.get(key) ?? 0;
+      if (left > 0) sourceRuns.set(key, left - 1);
+      else if (item.text.trim()) added.push({
+        page: index + 1,
+        x: item.x,
+        y: item.y,
+        size: Number(item.size || 0),
+        text: item.text
+      });
+    }
+  });
+  return { source, output, added };
+}
 
-  const p3 = pages[2];
-  fitText(p3, font, facts["participant.last_name"], { x: 65, y: 704, width: 145 });
-  fitText(p3, font, facts["participant.first_name"], { x: 217, y: 704, width: 150 });
-  fitText(p3, font, facts["participant.middle_name"], { x: 375, y: 704, width: 187 });
-  fitText(p3, font, facts["participant.race"], { x: 79, y: 632, width: 60 });
-  fitText(p3, font, facts["participant.sex"], { x: 176, y: 632, width: 45 });
-  fitText(p3, font, facts["participant.dob"], { x: 231, y: 632, width: 70 }, 7.5, 5);
+function widgetAppearancesIn(document) {
+  let count = 0;
+  for (const [, object] of document.context.enumerateIndirectObjects()) {
+    if (!(object instanceof PDFDict)) continue;
+    if (String(object.get(PDFName.of("Subtype"))) !== "/Widget") continue;
+    if (object.has(PDFName.of("AP"))) count += 1;
+  }
+  return count;
+}
 
-  return Buffer.from(await doc.save({ useObjectStreams: false, updateMetadata: false }));
+function helveticaGlyphBounds(run, font) {
+  /* Standard Helvetica's AFM FontBBox is [-166,-225,1000,931], while its
+   * cap/ascent and descender used for visible text are 718 and -207. The same
+   * numbers reproduce Poppler's actual glyph bboxes for this source/output. */
+  return {
+    x0: run.x,
+    x1: run.x + font.widthOfTextAtSize(run.text, run.size),
+    y0: run.y - run.size * 0.207,
+    y1: run.y + run.size * 0.718
+  };
+}
+
+async function measureOverlay(sourceBytes, outputBytes, plannedWrites) {
+  const { source, output, added } = await addedTextRuns(sourceBytes, outputBytes);
+  const scratch = await PDFDocument.create();
+  const font = await scratch.embedFont(StandardFonts.Helvetica);
+  const unused = new Set(added.map((_, index) => index));
+  const actualWrites = [];
+  const outside = [];
+  for (const planned of plannedWrites) {
+    const candidates = [...unused].filter((index) => {
+      const run = added[index];
+      return run.page === planned.page && run.text === planned.text;
+    }).sort((a, b) => {
+      const ar = added[a];
+      const br = added[b];
+      return Math.abs(ar.x - planned.x) + Math.abs(ar.y - planned.y)
+        - Math.abs(br.x - planned.x) - Math.abs(br.y - planned.y);
+    });
+    assert.ok(candidates.length, `${planned.id}: expected text is absent from final PDF bytes`);
+    const index = candidates[0];
+    unused.delete(index);
+    const run = added[index];
+    const bounds = helveticaGlyphBounds(run, font);
+    const [x0, x1, y0, y1] = planned.region;
+    const inside = bounds.x0 >= x0 - 0.02 && bounds.x1 <= x1 + 0.02
+      && bounds.y0 >= y0 - 0.02 && bounds.y1 <= y1 + 0.02;
+    if (!inside) outside.push({ id: planned.id, text: run.text, bounds, sourceRegion: planned.region });
+    actualWrites.push({
+      field: `${SOURCE_ID}.${planned.id}`,
+      document: SOURCE_ID,
+      factId: planned.factId,
+      heldValue: planned.heldValue,
+      expected: planned.text,
+      drawnText: run.text,
+      printedFormat: planned.printedFormat ?? null,
+      reformattedForPrintedCaption: planned.reformattedForPrintedCaption,
+      foundInOutputBytes: true,
+      page: run.page,
+      measuredOrigin: { x: rounded(run.x), y: rounded(run.y) },
+      measuredGlyphBounds: Object.fromEntries(Object.entries(bounds).map(([key, value]) => [key, rounded(value)])),
+      sourceRegion: { x0, x1, y0, y1 },
+      sourceAnchor: planned.anchor,
+      insideNamedSourceRegion: inside,
+      proof: "text run diffed from pinned source and measured in final PDF bytes against its named source region"
+    });
+  }
+  for (const index of unused) {
+    const run = added[index];
+    outside.push({
+      id: null,
+      text: run.text,
+      bounds: helveticaGlyphBounds(run, font),
+      sourceRegion: null,
+      reason: "added output text has no declared write"
+    });
+  }
+  const glyphCount = (run) => [...run.text].filter((character) => character.trim()).length;
+  return {
+    actualWrites,
+    addedGlyphsReadFromOutputBytes: added.reduce((sum, run) => sum + glyphCount(run), 0),
+    widgetAppearancesReadFromSourceBytes: widgetAppearancesIn(source),
+    flattenedWidgetAppearancesReadFromOutputBytes: widgetAppearancesIn(output),
+    nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: outside.reduce((sum, row) => sum + glyphCount(row), 0),
+    outside,
+    sourceRegionsMeasured: plannedWrites.length,
+    addedTextRunsReadFromOutputBytes: added.length
+  };
+}
+
+async function renderAndMeasure(sourceBytes, facts, layout = WRITE_LAYOUT) {
+  const rendered = await overlayOfficialPdf(sourceBytes, facts, layout);
+  const measured = await measureOverlay(sourceBytes, rendered.bytes, rendered.plannedWrites);
+  assert.equal(measured.actualWrites.length, layout.length,
+    "not every declared write was recovered from final PDF bytes");
+  assert.equal(measured.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, 0,
+    `added glyphs left their named source regions: ${JSON.stringify(measured.outside)}`);
+  return { ...rendered, measured };
 }
 
 async function textOfPages(bytes) {
@@ -370,28 +577,20 @@ async function textOfPages(bytes) {
 }
 
 async function buildFixture(source, fixtureName, facts, fieldMaps) {
-  const packetBytes = await overlayOfficialPdf(source, facts);
+  const { bytes: packetBytes, measured } = await renderAndMeasure(source, facts);
   const document = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
   const pagesText = await textOfPages(packetBytes);
   const documentText = pagesText.join(" ").replace(/\s+/g, " ");
-  const actualWrites = [];
-  let glyphs = 0;
   for (const field of fieldMaps[0].canonicalWrites) {
-    const expected = sanitize(facts[field.factId]);
-    assert.ok(expected, `${fixtureName} ${field.field} has no fixture fact`);
-    assert.ok(documentText.includes(expected),
-      `${fixtureName} ${field.field}: expected value is not readable from final packet bytes`);
-    glyphs += expected.replace(/\s+/g, "").length;
-    actualWrites.push({
-      field: field.field,
-      document: SOURCE_ID,
-      factId: field.factId,
-      expected,
-      drawnText: expected,
-      foundInOutputBytes: true,
-      proof: "value extracted from the final official-form packet bytes"
-    });
+    const proof = measured.actualWrites.find((write) => write.field === field.field);
+    assert.ok(proof, `${fixtureName} ${field.field} has no final-PDF write proof`);
+    assert.equal(proof.factId, field.factId, `${fixtureName} ${field.field} changed fact identity`);
+    assert.ok(documentText.includes(proof.drawnText),
+      `${fixtureName} ${field.field}: printed value is not readable from final packet bytes`);
   }
+  assert.deepEqual(measured.actualWrites.map((write) => write.field),
+    fieldMaps[0].canonicalWrites.map((write) => write.field),
+    "the source-bound write layout and production field map diverged");
   const rel = `${OUT}/fixtures/${fixtureName}.pdf`;
   fs.writeFileSync(path.join(ROOT, rel), packetBytes);
   const pageManifest = Array.from({ length: document.getPageCount() }, (_, index) => ({
@@ -410,8 +609,9 @@ async function buildFixture(source, fixtureName, facts, fieldMaps) {
     pageManifest,
     documents: COMPONENTS,
     components: COMPONENTS,
-    actualWrites,
-    glyphs
+    actualWrites: measured.actualWrites,
+    measurement: measured,
+    glyphs: measured.addedGlyphsReadFromOutputBytes
   };
 }
 
@@ -587,8 +787,18 @@ function countCompleteness(fieldMaps, artifacts, instructions) {
     }
   }
   for (const artifact of artifacts) {
-    if (artifact.actualWrites.length > 0 && artifact.glyphs === 0) {
+    const measurement = artifact.measurement;
+    const visible = measurement.addedGlyphsReadFromOutputBytes
+      + measurement.flattenedWidgetAppearancesReadFromOutputBytes;
+    if (artifact.actualWrites.length > 0 && visible === 0) {
       note("invisibleWrites", { fixture: artifact.fixture });
+    }
+    if (measurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes > 0) {
+      note("visualDefects", {
+        fixture: artifact.fixture,
+        glyphsOutsideMeasuredBoxes: measurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+        sample: measurement.outside.slice(0, 8)
+      });
     }
   }
   return { counters, findings, ledger };
@@ -677,6 +887,22 @@ async function run(argv = process.argv.slice(2)) {
   assertFeeWaiverAndEveryCircuitAreDisclosed(instructions, filing);
   const { sourcePath, bytes } = sourceBytes();
   if (argv.includes("--check")) {
+    const checked = [];
+    for (const fixture of ["canonical", "boundary"]) {
+      const result = await renderAndMeasure(bytes, FIXTURES[fixture]);
+      checked.push({
+        fixture,
+        outputSha256: sha256(result.bytes),
+        pageCount: (await PDFDocument.load(result.bytes)).getPageCount(),
+        sourceRegionsMeasured: result.measured.sourceRegionsMeasured,
+        addedGlyphsReadFromOutputBytes: result.measured.addedGlyphsReadFromOutputBytes,
+        widgetAppearancesReadFromSourceBytes: result.measured.widgetAppearancesReadFromSourceBytes,
+        flattenedWidgetAppearancesReadFromOutputBytes:
+          result.measured.flattenedWidgetAppearancesReadFromOutputBytes,
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:
+          result.measured.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes
+      });
+    }
     return {
       familyId: FAMILY_ID,
       status: "CHECK_ONLY",
@@ -684,7 +910,8 @@ async function run(argv = process.argv.slice(2)) {
       sourceByteLength: bytes.length,
       components: COMPONENTS,
       writes: fieldMaps[0].canonicalWrites.length,
-      blanks: fieldMaps[0].canonicalRefusals.length
+      blanks: fieldMaps[0].canonicalRefusals.length,
+      artifacts: checked
     };
   }
 
@@ -715,7 +942,7 @@ async function run(argv = process.argv.slice(2)) {
     implementationStrategy: "official_pdf_fill",
     custodyClass: "SOURCE_BOUND_BY_HELD_BYTES",
     acquisitionCommissioned: false,
-    bindingMethod: "the exact byte named by the committed acquisition return is read from its existing shared staging path and asserted by SHA-256 and byte length; no acquisition, copy, research, or substitution occurs",
+    bindingMethod: "the owner-custodied source byte expressly retained for this family is read from its recovered reference path and asserted by SHA-256 and byte length; no acquisition, research, or substitution occurs",
     allSourcesExact: true,
     routeKeys: [ROUTE_KEY],
     sourceBinaryCommitted: false,
@@ -799,7 +1026,7 @@ async function run(argv = process.argv.slice(2)) {
       byteLength: artifact.byteLength,
       pageCount: artifact.pageCount
     })),
-    artifacts: artifacts.map(({ actualWrites, glyphs, ...artifact }) => artifact),
+    artifacts: artifacts.map(({ actualWrites, glyphs, measurement, ...artifact }) => artifact),
     packets: artifacts.map((artifact) => ({ fixture: artifact.fixture, documents: artifact.documents })),
     everyPageRastered: false,
     byteDerivedHashes: true,
@@ -813,25 +1040,35 @@ async function run(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-actual-writes-byte-proof/v1",
     familyId: FAMILY_ID,
     derivedFromArtifactBytes: true,
-    note: "Every reported fact value was extracted from the final official-form packet bytes.",
+    note: "Every reported fact value and geometry counter is derived from a source-vs-output text-run diff over the final PDF bytes. The pinned source is flat and contains no widget appearance objects.",
     documents: artifacts.map((artifact) => ({
       fixture: artifact.fixture,
       valuesReportedByFinalizer: artifact.actualWrites.length,
-      addedGlyphsReadFromOutputBytes: artifact.glyphs,
-      flattenedWidgetAppearancesReadFromOutputBytes: 0,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+      addedGlyphsReadFromOutputBytes: artifact.measurement.addedGlyphsReadFromOutputBytes,
+      widgetAppearancesReadFromSourceBytes: artifact.measurement.widgetAppearancesReadFromSourceBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: artifact.measurement.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: artifact.measurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      sourceRegionsMeasured: artifact.measurement.sourceRegionsMeasured,
+      addedTextRunsReadFromOutputBytes: artifact.measurement.addedTextRunsReadFromOutputBytes,
       refusedFieldsWithInk: [],
       actualWrites: artifact.actualWrites
     })),
     artifacts: artifacts.map((artifact) => ({
       fixture: artifact.fixture,
       valuesReportedByFinalizer: artifact.actualWrites.length,
-      addedGlyphsReadFromOutputBytes: artifact.glyphs,
-      flattenedWidgetAppearancesReadFromOutputBytes: 0,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+      addedGlyphsReadFromOutputBytes: artifact.measurement.addedGlyphsReadFromOutputBytes,
+      widgetAppearancesReadFromSourceBytes: artifact.measurement.widgetAppearancesReadFromSourceBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: artifact.measurement.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: artifact.measurement.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      sourceRegionsMeasured: artifact.measurement.sourceRegionsMeasured,
+      addedTextRunsReadFromOutputBytes: artifact.measurement.addedTextRunsReadFromOutputBytes,
       refusedFieldsWithInk: []
     })),
-    blockingFindings: []
+    blockingFindings: artifacts.flatMap((artifact) => artifact.measurement.outside.map((finding) => ({
+      fixture: artifact.fixture,
+      check: "added_glyphs_outside_named_source_region",
+      ...finding
+    })))
   });
 
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
@@ -864,7 +1101,7 @@ async function run(argv = process.argv.slice(2)) {
     whatThisIs: "the builder's fail-fast count of the nine repository completeness counters",
     whatThisIsNot: "an independent verification or raster verdict",
     counters: counted.counters,
-    allNineZero: true,
+    allNineZero: PASS_COUNTERS.every((counter) => counted.counters[counter] === 0),
     findings: counted.findings,
     blankDispositions: counted.ledger.reduce((acc, field) => {
       acc[field.disposition] = (acc[field.disposition] ?? 0) + 1;
@@ -966,13 +1203,17 @@ async function run(argv = process.argv.slice(2)) {
       pages: artifact.pageCount
     })),
     rasterState: "BUILT_RASTER_PENDING",
-    nineCountersZero: true,
+    nineCountersZero: PASS_COUNTERS.every((counter) => counted.counters[counter] === 0),
     packetsSelfVerified: 0,
     commercialRoutesOpened: 0,
     productionTouched: false
   };
 }
 
-run()
-  .then((result) => console.log(JSON.stringify(result, null, 2)))
-  .catch((error) => { console.error(error); process.exit(1); });
+export { FIXTURES, WRITE_LAYOUT, measureOverlay, overlayOfficialPdf, renderAndMeasure, run };
+
+if (path.resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)) {
+  run()
+    .then((result) => console.log(JSON.stringify(result, null, 2)))
+    .catch((error) => { console.error(error); process.exit(1); });
+}
