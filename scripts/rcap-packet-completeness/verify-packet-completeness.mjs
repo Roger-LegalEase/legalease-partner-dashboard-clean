@@ -23,6 +23,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, RESULT_CLASSES, REFUSAL_CLASSES, classifyField, classifyBlank, rowKeyOf } from "./completeness-contract.mjs";
 import { hasDeclaredMoPacketSet } from "./mo-declared-packet-discovery.mjs";
+import { verifyParticipantLaterCompletionSourceStage } from "./nj-participant-later-completion.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const ARGS = process.argv.slice(2);
@@ -94,6 +95,10 @@ const normalizeRow = (row, document = null) => ({
   printedLabel: row.printedLabel ?? null,
   sectionHeading: row.sectionHeading ?? null,
   sourceIdentity: row.selectionId ?? row.field ?? row.fieldName ?? row.fieldId ?? null,
+  // These source-stage surfaces are forwarded only for an explicit opt-in. The
+  // normalized shape of every unopted family remains byte-for-byte unchanged.
+  ...(row.sourceStage ? { widgets: (row.widgets ?? []).map((widget) => ({ ...widget,
+    ...(widget.rect ? { rect: { ...widget.rect } } : {}) })) } : {}),
   /*
    * Whether this row is a CHECKBOX rather than a place to write a fact. Read
    * from the schema where it says so, and otherwise from the printed caption: a
@@ -119,6 +124,15 @@ const normalizeRow = (row, document = null) => ({
     disposition: row.completenessDisposition ?? (row.sourceOptional ? row.disposition : null),
     ...(Object.hasOwn(row, "requiredBeforeFiling") ? { requiredBeforeFiling: row.requiredBeforeFiling === true } : {}),
     routeDetermined: row.routeDetermined === true,
+    ...(row.sourceStage ? {
+      sourceStage: { ...row.sourceStage, verified: false },
+      blankTreatment: row.blankTreatment ?? null,
+      completionStage: row.completionStage ?? null,
+      participantOwnedCompletion: row.participantOwnedCompletion === true,
+      completesAfterService: row.completesAfterService === true,
+      requiredBeforeFilingDeclared: Object.hasOwn(row, "requiredBeforeFiling"),
+      routeDeterminedDeclared: Object.hasOwn(row, "routeDetermined"),
+    } : {}),
     /*
      * Forwarded for the same reason as the two keys below, and found the same
      * way. The contract refuses a declared required-before-filing field when
@@ -426,14 +440,25 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
     return here.has(normLabel(blank.label)) || here.has(normLabel(blank.name));
   };
 
+  const instructionsPath = path.join(ROOT, `${dir}/participant-instructions.md`);
+  const hasInstructions = fs.existsSync(instructionsPath);
+  const instructions = inputs ? inputs.instructions : hasInstructions ? fs.readFileSync(instructionsPath, "utf8") : "";
+
   // ---- every blank earns its blankness ------------------------------------------
   const blankLedger = [];
   const verifyActor = createGaPre2013ActorVerifier({root: ROOT, directory: dir, familyId, fieldMap, census, receipt, rendered});
   const sourceActorMeasurements = [];
+  const sourceStageMeasurements = [];
   for (const blank of blanks) {
+    const sourceStage = blank.declared?.sourceStage
+      ? verifyParticipantLaterCompletionSourceStage({
+        familyId, blank, fieldMap, census, receipt, instructions,
+        sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR,
+      }) : null;
     const declared = {
       ...blank.declared,
       sourcePresentation: verifySourcePresentation(blank, { census, receipt, fieldMap, actualWrites, rendered }),
+      ...(sourceStage ? { sourceStage } : {}),
       factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
         || writtenBeside(blank)
     };
@@ -444,6 +469,18 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
       : actor?.verified === false
         ? {disposition: "UNCLASSIFIED_BLANK", fieldClass: "EXACT_SOURCE_OFFICIAL_ACTOR", basis: actor.failure}
         : classifyBlank(blank, blank.reason, blank.refusalClass, declared);
+    if (verdict.disposition === "PARTICIPANT_LATER_COMPLETION"
+      && sourceStage?.verified === true) sourceStageMeasurements.push({
+      documentId: sourceStage.documentId,
+      field: sourceStage.field,
+      sourceSha256: sourceStage.sourceSha256,
+      actor: sourceStage.actor,
+      trigger: sourceStage.trigger,
+      instructionPages: sourceStage.instructionPages,
+      widgetCount: sourceStage.widgetCount,
+      sourceByteLength: sourceStage.sourceByteLength,
+      basis: sourceStage.basis,
+    });
     blankLedger.push({ ...blank, ...verdict });
     const spec = BLANK_DISPOSITIONS[verdict.disposition];
     if (spec.allowed) continue;
@@ -462,9 +499,6 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   // for, so a missing instructions file makes every one of them uncollected --
   // and it is checked here, where the packet's own files can be read, rather than
   // in the contract, which sees one row at a time.
-  const instructionsPath = path.join(ROOT, `${dir}/participant-instructions.md`);
-  const hasInstructions = fs.existsSync(instructionsPath);
-  const instructions = inputs ? inputs.instructions : hasInstructions ? fs.readFileSync(instructionsPath, "utf8") : "";
   const declaredRequired = blankLedger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING");
   const namedInInstructions = (b) => {
     if (!instructions.trim()) return false;
@@ -732,6 +766,7 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
       fieldMapSchema: schema
     },
     ...(sourceActorMeasurements.length ? {sourceActorMeasurements} : {}),
+    ...(sourceStageMeasurements.length ? {sourceStageMeasurements} : {}),
     outputApprovalStatus: approval?.status ?? null,
     sourceCurrentness: currentness,
     // Not truncated. A completeness record that elides findings is the same

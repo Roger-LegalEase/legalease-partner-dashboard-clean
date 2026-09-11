@@ -20,6 +20,10 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import azSourceOptionalRegistry from "./az-source-optional-registry.json" with { type: "json" };
+import {
+  isRegisteredParticipantLaterCompletionField,
+  isVerifiedParticipantLaterCompletionProof,
+} from "./nj-participant-later-completion.mjs";
 
 // This contract closes that by inverting the question. Every blank must earn its
 // blankness against a CLOSED vocabulary, and three of the nine dispositions are
@@ -81,6 +85,15 @@ export const NOT_APPLICABLE_CONDITIONS = [
   "NOT ROUTE-DETERMINED-AND-UNMADE: a route election this route DOES use may never be inapplicable. Declaring both routeDetermined and this disposition is a contradiction and refuses."
 ];
 
+export const PARTICIPANT_LATER_COMPLETION_CONDITIONS = [
+  "DECLARED: the field-map row states PARTICIPANT_LATER_COMPLETION, requiredBeforeFiling=false and routeDetermined=false.",
+  "PARTICIPANT ACT: the source directs the participant, rather than the court or clerk, to complete the field after an identified event.",
+  "SOURCE-BOUND: a closed family/document/field registry is independently checked against current source bytes, its receipt, measured widgets and the cited instruction pages.",
+  "STAGED: blankTreatment and completionStage agree with the source-bound trigger; a caller-supplied verified flag is never evidence.",
+  "DISCLOSED: participant instructions name the exact source field and completion stage.",
+  "STILL UNAVAILABLE: the packet does not already hold or write the later fact, and the declaration is not used for a route-determined election."
+];
+
 /** Field requirements a participant may complete themselves. */
 export const PARTICIPANT_COMPLETABLE_REQUIREMENTS = new Set([
   "REQUIRED_KNOWN", "OPTIONAL_OR_REQUIRED_BEFORE_FILING", "UNKNOWN"
@@ -107,6 +120,13 @@ export const BLANK_DISPOSITIONS = {
     allowed: true,
     meaning: "The field is completed at or after filing, by the court or the clerk: an assigned case number, a filing stamp, a hearing date the court sets.",
     requires: "A named later-completion trigger."
+  },
+  PARTICIPANT_LATER_COMPLETION: {
+    allowed: true,
+    meaning: "A participant completes this field after the initial filing from a court-returned document, an applicable service recipient, or an actual mailing/proof event.",
+    requires: "An independently verified, closed source-stage proof for the exact participant field and trigger.",
+    declaredOnly: true,
+    conditions: PARTICIPANT_LATER_COMPLETION_CONDITIONS
   },
   NOT_APPLICABLE_ON_THIS_ROUTE: {
     allowed: true,
@@ -322,6 +342,13 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
   const declaresRequiredBeforeFiling = typeof dec.requiredBeforeFiling === "boolean";
   const usesDeclaredChannel = declaresDisposition || declaresRequiredBeforeFiling;
 
+  if (dec.sourceStage && (dec.sourceOptional || dec.sourcePresentation)) {
+    return {
+      disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+      basis: "participant later-completion cannot override conflicting source-optional or source-presentation metadata"
+    };
+  }
+
   if (dec.sourceOptional) {
     if (cls.requirement === "PROTECTED") return { disposition: "PROTECTED_FIELD", fieldClass: cls.id, basis: "the field itself is protected" };
     if (dec.sourcePresentation || (refusalClass && !Object.hasOwn(REFUSAL_CLASSES, refusalClass))) return { disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id, basis: "sourceOptional cannot override conflicting presentation or unknown refusal metadata" };
@@ -379,6 +406,58 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
     return {
       disposition: proof.kind === "materialized_control" ? "MATERIALIZED_SOURCE_CONTROL" : "NON_FILING_SOURCE_ELEMENT",
       fieldClass: cls.id, basis: proof.basis
+    };
+  }
+
+  // Participant later-completion is distinct from LATER_COMPLETION: the latter
+  // protects an act the court or clerk performs, while this disposition records
+  // a later act CN-10557 expressly assigns to the participant. It is opt-in and
+  // source-bound. A map cannot mint the proof by serializing `verified: true`;
+  // only the reader's current-byte verifier can create an accepted proof object.
+  if (dec.sourceStage) {
+    if (cls.requirement === "PROTECTED") {
+      return { disposition: "PROTECTED_FIELD", fieldClass: cls.id, basis: "the field itself is protected" };
+    }
+    const existingTyped = refusalClass ? REFUSAL_CLASSES[refusalClass] : null;
+    const typedExcluded = (existingTyped?.notForFieldClasses ?? []).includes(cls.id);
+    if (!isRegisteredParticipantLaterCompletionField(field.name)
+      && existingTyped?.trusted === true && !typedExcluded
+      && existingTyped.disposition === "PROTECTED_FIELD") {
+      return { disposition: "PROTECTED_FIELD", fieldClass: cls.id,
+        basis: `refusal class ${refusalClass}` };
+    }
+    if (dec.disposition !== "PARTICIPANT_LATER_COMPLETION"
+      || dec.blankTreatment !== "PARTICIPANT_LATER_COMPLETION"
+      || dec.requiredBeforeFiling !== false || dec.requiredBeforeFilingDeclared !== true
+      || dec.routeDeterminedDeclared !== true || dec.participantOwnedCompletion !== true) {
+      return {
+        disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+        basis: "participant later-completion contradicts its declared disposition, actor, stage or required-before-filing flags"
+      };
+    }
+    if (dec.routeDetermined === true || field.isSelectionControl === true
+      || cls.requirement === "ROUTE_DETERMINED") {
+      return {
+        disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id,
+        basis: "participant later-completion cannot excuse a route-determined election"
+      };
+    }
+    if (dec.factAvailable === true) {
+      return {
+        disposition: "KNOWN_FACT_NOT_WRITTEN", fieldClass: cls.id,
+        basis: `participant later-completion cannot excuse an available fact ${dec.factId ?? "in this packet"}`
+      };
+    }
+    if (!isVerifiedParticipantLaterCompletionProof(dec.sourceStage)) {
+      return {
+        disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+        basis: dec.sourceStage.failure ?? "participant later-completion has no independently verified source-stage proof"
+      };
+    }
+    return {
+      disposition: "PARTICIPANT_LATER_COMPLETION", fieldClass: cls.id,
+      basis: dec.sourceStage.basis, sourceStage: dec.sourceStage.trigger,
+      participantActor: dec.sourceStage.actor
     };
   }
 
