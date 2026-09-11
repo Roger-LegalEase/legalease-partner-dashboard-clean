@@ -2,12 +2,12 @@
   "schemaVersion": "ky-misdemeanor-author-build/v1",
   "familyId": "ky_misdemeanor_expungement-set",
   "fixture": "selectable/void-218a276-8",
-  "inputSha256": "23f417fd8694f8c2b1b50d37fcaca87340451ad7eed326b5578f27ecf25352ab",
+  "inputSha256": "ccde8c1c45799dfb60c8f55864109250defc38992da5cd3781bdb54887c2efda",
   "output": {
     "file": "data/rcap-all50/overlays/census-v1/ky/ky-misdemeanor-expungement-set--official-pdf-fill/fixtures/selectable/void-218a276-8.pdf",
-    "sha256": "8cabc7383053d36d3eb683797816996e85d958be63fde7d238f67c06ec61f451",
-    "byteLength": 185747,
-    "pageCount": 5
+    "sha256": "a1d7ef34b529a7c9f2c579f8b1019ac85b4be2d41cf171577c2e7fd6ae478f4e",
+    "byteLength": 182657,
+    "pageCount": 4
   },
   "election": {
     "ground": "marijuana_synthetic_salvia_void_218A276_8",
@@ -35,13 +35,6 @@
       "documentId": "ky_misdemeanor_expungement-filing-instructions-4",
       "role": "filing_instructions",
       "firstPage": 4,
-      "pageCount": 1,
-      "sourceSha256": null
-    },
-    {
-      "documentId": "ky_misdemeanor_expungement-charge-agency-schedule",
-      "role": "filing_attachment",
-      "firstPage": 5,
       "pageCount": 1,
       "sourceSha256": null
     }
@@ -279,8 +272,8 @@
       "effectiveLabel": "Def.PhoneNo",
       "factId": "participant.phone",
       "decision": "write",
-      "value": "859-555-0142",
-      "completeValue": "859-555-0142",
+      "value": " 859  555-0142",
+      "completeValue": " 859  555-0142",
       "outcome": "fit",
       "fontSize": 10,
       "widgets": [
@@ -493,14 +486,6 @@
     },
     {
       "documentId": "AOC-496.2",
-      "field": "Text1",
-      "fieldId": "Text1",
-      "effectiveLabel": "Text1 viewer/source presentation",
-      "decision": "refuse",
-      "reason": "Viewer UI control; never a filing fact."
-    },
-    {
-      "documentId": "AOC-496.2",
       "field": "Print",
       "fieldId": "Print",
       "effectiveLabel": "Print viewer/source presentation",
@@ -514,6 +499,14 @@
       "effectiveLabel": "Reset viewer/source presentation",
       "decision": "refuse",
       "reason": "Viewer UI control; never a filing fact."
+    },
+    {
+      "documentId": "AOC-496.2",
+      "field": "Text1",
+      "fieldId": "Text1",
+      "effectiveLabel": "Text1 viewer/source presentation",
+      "decision": "refuse",
+      "reason": "Viewer UI control; never a filing fact. Its default duplicates the identical official instruction that remains in the source page artwork."
     },
     {
       "documentId": "AOC-496.2",
@@ -577,7 +570,9 @@
             "Reset"
           ],
           "unselectedChoicesDropped": [],
-          "unwrittenParticipantInputsDropped": [],
+          "unwrittenParticipantInputsDropped": [
+            "Text1"
+          ],
           "sourceAppearancesPreserved": [
             "Case.Division",
             "Case.CaseNum",
@@ -604,10 +599,9 @@
             "Agencies",
             "Check Box19",
             "Check Box20",
-            "Check Box21",
-            "Text1"
+            "Check Box21"
           ],
-          "backgroundsNeutralized": 16,
+          "backgroundsNeutralized": 15,
           "nonDisplayedWidgetsDropped": 0,
           "fieldsWithNonDisplayedWidgets": [],
           "dispositionsApplied": {
@@ -641,7 +635,7 @@
             "Check Box21": "preserve_source_appearance",
             "Print": "suppress_control_appearance",
             "Reset": "suppress_control_appearance",
-            "Text1": "preserve_source_appearance"
+            "Text1": "render_participant_value_only_when_written"
           },
           "silentSourceAppearancesKept": [],
           "synthesizedBorderCharacteristicsRemoved": 18,
@@ -720,8 +714,8 @@
         "appearancesFittedToRect": {
           "rescaled": [],
           "rescaledCount": 0,
-          "widgetsExamined": 33,
-          "alreadyCorrect": 33,
+          "widgetsExamined": 32,
+          "alreadyCorrect": 32,
           "skippedNoPlaceableAppearance": {},
           "skippedDegenerateGeometry": 0,
           "streamsCopiedForConflictingPlacements": 0,
@@ -742,14 +736,14 @@
     "compressed": false
   },
   "proof": {
-    "addedGlyphsReadFromOutputBytes": 415,
-    "flattenedWidgetAppearancesReadFromOutputBytes": 33,
+    "addedGlyphsReadFromOutputBytes": 384,
+    "flattenedWidgetAppearancesReadFromOutputBytes": 32,
     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
     "componentReadings": [
       {
         "documentId": "AOC-496.2",
-        "flattenedWidgetAppearancesReadFromOutputBytes": 33,
-        "addedGlyphsReadFromOutputBytes": 415,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 32,
+        "addedGlyphsReadFromOutputBytes": 384,
         "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
         "appearancesNotPlacedAtTheirOwnSourceWidget": 0,
         "placementMeasuredAgainstThePinnedSource": true

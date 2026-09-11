@@ -12,6 +12,7 @@ import {fileURLToPath} from 'node:url';
 import {PDFCheckBox, PDFDocument, PDFDropdown, PDFName, PDFString, PDFTextField, StandardFonts} from 'pdf-lib';
 import {fitTextToWidget, applyFitToTextField, wrapToWidth} from '../rcap-official-forms/rcap-text-fitting.mjs';
 import {ensureDefaultAppearances, sanitizeAndFlatten, scanBytesForActiveContent} from '../rcap-official-forms/rcap-active-content.mjs';
+import {APPEARANCE_DISPOSITION} from '../rcap-official-forms/rcap-appearance-semantics.mjs';
 import {preserveSourceMetadata} from '../rcap-official-forms/rcap-official-form-finalize.mjs';
 import {stampDeterministic} from '../rcap-official-forms/rcap-deterministic-pdf-date.mjs';
 import {readOutputGlyphs} from '../rcap-official-forms/rcap-output-glyph-reading.mjs';
@@ -51,12 +52,24 @@ export const ELECTION_FIELDS = {
 };
 export const COURT_SELECTION_FIELDS = ['Check Box2', 'Check Box3', 'Check Box4', 'Check Box5', 'Check Box6', 'Check Box7', 'Check Box8', 'Check Box9'];
 const CLASSIFICATIONS = new Set(['misdemeanor', 'violation', 'qualifying_traffic_infraction']);
+const CHARGE_DISPOSITIONS = new Set(['convicted', 'dismissed', 'amended']);
 const VOID_276_CATEGORIES = new Set(['marijuana', 'synthetic_drug', 'salvia']);
 const dateRe = /^\d{4}-\d{2}-\d{2}$/;
 const clone = structuredClone;
 export const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const json = value => `${JSON.stringify(value, null, 2)}\n`;
 const displayDate = value => value ? `${value.slice(5, 7)}/${value.slice(8, 10)}/${value.slice(0, 4)}` : '';
+const displayClassification = value => ({
+  misdemeanor: 'misdemeanor',
+  violation: 'violation',
+  qualifying_traffic_infraction: 'qualifying traffic infraction'
+})[value];
+
+function sourcePhone(value) {
+  const digits = value.replace(/\D/g, '');
+  if (digits.length !== 10) throw Error('SOURCE_PHONE_FORMAT_REQUIRED');
+  return ` ${digits.slice(0, 3)}  ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
 
 function exactDate(value, label, asOf = null) {
   if (typeof value !== 'string' || !dateRe.test(value)) throw Error(`INVALID_DATE: ${label}`);
@@ -143,27 +156,40 @@ export function validateKy(input) {
   if (f.signature || f.notary || f.clerk || f.courtExecution || f.judicialFindings || f.agencyCertification
     || f.participant?.signature || f.participant?.signatureDate) throw Error('PROTECTED_EXECUTION_INPUT');
   if (f.participant?.ssn) throw Error('PRIVATE_IDENTIFIER_MANUAL_COMPLETION');
+  requireExactBoolean(f.participant?.isUsCitizen, true, 'United States citizenship required for this self-help route');
   for (const [value, label] of [[f.participant?.fullName, 'participant full name'], [f.participant?.street, 'street address'],
     [f.participant?.city, 'city'], [f.participant?.state, 'state'], [f.participant?.zip, 'ZIP'], [f.participant?.phone, 'phone'],
     [f.court?.county, 'county'], [f.court?.level, 'court level'], [f.case?.number, 'case number']]) requiredText(value, label);
   if (!['District', 'Circuit'].includes(f.court.level)) throw Error('COURT_LEVEL_REQUIRED');
-  if (f.participant.state !== 'KENTUCKY') throw Error('SOURCE_DROPDOWN_STATE_REQUIRED');
   exactDate(f.participant.dateOfBirth, 'birthdate', f.asOf);
   exactDate(f.case.violationOrArrestDate, 'violation/arrest date', f.asOf);
   if (f.participant.dateOfBirth >= f.case.violationOrArrestDate) throw Error('INCONSISTENT_DOB');
   if (!Array.isArray(f.charges) || !f.charges.length) throw Error('CHARGES_REQUIRED');
   if (f.charges.length > 100) throw Error('EXCESSIVE_CHARGE_COUNT');
   const seen = new Set();
+  let convictionCount = 0;
   for (const [index, charge] of f.charges.entries()) {
     const count = requiredText(charge.count, `charge ${index + 1} count`);
     if (seen.has(count)) throw Error('UNIQUE_CHARGE_COUNT_REQUIRED');
     seen.add(count);
     requiredText(charge.description, `charge ${index + 1} description`);
     if (charge.caseNumber !== f.case.number) throw Error('SEPARATE_PETITION_PER_CASE');
+    if (charge.classification === 'felony' && charge.disposition !== 'convicted') throw Error('SELF_HELP_STOP: FELONY_COMPANION_REQUIRES_SEPARATE_AUTHORITY');
     if (!CLASSIFICATIONS.has(charge.classification)) throw Error('CHARGE_CLASSIFICATION_REQUIRED');
-    if (charge.classification !== f.record.offenseClassification) throw Error('CHARGE_AND_RECORD_CLASSIFICATION_CONFLICT');
+    if (!CHARGE_DISPOSITIONS.has(charge.disposition)) throw Error('CHARGE_DISPOSITION_REQUIRED');
+    exactDate(charge.dispositionDate, `charge ${index + 1} disposition date`, f.asOf);
+    if (charge.dispositionDate < f.case.violationOrArrestDate) throw Error('CHARGE_DISPOSITION_BEFORE_VIOLATION_OR_ARREST');
+    if (charge.disposition === 'convicted') convictionCount += 1;
+    else {
+      requireExactBoolean(charge.sameCriminalAction, true, `charge ${index + 1} same criminal action`);
+      if (!Object.hasOwn(charge, 'relatedFinalConviction')) throw Error('AMBIGUOUS_RECORD_FACT: related final conviction');
+      if (charge.relatedFinalConviction !== null) requiredText(charge.relatedFinalConviction, `charge ${index + 1} related final conviction`);
+      if (charge.disposition === 'amended') requiredText(charge.amendmentDestination, `charge ${index + 1} amendment destination`);
+      else if (charge.amendmentDestination !== null) throw Error('CONFLICTING_DISMISSED_AMENDMENT_FACTS');
+    }
     requireExactBoolean(charge.recordVerified, true, `charge ${index + 1} record verification`);
   }
+  if (!convictionCount) throw Error('CONVICTION_CHARGE_REQUIRED');
   if (!Array.isArray(f.agencies) || !f.agencies.length) throw Error('AGENCIES_REQUIRED');
   for (const [index, agency] of f.agencies.entries()) {
     requiredText(agency.name, `agency ${index + 1} name`);
@@ -199,12 +225,12 @@ const fixtureBase = {
   isSyntheticFixture: true,
   asOf: '2026-09-11',
   routeKey: ROUTE,
-  participant: {fullName: 'Jordan Avery Reyes', street: '42 Larkspur Street', city: 'Lexington', state: 'KENTUCKY', zip: '40507', phone: '859-555-0142', jailId: null, dateOfBirth: '1988-02-17'},
+  participant: {fullName: 'Jordan Avery Reyes', street: '42 Larkspur Street', city: 'Lexington', state: 'KENTUCKY', zip: '40507', phone: '859-555-0142', jailId: null, dateOfBirth: '1988-02-17', isUsCitizen: true},
   court: {level: 'District', county: 'Fayette', division: 'Criminal', clerkAddress: '150 N. Limestone, First Floor, Lexington, KY 40507', clerkPhone: '859-246-2228'},
   case: {number: '19-M-000001', violationOrArrestDate: '2018-04-10'},
   options: {includeProposedOrder: false, localOrderPracticeConfirmed: false},
   record: {groundsClaimed: ['ordinary_five_year'], disposition: 'convicted', dispositionDate: '2018-06-15', dispositionConfirmed: true, offenseClassification: 'misdemeanor', classificationConfirmed: true, ordinaryKrs431078Route: true, sentenceCompletionDate: '2020-09-11', probationApplicable: false, probationCompletionDate: null, expressVoidingStatute: null, voidedOffenseCategory: null, firstControlledSubstancesConviction: null},
-  charges: [{count: '1', caseNumber: '19-M-000001', description: 'Criminal trespass, second degree', classification: 'misdemeanor', recordVerified: true}],
+  charges: [{count: '1', caseNumber: '19-M-000001', description: 'Criminal trespass, second degree', classification: 'misdemeanor', disposition: 'convicted', dispositionDate: '2018-06-15', recordVerified: true}],
   victims: [{name: 'Taylor Morgan', address: '100 Main Street, Lexington, KY 40507'}],
   personsWithRelevantInformation: [],
   agencies: [{name: 'Lexington Police Department', address: '150 E. Main Street, Lexington, KY 40507', role: 'arresting agency'}, {name: 'Kentucky State Police', address: '1266 Louisville Road, Frankfort, KY 40601', role: 'state records'}],
@@ -243,7 +269,7 @@ export function fixtures() {
     ['Failure to illuminate headlamps', '1'], ['Failure to signal', '2'], ['Improper equipment', '3'],
     ['Failure to yield', '4'], ['Improper turn', '5'], ['Disregarding traffic-control device', '6'],
     ['Failure to maintain required lighting equipment', '7']
-  ].map(([description, count]) => ({count, caseNumber: boundary.case.number, description, classification: 'qualifying_traffic_infraction', recordVerified: true}));
+  ].map(([description, count]) => ({count, caseNumber: boundary.case.number, description, classification: 'qualifying_traffic_infraction', disposition: 'convicted', dispositionDate: boundary.record.dispositionDate, recordVerified: true}));
   boundary.victims = [];
   boundary.personsWithRelevantInformation = [{name: 'Morgan Lee', address: '200 Record Avenue, Lexington, KY 40507'}];
   return {
@@ -326,14 +352,16 @@ async function fillOfficial(id, review, sourceOverride = null) {
   put('Def.Address.City', f.participant.city, 'participant.city');
   put('Def.Address.State', f.participant.state, 'participant.state');
   put('Def.Address.Zip', f.participant.zip, 'participant.zip');
-  put('Def.PhoneNo', f.participant.phone, 'participant.phone');
+  put('Def.PhoneNo', sourcePhone(f.participant.phone), 'participant.phone');
   put('Def.Info.JailId', f.participant.jailId, 'participant.jailId', {optional: true});
   put('Def.VitalStats.DOB', displayDate(f.participant.dateOfBirth), 'participant.dateOfBirth');
   put('Charge.violation.date', displayDate(f.case.violationOrArrestDate), 'case.violationOrArrestDate');
+  const convictionCharges = f.charges.filter(charge => charge.disposition === 'convicted');
   for (let index = 0; index < 6; index += 1) {
-    const charge = f.charges[index];
+    const charge = convictionCharges[index];
     if (!charge) continue;
-    put(`Charge${index + 1}`, index === 5 && f.charges.length > 6 ? 'Counts 6 onward: see attached schedule' : `Ct ${charge.count}: ${charge.description}`, `charges.${index}.description`, {attachmentFallback: `Count ${charge.count}: see attached schedule`});
+    const factIndex = f.charges.indexOf(charge);
+    put(`Charge${index + 1}`, index === 5 && convictionCharges.length > 6 ? 'Counts 6 onward: see attached schedule' : `Ct ${charge.count}: ${charge.description}`, `charges.${factIndex}.description`, {attachmentFallback: `Count ${charge.count}: see attached schedule`});
   }
   if (id === 'AOC-496.2') {
     const victimText = f.victims.length ? f.victims.map(item => `${item.name}; ${item.address}`).join('\n') : 'None identified';
@@ -361,9 +389,10 @@ async function fillOfficial(id, review, sourceOverride = null) {
   }
 
   blanks.push(blank(id, 'Def.VitalStats.SSN', "Defendant's SSN", 'The platform does not hold this private identifier. Ask the clerk how to provide it securely and complete it before filing.', {requiredBeforeFiling: true}));
-  for (const fieldName of ['Text11', 'Text12', ...(id === 'AOC-496.2' ? ['Text1'] : []), 'Print', 'Reset']) {
+  for (const fieldName of ['Text11', 'Text12', 'Print', 'Reset']) {
     blanks.push(blank(id, fieldName, `${fieldName} viewer/source presentation`, 'Viewer UI control; never a filing fact.'));
   }
+  if (id === 'AOC-496.2') blanks.push(blank(id, 'Text1', 'Text1 viewer/source presentation', 'Viewer UI control; never a filing fact. Its default duplicates the identical official instruction that remains in the source page artwork.'));
   if (id === 'AOC-496.2') {
     blanks.push(blank(id, 'Participant signature/date and notary/clerk jurat', 'Participant signature, signature date, and notary or clerk jurat', 'Signature and date are completed by the participant before the notary or clerk; witness and clerk fields remain protected.', {refusalClass: 'signature_or_date_participant_completion'}));
   } else {
@@ -373,7 +402,9 @@ async function fillOfficial(id, review, sourceOverride = null) {
   }
 
   const protectedFields = fields.filter(field => !written.has(field.getName())).map(field => field.getName());
-  const sanitized = await sanitizeAndFlatten(pdf, {defaultFont: font, writtenFields: written, detachNestedControlFields: true, suppressSynthesizedAppearances: true, fitAppearancesToRect: true, suppressSynthesizedWidgetBorders: true, honorWidgetBorderStyle: true, preserveUnwrittenSelectionBackgrounds: true});
+  const appearanceDispositions = new Map();
+  if (id === 'AOC-496.2') appearanceDispositions.set('Text1', APPEARANCE_DISPOSITION.RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN);
+  const sanitized = await sanitizeAndFlatten(pdf, {defaultFont: font, writtenFields: written, appearanceDispositions, detachNestedControlFields: true, suppressSynthesizedAppearances: true, fitAppearancesToRect: true, suppressSynthesizedWidgetBorders: true, honorWidgetBorderStyle: true, preserveUnwrittenSelectionBackgrounds: true});
   preserveSourceMetadata(pdf, sanitized.clean);
   stampDeterministic(sanitized.clean);
   const bytes = Buffer.from(await sanitized.clean.save({useObjectStreams: false}));
@@ -395,9 +426,10 @@ function instructionSections(review) {
     ['Before filing', [
       `This packet is for case ${f.case.number} in ${f.court.county} County ${f.court.level} Court. Use one petition per criminal case. Confirm the caption and every charge against the current court record and certification before signing.`,
       electionCopy,
-      'Attach the current KRS 431.079 expungement eligibility certification obtained through the Kentucky expungement-certification supporting action. File the petition within 30 days after receiving the certification. If the court has granted leave to proceed in forma pauperis, the controlling Kentucky record says the clerk may accept the petition without the fee or certification; obtain that order before relying on the exception.',
+      'Request the KRS 431.079 expungement eligibility certification from the Administrative Office of the Courts Records Unit using form AOC-RU-009 and the official Kentucky Court of Justice Expungement Certification Process: https://www.kycourts.gov/AOC/Information-and-Technology/Pages/Expungement.aspx. Attach the certification and file within 30 days after receiving it; this packet does not generate a substitute certification.',
+      'To request permission to proceed in forma pauperis, ask the filing Circuit Court Clerk or legal aid for the current motion to proceed in forma pauperis and affidavit of indigency under KRS 453.190, complete and file both, and wait for the court to decide the request before relying on that exception. The held record does not resolve whether this process waives the non-refundable $50 certification charge; confirm that point with the clerk or counsel.',
       "Defendant's SSN is intentionally blank. Ask the Circuit Court Clerk how to provide this private identifier securely and whether a public filing copy should be redacted. Never use a made-up number.",
-      'If more than six charges, or the victims, relevant persons, or agency list exceeds the form space, file the attached schedule with the petition. Check every name and mailing address.'
+      'AOC-496.2 lists only charges that actually resulted in conviction. Any attached Supplemental Schedule of Companion Charges is incorporated into the petition and preserves same-criminal-action misdemeanor, violation, or qualifying traffic charges that were dismissed or amended away. Never describe those companion charges as convictions. Check every offense, disposition, date, case number, name, and mailing address.'
     ]],
     ['Sign, file, and serve', [
       'Sign and date AOC-496.2 only in the presence of a notary or the Circuit Court Clerk. The witness completes the jurat. The software has not signed, notarized, filed, served, or certified anything.',
@@ -405,21 +437,32 @@ function instructionSections(review) {
       'The controlling record states a $100 filing fee per criminal case and says the first $50 is non-refundable. The held AOC-496 proposed order separately says the clerk shall refund $50 when a petition is denied. Those sources leave the actual unsuccessful-petition refund treatment unresolved. This packet makes no refund promise; confirm current handling with the clerk or counsel before relying on any refund.',
       'The clerk serves the county attorney, each identified victim, and each person named as having relevant information. The participant does not serve them. The clerk sets any hearing no sooner than 30 days after filing. Leave every clerk service, hearing, and certification field blank.',
       f.options.includeProposedOrder
-        ? 'AOC-496 is included only because local practice was confirmed to expect a tendered proposed order. Leave Check Box2 through Check Box8 and both Check Box9 choices blank. Leave all findings, grant/denial choices, Other findings, judge/date, and agency certification for the court and record custodians.'
+        ? 'AOC-496 is included only because local practice was confirmed to expect a tendered proposed order. Leave every printed judicial finding and election box blank. Leave all findings, grant/denial choices, Other findings, judge/date, and agency certification for the court and record custodians.'
         : 'AOC-496 is not included because no local proposed-order requirement was confirmed. Ask the Circuit Court Clerk whether the county expects that form before filing.'
     ]],
     ['Stop conditions and follow-up', [
-      'Stop automated self-help and seek individualized legal help if the offenses came from separate incidents, the county attorney or a victim will object, enhancement status is uncertain, the certification lists a disputed conviction, immigration advice is needed, the conviction itself is being challenged, or venue is unclear.',
+      'Stop automated self-help and seek individualized legal help if you are not a United States citizen, your citizenship is unknown, the offenses came from separate incidents, a same-case companion charge is a felony, the county attorney or a victim will object, enhancement status is uncertain, the certification lists a disputed conviction, the conviction itself is being challenged, or venue is unclear.',
       'A filed petition or tendered proposed order does not mean the record is expunged. Attend the hearing if one is set. After a grant, the order directs named agencies to expunge and certify; keep the entered order and follow up with the clerk and agencies.',
-      'Authority and source identity: KRS 431.078, KRS 431.079, KRS 453.190; AOC-496.2 and AOC-496, Rev. 7-16. Source bytes are held by exact SHA-256 in source-receipt.json. This build is a candidate awaiting central raster and independent review; it is not legal approval or a guaranteed result.'
+      'Authority: KRS 431.078, KRS 431.079, KRS 453.190; AOC-496.2 and AOC-496, Rev. 7-16. Filing this packet does not guarantee a result.'
     ]]
   ];
 }
 
 function scheduleSections(f) {
+  const convictions = f.charges.filter(charge => charge.disposition === 'convicted');
+  const companions = f.charges.filter(charge => charge.disposition !== 'convicted');
   return [['Charge, victim, relevant-person, and agency schedule', [
     `Attachment to AOC-496.2 for ${f.participant.fullName}, case ${f.case.number}, ${f.court.county} County.`,
-    ...f.charges.map(charge => `Count ${charge.count}: ${charge.description}. Court-record classification: ${charge.classification}. Disposition: ${f.record.disposition} on ${displayDate(f.record.dispositionDate)}.`),
+    'Charges that resulted in conviction:',
+    ...convictions.map(charge => `Count ${charge.count}: ${charge.description}. Court-record classification: ${displayClassification(charge.classification)}. Disposition: convicted on ${displayDate(charge.dispositionDate)}. Case number: ${charge.caseNumber}.`),
+    ...(companions.length ? [
+      'Supplemental Schedule of Companion Charges (incorporated into AOC-496.2):',
+      ...companions.map(charge => {
+        const amended = charge.disposition === 'amended' ? ` Amendment destination: ${charge.amendmentDestination}.` : '';
+        const related = charge.relatedFinalConviction ? ` Related final conviction: ${charge.relatedFinalConviction}.` : ' Related final conviction: none.';
+        return `Count ${charge.count}: original offense ${charge.description}. Court-record classification: ${displayClassification(charge.classification)}. Actual disposition: ${charge.disposition} on ${displayDate(charge.dispositionDate)}. Case number: ${charge.caseNumber}.${amended}${related}`;
+      })
+    ] : []),
     'Victims:', ...(f.victims.length ? f.victims.map((item, index) => `${index + 1}. ${item.name}; ${item.address}`) : ['None identified in the supplied case facts.']),
     'Persons believed to have relevant information:', ...(f.personsWithRelevantInformation.length ? f.personsWithRelevantInformation.map((item, index) => `${index + 1}. ${item.name}; ${item.address}`) : ['None identified in the supplied case facts.']),
     'Agencies whose custody may contain records:', ...f.agencies.map((item, index) => `${index + 1}. ${item.name}; ${item.address}${item.role ? `; role: ${item.role}` : ''}.`)
@@ -501,8 +544,10 @@ export async function renderKy(input, sourceOverrides = {}) {
   }
   components.push(await appendComponent(packet, 'Kentucky Expungement Certification Attachment Guide', [['Required certification attachment', instructionSections(review)[0][1].slice(0, 3)]], f, 'ky_misdemeanor_expungement-certification-attachment-3', 'certification_attachment'));
   components.push(await appendComponent(packet, 'Kentucky Filing Instructions', instructionSections(review), f, 'ky_misdemeanor_expungement-filing-instructions-4', 'filing_instructions'));
-  const petitionUsedFallback = petition.writes.some(write => write.completeValue !== write.value);
-  if (f.charges.length > 6 || petitionUsedFallback) {
+  const convictionCharges = f.charges.filter(charge => charge.disposition === 'convicted');
+  const companionCharges = f.charges.filter(charge => charge.disposition !== 'convicted');
+  const petitionUsedFallback = petition.writes.some(write => typeof write.completeValue === 'string' && write.completeValue !== write.value);
+  if (convictionCharges.length > 6 || companionCharges.length > 0 || petitionUsedFallback) {
     components.push(await appendComponent(packet, 'Attachment to Petition', scheduleSections(f), f, 'ky_misdemeanor_expungement-charge-agency-schedule', 'filing_attachment'));
   }
   stampDeterministic(packet);
@@ -536,7 +581,8 @@ function fieldMapRows(censuses) {
     writes.push({documentId: id, field: 'Def.Info.JailId', fieldId: 'Def.Info.JailId', effectiveLabel: 'Jail ID Number (optional)', factId: 'participant.jailId', decision: 'write'});
     writes.push({documentId: id, field: 'Agencies', fieldId: 'Agencies', effectiveLabel: 'Agency names and addresses', factId: 'agencies', decision: 'write'});
     refusals.push(blank(id, 'Def.VitalStats.SSN', "Defendant's SSN", 'The platform does not hold this private identifier. Ask the clerk how to provide it securely and complete it before filing.', {requiredBeforeFiling: true}));
-    for (const field of ['Text12', 'Print', 'Reset', ...(id === 'AOC-496.2' ? ['Text11', 'Text1'] : [])]) refusals.push(blank(id, field, `${field} viewer/source presentation`, 'Viewer UI control; never a filing fact.'));
+    for (const field of ['Text12', 'Print', 'Reset', ...(id === 'AOC-496.2' ? ['Text11'] : [])]) refusals.push(blank(id, field, `${field} viewer/source presentation`, 'Viewer UI control; never a filing fact.'));
+    if (id === 'AOC-496.2') refusals.push(blank(id, 'Text1', 'Text1 viewer/source presentation', 'Viewer UI control; never a filing fact. Its default duplicates the identical official instruction that remains in the source page artwork.'));
   }
   for (const [ground, field] of Object.entries(ELECTION_FIELDS)) writes.push({documentId: 'AOC-496.2', field, fieldId: field, effectiveLabel: `Section 6 ${ground} (selection)`, factId: 'record.section6Ground', decision: 'write', routeDetermined: true, isSelectionControl: true});
   for (const [field, label, factId] of [['Victims.List', 'Victim names and addresses', 'victims'], ['PWRI.List', 'Persons with relevant information names and addresses', 'personsWithRelevantInformation']]) writes.push({documentId: 'AOC-496.2', field, fieldId: field, effectiveLabel: label, factId, decision: 'write'});
@@ -576,7 +622,7 @@ export async function runKy({outDir = path.join(ROOT, OUT), inputFile = null} = 
     {componentId: SOURCES['AOC-496'].componentId, role: 'proposed_order', requirement: 'conditional', conditionDescription: 'Where local practice expects a proposed order to be tendered with the petition.', outputStrategy: 'official_pdf_fill', documentId: 'AOC-496'},
     {componentId: 'ky_misdemeanor_expungement-certification-attachment-3', role: 'certification_attachment', requirement: 'required', outputStrategy: 'process_guidance'},
     {componentId: 'ky_misdemeanor_expungement-filing-instructions-4', role: 'filing_instructions', requirement: 'required', outputStrategy: 'process_guidance'}
-  ], conditionalAttachments: [{componentId: 'ky_misdemeanor_expungement-charge-agency-schedule', conditionDescription: 'Included when more than six charges or any complete victim, relevant-person, or agency value must continue beyond an official source cell.'}], selectionDispositionVocabulary: ['PARTICIPANT_ELECTION', 'COURT_OWNED'], electionMap: ELECTION_FIELDS, judicialControlsAlwaysBlank: COURT_SELECTION_FIELDS, ...rows, generationAllowed: false, runtimeSelectable: false}));
+  ], conditionalAttachments: [{componentId: 'ky_misdemeanor_expungement-charge-agency-schedule', conditionDescription: 'Included for a dismissed or amended-away same-criminal-action misdemeanor, violation, or qualifying traffic companion charge, more than six convictions, or any complete victim, relevant-person, or agency value that must continue beyond an official source cell.'}], selectionDispositionVocabulary: ['PARTICIPANT_ELECTION', 'COURT_OWNED'], electionMap: ELECTION_FIELDS, judicialControlsAlwaysBlank: COURT_SELECTION_FIELDS, ...rows, generationAllowed: false, runtimeSelectable: false}));
   fs.writeFileSync(path.join(outDir, 'field-census.census-v1.json'), json({schemaVersion: 'rcap-field-census/v1', familyId: FAMILY, documents: Object.entries(censuses).map(([formNumber, fields]) => ({formNumber, sourceSha256: SOURCES[formNumber].sha256, fields}))}));
   fs.writeFileSync(path.join(outDir, 'official-field-census.json'), json(censuses));
   const selectable = packets.filter(packet => packet.fixture.startsWith('selectable/'))

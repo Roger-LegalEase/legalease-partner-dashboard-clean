@@ -4,11 +4,13 @@ This packet is for case 19-M-000001 in Fayette County District Court. Use one pe
 
 The court record shows a conviction disposition dated 06/15/2018 and supports the ordinary five-year selection. The later completion date is 09/11/2020 and the five-year date is 09/11/2025.
 
-Attach the current KRS 431.079 expungement eligibility certification obtained through the Kentucky expungement-certification supporting action. File the petition within 30 days after receiving the certification. If the court has granted leave to proceed in forma pauperis, the controlling Kentucky record says the clerk may accept the petition without the fee or certification; obtain that order before relying on the exception.
+Request the KRS 431.079 expungement eligibility certification from the Administrative Office of the Courts Records Unit using form AOC-RU-009 and the official Kentucky Court of Justice Expungement Certification Process: https://www.kycourts.gov/AOC/Information-and-Technology/Pages/Expungement.aspx. Attach the certification and file within 30 days after receiving it; this packet does not generate a substitute certification.
+
+To request permission to proceed in forma pauperis, ask the filing Circuit Court Clerk or legal aid for the current motion to proceed in forma pauperis and affidavit of indigency under KRS 453.190, complete and file both, and wait for the court to decide the request before relying on that exception. The held record does not resolve whether this process waives the non-refundable $50 certification charge; confirm that point with the clerk or counsel.
 
 Defendant's SSN is intentionally blank. Ask the Circuit Court Clerk how to provide this private identifier securely and whether a public filing copy should be redacted. Never use a made-up number.
 
-If more than six charges, or the victims, relevant persons, or agency list exceeds the form space, file the attached schedule with the petition. Check every name and mailing address.
+AOC-496.2 lists only charges that actually resulted in conviction. Any attached Supplemental Schedule of Companion Charges is incorporated into the petition and preserves same-criminal-action misdemeanor, violation, or qualifying traffic charges that were dismissed or amended away. Never describe those companion charges as convictions. Check every offense, disposition, date, case number, name, and mailing address.
 
 ## Sign, file, and serve
 
@@ -24,8 +26,8 @@ AOC-496 is not included because no local proposed-order requirement was confirme
 
 ## Stop conditions and follow-up
 
-Stop automated self-help and seek individualized legal help if the offenses came from separate incidents, the county attorney or a victim will object, enhancement status is uncertain, the certification lists a disputed conviction, immigration advice is needed, the conviction itself is being challenged, or venue is unclear.
+Stop automated self-help and seek individualized legal help if you are not a United States citizen, your citizenship is unknown, the offenses came from separate incidents, a same-case companion charge is a felony, the county attorney or a victim will object, enhancement status is uncertain, the certification lists a disputed conviction, the conviction itself is being challenged, or venue is unclear.
 
 A filed petition or tendered proposed order does not mean the record is expunged. Attend the hearing if one is set. After a grant, the order directs named agencies to expunge and certify; keep the entered order and follow up with the clerk and agencies.
 
-Authority and source identity: KRS 431.078, KRS 431.079, KRS 453.190; AOC-496.2 and AOC-496, Rev. 7-16. Source bytes are held by exact SHA-256 in source-receipt.json. This build is a candidate awaiting central raster and independent review; it is not legal approval or a guaranteed result.
+Authority: KRS 431.078, KRS 431.079, KRS 453.190; AOC-496.2 and AOC-496, Rev. 7-16. Filing this packet does not guarantee a result.

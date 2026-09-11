@@ -76,6 +76,90 @@ await test('one day before the five-year boundary emits no artifact', () => {
   assert.match(rejected.run.stderr, /WAIT_NOT_MET/);
 });
 
+for (const [name, change] of [
+  ['non-US citizenship', f => { f.participant.isUsCitizen = false; }],
+  ['unknown citizenship', f => { delete f.participant.isUsCitizen; }]
+]) {
+  await test(`${name} stops before emitting an artifact`, () => {
+    const rejected = runEntrypoint(mutate(kyFixture(), change), name.replace(/\W+/g, '-'), {expectSuccess: false});
+    assert.match(rejected.run.stderr, /United States citizenship required/);
+  });
+}
+
+await test('source-listed out-of-state mailing address remains independent of Kentucky venue', () => {
+  const facts = kyFixture();
+  facts.participant.state = 'Ohio';
+  facts.participant.city = 'Cincinnati';
+  facts.participant.zip = '45202';
+  const made = runEntrypoint(facts, 'ohio-mailing');
+  try {
+    assert(made.report.writes.some(write => write.field === 'Def.Address.State' && write.value === 'Ohio'));
+  } finally { fs.rmSync(made.temp, {recursive: true, force: true}); }
+});
+
+await test('mixed conviction classifications are preserved on the petition face', () => {
+  const facts = kyFixture();
+  facts.charges.push({count: '2', caseNumber: facts.case.number, description: 'Harassment', classification: 'violation', disposition: 'convicted', dispositionDate: '2018-06-15', recordVerified: true});
+  const made = runEntrypoint(facts, 'mixed-conviction-classifications');
+  try {
+    assert(made.report.writes.some(write => write.field === 'Charge1' && /Criminal trespass/.test(write.value)));
+    assert(made.report.writes.some(write => write.field === 'Charge2' && /Harassment/.test(write.value)));
+  } finally { fs.rmSync(made.temp, {recursive: true, force: true}); }
+});
+
+await test('dismissed and amended-away companions stay off the conviction face and appear accurately in the incorporated schedule', () => {
+  const facts = kyFixture();
+  facts.charges.push(
+    {count: '2', caseNumber: facts.case.number, description: 'Disorderly conduct', classification: 'violation', disposition: 'dismissed', dispositionDate: '2018-06-15', amendmentDestination: null, relatedFinalConviction: null, sameCriminalAction: true, recordVerified: true},
+    {count: '3', caseNumber: facts.case.number, description: 'Harassing communications', classification: 'misdemeanor', disposition: 'amended', dispositionDate: '2018-06-15', amendmentDestination: 'Criminal trespass, second degree', relatedFinalConviction: 'Count 1: Criminal trespass, second degree', sameCriminalAction: true, recordVerified: true}
+  );
+  const made = runEntrypoint(facts, 'mixed-dispositions');
+  try {
+    const faceWrites = made.report.writes.filter(write => /^Charge[1-6]$/.test(write.field));
+    assert.equal(faceWrites.length, 1);
+    assert(!faceWrites.some(write => /Disorderly|Harassing/.test(write.value)));
+    const extracted = spawnSync('pdftotext', ['-layout', made.pdf, '-'], {encoding: 'utf8'});
+    assert.equal(extracted.status, 0, extracted.stderr);
+    assert.match(extracted.stdout, /Supplemental Schedule of Companion Charges/);
+    assert.match(extracted.stdout, /Actual disposition: dismissed\s+on\s+06\/15\/2018/);
+    assert.match(extracted.stdout, /Actual disposition: amended\s+on\s+06\/15\/2018/);
+    assert.match(extracted.stdout, /Amendment destination:\s+Criminal trespass, second degree/);
+  } finally { fs.rmSync(made.temp, {recursive: true, force: true}); }
+});
+
+await test('felony companion stops before emitting an artifact', () => {
+  const facts = kyFixture();
+  facts.charges.push({count: '2', caseNumber: facts.case.number, description: 'Felony companion', classification: 'felony', disposition: 'dismissed', dispositionDate: '2018-06-15', amendmentDestination: null, relatedFinalConviction: null, sameCriminalAction: true, recordVerified: true});
+  const rejected = runEntrypoint(facts, 'felony-companion', {expectSuccess: false});
+  assert.match(rejected.run.stderr, /FELONY_COMPANION_REQUIRES_SEPARATE_AUTHORITY/);
+});
+
+await test('phone appearances respect static punctuation on both official forms and duplicate agency default is suppressed', () => {
+  const made = runEntrypoint(kyFixture('ordinary_misdemeanor', true), 'source-presentation');
+  try {
+    const bbox = spawnSync('pdftotext', ['-bbox-layout', made.pdf, '-'], {encoding: 'utf8'});
+    assert.equal(bbox.status, 0, bbox.stderr);
+    const areaCodes = [...bbox.stdout.matchAll(/<word xMin="([0-9.]+)"[^>]*>859<\/word>/g)].map(match => Number(match[1]));
+    const localNumbers = [...bbox.stdout.matchAll(/<word xMin="([0-9.]+)"[^>]*>555-0142<\/word>/g)].map(match => Number(match[1]));
+    assert.equal(areaCodes.length, 2);
+    assert.equal(localNumbers.length, 2);
+    assert(areaCodes.every(x => x >= 44), `area code overlaps left parenthesis: ${areaCodes.join(', ')}`);
+    assert(localNumbers.every(x => x >= 64), `local number overlaps right parenthesis: ${localNumbers.join(', ')}`);
+    const staticLists = [...bbox.stdout.matchAll(/<word xMin="([0-9.]+)"[^>]*>LIST<\/word>/g)].map(match => Number(match[1])).filter(x => x > 150 && x < 180);
+    assert.deepEqual(staticLists, [156.6816]);
+  } finally { fs.rmSync(made.temp, {recursive: true, force: true}); }
+});
+
+await test('checkbox selection alone does not append the conditional schedule', () => {
+  const facts = kyFixture();
+  facts.victims = [];
+  facts.agencies = [{name: 'KSP', address: 'Frankfort, KY'}];
+  const made = runEntrypoint(facts, 'no-schedule');
+  try {
+    assert(!made.report.components.some(component => component.documentId === 'ky_misdemeanor_expungement-charge-agency-schedule'));
+  } finally { fs.rmSync(made.temp, {recursive: true, force: true}); }
+});
+
 for (const [name, change, message] of [
   ['missing classification confirmation', f => delete f.record.classificationConfirmed, /AMBIGUOUS_RECORD_FACT/],
   ['unknown classification', f => { f.record.offenseClassification = 'traffic'; f.charges[0].classification = 'traffic'; }, /CHARGE_CLASSIFICATION_REQUIRED|UNSUPPORTED_OR_UNKNOWN_CLASSIFICATION/],
