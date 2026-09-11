@@ -34,6 +34,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 import { sourceDispositionAdvancement } from './source-disposition-advancement.mjs';
+import {
+  applyUserSourceDeterminations,
+  USER_SOURCE_ADOPTION_PATH,
+} from './user-source-adoption.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const CHECK = process.argv.includes("--check");
@@ -100,7 +104,8 @@ const verification = read(VERIFICATION) ?? fail(`${VERIFICATION} is not readable
 const artifacts = (read("data/record-clearing/source-artifact-registry.json", { artifacts: [] }).artifacts) ?? [];
 
 const checkpoint = read(`${DIR}/CHECKPOINT.json`, {});
-const captainDeterminations = read(CAPTAIN_DETERMINATIONS) ?? fail(`${CAPTAIN_DETERMINATIONS} is not readable`);
+const historicalCaptainDeterminations = read(CAPTAIN_DETERMINATIONS) ?? fail(`${CAPTAIN_DETERMINATIONS} is not readable`);
+const captainDeterminations = applyUserSourceDeterminations(ROOT, historicalCaptainDeterminations);
 const reconciliation42 = captainDeterminations.reconciliation42 ?? fail(`${CAPTAIN_DETERMINATIONS} carries no reconciliation42 record`);
 
 /* A bare statutory citation is not a form and nobody can download one. A title
@@ -396,6 +401,7 @@ const registryDoc = {
   },
   reconciliation42: {
     input: CAPTAIN_DETERMINATIONS,
+    additiveInput: USER_SOURCE_ADOPTION_PATH,
     familiesExamined: (reconciliation42.families ?? []).length,
     byDisposition: Object.fromEntries(["SOURCE_READY", "PRODUCT_PATH_PENDING", "SOURCE_BLOCKED"]
       .map((state) => [state, (reconciliation42.families ?? []).filter((r) => r.disposition === state).length])),

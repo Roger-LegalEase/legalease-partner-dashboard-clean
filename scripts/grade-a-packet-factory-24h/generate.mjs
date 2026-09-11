@@ -17,6 +17,11 @@
  * conveyor is for, and it is reported rather than smoothed.
  */
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
+import {
+  applyUserSourceDeterminations,
+  loadUserSourceAdoption,
+  USER_SOURCE_ADOPTION_PATH,
+} from "./user-source-adoption.mjs";
 import fs from "node:fs";
 import { suspendedTerminalState } from "./terminal-claim-suspension.mjs";
 import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC, GA_GUIDANCE, GA_PETITION } from "./treatment-reconciliation.mjs";
@@ -869,7 +874,11 @@ for (const e of IN.corpusIndex.entries ?? []) {
  * so every regeneration discarded the completed work and recreated the same
  * generic source blocks. Consume both here, where source readiness is decided.
  */
-const sourceReconciliationDoc = IN.sourceDeterminations?.reconciliation42 ?? null;
+const sourceUserAdoption = loadUserSourceAdoption(ROOT);
+const effectiveSourceDeterminations = applyUserSourceDeterminations(ROOT, IN.sourceDeterminations, {
+  adoption: sourceUserAdoption,
+});
+const sourceReconciliationDoc = effectiveSourceDeterminations.reconciliation42 ?? null;
 const sourceReconciliationByFamily = new Map((sourceReconciliationDoc?.families ?? [])
   .map((r) => [r.familyId, r]));
 // This additive owner decision changes only Utah's selector hold. Preserve the
@@ -2683,7 +2692,27 @@ for (const f of IN.scoreboard.familiesDetail) {
           permissionHold: sourceReconciliation.permissionHold ?? null,
           productQuestion: sourceReconciliation.productQuestion ?? null,
           sourceReplacements: sourceReconciliation.sourceReplacements ?? null,
-          determinationInput: INPUTS.sourceDeterminations
+          ...(sourceReconciliation.sourceAdoptionId ? {
+            ...(Object.hasOwn(sourceReconciliation, "additionalRequiredSourceIds")
+              ? { additionalRequiredSourceIds: [...sourceReconciliation.additionalRequiredSourceIds] } : {}),
+            ...(Object.hasOwn(sourceReconciliation, "satisfiedWithoutStandaloneBinary")
+              ? { satisfiedWithoutStandaloneBinary: [...sourceReconciliation.satisfiedWithoutStandaloneBinary] } : {}),
+            ...(Object.hasOwn(sourceReconciliation, "requireBoundAuthority")
+              ? { requireBoundAuthority: sourceReconciliation.requireBoundAuthority } : {}),
+            ...(Object.hasOwn(sourceReconciliation, "authorityBindings")
+              ? { authorityBindings: structuredClone(sourceReconciliation.authorityBindings) } : {}),
+            ...(Object.hasOwn(sourceReconciliation, "participantDocumentRequirements")
+              ? { participantDocumentRequirements: structuredClone(sourceReconciliation.participantDocumentRequirements) } : {}),
+            ...(Object.hasOwn(sourceReconciliation, "operationalBucket")
+              ? { operationalBucket: sourceReconciliation.operationalBucket } : {}),
+            sourceAdoptionId: sourceReconciliation.sourceAdoptionId,
+            ...(Object.hasOwn(sourceReconciliation, "sourceResolutionId")
+              ? { sourceResolutionId: sourceReconciliation.sourceResolutionId } : {}),
+            ...(Object.hasOwn(sourceReconciliation, "supersedesDetermination")
+              ? { supersedesDetermination: sourceReconciliation.supersedesDetermination } : {}),
+          } : {}),
+          determinationInput: sourceReconciliation.determinationInput
+            ?? (sourceReconciliation.sourceAdoptionId ? USER_SOURCE_ADOPTION_PATH : INPUTS.sourceDeterminations)
         }
       : null,
     verifierSourceHold,

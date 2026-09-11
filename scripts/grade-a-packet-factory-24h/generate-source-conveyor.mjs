@@ -33,6 +33,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 import { hostAllowed, ALLOWED_HOST_SUFFIXES, ALLOWED_EXACT_HOSTS, REFUSED_HOSTS } from "../lib/official-host-policy.mjs";
+import { applyUserSourceDeterminations } from "./user-source-adoption.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -162,7 +163,7 @@ const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, enco
 const master = read(MASTER);
 const active = read(ACTIVE);
 const familyById = new Map(master.families.map((f) => [f.familyId, f]));
-const sourceReconciliation42 = read(CAPTAIN_DETERMINATIONS).reconciliation42;
+const sourceReconciliation42 = applyUserSourceDeterminations(ROOT, read(CAPTAIN_DETERMINATIONS)).reconciliation42;
 
 /* The host allowlist has one authority: the acquisition script. Read it from
  * there rather than restating it, so a second list cannot drift from the first. */

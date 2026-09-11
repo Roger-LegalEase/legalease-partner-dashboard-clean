@@ -17,6 +17,11 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { sourceDispositionAdvancement } from './source-disposition-advancement.mjs';
+import {
+  applyUserSourceDeterminations,
+  loadUserSourceAdoption,
+  USER_SOURCE_ADOPTION_PATH,
+} from './user-source-adoption.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const MUTATIONS = process.argv.includes("--mutations");
@@ -37,11 +42,15 @@ const reg = readJson(REGISTRY);
 const unblock = readJson(UNBLOCK);
 const verification = readJson(VERIFICATION);
 const master = readJson(MASTER);
-const captainDeterminations = readJson(CAPTAIN_DETERMINATIONS);
-if (!reg || !unblock || !verification || !master || !captainDeterminations) {
+const historicalCaptainDeterminations = readJson(CAPTAIN_DETERMINATIONS);
+if (!reg || !unblock || !verification || !master || !historicalCaptainDeterminations) {
   console.error("REFUSED: the registry, the human queue or the external verification is unreadable.");
   process.exit(1);
 }
+const sourceUserAdoption = loadUserSourceAdoption(ROOT);
+const captainDeterminations = applyUserSourceDeterminations(ROOT, historicalCaptainDeterminations, {
+  adoption: sourceUserAdoption,
+});
 const records = reg.records ?? [];
 const tasks = unblock.tasks ?? [];
 
@@ -191,13 +200,30 @@ const recProblems = [];
 const recRows = recInput?.families ?? [];
 // The original governed cohort remains 70. Later explicit determinations are
 // additional rows, not duplicates or permission to drop the original cohort.
-const laterRows = recRows.filter(r=>r.group === "LATER");
-const expectedFamilyCount = baseFamilyCount + laterRows.length;
-for (const r of laterRows) if (!r.determinedBy || !r.exactResidual || (r.disposition === "SOURCE_BLOCKED" && !(r.unresolvedObligations ?? []).length)) {
-  recProblems.push(`${r.familyId}: later source disposition lacks its named determination/residual`);
+const historicalFamilyIds = new Set((historicalCaptainDeterminations.reconciliation42?.families ?? []).map((row) => row.familyId));
+const additiveRows = recRows.filter((row) => !historicalFamilyIds.has(row.familyId));
+const historicalLaterRows = recRows.filter((row) => row.group === "LATER" && historicalFamilyIds.has(row.familyId));
+const expectedAdditiveIds = sourceUserAdoption.familyDeterminations
+  .map((row) => row.familyId).filter((familyId) => !historicalFamilyIds.has(familyId)).sort();
+const adoptedSourceFamilies = new Set(sourceUserAdoption.sources.flatMap((source) => source.familyIds));
+const adoptedDeterminationFamilies = new Set(sourceUserAdoption.familyDeterminations.map((row) => row.familyId));
+const exactResolvedByAdoption = (row) => adoptedDeterminationFamilies.has(row.familyId)
+  && row.determinationInput === USER_SOURCE_ADOPTION_PATH
+  && (adoptedSourceFamilies.has(row.familyId) || (row.authorityBindings ?? []).length > 0);
+const expectedFamilyCount = baseFamilyCount + historicalLaterRows.length + additiveRows.length;
+for (const r of recRows.filter((row) => row.group === "LATER")) {
+  if (!r.determinedBy) recProblems.push(`${r.familyId}: later source disposition lacks its named determination`);
+  if (r.disposition === "SOURCE_BLOCKED" && (!r.exactResidual || !(r.unresolvedObligations ?? []).length)) {
+    recProblems.push(`${r.familyId}: blocked later source disposition lacks its residual or unresolved obligation`);
+  } else if (r.disposition === "SOURCE_READY" && !r.exactResidual && !exactResolvedByAdoption(r)) {
+    recProblems.push(`${r.familyId}: resolved later source disposition has no byte-verified additive adoption`);
+  }
 }
 for (const r of recRows) if (!Object.hasOwn(expectedGroups,r.group) && r.group !== "LATER") {
   recProblems.push(`${r.familyId}: unknown reconciliation group ${r.group}`);
+}
+if (JSON.stringify(additiveRows.map((row) => row.familyId).sort()) !== JSON.stringify(expectedAdditiveIds)) {
+  recProblems.push("effective additive family rows differ from the byte-verified adoption record");
 }
 if (recRows.length !== expectedFamilyCount) recProblems.push(`input has ${recRows.length} family rows`);
 if (new Set(recRows.map((r) => r.familyId)).size !== expectedFamilyCount) {
@@ -208,7 +234,8 @@ for (const [group, count] of Object.entries(expectedGroups)) {
   if (recOutput?.byGroup?.[group] !== actual) recProblems.push(`output group ${group} is stale`);
   if (actual !== count) recProblems.push(`group ${group} has ${actual}, expected ${count}`);
 }
-if ((recOutput?.byGroup?.LATER ?? 0) !== laterRows.length) recProblems.push("output later group is stale");
+if ((recOutput?.byGroup?.LATER ?? 0) !== recRows.filter((row) => row.group === "LATER").length) recProblems.push("output later group is stale");
+if (recOutput?.additiveInput !== USER_SOURCE_ADOPTION_PATH) recProblems.push("output omits the additive determination input");
 for (const row of recRows) {
   const projected = recOutput?.families?.find(x=>x.familyId===row.familyId);
   if (!projected || projected.group!==row.group || projected.decidedDisposition!==row.disposition) recProblems.push(`${row.familyId}: governed output row is missing/stale`);
@@ -234,8 +261,11 @@ const declaredStillBlocked = [...(recOutput?.remainingSourceBlockedFamilyIds ?? 
 if (JSON.stringify(expectedStillBlocked) !== JSON.stringify(declaredStillBlocked)) {
   recProblems.push(`remaining blocked ${declaredStillBlocked.join(", ") || "none"}; expected ${expectedStillBlocked.join(", ") || "none"}`);
 }
-const laterBlockers = recOutput?.laterSourceBlockersKeptSeparate ?? [];
-if (laterBlockers.length !== 5 || laterBlockers.some((id) => recRows.some((r) => r.familyId === id))) {
+const adoptedFamilyIds = new Set(sourceUserAdoption.familyDeterminations.map((row) => row.familyId));
+const expectedLaterBlockers = (historicalCaptainDeterminations.reconciliation42?.laterSourceBlockersKeptSeparate ?? [])
+  .filter((id) => !adoptedFamilyIds.has(id)).sort();
+const laterBlockers = [...(recOutput?.laterSourceBlockersKeptSeparate ?? [])].sort();
+if (JSON.stringify(laterBlockers) !== JSON.stringify(expectedLaterBlockers)) {
   recProblems.push(`later blocker separation is invalid (${laterBlockers.length})`);
 }
 check("S12", `all ${expectedFamilyCount} reconciled families retain their governed source dispositions or advance downstream, with the five later blockers separate`,

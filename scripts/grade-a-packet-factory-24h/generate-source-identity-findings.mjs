@@ -19,6 +19,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  applyUserSourceDeterminations,
+  loadUserSourceAdoption,
+  USER_SOURCE_ADOPTION_PATH,
+} from "./user-source-adoption.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -43,10 +48,18 @@ const corpus = fs.existsSync(path.join(ROOT, CORPUS)) ? read(CORPUS) : null;
 const corpusEntries = corpus ? (corpus.entries ?? corpus.files ?? []) : [];
 const ksTruncated = corpusEntries.filter((e) => /^KS-/.test(String(e.formNumber ?? "")) && String(e.formNumber).length >= 44);
 const master = read(MASTER);
-const reconciliation42 = read(CAPTAIN_DETERMINATIONS).reconciliation42;
+const historicalDeterminations = read(CAPTAIN_DETERMINATIONS);
+const sourceUserAdoption = loadUserSourceAdoption(ROOT);
+const reconciliation42 = applyUserSourceDeterminations(ROOT, historicalDeterminations, {
+  adoption: sourceUserAdoption,
+}).reconciliation42;
+const historicalFamilyIds = new Set((historicalDeterminations.reconciliation42?.families ?? []).map((row) => row.familyId));
+const historicalReconciliation = (reconciliation42.families ?? []).filter((row) => historicalFamilyIds.has(row.familyId));
+const adoptedFamilyIds = new Set(sourceUserAdoption.familyDeterminations.map((row) => row.familyId));
+const adoptedReconciliation = (reconciliation42.families ?? []).filter((row) => adoptedFamilyIds.has(row.familyId));
 const masterByFamily = new Map(master.families.map((f) => [f.familyId, f]));
 const ksReconciled = (reconciliation42.families ?? []).filter((r) => r.familyId.startsWith("ks-"));
-const reconciliationMatchesMaster = (reconciliation42.families ?? [])
+const reconciliationMatchesMaster = historicalReconciliation
   .every((r) => {
     const generated = masterByFamily.get(r.familyId);
     if (!generated) return false;
@@ -62,10 +75,10 @@ const reconciliationMatchesMaster = (reconciliation42.families ?? [])
   });
 const reconciliationCounts = Object.fromEntries(
   ["SOURCE_READY", "PRODUCT_PATH_PENDING", "SOURCE_BLOCKED"]
-    .map((state) => [state, (reconciliation42.families ?? []).filter((r) => r.disposition === state).length])
+    .map((state) => [state, historicalReconciliation.filter((r) => r.disposition === state).length])
 );
 const reconciliationSummary = `${reconciliationCounts.SOURCE_READY} SOURCE_READY, ${reconciliationCounts.PRODUCT_PATH_PENDING} PRODUCT_PATH_PENDING, and ${reconciliationCounts.SOURCE_BLOCKED} exact SOURCE_BLOCKED`;
-const reconciliationResiduals = (reconciliation42.families ?? [])
+const reconciliationResiduals = historicalReconciliation
   .filter((r) => r.disposition === "SOURCE_BLOCKED")
   .map((r) => `${r.familyId}: ${r.exactResidual ?? r.exactNextAction}`);
 
@@ -131,9 +144,22 @@ const FINDINGS = [
     whatItChanges: `${42 - reconciliationCounts.SOURCE_BLOCKED} generic source blocks are removed without touching the separate 28-family acquisition cohort or the five later source blockers. Newly source-ready families enter the existing packet-build lanes.`,
     reclassifyTo: `${reconciliationCounts.SOURCE_READY}_SOURCE_READY_${reconciliationCounts.PRODUCT_PATH_PENDING}_PRODUCT_PATH_PENDING_${reconciliationCounts.SOURCE_BLOCKED}_SOURCE_BLOCKED`,
     doNotDo: "Do not regenerate these families from stale acquisition-return statuses or collapse parent/component, phantom-document, nonofficial-template, permission, or product-routing findings back into SOURCE_BLOCKED.",
-    verified: reconciliation42.families?.length === 42
-      && new Set(reconciliation42.families.map((r) => r.familyId)).size === 42
+    verified: historicalReconciliation.length === 42
+      && new Set(historicalReconciliation.map((r) => r.familyId)).size === 42
       && reconciliationMatchesMaster
+  },
+  {
+    id: "SIF-6", jurisdiction: "AZ/CA/CO/LA/NM", severity: "high",
+    claim: `${adoptedReconciliation.length} additive family source determinations consume exact user-upload custody without rewriting the historical determination record.`,
+    evidence: [
+      `${USER_SOURCE_ADOPTION_PATH}: ${sourceUserAdoption.sources.length} adopted exact source records and ${sourceUserAdoption.familyDeterminations.length} targeted family determinations.`,
+      `${CAPTAIN_DETERMINATIONS}: retained as immutable historical input; the effective reconciliation is produced in memory.`
+    ],
+    whatItChanges: "Only the named families receive the additive source determination; packet failures and commercial gates remain independent.",
+    reclassifyTo: "TARGETED_ADDITIVE_SOURCE_RECONCILIATION",
+    doNotDo: "Do not infer packet approval, route promotion, or a source result for any unlisted family.",
+    verified: adoptedReconciliation.length === sourceUserAdoption.familyDeterminations.length
+      && adoptedReconciliation.every((row) => row.determinationInput === USER_SOURCE_ADOPTION_PATH)
   }
 ];
 
