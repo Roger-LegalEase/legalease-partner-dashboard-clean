@@ -214,5 +214,86 @@
   "grantsNothing": "No self-approval, route promotion, raster receipt, central state, owner decision, source change or PDF change.",
   "status": "STOPPED",
   "verdict": "EVIDENCE_ONLY",
-  "stoppedBecause": "The truthful no-raster report and prewrite guard are repaired; visual measurement, independent verification, approval and promotion remain outside this lane."
+  "stoppedBecause": "The truthful no-raster report and prewrite guard are repaired; visual measurement, independent verification, approval and promotion remain outside this lane.",
+  "publishedMeasurementConsistency": {
+    "reportPath": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/reports/actual-writes.json",
+    "validGeneratedCopy": "data/rcap-grade-a/packet-factory-24h/fixcxin1/indiana-counter-repair-20260911/valid-actual-writes.json",
+    "candidateBeforeRepairSha256": "b01ea607cbb78b6dcc511697a8425cff25b288129a310007ad6d45218f8091bf",
+    "validGeneratedSha256": "a24fd05023f4a18059313373ec4e2a7ef099d2870b6ef48f55ef7cc2e5e640e8",
+    "publishedSha256": "a24fd05023f4a18059313373ec4e2a7ef099d2870b6ef48f55ef7cc2e5e640e8",
+    "publishedExactlyFromValidStage": true,
+    "changedMetricValues": [
+      {
+        "jsonPath": "documents[fixture=canonical].nonWhitespaceGlyphsOutsideMeasuredWriteBoxes",
+        "before": 0,
+        "after": null
+      },
+      {
+        "jsonPath": "documents[fixture=boundary].nonWhitespaceGlyphsOutsideMeasuredWriteBoxes",
+        "before": 0,
+        "after": null
+      },
+      {
+        "jsonPath": "artifacts[fixture=canonical].nonWhitespaceGlyphsOutsideMeasuredWriteBoxes",
+        "before": 0,
+        "after": null
+      },
+      {
+        "jsonPath": "artifacts[fixture=boundary].nonWhitespaceGlyphsOutsideMeasuredWriteBoxes",
+        "before": 0,
+        "after": null
+      }
+    ],
+    "otherActualWritesFieldsChanged": false,
+    "otherRelevantGeneratedOutputs": [
+      {
+        "path": "reports/completeness-counters.json",
+        "candidateSha256": "8329734c1df5084f2e9c7282b35f3173370c940a6199e58f05d9827696721782",
+        "validSha256": "8329734c1df5084f2e9c7282b35f3173370c940a6199e58f05d9827696721782",
+        "semanticEqual": true,
+        "note": "Already published by the preceding repair; its intentional null visualDefects change is recorded in validReport."
+      },
+      {
+        "path": "reports/rendered-artifacts.json",
+        "candidateSha256": "5bf009d3090b153962bde31fe556f8a349d91c5c51cd3de1f2279a38c50a5b6b",
+        "validSha256": "5bf009d3090b153962bde31fe556f8a349d91c5c51cd3de1f2279a38c50a5b6b",
+        "semanticEqual": true
+      },
+      {
+        "path": "build-status.json",
+        "candidateSha256": "b74ef4fdca7e70fcf3578299806b4ced3dd8196a1d64998c9b4d4d8c84f863c8",
+        "validSha256": "b74ef4fdca7e70fcf3578299806b4ced3dd8196a1d64998c9b4d4d8c84f863c8",
+        "semanticEqual": true
+      },
+      {
+        "path": "build-findings.json",
+        "candidateSha256": "397e4b5654dd431c05581ba0efa47a1f17a28caaf3d05dc90b7f7fa1fcdc8888",
+        "validSha256": "397e4b5654dd431c05581ba0efa47a1f17a28caaf3d05dc90b7f7fa1fcdc8888",
+        "semanticEqual": true
+      },
+      {
+        "path": "participant-instructions.md",
+        "candidateSha256": "c55bc5e187c667267b1955a2170f309d905e9ff86a747deeae9dc089b9c1c0a3",
+        "validSha256": "c55bc5e187c667267b1955a2170f309d905e9ff86a747deeae9dc089b9c1c0a3",
+        "semanticEqual": true
+      },
+      {
+        "path": "production-field-map.json",
+        "candidateSha256": "6df7b23711fcaed9a7b29757b8df425e143eba696f3f50c3348e71fba7190228",
+        "validSha256": "6df7b23711fcaed9a7b29757b8df425e143eba696f3f50c3348e71fba7190228",
+        "semanticEqual": true
+      }
+    ],
+    "excludedDifferences": [
+      {
+        "path": "source-receipt.json",
+        "candidateSha256": "bdb7ab9e354f3a3e74c2a117aacd13b03cacecfa9210c37898d20d50953a17fa",
+        "validStageSha256": "bbdb1457d24c29f0094c08a9b0f63aa05ad37c26d0a9ed1280e3e038434b906d",
+        "reason": "The isolated no-raster stage lacks the candidate identityRefresh annotation; this is mount/identity provenance metadata churn, so the existing family source receipt remains unchanged."
+      }
+    ],
+    "pdfsUnchanged": true,
+    "noOtherOldNumericZeroFoundInFamilyReports": true,
+    "searchBasis": "After publication, family report search found only the intentional null visualDefects and four intentional null actual-writes glyph metrics; no old allNineZero or numeric visual metric remains."
+  }
 }
