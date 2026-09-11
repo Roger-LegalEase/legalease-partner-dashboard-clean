@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "3c799170ea5f0bdf4bdc75338b5defb364cec9b1",
+  "generatedAtCommit": "b2cb08b4e9c42201ded34ae873e4b612f0392e34",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3357,6 +3357,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "fl-10yr-bridge-set",
+      "itemId": null,
+      "familyId": "fl-10yr-bridge-set",
+      "familyIds": [
+        "fl-10yr-bridge-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-10yr-bridge-set",
       "familyId": "fl-10yr-bridge-set",
       "itemId": null,
       "familyIds": [
@@ -3500,7 +3515,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF03",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-09T14:02:42.013Z"
@@ -6829,7 +6844,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T23:50:16.437Z"
@@ -9778,9 +9793,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Exhaustive 14 PASS/1 FAIL current-byte review integrated d695d4e0b; narrow certificate calendar correction required"
+      "released": true,
+      "releasedAt": "2026-09-11T19:28:27.690Z",
+      "releaseReason": "Full15 PASS independent calendar closure integrated; consume unchanged raster and run mandatory admission integration"
     },
     {
       "subjectType": "packet-family",
@@ -15355,24 +15370,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "fl-10yr-bridge-set",
-      "itemId": null,
-      "familyId": "fl-10yr-bridge-set",
-      "familyIds": [
-        "fl-10yr-bridge-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "e4be6a33e2c11a7f7344ee02e79f52db3fade29cc60f58ecd1b5e762af92275d",
+  "claimsDigest": "dd8373b081334a7b1971034ceb927c9a187bb087023d352b694fdc047df44044",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40786,6 +40786,15 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-11T19:22:51.986Z",
       "reason": "Current source-backed service artifacts integrated; PDFs unchanged, existing canonical raster and missing boundary evidence need reconciliation"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_special_certificate-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-11T19:28:27.690Z",
+      "reason": "Full15 PASS independent calendar closure integrated; consume unchanged raster and run mandatory admission integration"
     }
   ],
   "reissues": [

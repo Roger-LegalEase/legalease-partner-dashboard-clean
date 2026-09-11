@@ -17,16 +17,15 @@
   ],
   "familiesAudited": 304,
   "byResult": {
-    "PASS_COMPLETE": 267,
+    "PASS_COMPLETE": 268,
     "NOT_MEASURABLE_HERE": 30,
     "FAIL_ROUTE_SELECTION": 2,
-    "FAIL_MISSING_REQUIRED_FACTS": 4,
-    "FAIL_MISSING_PREFILLS": 1
+    "FAIL_MISSING_REQUIRED_FACTS": 4
   },
   "counterTotals": {
     "knownRequiredFieldsMissing": 9,
     "requiredFactsNotCollected": 1,
-    "unclassifiedBlanks": 150,
+    "unclassifiedBlanks": 132,
     "incompleteRows": 0,
     "requiredOptionsMissing": 3,
     "requiredComponentsMissing": 0,
@@ -29845,12 +29844,12 @@
     {
       "familyId": "nj_ordinance-set",
       "directory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
-      "result": "FAIL_MISSING_PREFILLS",
+      "result": "PASS_COMPLETE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 18,
+        "unclassifiedBlanks": 0,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
@@ -29858,9 +29857,7 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failedCounters": [
-        "unclassifiedBlanks"
-      ],
+      "failedCounters": [],
       "totals": {
         "terminalFields": 179,
         "written": 18,
@@ -29871,159 +29868,259 @@
           "PARTICIPANT_ELECTION_GENUINE": 10,
           "LATER_COMPLETION": 3,
           "PROTECTED_FIELD": 27,
-          "UNCLASSIFIED_BLANK": 18
+          "PARTICIPANT_LATER_COMPLETION": 18
         },
         "rowsInspected": 3,
         "fieldMapSchema": "documents-and-decisions"
       },
-      "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
-      "sourceCurrentness": "EXACT",
-      "findings": [
+      "sourceStageMeasurements": [
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "CoverLtrEDt",
-          "label": "date Form E is mailed — Cover Letter – Notice of Hearing, page 37",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: enter the actual mailing date when Form E and the filed package are sent; this event occurs only after the signed Order for Hearing returns."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "NOTICE_OF_HEARING_MAILING",
+          "instructionPages": [
+            36
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes CoverLtrEDt at NOTICE_OF_HEARING_MAILING; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 36 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "SheriffLoc",
-          "label": "___ County Sheriff — Form E address section, page 37",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes SheriffLoc at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 36 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "SheriffAddrStr",
-          "label": "address under County Sheriff — Form E, page 37",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes SheriffAddrStr at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 36 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "SheriffAddr2",
-          "label": "city, state, zip code under County Sheriff — Form E, page 37",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes SheriffAddr2 at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 36 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "CoverLtrEHearDt",
-          "label": "Expungement Hearing (date) — Cover Letter – Notice of Hearing (Form E), page 38",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the hearing date from the signed Order for Hearing when preparing Form E after filed copies return."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING",
+          "instructionPages": [
+            36
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes CoverLtrEHearDt at AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 36 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "CoverLtrEHearTime",
-          "label": "Expungement Hearing (time) — Cover Letter – Notice of Hearing (Form E), page 38",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the hearing time from the signed Order for Hearing when preparing Form E after filed copies return."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING",
+          "instructionPages": [
+            36
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes CoverLtrEHearTime at AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 36 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "expungDocketNum",
-          "label": "Expungement Docket Number — Proof of Notice (Form F), page 40",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the clerk-assigned number onto Form F when proof of the completed mailing is required; never invent it."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_NOTICE_SERVICE_PROOF",
+          "instructionPages": [
+            39
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes expungDocketNum at AFTER_NOTICE_SERVICE_PROOF; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 39 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "mailPetition",
-          "label": "date the filed Petition, Order for Hearing and proposed Final Order were mailed — Proof of Notice (Form F), page 40",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: copy the actual mailing date from the certified-mail receipt or electronic confirmation, and complete Form F only if the clerk requires proof before the hearing."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_NOTICE_SERVICE_PROOF",
+          "instructionPages": [
+            39
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes mailPetition at AFTER_NOTICE_SERVICE_PROOF; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 39 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "CoverLtrGDt",
-          "label": "date Form G is mailed — Cover Letter – Notice Expungement Granted, page 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: enter the actual mailing date when Form G and the signed filed Expungement Order are sent to each applicable agency."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "POST_ORDER_SERVICE",
+          "instructionPages": [
+            41
+          ],
+          "widgetCount": 1,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes CoverLtrGDt at POST_ORDER_SERVICE; verified against exact CN-10557 bytes, 1 measured widget(s), source instruction pages 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "ProsCntyName",
-          "label": "county name under Prosecutor — Forms E and G, pages 37 and 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes ProsCntyName at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "ProsAddrStr",
-          "label": "address under Prosecutor — Forms E and G, pages 37 and 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes ProsAddrStr at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "PoliceAddrStr",
-          "label": "address under Chief of Police — Forms E and G, pages 37 and 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes PoliceAddrStr at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "PoliceAddr2",
-          "label": "city, state, zip code under Chief of Police — Forms E and G, pages 37 and 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes PoliceAddr2 at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "SuperintendentAddrStr",
-          "label": "address under Superintendent (juveniles only) — Forms E and G, pages 37 and 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes SuperintendentAddrStr at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "SuperintendentAddr2",
-          "label": "city, state, zip code under Superintendent (juveniles only) — Forms E and G, pages 37 and 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes SuperintendentAddr2 at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "WardenAddrStr",
-          "label": "name/address of jail or prison under Warden — Forms E and G, pages 37 and 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes WardenAddrStr at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "WardenAddr2",
-          "label": "city, state, zip code under Warden — Forms E and G, pages 37 and 42",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes WardenAddr2 at AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         },
         {
-          "counter": "unclassifiedBlanks",
+          "documentId": "NJ-CN-10557",
           "field": "ExpungeDocketNum",
-          "label": "Expungement Docket Number — Cover Letter – Notice of Hearing (Form E), page 38, and Cover Letter – Notice Expungement Granted (Form G), page 43",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "participant later-completion source root is unavailable or not absolute",
-          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the clerk-assigned number from the filed petition/order copies onto Form E and later from the signed Expungement Order onto Form G; never invent it before the court assigns it."
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "actor": "participant",
+          "trigger": "AFTER_COURT_ASSIGNMENT_COPY_TO_LATER_FORMS",
+          "instructionPages": [
+            36,
+            41
+          ],
+          "widgetCount": 2,
+          "sourceByteLength": 1924831,
+          "basis": "participant completes ExpungeDocketNum at AFTER_COURT_ASSIGNMENT_COPY_TO_LATER_FORMS; verified against exact CN-10557 bytes, 2 measured widget(s), source instruction pages 36, 41 and participant disclosure"
         }
       ],
+      "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
       "findingsTruncated": 0
     },
     {
