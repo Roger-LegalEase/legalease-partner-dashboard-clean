@@ -6,7 +6,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {acceptedRasterFor, candidateRowsByFamily} from './acceptance-identity.mjs';
-import {bindDeclaredDeGuidance, DE_FAMILY, DE_ROUTE} from './de-guidance-binding.mjs';
+import {bindDeclaredDeGuidance, pdfPageCount, DE_FAMILY, DE_ROUTE} from './de-guidance-binding.mjs';
 import {chatRowProblem} from './chat-review-inputs.mjs';
 const OBLIGATIONS = ['ROUTE_IDENTITY','SOURCE_IDENTITY','COMPONENT_SET','KNOWN_PREFILLS',
   'REQUIRED_BEFORE_FILING','ROUTE_OPTIONS','REPEATING_ROWS','PROTECTED_FIELDS','ARTIFACTS',
@@ -129,7 +129,7 @@ export function assessDeReviewedGuidance(root, returned, overrides = {}) {
     assert.equal(wiring.proposedRepresentation.components.length, 1);
     assert.equal(wiring.proposedRepresentation.components[0].role, 'participant_guide');
     const expected = bindDeclaredDeGuidance(wiring, {familyId:DE_FAMILY, routeKeys:[DE_ROUTE],directory,state:'GUIDANCE_READY'},
-      {report,receipt,instructions:bytes(`${directory}/participant-instructions.md`).toString('utf8'),hashFile});
+      {report,receipt,pageCountFile:p=>pdfPageCount(bytes(p)),instructions:bytes(`${directory}/participant-instructions.md`).toString('utf8'),hashFile});
     assert.deepEqual(wiring.proposedRepresentation.components, expected.proposedRepresentation.components);
     assert.deepEqual(wiring.proposedRepresentation.fixtureBindings, expected.proposedRepresentation.fixtureBindings);
     const sourceChecks = [];

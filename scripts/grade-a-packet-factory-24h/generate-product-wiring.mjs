@@ -14,7 +14,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { acceptedRasterFor, candidateRowsByFamily } from "./acceptance-identity.mjs";
-import { bindDeclaredDeGuidance, DE_FAMILY } from "./de-guidance-binding.mjs";
+import { bindDeclaredDeGuidance, pdfPageCount, DE_FAMILY } from "./de-guidance-binding.mjs";
 import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
 import { bindDeclaredKyDelivery, KY_FAMILY } from "./ky-declared-delivery.mjs";
 import { bindDeclaredMdFavorableDelivery, MD_FAVORABLE_FAMILY } from "./md-favorable-declared-delivery.mjs";
@@ -24,6 +24,7 @@ import { IA_FORM1_FAMILY, bindDeclaredIaForm1Delivery, createDeclaredIaForm1Deli
 import { arizonaFilingCourtBinding, AZ_SEALING_ROUTES } from "../rcap-packet-recovery/chat1/az-filing-court.mjs";
 import { isMiMoDeclaredFamily, bindDeclaredMiMoDelivery, createDeclaredMiMoDelivery } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
 import { carryForwardGovernance } from "../rcap-packet-completeness/governance-preservation.mjs";
+import { registeredRouteBindings } from "./route-review-registration.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -334,7 +335,7 @@ const miMoOptions = (family) => ({
   hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
   raster: exactRasterFor(family.familyId)
 });
-const alignDeclaredDelivery = (record, family) => ["md_10110_conviction-set", "md_cannabis_petition-set"].includes(family.familyId)
+const alignFamilyDeclaredDelivery = (record, family) => ["md_10110_conviction-set", "md_cannabis_petition-set"].includes(family.familyId)
   ? bindDeclaredMdConditionalDelivery(record, family, miMoOptions(family))
   : family.familyId === IA_FORM1_FAMILY
   ? bindDeclaredIaForm1Delivery(record, family, miMoOptions(family))
@@ -364,9 +365,17 @@ const alignDeclaredDelivery = (record, family) => ["md_10110_conviction-set", "m
   : bindDeclaredDeGuidance(record, family, {
       report: read(`${family.directory}/reports/rendered-artifacts.json`),
       receipt: read(`${family.directory}/source-receipt.json`),
+      pageCountFile: rel => pdfPageCount(fs.readFileSync(path.join(ROOT, rel))),
       instructions: fs.readFileSync(path.join(ROOT, family.directory, "participant-instructions.md"), "utf8"),
       hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex")
     });
+
+const alignDeclaredDelivery = (record, family) => {
+  const aligned = alignFamilyDeclaredDelivery(record, family);
+  const routes = registeredRouteBindings(family.familyId);
+  if (routes.length) aligned.binding.routeArtifactBindings = routes;
+  return aligned;
+};
 
 /*
  * THE CANONICAL DIGESTS A FAMILY CURRENTLY PRODUCES.

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import {bindDeclaredDeGuidance, DE_FAMILY, DE_ROUTE} from './de-guidance-binding.mjs';
+import {bindDeclaredDeGuidance, pdfPageCount, DE_FAMILY, DE_ROUTE} from './de-guidance-binding.mjs';
 const root=process.env.RCAP_TEST_ROOT ?? process.cwd();
 const home='data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill';
 const read=p=>JSON.parse(fs.readFileSync(`${root}/${p}`,'utf8'));
@@ -9,7 +9,7 @@ const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(`${root}/${p}`)
 const original={record:read(`${home}/product-wiring.json`),family:{familyId:DE_FAMILY,routeKeys:[DE_ROUTE],directory:home,state:'VERIFY_PENDING'},report:read(`${home}/reports/rendered-artifacts.json`),receipt:read(`${home}/source-receipt.json`),instructions:fs.readFileSync(`${root}/${home}/participant-instructions.md`,'utf8')};
 const frozen=JSON.stringify(original);
 const fixture=()=>structuredClone(original);
-const apply=x=>bindDeclaredDeGuidance(x.record,x.family,{report:x.report,receipt:x.receipt,instructions:x.instructions,hashFile:x.hashFile ?? hash});
+const apply=x=>bindDeclaredDeGuidance(x.record,x.family,{report:x.report,receipt:x.receipt,instructions:x.instructions,hashFile:x.hashFile ?? hash,pageCountFile:p=>pdfPageCount(fs.readFileSync(`${root}/${p}`))});
 const output=apply(fixture());
 assert.equal(output.binding.deliveryType,'process_guidance');
 assert.equal(output.proposedRepresentation.outputStrategy,'process_guidance');
@@ -42,6 +42,8 @@ const cases=[
  ['missing fixture',x=>x.report.pdfs.pop()],
  ['duplicated fixture',x=>x.report.pdfs[1].fixture='canonical'],
  ['wrong output path',x=>x.report.pdfs[0].file='another.pdf'],
+ ['missing component page',x=>x.report.artifacts[0].pageManifest.pop()],
+ ['foreign component page',x=>x.report.artifacts[0].pageManifest[0].component='application'],
  ['wrong page inventory',x=>x.report.pdfs[0].pageCount=2],
  ['corrupt declared hash',x=>x.report.pdfs[0].sha256='0'.repeat(64)],
  ['corrupt actual bytes',x=>x.hashFile=()=>'0'.repeat(64)],

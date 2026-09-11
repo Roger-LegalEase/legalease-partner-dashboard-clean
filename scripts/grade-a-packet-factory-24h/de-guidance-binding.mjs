@@ -1,10 +1,18 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+
+export function pdfPageCount(bytes) {
+  const info = execFileSync('pdfinfo', ['-'], { input: bytes, encoding: 'utf8' });
+  const pages = Number(info.match(/^Pages:\s+(\d+)$/m)?.[1]);
+  assert.ok(Number.isInteger(pages) && pages > 0, 'PDF page count could not be parsed');
+  return pages;
+}
 export const DE_FAMILY = 'de_mandatory_expungement-set';
 export const DE_ROUTE = 'obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a';
 
 // This corrects an existing declared deliverable; it does not infer that all
 // agency routes are guidance or approve this guide's legal contents.
-export function bindDeclaredDeGuidance(record, family, { report, receipt, instructions, hashFile }) {
+export function bindDeclaredDeGuidance(record, family, { report, receipt, instructions, hashFile, pageCountFile }) {
   if (family.familyId !== DE_FAMILY) return record;
   assert.equal(record.family, DE_FAMILY, 'Wrong wiring family');
   for (const routes of [family.routeKeys, record.routeKeys, receipt.routeKeys])
@@ -29,7 +37,19 @@ export function bindDeclaredDeGuidance(record, family, { report, receipt, instru
     assert.equal(matched.length, 1, 'Missing or duplicate fixture');
     const d = matched[0];
     assert.equal(d.file, `${family.directory}/fixtures/${fixture}.pdf`);
-    assert.equal(d.pageCount, 3);
+    // Pagination belongs to the current PDF and its complete component manifest,
+    // not the page count of a historical independent review.
+    assert.equal(d.pageCount, pageCountFile(d.file), 'Current PDF page count mismatch');
+    const artifacts = report.artifacts.filter(a => a.fixture === fixture);
+    assert.equal(artifacts.length, 1, 'Missing or duplicate component inventory');
+    const a = artifacts[0];
+    for (const key of ['file', 'sha256', 'pageCount', 'byteLength'])
+      assert.equal(a[key], d[key], `Component inventory ${key} mismatch`);
+    assert.deepEqual(a.components, ['agency_preparation_guide']);
+    assert.deepEqual(a.documents, ['agency_preparation_guide']);
+    assert.deepEqual(a.pageManifest.map(p => [p.packetPage, p.component, p.documentId, p.sourcePage]),
+      Array.from({length: d.pageCount}, (_, i) => [i + 1, 'agency_preparation_guide', 'agency_preparation_guide', i + 1]),
+      'Every current page must belong to the declared guidance component');
     assert.match(d.sha256, /^[a-f0-9]{64}$/);
     assert.equal(hashFile(d.file), d.sha256, 'Current output hash mismatch');
   }

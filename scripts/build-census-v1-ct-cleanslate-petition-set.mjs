@@ -1313,12 +1313,7 @@ function participantInstructionsMarkdown(rbf) {
   out.push("- **The whole Order of the Court on page 2** — the Denied and Granted boxes, the list of convictions the order covers, the judge's name, the clerk's signature and the date. The court decides the petition, and nothing in this packet may look like it has already been decided.");
   out.push("");
 
-  out.push("## Two things you will notice on the paper", "");
-  out.push(
-    "- **The words _Print Form_ and _Reset Form_ at the foot of each page.** They are the Judicial Branch's own on-screen "
-    + "buttons. Flattening the form for filing turns them into ordinary text, so a filed copy carries them. They are the "
-    + "court's own labels, not anything this packet wrote, and they do not affect the filing."
-  );
+  out.push("## Your address on the paper", "");
   out.push(
     "- **Your address line carries the street address only.** The form gives the address one full-width line and the "
     + "platform holds your address in parts, so the line is correct as far as it goes and you complete the city, state and "
@@ -2288,9 +2283,7 @@ async function main() {
         + "would understand it is theirs to complete.",
       "Page 1, both jurat rows: signature, print name and date all blank for the defendant and the officer.",
       "Page 2, the Order of the Court: both checkboxes unticked and the decree, judge, clerk and date blank.",
-      "The foot of both pages: flattening materialises the form's own 'Print Form' and 'Reset Form' button "
-        + "captions as static text. They are the Judicial Branch's own labels, not values this build wrote, but "
-        + "they will appear on a filed copy. See build-findings.json → advisory.",
+      "The foot of both pages: confirm the prepared PDF omits the on-screen Print Form and Reset Form controls. Check that the court's printed page content remains intact.",
       "The boundary fixture, page 1: the docket box is blank because the boundary docket number does not fit "
         + "159.84pt at the minimum readable font. Confirm a refusal is preferable to a clipped docket number."
     ],

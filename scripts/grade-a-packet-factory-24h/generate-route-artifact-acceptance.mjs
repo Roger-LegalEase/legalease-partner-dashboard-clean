@@ -22,6 +22,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { registeredRouteBindings } from "./route-review-registration.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const ARGS = process.argv.slice(2);
@@ -81,9 +82,12 @@ const FIFTEEN = [
 ];
 
 const rows = [];
+const registered = new Map();
 for (const c of completeness.results) {
   if (ONLY_FAMILIES.length > 0 && !ONLY_FAMILIES.includes(c.familyId)) continue;
   if (ONLY_ROUTES.length > 0 && !ONLY_ROUTES.includes(c.route)) continue;
+  if (!registered.has(c.familyId)) registered.set(c.familyId, registeredRouteBindings(c.familyId));
+  const registration = registered.get(c.familyId).find(r => r.routeKey === c.routeKey && r.route === c.route);
   const det = determinism.artifacts.find((a) => a.file === c.file) ?? null;
   const qrow = queue.rows.find((r) => r.route === c.route && r.packetFamilyId === c.familyId) ?? null;
   const receipt = qrow ? receipts.get(qrow.familyId) ?? null : null;
@@ -184,7 +188,9 @@ for (const c of completeness.results) {
         : { state: "RASTER_PENDING", why: "this artifact was not enrolled in a completed raster run by this lane", receipt: null },
 
     independentVerification: {
-      pending: true,
+      pending: !registration,
+      ...(registration ? { ...registration.independentVerification, registration:registration.registration,
+        registeredFixtures:registration.fixtures, closureBasis:"Explicit independent review registration, revalidated against current route bytes and original central evidence" } : {}),
       whyThisLaneMayNotClose: c.familyAssemblyIsRouteArtifact
         ? "The family and route bytes are identical, but this lane only proved that scope equivalence. It did not independently re-read the route under the fifteen obligations, so the existing family verdict is cited as upstream evidence and not silently promoted into a new route verdict."
         : "This generator assembles existing route measurements; it does not independently assess the fifteen obligations or close their verification record. Applicable independent evidence must be consumed through its own review path.",
@@ -241,7 +247,7 @@ const doc = {
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs",
   atCommit: focused && existingAcceptance?.atCommit ? existingAcceptance.atCommit : git(["rev-parse", "HEAD"]),
   whatThisIs: "Per-artifact acceptance evidence for the route-scoped packets: deterministic rebuild, current hash, route-scoped component completeness, and raster acceptance bound to the artifact's own bytes.",
-  whatRemainsOpen: "Independent route-scoped verification remains open on every row. A family verdict is not promoted merely because route equivalence was established.",
+  whatRemainsOpen: "Rows without a current explicit independent review registration remain pending. Registration changes no family verdict or commercial authority.",
   centralRasterRun: focused && existingAcceptance?.centralRasterRun
     ? existingAcceptance.centralRasterRun
     : central

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import crypto from "node:crypto";
+import { verifySourceClaimDispatch } from "./source-claim-dispatch.mjs";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -26,20 +27,11 @@ const keys = ledger.claims.map((c) => `${c.subjectType}\0${c.subjectId}\0${c.ope
 expect(new Set(keys).size === keys.length, "duplicate subject and operation");
 
 const activeSourceLanes = new Map(SOURCE.lanes.filter((l) => l.status === "ACTIVE").map((l) => [l.assignmentId, l]));
-const expectedSources = ACTIVE.assignments.filter((a) => activeSourceLanes.has(a.assignmentId)).flatMap((a) => a.items.map((itemId) => `${a.assignmentId}\0${itemId}`));
-/*
- * Exact set equality broke the moment a family left the source queue: its
- * released obligations stay in the ledger as history while the regenerated
- * dispatch rightly stops listing them, and this check read that as an
- * omission. Same rule as F24: a RELEASED claim absent from the dispatch is
- * finished work; an ACTIVE dispatch item missing from the ledger, or a LIVE
- * claim the dispatch no longer lists, are still fatal.
- */
-const sourceClaims = ledger.claims.filter((c) => c.subjectType === "source-obligation");
-const liveSources = new Set(sourceClaims.filter((c) => c.released !== true).map((c) => `${c.lane}\0${c.itemId}`));
-const expectedSet = new Set(expectedSources);
-expect(expectedSources.every((x) => liveSources.has(x)), "source assignment has no live, assertable grant in the ledger");
-expect([...liveSources].every((x) => expectedSet.has(x)), "a live source claim is no longer dispatched");
+const explicitSources = verifySourceClaimDispatch(ledger, ACTIVE, SOURCE);
+for (const claim of explicitSources) {
+  const result = run(["--assert", claim.lane, claim.subjectId]);
+  expect(result.status === 0, `explicit source grant refused: ${claim.lane}:${claim.subjectId}`);
+}
 const fixtureLaneId = [...activeSourceLanes.keys()].find((lane) =>
   ledger.claims.filter((c) => c.lane === lane && c.subjectType === "source-obligation" && c.released !== true).length >= 2);
 expect(fixtureLaneId, "no active source lane has two live claims to exercise");
@@ -84,7 +76,7 @@ for (const c of sourceFixture) {
 expect(fixtureAsserted + fixtureReleased === sourceFixture.length, `${fixtureLaneId} exercised ${fixtureAsserted + fixtureReleased} of ${sourceFixture.length}`);
 
 if (!process.argv.includes("--mutations")) {
-  console.log(`CLAIM_LEDGER_OK ${ledger.claims.length} claims; ${fixtureLaneId} ${fixtureAsserted + fixtureReleased}/${sourceFixture.length} exercised (${fixtureAsserted} assertable, ${fixtureReleased} already released)`);
+  console.log(`CLAIM_LEDGER_OK ${ledger.claims.length} claims; ${explicitSources.length} explicit source grants asserted; ${fixtureLaneId} ${fixtureAsserted + fixtureReleased}/${sourceFixture.length} exercised (${fixtureAsserted} assertable, ${fixtureReleased} already released)`);
   process.exit(0);
 }
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clm01-"));
@@ -93,9 +85,11 @@ const clone = () => structuredClone(ledger);
 const mustPass = (args, p, label) => expect(run(args, p).status === 0, `${label} did not pass`);
 const mustFail = (args, p, label, pattern) => { const r = run(args, p); expect(r.status !== 0 && (!pattern || pattern.test(r.stderr)), `${label} did not fail closed: ${r.stdout}${r.stderr}`); };
 
-const pf = ledger.claims.find((c) => c.lane === "PF01");
-const vf = ledger.claims.find((c) => c.lane === "VF01");
-const fix = ledger.claims.find((c) => c.lane === "FIX01");
+// Positive controls must exercise live claims; the first historical row on
+// FIX01 may correctly refuse as ALREADY_RELEASED after completed work.
+const liveKind = kind => ledger.claims.find(c => c.laneKind === kind && c.released !== true);
+const pf = liveKind("packet-build"), vf = liveKind("independent-verification"), fix = liveKind("repair");
+expect(pf && vf && fix, "missing live packet/verification/repair mutation fixtures");
 mustPass(["--assert", pf.lane, pf.subjectId], LEDGER, "packet family positive");
 mustPass(["--assert", fix.lane, fix.subjectId], LEDGER, "repair positive");
 const releaseLedger = clone(); const releasePath = write("release.json", releaseLedger);

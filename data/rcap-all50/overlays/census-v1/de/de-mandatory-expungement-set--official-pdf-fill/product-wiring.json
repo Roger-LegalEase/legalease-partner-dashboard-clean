@@ -42,14 +42,7 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34078415178",
-      "jobId": "101609393830",
-      "artifactId": "10002964440",
-      "boundToCanonicalSha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": null,
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -60,12 +53,27 @@
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
     },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
+        "replacedByCanonicalSha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34078415178",
+          "jobId": "101609393830",
+          "artifactId": "10002964440",
+          "boundToCanonicalSha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
+          "coversTheWholeFamily": true
+        }
+      }
+    ],
     "filingPermitted": false,
     "deliveryBoundary": "Preparation guidance only; do not file it with SBI or a court. SBI supplies its own subsequent paperwork.",
     "historicalIndependentVerification": {
-      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf01",
-      "verifiedAtBase": "ee60956ef"
+      "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98"
     },
     "independentReviewStatus": "CURRENT_REVIEW_PENDING"
   },
@@ -80,7 +88,7 @@
         "order": 1,
         "documentId": "agency_preparation_guide",
         "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
+        "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
         "requirement": "required"
       }
     ],
@@ -88,14 +96,14 @@
       {
         "fixture": "canonical",
         "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
-        "pageCount": 3
+        "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+        "pageCount": 4
       },
       {
         "fixture": "boundary",
         "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
-        "sha256": "f567de6ce84c1ea74362fa0211ee621e9d431d5292cf9cf6be051a9dc4c0f61a",
-        "pageCount": 3
+        "sha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+        "pageCount": 4
       }
     ]
   },

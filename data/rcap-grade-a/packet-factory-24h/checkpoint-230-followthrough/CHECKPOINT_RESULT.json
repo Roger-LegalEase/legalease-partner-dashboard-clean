@@ -1,0 +1,69 @@
+{
+  "terminalBefore": 230,
+  "terminalAfter": 230,
+  "denominator": 346,
+  "rasterPending": 0,
+  "hawaii": {
+    "familyState": "COMPLETE_PACKET_PROVEN",
+    "routeTransitions": [
+      {
+        "route": "hi-first-time-drug-offender",
+        "before": "independentVerification.pending=true; route registration absent",
+        "after": "independentVerification.pending=false; exact route binding registered"
+      },
+      {
+        "route": "hi-first-time-property-offender",
+        "before": "independentVerification.pending=true; route registration absent",
+        "after": "independentVerification.pending=false; exact route binding registered"
+      },
+      {
+        "route": "hi-marijuana-three-grams",
+        "before": "independentVerification.pending=true; route registration absent",
+        "after": "independentVerification.pending=false; exact route binding registered"
+      },
+      {
+        "route": "hi-pre-2004-drug-offender",
+        "before": "independentVerification.pending=true; route registration absent",
+        "after": "independentVerification.pending=false; exact route binding registered"
+      },
+      {
+        "route": "hi-under-21-dui",
+        "before": "independentVerification.pending=true; route registration absent",
+        "after": "independentVerification.pending=false; exact route binding registered"
+      }
+    ],
+    "originalRun": "34548353001",
+    "artifacts": 10,
+    "pages": 40,
+    "integration": "hi-integration.log",
+    "independentReview": "hi-registration-independent-review.json"
+  },
+  "delaware": {
+    "familyId": "de_mandatory_expungement-set",
+    "beforeState": "LEGAL_BLOCKED",
+    "afterState": "LEGAL_BLOCKED",
+    "correction": "Stale fixed three-page binding replaced by parsed current PDF page count and complete guide-component page coverage. Both current fixtures have four pages. No count, hash or PDF was altered.",
+    "oldReviewNotReused": true,
+    "remaining": "Resolve current legal/component hold against controlling guidance declaration; independent review of current four-page outputs and central raster after eligibility. Historical three-page approval remains strictly pinned.",
+    "integration": "de-integration.log"
+  },
+  "src10": {
+    "classification": "Two stale verifier expectations; valid Captain grants are deliberately outside conveyor dispatch. Shared captainDealtLiveGrant provenance now used by verifier, as in generator.",
+    "subjects": [
+      "co_motion_seal_conviction-set",
+      "co_motion_seal_nonconviction-set"
+    ],
+    "claimsRemainLive": true,
+    "familyStatesRemain": "FAIL_REPAIR_REQUIRED",
+    "tests": "12 provenance refusals plus real claim assertions and full mutation suite passed. A further stale released FIX01 positive fixture now selects a live repair claim.",
+    "integration": "src10-integration.log"
+  },
+  "nextBatch": {
+    "familyId": "ct-cleanslate-petition-set",
+    "reason": "Latest scoped VF44 failure is two stale prose descriptions after an independently confirmed PDF repair. Metadata repair completed without changing either PDF.",
+    "reviewLane": "VF44",
+    "evidence": "ct-prose-repair.json"
+  },
+  "packetPdfsChanged": 0,
+  "commercialAuthorityCreated": false
+}

@@ -44,9 +44,8 @@ Printed instruction 4 is strict, and the court enforces it: **if you have crimes
 - **The officer's signature, printed name and date.** Those belong to the Notary, Commissioner or Clerk who takes your oath.
 - **The whole Order of the Court on page 2** — the Denied and Granted boxes, the list of convictions the order covers, the judge's name, the clerk's signature and the date. The court decides the petition, and nothing in this packet may look like it has already been decided.
 
-## Two things you will notice on the paper
+## Your address on the paper
 
-- **The words _Print Form_ and _Reset Form_ at the foot of each page.** They are the Judicial Branch's own on-screen buttons. Flattening the form for filing turns them into ordinary text, so a filed copy carries them. They are the court's own labels, not anything this packet wrote, and they do not affect the filing.
 - **Your address line carries the street address only.** The form gives the address one full-width line and the platform holds your address in parts, so the line is correct as far as it goes and you complete the city, state and ZIP yourself.
 
 ## What this packet is not
