@@ -35,6 +35,15 @@
     "productWiringCheck": {
       "exitCode": 0,
       "retainedRefusal": "de_mandatory_expungement-set: Expected values to be strictly equal: 4 !== 3"
+    },
+    "claimLedger": {
+      "exitCode": 1,
+      "failure": "a live source claim is no longer dispatched",
+      "unchangedSinceTaskStart": [
+        "SRC10:co_motion_seal_conviction-set",
+        "SRC10:co_motion_seal_nonconviction-set"
+      ],
+      "reason": "Both source-reconciliation grants carry sourceId but null itemId; this verifier compares every source-obligation against conveyor itemId dispatch. Ownership preserved; reconcile scope/dispatch in owning source lane."
     }
   },
   "terminalAfterVermont": 228,
@@ -54,5 +63,32 @@
       "after": "COMPLETE_PACKET_PROVEN"
     }
   },
-  "terminalAfterIndiana": 229
+  "terminalAfterIndiana": 229,
+  "arkansas": {
+    "runId": 34549310330,
+    "centralConclusion": "success",
+    "pdfs": 4,
+    "pages": 36,
+    "integrationExitCode": 0,
+    "transition": {
+      "familyId": "ar-drug-court-set",
+      "before": "BUILT_RASTER_PENDING",
+      "after": "VERIFY_PENDING"
+    },
+    "independentReview": "PASS_COMPLETE_INDEPENDENT: VF05 /root/ar_independent_review; all 36 original images inspected; original ARTIFACTS and ROUTE_OPTIONS failures resolved",
+    "independentReviewPath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-ar-20260911-central.json",
+    "finalTransition": {
+      "before": "VERIFY_PENDING",
+      "after": "COMPLETE_PACKET_PROVEN"
+    },
+    "finalIntegrationExitCode": 0
+  },
+  "allFourCentralRunsSucceeded": true,
+  "originalPagesVerified": 100,
+  "rasterPendingAfterArkansas": 0,
+  "terminalFinal": 230,
+  "completePacketProvenFinal": 214,
+  "terminalDelta": 3,
+  "finalRasterPending": 0,
+  "diskReport": "data/rcap-grade-a/packet-factory-24h/codex-captain-20260910/disk-accounting-20260911.txt"
 }

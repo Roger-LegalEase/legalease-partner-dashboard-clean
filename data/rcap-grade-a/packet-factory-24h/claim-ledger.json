@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "6d91f9217f6e4aa477dc42c8de8face825808680",
+  "generatedAtCommit": "41dde7d0dc58de8028496ce66aef24732219c70f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -986,9 +986,9 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF56 returned at 2d33ace18"
+      "released": true,
+      "releasedAt": "2026-09-11T01:24:46.681Z",
+      "releaseReason": "Independent reviewer /root/ar_independent_review finished all 36 original page inspections and current ARTIFACTS/ROUTE_OPTIONS checks; original PASS_COMPLETE_INDEPENDENT retained in vf05/rows-vf05-ar-20260911-central.json, bound to central run 34549310330 and packet 2c8fcea7e1f0206d0bfc693b4263e2d0280cdc8b."
     },
     {
       "subjectType": "packet-family",
@@ -15048,7 +15048,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "ee06bd890e377559cfb5b86a7c90b0e437e63001b29a3b2f012e1b723ff0481b",
+  "claimsDigest": "260d5d2ec7bd7c377b1241d1c3d997731daa73e6ff2f041c8eaa6e811e16049a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39728,6 +39728,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-11T00:26:18.067Z",
       "reason": "Independent VF05 STOPPED, complete bounded return f7edf994/8cd1c500 consumed; all15obligations PASS with visualDefectsnull; raster remains owed."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ar-drug-court-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-11T01:24:46.681Z",
+      "reason": "Independent reviewer /root/ar_independent_review finished all 36 original page inspections and current ARTIFACTS/ROUTE_OPTIONS checks; original PASS_COMPLETE_INDEPENDENT retained in vf05/rows-vf05-ar-20260911-central.json, bound to central run 34549310330 and packet 2c8fcea7e1f0206d0bfc693b4263e2d0280cdc8b."
     }
   ],
   "reissues": [
