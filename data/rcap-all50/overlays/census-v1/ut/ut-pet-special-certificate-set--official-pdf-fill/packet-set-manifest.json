@@ -1,82 +1,137 @@
 {
-  "schemaVersion": "rcap-packet-set-manifest/v1",
+  "schemaVersion": "rcap-packet-set-manifest/v2-native-utah-completeness",
   "familyId": "ut_pet_special_certificate-set",
+  "trackId": "ut_pet_special_certificate",
   "components": [
     {
       "componentId": "ut_pet_special_certificate-bci-certificate-application-1",
+      "role": "bci_certificate_application",
       "requirement": "required",
-      "order": 1,
       "conditionDescription": null,
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "UT-BCI-EXP-APPLICATION",
+      "officialSourceUrl": "https://bci.utah.gov/expungements/",
+      "order": 1,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-bci-third-party-release-2",
+      "role": "bci_third_party_release",
       "requirement": "conditional",
-      "order": 2,
       "conditionDescription": "Only where the certificate is to be sent to someone other than the petitioner, such as a clinic or partner organisation.",
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "UT-BCI-THIRD-PARTY-RELEASE",
+      "officialSourceUrl": "https://bci.utah.gov/expungements/",
+      "order": 2,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-civil-cover-sheet-3",
+      "role": "civil_cover_sheet",
       "requirement": "required",
-      "order": 3,
       "conditionDescription": null,
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1044XX",
+      "officialSourceUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "order": 3,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-petition-4",
+      "role": "petition",
       "requirement": "required",
-      "order": 4,
       "conditionDescription": null,
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1001EX",
+      "officialSourceUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "order": 4,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-proposed-order-5",
+      "role": "proposed_order",
       "requirement": "required",
-      "order": 5,
       "conditionDescription": null,
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1021EX",
+      "officialSourceUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "order": 5,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-acceptance-of-service-6",
+      "role": "acceptance_of_service",
       "requirement": "required",
-      "order": 6,
       "conditionDescription": null,
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1146XX",
+      "officialSourceUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "order": 6,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-consent-and-waiver-of-hearing-7",
+      "role": "consent_and_waiver_of_hearing",
       "requirement": "required",
-      "order": 7,
       "conditionDescription": null,
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1148XX",
+      "officialSourceUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "order": 7,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-victim-notice-form-8",
+      "role": "victim_notice_form",
       "requirement": "conditional",
-      "order": 8,
       "conditionDescription": "Where there was a victim in the case and the prosecutor requests the form.",
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1149XX",
+      "officialSourceUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "order": 8,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-reply-to-prosecutor-or-victim-statement-9",
+      "role": "reply_to_prosecutor_or_victim_statement",
       "requirement": "conditional",
-      "order": 9,
       "conditionDescription": "Where a victim or prosecutor statement is filed and the petitioner wishes to respond within 14 days.",
-      "sourceBound": true
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1169XX",
+      "officialSourceUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "order": 9,
+      "sourceBound": true,
+      "guidanceBound": false
     },
     {
       "componentId": "ut_pet_special_certificate-filing-and-timing-instructions-10",
+      "role": "filing_and_timing_instructions",
       "requirement": "required",
-      "order": 10,
       "conditionDescription": null,
-      "sourceBound": false
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "officialSourceUrl": null,
+      "order": 10,
+      "sourceBound": false,
+      "guidanceBound": true
     }
   ],
+  "sourceBackedComponentCount": 9,
+  "guidanceComponentCount": 1,
   "stageContract": {
-    "stage1": "BCI application; BCI may issue special certificate valid 180 days",
-    "stage2": "court petition filed in court that decided the case",
+    "stage1": "BCI application and recorded conditional third-party release",
+    "stage2Gate": "same-episode, exact-identity, unexpired Utah BCI special certificate with validity no longer than 180 days",
+    "stage2": "1001EX/1021EX court packet filed in the court that decided the case",
     "participantService": false,
-    "conditionalVictimRecords": true
+    "conditionalVictimStatement": "victim exists and prosecutor requests 1149XX",
+    "conditionalReply": "actual statement received and participant elects 1169XX within 14 days"
   }
 }

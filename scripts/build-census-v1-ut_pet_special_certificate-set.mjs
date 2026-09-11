@@ -1,32 +1,186 @@
 #!/usr/bin/env node
-import assert from 'node:assert/strict';
-import crypto from 'node:crypto';
-import fs from 'node:fs';
-import path from 'node:path';
-import { createRequire } from 'node:module';
-const require=createRequire(import.meta.url); const {PDFDocument,StandardFonts}=require('pdf-lib');
-import { extractTextItems, groupIntoLines } from './rcap-official-forms/rcap-pdf-anchor-capture.mjs';
-const ROOT=process.cwd();
-export const FAMILY_ID='ut_pet_special_certificate-set';
-export const COMPONENTS=[
- ['ut_pet_special_certificate-bci-certificate-application-1','private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf','required'],
- ['ut_pet_special_certificate-bci-third-party-release-2','private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf','conditional'],
- ['ut_pet_special_certificate-civil-cover-sheet-3','private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf','required'],
- ['ut_pet_special_certificate-petition-4','reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf','required'],
- ['ut_pet_special_certificate-proposed-order-5','reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf','required'],
- ['ut_pet_special_certificate-acceptance-of-service-6','private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf','required'],
- ['ut_pet_special_certificate-consent-and-waiver-of-hearing-7','private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf','required'],
- ['ut_pet_special_certificate-victim-notice-form-8','private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf','required'],
- ['ut_pet_special_certificate-reply-to-prosecutor-or-victim-statement-9','private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf','required'],
- ['ut_pet_special_certificate-filing-and-timing-instructions-10',null,'required']
-];
-const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
-const PARTICIPANT={canonical:{name:'Jordan Avery Reyes',address:'118 Maple Street',city:'Salt Lake City, UT 84101',phone:'801-555-0147',email:'jordan.reyes@example.com',dob:'03/14/1988'},boundary:{name:'Taylor Morgan Reyes-Smith',address:'742 East Canyon View Drive, Apt 8',city:'Provo, UT 84601',phone:'801-555-0199',email:'taylor.reyes@example.com',dob:'12/31/1972'}};
-const EXPECTED=Object.fromEntries(JSON.parse(fs.readFileSync(path.join(ROOT,'data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-special-certificate-build-readiness.json'),'utf8')).sourceFiles.map(x=>[x.path,{sha256:x.sha256,byteLength:x.byteLength}]));
-export function resolveExactSources(root=ROOT){return COMPONENTS.filter(([,p])=>p).map(([componentId,p,requirement])=>{const abs=path.join(root,p);assert.ok(fs.existsSync(abs),`held source missing: ${componentId}`);const bytes=fs.readFileSync(abs),observed=sha(bytes),expected=EXPECTED[p];assert.ok(expected,`no exact source pin for ${p}`);assert.equal(observed,expected.sha256,`source SHA-256 drift: ${componentId}`);assert.equal(bytes.length,expected.byteLength,`source byte length drift: ${componentId}`);return{componentId,path:p,requirement,sha256:observed,byteLength:bytes.length,sha256Exact:true};});}
-export function specialCertificateStageGate({certificate,asOf=new Date()}){const now=new Date(asOf);if(Number.isNaN(now.valueOf()))return{status:'REFUSE',reason:'INVALID_AS_OF'};if(!certificate||typeof certificate!=='object')return{status:'REFUSE',reason:'SPECIAL_CERTIFICATE_REQUIRED'};if(certificate.type!=='UT_BCI_SPECIAL_CERTIFICATE')return{status:'REFUSE',reason:'WRONG_CERTIFICATE_TYPE'};if(certificate.familyId!==FAMILY_ID)return{status:'REFUSE',reason:'WRONG_CERTIFICATE_FAMILY'};if(!/^[0-9a-f]{64}$/.test(certificate.documentSha256??''))return{status:'REFUSE',reason:'CERTIFICATE_IDENTITY_PROOF_REQUIRED'};const issued=new Date(certificate.issuedAt),expires=new Date(certificate.expiresAt);if(!certificate.issuedAt||!certificate.expiresAt||Number.isNaN(issued.valueOf())||Number.isNaN(expires.valueOf()))return{status:'REFUSE',reason:'CERTIFICATE_DATES_REQUIRED'};if(issued>now)return{status:'REFUSE',reason:'CERTIFICATE_ISSUED_IN_FUTURE'};if(expires<=now)return{status:'REFUSE',reason:'SPECIAL_CERTIFICATE_EXPIRED'};const life=expires-issued;if(life<=0||life>180*86400000)return{status:'REFUSE',reason:'SPECIAL_CERTIFICATE_VALIDITY_EXCEEDS_180_DAYS'};return{status:'ALLOW_STAGE_2',reason:'VALID_SPECIAL_CERTIFICATE',expiresAt:certificate.expiresAt};}
-export async function buildUtahSpecialCertificate({outDir=`data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill`,noRaster=true}={}){assert.equal(noRaster,true,'local raster is forbidden');const sources=resolveExactSources();const registry=JSON.parse(fs.readFileSync(path.join(ROOT,'data/record-clearing/legal-design-track-registry.json')));const track=(registry.tracks??registry).find(x=>x.trackId=== 'ut_pet_special_certificate');assert.ok(track?.packetSet?.components,'registry packet set missing');const components=track.packetSet.components.map(c=>({componentId:c.componentId,requirement:c.requirement,order:c.order,conditionDescription:c.conditionDescription??null,sourceBound:!!sources.find(s=>s.componentId===c.componentId)}));assert.equal(components.length,10);const out=path.join(ROOT,outDir);fs.mkdirSync(path.join(out,'reports'),{recursive:true});fs.writeFileSync(path.join(out,'source-receipt.json'),JSON.stringify({schemaVersion:'rcap-source-receipt/v1',familyId:FAMILY_ID,sources,sourceHashesExact:true},null,2)+'\n');fs.writeFileSync(path.join(out,'packet-set-manifest.json'),JSON.stringify({schemaVersion:'rcap-packet-set-manifest/v1',familyId:FAMILY_ID,components,stageContract:{stage1:'BCI application; BCI may issue special certificate valid 180 days',stage2:'court petition filed in court that decided the case',participantService:false,conditionalVictimRecords:true}},null,2)+'\n');const artifacts=[]; const measuredWrites=[]; for(const fixture of ['canonical','boundary']){const packet=await PDFDocument.create();packet.setCreationDate(new Date(0));packet.setModificationDate(new Date(0));packet.setTitle(`${FAMILY_ID} ${fixture} source-bound assembly`);const pageManifest=[];for(const src of sources){const d=await PDFDocument.load(fs.readFileSync(path.join(ROOT,src.path)),{ignoreEncryption:true,updateMetadata:false}); if(src.componentId.endsWith('bci-certificate-application-1')){const pg=d.getPages()[1],font=await d.embedFont(StandardFonts.Helvetica);const f=PARTICIPANT[fixture];for(const [text,x,y] of [[f.name,120,682],[f.dob??'03/14/1988',150,623],[f.address,120,601]])pg.drawText(text,{x,y,size:9,font});} else if(src.componentId.endsWith('proposed-order-5')){const pg=d.getPages()[0],font=await d.embedFont(StandardFonts.Helvetica);const f=PARTICIPANT[fixture],lines=groupIntoLines(extractTextItems(pg));for(const [label,text] of [['Name',f.name],['Address',f.address],['City, State, Zip',f.city],['Phone',f.phone],['Email',f.email]]){const hit=lines.find(x=>x.text===label);if(hit)pg.drawText(text,{x:hit.x+70,y:hit.y+10,size:9,font});}} else if(src.componentId.endsWith('civil-cover-sheet-3')){const pg=d.getPages()[0],font=await d.embedFont(StandardFonts.Helvetica);const f=PARTICIPANT[fixture],lines=groupIntoLines(extractTextItems(pg));for(const [label,text] of [['Name Name',f.name],['Address Address',f.address],['City, State, Zip City, State, Zip',f.city],['Phone Email Phone Email',`${f.phone}  ${f.email}`]]){const hit=lines.find(x=>x.text===label);if(hit)pg.drawText(text,{x:hit.x,y:hit.y+10,size:9,font});}} else if(src.componentId.endsWith('petition-4')){const pg=d.getPages()[0],font=await d.embedFont(StandardFonts.Helvetica);const f=PARTICIPANT[fixture];const lines=groupIntoLines(extractTextItems(pg));for(const [label,text] of [['Name',f.name],['Address',f.address],['City, State, Zip',f.city],['Phone',f.phone],['Email',f.email]]){const hit=lines.find(x=>x.text===label);if(hit)pg.drawText(text,{x:hit.x+hit.runs.reduce((n,r)=>n+(r.x2-r.x),0)+5,y:hit.y+10,size:9,font});}} const pages=await packet.copyPages(d,d.getPageIndices());pages.forEach((pg,i)=>{packet.addPage(pg);pageManifest.push({page:packet.getPageCount(),component:src.componentId,sourcePage:i+1,sourceSha256:src.sha256});});} const bytes=Buffer.from(await packet.save({useObjectStreams:false,updateMetadata:false})); const saved=await PDFDocument.load(bytes,{ignoreEncryption:true,updateMetadata:false}); const savedText=saved.getPages().map(pg=>groupIntoLines(extractTextItems(pg)).map(l=>l.text).join(' ')).join(' '); const held=PARTICIPANT[fixture]; for(const value of [held.name,held.address,held.city,held.phone,held.email]) assert.ok(savedText.includes(value),`${fixture}: saved-byte readback missing measured participant value ${value}`); measuredWrites.push({fixture,formNumber:'ut_pet_special_certificate-petition-4',actualWrites:[{field:'Name',factId:'participant.full_legal_name',expected:held.name,sourcePage:1,writeRect:{x:105,y:660,width:390,height:12},sourceContext:'1001EX page 1 Name caption line',savedByteTextReadback:true},{field:'Address',factId:'participant.street_address',expected:held.address,sourcePage:1,writeRect:{x:105,y:632,width:390,height:12},sourceContext:'1001EX page 1 Address caption line',savedByteTextReadback:true},{field:'City, State, Zip',factId:'participant.city_state_zip',expected:held.city,sourcePage:1,writeRect:{x:125,y:605,width:370,height:12},sourceContext:'1001EX page 1 City, State, Zip caption line',savedByteTextReadback:true},{field:'Phone',factId:'participant.phone',expected:held.phone,sourcePage:1,writeRect:{x:105,y:578,width:390,height:12},sourceContext:'1001EX page 1 Phone caption line',savedByteTextReadback:true},{field:'Email',factId:'participant.email',expected:held.email,sourcePage:1,writeRect:{x:105,y:548,width:390,height:12},sourceContext:'1001EX page 1 Email caption line',savedByteTextReadback:true}]}); measuredWrites.push({fixture,formNumber:'ut_pet_special_certificate-bci-certificate-application-1',actualWrites:[{field:'NAME',factId:'participant.full_legal_name',expected:held.name,sourcePage:2,writeRect:{x:120,y:682,width:390,height:10},sourceContext:'BCI application page 2 NAME line',savedByteTextReadback:true},{field:'DATE OF BIRTH',factId:'participant.date_of_birth',expected:held.dob,sourcePage:2,writeRect:{x:150,y:623,width:180,height:10},sourceContext:'BCI application page 2 date of birth line',savedByteTextReadback:true},{field:'MAILING ADDRESS',factId:'participant.street_address',expected:held.address,sourcePage:2,writeRect:{x:120,y:601,width:390,height:10},sourceContext:'BCI application page 2 mailing address line',savedByteTextReadback:true}]}); measuredWrites.push({fixture,formNumber:'ut_pet_special_certificate-civil-cover-sheet-3',actualWrites:[{field:'Name',factId:'participant.full_legal_name',expected:held.name,sourcePage:1,writeRect:{x:46,y:674,width:240,height:10},sourceContext:'1044XX page 1 left Plaintiff/Petitioner Name line',savedByteTextReadback:true},{field:'Address',factId:'participant.street_address',expected:held.address,sourcePage:1,writeRect:{x:46,y:646,width:240,height:10},sourceContext:'1044XX page 1 left Plaintiff/Petitioner Address line',savedByteTextReadback:true},{field:'City, State, Zip',factId:'participant.city_state_zip',expected:held.city,sourcePage:1,writeRect:{x:46,y:618,width:240,height:10},sourceContext:'1044XX page 1 left Plaintiff/Petitioner City line',savedByteTextReadback:true},{field:'Phone/Email',factId:'participant.contact',expected:`${held.phone}  ${held.email}`,sourcePage:1,writeRect:{x:46,y:590,width:240,height:10},sourceContext:'1044XX page 1 left Plaintiff/Petitioner Phone/Email line',savedByteTextReadback:true}]}); measuredWrites.push({fixture,formNumber:'ut_pet_special_certificate-proposed-order-5',actualWrites:[{field:'Name',factId:'participant.full_legal_name',expected:held.name,sourcePage:1,writeRect:{x:309.6,y:704,width:250,height:10},sourceContext:'1021EX page 1 Name caption line',savedByteTextReadback:true},{field:'Address',factId:'participant.street_address',expected:held.address,sourcePage:1,writeRect:{x:309.6,y:676.3,width:250,height:10},sourceContext:'1021EX page 1 Address caption line',savedByteTextReadback:true},{field:'City, State, Zip',factId:'participant.city_state_zip',expected:held.city,sourcePage:1,writeRect:{x:309.6,y:648.6,width:250,height:10},sourceContext:'1021EX page 1 City caption line',savedByteTextReadback:true},{field:'Phone',factId:'participant.phone',expected:held.phone,sourcePage:1,writeRect:{x:309.6,y:620.9,width:250,height:10},sourceContext:'1021EX page 1 Phone caption line',savedByteTextReadback:true},{field:'Email',factId:'participant.email',expected:held.email,sourcePage:1,writeRect:{x:99.2,y:590.5,width:450,height:10},sourceContext:'1021EX page 1 Email caption line',savedByteTextReadback:true}]}); const rel=`${outDir}/fixtures/${fixture}.pdf`;fs.mkdirSync(path.dirname(path.join(ROOT,rel)),{recursive:true});fs.writeFileSync(path.join(ROOT,rel),bytes);artifacts.push({fixture,file:rel,sha256:sha(bytes),byteLength:bytes.length,pageCount:packet.getPageCount(),pageManifest,components:components.filter(c=>c.sourceBound).map(c=>c.componentId)});}fs.writeFileSync(path.join(out,'reports/actual-writes.json'),JSON.stringify({schemaVersion:'rcap-actual-writes-byte-proof/v1',familyId:FAMILY_ID,documents:measuredWrites,artifacts:artifacts.map(a=>({fixture:a.fixture,valuesReportedByFinalizer:null,addedGlyphsReadFromOutputBytes:null,flattenedWidgetAppearancesReadFromOutputBytes:null,nonWhitespaceGlyphsOutsideMeasuredWriteBoxes:null,refusedFieldsWithInk:null})),measuredPrefillsPending:true},null,2)+'\n');const componentRoutes=Object.fromEntries(components.map(c=>[c.componentId,'obligation:track-only:UT:ut_pet_special_certificate']));
-  const sourceFieldCensus={}; for(const src of sources){const d=await PDFDocument.load(fs.readFileSync(path.join(ROOT,src.path)),{ignoreEncryption:true,updateMetadata:false});sourceFieldCensus[src.componentId]=d.getForm().getFields().map(f=>({fieldName:f.getName(),kind:f.constructor.name,classification:'UNMEASURED_PENDING_SOURCE_LABEL_REVIEW',widgets:f.acroField.getWidgets().map(w=>({rect:w.getRectangle(),page:d.getPages().findIndex(pg=>pg.ref?.toString()===w.P()?.toString())+1}))}));}
-  fs.writeFileSync(path.join(out,'production-field-map.json'),JSON.stringify({schemaVersion:'rcap-production-field-map/v2',familyId:FAMILY_ID,componentRoutes,sourceFieldCensus,maps:components.filter(c=>c.sourceBound).map(c=>({formNumber:c.componentId,documentId:c.componentId,documentPolicy:{mode:'participant',routeKey:'obligation:track-only:UT:ut_pet_special_certificate'},canonicalWrites:[],canonicalRefusals:[],roleRefusals:[],selectionControls:[]})),classificationStatus:'UNMEASURED_PENDING_SOURCE_LABEL_REVIEW'},null,2)+'\n');
-  const conditionalRoleReview=components.filter(c=>!['ut_pet_special_certificate-bci-certificate-application-1','ut_pet_special_certificate-civil-cover-sheet-3','ut_pet_special_certificate-petition-4','ut_pet_special_certificate-proposed-order-5'].includes(c.componentId)).map(c=>{const src=sources.find(x=>x.componentId===c.componentId);const sourceBound=Boolean(src?.path&&src?.sha256&&src.sha256Exact);return{componentId:c.componentId,requirement:c.requirement,sourcePath:src?.path??null,sourceSha256:src?.sha256??null,role:c.componentId.endsWith('filing-and-timing-instructions-10')?'process guidance; source and measurement pending':c.componentId.includes('third-party')?'participant-authorized recipient release only':c.componentId.includes('acceptance')?'service acceptance; participant does not serve court copy':c.componentId.includes('consent')?'participant consent/waiver election; no judicial findings':c.componentId.includes('victim')?'victim/prosecutor statement supplied by responsible recipient; no participant identity prefill':'reply to victim/prosecutor statement; participant response only when applicable',participantIdentityPrefill:'NONE',protectedFields:['court findings','judicial signatures','prosecutor/victim identity and statements unless supplied by responsible party'],conditionalDisclosure:true,sourceBound};});fs.writeFileSync(path.join(out,'reports/conditional-role-review.json'),JSON.stringify({schemaVersion:'rcap-ut-conditional-role-review/v1',familyId:FAMILY_ID,reviewMethod:'draft role inventory from current component metadata and exact held source pins; independent source-label review pending',reviewStatus:'DRAFT_PENDING_INDEPENDENT_SOURCE_LABEL_REVIEW',components:conditionalRoleReview,remainingManualBlankInventory:true},null,2)+'\n');fs.writeFileSync(path.join(out,'participant-instructions.md'),`# Utah special certificate expungement\n\nStage one: submit the BCI application and any conditional third-party release; BCI may issue a special certificate valid for 180 days. Stage two: file the petition packet in the court that decided the case while the certificate remains valid. The court sends the filing to the prosecuting attorney; the participant does not serve. Victim or prosecutor statement and reply forms are conditional and must be used when the applicable record or response exists. Participant field completion and required blank disclosures remain under measured source-label review.\n`);fs.writeFileSync(path.join(out,'reports/rendered-artifacts.json'),JSON.stringify({schemaVersion:'rcap-rendered-artifacts/v1',familyId:FAMILY_ID,componentSet:components.filter(c=>c.sourceBound).map(c=>c.componentId),artifacts,rasterisation:{rasters:[],status:'UNVERIFIED_NO_RASTER'}},null,2)+'\n');fs.writeFileSync(path.join(out,'build-status.json'),JSON.stringify({schemaVersion:'rcap-build-status/v1',familyId:FAMILY_ID,status:'official_forms_ingested',rasterState:'UNVERIFIED_NO_RASTER',noLocalRaster:true,stageGate:'specialCertificateStageGate',measuredPrefillsPending:true},null,2)+'\n');return{familyId:FAMILY_ID,sources,components,stageGate:'specialCertificateStageGate',raster:'DEFERRED'};}
-if(process.argv[1]&&process.argv[1].endsWith('build-census-v1-ut_pet_special_certificate-set.mjs'))buildUtahSpecialCertificate().then(x=>console.log(JSON.stringify(x)));
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import { runUtahCompletenessRepair } from "./build-census-v1-ut_pet_acquittal-set.mjs";
+
+const thisFile = fileURLToPath(import.meta.url);
+const ROOT = path.resolve(path.dirname(thisFile), "..");
+export const FAMILY_ID = "ut_pet_special_certificate-set";
+const OUT_REL = "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill";
+const TRACK_ID = "ut_pet_special_certificate";
+const MASTER_REL = "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
+const READINESS = "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-special-certificate-build-readiness.json";
+
+export const COMPONENTS = Object.freeze([
+  ["ut_pet_special_certificate-bci-certificate-application-1", "UT-BCI-EXP-APPLICATION", "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf", "required"],
+  ["ut_pet_special_certificate-bci-third-party-release-2", "UT-BCI-THIRD-PARTY-RELEASE", "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf", "conditional"],
+  ["ut_pet_special_certificate-civil-cover-sheet-3", "1044XX", "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf", "required"],
+  ["ut_pet_special_certificate-petition-4", "1001EX", "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf", "required"],
+  ["ut_pet_special_certificate-proposed-order-5", "1021EX", "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf", "required"],
+  ["ut_pet_special_certificate-acceptance-of-service-6", "1146XX", "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf", "required"],
+  ["ut_pet_special_certificate-consent-and-waiver-of-hearing-7", "1148XX", "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf", "required"],
+  ["ut_pet_special_certificate-victim-notice-form-8", "1149XX", "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf", "conditional"],
+  ["ut_pet_special_certificate-reply-to-prosecutor-or-victim-statement-9", "1169XX", "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf", "conditional"],
+  ["ut_pet_special_certificate-filing-and-timing-instructions-10", null, null, "required"]
+]);
+
+const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+const writeJson = (rel, value) => {
+  const abs = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(abs), { recursive: true });
+  fs.writeFileSync(abs, `${JSON.stringify(value, null, 2)}\n`);
+};
+
+const EXPECTED = Object.freeze(Object.fromEntries(readJson(READINESS).sourceFiles
+  .map((row) => [row.path, { sha256: row.sha256, byteLength: row.byteLength }])));
+
+export function resolveExactSources(root = ROOT) {
+  return COMPONENTS.filter(([, formNumber, sourcePath]) => formNumber && sourcePath)
+    .map(([componentId, formNumber, sourcePath, requirement]) => {
+      const bytes = fs.readFileSync(path.join(root, sourcePath));
+      const expected = EXPECTED[sourcePath];
+      assert.ok(expected, `${componentId}: exact readiness pin is absent`);
+      assert.equal(sha256(bytes), expected.sha256, `${componentId}: source SHA-256 drift`);
+      assert.equal(bytes.length, expected.byteLength, `${componentId}: source byte-length drift`);
+      return { componentId, formNumber, path: sourcePath, requirement,
+        sha256: expected.sha256, byteLength: expected.byteLength, sha256Exact: true };
+    });
+}
+
+export function specialCertificateStageGate({ certificate, episodeId, expectedDocumentSha256, asOf = new Date() }) {
+  const now = new Date(asOf);
+  if (Number.isNaN(now.valueOf())) return { status: "REFUSE", reason: "INVALID_AS_OF" };
+  if (!certificate || typeof certificate !== "object") return { status: "REFUSE", reason: "SPECIAL_CERTIFICATE_REQUIRED" };
+  if (certificate.type !== "UT_BCI_SPECIAL_CERTIFICATE") return { status: "REFUSE", reason: "WRONG_CERTIFICATE_TYPE" };
+  if (certificate.familyId !== FAMILY_ID) return { status: "REFUSE", reason: "WRONG_CERTIFICATE_FAMILY" };
+  if ((episodeId || certificate.episodeId) && (!episodeId || !certificate.episodeId)) return { status: "REFUSE", reason: "CERTIFICATE_EPISODE_REQUIRED" };
+  if (episodeId && certificate.episodeId !== episodeId) return { status: "REFUSE", reason: "WRONG_CERTIFICATE_EPISODE" };
+  if (!/^[0-9a-f]{64}$/.test(certificate.documentSha256 ?? "")) return { status: "REFUSE", reason: "CERTIFICATE_IDENTITY_PROOF_REQUIRED" };
+  if (expectedDocumentSha256 !== undefined && !/^[0-9a-f]{64}$/.test(expectedDocumentSha256)) return { status: "REFUSE", reason: "EXPECTED_CERTIFICATE_IDENTITY_REQUIRED" };
+  if (expectedDocumentSha256 && certificate.documentSha256 !== expectedDocumentSha256) return { status: "REFUSE", reason: "CERTIFICATE_IDENTITY_MISMATCH" };
+  const issued = new Date(certificate.issuedAt);
+  const expires = new Date(certificate.expiresAt);
+  if (!certificate.issuedAt || !certificate.expiresAt || Number.isNaN(issued.valueOf()) || Number.isNaN(expires.valueOf())) return { status: "REFUSE", reason: "CERTIFICATE_DATES_REQUIRED" };
+  if (issued > now) return { status: "REFUSE", reason: "CERTIFICATE_ISSUED_IN_FUTURE" };
+  if (expires <= now) return { status: "REFUSE", reason: "SPECIAL_CERTIFICATE_EXPIRED" };
+  const life = expires - issued;
+  if (life <= 0 || life > 180 * 86400000) return { status: "REFUSE", reason: "SPECIAL_CERTIFICATE_VALIDITY_EXCEEDS_180_DAYS" };
+  return { status: "ALLOW_STAGE_2", reason: "VALID_SPECIAL_CERTIFICATE", episodeId, expiresAt: certificate.expiresAt };
+}
+
+function hostPathFor(sourcePath) {
+  const prefix = `${MASTER_REL}/`;
+  if (sourcePath.startsWith(prefix)) return sourcePath.slice(prefix.length);
+  return path.relative(path.join(ROOT, MASTER_REL), path.join(ROOT, sourcePath)).split(path.sep).join("/");
+}
+
+function validateMeasuredCensus(sources) {
+  const census = readJson(`${OUT_REL}/field-census.census-v1.json`);
+  assert.equal(census.familyId, FAMILY_ID);
+  assert.equal(census.censusBasis, "first_hand_inspection_of_each_exact_hash_bound_source");
+  assert.equal(census.documents.length, 9, "all nine source-backed components require a native census");
+  for (const source of sources) {
+    const document = census.documents.find((row) => row.formNumber === source.formNumber);
+    assert.ok(document, `${source.formNumber}: census document absent`);
+    assert.equal(document.sourceSha256, source.sha256, `${source.formNumber}: census/source identity mismatch`);
+    assert.ok(document.fieldCount > 0 && document.fields.length > 0, `${source.formNumber}: empty source census`);
+    assert.ok(document.fields.every((field) => field.blankId || field.selectionId), `${source.formNumber}: incomplete census row`);
+  }
+  return census;
+}
+
+function seedNativeMap(census, track) {
+  const roleByForm = new Map(track.packetSet.components.filter((row) => row.officialFormId)
+    .map((row) => [row.officialFormId, row]));
+  return {
+    schemaVersion: "rcap-official-form-field-map/v1-census-v1",
+    familyId: FAMILY_ID,
+    routeKeys: ["obligation:track-only:UT:ut_pet_special_certificate"],
+    routeSelectionId: "ut-special-certificate-bci-plus-court",
+    maps: census.documents.map((document) => {
+      const component = roleByForm.get(document.formNumber);
+      assert.ok(component, `${document.formNumber}: no registry component`);
+      const noFill = ["1146XX", "1148XX", "1149XX", "UT-BCI-THIRD-PARTY-RELEASE"].includes(document.formNumber);
+      return {
+        formNumber: document.formNumber, componentId: component.componentId,
+        componentRequirement: component.requirement, componentCondition: component.conditionDescription ?? null,
+        documentPolicy: {
+          mode: noFill ? "actor_or_condition_protected" : document.formNumber === "1021EX" ? "caption_only" : "participant",
+          captionOnly: document.formNumber === "1021EX", documentAcceptsFill: !noFill,
+          routeKey: "obligation:track-only:UT:ut_pet_special_certificate"
+        },
+        structuralClass: document.structuralClass,
+        canonicalWrites: [], canonicalRefusals: [], roleRefusals: [], boundaryWrites: [], boundaryRefusals: [],
+        selectionControls: structuredClone(document.selectionControls ?? [])
+      };
+    }),
+    sourceFieldCensus: Object.fromEntries(census.documents.map((document) => [document.formNumber, {
+      sourceSha256: document.sourceSha256, fieldCount: document.fieldCount,
+      selectionControlCount: document.selectionControlCount, measured: true
+    }]))
+  };
+}
+
+export async function buildUtahSpecialCertificate({ noRaster = true, check = false } = {}) {
+  assert.equal(noRaster, true, "local raster is forbidden for this family");
+  process.chdir(ROOT);
+  process.env.RCAP_NO_LOCAL_RASTER = "1";
+  process.env.MASTER_LIBRARY_SOURCE_DIR ??= path.join(ROOT, MASTER_REL);
+  const sources = resolveExactSources();
+  const registry = readJson("data/record-clearing/legal-design-track-registry.json");
+  const track = (registry.tracks ?? []).find((row) => row.trackId === TRACK_ID);
+  assert.equal(track?.packetSet?.packetSetId, FAMILY_ID);
+  assert.equal(track.packetSet.components.length, 10);
+  const components = track.packetSet.components.map((component) => ({ ...component,
+    sourceBound: component.officialFormId ? sources.some((source) => source.formNumber === component.officialFormId) : false,
+    guidanceBound: component.outputStrategy === "process_guidance" }));
+  assert.equal(components.filter((row) => row.sourceBound).length, 9);
+  assert.equal(components.filter((row) => row.guidanceBound).length, 1);
+  const census = validateMeasuredCensus(sources);
+  const documents = sources.map((source) => ({
+    componentId: source.componentId, formNumber: source.formNumber, pathInArchive: hostPathFor(source.path),
+    sourcePath: source.path, sha256: source.sha256, byteLength: source.byteLength,
+    requirement: source.requirement, sourceHashesExact: true
+  }));
+  for (const document of documents) {
+    const bytes = fs.readFileSync(path.join(process.env.MASTER_LIBRARY_SOURCE_DIR, document.pathInArchive));
+    assert.equal(sha256(bytes), document.sha256, `${document.formNumber}: host path resolves to different bytes`);
+  }
+  writeJson(`${OUT_REL}/source-receipt.json`, {
+    schemaVersion: "rcap-source-receipt/v1-native-utah-completeness", familyId: FAMILY_ID,
+    sources, documents, sourceHashesExact: true,
+    component10: {
+      componentId: "ut_pet_special_certificate-filing-and-timing-instructions-10", outputStrategy: "process_guidance",
+      sources: ["data/record-clearing/legal-design-track-registry.json", "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/01_LEGAL_REVIEW/UT__LEGAL-REVIEW__STATEWIDE__utah-record-clearing-legal-review__ASOF-2026-08-01__EN.md"],
+      officialPdf: null, fakeHash: false
+    }
+  });
+  writeJson(`${OUT_REL}/packet-set-manifest.json`, {
+    schemaVersion: "rcap-packet-set-manifest/v2-native-utah-completeness", familyId: FAMILY_ID,
+    trackId: TRACK_ID, components, sourceBackedComponentCount: 9, guidanceComponentCount: 1,
+    stageContract: {
+      stage1: "BCI application and recorded conditional third-party release",
+      stage2Gate: "same-episode, exact-identity, unexpired Utah BCI special certificate with validity no longer than 180 days",
+      stage2: "1001EX/1021EX court packet filed in the court that decided the case",
+      participantService: false,
+      conditionalVictimStatement: "victim exists and prosecutor requests 1149XX",
+      conditionalReply: "actual statement received and participant elects 1169XX within 14 days"
+    }
+  });
+  writeJson(`${OUT_REL}/production-field-map.json`, seedNativeMap(census, track));
+  await runUtahCompletenessRepair(FAMILY_ID, check ? ["--check"] : []);
+  return { familyId: FAMILY_ID, sourceCount: 9, componentCount: 10,
+    noLocalRaster: true, status: "BUILT_REVIEW_PENDING" };
+}
+
+if (path.resolve(process.argv[1] ?? "") === path.resolve(thisFile)) {
+  const check = process.argv.includes("--check");
+  const unsupported = process.argv.slice(2).filter((arg) => arg !== "--check");
+  assert.deepEqual(unsupported, [], `unsupported option(s): ${unsupported.join(", ")}`);
+  console.log(JSON.stringify(await buildUtahSpecialCertificate({ check })));
+}

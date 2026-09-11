@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "rcap-build-findings/v1-completeness-repair",
+  "familyId": "ut_pet_special_certificate-set",
+  "blocking": [],
+  "findingCount": 0,
+  "citedAuthorities": [
+    {
+      "id": "UT-BCI-EXP-INSTRUCTIONS",
+      "title": "Expungement Applicant Instructions (Utah Bureau of Criminal Identification)",
+      "pathInArchive": "STATES/UT/03_INSTRUCTIONS/UT__INSTRUCTIONS__UT-BCI-EXP-INSTRUCTIONS__bci-expungement-applicant-instructions__REV-UNKNOWN__EN.pdf",
+      "sha256": "9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa",
+      "byteLength": 558045,
+      "supports": [
+        "filingDestination",
+        "feeAndWaiver",
+        "service"
+      ],
+      "verifiedBy": "re-hashed on this build against the committed corpus index"
+    },
+    {
+      "id": "UT-BCI-INDIGENT-INSTRUCTIONS",
+      "title": "Indigent Expungement Applicant Instructions (Utah Bureau of Criminal Identification)",
+      "pathInArchive": "STATES/UT/03_INSTRUCTIONS/UT__INSTRUCTIONS__UT-BCI-INDIGENT-INSTRUCTIONS__bci-indigent-expungement-instructions__REV-UNKNOWN__EN.pdf",
+      "sha256": "862e058f91200020f1f00752b05e52c955ea3972264a82915a4ed5da7664b9e0",
+      "byteLength": 626493,
+      "supports": [
+        "feeAndWaiver"
+      ],
+      "verifiedBy": "re-hashed on this build against the committed corpus index"
+    },
+    {
+      "id": "1044XX",
+      "title": "District Court Cover Sheet for Civil Actions (Utah State Courts)",
+      "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+      "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+      "byteLength": 119736,
+      "supports": [
+        "filingDestination",
+        "feeAndWaiver"
+      ],
+      "verifiedBy": "re-hashed on this build against the committed corpus index"
+    },
+    {
+      "id": "1305GE",
+      "title": "Motion to Waive Fees for Expungement - Criminal (Utah State Courts)",
+      "pathInArchive": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__1305GE__motion-to-waive-fees-for-expungement__REV-2019-06-24__EN.pdf",
+      "sha256": "c184a242f8c7c1d06f55998de4b611bcf8bd5ec959896b3b37e6b5d48319b597",
+      "byteLength": 171816,
+      "supports": [
+        "feeAndWaiver"
+      ],
+      "verifiedBy": "re-hashed on this build against the committed corpus index"
+    },
+    {
+      "id": "1146XX",
+      "title": "Acceptance of Service - Expungement (Prosecutor) (Utah State Courts)",
+      "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+      "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+      "byteLength": 192790,
+      "supports": [
+        "service"
+      ],
+      "verifiedBy": "re-hashed on this build against the committed corpus index"
+    },
+    {
+      "id": "UT-SPECIAL-TRACK-REGISTRY",
+      "title": "Utah special-certificate track registry",
+      "repoPath": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "supports": [
+        "stageGate",
+        "conditions",
+        "timing",
+        "actorOwnership",
+        "selfHelpStops"
+      ],
+      "verifiedBy": "hashed on this build from the held repository record"
+    },
+    {
+      "id": "UT-SPECIAL-LEGAL-MEMO",
+      "title": "Utah statewide legal review",
+      "repoPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/01_LEGAL_REVIEW/UT__LEGAL-REVIEW__STATEWIDE__utah-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "sha256": "b192f497f4af8bcdbc097a5dea44bd704a9a6d5ec9f9a21ba05fe077b8b7f400",
+      "byteLength": 58465,
+      "supports": [
+        "specialCertificateProcess",
+        "formTitles",
+        "filingSequence"
+      ],
+      "verifiedBy": "hashed on this build from the held repository record"
+    },
+    {
+      "id": "UT-SPECIAL-FEE-FACTS",
+      "title": "PF02 current official fee and form facts",
+      "repoPath": "data/rcap-grade-a/packet-factory-24h/pf02/ut-special-fee-facts-20260911/findings.json",
+      "sha256": "1767b7245a2a1ca2f7f84cf32e09957a687bb6186656be816afcc86518a7ff03",
+      "byteLength": 12504,
+      "supports": [
+        "feeAndWaiver",
+        "formTitles",
+        "printedDates"
+      ],
+      "verifiedBy": "hashed on this build from the held repository record"
+    }
+  ],
+  "observations": [
+    "All nine exact held source PDFs were re-hashed and censused; component 10 is registry/memo-backed process guidance with no PDF and no invented source hash.",
+    "The native census records 459 source terminals: 287 blank rules and 172 selection controls. Every source terminal is a canonical/boundary write, actor-specific refusal, or recorded selection control.",
+    "The canonical fixture records the without-conviction petition branch and no BCI waiver or third-party recipient. The boundary fixture records the with-conviction branch, BCI waiver, a third-party recipient, and a participant reply after an actual statement; family membership selects none of them.",
+    "District versus Justice remains a required participant record fact because the held track does not identify which court decided the case. No court-type control is guessed.",
+    "Forms 1146XX and 1148XX remain prosecutor/recipient-owned. Form 1149XX is conditional victim/prosecutor content, and 1169XX is conditional participant reply content; signatures and later service acts remain protected.",
+    "The current held findings support a $65 nonrefundable BCI application fee, $65 per eligible special certificate/case, $150 District Court filing fee and $135 Justice Court filing fee, with the BCI FAQ's missing effective-date caveat and the applicable waiver steps stated.",
+    "Forms 1044XX, 1146XX and 1148XX print revision dates but no approval date; none is invented. Forms 1149XX and 1169XX carry their printed Board approval dates.",
+    "The stage gate rejects an ordinary, absent, expired, wrong-episode, over-180-day or identity-mismatched certificate before court-stage use.",
+    "Both 20-page fixtures were produced without local raster; final PDF bytes contain every declared value, zero non-whitespace glyphs outside measured write boxes and zero refused fields with ink.",
+    "This is an author repair only. Remote raster review, independent completeness verification and attorney review remain pending; generation, runtime selection and commercial authority remain disabled."
+  ]
+}
