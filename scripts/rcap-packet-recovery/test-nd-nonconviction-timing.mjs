@@ -29,6 +29,7 @@ const calendar = (start, end, legalHolidays = []) => ({
 
 const eligible = (extra = {}) => ({
   orderEntryDate: "2025-08-01",
+  asOfDate: "2025-10-02",
   dispositionDate: "2025-07-15",
   wholeCaseDisposition: "ALL_CHARGES_DISMISSED",
   caseWasEverAppealed: false,
@@ -115,6 +116,33 @@ test("missing calendar data fails automatic calculation; explicitly verified dat
   });
   assert.equal(explicit.eligible, true);
   assert.equal(explicit.computationMethod, "EXPLICITLY_COLLECTED_VERIFIED_DATES");
+
+  const weekendExpiration = computeNdNonconvictionDeadline({
+    orderEntryDate: "2025-08-01",
+    verifiedAdjustedExpiration: "2025-10-04",
+    verifiedFirstCheckDate: "2025-10-06",
+    deadlineVerificationSource: "participant-verified court calendar and clerk record",
+  });
+  assert.equal(weekendExpiration.code, "VERIFIED_ADJUSTED_EXPIRATION_IS_WEEKEND");
+
+  const weekendFirstCheck = computeNdNonconvictionDeadline({
+    orderEntryDate: "2025-08-01",
+    verifiedAdjustedExpiration: "2025-10-03",
+    verifiedFirstCheckDate: "2025-10-04",
+    deadlineVerificationSource: "participant-verified court calendar and clerk record",
+  });
+  assert.equal(weekendFirstCheck.code, "VERIFIED_FIRST_CHECK_IS_WEEKEND");
+});
+
+test("evaluation date is valid and future order or observation facts fail closed", () => {
+  assert.equal(evaluateNdNonconvictionFailureBranch(eligible({ asOfDate: "not-a-date" })).code,
+    "INVALID_AS_OF_DATE");
+  assert.equal(evaluateNdNonconvictionFailureBranch(eligible({
+    orderEntryDate: "2025-10-03",
+  })).code, "FUTURE_ORDER_ENTRY_DATE");
+  assert.equal(evaluateNdNonconvictionFailureBranch(eligible({
+    publicAccessCheckedOn: "2025-10-03",
+  })).code, "FUTURE_PUBLIC_ACCESS_CHECK");
 });
 
 test("premature, unknown and non-public post-period attempts do not enter the failure branch", () => {
@@ -133,6 +161,7 @@ test("the packet-fact adapter refuses unknown gates and carries derived entry-da
     "participant.phone": "701-555-0100", "participant.email": "test@example.org",
     "case.court_name": "District Court", "case.court_location": "Test County, North Dakota",
     "case.number": "00-2025-CR-1", "case.order_entry_date": "2025-08-01",
+    "case.as_of_date": "2025-10-02",
     "case.whole_case_disposition": "ALL_CHARGES_DISMISSED", "case.was_ever_appealed": false,
     "case.dismissal_in_plea_involving_conviction": false, "case.unfit_to_proceed_disposition": false,
     "case.lack_criminal_responsibility_acquittal": false,
@@ -144,6 +173,18 @@ test("the packet-fact adapter refuses unknown gates and carries derived entry-da
   assert.equal(prepared["derived.raw_day_61"], "2025-10-01");
   assert.equal(prepared["derived.adjusted_expiration"], "2025-10-01");
   assert.equal(prepared["derived.first_check_date"], "2025-10-02");
+  assert.throws(() => prepareNdNonconvictionPacketFacts({
+    ...facts, "case.as_of_date": "invalid",
+  }), /fail closed at INVALID_AS_OF_DATE/);
+  assert.throws(() => prepareNdNonconvictionPacketFacts({
+    ...facts, "case.order_entry_date": "2025-10-03",
+  }), /fail closed at FUTURE_ORDER_ENTRY_DATE/);
+  assert.throws(() => prepareNdNonconvictionPacketFacts({
+    ...facts, "case.public_access_checked_on": "2025-10-03",
+  }), /fail closed at FUTURE_PUBLIC_ACCESS_CHECK/);
+  const currentDateDefault = { ...facts };
+  delete currentDateDefault["case.as_of_date"];
+  assert.equal(prepareNdNonconvictionPacketFacts(currentDateDefault)["derived.first_check_date"], "2025-10-02");
 });
 
 function snapshotTree(directory) {

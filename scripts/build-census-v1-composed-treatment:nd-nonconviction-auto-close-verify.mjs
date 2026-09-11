@@ -145,6 +145,7 @@ const SPEC = {
       "case.court_location": "Burleigh County, North Dakota",
       "case.number": "08-2025-CR-01234",
       "case.order_entry_date": "2025-08-01",
+      "case.as_of_date": "2025-10-02",
       "case.whole_case_disposition": "ALL_CHARGES_DISMISSED",
       "case.was_ever_appealed": false,
       "case.dismissal_in_plea_involving_conviction": false,
@@ -170,6 +171,7 @@ const SPEC = {
       "case.court_location": "Cass County, North Dakota",
       "case.number": "09-2025-CR-987654",
       "case.order_entry_date": "2025-08-04",
+      "case.as_of_date": "2025-10-07",
       "case.whole_case_disposition": "ALL_CHARGES_ACQUITTED",
       "case.was_ever_appealed": false,
       "case.dismissal_in_plea_involving_conviction": false,
@@ -602,6 +604,7 @@ export const DOTS = (n = 84) => ".".repeat(n);
 export function prepareNdNonconvictionPacketFacts(facts) {
   const gate = evaluateNdNonconvictionFailureBranch({
     orderEntryDate: facts["case.order_entry_date"],
+    asOfDate: facts["case.as_of_date"] ?? new Date().toISOString().slice(0, 10),
     wholeCaseDisposition: facts["case.whole_case_disposition"],
     caseWasEverAppealed: facts["case.was_ever_appealed"],
     dismissalInPleaAgreementInvolvingConviction: facts["case.dismissal_in_plea_involving_conviction"],

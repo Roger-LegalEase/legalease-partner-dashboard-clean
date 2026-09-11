@@ -46,6 +46,13 @@
       "fix": "case.was_ever_appealed must be exactly false. Any appeal or unknown history stops. The post-period check must be timely, known, still public, and evidenced before request/enforcement generation."
     }
   ],
+  "engineeringValidationFollowup": {
+    "baseSha": "6590b95a2c26f5aa6ee22ae6832c63f6b123fba0",
+    "observationDate": "The evaluator requires a valid as-of date and refuses order-entry or public-access observations after it. The real packet adapter defaults the as-of date to the current UTC calendar date; deterministic fixtures supply it explicitly.",
+    "verifiedDateFallback": "Caller-verified adjusted-expiration and first-check dates now reject known Saturday/Sunday contradictions. Holiday treatment still requires caller-supplied verified calendar facts and is never inferred.",
+    "pdfBehaviorChanged": false,
+    "pdfsPreserved": true
+  },
   "carriedFacts": {
     "clerkRequest": 18,
     "enforcementMotion": 19,
@@ -159,12 +166,12 @@
     {
       "command": "RCAP_NO_LOCAL_RASTER=1 node --test scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs",
       "exit": 0,
-      "result": "9 tests passed; entry/disposition distinction, cutoff, whole-case, any appeal, statutory exceptions, boundaries, weekend, supplied holiday, missing/incomplete calendar, premature/non-public, carried facts, read-only --check and generated maps"
+      "result": "10 tests passed; entry/disposition distinction, cutoff, whole-case, any appeal, statutory exceptions, boundaries, weekend and supplied-holiday calculation, weekend contradiction refusal for explicit dates, invalid/future as-of facts, missing/incomplete calendar, premature/non-public status, carried facts, read-only --check and generated maps"
     },
     {
       "command": "RCAP_NO_LOCAL_RASTER=1 node 'scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs' --check",
       "exit": 0,
-      "result": "CHECK_ONLY; 3 records/18 anchors; 2 eligibility fixtures; 38 writes/7 blanks; overlayDirectoryTouched=false"
+      "result": "CHECK_ONLY; 3 records/18 anchors; 2 eligibility fixtures; 42 writes/7 blanks; overlayDirectoryTouched=false"
     },
     {
       "command": "RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:nd-nonconviction-auto-close-verify'",
@@ -174,7 +181,7 @@
     {
       "command": "sha256sum/stat three bound records and both generated PDFs; git diff --check",
       "exit": 0,
-      "result": "Exact identities recorded below; no whitespace errors"
+      "result": "Candidate PDFs preserved: canonical 042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2 (17097 bytes), boundary db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d (17490 bytes); no whitespace errors"
     }
   ],
   "checksNotRun": [

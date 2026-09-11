@@ -89,11 +89,33 @@ export function computeNdNonconvictionDeadline({
     };
   }
 
-  const adjusted = parseIsoDate(verifiedAdjustedExpiration, "VERIFIED_ADJUSTED_EXPIRATION");
-  const firstCheck = parseIsoDate(verifiedFirstCheckDate, "VERIFIED_FIRST_CHECK_DATE");
-  if (!adjusted.error && !firstCheck.error && typeof deadlineVerificationSource === "string"
-    && deadlineVerificationSource.trim().length >= 3
-    && adjusted.date >= rawDay61Date && firstCheck.date > adjusted.date) {
+  const explicitDatesSupplied = verifiedAdjustedExpiration != null || verifiedFirstCheckDate != null
+    || deadlineVerificationSource != null;
+  if (explicitDatesSupplied) {
+    const adjusted = parseIsoDate(verifiedAdjustedExpiration, "VERIFIED_ADJUSTED_EXPIRATION");
+    if (adjusted.error) return adjusted.error;
+    const firstCheck = parseIsoDate(verifiedFirstCheckDate, "VERIFIED_FIRST_CHECK_DATE");
+    if (firstCheck.error) return firstCheck.error;
+    if (typeof deadlineVerificationSource !== "string" || deadlineVerificationSource.trim().length < 3) {
+      return fail("MISSING_DEADLINE_VERIFICATION_SOURCE",
+        "explicit adjusted-expiration and first-check dates require a named verification source");
+    }
+    if (adjusted.date < rawDay61Date) {
+      return fail("VERIFIED_ADJUSTED_EXPIRATION_BEFORE_DAY_61",
+        "an explicitly verified adjusted expiration cannot precede statutory day 61");
+    }
+    if (isWeekend(adjusted.date)) {
+      return fail("VERIFIED_ADJUSTED_EXPIRATION_IS_WEEKEND",
+        "an explicitly verified Rule 45 adjusted expiration cannot remain on Saturday or Sunday");
+    }
+    if (firstCheck.date <= adjusted.date) {
+      return fail("VERIFIED_FIRST_CHECK_NOT_AFTER_EXPIRATION",
+        "the product first-check date must follow the adjusted expiration");
+    }
+    if (isWeekend(firstCheck.date)) {
+      return fail("VERIFIED_FIRST_CHECK_IS_WEEKEND",
+        "an explicitly verified next-business-day check cannot be Saturday or Sunday");
+    }
     return {
       eligible: true,
       orderEntryDate,
@@ -116,6 +138,11 @@ export function computeNdNonconvictionDeadline({
 export function evaluateNdNonconvictionFailureBranch(input = {}) {
   const entered = parseIsoDate(input.orderEntryDate, "ORDER_ENTRY_DATE");
   if (entered.error) return entered.error;
+  const asOf = parseIsoDate(input.asOfDate, "AS_OF_DATE");
+  if (asOf.error) return asOf.error;
+  if (entered.date > asOf.date) {
+    return fail("FUTURE_ORDER_ENTRY_DATE", "the order-entry date has not occurred as of the evaluation date");
+  }
   if (input.orderEntryDate < EFFECTIVE_DATE) {
     return fail("PRE_EFFECTIVE_ORDER", "orders entered before August 1, 2025 use the separate petition mechanism");
   }
@@ -145,6 +172,10 @@ export function evaluateNdNonconvictionFailureBranch(input = {}) {
   if (!timing.eligible) return timing;
   const checked = parseIsoDate(input.publicAccessCheckedOn, "PUBLIC_ACCESS_CHECK_DATE");
   if (checked.error) return checked.error;
+  if (checked.date > asOf.date) {
+    return fail("FUTURE_PUBLIC_ACCESS_CHECK",
+      "a future public-access check is not an observed failure and cannot enter this branch");
+  }
   if (input.publicAccessCheckedOn < timing.firstAdministrativeCheckDate) {
     return fail("PREMATURE_PUBLIC_ACCESS_CHECK",
       `the public-access check must occur on or after ${timing.firstAdministrativeCheckDate}`);
