@@ -2,7 +2,7 @@
 
 This packet is prepared for **Georgia retroactive First Offender treatment, O.C.G.A. § 42-8-66 — process guidance and participant factual record**.
 
-**This packet contains no petition and nothing that gets filed, and that is what the committed record requires.** The committed guidance specification for this route records that nothing may be filed until the prosecuting attorney's advance consent is obtained, that LegalEase does not obtain consent and does not file, and that no participant document is generated on this route as currently offered.
+**This pre-consent packet contains no petition and nothing in this stage is filed.** The committed guidance requires advance written consent before filing and says LegalEase does not obtain consent or file. A separate post-consent petition family is acknowledged by the controlling decision and is outside this deliverable.
 
 What this packet is: the two things the committed record does describe — your own factual record, and a page explaining the gate. The committed guidance puts it plainly: LegalEase's role is to identify the candidate, explain the gate, and prepare the participant's factual record.
 
@@ -21,7 +21,7 @@ The platform filled in what it holds about you: your name, your date of birth, y
 | --- | --- |
 | FILING_DESTINATION | **The participant does not file this, and neither does the platform.** The committed guidance specification records: “Nothing may be filed until the prosecuting attorney's advance consent is obtained. Once it is, the petition is filed in the court in which the individual was convicted. LegalEase does not obtain consent and does not file.” The committed census records the destination as the prosecuting attorney first, then the convicting court, and records that consent is sought from the prosecuting attorney before anything is filed. So the destination of the route is the convicting court; the destination of anything the participant does FIRST is the prosecuting attorney's office, and the committed record puts that step outside self-help. |
 | FEE_AND_WAIVER | **The repository establishes this one, and it is a no-fee answer, not a delegation.** “There shall be no filing fee charged for a petition filed pursuant to O.C.G.A. § 42-8-66, per § 42-8-66(h).” The committed route contract records the same: § 42-8-66 imposes no elapsed wait and no filing fee. The committed guidance records the waiver question as answered by that: none needed, the statute prohibits a filing fee. |
-| SERVICE | **Nothing is served, because nothing is filed.** The committed guidance records: “Not reached. Nothing is served because nothing is filed without consent.” It records the consent requirement as a threshold requirement to file rather than a notice provision, and records that prosecutor silence is not consent. On a grant, the committed guidance records that the court sends the order to the petitioner, the prosecuting attorney, GCIC and the Department of Driver Services, both of which must modify their records — which is distribution by the court, not service by the participant. |
+| SERVICE | **Nothing is served during this pre-consent guidance stage.** No filing or service occurs before written consent. After consent, the separate petition family's approved service instructions govern; a qualifying post-order implementation tracks court distribution and custodian verification rather than participant service. |
 | SELF_HELP_STOP | **Always, at the consent stage. Obtaining the prosecuting attorney's advance consent is negotiation with an opposing party and is outside self-help.** **Stop and get help if:** the prosecuting attorney declines or does not respond — silence is not consent. **Stop and get help if:** the eligibility claim turns on what you were or were not told at the original sentencing. **Stop and get help if:** the court requires a contested evidentiary hearing, which the committed route contract records as advocacy rather than document preparation. **Stop and get help if:** any immigration consequence is in play. Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice "The Desk". |
 
 ## What the committed record says you must know
@@ -66,7 +66,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 3. **Ask the clerk of the convicting court for the sentencing record, the plea transcript or plea paperwork, and the final disposition.**
 4. **Check your answers against those documents and correct them if they disagree.** The committed guidance records that check as a required step.
 5. **Take both pages to a lawyer or to one of the Georgia expungement desks named on the guidance page.** Do not approach the prosecuting attorney yourself: the committed guidance puts that step outside self-help, always.
-6. **Do not file anything.** The committed record says nothing is filed until written consent exists, and that this platform neither obtains consent nor files.
+6. **Do not file anything before written consent exists.** The committed record says consent is a filing prerequisite; this guidance stage neither obtains consent nor files.
 
 ## Things the platform deliberately left blank
 

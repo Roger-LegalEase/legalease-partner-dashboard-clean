@@ -84,6 +84,17 @@ const SPEC = {
       ]
     },
     {
+      "recordId": "controlling-decision:CLD-2026-08-28-GA-RFO",
+      "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+      "role": "the controlling Georgia decision's separate post-consent implementation stage",
+      "mustContain": [
+        "CLD-2026-08-28-GA-RFO",
+        "qualifying post-2026-07-01 order",
+        "restriction and sealing implementation tracking",
+        "rather than a second petition"
+      ]
+    },
+    {
       "recordId": "route-contract:GA:retroactive-first-offender-treatment-under-42-8-66",
       "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
       "role": "the committed route contract: that written prosecutorial consent is a filing prerequisite rather than the relief, that absence is never satisfaction, that the statute imposes no filing fee, and that this route names its own petition family which the guidance family does not become",
@@ -120,7 +131,7 @@ const SPEC = {
         "",
         "YOUR FACTUAL RECORD - GEORGIA RETROACTIVE FIRST OFFENDER, O.C.G.A. Sec. 42-8-66",
         "",
-        "THIS PAGE IS NOT FILED ANYWHERE. The committed guidance specification records this route's role in one sentence: LegalEase's role is to identify the candidate, explain the gate, and prepare the participant's factual record. This page is that record. It goes to whoever helps you - a lawyer, or one of the expungement desks named in the guidance page - and not to a court.",
+        "THIS PAGE IS NOT FILED ANYWHERE. This pre-consent guidance stage identifies the candidate, explains the gate, and prepares the participant's factual record. A separate post-consent petition family exists in the controlling decision, but this guidance page is not that petition and does not authorize filing.",
         "",
         "Name: {{participant.full_legal_name}}",
         "Date of birth: {{participant.date_of_birth}}",
@@ -289,13 +300,21 @@ const SPEC = {
         "",
         "WHAT THIS ROUTE IS, AND WHO RUNS IT",
         "",
-        "**NOTHING IN THIS PACKET IS FILED, AND NO PETITION IS GENERATED.** The committed guidance specification says both in terms: \"Nothing may be filed until the prosecuting attorney's advance consent is obtained. Once it is, the petition is filed in the court in which the individual was convicted. LegalEase does not obtain consent and does not file.\" and \"Not reached on this route as currently offered. No participant document is generated.\"",
+        "**NOTHING IN THIS PRE-CONSENT PACKET IS FILED, AND THIS STAGE GENERATES NO PETITION.** The committed guidance specification says nothing may be filed until advance written consent is obtained and that LegalEase does not obtain consent or file. The controlling decision separately recognizes a post-consent petition family; this guidance stage does not substitute for it.",
         "",
         "What the route is: a petition for retroactive First Offender treatment, exoneration and discharge, which the committed route contract records can convert a conviction into a first-offender discharge.",
         "",
         "What stands in front of it: the prosecuting attorney's ADVANCE WRITTEN CONSENT. The committed route contract records that consent is a condition that must exist BEFORE the individual files, and records that absence is never satisfaction — silence, refusal, an unanswered request and 'no known objection' each leave the precondition unmet.",
         "",
         "What happens if it is granted: the committed guidance records that a grant converts the conviction into a first offender discharge which is not a conviction and makes the record restrictable and sealable, and that the court sends the order to the petitioner, the prosecuting attorney, GCIC and the Department of Driver Services, both of which must modify their records.",
+
+        "POST-ORDER IMPLEMENTATION TRACKING: If a qualifying retroactive First Offender order is entered on or after July 1, 2026, do not generate or file a second merits petition. Preserve the order's date and qualifying treatment as an implementation record, track the court's distribution to the petitioner, prosecuting attorney, GCIC and the Department of Driver Services, and verify the corresponding restriction and sealing updates with those custodians. If the order's date, qualification, distribution or record update is uncertain, stop self-help and take the order to counsel or a named Georgia expungement desk.",
+        "POST-ORDER CHECKLIST — complete only after a qualifying order exists:",
+        "[ ] Order identity: court, case number, signer, entry date, and a certified or court-issued copy retained.",
+        "[ ] Qualification: confirm the order is a retroactive First Offender order entered on or after July 1, 2026; if unclear, hand off for review.",
+        "[ ] Distribution record: record the date and method the court sent the order to the petitioner, prosecuting attorney, GCIC, and Department of Driver Services; do not represent an unconfirmed delivery as complete.",
+        "[ ] Verification record: obtain and retain each available custodian confirmation or updated record showing restriction and sealing implementation; unresolved discrepancies go to counsel or a Georgia expungement desk.",
+        "[ ] No second petition: this tracking checklist implements the qualifying order and does not create a new merits filing.",
         "",
         "Who runs it: The prosecuting attorney first, then the convicting court. The committed record's own words: consent is sought from the prosecuting attorney before anything is filed; only after consent is obtained may the petition be filed in the convicting court.",
         "",
@@ -309,7 +328,7 @@ const SPEC = {
         "WHAT YOU DO NOT DO",
         "",
         "- **Do not approach the prosecuting attorney for consent by yourself.** The committed guidance records that obtaining advance consent is negotiation with an opposing party and is outside self-help, and records the handoff as 'always, at the consent stage'.",
-        "- **Do not file anything.** The committed guidance records that nothing may be filed until consent is obtained, and that LegalEase does not obtain consent and does not file.",
+        "- **Do not file anything before written consent exists.** The committed guidance records consent as a prerequisite; LegalEase does not obtain consent and does not file during this stage.",
         "- **Do not treat silence as consent.** The committed route contract records that silence, refusal, an unanswered request and 'no known objection' each leave the precondition unmet.",
         "- **Do not use this route if you were actually sentenced under the First Offender Act already.** The committed guidance's own first question says: if you were, this is not your route.",
         "",
@@ -319,7 +338,7 @@ const SPEC = {
         "",
         "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
         "",
-        "**Nothing is served.** The committed guidance records: \"Not reached. Nothing is served because nothing is filed without consent.\" What the committed record does record about notice is that the prosecuting attorney's consent must be obtained before filing, that it is a threshold requirement to file rather than a notice provision, and that prosecutor silence is not consent.",
+        "**Nothing is served before the consented filing stage.** The current guidance stage serves nothing because no filing occurs before written consent. After consent, service and court distribution follow the separate petition family's approved instructions; this page does not perform or certify service.",
         "",
         "WHEN TO STOP AND GET HELP INSTEAD",
         "",
@@ -361,13 +380,13 @@ const SPEC = {
     }
   },
   "composedFromNote": "the committed process-guidance specification (data/record-clearing/legal-design-specifications.json, processGuidanceSpecs#ga-rfo), the committed route contract (src/lib/legal-authority/routes/national-report-2026-08-28.json, GA:retroactive-first-offender-treatment-under-42-8-66) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
-  "formIdentityNote": "No committed record names an official participant form for this route, and no petition is composed here — the committed guidance specification records that no participant document is generated on this route as currently offered, and the committed route contract records that the § 42-8-66 petition family DOES NOT EXIST YET and that this guidance family must not be used to close that gate. This packet composes the participant's factual record and a process-guidance page, which is what the committed record describes.",
-  "routeSelectionNote": "One route and one deliverable, and the deliverable is not a filing. The committed route contract records that this route names its own petition family and does not inherit rcap-ga-guidance-implementation, and that no completed-output approval from this guidance family may be carried into a petition. Nothing here is an election for the participant to make.",
+  "formIdentityNote": "No official participant form is used by this pre-consent guidance stage. It composes the participant's factual record and process guidance only. The controlling decision separately recognizes a post-consent § 42-8-66 petition family; this packet does not compose or authorize that filing.",
+  "routeSelectionNote": "One GA route is represented by two ordered stages: this pre-consent guidance/factual-record stage, followed only when written consent exists by the separate post-consent petition family. The controlling decision prevents this guidance family from substituting for or closing that petition gate. The post-order checklist implements a qualifying order and creates no second petition.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66",
       "statute": "O.C.G.A. § 42-8-66",
-      "instrument": "process guidance and the participant's own factual record — no petition, because the committed record generates none on this route",
+      "instrument": "pre-consent process guidance and the participant's own factual record; the separate post-consent petition family is outside this deliverable",
       "statedOn": "both composed pages, in their titles, bodies and footers"
     }
   ],
@@ -382,7 +401,7 @@ const SPEC = {
     ],
     [
       "SERVICE",
-      "**Nothing is served, because nothing is filed.** The committed guidance records: “Not reached. Nothing is served because nothing is filed without consent.” It records the consent requirement as a threshold requirement to file rather than a notice provision, and records that prosecutor silence is not consent. On a grant, the committed guidance records that the court sends the order to the petitioner, the prosecuting attorney, GCIC and the Department of Driver Services, both of which must modify their records — which is distribution by the court, not service by the participant."
+    "**Nothing is served during this pre-consent guidance stage.** No filing or service occurs before written consent. After consent, the separate petition family's approved service instructions govern; a qualifying post-order implementation tracks court distribution and custodian verification rather than participant service."
     ],
     [
       "SELF_HELP_STOP",
@@ -390,7 +409,7 @@ const SPEC = {
     ]
   ],
   "instructionsIntro": [
-    "**This packet contains no petition and nothing that gets filed, and that is what the committed record requires.** The committed guidance specification for this route records that nothing may be filed until the prosecuting attorney's advance consent is obtained, that LegalEase does not obtain consent and does not file, and that no participant document is generated on this route as currently offered.",
+    "**This pre-consent packet contains no petition and nothing in this stage is filed.** The committed guidance requires advance written consent before filing and says LegalEase does not obtain consent or file. A separate post-consent petition family is acknowledged by the controlling decision and is outside this deliverable.",
     "What this packet is: the two things the committed record does describe — your own factual record, and a page explaining the gate. The committed guidance puts it plainly: LegalEase's role is to identify the candidate, explain the gate, and prepare the participant's factual record.",
     "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Everything about your own case belongs to the court record, so each item is a labelled dotted blank listed below."
   ],
@@ -433,7 +452,7 @@ const SPEC = {
     "**Ask the clerk of the convicting court for the sentencing record, the plea transcript or plea paperwork, and the final disposition.**",
     "**Check your answers against those documents and correct them if they disagree.** The committed guidance records that check as a required step.",
     "**Take both pages to a lawyer or to one of the Georgia expungement desks named on the guidance page.** Do not approach the prosecuting attorney yourself: the committed guidance puts that step outside self-help, always.",
-    "**Do not file anything.** The committed record says nothing is filed until written consent exists, and that this platform neither obtains consent nor files."
+    "**Do not file anything before written consent exists.** The committed record says consent is a filing prerequisite; this guidance stage neither obtains consent nor files."
   ],
   "deliberatelyBlank": [
     "**Your signing line, and the date beside it.** A signature is yours alone, and a date written before you sign would be false.",
@@ -464,7 +483,7 @@ const SPEC = {
       "consequence": "No petition was composed. The packet is the participant's own factual record plus a guidance page, which is what the committed record describes as this route's product: identify the candidate, explain the gate, prepare the factual record."
     },
     {
-      "finding": "The committed route contract records that this route names its own petition family, does not inherit rcap-ga-guidance-implementation, and that the § 42-8-66 petition family DOES NOT EXIST YET — with a gate that must not be closed by pointing at the guidance family.",
+      "finding": "The controlling decision records a separate post-consent § 42-8-66 petition family; this pre-consent guidance stage does not inherit or substitute for it, and the consent gate remains open until written consent exists.",
       "consequence": "This build composes guidance under the guidance family's own id and asserts nothing about the petition family. Nothing here is offered as the petition, and the receipt says so."
     },
     {
@@ -477,13 +496,13 @@ const SPEC = {
     }
   ],
   "counselQuestions": [
-    "This family ships process guidance and a factual record and NO petition, on the ground that the committed guidance specification records that no participant document is generated on this route as currently offered. Confirm.",
-    "The committed route contract records that the § 42-8-66 petition family does not exist and must not be closed by pointing at this guidance family. This build asserts nothing about the petition family. Confirm that this guidance family may be built without touching that gate."
+    "This family ships pre-consent process guidance and a factual record; it does not ship the separate post-consent petition. Confirm the stage boundary.",
+    "The controlling decision keeps the post-consent petition family separate from this guidance family. Confirm that this guidance output does not substitute for that petition or close the written-consent gate."
   ],
   "reviewersAttention": [
     "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT.",
-    "THIS FAMILY SHIPS NO PETITION AND NOTHING THAT IS FILED. Its MASTER_QUEUE implementationStrategy is custom_pleading, which describes how the pages are produced rather than requiring that the output be a pleading.",
-    "The committed route contract's delivery gates record that the § 42-8-66 PETITION family does not exist and must not be closed by pointing at this guidance family. This build does not close it and does not claim to."
+    "THIS FAMILY SHIPS PRE-CONSENT GUIDANCE AND A FACTUAL RECORD; NOTHING IN THIS STAGE IS FILED. Its MASTER_QUEUE implementationStrategy is custom_pleading, which describes how the pages are produced rather than requiring that the output be a pleading.",
+    "The controlling decision keeps the post-consent § 42-8-66 petition family separate. This build does not substitute for it and does not close the written-consent gate."
   ],
   "documentsHeading": "Documents you must obtain before anyone can act — nothing here is filed, by you or by the platform"
 };
