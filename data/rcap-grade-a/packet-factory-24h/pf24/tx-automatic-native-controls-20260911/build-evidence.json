@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-pf24-build-evidence/v1",
+  "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+  "base": "2e900757aed813504bc7a0b38693c47f63737b72",
+  "result": "COMPLETED_RASTER_PENDING",
+  "commands": [
+    {
+      "command": "PYTHONPATH=/tmp/rcap-pf24-pikepdf RCAP_PIKEPDF_PYTHON=python3.12 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs --no-raster",
+      "result": "COMPLETED; two deterministic 22-page artifacts; all nine builder counters measured zero; BUILT_RASTER_PENDING"
+    },
+    {
+      "command": "PYTHONPATH=/tmp/rcap-pf24-pikepdf RCAP_PIKEPDF_PYTHON=python3.12 RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-recovery/tx-automatic-native-controls.test.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONPATH=/tmp/rcap-pf24-pikepdf RCAP_PIKEPDF_PYTHON=python3.12 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs --check --no-raster",
+      "result": "CHECK_ONLY; 3 exact sources, 157 fields, 2 artifacts and field map verified; no writes"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_automatic_misdemeanor_deferred-set",
+      "result": "NOT_MEASURABLE_HERE; all eight nonvisual counters zero; visualDefects UNMEASURED pending central raster"
+    }
+  ],
+  "sourceHashes": {
+    "recoveryLetter": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+    "proposedOrder": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+    "statementOfInability": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"
+  },
+  "deterministicLetterDerivativeSha256": "8197d7bba301f97bbaef5e1434975fc3aeb1650faae66ad007d57e9aeb4bb240",
+  "fieldCensus": { "recoveryLetter": 25, "proposedOrder": 0, "statementOfInability": 132 },
+  "nativeGroup10": {
+    "sourceField": "Group10",
+    "sourceWidgets": 4,
+    "questions": 2,
+    "canonicalSelections": [
+      { "question": "legal_aid", "factId": "matter.represented_by_legal_aid", "state": "Choice2", "page": 3, "rect": { "x": 74.6448, "y": 135.653, "width": 18, "height": 18 } },
+      { "question": "ability_to_pay", "factId": "matter.cannot_afford_court_costs", "state": "Choice3", "page": 9, "rect": { "x": 90.8819, "y": 316.952, "width": 18.0001, "height": 18 } }
+    ],
+    "selectedSourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2",
+    "radioStructureEdited": false,
+    "outsideControlMarks": 0,
+    "synthesizedMarks": 0
+  },
+  "sourceCarriedDefaultsClearedAndReadBackBlank": {
+    "Today": "12/15/2022",
+    "Value / Valor 11": "0",
+    "Amount Cantidad 15": "0"
+  },
+  "artifacts": [
+    { "fixture": "canonical", "sha256": "b6c2532b99fea6a8e7fafaffeee7e57f8335c6a389b6699d2b06eafe2f2cb8c8", "bytes": 714530, "pages": 22 },
+    { "fixture": "boundary", "sha256": "f9f326415a1f28a99cb4cae4c1940362847889030efb8f7c75a3a19fc80abeef", "bytes": 714653, "pages": 22 }
+  ],
+  "measuredWritesPerFixture": 33,
+  "measuredRequiredBeforeFiling": 98,
+  "builderCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "completenessWithoutWrite": {
+    "result": "NOT_MEASURABLE_HERE",
+    "reason": "central raster is pending",
+    "substantiveCounters": "all eight nonvisual counters zero; visualDefects UNMEASURED"
+  },
+  "approval": "none",
+  "commercialRoutesOpened": 0,
+  "rasterState": "BUILT_RASTER_PENDING"
+}
