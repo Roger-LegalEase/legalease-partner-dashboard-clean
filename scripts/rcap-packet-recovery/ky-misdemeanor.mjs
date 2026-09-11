@@ -249,10 +249,10 @@ export function fixtures() {
   return {
     canonical,
     boundary,
-    'elections/ordinary-violation': kyFixture('ordinary_violation'),
-    'elections/ordinary-traffic': kyFixture('ordinary_traffic'),
-    'elections/void-218A275-8': kyFixture('void_218A275_8'),
-    'elections/void-218A276-8': kyFixture('void_218A276_8')
+    'selectable/ordinary-violation': kyFixture('ordinary_violation'),
+    'selectable/ordinary-traffic': kyFixture('ordinary_traffic'),
+    'selectable/void-218a275-8': kyFixture('void_218A275_8'),
+    'selectable/void-218a276-8': kyFixture('void_218A276_8')
   };
 }
 
@@ -579,7 +579,9 @@ export async function runKy({outDir = path.join(ROOT, OUT), inputFile = null} = 
   ], conditionalAttachments: [{componentId: 'ky_misdemeanor_expungement-charge-agency-schedule', conditionDescription: 'Included when more than six charges or any complete victim, relevant-person, or agency value must continue beyond an official source cell.'}], selectionDispositionVocabulary: ['PARTICIPANT_ELECTION', 'COURT_OWNED'], electionMap: ELECTION_FIELDS, judicialControlsAlwaysBlank: COURT_SELECTION_FIELDS, ...rows, generationAllowed: false, runtimeSelectable: false}));
   fs.writeFileSync(path.join(outDir, 'field-census.census-v1.json'), json({schemaVersion: 'rcap-field-census/v1', familyId: FAMILY, documents: Object.entries(censuses).map(([formNumber, fields]) => ({formNumber, sourceSha256: SOURCES[formNumber].sha256, fields}))}));
   fs.writeFileSync(path.join(outDir, 'official-field-census.json'), json(censuses));
-  fs.writeFileSync(path.join(outDir, 'reports/rendered-artifacts.json'), json({schemaVersion: 'rcap-rendered-artifacts/v1', familyId: FAMILY, componentIdentityMode: 'exact', artifacts: packets, packets, renderedFresh: true, derivedFromBytes: true, everyPageRastered: false, independentVerificationPending: true}));
+  const selectable = packets.filter(packet => packet.fixture.startsWith('selectable/'))
+    .map(packet => ({...packet, baseFixture: 'canonical'}));
+  fs.writeFileSync(path.join(outDir, 'reports/rendered-artifacts.json'), json({schemaVersion: 'rcap-rendered-artifacts/v1', familyId: FAMILY, componentIdentityMode: 'exact', artifacts: packets, pdfs: selectable, packets, renderedFresh: true, derivedFromBytes: true, everyPageRastered: false, independentVerificationPending: true}));
   fs.writeFileSync(path.join(outDir, 'reports/actual-writes.json'), json({schemaVersion: 'rcap-actual-writes/v1', familyId: FAMILY, derivedFromArtifactBytes: true, artifacts: actualWrites, documents: []}));
   fs.writeFileSync(path.join(outDir, 'source-receipt.json'), json({schemaVersion: 'rcap-held-official-source/v1', familyId: FAMILY, allSourcesExact: true, sources: Object.entries(SOURCES).map(([documentId, source]) => ({documentId, sourceId: `official-form:${documentId}`, role: source.role, path: source.path, url: source.url, sha256: source.sha256, sha256Exact: true, byteLength: source.byteLength, pages: source.pages, fields: source.fields}))}));
   fs.writeFileSync(path.join(outDir, 'build-status.json'), json({familyId: FAMILY, status: 'BUILT_RASTER_PENDING', buildStatus: 'state_built', reviewStatus: 'qa_review_pending', independentVerificationStatus: 'PENDING', authorQaOnly: true, renderedArtifacts: packets.length, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0, productionTouched: false, rasterStatus: 'RASTER_PENDING'}));
