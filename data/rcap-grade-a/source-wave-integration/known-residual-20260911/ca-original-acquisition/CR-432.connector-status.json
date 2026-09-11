@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-09-11T20:17:31Z",
+  "fileId": "1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8",
+  "metadataAction": "mcp__codex_apps__google_drive_get_file_metadata",
+  "metadata": {
+    "id": "1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8",
+    "title": "CODEX-CS1-SRC1__CR-432__8ef45f07cf9f.pdf",
+    "mimeType": "application/pdf",
+    "size": "109666",
+    "url": "https://drive.google.com/file/d/1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8/view?usp=drivesdk",
+    "createdTime": "2026-09-02T17:56:12.248Z",
+    "modifiedTime": "2026-09-02T17:56:12.248Z",
+    "shared": false,
+    "sourceVisibilityStatus": "permission_metadata_available"
+  },
+  "fetchAction": "mcp__codex_apps__google_drive_fetch",
+  "fetchArguments": {
+    "url": "https://drive.google.com/file/d/1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8/view?usp=drivesdk",
+    "download_raw_file": true,
+    "include_base64": false
+  },
+  "fetchResult": {
+    "rawFileReferenceReturned": true,
+    "fileName": "CODEX-CS1-SRC1__CR-432__8ef45f07cf9f.pdf",
+    "mimeType": "application/pdf",
+    "fileSizeBytes": 109666,
+    "contentEmpty": true,
+    "base64Returned": false,
+    "fileUri": {
+      "download_url": "sediment://file_0000000059a881f587d232bf6ec672aa",
+      "file_id": "sediment://file_0000000059a881f587d232bf6ec672aa",
+      "mime_type": "application/pdf",
+      "file_name": "CODEX-CS1-SRC1__CR-432__8ef45f07cf9f.pdf"
+    }
+  },
+  "materialization": {
+    "workspacePath": null,
+    "localSha256": null,
+    "localPdfReadability": null,
+    "shellSedimentProbe": {
+      "command": "curl --output <allowlisted-probe-path> sediment://file_0000000059a881f587d232bf6ec672aa",
+      "exitCode": 1,
+      "stderrPath": "/tmp/rcap-ca430-original-custody-20260911/logs/connector-probe.stderr.txt",
+      "stderr": "Protocol sediment not supported or disabled in libcurl",
+      "probeFileCreated": false
+    },
+    "limitation": "The available Google Drive connector exposes the authenticated raw file only as a user-scoped sediment file_uri. No materialize-to-workspace action is available in the active tool set, and the file_uri is not readable by shell commands. Base64 and bearer-URL workarounds were not used."
+  },
+  "expected": {
+    "sha256": "8ef45f07cf9fac15af97addd4f7b7d5f08e2b5ad4b4134cf002484821bc0c43e",
+    "byteLength": 109666,
+    "pagesFromNamedRecord": 2
+  },
+  "result": "DRIVE_FILE_METADATA_AND_RAW_REFERENCE_BOUND; LOCAL_HASH_AND_READABILITY_UNVERIFIED"
+}
