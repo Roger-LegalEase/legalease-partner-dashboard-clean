@@ -97,6 +97,9 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - 7.Name and mailing address of the affiant as shown on the co (source field: `AddressOfAffiant`)
 - 9.Offense Tracking Number (OTN) (source field: `OTN`)
 - applicable dispositions (attach additional sheets if needed) (source field: `Text15`)
-- Rule 490 is selected only when the court record establishes a magisterial-district-judge case; Rule 790 is selected only when it establishes a court-of-common-pleas case.
-- If the court level is absent or outside those two recorded values, generation stops before any participant artifact is selected.
-- The required custom certificate of service states only the governed recipient and timing. It leaves every local-method and performed-service fact blank.
+- Office and address where the copy was served: (source field: `Office and address where the copy was served`)
+- Service method accepted by the filing court: (source field: `Service method accepted by the filing court`)
+- Date service actually occurred: (source field: `Date service actually occurred`)
+- Rule 490 applies only where the court record establishes that a magisterial district judge handled the case, and Rule 790 only where it establishes a court of common pleas case. The two rules use different petitions and different proposed orders.
+- If your court record does not establish which of those two courts handled the case, this packet does not choose one for you and produces no petition. Obtain the docket or a clerk-certified disposition that states the court, and do not work the court level out from the charge, from the name of a file, or from memory.
+- The certificate of service enclosed with this packet states only the recipient and the timing that the governed record establishes. Every local-method and performed-service fact on it is left blank for you to complete after service actually occurs.

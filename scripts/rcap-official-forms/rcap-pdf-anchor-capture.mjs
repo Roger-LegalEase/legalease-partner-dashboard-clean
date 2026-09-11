@@ -884,12 +884,19 @@ export function captureWidgetContext(page, widgets, { precomputedLines = null, i
     let best = null;
     for (const line of lines) {
       if (Math.abs(line.y - rect.y) > rect.height && Math.abs(line.y - midline) > rect.height) continue;
-      for (const run of line.runs) {
+      const measuredRuns = line.runs.filter((run) => Number.isFinite(run.x2));
+      for (const run of measuredRuns) {
+        // A run with no finite right edge has no measurable left gap. JavaScript
+        // coerces null to zero in both comparisons below, which used to let an
+        // unmeasurable symbol-font run claim a caption as though it ended at the
+        // left edge of the page. Preserve the unknown instead of inventing an
+        // extent for it.
         if (run.x2 > rect.x + 1) continue;
         const gap = rect.x - run.x2;
         if (gap < 0 || gap > CAPTION_GAP_LEFT) continue;
         if (!best || gap < best.gap) {
-          best = { text: cellTextLeftOf(line, run), gap, basis: "printed_to_the_left_in_the_same_cell" };
+          best = { text: cellTextLeftOf({ ...line, runs: measuredRuns }, run), gap,
+            basis: "printed_to_the_left_in_the_same_cell" };
         }
       }
     }

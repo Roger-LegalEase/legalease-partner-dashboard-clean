@@ -5513,7 +5513,9 @@ function rowIntegrityWithholdings(doc, mappings, refusedFields) {
 
 async function buildOfficialUnsafe(familyId, config) {
   const noRaster = config.noLocalRaster === true;
-  assert.ok(!noRaster || (familyId === "nj_clean_slate-set" && !(config.supplementalDocuments ?? []).length), "Nonvisual build is scoped to the single NJ clean-slate source kit");
+  assert.ok(!noRaster || (familyId === "nj_clean_slate-set" && !(config.supplementalDocuments ?? []).length)
+    || familyId === "pa_6308_underage-set",
+  "Nonvisual build is scoped to NJ clean slate and the PF26 PA 6308 repair");
   const out = officialOut(familyId, config.jurisdiction);
   // Read what a repair lane installed on this family BEFORE the reset clears
   // it: the completeness classifications on the prior field map (carried
@@ -5946,6 +5948,12 @@ async function buildOfficialUnsafe(familyId, config) {
         outputGlyphReading: composedGlyphReading,
       });
 
+      if (noRaster) {
+        rasterReports.push({ documentId: doc.documentId, fixture, sourcePdf: file,
+          sourcePdfSha256: sha256(bytes), status: "RASTER_PENDING", engine: null, pages: [] });
+        continue;
+      }
+
       const rasterDir = `${out}/raster/${doc.key}-${fixture}`;
       const rasterRows = await rasterizePdf({ file: abs(file), outDir: abs(rasterDir), prefix: "page" });
       assert.equal(rasterRows.length, pdf.getPageCount(), `${doc.documentId}/${fixture}: not every page rastered`);
@@ -6347,7 +6355,7 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     const raster = rendered.rasters.find((row) => row.sourcePdf === pdf.file);
     assert.ok(raster, `${pdf.file}: raster record absent`);
     if (raster.status === "RASTER_PENDING") {
-      assert.equal(familyId, "nj_clean_slate-set");
+      assert.ok(familyId === "nj_clean_slate-set" || familyId === "pa_6308_underage-set");
       assert.equal(replayRaster, false, "Pending central raster cannot satisfy a visual check");
       assert.equal(raster.sourcePdfSha256, pdf.sha256);
       assert.deepEqual(raster.pages, []);
@@ -7832,8 +7840,10 @@ export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
     assert.ok(argv.length <= 1, "NJ clean-slate accepts exactly one execution mode");
     assert.ok(argv.length > 0 || process.env.RCAP_NO_LOCAL_RASTER !== "1", "NJ clean-slate build prohibited while local raster is disabled");
   }
-  assert.ok(!argv.includes("--no-raster") || familyId === "nj_clean_slate-set", "Nonvisual build is supported only for NJ clean slate");
-  assert.ok(!nonvisual || familyId === "nj_clean_slate-set", "Nonvisual check is supported only for NJ clean slate");
+  assert.ok(!argv.includes("--no-raster") || familyId === "nj_clean_slate-set"
+    || familyId === "pa_6308_underage-set", "Nonvisual build is supported only for NJ clean slate and PA 6308");
+  assert.ok(!nonvisual || familyId === "nj_clean_slate-set"
+    || familyId === "pa_6308_underage-set", "Nonvisual check is supported only for NJ clean slate and PA 6308");
   if (argv.includes("--self-test-fix88")) { await selfTestFix88(); return; }
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
   const check = argv.includes("--check");
