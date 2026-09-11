@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `ada5a1985117a5f52f02f729e600fd1826500cf0` (or the newer dispatch base)
+**Minimum required ancestor:** `e79b87b79089249553501cf038ea40c5d867caa4` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'co_motion_seal_nonconviction-set' \
+  --family 'ut_pet_special_certificate-set' \
   --codex-cloud \
-  --minimum-captain-sha ada5a1985117a5f52f02f729e600fd1826500cf0
+  --minimum-captain-sha e79b87b79089249553501cf038ea40c5d867caa4
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,7 +38,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 3 exact families before reading or writing family content:
+- Assert only these 4 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ut_pet_special_certificate-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'co_motion_seal_nonconviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'nj_indictable_conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'tx_nd_probation_misdemeanor-set'`
@@ -62,8 +63,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 4 families
 
+- `ut_pet_special_certificate-set`
 - `co_motion_seal_nonconviction-set` — failing: requiredOptionsMissing
 - `nj_indictable_conviction-set`
 - `tx_nd_probation_misdemeanor-set`
@@ -79,9 +81,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ut_pet_special_certificate-set.mjs`
 - `scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs`
 - `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
 - `scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs`

@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 243,
-    "rows": 1306,
-    "independentVerdicts": 301,
-    "failRepairRequired": 29,
+    "returnDirectories": 244,
+    "rows": 1307,
+    "independentVerdicts": 302,
+    "failRepairRequired": 30,
     "passIndependent": 249
   },
   "failRepairRequiredFamilies": [
@@ -69,6 +69,7 @@
     "tx_nd_probation_misdemeanor-set",
     "tx_nd_veterans_court-set",
     "tx_nd_veterans_reemployment-set",
+    "ut_pet_special_certificate-set",
     "wv_acc_treatment_job_readiness-set"
   ],
   "refusedAtTheClaimGate": {
@@ -32629,6 +32630,71 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf31/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
       "superseded": true
+    },
+    {
+      "familyId": "ut_pet_special_certificate-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf62",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1dd3c9aabb2e402181670d4545681a73e1f58f30",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/stage-gate-probes.json"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/defects.json"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/defects.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/source-election-probes.json"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/original-page-review.json"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/defects.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/source-election-probes.json"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-ut-special-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_special_certificate-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_traffic-set",
