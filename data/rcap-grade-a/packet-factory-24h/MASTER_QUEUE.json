@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "413c73751240703e26c6ead16bc75dd160299663",
+  "minimumCaptainSha": "b5c29395c77771e1a83ea4243c6a0710413eb1c8",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "bc2300e495441342f3425cccc68fe135051d651ea1f0d08523f9703ff2369164",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "f6771785f87314ce2f61ae9275f4ee8a502a5ade88b44d01018c3fa9b2bcefb9",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -79,15 +79,15 @@
     "sourceBlocked": 4,
     "legalBlocked": 0,
     "verifyPending": 3,
-    "repairRequired": 28,
+    "repairRequired": 20,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 236,
+    "COMPLETE_PACKET_PROVEN": 245,
     "PRODUCT_PATH_PENDING": 10,
     "OUT_OF_SCOPE": 5,
-    "BUILT_RASTER_PENDING": 8,
-    "FAIL_REPAIR_REQUIRED": 30,
+    "BUILT_RASTER_PENDING": 7,
+    "FAIL_REPAIR_REQUIRED": 22,
     "SOURCE_READY": 34,
     "SOURCE_BLOCKED": 4,
     "GUIDANCE_READY": 12,
@@ -14876,10 +14876,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf64",
-        "verifiedAtBase": "43943cb16223b0701449cb9bef8671f8a9233231",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-fl-early-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260911-fl-early-closure.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -14911,34 +14911,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "All56 declared writes contain the held values; boundary page2 now includes Isabel and correct Last, First Middle ordering. Nevertheless page3 first/middle values do not occupy their actual named source blanks and all six identity/demographic values are displaced above the intended row. FL-EARLY-VF64-01; text existence alone is insufficient.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "Both current PDFs/reports/source pins and all10 original raster images bind exactly. The stale wiring hash/receipt was corrected at43943cb16 and is closed. Current reports still present broad region containment as correct source-region placement and publish visualDefects0/allNineZero=true despite six displaced page3 fields. The production check and raw completeness PASS cannot establish that those regions are actual labelled blanks. FL-EARLY-VF64-01.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Original page1 name/agency/arrest-row placements are clear and the surname now clears Name:. No source-word intersections remain. Six page3 values are still16.575pt above their actual source rules, with first/middle starting28.778/50.122pt before their blanks; both middle values and canonical first name lie wholly left of their target span. FL-EARLY-VF64-01.",
-          "findingReadFrom": "detail",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/review-evidence.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
@@ -42199,15 +42176,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-closure.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42236,25 +42211,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request', 'obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition']. FAIL: internal route identifiers remain visible on packet pages [2, 4, 6, 23] in each fixture and in participant-instructions.md. The acquittal order page 7 was repaired but its request, information-package and petition trailers remain.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_exp_acquittal-set.mjs",
@@ -42520,15 +42481,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-closure.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42557,25 +42516,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-pathway:TX:tx_nd_conviction_no_supervision:petitioned-nondisclosure-for-an-eligible-conviction-411-0735']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
@@ -42691,15 +42636,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-closure.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42728,25 +42671,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL: Statement source page 2, packet page 12, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_deferred_other-set.mjs",
@@ -43018,15 +42947,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-closure.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -43055,25 +42982,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-only:TX:tx_nd_dwi_deferred']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
@@ -43189,15 +43102,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-closure.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -43226,37 +43137,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL: Statement source page 2, packet page 11, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 20, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: 113 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 20, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_dwi_probation-set.mjs",
@@ -43372,15 +43257,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-closure.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -43409,25 +43292,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-only:TX:tx_nd_probation_misdemeanor']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs",
@@ -43543,15 +43412,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-closure.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -43580,37 +43447,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL: Statement source page 2, packet page 12, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 21, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: 114 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 21, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_veterans_court-set.mjs",
@@ -43724,15 +43565,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-current.json"
+        "verifiedAtBase": "a865f41c6c3784d6c92b8597e03bff76b1cfde9e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-tx-eight-closure.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -43761,37 +43600,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL: Statement source page 2, packet page 11, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 20, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: 108 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 20, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/current-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/stream-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/evidence-bindings.json",
-            "data/rcap-grade-a/packet-factory-24h/vf08/tx-eight-current-20260911/visual-review.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_veterans_reemployment-set.mjs",

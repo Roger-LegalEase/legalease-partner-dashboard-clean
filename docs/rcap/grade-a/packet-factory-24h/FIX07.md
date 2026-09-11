@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `413c73751240703e26c6ead16bc75dd160299663` (or the newer dispatch base)
+**Minimum required ancestor:** `b5c29395c77771e1a83ea4243c6a0710413eb1c8` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'tx_exp_acquittal-set' \
+  --family 'in_section1_petition-set' \
   --codex-cloud \
-  --minimum-captain-sha 413c73751240703e26c6ead16bc75dd160299663
+  --minimum-captain-sha b5c29395c77771e1a83ea4243c6a0710413eb1c8
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,15 +38,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 9 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_exp_acquittal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_nd_conviction_no_supervision-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_nd_deferred_other-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_nd_dwi_deferred-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_nd_dwi_probation-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_nd_probation_misdemeanor-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_nd_veterans_court-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_nd_veterans_reemployment-set'`
+- Assert only these 1 exact family before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'in_section1_petition-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
@@ -68,16 +60,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 9 families
+## The 1 family
 
-- `tx_exp_acquittal-set`
-- `tx_nd_conviction_no_supervision-set`
-- `tx_nd_deferred_other-set`
-- `tx_nd_dwi_deferred-set`
-- `tx_nd_dwi_probation-set`
-- `tx_nd_probation_misdemeanor-set`
-- `tx_nd_veterans_court-set`
-- `tx_nd_veterans_reemployment-set`
 - `in_section1_petition-set`
 
 ## What you receive
@@ -91,23 +75,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix07/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
-- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
-- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
-- `scripts/build-census-v1-tx_nd_deferred_other-set.mjs`
-- `scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs`
-- `scripts/build-census-v1-tx_nd_dwi_probation-set.mjs`
-- `scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs`
-- `scripts/build-census-v1-tx_nd_veterans_court-set.mjs`
-- `scripts/build-census-v1-tx_nd_veterans_reemployment-set.mjs`
 - `scripts/build-census-v1-in_section1_petition-set.mjs`
 
 ## Never write here
