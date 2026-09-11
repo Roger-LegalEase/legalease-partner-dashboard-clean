@@ -1,0 +1,35 @@
+{
+  "result": "PASS",
+  "centralStateUnchanged": true,
+  "outputRedirectionOnly": true,
+  "selectedRow": {
+    "familyId": "az_record_sealing_dismissal_not_guilty-set",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "lane": "vf69",
+    "isIndependentVerification": true,
+    "verifiedAtBase": "7ab552e8ba14dc2eece3e81b7699ff452decae66",
+    "failedObligations": [
+      {
+        "obligation": "REQUIRED_BEFORE_FILING",
+        "finding": "The 42 source-conditioned requirements are corrected in prose and all 13 true mandatory field entries are preserved, but 40 repaired declarations fail the actual closed-disposition reader. Thirty-three sourceOptional:true booleans normalize to empty objects and fail sourceOptional proof is incomplete. Seven conditional checkbox declarations lack consumable election metadata: Check Box2/5/6/16/19 become unclassified blanks; Check Box3/4 are classified as missing known facts. The two off-route fields pass. Metadata must satisfy the existing reader rather than enum membership alone.",
+        "findingReadFrom": "finding",
+        "evidence": [
+          "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/bounded-recheck.json",
+          "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/completeness-findings.json",
+          "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/completeness-current.txt",
+          "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+          "scripts/rcap-packet-completeness/completeness-contract.mjs"
+        ]
+      }
+    ],
+    "failedObligationNames": [
+      "REQUIRED_BEFORE_FILING"
+    ],
+    "unmeasuredObligations": [],
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-requirements-final.json",
+    "repairAssignmentsPath": null,
+    "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_dismissal_not_guilty-set",
+    "superseded": false
+  },
+  "refusedRowsForThisFamily": []
+}

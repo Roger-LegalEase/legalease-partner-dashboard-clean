@@ -1,0 +1,334 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF69",
+  "laneKind": "independent-verification",
+  "worker": "VF69",
+  "reviewer": "/root/az_dismissal_final_review",
+  "sessionIdentity": "/root/az_dismissal_final_review",
+  "familyId": "az_record_sealing_dismissal_not_guilty-set",
+  "baseSha": "7ab552e8ba14dc2eece3e81b7699ff452decae66",
+  "verifiedAtBase": "7ab552e8ba14dc2eece3e81b7699ff452decae66",
+  "reviewedAtUtc": "2026-09-11T11:14:11.710668+00:00",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "scope": "Bounded independent review after candidate7ab guidance-only repair; current source-condition/schema audit plus explicitly retained prior full independent evidence on unchanged PDFs.",
+  "runtimeMetadata": {
+    "requestedModel": "GPT-6 Astra",
+    "requestedEffort": "xhigh",
+    "actualModelAndEffort": "Not independently exposed by tool runtime; no stronger claim made.",
+    "node": "v24.20.0",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "rows": [
+    {
+      "itemId": "az_record_sealing_dismissal_not_guilty-set",
+      "familyId": "az_record_sealing_dismissal_not_guilty-set",
+      "jurisdiction": "AZ",
+      "lane": "VF69",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "executionState": "FAIL_REPAIR_REQUIRED",
+      "commercialAuthority": false,
+      "baseSha": "7ab552e8ba14dc2eece3e81b7699ff452decae66",
+      "verifiedAtBase": "7ab552e8ba14dc2eece3e81b7699ff452decae66",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Entrypoint explicitly invokes kind=dismissal, exact family/track/route. Registry, manifest, map and wiring agree. Both fixtures visibly use charged Defendant caption and situation state 2. Runtime/payment/generation flags remain closed.",
+          "evidence": [
+            "scripts/build-census-v1-az_record_sealing_dismissal_not_guilty-set.mjs",
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/product-wiring.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Independently recomputed both pinned official source hashes and byte lengths: AOCCRSL1F-050825 petition 32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05 (299110 bytes), AOCCRSL2F-050825 order 436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1 (213882 bytes).",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/source-receipt.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both exact registry components are generated: five-page primary filing then three-page proposed order. Manifest, map, wiring, six actual PDFs and all original component/assembly pages agree.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/packet-set-manifest.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Prior exact-source glyph and visual measurements remain valid: all known applicable fixture facts are written and visible. Current PDFs are byte-identical. The reader reports two missing-known entries for Check Box3/4 because repaired conditional-election metadata is not consumed; those are declaration failures, recorded under REQUIRED_BEFORE_FILING, rather than newly missing rendered text.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json",
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/production-field-map.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The 42 source-conditioned requirements are corrected in prose and all 13 true mandatory field entries are preserved, but 40 repaired declarations fail the actual closed-disposition reader. Thirty-three sourceOptional:true booleans normalize to empty objects and fail sourceOptional proof is incomplete. Seven conditional checkbox declarations lack consumable election metadata: Check Box2/5/6/16/19 become unclassified blanks; Check Box3/4 are classified as missing known facts. The two off-route fields pass. Metadata must satisfy the existing reader rather than enum membership alone.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/bounded-recheck.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/completeness-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/completeness-current.txt",
+            "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+            "scripts/rcap-packet-completeness/completeness-contract.mjs"
+          ],
+          "measurementMode": "Independent bounded reread of all42 source conditions, retained mandatory fields, and actual completeness entrypoint."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Source state 2 is visibly selected on petition p3 for dismissed/not guilty; states 1 and 3 are off. Self is selected and Attorney off on p1. Initial-appearance questions Check Box7/8 are blank because this charged route does not reach them. Participant factual elections remain deferred; this pass does not excuse the checklist defect.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/production-field-map.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Source count rows and optional continuation lines contain no partial written row beside a required empty cell. All actual row/case facts not held remain blank; the inappropriate demand to populate every potential count/continuation line is recorded under REQUIRED_BEFORE_FILING.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/source-conditioned-requirement-defects.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No generated signature/signature date, judge decision, findings, service certification or prosecutor-only ink. Recomputed source roles show petition 1 and order 27 protected fields; reported writes intersect none, and direct pages confirm protected regions remain empty.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All six current PDFs and both pinned source binaries recomputed unchanged from prior independent review and identical to candidate commit. Prior original raster/visual evidence is retained by exact byte identity.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "data/rcap-grade-a/packet-factory-24h/raster-runs/34589144801/az_record_sealing_dismissal_not_guilty-set.verdict.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/bounded-recheck.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 16 assembly pages across two fixtures match the corresponding original component page PNG hash exactly: petition pages 1-5, order pages 6-8. Page manifest IDs agree.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Directly viewed all 12 unique original PNGs covering all 32 pages by exact hash equivalence. Long boundary names/addresses remain within source fields; check marks, text, protected blank regions and footers are clear. Zero observed clipping/overlap/invisible-write defects; rerun glyph bounds independently gives zero outside.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Participant guidance names the charging-document court and superior court when a justice complaint was followed by information; canonical Pima and boundary Maricopa court fills match builder records. Six focused helper cases include both successful paths and missing/contradictory record refusals. Product resolver remains explicitly uninstalled.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json",
+            "scripts/lib/az-record-sealing-court-mapping.mjs",
+            "scripts/rcap-packet-recovery/chat1/az-filing-court.mjs",
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/participant-instructions.md"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Instructions carry the registry rule to confirm the court filing fee and the C2/C3 DPS waiver for dismissal/not-guilty/nonprosecution. No fee amount, waiver adjudication or court outcome is fabricated. Registry unresolved statewide treatment remains a release limitation.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/participant-instructions.md",
+            "data/record-clearing/legal-design-track-registry.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Instructions expressly assign the petition copy to the court/clerk and prosecutor receipt; no petitioner service. Registry 60-day/no-objection court-action condition is included. Judicial service findings remain blank in original order pages.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Instructions state all six registry stops: prosecutor objection/hearing request, victim participation, prior denial inside three years, pending charges, immigration consequences, and attacking a conviction. Missing charging history also stops venue selection.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/focused-current-review.json"
+          ],
+          "measurementMode": "Retained from this reviewer's prior independent full review after rechecking current six-PDF/source identity and unchanged relevant metadata; no visual reread.",
+          "retainedFrom": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json"
+        }
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 2,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 38,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true,
+        "visualMeasuredHere": true,
+        "visualMeasurementMode": "Retained direct prior independent measurement of unchanged original PNG/PDF bytes; no reraster/review."
+      },
+      "counterScope": "Current read-only completeness entrypoint reports knownRequiredFieldsMissing=2 and unclassifiedBlanks=38. The two known-field counts are conditional Check Box3/4 declaration refusals. Prior direct visual counters remain valid on six unchanged PDFs.",
+      "additionalMeasuredCounters": {
+        "unsupportedUnconditionalRequirements": 0,
+        "sourceConditionsRepaired": 42,
+        "sourceOptionalProofsIncomplete": 33,
+        "conditionalElectionDeclarationsRejected": 7,
+        "retainedMandatoryFields": 13
+      },
+      "currentArtifacts": {
+        "canonical/order.pdf": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/canonical/order.pdf",
+          "currentSha256": "e81d36c2553f4cc41cf61d43c425e73b0d0afe96bfaa3128ad6f2431e2258812",
+          "byteLength": 192499,
+          "pages": 3
+        },
+        "canonical/packet-assembly.pdf": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/canonical/packet-assembly.pdf",
+          "currentSha256": "bdfbd09935c302041aeb746dc1fc6bae6bda34760fe162eda0c941ebd904a66c",
+          "byteLength": 470126,
+          "pages": 8
+        },
+        "canonical/petition.pdf": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/canonical/petition.pdf",
+          "currentSha256": "4d0bd271ed4f65b47cad3fdba11c784b7782ee166dc194b98fad081833987ab7",
+          "byteLength": 277910,
+          "pages": 5
+        },
+        "boundary/order.pdf": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/boundary/order.pdf",
+          "currentSha256": "7b5bf85609f6bd9d86d40194eb92eb47c267f38c723021e5a5b269be27b38a71",
+          "byteLength": 192552,
+          "pages": 3
+        },
+        "boundary/packet-assembly.pdf": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/boundary/packet-assembly.pdf",
+          "currentSha256": "bbb9aed7a73833af3552862e7e410767ecd468a5b6bf2235237c3610bcd2675d",
+          "byteLength": 470402,
+          "pages": 8
+        },
+        "boundary/petition.pdf": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/boundary/petition.pdf",
+          "currentSha256": "fb768246be8a28e298b8d8eaf24c0e823439963165a00e0672e55f0c0d8f63b7",
+          "byteLength": 278137,
+          "pages": 5
+        }
+      },
+      "originalRasterEvidence": {
+        "workflowRunId": "34589144801",
+        "packetCommitSha": "a83c8edf48e7f328b81270f9093dbed7f62e2fb3",
+        "artifactId": 10195388419,
+        "archiveDigest": "sha256:d3151dce0f4084e9eddcd18fb0c2485ed1d42dff6fb06d4a07eebdb598828b82",
+        "archiveDigestVerification": "Root-provided ORIGINAL_EVIDENCE_VERIFIED receipt; this reviewer independently recomputed all 32 extracted PNGs and six current PDFs, not the downloaded ZIP/API digest.",
+        "manifest": "data/rcap-grade-a/packet-factory-24h/raster-runs/34589144801/az_record_sealing_dismissal_not_guilty-set.PAGE_IMAGES_SHA256.json",
+        "verdict": "data/rcap-grade-a/packet-factory-24h/raster-runs/34589144801/az_record_sealing_dismissal_not_guilty-set.verdict.json",
+        "custodyReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/34589144801/az_record_sealing_dismissal_not_guilty-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+        "pageCoverage": "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json",
+        "pagesMeasuredHere": 32,
+        "uniquePagesDirectlyViewedHere": 12
+      },
+      "remainingRequirements": [
+        "Repair only the 33 incomplete optional-source proofs and seven unreadable conditional-election declarations using the existing closed contract; preserve all42 source interpretations and13 mandatory fields.",
+        "Require the actual completeness entrypoint to pass on the repaired candidate, followed by bounded independent review.",
+        "Retain prior visual evidence only while six packet PDF identities remain unchanged; no commercial authority is granted."
+      ],
+      "repairEvidence": "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/completeness-findings.json",
+      "evidenceRead": [
+        "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json",
+        "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/bounded-recheck.json",
+        "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/completeness-findings.json",
+        "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/completeness-current.txt",
+        "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/claim-assert.txt",
+        "data/rcap-grade-a/packet-factory-24h/fix132/az-source-conditioned-requirements-20260911/requirement-audit.json"
+      ],
+      "narrative": "FAIL_REPAIR_REQUIRED. All 42 source-conditioned instructions are corrected and all 13 true mandatory field entries remain, including dismissal date, charged-case numbers, Section II Yes/No/N.A. responses and signature/date. The actual completeness reader rejects 40 metadata entries: 33 boolean sourceOptional declarations lack source-proof objects, and seven conditional checkbox declarations lack consumable election metadata. It reports two missing-known entries and 38 unclassified blanks. The source interpretations should be preserved while the declarations are repaired against the existing closed schema. All ten setup files match candidate 7ab552e8ba14dc2eece3e81b7699ff452decae66. Six current PDFs and both pinned sources are unchanged, so this reviewer retains the prior direct visual evidence covering 32 pages through 12 unique original images. No builder, raster, central-state write or commercial action was performed.",
+      "actualCheckoutCommit": "857d547ab6214a9a928252c953a4ddd32829f018",
+      "currentMetadataIdentities": {
+        "productionFieldMapSha256": "0d14765567e3fa29d2e298e16cfa697020b46d20afb889240676fd592785dc0e",
+        "participantInstructionsSha256": "36d4c55854d8a7ed3d66e105b89e5316b76a04a6b3042d3325d95cd7f8a2892a",
+        "setupCandidateIdentical": true
+      },
+      "evidenceReuse": {
+        "priorIndependentReturn": "data/rcap-grade-a/packet-factory-24h/vf69/rows-vf69-20260911-az-dismissal-final.json",
+        "priorVisualCoverage": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911/visual-page-coverage.json",
+          "sha256": "959ed69c8818d2e5e5838d560a787a4ef73425c1abd97ad4db9f7876354cc591",
+          "retained": true,
+          "reViewedThisRecheck": false,
+          "pages": 32,
+          "uniqueDirectlyViewedPreviously": 12
+        },
+        "unchangedPdfPins": "data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-requirements-final-evidence-20260911/bounded-recheck.json",
+        "all15Measured": true,
+        "newRenders": 0,
+        "repeatVisualViews": 0
+      }
+    }
+  ],
+  "sharedWrites": {
+    "queue": false,
+    "manifests": false,
+    "source": false,
+    "output": false,
+    "dispatch": false,
+    "claimLedger": false
+  },
+  "narrative": "FAIL_REPAIR_REQUIRED. All 42 source-conditioned instructions are corrected and all 13 true mandatory field entries remain, including dismissal date, charged-case numbers, Section II Yes/No/N.A. responses and signature/date. The actual completeness reader rejects 40 metadata entries: 33 boolean sourceOptional declarations lack source-proof objects, and seven conditional checkbox declarations lack consumable election metadata. It reports two missing-known entries and 38 unclassified blanks. The source interpretations should be preserved while the declarations are repaired against the existing closed schema. All ten setup files match candidate 7ab552e8ba14dc2eece3e81b7699ff452decae66. Six current PDFs and both pinned sources are unchanged, so this reviewer retains the prior direct visual evidence covering 32 pages through 12 unique original images. No builder, raster, central-state write or commercial action was performed.",
+  "actualCheckoutCommit": "857d547ab6214a9a928252c953a4ddd32829f018"
+}
