@@ -1,0 +1,67 @@
+{
+  "actualWorktree": "/tmp/rcap-vf62-nj-final-20260911",
+  "expectedBase": "6463a0c47b557df7bfb5026a661170d73a7ff8d4",
+  "atUtc": "2026-09-11T14:35:06.472102+00:00",
+  "preexistingChanges": [
+    " M data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "?? private"
+  ],
+  "infrastructureNotes": "Captain copied current grant ledger and linked private/node_modules. Neither is this lane output; neither will be staged or reverted. No source or packet writes are authorized.",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/preflight-head.log"
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/status-before.log"
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/branch.log"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--can-assert",
+        "VF62",
+        "nj_ordinance-set"
+      ],
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/claim-can-assert.log"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--assert",
+        "VF62",
+        "nj_ordinance-set"
+      ],
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/claim-assert.log"
+    }
+  ],
+  "dependencyIncident": {
+    "initialResult": "pdf-lib unavailable through Captain node_modules link; both real commands stopped at import; five refusal tests passed before reader import failed",
+    "resolvedBy": "Captain restored exact package-lock dependencies under /tmp/rcap-shared-dependencies-20260911 and restored root node_modules link",
+    "laneDependencyWrites": 0,
+    "finalResult": "Both real commands PASS;24 selected focused tests PASS; initial failed logs retained"
+  }
+}

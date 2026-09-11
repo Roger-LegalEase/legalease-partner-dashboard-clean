@@ -1,0 +1,110 @@
+[
+  {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/preflight-head.log"
+  },
+  {
+    "command": [
+      "git",
+      "status",
+      "--short"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/status-before.log"
+  },
+  {
+    "command": [
+      "git",
+      "branch",
+      "--show-current"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/branch.log"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "--can-assert",
+      "VF62",
+      "nj_ordinance-set"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/claim-can-assert.log"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "--assert",
+      "VF62",
+      "nj_ordinance-set"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/claim-assert.log"
+  },
+  {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_ordinance-set.mjs --check-nonvisual",
+    "exitCode": 1,
+    "attempt": "initial dependency failure",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/check-nonvisual-initial-dependency-failure.log",
+    "substantiveVerdict": "ERR_MODULE_NOT_FOUND pdf-lib; no family verdict. Captain restored exact-lockfile dependency tree outside this lane."
+  },
+  {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_ordinance-set.mjs --check-nonvisual",
+    "exitCode": 0,
+    "attempt": "after Captain dependency restoration",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/check-nonvisual.log",
+    "substantiveVerdict": "NONVISUAL CHECK PASS;2 PDFs; no raster replay"
+  },
+  {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+    "exitCode": 1,
+    "attempt": "initial dependency failure",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/completeness-initial-dependency-failure.log",
+    "substantiveVerdict": "ERR_MODULE_NOT_FOUND pdf-lib; no family verdict. Captain restored exact-lockfile dependency tree outside this lane."
+  },
+  {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+    "exitCode": 0,
+    "attempt": "after Captain dependency restoration",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/completeness.log",
+    "substantiveVerdict": "PASS_COMPLETE;18/179 candidate writes; all9 counters0"
+  },
+  {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node --test --test-skip-pattern='the real CLI accepts|an unopted non-NJ family' scripts/rcap-packet-completeness/nj-ordinance-refusals.test.mjs scripts/rcap-packet-completeness/nj-participant-later-completion.test.mjs",
+    "exitCode": 1,
+    "attempt": "initial dependency failure",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/focused-tests-initial-dependency-failure.log",
+    "substantiveVerdict": "ERR_MODULE_NOT_FOUND pdf-lib; no family verdict. Captain restored exact-lockfile dependency tree outside this lane."
+  },
+  {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node --test --test-skip-pattern='the real CLI accepts|an unopted non-NJ family' scripts/rcap-packet-completeness/nj-ordinance-refusals.test.mjs scripts/rcap-packet-completeness/nj-participant-later-completion.test.mjs",
+    "exitCode": 0,
+    "attempt": "after Captain dependency restoration",
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/focused-tests.log",
+    "substantiveVerdict": "24 tests passed; transient packet rewrite and unrelated non-NJ test intentionally not selected"
+  },
+  {
+    "command": "python data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/measure-review.py",
+    "exitCode": 0,
+    "substantiveVerdict": "62 semantic fields,338 refusal entries,105 disclosures and18 source-stage proofs checked; source/PDF/raster identities preserved",
+    "evidence": [
+      "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+      "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/refusal-reconciliation.json",
+      "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/byte-and-raster-binding.json",
+      "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reused-approval-bindings.json"
+    ]
+  },
+  {
+    "command": "node --input-type=module; import auditFamily and audit current nj_ordinance-set (read-only) with assigned MASTER_LIBRARY_SOURCE_DIR",
+    "exitCode": 0,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reader-measurements.json",
+    "substantiveVerdict": "Actual current inputs, not transient adopted test inputs;18 live source-stage measurements;0 findings"
+  }
+]
