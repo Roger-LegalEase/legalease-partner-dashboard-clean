@@ -887,7 +887,10 @@ if (utSelector?.familyId === "ut_pet_remove_link-set" && utSelector.ownerAnswer 
   && utSelectorRule.otherwise?.reason === "clerk-confirmation-required") {
   const prior = sourceReconciliationByFamily.get(utSelector.familyId);
   if (prior) sourceReconciliationByFamily.set(utSelector.familyId, { ...prior,
-    disposition: "SOURCE_READY", productQuestion: null,
+    disposition: utSelector.missingRequiredSourceIds?.length ? "SOURCE_BLOCKED" : "SOURCE_READY",
+    unresolvedObligations: [...(utSelector.missingRequiredSourceIds ?? [])],
+    additionalRequiredSourceIds: [...(prior.additionalRequiredSourceIds ?? []), ...(utSelector.additionalRequiredSourceIds ?? [])],
+    productQuestion: null,
     exactNextAction: `Implement the clerk/court-confirmed judgeOrCommissioner selector and missing packet builder under ${INPUTS.utRemoveLinkSelector}#bindingProductRule. Judge:1501CR +1502CR +1110GE; commissioner:1501CR-C +1502CR +1111GE; otherwise STOP without filing packet (configuration_ambiguous / clerk-confirmation-required). Reconcile recovered custody preflight; no district/category mapping prerequisite.`
   });
 }
