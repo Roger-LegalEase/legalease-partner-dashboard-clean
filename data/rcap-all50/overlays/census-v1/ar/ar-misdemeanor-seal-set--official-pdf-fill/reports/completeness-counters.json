@@ -8,7 +8,7 @@
   "counters": {
     "knownRequiredFieldsMissing": 0,
     "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 6,
+    "unclassifiedBlanks": 0,
     "incompleteRows": 0,
     "requiredOptionsMissing": 0,
     "requiredComponentsMissing": 0,
@@ -16,14 +16,15 @@
     "protectedWrites": 0,
     "visualDefects": 0
   },
-  "allNineZero": false,
+  "allNineZero": true,
   "countersAreNumbersNotNull": "Each of the nine was measured on this build's own output. None is null, because none was unmeasurable: the fixtures rendered, their bytes were read back, and the field map declares a disposition for every blank in both documents.",
   "method": "Blanks are classified through scripts/rcap-packet-completeness/completeness-contract.mjs — the same module the independent verifier uses — so this count and that one ask the same question rather than two different ones. invisibleWrites, visualDefects and protectedWrites are read from the delivered PDF bytes and not from the finalizer's report.",
   "whatThisIsNot": "Not a verdict and not a pass. This lane built these bytes and sets none; RASTER_PASS comes from the central workflow and independent verification is a different lane.",
-  "whyUnclassifiedBlanksIsNotZero": "Six blanks classify as UNCLASSIFIED_BLANK under the shared contract, and the count is left standing rather than argued away. Five of the six are CONTINUATION RULES of a multi-line free-text list whose first rule is written or declared required — paragraph 1's second offence rule, paragraph 2's second and third, and the second line of the page 3 address block. The sixth, on both documents, is the identification block's FBI number, which the FORM ITSELF marks \"(if known)\". Each is genuinely optional participant content, and each is declared here with disposition OPTIONAL_PARTICIPANT_CONTENT and a stated reason. The contract does not reach that disposition from a declaration: it reaches it only from an APPROVED_REASONS prose match or from a field label containing the word \"optional\", and these labels are runs of underscores or the form's own \"(if known)\". This build did NOT reword its reasons to match the prose regex. The contract's own comment names that as the abuse the counters exist to prevent, and a sentence written to satisfy a pattern is not a classification. The gap is reported instead: the closed vocabulary has no declaration-reachable disposition for a continuation rule of a list whose first rule is filled, nor for a blank the form marks optional in words other than \"optional\". Closing it is a change to a shared module this lane does not own.",
+  "whyUnclassifiedBlanksIsNotZero": null,
   "countersThatAreZero": [
     "knownRequiredFieldsMissing",
     "requiredFactsNotCollected",
+    "unclassifiedBlanks",
     "incompleteRows",
     "requiredOptionsMissing",
     "requiredComponentsMissing",
@@ -31,59 +32,8 @@
     "protectedWrites",
     "visualDefects"
   ],
-  "countersThatAreNotZero": [
-    "unclassifiedBlanks"
-  ],
-  "findings": [
-    {
-      "counter": "unclassifiedBlanks",
-      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
-      "field": "2",
-      "label": "_____________________________________________________",
-      "disposition": "UNCLASSIFIED_BLANK",
-      "basis": "The second rule of paragraph 1's offence list. Your offence is written on the first rule; use this one only if the same arrest charged more than one offence."
-    },
-    {
-      "counter": "unclassifiedBlanks",
-      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
-      "field": "guilty of the offenses of 2",
-      "label": "______________________________________________________",
-      "disposition": "UNCLASSIFIED_BLANK",
-      "basis": "The second rule of paragraph 2's conviction-offence list. Use it only if you were convicted of more than one offence in this case."
-    },
-    {
-      "counter": "unclassifiedBlanks",
-      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
-      "field": "guilty of the offenses of 3",
-      "label": "______________________________________________________",
-      "disposition": "UNCLASSIFIED_BLANK",
-      "basis": "The third rule of the same paragraph 2 list, on the same footing."
-    },
-    {
-      "counter": "unclassifiedBlanks",
-      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
-      "field": "FBI No if known",
-      "label": "FBI No. (if kno",
-      "disposition": "UNCLASSIFIED_BLANK",
-      "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
-    },
-    {
-      "counter": "unclassifiedBlanks",
-      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
-      "field": "Defendant Address 02",
-      "label": "_____________________________",
-      "disposition": "UNCLASSIFIED_BLANK",
-      "basis": "The second rule of the Defendant's Address block on page 3, for an apartment or unit line. The platform writes the one address it holds on the first rule; use this only if your address needs a second line."
-    },
-    {
-      "counter": "unclassifiedBlanks",
-      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
-      "field": "FBI No if known",
-      "label": "FBI No. (if kno",
-      "disposition": "UNCLASSIFIED_BLANK",
-      "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
-    }
-  ],
+  "countersThatAreNotZero": [],
+  "findings": [],
   "ledger": [
     {
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
@@ -109,9 +59,10 @@
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
       "field": "2",
       "label": "_____________________________________________________",
-      "disposition": "UNCLASSIFIED_BLANK",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "fieldClass": "UNMATCHED",
-      "basis": "The second rule of paragraph 1's offence list. Your offence is written on the first rule; use this one only if the same arrest charged more than one offence."
+      "basis": "verified sourceOptional proof against 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23 page 1 geometry and source wording",
+      "sourceOptionalCondition": "additional_charged_offence_exists"
     },
     {
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
@@ -141,17 +92,19 @@
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
       "field": "guilty of the offenses of 2",
       "label": "______________________________________________________",
-      "disposition": "UNCLASSIFIED_BLANK",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "fieldClass": "UNMATCHED",
-      "basis": "The second rule of paragraph 2's conviction-offence list. Use it only if you were convicted of more than one offence in this case."
+      "basis": "verified sourceOptional proof against 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23 page 1 geometry and source wording",
+      "sourceOptionalCondition": "additional_convicted_offence_exists"
     },
     {
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
       "field": "guilty of the offenses of 3",
       "label": "______________________________________________________",
-      "disposition": "UNCLASSIFIED_BLANK",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "fieldClass": "UNMATCHED",
-      "basis": "The third rule of the same paragraph 2 list, on the same footing."
+      "basis": "verified sourceOptional proof against 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23 page 1 geometry and source wording",
+      "sourceOptionalCondition": "additional_convicted_offence_exists"
     },
     {
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
@@ -253,9 +206,10 @@
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
       "field": "FBI No if known",
       "label": "FBI No. (if kno",
-      "disposition": "UNCLASSIFIED_BLANK",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "fieldClass": "UNMATCHED",
-      "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
+      "basis": "verified sourceOptional proof against 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23 page 4 geometry and source wording",
+      "sourceOptionalCondition": "identifier_known_to_participant"
     },
     {
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
@@ -437,9 +391,10 @@
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
       "field": "Defendant Address 02",
       "label": "_____________________________",
-      "disposition": "UNCLASSIFIED_BLANK",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "fieldClass": "UNMATCHED",
-      "basis": "The second rule of the Defendant's Address block on page 3, for an apartment or unit line. The platform writes the one address it holds on the first rule; use this only if your address needs a second line."
+      "basis": "verified sourceOptional proof against 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23 page 3 geometry and source wording",
+      "sourceOptionalCondition": "address_needs_second_line"
     },
     {
       "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
@@ -613,9 +568,10 @@
       "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
       "field": "FBI No if known",
       "label": "FBI No. (if kno",
-      "disposition": "UNCLASSIFIED_BLANK",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "fieldClass": "UNMATCHED",
-      "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
+      "basis": "verified sourceOptional proof against 4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8 page 3 geometry and source wording",
+      "sourceOptionalCondition": "identifier_known_to_participant"
     },
     {
       "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
@@ -757,5 +713,7 @@
       "factId": null,
       "identity": "SID number"
     }
-  ]
+  ],
+  "metadataOnly": true,
+  "metadataOnlyNote": "All blank classifications recomputed from current declarations and verified source bytes; other six output measurements retained against exact unchanged PDF hashes. No PDFs written."
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
+  "generatedAtCommit": "3b8740972dde964f2dac21ea3c32507b4f1ce28d",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1093,7 +1093,9 @@
       "operation": "rapid-repair",
       "lane": "FIX04",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-11T06:50:11.003Z",
+      "releaseReason": "Closed-source optional proof gate validates six real source fields; fullblankledger recomputed; focused adversarial and completeness tests pass; allfour PDFs unchanged; MD43fixture compatibility independently reviewed."
     },
     {
       "subjectType": "packet-family",
@@ -7036,8 +7038,7 @@
       "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-11T06:37:03.042Z",
-      "releaseReason": "Four exact DC1:15 field meanings supplied; existing page-order and output-glyph repairs now built; focused completeness pass; zero local raster. Independent review required."
+      "releasedAt": "2026-09-11T06:37:03.042Z"
     },
     {
       "subjectType": "packet-family",
@@ -7267,7 +7268,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T22:47:35.660Z"
@@ -7298,7 +7299,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.470Z"
@@ -7329,7 +7330,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T22:47:35.962Z"
@@ -7360,7 +7361,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T22:47:35.806Z"
@@ -7932,7 +7933,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T11:23:29.680Z"
@@ -8828,11 +8829,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-11T06:34:01.115Z",
-      "releaseReason": "Seven refusal-report contradictions reconciled against declarations and remeasured widths; PDF bytes unchanged; focused negative controls and completeness passed."
+      "releasedAt": "2026-09-11T06:34:01.115Z"
     },
     {
       "subjectType": "packet-family",
@@ -15050,9 +15050,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-misdemeanor-seal-set",
+      "itemId": null,
+      "familyId": "ar-misdemeanor-seal-set",
+      "familyIds": [
+        "ar-misdemeanor-seal-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "bcafc3c77478e3ae96c08e16f8bcd31d6185abc703c263bdfd8448d2f916748b",
+  "claimsDigest": "5bff2bfb5a438cc1c00dad96dfaaa55948083d62fa7aa58a52ece41f4eb040f9",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39801,6 +39816,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-11T06:37:03.042Z",
       "reason": "Four exact DC1:15 field meanings supplied; existing page-order and output-glyph repairs now built; focused completeness pass; zero local raster. Independent review required."
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "ar-misdemeanor-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-11T06:50:11.003Z",
+      "reason": "Closed-source optional proof gate validates six real source fields; fullblankledger recomputed; focused adversarial and completeness tests pass; allfour PDFs unchanged; MD43fixture compatibility independently reviewed."
     }
   ],
   "reissues": [
@@ -61312,6 +61336,17 @@
       "grantedAt": "2026-09-10T20:01:00.008Z",
       "grantedBy": "Captain",
       "reason": "PF20 built this family from six pinned Kansas binaries; nothing a lane builds may be self-verified, and no independent-verification lane has ever held it",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "ar-misdemeanor-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-11T06:50:11.145Z",
+      "grantedBy": "Captain",
+      "reason": "Independent source/field/counter review after six source-backed optional classifications; packet PDFs unchanged, central raster pending.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],

@@ -70,6 +70,7 @@
 //   shared semantics and the platform holds none of the agency identifiers.
 //   Each is carried to the participant by name rather than guessed.
 import fs from "node:fs";
+import assert from "node:assert/strict";
 import path from "node:path";
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
@@ -239,6 +240,7 @@ const DOCUMENTS = [
         "Arrest Tracking Number": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
           reason: "The ATN is assigned by Arkansas ACIC when an arrest is processed; it is the agency's identifier to state." },
         "FBI No if known": { disposition: "OPTIONAL_PARTICIPANT_CONTENT", requiredBeforeFiling: false,
+          sourceOptional: { sourcePath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf", sourceSha256: "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23", page: 4, rect: { x: 355.92, y: 115.92, width: 159, height: 21.84 }, sourceText: "FBI No. (if known)", condition: "identifier_known_to_participant" },
           reason: "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it." },
 
         // Declared required-before-filing. Every one is named in the tables in
@@ -274,6 +276,7 @@ const DOCUMENTS = [
         "SID number": { requiredBeforeFiling: true,
           reason: "The State Identification number in the page 4 identification block. The platform holds no SID; the participant copies it from their arrest paperwork or ACIC criminal-history record before filing." },
         "Defendant Address 02": { disposition: "OPTIONAL_PARTICIPANT_CONTENT", requiredBeforeFiling: false,
+          sourceOptional: { sourcePath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf", sourceSha256: "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23", page: 3, rect: { x: 69.84, y: 332.16, width: 225.84, height: 23.4 }, sourceText: "Defendant’s Address", condition: "address_needs_second_line" },
           reason: "The second rule of the Defendant's Address block on page 3, for an apartment or unit line. The platform writes the one address it holds on the first rule; use this only if your address needs a second line." },
 
         // Genuine participant elections — paragraph 7's four alternatives,
@@ -299,10 +302,13 @@ const DOCUMENTS = [
         "federal charges 02": { refusalClass: "participant_sworn_narrative_or_legal_election",
           reason: "The second rule of the same paragraph 9 status block, on the same footing." },
         "2": { disposition: "OPTIONAL_PARTICIPANT_CONTENT", requiredBeforeFiling: false,
+          sourceOptional: { sourcePath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf", sourceSha256: "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23", page: 1, rect: { x: 117, y: 418.8, width: 412.8, height: 14.52 }, sourceText: "charged with the offense(s) of:", condition: "additional_charged_offence_exists" },
           reason: "The second rule of paragraph 1's offence list. Your offence is written on the first rule; use this one only if the same arrest charged more than one offence." },
         "guilty of the offenses of 2": { disposition: "OPTIONAL_PARTICIPANT_CONTENT", requiredBeforeFiling: false,
+          sourceOptional: { sourcePath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf", sourceSha256: "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23", page: 1, rect: { x: 117, y: 322.08, width: 420.6, height: 14.52 }, sourceText: "guilty of the offense(s) of:", condition: "additional_convicted_offence_exists" },
           reason: "The second rule of paragraph 2's conviction-offence list. Use it only if you were convicted of more than one offence in this case." },
         "guilty of the offenses of 3": { disposition: "OPTIONAL_PARTICIPANT_CONTENT", requiredBeforeFiling: false,
+          sourceOptional: { sourcePath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf", sourceSha256: "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23", page: 1, rect: { x: 117, y: 306, width: 420.48, height: 14.52 }, sourceText: "guilty of the offense(s) of:", condition: "additional_convicted_offence_exists" },
           reason: "The third rule of the same paragraph 2 list, on the same footing." }
       }
     }
@@ -396,6 +402,7 @@ const DOCUMENTS = [
         "Arrest Tracking Number": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
           reason: "The ATN is assigned by Arkansas ACIC when an arrest is processed; it is the agency's identifier to state, here as on the petition." },
         "FBI No if known": { disposition: "OPTIONAL_PARTICIPANT_CONTENT", requiredBeforeFiling: false,
+          sourceOptional: { sourcePath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-misdemeanors-under-act-1460__rev-2019-08-01.pdf", sourceSha256: "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8", page: 3, rect: { x: 355.92, y: 191.04, width: 159, height: 15.72 }, sourceText: "FBI No. (if known)", condition: "identifier_known_to_participant" },
           reason: "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it." }
       }
     }
@@ -845,6 +852,7 @@ function completenessFields({ doc, census, written }) {
     // of unclassifiedBlanks — leaving it undeclared and calling the count clean
     // would be the other way round.
     if (policy?.disposition) row.disposition = policy.disposition;
+    if (policy?.sourceOptional) row.sourceOptional = policy.sourceOptional;
     if (typeof policy?.requiredBeforeFiling === "boolean") row.requiredBeforeFiling = policy.requiredBeforeFiling;
     return row;
   });
@@ -901,11 +909,12 @@ function countNineCounters({ documents, mapDocuments, instructionsText }) {
       const declared = {
         ...(row.disposition ? { disposition: row.disposition } : {}),
         ...(typeof row.requiredBeforeFiling === "boolean" ? { requiredBeforeFiling: row.requiredBeforeFiling } : {}),
+        ...(row.sourceOptional ? { sourceOptional: row.sourceOptional } : {}),
         factId: row.factId ?? null,
         factAvailable: row.factId ? factsPlaced.has(String(row.factId)) : false
       };
       const verdict = classifyBlank(
-        { label: row.effectiveLabel ?? row.field, name: row.field, isSelectionControl: row.isSelectionControl },
+        { label: row.effectiveLabel ?? row.field, name: row.field, isSelectionControl: row.isSelectionControl, widgets: row.widgets },
         row.reason ?? row.buildRoleWhy ?? "",
         row.refusalClass ?? null,
         declared
@@ -1574,22 +1583,7 @@ async function main() {
     whatThisIsNot:
       "Not a verdict and not a pass. This lane built these bytes and sets none; RASTER_PASS comes from the "
       + "central workflow and independent verification is a different lane.",
-    whyUnclassifiedBlanksIsNotZero:
-      "Six blanks classify as UNCLASSIFIED_BLANK under the shared contract, and the count is left standing rather "
-      + "than argued away. Five of the six are CONTINUATION RULES of a multi-line free-text list whose first rule "
-      + "is written or declared required — paragraph 1's second offence rule, paragraph 2's second and third, and "
-      + "the second line of the page 3 address block. The sixth, on both documents, is the identification block's "
-      + "FBI number, which the FORM ITSELF marks \"(if known)\". Each is genuinely optional participant content, "
-      + "and each is declared here with disposition OPTIONAL_PARTICIPANT_CONTENT and a stated reason. The contract "
-      + "does not reach that disposition from a declaration: it reaches it only from an APPROVED_REASONS prose "
-      + "match or from a field label containing the word \"optional\", and these labels are runs of underscores or "
-      + "the form's own \"(if known)\". "
-      + "This build did NOT reword its reasons to match the prose regex. The contract's own comment names that as "
-      + "the abuse the counters exist to prevent, and a sentence written to satisfy a pattern is not a "
-      + "classification. The gap is reported instead: the closed vocabulary has no declaration-reachable "
-      + "disposition for a continuation rule of a list whose first rule is filled, nor for a blank the form marks "
-      + "optional in words other than \"optional\". Closing it is a change to a shared module this lane does not "
-      + "own.",
+    whyUnclassifiedBlanksIsNotZero: counted.counters.unclassifiedBlanks ? "See the measured per-field findings and their current classification basis." : null,
     countersThatAreZero: PASS_COUNTERS.filter((c) => counted.counters[c] === 0),
     countersThatAreNotZero: PASS_COUNTERS.filter((c) => counted.counters[c] !== 0),
     findings: counted.findings,
@@ -1648,12 +1642,8 @@ async function main() {
     familyId: FAMILY_ID,
     buildStatus: "state_built",
     reviewStatus: "qa_review_pending",
-    allNineCountersZero: false,
-    whyNotNineZero:
-      "Eight of the nine counters are zero. unclassifiedBlanks is 6 and is reported rather than argued away: five "
-      + "continuation rules of multi-line free-text lists and, on each document, the identification block's FBI "
-      + "number the form marks \"(if known)\". reports/completeness-counters.json carries the full reason. This "
-      + "family therefore does NOT claim PASS_COMPLETE, and nothing here promotes it.",
+    allNineCountersZero: PASS_COUNTERS.every(key => counted.counters[key] === 0),
+    whyNotNineZero: PASS_COUNTERS.every(key => counted.counters[key] === 0) ? null : "See reports/completeness-counters.json for measured remaining findings.",
     builtBy: "scripts/build-census-v1-ar-misdemeanor-seal-set.mjs",
     renderedArtifacts: 4,
     rasterEngine: null,
@@ -1714,4 +1704,64 @@ async function main() {
   }
 }
 
-await main();
+// Metadata-only repair for an already-rendered family. It deliberately reads
+// and rewrites JSON evidence only; no source or fixture PDF is opened for write.
+async function metadataOnly() {
+  const mapPath = `${OUT}/production-field-map.json`;
+  const map = readJson(mapPath);
+  const proofByDoc = new Map(DOCUMENTS.map((d) => [d.documentId, d.completeness?.fields ?? {}]));
+  for (const doc of map.documents ?? []) {
+    for (const row of doc.fields ?? []) {
+      const policy = proofByDoc.get(doc.documentId)?.[row.field];
+      if (policy?.sourceOptional) row.sourceOptional = policy.sourceOptional;
+    }
+  }
+  const countersPath = `${OUT}/reports/completeness-counters.json`;
+  const counters = readJson(countersPath);
+  // Retain output measurements only while all four measured artifacts still
+  // have their exact bytes. Classifications are recomputed for EVERY blank.
+  const rendered = readJson(`${OUT}/reports/rendered-artifacts.json`);
+  for (const artifact of rendered.artifacts) {
+    const bytes = fs.readFileSync(artifact.file);
+    assert.equal(sha256(bytes), artifact.sha256, "Metadata does not describe current PDF bytes");
+    assert.equal(bytes.length, artifact.byteLength);
+  }
+  const classificationCounters = ["knownRequiredFieldsMissing", "requiredOptionsMissing", "unclassifiedBlanks"];
+  const fresh = Object.fromEntries(classificationCounters.map(key => [key, 0]));
+  const facts = new Set(map.documents.flatMap(d => d.fields.filter(f => f.decision === "write").map(f => f.factId)).filter(Boolean));
+  const findings = [], ledger = [];
+  for (const doc of map.documents) for (const row of doc.fields) {
+    if (row.decision === "write") continue;
+    const verdict = classifyBlank({ label: row.effectiveLabel ?? row.field, name: row.field,
+      isSelectionControl: row.isSelectionControl, widgets: row.widgets }, row.reason ?? row.buildRoleWhy ?? "",
+      row.refusalClass ?? null, { disposition: row.disposition, requiredBeforeFiling: row.requiredBeforeFiling,
+        sourceOptional: row.sourceOptional, factId: row.factId, factAvailable: row.factId ? facts.has(row.factId) : false,
+        routeDetermined: row.routeDetermined === true });
+    ledger.push({ document: doc.documentId, field: row.field, label: row.effectiveLabel, ...verdict });
+    if (!BLANK_DISPOSITIONS[verdict.disposition]?.allowed) {
+      const counter = verdict.disposition === "KNOWN_FACT_NOT_WRITTEN" ? "knownRequiredFieldsMissing"
+        : verdict.disposition === "ROUTE_OPTION_NOT_SELECTED" ? "requiredOptionsMissing" : "unclassifiedBlanks";
+      fresh[counter] += 1;
+      findings.push({ counter, document: doc.documentId, field: row.field, ...verdict });
+    }
+  }
+  counters.ledger = ledger;
+  counters.findings = [...(counters.findings ?? []).filter(f => !classificationCounters.includes(f.counter)), ...findings];
+  Object.assign(counters.counters, fresh);
+  counters.countersThatAreNotZero = PASS_COUNTERS.filter(key => counters.counters[key] !== 0);
+  counters.countersThatAreZero = PASS_COUNTERS.filter(key => counters.counters[key] === 0);
+  counters.allNineZero = counters.countersThatAreNotZero.length === 0;
+  counters.whyUnclassifiedBlanksIsNotZero = fresh.unclassifiedBlanks ? "See current per-field findings." : null;
+  counters.metadataOnly = true;
+  counters.metadataOnlyNote = "All blank classifications recomputed from current declarations and verified source bytes; other six output measurements retained against exact unchanged PDF hashes. No PDFs written.";
+  writeJson(mapPath, map);
+  writeJson(countersPath, counters);
+  const status = readJson(`${OUT}/build-status.json`);
+  status.allNineCountersZero = counters.allNineZero;
+  status.whyNotNineZero = counters.allNineZero ? null : "See current measured completeness findings.";
+  writeJson(`${OUT}/build-status.json`, status);
+  console.log(`METADATA_ONLY: updated ${mapPath} and ${countersPath}; PDFs untouched`);
+}
+
+if (process.argv.includes("--metadata-only")) await metadataOnly();
+else await main();

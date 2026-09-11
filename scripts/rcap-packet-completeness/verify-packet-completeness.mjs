@@ -114,8 +114,9 @@ const normalizeRow = (row, document = null) => ({
    * row that says nothing from a row that says false.
    */
   declared: {
+    sourceOptional: row.sourceOptional ? { ...row.sourceOptional } : null,
     sourcePresentation: row.sourcePresentation ? { ...row.sourcePresentation, verified: false } : null,
-    disposition: row.completenessDisposition ?? null,
+    disposition: row.completenessDisposition ?? (row.sourceOptional ? row.disposition : null),
     ...(Object.hasOwn(row, "requiredBeforeFiling") ? { requiredBeforeFiling: row.requiredBeforeFiling === true } : {}),
     routeDetermined: row.routeDetermined === true,
     /*

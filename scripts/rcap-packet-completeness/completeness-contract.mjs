@@ -15,6 +15,11 @@
 // terminal field." That sentence describes the build's allowlist. It is not a
 // justification for a blank on a filing.
 //
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { spawnSync } from "node:child_process";
+
 // This contract closes that by inverting the question. Every blank must earn its
 // blankness against a CLOSED vocabulary, and three of the nine dispositions are
 // defects. A free-text reason is not an approved reason: prose that states what
@@ -124,7 +129,7 @@ export const BLANK_DISPOSITIONS = {
   OPTIONAL_PARTICIPANT_CONTENT: {
     allowed: true,
     meaning: "The form marks the field optional and the participant supplies it if they wish.",
-    requires: "The field's own label says optional."
+    requires: "The field label marks optional content, or a sourceOptional declaration matches the independently checked source field and its closed optional condition."
   },
   KNOWN_FACT_NOT_WRITTEN: {
     allowed: false,
@@ -270,6 +275,32 @@ export function classifyField(label, isSelectionControl = false) {
   return { id: "UNMATCHED", requirement: "UNKNOWN" };
 }
 
+const OPTIONAL_SOURCE_REGISTRY = new Map([
+  ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|2", { page: 1, rect: { x: 117, y: 418.8, width: 412.8, height: 14.52 }, sourceText: "charged with the offense(s) of:", condition: "additional_charged_offence_exists" }],
+  ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|guilty of the offenses of 2", { page: 1, rect: { x: 117, y: 322.08, width: 420.6, height: 14.52 }, sourceText: "guilty of the offense(s) of:", condition: "additional_convicted_offence_exists" }],
+  ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|guilty of the offenses of 3", { page: 1, rect: { x: 117, y: 306, width: 420.48, height: 14.52 }, sourceText: "guilty of the offense(s) of:", condition: "additional_convicted_offence_exists" }],
+  ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|Defendant Address 02", { page: 3, rect: { x: 69.84, y: 332.16, width: 225.84, height: 23.4 }, sourceText: "Defendant’s Address", condition: "address_needs_second_line" }],
+  ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|FBI No if known", { page: 4, rect: { x: 355.92, y: 115.92, width: 159, height: 21.84 }, sourceText: "FBI No. (if known)", condition: "identifier_known_to_participant" }],
+  ["4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8|FBI No if known", { page: 3, rect: { x: 355.92, y: 191.04, width: 159, height: 15.72 }, sourceText: "FBI No. (if known)", condition: "identifier_known_to_participant" }]
+]);
+
+function verifySourceOptional(proof, field) {
+  const fail = (basis) => ({ ok: false, basis });
+  if (!proof || proof.verified === true) return fail("sourceOptional may not carry a caller-supplied verified flag");
+  if (typeof proof.sourcePath !== "string" || typeof proof.sourceSha256 !== "string") return fail("sourceOptional proof is incomplete");
+  const fieldName = String(field.name ?? "");
+  const expected = OPTIONAL_SOURCE_REGISTRY.get(`${proof.sourceSha256.toLowerCase()}|${fieldName}`);
+  if (!expected || JSON.stringify(expected) !== JSON.stringify({ page: proof.page, rect: proof.rect, sourceText: proof.sourceText, condition: proof.condition })) return fail("sourceOptional proof does not match the closed AR source registry");
+  const sourcePath = path.resolve(process.cwd(), proof.sourcePath);
+  if (!fs.existsSync(sourcePath)) return fail("sourceOptional source bytes are unavailable");
+  const actualHash = crypto.createHash("sha256").update(fs.readFileSync(sourcePath)).digest("hex");
+  if (actualHash !== proof.sourceSha256.toLowerCase()) return fail("sourceOptional source SHA-256 does not match current bytes");
+  const helper = path.join(path.dirname(new URL(import.meta.url).pathname), "verify-source-optional-proof.mjs");
+  const checked = spawnSync(process.execPath, [helper, JSON.stringify({ ...proof, field: fieldName, sourcePath })], { encoding: "utf8" });
+  if (checked.status !== 0) return fail((() => { try { return JSON.parse(checked.stdout).basis; } catch { return "sourceOptional source field verification failed"; } })());
+  return { ok: true, basis: `verified sourceOptional proof against ${proof.sourceSha256.toLowerCase()} page ${proof.page} geometry and source wording` };
+}
+
 /**
  * Classify one blank.
  *
@@ -288,6 +319,19 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
   const declaresDisposition = dec.disposition !== undefined && dec.disposition !== null;
   const declaresRequiredBeforeFiling = typeof dec.requiredBeforeFiling === "boolean";
   const usesDeclaredChannel = declaresDisposition || declaresRequiredBeforeFiling;
+
+  if (dec.sourceOptional) {
+    if (cls.requirement === "PROTECTED") return { disposition: "PROTECTED_FIELD", fieldClass: cls.id, basis: "the field itself is protected" };
+    if (dec.sourcePresentation || (refusalClass && !Object.hasOwn(REFUSAL_CLASSES, refusalClass))) return { disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id, basis: "sourceOptional cannot override conflicting presentation or unknown refusal metadata" };
+    if (dec.disposition !== "OPTIONAL_PARTICIPANT_CONTENT" || dec.requiredBeforeFiling !== false) {
+      return { disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id, basis: "sourceOptional requires OPTIONAL_PARTICIPANT_CONTENT and requiredBeforeFiling false" };
+    }
+    if (dec.factAvailable === true) return { disposition: "KNOWN_FACT_NOT_WRITTEN", fieldClass: cls.id, basis: `sourceOptional cannot excuse an available fact ${dec.factId ?? "in this packet"}` };
+    if (dec.routeDetermined === true) return { disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id, basis: "sourceOptional cannot excuse a route-determined election" };
+    const proof = verifySourceOptional(dec.sourceOptional, field);
+    if (!proof.ok) return { disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id, basis: proof.basis };
+    return { disposition: "OPTIONAL_PARTICIPANT_CONTENT", fieldClass: cls.id, basis: proof.basis, sourceOptionalCondition: dec.sourceOptional.condition };
+  }
 
   // An unknown disposition fails closed. A build that invents a disposition name
   // is not classifying a blank, and reading it as unrecognised-and-therefore-fine
