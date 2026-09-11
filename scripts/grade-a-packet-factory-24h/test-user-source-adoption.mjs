@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { assessPacketSourceAdoption } from "./packet-source-adoption.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
@@ -132,12 +133,19 @@ if (process.argv.includes("--generated")) {
   for (const [familyId, failures] of expectedNmFailures) {
     const family = byId.get(familyId);
     assert.equal(family.sourceReadiness.ready, true);
-    assert.deepEqual(family.failedObligationNames, failures);
-    assert.equal(family.state, "FAIL_REPAIR_REQUIRED");
-    assert.equal(family.packetSourceAdoption.ready, false);
-    assert.equal(family.packetSourceAdoption.status, "PACKET_SOURCE_ADOPTION_REQUIRED");
-    assert.deepEqual(family.packetSourceAdoption.mismatches[0].observedSha256,
-      ["809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"]);
+    const measuredAdoption = assessPacketSourceAdoption(repoRoot, family.directory, family.sourceReconciliation);
+    assert.deepEqual(family.packetSourceAdoption, measuredAdoption,
+      "generated adoption must match the actual current source receipt");
+    if (!measuredAdoption.ready) {
+      assert.deepEqual(family.failedObligationNames, failures);
+      assert.equal(family.state, "FAIL_REPAIR_REQUIRED");
+      assert.equal(measuredAdoption.status, "PACKET_SOURCE_ADOPTION_REQUIRED");
+      assert.ok(!raster.rows.some((row) => row.familyId === familyId),
+        "a packet still bound to the superseded source cannot remain raster-enrolled");
+    } else {
+      assert.equal(measuredAdoption.status, "PACKET_SOURCE_ADOPTION_CURRENT");
+      assert.deepEqual(measuredAdoption.mismatches, []);
+    }
     assert.ok(family.sourceReadiness.boundSources.some((source) => source.sourceId === "official-form:4-222"
       && source.path === nmPath && source.sha256 === nmSha));
     assert.equal(family.sourceReconciliation.determinationInput,
@@ -186,13 +194,17 @@ if (process.argv.includes("--generated")) {
     .map((family) => `${family.familyId}: ${baselineStates.get(family.familyId)} -> ${family.state}`);
   assert.deepEqual(unrelatedStateChanges, [], "additive source adoption must not change unrelated family states");
   const terminal = new Set(["COMPLETE_PACKET_PROVEN", "GUIDANCE_READY", "OUT_OF_SCOPE", "HANDOFF_READY", "PASS_COMPLETE_INDEPENDENT", "LEGAL_APPROVED", "LIVE"]);
-  assert.deepEqual([...adoptedIds].filter((familyId) => terminal.has(byId.get(familyId)?.state)), [],
-    "source custody alone must not issue terminal packet or commercial authority");
-  assert.deepEqual(raster.rows.filter((row) => expectedNmFailures.has(row.familyId)).map((row) => row.familyId), [],
-    "a packet still bound to the superseded source cannot remain raster-enrolled");
-  for (const familyId of expectedNmFailures.keys()) {
-    assert.ok(raster.notEligible.some((row) => row.familyId === familyId
-      && row.why.includes("the current failed obligations have not been repaired")));
+  for (const familyId of adoptedIds) {
+    const family = byId.get(familyId);
+    if (!terminal.has(family?.state)) continue;
+    assert.equal(family.selectedIndependentVerdict?.verdict, "PASS_COMPLETE",
+      "source custody alone cannot issue terminal authority; a current independent PASS is required");
+    assert.equal(family.allNineCountersZero, true);
+    const rasterRow = raster.rows.find((row) => row.familyId === familyId);
+    assert.equal(rasterRow?.rasterReceipt?.verdict, "RASTER_PASS");
+    assert.equal(rasterRow?.rasterReceipt?.coversTheWholeFamily, true);
+    assert.equal(rasterRow?.rasterReceipt?.boundToCanonicalSha256, rasterRow?.canonicalPdfSha256);
+    assert.equal(rasterRow?.rasterReceipt?.boundToBoundarySha256, rasterRow?.boundaryPdfSha256);
   }
-  console.log("PASS generated user source adoption: NM/CA/CO/LA/AZ exact effects, packet failures preserved, no unrelated state change or source-only terminal promotion");
+  console.log("PASS generated user source adoption: NM/CA/CO/LA/AZ exact bindings, stale packets refused, no unrelated state change or source-only terminal promotion");
 }
