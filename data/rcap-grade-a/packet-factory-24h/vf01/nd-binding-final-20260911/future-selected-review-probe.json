@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "rcap-isolated-future-review-probe/v1",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "verifiedAtBase": "fc0c9e9bddf88804ad246730650dd143aceb309c",
+  "suite": "scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs",
+  "suiteSha256": "b048e35acb46e19b322399c0442574849281ca7f351c62450cea349096d5062c",
+  "hypotheticalSelectedTuple": {
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "lane": "vf01",
+    "verifiedAtBase": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "changesConfinedToTemporaryCopies": [
+    "MASTER_QUEUE exact family selectedIndependentVerdict",
+    "product-wiring binding.lastIndependentVerification"
+  ],
+  "expectedExitCode": 0,
+  "actualExitCode": 1,
+  "stdout": "✖ binds the measured four-component ND packet and preserves the selected current failure (6.11795ms)\n✔ demotes only the exact stale VF09 tuple (1.040153ms)\n✔ preserves future selected failures and passes, and accepts an explicit empty selection (2.327087ms)\n✔ leaves every unopted family byte-for-byte unchanged (0.168264ms)\n✔ refuses mismatched route, component, byte, raster, governance, and current-verdict facts (15.774179ms)\nℹ tests 5\nℹ suites 0\nℹ pass 4\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 140.452163\n\n✖ failing tests:\n\ntest at scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs:38:1\n✖ binds the measured four-component ND packet and preserves the selected current failure (6.11795ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n  + actual - expected\n  \n    {\n      lane: 'vf01',\n  +   verdict: 'PASS_COMPLETE_INDEPENDENT',\n  +   verifiedAtBase: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'\n  -   verdict: 'FAIL_REPAIR_REQUIRED',\n  -   verifiedAtBase: 'b7610435835e6163254641505d25be7680cb514c'\n    }\n  \n      at TestContext.<anonymous> (file:///tmp/rcap-vf62-pa-final-20260911/scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs:51:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1397:25)\n      at Test.start (node:internal/test_runner/test:1257:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: { verdict: 'PASS_COMPLETE_INDEPENDENT', lane: 'vf01', verifiedAtBase: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' },\n    expected: { verdict: 'FAIL_REPAIR_REQUIRED', lane: 'vf01', verifiedAtBase: 'b7610435835e6163254641505d25be7680cb514c' },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }",
+  "stderr": "",
+  "probeDoesNotCreateActualApproval": true,
+  "sourceOrPdfChanges": false,
+  "repositoryInputsUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

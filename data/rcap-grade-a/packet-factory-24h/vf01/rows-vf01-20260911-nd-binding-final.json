@@ -1,0 +1,717 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "status": "COMPLETED",
+  "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+  "rows": [
+    {
+      "schemaVersion": "rcap-verifier-lane-return/v1",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "isIndependentVerification": true,
+      "status": "COMPLETED",
+      "shift": "20260911",
+      "worker": "ky_current_independent",
+      "sessionIdentity": "/root/ky_current_independent",
+      "reviewer": {
+        "model": "Astra",
+        "reasoningEffort": "xhigh",
+        "packetRepairAuthor": false
+      },
+      "branch": "vf62-pa-final-20260911",
+      "worktree": "/tmp/rcap-vf62-pa-final-20260911",
+      "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+      "assignedBase": "66fe7219a8727e559ac203e4d38fc499ce45fdef",
+      "correctionCommit": "b922582dda8106d6f1e99ebd60d673f8d850debe",
+      "claim": "CLAIM_OK VF01 composed-treatment:nd-nonconviction-auto-close-verify (independent-verification, grant set 9a67aefaf6945d48)",
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "itemId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "independence": "This reviewer authored neither packet/binding repair nor the Captain test correction. Only allowlisted acceptance evidence was written. Isolated hypothetical future-verdict copies were deleted and created no actual approval.",
+      "scope": "Targeted closure of the three prior metadata/test defects plus the single newly identified test-stage constant; explicitly reuse thirteen unchanged prior VF01 PASS findings. No new source/legal or pixel review.",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "34628970364",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "The exact two ND failure-disposition route keys and all closed authority controls remain bound. This is the post-period still-public correction branch.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/ROUTE_IDENTITY",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the adopted composed-family source conclusion and 18 previously verified anchors. All three committed source records, receipt and source/route binding bytes remain exact; the current hashes and sizes were independently reconfirmed.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/SOURCE_IDENTITY",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "FRESH_TARGETED_BINDING_MEASUREMENT",
+          "detail": "ND-VF01-02 closed. Current wiring matches the existing four component IDs/order/conditions in the map, source receipt and rendered report. Actual production generator --check returns 0 creations, 0 refreshes, 1 unchanged. The pure binder is idempotent, preserves both exact conditional texts, rejects altered component/page/route facts and leaves unrelated records unchanged. Physical component and visual findings are reused from the exact prior-approved PDFs.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+          "originalEvidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the independent 84/84 expected-value PDF readbacks and gated derived-fact findings on the same two PDFs and unchanged builder/helper.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/KNOWN_PREFILLS",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the 42 written fields and seven protected acts per fixture, required-fact collection and fail-closed production guard findings.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/REQUIRED_BEFORE_FILING",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the request-first, conditional-motion and order-with-motion findings and whole-case/appeal/exclusion gates. The previously missing manifest conditions are separately closed under COMPONENT_SET.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/ROUTE_OPTIONS",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the measured absence of a repeating table or partially populated row structure and the whole-case gate; incompleteRows remains zero.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/REPEATING_ROWS",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the independently inspected seven protected signature/date/decision acts per fixture; protectedWrites remains zero.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/PROTECTED_FIELDS",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "measuredHere": true,
+          "result": "PASS",
+          "reviewMode": "FRESH_TARGETED_BINDING_AND_TEST_MEASUREMENT",
+          "detail": "ND-VF01-01 and ND-VF01-03 closed: only the exact stale VF09 tuple is demoted; the explicitly selected current VF01 failure and future matching FAIL/PASS tuples are preserved while mismatches refuse. Authentic run 34628970364 remains bound to both unchanged PDFs and all fourteen pages. Fresh combined focused tests pass 15/15, including real read-only production --check and 21 binding refusals. Newly found ND-VF01-04 is separately preserved as an original-base 4/5 failure and closed by test-only commit b922582dda8106d6f1e99ebd60d673f8d850debe; the same isolated coherent future-PASS probe now passes 5/5. All source, PDF, guide, map, required report, binder and generator inputs remain unchanged across that correction.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+          "originalEvidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json",
+          "isolatedFailure": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/future-selected-review-probe.json",
+          "isolatedClosure": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/future-selected-review-closure.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the original fourteen-page inspection: each unchanged fixture has request pages 1\u20132, motion 3\u20134, proposed order 5 and instructions 6\u20137.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/PAGE_ORDER",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the original fourteen-page inspection and word-box measurement finding no clipping, overlap, invisible prefill or occupied protected blank on these same PDF bytes.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/CLIPPING_AND_OVERLAP",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the adopted original-court-office request destination and motion in the original criminal case; instructions and sources are unchanged.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/FILING_DESTINATION",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the adopted DET-FEE-AND-WAIVER-001 treatment directing the participant to the original court office for this unresolved exact motion fee/waiver question; no borrowed rule or new legal determination.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/FEE_AND_WAIVER",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the adopted original-court-office delivery inquiry and request-first/motion-if-needed sequence; no new service component or sibling-petition rule is imposed.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/SERVICE",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "measuredHere": false,
+          "result": "PASS",
+          "reviewMode": "REUSED_VALID_PRIOR_VF01",
+          "detail": "Retain the independent guard/stop findings, including the 89 guard checks and 366-case date oracle, on the unchanged builder, timing helper, instructions and PDFs.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "reusedFrom": {
+            "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c",
+            "rows": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+              "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+              "byteLength": 31829
+            },
+            "primaryReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+              "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+              "byteLength": 29656
+            },
+            "pointer": "/proofObligations/SELF_HELP_STOP",
+            "underlyingMeasurements": {
+              "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+              "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+              "byteLength": 38584
+            }
+          },
+          "currentBindingProof": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+            "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+            "byteLength": 11109
+          }
+        }
+      },
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "summary": {
+        "PASS": 15,
+        "FAIL": 0,
+        "NOT_MEASURABLE_HERE": 0,
+        "fresh": 2,
+        "reused": 13
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": false,
+        "measurementMode": "REUSED_VALID_PRIOR_CURRENT_BYTE_MEASUREMENTS_WITH_FRESH_CLI_CONFIRMATION",
+        "denominatorObserved": "Prior VF01 independently read 84/84 writes and inspected 14 protected acts and all 14 original PNG pages. Current task completeness CLI at fc0c9e9bddf88804ad246730650dd143aceb309c confirmed 42/49 written per fixture and all nine zero counters. Every counter input and packet byte remains unchanged at the final base.",
+        "measuredBy": "Prior VF01 PDF readback, word geometry and original PNG inspection; fresh exact-family read-only completeness command recorded in original-base-findings.json. No pixel or legal review repeated here.",
+        "evidence": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+          "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+          "byteLength": 38584
+        },
+        "freshCliEvidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json"
+      },
+      "defects": [],
+      "resolvedDefects": [
+        {
+          "id": "ND-VF01-01",
+          "finding": "Exact stale VF09 tuple is demoted; newer explicitly selected VF01 failure is preserved and mismatched/opaque tuples refuse. Current FAIL is truthful metadata, not a stale approval.",
+          "result": "CLOSED",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json"
+        },
+        {
+          "id": "ND-VF01-02",
+          "finding": "Four exact component IDs/order/conditions match the existing contract and survive real generator --check with 1 unchanged.",
+          "result": "CLOSED",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json"
+        },
+        {
+          "id": "ND-VF01-03",
+          "finding": "Obsolete null-raster assertion replaced with exact current RASTER_PASS/hash/coverage checks; current focused15/15 passes.",
+          "result": "CLOSED",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json"
+        },
+        {
+          "id": "ND-VF01-04",
+          "originalResult": "4/5; suite exit1",
+          "currentResult": "5/5; suite exit0",
+          "correctionCommit": "b922582dda8106d6f1e99ebd60d673f8d850debe",
+          "result": "CLOSED",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+          "originalEvidence": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json"
+        }
+      ],
+      "remainingBlockers": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+      "evidenceBindings": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+          "sha256": "339740dd4179b0776cec2bb2ebaec4125da469de0eb11457a9abf16c4cdc4d0d",
+          "byteLength": 11109
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json",
+          "sha256": "bfff18f54afeb0804bd62d4e190370389e3dedba4142d00f1a39d8bcb6e1c47a",
+          "byteLength": 19214
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/future-selected-review-probe.json",
+          "sha256": "1b83b71beec89bfe6703ae6b2099742cbc1ed01d3df73609e971566e6d708eed",
+          "byteLength": 2826
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/future-selected-review-closure.json",
+          "sha256": "0fbb40e322e78fbcbc149acc36ad64802fca4e054cdbe8d7b77a11ef2484d355",
+          "byteLength": 1482
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/probe-future-selected-review.mjs",
+          "sha256": "1dcbdf14d50ca5adf70f9a6414cb24e1653ca2e0c75fa22cc0bd687d602fd291",
+          "byteLength": 3420
+        }
+      ],
+      "sourceBindings": [
+        {
+          "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+          "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
+          "byteLength": 37333
+        },
+        {
+          "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+          "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+          "byteLength": 184365
+        },
+        {
+          "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+          "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+          "byteLength": 22372
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d",
+          "byteLength": 17490,
+          "priorSha256": "db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d",
+          "byteIdenticalToPrior": true,
+          "pages": 7
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+          "byteLength": 17097,
+          "priorSha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+          "byteIdenticalToPrior": true,
+          "pages": 7
+        }
+      ],
+      "rasterHashBinding": {
+        "canonical": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+        "boundary": "db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d"
+      },
+      "rasterAcceptance": {
+        "workflowRunId": "34628970364",
+        "verdict": "RASTER_PASS",
+        "pinnedCommit": "ffa39d9bd9ddfb42b3c4e8318a5c63abf92fb0b8",
+        "pdfCount": 2,
+        "pagesMeasured": 14,
+        "currentPdfIdentityReconfirmed": true,
+        "acceptedRasterForProven": true,
+        "evidence": [
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34628970364/composed-treatment_nd-nonconviction-auto-close-verify.verdict.json",
+            "sha256": "d8120f814a88c8bfb2c5b8a53cef033301e4a37732247d4fb3db67448aad66cd",
+            "byteLength": 15277,
+            "byteIdenticalToPrior": true
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34628970364/composed-treatment:nd-nonconviction-auto-close-verify.PAGE_IMAGES_SHA256.json",
+            "sha256": "298724c8abd0005cbfc43762d226f69862c460fb8bcc81f44310079b6810fd0e",
+            "byteLength": 4908,
+            "byteIdenticalToPrior": true
+          }
+        ],
+        "visualReviewMode": "REUSED_VALID_PRIOR_CURRENT_BYTE_VF01",
+        "priorOriginalArchiveAndPngProof": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+          "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+          "byteLength": 38584
+        },
+        "priorRowPointer": "/rows/0/rasterReceiptConfirmedIndependently",
+        "newPngPagesInspected": 0,
+        "archiveReinspectedHere": false
+      },
+      "priorEvidence": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-final.json",
+          "sha256": "028594e21205ce5d37bef9259981fc6bb9963f5880b8e47caf65ed576e509837",
+          "byteLength": 31829
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/review.json",
+          "sha256": "45867b22cfde1adf8657f8bd50abeadc3bd225cfd96453bac9dc5d3dda8573a0",
+          "byteLength": 29656
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json",
+          "sha256": "7e2d8275f00f1ad88434ad81221041b853bc17be511d1e417e91fd95a0fd9df3",
+          "byteLength": 38584
+        }
+      ],
+      "readOnlyProof": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/closure-evidence.json",
+      "checks": [
+        {
+          "command": "node --test scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs",
+          "exitCode": 0,
+          "tests": 15,
+          "passed": 15,
+          "failed": 0,
+          "includes": "21 binding refusal cases; real production --check read-only test"
+        },
+        {
+          "testedSuiteExit": 0,
+          "tests": 5,
+          "passed": 5,
+          "failed": 0,
+          "hypotheticalOnly": true
+        },
+        {
+          "argv": [
+            "node",
+            "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+            "--check",
+            "--family",
+            "composed-treatment:nd-nonconviction-auto-close-verify"
+          ],
+          "exitCode": 0,
+          "stdout": "0 wiring record(s) need creation, 0 record(s) need refresh, 1 unchanged",
+          "stderr": ""
+        },
+        {
+          "api": "acceptedRasterFor(ROOT, candidateRowsByFamily(RASTER_QUEUE).get(FAMILY), {requireReceiptDeclaredCoverage:true})",
+          "module": "scripts/grade-a-packet-factory-24h/acceptance-identity.mjs",
+          "exitCode": 0,
+          "proven": true,
+          "reasons": []
+        }
+      ],
+      "currentSelectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "b7610435835e6163254641505d25be7680cb514c"
+      },
+      "currentReviewConsumptionNote": "The currently selected prior VF01 FAIL is truthful until Captain consumes this new review. This return does not mutate the queue, product wiring or admission state.",
+      "notNewDefects": [
+        "sourceVersion was empty before FIX112 and has not changed; it is not included as a new defect.",
+        "Fresh RASTER_PASS is authentic current-byte evidence and must not be removed merely to satisfy an obsolete null assertion."
+      ],
+      "unmeasuredItems": {
+        "externalSourceCurrency": null,
+        "participantImpact": null,
+        "runtimeFulfillmentBehavior": null,
+        "reason": "No new source research, participant delivery or runtime/commercial audit was authorized or performed."
+      },
+      "packetsBuiltOrRepairedHere": 0,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsReleased": 0,
+      "grantsNothing": "Independent acceptance evidence only. No admission, promotion, participant delivery or commercial fulfillment authority is created. Captain alone integrates and admits."
+    }
+  ]
+}
