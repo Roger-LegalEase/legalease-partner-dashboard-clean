@@ -37,8 +37,8 @@
         "SELF_HELP_STOP": {"measured": true, "result": "PASS", "detail": "REUSED VF63 direct guide and page read: all four recorded stop conditions occur in the required participant-facing locations."},
         "FILING_DESTINATION": {"measured": true, "result": "PASS", "detail": "REUSED VF63 direct reading of the stage-1 no-filing rule and stage-2 court/MC case-type instructions."},
         "SERVICE": {"measured": true, "result": "PASS", "detail": "REUSED VF63 direct reading: prosecuting attorney service and thirty-day opposition notice are stated; served party/address remain participant blanks."},
-        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "detail": "Reused VF63 direct guide/map read: all 13 required-before-filing items are disclosed; current builder blank classification is 10 RBF, 6 protected, 1 not-applicable."},
-        "PAGE_ORDER": {"measured": true, "result": "PASS", "detail": "REUSED VF63 direct page read: stage 1 precedes the four-page petition sequence and court block."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "detail": "Reused VF63 direct guide/map read: all 13 manifest disclosure labels are present. The current completeness classifier counts 17 blank cells as 10 REQUIRED_BEFORE_FILING, 6 PROTECTED_FIELD and 1 NOT_APPLICABLE_ON_THIS_ROUTE; the 13-label disclosure list and 17-cell classification are different counts and are both retained."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "detail": "REUSED VF63 direct page read: the four-page packet is stage-1 process guidance on pages 1-2 followed by the stage-2 petition on pages 3-4, including the court block."},
         "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "detail": "REUSED VF63 direct read: no route election is preselected; the stage-1 branch is left to the participant."},
         "REPEATING_ROWS": {"measured": true, "result": "PASS", "detail": "REUSED VF63 direct read: no repeating row group exists in either composed document."},
         "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "detail": "REUSED VF63 direct read: Indiana route states no filing fee and no waiver instrument is included or needed."},
@@ -48,7 +48,7 @@
       "couldNotMeasure": ["visualDefects", "actual-writes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes"],
       "repairNeeded": [],
       "challengesRecorded": ["Q7 component is present in the current two-component packet; reconciling the registry's unavailable stage-2 note remains an owner/Captain matter, not a new verifier defect.", "The old raster receipt is superseded; this lane makes no fresh raster or visual claim."],
-      "packetCommit": "0be76599a",
+      "packetCommit": "0be76599ab712789bfbd92a8a80ed1f9ab17537f",
       "firstIndependentRead": false,
       "postRepairReread": true,
       "priorIndependentVerdict": "FAIL_REPAIR_REQUIRED",
@@ -66,7 +66,7 @@
       ],
       "deltaEvidence": {"repairLane": "FIXCXIN1", "repairCommits": ["a77744c36", "c14cf91de"], "currentBuilderSha256": "3572eec3330376ebe573f30060a97b96d70ce15f127ae1068671a206adebeb2e", "currentArtifactHashes": {"canonical": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463", "boundary": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2"}, "validCounters": "8 measured zeros + visualDefects null", "blankDispositions": {"REQUIRED_BEFORE_FILING": 10, "PROTECTED_FIELD": 6, "NOT_APPLICABLE_ON_THIS_ROUTE": 1}, "guard": "mutated actual entrypoint exit 1, prewrite guard held; valid exit 0"},
       "raster": "No fresh raster. visualDefects null; BUILT_RASTER_PENDING remains owed to central acceptance.",
-      "consumerValidation": {"command": "node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs --check", "status": "PENDING"},
+      "consumerValidation": {"command": "node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs --check", "status": "CHECK_FAILED_PREEXISTING_GLOBAL_NONCONVERGENCE", "exitCode": 1, "familyRow": "selected; not among the 42 refused rows", "summary": "The check refused 42 unrelated historical rows for unmeasured obligations and then reported VERIFIER_RETURNS.json nonconvergence; no central file was written.", "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/in-evidence-20260911/extractor-check.log"},
       "selfVerified": false,
       "builtThisFamily": false
     }
