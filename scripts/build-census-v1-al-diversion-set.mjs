@@ -9,6 +9,10 @@ import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import zlib from "node:zlib";
 import { normalizeInvertedWidgetRectangles } from "./rcap-official-forms/rcap-active-content.mjs";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import {
+  classifyAlabamaClerkAssignedCaseNumber,
+  isAlabamaClerkAssignedCaseNumber
+} from "./rcap-official-forms/alabama-clerk-assigned-case-number.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
@@ -431,30 +435,16 @@ function requiredLabel(documentId, name, page) {
  */
 function knownValue(documentId, name, page, fixture) {
   const key = name.toLowerCase();
+  if (isAlabamaClerkAssignedCaseNumber({ documentId, fieldName: name, page })) return null;
   /*
-   * CR-65 page 1 Text2 is the SOCIAL SECURITY NUMBER line, not a case number.
-   *
-   * /^text[1-7]$/ is a rule about the shape of an exported field name, and an
-   * official form does not name its fields after the facts they ask for. Six
-   * of these seven are the "Court Case Number (Assigned by Clerk)" caption box
-   * repeated down the pages; Text2 is the blank that follows the printed
-   * "XXX - XX -" on page 1, under the caption "(Social Security Number, Last
-   * four digits only)". This repository's own committed field census records
-   * it that way -- field-census.census-v1.json gives CR-65 Text2 the effective
-   * label "Social Security Number, last four digits only" -- and a 200 dpi
-   * raster of the delivered page shows the case number sitting on that line.
-   *
-   * So every one of these six Alabama packets swore, under penalty of perjury,
-   * that the petitioner's Social Security digits were CC-2024-000001.99. All
-   * nine counters read zero on it, because the field map called the write a
-   * case number and the counters take the field map as their authority.
-   *
-   * The platform does not hold anyone's Social Security number. It is not
-   * collected, it must not be guessed, and it therefore becomes a named blank
-   * the participant fills in before filing.
+   * CR-65's opaque Text names are not interchangeable. Text2 is the last-four
+   * SSN blank, Text3 is the underlying court record to be expunged, and Text1,
+   * Text4, Text5 and Text7 are repeated clerk-assigned caption boxes. The
+   * dedicated classifier above removes those caption boxes before any loose
+   * name rule runs. Only Text3 is the held underlying case number.
    */
   if (documentId === "CR-65" && key === "text2") return null;
-  if (documentId === "CR-65" && /^text[1-7]$/.test(key)) return [fixture.caseNumber, "matter.case_number"];
+  if (documentId === "CR-65" && key === "text3") return [fixture.caseNumber, "matter.case_number"];
   if (documentId === "CR-65" && key === "county and it was given court case number") return null;
   if (documentId === "CR-65" && key === "telephone number_2") return null;
   if (documentId === "C-10-CRIMINAL" && key === "text4") return [fixture.dob, "participant.date_of_birth"];
@@ -479,6 +469,7 @@ function knownValue(documentId, name, page, fixture) {
 
 function protectedField(documentId, name, page) {
   const key = name.toLowerCase();
+  if (isAlabamaClerkAssignedCaseNumber({ documentId, fieldName: name, page })) return true;
   if (documentId === "C-10-CRIMINAL" && page >= 3) return true;
   if (documentId === "C-10-CRIMINAL" && page === 2 && ["1", "day of", "undefined_32", "2", "text1"].includes(key)) return true;
   if (documentId === "CR-65" && page === 7) return true;
@@ -646,7 +637,9 @@ async function fillDocument(source, fixtureName, fixture, config) {
       const drawnText = safeSet(field, known[0]);
       writes.push({ fieldId: id, fieldName: name, effectiveLabel: name, documentId: source.documentId, page, factId: known[1], drawnText });
     } else if (protectedField(source.documentId, name, page)) {
-      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Signature, court, or later-completion field: ${name}`, documentId: source.documentId, page, reason: "signature or date field; never prefilled", refusalClass: "signature_or_date_participant_completion", role: "protected" });
+      const clerkAssigned = classifyAlabamaClerkAssignedCaseNumber({ documentId: source.documentId, fieldName: name, page });
+      refusals.push({ fieldId: id, fieldName: name, documentId: source.documentId, page,
+        ...(clerkAssigned ?? { effectiveLabel: `Signature, court, or later-completion field: ${name}`, reason: "signature or date field; never prefilled", refusalClass: "signature_or_date_participant_completion", role: "protected" }) });
     } else if (attorneyField(source.documentId, name, page)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Attorney field: ${name}`, documentId: source.documentId, page, reason: "attorney-only; no representation fact is held", role: "attorney" });
     } else {
