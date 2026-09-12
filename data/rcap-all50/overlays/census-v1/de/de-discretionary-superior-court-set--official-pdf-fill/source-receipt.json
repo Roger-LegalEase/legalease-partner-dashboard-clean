@@ -30,11 +30,45 @@
       ],
       "recordId": "packet-set-manifest:de_discretionary_superior_court-set",
       "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
-      "byteLength": 3708358,
+      "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+      "byteLength": 3710466,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed packet-set manifest for this exact packet set. Its components list settles the two rendered official forms and the conditional continuation source; its participantActionRequired entries settle the certified-history prerequisite, the notarization position, the fee position, the fee-waiver position, the service position and the assembly order; and its requiredBeforeFiling list is read from these bytes at build time and printed verbatim into participant-instructions.md",
-      "anchorStatementsVerified": 7
+      "anchorStatementsVerified": 7,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-12",
+        "was": {
+          "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
+          "byteLength": 3708358
+        },
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (il-seal-edu-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "recordGlobalMetadata: identical",
+          "packetSet:de_discretionary_superior_court-set: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+          "packetSet:de_discretionary_superior_court-set": "7d9d713e20655d73e3bb79ed568d329132170fdcb6d0c5587d26c2263f5699cf"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "de_discretionary_superior_court-set"
+          ],
+          "basis": "packet-set-manifest:de_discretionary_superior_court-set"
+        },
+        "entriesThatMovedInThisRecord": [
+          "il-seal-edu-set"
+        ],
+        "recoveredFrom": {
+          "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+          "commit": "caf3a021cd4188792781382197659f4e04c15e6a"
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
     },
     {
       "sourceIds": [

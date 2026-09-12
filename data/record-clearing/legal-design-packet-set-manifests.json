@@ -14226,7 +14226,7 @@
       "jurisdiction": "IL",
       "trackId": "il-seal-edu",
       "packetSetId": "il-seal-edu-set",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "components": [
         {
           "componentId": "il-seal-edu-primary-filing-1",
@@ -14259,14 +14259,36 @@
           "order": 3
         },
         {
+          "componentId": "il-seal-edu-proposed-denying-order-5",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Denying",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9ee52a9a-dfc9-4a4c-9264-0ecb1ce679d4/EXP-AD%20Order%20Denying.pdf",
+          "order": 4,
+          "notes": "ATJ 2906.6 (06/26), complete one-page official Denying Order. Only permitted caption, identity and recipient-contact fields may be prepared. All denial choices, case decisions, reasons, judge signature and entry date remain blank. Required alongside the Granting Order, not an election of the expected outcome. Raw source-byte custody, actual output and independent acceptance remain separate."
+        },
+        {
           "componentId": "il-seal-edu-fee-waiver-4",
           "role": "fee_waiver",
           "requirement": "conditional",
-          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "FW-CIV-APPLICATION",
           "officialSourceUrl": null,
-          "order": 4
+          "order": 5
+        },
+        {
+          "componentId": "il-seal-edu-fee-waiver-order-6",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FW-CIV-ORDER",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/aeb7187c-60d8-4245-b05c-7610a6745e56/FW-CIV%20Order.pdf",
+          "order": 6,
+          "notes": "ATJ 602.8 (08/25), all three official pages. Prepare only permitted caption/applicant identity. Leave every judicial full/partial/denied/continued election, financial finding, payment term, hearing setting, document demand, judge signature and entry date blank. Include only with the requested fee-waiver application. Raw source-byte custody, actual output and independent acceptance remain separate."
         }
       ],
       "participantActionRequired": [
