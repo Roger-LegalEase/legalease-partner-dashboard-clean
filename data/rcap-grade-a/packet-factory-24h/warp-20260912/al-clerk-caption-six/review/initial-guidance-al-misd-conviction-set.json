@@ -1,0 +1,146 @@
+{
+  "familyId": "al-misd-conviction-set",
+  "trackId": "al-misd-conviction",
+  "sourceMemoSha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+  "selfHelpStops": [
+    {
+      "condition": "The prosecutor or a victim files an objection.",
+      "literalPresent": true
+    },
+    {
+      "condition": "The court sets a hearing.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Whether the offence is on the \u00a7 12-25-32 violent offense list is unclear.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Whether the offence is a crime of moral turpitude under \u00a7 17-3-30.1 is unclear.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Whether the offence is a serious traffic offense under Title 32 is unclear.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Whether an Act 2015-185 reclassification applies is unclear.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Whether all court-ordered amounts including interest are satisfied is unclear.",
+      "literalPresent": true
+    },
+    {
+      "condition": "The participant is choosing which record to spend one of the two capped expungements on.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Immigration, licensing or firearm consequences are in play.",
+      "literalPresent": true
+    }
+  ],
+  "requiredParticipantInputQuestions": [
+    {
+      "key": "convictionDate",
+      "question": "On what date were you convicted? Three years must have passed.",
+      "requirement": "required"
+    },
+    {
+      "key": "youthfulOffender",
+      "question": "Was this a youthful offender adjudication rather than a conviction?",
+      "requirement": "required"
+    },
+    {
+      "key": "allAmountsPaid",
+      "question": "Have you completed all probation or parole requirements, including paying all fines, costs, restitution and other court-ordered amounts?",
+      "requirement": "required"
+    },
+    {
+      "key": "violentOffence",
+      "question": "Is the offence on the \u00a7 12-25-32 violent offense list?",
+      "requirement": "required"
+    },
+    {
+      "key": "sexOffence",
+      "question": "Is the offence a sex offense under \u00a7 15-20A-5?",
+      "requirement": "required"
+    },
+    {
+      "key": "moralTurpitude",
+      "question": "Is the offence a crime of moral turpitude under \u00a7 17-3-30.1?",
+      "requirement": "required"
+    },
+    {
+      "key": "seriousTrafficOffence",
+      "question": "Is the offence a serious traffic offense under Article 9 of Chapter 5A of Title 32? DUI sits there.",
+      "requirement": "required"
+    },
+    {
+      "key": "cdlStatus",
+      "question": "At the time of the offence, were you operating a commercial motor vehicle or holding a CDL or CLP?",
+      "requirement": "required"
+    },
+    {
+      "key": "act2015185Reclassification",
+      "question": "Was the crime a felony at conviction but reclassified as a misdemeanor under Act 2015-185?",
+      "requirement": "conditional",
+      "conditionDescription": "Asked on the moral-turpitude branch, where the reclassification carve-out applies."
+    },
+    {
+      "key": "priorCappedExpungements",
+      "question": "Have you already had two expungements granted under the capped routes?",
+      "requirement": "required"
+    }
+  ],
+  "supportingDocuments": [
+    {
+      "name": "Certified local record \u2014 conviction and evidence of completion",
+      "obtainedFrom": "The clerk of the court where the charges were filed, or the supervising agency",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk or supervising agency for certified evidence that all probation or parole requirements and court-ordered amounts are satisfied.",
+      "confirms": "allAmountsPaid"
+    },
+    {
+      "name": "Certified ALEA criminal record",
+      "obtainedFrom": "Alabama Law Enforcement Agency",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request a certified criminal record from ALEA."
+    }
+  ],
+  "destination": {
+    "kind": "court",
+    "name": "Criminal division of the circuit court, county where the charges were filed",
+    "detail": "Discretionary on the \u00a7 15-27-5(b) factors, plus the court's discretion over volume."
+  },
+  "components": [
+    {
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CR-65",
+      "notes": "CR-65 Section II."
+    },
+    {
+      "role": "certificate_of_service",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CR-65"
+    },
+    {
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "conditionDescription": "Where indigency is claimed.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "C-10-CRIMINAL"
+    }
+  ],
+  "manualCompletionItems": [
+    [
+      "Signature and date",
+      "The petitioner signs their own petition."
+    ]
+  ]
+}
