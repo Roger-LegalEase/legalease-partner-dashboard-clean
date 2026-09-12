@@ -5820,8 +5820,9 @@
       "operation": "rapid-repair",
       "lane": "FIXMA1",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-12T03:40:02.997Z",
+      "releaseReason": "Bounded BMC copy repair frozen d9d7537cc; all current tests pass, independent semantic preflight and raster remain pending. No further implementation cluster started."
     },
     {
       "subjectType": "packet-family",
@@ -15582,7 +15583,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "e5b80a0a5491189266f77397cd20443351280efbbc34bfc947c3a55572f23431",
+  "claimsDigest": "b2cc166dfb4eda1d49f0d18a93bf2cbbc1642965c48170284ac3fe4cec898c7f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42009,6 +42010,19 @@
       "closedAtReturnBoundary": true,
       "returnEvidence": {
         "namedReturnCommit": "42faeb93ca26670ba01d7fecfe5ebbadabfcc916"
+      }
+    },
+    {
+      "lane": "FIXMA1",
+      "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-12T03:40:02.997Z",
+      "reason": "Bounded BMC copy repair frozen d9d7537cc; all current tests pass, independent semantic preflight and raster remain pending. No further implementation cluster started.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "namedReturnCommit": "d9d7537cc37a99c828a6d5f79fe9a05f5f60067d"
       }
     }
   ],
