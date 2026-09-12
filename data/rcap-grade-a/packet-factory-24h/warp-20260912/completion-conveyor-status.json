@@ -3,21 +3,23 @@
   "terminalCheckpoint": 276,
   "denominator": 346,
   "implementation": {
-    "lane": "FIXMA1",
-    "families": [
-      "ma-bmc-multi-set"
-    ],
-    "nextGate": "Repair frozen current semantic failures, then independent semantic recheck before raster."
-  },
-  "independentReview": {
-    "lane": "VF67",
+    "lane": "FIXKS1",
     "families": [
       "ks-21-6614-conviction-set",
       "ks-21-6614-diversion-set",
       "ks-21-6614-prostitution-coercion-set",
       "ks-21-6614-specialty-court-set"
     ],
-    "nextGate": "Final independent acceptance of current central originals; semantic preflight already passed."
+    "nextGate": "Repair exactly80 confirmed Submitted-by neutral contact omissions, preserve signatures/judge/prosecutor protections, then independent semantic recheck before fresh raster.",
+    "evidence": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-four-final-fail-20260912.json"
+  },
+  "independentReview": {
+    "lane": "VFCG1",
+    "families": [
+      "in_arrest_no_charges-set",
+      "in_section1_petition-set"
+    ],
+    "nextGate": "Independent pre-raster semantic review of frozen42faeb93c candidate."
   },
   "parked": [
     {
@@ -70,14 +72,15 @@
     "originalPageImagesVerified": 160,
     "nativeReceiptsIngested": 4,
     "originalProof": "data/rcap-grade-a/packet-factory-24h/raster-runs/34669691683/ORIGINAL_EVIDENCE_VERIFIED.json",
-    "independentFinalAcceptance": "pending"
+    "independentFinalAcceptance": "FAIL_REPAIR_REQUIRED for all four: omitted participant submission contact blocks; successful raster remains valid evidence only for its exact historical bytes."
   },
-  "reviewNext": {
-    "lane": "VFCG1",
-    "families": [
-      "in_arrest_no_charges-set",
-      "in_section1_petition-set"
-    ],
-    "nextGate": "Pre-raster semantic preflight of frozen route treatment."
+  "completedImplementationAwaitingReview": {
+    "familyId": "ma-bmc-multi-set",
+    "commit": "d9d7537cc37a99c828a6d5f79fe9a05f5f60067d",
+    "state": "Frozen; queued behind current KS/IN priority; no raster or terminal acceptance."
+  },
+  "dependencyEnvironment": {
+    "nodeModulesTarget": "/tmp/rcap-dependencies-after-ci-20260912/node_modules",
+    "reason": "Externally initiated npm ci replaced symlink and consumed workspace disk. Fresh install preserved intact under /tmp; imports pass; no packet changes."
   }
 }
