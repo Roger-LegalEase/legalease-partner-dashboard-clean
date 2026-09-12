@@ -117,7 +117,7 @@ if (process.argv.includes("--check")) {
   await assertPrintedElections(out);
   console.log("al-pardoned-felony-set: repair invariants PASS");
 } else {
-  await buildAlabamaFamily("al-pardoned-felony-set");
+  await buildAlabamaFamily("al-pardoned-felony-set", { guidanceMapOnly: process.argv.includes("--guidance-map-only") });
   assertRepairInvariants(out);
   assertPardonedFelonyInvariants(out);
   await assertPrintedElections(out);

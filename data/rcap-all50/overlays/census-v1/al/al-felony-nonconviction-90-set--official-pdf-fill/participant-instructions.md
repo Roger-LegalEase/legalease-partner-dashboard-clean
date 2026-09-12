@@ -14,7 +14,7 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 - Notice: "Prosecutor and victim objection window."
 - Service: "A certificate of service page per entity served."
 - Who signs: "The petitioner signs their own petition."
-- Notarization: "The source review does not state a notarization requirement for CR-65."
+- Oath and verification: CR-65 Rev. 10/2024, page 8 instructions for PAGE 6 state: "The Petitioner must sign this document under oath and the signature must be verified by an official authorized to administer oaths or a notary public." Sign page 6 under oath only in front of an official authorized to administer oaths or a notary public. Leave your signature, its date, and the verification block blank until that person administers the oath.
 
 ## Do these before you file
 
@@ -22,7 +22,7 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 2. Obtain: Certified ALEA criminal record. Where from: Alabama Law Enforcement Agency. How: Request a certified criminal record from ALEA.
 3. Read the certified local record and identify which ONE of the printed Section III outcomes it actually shows, then check that box yourself. The record recognises these: "Dismissed with prejudice, more than 90 days passed"; "No billed by a grand jury, more than 90 days passed"; "Found not guilty, more than 90 days passed"; "Nolle prossed without conditions, more than 90 days passed, not refiled"; "Indictment quashed and the limitations period for refiling has expired, or the prosecuting agency confirms the charges will not be refiled". This packet checks none of them for you, because it does not hold which one your case was. Confirm the 90-day period from the disposition has run, confirm the charges have not been refiled, and stop if the certified record does not clearly show exactly one of these outcomes.
 4. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.
-5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.
+5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." If you claim indigency, complete C-10-CRIMINAL and tick the third printed relief request yourself. This packet ticks none of the three requests. The judge completes its order page.
 6. Signature and date on CR-65, signature block, and only after everything above is done. The petitioner signs their own petition. This packet deliberately leaves your signature and every date blank; do not sign or date early.
 
 ## Blanks you must fill in
@@ -45,7 +45,6 @@ below names that box.
 - County where any previous expungement was filed - only if you tick the SECOND box in item (3) on CR-65 page 6
 - Court case number of any previous expungement - only if you tick the SECOND box in item (3) on CR-65 page 6
 - Last four digits of your Social Security Number
-- Complete "MUNICIPALITY OF" on C-10-CRIMINAL page 1
 - Complete "Spouses Full Name if married" on C-10-CRIMINAL page 1
 - Complete "Total Number of People I am Supporting Financially in Household Including Myself" on C-10-CRIMINAL page 1
 - Complete "Home" on C-10-CRIMINAL page 1
@@ -150,6 +149,26 @@ why they are listed above marked "only if you tick the SECOND box in item (3) on
 It is blank in this packet, and this packet writes nothing into the attorney
 block beside it, because it holds no representation fact for you.
 
+## The relief request on C-10-CRIMINAL that this packet has not made
+
+C-10-CRIMINAL page 1 prints three separate relief requests. This packet leaves
+all three blank because each is a sworn participant election:
+
+> I, because of financial hardship, am unable to hire an attorney and request that the court appoint one for me.
+>
+> I, because of financial hardship, am unable to pay for ignition interlock device fees in this case and request that
+> these fees be waived.
+>
+> I, because of financial hardship, am unable to pay the administrative filing fee required for filing a petition for
+> expungement pursuant to Ala. Code 1975, § 15-27-4, and request that this fee be waived.
+
+The third request is the one this route concerns. The held record states the
+filing fee as "$500, or C-10-Criminal where indigency is claimed." and identifies C-10-CRIMINAL as the fee-waiver
+form. If you claim financial hardship, tick the third box yourself and complete
+the affidavit's income, expense and asset items. If you do not claim financial
+hardship, leave all three blank and pay the filing fee. The first two requests
+seek counsel and ignition-interlock relief and do not apply to this route.
+
 ## Service
 
 The record states: "A certificate of service page per entity served." Serve the district attorney, the
@@ -165,11 +184,7 @@ certificate only after service has actually happened.
 
 ## Notarization
 
-CR-65 page 6 carries a notary block. The record states: "The source review does not state a notarization requirement for CR-65."
-So ask the circuit clerk in the filing county whether that court requires the
-page-6 affidavit to be sworn before a notary or other authorized officer. Leave
-the notary block, its date and your own signature blank until you are in front
-of whoever administers the oath.
+CR-65 Rev. 10/2024, page 8 instructions for PAGE 6 state: "The Petitioner must sign this document under oath and the signature must be verified by an official authorized to administer oaths or a notary public." Sign page 6 under oath only in front of an official authorized to administer oaths or a notary public. Leave your signature, its date, and the verification block blank until that person administers the oath.
 
 ## Stop and get help
 

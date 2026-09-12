@@ -14,7 +14,7 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 - Notice: "Prosecutor and victim objection window."
 - Service: "A certificate of service page per entity served."
 - Who signs: "The petitioner signs their own petition."
-- Notarization: "The source review does not state a notarization requirement for CR-65."
+- Oath and verification: CR-65 Rev. 10/2024, page 8 instructions for PAGE 6 state: "The Petitioner must sign this document under oath and the signature must be verified by an official authorized to administer oaths or a notary public." Sign page 6 under oath only in front of an official authorized to administer oaths or a notary public. Leave your signature, its date, and the verification block blank until that person administers the oath.
 
 ## Do these before you file
 
@@ -206,11 +206,7 @@ certificate only after service has actually happened.
 
 ## Notarization
 
-CR-65 page 6 carries a notary block. The record states: "The source review does not state a notarization requirement for CR-65."
-So ask the circuit clerk in the filing county whether that court requires the
-page-6 affidavit to be sworn before a notary or other authorized officer. Leave
-the notary block, its date and your own signature blank until you are in front
-of whoever administers the oath.
+CR-65 Rev. 10/2024, page 8 instructions for PAGE 6 state: "The Petitioner must sign this document under oath and the signature must be verified by an official authorized to administer oaths or a notary public." Sign page 6 under oath only in front of an official authorized to administer oaths or a notary public. Leave your signature, its date, and the verification block blank until that person administers the oath.
 
 ## Stop and get help
 

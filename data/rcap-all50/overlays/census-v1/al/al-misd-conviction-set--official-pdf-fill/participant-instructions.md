@@ -14,7 +14,7 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 - Notice: "Prosecutor and victim objection window. Discretionary on the § 15-27-5(b) factors."
 - Service: "A certificate of service page per entity served."
 - Who signs: "The petitioner signs their own petition."
-- Notarization: "The source review does not state a notarization requirement for CR-65."
+- Oath and verification: CR-65 Rev. 10/2024, page 8 instructions for PAGE 6 state: "The Petitioner must sign this document under oath and the signature must be verified by an official authorized to administer oaths or a notary public." Sign page 6 under oath only in front of an official authorized to administer oaths or a notary public. Leave your signature, its date, and the verification block blank until that person administers the oath.
 
 ## Do these before you file
 
@@ -22,14 +22,16 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 2. Obtain: Certified ALEA criminal record. Where from: Alabama Law Enforcement Agency. How: Request a certified criminal record from ALEA.
 3. Read the certified local record and confirm every one of the seven conditions printed in CR-65 Section II is true of your case, including that all court-ordered amounts, with any interest, are satisfied. Correct the selection if any condition does not match.
 4. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.
-5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.
+5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." If you are claiming indigency, complete the C-10-CRIMINAL affidavit and tick the third printed relief request yourself. This packet ticks none of the three requests. The judge, not you, completes the order page.
 6. Signature and date on CR-65, signature block, and only after everything above is done. The petitioner signs their own petition. This packet deliberately leaves your signature and every date blank; do not sign or date early.
 
 ## Blanks you must fill in
 
 Each line names a blank on the paper that this packet did not fill because it
 does not hold that fact. Fill every one on both the canonical and the
-boundary-style packet before filing.
+boundary-style packet before filing - except the lines that carry an "only if"
+condition, which belong to a box on page 6 you may not be ticking. The section
+below names that box.
 
 - Complete "Only one offense per petition Multicount cases require multiple petitions" on CR-65 page 1
 - Complete "1 Criminal charge from the record to be considered 1" on CR-65 page 5
@@ -40,10 +42,9 @@ boundary-style packet before filing.
 - Complete "3 The agency or department that made the arrest 2" on CR-65 page 5
 - Complete "incarcerated or detained pursuant to arrest on the abovelisted charge that must be indicated here 1" on CR-65 page 5
 - Complete "incarcerated or detained pursuant to arrest on the abovelisted charge that must be indicated here 2" on CR-65 page 5
-- County where any previous expungement was filed
-- Court case number of any previous expungement
+- County where any previous expungement was filed - only if you tick the SECOND box in item (3) on CR-65 page 6
+- Court case number of any previous expungement - only if you tick the SECOND box in item (3) on CR-65 page 6
 - Last four digits of your Social Security Number
-- Complete "MUNICIPALITY OF" on C-10-CRIMINAL page 1
 - Complete "Spouses Full Name if married" on C-10-CRIMINAL page 1
 - Complete "Total Number of People I am Supporting Financially in Household Including Myself" on C-10-CRIMINAL page 1
 - Complete "Home" on C-10-CRIMINAL page 1
@@ -90,6 +91,84 @@ boundary-style packet before filing.
 - Monthly exceptional-expense subtotal (item 3d)
 - Total monthly expenses (item 3e)
 
+## Elections on CR-65 that this packet has not made
+
+CR-65 prints choices that turn on facts this packet does not hold. It ticks
+none of them, and the list above does not name them, because the field map
+classifies them as elections rather than as blanks owed before filing. They are
+still choices the form makes you make. Every line quoted below was read back
+out of the delivered petition at build time, on the page named beside it.
+
+**Page 5 - what you attach.** The form prints:
+
+> Attached to this Petition are: (Petition must include either item 1 or item 2; All Petitions must include item 3.)
+
+and three boxes under it:
+
+> [ ] (1) a certified record of arrest from the appropriate agency for the court record I seek to have
+>
+> [ ] (2) a certified record of disposition or a certified record of the case action summary from the
+>
+> [ ] (3) a certified official criminal record obtained from the Alabama Law Enforcement Agency (ALEA).
+
+All three are blank in this packet. Tick them yourself to match what you are
+actually attaching, following the rule the form prints above them.
+
+**Page 6 - the sworn select-one.** Under the printed line
+
+> I swear or affirm, under the penalty of perjury:
+
+the form prints
+
+> (3)(Select one of the following):
+
+and offers two boxes. The first reads:
+
+> [ ] that I have not previously applied for an expungement in this or any other jurisdiction.
+
+The second begins:
+
+> [ ] that I have previously filed for an expungement. My previous expungement was filed in
+
+and runs on into a blank for the county it was filed in, a blank for its court
+case number, and the printed pair
+
+> was [ ] granted [ ] denied.
+
+Both boxes are blank in this packet, on both fixtures. Tick the one that is
+true of you. It sits under the perjury line, so tick it before you sign.
+
+The county, the case number and the granted-or-denied pair belong to the second
+box alone. If you tick the first box, leave all three of them empty - that is
+why they are listed above marked "only if you tick the SECOND box in item (3) on CR-65 page 6".
+
+**Page 6 - the pro se box.** Beside the signature line the form prints:
+
+> [ ] pro se (Not represented by an attorney)
+
+It is blank in this packet, and this packet writes nothing into the attorney
+block beside it, because it holds no representation fact for you.
+
+## The relief request on C-10-CRIMINAL that this packet has not made
+
+C-10-CRIMINAL page 1 prints three separate relief requests. This packet leaves
+all three blank because each is a sworn participant election:
+
+> I, because of financial hardship, am unable to hire an attorney and request that the court appoint one for me.
+>
+> I, because of financial hardship, am unable to pay for ignition interlock device fees in this case and request that
+> these fees be waived.
+>
+> I, because of financial hardship, am unable to pay the administrative filing fee required for filing a petition for
+> expungement pursuant to Ala. Code 1975, § 15-27-4, and request that this fee be waived.
+
+The third request is the one this route concerns. The held record states the
+filing fee as "$500, or C-10-Criminal where indigency is claimed." and identifies C-10-CRIMINAL as the fee-waiver
+form. If you claim financial hardship, tick the third box yourself and complete
+the affidavit's income, expense and asset items. If you do not claim financial
+hardship, leave all three blank and pay the filing fee. The first two requests
+seek counsel and ignition-interlock relief and do not apply to this route.
+
 ## Service
 
 The record states: "A certificate of service page per entity served." Serve the district attorney, the
@@ -105,11 +184,7 @@ certificate only after service has actually happened.
 
 ## Notarization
 
-CR-65 page 6 carries a notary block. The record states: "The source review does not state a notarization requirement for CR-65."
-So ask the circuit clerk in the filing county whether that court requires the
-page-6 affidavit to be sworn before a notary or other authorized officer. Leave
-the notary block, its date and your own signature blank until you are in front
-of whoever administers the oath.
+CR-65 Rev. 10/2024, page 8 instructions for PAGE 6 state: "The Petitioner must sign this document under oath and the signature must be verified by an official authorized to administer oaths or a notary public." Sign page 6 under oath only in front of an official authorized to administer oaths or a notary public. Leave your signature, its date, and the verification block blank until that person administers the oath.
 
 ## Stop and get help
 

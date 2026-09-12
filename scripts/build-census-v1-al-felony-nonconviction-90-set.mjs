@@ -14,6 +14,10 @@ import {
   classifyAlabamaClerkAssignedCaseNumber,
   isAlabamaClerkAssignedCaseNumber
 } from "./rcap-official-forms/alabama-clerk-assigned-case-number.mjs";
+import {
+  AL_C10_RELIEF_OPTIONS, AL_C10_RELIEF_TITLE, alabamaC10ReliefSection, alabamaOathGuidance,
+  classifyAlabamaC10Municipality, classifyAlabamaC10Relief
+} from "./rcap-official-forms/alabama-participant-handback.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
@@ -357,6 +361,10 @@ async function fillDocument(source, fixtureName, fixture, config) {
       } else if (source.documentId === "CR-65" && config.selected.includes(name)) {
         field.check();
         writes.push({ fieldId: id, fieldName: name, effectiveLabel: `${config.routeSummary} (selection)`, documentId: source.documentId, page, factId: "route.selection", isSelectionControl: true, routeDetermined: true });
+      } else if (classifyAlabamaC10Relief(id)) {
+        refusals.push({ fieldId: id, fieldName: name, documentId: source.documentId, page, ...classifyAlabamaC10Relief(id) });
+      } else if (classifyAlabamaC10Municipality({ fieldId: id, filingRule: config.filingRule, trackId: config.trackId })) {
+        refusals.push({ fieldId: id, fieldName: name, documentId: source.documentId, page, ...classifyAlabamaC10Municipality({ fieldId: id, filingRule: config.filingRule, trackId: config.trackId }) });
       } else if (protectedField(source.documentId, name, page)) {
         refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Court or later-completion control: ${name}`, documentId: source.documentId, page, reason: "court, clerk, prosecutor, agency, or hearing field; never prefilled", refusalClass: "court_prosecutor_clerk_or_agency_owned", role: "court" });
       } else {
@@ -375,6 +383,8 @@ async function fillDocument(source, fixtureName, fixture, config) {
         ...(clerkAssigned ?? { effectiveLabel: `Signature, court, or later-completion field: ${name}`, reason: "signature or date field; never prefilled", refusalClass: "signature_or_date_participant_completion", role: "protected" }) });
     } else if (attorneyField(source.documentId, name, page)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Attorney field: ${name}`, documentId: source.documentId, page, reason: "attorney-only; no representation fact is held", role: "attorney" });
+    } else if (classifyAlabamaC10Municipality({ fieldId: id, filingRule: config.filingRule, trackId: config.trackId })) {
+      refusals.push({ fieldId: id, fieldName: name, documentId: source.documentId, page, ...classifyAlabamaC10Municipality({ fieldId: id, filingRule: config.filingRule, trackId: config.trackId }) });
     } else {
       const label = requiredLabel(source.documentId, name, page);
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: label, documentId: source.documentId, page, reason: "The platform does not hold this participant or case fact; supply it before filing", completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, factAvailable: false, routeDetermined: false, role: "participant" });
@@ -614,14 +624,14 @@ function writeGuides({ out, familyId, config, rules, track, memoDigest, required
     `- Notice: "${rules.notice}"`,
     `- Service: "${rules.service}"`,
     `- Who signs: "${rules.participantSignature}"`,
-    `- Notarization: "${rules.notarization}"`
+    `- Oath and verification: ${alabamaOathGuidance()}`
   ].join("\n");
   const beforeFiling = [
     ...(track.supportingDocuments ?? []).map((doc, index) =>
       `${index + 1}. Obtain: ${doc.name}. Where from: ${doc.obtainedFrom}. How: ${doc.howToObtain}`),
     `${(track.supportingDocuments ?? []).length + 1}. ${config.recordComparison}`,
     `${(track.supportingDocuments ?? []).length + 2}. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.`,
-    `${(track.supportingDocuments ?? []).length + 3}. Decide the fee. The record states: "${rules.fees}" If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.`,
+    `${(track.supportingDocuments ?? []).length + 3}. Decide the fee. The record states: "${rules.fees}" If you claim indigency, complete C-10-CRIMINAL and tick the third printed relief request yourself. This packet ticks none of the three requests. The judge completes its order page.`,
     ...(track.manualCompletionItems ?? []).map((item, index) =>
       `${(track.supportingDocuments ?? []).length + 4 + index}. ${item.item} on ${item.whereInPacket}, and only after everything above is done. ${item.why} This packet deliberately leaves your signature and every date blank; do not sign or date early.`)
   ].join("\n");
@@ -654,6 +664,8 @@ ${requiredList}
 
 ${electionsSection()}
 
+${alabamaC10ReliefSection(rules)}
+
 ## Service
 
 The record states: "${rules.service}" Serve the district attorney, the
@@ -669,11 +681,7 @@ certificate only after service has actually happened.
 
 ## Notarization
 
-CR-65 page 6 carries a notary block. The record states: "${rules.notarization}"
-So ask the circuit clerk in the filing county whether that court requires the
-page-6 affidavit to be sworn before a notary or other authorized officer. Leave
-the notary block, its date and your own signature blank until you are in front
-of whoever administers the oath.
+${alabamaOathGuidance()}
 
 ## Stop and get help
 
@@ -691,7 +699,7 @@ ${provenance}
 - Filing fee: "${rules.fees}"
 - Fee waiver: "${rules.feeWaiver}"
 - Notice: "${rules.notice}"
-- Notarization: "${rules.notarization}"
+- Oath and verification: ${alabamaOathGuidance()}
 
 The C-10-CRIMINAL affidavit included in this packet is the fee-waiver form.
 Complete it only if you are claiming indigency; the judge completes its order
@@ -740,11 +748,10 @@ async function assertRepairInvariants(out) {
    */
   const filing = fs.readFileSync(path.join(out, "filing-instructions.md"), "utf8");
 
-  // The record states the source review does not establish a notarization
-  // requirement for CR-65, so neither guide may direct one as though it did.
-  assert.doesNotMatch(instructions, /Sign the petition under oath before an authorized officer or notary/);
-  assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/);
-  assert.doesNotMatch(instructions, /sign under oath before a notary or other authorized officer/);
+  assert.match(instructions, /CR-65 Rev\. 10\/2024, page 8 instructions for PAGE 6/);
+  assert.match(instructions, /official authorized to administer oaths or a notary public/);
+  assert.match(filing, /official authorized to administer oaths or a notary public/);
+  assert.doesNotMatch(instructions, /ask the circuit clerk.*whether.*requires/si);
 
   // The guide must quote the record it is derived from, and be bound to its digest.
   const memoBytes = fs.readFileSync(path.join(ROOT, MEMO_PATH));
@@ -755,8 +762,19 @@ async function assertRepairInvariants(out) {
     assert.ok(instructions.includes(heading), `guide section missing: ${heading}`);
   }
   assert.ok(instructions.includes(sha256(memoBytes)), "the guide must carry the digest of the record it quotes");
-  assert.ok(instructions.includes(track.rules.notarization), "the guide must quote the record's notarization line verbatim");
-  assert.ok(filing.includes(track.rules.notarization), "the filing guide must quote the record's notarization line verbatim");
+  assert.ok(!instructions.includes(`Notarization: "${track.rules.notarization}"`), "stale memo uncertainty must not override CR-65's printed oath instruction");
+  const municipality = fieldMap.refusals.find((row) => row.fieldId === "C-10-CRIMINAL:MUNICIPALITY OF");
+  const municipalChoice = fieldMap.refusals.find((row) => row.fieldId === "C-10-CRIMINAL:Check Box1.1");
+  for (const row of [municipality, municipalChoice]) {
+    assert.equal(row?.completenessDisposition, "NOT_APPLICABLE_ON_THIS_ROUTE");
+    assert.equal(row?.requiredBeforeFiling, false);
+  }
+  assert.match(instructions, new RegExp(`^## ${AL_C10_RELIEF_TITLE}$`, "m"));
+  for (const option of AL_C10_RELIEF_OPTIONS) {
+    const row = fieldMap.refusals.find((candidate) => candidate.fieldId === option.fieldId);
+    assert.ok(row?.disclosedToParticipant, `${option.fieldId} must be disclosed`);
+    assert.ok(!written.has(option.fieldId));
+  }
 
   // Every supporting document the record marks required-before-filing, named
   // with its source and its method rather than merely mentioned.
@@ -846,7 +864,7 @@ export async function measureAl90Packet(bytes, sources, packet, options = {}) {
   return { ...proof, measurementScope: 'Differential decoded glyphs and actual flattened appearance placements; source painting and visible clipping remain subject to original raster review.' };
 }
 
-export async function buildAlabamaFamily(familyId) {
+export async function buildAlabamaFamily(familyId, { guidanceMapOnly = false } = {}) {
   assert.equal(familyId, "al-felony-nonconviction-90-set", "this family-owned builder may only build al-felony-nonconviction-90-set");
   const base = FAMILY_CONFIG[familyId];
   assert.ok(base, `unsupported Alabama family: ${familyId}`);
@@ -873,55 +891,60 @@ export async function buildAlabamaFamily(familyId) {
     assert.ok(rules[key], `${config.trackId}: rules.${key} is not held; a guide may not be written past an absent rule`);
   }
   assert.ok((track.selfHelpStopConditions ?? []).length > 0, `${config.trackId}: the record holds no stop conditions`);
+  config.filingRule = rules.filing;
   const packets = {};
   for (const [fixtureName, fixture] of Object.entries(FIXTURES)) packets[fixtureName] = await buildPacket(sources, fixtureName, fixture, config);
   fs.mkdirSync(path.join(out, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(out, "reports"), { recursive: true });
-  for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(out, "fixtures", `${fixtureName}.pdf`), packet.bytes);
+  if (!guidanceMapOnly) for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(out, "fixtures", `${fixtureName}.pdf`), packet.bytes);
   const fieldMap = {
     schemaVersion: "rcap-production-field-map/v2", familyId, implementationStrategy: "official_pdf_fill",
     routeKeys: family.routes.map((route) => route.routeKey), routeSummary: config.routeSummary,
     writes: packets.canonical.writes.map(({ drawnText, ...row }) => row), refusals: packets.canonical.refusals
   };
   writeJson(path.join(out, "production-field-map.json"), fieldMap);
-  writeJson(path.join(out, "source-receipt.json"), {
-    schemaVersion: "rcap-source-receipt/v2", familyId, allSourcesExact: true,
-    sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds }))
-  });
-  const deliveredProofs = {};
-  for (const [fixture, packet] of Object.entries(packets)) {
-    deliveredProofs[fixture] = await measureAl90Packet(fs.readFileSync(path.join(out, "fixtures", `${fixture}.pdf`)), sources, packet);
-    assert.deepEqual(deliveredProofs[fixture].invisibleWrites, [], `${fixture}: invisible writes`);
-    assert.deepEqual(deliveredProofs[fixture].incompleteValues, [], `${fixture}: incomplete values`);
-    assert.deepEqual(deliveredProofs[fixture].refusedFieldsWithInk, [], `${fixture}: refused fields carry added ink`);
+  if (!guidanceMapOnly) {
+    writeJson(path.join(out, "source-receipt.json"), {
+      schemaVersion: "rcap-source-receipt/v2", familyId, allSourcesExact: true,
+      sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds }))
+    });
+    const deliveredProofs = {};
+    for (const [fixture, packet] of Object.entries(packets)) {
+      deliveredProofs[fixture] = await measureAl90Packet(fs.readFileSync(path.join(out, "fixtures", `${fixture}.pdf`)), sources, packet);
+      assert.deepEqual(deliveredProofs[fixture].invisibleWrites, [], `${fixture}: invisible writes`);
+      assert.deepEqual(deliveredProofs[fixture].incompleteValues, [], `${fixture}: incomplete values`);
+      assert.deepEqual(deliveredProofs[fixture].refusedFieldsWithInk, [], `${fixture}: refused fields carry added ink`);
+    }
+    writeJson(path.join(out, "reports", "delivered-ink-proof.json"), { familyId, derivedFromSavedBytes: true, fixtures: deliveredProofs });
+    writeJson(path.join(out, "reports", "actual-writes.json"), {
+      schemaVersion: "rcap-actual-writes/v2", familyId,
+      documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
+      /* Measured, not typed. See measureOutputByteGlyphs. */
+      artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length,
+        addedGlyphsReadFromOutputBytes: deliveredProofs[fixture].addedGlyphsReadFromOutputBytes,
+        flattenedWidgetAppearancesReadFromOutputBytes: deliveredProofs[fixture].flattenedWidgetAppearancePlacementsReadFromOutputBytes,
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: deliveredProofs[fixture].nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+        refusedFieldsWithInk: deliveredProofs[fixture].refusedFieldsWithInk }))
+    });
+    writeJson(path.join(out, "reports", "rendered-artifacts.json"), {
+      schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING",
+      packets: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) }))
+    });
+    writeJson(path.join(out, "approval-request.json"), {
+      schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill",
+      routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))),
+      artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })),
+      independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false
+    });
   }
-  writeJson(path.join(out, "reports", "delivered-ink-proof.json"), { familyId, derivedFromSavedBytes: true, fixtures: deliveredProofs });
-  writeJson(path.join(out, "reports", "actual-writes.json"), {
-    schemaVersion: "rcap-actual-writes/v2", familyId,
-    documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
-    /* Measured, not typed. See measureOutputByteGlyphs. */
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length,
-      addedGlyphsReadFromOutputBytes: deliveredProofs[fixture].addedGlyphsReadFromOutputBytes,
-      flattenedWidgetAppearancesReadFromOutputBytes: deliveredProofs[fixture].flattenedWidgetAppearancePlacementsReadFromOutputBytes,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: deliveredProofs[fixture].nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
-      refusedFieldsWithInk: deliveredProofs[fixture].refusedFieldsWithInk }))
-  });
-  writeJson(path.join(out, "reports", "rendered-artifacts.json"), {
-    schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING",
-    packets: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) }))
-  });
-  writeJson(path.join(out, "approval-request.json"), {
-    schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill",
-    routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))),
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })),
-    independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false
-  });
   const required = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling);
   writeGuides({ out, familyId, config, rules, track, memoDigest, required });
-  writeJson(path.join(out, "reports", "build-summary.json"), {
-    familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null },
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false
-  });
+  if (!guidanceMapOnly) {
+    writeJson(path.join(out, "reports", "build-summary.json"), {
+      familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null },
+      artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false
+    });
+  }
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
 
@@ -931,7 +954,7 @@ if (pathToFileURL(process.argv[1]).href === import.meta.url) {
     await assertRepairInvariants(out);
     console.log("al-felony-nonconviction-90-set: repair invariants PASS");
   } else {
-    await buildAlabamaFamily("al-felony-nonconviction-90-set");
+    await buildAlabamaFamily("al-felony-nonconviction-90-set", { guidanceMapOnly: process.argv.includes("--guidance-map-only") });
     await assertRepairInvariants(out);
   }
 }

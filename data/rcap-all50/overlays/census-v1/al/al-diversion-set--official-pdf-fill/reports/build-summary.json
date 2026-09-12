@@ -15,16 +15,67 @@
   "artifacts": [
     {
       "fixture": "canonical",
-      "sha256": "50017a6bb9fc961a48497c79dcdebcd74f23d0e2341e04323e2162e8dce36386",
-      "byteLength": 904741,
+      "sha256": "6af87d8d5e0135bfda243977b9c8988d966ed5a2146a316dfcf7cfa4a8fe9772",
+      "byteLength": 904740,
       "pageCount": 11
     },
     {
       "fixture": "boundary",
-      "sha256": "64034be571045e7f718f3c1a44b84753e0dc16cdf02b8a9b6f20b8089220c296",
-      "byteLength": 904970,
+      "sha256": "3efe0cf5550cffcdd41100c5ff6beed33a46924af2680ef27122512cf28a2cbf",
+      "byteLength": 904969,
       "pageCount": 11
     }
   ],
-  "selfVerified": false
+  "selfVerified": false,
+  "invertedWidgetRectanglesNormalized": {
+    "perSource": [
+      {
+        "documentId": "CR-65",
+        "widgetsExamined": 108,
+        "normalized": [
+          {
+            "field": "Check Box10.2",
+            "rectBefore": [
+              45.317,
+              623.137,
+              56.5341,
+              608.779
+            ],
+            "rectAfter": [
+              45.317,
+              608.779,
+              56.5341,
+              623.137
+            ],
+            "xInverted": false,
+            "yInverted": true,
+            "placementOriginBefore": {
+              "x": 45.317,
+              "y": 623.137
+            },
+            "placementOriginAfter": {
+              "x": 45.317,
+              "y": 608.779
+            },
+            "misplacementPoints": {
+              "x": 0,
+              "y": 14.358
+            },
+            "reason": "widget /Rect is written with diagonally opposite corners in the inverted order, which ISO 32000-1 7.9.5 permits and requires a consumer to normalise in situ; pdf-lib places the flattened appearance from the raw first corner instead"
+          }
+        ],
+        "normalizedCount": 1,
+        "malformedRectangles": 0
+      },
+      {
+        "documentId": "C-10-CRIMINAL",
+        "widgetsExamined": 108,
+        "normalized": [],
+        "normalizedCount": 0,
+        "malformedRectangles": 0
+      }
+    ],
+    "normalizedCount": 1
+  },
+  "invertedWidgetRectanglesNote": "ISO 32000-1 7.9.5 permits a rectangle to be written with either pair of diagonally opposite corners and requires a consumer to normalise it in situ. pdf-lib does not, and PDFForm.flatten() translates the appearance to the raw first corner. On CR-65 that placed check box Check Box10.2's own white /Off fill 14.358pt high, across the word \"expired\" in the quashed-indictment ground. Measured at 300 dpi on this family's own delivered page 3: 208 dark pixels in the pinned source over that region against 10 before this repair, and 208 against 208 after it, with 0 ink lost page-wide and exactly one of 216 flattened placements moved."
 }

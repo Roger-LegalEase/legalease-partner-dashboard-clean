@@ -13,6 +13,10 @@ import {
   classifyAlabamaClerkAssignedCaseNumber,
   isAlabamaClerkAssignedCaseNumber
 } from "./rcap-official-forms/alabama-clerk-assigned-case-number.mjs";
+import {
+  AL_C10_RELIEF_OPTIONS, AL_C10_RELIEF_TITLE, alabamaC10ReliefSection, alabamaOathGuidance,
+  classifyAlabamaC10Municipality, classifyAlabamaC10Relief
+} from "./rcap-official-forms/alabama-participant-handback.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
@@ -45,16 +49,19 @@ const SOURCES = [
  */
 const FAMILY_CONFIG = {
   "al-diversion-set": {
+    normalizeInvertedWidgetRects: true, printedElectionsNotMade: true,
     trackId: "al-diversion", selected: ["Check Box8.5"],
     routeSummary: "Misdemeanor or violation charge dismissed after successful completion of an approved diversion or court program; the form's one-year and prior-expungement conditions still must be confirmed.",
     recordComparison: "Read the certified local record and confirm it shows the charge was DISMISSED after you completed the diversion or court program. If it shows a withheld adjudication rather than a dismissal, stop: this route does not fit."
   },
   "al-misd-conviction-set": {
+    normalizeInvertedWidgetRects: true, printedElectionsNotMade: true,
     trackId: "al-misd-conviction", selected: ["Check Box9.2", "Check Box9.3", "Check Box9.4", "Check Box9.5", "Check Box9.6", "Check Box9.7", "Check Box9.8"],
     routeSummary: "Qualifying misdemeanor, violation, traffic, municipal, or misdemeanor youthful-offender conviction after all seven Section II conditions.",
     recordComparison: "Read the certified local record and confirm every one of the seven conditions printed in CR-65 Section II is true of your case, including that all court-ordered amounts, with any interest, are satisfied. Correct the selection if any condition does not match."
   },
   "al-misd-dwop-set": {
+    normalizeInvertedWidgetRects: true, printedElectionsNotMade: true,
     trackId: "al-misd-dwop", selected: ["Check Box8.6"],
     routeSummary: "Misdemeanor or violation charge dismissed without prejudice more than one year ago, not refiled, with the form's two-year conviction-free condition.",
     recordComparison: "Read the certified local record and confirm it shows the charge was DISMISSED WITHOUT PREJUDICE, the date that happened, and that the charge has not been refiled. Confirm more than one year has passed since the dismissal and that the form's two-year conviction-free condition is met. Correct the selection if the record says otherwise."
@@ -624,6 +631,10 @@ async function fillDocument(source, fixtureName, fixture, config) {
       } else if (source.documentId === "CR-65" && config.selected.includes(name)) {
         field.check();
         writes.push({ fieldId: id, fieldName: name, effectiveLabel: `${config.routeSummary} (selection)`, documentId: source.documentId, page, factId: "route.selection", isSelectionControl: true, routeDetermined: true });
+      } else if (classifyAlabamaC10Relief(id)) {
+        refusals.push({ fieldId: id, fieldName: name, documentId: source.documentId, page, ...classifyAlabamaC10Relief(id) });
+      } else if (classifyAlabamaC10Municipality({ fieldId: id, filingRule: config.filingRule, trackId: config.trackId })) {
+        refusals.push({ fieldId: id, fieldName: name, documentId: source.documentId, page, ...classifyAlabamaC10Municipality({ fieldId: id, filingRule: config.filingRule, trackId: config.trackId }) });
       } else if (protectedField(source.documentId, name, page)) {
         refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Court or later-completion control: ${name}`, documentId: source.documentId, page, reason: "court, clerk, prosecutor, agency, or hearing field; never prefilled", refusalClass: "court_prosecutor_clerk_or_agency_owned", role: "court" });
       } else {
@@ -642,9 +653,11 @@ async function fillDocument(source, fixtureName, fixture, config) {
         ...(clerkAssigned ?? { effectiveLabel: `Signature, court, or later-completion field: ${name}`, reason: "signature or date field; never prefilled", refusalClass: "signature_or_date_participant_completion", role: "protected" }) });
     } else if (attorneyField(source.documentId, name, page)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Attorney field: ${name}`, documentId: source.documentId, page, reason: "attorney-only; no representation fact is held", role: "attorney" });
+    } else if (classifyAlabamaC10Municipality({ fieldId: id, filingRule: config.filingRule, trackId: config.trackId })) {
+      refusals.push({ fieldId: id, fieldName: name, documentId: source.documentId, page, ...classifyAlabamaC10Municipality({ fieldId: id, filingRule: config.filingRule, trackId: config.trackId }) });
     } else {
       const label = requiredLabel(source.documentId, name, page);
-      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: label, documentId: source.documentId, page, reason: "The platform does not hold this participant or case fact; supply it before filing", completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, factAvailable: false, routeDetermined: false, role: "participant" });
+      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: label, documentId: source.documentId, page, reason: "The platform does not hold this participant or case fact; supply it before filing", completenessDisposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, ...(SECOND_BRANCH_ONLY.has(id) ? { requiredBeforeFilingCondition: SECOND_BRANCH_CONDITION } : {}), factAvailable: false, routeDetermined: false, role: "participant" });
     }
   }
   const font = await document.embedFont(StandardFonts.Helvetica);
@@ -729,14 +742,14 @@ export function writeGuides({ out, familyId, config, rules, track, memoDigest, r
     `- Notice: "${rules.notice}"`,
     `- Service: "${rules.service}"`,
     `- Who signs: "${rules.participantSignature}"`,
-    `- Notarization: "${rules.notarization}"`
+    `- Oath and verification: ${alabamaOathGuidance()}`
   ].join("\n");
   const beforeFiling = [
     ...(track.supportingDocuments ?? []).map((doc, index) =>
       `${index + 1}. Obtain: ${doc.name}. Where from: ${doc.obtainedFrom}. How: ${doc.howToObtain}`),
     `${(track.supportingDocuments ?? []).length + 1}. ${config.recordComparison}`,
     `${(track.supportingDocuments ?? []).length + 2}. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.`,
-    `${(track.supportingDocuments ?? []).length + 3}. Decide the fee. The record states: "${rules.fees}" If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.`,
+    `${(track.supportingDocuments ?? []).length + 3}. Decide the fee. The record states: "${rules.fees}" If you are claiming indigency, complete the C-10-CRIMINAL affidavit and tick the third printed relief request yourself. This packet ticks none of the three requests. The judge, not you, completes the order page.`,
     ...(track.manualCompletionItems ?? []).map((item, index) =>
       `${(track.supportingDocuments ?? []).length + 4 + index}. ${item.item} on ${item.whereInPacket}, and only after everything above is done. ${item.why} This packet deliberately leaves your signature and every date blank; do not sign or date early.`)
   ].join("\n");
@@ -777,6 +790,8 @@ below names that box.` : "."}
 
 ${requiredList}
 ${handedBack}${config.printedElectionsNotMade ? `\n${electionsSection()}\n` : ""}
+${alabamaC10ReliefSection(rules)}
+
 ## Service
 
 The record states: "${rules.service}" Serve the district attorney, the
@@ -792,11 +807,7 @@ certificate only after service has actually happened.
 
 ## Notarization
 
-CR-65 page 6 carries a notary block. The record states: "${rules.notarization}"
-So ask the circuit clerk in the filing county whether that court requires the
-page-6 affidavit to be sworn before a notary or other authorized officer. Leave
-the notary block, its date and your own signature blank until you are in front
-of whoever administers the oath.
+${alabamaOathGuidance()}
 
 ## Stop and get help
 
@@ -814,7 +825,7 @@ ${provenance}
 - Filing fee: "${rules.fees}"
 - Fee waiver: "${rules.feeWaiver}"
 - Notice: "${rules.notice}"
-- Notarization: "${rules.notarization}"
+- Oath and verification: ${alabamaOathGuidance()}
 
 The C-10-CRIMINAL affidavit included in this packet is the fee-waiver form.
 Complete it only if you are claiming indigency; the judge completes its order
@@ -863,11 +874,33 @@ export function assertRepairInvariants(out) {
   assert.match(instructions, /separate CR-65 page 7 certificate of service for each recipient/);
   assert.match(instructions, /does not state which service method Alabama requires/);
 
-  // A denial the repository can contradict is a defect: the record says the
-  // source review does not establish a notarization requirement, so the guide
-  // may not direct notarization as though it did.
-  assert.doesNotMatch(instructions, /Sign the petition under oath before an authorized officer or notary/);
-  assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/);
+  // CR-65 itself controls this form-completion instruction even though the older
+  // memo recorded uncertainty. Both guides must state the printed oath rule.
+  assert.match(instructions, /CR-65 Rev\. 10\/2024, page 8 instructions for PAGE 6/);
+  assert.match(instructions, /official authorized to administer oaths or a notary public/);
+  assert.match(filing, /official authorized to administer oaths or a notary public/);
+  assert.doesNotMatch(instructions, /ask the circuit clerk.*whether.*requires/si);
+
+  const municipality = fieldMap.refusals.find((row) => row.fieldId === "C-10-CRIMINAL:MUNICIPALITY OF");
+  const municipalChoice = fieldMap.refusals.find((row) => row.fieldId === "C-10-CRIMINAL:Check Box1.1");
+  for (const row of [municipality, municipalChoice]) {
+    assert.ok(row, "municipal alternate caption must be classified");
+    assert.equal(row.completenessDisposition, "NOT_APPLICABLE_ON_THIS_ROUTE");
+    assert.equal(row.requiredBeforeFiling, false);
+  }
+  assert.match(instructions, new RegExp(`^## ${AL_C10_RELIEF_TITLE}$`, "m"));
+  for (const option of AL_C10_RELIEF_OPTIONS) {
+    const row = fieldMap.refusals.find((candidate) => candidate.fieldId === option.fieldId);
+    assert.ok(row?.disclosedToParticipant, `${option.fieldId} must be classified and disclosed`);
+    assert.ok(!written.has(option.fieldId), `${option.fieldId} remains the participant's election`);
+  }
+  assert.match(instructions, /## Elections on CR-65 that this packet has not made/);
+  for (const fieldId of SECOND_BRANCH_ONLY) {
+    const row = fieldMap.refusals.find((candidate) => candidate.fieldId === fieldId);
+    assert.ok(row, `missing conditional prior-expungement blank: ${fieldId}`);
+    assert.equal(row.requiredBeforeFilingCondition, SECOND_BRANCH_CONDITION);
+    assert.ok(instructions.includes(`${row.effectiveLabel} - ${SECOND_BRANCH_CONDITION}`));
+  }
 
   // SELF_HELP_STOP: every stop the record holds, not a subset of them.
   const memo = JSON.parse(fs.readFileSync(path.join(ROOT, MEMO_PATH), "utf8"));
@@ -877,7 +910,7 @@ export function assertRepairInvariants(out) {
   }
 }
 
-export async function buildAlabamaFamily(familyId) {
+export async function buildAlabamaFamily(familyId, { guidanceMapOnly = false } = {}) {
   const base = FAMILY_CONFIG[familyId];
   assert.ok(base, `unsupported Alabama family: ${familyId}. al-felony-dwop-set and al-felony-nonconviction-90-set have their own builders and must not be driven from here.`);
   const config = { familyId, ...base };
@@ -908,63 +941,68 @@ export async function buildAlabamaFamily(familyId) {
     assert.ok(rules[required], `${config.trackId}: rules.${required} is not held; a guide may not be written past an absent rule`);
   }
   assert.ok((track.selfHelpStopConditions ?? []).length > 0, `${config.trackId}: the record holds no stop conditions`);
+  config.filingRule = rules.filing;
   const packets = {};
   for (const [fixtureName, fixture] of Object.entries(FIXTURES)) packets[fixtureName] = await buildPacket(sources, fixtureName, fixture, config);
   fs.mkdirSync(path.join(out, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(out, "reports"), { recursive: true });
-  for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(out, "fixtures", `${fixtureName}.pdf`), packet.bytes);
+  if (!guidanceMapOnly) for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(out, "fixtures", `${fixtureName}.pdf`), packet.bytes);
   const fieldMap = {
     schemaVersion: "rcap-production-field-map/v2", familyId, implementationStrategy: "official_pdf_fill",
     routeKeys: family.routes.map((route) => route.routeKey), routeSummary: config.routeSummary,
     writes: packets.canonical.writes.map(({ drawnText, ...row }) => row), refusals: packets.canonical.refusals
   };
   writeJson(path.join(out, "production-field-map.json"), fieldMap);
-  writeJson(path.join(out, "source-receipt.json"), {
-    schemaVersion: "rcap-source-receipt/v2", familyId, allSourcesExact: true,
-    sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds }))
-  });
-  writeJson(path.join(out, "reports", "actual-writes.json"), {
-    schemaVersion: "rcap-actual-writes/v2", familyId,
-    documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
-    /*
-     * Measured for a family that asks for it, and left as this host's existing
-     * literal for the four it does not rebuild here -- so the other families
-     * keep the reports they have, wrong literal and all, rather than having a
-     * lane that does not hold them change what their record says.
-     * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays 0 and is now a reading:
-     * every flattened placement's box was matched against the source form's own
-     * widget /Rect, normalised per 7.9.5, and at 300 dpi the only placement
-     * whose box overhangs its rectangle -- the C-10 caption tick, by 0.057pt --
-     * draws all 665 of its dark pixels inside that rectangle.
-     */
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length,
-      addedGlyphsReadFromOutputBytes: config.measureOutputByteGlyphs ? measureOutputByteGlyphs(packet.bytes).addedGlyphsReadFromOutputBytes : 0,
-      flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] }))
-  });
-  writeJson(path.join(out, "reports", "rendered-artifacts.json"), {
-    schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING",
-    packets: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) }))
-  });
-  writeJson(path.join(out, "approval-request.json"), {
-    schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill",
-    routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))),
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })),
-    independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false
-  });
+  if (!guidanceMapOnly) {
+    writeJson(path.join(out, "source-receipt.json"), {
+      schemaVersion: "rcap-source-receipt/v2", familyId, allSourcesExact: true,
+      sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds }))
+    });
+    writeJson(path.join(out, "reports", "actual-writes.json"), {
+      schemaVersion: "rcap-actual-writes/v2", familyId,
+      documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })),
+      /*
+       * Measured for a family that asks for it, and left as this host's existing
+       * literal for the four it does not rebuild here -- so the other families
+       * keep the reports they have, wrong literal and all, rather than having a
+       * lane that does not hold them change what their record says.
+       * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays 0 and is now a reading:
+       * every flattened placement's box was matched against the source form's own
+       * widget /Rect, normalised per 7.9.5, and at 300 dpi the only placement
+       * whose box overhangs its rectangle -- the C-10 caption tick, by 0.057pt --
+       * draws all 665 of its dark pixels inside that rectangle.
+       */
+      artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length,
+        addedGlyphsReadFromOutputBytes: config.measureOutputByteGlyphs ? measureOutputByteGlyphs(packet.bytes).addedGlyphsReadFromOutputBytes : 0,
+        flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] }))
+    });
+    writeJson(path.join(out, "reports", "rendered-artifacts.json"), {
+      schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING",
+      packets: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) }))
+    });
+    writeJson(path.join(out, "approval-request.json"), {
+      schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill",
+      routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))),
+      artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })),
+      independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false
+    });
+  }
   const required = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling);
   writeGuides({ out, familyId, config, rules, track, memoDigest, required });
-  writeJson(path.join(out, "reports", "build-summary.json"), {
-    familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null },
-    artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false,
-    /*
-     * Prose, deliberately OUTSIDE `counters`: a caveat or a boolean sitting
-     * beside the nine makes the whole object read as non-zero to a reader.
-     */
-    ...(packets.canonical.invertedRects
-      ? { invertedWidgetRectanglesNormalized: packets.canonical.invertedRects,
-          invertedWidgetRectanglesNote: "ISO 32000-1 7.9.5 permits a rectangle to be written with either pair of diagonally opposite corners and requires a consumer to normalise it in situ. pdf-lib does not, and PDFForm.flatten() translates the appearance to the raw first corner. On CR-65 that placed check box Check Box10.2's own white /Off fill 14.358pt high, across the word \"expired\" in the quashed-indictment ground. Measured at 300 dpi on this family's own delivered page 3: 208 dark pixels in the pinned source over that region against 10 before this repair, and 208 against 208 after it, with 0 ink lost page-wide and exactly one of 216 flattened placements moved." }
-      : {})
-  });
+  if (!guidanceMapOnly) {
+    writeJson(path.join(out, "reports", "build-summary.json"), {
+      familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null },
+      artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false,
+      /*
+       * Prose, deliberately OUTSIDE `counters`: a caveat or a boolean sitting
+       * beside the nine makes the whole object read as non-zero to a reader.
+       */
+      ...(packets.canonical.invertedRects
+        ? { invertedWidgetRectanglesNormalized: packets.canonical.invertedRects,
+            invertedWidgetRectanglesNote: "ISO 32000-1 7.9.5 permits a rectangle to be written with either pair of diagonally opposite corners and requires a consumer to normalise it in situ. pdf-lib does not, and PDFForm.flatten() translates the appearance to the raw first corner. On CR-65 that placed check box Check Box10.2's own white /Off fill 14.358pt high, across the word \"expired\" in the quashed-indictment ground. Measured at 300 dpi on this family's own delivered page 3: 208 dark pixels in the pinned source over that region against 10 before this repair, and 208 against 208 after it, with 0 ink lost page-wide and exactly one of 216 flattened placements moved." }
+        : {})
+    });
+  }
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
 
@@ -975,7 +1013,7 @@ if (pathToFileURL(process.argv[1]).href === import.meta.url) {
     assertRepairInvariants(out);
     console.log(`${familyId}: repair invariants PASS`);
   } else {
-    await buildAlabamaFamily(familyId);
+    await buildAlabamaFamily(familyId, { guidanceMapOnly: process.argv.includes("--guidance-map-only") });
     assertRepairInvariants(out);
   }
 }

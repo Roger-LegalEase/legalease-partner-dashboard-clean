@@ -19,6 +19,7 @@ import {
   classifyAlabamaClerkAssignedCaseNumber,
   isAlabamaClerkAssignedCaseNumber
 } from "./rcap-official-forms/alabama-clerk-assigned-case-number.mjs";
+import { alabamaOathGuidance } from "./rcap-official-forms/alabama-participant-handback.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFCheckBox, PDFTextField, PDFName, PDFNumber, PDFArray, StandardFonts, StandardFontEmbedder, rgb } = require("pdf-lib");
@@ -745,7 +746,7 @@ function writeGuides({ out, familyId, config, rules, track, memoDigest, required
     `- Notice: "${rules.notice}"`,
     `- Service: "${rules.service}"`,
     `- Who signs: "${rules.participantSignature}"`,
-    `- Notarization: "${rules.notarization}"`
+    `- Oath and verification: ${alabamaOathGuidance()}`
   ].join("\n");
   const beforeFiling = [
     ...(track.supportingDocuments ?? []).map((doc, index) =>
@@ -801,11 +802,7 @@ certificate only after service has actually happened.
 
 ## Notarization
 
-CR-65 page 6 carries a notary block. The record states: "${rules.notarization}"
-So ask the circuit clerk in the filing county whether that court requires the
-page-6 affidavit to be sworn before a notary or other authorized officer. Leave
-the notary block, its date and your own signature blank until you are in front
-of whoever administers the oath.
+${alabamaOathGuidance()}
 
 ## Stop and get help
 
@@ -823,7 +820,7 @@ ${provenance}
 - Filing fee: "${rules.fees}"
 - Fee waiver: "${rules.feeWaiver}"
 - Notice: "${rules.notice}"
-- Notarization: "${rules.notarization}"
+- Oath and verification: ${alabamaOathGuidance()}
 
 The C-10-CRIMINAL affidavit included in this packet is the fee-waiver form.
 Complete it only if you are claiming indigency; the judge completes its order
@@ -913,11 +910,10 @@ export async function assertRepairInvariants(out) {
    */
   const filing = fs.readFileSync(path.join(out, "filing-instructions.md"), "utf8");
 
-  // The record states the source review does not establish a notarization
-  // requirement for CR-65, so neither guide may direct one as though it did.
-  assert.doesNotMatch(instructions, /Sign the petition under oath before an authorized officer or notary/);
-  assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/);
-  assert.doesNotMatch(instructions, /sign under oath before a notary or other authorized officer/);
+  assert.match(instructions, /CR-65 Rev\. 10\/2024, page 8 instructions for PAGE 6/);
+  assert.match(instructions, /official authorized to administer oaths or a notary public/);
+  assert.match(filing, /official authorized to administer oaths or a notary public/);
+  assert.doesNotMatch(instructions, /ask the circuit clerk.*whether.*requires/si);
 
   // The guide must quote the record it is derived from, and be bound to its digest.
   const memoBytes = fs.readFileSync(path.join(ROOT, MEMO_PATH));
@@ -928,8 +924,7 @@ export async function assertRepairInvariants(out) {
     assert.ok(instructions.includes(heading), `guide section missing: ${heading}`);
   }
   assert.ok(instructions.includes(sha256(memoBytes)), "the guide must carry the digest of the record it quotes");
-  assert.ok(instructions.includes(track.rules.notarization), "the guide must quote the record's notarization line verbatim");
-  assert.ok(filing.includes(track.rules.notarization), "the filing guide must quote the record's notarization line verbatim");
+  assert.ok(!instructions.includes(`Notarization: "${track.rules.notarization}"`), "stale memo uncertainty must not override CR-65's printed oath instruction");
 
   // Every supporting document the record marks required-before-filing, named
   // with its source and its method rather than merely mentioned.
@@ -1082,6 +1077,22 @@ export async function assertPrintedFormInkSurvives(out, { publishTo = null } = {
     });
   }
   return reports;
+}
+
+
+export function refreshAlabamaFelonyDwopGuidance() {
+  const familyId = "al-felony-dwop-set";
+  const out = path.join(ROOT, `data/rcap-all50/overlays/census-v1/al/${familyId}--official-pdf-fill`);
+  const config = { familyId, ...FAMILY_CONFIG[familyId] };
+  const memoBytes = fs.readFileSync(path.join(ROOT, MEMO_PATH));
+  const memoDigest = sha256(memoBytes);
+  const memo = JSON.parse(memoBytes.toString("utf8"));
+  const track = memo.tracks.find((entry) => entry.trackId === config.trackId);
+  assert.ok(track, `track absent from ${MEMO_PATH}: ${config.trackId}`);
+  const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
+  const required = fieldMap.refusals.filter((row) => row.requiredBeforeFiling);
+  writeGuides({ out, familyId, config, rules: track.rules, track, memoDigest, required });
+  return out;
 }
 
 export async function buildAlabamaFamily(familyId) {
@@ -1352,6 +1363,9 @@ if (pathToFileURL(process.argv[1]).href === import.meta.url) {
   } else if (process.argv.includes("--check")) {
     await assertRepairInvariants(out);
     console.log("al-felony-dwop-set: repair invariants PASS");
+  } else if (process.argv.includes("--guidance-map-only")) {
+    refreshAlabamaFelonyDwopGuidance();
+    await assertRepairInvariants(out);
   } else {
     await buildAlabamaFamily("al-felony-dwop-set");
     await assertRepairInvariants(out);

@@ -7,7 +7,7 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 - Filing fee: "$500, or C-10-Criminal where indigency is claimed."
 - Fee waiver: "C-10-Criminal, Affidavit of Substantial Hardship and Order."
 - Notice: "Prosecutor and victim objection window."
-- Notarization: "The source review does not state a notarization requirement for CR-65."
+- Oath and verification: CR-65 Rev. 10/2024, page 8 instructions for PAGE 6 state: "The Petitioner must sign this document under oath and the signature must be verified by an official authorized to administer oaths or a notary public." Sign page 6 under oath only in front of an official authorized to administer oaths or a notary public. Leave your signature, its date, and the verification block blank until that person administers the oath.
 
 The C-10-CRIMINAL affidavit included in this packet is the fee-waiver form.
 Complete it only if you are claiming indigency; the judge completes its order
