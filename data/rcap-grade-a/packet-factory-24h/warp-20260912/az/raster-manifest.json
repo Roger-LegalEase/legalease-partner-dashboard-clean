@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "preparedOn": "2026-09-12",
+  "packetCommitSha": null,
+  "packetCommitShaStatus": "Captain must stamp the commit containing these exact bytes before dispatch",
+  "rows": [
+    {
+      "familyId": "az_set_aside-set",
+      "currentRasterState": "RASTER_PENDING",
+      "requestedScale": 2.5,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "61d79cf9576fa0245a2b854c63ad7fc69cdfba3d14863e3e60d2985ea1ad16f4",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "79e3774130de798df8161eabbc9555a7d9a5c6bc4bbdeb3cb8b775783a71e114",
+      "expectedPages": 8,
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "61d79cf9576fa0245a2b854c63ad7fc69cdfba3d14863e3e60d2985ea1ad16f4",
+          "byteLength": 243378,
+          "pageCount": 7,
+          "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+          "pageCountEvidence": {
+            "method": "pdf-lib 1.17.1",
+            "pageCount": 7,
+            "sourceSha256": "61d79cf9576fa0245a2b854c63ad7fc69cdfba3d14863e3e60d2985ea1ad16f4"
+          }
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "79e3774130de798df8161eabbc9555a7d9a5c6bc4bbdeb3cb8b775783a71e114",
+          "byteLength": 244691,
+          "pageCount": 8,
+          "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+          "pageCountEvidence": {
+            "method": "pdf-lib 1.17.1",
+            "pageCount": 8,
+            "sourceSha256": "79e3774130de798df8161eabbc9555a7d9a5c6bc4bbdeb3cb8b775783a71e114"
+          }
+        }
+      ],
+      "documentsDigest": "231c2018c84cbe1634a8a2b548edf74b65fb52543e03a6ad6d79552156a003b0",
+      "coverage": {
+        "complete": true,
+        "basis": "Both current assembled fixture PDFs are enrolled by exact path and SHA-256.",
+        "documents": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": []
+      }
+    }
+  ]
+}
