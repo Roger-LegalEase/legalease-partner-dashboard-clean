@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "rcap-guidance-actor-correction-evidence/v1",
+  "recordedOn": "2026-09-12",
+  "trigger": "Independent review found court-owned local-order controls presented under the participant-facing Boxes you tick with a pen section.",
+  "correction": "Both instruction generators now admit only controls classified participant_sworn_narrative_or_legal_election to the participant action list. Court findings, grant or denial controls, and agency and clerk directions are explicitly identified as court-owned and left blank. The guidance also acknowledges the route-determined Petitioner mark already placed on Form 4-222.",
+  "instructionArtifacts": [
+    {
+      "familyId": "nm_conviction-set",
+      "path": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/participant-instructions.md",
+      "beforeSha256AtCommitEc46e585": "0a886a65ff35aed142c085a32a176d64ce200a9813f52ad463d3059298bad1f1",
+      "afterSha256": "60e623d08df8bac892cfffb5881053e696358980a43d2bcbbac59ac62c127bfb",
+      "participantControlsListed": 69,
+      "courtOwnedControlsListedAsParticipantActions": 0
+    },
+    {
+      "familyId": "nm_identity_theft-set",
+      "path": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/participant-instructions.md",
+      "beforeSha256AtCommitEc46e585": "c3bd5730d1435d214e787d1017b4aabd574aff8fbec448d45bd1f18288ef2e40",
+      "afterSha256": "fc3fab8fa1879963be6a3c7b457fd444a4555aa8767541829c920db8da28cba1",
+      "participantControlsListed": 26,
+      "courtOwnedControlsListedAsParticipantActions": 0
+    }
+  ],
+  "frozenPacketBytesUnchanged": [
+    { "familyId": "nm_conviction-set", "fixture": "canonical", "sha256": "b943cf5b16d95882e1a096504438d792fdbdddcc82acab09e58076421978658a" },
+    { "familyId": "nm_conviction-set", "fixture": "boundary", "sha256": "8eb9f0f13fd2afc3077e7d99d50c9dad65ef36b2b53f9e6abf95c505b723a9f7" },
+    { "familyId": "nm_identity_theft-set", "fixture": "canonical", "sha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df" },
+    { "familyId": "nm_identity_theft-set", "fixture": "boundary", "sha256": "5360c3b3aa98ce68b206d848b7ced0fdf57e12ec784995c6491d20bd51deac01" },
+    { "familyId": "nm_release_without_conviction-set", "fixture": "canonical", "sha256": "1a6b59ac0a327692222cac1a67072061441b2cccb843c5ba8ae85478462fba65" },
+    { "familyId": "nm_release_without_conviction-set", "fixture": "boundary", "sha256": "63d24f596803e636ef177dea7a14e43c532dae62627744bb1832c7f270d2bcfb" }
+  ],
+  "rasterReceiptApplicability": "Packet PDFs did not change, so current-byte raster run 34659428344 remains bound to the same six hashes.",
+  "focusedGuard": "node scripts/rcap-nm-flat-forms/test-nm-participant-control-actors.mjs",
+  "focusedGuardResult": "PASS New Mexico participant instructions exclude court-owned order controls",
+  "commercialRoutesOpened": 0
+}

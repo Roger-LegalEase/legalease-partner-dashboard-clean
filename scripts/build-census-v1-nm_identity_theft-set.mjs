@@ -73,7 +73,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   runNmFamily, selfHelpStopConditions, selfHelpStopSection, heldNotWrittenSection, WRITE, WRITE_BOUND_AS, SUPPLY, PROTECT, DECRETAL, ELECTION, ATTORNEY,
-  INAPPLICABLE, OPTIONAL, NOT_A_BLANK, COURT_OWNED, SIGNATURE
+  INAPPLICABLE, OPTIONAL, NOT_A_BLANK, COURT_OWNED, SIGNATURE, PARTICIPANT_ELECTION
 } from "./rcap-nm-flat-forms/nm-packet-host.mjs";
 import { FORM_4_960_1, dictionary4960_1 } from "./rcap-nm-flat-forms/nm-form-4-960-1.mjs";
 import { FORM_4_222, DICTIONARY_4_222, STATEWIDE_CAPTION_FINDING }
@@ -580,11 +580,18 @@ const STOP_CONDITIONS = selfHelpStopConditions("NM", "nm_identity_theft");
 /* ------------------------------------------------------------------ *
  * The participant's instructions.
  * ------------------------------------------------------------------ */
-function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }) {
+export function participantControlsByDocument(controls) {
+  const byDocument = new Map();
+  for (const control of controls.filter((row) => row.refusalClass === PARTICIPANT_ELECTION)) {
+    byDocument.set(control.document, [...(byDocument.get(control.document) ?? []), control]);
+  }
+  return byDocument;
+}
+
+export function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
-  const controlsByDoc = new Map();
-  for (const c of controls) controlsByDoc.set(c.document, [...(controlsByDoc.get(c.document) ?? []), c]);
+  const controlsByDoc = participantControlsByDocument(controls);
 
   const out = [];
   out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
@@ -594,7 +601,7 @@ function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }
     "- **Form 4-951 NMRA**, _Petition to Expunge Arrest Records and Public Records (Identity Theft)_ — what you file.",
     "- **Form 4-960.1 NMRA**, _Notice of Hearing_ — you give this to the court so it can set a hearing if it decides to hold one.",
     "- **Order on Petition to Expunge (Identity Theft)** — the order you give the court to sign. **Read the section below about which district's order form you need.**",
-    "- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about the court name printed on it.**", ""
+    "- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about its caption.**", ""
   );
   out.push(
     "The platform filled in what it holds about you and your case: your name, your date of birth, your address, the "
@@ -673,14 +680,18 @@ function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }
 
   out.push("## Boxes you tick with a pen", "");
   out.push(
-    "These New Mexico forms draw their tick boxes as **printed characters, not as fillable fields**, so nothing can mark "
-    + "them for you. Mark these by hand, and only the ones that are true for you:", ""
+    "The packet has already marked **Petitioner** on Form 4-222 because Rule 1-077.1 fixes your role on this route. "
+    + "The controls below are participant choices that remain unmarked. Mark only the ones that are true for you:", ""
   );
   for (const [doc, items] of controlsByDoc) {
     out.push(`### ${doc}`, "");
     for (const c of items) out.push(`- **Page ${c.page}, ${c.section}** — ${c.label}.`);
     out.push("");
   }
+  out.push(
+    "The findings, grant or denial choices, and agency and clerk directions in the proposed order are court-owned. "
+    + "They are intentionally omitted from this participant list; leave every one of them blank.", ""
+  );
 
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in every item in the tables below.** Each names the form, the section and the blank.");

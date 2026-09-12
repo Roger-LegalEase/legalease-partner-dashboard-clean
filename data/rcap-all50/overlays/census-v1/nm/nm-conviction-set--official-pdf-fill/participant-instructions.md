@@ -70,7 +70,7 @@ The Form 4-222 in this packet is the statewide blank-caption form. Its county li
 
 ## Boxes you tick with a pen
 
-These New Mexico forms draw their tick boxes as **printed characters, not as fillable fields**, so nothing can mark them for you. Mark these by hand, and only the ones that are true for you **on the day you sign that form**:
+The packet has already marked **Petitioner** on Form 4-222 because Rule 1-077.1 fixes your role on this route. The controls below are participant choices that remain unmarked. Mark only the ones that are true for you **on the day you sign that form**:
 
 ### NM-4-953
 
@@ -146,45 +146,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 - **Page 1, What the affirmation states** — I have had no criminal convictions in the last ten years.
 - **Page 2, What the affirmation states** — My most recent criminal conviction was.
 
-### NM-LOCAL-CONVICTION-ORDER
-
-- **Page 1, The court's findings** — Finding: Petitioner was convicted, completed the sentence, owes nothing, has nothing pending, justice will be served, and restitution is fulfilled.
-- **Page 1, The court's findings** — Finding: no other conviction for two years.
-- **Page 1, The court's findings** — Finding: no other conviction for four years.
-- **Page 1, The court's findings** — Finding: no other conviction for six years.
-- **Page 1, The court's findings** — Finding: no other conviction for eight years.
-- **Page 1, The court's findings** — Finding: no other conviction for ten years.
-- **Page 2, The court's findings** — Finding: Petitioner's request is denied for all charges sought to be expunged.
-- **Page 2, The court's findings** — Finding: Petitioner's request is denied for the following offences.
-- **Page 2, The court's findings** — Finding: Petitioner failed to provide the required information and the petition is summarily dismissed without prejudice.
-- **Page 2, The court's findings** — Finding: Petitioner's records are not legally eligible for expungement.
-- **Page 2, The court's findings** — Finding: there is a charge or proceeding pending against Petitioner.
-- **Page 2, The court's findings** — Finding: Petitioner has not fulfilled victim restitution.
-- **Page 2, The court's findings** — Finding: Petitioner has had another criminal conviction within the time period.
-- **Page 2, The court's findings** — Finding: venue is improper because the charges did not originate in this district.
-- **Page 2, The court's findings** — Finding: taking the statutory considerations into account, justice will not be served by expungement.
-- **Page 2, The court's findings** — Finding: Other.
-- **Page 2, The court's findings** — Finding: Petitioner's request to expunge is granted for all charges requested.
-- **Page 3, The court's findings** — Finding: Petitioner's request to expunge is granted only for the following charges.
-- **Page 3, What the court orders** — It is ordered that the Petition is DENIED.
-- **Page 3, What the court orders** — It is ordered that the Petition is GRANTED.
-- **Page 3, What the court orders** — It is ordered that the Petition is GRANTED IN PART AND DENIED IN PART.
-- **Page 3, What the court orders** — It is further ordered that the arrest records and public records relating to the charges shall be expunged.
-- **Page 3, What the court orders** — The records expunged are those for all the charges requested in the Petition.
-- **Page 3, What the court orders** — The records expunged are those for the following charges.
-- **Page 4, What the court orders** — It is further ordered that the following agencies shall expunge the necessary records.
-- **Page 4, What the court orders** — Agency ordered to expunge: District Attorney.
-- **Page 4, What the court orders** — Agency ordered to expunge: New Mexico Department of Public Safety.
-- **Page 4, What the court orders** — Agency ordered to expunge: Arresting agency.
-- **Page 4, What the court orders** — Agency ordered to expunge: Other, first.
-- **Page 4, What the court orders** — Agency ordered to expunge: Other, second.
-- **Page 4, What the court orders** — Agency ordered to expunge: Other, third.
-- **Page 4, What the court orders** — It is further ordered that the court clerk shall expunge the necessary records.
-- **Page 4, What the court orders** — The clerk directed is that of the District Court.
-- **Page 4, What the court orders** — The clerk directed is that of the Metropolitan Court.
-- **Page 4, What the court orders** — The clerk directed is that of the Magistrate Court.
-- **Page 4, What the court orders** — The clerk directed is that of the Municipal Court.
-
 ### NM-4-222
 
 - **Page 3, F. Household** — Household member 1, I Support.
@@ -194,6 +155,8 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 - **Page 4, F. Household** — Household member 5, I Support.
 - **Page 4, F. Household** — Household member 6, I Support.
 - **Page 4, F. Household** — Household member 7, I Support.
+
+The findings, grant or denial choices, and agency and clerk directions in the proposed order are court-owned. They are intentionally omitted from this participant list; leave every one of them blank.
 
 ## What you must do before you file
 
@@ -413,15 +376,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | F. Household | Household member 7, age | the age for household member 7, if you have that many household members |
 | F. Household | Household member 7, employment | the employment for household member 7, if you have that many household members |
 | The applicant's oath | Telephone of the applicant | your telephone number |
-
-## One or two lines that may be blank on your copy
-
-The court prints these lines at a fixed length, and this packet will not shrink a value below a size that can be read or run it past the end of the printed line. Where your own answer is too long for the line, the packet leaves it for you to write by hand, which is smaller and can be squeezed in as printing cannot. **Look at each line below on your own copy. If it is already filled in, there is nothing to do.**
-
-| Form | Page | The line | What to write if it is blank |
-| --- | --- | --- | --- |
-| NM-4-953 | 4 | Mailing Address of the Petitioner on page 4 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1 |
-| NM-4-960 | 2 | Mailing Address of the Petitioner on the notice | your full mailing address on this one line: street, city, state and ZIP |
 
 ## What the platform deliberately left blank
 

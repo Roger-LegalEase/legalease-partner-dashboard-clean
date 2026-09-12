@@ -5,7 +5,7 @@ This packet is four official New Mexico forms, prepared for a petition to expung
 - **Form 4-951 NMRA**, _Petition to Expunge Arrest Records and Public Records (Identity Theft)_ — what you file.
 - **Form 4-960.1 NMRA**, _Notice of Hearing_ — you give this to the court so it can set a hearing if it decides to hold one.
 - **Order on Petition to Expunge (Identity Theft)** — the order you give the court to sign. **Read the section below about which district's order form you need.**
-- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about the court name printed on it.**
+- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about its caption.**
 
 The platform filled in what it holds about you and your case: your name, your date of birth, your address, the county, the judicial district and the case number. **Everything else is yours** — including your other names, the agencies that hold your records, your telephone number and your e-mail — and every one of those blanks is listed below by the form and the section it is in.
 
@@ -64,7 +64,7 @@ Section 29-3A-3(B) requires **a showing that you are a victim of identity theft*
 
 ## Boxes you tick with a pen
 
-These New Mexico forms draw their tick boxes as **printed characters, not as fillable fields**, so nothing can mark them for you. Mark these by hand, and only the ones that are true for you:
+The packet has already marked **Petitioner** on Form 4-222 because Rule 1-077.1 fixes your role on this route. The controls below are participant choices that remain unmarked. Mark only the ones that are true for you:
 
 ### NM-4-951
 
@@ -88,36 +88,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 - **Page 2, 7. Where the charges were disposed of or originated** — Charges were disposed of or originated in the Municipal Court.
 - **Page 2, 8. Telephonic or electronic appearance** — Petitioner wishes to attend any hearings by telephonic or other electronic means.
 
-### NM-LOCAL-IDENTITY-THEFT-ORDER
-
-- **Page 1, The court's findings** — Finding: Petitioner was the victim of identity theft.
-- **Page 1, The court's findings** — Finding: Petitioner's request is denied for all charges sought to be expunged.
-- **Page 1, The court's findings** — Finding: Petitioner's request to expunge is denied for the following charges.
-- **Page 2, The court's findings** — Finding: Petitioner has failed to provide the required information and the Petition is summarily dismissed without prejudice.
-- **Page 2, The court's findings** — Finding: Petitioner's records are not legally eligible for expungement.
-- **Page 2, The court's findings** — Finding: venue is improper because the charges did not originate in this district.
-- **Page 2, The court's findings** — Finding: Other.
-- **Page 2, The court's findings** — Finding: Petitioner's request to expunge is granted for all charges requested.
-- **Page 2, The court's findings** — Finding: Petitioner's request to expunge is granted only for the following charges.
-- **Page 2, What the court orders** — It is ordered that the Petition is DENIED.
-- **Page 2, What the court orders** — It is ordered that the Petition is GRANTED.
-- **Page 2, What the court orders** — It is ordered that the Petition is GRANTED IN PART AND DENIED IN PART.
-- **Page 3, What the court orders** — It is further ordered that the arrest records and public records relating to the charges shall be expunged.
-- **Page 3, What the court orders** — The records expunged are those for all the charges requested in the Petition.
-- **Page 3, What the court orders** — The records expunged are those for the following charges.
-- **Page 3, What the court orders** — It is further ordered that the following agencies shall expunge the necessary records.
-- **Page 3, What the court orders** — Agency ordered to expunge: District Attorney.
-- **Page 3, What the court orders** — Agency ordered to expunge: New Mexico Department of Public Safety.
-- **Page 3, What the court orders** — Agency ordered to expunge: Arresting agency.
-- **Page 3, What the court orders** — Agency ordered to expunge: Other, first.
-- **Page 3, What the court orders** — Agency ordered to expunge: Other, second.
-- **Page 3, What the court orders** — Agency ordered to expunge: Other, third.
-- **Page 4, What the court orders** — It is further ordered that the court clerk shall expunge the necessary records.
-- **Page 4, What the court orders** — The clerk directed is that of the District Court.
-- **Page 4, What the court orders** — The clerk directed is that of the Metropolitan Court.
-- **Page 4, What the court orders** — The clerk directed is that of the Magistrate Court.
-- **Page 4, What the court orders** — The clerk directed is that of the Municipal Court.
-
 ### NM-4-222
 
 - **Page 3, F. Household** — Household member 1, I Support.
@@ -127,6 +97,8 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 - **Page 4, F. Household** — Household member 5, I Support.
 - **Page 4, F. Household** — Household member 6, I Support.
 - **Page 4, F. Household** — Household member 7, I Support.
+
+The findings, grant or denial choices, and agency and clerk directions in the proposed order are court-owned. They are intentionally omitted from this participant list; leave every one of them blank.
 
 ## What you must do before you file
 
@@ -262,14 +234,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | F. Household | Household member 7, age | the age for household member 7, if you have that many household members |
 | F. Household | Household member 7, employment | the employment for household member 7, if you have that many household members |
 | The applicant's oath | Telephone of the applicant | your telephone number |
-
-## One or two lines that may be blank on your copy
-
-The court prints these lines at a fixed length, and this packet will not shrink a value below a size that can be read or run it past the end of the printed line. Where your own answer is too long for the line, the packet leaves it for you to write by hand, which is smaller and can be squeezed in as printing cannot. **Look at each line below on your own copy. If it is already filled in, there is nothing to do.**
-
-| Form | Page | The line | What to write if it is blank |
-| --- | --- | --- | --- |
-| NM-4-951 | 3 | Mailing Address of the Petitioner on page 3 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in section 1 on page 1 |
 
 ## What the platform deliberately left blank
 
