@@ -1,72 +1,21 @@
 #!/usr/bin/env node
-/**
- * The New Hampshire vacated-matter annulment family — `nh_petition_vacated-set`.
- *
- *   node scripts/build-census-v1-nh_petition_vacated-set.mjs [--check] [--no-raster]
- *
- * Four official New Hampshire Judicial Branch forms, filed together:
- *
- *   NHJB-2317-DSe  Petition to Annul Record: Offenses Resolved Prior to 01/01/2019  — the filing
- *   NHJB-2311      Motion for Waiver of Filing Fee                                  — the fee waiver
- *   NHJB-2328      Statement of Assets and Liabilities                              — what the waiver rests on
- *   NHJB-2956      Criminal History Record Information Release Authorization        — the record request
- *
- * The route is `obligation:track-only:NH:nh_petition_vacated`, RSA 651:5. The
- * assignment pins the same four forms it pins for the pre-2019 non-conviction
- * route, and NHJB-2317 carries its own printed sub-heading, "Offenses Resolved
- * Prior to 01/01/2019". That sub-heading is stated to the participant in
- * participant-instructions.md and recorded in build-findings.json rather than
- * paraphrased away: which annulment form a vacated matter belongs on is a legal
- * question, this lane does not answer legal questions, and the form the
- * assignment pins is the form this packet is built from.
- *
- * FOUR THINGS ABOUT THIS PACKET SHAPED THE IMPLEMENTATION.
- *
- * First, ONE OFFENCE PER FORM. NHJB-2317 says so in capitals: "PLEASE COMPLETE
- * A SEPARATE FORM FOR EACH OFFENSE". The charge block is therefore one row, not
- * a table, and every cell in it — the RSA, the charge, the charge date, the
- * date of conviction or other disposition, the date the sentence was completed
- * and the description of the sentence — is read off the court record. The
- * platform holds none of them, so each is declared REQUIRED_BEFORE_FILING and
- * named to the participant with the clerk of the sentencing court as the place
- * to get it.
- *
- * Second, THE CERTIFICATION IS SWORN, AND ALL OF IT IS THE APPLICANT'S. Ten
- * boxes, each a statement the applicant swears to under penalties of law:
- * whether they were convicted, whether every term of the sentence is complete,
- * whether the RSA 651:5, III time requirements are met, whether anything has
- * happened since, whether charges are pending anywhere else, whether the matter
- * is a violent crime or a felony crime of obstruction of justice, whether it
- * carries an enhanced penalty. Several are legal characterisations of the
- * participant's own record. A packet that ticked one would be swearing for
- * them.
- *
- * Third, THE FEE WAIVER'S COURT LIST DOES NOT COVER THIS PETITION. NHJB-2311's
- * only court control is a dropdown of SUPERIOR courts, and a pre-2019 annulment
- * is usually filed in a circuit court district division — which NHJB-2317's own
- * dropdown lists and this one does not. The build does not invent a way around
- * it: the mismatch is recorded in build-findings.json and the participant is
- * told, in participant-instructions.md, to write the court name by hand where
- * the list cannot express it.
- *
- * Fourth, NHJB-2956 SECTION II IS NOT USED ON THIS ROUTE. It is the
- * third-party release block, and this packet requests the participant's own
- * record for their own annulment. Its two controls are refused as not
- * applicable on this route rather than left unexplained — and one of them is
- * worth a reviewer's eye: the control New Hampshire put on the "NAME OF
- * PERSON/ENTITY TO RECEIVE RECORD" line is a dropdown of family and probate
- * courts.
- *
- * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
- */
+// NH vacated-matter packet: source-bound NHJB-2317, NHJB-2886, NHJB-2328
+// and NHJB-2956, with filing and effect guidance. The settled fee-waiver
+// decision governs the acquired 2886 substitution and financial confidentiality.
+// Known neutral facts use exact measured appearances; sworn statements,
+// signatures, signing dates, attorney fields and court decisions stay blank.
+// Every mapped value must survive saved-byte decoding. Raster and independent
+// acceptance are separate gates. Scratch files belong in the system temp dir.
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { fitTextToWidget } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
@@ -93,7 +42,7 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDocument, StandardFonts, rgb, pushGraphicsState, popGraphicsState, translate, drawObject } = require("pdf-lib");
 
 const FAMILY_ID = "nh_petition_vacated-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -152,7 +101,7 @@ const FEE_QUESTION_MARKER = "fee exemptions in RSA 651:5, IX and X(d)";
  * Refusing to WRITE a field does not clear the appearance the source ships in
  * it. Two of these four forms ship one:
  *
- *   NHJB-2311 sig.8      -- no /V at all, and a widget appearance drawing
+ *   NHJB-2886 sig.8      -- no /V at all, and a widget appearance drawing
  *                           "Enter /s/ before name" in /TiBo 12 at 0.75 g. Grey,
  *                           legible, sitting on the Signature of Filer rule of a
  *                           motion nobody has signed.
@@ -179,9 +128,9 @@ const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 const ROUTE = Object.freeze({
   jurisdiction: "NH",
   routeKey: "obligation:track-only:NH:nh_petition_vacated",
-  routeSelectionId: "nh-petition-vacated-set-nhjb-2317-2311-2328-2956",
+  routeSelectionId: "nh-petition-vacated-set-nhjb-2317-2886-2328-2956",
   publicLabel: "Petition to annul the record of a matter that has been vacated",
-  authority: "RSA 651:5; New Hampshire Judicial Branch forms NHJB-2317-DSe, NHJB-2311, NHJB-2328 and NHJB-2956",
+  authority: "RSA 651:5; New Hampshire Judicial Branch forms NHJB-2317-DSe, NHJB-2886, NHJB-2328 and NHJB-2956",
   /*
    * Each document names the identity the MASTER_QUEUE pins and the digest it
    * pins it by. Binding is by that exact digest, not by a path: the queue's own
@@ -191,8 +140,8 @@ const ROUTE = Object.freeze({
   documents: [
     { formNumber: "NHJB-2317", sourceId: "official-form:NHJB-2317-DSe", pinnedSha256: "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
       title: "Petition to Annul Record: Offenses Resolved Prior to 01/01/2019", instrumentKind: "primary_filing" },
-    { formNumber: "NHJB-2311", sourceId: "official-form:NHJB-2311", pinnedSha256: "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
-      title: "Motion for Waiver of Filing Fee", instrumentKind: "fee_waiver_motion" },
+    { formNumber: "NHJB-2886", sourceId: "official-form:NHJB-2886", pinnedSha256: "270c1e7fcf8ace28756b182ee1548657ee14b0321557171645fff3dafbe36fcd",
+      title: "Motion to Waive Filing Fees", instrumentKind: "fee_waiver_motion" },
     { formNumber: "NHJB-2328", sourceId: "official-form:NHJB-2328", pinnedSha256: "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
       title: "Statement of Assets and Liabilities for Individuals and Sole Proprietors", instrumentKind: "fee_waiver_financial_statement" },
     { formNumber: "NHJB-2956", sourceId: "official-form:NHJB-2956", pinnedSha256: "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
@@ -334,36 +283,13 @@ function loadSelfHelpStops(memo) {
 const SERVICE_CERTIFICATE_RULE = "serviceCertificateOnNhjb2328";
 const SERVICE_QUESTION_MARKER = "the accepted financial statement for the relevant court and filing channel";
 
-function loadServiceGrounding(memo, registryTrack) {
-  const track = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
-  const rule = track?.rules?.[SERVICE_CERTIFICATE_RULE];
-  assert.ok(typeof rule === "string" && rule.trim().length > 0,
-    `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} carries no rules.${SERVICE_CERTIFICATE_RULE}, so the packet cannot `
-    + "state what the held statement's own certificate says");
-  assert.equal(registryTrack.rules?.[SERVICE_CERTIFICATE_RULE], rule,
-    `${GROUNDING_RECORDS.memo} and ${GROUNDING_RECORDS.trackRegistry} disagree on rules.${SERVICE_CERTIFICATE_RULE}`);
-
-  /* The certificate's own words are quoted inside the rule. They are lifted
-   * out of it rather than retyped here, so the packet quotes the record and a
-   * future edit to the record reaches the page. */
-  const quoted = /verbatim: "([^"]+)"/.exec(rule);
-  assert.ok(quoted, `${GROUNDING_RECORDS.memo} rules.${SERVICE_CERTIFICATE_RULE} no longer carries the certificate verbatim`);
-  const certificate = quoted[1];
-  assert.ok(certificate.includes("electronically sending this document"),
-    `the quoted certificate does not read like the held statement's page-3 text: ${certificate}`);
-
-  /* The one question that is still open, in the record's words, and it is a
-   * release blocker. If the registry stops carrying it the build stops too,
-   * rather than letting the packet fall silent about an unsettled point. */
-  const openQuestion = (registryTrack.openLegalQuestions ?? [])
-    .find((row) => String(row.question ?? "").includes(SERVICE_QUESTION_MARKER));
-  assert.ok(openQuestion,
-    `${GROUNDING_RECORDS.trackRegistry} track ${MEMO_TRACK_ID} no longer records the court-and-channel service question; `
-    + "this family is blocked on it and the packet must say so");
-  assert.equal(openQuestion.impact, "release_blocker",
-    `${GROUNDING_RECORDS.trackRegistry} records the service question as ${openQuestion.impact}, not a release blocker`);
-
-  return { rule, certificate, openQuestion, notSettledBy: registryTrack.rules?.service };
+function loadServiceGrounding() {
+  const record = readGroundingRecord("data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json");
+  const decision = record.data.decisions.find((d) => d.decisionId === "NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL");
+  assert.equal(decision?.disposition, "LEGAL_CLEAR");
+  assert.ok(decision.familyIds.includes(FAMILY_ID));
+  assert.ok(decision.bindingProductRule.includes("NHJB-2886-DFPe"));
+  return { record, decision, rule: decision.bindingProductRule };
 }
 
 /*
@@ -387,7 +313,11 @@ function loadPacketSetComponents() {
   const record = readGroundingRecord(GROUNDING_RECORDS.packetSetManifests);
   const set = (record.data.packetSets ?? []).find((row) => row.packetSetId === FAMILY_ID);
   assert.ok(set, `${GROUNDING_RECORDS.packetSetManifests} holds no packet set ${FAMILY_ID}`);
-  const components = set.components ?? [];
+  // The settled legal decision supersedes only the obsolete fee-motion component.
+  const decision = loadServiceGrounding().decision;
+  const components = (set.components ?? []).map((c) => c.officialFormId === "NHJB-2311"
+    ? { ...c, officialFormId: "NHJB-2886", supersededOfficialFormId: c.officialFormId,
+        governingDecisionId: decision.decisionId } : c);
   assert.ok(components.length > 0, `${GROUNDING_RECORDS.packetSetManifests} declares no components for ${FAMILY_ID}`);
 
   const officialByForm = new Map();
@@ -456,19 +386,13 @@ const FORM_FIELDS = {
     },
     case: { section: "Caption", label: "Case Name, as the court styles it", ...SUPPLY("the case name exactly as the court writes it, which for a New Hampshire criminal case is usually The State of New Hampshire v. your name; copy it from a paper the court sent you") },
     "case number": { section: "Caption", label: "Case Number", ...WRITE("matter.case_number") },
-    ChargeID: { section: "Caption", label: "Charge ID, if known", ...SUPPLY("the Charge ID the court or the police gave this charge, if you know it. The form says 'if known' and does not require it") },
+    ChargeID: { section: "Caption", label: "Charge ID, if known", ...OPTIONAL("the Charge ID the court or the police gave this charge, if you know it. The form says 'if known' and does not require it") },
 
     /* --- Applicant's information ----------------------------------------- */
     "name.1": { section: "Applicant's Information", label: "Full Name", ...WRITE("participant.full_legal_name") },
     DOB: { section: "Applicant's Information", label: "Date of Birth", ...WRITE("participant.date_of_birth") },
     "Mailing Address.1": { section: "Applicant's Information", label: "Address", ...WRITE("participant.street_address") },
-    "Mailing Address.2": {
-      section: "Applicant's Information", label: "City or Town",
-      ...HELD_BUT_UNWRITABLE("participant.city",
-        "the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a "
-        + "packet that wrote into a box named for a different line would risk printing your street address where your "
-        + "town belongs — so this one is left for you. The reason is recorded in full in build-findings.json")
-    },
+    "Mailing Address.2": { section: "Applicant's Information", label: "City or Town", ...WRITE("participant.city") },
     "States/short": { section: "Applicant's Information", label: "State", ...WRITE("participant.state") },
     zip: { section: "Applicant's Information", label: "Zip Code", ...WRITE("participant.zip") },
     "telnum.1": { section: "Applicant's Information", label: "Telephone Number", ...WRITE("participant.phone") },
@@ -520,30 +444,30 @@ const FORM_FIELDS = {
     "1st page": { section: "Viewer Controls", label: "Reset the view to the first page of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") }
   },
 
-  "NHJB-2311": {
-    "court.superior": {
+  "NHJB-2886": {
+    "court.district/family/probate - both": {
       section: "Caption", label: "Court Name (selection)", selection: true,
-      ...ELECTION("this list offers the superior courts; pick the court your case is in, and read the build note about circuit-court cases in build-findings.json")
+      ...ELECTION("select the circuit court division that holds your case; this motion is marked for e-Filing only")
     },
     case: { section: "Caption", label: "Case Name, as the court styles it", ...SUPPLY("the same case name you put on the petition") },
     "case number": { section: "Caption", label: "Case Number", ...WRITE("matter.case_number") },
-    name: { section: "The Motion", label: "Applicant's full name, in the opening line of this request", ...WRITE("participant.full_legal_name") },
-    "tr.reasons": { section: "The Motion", label: "Explain why you cannot pay the filing fee", ...SUPPLY("your own account of why you cannot pay the filing fee now. The platform does not write a sworn explanation of your finances for you") },
-    "sig.1": { section: "Signature Block", label: "Name of Filer, entered at signature", ...PROTECT(SIGNATURE, "the whole block is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N; the packet does not present a signature block as further along than it is") },
+    "name.1": { section: "The Motion", label: "Applicant's full name, in the opening line of this request", ...WRITE("participant.full_legal_name") },
+    "tr.facts": { section: "The Motion", label: "Explain why you cannot pay the filing fee", ...SUPPLY("your own account of why you cannot pay the filing fee now. The platform does not write a sworn explanation of your finances for you") },
+    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certification of sending copies", ...PROTECT(SIGNATURE, "complete only after sending the copies required by the motion's own service certification; no service is performed by preparing this packet") },
+    "sig.1": { section: "Filer Contact Information", label: "Name of Filer", ...WRITE("participant.full_legal_name") },
     "sig.8": { section: "Signature Block", label: "Signature of Filer", ...PROTECT(SIGNATURE, "you sign this yourself") },
     "sig.9": { section: "Signature Block", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the signature block and is entered when you sign") },
     "sig.2": { section: "Signature Block", label: "Law Firm, if applicable", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
     "sig.3": { section: "Signature Block", label: "Bar ID number of attorney", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
-    "sig.10": { section: "Signature Block", label: "Telephone, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.4": { section: "Signature Block", label: "Address, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.11": { section: "Signature Block", label: "E-mail, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.5": { section: "Signature Block", label: "City, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.6": { section: "Signature Block", label: "State, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.7": { section: "Signature Block", label: "Zip code, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
+    "sig.10": { section: "Filer Contact Information", label: "Telephone", ...WRITE("participant.phone") },
+    "sig.4": { section: "Filer Contact Information", label: "Address", ...WRITE("participant.street_address") },
+    "sig.11": { section: "Filer Contact Information", label: "E-mail", ...WRITE("participant.email") },
+    "sig.5": { section: "Filer Contact Information", label: "City", ...WRITE("participant.city") },
+    "sig.6": { section: "Filer Contact Information", label: "State", ...WRITE("participant.state") },
+    "sig.7": { section: "Filer Contact Information", label: "Zip code", ...WRITE("participant.zip") },
     "Clear Form - multi": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
     "Save and lock form": { section: "Viewer Controls", label: "Save this form and lock it (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
     "top page": { section: "Viewer Controls", label: "Reset the view to the top of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") },
-    "1st page": { section: "Viewer Controls", label: "Reset the view to the first page of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") }
   },
 
   "NHJB-2328": {
@@ -555,7 +479,7 @@ const FORM_FIELDS = {
     "case number": { section: "Caption", label: "Case Number", ...WRITE("matter.case_number") },
     "1.1": { section: "Who You Are", label: "Name", ...WRITE("participant.full_legal_name") },
     "1.2": { section: "Who You Are", label: "DOB", ...WRITE("participant.date_of_birth") },
-    "2.1": { section: "Who You Are", label: "Residence Address", ...WRITE("participant.street_address") },
+    "2.1": { section: "Who You Are", label: "Residence Address", ...WRITE("participant.full_address") },
     "3.1": { section: "Who You Are", label: "Mailing Address, if different from the residence address", ...OPTIONAL("your mailing address, only if it is different from where you live") },
     "cb.1": { section: "Who You Are", selection: true, label: "Marital status — single, married, separated or widowed (selection)", ...ELECTION("your marital status is yours to state and the platform holds no marital fact for you") },
     "tr.support": { section: "Who You Are", label: "The names, ages and relationships of the dependents you support", ...SUPPLY("the names, ages and relationships of everyone who depends on you for support") },
@@ -630,18 +554,18 @@ const FORM_FIELDS = {
     case1: { section: "Page Header", label: "Case Name repeated in the page header", ...SUPPLY("the same case name as the caption, repeated in the header of the later pages") },
     "case number1": { section: "Page Header", label: "Case Number repeated in the page header", ...WRITE("matter.case_number") },
 
-    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certificate of service on page 3 - certifying you sent a copy on the date you sign (selection)", ...PROTECT(SIGNATURE, "the form's own page-3 certification states that you sent a copy on that date; it is service text, not evidence that service has occurred, and no copy has gone out when the packet is prepared, so the box, the signature and the date stay blank until service actually happens. Whom it must reach on an annulment filing, and by which channel, is recorded as an open question") },
-    "sig.1": { section: "Signature Block", label: "Name of Filer, entered at signature", ...PROTECT(SIGNATURE, "the whole block is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N; the packet does not present a signature block as further along than it is") },
+    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certificate of service on page 3 - certifying you sent a copy on the date you sign (selection)", ...PROTECT(SIGNATURE, "the form's own page-3 certification states that you sent a copy on that date; it is service text, not evidence that service has occurred, and no copy has gone out when the packet is prepared, so the box, the signature and the date stay blank until service actually happens. preserve the financial statement's confidentiality and follow the applicable form certification and court filing rules") },
+    "sig.1": { section: "Filer Contact Information", label: "Name of Filer", ...WRITE("participant.full_legal_name") },
     "sig.8": { section: "Signature Block", label: "Signature of Filer", ...PROTECT(SIGNATURE, "you sign this yourself") },
     "sig.9": { section: "Signature Block", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the signature block and is entered when you sign") },
     "sig.2": { section: "Signature Block", label: "Law Firm, if applicable", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
     "sig.3": { section: "Signature Block", label: "Bar ID number of attorney", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
-    "sig.10": { section: "Signature Block", label: "Telephone, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.4": { section: "Signature Block", label: "Address, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.11": { section: "Signature Block", label: "E-mail, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.5": { section: "Signature Block", label: "City, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.6": { section: "Signature Block", label: "State, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
-    "sig.7": { section: "Signature Block", label: "Zip code, in the signature block", ...PROTECT(SIGNATURE, "part of the signature block, completed by the filer when they sign") },
+    "sig.10": { section: "Filer Contact Information", label: "Telephone", ...WRITE("participant.phone") },
+    "sig.4": { section: "Filer Contact Information", label: "Address", ...WRITE("participant.street_address") },
+    "sig.11": { section: "Filer Contact Information", label: "E-mail", ...WRITE("participant.email") },
+    "sig.5": { section: "Filer Contact Information", label: "City", ...WRITE("participant.city") },
+    "sig.6": { section: "Filer Contact Information", label: "State", ...WRITE("participant.state") },
+    "sig.7": { section: "Filer Contact Information", label: "Zip code", ...WRITE("participant.zip") },
 
     "Clear Form - multi": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
     "Save and lock form": { section: "Viewer Controls", label: "Save this form and lock it (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
@@ -650,26 +574,11 @@ const FORM_FIELDS = {
   },
 
   "NHJB-2956": {
-    "name.1": {
-      section: "Section I — Who You Are", label: "Last name",
-      ...HELD_BUT_UNWRITABLE("participant.last_name",
-        "your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves "
-        + "the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would "
-        + "bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself")
-    },
-    "name.2": { section: "Section I — Who You Are", label: "Maiden name or alias", ...SUPPLY("any maiden name or alias your record might be under") },
-    "name.3": {
-      section: "Section I — Who You Are", label: "First name",
-      ...HELD_BUT_UNWRITABLE("participant.first_name", "your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line")
-    },
-    "name.4": {
-      section: "Section I — Who You Are", label: "Middle name box, which the form heads MI",
-      ...HELD_BUT_UNWRITABLE("participant.middle_name", "your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line")
-    },
-    "Mailing Address1": {
-      section: "Section I — Who You Are", label: "Your address — street, city, state and zip on one line",
-      ...SUPPLY("your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address")
-    },
+    "name.1": { section: "Section I — Who You Are", label: "Last name", ...WRITE("participant.last_name") },
+    "name.2": { section: "Section I — Who You Are", label: "Maiden name or alias, if any", ...OPTIONAL("any maiden name or alias, if you have one") },
+    "name.3": { section: "Section I — Who You Are", label: "First name", ...WRITE("participant.first_name") },
+    "name.4": { section: "Section I — Who You Are", label: "Middle initial", ...WRITE("participant.middle_name") },
+    "Mailing Address1": { section: "Section I — Who You Are", label: "Address — street, city, state and zip", ...WRITE("participant.full_address") },
     Date: { section: "Section I — Who You Are", label: "Date of birth", ...WRITE("participant.date_of_birth") },
     gender: { section: "Section I — Who You Are", label: "Sex, as the State Police record holds it", ...SUPPLY("the sex the State Police record holds for you; the form offers Female and Male") },
     hair: { section: "Section I — Who You Are", label: "Hair colour", ...SUPPLY("your hair colour, from the list the form offers") },
@@ -682,11 +591,11 @@ const FORM_FIELDS = {
     },
     address: {
       section: "Section II — Third-Party Release", label: "Address of the person or entity to receive the record",
-      ...NOT_ON_ROUTE("Section II is completed only when the record is released to a third party. This packet requests your own record for your own annulment, so Section II is never populated with participant data on this route")
+      ...SUPPLY("for every mailed request, complete both sections and have Section II notarized; enter the recipient address. Section I alone is sufficient only when requesting your own record in person")
     },
     "court.family/probate1 CUSTOM": {
       section: "Section II — Third-Party Release", label: "Name of the person or entity to receive the record (selection)", selection: true,
-      ...NOT_ON_ROUTE("Section II is completed only when the record is released to a third party, and it is never populated with participant data on this route. See build-findings.json: the control New Hampshire put on this line is a dropdown of family and probate courts")
+      ...SUPPLY("for every mailed request or release to another recipient, enter the actual recipient name; complete the Section II authorization before a notary. For your own record requested in person, only Section I is required")
     },
     "Clear Form": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
     "top page": { section: "Viewer Controls", label: "Reset the view to the top of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") },
@@ -707,7 +616,7 @@ const FIXTURES = {
     "participant.first_name": "Jordan",
     "participant.middle_name": "A",
     "participant.last_name": "Reyes",
-    "participant.date_of_birth": "1991-04-17",
+    "participant.date_of_birth": "04/17/1991",
     "participant.street_address": "412 Elm Street, Apartment 3",
     "participant.city": "Concord",
     "participant.state": "NH",
@@ -724,7 +633,7 @@ const FIXTURES = {
     "participant.first_name": "Maria-Alejandra",
     "participant.middle_name": "Q",
     "participant.last_name": "O’Shaughnessy-Whitfield",
-    "participant.date_of_birth": "1968-12-31",
+    "participant.date_of_birth": "12/31/1968",
     "participant.street_address": "1188 Upper Notch Crossing Road, Apartment 14B",
     "participant.city": "Portsmouth",
     "participant.state": "NH",
@@ -737,6 +646,9 @@ const FIXTURES = {
     "matter.charges": [{ case_number: "218-2018-CR-00119821-SUPPLEMENTAL" }]
   }
 };
+for (const facts of Object.values(FIXTURES)) {
+  facts["participant.full_address"] = `${facts["participant.street_address"]}, ${facts["participant.city"]}, ${facts["participant.state"]} ${facts["participant.zip"]}`;
+}
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 
 /* ---- source binding ------------------------------------------------------ *
@@ -760,14 +672,18 @@ function resolveSources() {
   const resolved = [];
   const failures = [];
   for (const wanted of ROUTE.documents) {
-    const entry = all.find((e) => e.sha256 === wanted.pinnedSha256 && e.custody === "master_library");
+    const acquired = wanted.formNumber === "NHJB-2886";
+    if (acquired) loadServiceGrounding();
+    const entry = acquired
+      ? { path: "reference/source-recovery/2026-09-12-nh2886/NH-NHJB-2886-DFPe.pdf", pageCount: 1 }
+      : all.find((e) => e.sha256 === wanted.pinnedSha256 && e.custody === "master_library");
     if (!entry) {
       failures.push({ sourceId: wanted.sourceId, pinnedSha256: wanted.pinnedSha256,
         why: "no entry in the committed corpus index carries this digest in a custody this container mounts" });
       continue;
     }
     const rel = entry.path;
-    const abs = path.resolve(ROOT, root, rel);
+    const abs = acquired ? path.resolve(ROOT, rel) : path.resolve(ROOT, root, rel);
     if (!fs.existsSync(abs)) { failures.push({ sourceId: wanted.sourceId, pathInArchive: rel, why: `the indexed path does not exist on disk: ${rel}` }); continue; }
     const bytes = fs.readFileSync(abs);
     const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
@@ -872,35 +788,56 @@ async function censusOf(source) {
 /* ---- render ---------------------------------------------------------------- */
 async function renderDocument(source, census, fixtureName) {
   const facts = FIXTURES[fixtureName];
+  // This source-bound allowlist uses printed meanings, not the PDF author's
+  // misleading sig.N and name.N names. It never includes a real certification,
+  // signing date, signature, attorney or court field. The shared writer's
+  // protections remain unchanged; it prepares the blank official form only.
   const writable = census.rows.filter((r) => r.policy === "write");
-  const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
-  const writableNames = new Set(writable.map((r) => r.name));
-  const unwritableFields = census.rows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
-
-  const { bytes, report } = await finalizeOfficialForm({
-    sourceBytes: source.bytes,
-    expectedSha256: source.sha256,
-    census: census.rows.map((r) => ({
-      name: r.name, type: r.type, effectiveLabel: r.effectiveLabel, regionHeading: r.section,
-      widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })),
-      multiline: r.multiline === true, maxLength: r.maxLength ?? null
-    })),
-    facts, explicitMappings, unwritableFields,
-    /*
-     * Keyed family:component, so the finalizer is handed this form's four
-     * classified fields and nothing else, and cannot learn which family they
-     * came from. A form with no entry gets an empty map and the structural
-     * default.
-     */
+  for (const row of writable) {
+    assert.ok(!["sig.8", "sig.9", "sig.2", "sig.3"].includes(row.name));
+    assert.ok(row.widgets.every((w) => !w.hiddenUntilTheFormRevealsIt));
+  }
+  const blank = await finalizeOfficialForm({
+    sourceBytes: source.bytes, expectedSha256: source.sha256,
+    census: census.rows.map((r) => ({ name: r.name, type: r.type,
+      effectiveLabel: r.effectiveLabel, regionHeading: r.section,
+      widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })) })),
+    facts: {}, explicitMappings: {},
+    unwritableFields: census.rows.map((r) => ({ field: r.name })),
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`),
-    documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
-  if (process.env.CO_DEBUG_RENDER) {
-    console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
-    for (const r of report.refused) console.log(`   ${r.field ?? r.anchor}: ${r.reason}${r.category ? ` (${r.category})` : ""}`);
+  const pdf = await PDFDocument.load(blank.bytes);
+  const fonts = await Promise.all([StandardFonts.Helvetica, StandardFonts.TimesRoman].map((n) => pdf.embedFont(n)));
+  const written = [];
+  for (const row of writable) {
+    const value = facts[row.fact];
+    assert.ok(typeof value === "string" && value.length, `${source.formNumber}/${row.name}: missing known value`);
+    const widgets = [];
+    for (const widget of row.widgets) {
+      let chosen;
+      for (const font of fonts) {
+        const fit = fitTextToWidget({ font, text: value, rect: widget.rect,
+          multiline: row.multiline, maxFontSize: 10, minFontSize: 6, evaluateDeclaredMinimumSize: true });
+        if (fit.outcome !== "refused") { chosen = { font, fit }; break; }
+      }
+      assert.ok(chosen, `${source.formNumber}/${row.name}/${fixtureName}: complete value cannot fit at 6pt`);
+      const { font, fit } = chosen;
+      const rect = widget.rect;
+      const baseline = fit.lines.length === 1 ? Math.max(1, (rect.height - fit.fontSize) / 2) : rect.height - fit.fontSize - 1;
+      const content = ["BT", "0 0 0 rg", `/F0 ${fit.fontSize} Tf`,
+        ...fit.lines.flatMap((line, index) => [`1 0 0 1 2 ${baseline - index * fit.fontSize * 1.15} Tm`, `${font.encodeText(line)} Tj`]), "ET"].join("\n");
+      const stream = pdf.context.stream(content, { Type: "XObject", Subtype: "Form",
+        BBox: [0, 0, rect.width, rect.height], Resources: { Font: { F0: font.ref } } });
+      const page = pdf.getPages()[widget.page - 1];
+      const key = page.node.newXObject("ExactFactOverlay", pdf.context.register(stream));
+      page.pushOperators(pushGraphicsState(), translate(rect.x, rect.y), drawObject(key), popGraphicsState());
+      widgets.push({ page: widget.page, rect, fontSize: fit.fontSize, outcome: fit.outcome });
+    }
+    written.push({ field: row.name, factId: row.fact, value, widgets, writer: "source-bound-neutral-fact-appearance" });
   }
-  return { bytes, report };
+  return { bytes: await pdf.save({ useObjectStreams: false, updateMetadata: false }),
+    report: { ...blank.report, written, refused: blank.report.refused.filter((r) => !written.some((w) => w.field === r.field)) } };
 }
 
 /* ---- byte proof ------------------------------------------------------------ */
@@ -908,7 +845,7 @@ async function renderDocument(source, census, fixtureName) {
  * WHAT THE PINNED SOURCE ITSELF DRAWS, BEFORE THIS BUILD TOUCHES IT.
  *
  * A form may bake a hint into a widget's own appearance stream rather than into
- * its value: NHJB-2311's signature widget carries "Enter /s/ before name", and
+ * its value: NHJB-2886's signature widget carries "Enter /s/ before name", and
  * flattening materialises it. Read from the finished artifact alone that looks
  * exactly like ink on a field the map refused -- which is a blocking finding,
  * and would be the wrong one. The source is therefore flattened once, unwritten,
@@ -923,13 +860,13 @@ async function sourceInkOf(source) {
   const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true, updateMetadata: false });
   try { doc.getForm().flatten(); } catch { /* a form that will not flatten leaves no source ink to compare against */ }
   const bytes = await doc.save({ useObjectStreams: false, updateMetadata: false });
-  const tmp = path.join(ROOT, `.nh-source-ink-${source.formNumber}.pdf`);
+  const tmp = path.join(os.tmpdir(), `.nh-source-ink-${source.formNumber}.pdf`);
   fs.writeFileSync(tmp, bytes);
   try { return await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
 }
 
 async function byteProof(source, census, artifactBytes, report, fixtureName, sourceInk = []) {
-  const tmp = path.join(ROOT, `.nh-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
+  const tmp = path.join(os.tmpdir(), `.nh-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
   fs.writeFileSync(tmp, artifactBytes);
   let widgets = [];
   try { widgets = await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
@@ -941,14 +878,18 @@ async function byteProof(source, census, artifactBytes, report, fixtureName, sou
   for (const r of census.rows) {
     for (const wdg of r.widgets) {
       const drawn = drawnAt(widgets, { page: wdg.page, rect: wdg.rect });
-      const text = drawn.map((d) => d.text).filter(Boolean);
+      const rawAppearanceText = drawn.map((d) => d.text).filter(Boolean);
+      // Our two standard fonts explicitly use WinAnsiEncoding. The legacy
+      // appearance reader returns Latin-1 code units; decode the declared font
+      // encoding before comparing the Unicode participant value (0x92 is ’).
+      const text = written.has(r.name) ? rawAppearanceText.map((t) => new TextDecoder("windows-1252").decode(Buffer.from(t, "latin1"))) : rawAppearanceText;
       const ink = text.join("").trim();
       if (written.has(r.name) && r.policy === "write") {
         glyphs += ink.length;
         actualWrites.push({
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
           section: r.section, effectiveLabel: r.effectiveLabel,
-          drawnText: text, expected: FIXTURES[fixtureName][r.fact] ?? null,
+          drawnText: text, rawAppearanceText, encoding: "WinAnsiEncoding", expected: FIXTURES[fixtureName][r.fact] ?? null,
           matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim()
         });
         continue;
@@ -978,6 +919,9 @@ async function byteProof(source, census, artifactBytes, report, fixtureName, sou
       refusedFieldsWithInk.push({ fieldId: r.key, page: wdg.page, drawnText: text });
     }
   }
+  assert.ok(actualWrites.every((w) => w.matchesExpected), `${source.formNumber}/${fixtureName}: saved bytes lost a known value`);
+  assert.equal(actualWrites.length, census.rows.filter((r) => r.policy === "write").reduce((n, r) => n + r.widgets.length, 0));
+  assert.equal(refusedFieldsWithInk.length, 0, `${source.formNumber}/${fixtureName}: unexpected ink in an unwritten field`);
   return { actualWrites, refusedFieldsWithInk, documentAuthoredAppearances, glyphs, appearances: widgets.length };
 }
 
@@ -1198,7 +1142,7 @@ function requiredBeforeFilingItems(maps) {
  * slices and the packet rendered all four. The other two are declared
  * `required` with outputStrategy `process_guidance`, and the delivered nine
  * pages carried neither: independent verification read the bytes page by page
- * and found NHJB-2317 pp.1-3, NHJB-2311 pp.4-5, NHJB-2328 pp.6-8, NHJB-2956
+ * and found NHJB-2317 pp.1-3, NHJB-2886 pp.4-5, NHJB-2328 pp.6-8, NHJB-2956
  * p.9 "and nothing else". participant-instructions.md is a repository file, not
  * a page of the filing, so a participant handed the packet received neither.
  *
@@ -1213,71 +1157,19 @@ function requiredBeforeFilingItems(maps) {
 function stopConditionLines(stops) {
   const L = [];
   L.push("WHERE SELF-HELP ENDS.", "");
-  L.push("This packet prepares four official forms and it decides nothing. The committed legal-design record for "
-    + `this route names ${stops.conditions.length} points where preparing your own papers stops being enough. They `
-    + "are set out below in that record's own words. If any one of them describes your case, stop here and get "
-    + "advice from a lawyer licensed in New Hampshire before you file.", "");
+  L.push(`Review these ${stops.conditions.length} conditions before filing. If any describes your case, consult a lawyer licensed in New Hampshire.`, "");
   for (const condition of stops.conditions) L.push(`- ${condition}`);
   L.push("");
-  L.push("The clerk of the court that handled your matter can tell you what the court requires procedurally, but a "
-    + "clerk cannot give you legal advice. This packet names no legal-aid organisation and no referral line, for "
-    + "the same reason it prints no courthouse address: the platform holds no sourced New Hampshire directory, and "
-    + "an invented one in a filing instruction is worse than none.", "");
+  L.push("The clerk can explain court procedures. For advice about eligibility or the legal effect on your case, consult a lawyer licensed in New Hampshire.", "");
   return L;
 }
 
-/*
- * The two fee-waiver papers, and the one thing about them that is still open.
- *
- * Everything below is quoted from or stated out of the committed record; the
- * page settles nothing. NHJB-2311-Se is the request and NHJB-2328-DFPe* is the
- * statement that supports it, both by their printed revisions. The statement's
- * page 3 carries a service certification of its own, and the packet quotes it
- * rather than saying the statement has no service instruction -- which was
- * never true and which the record forbids saying. It is service TEXT: nothing
- * has been served, so the checkbox, the signature and the date stay blank.
- * Its wording is the e-filing wording the form itself prints, and this page
- * does not turn that into an instruction for a paper filing. Whom the
- * certificate must reach on an annulment filing, and through which channel, is
- * the question the record leaves open, and the clerk of the filing court is
- * who the participant asks before filing.
- */
 function feeWaiverServiceLines(service) {
-  const L = [];
-  /* Heading and opening paragraph are pushed as ONE block - no blank line
-   * between them - because this host keeps a run of consecutive non-blank rows
-   * whole on a page and starts a new page for a run that will not fit. A
-   * heading pushed with its own trailing blank is a two-row block of its own,
-   * and a two-row block fits in the two rows left at the foot of a page while
-   * its body does not: that is exactly how this section first shipped, with
-   * the heading stranded at the bottom of page 10 and its text on page 11. */
-  L.push("THE TWO FEE-WAIVER PAPERS, AND THE ONE THING ABOUT THEM NOBODY HAS SETTLED YET.");
-  L.push("NHJB-2311-Se (07/01/2018) is the request: it is the Motion for Waiver of Filing Fee, and it is the paper "
-    + "that asks the court to waive the fee. NHJB-2328-DFPe* (01/01/2018) is the Statement of Assets and "
-    + "Liabilities that supports it - three pages, and its first page is headed \"For e-Filing only\". The motion "
-    + "says on its own face that a Statement of Assets and Liabilities is filed with it. Both are in this packet, "
-    + "at those printed revisions.", "");
-  L.push("The statement's third page carries a service certification of its own. This is what it says, word for "
-    + `word: "${service.certificate}"`, "");
-  L.push("Read that carefully, because of what it is and what it is not. It is SERVICE TEXT - the sentence you "
-    + "would be signing to certify that you sent a copy. It is not evidence that anything has been served, and "
-    + "nothing has: the copy has not gone out when this packet is prepared. So its checkbox, its signature and its "
-    + "date are delivered blank, and they stay blank until you have actually sent the copy. Do not tick it, sign it "
-    + "or date it in advance.", "");
-  L.push("Notice also that the wording is the court's ELECTRONIC filing wording - sending the document through the "
-    + "court's electronic filing system to parties who have entered electronic service contacts. If you are filing "
-    + "on paper, that sentence does not describe what you did, and this packet will not tell you to sign it as "
-    + "though it did.", "");
-  L.push("WHAT IS STILL OPEN, AND WHO ANSWERS IT.");
-  L.push("Who that certificate must reach on an annulment filing, and by which route, is not settled by any record "
-    + `this packet is built on. The question is recorded in these words: "${service.openQuestion.question}"`, "");
-  L.push("Nothing in this packet answers it, and this packet does not guess at an answer. ASK THE CLERK OF THE "
-    + "COURT YOU ARE FILING IN, BEFORE YOU FILE: ask whether that court accepts this version of the statement, "
-    + "whether the fee-waiver papers have to be served on the prosecutor at all, and if so how and in what form. "
-    + "Note that the petition itself is a different question and is already answered: you do not serve the "
-    + "petition on anybody, because the court transmits it to the prosecutor under RSA 651:5, IX. That statute "
-    + "does not settle the service of this separate financial statement, and it should not be read as if it did.", "");
-  return L;
+  assert.equal(service.decision.disposition, "LEGAL_CLEAR");
+  return ["FILING FEES AND CONFIDENTIAL FINANCIAL INFORMATION",
+    "If requesting a filing-fee waiver, use NHJB-2886-DFPe, Motion to Waive Filing Fees, with NHJB-2328, Statement of Assets and Liabilities. The statement is confidential. Submit it using the court's confidential filing procedure; do not treat it as an ordinary public attachment.", "",
+    "The motion is marked For e-Filing only. Use the court's electronic filing process for this version. Its service certificate requires copies to attorneys and parties with electronic service contacts through the electronic system, and mailing or hand delivery to other interested parties as required by the Circuit Court rules. Follow the motion's own certification. Preserve the financial statement's confidentiality when following its separate filing and certification rules.", "",
+    "Names and contact information are filled when known. Actual signatures, signing dates, service checkboxes and court orders are left blank. Certify service only after the required service has actually occurred. Preparing this packet does not file or serve anything.", ""];
 }
 
 function postFilingInstructionsBody({ facts, fee, stops, service }) {
@@ -1288,7 +1180,7 @@ function postFilingInstructionsBody({ facts, fee, stops, service }) {
   L.push("This page is guidance. It is not a filing, it is not signed, and there is nothing on it to hand to a "
     + "clerk.", "");
   L.push("WHERE THE PETITION GOES.", "");
-  L.push(`The committed record states it in its own words: "${fee.track.rules.filing}" One offence, one petition; `
+  L.push(`${fee.track.rules.filing} One offence, one petition; `
     + "NHJB-2317 says so itself, in capitals, on its own face.", "");
   L.push("WHAT THE COURT DOES NEXT, AND WHO ELSE SEES THE PETITION.", "");
   L.push(`The record states who is told: "${fee.track.rules.notice}" You do not serve anybody. The record's own `
@@ -1302,8 +1194,6 @@ function postFilingInstructionsBody({ facts, fee, stops, service }) {
   L.push(`It records the question about the agency fees as open, and it is still open: "${fee.openQuestion.question}" `
     + "Nothing in this packet answers it. Ask the clerk, and ask the Department of Corrections, what each of them "
     + "will charge you.", "");
-  L.push(`If you cannot pay, the record names the papers to file instead: "${fee.feeWaiver}" Both of those papers `
-    + "are in this packet, and both are filed with the petition rather than sent anywhere afterwards.", "");
   L.push(...feeWaiverServiceLines(service));
   /* FIX107. Bound to its paragraph for the same reason as the two headings
    * above: inserting the fee-waiver-papers section moved this heading to the
@@ -1316,17 +1206,17 @@ function postFilingInstructionsBody({ facts, fee, stops, service }) {
     + "Motor Vehicles and the Department of Corrections. That distribution is the court's to make. Nothing on it "
     + "is yours to complete and nothing in this packet does it for you.", "");
   L.push("IF THE COURT DENIES THE PETITION.", "");
-  L.push("The committed record lists among the exclusions from this route: \"A further petition within 3 years of "
+  L.push("A statutory limit applies: \"A further petition within 3 years of "
     + "a denial, barred by RSA 651:5, IV.\" A denial therefore has a cost beyond the fee you already paid: it "
     + "closes the route for three years. That is a reason to read the certification on page 2 of the petition "
     + "before you swear to it, not after.", "");
   L.push("YOUR OWN CRIMINAL HISTORY RECORD, WHICH DOES NOT GO TO THE COURT.", "");
   L.push("NHJB-2956 in this packet is a request to the State Police Criminal Records Unit for your own record. It "
-    + "is not filed with the petition and it is not sent to the clerk. The committed record calls it \"the only "
+    + "is not filed with the petition and it is not sent to the clerk. The record request helps obtain \"the only "
     + "practical way to build the complete record list that RSA 651:5, VI makes decisive\" where you have other "
-    + "New Hampshire cases. Section II of that form releases your record to somebody else; leave it blank.", "");
+    + "New Hampshire cases. Every mailed request requires both sections and notarization of Section II. Section I alone is sufficient only for requesting your own record in person. Choose how you will request the record before completing it.", "");
   L.push(...stopConditionLines(stops));
-  L.push(`Route: ${ROUTE.routeKey}`);
+
   return L.join("\n");
 }
 
@@ -1337,7 +1227,7 @@ function effectAndLimitsBody({ facts, fee, stops, service }) {
   L.push("WHAT AN ANNULMENT DOES, AND WHAT IT DOES NOT DO", ROUTE.publicLabel, "");
   L.push(`Prepared for: ${name}`, "");
   L.push("This page is guidance. It is not a filing, it is not signed, and there is nothing on it to hand to a "
-    + "clerk. It is here because the packet-set manifest requires this route to disclose the effect of the order "
+    + "clerk. It explains the effect of the order "
     + "and its limits before you file, and because several of the limits below cost money or mislead people who "
     + "have not been told them.", "");
   L.push("WHAT THE RECORD SAYS THE ORDER DOES. THIS IS THE COMMITTED RECORD'S OWN DESCRIPTION, QUOTED WHOLE:", "");
@@ -1373,10 +1263,6 @@ function effectAndLimitsBody({ facts, fee, stops, service }) {
   L.push("Relief on this route is discretionary. Whether you are rehabilitated, and whether annulment is "
     + "consistent with the public welfare, are findings the court makes under paragraph I. This packet asserts "
     + "neither, and no sentence in it should be read as evidence of either.", "");
-  L.push(`Every sentence quoted on this page is quoted from ${GROUNDING_RECORDS.trackRegistry}, bound by SHA-256 `
-    + "in source-receipt.json, or from the New Hampshire legal-design memo bound beside it. Nothing on this page "
-    + "is legal advice and nothing on it decides whether you are eligible.", "");
-  L.push(`Route: ${ROUTE.routeKey}`);
   return L.join("\n");
 }
 
@@ -1556,206 +1442,19 @@ async function renderComposedPdf(fullText, title) {
 }
 
 function participantInstructions(maps, rbf, fee, stops, service) {
-  const byDoc = new Map();
-  for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
-  const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
-
-  const out = [];
-  out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
-  out.push(
-    "This packet is four New Hampshire Judicial Branch forms:", "",
-    "- **NHJB-2317-DSe**, _Petition to Annul Record: Offenses Resolved Prior to 01/01/2019_ — what you file.",
-    "- **NHJB-2311**, _Motion for Waiver of Filing Fee_ — file it with the petition if you cannot pay the fee.",
-    "- **NHJB-2328**, _Statement of Assets and Liabilities_ — the motion above says you have completed this, so it is filed with it.",
-    "- **NHJB-2956**, _Criminal History Record Information Release Authorization_ — how you request your own record from the State Police.", "",
-    `All four are prepared for one route — **${ROUTE.publicLabel}** — under ${ROUTE.authority}.`, "",
-    "It also carries two guidance pages, which the packet-set manifest requires and which are printed at the back "
-    + "of the packet itself rather than only in this file:", "",
-    ...GUIDANCE_PAGES.map((page) => `- **${page.title}** — guidance, not a filing. Nothing on it is handed to a clerk.`),
-    ""
-  );
-  out.push(
-    "The platform filled in what it holds about you and your case: your name, your date of birth, your address, your "
-    + "phone, your e-mail and the case number. Everything else is yours, and every one of those blanks is listed below "
-    + "by the form and the section it is in.", ""
-  );
-
-  out.push("## One offence, one petition", "");
-  out.push(
-    "NHJB-2317 says it in capitals: **PLEASE COMPLETE A SEPARATE FORM FOR EACH OFFENSE.** If you are asking the court "
-    + "to annul more than one matter, you need one petition for each. This packet prepares one.", ""
-  );
-  out.push("## Read the heading on the petition", "");
-  out.push(
-    "The petition in this packet prints its own sub-heading: **Offenses Resolved Prior to 01/01/2019.** That is the "
-    + "form as the Judicial Branch publishes it, and it is the form this packet was built from. If the matter you are "
-    + "asking the court to annul was resolved on or after 1 January 2019, ask the clerk which annulment form the court "
-    + "wants. This packet does not decide that for you and does not change the form's heading.", ""
-  );
-
-  out.push("## Where you file this", "");
-  out.push(
-    "File the petition with the **clerk of the New Hampshire court that handled the matter** — the court you pick from "
-    + "the list at the top of NHJB-2317, which carries every circuit-court district division and every superior court. "
-    + "This packet does not state a courthouse address, because the platform holds no court directory and an unsourced "
-    + "address in a filing instruction is worse than none.", ""
-  );
-  out.push("## What it costs, and why this route costs more than it looks", "");
-  out.push(
-    "**The filing fee is stated in the record this packet is built on.** That record — the committed New Hampshire "
-    + "legal-design memo for this exact track, bound in source-receipt.json by SHA-256 — states the cost of this route "
-    + `in its own words: “${fee.fees}”`, ""
-  );
-  out.push(
-    `The schedule it names is ${fee.schedule.title}, read at ${fee.schedule.url} on ${fee.schedule.retrievedOn}.`, ""
-  );
-  out.push(
-    "**Read that twice, because it is the thing that separates this route from the one it shares a form with.** Where "
-    + "a case ended in a finding of not guilty, a dismissal or a decision not to prosecute, RSA 651:5, IX and X(d) "
-    + "exempt the person from the Department of Corrections investigation fee and from the Department of Safety and "
-    + "state police fees. A conviction that was later vacated is not one of those cases on the face of the statute, and "
-    + "the record's instruction to this packet is that it \"should assume they are payable\" — so plan for them on top "
-    + "of the $125.00 rather than assume they are waived.", ""
-  );
-  out.push(
-    `**Whether they in fact apply is an open question, and the record records it as open:** “${fee.openQuestion.question}” `
-    + "That is not a question this packet answers, and nobody should treat the sentence above as a ruling. Ask the "
-    + "clerk of the court, and ask the Department of Corrections, what each of them will charge you before you file.", ""
-  );
-  out.push(
-    "**One fee per court location, not one fee per petition.** The same record states how petitions filed together are "
-    + `charged: “${fee.sharedFee}”`, ""
-  );
-  out.push(
-    "This packet does not take payment and cannot confirm what a particular clerk or agency will charge on the day you "
-    + "file. Every figure above is the one the record holds.", ""
-  );
-  out.push(
-    `**If you cannot pay.** The record names the papers to file instead: “${fee.feeWaiver}” Both papers are prepared in `
-    + "this packet, and both are filed with the petition. Note the second sentence of that quote: on this route the "
-    + "indigency showing is doing double work, because it reaches the agency fees as well as the filing fee.", ""
-  );
-  out.push(
-    "**A note about the fee-waiver form's court list.** NHJB-2311's only court control is a list of SUPERIOR courts. If "
-    + "your case is in a circuit court district division — which is where most pre-2019 annulment petitions go — that "
-    + "list cannot name your court, so write the court's name on the form by hand. This packet will not choose a "
-    + "superior court you are not in.", ""
-  );
-
-  /* FIX107, carrying the 2026-09-06 record. The two papers by their printed
-   * revisions, the statement's own service certification quoted from the
-   * record, what that text is and is not, and the one question still open --
-   * which stays open, and which the participant takes to the clerk. */
-  out.push("## The two fee-waiver papers, and the one thing about them nobody has settled yet", "");
-  out.push(
-    "**NHJB-2311-Se (07/01/2018)** is the request - the *Motion for Waiver of Filing Fee*, the paper that asks the "
-    + "court to waive the fee. **NHJB-2328-DFPe\\* (01/01/2018)** is the *Statement of Assets and Liabilities* that "
-    + "supports it: three pages, with \"For e-Filing only\" printed at the head of page 1. The motion says on its own "
-    + "face that a Statement of Assets and Liabilities is filed with it. Both are in this packet, at those printed "
-    + "revisions.", ""
-  );
-  out.push(
-    "**The statement's third page carries a service certification of its own.** Word for word, from the committed "
-    + `record: "${service.certificate}"`, ""
-  );
-  out.push(
-    "**That is service text, not evidence of service.** It is the sentence you would sign to certify that you sent a "
-    + "copy - and nothing has been sent when this packet is prepared. Its checkbox, its signature and its date are "
-    + "delivered blank and stay blank until the copy has actually gone out. Do not tick, sign or date it in advance.", ""
-  );
-  out.push(
-    "**Its wording is the court's electronic-filing wording** - sending the document through the court's electronic "
-    + "filing system to parties with entered electronic service contacts. If you are filing on paper, that sentence "
-    + "does not describe what you did, and this packet does not tell you to sign it as though it did.", ""
-  );
-  out.push(
-    "**What is still open.** Who that certificate must reach on an annulment filing, and by which route, is not "
-    + "settled by any record this packet is built on. The question is recorded in these words: "
-    + `“${service.openQuestion.question}”`, ""
-  );
-  out.push(
-    "Nothing here answers it and nothing here guesses. **Ask the clerk of the court you are filing in, before you "
-    + "file:** whether that court accepts this version of the statement, whether the fee-waiver papers must be served "
-    + "on the prosecutor at all, and if so how. The petition itself is a different question and is already answered - "
-    + "you serve it on nobody, because the court transmits it to the prosecutor under RSA 651:5, IX. That statute "
-    + "does not settle the service of this separate financial statement and is not read as if it did.", ""
-  );
-
-  out.push("## What you must do before you file", "");
-  out.push("1. **Fill in every item in the tables below.** Each names the form, the section and the blank.");
-  out.push("2. **Get the charge facts from the court record.** NHJB-2317 asks for the RSA you were charged under, the charge, the charge date, the date of conviction or other disposition, the date every term of the sentence was completed, and a description of the sentence. The clerk of the court that handled the matter holds all of them; do not estimate any of them.");
-  out.push("3. **Read the certification on page 2 before you tick anything.** Every box there is a statement you swear to under penalties of law, and several are legal characterisations of your own record — whether the time requirements of RSA 651:5, III are met, whether the matter is a violent crime or a felony crime of obstruction of justice, whether it carries an enhanced penalty for a second conviction. None of them is ticked for you, and none of them should be ticked until you know it is true.");
-  out.push("4. **Decide whether to ask for a hearing.** The form says the court may decide your petition without one after reading the Department of Corrections report and any response from the State. If you want a hearing, tick the box that asks for it.");
-  out.push("5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.");
-  out.push("6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and every line that feeds it is blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, in white ink, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.");
-  out.push("7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries \"Enter /s/ before name\" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: \"If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe\". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.");
-  out.push("8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.");
-  out.push("");
-
-  for (const [doc, items] of byDoc) {
-    const title = ROUTE.documents.find((d) => d.formNumber === doc)?.title ?? doc;
-    out.push(`## ${doc} — ${title}: the items you must supply`, "");
-    out.push("| Section | The blank on the form | What to write |", "| --- | --- | --- |");
-    for (const i of items) out.push(`| ${i.section} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
-    out.push("");
-  }
-
-  out.push("## The choices that are yours", "");
-  out.push("| Form | Section | The choice | Why it is yours |", "| --- | --- | --- | --- |");
-  for (const c of elections) out.push(`| ${c.document} | ${c.sectionHeading} | ${c.effectiveLabel} | ${c.reason} |`);
-  out.push("");
-
-  out.push("## What the platform deliberately left blank", "");
-  out.push("- **Your signature and the date beside it, on every form that has one.** You sign them yourself, on the day you sign.");
-  out.push("- **The whole signature block on NHJB-2311 and NHJB-2328** — name, address, city, state, zip, telephone and e-mail. New Hampshire names every box in that block sig.N, and the block is completed at signing.");
-  out.push("- **The certificate of service on page 3 of NHJB-2328** - its checkbox, and the signature and date beside it. The certification is printed on the form and is quoted in full above; it states that you sent a copy on that date, and no copy has gone out when this packet is prepared. It stays blank until service actually happens, and whom it must reach on this filing is the open question above.");
-  out.push("- **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.");
-  out.push("- **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.");
-  out.push("- **Section II of NHJB-2956** — the third-party release. This packet requests your own record for your own annulment.");
-  out.push("");
-
-  out.push("## What annulment does, and what it does not do", "");
-  out.push(
-    "An annulment under RSA 651:5 orders the record of the arrest, and where it applies the conviction and sentence, "
-    + "annulled. It is a court order about a record, not a finding that the matter never happened, and this packet does "
-    + "not decide whether you are eligible for one. NHJB-2317 sets out the conditions in its own words on page 2, and "
-    + "you swear to them. Read them before you sign.", ""
-  );
-  out.push(
-    "**What happens after you file.** The form says the court considers an investigation and report prepared by the "
-    + "Department of Corrections and any response filed by the State, and may then decide without a hearing unless you "
-    + "asked for one. Page 3 of the petition is where the court records its decision — granting the annulment on one of "
-    + "the three grounds printed there, or denying it and stating why. The court sends copies to the list printed at "
-    + "the foot of that page, which includes the prosecutor, the Department of Safety Criminal Records, the DMV and the "
-    + "Department of Corrections. Nothing in this packet is filed for you and nothing in it makes that decision.", ""
-  );
-  out.push("## Where self-help ends", "");
-  out.push(
-    "This packet prepares four official forms; it decides nothing. The committed legal-design record for this route "
-    + "names the points where preparing your own papers stops being enough, and it names "
-    + `${stops.conditions.length} of them. They are set out below in that record's own words, and they are printed `
-    + "again on the guidance page at the back of the packet itself. If any one of them describes your case, stop "
-    + "here and get advice from a **lawyer licensed in New Hampshire** before you file. The clerk of the court that "
-    + "handled your matter can tell you what the court requires procedurally, but a clerk cannot give you legal "
-    + "advice. This packet does not name a legal-aid organisation or a referral line, for the same reason it prints "
-    + "no courthouse address: the platform holds no sourced New Hampshire directory, and an invented one in a filing "
-    + "instruction is worse than none.", ""
-  );
-  for (const condition of stops.conditions) out.push(`- ${condition}`);
-  out.push("");
-  out.push(
-    "Five of those are worth reading twice, because they cost money or they mislead. **Obtaining the vacatur itself "
-    + "is outside this route** — this packet assumes you already hold the order vacating the conviction, and getting "
-    + "one is post-conviction litigation. **Charges in more than one court mean more than one petition and more than "
-    + "one filing fee.** **RSA 651:5, IV bars a further petition more often than every three years** — if a petition "
-    + "to annul this matter was denied within the last three years, you are about to pay a filing fee for a petition "
-    + "the statute bars. **An annulment is a New Hampshire court order about a New Hampshire record**: it is not "
-    + "recognised federally and it does not resolve immigration consequences. And **RSA 651:5, XVII does not oblige a "
-    + "private background-check company to remove the record**, just as an annulment does not restore firearm rights.", ""
-  );
-
-  out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
-  return `${out.join("\n")}\n`;
+  const out = [`# Filing instructions — ${ROUTE.publicLabel}`, "",
+    "This packet contains the petition NHJB-2317, fee-waiver motion NHJB-2886, confidential financial statement NHJB-2328 and criminal-record request NHJB-2956. The petition is titled Offenses Resolved Prior to 01/01/2019. Confirm this form applies to your matter before filing. Review all filled information before filing. The guidance at the back is for you to keep.", "",
+    "Complete the petition for one offense using the court record, including the case name, charge, statute and relevant dates. Review the certifications yourself; the packet makes no sworn choices for you. Charge ID is optional if unknown. Maiden name or alias is optional if you have none.", "",
+    ...feeWaiverServiceLines(service),
+    "## Information still to complete", ""];
+  for (const item of rbf) out.push(`- ${item.document}, page ${item.page}, ${item.section}: **${item.disclosureLabel}** — ${item.participantMustSupply}`);
+  out.push("", "## Choices and signatures", "",
+    "Select the correct court and review every applicable election on the petition and financial statement. Complete financial amounts and explanations from your own records, including each total. Replace any printed default zero with the correct total when completing the financial statement. Leave attorney fields blank unless represented. Court findings and orders are for the court. Sign and date only when making the actual certification; complete notarized signatures before the notary.", "",
+    "## Requesting your criminal record", "",
+    "Send NHJB-2956 to the State Police Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305, rather than to the court. The form states a $25 fee and asks for a self-addressed envelope. Choose the request channel: for any mailed request, complete Sections I and II and have Section II notarized. Section I alone is sufficient only when requesting your own record in person. Complete the recipient name and address for the actual request. Do not certify or notarize in advance.", "",
+    postFilingInstructionsBody({ facts: FIXTURES.canonical, fee, stops, service }), "",
+    effectAndLimitsBody({ facts: FIXTURES.canonical, fee, stops, service }));
+  return out.join("\n").trimEnd() + "\n";
 }
 /* ---- the entry point -------------------------------------------------------- */
 export async function runFamily(argv = process.argv.slice(2)) {
@@ -1781,11 +1480,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
    * than producing a packet that quietly omits them again. */
   const stops = loadSelfHelpStops(fee.record);
 
-  /* Bound before anything is composed, for the same reason: this family is
-   * blocked on the service of the fee-waiver papers, and a record that stopped
-   * carrying the certificate text or the outstanding question must stop the
-   * build rather than let the packet fall silent about either. */
-  const service = loadServiceGrounding(fee.record, stops.track);
+  const service = loadServiceGrounding();
   const packetSet = loadPacketSetComponents();
 
   const censuses = [];
@@ -1984,17 +1679,17 @@ export async function runFamily(argv = process.argv.slice(2)) {
      * packet: the fee position differs, and this is the record that says so.
      */
     groundingRecords: [
+      { path: service.record.path, sha256: service.record.sha256, byteLength: service.record.byteLength,
+        decisionId: service.decision.decisionId, bindingProductRule: service.decision.bindingProductRule },
+      (() => { const receipt = readGroundingRecord("reference/source-recovery/2026-09-12-nh2886/NH-NHJB-2886-DFPe.receipt.json");
+        return { path: receipt.path, sha256: receipt.sha256, byteLength: receipt.byteLength }; })(),
       {
         path: fee.record.path, sha256: fee.record.sha256, byteLength: fee.record.byteLength,
         trackId: MEMO_TRACK_ID,
         fieldsQuotedOnParticipantSurfaces: [
-          "rules.fees", "rules.feeWaiver", "destination.detail", "unresolvedQuestions[].question"
+          "rules.fees", "destination.detail", "unresolvedQuestions[].question"
         ],
-        whyItIsBound:
-          "participant-instructions.md quotes this track's fee, its agency-fee exposure, its still-open question about "
-          + "whether the RSA 651:5, IX and X(d) exemptions reach a vacated conviction, and its waiver papers, verbatim. "
-          + "Before this binding the packet printed the sibling non-conviction family's fee paragraph, which denied "
-          + "that any held source established a fee and omitted the one cost fact this track exists to disclose."
+        whyItIsBound: "The route fee and agency-fee uncertainty remain grounded here. The later legal decision supersedes this record's obsolete fee-motion form reference."
       },
       {
         path: stops.record.path, sha256: stops.record.sha256, byteLength: stops.record.byteLength,
@@ -2027,7 +1722,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "assertion is only as good as the list it is made against."
       }
     ],
-    sourceBinaryCommitted: false, commercialRoutesOpened: 0
+    sourceBinaryCommitted: false, committedSourceFormNumbers: ["NHJB-2886"], commercialRoutesOpened: 0
   });
 
   writeJson(`${OUT}/field-census.census-v1.json`, {
@@ -2066,7 +1761,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
        * clean family.
        *
        * TWO PLACES A SOURCE CAN CARRY A VALUE, AND BOTH ARE READ. NHJB-2328's
-       * three totals carry theirs in /V. NHJB-2311's signature box carries no /V
+       * three totals carry theirs in /V. NHJB-2886's signature box carries no /V
        * at all and carries its placeholder in the widget's own appearance
        * stream, which flattens onto the page exactly the same way; a reader that
        * looked only at /V would report that form as shipping nothing. So the
@@ -2234,28 +1929,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "widget's own rectangle -- but several boxes are NAMED for the line above them rather than for what they "
       + "collect, so a reader of the paper is the check that a value sits under the heading it belongs to.",
     whatToLookAt: [
-      "NHJB-2317 page 1: the applicant's name, date of birth, address, state, zip, telephone and e-mail each under the "
-        + "heading they belong to, the City/Town box BLANK (see build-findings.json), and the case number in the "
-        + "caption.",
-      "NHJB-2317 charge block: the RSA, charge, charge date, disposition date, sentence-completed date and the "
-        + "description of the sentence all blank.",
-      "NHJB-2317 page 2: every one of the ten certification boxes unticked, the pending-charges box empty, and the "
-        + "signature and date blank.",
-      "NHJB-2317 page 3: untouched. It is the court's own order and is marked FOR COURT USE ONLY.",
-      "NHJB-2311: the case number and the applicant's name in the opening line, and the entire signature block blank — "
-        + "name, address, city, state, zip, telephone, e-mail, signature and date. The signature box shows the form's "
-        + "own printed hint, 'Enter /s/ before name'; that is the form's ink, not this build's.",
-      "NHJB-2328 page 1: name, date of birth, residence address and case number written; every financial line and both "
-        + "take-home columns blank. The Total lines are NOT blank and are not meant to be — NHJB-2328 ships its three "
-        + "computed totals with the value 0, so the flattened packet prints \"Total $ 0.00\" on pages 1 and 2. That is "
-        + "the form's own default, recorded in reports/actual-writes.json as a document-authored appearance; a total "
-        + "carrying anything else is a defect.",
-      "NHJB-2328 pages 2 and 3: every expense, asset and liability line blank, the certificate-of-service box unticked, "
-        + "and the whole signature block blank.",
-      "NHJB-2956: the date of birth written, the four name boxes blank (see build-findings.json), the physical "
-        + "description and licence lines blank, and SECTION II entirely blank — including the dropdown New Hampshire "
-        + "put on the 'name of person or entity to receive record' line.",
-      "Across all four: no signature anywhere, no date beside a signature anywhere, and no counsel block filled."
+      "All known neutral facts appear in their source-measured boxes, including repeated case numbers, full residence addresses, name parts, and filer contact details.",
+      "Dates of birth use the printed mm/dd/yyyy format; boundary names retain punctuation and every value remains readable at 6pt or larger.",
+      "NHJB-2886 is the one-page Motion to Waive Filing Fees, paired with confidential NHJB-2328. Actual signatures, signing dates and service certifications remain blank.",
+      "NHJB-2956 guidance requires both sections and notarization for every mailed request; Section I alone is limited to an own-record request in person.",
+      "Court orders, attorney fields, sworn elections and unavailable facts remain appropriately blank. Guidance pages contain participant instructions."
     ],
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, file: a.file, sha256: a.sha256, pageCount: a.pageCount })),
     rasterPages: rasterPages.map((p) => ({ fixture: p.fixture, page: p.page, file: p.file, sha256: p.sha256 }))
@@ -2281,8 +1959,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     whatThisIsNot:
       "A verdict. This lane does not verify its own packets, and PASS_COMPLETE additionally requires a hash-bound "
       + "RASTER_PASS from the central raster workflow.",
-    counters: counted.counters,
-    allNineZero: PASS_COUNTERS.every((c) => counted.counters[c] === 0),
+    counters: { ...counted.counters, visualDefects: null },
+    allNineZero: false,
+    allNonvisualZero: PASS_COUNTERS.filter((c) => c !== "visualDefects").every((c) => counted.counters[c] === 0),
     findings: counted.findings,
     blankDispositions: counted.ledger.reduce((acc, b) => { acc[b.disposition] = (acc[b.disposition] ?? 0) + 1; return acc; }, {})
   });
@@ -2290,124 +1969,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/build-findings.json`, {
     schemaVersion: "rcap-family-build-findings/v1", familyId: FAMILY_ID, blocking: [],
     findings: [
-      {
-        finding:
-          "NHJB-2317 prints City/Town at the box New Hampshire named \"Mailing Address.2\", directly under the box named "
-          + "\"Mailing Address.1\" that prints Address.",
-        consequence:
-          "The shared binder resolves a field's fact from its NAME before its printed line, because a name is more "
-          + "reliable than a harvested caption, and it therefore refuses a city write into a field whose own name says "
-          + "mailing address. The build does not force it: the city is carried to the participant with the fact id "
-          + "declared, so the completeness contract decides for itself whether the packet holds that fact elsewhere. "
-          + "The rule lives in scripts/rcap-official-forms/, which this lane does not write."
-      },
-      {
-        finding:
-          "NHJB-2956 asks for LAST (MAIDEN/ALIAS) FIRST MI in four boxes and names all four name.1 to name.4.",
-        consequence:
-          "Every one of those names resolves to the participant's FULL legal name in the shared binder, so a write of "
-          + "one name part into one box is refused as a mapping conflict — correctly, because the alternative is the "
-          + "whole name printed in the box the State Police read as a surname. All four are carried to the participant "
-          + "with their fact ids declared."
-      },
-      {
-        finding:
-          "NHJB-2311's only court control is a dropdown of SUPERIOR courts, and a pre-2019 annulment petition is "
-          + "usually filed in a circuit court district division — which NHJB-2317's own dropdown lists in full.",
-        consequence:
-          "The fee-waiver form cannot name the court the petition is filed in. Nothing is invented around it: the "
-          + "election is left to the participant and participant-instructions.md tells them to write the court name by "
-          + "hand where the list cannot express it, rather than picking a superior court they are not in."
-      },
-      {
-        finding:
-          "NHJB-2311's signature widget ships with the printed hint \"Enter /s/ before name\" baked into its own "
-          + "appearance stream rather than into its value, and flattening materialises it.",
-        consequence:
-          "Read from the finished artifact alone this looks exactly like ink on a field the map refused, which is a "
-          + "blocking finding and would be the wrong one. The build therefore flattens each pinned source once, "
-          + "unwritten, and compares: ink that matches the source's own appearance is recorded as a "
-          + "documentAuthoredAppearance. Nothing is softened — ink at a widget the source leaves empty, or ink that "
-          + "differs from the source's own, is still a blocking finding."
-      },
-      {
-        finding:
-          "New Hampshire names every box of the filer block on NHJB-2311 and NHJB-2328 sig.1 through sig.11, including "
-          + "the name, address, city, state, zip, telephone and e-mail lines.",
-        consequence:
-          "The shared protect rules refuse a write into any field whose name says sig, and that is the right rule: the "
-          + "block is completed by the filer at the moment of signing. The whole block is classified protected and the "
-          + "participant is told, in participant-instructions.md, that it is theirs to complete."
-      },
-      {
-        finding:
-          "The assignment pins NHJB-2317-DSe for this route, and that form prints its own sub-heading: \"Offenses "
-          + "Resolved Prior to 01/01/2019\".",
-        consequence:
-          "The packet is built from the form the assignment pins, and the sub-heading is stated to the participant in "
-          + "participant-instructions.md with the clerk named as the place to ask if the matter was resolved later. "
-          + "Which annulment form a vacated matter belongs on is a legal question and this lane answers none: it is "
-          + "recorded here for counsel review rather than resolved in a builder."
-      },
-      {
-        finding:
-          "NHJB-2328 ships three computed total fields — 12.total, money.total and monthly.total — carrying the value 0, "
-          + "so the flattened packet prints \"Total $ 0.00\" beneath columns of otherwise empty lines.",
-        consequence:
-          "That is the form's own default and not a write: the census reads the value from the pinned source and the "
-          + "byte proof records the ink as a document-authored appearance. It is stated to the participant in "
-          + "participant-instructions.md, because a frozen 0.00 above a hand-written column would tell the court "
-          + "something the participant did not mean to say, and it is stated to the visual reviewer, who would "
-          + "otherwise read a printed total as a defect."
-      },
-      {
-        finding:
-          "NHJB-2317 says PLEASE COMPLETE A SEPARATE FORM FOR EACH OFFENSE, and its charge block is one row of six "
-          + "facts, every one of them read off the court record.",
-        consequence:
-          "Each is declared REQUIRED_BEFORE_FILING and named to the participant, with the clerk of the court that "
-          + "handled the matter as the place to get it. None is estimated: a sentence-completion date guessed onto a "
-          + "petition sworn under penalties of law is worse than a blank one."
-      },
-      {
-        finding:
-          "The certification on page 2 of NHJB-2317 carries ten sworn boxes, several of which are legal "
-          + "characterisations of the applicant's own record — the RSA 651:5, III time requirements, whether the matter "
-          + "is a violent crime or a felony crime of obstruction of justice, whether an extended term under RSA 651:6 "
-          + "was imposed, whether an enhanced penalty applies to a second conviction.",
-        consequence:
-          "All ten are left to the participant as sworn elections. A packet that ticked one would be swearing to a "
-          + "characterisation of a record it has not seen."
-      },
-      {
-        finding:
-          "Section II of NHJB-2956 is the third-party release block, and the control New Hampshire put on its \"NAME OF "
-          + "PERSON/ENTITY TO RECEIVE RECORD\" line is a dropdown of family and probate courts.",
-        consequence:
-          "This packet requests the participant's own record for their own annulment, so Section II is refused as not "
-          + "applicable on this route and is never populated with participant data. The dropdown is recorded here for "
-          + "the reviewer rather than worked around."
-      },
-      {
-        finding:
-          "The MASTER_QUEUE row for this family gives its four sources paths in the D source packs and the nationwide "
-          + "recovery pool, custodies this container does not mount.",
-        consequence:
-          "The build binds all four from the Master Library instead, starting from the digest the assignment pins, and "
-          + "re-hashes each file on disk before a byte is read. The committed corpus index records the same four "
-          + "digests in the Master Library, so this is the same binary held in more than one custody, not a substituted "
-          + "source. The absent custodies are stated rather than worked around and the source receipt records the path "
-          + "actually read."
-      },
-      {
-        severity: "advisory",
-        finding:
-          "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the "
-          + "name without it.",
-        consequence:
-          "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in "
-          + "vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
-      }
+      { finding: "The legal decision replaces NHJB-2311 with source-bound NHJB-2886-DFPe, paired with confidential NHJB-2328.", governingDecisionId: service.decision.decisionId },
+      { finding: "Printed neutral meanings govern the source-bound exact-fact writer; the shared finalizer's signature protections are unchanged. Every appearance is read back from saved bytes." },
+      { finding: "Request channel is participant-selected. Every mailed record request requires both sections and Section II notarization; an own-record request in person needs only Section I." },
+      { finding: "Independent semantic and raster acceptance remain required; builder checks do not grant terminal status." }
     ]
   });
 
@@ -2424,7 +1989,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   return {
     familyId: FAMILY_ID,
     status: PASS_COUNTERS.every((c) => counted.counters[c] === 0) ? "COMPLETED" : "STOPPED",
-    counters: counted.counters, counterFindings: counted.findings,
+    counters: { ...counted.counters, visualDefects: null }, counterFindings: counted.findings,
     directory: OUT, documents: resolved.map((r) => r.formNumber),
     writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
     requiredBeforeFiling: rbf.length,
