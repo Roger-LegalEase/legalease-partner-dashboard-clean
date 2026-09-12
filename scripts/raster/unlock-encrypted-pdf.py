@@ -44,7 +44,22 @@ with pikepdf.open(source, password="") as pdf:
     page_count = len(pdf.pages)
     if page_count < 1:
         raise SystemExit("source PDF reports zero pages")
-    pdf.save(output, deterministic_id=True)
+    # Some LiveCycle instruction PDFs carry dangling references inside
+    # compressed object streams. qpdf can read the pages, but preserving those
+    # object streams in the decrypted derivative leaves pdf-lib with an
+    # undefined page-tree object when the native rasterizer embeds one page at
+    # a time. Re-serializing the same object graph without object streams makes
+    # every reference explicit. The fidelity comparison below still requires
+    # identical decoded page content, geometry, fields/widgets, and XFA, so
+    # this is a transport normalization for the temporary raster input rather
+    # than a repair or replacement of packet bytes.
+    pdf.save(
+        output,
+        deterministic_id=True,
+        object_stream_mode=pikepdf.ObjectStreamMode.disable,
+        compress_streams=False,
+        recompress_flate=False,
+    )
 
 source_hash_after = sha256(source)
 if source_hash_after != source_hash_before:
@@ -79,7 +94,7 @@ print(json.dumps({
     "pageCount": page_count,
     "pikepdfVersion": pikepdf.__version__,
     "libqpdfVersion": pikepdf.__libqpdf_version__,
-    "transformation": "empty-password decryption only; source bytes remain unchanged",
+    "transformation": "empty-password decryption and explicit-object transport normalization only; source bytes remain unchanged",
     "sourceEncrypted": True,
     "emptyUserPasswordMatched": True,
     "derivativeEncrypted": False,
@@ -88,6 +103,7 @@ print(json.dumps({
         "decodedPageContentStreamsEqual": True,
         "terminalFieldsAndWidgetsEqual": True,
         "xfaDigestEqual": True,
+        "objectStreamsDisabledForPdfLibPageEmbedding": True,
         "reader": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
     },
 }, sort_keys=True))

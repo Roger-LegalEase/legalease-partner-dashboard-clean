@@ -145,7 +145,8 @@ const rasterInputForTarget = async (abs, target, stage) => {
       || fidelity.pageGeometryEqual !== true
       || fidelity.decodedPageContentStreamsEqual !== true
       || fidelity.terminalFieldsAndWidgetsEqual !== true
-      || fidelity.xfaDigestEqual !== true) {
+      || fidelity.xfaDigestEqual !== true
+      || fidelity.objectStreamsDisabledForPdfLibPageEmbedding !== true) {
       throw new Error("the decrypt reader did not return a complete passing structural-fidelity proof");
     }
     if (evidence.pageCount !== target.expectedPages) {
@@ -321,7 +322,7 @@ const doc = {
   documentsDigest: row.documentsDigest ?? null,
   coversTheWholeFamily: row.coverage?.complete ?? null,
   decryptionTransforms,
-  decryptionRule: "An encrypted source is hashed before any transform; Poppler and qpdf must independently agree on its page count; only the temporary decrypted derivative is passed to pdf-lib for calibrated rendering; the queued packet bytes are never modified.",
+  decryptionRule: "An encrypted source is hashed before any transform; Poppler and qpdf must independently agree on its page count; the temporary derivative is decrypted and serialized with explicit objects, then admitted only when geometry, decoded page content, fields/widgets, and XFA remain identical; only that temporary transport is passed to pdf-lib for calibrated rendering; the queued packet bytes are never modified.",
   pagesMeasured: artifacts.length, measurements: artifacts, problems, environmentProblems,
   whatThisDoesNotDecide: "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route.",
   packetPdfsModified: 0, bodiesCommitted: 0, commercialRoutesOpened: 0, productionTouched: false

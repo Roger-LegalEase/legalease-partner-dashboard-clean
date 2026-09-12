@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "rcap-native-raster-input-repair/v1",
+  "preparedOn": "2026-09-12",
+  "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+  "failedWorkflowRunId": "34659754238",
+  "failedPacketCommitSha": "88ec79489d73365eb85998353b97815e6e398363",
+  "actualDefect": "CR-430-INFO is an encrypted LiveCycle XFA PDF with dangling references in compressed object streams. The existing temporary empty-password derivative preserved those object streams. On the central Node 22 runner pdf-lib resolved a required page-tree object as undefined before per-page embedding, so both identical CR-430-INFO packet members failed while the other 14 pages passed.",
+  "repair": "The raster-only decryption helper now deterministically serializes the temporary derivative with object streams disabled and streams explicit. It leaves the queued official packet bytes untouched. Its pre-existing enhanced fidelity gate still requires identical page geometry, decoded page content streams, terminal fields/widgets, and XFA digest before the native runner may use the derivative.",
+  "packetPdfBytesChanged": false,
+  "officialSourceSha256": "6bee01e04b1f8ceb05776e07b90b92a4e9048777c41c78760e381348d4d287c0",
+  "normalizedTemporaryDerivativeSha256": "56079d2320584377d0f2429b2ed0c13b29b838d22e1122895236c5fc2be26e26",
+  "focusedTest": {
+    "command": "RCAP_PIKEPDF_PYTHON=/tmp/rcap-nine-review-venv/bin/python node scripts/raster/test-unlock-encrypted-pdf-livecycle.mjs",
+    "result": "PASS",
+    "proofs": [
+      "all four normalized pages load and embed through the same pdf-lib operation used by the native rasterizer",
+      "the source and normalized derivative have identical extracted text hashes",
+      "Poppler produces identical page pixels for all four source/derivative page pairs",
+      "a visible-square negative control produces different pixels",
+      "source hash, page count, geometry, decoded content streams, terminal fields/widgets, and XFA digest remain exact",
+      "the temporary derivative contains no compressed object streams"
+    ]
+  },
+  "localNativeRunner": {
+    "result": "RASTER_BLOCKED_ENVIRONMENT",
+    "why": "No raster-capable Chromium is installed in this workspace; no local native visual verdict is claimed. The focused test exercised the failed pdf-lib page-embedding operation and independent Poppler pixel equivalence instead."
+  },
+  "nextGate": "Commit this helper and test, create the Captain-owned retry manifest from the generated native queue row, and run a fresh central exact-byte raster. Preserve workflow 34659754238 as historical FAIL evidence.",
+  "nativeEnforcement": "scripts/rcap-raster-batch.mjs now requires objectStreamsDisabledForPdfLibPageEmbedding=true and records explicit-object normalization in every receipt; a default object-stream derivative cannot be admitted.",
+  "tests": [
+    {
+      "command": "RCAP_PIKEPDF_PYTHON=/tmp/rcap-nine-review-venv/bin/python node scripts/raster/test-unlock-encrypted-pdf-livecycle.mjs",
+      "result": "PASS",
+      "proofs": [
+        "all four normalized pages load and embed through the same pdf-lib operation used by the native rasterizer",
+        "the source and normalized derivative have identical extracted text hashes",
+        "Poppler produces identical page pixels for all four source/derivative page pairs",
+        "a visible-square negative control produces different pixels",
+        "source hash, page count, geometry, decoded content streams, terminal fields/widgets, and XFA digest remain exact",
+        "the temporary derivative contains no compressed object streams"
+      ]
+    },
+    {
+      "command": "node --check scripts/rcap-raster-batch.mjs && node --check scripts/raster/test-unlock-encrypted-pdf-livecycle.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-packet-recovery/test-full-set-raster-admission.py",
+      "result": "PASS; 11 controls held"
+    }
+  ],
+  "testLog": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/ca/native-raster-repair/focused-tests.log"
+}
