@@ -130,6 +130,12 @@ hearingGuide.composedPdfLayout = {
   lineHeight: 14.4
 };
 applyKansasSharedPolicy(SPEC, FIXTURES);
+const finalDischargeField = SPEC.policy[`${pet}:undefined_5`];
+assert.equal(finalDischargeField.kind, 'requiredBeforeFiling', 'specialty item 7 remains a participant-supplied source fact');
+Object.assign(finalDischargeField, {
+  reason: 'the participant supplies this before filing: the date of final discharge, from the record you screened with, or from the clerk of the convicting district court',
+  supply: 'the LATEST of: the date you satisfied the sentence, or the date you were discharged from probation, a community correctional services programme, parole, postrelease supervision, conditional release or a suspended sentence'
+});
 const build = createKansasBuilder(SPEC, FIXTURES, ROUTE_FACTS);
 export async function runFamily(argv = process.argv.slice(2)) {
   for (const facts of Object.values(FIXTURES)) {

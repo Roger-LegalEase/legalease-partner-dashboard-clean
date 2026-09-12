@@ -75,6 +75,12 @@ for (const [document, field, reason, supply] of coercionCases) {
   ok(supply.test(row.participantMustSupply), `coercion ${document}/${field}: participant handback covers the exact alternate branch`);
 }
 
+const specialtyItem7 = modules[3].SPEC.policy['KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:undefined_5'];
+equal(specialtyItem7.kind, 'requiredBeforeFiling', 'specialty item 7 remains a required source-form fact');
+ok(specialtyItem7.supply.includes('date you satisfied the sentence'), 'specialty item 7 retains the sentence-completion alternative');
+ok(specialtyItem7.supply.includes('date you were discharged'), 'specialty item 7 retains the supervision-discharge alternative');
+ok(!/waiting period|arrest date|conviction date/i.test(`${specialtyItem7.reason} ${specialtyItem7.supply}`), 'specialty item 7 does not import the ordinary route waiting clock');
+
 const frozen = read('data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json');
 equal(frozen.verifiedAtBase, 'b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f', 'negative control remains pinned to the old packet commit');
 equal(frozen.rows.length, 3, 'negative control preserves all three independently failed families');

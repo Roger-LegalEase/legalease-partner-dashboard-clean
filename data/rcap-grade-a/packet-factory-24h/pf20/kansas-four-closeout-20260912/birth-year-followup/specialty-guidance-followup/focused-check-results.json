@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "result": "PASS",
+  "commands": [
+    {
+      "command": "node scripts/test-ks-birth-year-followup.mjs",
+      "result": "PASS",
+      "assertions": 203,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/specialty-guidance-followup/focused-test.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-specialty-court-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/specialty-guidance-followup/specialty-completeness.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-ks-21-6614-specialty-court-set.mjs --check",
+      "result": "CHECK_ONLY",
+      "sourceHashesBound": 6,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/specialty-guidance-followup/specialty-source-binding.log"
+    }
+  ],
+  "packetPdfChecks": 8,
+  "packetPdfsChanged": 0,
+  "rasterNotRun": true,
+  "independentAcceptanceNotClaimed": true
+}

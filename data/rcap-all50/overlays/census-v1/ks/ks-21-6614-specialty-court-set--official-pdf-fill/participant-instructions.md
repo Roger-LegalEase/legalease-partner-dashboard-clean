@@ -97,7 +97,7 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 1 | Item 5 — the crime I was convicted of | the crime you were convicted of, as the journal entry states it, with the Kansas statute if the record gives one |
 | 1 | Item 5 — date of conviction | the date you were convicted |
 | 1 | Item 6 — the convicting court or diverting authority | the court that convicted you, named as the journal entry names it |
-| 2 | Item 7 — the date of final discharge | the LATEST of: the date you satisfied the sentence, or the date you were discharged from probation, a community correctional services programme, parole, postrelease supervision, conditional release or a suspended sentence. This is the date the waiting period runs from — not the arrest date and not the conviction date. |
+| 2 | Item 7 — the date of final discharge | the LATEST of: the date you satisfied the sentence, or the date you were discharged from probation, a community correctional services programme, parole, postrelease supervision, conditional release or a suspended sentence |
 
 ### KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016
 
