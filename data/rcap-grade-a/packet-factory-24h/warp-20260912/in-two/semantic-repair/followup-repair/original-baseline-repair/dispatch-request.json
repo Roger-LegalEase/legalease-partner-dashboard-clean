@@ -2,11 +2,25 @@
   "schemaVersion": "rcap-raster-dispatch-request/v1",
   "workflow": "rcap-packet-raster-acceptance-batch.yml",
   "inputs": {
-    "commit_sha": "50ee4d282cc27d7ba726b401ab3937ae4f9c11e5",
-    "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/raster-manifest.json",
-    "family_batch": "in_arrest_no_charges-set,in_section1_petition-set",
+    "commit_sha": "c37d17e114664a2e8108dbc13cb572e4d000ec47",
+    "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "family_batch": "in_arrest_no_charges-set,in_section1_petition-set,composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
     "requested_scale": "2.5"
   },
   "semanticPreflight": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-semantic-review/semantic-preflight.json",
-  "semanticPreflightSha256": "d5d8de7aa2923e26fba0c7d7347d0d3bf31787c52bd6e69a00a8f68260605cb9"
+  "semanticPreflightSha256": "d5d8de7aa2923e26fba0c7d7347d0d3bf31787c52bd6e69a00a8f68260605cb9",
+  "supersedesUndispatchedRequest": {
+    "sha256": "41b23c611ea8b1e70c74ee17de6156d865e036fc14da6247d2df4bd08c2e5d43",
+    "reason": "Add independently semantically accepted Oklahoma bytes to the same external workflow; reuse existing exact native queue, avoiding another manifest or sequential run."
+  },
+  "additionalSemanticPreflights": [
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ok-trafficking-semantic-repair/independent-semantic-review/semantic-preflight.json",
+      "sha256": "7064734d51c5c2fde41ff68ab7e4b1ff48baf96596cbf91952f6206cb0473f82"
+    }
+  ],
+  "manifestSha256": "2308f221e1a9277aa3abbcda8753cb306a1acf776a826e83ba38457eb8bf0ab4",
+  "selectedCurrentPdfCount": 10,
+  "selectedOriginalPageCount": 104
 }
