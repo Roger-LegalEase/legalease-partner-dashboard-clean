@@ -72,7 +72,19 @@ for family in selected:
         assert v['familyId'] == family and v['documentsDigest'] == row['documentsDigest']
         assert v['problems'] == [] and v['environmentProblems'] == [] and v['packetPdfsModified'] == 0
         assert v['coversTheWholeFamily'] is True and v['requestedScale'] == 2.5
-        assert v['documentsRendered'] == [dict(role=d['role'], document=d['name'], path=d['path'], pinned=d['sha256']) for d in row['documents']]
+        assert len(v['documentsRendered']) == len(row['documents'])
+        for actual, d in zip(v['documentsRendered'], row['documents']):
+            assert {k: actual[k] for k in ['role', 'document', 'path', 'pinned']} == dict(role=d['role'], document=d['name'], path=d['path'], pinned=d['sha256'])
+            reuse = d.get('reuseOriginalPageEvidence')
+            if reuse:
+                assert actual.get('renderedInThisRun') is False
+                origin = actual.get('originalOrigin') or {}
+                assert str(origin.get('workflowRunId')) == reuse['originalRunId']
+                assert origin.get('packetCommitSha') == reuse['originalPacketCommitSha']
+                assert actual['pinned'] == reuse['documentSha256']
+            else:
+                assert actual.get('renderedInThisRun', True) is True
+                assert actual.get('originalOrigin') is None
         for role in ['canonical', 'boundary']:
             assert v['hashesBound'][role] == dict(path=row[role+'PdfPath'], pinned=row[role+'PdfSha256'])
         expected = set()

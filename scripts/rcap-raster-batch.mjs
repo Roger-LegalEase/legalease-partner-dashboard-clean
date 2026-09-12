@@ -21,6 +21,7 @@ import { fileURLToPath } from "node:url";
 import { PDFDocument } from "pdf-lib";
 import sharp from "sharp";
 import { resolveChromium, rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
+import { reuseHeldFactCanonicalEvidence } from "./raster/reuse-held-fact-canonical-evidence.mjs";
 import { reuseOriginalPageEvidence } from "./raster/reuse-original-page-evidence.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -234,7 +235,9 @@ for (const target of targets) {
   }
   if (target.reuseOriginalPageEvidence) {
     try {
-      const reused = await reuseOriginalPageEvidence({
+      const reuse = target.reuseOriginalPageEvidence.policyId === "HELD-FACT-FIT-20260912"
+        ? reuseHeldFactCanonicalEvidence : reuseOriginalPageEvidence;
+      const reused = await reuse({
         root: ROOT, out: OUT, familyId: FAMILY, familyPath: FAMILY_PATH,
         target, descriptor: target.reuseOriginalPageEvidence, scale: SCALE,
         currentPageCount: pages
