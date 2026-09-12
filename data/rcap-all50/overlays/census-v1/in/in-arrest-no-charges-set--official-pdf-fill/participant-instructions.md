@@ -1,6 +1,6 @@
 # Filing instructions — Clearing an arrest where you were never charged (Indiana, I.C. § 35-38-9-1)
 
-This packet is one PDF published by the Coalition for Court Access and approved for use in Indiana courts. It contains five documents:
+This packet contains two official PDFs published by the Coalition for Court Access. The fifteen-page bundle contains five documents:
 
 | Pages | Form | What it is |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ and inside the proposed order, pages 10 and 11 print:
 
 **Do exactly what the bundle says: take out each placeholder page and put the matching insert page in its place.** The insert pages are printed separately here so that you can.
 
-**Every blank on all four insert pages is yours to fill.** Nothing on them is filled in for you, and that is not an oversight — the reason is below, in the section headed "The insert pages".
+**The packet marks only the participant-owned choices that the selected route and held dates settle.** Every other participant blank remains for you, and every court-owned finding remains blank. The exact marks and the reason are below, in the section headed "The insert pages".
 
 ## This packet is delivered flattened: print it and complete it in pen
 
@@ -95,7 +95,7 @@ The committed route record for this packet states the statutory position: "The c
 
 ## What you must do before you file
 
-1. **Put each insert page in place of the placeholder page that calls for it.** The Facts, Findings and Exhibit pages are the second document in this packet; the bundle's pages 4, 10 and 11 each tell you to take that page out and put the matching insert in its place. Do that first, and fill every blank on all four insert pages by hand — the section headed "The insert pages" below says which block is which, and why nothing on them is filled in for you.
+1. **Put each insert page in place of the placeholder page that calls for it.** The Facts, Findings and Exhibit pages are the second document in this packet; the bundle's pages 4, 10 and 11 each tell you to take that page out and put the matching insert in its place. Do that first. The section headed "The insert pages" below identifies the participant squares already marked from held facts, every remaining participant blank you must complete, and the court findings you must leave alone.
 2. **Write the cause number into every caption once the clerk gives it to you**: the “CAUSE NO.” line on pages 1, 3, 7 and 9, and the “XP CAUSE NUMBER” line on page 8. The bundle has no box for it. **The county and your name are already printed in those captions — do not write over them.**
 3. **Write your Social Security number only where the packet asks for it, and note that it asks twice, differently.** The petition's paragraph 2 on page 3 asks for the **last four digits only**, after the printed “XXX-XX-”. The **Confidential Information Form** on page 8 asks for the **whole number** — and that form is the reason Form ACR exists. Its own printed words are “ATTENTION CLERK: FOR SELF REPRESENTED LITIGANTS TREAT THIS FORM AS IF IT IS PRINTED ON GREEN PAPER. IF THIS DOCUMENT IS E-FILED, FILE THIS AS A CONFIDENTIAL DOCUMENT.” The proposed order's findings have a third blank for the whole number, at paragraph 2 on page 9, and that one belongs to the court. **Pages 1 to 7 are the pages that go on the public record: your whole number belongs on none of them.** The only Social Security digits anywhere on a public page are the last four, in the petition's paragraph 2.
 4. **Write your driver licence or state identification number** in the petition's paragraph 2.
@@ -138,18 +138,25 @@ The committed route record for this packet states the statutory position: "The c
 | 14 | the proposed order — the county clerk's address and its election square (`CountyClerkAddress`, `Check Box32`, `Check Box33`, `Check Box34`) | the clerk's address, and the squares beside the transferred-probation, appellate and no-contact-order addresses, each of which the form says to mark only in the case its own printed note describes |
 | 14 | the proposed order — **"Law Enforcement Agencies:"**, 29 blank printed rules (`List-MailingAddresses_LEA`) | the mailing address of every law-enforcement agency the signed order must be served on. **This packet writes nothing here at all.** The platform holds no agency addresses, and an earlier build wrote your own home address into this block — see the note below |
 
-## The insert pages: everything on them is yours to write, and here is why
+## The insert pages: the settled participant choices, the remaining handback and the court's findings
 
-**This packet writes nothing at all on the four insert pages, and the reason is in how the form is built rather than in what the platform holds.** The insert's boxes are shared by NAME across its own four pages: the same arrest-date, arresting-agency, county and offence-grid boxes carry *your* facts on pages 1–2, the *court's* findings on page 3, and Exhibit A on page 4. A PDF form field with several boxes holds one value, so anything this packet typed as your allegation would print, in the same breath, as the court's own finding. There is no value the platform could put in those boxes that would not also be asserted as a finding the court has not made, so the packet puts none. The Coalition for Court Access publishes these pages for you to complete.
+**This packet has marked 2 participant-owned squares on the FACTS page:**
 
-So fill all four insert pages by hand, from your court and arrest records and not from memory.
+- `Check Box19` — **all charges were not filed or were dismissed before trial**. The governed route declares the sole disposition arrested_no_charges_filed. The participant FACTS branch says all charges were either not filed or dismissed before trial; this route establishes the first alternative. The separate prosecutor-declined branch remains unanswered.
+- `Check Box25` — **at least one year has passed**. Held filing date 2026-08-12 is at least one calendar year after the latest held arrest/disposition date 2020-01-15. This marks only the participant's elapsed-time statement; the court's separate finding remains blank.
+
+These marks come only from the selected route and the held dates. Check them against your records. If either is wrong, stop and request a corrected packet; do not file by changing a sworn answer you did not select.
+
+**Every other insert blank stays unfilled.** Most insert text and choice fields are shared by NAME across pages: the same arrest-date, arresting-agency, county and offence-grid fields carry *your* facts on pages 1–2, the *court's* findings on page 3 and Exhibit A on page 4. A shared PDF field holds one value, so filling one would also assert a finding the court has not made. The marked participant squares above are safe because each has its own separate field; the corresponding court FINDINGS squares remain blank. Complete the remaining participant blanks from your records and leave all eight court-election squares on page 3 alone.
+
+Complete the remaining participant portions from your court and arrest records, and do not write in the court's FINDINGS section.
 
 | Insert page | The block on the form | The Coalition's box names | What to write |
 | --- | --- | --- | --- |
 | 1 | the arrest or summons block | `DD-ArrestOrSummons`, `ArrestDate`, `County`, `NameArrestingOfficer`, `ArrestingAgency`, `LEACaseNumber`, `Check Box15`, `Check Box17` | how the matter began, when, in which county, who arrested you, which agency, and that agency's own case number |
 | 1 | the charge block | `AssignedCaseNumber`, `DateChargesFiled`, `DD-HowChargesFiled`, `CauseNumber`, `DD-TypeChargesFiled` | the case number, the date and manner the charges were filed, the cause number and the type of charges |
 | 1 | the offence grid, counts 1 to 4 | `DD-CountNumber`, `OffenseDescript-Ct1`, `OffenseDescript-Ct2`, `OffenseDescript-Ct3`, `OffenseDescript-Ct4`, `DD-LevelChoice-Ct1`, `DD-LevelChoice-Ct2`, `DD-LevelChoice-Ct3`, `DD-LevelChoice-Ct4`, `DD-ChargeLevel-Ct1`, `DD-ChargeLevel-Ct2`, `DD-ChargeLevel-Ct3`, `DD-ChargeLevel-Ct4`, `DD-Misd/Felony-Ct1`, `DD-Misd/Felony-Ct2`, `DD-Misd/Felony-Ct3`, `DD-Misd/Felony-Ct4` | each count as your court record words it, with its level and whether it was a misdemeanour or a felony |
-| 1 | the disposition block | `DateChargesDismissed`, `DateAcquittal`, `AppellateCauseNumber`, `DateAppellateDecFinal`, `Check Box19`, `Check Box21`, `Check Box23`, `Check Box25`, `Check Box26` | how and when the matter ended, and any appellate cause number and final-decision date |
+| 1 | the disposition block | `DateChargesDismissed`, `DateAcquittal`, `AppellateCauseNumber`, `DateAppellateDecFinal`, `Check Box19`, `Check Box21`, `Check Box23`, `Check Box25`, `Check Box26` | check the premarked square or squares against your records; complete the remaining applicable date, outcome and appellate blanks without changing a premarked answer |
 | 2 | the related-matter block | `Check Box29`, `DescriptRelatedMatter`, `ListRelatedMCCauseNumbers` | whether there is a related matter, what it is, and its cause numbers |
 | 3 | **FINDINGS — leave the eight election squares alone** | `Check Box16`, `Check Box18`, `Check Box20`, `Check Box22`, `Check Box24`, `Check Box27`, `Check Box28`, `Check Box30` | **nothing. These are the court's own findings.** The text blanks on page 3 repeat what you write on pages 1–2 |
 | 4 | Exhibit A — who you are | `cap-PetitionerFullName`, `PetDOB`, `PetFullSSN`, `AliasNamesDOBsSSNs`, `AddressesSinceArrest` | your full name, date of birth, whole Social Security number, any other names, dates of birth or numbers you have used, and every address you have lived at since the arrest |
@@ -188,7 +195,7 @@ The proposed order at pages 9 to 15 is what you are asking the judge to sign. It
 
 ## Every blank in this packet, counted
 
-**This table is generated from the build's own record of what it did not fill**, `reports/blanks-left-for-the-participant.json`, and it covers **all 140** of them. Nothing this packet left blank is missing from it. Where the last column says the committed record does not state who fills a blank, that is what the record does — it is not an omission in this guide.
+**This table is generated from the build's own record of what it did not fill**, `reports/blanks-left-for-the-participant.json`, and it covers **all 138** of them. Nothing this packet left blank is missing from it. Where the last column says the committed record does not state who fills a blank, that is what the record does — it is not an omission in this guide.
 
 | The blanks | Where | How many box names | Who fills it |
 | --- | --- | --- | --- |
@@ -199,7 +206,7 @@ The proposed order at pages 9 to 15 is what you are asking the judge to sign. It
 | The caption's court type | pages 1, 3, 7 and 9 | 1 | you |
 | The court's own findings and election squares | page 12 | 2 | the court |
 | The four certificates of service | pages 2, 6 and 7 | 21 | you, after you have served |
-| The four insert pages | all four insert pages | 77 | you |
+| The four insert pages | all four insert pages | 75 | you |
 | The petition's WHEREFORE election squares | page 5 | 2 | you |
 | The proposed order's distribution list | page 13 | 3 | not stated by the committed record |
 | The proposed order's service addresses, including the law-enforcement list | page 14 | 5 | not stated by the committed record |
@@ -212,7 +219,7 @@ The proposed order at pages 9 to 15 is what you are asking the judge to sign. It
 
 This packet prepares official forms; it does not decide anything. Stop and get advice from a **lawyer licensed in Indiana**, or from the resources at **www.indianalegalhelp.org** — or put a procedural question to the **clerk of the court in the county in your caption**, who can say what the court requires even though the clerk cannot give legal advice — before filing, if any of these is true:
 
-- **you are not sure which of the insert pages your case needs, or how to complete them.** All four are in this packet, and every blank on them is yours to fill from your own court and arrest records;
+- **you are not sure which of the insert pages your case needs, whether a premarked participant square is accurate, or how to complete the remaining blanks.** All four pages are in this packet; court FINDINGS stay blank and the remaining participant blanks come from your court and arrest records;
 - **there will be a hearing and you are not ready for one.** The committed record for this packet records that "The court sets a hearing" on this route;
 - charges are currently pending against you, or you are participating in a pretrial diversion programme. Paragraph 3 of the petition swears that neither is true;
 - **the waiting period has not run.** The committed record for *this* route states it in its own words: **One year** measured from “The arrest, with no charges pending”. **The record for this route states no exception and no early-filing term**, so this guide states none either. If you believe your case should be treated differently, that is a question for a lawyer and not something this packet decides;
@@ -234,4 +241,4 @@ This packet prepares official forms; it does not decide anything. Stop and get a
 
 This is a prepared copy of the Coalition for Court Access's own approved bundle together with the Non Conviction Insert Forms that the bundle directs you to add. It is not legal advice, it is not filed for you, and it does not decide whether your records can be expunged under I.C. § 35-38-9-1.
 
-_Route: obligation:track-pathway:IN:in_arrest_no_charges:non-conviction-arrest-or-criminal-charge-expungement — I.C. § 35-38-9-1(c), (a), (e), (f) and (k)_
+_Indiana authority used for this packet: I.C. § 35-38-9-1(c), (a), (e), (f) and (k)._

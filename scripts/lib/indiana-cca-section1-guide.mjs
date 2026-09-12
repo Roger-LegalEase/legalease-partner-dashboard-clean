@@ -65,7 +65,10 @@ export const RETIRED_SENTENCES = [
   "This family writes nothing below the proposed order's caption anywhere",
   "**The whole of the proposed order below its caption**, which belongs to the court.",
   "Put the full number nowhere else.",
-  "**Leave the proposed order alone below its caption.**"
+  "**Leave the proposed order alone below its caption.**",
+  "**Every blank on all four insert pages is yours to fill.**",
+  "**This packet writes nothing at all on the four insert pages",
+  "## The insert pages: everything on them is yours to write"
 ];
 
 const ordinalWord = (n) =>
@@ -96,7 +99,10 @@ export async function measureDelivery({ rootDir, outRel }) {
 
   const bundleCensus = census.documents.find((d) => d.documentId === BUNDLE_DOCUMENT_ID);
   const bundleMap = fieldMap.documents.find((d) => d.documentId === BUNDLE_DOCUMENT_ID);
+  const insertCensus = census.documents.find((d) => d.documentId === INSERT_DOCUMENT_ID);
+  const insertMap = fieldMap.documents.find((d) => d.documentId === INSERT_DOCUMENT_ID);
   assert.ok(bundleCensus && bundleMap, `${outRel}: the bundle document is missing from the build's own records`);
+  assert.ok(insertCensus && insertMap, `${outRel}: the insert document is missing from the build's own records`);
 
   const widgetsOf = (name) => {
     const field = bundleCensus.fields.find((f) => f.name === name);
@@ -149,7 +155,11 @@ export async function measureDelivery({ rootDir, outRel }) {
     courtTypePages: pagesOf("DD-cap-CourtType"),
     fullSsnPages: pagesOf("PetFullSSN"),
     insertFieldCount:
-      (census.documents.find((d) => d.documentId === INSERT_DOCUMENT_ID)?.fields ?? []).length,
+      insertCensus.fields.length,
+    insertSelections: (insertMap.writeBoxes ?? [])
+      .filter((row) => row.writeKind === "selection_settled_from_held_facts")
+      .map((row) => ({ field: row.field, page: row.page, basis: row.selectionBasis })),
+    insertFieldDecisions: insertMap.fields,
     /*
      * FIX132. The number of blank printed rules the participant actually meets
      * under "Law Enforcement Agencies:" on the proposed order, counted in the
@@ -251,8 +261,23 @@ function flattenedDeliverySection(delivered) {
 **One thing to know if you do work from the Coalition's fillable copy instead.** ${delivered.shared.length} of the bundle's box names carry more than one box, and ${straddling.length} of those reach both a page that goes on the public record and a page the Coalition stamps “NOT FOR PUBLIC RECORD” — ${englishList(examples)} among them. On the fillable copy one value fills every box of that name at once, so a fact typed into the petition also prints inside the proposed order's findings. That is the form's own design and it runs in the protective direction: each of those facts is one a public filing already asks for, and the second copy lands inside the non-public order. On the flattened copy you have, each printed line is separate and you fill only the ones you are asked to fill.`;
 }
 
-function insertPagesReason() {
-  return `**This packet writes nothing at all on the four insert pages, and the reason is in how the form is built rather than in what the platform holds.** The insert's boxes are shared by NAME across its own four pages: the same arrest-date, arresting-agency, county and offence-grid boxes carry *your* facts on pages 1–2, the *court's* findings on page 3, and Exhibit A on page 4. A PDF form field with several boxes holds one value, so anything this packet typed as your allegation would print, in the same breath, as the court's own finding. There is no value the platform could put in those boxes that would not also be asserted as a finding the court has not made, so the packet puts none. The Coalition for Court Access publishes these pages for you to complete.`;
+const INSERT_SELECTION_LABELS = {
+  "Check Box19": "all charges were not filed or were dismissed before trial",
+  "Check Box25": "at least one year has passed"
+};
+
+function insertSelectionSummary(delivered) {
+  assert.ok(delivered.insertSelections.length > 0,
+    "the current Indiana route must carry at least one settled participant insert selection");
+  const rows = delivered.insertSelections.map((row) =>
+    `- \`${row.field}\` — **${INSERT_SELECTION_LABELS[row.field]}**. ${row.basis}`);
+  return `**This packet has marked ${delivered.insertSelections.length === 1 ? "one" : delivered.insertSelections.length} participant-owned square${delivered.insertSelections.length === 1 ? "" : "s"} on the FACTS page:**\n\n${rows.join("\n")}\n\nThese marks come only from the selected route and the held dates. Check them against your records. If either is wrong, stop and request a corrected packet; do not file by changing a sworn answer you did not select.`;
+}
+
+function insertPagesReason(delivered) {
+  return `${insertSelectionSummary(delivered)}
+
+**Every other insert blank stays unfilled.** Most insert text and choice fields are shared by NAME across pages: the same arrest-date, arresting-agency, county and offence-grid fields carry *your* facts on pages 1–2, the *court's* findings on page 3 and Exhibit A on page 4. A shared PDF field holds one value, so filling one would also assert a finding the court has not made. The marked participant squares above are safe because each has its own separate field; the corresponding court FINDINGS squares remain blank. Complete the remaining participant blanks from your records and leave all eight court-election squares on page 3 alone.`;
 }
 
 function ssnStep() {
@@ -526,6 +551,7 @@ export function readTrackWaitingPeriods({ rootDir, trackId }) {
   const requirementKeys = (found.generationRequirements ?? []).map((r) => r.key);
   return {
     trackId,
+    dispositions: (found.dispositions ?? []).map(String),
     waitingPeriods: waitingPeriods.map((w) => ({ condition: String(w.condition), duration: String(w.duration) })),
     requiresProsecutorWrittenAgreementEarlyFiling: requirementKeys.includes("prosecutorWrittenAgreementEarlyFiling")
   };
@@ -577,7 +603,7 @@ export function participantInstructionsMarkdown({
     `the guide will not render around a blank it cannot describe: ${JSON.stringify(disclosures.unclassified)}`);
   return `# Filing instructions — ${routeLabel} (Indiana, I.C. § 35-38-9-1)
 
-This packet is one PDF published by the Coalition for Court Access and approved for use in Indiana courts. It contains five documents:
+This packet contains two official PDFs published by the Coalition for Court Access. The fifteen-page bundle contains five documents:
 
 | Pages | Form | What it is |
 | --- | --- | --- |
@@ -611,7 +637,7 @@ and inside the proposed order, pages 10 and 11 print:
 
 **Do exactly what the bundle says: take out each placeholder page and put the matching insert page in its place.** The insert pages are printed separately here so that you can.
 
-**Every blank on all four insert pages is yours to fill.** Nothing on them is filled in for you, and that is not an oversight — the reason is below, in the section headed "The insert pages".
+**The packet marks only the participant-owned choices that the selected route and held dates settle.** Every other participant blank remains for you, and every court-owned finding remains blank. The exact marks and the reason are below, in the section headed "The insert pages".
 
 ${flattenedDeliverySection(delivered)}
 
@@ -645,7 +671,7 @@ The committed route record for this packet states the statutory position: "The c
 
 ## What you must do before you file
 
-1. **Put each insert page in place of the placeholder page that calls for it.** The Facts, Findings and Exhibit pages are the second document in this packet; the bundle's pages 4, 10 and 11 each tell you to take that page out and put the matching insert in its place. Do that first, and fill every blank on all four insert pages by hand — the section headed "The insert pages" below says which block is which, and why nothing on them is filled in for you.
+1. **Put each insert page in place of the placeholder page that calls for it.** The Facts, Findings and Exhibit pages are the second document in this packet; the bundle's pages 4, 10 and 11 each tell you to take that page out and put the matching insert in its place. Do that first. The section headed "The insert pages" below identifies the participant squares already marked from held facts, every remaining participant blank you must complete, and the court findings you must leave alone.
 2. **Write the cause number into every caption once the clerk gives it to you**: the “CAUSE NO.” line on pages 1, 3, 7 and 9, and the “XP CAUSE NUMBER” line on page 8. The bundle has no box for it. **The county and your name are already printed in those captions — do not write over them.**
 ${ssnStep()}
 4. **Write your driver licence or state identification number** in the petition's paragraph 2.
@@ -682,18 +708,18 @@ ${orderStep(delivered)}
 | 14 | the proposed order — the county clerk's address and its election square (\`CountyClerkAddress\`, \`Check Box32\`, \`Check Box33\`, \`Check Box34\`) | the clerk's address, and the squares beside the transferred-probation, appellate and no-contact-order addresses, each of which the form says to mark only in the case its own printed note describes |
 | 14 | the proposed order — **"Law Enforcement Agencies:"**, ${LEA_RULE_COUNT} blank printed rules (\`List-MailingAddresses_LEA\`) | the mailing address of every law-enforcement agency the signed order must be served on. **This packet writes nothing here at all.** The platform holds no agency addresses, and an earlier build wrote your own home address into this block — see the note below |
 
-## The insert pages: everything on them is yours to write, and here is why
+## The insert pages: the settled participant choices, the remaining handback and the court's findings
 
-${insertPagesReason()}
+${insertPagesReason(delivered)}
 
-So fill all four insert pages by hand, from your court and arrest records and not from memory.
+Complete the remaining participant portions from your court and arrest records, and do not write in the court's FINDINGS section.
 
 | Insert page | The block on the form | The Coalition's box names | What to write |
 | --- | --- | --- | --- |
 | 1 | the arrest or summons block | \`DD-ArrestOrSummons\`, \`ArrestDate\`, \`County\`, \`NameArrestingOfficer\`, \`ArrestingAgency\`, \`LEACaseNumber\`, \`Check Box15\`, \`Check Box17\` | how the matter began, when, in which county, who arrested you, which agency, and that agency's own case number |
 | 1 | the charge block | \`AssignedCaseNumber\`, \`DateChargesFiled\`, \`DD-HowChargesFiled\`, \`CauseNumber\`, \`DD-TypeChargesFiled\` | the case number, the date and manner the charges were filed, the cause number and the type of charges |
 | 1 | the offence grid, counts 1 to 4 | \`DD-CountNumber\`, \`OffenseDescript-Ct1\`, \`OffenseDescript-Ct2\`, \`OffenseDescript-Ct3\`, \`OffenseDescript-Ct4\`, \`DD-LevelChoice-Ct1\`, \`DD-LevelChoice-Ct2\`, \`DD-LevelChoice-Ct3\`, \`DD-LevelChoice-Ct4\`, \`DD-ChargeLevel-Ct1\`, \`DD-ChargeLevel-Ct2\`, \`DD-ChargeLevel-Ct3\`, \`DD-ChargeLevel-Ct4\`, \`DD-Misd/Felony-Ct1\`, \`DD-Misd/Felony-Ct2\`, \`DD-Misd/Felony-Ct3\`, \`DD-Misd/Felony-Ct4\` | each count as your court record words it, with its level and whether it was a misdemeanour or a felony |
-| 1 | the disposition block | \`DateChargesDismissed\`, \`DateAcquittal\`, \`AppellateCauseNumber\`, \`DateAppellateDecFinal\`, \`Check Box19\`, \`Check Box21\`, \`Check Box23\`, \`Check Box25\`, \`Check Box26\` | how and when the matter ended, and any appellate cause number and final-decision date |
+| 1 | the disposition block | \`DateChargesDismissed\`, \`DateAcquittal\`, \`AppellateCauseNumber\`, \`DateAppellateDecFinal\`, \`Check Box19\`, \`Check Box21\`, \`Check Box23\`, \`Check Box25\`, \`Check Box26\` | check the premarked square or squares against your records; complete the remaining applicable date, outcome and appellate blanks without changing a premarked answer |
 | 2 | the related-matter block | \`Check Box29\`, \`DescriptRelatedMatter\`, \`ListRelatedMCCauseNumbers\` | whether there is a related matter, what it is, and its cause numbers |
 | 3 | **FINDINGS — leave the eight election squares alone** | \`Check Box16\`, \`Check Box18\`, \`Check Box20\`, \`Check Box22\`, \`Check Box24\`, \`Check Box27\`, \`Check Box28\`, \`Check Box30\` | **nothing. These are the court's own findings.** The text blanks on page 3 repeat what you write on pages 1–2 |
 | 4 | Exhibit A — who you are | \`cap-PetitionerFullName\`, \`PetDOB\`, \`PetFullSSN\`, \`AliasNamesDOBsSSNs\`, \`AddressesSinceArrest\` | your full name, date of birth, whole Social Security number, any other names, dates of birth or numbers you have used, and every address you have lived at since the arrest |
@@ -725,7 +751,7 @@ ${leftBlankLedger(disclosures)}
 
 This packet prepares official forms; it does not decide anything. Stop and get advice from a **lawyer licensed in Indiana**, or from the resources at **www.indianalegalhelp.org** — or put a procedural question to the **clerk of the court in the county in your caption**, who can say what the court requires even though the clerk cannot give legal advice — before filing, if any of these is true:
 
-- **you are not sure which of the insert pages your case needs, or how to complete them.** All four are in this packet, and every blank on them is yours to fill from your own court and arrest records;
+- **you are not sure which of the insert pages your case needs, whether a premarked participant square is accurate, or how to complete the remaining blanks.** All four pages are in this packet; court FINDINGS stay blank and the remaining participant blanks come from your court and arrest records;
 - **there will be a hearing and you are not ready for one.** The committed record for this packet records that "The court sets a hearing" on this route;
 - charges are currently pending against you, or you are participating in a pretrial diversion programme. Paragraph 3 of the petition swears that neither is true;
 ${waitingPeriodBullet(track)}
@@ -737,7 +763,7 @@ ${selfHelpTail}
 
 This is a prepared copy of the Coalition for Court Access's own approved bundle together with the Non Conviction Insert Forms that the bundle directs you to add. It is not legal advice, it is not filed for you, and it does not decide whether your records can be expunged under I.C. § 35-38-9-1.
 
-_Route${routeKeys.length > 1 ? "s" : ""}: ${routeKeys.join(" · ")} — ${routeStatutes}_
+_Indiana authority used for this packet: ${routeStatutes}._
 `;
 }
 
@@ -760,6 +786,37 @@ export async function assertRepairInvariants({ rootDir, outRel, familyId }) {
   const delivered = await measureDelivery({ rootDir, outRel });
 
   assert.equal(delivered.familyId, familyId, `${outRel}: the census names a different family`);
+  assert.match(guide, /contains two official PDFs/,
+    `${familyId}: the guide must describe the two delivered official PDF files`);
+  assert.doesNotMatch(guide, /obligation:track-pathway:/,
+    `${familyId}: an internal route key leaked into participant instructions`);
+
+  const expectedInsertSelections = familyId === "in_arrest_no_charges-set"
+    ? ["Check Box19", "Check Box25"]
+    : ["Check Box25"];
+  assert.deepEqual(
+    delivered.insertSelections.map((row) => row.field).sort(),
+    expectedInsertSelections,
+    `${familyId}: participant insert selections do not match the governed route and held dates`
+  );
+  for (const selection of delivered.insertSelections) {
+    assert.equal(selection.page, 1, `${familyId}/${selection.field}: settled participant selection moved off FACTS page 1`);
+    assert.ok(selection.basis, `${familyId}/${selection.field}: settled participant selection lost its evidence basis`);
+    assert.ok(
+      guide.includes(`\`${selection.field}\` — **${INSERT_SELECTION_LABELS[selection.field]}**`),
+      `${familyId}/${selection.field}: guide does not disclose the premarked participant choice`
+    );
+  }
+  const forbiddenSelections = ["Check Box15", "Check Box16", "Check Box17", "Check Box18", "Check Box20",
+    "Check Box21", "Check Box22", "Check Box23", "Check Box24", "Check Box26", "Check Box27", "Check Box28",
+    "Check Box30"];
+  for (const field of forbiddenSelections) {
+    assert.equal(
+      delivered.insertFieldDecisions.find((row) => row.field === field)?.decision,
+      "refuse",
+      `${familyId}/${field}: an unknown participant choice or court-owned finding was written`
+    );
+  }
 
   // 1. REQUIRED_BEFORE_FILING. The retired sentences are the exact ones the
   //    delivered bytes contradict. A copy-paste that brings any of them back --
