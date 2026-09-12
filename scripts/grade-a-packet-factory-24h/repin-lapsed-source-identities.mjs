@@ -399,7 +399,71 @@ const packetManifestAdapter = {
   }
 };
 
-export const ADAPTERS = new Map([[REGISTRY, registryAdapter], [PACKET_MANIFESTS, packetManifestAdapter]]);
+const SOURCE_DETERMINATIONS = "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json";
+const sourceDeterminationAdapter = {
+  recordPath: SOURCE_DETERMINATIONS,
+  describe: "source determinations (whole shared record and exact family reconciliation)",
+  index(doc, side) {
+    if (doc?.schemaVersion !== "rcap-grade-a-captain-source-identity-determinations/v1"
+      || doc.reconciliation42?.schemaVersion !== "rcap-source-reconciliation-42/v1"
+      || !Array.isArray(doc.determinations) || !Array.isArray(doc.reconciliation42.families)
+      || !Array.isArray(doc.reconciliation42.acquisitionEvidencePaths)) throw new Refusal(`unsupported ${side} source determination schema`);
+    const out = new Map();
+    for (const row of doc.reconciliation42.families) {
+      if (!row?.familyId || out.has(row.familyId)) throw new Refusal(`ambiguous ${side} source reconciliation family`);
+      out.set(row.familyId, row);
+    }
+    return out;
+  },
+  scopeFrom({ receipt, pin, currentDoc }) {
+    const byId = this.index(currentDoc, "current");
+    const match = /^captain-source-identity-determination:(.+)$/.exec(pin.recordId ?? "");
+    const hits = currentDoc.determinations.filter(row => row.id === match?.[1]);
+    if (!match || hits.length !== 1 || !byId.has(receipt.familyId)
+      || !hits[0].families?.includes(receipt.familyId)) throw new Refusal("source determination pin does not uniquely bind this family");
+    const excludedAcquisitionEvidence = [];
+    for (const p of currentDoc.reconciliation42.acquisitionEvidencePaths) {
+      // Only a committed, single-item acquisition return can prove an added
+      // evidence path irrelevant. Every other path stays in the shared anchor.
+      let bytes, evidence;
+      try {
+        bytes = fs.readFileSync(path.join(ROOT, p));
+        if (!bytes.equals(git(["show", `HEAD:${p}`], { encoding: "buffer" }))) continue;
+        evidence = JSON.parse(bytes);
+      } catch { continue; }
+      const allowed = new Set(["schemaVersion", "familyId", "itemId", "result", "heldCorpusPath", "sha256", "byteLength", "pageCount", "selectedSourcePages", "sourcePageIdentity", "officialReaderUrl", "currentRemoteBinaryHashMeasured", "independentSourceReview", "packetAcceptanceGranted"]);
+      const review = evidence.independentSourceReview;
+      if (evidence.schemaVersion !== "rcap-source-acquisition-return/v1"
+        || typeof evidence.familyId !== "string" || !evidence.familyId || evidence.familyId.includes("::") || evidence.familyId === receipt.familyId
+        || typeof evidence.itemId !== "string" || !evidence.itemId.startsWith(`${evidence.familyId}::official-form:`)
+        || Object.keys(evidence).some(k => !allowed.has(k))
+        || (review && (typeof review !== "object" || Array.isArray(review) || Object.keys(review).some(k => !["path", "sha256", "byteLength"].includes(k)) || typeof review.path !== "string" || !isDigest(review.sha256) || !Number.isInteger(review.byteLength)))
+        || Object.entries(evidence).some(([k, v]) => v && typeof v === "object" && !["selectedSourcePages", "independentSourceReview"].includes(k))
+        || (evidence.selectedSourcePages && (!Array.isArray(evidence.selectedSourcePages) || evidence.selectedSourcePages.some(p => !Number.isInteger(p))))) continue;
+      excludedAcquisitionEvidence.push({ path: p, sha256: sha256(bytes), byteLength: bytes.length, familyId: evidence.familyId, itemId: evidence.itemId });
+    }
+    return { anchorIds: [receipt.familyId], derivation: { determinationId: match[1], globalMetadataComparedAsOneAnchor: true, excludedAcquisitionEvidence } };
+  },
+  anchorsOf(doc, scope, side) {
+    const byId = this.index(doc, side);
+    const { reconciliation42, ...shared } = doc;
+    const { families, acquisitionEvidencePaths, ...reconciliationShared } = reconciliation42;
+    const excluded = new Set(scope.derivation.excludedAcquisitionEvidence.map(p => p.path));
+    const out = new Map([["sourceDeterminationSharedMetadata", { ...shared, reconciliation42: { ...reconciliationShared, acquisitionEvidencePaths: acquisitionEvidencePaths.filter(p => !excluded.has(p)) } }]]);
+    for (const id of scope.anchorIds) {
+      if (!byId.has(id)) throw new Refusal(`source reconciliation ${id} absent from ${side} record`);
+      const row = byId.get(id);
+      const supported = new Set(["familyId", "group", "disposition", "sourceReplacements", "exactNextAction"]);
+      if (Object.keys(row).some(k => !supported.has(k))) throw new Refusal(`ambiguous source reconciliation dependencies for ${id}`);
+      if (row.sourceReplacements && (Array.isArray(row.sourceReplacements) || typeof row.sourceReplacements !== "object"
+        || Object.entries(row.sourceReplacements).some(([key, values]) => !key.startsWith("official-form:") || !Array.isArray(values) || values.some(v => typeof v !== "string" || !v.startsWith("official-form:"))))) throw new Refusal(`ambiguous source replacements for ${id}`);
+      out.set(`sourceReconciliation:${id}`, row);
+    }
+    return out;
+  }
+};
+
+export const ADAPTERS = new Map([[REGISTRY, registryAdapter], [PACKET_MANIFESTS, packetManifestAdapter], [SOURCE_DETERMINATIONS, sourceDeterminationAdapter]]);
 
 /* ------------------------------------------------------------------ *
  * The comparison
