@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `31e32a7cb4a499da78ed58fe67a6f59feeee8113` (or the newer dispatch base)
+**Minimum required ancestor:** `d4b7b80857110979e6f5f046f43b4eb20ceb42ca` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'de_discretionary_superior_court-set' \
   --codex-cloud \
-  --minimum-captain-sha 31e32a7cb4a499da78ed58fe67a6f59feeee8113
+  --minimum-captain-sha d4b7b80857110979e6f5f046f43b4eb20ceb42ca
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -40,8 +40,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 - Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'de_discretionary_superior_court-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'nj_disorderly_persons-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'sd_arrest_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ky_protective_order_record_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'pa_790_nonconviction-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -65,8 +65,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 3 families
 
 - `de_discretionary_superior_court-set`
-- `nj_disorderly_persons-set` — failing: requiredOptionsMissing
-- `sd_arrest_expungement-set`
+- `ky_protective_order_record_expungement-set`
+- `pa_790_nonconviction-set` — failing: requiredFactsNotCollected, unclassifiedBlanks
 
 ## What you receive
 
@@ -80,11 +80,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
 - `data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/**`
 - `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
-- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
-- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
+- `scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs`
+- `scripts/build-census-v1-pa_790_nonconviction-set.mjs`
 
 ## Never write here
 

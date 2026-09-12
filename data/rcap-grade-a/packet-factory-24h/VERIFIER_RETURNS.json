@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 285,
-    "rows": 1379,
+    "returnDirectories": 288,
+    "rows": 1380,
     "independentVerdicts": 308,
-    "failRepairRequired": 17,
+    "failRepairRequired": 18,
     "passIndependent": 281
   },
   "failRepairRequiredFamilies": [
@@ -54,6 +54,7 @@
     "nj_indictable_conviction-set",
     "pa_6308_underage-set",
     "rcap-in-custom-pleading",
+    "ri_first_offender_felony-set",
     "sd_arrest_expungement-set",
     "tx_nd_automatic_misdemeanor_deferred-set",
     "va_exp_nonconviction-set",
@@ -29495,6 +29496,29 @@
     },
     {
       "familyId": "ri_first_offender_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc6a572064d2db64d8c5e07953f8ca0ebaa91806",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Four measured orphan headings: in each canonical/boundary PDF page 8 ends with THE AFFIDAVIT, AND THE ONE PART THAT IS YOURS. while its paragraph starts page 9; page 11 ends WHO IS EXCLUDED FROM THIS ROUTE. while its list starts page 12. Exact current PDF text and bboxes are measured; no central visual PASS is claimed.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-ri-first-offender-felony-repair-delta-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -29555,7 +29579,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_first_offender_felony-set",
@@ -40489,8 +40513,10 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 30,
+  "rowsRefused": 32,
   "refusedRows": [
+    "vf01/va_exp_nonconviction-set: unreadable obligation result \"NOT_MEASURABLE\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
+    "vf02/ri_first_offender_felony-set: unreadable obligation result \"NOT_MEASURABLE\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
     "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
     "vf02/rcap-ks-custom-pleading::ks-12-4516-municipal::canonical: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
