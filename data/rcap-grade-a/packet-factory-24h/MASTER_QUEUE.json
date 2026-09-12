@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d18f718fb3c95a5104cd74a8f93da7cecf2366a9",
+  "minimumCaptainSha": "5e93d2aab1e64a3ad7f5651b83802703846b4e3c",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -79,15 +79,15 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 15,
+    "repairRequired": 12,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 269,
+    "COMPLETE_PACKET_PROVEN": 272,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 31,
-    "FAIL_REPAIR_REQUIRED": 16,
+    "FAIL_REPAIR_REQUIRED": 13,
     "HANDOFF_READY": 2,
     "PRODUCT_PATH_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1,
@@ -35504,10 +35504,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf64",
-        "verifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-nj-disorderly-persons-set-fact-derived-semantic-fail-20260912.json"
+        "verifiedAtBase": "301abcafbb555b884cea78486eb87f764820bd80",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-nj_disorderly_persons-set-original-final-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -35526,7 +35526,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+          "verifiedAtBase": "301abcafbb555b884cea78486eb87f764820bd80",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -35545,9 +35545,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35559,7 +35557,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION: Do not ask the participant to choose a legal route. Collect factual predicates; the rules engine determines the statutory branch from conviction counts/categories, disposition relationships, dates, sentence completion, later convictions and other statutory facts. Participant owns facts and attestations, not legal classification. Fail closed if facts do not establish a branch. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION: Do not ask the participant to choose a legal route. Collect factual predicates; the rules engine determines the statutory branch from conviction counts/categories, disposition relationships, dates, sentence completion, later convictions and other statutory facts. Participant owns facts and attestations, not legal classification. Fail closed if facts do not establish a branch. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "NOT_MEASURABLE_HERE",
@@ -35576,93 +35574,11 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "NJ-FD-01; NJ-FD-03",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "NJ-FD-02; NJ-FD-03; NJ-FD-04; NJ-FD-05",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "NJ-FD-01; NJ-FD-02",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "NJ-FD-03; NJ-FD-05",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "NJ-FD-04",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "NJ-FD-06",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "NJ-FD-04",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "NJ-FD-02",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
@@ -35750,10 +35666,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfcg1",
-        "verifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-nj-indictable-conviction-set-fact-derived-semantic-fail-20260912.json"
+        "verifiedAtBase": "301abcafbb555b884cea78486eb87f764820bd80",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-nj_indictable_conviction-set-original-final-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -35772,7 +35688,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+          "verifiedAtBase": "301abcafbb555b884cea78486eb87f764820bd80",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -35791,9 +35707,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35805,7 +35719,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule NJ-INDICTABLE-FACTS-NOT-LEGAL-ELECTION: Collect the missing factual predicates and calculate the legally available branch. No build-owned election and no participant legal diagnosis. Fail closed where facts do not establish a branch. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule NJ-INDICTABLE-FACTS-NOT-LEGAL-ELECTION: Collect the missing factual predicates and calculate the legally available branch. No build-owned election and no participant legal diagnosis. Fail closed where facts do not establish a branch. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "NOT_MEASURABLE_HERE",
@@ -35822,93 +35736,11 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "NJ-FD-01; NJ-FD-03",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "NJ-FD-02; NJ-FD-03; NJ-FD-04; NJ-FD-05",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "NJ-FD-01; NJ-FD-02",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "NJ-FD-03; NJ-FD-05",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "NJ-FD-04",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "NJ-FD-06",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "NJ-FD-04",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
-          ]
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "NJ-FD-02",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
-            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
@@ -38242,15 +38074,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf62",
-        "verifiedAtBase": "f5e4348df16648230bbb717f2bbceea55f221077",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-pa-final.json"
+        "verifiedAtBase": "adef0227fc6789dd6533869224f79416fb660aa8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-pa6308-restart-final-20260912.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -38298,31 +38128,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/defect-resolution.json"
-          ]
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/defect-resolution.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": true,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_6308_underage-set.mjs",
