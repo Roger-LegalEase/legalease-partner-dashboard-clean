@@ -109,7 +109,7 @@ import { fileURLToPath } from "node:url";
 import {
   runNmFamily, resolveSourcesByHash, selfHelpStopConditions, selfHelpStopSection, heldNotWrittenSection, ROOT,
   WRITE, WRITE_BOUND_AS, SUPPLY, HELD_NOT_WRITTEN, PROTECT, ELECTION, ATTORNEY, INAPPLICABLE, OPTIONAL, NOT_A_BLANK,
-  SIGNATURE
+  SIGNATURE, PARTICIPANT_ELECTION
 } from "./rcap-nm-flat-forms/nm-packet-host.mjs";
 import { FORM_4_960_1, dictionary4960_1 } from "./rcap-nm-flat-forms/nm-form-4-960-1.mjs";
 import { FORM_4_222, DICTIONARY_4_222, STATEWIDE_CAPTION_FINDING }
@@ -819,11 +819,18 @@ const STOP_CONDITIONS = selfHelpStopConditions("NM", "nm_release_without_convict
  * trackId nm_release_without_conviction) or in the printed text of the pinned
  * forms. Nothing is added from memory.
  * ------------------------------------------------------------------ */
-function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }) {
+export function participantControlsByDocument(controls) {
+  const byDocument = new Map();
+  for (const control of controls.filter((row) => row.refusalClass === PARTICIPANT_ELECTION)) {
+    byDocument.set(control.document, [...(byDocument.get(control.document) ?? []), control]);
+  }
+  return byDocument;
+}
+
+export function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
-  const controlsByDoc = new Map();
-  for (const c of controls) controlsByDoc.set(c.document, [...(controlsByDoc.get(c.document) ?? []), c]);
+  const controlsByDoc = participantControlsByDocument(controls);
 
   const out = [];
   out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
@@ -834,7 +841,7 @@ function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }
     + "petition without a hearing if nobody objects.", "",
     "- **Form 4-952 NMRA**, _Petition to Expunge Arrest Records and Public Records (Upon Release without Conviction)_ — what you file first, under seal.",
     "- **Form 4-955 NMRA**, _Certificate of Service_ — filed after you have mailed the petition to the two responding parties.",
-    "- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about the court name printed on it.**",
+    "- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about its caption.**",
     "- **Form 4-959 NMRA**, _Notice of Completion of Briefing_ — the second stage, sixty-three days or more after service.",
     "- **Form 4-960.2 NMRA**, _Affirmation in Support of Expungement_ — attached to the notice of completion of briefing.",
     "- **Form 4-960.1 NMRA**, _Notice of Hearing_ — give this to the court so it can set a hearing if it decides to hold one.", ""
@@ -967,8 +974,9 @@ function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }
 
   out.push("## Boxes you tick with a pen", "");
   out.push(
-    "These New Mexico forms draw their tick boxes as **printed characters, not as fillable fields**, so nothing can mark "
-    + "them for you. Mark these by hand, and only the ones that are true for you **on the day you sign that form**:", ""
+    "The packet has already marked **Petitioner** on Form 4-222 because Rule 1-077.1 fixes your role on this route. "
+    + "The controls below are participant choices that remain unmarked. Mark only the ones that are true for you "
+    + "**on the day you sign that form**:", ""
   );
   for (const [doc, items] of controlsByDoc) {
     out.push(`### ${doc}`, "");

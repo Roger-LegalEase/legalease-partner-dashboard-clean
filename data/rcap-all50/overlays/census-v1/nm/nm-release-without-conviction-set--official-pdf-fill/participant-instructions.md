@@ -4,7 +4,7 @@ This packet is six official New Mexico forms for a petition to expunge the arres
 
 - **Form 4-952 NMRA**, _Petition to Expunge Arrest Records and Public Records (Upon Release without Conviction)_ — what you file first, under seal.
 - **Form 4-955 NMRA**, _Certificate of Service_ — filed after you have mailed the petition to the two responding parties.
-- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about the court name printed on it.**
+- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about its caption.**
 - **Form 4-959 NMRA**, _Notice of Completion of Briefing_ — the second stage, sixty-three days or more after service.
 - **Form 4-960.2 NMRA**, _Affirmation in Support of Expungement_ — attached to the notice of completion of briefing.
 - **Form 4-960.1 NMRA**, _Notice of Hearing_ — give this to the court so it can set a hearing if it decides to hold one.
@@ -84,7 +84,7 @@ The packet uses the answer you gave about which court handled your case, and not
 
 ## Boxes you tick with a pen
 
-These New Mexico forms draw their tick boxes as **printed characters, not as fillable fields**, so nothing can mark them for you. Mark these by hand, and only the ones that are true for you **on the day you sign that form**:
+The packet has already marked **Petitioner** on Form 4-222 because Rule 1-077.1 fixes your role on this route. The controls below are participant choices that remain unmarked. Mark only the ones that are true for you **on the day you sign that form**:
 
 ### NM-4-952
 
@@ -368,15 +368,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | F. Household | Household member 7, age | the age for household member 7, if you have that many household members |
 | F. Household | Household member 7, employment | the employment for household member 7, if you have that many household members |
 | The applicant's oath | Telephone of the applicant | your telephone number |
-
-## One or two lines that may be blank on your copy
-
-The court prints these lines at a fixed length, and this packet will not shrink a value below a size that can be read or run it past the end of the printed line. Where your own answer is too long for the line, the packet leaves it for you to write by hand, which is smaller and can be squeezed in as printing cannot. **Look at each line below on your own copy. If it is already filled in, there is nothing to do.**
-
-| Form | Page | The line | What to write if it is blank |
-| --- | --- | --- | --- |
-| NM-4-952 | 4 | Mailing Address of the Petitioner on page 4 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1 |
-| NM-4-959 | 2 | Mailing Address of the Petitioner on the notice | your full mailing address on this one line: street, city, state and ZIP |
 
 ## What the platform deliberately left blank
 
