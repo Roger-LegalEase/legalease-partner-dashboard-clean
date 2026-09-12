@@ -14,8 +14,8 @@ The packet does not say you are eligible. Kansas expungement turns on how your o
 | `ks-21-6614-prostitution-coercion-primary-filing-2` | Petition for Expungement of Conviction or Diversion (Rev. KSJC 08/2022) | You complete the numbered items and sign it. It is the document that asks the court for the order. |
 | `ks-21-6614-prostitution-coercion-notice-3` | Notice of Hearing (KSJC 12/2016) | You file it; the court sets the hearing and the clerk sends it. The Certificate of Service and Mailing at the foot of the page is the clerk's and is left blank. |
 | `ks-21-6614-prostitution-coercion-cover-sheet-4` | Order of Expungement Cover Sheet (KSJC 12/2016) | It goes to the Kansas Bureau of Investigation with the signed order, so the KBI can identify the right record. Its own text says it is for submission to the KBI. |
-| `ks-21-6614-prostitution-coercion-proposed-order-5` | Order for Expungement (Rev. KSJC 08/2022) — proposed | You bring it to the hearing for the judge. Only the caption is filled here; every finding, the ruling and the judge's signature are the court's. |
-| `ks-21-6614-prostitution-coercion-proposed-order-6` | Order Denying Expungement (KSJC 12/2016) — proposed | The Judicial Council publishes it alongside the granting order and the committed component set requires it. Only the caption is filled here. Its paragraph 8 is the court's reason for a denial and is never drafted by this packet. |
+| `ks-21-6614-prostitution-coercion-proposed-order-5` | Order for Expungement (Rev. KSJC 08/2022) — proposed | You bring it to the hearing for the judge. The caption and neutral petitioner identity recitals are filled here; every finding, the ruling and the judge's signature are the court's. |
+| `ks-21-6614-prostitution-coercion-proposed-order-6` | Order Denying Expungement (KSJC 12/2016) — proposed | The Judicial Council publishes it alongside the granting order and the committed component set requires it. The caption and neutral petitioner identity recitals are filled here. Its paragraph 8 is the court's reason for a denial and is never drafted by this packet. |
 | `ks-21-6614-prostitution-coercion-process-guidance-7` | Preparing for your hearing | Yours to read and work from. It is not filed with anything. |
 
 ## Where this is filed, what it costs, and who must be served
@@ -113,10 +113,10 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 1 | Item 5, first alternative — date of conviction | complete this line ONLY if your case ended in a conviction: the date you were convicted. Leave it blank if you completed the diversion line below. |
 | 1 | Item 5, second alternative — the crime for which I was granted a diversion | complete this line ONLY if your case ended in a diversion agreement: the crime the agreement was entered for, as the agreement states it. Leave it blank if you completed the conviction line above. |
 | 1 | Item 5, second alternative — the date the diversion was granted | complete this line ONLY if your case ended in a diversion agreement: the date the diversion was granted. Leave it blank if you completed the conviction line above. |
-| 1 | Item 6 — the convicting court or diverting authority | the court that convicted you, named as the journal entry names it |
+| 1 | Item 6 — the convicting court or diverting authority | if your case ended in a conviction, the court that convicted you as the journal entry names it; OR, if it ended in diversion, the authority that granted the diversion as the agreement names it |
 | 1 | Item at the head of the petition — expungement of my CONVICTION and related arrest records (selection) | mark this box if your prostitution case ended in a conviction. Mark the diversion box on the next line instead if it ended in a diversion agreement. Mark one, never both. |
 | 1 | Item at the head of the petition — expungement of my DIVERSION record and related arrest records (selection) | mark this box if your prostitution case ended in a diversion agreement entered in lieu of further criminal proceedings. Mark the conviction box on the line above instead if it ended in a conviction. Mark one, never both. |
-| 2 | Item 7 — the date of final discharge | the LATEST of: the date you satisfied the sentence, or the date you were discharged from probation, a community correctional services programme, parole, postrelease supervision, conditional release or a suspended sentence. This is the date the waiting period runs from — not the arrest date and not the conviction date. |
+| 2 | Item 7 — the date of final discharge | the LATEST of: the date you satisfied the sentence, the date you fulfilled the terms of the diversion agreement, or the date you were discharged from probation, a community correctional services programme, parole, postrelease supervision, conditional release or a suspended sentence. This is the date the waiting period runs from — not the arrest date and not the conviction or diversion-grant date. |
 | 2 | Item 8, Option A.i — one year(s) have elapsed (selection) | mark this box once one year has elapsed since the LATEST of: satisfying the sentence imposed, fulfilling the terms of the diversion agreement, or discharge from probation, a community correctional services programme, parole, postrelease supervision, conditional release or a suspended sentence. K.S.A. 21-6614(b)(1) sets one year for this route, so this is the only one of the four boxes you will ever mark on this petition. |
 
 ### KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016
@@ -137,7 +137,6 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 1 | Order paragraph 2 — the full name of the petitioner at the time of arrest or conviction, if different from paragraph 1 | the full name you were known by at the time of the arrest or conviction, if it is different; leave it blank if it is the same |
 | 1 | Order paragraph 3 — the race the order should state | the race, copied from what you wrote at item 3 of the petition |
 | 1 | Order paragraph 3 — the sex the order should state | the sex, copied from what you wrote at item 3 of the petition |
-| 1 | Order paragraph 3 — year of birth | the four-digit year you were born, copied from item 3 of the petition |
 | 1 | Order paragraph 4 — the Kansas county the petitioner was arrested in | the Kansas county of the arrest, copied from item 4 of the petition |
 | 1 | Order paragraph 4 — date of arrest | the date of the arrest, copied from item 4 of the petition |
 | 1 | Order paragraph 4 — the law enforcement agency that arrested the petitioner | the arresting agency, copied from item 4 of the petition |
@@ -146,7 +145,7 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 2 | Order paragraph 5 — date of conviction | the date of the conviction, copied from item 5 of the petition |
 | 2 | Order paragraph 5, second alternative — the crime for which a diversion was granted | complete this line only if your case ended in a diversion: the crime the diversion was granted for, copied from item 5 of the petition |
 | 2 | Order paragraph 5, second alternative — the date the diversion was granted | complete this line only if your case ended in a diversion: the date it was granted, copied from item 5 of the petition |
-| 2 | Order paragraph 6 — the convicting court or diverting authority | the convicting court, copied from item 6 of the petition |
+| 2 | Order paragraph 6 — the convicting court or diverting authority | the convicting court or diverting authority, copied from the matching conviction or diversion answer at item 6 of the petition |
 | 2 | Order paragraph 7 — the date of final discharge | the date of final discharge, copied from item 7 of the petition |
 
 ### KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016
@@ -156,7 +155,6 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 1 | Denial order paragraph 2 — the full name of the petitioner at the time of arrest or conviction, if different from paragraph 1 | the full name you were known by at the time of the arrest or conviction, if it is different; leave it blank if it is the same |
 | 1 | Denial order paragraph 3 — the race the order should state | the race, copied from what you wrote at item 3 of the petition |
 | 1 | Denial order paragraph 3 — the sex the order should state | the sex, copied from what you wrote at item 3 of the petition |
-| 1 | Denial order paragraph 3 — year of birth | the four-digit year you were born, copied from item 3 of the petition |
 | 1 | Denial order paragraph 4 — the Kansas county the petitioner was arrested in | the Kansas county of the arrest, copied from item 4 of the petition |
 | 1 | Denial order paragraph 4 — date of arrest | the date of the arrest, copied from item 4 of the petition |
 | 1 | Denial order paragraph 4 — the law enforcement agency that arrested the petitioner | the arresting agency, copied from item 4 of the petition |
@@ -165,7 +163,7 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 2 | Denial order paragraph 5 — date of conviction | the date of the conviction, copied from item 5 of the petition |
 | 2 | Denial order paragraph 5, second alternative — the crime for which a diversion was granted | complete this line only if your case ended in a diversion: the crime it was granted for, copied from item 5 of the petition |
 | 2 | Denial order paragraph 5, second alternative — the date the diversion was granted | complete this line only if your case ended in a diversion: the date it was granted, copied from item 5 of the petition |
-| 2 | Denial order paragraph 6 — the convicting court or diverting authority | the convicting court, copied from item 6 of the petition |
+| 2 | Denial order paragraph 6 — the convicting court or diverting authority | the convicting court or diverting authority, copied from the matching conviction or diversion answer at item 6 of the petition |
 | 2 | Denial order paragraph 7 — the date of final discharge | the date of final discharge, copied from item 7 of the petition |
 
 ## What the court fills in after you file

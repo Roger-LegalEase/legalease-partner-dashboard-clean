@@ -110,7 +110,7 @@ const DOCUMENTS = [
     sha256: "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683", byteLength: 124641,
     pages: 5, acroFieldCount: 55, captionOnly: true,
     participantName: "Order for Expungement (Rev. KSJC 08/2022) — proposed",
-    whoCompletesIt: "You bring it to the hearing for the judge. Only the caption is filled here; every finding, the ruling and the judge's signature are the court's."
+    whoCompletesIt: "You bring it to the hearing for the judge. The caption and neutral petitioner identity recitals are filled here; every finding, the ruling and the judge's signature are the court's."
   },
   {
     componentId: "ks-21-6614-conviction-proposed-order-6", documentId: "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
@@ -121,7 +121,7 @@ const DOCUMENTS = [
     sha256: "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba", byteLength: 126038,
     pages: 3, acroFieldCount: 51, captionOnly: true,
     participantName: "Order Denying Expungement (KSJC 12/2016) — proposed",
-    whoCompletesIt: "The Judicial Council publishes it alongside the granting order and the committed component set requires it. Only the caption is filled here. Its paragraph 8 is the court's reason for a denial and is never drafted by this packet."
+    whoCompletesIt: "The Judicial Council publishes it alongside the granting order and the committed component set requires it. The caption and neutral petitioner identity recitals are filled here. Its paragraph 8 is the court's reason for a denial and is never drafted by this packet."
   },
   {
     componentId: "ks-21-6614-conviction-process-guidance-7", documentId: "KS-21-6614-CONVICTION-HEARING-PREPARATION",

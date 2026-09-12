@@ -14,8 +14,8 @@ Confirm that your programme was established under K.S.A. 20-173. Ordinary divers
 | `ks-21-6614-specialty-court-primary-filing-2` | Petition for Expungement of Conviction or Diversion (Rev. KSJC 08/2022) | You complete the numbered items and sign it. It is the document that asks the court for the order. |
 | `ks-21-6614-specialty-court-notice-3` | Notice of Hearing (KSJC 12/2016) | You file it; the court sets the hearing and the clerk sends it. The Certificate of Service and Mailing at the foot of the page is the clerk's and is left blank. |
 | `ks-21-6614-specialty-court-cover-sheet-4` | Order of Expungement Cover Sheet (KSJC 12/2016) | It goes to the Kansas Bureau of Investigation with the signed order, so the KBI can identify the right record. Its own text says it is for submission to the KBI. |
-| `ks-21-6614-specialty-court-proposed-order-5` | Order for Expungement (Rev. KSJC 08/2022) — proposed | You bring it to the hearing for the judge. Only the caption is filled here; every finding, the ruling and the judge's signature are the court's. |
-| `ks-21-6614-specialty-court-proposed-order-6` | Order Denying Expungement (KSJC 12/2016) — proposed | The Judicial Council publishes it alongside the granting order and the committed component set requires it. Only the caption is filled here. Its paragraph 8 is the court's reason for a denial and is never drafted by this packet. |
+| `ks-21-6614-specialty-court-proposed-order-5` | Order for Expungement (Rev. KSJC 08/2022) — proposed | You bring it to the hearing for the judge. The caption and neutral petitioner identity recitals are filled here; every finding, the ruling and the judge's signature are the court's. |
+| `ks-21-6614-specialty-court-proposed-order-6` | Order Denying Expungement (KSJC 12/2016) — proposed | The Judicial Council publishes it alongside the granting order and the committed component set requires it. The caption and neutral petitioner identity recitals are filled here. Its paragraph 8 is the court's reason for a denial and is never drafted by this packet. |
 | `ks-21-6614-specialty-court-process-guidance-7` | Preparing for your hearing | Yours to read and work from. It is not filed with anything. |
 | `ks-21-6614-specialty-court-fee-waiver-8` | Optional request to waive docket fee | Participant chooses whether to file it, supplies their own facts and request, and signs. The judge decides. |
 
@@ -117,7 +117,6 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 1 | Order paragraph 2 — the full name of the petitioner at the time of arrest or conviction, if different from paragraph 1 | the full name you were known by at the time of the arrest or conviction, if it is different; leave it blank if it is the same |
 | 1 | Order paragraph 3 — the race the order should state | the race, copied from what you wrote at item 3 of the petition |
 | 1 | Order paragraph 3 — the sex the order should state | the sex, copied from what you wrote at item 3 of the petition |
-| 1 | Order paragraph 3 — year of birth | the four-digit year you were born, copied from item 3 of the petition |
 | 1 | Order paragraph 4 — the Kansas county the petitioner was arrested in | the Kansas county of the arrest, copied from item 4 of the petition |
 | 1 | Order paragraph 4 — date of arrest | the date of the arrest, copied from item 4 of the petition |
 | 1 | Order paragraph 4 — the law enforcement agency that arrested the petitioner | the arresting agency, copied from item 4 of the petition |
@@ -134,7 +133,6 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 1 | Denial order paragraph 2 — the full name of the petitioner at the time of arrest or conviction, if different from paragraph 1 | the full name you were known by at the time of the arrest or conviction, if it is different; leave it blank if it is the same |
 | 1 | Denial order paragraph 3 — the race the order should state | the race, copied from what you wrote at item 3 of the petition |
 | 1 | Denial order paragraph 3 — the sex the order should state | the sex, copied from what you wrote at item 3 of the petition |
-| 1 | Denial order paragraph 3 — year of birth | the four-digit year you were born, copied from item 3 of the petition |
 | 1 | Denial order paragraph 4 — the Kansas county the petitioner was arrested in | the Kansas county of the arrest, copied from item 4 of the petition |
 | 1 | Denial order paragraph 4 — date of arrest | the date of the arrest, copied from item 4 of the petition |
 | 1 | Denial order paragraph 4 — the law enforcement agency that arrested the petitioner | the arresting agency, copied from item 4 of the petition |
