@@ -391,6 +391,12 @@ export function captionAsksForEveryNamePart(subject, hay = haystack(subject)) {
  */
 export const PARTICIPANT_STATED_SUBJECT = [
   {
+    id: "ks_kjc_petition_requested_record",
+    match: /^item at the head of the petition — expungement of my conviction and related arrest records \(selection\) \|\|/,
+    exempts: ["disposition_or_hearing"],
+    because: "KJC petition Rev. 08/2022 opening request identifies the record the petitioner asks to expunge; it is not the court's disposition or finding. The builder must separately bind the route election to held facts."
+  },
+  {
     id: "al_cr65_participant_charge",
     match: /^(?:charge or conviction to be expunged|criminal charge or conviction from the record to be considered) \|\|/,
     exempts: ["disposition_or_hearing"],
