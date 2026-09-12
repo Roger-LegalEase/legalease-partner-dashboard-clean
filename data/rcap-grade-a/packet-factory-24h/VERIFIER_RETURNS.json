@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 302,
-    "rows": 1393,
-    "independentVerdicts": 308,
-    "failRepairRequired": 14,
+    "returnDirectories": 304,
+    "rows": 1395,
+    "independentVerdicts": 310,
+    "failRepairRequired": 16,
     "passIndependent": 289
   },
   "failRepairRequiredFamilies": [
@@ -47,6 +47,8 @@
     "il-seal-edu-set",
     "in_section1_petition-set",
     "ky_protective_order_record_expungement-set",
+    "mo-610-140-arrest-set",
+    "mo-610-140-conviction-set",
     "nh_petition_vacated-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
@@ -17666,6 +17668,168 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_prosecutor_agreed-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mo-610-140-arrest-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfmo1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a03afb773473e831fca70966bf66bfe8bc231ac0",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "MO-S6 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "MO-S1; MO-S2 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "MO-S1; MO-S5; MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "MO-S4; MO-S5 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "MO-S2; MO-S4 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "MO-S4 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-arrest-set-semantic-fail-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-140-arrest-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mo-610-140-conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfmo1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a03afb773473e831fca70966bf66bfe8bc231ac0",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "MO-S6 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "MO-S1; MO-S2; MO-S3 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "MO-S1; MO-S5; MO-S7 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "MO-S4; MO-S5; MO-S7 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "MO-S2; MO-S3; MO-S4 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "MO-S4 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "MO-S7 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "MO-S7 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        }
+      ],
+      "failedObligationNames": [
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-conviction-set-semantic-fail-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-140-conviction-set",
       "superseded": false
     },
     {
