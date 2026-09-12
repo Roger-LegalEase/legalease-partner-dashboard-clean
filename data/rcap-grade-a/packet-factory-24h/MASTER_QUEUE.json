@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "7b62d1f44ad96c01da6332c0c56be41732670e35",
+  "minimumCaptainSha": "ab73b3f201fa1e938d230d1f18909a31d9a5b632",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "094c3ffc34e64bac6ef478afc3819494cf530d153bd337ef665d0c48e087f177",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "95510270eac97cc2775a3ced84d08b00e1f6658245ceb5be8e1b72895c6ee3bc",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -78,20 +78,20 @@
     "sourceReady": 33,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 3,
-    "repairRequired": 15,
+    "verifyPending": 2,
+    "repairRequired": 14,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 256,
+    "COMPLETE_PACKET_PROVEN": 257,
     "PRODUCT_PATH_PENDING": 9,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 33,
-    "VERIFY_PENDING": 3,
-    "FAIL_REPAIR_REQUIRED": 16,
+    "FAIL_REPAIR_REQUIRED": 15,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 8,
+    "BUILT_RASTER_PENDING": 9,
+    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -6445,10 +6445,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "7aaa6e53318e41ccea48ae6457bf925560cd025d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-az-current-form-initial-input-fail-20260912.json"
+        "verifiedAtBase": "619af88447c53fca866059c70ff711846fce0593",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-az-current-form-input-followup-20260912.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
@@ -6513,41 +6513,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: The packet does not model or hand back the sentence imposed required by Rule29.2(a), offense class required by the governed track, or the distinct completion/discharge timing fact required by that track. Sentence-compliance yes/no and judgment date do not supply those facts. The current zero-length requiredBeforeFiling array and generic choices paragraph do not cure the omissions. Exact input/map/guide snapshots and source requirements are bound in findings.json.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/current-byte-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/az_set_aside-set-34663873573-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/independent-rule29-reading.json",
-            "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/service-source-resolution.json"
-          ]
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "FAIL: The governed participant question asking whether a certificate of second chance is requested is omitted. Asking about prior certificates and leaving judicial certificate controls blank does not ask this different participant question. A repair may use participant-authored application additional information; it must not select the judge’s grant/deny or decide certificate entitlement. All present case-specific form elections remain unselected except the correctly fact-determined additional-count marker.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/current-byte-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/az_set_aside-set-34663873573-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/independent-rule29-reading.json",
-            "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/service-source-resolution.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_set_aside-set.mjs",
@@ -20686,9 +20656,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20737,7 +20705,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
@@ -21610,9 +21578,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -21661,7 +21627,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
@@ -25677,10 +25643,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf09",
-        "verifiedAtBase": "3a2f1cf3d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+        "verifiedAtBase": "a8398d194fcaa07c05e9747cfa4810f8b59522b5",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-ma-bmc-semantic-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -25699,25 +25665,28 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "3a2f1cf3d",
+          "verifiedAtBase": "a8398d194fcaa07c05e9747cfa4810f8b59522b5",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -25726,14 +25695,7 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "ma-bmc-multi-set",
-        "foundBy": [
-          "vf09 (current independent verification)"
-        ],
-        "why": "ROUTE_IDENTITY: The governing registry still refuses to identify the custom pleading as the controlling single petition, and the sentence that refuses it names that pleading expressly. This obligation cannot be ruled on the bytes; it waits on the issuing court. | COMPONENT_SET: Every component the record names is rendered and present, and whether that set is the controlling one cannot be decided until the one form-identity question is answered.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": {
         "familyId": "ma-bmc-multi-set",
         "stateOverride": null,
@@ -25759,11 +25721,40 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Confirmed findings: MA-PREFLIGHT-STALE-VEHICLE-HOLD",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Confirmed findings: MA-PREFLIGHT-STALE-VEHICLE-HOLD, MA-PREFLIGHT-CORI-FALSE-PREREQUISITE",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Confirmed findings: MA-PREFLIGHT-INTERNAL-ROUTE-KEY",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-bmc-multi-set.mjs",

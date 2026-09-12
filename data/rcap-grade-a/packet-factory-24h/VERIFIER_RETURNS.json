@@ -34,14 +34,13 @@
     }
   ],
   "counts": {
-    "returnDirectories": 275,
-    "rows": 1366,
+    "returnDirectories": 277,
+    "rows": 1368,
     "independentVerdicts": 307,
     "failRepairRequired": 19,
-    "passIndependent": 275
+    "passIndependent": 276
   },
   "failRepairRequiredFamilies": [
-    "az_set_aside-set",
     "ca-17b-reduction-set",
     "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
@@ -53,6 +52,7 @@
     "ks-21-6614-diversion-set",
     "ks-21-6614-prostitution-coercion-set",
     "ky_protective_order_record_expungement-set",
+    "ma-bmc-multi-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
     "pa_6308_underage-set",
@@ -4158,6 +4158,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-az-current-form-initial-input-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_set_aside-set",
+      "superseded": true
+    },
+    {
+      "familyId": "az_set_aside-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "619af88447c53fca866059c70ff711846fce0593",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-az-current-form-input-followup-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_set_aside-set",
       "superseded": false
@@ -15519,6 +15533,51 @@
     },
     {
       "familyId": "ma-bmc-multi-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a8398d194fcaa07c05e9747cfa4810f8b59522b5",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Confirmed findings: MA-PREFLIGHT-STALE-VEHICLE-HOLD",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Confirmed findings: MA-PREFLIGHT-STALE-VEHICLE-HOLD, MA-PREFLIGHT-CORI-FALSE-PREREQUISITE",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Confirmed findings: MA-PREFLIGHT-INTERNAL-ROUTE-KEY",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-ma-bmc-semantic-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ma-bmc-multi-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -15573,7 +15632,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ma-expunge-k-set",

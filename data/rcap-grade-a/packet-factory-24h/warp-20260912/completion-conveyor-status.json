@@ -1,19 +1,24 @@
 {
   "schemaVersion": "rcap-completion-conveyor-status/v1",
-  "terminalCheckpoint": 275,
+  "terminalCheckpoint": 276,
   "denominator": 346,
   "implementation": {
-    "lane": "FIXIN1",
+    "lane": "FIXMA1",
     "families": [
-      "in_arrest_no_charges-set",
-      "in_section1_petition-set"
+      "ma-bmc-multi-set"
     ],
-    "nextGate": "Measure current route semantics; source-appearance loss already repaired at b724e9353, preserve rather than repeat that repair. Freeze before independent preflight."
+    "nextGate": "Repair frozen current semantic failures, then independent semantic recheck before raster."
   },
   "independentReview": {
-    "lane": "VF01",
-    "family": "az_set_aside-set",
-    "nextGate": "Final independent acceptance of four-input followup; existing PDF hashes and successful raster remain unchanged"
+    "lanes": [
+      "VF03",
+      "VF01"
+    ],
+    "families": [
+      "nh_petition_vacated-set",
+      "va_exp_nonconviction-set"
+    ],
+    "nextGate": "Finish current-byte semantic preflight; IN2 ready next under existing VFCG1 grants."
   },
   "parked": [
     {
@@ -47,7 +52,7 @@
   },
   "nationalGeneration": "Once per completed closure checkpoint; no regeneration during changing worker bytes",
   "dispatchPolicy": "Immutable packet+manifest commit only after independent semantic preflight PASS; final acceptance remains separate",
-  "latestClosure": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/closure-checkpoint/result.json",
+  "latestClosure": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/closure-checkpoint/result.json",
   "externalRun": {
     "schemaVersion": "rcap-current-raster-run/v1",
     "runId": 34669691683,
