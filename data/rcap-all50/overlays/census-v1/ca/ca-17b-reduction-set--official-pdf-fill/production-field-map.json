@@ -2035,7 +2035,20 @@
       ],
       "variantValues": null,
       "routeSpecific": false,
-      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds. The county is known, but does not complete the compound court-name/street-address caption; the remaining facts require the declared participant handback.",
+      "requiredBeforeFiling": true,
+      "participantCompletion": {
+        "fieldName": "CR-106[0].Page1[0].RightCaption[0].CourtInfo[0]",
+        "status": "PARTIAL_KNOWN_VALUE_REQUIRES_COMPLETION",
+        "retainedKnownFactId": "matter.county",
+        "requiredFactIds": [
+          "filing.court_name",
+          "filing.court_street_address"
+        ],
+        "requiredBeforeFiling": true,
+        "actor": "filer_or_actual_server",
+        "conditionDescription": "For either service method, retain the entered county and complete the court name and street address from the filing court before filing CR-106. These unheld facts are not supplied by the county alone."
+      }
     },
     {
       "formNumber": "CR-106",
@@ -2357,7 +2370,7 @@
       "requiredBeforeFiling": true,
       "routeDetermined": false,
       "identity": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
-      "conditionDescription": "Complete the filing-court address shown on the petition; use a separate mailing address only when that court publishes one."
+      "conditionDescription": "Complete the neutral court-location caption on both CR-180 and CR-181; use a separate mailing address only when that court publishes one. Judicial findings and signatures remain court-owned."
     },
     {
       "formNumber": "CR-180",
@@ -2395,7 +2408,7 @@
       "requiredBeforeFiling": true,
       "routeDetermined": false,
       "identity": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtMailingAdd[0]",
-      "conditionDescription": "Complete the filing-court address shown on the petition; use a separate mailing address only when that court publishes one."
+      "conditionDescription": "Complete the neutral court-location caption on both CR-180 and CR-181; use a separate mailing address only when that court publishes one. Judicial findings and signatures remain court-owned."
     },
     {
       "formNumber": "CR-180",
@@ -2433,7 +2446,7 @@
       "requiredBeforeFiling": true,
       "routeDetermined": false,
       "identity": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCityZip[0]",
-      "conditionDescription": "Complete the filing-court address shown on the petition; use a separate mailing address only when that court publishes one."
+      "conditionDescription": "Complete the neutral court-location caption on both CR-180 and CR-181; use a separate mailing address only when that court publishes one. Judicial findings and signatures remain court-owned."
     },
     {
       "formNumber": "CR-180",
@@ -3039,12 +3052,13 @@
         }
       ],
       "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "OPTIONAL_PARTICIPANT_CONTENT",
-      "reason": "Optional participant-authored explanation for the selected dismissal basis; complete it only if that basis applies and the participant wishes to provide an interests-of-justice explanation. The platform does not invent it.",
-      "requiredBeforeFiling": false,
+      "factId": "dismissal.trafficking_evidence",
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: evidence that the conviction resulted from human-trafficking status is required only if item 4 is used; provide it in this box or attach a letter or other relevant documents. The participant completes it, and the platform does not guess.",
+      "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "conditionDescription": "Used only with the matching CR-180 dismissal basis printed immediately above this narrative."
+      "identity": "CR-180[0].Page2[0].LI4[0].li4[0].TextField6[0]",
+      "conditionDescription": "Only if the participant actually uses CR-180 item 4. Source-permitted supporting attachments may supply the evidence instead of this box; do not infer trafficking facts or require this evidence for other branches."
     },
     {
       "formNumber": "CR-180",
@@ -3974,10 +3988,13 @@
         }
       ],
       "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": null,
-      "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "factId": "filing.court_street_address",
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the filing court location is not held; obtain it from the Superior Court in the county of conviction before filing. The participant completes it, and the platform does not guess.",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "identity": "CR-181[0].Page1[0].Caption[0].CourtInfo[0].CrtStreet[0]",
+      "conditionDescription": "Complete the neutral court-location caption on both CR-180 and CR-181; use a separate mailing address only when that court publishes one. Judicial findings and signatures remain court-owned."
     },
     {
       "formNumber": "CR-181",
@@ -4008,10 +4025,13 @@
         }
       ],
       "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": null,
-      "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "factId": "filing.court_mailing_address",
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the filing court location is not held; obtain it from the Superior Court in the county of conviction before filing. The participant completes it, and the platform does not guess.",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "identity": "CR-181[0].Page1[0].Caption[0].CourtInfo[0].CrtMailingAdd[0]",
+      "conditionDescription": "Complete the neutral court-location caption on both CR-180 and CR-181; use a separate mailing address only when that court publishes one. Judicial findings and signatures remain court-owned."
     },
     {
       "formNumber": "CR-181",
@@ -4042,10 +4062,13 @@
         }
       ],
       "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": null,
-      "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "factId": "filing.court_city_and_zip",
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the filing court location is not held; obtain it from the Superior Court in the county of conviction before filing. The participant completes it, and the platform does not guess.",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "identity": "CR-181[0].Page1[0].Caption[0].CourtInfo[0].CrtCityZip[0]",
+      "conditionDescription": "Complete the neutral court-location caption on both CR-180 and CR-181; use a separate mailing address only when that court publishes one. Judicial findings and signatures remain court-owned."
     },
     {
       "formNumber": "CR-181",
@@ -7382,5 +7405,5 @@
     "unmapped": 0
   },
   "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 33
+  "requiredBeforeFilingCount": 37
 }

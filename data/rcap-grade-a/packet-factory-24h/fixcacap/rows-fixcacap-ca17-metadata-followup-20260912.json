@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXCACAP",
+  "laneKind": "repair",
+  "isIndependentVerification": false,
+  "baseSha": "8f0913509a5ce71cfc56de59c62a91ed1674fe73",
+  "rows": [
+    {
+      "itemId": "ca-17b-reduction-set",
+      "familyId": "ca-17b-reduction-set",
+      "lane": "FIXCACAP",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "packetBytesChanged": false,
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "ARTIFACTS"
+      ],
+      "historicalFailures": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-ca17-semantic-followup-fail-20260912.json",
+          "sha256": "d62c6d07d9c503be18b2fa9f39b988ce4688b0f54cbad415af326963e92736f9",
+          "byteLength": 31519
+        }
+      ],
+      "correction": "Uses typed neutral court-address handbacks across CR-180/CR-181 and the partially filled CR-106 caption; preserves known county. Requires trafficking evidence only for item 4, allowing source-permitted attachments. Corrects adult-server and local filing/service sequence from held CR-106-INFO. Separates synthetic-sample notice from participant instructions. All six PDF bodies and all 116 mapped appearances remain unchanged.",
+      "metadataBindings": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/production-field-map.json",
+          "sha256": "9b40c426c3f2baf5e0cd24001a51d4ade3a28c456b9db3fc8095779f51c4a4af",
+          "byteLength": 229661
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/field-census.census-v1.json",
+          "sha256": "35ecc53c0b056a9da301a65398f336fc371a7ec11a47b9c99f3f9d47bcdc0491",
+          "byteLength": 624382
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "18eb331bec656c42c3d3b42df98c5efe19e23da487506e2bee65bce4101ff341",
+          "byteLength": 6599
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/reports/participant-input-status.json",
+          "sha256": "9ecd1bccd6cea691111f6cd5ac2b11e83b9b37b7316121d07446faa429f0c696",
+          "byteLength": 2361
+        },
+        {
+          "path": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+          "sha256": "1a9bfab231aca55a12f735e39a1df464a1a57e12a574ca45db3683cc463e89f2",
+          "byteLength": 354830
+        },
+        {
+          "path": "scripts/lib/ca-17b-offense-by-offense.mjs",
+          "sha256": "27bb0ee84887c582121f75659889493a53c55cf094ff3b18ed1602c376167228",
+          "byteLength": 7772
+        },
+        {
+          "path": "scripts/test-ca-17b-offense-by-offense.mjs",
+          "sha256": "495904b04df22015b9f7dbb7fa8bc02cfbcc48581a42d4f812ba412ff2ecb02e",
+          "byteLength": 7654
+        }
+      ],
+      "sourceInstruction": {
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CA/03_INSTRUCTIONS/CA__INSTRUCTIONS__CR-106-INFO__information-on-how-to-file-a-proof-of-service-in-criminal-record-clearing-requests__REV-2020-01-01__EN.pdf",
+        "sha256": "427936ac802434acbd5e349e18f8f0b08d2bfd48abbe08c714853b559f63bc27",
+        "byteLength": 83650
+      },
+      "rasterManifest": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/raster-manifest.json",
+        "sha256": "9e51c369a9378e45455b65cc9b80680ba8d014c02929902e3ff0eb30dff2357b",
+        "byteLength": 6069
+      },
+      "documentsDigest": "5658d70a604ef6d12e5708e3af662924013203517fce7008ce94dccf4faff363",
+      "unchangedPdfCount": 6,
+      "unchangedPageCount": 14,
+      "allCurrentPdfHashesAndLengthsMatchManifest": true,
+      "validation": [
+        {
+          "command": "node scripts/test-ca-17b-offense-by-offense.mjs",
+          "result": "PASS",
+          "assertions": 75
+        },
+        {
+          "command": "node scripts/build-census-v1-ca-17b-reduction-set.mjs --check",
+          "result": "CHECK_OK",
+          "environment": "MASTER_LIBRARY_SOURCE_DIR points to held extracted Master Library; RCAP_PIKEPDF_PYTHON=/tmp/rcap-nine-review-venv/bin/python"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
+          "result": "PASS_COMPLETE",
+          "written": "58/187",
+          "nineImplementationCountersZero": true
+        }
+      ],
+      "metadataRefresh": "Existing caMapAndCensus and caParticipantInstructions executed on unchanged recorded official-field census; read-only native --check independently re-read sources and matched metadata. No PDF rebuild or raster performed.",
+      "independentVerification": "PENDING independent semantic recheck; central raster and final independent acceptance still required",
+      "grantsNothing": true
+    }
+  ]
+}

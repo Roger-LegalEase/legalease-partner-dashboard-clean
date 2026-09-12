@@ -88,7 +88,34 @@ if (fs.existsSync(path.join(out, "production-field-map.json"))) {
   ok(!guide.includes("deterministic review fixture"));
   ok(guide.includes("adult server"));
   ok(guide.includes("15 days' notice"));
-  ok(guide.includes("does not identify the event from which those 15 days are counted"));
+  ok(guide.includes("do not identify the event from which those 15 days are counted"));
+  ok(!guide.includes("must be at least 18 and not a party"));
+  ok(guide.includes("requesting participant may serve in most cases"));
+  ok(guide.includes("some courts instead require service first"));
+  ok(!guide.includes("File CR-180 with CR-181 and the completed proof"));
+  ok(!guide.includes("In production") && !guide.includes("used for this review fixture"));
+  ok(guide.includes("Synthetic sample:") && guide.includes("Do not file the sample forms"));
+  ok(guide.includes("Fill in court name and street address:") && guide.includes("For either service method"));
+  ok(guide.includes("must provide evidence") && guide.includes("attached letter or other relevant documents"));
+  const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json")));
+  const courtAddresses = fieldMap.refusals.filter((r) => r.formNumber === "CR-181"
+    && /\.(?:CrtStreet|CrtMailingAdd|CrtCityZip)\[0\]$/.test(r.fieldName));
+  equal(courtAddresses.length, 3);
+  ok(courtAddresses.every((r) => r.requiredBeforeFiling === true && !r.refusalClass));
+  const compound = fieldMap.writes.find((r) => r.fieldName === "CR-106[0].Page1[0].RightCaption[0].CourtInfo[0]");
+  equal(compound.factId, "matter.county");
+  equal(compound.participantCompletion.status, "PARTIAL_KNOWN_VALUE_REQUIRES_COMPLETION");
+  equal(compound.participantCompletion.requiredBeforeFiling, true);
+  equal(compound.participantCompletion.requiredFactIds.join(","), "filing.court_name,filing.court_street_address");
+  assert.deepEqual(compound.participantCompletion, ca17ParticipantInputStatus().productionRule.courtCaptionCompletion);
+  checks += 1;
+  const trafficking = fieldMap.refusals.find((r) => r.fieldName === "CR-180[0].Page2[0].LI4[0].li4[0].TextField6[0]");
+  equal(trafficking.requiredBeforeFiling, true);
+  ok(trafficking.conditionDescription.includes("Only if") && trafficking.conditionDescription.includes("attachments"));
+  const optionalNarratives = fieldMap.refusals.filter((r) => r.formNumber === "CR-180"
+    && /\.(?:TextField6|T66)\[0\]$/.test(r.fieldName) && r !== trafficking);
+  equal(optionalNarratives.length, 4);
+  ok(optionalNarratives.every((r) => r.requiredBeforeFiling === false && r.blankTreatment === "OPTIONAL_PARTICIPANT_CONTENT"));
   ok(guide.includes("Complete only that method's section"));
   const companion = actual.artifacts.filter((row) => row.formNumber !== "CR-180");
   equal(companion.length, 4);

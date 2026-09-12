@@ -122,6 +122,16 @@ export function ca17FixtureFacts(fixture) {
   return { rows, facts, evaluation };
 }
 
+export const CA17_COURT_CAPTION_COMPLETION = Object.freeze({
+  fieldName: "CR-106[0].Page1[0].RightCaption[0].CourtInfo[0]",
+  status: "PARTIAL_KNOWN_VALUE_REQUIRES_COMPLETION",
+  retainedKnownFactId: "matter.county",
+  requiredFactIds: ["filing.court_name", "filing.court_street_address"],
+  requiredBeforeFiling: true,
+  actor: "filer_or_actual_server",
+  conditionDescription: "For either service method, retain the entered county and complete the court name and street address from the filing court before filing CR-106. These unheld facts are not supplied by the county alone.",
+});
+
 export function ca17ParticipantInputStatus() {
   return {
     schemaVersion: "rcap-participant-input-status/v1",
@@ -133,6 +143,7 @@ export function ca17ParticipantInputStatus() {
       eligibilityAnswers: "participant_or_counsel_supplied_boolean_for_each_statutory_column",
       missingInputTreatment: "stop packet completion for that row; do not infer or leave a partly completed row",
       requestTreatment: "request every reduction marked legally applicable for each offense; there is no global either/or election",
+      courtCaptionCompletion: CA17_COURT_CAPTION_COMPLETION,
     },
     reviewFixtures: Object.fromEntries(Object.entries(REVIEW_FIXTURES).map(([fixture, rows]) => [fixture, {
       syntheticReviewData: true,
