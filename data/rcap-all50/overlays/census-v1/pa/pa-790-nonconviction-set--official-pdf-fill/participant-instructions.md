@@ -20,6 +20,8 @@ These files are deterministic review fixtures made from exact held official sour
 
 The platform holds no value for any of these, and this packet never guesses at one. Each row names the page of the component, the form field as the source PDF names it, and the words the measurement read next to the blank. Where the measurement could reach no printed caption, read the printed page to see what the blank asks for.
 
+One row below is an exception and says so on its own line: the packet holds at least part of the answer. Each row states exactly what is held, what is missing, and why the complete entry was left blank. Complete it from your own court records.
+
 ### PA-RCRIM-P-790-PETITION
 
 | Page | Form field | What the form says |
@@ -90,6 +92,7 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 2 | `OTN` | the form prints `9.Offense Tracking Number (OTN)` beside it |
 | 2 | `PetitionersSSN` | the form prints `5.PetitionerÕs Social Security Number` beside it |
 | 1 | `PresentedBy` | the form prints `_______________________________________ presented by` beside it |
+| 2 | `Text15` | the form prints `Specific charges and the disposition of each charge` beside it — this packet holds `matter.charge` but does not hold charge disposition; the whole entry remains blank (composite_integrity: the source asks for both the charge and its disposition, and the disposition is not held) |
 
 ### PA-IFP-CCP
 

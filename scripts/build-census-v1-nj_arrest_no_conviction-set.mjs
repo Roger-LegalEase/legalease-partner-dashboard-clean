@@ -2823,11 +2823,11 @@ Object.assign(FAMILY, {
        * drawing one rule. 9,504 packet-owned dark pixels across the two order
        * fixtures. Same option, same reason, and it reaches nothing else here.
        */
-      cloneDoc(PA_790_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS, Text15: "matter.charge" },
+      cloneDoc(PA_790_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS },
         normalizeMissingAppearanceSubtype: true,
         fitTextPerWidget: true,
         honorWidgetBorderStyle: true,
-        declarations: PA_AFFIANT_RECORD_DECLARATIONS }),
+        declarations: { ...PA_AFFIANT_RECORD_DECLARATIONS, Text15: PA_6308_ORDER_CHARGE_DISPOSITION } }),
       PA_IFP_CCP,
     ],
     supplementalDocuments: [PA_790_SERVICE_CERTIFICATE],
@@ -6451,6 +6451,7 @@ async function buildOfficialUnsafe(familyId, config) {
     || (familyId === "nj_ordinance-set" && config.metadataOnlyRepairPreservesPdfBytes === true)
     || familyId === "nj_disorderly_persons-set"
     || familyId === "nj_indictable_conviction-set"
+    || familyId === "pa_790_nonconviction-set"
     || familyId === "pa_6308_underage-set",
   "Nonvisual build is scoped to the authorized NJ repairs and the PF26 PA 6308 repair");
   const out = officialOut(familyId, config.jurisdiction);
@@ -7454,7 +7455,7 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     if (raster.status === "RASTER_PENDING") {
       assert.ok(familyId === "nj_clean_slate-set" || familyId === "nj_disorderly_persons-set"
         || familyId === "nj_indictable_conviction-set" || familyId === "nj_ordinance-set"
-        || familyId === "pa_6308_underage-set");
+        || familyId === "pa_790_nonconviction-set" || familyId === "pa_6308_underage-set");
       assert.equal(replayRaster, false, "Pending central raster cannot satisfy a visual check");
       assert.equal(raster.sourcePdfSha256, pdf.sha256);
       assert.deepEqual(raster.pages, []);
@@ -8969,11 +8970,13 @@ export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
     || familyId === "nj_disorderly_persons-set"
     || familyId === "nj_indictable_conviction-set"
     || familyId === "nj_ordinance-set"
+    || familyId === "pa_790_nonconviction-set"
     || familyId === "pa_6308_underage-set", "Nonvisual build is supported only for authorized NJ repairs and PA 6308");
   assert.ok(!nonvisual || familyId === "nj_clean_slate-set"
     || familyId === "nj_disorderly_persons-set"
     || familyId === "nj_indictable_conviction-set"
     || familyId === "nj_ordinance-set"
+    || familyId === "pa_790_nonconviction-set"
     || familyId === "pa_6308_underage-set", "Nonvisual check is supported only for authorized NJ repairs and PA 6308");
   if (argv.includes("--self-test-fix88")) { await selfTestFix88(); return; }
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
