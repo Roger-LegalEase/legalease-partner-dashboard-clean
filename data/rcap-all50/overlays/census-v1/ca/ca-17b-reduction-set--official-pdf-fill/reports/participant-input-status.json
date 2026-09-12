@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-participant-input-status/v1",
+  "familyId": "ca-17b-reduction-set",
+  "decisionId": "CA-17B-17D2-OFFENSE-BY-OFFENSE",
+  "productionRule": {
+    "collectionUnit": "one complete answer bundle per offense listed on CR-180 item 1",
+    "requiredInputsPerOffense": [
+      "code",
+      "section",
+      "offenseType",
+      "eligible17b",
+      "eligible17d2"
+    ],
+    "eligibilityAnswers": "participant_or_counsel_supplied_boolean_for_each_statutory_column",
+    "missingInputTreatment": "stop packet completion for that row; do not infer or leave a partly completed row",
+    "requestTreatment": "request every reduction marked legally applicable for each offense; there is no global either/or election"
+  },
+  "reviewFixtures": {
+    "canonical": {
+      "syntheticReviewData": true,
+      "rowCount": 5,
+      "evaluation": {
+        "status": "READY",
+        "rowCount": 5,
+        "requiredKeysPerRow": [
+          "code",
+          "section",
+          "offenseType",
+          "eligible17b",
+          "eligible17d2"
+        ],
+        "issues": [],
+        "routeRule": "OFFENSE_BY_OFFENSE_REQUEST_ALL_APPLICABLE",
+        "classifierBehavior": "PARTICIPANT_OR_COUNSEL_SUPPLIED_NEVER_INFERRED"
+      }
+    },
+    "boundary": {
+      "syntheticReviewData": true,
+      "rowCount": 5,
+      "evaluation": {
+        "status": "READY",
+        "rowCount": 5,
+        "requiredKeysPerRow": [
+          "code",
+          "section",
+          "offenseType",
+          "eligible17b",
+          "eligible17d2"
+        ],
+        "issues": [],
+        "routeRule": "OFFENSE_BY_OFFENSE_REQUEST_ALL_APPLICABLE",
+        "classifierBehavior": "PARTICIPANT_OR_COUNSEL_SUPPLIED_NEVER_INFERRED"
+      }
+    }
+  }
+}

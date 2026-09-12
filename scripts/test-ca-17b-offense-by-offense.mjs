@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import {
+  CA17_DECISION_ID,
+  CA17_OFFENSE_FIELD_MAPPINGS,
+  CA17_VARIANT_ID,
+  assertCa17BindingDecision,
+  ca17FixtureFacts,
+  ca17ParticipantInputStatus,
+  evaluateCa17OffenseInputs,
+} from "./lib/ca-17b-offense-by-offense.mjs";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const out = path.join(root,
+  "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill");
+let checks = 0;
+const equal = (actual, expected, message) => { assert.equal(actual, expected, message); checks += 1; };
+const ok = (value, message) => { assert.ok(value, message); checks += 1; };
+
+const decision = assertCa17BindingDecision(root);
+equal(decision.decisionId, CA17_DECISION_ID);
+equal(decision.disposition, "LEGAL_CLEAR");
+equal(Object.keys(CA17_OFFENSE_FIELD_MAPPINGS).length, 25);
+equal(new Set(Object.values(CA17_OFFENSE_FIELD_MAPPINGS)).size, 25);
+equal(CA17_VARIANT_ID, "pc-17b-17d2-offense-by-offense");
+
+for (const fixture of ["canonical", "boundary"]) {
+  const { rows, facts, evaluation } = ca17FixtureFacts(fixture);
+  equal(rows.length, 5);
+  equal(Object.keys(facts).length, 25);
+  equal(evaluation.status, "READY");
+  ok(rows.some((row) => row.eligible17b && !row.eligible17d2));
+  ok(rows.some((row) => !row.eligible17b && row.eligible17d2));
+}
+
+equal(evaluateCa17OffenseInputs([]).status, "NEEDS_PARTICIPANT_INPUT_OR_HANDOFF");
+equal(evaluateCa17OffenseInputs([{ code: "Penal" }]).status,
+  "NEEDS_PARTICIPANT_INPUT_OR_HANDOFF");
+ok(evaluateCa17OffenseInputs([
+  { code: "Penal", section: "TEST", offenseType: "felony", eligible17b: false, eligible17d2: false },
+]).issues.some((issue) => issue.code === "NO_APPLICABLE_REDUCTION_REQUEST"));
+ok(evaluateCa17OffenseInputs(Array.from({ length: 6 }, () => ({
+  code: "Penal", section: "TEST", offenseType: "felony", eligible17b: true, eligible17d2: false,
+}))).issues.some((issue) => issue.code === "OFFENSE_ROW_CAPACITY_EXCEEDED"));
+ok(ca17ParticipantInputStatus().productionRule.missingInputTreatment.includes("do not infer"));
+
+if (fs.existsSync(path.join(out, "production-field-map.json"))) {
+  const read = (name) => JSON.parse(fs.readFileSync(path.join(out, name), "utf8"));
+  const map = read("production-field-map.json");
+  const actual = read("reports/actual-writes.json");
+  const rendered = read("reports/rendered-artifacts.json");
+  const status = read("reports/participant-input-status.json");
+  const guide = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
+  const receipt = read("source-receipt.json");
+  equal(Object.keys(map.explicitMappingsByVariant).join("|"), CA17_VARIANT_ID);
+  equal(map.writes.filter((row) => row.factId?.startsWith("matter.offenses.")).length, 25);
+  equal(map.refusals.filter((row) => /ConvTable/.test(row.fieldName)).length, 0);
+  equal(status.familyId, "ca-17b-reduction-set");
+  equal(rendered.artifacts.length, 6);
+  const primary = actual.artifacts.filter((row) => row.formNumber === "CR-180");
+  equal(primary.length, 2);
+  for (const artifact of primary) {
+    equal(artifact.finalizerWritten.length, 33);
+    equal(artifact.writtenProof.length, 33);
+    equal(artifact.fieldObservations.filter((row) => row.factId?.startsWith("matter.offenses.")).length, 25);
+    equal(artifact.exactBindingProof.protectedFieldsWithFixtureValues.length, 0);
+  }
+  ok(guide.includes("There is no overall choice between Penal Code section 17(b) and section 17(d)(2)."));
+  ok(!guide.includes("obligation:track-only:CA:ca-17b-reduction"));
+  ok(!guide.includes("pc-17b-felony-to-misdemeanor"));
+  ok(!guide.includes("Values this packet holds and did not print"));
+  ok(receipt.sources.length === 3 && receipt.sources.every((row) => row.sha256Exact && row.byteLengthExact));
+}
+
+console.log(`CA17_OFFENSE_BY_OFFENSE_TEST_OK assertions=${checks}`);

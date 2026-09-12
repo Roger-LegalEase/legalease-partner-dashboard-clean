@@ -2,10 +2,16 @@
 
 These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.
 
-- Route scope: `obligation:track-only:CA:ca-17b-reduction`
+- Route: California CR-180 offense-by-offense reduction request under Penal Code sections 17(b) and 17(d)(2).
 - Primary form: CR-180 (Petition for Dismissal), with CR-181 (proposed order), CR-106 (proof of service).
 
-The platform filled in only identity and record facts it verifiably holds — name, case number, county, date of birth, contact details, and the recorded arrest or conviction facts — in the caption and identity items of the primary form. Everything else is yours to complete, and this page lists it.
+The platform filled in identity and record facts it verifiably holds and the complete per-offense answer bundles supplied for this review fixture. The fixture answers are synthetic and test data only; production answers must come from the participant's record and supported participant or counsel input. Everything else is yours to complete, and this page lists it.
+
+## How the reduction request works
+
+There is no overall choice between Penal Code section 17(b) and section 17(d)(2). For each offense listed in CR-180 item 1, the packet must collect the code, section, offense type, and a separate yes-or-no answer for each reduction column. It requests every reduction identified as legally applicable to that offense through CR-180 item 8.
+
+The platform does not classify an offense as a wobbler or decide whether it appears in Penal Code section 19.8(a). Those two answers must come from the participant's record and a supported participant or counsel determination. If either answer is missing or unclear, packet completion stops for that row; the system does not infer an answer and does not print a partly completed row.
 
 ## What you must do before you file
 
@@ -58,17 +64,6 @@ This is why CR-106 ships with this packet: it is the proof that you served those
 
 This packet states what the repository holds for this route and nothing beyond it. The filing fee, the payment methods that court accepts, and any local intake rule — a cover sheet, a filing window, an e-filing requirement — come from the clerk of the Superior Court in the county of the conviction, not from this packet. It does not decide whether the offence you were convicted of is reducible under Penal Code section 17(b) or 17(d)(2), it does not appear for you, and it is not legal advice. If your case does not match the route named at the top of this page, or if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office rather than to press on with these papers.
 
-## Values this packet holds and did not print
-
-The platform holds this route's yes-or-no answer and does not print it. The cell sits in row 1 of the CR-180 conviction table, beside Code, Section and Type of offense, and the platform holds none of those three for the conviction. Printing a sworn yes or no about an offence the petition does not name would leave the row half-finished, which the form's own instruction forbids and which reads as complete to anyone checking the page. The whole row is therefore left for the participant, who writes the code, the section, the offence type and both answers together from their own record of conviction.
-
-| Page | Form field | What the form prints beside it | What the route held |
-| --- | --- | --- | --- |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]` | Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no) | pc-17b-felony-to-misdemeanor: **no**; pc-17d2-misdemeanor-to-infraction: **yes** |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]` | Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no) | pc-17b-felony-to-misdemeanor: **yes**; pc-17d2-misdemeanor-to-infraction: **no** |
-
-Those two answers are the route's, not a finding about your conviction. Do not copy them across without checking them against your own record: whether the offence you were convicted of is reducible turns on the code section, and the code section is the thing this packet does not hold.
-
 ## The blanks you must fill in
 
 The platform holds no value for any of these, and this packet never guesses at one.
@@ -77,31 +72,6 @@ The platform holds no value for any of these, and this packet never guesses at o
 
 | Page | Form field | What the form says |
 | --- | --- | --- |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]` | the form prints `Section` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]` | the form prints `Section` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]` | the form prints `Section` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]` | the form prints `Section` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]` | the form prints `Code (Penal, Vehicle, etc.)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]` | the form prints `Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]` | the form prints `Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]` | the form prints `Section` beside it |
-| 1 | `Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]` | the form prints `Type of offense (felony, misdemeanor, or infraction)` beside it |
 | 1 | `Page1[0].LI2[0].li2c[0].TextField6[0]` | the form prints `Explain why granting a dismissal would be in the interests of justice` beside it |
 | 2 | `Page2[0].LI3[0].li3b[0].TextField6[0]` | the form prints `Explain why granting a dismissal would be in the interests of justice` beside it |
 | 2 | `Page2[0].LI4[0].li4[0].TextField6[0]` | the form prints `Petitioner has completed a term of probation for a conviction under Penal Code section 647(b) and should be granted relief because the conviction was the result of petitioner's status as a victim of human trafficking. (Please provide evidence that the conviction was the result of your status as a victim of human trafficking. You can provide that information by writing in the space below or by attaching a letter or other relevant documents. If you need more space for your writing, you can use Attachment (form MC-025) and attach it to this petition.)` beside it |
@@ -143,14 +113,6 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 2 | `Page2[0].FillText72[0]` | the form prints `Date when you gave the document or form to this person:` beside it — complete this only after service has actually occurred |
 | 2 | `Page2[0].FillText72[1]` | the form prints `Date when you gave the document or form to this person:` beside it — complete this only after service has actually occurred |
 | 2 | `Page2[0].PxCaption[0].CaseNumber[0]` | the form prints `Case Number:` beside it — complete this only after service has actually occurred |
-### 10 of those blanks are yours even though they read like an election
-
-**Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)** and **Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)**. They are listed in the table above with their page and the words the form prints beside them, and they are yours for the reason this packet records against each one:
-
-> The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.
-
-Answer them only for the offences you actually list, from your own record of conviction. If you do not know whether an offence is reducible, that is a question for a lawyer or a legal-aid office and not one to guess at, because you sign this petition under penalty of perjury. Leave any row you do not use entirely empty: a row with some cells filled and others blank is worse than an empty one.
-
 
 ## Blanks that are not yours to fill
 

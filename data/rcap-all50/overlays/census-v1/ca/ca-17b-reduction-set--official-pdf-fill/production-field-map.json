@@ -9,7 +9,7 @@
   "measurementSurface": "exact official encrypted binaries",
   "derivativesUsedForMeasurement": false,
   "explicitMappingsByVariant": {
-    "pc-17b-felony-to-misdemeanor": {
+    "pc-17b-17d2-offense-by-offense": {
       "CR-180[0].Page1[0].P1Caption[0].TitlePartyName[0].Defendant[0]": "participant.full_legal_name",
       "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]": "matter.case_number",
       "CR-180[0].Page2[0].pXCaption[0].Defendant[0]": "participant.full_legal_name",
@@ -17,22 +17,36 @@
       "CR-180[0].Page3[0].pXCaption[0].Defendant[0]": "participant.full_legal_name",
       "CR-180[0].Page3[0].pXCaption[0].CaseNumber1[0]": "matter.case_number",
       "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]": "matter.county",
-      "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]": "matter.conviction_date"
-    },
-    "pc-17d2-misdemeanor-to-infraction": {
-      "CR-180[0].Page1[0].P1Caption[0].TitlePartyName[0].Defendant[0]": "participant.full_legal_name",
-      "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]": "matter.case_number",
-      "CR-180[0].Page2[0].pXCaption[0].Defendant[0]": "participant.full_legal_name",
-      "CR-180[0].Page2[0].pXCaption[0].CaseNumber1[0]": "matter.case_number",
-      "CR-180[0].Page3[0].pXCaption[0].Defendant[0]": "participant.full_legal_name",
-      "CR-180[0].Page3[0].pXCaption[0].CaseNumber1[0]": "matter.case_number",
-      "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]": "matter.county",
-      "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]": "matter.conviction_date"
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]": "matter.conviction_date",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]": "matter.offenses.0.code",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]": "matter.offenses.0.section",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]": "matter.offenses.0.offenseType",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]": "matter.offenses.0.eligible17b",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]": "matter.offenses.0.eligible17d2",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]": "matter.offenses.1.code",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]": "matter.offenses.1.section",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]": "matter.offenses.1.offenseType",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]": "matter.offenses.1.eligible17b",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]": "matter.offenses.1.eligible17d2",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]": "matter.offenses.2.code",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]": "matter.offenses.2.section",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]": "matter.offenses.2.offenseType",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]": "matter.offenses.2.eligible17b",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]": "matter.offenses.2.eligible17d2",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]": "matter.offenses.3.code",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]": "matter.offenses.3.section",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]": "matter.offenses.3.offenseType",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]": "matter.offenses.3.eligible17b",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]": "matter.offenses.3.eligible17d2",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]": "matter.offenses.4.code",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]": "matter.offenses.4.section",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]": "matter.offenses.4.offenseType",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]": "matter.offenses.4.eligible17b",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]": "matter.offenses.4.eligible17d2"
     }
   },
   "statutorySelectionsByVariant": {
-    "pc-17b-felony-to-misdemeanor": [],
-    "pc-17d2-misdemeanor-to-infraction": []
+    "pc-17b-17d2-offense-by-offense": []
   },
   "generationAllowed": false,
   "runtimeSelectable": false,
@@ -69,8 +83,7 @@
       "disposition": "WRITE",
       "factId": "matter.county",
       "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
+        "pc-17b-17d2-offense-by-offense"
       ],
       "variantValues": null,
       "routeSpecific": false,
@@ -107,8 +120,7 @@
       "disposition": "WRITE",
       "factId": "matter.case_number",
       "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
+        "pc-17b-17d2-offense-by-offense"
       ],
       "variantValues": null,
       "routeSpecific": false,
@@ -145,8 +157,7 @@
       "disposition": "WRITE",
       "factId": "participant.full_legal_name",
       "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
+        "pc-17b-17d2-offense-by-offense"
       ],
       "variantValues": null,
       "routeSpecific": false,
@@ -183,8 +194,892 @@
       "disposition": "WRITE",
       "factId": "matter.conviction_date",
       "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            53.95,
+            363.02,
+            114.91,
+            376.3
+          ],
+          "width": 60.97,
+          "height": 13.28,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.0.code",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Section",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            119.85,
+            363.02,
+            176.89,
+            376.3
+          ],
+          "width": 57.05,
+          "height": 13.28,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.0.section",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            182.96,
+            363.02,
+            326.12,
+            376.3
+          ],
+          "width": 143.16,
+          "height": 13.28,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.0.offenseType",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            331.63,
+            363.02,
+            447.3,
+            376.3
+          ],
+          "width": 115.67,
+          "height": 13.28,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.0.eligible17b",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+      "flags": [
+        "doNotScroll"
+      ],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            453.6,
+            363.02,
+            569.27,
+            376.3
+          ],
+          "width": 115.67,
+          "height": 13.28,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.0.eligible17d2",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            53.95,
+            348.09,
+            114.91,
+            357.09
+          ],
+          "width": 60.97,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.1.code",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Section",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            119.85,
+            348.09,
+            176.89,
+            357.09
+          ],
+          "width": 57.05,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.1.section",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            182.96,
+            348.09,
+            326.12,
+            357.09
+          ],
+          "width": 143.16,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.1.offenseType",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            331.63,
+            348.09,
+            447.3,
+            357.09
+          ],
+          "width": 115.67,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.1.eligible17b",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+      "flags": [
+        "doNotScroll"
+      ],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            453.6,
+            348.09,
+            569.27,
+            357.09
+          ],
+          "width": 115.67,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.1.eligible17d2",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            53.95,
+            332.63,
+            114.91,
+            341.63
+          ],
+          "width": 60.97,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.2.code",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Section",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            119.85,
+            332.63,
+            176.89,
+            341.63
+          ],
+          "width": 57.05,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.2.section",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            182.96,
+            332.63,
+            326.12,
+            341.63
+          ],
+          "width": 143.16,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.2.offenseType",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            331.63,
+            332.63,
+            447.3,
+            341.63
+          ],
+          "width": 115.67,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.2.eligible17b",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+      "flags": [
+        "doNotScroll"
+      ],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            453.6,
+            332.63,
+            569.27,
+            341.63
+          ],
+          "width": 115.67,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.2.eligible17d2",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            53.95,
+            317,
+            114.91,
+            326
+          ],
+          "width": 60.97,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.3.code",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Section",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            119.85,
+            317,
+            176.89,
+            326
+          ],
+          "width": 57.05,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.3.section",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            182.96,
+            317,
+            326.12,
+            326
+          ],
+          "width": 143.16,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.3.offenseType",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            331.63,
+            317,
+            447.3,
+            326
+          ],
+          "width": 115.67,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.3.eligible17b",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+      "flags": [
+        "doNotScroll"
+      ],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            453.6,
+            317,
+            569.27,
+            326
+          ],
+          "width": 115.67,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.3.eligible17d2",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            53.95,
+            301.16,
+            114.91,
+            310.16
+          ],
+          "width": 60.97,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.4.code",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Section",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            119.85,
+            301.16,
+            176.89,
+            310.16
+          ],
+          "width": 57.05,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.4.section",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            182.96,
+            301.16,
+            326.12,
+            310.16
+          ],
+          "width": 143.16,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.4.offenseType",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            331.63,
+            301.16,
+            447.3,
+            310.16
+          ],
+          "width": 115.67,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.4.eligible17b",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+      "flags": [
+        "doNotScroll"
+      ],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            453.6,
+            301.16,
+            569.27,
+            310.16
+          ],
+          "width": 115.67,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.offenses.4.eligible17d2",
+      "appliesToVariants": [
+        "pc-17b-17d2-offense-by-offense"
       ],
       "variantValues": null,
       "routeSpecific": false,
@@ -222,8 +1117,7 @@
       "disposition": "WRITE",
       "factId": "participant.full_legal_name",
       "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
+        "pc-17b-17d2-offense-by-offense"
       ],
       "variantValues": null,
       "routeSpecific": false,
@@ -261,8 +1155,7 @@
       "disposition": "WRITE",
       "factId": "matter.case_number",
       "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
+        "pc-17b-17d2-offense-by-offense"
       ],
       "variantValues": null,
       "routeSpecific": false,
@@ -299,8 +1192,7 @@
       "disposition": "WRITE",
       "factId": "participant.full_legal_name",
       "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
+        "pc-17b-17d2-offense-by-offense"
       ],
       "variantValues": null,
       "routeSpecific": false,
@@ -337,8 +1229,7 @@
       "disposition": "WRITE",
       "factId": "matter.case_number",
       "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
+        "pc-17b-17d2-offense-by-offense"
       ],
       "variantValues": null,
       "routeSpecific": false,
@@ -905,902 +1796,6 @@
       "factId": null,
       "blankTreatment": null,
       "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            53.95,
-            363.02,
-            114.91,
-            376.3
-          ],
-          "width": 60.97,
-          "height": 13.28,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Section",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            119.85,
-            363.02,
-            176.89,
-            376.3
-          ],
-          "width": 57.05,
-          "height": 13.28,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            182.96,
-            363.02,
-            326.12,
-            376.3
-          ],
-          "width": 143.16,
-          "height": 13.28,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no) — row 1 of the conviction table",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            331.63,
-            363.02,
-            447.3,
-            376.3
-          ],
-          "width": 115.67,
-          "height": 13.28,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.",
-      "heldButNotPrinted": true,
-      "withheldRouteFactId": "route.pc17b.reduce_to_misdemeanor",
-      "withheldRouteValueByVariant": [
-        {
-          "variantId": "pc-17b-felony-to-misdemeanor",
-          "value": "yes"
-        },
-        {
-          "variantId": "pc-17d2-misdemeanor-to-infraction",
-          "value": "no"
-        }
-      ],
-      "whyWithheld": "The platform holds this route's yes-or-no answer and does not print it. The cell sits in row 1 of the CR-180 conviction table, beside Code, Section and Type of offense, and the platform holds none of those three for the conviction. Printing a sworn yes or no about an offence the petition does not name would leave the row half-finished, which the form's own instruction forbids and which reads as complete to anyone checking the page. The whole row is therefore left for the participant, who writes the code, the section, the offence type and both answers together from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no) — row 1 of the conviction table",
-      "flags": [
-        "doNotScroll"
-      ],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            453.6,
-            363.02,
-            569.27,
-            376.3
-          ],
-          "width": 115.67,
-          "height": 13.28,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.",
-      "heldButNotPrinted": true,
-      "withheldRouteFactId": "route.pc17b.reduce_to_infraction",
-      "withheldRouteValueByVariant": [
-        {
-          "variantId": "pc-17b-felony-to-misdemeanor",
-          "value": "no"
-        },
-        {
-          "variantId": "pc-17d2-misdemeanor-to-infraction",
-          "value": "yes"
-        }
-      ],
-      "whyWithheld": "The platform holds this route's yes-or-no answer and does not print it. The cell sits in row 1 of the CR-180 conviction table, beside Code, Section and Type of offense, and the platform holds none of those three for the conviction. Printing a sworn yes or no about an offence the petition does not name would leave the row half-finished, which the form's own instruction forbids and which reads as complete to anyone checking the page. The whole row is therefore left for the participant, who writes the code, the section, the offence type and both answers together from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            53.95,
-            348.09,
-            114.91,
-            357.09
-          ],
-          "width": 60.97,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Section",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            119.85,
-            348.09,
-            176.89,
-            357.09
-          ],
-          "width": 57.05,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            182.96,
-            348.09,
-            326.12,
-            357.09
-          ],
-          "width": 143.16,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no) — row 2 of the conviction table",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            331.63,
-            348.09,
-            447.3,
-            357.09
-          ],
-          "width": 115.67,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no) — row 2 of the conviction table",
-      "flags": [
-        "doNotScroll"
-      ],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            453.6,
-            348.09,
-            569.27,
-            357.09
-          ],
-          "width": 115.67,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            53.95,
-            332.63,
-            114.91,
-            341.63
-          ],
-          "width": 60.97,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Section",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            119.85,
-            332.63,
-            176.89,
-            341.63
-          ],
-          "width": 57.05,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            182.96,
-            332.63,
-            326.12,
-            341.63
-          ],
-          "width": 143.16,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no) — row 3 of the conviction table",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            331.63,
-            332.63,
-            447.3,
-            341.63
-          ],
-          "width": 115.67,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no) — row 3 of the conviction table",
-      "flags": [
-        "doNotScroll"
-      ],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            453.6,
-            332.63,
-            569.27,
-            341.63
-          ],
-          "width": 115.67,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            53.95,
-            317,
-            114.91,
-            326
-          ],
-          "width": 60.97,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Section",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            119.85,
-            317,
-            176.89,
-            326
-          ],
-          "width": 57.05,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            182.96,
-            317,
-            326.12,
-            326
-          ],
-          "width": 143.16,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no) — row 4 of the conviction table",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            331.63,
-            317,
-            447.3,
-            326
-          ],
-          "width": 115.67,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no) — row 4 of the conviction table",
-      "flags": [
-        "doNotScroll"
-      ],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            453.6,
-            317,
-            569.27,
-            326
-          ],
-          "width": 115.67,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Code (Penal, Vehicle, etc.)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            53.95,
-            301.16,
-            114.91,
-            310.16
-          ],
-          "width": 60.97,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Section",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            119.85,
-            301.16,
-            176.89,
-            310.16
-          ],
-          "width": 57.05,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Type of offense (felony, misdemeanor, or infraction)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            182.96,
-            301.16,
-            326.12,
-            310.16
-          ],
-          "width": 143.16,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]"
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no) — row 5 of the conviction table",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            331.63,
-            301.16,
-            447.3,
-            310.16
-          ],
-          "width": 115.67,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no) — row 5 of the conviction table",
-      "flags": [
-        "doNotScroll"
-      ],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            453.6,
-            301.16,
-            569.27,
-            310.16
-          ],
-          "width": 115.67,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-      "requiredBeforeFiling": true,
-      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
-      "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
     },
     {
       "formNumber": "CR-180",
@@ -7226,11 +7221,11 @@
   ],
   "coverage": {
     "terminalFields": 187,
-    "writes": 8,
+    "writes": 33,
     "selections": 0,
-    "refusals": 179,
+    "refusals": 154,
     "unmapped": 0
   },
   "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 61
+  "requiredBeforeFilingCount": 36
 }

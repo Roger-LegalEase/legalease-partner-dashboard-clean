@@ -29,6 +29,14 @@ import { loadAppearanceSemantics, dispositionsForFamily }
   from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
+import {
+  CA17_FAMILY_ID,
+  CA17_OFFENSE_FIELD_MAPPINGS,
+  CA17_VARIANT_ID,
+  assertCa17BindingDecision,
+  ca17FixtureFacts,
+  ca17ParticipantInputStatus,
+} from "./lib/ca-17b-offense-by-offense.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
@@ -193,22 +201,7 @@ const FAMILIES = Object.freeze({
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
     routeKeys: ["obligation:track-only:CA:ca-17b-reduction"],
     formNumbers: ["CR-180", "CR-181", "CR-106"],
-    /*
-     * FIX101, REPEATING_ROWS. See withdrawnRouteTextVariants for the whole
-     * reasoning. In short: the route wrote CR-180 row 1's two yes/no reduction
-     * cells and could not write Code1, Section1 or TypeOff1 beside them,
-     * because the platform holds none of the three. That left a half-filled row
-     * on a petition sworn under penalty of perjury, against the form's own
-     * instruction -- printed on this packet's own participant page -- that an
-     * unused row stays entirely empty. The row is now left entirely for the
-     * participant, and the two held yes/no values are disclosed rather than
-     * printed.
-     *
-     * THIS FAMILY ONLY. The other four CR-180 families on this host write no
-     * conviction-table cell at all, so the flag changes nothing for them and is
-     * not set on them.
-     */
-    withdrawRouteTextControlsForRowIntegrity: true,
+    offenseByOffenseReductionInputs: true,
     /*
      * FIX14, CLIPPING_AND_OVERLAP on all four delivered CR-180s.
      *
@@ -570,6 +563,22 @@ const CA_PRIMARY_WRITES = Object.freeze({
   }),
 });
 
+function caPrimaryMappingsForFamily(familyId, config) {
+  const base = CA_PRIMARY_WRITES[config.primaryForm];
+  assert.ok(base, `${config.primaryForm}: no bounded primary mapping`);
+  if (familyId !== CA17_FAMILY_ID) return base;
+  assert.equal(config.offenseByOffenseReductionInputs, true,
+    `${familyId}: offense-row mappings require the family-scoped input contract`);
+  assertCa17BindingDecision(rootDir);
+  return Object.freeze({ ...base, ...CA17_OFFENSE_FIELD_MAPPINGS });
+}
+
+function caFactsForPacket(familyId, fixture, variant) {
+  const base = fixture === "canonical" ? CANONICAL : BOUNDARY;
+  const offenseFacts = familyId === CA17_FAMILY_ID ? ca17FixtureFacts(fixture).facts : {};
+  return { ...base, ...offenseFacts, ...variant.controlFacts };
+}
+
 // Exact semantic aliases for source labels whose wording does not match the
 // shared descriptor literally. Each alias is bound to one measured terminal
 // name; the source tooltip is retained separately in the census and field map,
@@ -665,36 +674,14 @@ const CA_ROUTE_VARIANTS = Object.freeze({
     })]),
     textControls: Object.freeze({}), controlFacts: Object.freeze({}),
   })]),
-  "ca-17b-reduction-set": Object.freeze([
-    Object.freeze({
-      variantId: "pc-17b-felony-to-misdemeanor",
-      routeKey: "obligation:track-only:CA:ca-17b-reduction",
-      statute: "Penal Code section 17(b), felony to misdemeanor",
-      selections: Object.freeze([]),
-      textControls: Object.freeze({
-        "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]": "route.pc17b.reduce_to_misdemeanor",
-        "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]": "route.pc17b.reduce_to_infraction",
-      }),
-      controlFacts: Object.freeze({
-        "route.pc17b.reduce_to_misdemeanor": "yes",
-        "route.pc17b.reduce_to_infraction": "no",
-      }),
-    }),
-    Object.freeze({
-      variantId: "pc-17d2-misdemeanor-to-infraction",
-      routeKey: "obligation:track-only:CA:ca-17b-reduction",
-      statute: "Penal Code section 17(d)(2), misdemeanor to infraction",
-      selections: Object.freeze([]),
-      textControls: Object.freeze({
-        "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]": "route.pc17b.reduce_to_misdemeanor",
-        "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]": "route.pc17b.reduce_to_infraction",
-      }),
-      controlFacts: Object.freeze({
-        "route.pc17b.reduce_to_misdemeanor": "no",
-        "route.pc17b.reduce_to_infraction": "yes",
-      }),
-    }),
-  ]),
+  "ca-17b-reduction-set": Object.freeze([Object.freeze({
+    variantId: CA17_VARIANT_ID,
+    routeKey: "obligation:track-only:CA:ca-17b-reduction",
+    statute: "Penal Code sections 17(b) and 17(d)(2), determined offense by offense",
+    selections: Object.freeze([]),
+    textControls: Object.freeze({}),
+    controlFacts: Object.freeze({}),
+  })]),
   "ca-851-91-set": Object.freeze([
     Object.freeze({
       variantId: "pc-851-91-matter-of-right",
@@ -1690,8 +1677,7 @@ function caMapAndCensus(familyId, config, bridge) {
   const writes = [];
   const selections = [];
   const refusals = [];
-  const primaryMappings = CA_PRIMARY_WRITES[config.primaryForm];
-  assert.ok(primaryMappings, `${config.primaryForm}: no bounded primary mapping`);
+  const primaryMappings = caPrimaryMappingsForFamily(familyId, config);
   const variants = routeControlForFamily(familyId);
   assert.deepEqual([...new Set(variants.map((variant) => variant.routeKey))].sort(),
     [...config.routeKeys].sort(), `${familyId}: route variants do not cover the configured routes`);
@@ -2744,6 +2730,11 @@ function caParticipantInstructions(familyId, config, fieldMap) {
   const electionStep = guidance.platformMarksRouteDeterminedControls
     ? `**Mark every other election yourself.** This packet is not silent on the boxes: it marks ${markedPerFiling} on each delivered filing, and ${markedPerFiling === 1 ? "it is the one control" : "they are the only controls"} the route itself decides — the ones that say which of this family's two routes these papers are. ${variantSentence.charAt(0).toUpperCase()}${variantSentence.slice(1)}. Read those printed lines on the page and check that the marks match your own case before you sign, because you swear to this filing. Every other box on every form in this packet is printed unmarked and is yours to mark.`
     : `**Mark every election yourself.** The platform never marks a box on a sworn filing.`;
+  const offenseByOffense = config.offenseByOffenseReductionInputs
+    ? `## How the reduction request works\n\n`
+      + `There is no overall choice between Penal Code section 17(b) and section 17(d)(2). For each offense listed in CR-180 item 1, the packet must collect the code, section, offense type, and a separate yes-or-no answer for each reduction column. It requests every reduction identified as legally applicable to that offense through CR-180 item 8.\n\n`
+      + `The platform does not classify an offense as a wobbler or decide whether it appears in Penal Code section 19.8(a). Those two answers must come from the participant's record and a supported participant or counsel determination. If either answer is missing or unclear, packet completion stops for that row; the system does not infer an answer and does not print a partly completed row.\n\n`
+    : "";
   if (guidance.platformMarksRouteDeterminedControls) {
     assert.ok(marked.length > 0,
       `${familyId}: platformMarksRouteDeterminedControls is set but the field map records no statutory selection`);
@@ -2856,11 +2847,17 @@ function caParticipantInstructions(familyId, config, fieldMap) {
       + `The filing fee and whether it can be waived, the method and timing of service, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced answer in a filing instruction would be worse than none. The service recipient is stated above from the committed packet-set manifest; the remaining questions come from the clerk of that court, not from this packet.\n\n`
     : `## What this packet does not tell you\n\n`
       + `The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.\n\n`;
+  const routeScope = config.offenseByOffenseReductionInputs
+    ? `- Route: California CR-180 offense-by-offense reduction request under Penal Code sections 17(b) and 17(d)(2).\n`
+    : config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n") + "\n";
   return `# Participant and reviewer instructions — ${guidance.title}\n\n`
     + `These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\n\n`
-    + config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n") + "\n"
+    + routeScope
     + `- Primary form: ${guidance.primaryName}, with ${companionNames.join(", ")}.\n\n`
-    + `The platform filled in only identity and record facts it verifiably holds — name, case number, county, date of birth, contact details, and the recorded arrest or conviction facts — in the caption and identity items of the primary form. Everything else is yours to complete, and this page lists it.\n\n`
+    + (config.offenseByOffenseReductionInputs
+      ? `The platform filled in identity and record facts it verifiably holds and the complete per-offense answer bundles supplied for this review fixture. The fixture answers are synthetic and test data only; production answers must come from the participant's record and supported participant or counsel input. Everything else is yours to complete, and this page lists it.\n\n`
+      : `The platform filled in only identity and record facts it verifiably holds — name, case number, county, date of birth, contact details, and the recorded arrest or conviction facts — in the caption and identity items of the primary form. Everything else is yours to complete, and this page lists it.\n\n`)
+    + offenseByOffense
     + `## What you must do before you file\n\n`
     + `1. **Fill in every blank listed below.** Each row names the page, the form field as the source PDF names it, and the words printed beside the blank.\n`
     + `2. ${electionStep}\n`
@@ -4915,6 +4912,9 @@ async function buildCa(familyId, config) {
       acceptanceRule: "A derivative is accepted only when source bytes remain exact and page geometry, original page content streams, terminal names/types/flags/options/default/current values, widget geometry/AP states, and XFA presence/digest are identical.",
     });
     writeJson(`${out}/production-field-map.json`, fieldMap);
+    if (config.offenseByOffenseReductionInputs) {
+      writeJson(`${out}/reports/participant-input-status.json`, ca17ParticipantInputStatus());
+    }
     writeText(`${out}/participant-instructions.md`, caParticipantInstructions(familyId, config, fieldMap));
 
     const derivedBytes = fs.readFileSync(abs(derivative.derivedPath));
@@ -4928,8 +4928,7 @@ async function buildCa(familyId, config) {
 
     for (const packet of packets) {
       const variant = routeControlForFamily(familyId, packet.variantId);
-      const baseFacts = packet.fixture === "canonical" ? CANONICAL : BOUNDARY;
-      const facts = { ...baseFacts, ...variant.controlFacts };
+      const facts = caFactsForPacket(familyId, packet.fixture, variant);
       const packetDocuments = [];
       for (const document of packet.documents) {
         const formCensus = bridge.forms[document.formNumber];
@@ -5093,7 +5092,9 @@ async function buildCa(familyId, config) {
       outputLegalApprovalEstablished: false, independentVisualReviewEstablished: false,
       note: "Only after a read-only full evidence check passed, this file requests output-level legal and independent visual review. It grants neither and opens no route.",
       reviewerQuestions: [
-        `Confirm the exact ${config.primaryForm} statutory-control alternatives recorded for every evidence variant.`,
+        config.offenseByOffenseReductionInputs
+          ? `Confirm every complete ${config.primaryForm} offense row carries its independently supplied 17(b) and 17(d)(2) answers and that no global either/or election was introduced.`
+          : `Confirm the exact ${config.primaryForm} statutory-control alternatives recorded for every evidence variant.`,
         "Confirm every configured petition/order/proof/service/attachment component is present and that unchanged companions remain exact official bytes.",
         "Confirm no service, signature/date, declaration, court-owned, prosecutor, clerk, agency, or unverified factual-alternative field was completed.",
       ],
@@ -5104,11 +5105,15 @@ async function buildCa(familyId, config) {
       observations: [
         `All ${resolved.length} exact official packet components were censused and included in canonical and boundary evidence for every recorded statutory variant.`,
         `${config.primaryForm} derivative fidelity includes terminal names/types/flags/options/default/current values, widget rectangles/AP states, XFA digest, page geometry, and original content streams.`,
-        "Only safe identity/case-caption facts and the exact named statutory controls were written. Fact-dependent subchoices remain blank; 17(b)/17(d)(2), 851.91, and Prop 64 alternatives are separate review fixtures, not inferred runtime choices.",
+        config.offenseByOffenseReductionInputs
+          ? "Only safe identity/case-caption facts and complete participant-supplied offense-row inputs were written. Each 17(b) and 17(d)(2) answer is independent; no global alternative is inferred or selected."
+          : "Only safe identity/case-caption facts and the exact named statutory controls were written. Fact-dependent subchoices remain blank; 851.91 and Prop 64 alternatives are separate review fixtures, not inferred runtime choices.",
         "Every primary write/selection was proved at its exact measured field from output bytes. Every companion is an unchanged exact official copy, and every page was freshly rastered by version-identified Poppler pdftoppm at 72 dpi.",
       ],
       stillRequired: ["Output-level legal approval.", "Independent human visual review.",
-        "A runtime may select an evidence alternative only from verified case facts after separate approval.",
+        config.offenseByOffenseReductionInputs
+          ? "A runtime must collect and validate every complete per-offense answer bundle; it may not classify an offense or infer either statutory answer."
+          : "A runtime may select an evidence alternative only from verified case facts after separate approval.",
         ...(noAcceptanceReceipt
           ? ["No central raster acceptance receipt covers these packet bytes: the family's product wiring carries none. A fresh whole-family raster acceptance is required before any independent read relies on the pixels, and any central raster row still pinning earlier bytes for this family is superseded by the digests in reports/rendered-artifacts.json."]
           : []),
@@ -5392,7 +5397,8 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   const required = ["source-receipt.json", "field-census.census-v1.json",
     "production-field-map.json", "reports/source-fidelity.json", "reports/packet-evidence.json",
     "reports/actual-writes.json", "reports/rendered-artifacts.json", "product-wiring.json",
-    "participant-instructions.md"];
+    "participant-instructions.md",
+    ...(config.offenseByOffenseReductionInputs ? ["reports/participant-input-status.json"] : [])];
   for (const file of required) assert.ok(fs.existsSync(abs(`${out}/${file}`)), `${familyId}: missing ${file}`);
   if (requireCompletionClaims) {
     for (const file of ["approval-request.json", "build-findings.json"]) {
@@ -5437,6 +5443,14 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   assert.equal(fieldMap.coverage.unmapped, 0);
   assert.equal(fieldMap.coverage.writes + fieldMap.coverage.selections + fieldMap.coverage.refusals,
     fieldMap.coverage.terminalFields);
+  if (config.offenseByOffenseReductionInputs) {
+    assert.deepEqual(readJson(`${out}/reports/participant-input-status.json`),
+      ca17ParticipantInputStatus(), `${familyId}: offense input status drifted`);
+    assert.equal(Object.keys(CA17_OFFENSE_FIELD_MAPPINGS).length, 25);
+    assert.ok(Object.entries(CA17_OFFENSE_FIELD_MAPPINGS).every(([fieldName, factId]) =>
+      fieldMap.writes.some((row) => row.fieldName === fieldName && row.factId === factId)),
+    `${familyId}: one or more complete offense-row inputs are absent from the field map`);
+  }
   // The bounded write set is the S1 shared-fact-allowlist decision of record
   // (data/rcap-grade-a/wave-2/s1-shared-fact-allowlist/rows.json, runner
   // runWestFamilyCli): identity/caption facts plus the held participant
@@ -5452,7 +5466,10 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   ]);
   for (const write of fieldMap.writes) {
     assert.ok(s1BoundWriteFacts.has(write.factId)
-      || write.factId.startsWith("route."), `${write.fieldName}: unbounded fact mapping`);
+      || write.factId.startsWith("route.")
+      || (familyId === CA17_FAMILY_ID
+        && Object.values(CA17_OFFENSE_FIELD_MAPPINGS).includes(write.factId)),
+    `${write.fieldName}: unbounded fact mapping`);
     const subject = `${write.fieldName} ${write.effectiveLabel ?? ""}`;
     // S1 retired the blanket agency refusal for the one participant-stated
     // citing/arresting-agency fact only; prosecutor/clerk/service/signature
@@ -5502,7 +5519,7 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
 
   for (const packet of plannedPackets) {
     const variant = routeControlForFamily(familyId, packet.variantId);
-    const facts = { ...(packet.fixture === "canonical" ? CANONICAL : BOUNDARY), ...variant.controlFacts };
+    const facts = caFactsForPacket(familyId, packet.fixture, variant);
     for (const document of packet.documents) {
       const sourceRow = resolvedByForm.get(document.formNumber);
       const formCensus = bridge.forms[document.formNumber];
@@ -5939,8 +5956,11 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
     assert.ok(plan.every((packet) => packet.documents.map((document) => document.formNumber)
       .join("|") === config.formNumbers.join("|")));
   }
-  assert.notDeepEqual(CA_ROUTE_VARIANTS["ca-17b-reduction-set"][0].controlFacts,
-    CA_ROUTE_VARIANTS["ca-17b-reduction-set"][1].controlFacts);
+  assert.equal(CA_ROUTE_VARIANTS[CA17_FAMILY_ID].length, 1);
+  assert.equal(CA_ROUTE_VARIANTS[CA17_FAMILY_ID][0].variantId, CA17_VARIANT_ID);
+  assert.equal(Object.keys(caPrimaryMappingsForFamily(CA17_FAMILY_ID,
+    FAMILIES[CA17_FAMILY_ID])).length,
+  Object.keys(CA_PRIMARY_WRITES["CR-180"]).length + 25);
   assert.notEqual(CA_ROUTE_VARIANTS["ca-851-91-set"][0].selections[0].fieldName,
     CA_ROUTE_VARIANTS["ca-851-91-set"][1].selections[0].fieldName);
   assert.notDeepEqual(CA_ROUTE_VARIANTS["ca-prop64-set"][0].selections,

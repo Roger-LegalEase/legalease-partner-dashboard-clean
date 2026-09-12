@@ -9,7 +9,7 @@
   "measurementBasis": {
     "surface": "exact official encrypted binaries, rebound by SHA-256 and byte length on this run",
     "derivativesUsed": false,
-    "readBy": "pikepdf 10.12.0 / libqpdf 12.3.2, empty user password",
+    "readBy": "pikepdf 10.13.0.post1 / libqpdf 12.3.2, empty user password",
     "censusLogic": "scripts/census-v1-ca-1203-4-set/census-official-fields.py",
     "coordinateSystem": "PDF points, origin bottom-left; pageIndex is zero-based in the pikepdf evidence"
   },
@@ -10052,8 +10052,7 @@
           "disposition": "WRITE",
           "factId": "matter.county",
           "appliesToVariants": [
-            "pc-17b-felony-to-misdemeanor",
-            "pc-17d2-misdemeanor-to-infraction"
+            "pc-17b-17d2-offense-by-offense"
           ],
           "variantValues": null,
           "routeSpecific": false,
@@ -10189,8 +10188,7 @@
           "disposition": "WRITE",
           "factId": "matter.case_number",
           "appliesToVariants": [
-            "pc-17b-felony-to-misdemeanor",
-            "pc-17d2-misdemeanor-to-infraction"
+            "pc-17b-17d2-offense-by-offense"
           ],
           "variantValues": null,
           "routeSpecific": false,
@@ -10227,8 +10225,7 @@
           "disposition": "WRITE",
           "factId": "participant.full_legal_name",
           "appliesToVariants": [
-            "pc-17b-felony-to-misdemeanor",
-            "pc-17d2-misdemeanor-to-infraction"
+            "pc-17b-17d2-offense-by-offense"
           ],
           "variantValues": null,
           "routeSpecific": false,
@@ -10364,8 +10361,7 @@
           "disposition": "WRITE",
           "factId": "matter.conviction_date",
           "appliesToVariants": [
-            "pc-17b-felony-to-misdemeanor",
-            "pc-17d2-misdemeanor-to-infraction"
+            "pc-17b-17d2-offense-by-offense"
           ],
           "variantValues": null,
           "routeSpecific": false,
@@ -10397,13 +10393,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.0.code",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10431,13 +10428,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.0.section",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10465,13 +10463,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.0.offenseType",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10499,27 +10498,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.",
-          "heldButNotPrinted": true,
-          "withheldRouteFactId": "route.pc17b.reduce_to_misdemeanor",
-          "withheldRouteValueByVariant": [
-            {
-              "variantId": "pc-17b-felony-to-misdemeanor",
-              "value": "yes"
-            },
-            {
-              "variantId": "pc-17d2-misdemeanor-to-infraction",
-              "value": "no"
-            }
+          "disposition": "WRITE",
+          "factId": "matter.offenses.0.eligible17b",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
           ],
-          "whyWithheld": "The platform holds this route's yes-or-no answer and does not print it. The cell sits in row 1 of the CR-180 conviction table, beside Code, Section and Type of offense, and the platform holds none of those three for the conviction. Printing a sworn yes or no about an offence the petition does not name would leave the row half-finished, which the form's own instruction forbids and which reads as complete to anyone checking the page. The whole row is therefore left for the participant, who writes the code, the section, the offence type and both answers together from their own record of conviction."
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10549,27 +10535,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.",
-          "heldButNotPrinted": true,
-          "withheldRouteFactId": "route.pc17b.reduce_to_infraction",
-          "withheldRouteValueByVariant": [
-            {
-              "variantId": "pc-17b-felony-to-misdemeanor",
-              "value": "no"
-            },
-            {
-              "variantId": "pc-17d2-misdemeanor-to-infraction",
-              "value": "yes"
-            }
+          "disposition": "WRITE",
+          "factId": "matter.offenses.0.eligible17d2",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
           ],
-          "whyWithheld": "The platform holds this route's yes-or-no answer and does not print it. The cell sits in row 1 of the CR-180 conviction table, beside Code, Section and Type of offense, and the platform holds none of those three for the conviction. Printing a sworn yes or no about an offence the petition does not name would leave the row half-finished, which the form's own instruction forbids and which reads as complete to anyone checking the page. The whole row is therefore left for the participant, who writes the code, the section, the offence type and both answers together from their own record of conviction."
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10597,13 +10570,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.1.code",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10631,13 +10605,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.1.section",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10665,13 +10640,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.1.offenseType",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10699,14 +10675,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
+          "disposition": "WRITE",
+          "factId": "matter.offenses.1.eligible17b",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10736,14 +10712,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
+          "disposition": "WRITE",
+          "factId": "matter.offenses.1.eligible17d2",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10771,13 +10747,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.2.code",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10805,13 +10782,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.2.section",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10839,13 +10817,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.2.offenseType",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10873,14 +10852,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
+          "disposition": "WRITE",
+          "factId": "matter.offenses.2.eligible17b",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10910,14 +10889,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
+          "disposition": "WRITE",
+          "factId": "matter.offenses.2.eligible17d2",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10945,13 +10924,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.3.code",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10979,13 +10959,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.3.section",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11013,13 +10994,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.3.offenseType",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11047,14 +11029,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
+          "disposition": "WRITE",
+          "factId": "matter.offenses.3.eligible17b",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11084,14 +11066,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
+          "disposition": "WRITE",
+          "factId": "matter.offenses.3.eligible17d2",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11119,13 +11101,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.4.code",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11153,13 +11136,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.4.section",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11187,13 +11171,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]"
+          "disposition": "WRITE",
+          "factId": "matter.offenses.4.offenseType",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11221,14 +11206,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
+          "disposition": "WRITE",
+          "factId": "matter.offenses.4.eligible17b",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11258,14 +11243,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction."
+          "disposition": "WRITE",
+          "factId": "matter.offenses.4.eligible17d2",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -11557,8 +11542,7 @@
           "disposition": "WRITE",
           "factId": "participant.full_legal_name",
           "appliesToVariants": [
-            "pc-17b-felony-to-misdemeanor",
-            "pc-17d2-misdemeanor-to-infraction"
+            "pc-17b-17d2-offense-by-offense"
           ],
           "variantValues": null,
           "routeSpecific": false,
@@ -11596,8 +11580,7 @@
           "disposition": "WRITE",
           "factId": "matter.case_number",
           "appliesToVariants": [
-            "pc-17b-felony-to-misdemeanor",
-            "pc-17d2-misdemeanor-to-infraction"
+            "pc-17b-17d2-offense-by-offense"
           ],
           "variantValues": null,
           "routeSpecific": false,
@@ -12105,8 +12088,7 @@
           "disposition": "WRITE",
           "factId": "participant.full_legal_name",
           "appliesToVariants": [
-            "pc-17b-felony-to-misdemeanor",
-            "pc-17d2-misdemeanor-to-infraction"
+            "pc-17b-17d2-offense-by-offense"
           ],
           "variantValues": null,
           "routeSpecific": false,
@@ -12143,8 +12125,7 @@
           "disposition": "WRITE",
           "factId": "matter.case_number",
           "appliesToVariants": [
-            "pc-17b-felony-to-misdemeanor",
-            "pc-17d2-misdemeanor-to-infraction"
+            "pc-17b-17d2-offense-by-offense"
           ],
           "variantValues": null,
           "routeSpecific": false,
