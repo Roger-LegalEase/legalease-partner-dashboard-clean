@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "fb83b18a186465d08b3e4e073a70365dce49ca05",
+  "generatedAtCommit": "b579fb9c77f360744576ed8ad816c16a2e331520",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3339,6 +3339,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "de_discretionary_family_court-set",
+      "itemId": null,
+      "familyId": "de_discretionary_family_court-set",
+      "familyIds": [
+        "de_discretionary_family_court-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_family_court-set",
       "familyId": "de_discretionary_family_court-set",
       "itemId": null,
       "familyIds": [
@@ -3351,6 +3366,21 @@
       "released": false,
       "releasedAt": null,
       "releaseReason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_family_court-set",
+      "itemId": null,
+      "familyId": "de_discretionary_family_court-set",
+      "familyIds": [
+        "de_discretionary_family_court-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8574,6 +8604,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "rcap-in-custom-pleading",
+      "itemId": null,
+      "familyId": "rcap-in-custom-pleading",
+      "familyIds": [
+        "rcap-in-custom-pleading"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF44",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-in-custom-pleading",
       "familyId": "rcap-in-custom-pleading",
       "itemId": null,
       "familyIds": [
@@ -8888,21 +8933,6 @@
       "released": true,
       "releasedAt": "2026-09-12T07:51:36.150Z",
       "releaseReason": "Existing PF14 completed Oregon build return and Sept9 checkpoint preserved; current packet bytes rastered34634407406641 (actual run34407406641), no live Oregon process/extant worker worktree/unmerged Oregon commits. Implementation complete; independent review remains."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-or-official-pdf-fill",
-      "familyId": "rcap-or-official-pdf-fill",
-      "itemId": null,
-      "familyIds": [
-        "rcap-or-official-pdf-fill"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX01",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15742,54 +15772,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-in-custom-pleading",
-      "itemId": null,
-      "familyId": "rcap-in-custom-pleading",
-      "familyIds": [
-        "rcap-in-custom-pleading"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF44",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "de_discretionary_family_court-set",
-      "itemId": null,
-      "familyId": "de_discretionary_family_court-set",
-      "familyIds": [
-        "de_discretionary_family_court-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX01",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "de_discretionary_family_court-set",
-      "itemId": null,
-      "familyId": "de_discretionary_family_court-set",
-      "familyIds": [
-        "de_discretionary_family_court-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "a513d01abc195833c567465bd7acc7c2cf6b500eebe7fde4a9d3f882781ccbae",
+  "claimsDigest": "aaf678242815cf10757ceb7557c9cd153c06511740d29cb1083196307826833f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71673,6 +71658,14 @@
       "operation": "independent-verification",
       "lane": "VF07",
       "withdrawnAt": "2026-09-12T15:22:35Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-or-official-pdf-fill",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "withdrawnAt": "2026-09-12T17:39:30Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

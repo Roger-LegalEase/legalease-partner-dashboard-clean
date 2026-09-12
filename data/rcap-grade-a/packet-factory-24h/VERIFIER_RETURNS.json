@@ -34,18 +34,17 @@
     }
   ],
   "counts": {
-    "returnDirectories": 324,
-    "rows": 1415,
+    "returnDirectories": 325,
+    "rows": 1416,
     "independentVerdicts": 310,
-    "failRepairRequired": 5,
-    "passIndependent": 302
+    "failRepairRequired": 4,
+    "passIndependent": 303
   },
   "failRepairRequiredFamilies": [
     "ky_protective_order_record_expungement-set",
     "mo-610-140-arrest-set",
     "mo-610-140-conviction-set",
-    "rcap-in-custom-pleading",
-    "rcap-or-official-pdf-fill"
+    "rcap-in-custom-pleading"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -28914,6 +28913,20 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-current-semantic-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-or-official-pdf-fill",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-or-official-pdf-fill",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-original-final-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-or-official-pdf-fill",
       "superseded": false

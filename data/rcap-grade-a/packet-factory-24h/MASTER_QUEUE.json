@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "fb83b18a186465d08b3e4e073a70365dce49ca05",
+  "minimumCaptainSha": "b579fb9c77f360744576ed8ad816c16a2e331520",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -80,17 +80,17 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 5,
+    "repairRequired": 4,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 280,
+    "COMPLETE_PACKET_PROVEN": 281,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 31,
     "HANDOFF_READY": 2,
     "PRODUCT_PATH_PENDING": 6,
-    "FAIL_REPAIR_REQUIRED": 5,
+    "FAIL_REPAIR_REQUIRED": 4,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -40244,10 +40244,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf04",
-        "verifiedAtBase": "8834074d3c402bee7a0cc85e858465a39c2a7acb",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-current-semantic-fail-20260912.json"
+        "verifiedAtBase": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-original-final-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -40266,7 +40266,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "8834074d3c402bee7a0cc85e858465a39c2a7acb",
+          "verifiedAtBase": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -40285,9 +40285,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40299,7 +40297,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule OR-OSP-SEPARATE-AGENCY-STEP: Treat the OSP fingerprint/history process as a separate required agency step, not a court-filing component, and do not universally label it pre-filing. Sequence it through jurisdiction/configuration rules. The court packet remains the current OJD motion/declaration/service materials. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule OR-OSP-SEPARATE-AGENCY-STEP: Treat the OSP fingerprint/history process as a separate required agency step, not a court-filing component, and do not universally label it pre-filing. Sequence it through jurisdiction/configuration rules. The court packet remains the current OJD motion/declaration/service materials. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "NOT_MEASURABLE_HERE",
@@ -40316,83 +40314,11 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "COMPONENT_SET",
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "KNOWN_PREFILLS",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "OR-S1 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "OR-S2 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "OR-S1; OR-S2; OR-S3; OR-S4; OR-S5; OR-S8 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "OR-S3; OR-S4 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "OR-S4 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "OR-S6 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "OR-S1 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "OR-S7 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "OR-S5 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "OR-S8 — exact current-byte findings in referenced evidence.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-or-official-pdf-fill.mjs",
