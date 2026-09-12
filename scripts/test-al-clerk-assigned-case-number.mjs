@@ -10,6 +10,7 @@ import {
   classifyAlabamaClerkAssignedCaseNumber,
   isAlabamaClerkAssignedCaseNumber
 } from "./rcap-official-forms/alabama-clerk-assigned-case-number.mjs";
+import { readAlabamaPardonedSectionV } from "./rcap-official-forms/alabama-section-v-byte-reading.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
@@ -93,6 +94,14 @@ if (process.argv.includes("--outputs")) {
       ok(Number(xMin) >= 257 && Number(xMax) <= 420 && Number(yMin) >= 285 && Number(yMax) <= 305,
         `${familyId} ${fixture}: the sole case-number glyph is positioned in CR-65 Text3 on packet page 1 (${xMin},${yMin},${xMax},${yMax})`);
     }
+  }
+  const cr65 = fs.readFileSync(path.join(ROOT, SOURCES[0][1]));
+  const pardonOut = path.join(ROOT, "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures");
+  for (const fixture of Object.keys(CASE_NUMBERS)) {
+    const readings = await readAlabamaPardonedSectionV({ sourceBytes: cr65, outputBytes: fs.readFileSync(path.join(pardonOut, `${fixture}.pdf`)) });
+    eq(readings.length, 8, `al-pardoned-felony-set ${fixture}: all eight Section V controls were read from saved bytes`);
+    ok(readings.every((row) => row.locatedAppearanceCount === 1 && row.marked === false && row.nonWhitespaceGlyphs === 0),
+      `al-pardoned-felony-set ${fixture}: every Section V attestation is visibly unmarked in its exact source widget box`);
   }
 }
 
