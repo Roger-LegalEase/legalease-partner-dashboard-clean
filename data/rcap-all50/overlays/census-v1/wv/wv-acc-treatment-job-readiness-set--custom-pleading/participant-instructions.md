@@ -2,7 +2,24 @@
 
 This packet is built for **one** route: the accelerated expungement West Virginia allows where you have complied with an approved treatment or recovery programme, or graduated from an approved job readiness course, or both. It is not the ordinary waiting-period route.
 
-The route record states the clock this way: _"ninety days of programme compliance OR completion of an approved job readiness adult training course, or both where applicable; the accelerated clock replaces the § 61-11-26(b)(1) one-year wait for a single misdemeanour"_
+The single-misdemeanour scope and timing are held for review. Do not treat the 90-day treatment language or the one-year rule as settled for a single misdemeanour, and do not tick that branch or write its eligibility date until the governing determination resolves both questions.
+
+## Stop and get help before filing
+
+This is self-help guidance. If any condition below applies, stop before signing or filing and get legal help. These ten stop conditions are carried from the current West Virginia route record:
+
+1. Any felony conviction, which is a referral trigger on this route as on wv_conv_nonviolent_felony.
+2. Any doubt whether the treatment or recovery programme is approved by the Secretary of the Department of Health, or the job readiness course by the West Virginia Department of Education.
+3. Any violence, domestic violence, household member, strangulation, sex, child victim, deadly weapon, dwelling burglary or DUI issue.
+4. Any CDL or commercial motor vehicle issue.
+5. Any pending charge.
+6. Any protection, no-contact, restitution or restraining order.
+7. Any identified victim who may oppose, and any notice of opposition actually filed.
+8. Any prior expungement, which likely exhausts the once-per-lifetime rule that this section shares with § 61-11-26.
+9. The court sets the matter for hearing.
+10. Firearm rights, immigration, professional licensing, law enforcement or corrections employment, or federal, tribal, military or out-of-state records questions.
+
+If a stop condition applies, this packet does not decide eligibility or tell you how to resolve it. Keep the official records and seek advice before you sign.
 
 ## What is in this packet, and which parts you actually file
 
@@ -23,9 +40,9 @@ The route record states the clock this way: _"ninety days of programme complianc
 
 **File exactly one of them.** Whether a felony is a *nonviolent* felony is a legal characterisation of your own record, and this packet's own record names it a manual completion item, so nothing here decides it for you. The two forms are not interchangeable: they recite different waiting periods, and their certificates of service do not even list the same recipients.
 
-## Part (c) — the eligibility branch, and the two branches this packet has ruled out
+## Part (c) — the eligibility branch, and the branches this packet leaves unselected
 
-Page 1 of each petition offers four eligibility branches and you tick one. **This packet has ticked none**, but it has narrowed them: two of the four are not available on this route at all.
+Page 1 of each petition offers four eligibility branches and you tick one. **This packet has ticked none**. The two ordinary elapsed-time branches are outside this route, and the single-misdemeanour accelerated branch is held because its scope and timing are unresolved.
 
 | The branch the form prints | Why this packet does not tick it |
 | --- | --- |
@@ -33,12 +50,14 @@ Page 1 of each petition offers four eligibility branches and you tick one. **Thi
 | Part (c) — the date of completion for the ordinary § 61-11-26 single conviction branch (SCA-C906) | this paragraph recites the ORDINARY elapsed-time route under § 61-11-26 alone and does not cite § 61-11-26a. This family's single route is obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a, the accelerated one, whose eligibility clock the route-obligation census records as replacing that wait. The elapsed-time branches belong to the wv_conv_single_misdemeanor, wv_conv_multiple_misdemeanors and wv_conv_nonviolent_felony tracks, each with its own route key. |
 | Part (c) — the ordinary § 61-11-26 elapsed-time branch for a multiple conviction (selection) (SCA-C906) | this paragraph recites the ORDINARY elapsed-time route under § 61-11-26 alone and does not cite § 61-11-26a. This family's single route is obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a, the accelerated one, whose eligibility clock the route-obligation census records as replacing that wait. The elapsed-time branches belong to the wv_conv_single_misdemeanor, wv_conv_multiple_misdemeanors and wv_conv_nonviolent_felony tracks, each with its own route key. |
 | Part (c) — the date of completion for the ordinary § 61-11-26 multiple conviction branch (SCA-C906) | this paragraph recites the ORDINARY elapsed-time route under § 61-11-26 alone and does not cite § 61-11-26a. This family's single route is obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a, the accelerated one, whose eligibility clock the route-obligation census records as replacing that wait. The elapsed-time branches belong to the wv_conv_single_misdemeanor, wv_conv_multiple_misdemeanors and wv_conv_nonviolent_felony tracks, each with its own route key. |
+| Part (c) — the § 61-11-26a single-misdemeanour branch (selection held) (SCA-C906) | the single-misdemeanour § 61-11-26a branch is held: the current governing records leave its scope and timing unresolved. Do not tick this branch or write its eligibility date until both questions are resolved |
+| Part (c) — the date of eligibility for the § 61-11-26a single-misdemeanour branch (held) (SCA-C906) | the single-misdemeanour § 61-11-26a branch is held: the current governing records leave its scope and timing unresolved. Do not tick this branch or write its eligibility date until both questions are resolved |
 | Part (c) — the date of completion for the ordinary § 61-11-26 single conviction branch (SCA-C907) | this paragraph recites the ORDINARY elapsed-time route under § 61-11-26 alone and does not cite § 61-11-26a. This family's single route is obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a, the accelerated one, whose eligibility clock the route-obligation census records as replacing that wait. The elapsed-time branches belong to the wv_conv_single_misdemeanor, wv_conv_multiple_misdemeanors and wv_conv_nonviolent_felony tracks, each with its own route key. |
 | Part (c) — the date of completion for the ordinary § 61-11-26 multiple conviction branch (SCA-C907) | this paragraph recites the ORDINARY elapsed-time route under § 61-11-26 alone and does not cite § 61-11-26a. This family's single route is obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a, the accelerated one, whose eligibility clock the route-obligation census records as replacing that wait. The elapsed-time branches belong to the wv_conv_single_misdemeanor, wv_conv_multiple_misdemeanors and wv_conv_nonviolent_felony tracks, each with its own route key. |
 | Part (c) — the ordinary § 61-11-26 elapsed-time branch for a single conviction (selection) (SCA-C907) | this paragraph recites the ORDINARY elapsed-time route under § 61-11-26 alone and does not cite § 61-11-26a. This family's single route is obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a, the accelerated one, whose eligibility clock the route-obligation census records as replacing that wait. The elapsed-time branches belong to the wv_conv_single_misdemeanor, wv_conv_multiple_misdemeanors and wv_conv_nonviolent_felony tracks, each with its own route key. |
 | Part (c) — the ordinary § 61-11-26 elapsed-time branch for a multiple conviction (selection) (SCA-C907) | this paragraph recites the ORDINARY elapsed-time route under § 61-11-26 alone and does not cite § 61-11-26a. This family's single route is obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a, the accelerated one, whose eligibility clock the route-obligation census records as replacing that wait. The elapsed-time branches belong to the wv_conv_single_misdemeanor, wv_conv_multiple_misdemeanors and wv_conv_nonviolent_felony tracks, each with its own route key. |
 
-The other two branches — the ones that cite § 61-11-26a — are both yours. They differ only in whether you have **one** conviction to clear or **several**, which only your own record says. Tick the one that fits and write the date of eligibility the paragraph asks for.
+The multiple-conviction § 61-11-26a branch and the nonviolent-felony branch require facts from your certified record. The single-misdemeanour § 61-11-26a branch is withheld: the governing records leave its scope and timing unresolved. Do not tick that branch or write its eligibility date until those questions are resolved.
 
 **Read the paragraph, not the tick-box's position.** On the misdemeanour form all four boxes are named after felonies in the file itself — the form was built from the felony one — so this packet labelled each branch from the paragraph printed beside it and you should read it the same way.
 
@@ -58,6 +77,7 @@ The other two branches — the ones that cite § 61-11-26a — are both yours. T
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | street address on the composed page | from the details you gave the platform |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | city state zip on the composed page | from the details you gave the platform |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | phone on the composed page | from the details you gave the platform |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | date of birth on the composed page | from the details you gave the platform |
 | wv_acc_treatment_job_readiness-records-checklist-6 | full legal name on the composed page | from the details you gave the platform |
 | wv_acc_treatment_job_readiness-filing-instructions-7 | full legal name on the composed page | from the details you gave the platform |
 
@@ -81,7 +101,7 @@ Both petitions print `DOB: __ / __ / __` with **no order printed beneath the slo
 4. **Obtain Certified disposition, judgment order and sentencing order for every conviction. Ask the clerk of the county of conviction for certified copies for each case, and check the dates against the answers you gave us.**
    - Where to get it: Circuit or magistrate clerk of the county of conviction
 
-The route record names the attachment requirement in terms: _"Section 61-11-26a(b)(2) requires the certificate to be included in the petition."_
+The petition must include the applicable treatment-compliance documentation and/or job-readiness graduation certificate. Attach the supporting records you actually hold before filing; the supplemental pleading gives you places to identify them.
 
 ## Signing, swearing and serving
 
@@ -118,8 +138,6 @@ The route record names the attachment requirement in terms: _"Section 61-11-26a(
 | wv_acc_treatment_job_readiness-primary-filing-1 | Row 3 — the case number that charge was under | the case number for the charge on line 3, from the same papers |
 | wv_acc_treatment_job_readiness-primary-filing-1 | Row 4 — the charge you want expunged | the charge on line 4, copied word for word from the certified disposition or judgment order. The platform has not seen your record and will not name a charge it cannot read |
 | wv_acc_treatment_job_readiness-primary-filing-1 | Row 4 — the case number that charge was under | the case number for the charge on line 4, from the same papers |
-| wv_acc_treatment_job_readiness-primary-filing-1 | Part (c) — the § 61-11-26a branch for a single conviction (selection) | tick this branch only if it is the one that fits your record — it is the § 61-11-26a branch for a single conviction |
-| wv_acc_treatment_job_readiness-primary-filing-1 | Part (c) — the date of eligibility for the § 61-11-26a single conviction branch | the date of eligibility the paragraph asks for, if this is the branch you ticked |
 | wv_acc_treatment_job_readiness-primary-filing-1 | Part (c) — the § 61-11-26a branch for a multiple conviction (selection) | tick this branch only if it is the one that fits your record — it is the § 61-11-26a branch for a multiple conviction |
 | wv_acc_treatment_job_readiness-primary-filing-1 | Part (c) — the date of eligibility for the § 61-11-26a multiple conviction branch | the date of eligibility the paragraph asks for, if this is the branch you ticked |
 | wv_acc_treatment_job_readiness-primary-filing-1 | Date of arrest | the date of arrest, from your own court papers |
@@ -215,7 +233,15 @@ The route record names the attachment requirement in terms: _"Section 61-11-26a(
 | wv_acc_treatment_job_readiness-primary-filing-2 | Have you ever been granted an expungement or similar relief anywhere — No (selection) | tick No only if you have never been granted an expungement or similar relief anywhere |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | County of the circuit court | the county of conviction, the same county you wrote in the petition's caption |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | Circuit Court case number | the circuit court case number, once the clerk has assigned one |
-| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Which limb of § 61-11-26a(a) you rely on | write TREATMENT, JOB READINESS, or BOTH — whichever describes what you are relying on. Only you know which |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Prior legal names and aliases and addresses since the offense | the identity and address history required by the petition |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Offense, statute, county, court, and case number for each conviction | each conviction's identity from the certified disposition or judgment order; do not infer any part |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Arrest date and arresting agency for each conviction | the arrest date and agency shown by your court or arrest records |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Disposition, conviction date, sentence, and sentence or supervision completion | the disposition and sentence facts from the certified court record, including when incarceration and supervision ended |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Victim, restitution, protection, no-contact, and restoration information | the victim and any restitution, protection, no-contact, or restoration facts required by the petition, with supporting orders if any |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Statutory grounds for expungement | your factual grounds for relief under Sections 61-11-26(d) and 61-11-26a, stated in your own words |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Rehabilitation statement | your own account of rehabilitation since the offense, including treatment, work, study, counselling, or community life |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Prior expungement or similar relief | whether any court has granted you expungement or similar relief and whether you have used Sections 61-11-26 or 61-11-26a |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Treatment, recovery, or job-readiness basis for the supporting evidence | the factual basis for the documents you attach: approved treatment or recovery compliance, approved job-readiness graduation, or both |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | Name of the treatment or recovery and counselling programme | the name of the programme, exactly as it appears on the documentation the provider gave you |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | Who approved that programme | the written confirmation from the provider that the programme is approved by the Secretary of the Department of Health |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | The dates you were in compliance with that programme | the dates your compliance covers, taken from the provider's own written documentation and not from memory |
@@ -223,8 +249,12 @@ The route record names the attachment requirement in terms: _"Section 61-11-26a(
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | Name of the job readiness adult training course | the name of the course you graduated from, exactly as it appears on your certificate |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | The course provider and its approval | the provider, and the written confirmation that the course is approved by the West Virginia Department of Education |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | The date you graduated | the graduation date shown on the certificate itself |
-| wv_acc_treatment_job_readiness-supplemental-pleading-3 | The documents you are attaching to this pleading | list what you are actually attaching, from the checklist in this packet |
-| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Your signature on this supplemental pleading | sign it yourself. The route record requires your signature on the supplemental pleading as well as on the petition |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Applicable § 61-11-26a eligibility branch | the branch supported by your certified record and the governing eligibility determination; the single-misdemeanour branch is currently withheld |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Eligibility date and sentence or supervision timing | the applicable eligibility date only after the branch and timing are established from the governing record; do not supply a single-misdemeanour date while that branch is unresolved |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Service recipients and their current addresses | the recipients printed on the official petition you file and each current address; identified victims are handled through the prosecuting attorney |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | WVSP processing-fee waiver under § 61-11-26a(c) | the statutory notation that the $100 West Virginia State Police processing fee is waived |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | The documents you are attaching to this pleading | list each supporting document you are actually attaching |
+| wv_acc_treatment_job_readiness-supplemental-pleading-3 | Your signature on this supplemental pleading | sign the supplemental pleading yourself together with the verified petition |
 | wv_acc_treatment_job_readiness-supplemental-pleading-3 | The date you sign this supplemental pleading | the date you actually sign |
 
 ## Blanks the form itself is too small for

@@ -26,7 +26,7 @@
       "pathInArchive": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
       "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
       "byteLength": 176072,
-      "custodyRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "custodyRoot": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
       "instrumentKind": "primary_filing",
       "pageCount": 4,
       "acroFieldCount": 75,
@@ -34,7 +34,7 @@
       "xfaPresentInTheAcroFormDictionary": false,
       "custodyRootsSearched": [
         {
-          "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "root": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
           "exists": true,
           "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c"
         }
@@ -57,6 +57,11 @@
       "encryptedInInput": false,
       "xfaPresentInTheAcroFormDictionary": false,
       "custodyRootsSearched": [
+        {
+          "root": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "exists": false,
+          "sha256": null
+        },
         {
           "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
           "exists": false,
@@ -128,6 +133,46 @@
     "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
     "data/record-clearing/legal-design-packet-set-manifests.json"
   ],
+  "governingLegalTreatment": {
+    "decisionId": "WV-ACC-TREATMENT-JOB-READINESS-CLEAN-PLEADING",
+    "disposition": "LEGAL_CLEAR",
+    "bindingProductRule": "Remove internal legal-analysis/registry/debug language from court filings. Build the petition around the actual requirements of Sections 61-11-26(d) and 61-11-26a: required identity/case/disposition/restoration facts, statutory grounds, rehabilitation, prior expungements, supporting program evidence, service recipients and eligibility/timing gates. Apply the statutory WVSP processing-fee waiver identified in the supplied disposition.",
+    "authority": "West Virginia Code Sections 61-11-26 and 61-11-26a cited in the supplied disposition.",
+    "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+  },
+  "heldEligibilityBoundary": {
+    "trackId": "wv_acc_treatment_job_readiness",
+    "legalStatus": "legal_review_pending",
+    "scopeRestrictions": [
+      "One open question first: whether a single misdemeanor qualifies under this section at all, given that the section's opening scope language names a nonviolent felony or multiple misdemeanors. Do not ship the 90-day single-misdemeanor row until that is confirmed."
+    ],
+    "releaseBlockers": [
+      {
+        "question": "How the § 61-11-26a(a)(1) 90-day single-misdemeanour clock interacts with the § 61-11-26(b)(1) one-year clock where the participant relies on job readiness graduation rather than 90 days of treatment compliance. Subdivision (a)(1) was read at source on 2026-08-06 and makes eligibility turn on '90 days' of programme compliance 'or upon completion of an approved job readiness adult training course, or both, if applicable, but after the completion of any sentence of incarceration or completion of any period of supervision, whichever is later in time'. On the graduation branch there is no stated period at all beyond completion of sentence and supervision, which would make the route available immediately on graduation. The packet applies the text as written and records the question rather than reading a 90-day period into the graduation branch.",
+        "impact": "release_blocker",
+        "affectedElement": "waiting_period",
+        "provenance": {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "WV__LEGAL-REVIEW__STATEWIDE__west-virginia-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+          "sourceHeading": "WV-ACC-01: Accelerated expungement with treatment, recovery, or job readiness",
+          "sourceStatement": "Accelerated timing per the reference, partly unverified: after sentence and supervision completion plus 90 days of approved treatment or recovery compliance or job readiness completion for a single misdemeanor; one year for multiple misdemeanors; three years for an eligible nonviolent felony",
+          "counselQuestion": "Section 61-11-26a(a)(1) attaches the 90-day period to programme compliance and states no period for the job readiness graduation branch beyond completion of sentence and supervision. Does a participant who graduates an approved job readiness course become eligible immediately on graduation, or should the packet apply the 90 days to both branches?"
+        }
+      }
+    ],
+    "selfHelpStopConditions": [
+      "Any felony conviction, which is a referral trigger on this route as on wv_conv_nonviolent_felony.",
+      "Any doubt whether the treatment or recovery programme is approved by the Secretary of the Department of Health, or the job readiness course by the West Virginia Department of Education.",
+      "Any violence, domestic violence, household member, strangulation, sex, child victim, deadly weapon, dwelling burglary or DUI issue.",
+      "Any CDL or commercial motor vehicle issue.",
+      "Any pending charge.",
+      "Any protection, no-contact, restitution or restraining order.",
+      "Any identified victim who may oppose, and any notice of opposition actually filed.",
+      "Any prior expungement, which likely exhausts the once-per-lifetime rule that this section shares with § 61-11-26.",
+      "The court sets the matter for hearing.",
+      "Firearm rights, immigration, professional licensing, law enforcement or corrections employment, or federal, tribal, military or out-of-state records questions."
+    ]
+  },
   "sourceBinaryCommitted": false,
   "commercialRoutesOpened": 0,
   "whatThisReceiptDoesNotEstablish": [

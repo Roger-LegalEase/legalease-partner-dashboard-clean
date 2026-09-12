@@ -58,9 +58,13 @@
  * NOT_APPLICABLE_ON_THIS_ROUTE with the named condition, because this family's
  * single route is the § 61-11-26a accelerated one.
  *
- * The other two DO recite § 61-11-26a, and they differ only in whether the
- * participant has one conviction or several. That is a fact of the record, not
- * of the route, so both are declared REQUIRED_BEFORE_FILING with
+ * The accelerated single-misdemeanour branch is held by the current scope and
+ * timing record. Its checkbox and date are declared
+ * NOT_APPLICABLE_ON_THIS_ROUTE with that named legal-boundary condition, so
+ * neither is presented as a selectable or required-before-filing task. The
+ * remaining accelerated branches differ only in whether the participant has
+ * one conviction or several. That is a fact of the record, not of the route,
+ * so those are declared REQUIRED_BEFORE_FILING with
  * determinedByTheCaseNotTheRoute and the reason stated. Which paragraph is
  * which is decided by reading the paragraph, not by reading the field name.
  *
@@ -131,10 +135,21 @@ const MASTER_QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
 const SWEEP = "data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json";
 const PACKET_SET_MANIFEST = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const LEGAL_DECISION = "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json";
+const TRACK_ID = "wv_acc_treatment_job_readiness";
+const LEGAL_DECISION_ID = "WV-ACC-TREATMENT-JOB-READINESS-CLEAN-PLEADING";
 
 const ROUTE_KEY =
   "obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a";
 const STATUTORY_AUTHORITY = "W. Va. Code § 61-11-26a";
+
+const EXPECTED_SCOPE_RESTRICTION =
+  "One open question first: whether a single misdemeanor qualifies under this section at all, given that the section's opening scope language names a nonviolent felony or multiple misdemeanors. Do not ship the 90-day single-misdemeanor row until that is confirmed.";
+const EXPECTED_TIMING_RELEASE_BLOCKER =
+  "How the § 61-11-26a(a)(1) 90-day single-misdemeanour clock interacts with the § 61-11-26(b)(1) one-year clock where the participant relies on job readiness graduation rather than 90 days of treatment compliance. Subdivision (a)(1) was read at source on 2026-08-06 and makes eligibility turn on '90 days' of programme compliance 'or upon completion of an approved job readiness adult training course, or both, if applicable, but after the completion of any sentence of incarceration or completion of any period of supervision, whichever is later in time'. On the graduation branch there is no stated period at all beyond completion of sentence and supervision, which would make the route available immediately on graduation. The packet applies the text as written and records the question rather than reading a 90-day period into the graduation branch.";
+const EXPECTED_LEGAL_BINDING_RULE =
+  "Remove internal legal-analysis/registry/debug language from court filings. Build the petition around the actual requirements of Sections 61-11-26(d) and 61-11-26a: required identity/case/disposition/restoration facts, statutory grounds, rehabilitation, prior expungements, supporting program evidence, service recipients and eligibility/timing gates. Apply the statutory WVSP processing-fee waiver identified in the supplied disposition.";
 
 const PINNED = {
   "SCA-C906": {
@@ -188,10 +203,9 @@ const S = {
 };
 
 const WHY_THE_CASE_ELECTS_WITHIN_THE_PAIR =
-  "this family's single route is the § 61-11-26a accelerated one, and BOTH of the § 61-11-26a branches printed on "
-  + "this page belong to it. They differ only in whether the participant has one conviction to clear or several, "
-  + "which is a fact of the participant's own record and not of the route. The route-obligation census records the "
-  + `eligibility clock for ${ROUTE_KEY} without electing between them.`;
+  "this family's route is the § 61-11-26a accelerated one. The applicable accelerated branch is a fact of the "
+  + "participant's own record and not of the route, and the route-obligation census does not elect it. The "
+  + `eligibility clock for ${ROUTE_KEY} is therefore left for the certified record and applicable determination.`;
 
 /* ---- the static half of the field dictionary -------------------------------- *
  * Both binaries carry the same field NAMES for these, so one dictionary serves
@@ -715,6 +729,57 @@ function routeRecord() {
   };
 }
 
+/*
+ * This family has a legal-clear product decision and a still-open source
+ * boundary inside the route registry. Read both records at build time. The
+ * decision authorizes a clean statutory pleading; it does not erase the
+ * registry's unresolved single-misdemeanour scope or timing question. Those
+ * questions are therefore disclosed and fail closed in participant copy.
+ */
+function legalBoundaryRecord() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, TRACK_REGISTRY), "utf8"));
+  const track = (registry.tracks ?? []).find((t) => t.trackId === TRACK_ID);
+  assert.ok(track, `${TRACK_REGISTRY} carries no track ${TRACK_ID}`);
+  assert.equal(track.legalStatus, "legal_review_pending",
+    `${TRACK_REGISTRY} changed ${TRACK_ID}'s legalStatus; re-read the timing and scope boundary before building`);
+  assert.deepEqual(track.scopeRestrictions, [EXPECTED_SCOPE_RESTRICTION],
+    `${TRACK_REGISTRY} changed the single-misdemeanour scope restriction for ${TRACK_ID}`);
+  const releaseBlockers = track.releaseBlockers ?? [];
+  const timingBlocker = releaseBlockers.find((b) => b.affectedElement === "waiting_period");
+  assert.ok(timingBlocker, `${TRACK_REGISTRY} no longer carries the waiting-period release blocker for ${TRACK_ID}`);
+  assert.equal(timingBlocker.question, EXPECTED_TIMING_RELEASE_BLOCKER,
+    `${TRACK_REGISTRY} changed the waiting-period release blocker for ${TRACK_ID}`);
+  assert.equal(Array.isArray(track.selfHelpStopConditions), true,
+    `${TRACK_REGISTRY} carries no self-help stop conditions for ${TRACK_ID}`);
+  assert.equal(track.selfHelpStopConditions.length, 10,
+    `${TRACK_REGISTRY} changed the ten self-help stop conditions for ${TRACK_ID}`);
+
+  const decisions = JSON.parse(fs.readFileSync(path.join(ROOT, LEGAL_DECISION), "utf8"));
+  const decision = (decisions.decisions ?? []).find((d) => d.decisionId === LEGAL_DECISION_ID);
+  assert.ok(decision, `${LEGAL_DECISION} carries no decision ${LEGAL_DECISION_ID}`);
+  assert.equal(decision.disposition, "LEGAL_CLEAR",
+    `${LEGAL_DECISION} changed ${LEGAL_DECISION_ID} from LEGAL_CLEAR`);
+  assert.deepEqual(decision.familyIds, [FAMILY_ID],
+    `${LEGAL_DECISION} changed the family scope for ${LEGAL_DECISION_ID}`);
+  assert.equal(decision.bindingProductRule, EXPECTED_LEGAL_BINDING_RULE,
+    `${LEGAL_DECISION} changed the binding product rule for ${LEGAL_DECISION_ID}`);
+
+  return {
+    trackId: TRACK_ID,
+    legalStatus: track.legalStatus,
+    scopeRestrictions: [...track.scopeRestrictions],
+    releaseBlockers: [{ ...timingBlocker }],
+    selfHelpStopConditions: [...track.selfHelpStopConditions],
+    governingDecision: {
+      decisionId: decision.decisionId,
+      disposition: decision.disposition,
+      bindingProductRule: decision.bindingProductRule,
+      authority: decision.authority,
+      path: LEGAL_DECISION
+    }
+  };
+}
+
 function packetSetRecord() {
   const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, PACKET_SET_MANIFEST), "utf8"));
   const set = (manifest.packetSets ?? []).find((s) => s.packetSetId === FAMILY_ID);
@@ -901,19 +966,35 @@ async function censusOf(form, source) {
       const isBox = branch.control === name;
       const which = `${branch.recitesSingle ? "single" : "multiple"} conviction`;
       if (branch.citesAcceleratedSection) {
-        entry = {
-          section: S.ELIGIBILITY, selection: isBox, branch: branch.control,
-          caption: "eligibility requirements for expungement", captionAbove: 400,
-          printedParagraph: branch.printedParagraph,
-          label: isBox
-            ? `Part (c) — the § 61-11-26a branch for a ${which} (selection)`
-            : `Part (c) — the date of eligibility for the § 61-11-26a ${which} branch`,
-          ...CASE_FACT(
-            isBox
-              ? `tick this branch only if it is the one that fits your record — it is the § 61-11-26a branch for a ${which}`
-              : `the date of eligibility the paragraph asks for, if this is the branch you ticked`,
-            WHY_THE_CASE_ELECTS_WITHIN_THE_PAIR)
-        };
+        const heldSingleMisdemeanour = form === "SCA-C906" && branch.recitesSingle;
+        entry = heldSingleMisdemeanour
+          ? {
+              section: S.ELIGIBILITY, selection: isBox, branch: branch.control,
+              caption: "eligibility requirements for expungement", captionAbove: 400,
+              printedParagraph: branch.printedParagraph,
+              label: isBox
+                ? `Part (c) — the § 61-11-26a single-misdemeanour branch (selection held)`
+                : `Part (c) — the date of eligibility for the § 61-11-26a single-misdemeanour branch (held)`,
+              policy: "off_route",
+              legalBoundaryHold: true,
+              condition:
+                "the single-misdemeanour § 61-11-26a branch is held: the current governing records leave its "
+                + "scope and timing unresolved. Do not tick this branch or write its eligibility date until both "
+                + "questions are resolved"
+            }
+          : {
+              section: S.ELIGIBILITY, selection: isBox, branch: branch.control,
+              caption: "eligibility requirements for expungement", captionAbove: 400,
+              printedParagraph: branch.printedParagraph,
+              label: isBox
+                ? `Part (c) — the § 61-11-26a branch for a ${which} (selection)`
+                : `Part (c) — the date of eligibility for the § 61-11-26a ${which} branch`,
+              ...CASE_FACT(
+                isBox
+                  ? `tick this branch only if it is the one that fits your record — it is the § 61-11-26a branch for a ${which}`
+                  : `the date of eligibility the paragraph asks for, if this is the branch you ticked`,
+                WHY_THE_CASE_ELECTS_WITHIN_THE_PAIR)
+            };
       } else {
         entry = {
           section: S.ELIGIBILITY, selection: isBox, branch: branch.control,
@@ -1024,6 +1105,7 @@ async function censusOf(form, source) {
       branch: entry.branch ?? null, chargeRow: entry.chargeRow ?? null,
       dobSlot: entry.dobSlot ?? null, yesNo: entry.yesNo ?? null, question: entry.question ?? null,
       registryGap: entry.registryGap ?? null,
+      legalBoundaryHold: entry.legalBoundaryHold === true,
       policy: entry.policy, fact: entry.fact ?? null,
       refusalClass: entry.refusalClass ?? null, what: entry.what ?? null,
       why: entry.why ?? null, condition: entry.condition ?? null,
@@ -1120,14 +1202,16 @@ async function renderPetition(form, source, census, fixtureName) {
 /* ---- render: the composed pages ---------------------------------------------- */
 const RULE = (n = 70) => "_".repeat(n);
 
-async function renderComposedPdf(fullText, title) {
+async function renderComposedPdf(fullText, title, layout = {}) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
   pdf.setProducer("RCAP census-v1 artifact-only renderer");
   pdf.setCreator("RCAP evidence build");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const fontSize = layout.fontSize ?? 11;
+  const lineHeight = layout.lineHeight ?? 14.5;
+  const width = 612, height = 792, margin = layout.margin ?? 72;
   const maxWidth = width - 2 * margin;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
@@ -1165,8 +1249,24 @@ function composedBlanks(componentId) {
     return [
       b("county", "County of the circuit court", "the county of conviction, the same county you wrote in the petition's caption"),
       b("circuit-case-no", "Circuit Court case number", "the circuit court case number, once the clerk has assigned one"),
-      b("branch-relied-on", "Which limb of § 61-11-26a(a) you rely on",
-        "write TREATMENT, JOB READINESS, or BOTH — whichever describes what you are relying on. Only you know which"),
+      b("identity-history", "Prior legal names and aliases and addresses since the offense",
+        "the identity and address history required by the petition"),
+      b("conviction-record", "Offense, statute, county, court, and case number for each conviction",
+        "each conviction's identity from the certified disposition or judgment order; do not infer any part"),
+      b("arrest-agency", "Arrest date and arresting agency for each conviction",
+        "the arrest date and agency shown by your court or arrest records"),
+      b("disposition-sentence", "Disposition, conviction date, sentence, and sentence or supervision completion",
+        "the disposition and sentence facts from the certified court record, including when incarceration and supervision ended"),
+      b("victim-restoration", "Victim, restitution, protection, no-contact, and restoration information",
+        "the victim and any restitution, protection, no-contact, or restoration facts required by the petition, with supporting orders if any"),
+      b("grounds", "Statutory grounds for expungement",
+        "your factual grounds for relief under Sections 61-11-26(d) and 61-11-26a, stated in your own words"),
+      b("rehabilitation", "Rehabilitation statement",
+        "your own account of rehabilitation since the offense, including treatment, work, study, counselling, or community life"),
+      b("prior-expungement", "Prior expungement or similar relief",
+        "whether any court has granted you expungement or similar relief and whether you have used Sections 61-11-26 or 61-11-26a"),
+      b("supporting-basis", "Treatment, recovery, or job-readiness basis for the supporting evidence",
+        "the factual basis for the documents you attach: approved treatment or recovery compliance, approved job-readiness graduation, or both"),
       b("programme-name", "Name of the treatment or recovery and counselling programme",
         "the name of the programme, exactly as it appears on the documentation the provider gave you"),
       b("programme-approval", "Who approved that programme",
@@ -1180,21 +1280,32 @@ function composedBlanks(componentId) {
       b("course-provider", "The course provider and its approval",
         "the provider, and the written confirmation that the course is approved by the West Virginia Department of Education"),
       b("course-date", "The date you graduated", "the graduation date shown on the certificate itself"),
+      b("eligibility-branch", "Applicable § 61-11-26a eligibility branch",
+        "the branch supported by your certified record and the governing eligibility determination; the single-misdemeanour branch is currently withheld"),
+      b("eligibility-timing", "Eligibility date and sentence or supervision timing",
+        "the applicable eligibility date only after the branch and timing are established from the governing record; do not supply a single-misdemeanour date while that branch is unresolved"),
+      b("service-recipients", "Service recipients and their current addresses",
+        "the recipients printed on the official petition you file and each current address; identified victims are handled through the prosecuting attorney"),
+      b("wvsp-fee-waiver", "WVSP processing-fee waiver under § 61-11-26a(c)",
+        "the statutory notation that the $100 West Virginia State Police processing fee is waived"),
       b("attachments", "The documents you are attaching to this pleading",
-        "list what you are actually attaching, from the checklist in this packet"),
+        "list each supporting document you are actually attaching"),
       b("signature", "Your signature on this supplemental pleading",
-        "sign it yourself. The route record requires your signature on the supplemental pleading as well as on the petition"),
+        "sign the supplemental pleading yourself together with the verified petition"),
       b("signature-date", "The date you sign this supplemental pleading", "the date you actually sign")
     ];
   }
   return [];
 }
 
-function supplementalPleadingBody(facts, route, packetSet, census906) {
+function supplementalPleadingBody(facts, route, packetSet, census906, legalBoundary) {
   const caption = census906.pageText.find((p) => p.page === 1)?.lines
     .find((l) => /IN THE CIRCUIT COURT OF/i.test(l.text))?.text ?? null;
   assert.ok(caption, "SCA-C906 no longer prints its circuit court caption line, which this pleading copies");
-  const blanks = Object.fromEntries(composedBlanks("wv_acc_treatment_job_readiness-supplemental-pleading-3").map((x) => [x.id, x]));
+  const heldDob = facts["participant.date_of_birth"];
+  assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(String(heldDob)),
+    "the supplemental pleading requires the held participant date of birth in ISO form");
+  const courtDob = `${heldDob.slice(5, 7)}/${heldDob.slice(8, 10)}/${heldDob.slice(0, 4)}`;
   const out = [];
   out.push(caption.replace(/\s+/g, " ").trim().replace("COUNTY", `${DOTS(30)} COUNTY`));
   out.push("");
@@ -1204,66 +1315,94 @@ function supplementalPleadingBody(facts, route, packetSet, census906) {
   out.push("PETITIONER'S SUPPLEMENTAL PLEADING UNDER W. VA. CODE SEC. 61-11-26a(b)");
   out.push("");
   out.push(
-    "This pleading is filed with the petitioner's official petition for expungement and supplies the documentation "
-    + "that Section 61-11-26a(b) requires to be included in that petition. It is not a substitute for the petition "
-    + "and is not filed on its own.");
+    "This pleading accompanies the verified petition and states the facts and supporting materials required by "
+    + "W. Va. Code §§ 61-11-26(d) and 61-11-26a(b). The petitioner supplies every fact and attaches every document; "
+    + "the court decides eligibility and relief.");
   out.push("");
   out.push(`Petitioner: ${facts["participant.full_legal_name"]}`);
   out.push(`Address: ${facts["participant.street_address"]}`);
   out.push(`         ${facts["participant.city_state_zip"]}`);
   out.push(`Telephone: ${facts["participant.phone"]}`);
   out.push("");
-  out.push(`1. Which limb of Section 61-11-26a(a) the petitioner relies on: ${DOTS(28)}`);
-  out.push(`   (${blanks["branch-relied-on"].what})`);
+  out.push("1. IDENTITY AND CASE RECORD");
+  out.push(`   Prior legal names and aliases, and addresses since the offense: ${DOTS(40)}`);
+  out.push(`   Date of birth (MM/DD/YYYY): ${courtDob}`);
+  out.push(`   Offense, statute, county, court, and case number for each conviction: ${DOTS(40)}`);
+  out.push(`   Arrest date and arresting agency for each conviction: ${DOTS(48)}`);
+  out.push(`   Disposition, conviction date, sentence, and sentence or supervision completion: ${DOTS(30)}`);
+  out.push(`   Victim, restitution, protection, no-contact, and restoration information: ${DOTS(35)}`);
   out.push("");
-  out.push("2. Compliance with an approved substance abuse treatment or recovery and counselling programme.");
-  const treatmentDoc = packetSet.documentsToObtain.find((d) => /treatment or recovery/i.test(d.description));
-  assert.ok(treatmentDoc, "the packet-set manifest no longer names the treatment-compliance document this pleading recites");
-  out.push("   From the packet record, in its own words:");
-  out.push(`   ${treatmentDoc.description}`);
-  out.push(`   Obtained from: ${treatmentDoc.obtainedFrom}`);
-  out.push(`   Programme name: ${DOTS(46)}`);
-  out.push(`   Approved by: ${DOTS(48)}`);
-  out.push(`   Dates of compliance: ${DOTS(42)}`);
-  const medicalDoc = packetSet.documentsToObtain.find((d) => /Medical documentation/i.test(d.description));
-  assert.ok(medicalDoc, "the packet-set manifest no longer names the medical-history document this pleading recites");
-  out.push(`   ${medicalDoc.conditionDescription}`);
-  out.push(`   Medically documented history of substance abuse: ${DOTS(24)}`);
+  out.push("2. STATUTORY GROUNDS AND REHABILITATION");
+  out.push(`   Statutory grounds for expungement: ${DOTS(54)}`);
+  out.push(`   Rehabilitation statement: ${DOTS(66)}`);
+  out.push(`   Prior expungement or similar relief, including any use of §§ 61-11-26 or 61-11-26a: ${DOTS(28)}`);
   out.push("");
-  out.push("3. Graduation from an approved job readiness adult training course.");
-  const courseDoc = packetSet.documentsToObtain.find((d) => /job readiness/i.test(d.description));
-  assert.ok(courseDoc, "the packet-set manifest no longer names the job-readiness certificate this pleading recites");
-  out.push("   From the packet record, in its own words:");
-  out.push(`   ${courseDoc.description}`);
-  out.push(`   Obtained from: ${courseDoc.obtainedFrom}`);
-  out.push(`   Course name: ${DOTS(48)}`);
-  out.push(`   Provider and approval: ${DOTS(40)}`);
-  out.push(`   Date of graduation: ${DOTS(44)}`);
+  out.push("3. SUPPORTING PROGRAM EVIDENCE UNDER SECTION 61-11-26a(b)");
+  out.push(`   Supporting basis (approved treatment/recovery, approved job readiness, or both): ${DOTS(24)}`);
+  out.push("   Treatment or recovery programme name: " + DOTS(48));
+  out.push("   Programme approval and provider confirmation: " + DOTS(42));
+  out.push("   Dates of successful compliance: " + DOTS(46));
+  out.push("   Medically documented history of substance abuse and supporting record: " + DOTS(20));
+  out.push("   Job readiness adult training course and provider approval: " + DOTS(32));
+  out.push("   Date of graduation: " + DOTS(52));
   out.push("");
-  out.push("4. Eligibility clock. The route record for this petition states it as follows:");
-  out.push(`   "${recordProse(route.acceleratedBasis, "the accelerated eligibility clock", "accelerated clock")}"`);
+  out.push("4. ELIGIBILITY AND TIMING");
+  out.push(`   Applicable ${STATUTORY_AUTHORITY} eligibility branch: ${DOTS(26)}`);
+  out.push(`   Eligibility date and completion of sentence or supervision: ${DOTS(50)}`);
   out.push("");
-  out.push("5. Documents attached to this pleading:");
+  out.push("5. SERVICE AND PROCESSING FEE");
+  out.push(`   Service recipients and current addresses: ${DOTS(48)}`);
+  out.push("   The $100 West Virginia State Police processing fee required by § 61-11-26(n) is waived under");
+  out.push("   § 61-11-26a(c). The circuit clerk filing fee remains governed by the applicable official record:");
+  out.push(`   ${DOTS(66)}`);
+  out.push("");
+  out.push("6. SUPPORTING DOCUMENTS ATTACHED");
   out.push(`   ${DOTS(66)}`);
   out.push(`   ${DOTS(66)}`);
-  out.push(`   (${blanks.attachments.what})`);
   out.push("");
-  out.push(`Signature requirement, from the route record: "${recordProse(route.signatureRequirements[0], "signature requirements")}"`);
+  out.push("The petitioner signs the petition and this supplemental pleading, swears the verification before a");
+  out.push("notary public or other authorized official, and completes the certificate of service after service:");
+  out.push(`   ${DOTS(66)}`);
   out.push("");
-  /* One rule per line with its own caption beneath it. A composed page is laid
-   * out by a word-wrapping renderer that collapses runs of whitespace, so two
-   * captions separated by spaces on one line arrive as "Signature of Petitioner
-   * Date" under two rules that no longer line up with either of them. */
   out.push(RULE(52));
   out.push("Signature of Petitioner");
   out.push("");
   out.push(RULE(26));
   out.push("Date");
   out.push("");
-  out.push(
-    "This pleading was prepared from the petitioner's own details and from the packet record. Every blank above is "
-    + "the petitioner's to complete before filing. Nothing on this page is sworn until the petitioner signs it.");
-  return out.join("\n");
+  const body = out.join("\n");
+  const forbidden = [
+    "From the packet record, in its own words:",
+    "The route record for this petition states it as follows:",
+    "from the checklist in this packet",
+    "This pleading was prepared from the petitioner's own details and from the packet record.",
+    "Signature requirement, from the route record:"
+  ];
+  for (const phrase of forbidden) assert.equal(body.includes(phrase), false,
+    `supplemental pleading still contains internal record/instruction prose: ${phrase}`);
+  for (const phrase of [
+    "IDENTITY AND CASE RECORD", "STATUTORY GROUNDS AND REHABILITATION",
+    "SUPPORTING PROGRAM EVIDENCE", "ELIGIBILITY AND TIMING", "SERVICE AND PROCESSING FEE",
+    "rehabilitation", "Prior expungement", "West Virginia State Police processing fee",
+    "Eligibility date and completion of sentence or supervision"
+  ]) assert.match(body, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"),
+    `supplemental pleading no longer states ${phrase}`);
+  assert.equal(body.includes(`Date of birth (MM/DD/YYYY): ${courtDob}`), true,
+    "supplemental pleading must print the held participant date of birth in an explicit format");
+  for (const phrase of [
+    "copied from your own records", "do not infer any part", "documents you attach",
+    "the branch supported by your certified record and the governing eligibility determination",
+    "Do not file it for a single misdemeanour", "governing records leave unresolved",
+    "single-misdemeanour scope and timing are unresolved"
+  ]) assert.equal(body.toLowerCase().includes(phrase.toLowerCase()), false,
+    `supplemental pleading still contains participant-task or internal boundary prose: ${phrase}`);
+  assert.equal(body.includes(EXPECTED_SCOPE_RESTRICTION), false,
+    "supplemental pleading must not print registry scope prose");
+  assert.equal(body.includes("accelerated clock replaces the"), false,
+    "supplemental pleading must not state the unresolved single-misdemeanour timing as settled");
+  assert.ok(legalBoundary?.scopeRestrictions?.length === 1 && legalBoundary.releaseBlockers?.length === 1,
+    "the supplemental pleading must be built with the held WV scope and timing boundary");
+  return body;
 }
 
 function recordsChecklistBody(facts, packetSet) {
@@ -1296,7 +1435,7 @@ function recordsChecklistBody(facts, packetSet) {
   return out.join("\n");
 }
 
-function filingInstructionsPageBody(facts, route, packetSet) {
+function filingInstructionsPageBody(facts, route, packetSet, legalBoundary) {
   const out = [];
   out.push("FILING INSTRUCTIONS");
   out.push("");
@@ -1309,8 +1448,20 @@ function filingInstructionsPageBody(facts, route, packetSet) {
   out.push("");
   out.push(
     "The packet does not choose between them. Whether a felony is a nonviolent felony is a legal characterisation of "
-    + "your own record, and the packet record names it a manual completion item. File the one that fits and leave "
-    + "the other out.");
+    + "your own record and remains a completion item. Use the official petition that matches the certified record and "
+    + "leave the other out.");
+  out.push("");
+  out.push("STOP BEFORE FILING AND GET LEGAL HELP IF ANY OF THESE IS TRUE.");
+  out.push("This self-help packet does not resolve any of the following route conditions. If one applies, stop before signing or filing and get legal help:");
+  for (const condition of legalBoundary.selfHelpStopConditions) out.push(`   - ${condition}`);
+  out.push("");
+  out.push("SINGLE-MISDEMEANOUR SCOPE AND TIMING HOLD.");
+  out.push(
+    "The governing records leave unresolved whether this accelerated section reaches a single misdemeanour and "
+    + "how the § 61-11-26a(a)(1) 90-day treatment clock interacts with the § 61-11-26(b)(1) one-year rule. Do not "
+    + "tick that branch, write an eligibility date for it, or file on it until the governing determination resolves "
+    + "both questions. The packet does not treat the 90-day or one-year result as settled for that branch."
+  );
   out.push("");
   out.push("WHERE IT GOES.");
   out.push(`   "${recordProse(route.circuitBasis, "the filing destination", "circuit court")}"`);
@@ -1341,7 +1492,16 @@ function filingInstructionsPageBody(facts, route, packetSet) {
     "WHAT THIS PACKET IS NOT. It is a prepared copy of official West Virginia forms with a supplemental pleading. It "
     + "is not legal advice, it is not filed for you, and it does not decide whether your record can be expunged. A "
     + "circuit judge decides that.");
-  return out.join("\n");
+  const body = out.join("\n");
+  assert.ok(legalBoundary?.selfHelpStopConditions?.length === 10,
+    "filing instructions must be built with all ten held self-help stop conditions");
+  assert.equal(legalBoundary.selfHelpStopConditions.every((condition) => body.includes(condition)), true,
+    "filing instructions must carry every held self-help stop condition verbatim");
+  assert.match(body, /SINGLE-MISDEMEANOUR SCOPE AND TIMING HOLD/);
+  assert.match(body, /90-day treatment clock/);
+  assert.equal(body.includes("the accelerated clock replaces the"), false,
+    "filing instructions must not state the unresolved single-misdemeanour timing as settled");
+  return body;
 }
 
 /* ---- byte proof -------------------------------------------------------------- */
@@ -1596,8 +1756,17 @@ function composedByteProof(componentId, composedBody, deliveredPageTexts, facts)
     outsideGlyphs = Math.abs(delivered.length - authored.length) + (delivered.length === authored.length ? 1 : 0);
   }
   const factsFound = Object.entries(facts)
-    .filter(([, v]) => typeof v === "string" && v.length > 0 && strip(composedBody).includes(strip(v)))
-    .map(([k, v]) => ({ factId: k, foundInDeliveredBytes: delivered.includes(strip(v)), glyphs: nonWhitespaceGlyphs(v) }));
+    .map(([k, v]) => {
+      const renderedValue = k === "participant.date_of_birth" && /^\d{4}-\d{2}-\d{2}$/.test(String(v))
+        ? `${v.slice(5, 7)}/${v.slice(8, 10)}/${v.slice(0, 4)}` : v;
+      return [k, v, renderedValue];
+    })
+    .filter(([, , renderedValue]) => typeof renderedValue === "string"
+      && renderedValue.length > 0 && strip(composedBody).includes(strip(renderedValue)))
+    .map(([k, v, renderedValue]) => ({
+      factId: k, heldValue: v, renderedValue,
+      foundInDeliveredBytes: delivered.includes(strip(renderedValue)), glyphs: nonWhitespaceGlyphs(renderedValue)
+    }));
   return {
     componentId,
     proofMethod:
@@ -1694,6 +1863,7 @@ function petitionSide(component, census, report, fixtureName) {
       recipientNumber: r.recipientNumber, branch: r.branch, chargeRow: r.chargeRow,
       sharedRegistryWouldBindFromName: r.sharedRegistryWouldBindFromName,
       sharedRegistryWouldBindFromThisBuildsLabel: r.sharedRegistryWouldBindFromThisBuildsLabel,
+      legalBoundaryHold: r.legalBoundaryHold === true,
       document: component.id
     };
 
@@ -1808,7 +1978,7 @@ function composedSide(component, facts) {
   const refusals = [];
   /* The participant facts this build actually prints on the composed page. */
   const printed = component.id.endsWith("-3")
-    ? ["participant.full_legal_name", "participant.street_address", "participant.city_state_zip", "participant.phone"]
+    ? ["participant.full_legal_name", "participant.street_address", "participant.city_state_zip", "participant.phone", "participant.date_of_birth"]
     : ["participant.full_legal_name"];
   for (const factId of printed) {
     writes.push({
@@ -1969,7 +2139,7 @@ function requiredBeforeFilingItems(maps, side = "canonicalRefusals") {
     })));
 }
 
-function participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, sources, censuses) {
+function participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, sources, censuses, legalBoundary) {
   const offRoute = maps.flatMap((m) => m.selectionControls.filter((c) => c.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE"));
   const writes = maps.flatMap((m) => m.canonicalWrites);
   const out = [];
@@ -1980,7 +2150,27 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, s
     + "with an approved treatment or recovery programme, or graduated from an approved job readiness course, or both. "
     + "It is not the ordinary waiting-period route.", ""
   );
-  out.push(`The route record states the clock this way: _"${recordProse(route.acceleratedBasis, "the accelerated clock", "accelerated clock")}"_`, "");
+  out.push(
+    "The single-misdemeanour scope and timing are held for review. Do not treat the 90-day treatment language or the "
+    + "one-year rule as settled for a single misdemeanour, and do not tick that branch or write its eligibility date "
+    + "until the governing determination resolves both questions.", ""
+  );
+
+  out.push("## Stop and get help before filing", "");
+  out.push(
+    "This is self-help guidance. If any condition below applies, stop before signing or filing and get legal help. "
+    + "These ten stop conditions are carried from the current West Virginia route record:", ""
+  );
+  assert.equal(legalBoundary?.selfHelpStopConditions?.length, 10,
+    "participant instructions must be built with all ten held self-help stop conditions");
+  for (const [i, condition] of legalBoundary.selfHelpStopConditions.entries()) {
+    out.push(`${i + 1}. ${condition}`);
+  }
+  out.push("");
+  out.push(
+    "If a stop condition applies, this packet does not decide eligibility or tell you how to resolve it. Keep the "
+    + "official records and seek advice before you sign.", ""
+  );
 
   out.push("## What is in this packet, and which parts you actually file", "");
   out.push("| # | Component | What it is |", "| --- | --- | --- |");
@@ -2007,10 +2197,11 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, s
     + "service do not even list the same recipients.", ""
   );
 
-  out.push("## Part (c) — the eligibility branch, and the two branches this packet has ruled out", "");
+  out.push("## Part (c) — the eligibility branch, and the branches this packet leaves unselected", "");
   out.push(
-    "Page 1 of each petition offers four eligibility branches and you tick one. **This packet has ticked none**, but "
-    + "it has narrowed them: two of the four are not available on this route at all.", ""
+    "Page 1 of each petition offers four eligibility branches and you tick one. **This packet has ticked none**. "
+    + "The two ordinary elapsed-time branches are outside this route, and the single-misdemeanour accelerated branch "
+    + "is held because its scope and timing are unresolved.", ""
   );
   out.push("| The branch the form prints | Why this packet does not tick it |", "| --- | --- |");
   for (const c of offRoute) {
@@ -2018,9 +2209,9 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, s
   }
   out.push("");
   out.push(
-    "The other two branches — the ones that cite § 61-11-26a — are both yours. They differ only in whether you have "
-    + "**one** conviction to clear or **several**, which only your own record says. Tick the one that fits and write "
-    + "the date of eligibility the paragraph asks for.", ""
+    "The multiple-conviction § 61-11-26a branch and the nonviolent-felony branch require facts from your certified "
+    + "record. The single-misdemeanour § 61-11-26a branch is withheld: the governing records leave its scope and "
+    + "timing unresolved. Do not tick that branch or write its eligibility date until those questions are resolved.", ""
   );
   out.push(
     "**Read the paragraph, not the tick-box's position.** On the misdemeanour form all four boxes are named after "
@@ -2049,7 +2240,11 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, s
     if (d.conditionDescription) out.push(`   - When it applies: ${d.conditionDescription}`);
   }
   out.push("");
-  out.push(`The route record names the attachment requirement in terms: _"${recordProse(route.requiredParticipantAttachments[0], "required attachments")}"_`, "");
+  out.push(
+    "The petition must include the applicable treatment-compliance documentation and/or job-readiness graduation "
+    + "certificate. Attach the supporting records you actually hold before filing; the supplemental pleading gives "
+    + "you places to identify them.", ""
+  );
 
   out.push("## Signing, swearing and serving", "");
   out.push(`- **Signing:** _"${recordProse(route.signatureRequirements[0], "signature requirements")}"_`);
@@ -2098,7 +2293,14 @@ function participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, s
   out.push(`_Route: ${route.routeKey} · ${STATUTORY_AUTHORITY} · `
     + Object.entries(sources).map(([f, s]) => `${f} SHA-256 ${s.sha256}`).join(" · ")
     + ` · ${Object.values(censuses).reduce((n, c) => n + c.rows.length, 0)} widgets read from the pinned binaries_`);
-  return `${out.join("\n")}\n`;
+  const instructions = `${out.join("\n")}\n`;
+  assert.equal(legalBoundary.selfHelpStopConditions.every((condition) => instructions.includes(condition)), true,
+    "participant instructions must carry every held self-help stop condition verbatim");
+  assert.match(instructions, /single-misdemeanour scope and timing are held for review/i);
+  assert.match(instructions, /Do not tick that branch or write its eligibility date/i);
+  assert.equal(instructions.includes("the accelerated clock replaces the"), false,
+    "participant instructions must not state the unresolved single-misdemeanour timing as settled");
+  return instructions;
 }
 
 /* ---- the entry point --------------------------------------------------------------- */
@@ -2109,6 +2311,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const binding = queueBinding();
   const sweep = sweepMeasurement();
   const packetSet = packetSetRecord();
+  const legalBoundary = legalBoundaryRecord();
 
   const sources = {};
   const failed = [];
@@ -2260,13 +2463,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
         continue;
       }
 
-      const body = component.id.endsWith("-3") ? supplementalPleadingBody(facts, route, packetSet, censuses["SCA-C906"])
+      const body = component.id.endsWith("-3") ? supplementalPleadingBody(facts, route, packetSet, censuses["SCA-C906"], legalBoundary)
         : component.id.endsWith("-6") ? recordsChecklistBody(facts, packetSet)
-          : filingInstructionsPageBody(facts, route, packetSet);
+          : filingInstructionsPageBody(facts, route, packetSet, legalBoundary);
       composedBodies[`${fixtureName}/${component.id}`] = body;
       assert.ok(body.includes(facts["participant.full_legal_name"]),
         `${component.id}: the composed page must carry the participant's name`);
-      const composedBytes = await renderComposedPdf(body, component.id);
+      const composedBytes = await renderComposedPdf(body, component.id,
+        component.id.endsWith("-3") || component.id.endsWith("-7")
+          ? { fontSize: 9.5, lineHeight: 12.25, margin: 58 } : {});
       const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
       const firstPage = packet.getPageCount() + 1;
       for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
@@ -2373,7 +2578,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const boundaryRbf = requiredBeforeFilingItems(maps, "boundaryRefusals");
   const canonicalFields = new Set(rbf.map((r) => r.field));
   const boundaryOnlyRbf = boundaryRbf.filter((r) => !canonicalFields.has(r.field));
-  const instructionsText = participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, sources, censuses);
+  const heldSingleMisdemeanour = maps.flatMap((m) => [...m.selectionControls, ...m.canonicalRefusals])
+    .filter((c) => c.legalBoundaryHold === true)
+    .filter((c, i, all) => all.findIndex((x) => x.field === c.field) === i);
+  assert.equal(heldSingleMisdemeanour.length, 2,
+    "the SCA-C906 single-misdemeanour checkbox and date must remain held by the legal boundary");
+  assert.equal(heldSingleMisdemeanour.every((c) => c.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE"), true,
+    "held single-misdemeanour controls must be classified outside required-before-filing");
+  assert.equal(heldSingleMisdemeanour.some((c) => rbf.some((item) => item.field === c.field)), false,
+    "held single-misdemeanour controls must not appear in required-before-filing");
+  const instructionsText = participantInstructions(maps, rbf, boundaryOnlyRbf, route, packetSet, sources, censuses, legalBoundary);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -2444,6 +2658,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
     } : null,
     composedComponentsAuthoredByThisBuild: COMPONENTS.filter((c) => c.kind === "custom_pleading" || c.kind === "process_guidance").map((c) => c.id),
     compositionSources: [ROUTE_CENSUS, PACKET_SET_MANIFEST],
+    governingLegalTreatment: legalBoundary.governingDecision,
+    heldEligibilityBoundary: {
+      trackId: legalBoundary.trackId,
+      legalStatus: legalBoundary.legalStatus,
+      scopeRestrictions: legalBoundary.scopeRestrictions,
+      releaseBlockers: legalBoundary.releaseBlockers,
+      selfHelpStopConditions: legalBoundary.selfHelpStopConditions
+    },
     sourceBinaryCommitted: false, commercialRoutesOpened: 0,
     whatThisReceiptDoesNotEstablish: [
       "that the 06/04/2019 revision of either form is the current published edition — no freshness review has been done here",
@@ -2479,7 +2701,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
         policy: r.policy, factId: r.fact,
         sourceShippedValue: r.sourceValue,
         sharedRegistryWouldBindFromName: r.sharedRegistryWouldBindFromName,
-        sharedRegistryWouldBindFromThisBuildsLabel: r.sharedRegistryWouldBindFromThisBuildsLabel
+        sharedRegistryWouldBindFromThisBuildsLabel: r.sharedRegistryWouldBindFromThisBuildsLabel,
+        legalBoundaryHold: r.legalBoundaryHold === true
       }))
     }))
   });
@@ -2502,12 +2725,22 @@ export async function runFamily(argv = process.argv.slice(2)) {
     },
     routeDeterminedSelections: [],
     routeSelectionNote:
-      "Part (c) of each petition offers four eligibility branches. The route rules OUT two of them — the ordinary "
-      + "§ 61-11-26 elapsed-time branches — and those are declared NOT_APPLICABLE_ON_THIS_ROUTE with the named "
-      + "condition. The other two both belong to this route and differ only in whether the participant has one "
-      + "conviction or several, so both are declared REQUIRED_BEFORE_FILING with determinedByTheCaseNotTheRoute. "
-      + "Which paragraph is which is read from the printed paragraph, never from the field name: on SCA-C906 all "
-      + "four boxes are named after felonies on a form about misdemeanours.",
+      "Part (c) of each petition offers four eligibility branches. The two ordinary § 61-11-26 elapsed-time "
+      + "branches are declared NOT_APPLICABLE_ON_THIS_ROUTE. The single-misdemeanour § 61-11-26a branch on SCA-C906 "
+      + "is also declared NOT_APPLICABLE_ON_THIS_ROUTE with a legal-boundary hold because the current governing "
+      + "records leave its scope and timing unresolved; its checkbox and date are excluded from "
+      + "requiredBeforeFiling. The remaining accelerated branches are declared REQUIRED_BEFORE_FILING with "
+      + "determinedByTheCaseNotTheRoute. Which paragraph is which is read from the printed paragraph, never from "
+      + "the field name: on SCA-C906 all four boxes are named after felonies on a form about misdemeanours.",
+    legalBoundaryHolds: maps.flatMap((m) => [...m.selectionControls, ...m.canonicalRefusals]
+      .filter((c) => c.legalBoundaryHold === true)
+      .filter((c, i, all) => all.findIndex((x) => x.field === c.field) === i)
+      .map((c) => ({
+        component: m.formNumber, field: c.field, page: c.page, label: c.effectiveLabel,
+        routeConditionThatMakesItInapplicable: c.routeConditionThatMakesItInapplicable,
+        printedParagraph: c.printedParagraph,
+        legalBoundaryHold: c.legalBoundaryHold === true
+      }))),
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     boundaryOnlyRequiredBeforeFiling: boundaryOnlyRbf,
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
@@ -2557,8 +2790,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
     requiredBeforeFiling: rbf,
     boundaryOnlyRequiredBeforeFiling: boundaryOnlyRbf,
-    notApplicableOnThisRoute: maps.flatMap((m) => m.selectionControls
+    notApplicableOnThisRoute: maps.flatMap((m) => [...m.selectionControls, ...m.canonicalRefusals]
       .filter((c) => c.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE")
+      .filter((c, i, all) => all.findIndex((x) => x.field === c.field) === i)
       .map((c) => ({
         component: m.formNumber, field: c.field, page: c.page, label: c.effectiveLabel,
         routeConditionThatMakesItInapplicable: c.routeConditionThatMakesItInapplicable,
@@ -2841,9 +3075,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "exactly one, because choosing would mean characterising a felony as nonviolent, which the route record "
       + "names a manual completion item. Confirm that is the right treatment, and that a packet containing two "
       + "mutually exclusive petitions is acceptable.",
-      "Part (c): the two ordinary § 61-11-26 elapsed-time branches are declared not applicable on this route and the "
-      + "two § 61-11-26a branches are left to the participant on a single-versus-multiple-conviction basis. Confirm "
-      + "that division.",
+      "Part (c): the two ordinary § 61-11-26 elapsed-time branches are declared not applicable on this route, the "
+      + "single-misdemeanour § 61-11-26a branch is held pending the recorded scope and timing questions, and the "
+      + "remaining accelerated branches are left to the certified record. Confirm that division.",
       "This packet writes the petitioner's name into the verification's 'I, ____' recital while leaving the "
       + "signature, the date and the whole notarial block blank. Confirm that pre-naming the affiant on a page sworn "
       + "before a notary is acceptable.",
