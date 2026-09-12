@@ -1,0 +1,663 @@
+{
+  "schemaVersion": "rcap-ct-independent-selected-legacy-verdict-closure/v1",
+  "lane": "VFCT1",
+  "reviewer": "seven_independent_review (independent Astra xhigh)",
+  "observedAtCommit": "fd309181fdcbed131896ead049c783bbb189f030",
+  "claimsAssertedBeforeReview": true,
+  "claimLedgerGeneratedAtCommit": "03ea8848d25d2c63f53a1c78082225ea17c9d471",
+  "currentCandidate": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v2.json",
+    "sha256": "cfc20fe29964613e04c521200bb6f8a98cfbe804be423318c344252dd5021880",
+    "byteLength": 23427
+  },
+  "previousReviewPreserved": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-guidance-review.json",
+    "sha256": "f440e66274409b8ebfa75b066ceae861df52ae09a70c98c1388de7d34539f6c4",
+    "byteLength": 100717,
+    "gitCommit": "3646fbcdf9fab775b88c9fda3239ef342628db7b",
+    "disposition": "Preserved in immutable Git history and original supporting measurements; update adds only exact selected historical verdict closures and the necessary new reviewed evidence base."
+  },
+  "nativeContextsObservedAt": {
+    "masterQueue": {
+      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "sha256": "b7a86a817205cc2e51b79f8f1b559585ee16708ab956a3ae003fb78a31b84dba",
+      "byteLength": 2410745
+    },
+    "verifierReturns": {
+      "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+      "sha256": "16f897d952a5e46a61f9d1ec4c9671b56488ba80dd72b9c6c429e098bcba5729",
+      "byteLength": 3240153
+    }
+  },
+  "families": [
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "claimAssertion": "CLAIM_OK VFCT1 agency-application-treatment:obligation:track-only:CT:ct-destruction-request (independent-verification, grant set 5066491463bc4de2)",
+      "currentSelectedVerdict": {
+        "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+        "verdict": "PRODUCT_PATH_PENDING",
+        "lane": "vf20",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": []
+      },
+      "verdictSha256": "9bf15491f6db8814f33932edc58bdd4ac18c2ba9efdebd706c556f11b8a5cac7",
+      "legacyReturn": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+        "sha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+        "byteLength": 214369
+      },
+      "legacyRawRowSha256": "ff1f6b6ffcb683b93b5ac6cc0bea0a8da73164c101716f1ffab1936030eac6c4",
+      "legacyNonpassingFindings": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "priorFindingSha256": "bd51c11e2a2aa1e2aa359a2b57b0bc5472d6c2047e9ace465d22b940495f2f02",
+          "value": {
+            "measured": true,
+            "result": "PRODUCT_PATH_PENDING",
+            "finding": "The guide prints the exact route key and describes the right Connecticut mechanism - physical destruction under C.G.S. Sec. 54-142a(g)(1) of records already erased, distinguished from erasure itself. The route-obligation census pinned by this very packet (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, f6fc0814..., which the receipt hashes and which recomputes equal here) records currentOutputStrategy 'participant_agency_application' for this route and a participantFacingInstrument that is an application or written request, not a guide. The delivered artifact is an agency_preparation_guide whose own first lines read 'THIS IS AN AGENCY-APPLICATION PREPARATION GUIDE, NOT AN OFFICIAL FORM AND NOT A COURT FILING', and whose source-receipt.json states 'The output is a preparation guide and not a written destruction request.' A guide cannot replace an owed application or request. This is not a build defect and not repairable inside the directory: CT.memo.json authorises process_guidance for this track precisely because no accepted request format has been confirmed, and the census's own missingImplementationWork begins 'Acquire and verify exact official-source'. It is an owner and source question about what this route delivers, which is why the verdict is PRODUCT_PATH_PENDING rather than FAIL_REPAIR_REQUIRED."
+          }
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "priorFindingSha256": "b5e74853f04eff7f00dadb8a6a66ee76e823ae91470c964c6c597d0266af19c4",
+          "value": {
+            "measured": true,
+            "result": "PRODUCT_PATH_PENDING",
+            "finding": "The single declared component, agency_preparation_guide, is present and complete in both fixtures, and CT.memo.json names exactly one component for this track with role process_guidance and requirement required, so against the memo the component set is whole. Against the census route contract it is not: the route's participant-facing instrument is a request to the clerk, the field map classifies the sole component's documentRole as 'instructions', and the guide expressly disclaims being the request. Held open on that contradiction rather than passed."
+          }
+        }
+      ],
+      "governingTreatment": {
+        "authority": {
+          "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+          "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+          "byteLength": 171609
+        },
+        "selector": "tracks[trackId=ct-destruction-request].legalDesignDecision",
+        "decision": {
+          "status": "legal_design_approved_with_limitations",
+          "rationale": "Process guidance is retained. The controlling addendum permits a generated written request only if counsel confirms the accepted destination and format, and that confirmation has not been given. The absence of a statewide form alone is not the reason for guidance here; the unconfirmed destination and format is.",
+          "limitations": [
+            {
+              "classification": "scope_restriction",
+              "statement": "A generated written request to the clerk may be supported only once counsel confirms the accepted destination and format. Until then this stays guidance. The absence of a statewide form alone is not a blocker.",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+                "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+                "sourceStatement": "CT-14 | May support a generated written request to the clerk if counsel confirms the accepted destination and format. The absence of a statewide form alone is not a blocker."
+              }
+            },
+            {
+              "classification": "packet_instruction",
+              "statement": "Destruction may not occur until three years have elapsed from the date of final disposition of the case.",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+                "sourceHeading": "TRACK CT-14 / Mechanism",
+                "sourceStatement": "except that destruction may not occur until three years have elapsed from the date of final disposition of the case.",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "classification": "scope_restriction",
+              "statement": "Connecticut says erasure. Not expungement, not sealing. This request goes further than erasure, to physical destruction.",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+                "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+                "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+              }
+            }
+          ]
+        },
+        "currentReconciliation": {
+          "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+          "implementationStrategy": "process_guidance",
+          "authority": [
+            {
+              "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+              "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+            }
+          ],
+          "sourceReconciliation": {
+            "implementationStrategyOverride": "process_guidance",
+            "guidanceAuthorityRecords": [
+              {
+                "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+                "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+              }
+            ],
+            "exactNextAction": "Complete existing guidance acceptance and source-receipt compatibility. A written-request upgrade requires the accepted destination/format confirmation recorded in the controlling addendum.",
+            "disposition": "GUIDANCE_MAPPING_REQUIRED"
+          },
+          "authoritySelector": "tracks[trackId=ct-destruction-request].legalDesignDecision",
+          "scopeRestrictions": [
+            "A generated written request to the clerk may be supported only once counsel confirms the accepted destination and format. Until then this stays guidance. The absence of a statewide form alone is not a blocker.",
+            "Connecticut says erasure. Not expungement, not sealing. This request goes further than erasure, to physical destruction."
+          ],
+          "nextExecutableAction": "Complete existing guidance acceptance and source-receipt compatibility. A written-request upgrade requires the accepted destination/format confirmation recorded in the controlling addendum.",
+          "stages": [
+            {
+              "stageId": "preparation_and_handoff",
+              "outputKind": "process_guidance",
+              "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+              "destination": {
+                "kind": "clerk",
+                "name": "Superior Court clerk",
+                "detail": "The clerk acts on the request of the accused. No official form was located, and the accepted destination and format for a written request have not been confirmed."
+              },
+              "participantFilesGeneratedOutput": false,
+              "owedOutput": "Usable guidance and the exact authority handoff; no substitute application or request."
+            }
+          ],
+          "separateParticipantAction": {
+            "description": "The request is made to the clerk holding the records. No official form was located and the accepted destination and format for a written request have not been confirmed.",
+            "dischargedByGuide": false
+          },
+          "createsTerminalState": false,
+          "createsCommercialAuthority": false
+        }
+      },
+      "closure": {
+        "verdictSha256": "9bf15491f6db8814f33932edc58bdd4ac18c2ba9efdebd706c556f11b8a5cac7",
+        "result": "CLOSED_BY_INDEPENDENT_DELTA",
+        "finding": "The selected historical return correctly held that a guide cannot satisfy a participant_agency_application instrument. That historical application requirement is not represented as fulfilled. The controlling CT-14 addendum retains process guidance until counsel confirms a written request destination and format. Current guidance supplies the clerk handoff and prerequisites; it does not purport to be the request. No accepted request format is invented, and any written-request upgrade remains outside this acceptance. ROUTE_IDENTITY and COMPONENT_SET are closed solely for current_static_family_treatment/GUIDANCE_READY, whose owed component is usable guidance and exact authority handoff. Runtime, application discharge and commercial authority remain false.",
+        "evidence": [
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
+            "sha256": "2c180b6d62ca14bafc76118b0ad7af90a09396a52c810ed36cc7b63b2fd89b43",
+            "byteLength": 45223
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-semantic-review/current-semantic-delta.json",
+            "sha256": "c30a6f48394a9f44130694ca8cb3975cdf9804bd169a607b7aab6fc8d1066b26",
+            "byteLength": 36721
+          },
+          {
+            "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+            "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+            "byteLength": 171609
+          }
+        ]
+      },
+      "sourceHoldSweep": {
+        "selectedVerifierSourceHold": null,
+        "additionalSourceClosureRequired": false
+      },
+      "actualApplyContext": {
+        "independentReturn": {
+          "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+          "verdict": "PRODUCT_PATH_PENDING",
+          "lane": "vf20",
+          "isIndependentVerification": true,
+          "verifiedAtBase": "7f386ab54",
+          "failedObligations": [],
+          "failedObligationNames": [],
+          "unmeasuredObligations": [],
+          "exactRouteDeliveryDefect": null,
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "repairAssignmentsPath": null,
+          "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+          "superseded": false
+        },
+        "verifierSourceHold": null,
+        "readiness": {
+          "ready": true,
+          "reasons": [],
+          "boundSources": [],
+          "boundGuidanceAuthorityRecords": [
+            {
+              "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+              "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+              "actualSha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+            }
+          ],
+          "boundAuthorities": [],
+          "boundAuthorityCount": 0,
+          "supersededSourceIds": [],
+          "namedOfficialForms": 0,
+          "effectiveOfficialSourceIds": [],
+          "boundCount": 0,
+          "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+          "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+          "directAttachment": true
+        },
+        "nineZero": true,
+        "legalBlocked": false,
+        "deliveryTypeRefusal": null
+      },
+      "measuredApplyBefore": "PRODUCT_PATH_PENDING",
+      "measuredApplyWithOnlyExactClosure": "GUIDANCE_READY",
+      "measurementLimit": "This is an actual apply() invocation with the complete current native context and only the proposed exact verdict closure added to the already eligible assessment. Final published assess()+apply() must be checked again after the updated review record is committed; this evidence does not bypass publication.",
+      "unchangedOriginalEvidence": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
+        "sha256": "2c180b6d62ca14bafc76118b0ad7af90a09396a52c810ed36cc7b63b2fd89b43",
+        "byteLength": 45223
+      },
+      "packetAndSourceChanges": false
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "claimAssertion": "CLAIM_OK VFCT1 agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon (independent-verification, grant set 5066491463bc4de2)",
+      "currentSelectedVerdict": {
+        "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "verdict": "PRODUCT_PATH_PENDING",
+        "lane": "vf20",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": []
+      },
+      "verdictSha256": "c9de241cfd3537a83e152cae8b36926fddf96b401293d4863233fa70fbeda6ff",
+      "legacyReturn": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+        "sha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+        "byteLength": 214369
+      },
+      "legacyRawRowSha256": "3d694973b213d9a001776f16e7769812cf01da7a38de70c6c008081a36e27446",
+      "legacyNonpassingFindings": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "priorFindingSha256": "f74211b907f7c5fab62df2e7b088dcdeb82871937cad24c5daaf875292241d7d",
+          "value": {
+            "measured": true,
+            "result": "PRODUCT_PATH_PENDING",
+            "finding": "The guide prints the exact route key and keeps the relief correctly bounded, including the supervision handoff (apply through the probation officer with more than 90 days remaining, and exactly 90 days does not satisfy it) and the instruction not to complete the supervising officer's questionnaire answers. The route-obligation census pinned by this very packet (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, f6fc0814..., which the receipt hashes and which recomputes equal here) records currentOutputStrategy 'participant_agency_application' for this route and a participantFacingInstrument that is an application or written request, not a guide. The delivered artifact is an agency_preparation_guide headed 'NOT AN OFFICIAL FORM AND NOT A COURT FILING' which states 'An intake worksheet is not the legal application. Obtain and use the Board's own current application and instructions, and sign that application personally.' A guide cannot replace an owed application. Held open on the same product-path question as its two CT siblings."
+          }
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "priorFindingSha256": "07af45c222c5ce309cf7931bb079a53568e290216cb6eb1ecf1db0919e888185",
+          "value": {
+            "measured": true,
+            "result": "PRODUCT_PATH_PENDING",
+            "finding": "The single declared component, agency_preparation_guide, is present and complete in both fixtures, and CT.memo.json names exactly one component for this track with role process_guidance and requirement required. Against the census route contract the owed instrument, a participant-signed provisional-pardon application submitted through the Board's portal, is not in the packet and the guide says it cannot be. Held open on that contradiction."
+          }
+        }
+      ],
+      "governingTreatment": {
+        "authority": {
+          "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+          "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+          "byteLength": 171609
+        },
+        "selector": "tracks[trackId=ct-provisional-pardon].legalDesignDecision",
+        "decision": {
+          "status": "legal_design_approved_with_limitations",
+          "rationale": "Original review and controlling addendum: process guidance and portal assistance. The distinction from an absolute pardon is the substance of the product here.",
+          "limitations": [
+            {
+              "classification": "packet_instruction",
+              "statement": "A provisional pardon and a certificate of employability relieve employment and licensing barriers. They do not erase anything. Keep this distinct from an absolute pardon.",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+                "sourceHeading": "TRACK CT-12 / Mechanism",
+                "sourceStatement": "Board of Pardons and Paroles relief from employment and licensing barriers. **It does not erase anything.**",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "classification": "scope_restriction",
+              "statement": "Remains guidance and portal assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit.",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+                "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+                "sourceStatement": "CT-11 and CT-12 | Remain guidance/portal-assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit."
+              }
+            }
+          ]
+        },
+        "currentReconciliation": {
+          "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+          "implementationStrategy": "process_guidance",
+          "authority": [
+            {
+              "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+              "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+            }
+          ],
+          "sourceReconciliation": {
+            "implementationStrategyOverride": "process_guidance",
+            "guidanceAuthorityRecords": [
+              {
+                "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+                "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+              }
+            ],
+            "exactNextAction": "Complete existing guidance acceptance and source-receipt compatibility; bind the Board portal and distinguish the probation-officer branch. A supporting authorization form is not the Board application.",
+            "disposition": "GUIDANCE_MAPPING_REQUIRED"
+          },
+          "authoritySelector": "tracks[trackId=ct-provisional-pardon].legalDesignDecision",
+          "scopeRestrictions": [
+            "Remains guidance and portal assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit."
+          ],
+          "nextExecutableAction": "Complete existing guidance acceptance and source-receipt compatibility; bind the Board portal and distinguish the probation-officer branch. A supporting authorization form is not the Board application.",
+          "stages": [
+            {
+              "stageId": "preparation_and_handoff",
+              "outputKind": "process_guidance",
+              "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+              "destination": {
+                "kind": "portal",
+                "name": "Connecticut Board of Pardons and Paroles",
+                "detail": "The Board grants the provisional pardon or certificate of employability. No stable participant application document has been identified that LegalEase could lawfully generate and submit."
+              },
+              "participantFilesGeneratedOutput": false,
+              "owedOutput": "Usable guidance and the exact authority handoff; no substitute application or request."
+            }
+          ],
+          "separateParticipantAction": {
+            "description": "Application is made to the Board of Pardons and Paroles. LegalEase does not generate or submit it.",
+            "dischargedByGuide": false
+          },
+          "createsTerminalState": false,
+          "createsCommercialAuthority": false
+        }
+      },
+      "closure": {
+        "verdictSha256": "c9de241cfd3537a83e152cae8b36926fddf96b401293d4863233fa70fbeda6ff",
+        "result": "CLOSED_BY_INDEPENDENT_DELTA",
+        "finding": "The selected historical return correctly held that a guide cannot satisfy a participant_agency_application instrument. That historical application requirement is not represented as fulfilled. The controlling CT-12 addendum authorizes process guidance and portal assistance while no stable participant application can lawfully be generated/submitted. Current guidance supplies the Board and conditional probation-officer handoff, non-erasure scope and actual application requirements. The participant separately completes the Board or officer process. ROUTE_IDENTITY and COMPONENT_SET are closed solely for current_static_family_treatment/GUIDANCE_READY, whose owed component is usable guidance and exact authority handoff. Runtime, application discharge and commercial authority remain false.",
+        "evidence": [
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
+            "sha256": "2c180b6d62ca14bafc76118b0ad7af90a09396a52c810ed36cc7b63b2fd89b43",
+            "byteLength": 45223
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-semantic-review/current-semantic-delta.json",
+            "sha256": "c30a6f48394a9f44130694ca8cb3975cdf9804bd169a607b7aab6fc8d1066b26",
+            "byteLength": 36721
+          },
+          {
+            "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+            "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+            "byteLength": 171609
+          }
+        ]
+      },
+      "sourceHoldSweep": {
+        "selectedVerifierSourceHold": null,
+        "additionalSourceClosureRequired": false
+      },
+      "actualApplyContext": {
+        "independentReturn": {
+          "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+          "verdict": "PRODUCT_PATH_PENDING",
+          "lane": "vf20",
+          "isIndependentVerification": true,
+          "verifiedAtBase": "7f386ab54",
+          "failedObligations": [],
+          "failedObligationNames": [],
+          "unmeasuredObligations": [],
+          "exactRouteDeliveryDefect": null,
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "repairAssignmentsPath": null,
+          "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+          "superseded": false
+        },
+        "verifierSourceHold": null,
+        "readiness": {
+          "ready": true,
+          "reasons": [],
+          "boundSources": [],
+          "boundGuidanceAuthorityRecords": [
+            {
+              "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+              "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+              "actualSha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+            }
+          ],
+          "boundAuthorities": [],
+          "boundAuthorityCount": 0,
+          "supersededSourceIds": [],
+          "namedOfficialForms": 0,
+          "effectiveOfficialSourceIds": [],
+          "boundCount": 0,
+          "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+          "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+          "directAttachment": true
+        },
+        "nineZero": true,
+        "legalBlocked": false,
+        "deliveryTypeRefusal": null
+      },
+      "measuredApplyBefore": "PRODUCT_PATH_PENDING",
+      "measuredApplyWithOnlyExactClosure": "GUIDANCE_READY",
+      "measurementLimit": "This is an actual apply() invocation with the complete current native context and only the proposed exact verdict closure added to the already eligible assessment. Final published assess()+apply() must be checked again after the updated review record is committed; this evidence does not bypass publication.",
+      "unchangedOriginalEvidence": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
+        "sha256": "2c180b6d62ca14bafc76118b0ad7af90a09396a52c810ed36cc7b63b2fd89b43",
+        "byteLength": 45223
+      },
+      "packetAndSourceChanges": false
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "claimAssertion": "CLAIM_OK VFCT1 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure (independent-verification, grant set 5066491463bc4de2)",
+      "currentSelectedVerdict": {
+        "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+        "verdict": "PRODUCT_PATH_PENDING",
+        "lane": "vf05",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": []
+      },
+      "verdictSha256": "ac97171d975ab2c5ecc0e35cf9804108126b47ce2f67d2b5ed8b2fb6a5aebfd6",
+      "legacyReturn": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+        "sha256": "b3a191d533e6226d5df5905bcd312a62cd56a847ff073f4171cc7a8fa4296ffc",
+        "byteLength": 1615637
+      },
+      "legacyRawRowSha256": "bc5f5f9f2843d77da163d7525ddb7921aa4bbe2117137832da276b73949b3348",
+      "legacyNonpassingFindings": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "priorFindingSha256": "af63095ec2df7214c8f500900f879793642267e79dece65c162e7b37a12f3c6d",
+          "value": {
+            "measured": true,
+            "result": "PRODUCT_PATH_PENDING",
+            "finding": "The guide prints the exact route key and describes the right pathway, including the on-or-after-October 1, 1974 erasure branch under C.G.S. Sec. 54-142a(d) and its separation from the earlier Superior Court petition branch. The route-obligation census pinned by this very packet (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, f6fc0814..., which the receipt hashes and which recomputes equal here) records currentOutputStrategy 'participant_agency_application' for this route and a participantFacingInstrument that is an application or written request, not a guide. The delivered artifact is an agency_preparation_guide headed 'NOT AN OFFICIAL FORM AND NOT A COURT FILING' which states 'this guide is not a substitute' for the Board's own ePardon application. A guide cannot replace an owed application. This is the ground vf05 recorded and it is unchanged."
+          }
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "priorFindingSha256": "8640a113a88cae4149e247528cd2c6b8622a730f626905c50a283f2dab01145f",
+          "value": {
+            "measured": true,
+            "result": "PRODUCT_PATH_PENDING",
+            "finding": "The single declared component, agency_preparation_guide, is present and complete in both fixtures and CT.memo.json names exactly one component for this track, role process_guidance, requirement required. Against the census route contract the owed instrument, a participant-signed absolute-pardon application submitted through the Board's portal, is absent and the guide says it cannot be generated. Unchanged from vf05."
+          }
+        }
+      ],
+      "governingTreatment": {
+        "authority": {
+          "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+          "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+          "byteLength": 171609
+        },
+        "selector": "tracks[trackId=ct-absolute-pardon].legalDesignDecision",
+        "decision": {
+          "status": "legal_design_approved_with_limitations",
+          "rationale": "Original review and controlling addendum: process guidance and portal assistance, unless and until the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet, so nothing is generated here.",
+          "limitations": [
+            {
+              "classification": "scope_restriction",
+              "statement": "This is executive-branch clemency. It remains guidance and portal assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet.",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+                "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+                "sourceStatement": "CT-11 and CT-12 | Remain guidance/portal-assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet."
+              }
+            },
+            {
+              "classification": "packet_instruction",
+              "statement": "Verify every waiting-period and fee number before it appears in participant-facing copy. The three-year and five-year figures and the no-fee claim are unverified.",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+                "sourceHeading": "TRACK CT-11 / LEGAL-DESIGN DECISION",
+                "sourceStatement": "Process guidance only, and verify every number before it appears in participant-facing copy.",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "classification": "post_generation_handoff",
+              "statement": "The Board's hearing is a lawyer's proceeding. Assistance ends at the explanation and the portal handoff.",
+              "provenance": {
+                "classificationBasis": "general_packet_only_rule",
+                "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+                "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+                "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+              }
+            }
+          ]
+        },
+        "currentReconciliation": {
+          "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+          "implementationStrategy": "process_guidance",
+          "authority": [
+            {
+              "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+              "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+            }
+          ],
+          "sourceReconciliation": {
+            "implementationStrategyOverride": "process_guidance",
+            "guidanceAuthorityRecords": [
+              {
+                "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+                "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+              }
+            ],
+            "exactNextAction": "Complete existing guidance acceptance and current Board portal/document handoff. Preserve the portal application as the participant's later action; this guide does not submit it.",
+            "disposition": "GUIDANCE_MAPPING_REQUIRED"
+          },
+          "authoritySelector": "tracks[trackId=ct-absolute-pardon].legalDesignDecision",
+          "scopeRestrictions": [
+            "This is executive-branch clemency. It remains guidance and portal assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet."
+          ],
+          "nextExecutableAction": "Complete existing guidance acceptance and current Board portal/document handoff. Preserve the portal application as the participant's later action; this guide does not submit it.",
+          "stages": [
+            {
+              "stageId": "preparation_and_handoff",
+              "outputKind": "process_guidance",
+              "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+              "destination": {
+                "kind": "portal",
+                "name": "Connecticut Board of Pardons and Paroles, ePardon portal",
+                "detail": "An online application through the Board's portal. No stable participant application document has been identified that LegalEase could lawfully generate and submit; an intake worksheet is not the legal filing packet."
+              },
+              "participantFilesGeneratedOutput": false,
+              "owedOutput": "Usable guidance and the exact authority handoff; no substitute application or request."
+            }
+          ],
+          "separateParticipantAction": {
+            "description": "Application is made online through the Board's ePardon portal. LegalEase does not generate or submit it.",
+            "dischargedByGuide": false
+          },
+          "createsTerminalState": false,
+          "createsCommercialAuthority": false
+        }
+      },
+      "closure": {
+        "verdictSha256": "ac97171d975ab2c5ecc0e35cf9804108126b47ce2f67d2b5ed8b2fb6a5aebfd6",
+        "result": "CLOSED_BY_INDEPENDENT_DELTA",
+        "finding": "The selected historical return correctly held that a guide cannot satisfy a participant_agency_application instrument. That historical application requirement is not represented as fulfilled. The controlling CT-11 addendum authorizes process guidance and portal assistance; an intake worksheet is not the legal application. Current guidance supplies the actual ePardon and post-1974 erasure handoff and leaves the Board application, personal signature and submission to the participant. It creates no application or Board decision. ROUTE_IDENTITY and COMPONENT_SET are closed solely for current_static_family_treatment/GUIDANCE_READY, whose owed component is usable guidance and exact authority handoff. Runtime, application discharge and commercial authority remain false.",
+        "evidence": [
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
+            "sha256": "2c180b6d62ca14bafc76118b0ad7af90a09396a52c810ed36cc7b63b2fd89b43",
+            "byteLength": 45223
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-semantic-review/current-semantic-delta.json",
+            "sha256": "c30a6f48394a9f44130694ca8cb3975cdf9804bd169a607b7aab6fc8d1066b26",
+            "byteLength": 36721
+          },
+          {
+            "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+            "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+            "byteLength": 171609
+          }
+        ]
+      },
+      "sourceHoldSweep": {
+        "selectedVerifierSourceHold": null,
+        "additionalSourceClosureRequired": false
+      },
+      "actualApplyContext": {
+        "independentReturn": {
+          "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+          "verdict": "PRODUCT_PATH_PENDING",
+          "lane": "vf05",
+          "isIndependentVerification": true,
+          "verifiedAtBase": "7f386ab54",
+          "failedObligations": [],
+          "failedObligationNames": [],
+          "unmeasuredObligations": [],
+          "exactRouteDeliveryDefect": null,
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+          "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+          "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+          "superseded": false
+        },
+        "verifierSourceHold": null,
+        "readiness": {
+          "ready": true,
+          "reasons": [],
+          "boundSources": [],
+          "boundGuidanceAuthorityRecords": [
+            {
+              "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+              "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+              "actualSha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+            }
+          ],
+          "boundAuthorities": [],
+          "boundAuthorityCount": 0,
+          "supersededSourceIds": [],
+          "namedOfficialForms": 0,
+          "effectiveOfficialSourceIds": [],
+          "boundCount": 0,
+          "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+          "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+          "directAttachment": true
+        },
+        "nineZero": true,
+        "legalBlocked": false,
+        "deliveryTypeRefusal": null
+      },
+      "measuredApplyBefore": "PRODUCT_PATH_PENDING",
+      "measuredApplyWithOnlyExactClosure": "GUIDANCE_READY",
+      "measurementLimit": "This is an actual apply() invocation with the complete current native context and only the proposed exact verdict closure added to the already eligible assessment. Final published assess()+apply() must be checked again after the updated review record is committed; this evidence does not bypass publication.",
+      "unchangedOriginalEvidence": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
+        "sha256": "2c180b6d62ca14bafc76118b0ad7af90a09396a52c810ed36cc7b63b2fd89b43",
+        "byteLength": 45223
+      },
+      "packetAndSourceChanges": false
+    }
+  ],
+  "counts": {
+    "families": 3,
+    "legacyProductPathFindingsClosedForGuidanceOnly": 6,
+    "sourceHoldsPresent": 0,
+    "actualApplyBeforeRefusals": 3,
+    "actualApplyWithExactClosuresGuidanceReady": 3,
+    "newPixelReview": 0,
+    "packetChanges": 0,
+    "gateChanges": 0
+  },
+  "requiredNextStep": "Commit this supporting proof, then add the three exact closedCurrentVerdicts entries to the existing V2 review and bind that supporting commit. Verify real published assess()+apply() before any native promotion."
+}
