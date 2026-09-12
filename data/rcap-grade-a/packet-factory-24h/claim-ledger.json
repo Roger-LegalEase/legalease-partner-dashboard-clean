@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "50424aa3c0d792a4d0d3e98d8fe7daf405bc2acd",
+  "generatedAtCommit": "2bbc77426760798df1f8762f0338d8ecd2c1888f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4229,8 +4229,9 @@
       "operation": "independent-verification",
       "lane": "VFIA1",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-12T22:05:05.814Z",
+      "releaseReason": "Independent review completed and IA terminal closure integrated at e855dd50452733d43d624a85b3db81ab1d6870ce; reviewer now assigned PF20 Kansas implementation. No acceptance changed."
     },
     {
       "subjectType": "packet-family",
@@ -5333,6 +5334,21 @@
       "released": true,
       "releasedAt": "2026-09-12T04:03:05.125Z",
       "releaseReason": "Kansas Submitted-by repair returned frozen at 26a8d2c31: 8 exact PDFs/160 pages; independent semantic review and fresh raster remain required. Historical VF67 FAIL retained; implementation is not acceptance."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-22-2410-arrest-set",
+      "itemId": null,
+      "familyId": "ks-22-2410-arrest-set",
+      "familyIds": [
+        "ks-22-2410-arrest-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFKS1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15819,24 +15835,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ks-22-2410-arrest-set",
-      "itemId": null,
-      "familyId": "ks-22-2410-arrest-set",
-      "familyIds": [
-        "ks-22-2410-arrest-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFKS1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "f9ceb6b3bd94b4ca75647e81dfd6a911b716f2a5ef596ccb01a40c73b9a2a36e",
+  "claimsDigest": "77c639b9b4f9b1d50f702e87a2ba259a378d221739ae9720ea8fec08b2e2d98c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43040,6 +43041,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-12T19:36:40.469Z",
       "reason": "review_wa completed immutable BLOCKED_LEGAL_INPUT verdict; now reviews NH only."
+    },
+    {
+      "lane": "VFIA1",
+      "subjectType": "packet-family",
+      "subjectId": "ia-dci77-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T22:05:05.814Z",
+      "reason": "Independent review completed and IA terminal closure integrated at e855dd50452733d43d624a85b3db81ab1d6870ce; reviewer now assigned PF20 Kansas implementation. No acceptance changed."
     }
   ],
   "reissues": [

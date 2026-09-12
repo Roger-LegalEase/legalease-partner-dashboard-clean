@@ -22,9 +22,9 @@
     "NOT_MEASURABLE_HERE": 34
   },
   "counterTotals": {
-    "knownRequiredFieldsMissing": 1,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 2,
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 1,
+    "unclassifiedBlanks": 0,
     "incompleteRows": 0,
     "requiredOptionsMissing": 0,
     "requiredComponentsMissing": 0,
@@ -761,9 +761,9 @@
       "result": "FAIL_MISSING_REQUIRED_FACTS",
       "auditable": true,
       "counters": {
-        "knownRequiredFieldsMissing": 1,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 2,
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 1,
+        "unclassifiedBlanks": 0,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
@@ -772,19 +772,16 @@
         "visualDefects": 0
       },
       "failedCounters": [
-        "knownRequiredFieldsMissing",
-        "unclassifiedBlanks"
+        "requiredFactsNotCollected"
       ],
       "totals": {
         "terminalFields": 86,
-        "written": 14,
-        "blank": 72,
+        "written": 13,
+        "blank": 73,
         "blanksByDisposition": {
-          "REQUIRED_BEFORE_FILING": 11,
+          "REQUIRED_BEFORE_FILING": 14,
           "OPTIONAL_PARTICIPANT_CONTENT": 8,
-          "PROTECTED_FIELD": 46,
-          "KNOWN_FACT_NOT_WRITTEN": 1,
-          "UNCLASSIFIED_BLANK": 2,
+          "PROTECTED_FIELD": 47,
           "PARTICIPANT_ELECTION_GENUINE": 4
         },
         "rowsInspected": 0,
@@ -794,28 +791,11 @@
       "sourceCurrentness": "EXACT",
       "findings": [
         {
-          "counter": "knownRequiredFieldsMissing",
-          "field": "DAY",
-          "label": "The defendant was arrested on the",
-          "disposition": "KNOWN_FACT_NOT_WRITTEN",
-          "basis": "a required known fact with no approved reason for being blank",
-          "reasonGiven": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action."
-        },
-        {
-          "counter": "unclassifiedBlanks",
-          "field": "MONTH",
-          "label": "1",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action.",
-          "reasonGiven": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action."
-        },
-        {
-          "counter": "unclassifiedBlanks",
-          "field": "YEAR",
-          "label": "______________,",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action.",
-          "reasonGiven": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action."
+          "counter": "requiredFactsNotCollected",
+          "field": "undefined_2",
+          "label": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "factId": null,
+          "why": "classified required-before-filing and not named in participant-instructions.md, so the participant is never asked for it"
         }
       ],
       "findingsTruncated": 0
