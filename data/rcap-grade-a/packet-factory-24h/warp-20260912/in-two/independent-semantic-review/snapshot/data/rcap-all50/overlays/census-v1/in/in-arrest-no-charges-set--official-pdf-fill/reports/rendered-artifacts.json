@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "in_arrest_no_charges-set",
+  "renderedFresh": true,
+  "citesNoBlockedHash": true,
+  "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json",
+  "note": "Rendered fresh from the pinned source bytes. Every output hash below was checked against the hashes in the stale-artifact block and matches none of them.",
+  "rasterisation": {
+    "performedHere": false,
+    "why": "This container resolves no browser, so no page raster is produced at build time. The render happens centrally in .github/workflows/rcap-packet-raster-acceptance-batch.yml against the exact bytes the hashes below pin. This family is BUILT_RASTER_PENDING and no visual obligation is waived by it.",
+    "rasters": []
+  },
+  "packets": [
+    {
+      "packetId": "in_arrest_no_charges-set",
+      "documents": [
+        "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE (canonical)",
+        "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE (boundary)",
+        "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS (canonical)",
+        "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS (boundary)"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "document": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+      "sha256": "2f2501aec02a5bc6990c0bab0fc631215fa99265572ac9b2fca2672ee4840e01",
+      "byteLength": 253422,
+      "fieldsWritten": 5,
+      "fieldsRefused": 63,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+      "sha256": "281ce746b220f65619c83e10a4e777745e9dcecf9da5c8fa37137f2e854ef526",
+      "byteLength": 252496,
+      "fieldsWritten": 2,
+      "fieldsRefused": 66,
+      "unfittable": [
+        {
+          "field": "cap-COUNTY",
+          "factId": "matter.county",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Saint Bartholomew and the Northern Reaches County",
+          "rect": {
+            "x": 107.16,
+            "y": 679.92,
+            "width": 108,
+            "height": 13.08
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 143.6,
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 8
+        },
+        {
+          "field": "cap-PetitionerFullName",
+          "factId": "participant.full_legal_name",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+          "rect": {
+            "x": 168,
+            "y": 526.93,
+            "width": 196.99,
+            "height": 14.79
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 195.6,
+          "refusedAtWidgetIndex": 1,
+          "widgetsMeasured": 14
+        },
+        {
+          "field": "Address",
+          "factId": "participant.street_address",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+          "rect": {
+            "x": 180,
+            "y": 430.25,
+            "width": 216.12,
+            "height": 58.95
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 214.7,
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 2
+        }
+      ],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+      "sha256": "a157965991d2287b2dc152f88af45ea08b6149a1eb1a4ad1fe1203d12020a8b2",
+      "byteLength": 197359,
+      "fieldsWritten": 2,
+      "fieldsRefused": 75,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+      "sha256": "a157965991d2287b2dc152f88af45ea08b6149a1eb1a4ad1fe1203d12020a8b2",
+      "byteLength": 197359,
+      "fieldsWritten": 2,
+      "fieldsRefused": 75,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    }
+  ]
+}

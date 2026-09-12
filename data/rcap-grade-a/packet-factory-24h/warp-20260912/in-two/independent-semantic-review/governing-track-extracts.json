@@ -1,0 +1,916 @@
+{
+  "source": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/independent-semantic-review/snapshot/data/record-clearing/legal-design-track-registry.json",
+    "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+    "byteLength": 16781025
+  },
+  "tracks": {
+    "in_arrest_no_charges": {
+      "jurisdiction": "IN",
+      "trackId": "in_arrest_no_charges",
+      "legalName": "Petition to Expunge an Arrest Where No Charges Were Filed, I.C. 35-38-9-1(c)",
+      "publicName": "Clearing an arrest where you were never charged",
+      "mechanism": "A person arrested after June 30, 2022, where one year has elapsed and no charges are pending, may petition. The judge shall immediately order expungement. Expungement does not shorten the statute of limitations and the prosecutor may still file a charge.",
+      "authority": [
+        "I.C. 35-38-9-1(c)",
+        "I.C. 35-38-9-1(a)",
+        "I.C. 35-38-9-1(e)",
+        "I.C. 35-38-9-1(f)",
+        "I.C. 35-38-9-1(k)"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2022-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "arrest",
+        "charge",
+        "juvenile_allegation"
+      ],
+      "dispositions": [
+        "arrested_no_charges_filed"
+      ],
+      "exclusions": [
+        "Arrests on or before June 30, 2022, which use the general Section 1 petition instead.",
+        "Cases where charges are pending.",
+        "Persons currently in a pretrial diversion programme unless the prosecuting attorney authorises."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The arrest, with no charges pending",
+          "duration": "One year"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "A circuit or superior court in the county where the charges or allegation were filed, or where the arrest occurred if none were filed.",
+      "destination": {
+        "kind": "court",
+        "name": "Circuit or superior court in the county of filing or arrest",
+        "detail": "The court serves a copy of the petition on the prosecuting attorney under § 35-38-9-1(f). No filing fee."
+      },
+      "packetSet": {
+        "packetSetId": "in_arrest_no_charges-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "in_arrest_no_charges-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CCA Section 1 non-conviction expungement petition",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "in_arrest_no_charges-proposed-order-2",
+            "role": "proposed_order",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CCA Section 1 expungement order",
+            "officialSourceUrl": null,
+            "order": 2
+          },
+          {
+            "componentId": "in_arrest_no_charges-attachment-3",
+            "role": "attachment",
+            "requirement": "conditional",
+            "conditionDescription": "Required for a self-represented filer.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CCA-GF-0120-3016",
+            "officialSourceUrl": null,
+            "order": 3
+          },
+          {
+            "componentId": "in_arrest_no_charges-attachment-4",
+            "role": "attachment",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CCA-XP-0120-7002 Form ACR",
+            "officialSourceUrl": null,
+            "order": 4
+          },
+          {
+            "componentId": "in_arrest_no_charges-attachment-5",
+            "role": "attachment",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Confidential Information Form",
+            "officialSourceUrl": null,
+            "order": 5
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+            "obtainedFrom": "Indiana State Police",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Verification and signature — Petition, verification block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Full Social Security number — Confidential Information Form.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Disposition characterisation — Petition, disposition item.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The petition is verified and signed by the petitioner.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "None. Section 1 petitions carry no filing fee.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable. There is no fee.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File the verified petition, order, appearance where self-represented, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county where the charges were filed, or where the arrest occurred if none were filed.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "Verification and signature — Petition, verification block.",
+          "Full Social Security number — Confidential Information Form.",
+          "Disposition characterisation — Petition, disposition item.",
+          "The petition is verified and signed by the petitioner.",
+          "None. Section 1 petitions carry no filing fee.",
+          "Not applicable. There is no fee."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Indiana Code 35-38-9, Expungement and Sealing of Records",
+          "url": "https://iga.in.gov/laws/2026/ic/titles/35#35-38-9",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Indiana Code 34-28-5-15, infraction non-disclosure",
+          "url": "https://iga.in.gov/laws/2026/ic/titles/34#34-28-5-15",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Coalition for Court Access expungement forms",
+          "url": "https://www.in.gov/courts/iocs/self-service/expungement/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Indiana Office of Judicial Administration, Expungement — Detailed Information on Criminal Case Expungement",
+          "url": "https://www.in.gov/courts/iocs/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "File the verified petition, order, appearance where self-represented, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county where the charges were filed, or where the arrest occurred if none were filed.",
+        "fees": "None. Section 1 petitions carry no filing fee.",
+        "feeWaiver": "Not applicable. There is no fee.",
+        "notice": "The court serves a copy of the petition on the prosecuting attorney under § 35-38-9-1(f). The court shall grant unless the subsection (a) conditions are unmet or criminal charges are pending, and may summarily deny a petition that shows on its face that the person is not entitled to relief.",
+        "service": "The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form.",
+        "participantSignature": "The petition is verified and signed by the petitioner.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Indiana county were the charges filed, or where were you arrested if no charges were filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the cause number, if charges were filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did that happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "inPretrialDiversion",
+          "question": "Are you currently participating in a pretrial diversion programme?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorAuthorization",
+          "question": "If you are in a pretrial diversion programme, has the prosecuting attorney authorised this petition?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a pretrial diversion is active, because § 35-38-9-1(a) requires the prosecutor's authorisation in that case."
+        },
+        {
+          "key": "ssnLastFour",
+          "question": "What are the last four digits of your Social Security number?",
+          "requirement": "required"
+        },
+        {
+          "key": "isSelfRepresented",
+          "question": "Are you filing without a lawyer?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Certified limited criminal history from the Indiana State Police",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "confirms": "disposition"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Verification and signature",
+          "whereInPacket": "Petition, verification block",
+          "why": "The Section 1 petition is verified. The participant signs it themselves."
+        },
+        {
+          "item": "Full Social Security number",
+          "whereInPacket": "Confidential Information Form",
+          "why": "Filed as a confidential document. Only the last four digits appear on the petition."
+        },
+        {
+          "item": "Disposition characterisation",
+          "whereInPacket": "Petition, disposition item",
+          "why": "Whether the outcome is a dismissal, an acquittal, a vacatur or something else is a legal judgment."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The prosecutor objects or files a notice in opposition.",
+        "A victim submits a statement in opposition.",
+        "The court sets a hearing.",
+        "The person has convictions in more than one county and the 365-day window is already partly consumed.",
+        "A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.",
+        "The person has already filed a Sections 2 through 5 petition.",
+        "Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.",
+        "The person is a sex or violent offender or subject to registration.",
+        "Fines, fees, costs or restitution are unpaid or disputed.",
+        "Charges are pending anywhere, or the person is in a pretrial diversion programme.",
+        "The record involves a commercial driver's licence and 49 C.F.R. 384.226.",
+        "Immigration, firearm, licensing or CDL consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under § 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+        "Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.",
+        "Disclose that the expungement case file is public until the order is granted.",
+        "Tell the participant plainly that expungement does not shorten the statute of limitations and the prosecutor may still file a charge later.",
+        "The court serves the prosecuting attorney under § 35-38-9-1(f). The participant does not serve, although the appearance form carries its own certificate of service; follow the form."
+      ],
+      "participantQuestions": [],
+      "scopeRestrictions": [],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "Whether the Coalition for Court Access Section 1 petition and order set in the corpus is the current revision. The review records the set as not fully in the upload and lists it as a document to acquire.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "Documents to acquire",
+            "sourceStatement": "The Coalition for Court Access Section 1 petition and order set, which is not in the upload."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The prosecutor objects or files a notice in opposition.",
+        "A victim submits a statement in opposition.",
+        "The court sets a hearing.",
+        "The person has convictions in more than one county and the 365-day window is already partly consumed.",
+        "A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.",
+        "The person has already filed a Sections 2 through 5 petition.",
+        "Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.",
+        "The person is a sex or violent offender or subject to registration.",
+        "Fines, fees, costs or restitution are unpaid or disputed.",
+        "Charges are pending anywhere, or the person is in a pretrial diversion programme.",
+        "The record involves a commercial driver's licence and 49 C.F.R. 384.226.",
+        "Immigration, firearm, licensing or CDL consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the Coalition for Court Access Section 1 petition and order set in the corpus is the current revision. The review records the set as not fully in the upload and lists it as a document to acquire.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "Documents to acquire",
+            "sourceStatement": "The Coalition for Court Access Section 1 petition and order set, which is not in the upload."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under § 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "TRACKS 1 to 3 - NON-CONVICTION RECORDS, SECTION 1",
+            "sourceStatement": "Terminology: expungement. In Indiana this means records are sealed or restricted, not destroyed, § 35-38-9-1(k)."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "OVERALL JURISDICTION DECISION / Required before any track opens for fulfillment / 6",
+            "sourceStatement": "Handle the Social Security number correctly: last four on the petition, full number only on the confidential information form, filed as a confidential document. Do not persist the full number."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Disclose that the expungement case file is public until the order is granted.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "OVERALL JURISDICTION DECISION / Required before any track opens for fulfillment / 5",
+            "sourceStatement": "Disclose that the expungement case file is public until the order is granted."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Tell the participant plainly that expungement does not shorten the statute of limitations and the prosecutor may still file a charge later.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "TRACKS 1 to 3 - NON-CONVICTION RECORDS, SECTION 1",
+            "sourceStatement": "Expungement does not shorten the statute of limitations and the prosecutor may still file a charge."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "The court serves the prosecuting attorney under § 35-38-9-1(f). The participant does not serve, although the appearance form carries its own certificate of service; follow the form.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "TRACKS 1 to 3 - NON-CONVICTION RECORDS, SECTION 1",
+            "sourceStatement": "Service: the court serves a copy of the petition on the prosecuting attorney, § 35-38-9-1(f)."
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (correct_form): Whether the Coalition for Court Access Section 1 petition and order set in the corpus is the current revision. The review records the set as not fully in the upload and lists it as a document to acquire."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    },
+    "in_section1_petition": {
+      "jurisdiction": "IN",
+      "trackId": "in_section1_petition",
+      "legalName": "General Section 1 Petition to Expunge a Non-Conviction Record, I.C. 35-38-9-1(d)",
+      "publicName": "Clearing a case that did not end in a conviction",
+      "mechanism": "Anyone meeting the subsection (a) threshold, including pre-cutoff cases, may petition one year after the arrest, charge or allegation, whichever is later, or after the opinion vacating a conviction becomes final. Early filing is permitted if the prosecuting attorney agrees in writing.",
+      "authority": [
+        "I.C. 35-38-9-1(d)",
+        "I.C. 35-38-9-1(a)",
+        "I.C. 35-38-9-1(e)",
+        "I.C. 35-38-9-1(f)",
+        "I.C. 35-38-9-1(k)"
+      ],
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2013-07-01",
+      "effectiveTo": null,
+      "recordTypes": [
+        "arrest",
+        "charge",
+        "juvenile_allegation"
+      ],
+      "dispositions": [
+        "all_charges_dismissed",
+        "acquitted_all_charges",
+        "vacated",
+        "no_true_finding",
+        "expunged_under_sections_2_to_5_then_vacated"
+      ],
+      "exclusions": [
+        "Persons currently participating in a pretrial diversion programme unless the prosecuting attorney authorises the petition.",
+        "Cases where criminal charges are pending."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The arrest, charge or allegation, whichever is later",
+          "duration": "One year, or after the opinion vacating a conviction becomes final"
+        },
+        {
+          "condition": "Written agreement of the prosecuting attorney",
+          "duration": "Early filing permitted"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
+      "compositionMode": null,
+      "units": [],
+      "geographicScope": "statewide",
+      "geographyKeys": [],
+      "venue": "A circuit or superior court in the county where the charges or allegation were filed, or where the arrest occurred if none were filed.",
+      "destination": {
+        "kind": "court",
+        "name": "Circuit or superior court in the county of filing or arrest",
+        "detail": "The court serves a copy of the petition on the prosecuting attorney under § 35-38-9-1(f). No filing fee."
+      },
+      "packetSet": {
+        "packetSetId": "in_section1_petition-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "in_section1_petition-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CCA Section 1 non-conviction expungement petition",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "in_section1_petition-proposed-order-2",
+            "role": "proposed_order",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CCA Section 1 expungement order",
+            "officialSourceUrl": null,
+            "order": 2
+          },
+          {
+            "componentId": "in_section1_petition-attachment-3",
+            "role": "attachment",
+            "requirement": "conditional",
+            "conditionDescription": "Required for a self-represented filer.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CCA-GF-0120-3016",
+            "officialSourceUrl": null,
+            "order": 3
+          },
+          {
+            "componentId": "in_section1_petition-attachment-4",
+            "role": "attachment",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "CCA-XP-0120-7002 Form ACR",
+            "officialSourceUrl": null,
+            "order": 4
+          },
+          {
+            "componentId": "in_section1_petition-attachment-5",
+            "role": "attachment",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Confidential Information Form",
+            "officialSourceUrl": null,
+            "order": 5
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+            "obtainedFrom": "Indiana State Police",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Verification and signature — Petition, verification block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Full Social Security number — Confidential Information Form.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Disposition characterisation — Petition, disposition item.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The petition is verified and signed by the petitioner.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "None. Section 1 petitions carry no filing fee.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable. There is no fee.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File the verified petition, order, appearance where self-represented, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county where the charges were filed, or where the arrest occurred if none were filed.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "Verification and signature — Petition, verification block.",
+          "Full Social Security number — Confidential Information Form.",
+          "Disposition characterisation — Petition, disposition item.",
+          "The petition is verified and signed by the petitioner.",
+          "None. Section 1 petitions carry no filing fee.",
+          "Not applicable. There is no fee."
+        ]
+      },
+      "officialSources": [
+        {
+          "title": "Indiana Code 35-38-9, Expungement and Sealing of Records",
+          "url": "https://iga.in.gov/laws/2026/ic/titles/35#35-38-9",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Indiana Code 34-28-5-15, infraction non-disclosure",
+          "url": "https://iga.in.gov/laws/2026/ic/titles/34#34-28-5-15",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Coalition for Court Access expungement forms",
+          "url": "https://www.in.gov/courts/iocs/self-service/expungement/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Indiana Office of Judicial Administration, Expungement — Detailed Information on Criminal Case Expungement",
+          "url": "https://www.in.gov/courts/iocs/",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "File the verified petition, order, appearance where self-represented, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county where the charges were filed, or where the arrest occurred if none were filed.",
+        "fees": "None. Section 1 petitions carry no filing fee.",
+        "feeWaiver": "Not applicable. There is no fee.",
+        "notice": "The court serves a copy of the petition on the prosecuting attorney under § 35-38-9-1(f). The court shall grant unless the subsection (a) conditions are unmet or criminal charges are pending, and may summarily deny a petition that shows on its face that the person is not entitled to relief.",
+        "service": "The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form.",
+        "participantSignature": "The petition is verified and signed by the petitioner.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Indiana county were the charges filed, or where were you arrested if no charges were filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the cause number, if charges were filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did that happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "inPretrialDiversion",
+          "question": "Are you currently participating in a pretrial diversion programme?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorAuthorization",
+          "question": "If you are in a pretrial diversion programme, has the prosecuting attorney authorised this petition?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a pretrial diversion is active, because § 35-38-9-1(a) requires the prosecutor's authorisation in that case."
+        },
+        {
+          "key": "ssnLastFour",
+          "question": "What are the last four digits of your Social Security number?",
+          "requirement": "required"
+        },
+        {
+          "key": "isSelfRepresented",
+          "question": "Are you filing without a lawyer?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorWrittenAgreementEarlyFiling",
+          "question": "Has the prosecuting attorney agreed in writing to let you file early?",
+          "requirement": "required"
+        }
+      ],
+      "participantFilingRequirements": [
+        {
+          "name": "Certified limited criminal history from the Indiana State Police",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "confirms": "disposition"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Verification and signature",
+          "whereInPacket": "Petition, verification block",
+          "why": "The Section 1 petition is verified. The participant signs it themselves."
+        },
+        {
+          "item": "Full Social Security number",
+          "whereInPacket": "Confidential Information Form",
+          "why": "Filed as a confidential document. Only the last four digits appear on the petition."
+        },
+        {
+          "item": "Disposition characterisation",
+          "whereInPacket": "Petition, disposition item",
+          "why": "Whether the outcome is a dismissal, an acquittal, a vacatur or something else is a legal judgment."
+        }
+      ],
+      "selfHelpBoundaries": [
+        "The prosecutor objects or files a notice in opposition.",
+        "A victim submits a statement in opposition.",
+        "The court sets a hearing.",
+        "The person has convictions in more than one county and the 365-day window is already partly consumed.",
+        "A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.",
+        "The person has already filed a Sections 2 through 5 petition.",
+        "Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.",
+        "The person is a sex or violent offender or subject to registration.",
+        "Fines, fees, costs or restitution are unpaid or disputed.",
+        "Charges are pending anywhere, or the person is in a pretrial diversion programme.",
+        "The record involves a commercial driver's licence and 49 C.F.R. 384.226.",
+        "Immigration, firearm, licensing or CDL consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "postGenerationHandoffs": [],
+      "packetInstructions": [
+        "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under § 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+        "Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.",
+        "Disclose that the expungement case file is public until the order is granted.",
+        "Early filing is available only where the prosecuting attorney agrees in writing. Silence is not agreement."
+      ],
+      "participantQuestions": [
+        "Ask whether a pretrial diversion is still active. Section 35-38-9-1(a) bars the petition while one is active unless the prosecuting attorney authorises it."
+      ],
+      "scopeRestrictions": [],
+      "buildBlockers": [],
+      "releaseBlockers": [
+        {
+          "question": "Whether the Coalition for Court Access Section 1 petition and order set in the corpus is the current revision. The review records the set as not fully in the upload and lists it as a document to acquire.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "Documents to acquire",
+            "sourceStatement": "The Coalition for Court Access Section 1 petition and order set, which is not in the upload."
+          }
+        }
+      ],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
+      "selfHelpStopConditions": [
+        "The prosecutor objects or files a notice in opposition.",
+        "A victim submits a statement in opposition.",
+        "The court sets a hearing.",
+        "The person has convictions in more than one county and the 365-day window is already partly consumed.",
+        "A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.",
+        "The person has already filed a Sections 2 through 5 petition.",
+        "Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.",
+        "The person is a sex or violent offender or subject to registration.",
+        "Fines, fees, costs or restitution are unpaid or disputed.",
+        "Charges are pending anywhere, or the person is in a pretrial diversion programme.",
+        "The record involves a commercial driver's licence and 49 C.F.R. 384.226.",
+        "Immigration, firearm, licensing or CDL consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the Coalition for Court Access Section 1 petition and order set in the corpus is the current revision. The review records the set as not fully in the upload and lists it as a document to acquire.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "Documents to acquire",
+            "sourceStatement": "The Coalition for Court Access Section 1 petition and order set, which is not in the upload."
+          }
+        }
+      ],
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalDesignLimitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under § 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "TRACKS 1 to 3 - NON-CONVICTION RECORDS, SECTION 1",
+            "sourceStatement": "Terminology: expungement. In Indiana this means records are sealed or restricted, not destroyed, § 35-38-9-1(k)."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "OVERALL JURISDICTION DECISION / Required before any track opens for fulfillment / 6",
+            "sourceStatement": "Handle the Social Security number correctly: last four on the petition, full number only on the confidential information form, filed as a confidential document. Do not persist the full number."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Disclose that the expungement case file is public until the order is granted.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "OVERALL JURISDICTION DECISION / Required before any track opens for fulfillment / 5",
+            "sourceStatement": "Disclose that the expungement case file is public until the order is granted."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask whether a pretrial diversion is still active. Section 35-38-9-1(a) bars the petition while one is active unless the prosecuting attorney authorises it.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "TRACKS 1 to 3 - NON-CONVICTION RECORDS, SECTION 1",
+            "sourceStatement": "the person is not currently participating in a pretrial diversion program unless the prosecuting attorney authorizes the petition."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Early filing is available only where the prosecuting attorney agrees in writing. Silence is not agreement.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "TRACKS 1 to 3 - NON-CONVICTION RECORDS, SECTION 1",
+            "sourceStatement": "Early filing ... Permitted if the prosecuting attorney agrees in writing"
+          }
+        }
+      ],
+      "legalStatus": "legal_review_pending",
+      "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "implementationQueue": "F_source_problem",
+      "legalDesignBlockers": [],
+      "blockers": [
+        {
+          "kind": "output_review_gate",
+          "statement": "Output review pending: counsel approved the design, not the produced document."
+        },
+        {
+          "kind": "visual_review_gate",
+          "statement": "Visual review not started."
+        },
+        {
+          "kind": "technical_proof_gate",
+          "statement": "Technical proof not started."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (correct_form): Whether the Coalition for Court Access Section 1 petition and order set in the corpus is the current revision. The review records the set as not fully in the upload and lists it as a document to acquire."
+        },
+        {
+          "kind": "source_gate",
+          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ]
+    }
+  }
+}
