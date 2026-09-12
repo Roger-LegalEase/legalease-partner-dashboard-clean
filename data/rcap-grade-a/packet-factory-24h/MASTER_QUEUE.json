@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "ecd3298c868343b98c79af90b88a372c6538ac30",
+  "minimumCaptainSha": "fb83b18a186465d08b3e4e073a70365dce49ca05",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "28bc6d9923b69f0b3b643bddebe0a466c8e7b9c15ea9ca0082330db57923f37c",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "03ec6c7f8ffb142c44ce2193945fe43b3dd30cd467b3378575ce4b7c2e8a2c27",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -73,9 +73,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 2,
+    "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
-    "remaining": 344,
+    "remaining": 345,
     "sourceReady": 31,
     "sourceBlocked": 0,
     "legalBlocked": 0,
@@ -84,13 +84,13 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 279,
+    "COMPLETE_PACKET_PROVEN": 280,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 31,
     "HANDOFF_READY": 2,
-    "FAIL_REPAIR_REQUIRED": 6,
     "PRODUCT_PATH_PENDING": 6,
+    "FAIL_REPAIR_REQUIRED": 5,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -113,7 +113,6 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "il-seal-edu-set",
       "sd_arrest_expungement-set"
     ],
     "staleRosterFamilies": [
@@ -20218,10 +20217,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf66",
-        "verifiedAtBase": "b6fd4797fb404d331f365ae87b5ccf99b317dbbf",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-20260910.json"
+        "verifiedAtBase": "75ab7a622280a09f55562d461e3446de5b6c72a8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf66/rows-vf66-il-seal-edu-original-final-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -20240,27 +20239,26 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b6fd4797fb404d331f365ae87b5ccf99b317dbbf",
+          "verifiedAtBase": "75ab7a622280a09f55562d461e3446de5b6c72a8",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20272,7 +20270,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule IL-SEALING-APPROVED-ORDER-COMPONENT-SET: Preserve both statewide approved grant and denial order forms as submission components because current Illinois statewide instructions list them among required forms. Prevent participant completion of judge-only fields. Fee-waiver application remains conditional. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule IL-SEALING-APPROVED-ORDER-COMPONENT-SET: Preserve both statewide approved grant and denial order forms as submission components because current Illinois statewide instructions list them among required forms. Prevent participant completion of judge-only fields. Fee-waiver application remains conditional. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "NOT_MEASURABLE_HERE",
@@ -20293,9 +20291,9 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX166",
-      "activeOwnerLane": "rapid-repair",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-edu-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -20306,8 +20304,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-seal-nonconv-set",
@@ -40305,8 +40302,8 @@
       "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule OR-OSP-SEPARATE-AGENCY-STEP: Treat the OSP fingerprint/history process as a separate required agency step, not a court-filing component, and do not universally label it pre-filing. Sequence it through jurisdiction/configuration rules. The court packet remains the current OJD motion/declaration/service materials. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "PASS_COMPLETE",
-      "allNineCountersZero": true,
+      "completenessStatus": "NOT_MEASURABLE_HERE",
+      "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -40314,9 +40311,9 @@
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
+        "invisibleWrites": null,
         "protectedWrites": 0,
-        "visualDefects": 0
+        "visualDefects": null
       },
       "failingCounters": [],
       "failedObligationNames": [
