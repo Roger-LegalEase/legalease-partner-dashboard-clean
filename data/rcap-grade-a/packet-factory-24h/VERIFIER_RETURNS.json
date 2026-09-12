@@ -34,13 +34,18 @@
     }
   ],
   "counts": {
-    "returnDirectories": 269,
-    "rows": 1349,
+    "returnDirectories": 270,
+    "rows": 1355,
     "independentVerdicts": 306,
-    "failRepairRequired": 17,
-    "passIndependent": 271
+    "failRepairRequired": 22,
+    "passIndependent": 269
   },
   "failRepairRequiredFamilies": [
+    "al-diversion-set",
+    "al-felony-dwop-set",
+    "al-felony-nonconviction-90-set",
+    "al-misd-conviction-set",
+    "al-misd-dwop-set",
     "al-pardoned-felony-set",
     "ca-17b-reduction-set",
     "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
@@ -934,6 +939,74 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-diversion-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-diversion-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-diversion-set",
       "superseded": false
     },
     {
@@ -1073,6 +1146,35 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
       "superseded": true
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
+      "superseded": false
     },
     {
       "familyId": "al-felony-dwop-set",
@@ -1246,7 +1348,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf55/rows-vf55-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -1348,6 +1450,48 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
       "superseded": true
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-nonconviction-90-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-nonconviction-90-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-nonconviction-90-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-nonconviction-90-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-nonconviction-90-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-nonconviction-90-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
+      "superseded": false
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -1463,7 +1607,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows-vf41-20260911-al90-final.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -1503,6 +1647,74 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
       "superseded": true
+    },
+    {
+      "familyId": "al-misd-conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-conviction-set",
+      "superseded": false
     },
     {
       "familyId": "al-misd-conviction-set",
@@ -1591,6 +1803,74 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-misd-dwop-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-dwop-set",
       "superseded": false
     },
     {
@@ -1694,7 +1974,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-dwop-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-misd-nonconviction-90-set",
@@ -1722,6 +2002,48 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-al-ut-current.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardon-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardoned-felony-set",
       "superseded": false
     },
     {
@@ -1798,7 +2120,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardoned-felony-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-trafficking-set",

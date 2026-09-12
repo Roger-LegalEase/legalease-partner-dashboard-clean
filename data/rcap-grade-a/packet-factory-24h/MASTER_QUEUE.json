@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "57e6205edd2f96e5d2e5c4eaa2783c687999e7bf",
+  "minimumCaptainSha": "8f43c8f390428533c67ebfae769a9da78b15c9af",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -78,17 +78,17 @@
     "sourceReady": 33,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 9,
-    "repairRequired": 18,
+    "verifyPending": 3,
+    "repairRequired": 24,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 250,
     "PRODUCT_PATH_PENDING": 10,
     "OUT_OF_SCOPE": 5,
-    "VERIFY_PENDING": 9,
+    "FAIL_REPAIR_REQUIRED": 25,
     "SOURCE_READY": 33,
-    "FAIL_REPAIR_REQUIRED": 19,
+    "VERIFY_PENDING": 3,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
     "BUILT_RASTER_PENDING": 4,
@@ -166,7 +166,7 @@
     "sourceReadyFamilies": 33,
     "familiesPerBuilder": 1.3,
     "targetPerBuilder": "15 to 25",
-    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 33 do, so a full roster of 25 builders averages 1.3 families each rather than 15 to 25.",
+    "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 33 do, so a full roster of 25 builders averages 1.3 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -2507,10 +2507,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf01",
-        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -2529,18 +2529,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+          "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -2556,17 +2557,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "al-diversion-set",
-        "foundBy": [
-          "vf01 (current independent verification)"
-        ],
-        "why": "KNOWN_PREFILLS: AL6-03. CR-65's header caption box is printed \"Court Case Number\" with \"(Assigned by Clerk)\" directly beneath it. This packet writes matter.case_number into that box on nine of its eleven pages and leaves the identical box empty on the other two, and nothing in the held record says which case number the box is asking for.\n\nWhat I measured in the delivered bytes. The caption box is filled on CR-65 pages 1, 2, 3, 4, 5, 6 and 8 (AcroForm fields Text1, Text4, Text7, Text5, \"Court Case Number\", \"Court Case Number_2\" and \"Court Case Number_4\") and on C-10-CRIMINAL pages 1 and 2 (\"Court Case Number\" and \"Court Case Number_2\"). It is empty on CR-65 page 7, the certificate of service, where the field is CR-65:Court Case Number_3 at x=445.44 y=691.32 w=129.00 h=35.33 - the same x origin and the same 129.00pt width as \"Court Case Number_2\" on page 6 and \"Court Case Number_4\" on page 8, both of which are filled - and empty again on C-10-CRIMINAL page 3 (C-10-CRIMINAL:Court Case Number_3). So the omission is not a different field or a different box; it is the same box on two of eleven pages. Both blanks are refused in production-field-map.json with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\", which is not a true description of a caption box and, because the class is protected, keeps both out of the participant's \"Blanks you must fill in\" list. I rastered both pages of the boundary fixture at 150 dpi and looked at them: page 1 shows CC-2024-000001.99 sitting directly above the printed words \"(Assigned by Clerk)\"; page 7 shows an empty ruled box in the same position.\n\nThe fact that makes this a real question rather than a tidy-up. CR-65 page 1 separately prints its own line, \"COURT CASE NUMBER TO BE EXPUNGED:\", with its own field (CR-65:Text3, x=257.20 w=287.32), and this packet fills that line with the same matter.case_number value it puts in the caption box. Two differently labelled places on the same page therefore receive the same number. If the form already has a dedicated line for the case number to be expunged, the separately labelled caption box marked \"(Assigned by Clerk)\" is most naturally the expungement case the clerk opens on filing - a number that does not exist yet when the packet is generated and that no participant fact can supply. But that is a reading of Alabama court-form practice, not a fact recorded anywhere in this repository, and this lane will not author it.\n\nWhy the held record cannot settle it. AL.memo.json track al-diversion records rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, rules.participantSignature and rules.notarization, and not one of them addresses the caption box. No participantInput on the track collects an expungement case number, and none distinguishes the underlying criminal case number from a clerk-assigned one. The packet's own field map offers no justification either: the nine writes carry factId matter.case_number with no decision or authority recorded, and the two refusals carry a reason that is false of the field.\n\nEither answer leaves a defect; only its direction is open. If the box means the expungement case number the clerk assigns, then nine pages of this packet - including CR-65 pages 1 through 6, which the petitioner swears to under penalty of perjury on page 6 - carry a number that is not the number the box asks for, and the repair is to stop writing all nine and name the box as clerk-completed. If the box means the underlying criminal case, then CR-65 page 7 and C-10-CRIMINAL page 3 are wrongly blank, the page-7 refusal reason is false, and the repair is to write those two and reclassify them. The defect is certain; which repair is correct is not, and this lane does not choose between them. AL6-01 and AL6-02 are both genuinely gone from these bytes, and every other proof obligation this lane can settle from the record passes, so AL6-03 is the whole of the hold.\n\nWhat would unblock it. A legal-design answer recorded in AL.memo.json - not in a lane return, a build script or a status file - stating whether CR-65's \"Court Case Number (Assigned by Clerk)\" caption box takes the underlying criminal case number or the expungement case number the clerk assigns on filing, and whether the same answer governs the identically captioned box on C-10-CRIMINAL. An owner or Alabama counsel establishing that one sentence makes the remaining work mechanical: whichever way it goes, the fix is a field-map change plus a refusal-class correction on CR-65:Court Case Number_3 and C-10-CRIMINAL:Court Case Number_3, and the packet can then be rebuilt and independently re-read. Nothing else about these six families is waiting on it.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -2583,11 +2577,65 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-diversion-set.mjs",
@@ -2688,19 +2736,16 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf55",
-        "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf55/rows-vf55-20260910.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -2726,11 +2771,26 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
@@ -2827,19 +2887,16 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf41",
-        "verifiedAtBase": "380620df6aa089ea5e0cfd58c2ab6dd2f472cd1d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows-vf41-20260911-al90-final.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -2865,11 +2922,39 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-nonconviction-90-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-nonconviction-90-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-nonconviction-90-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-nonconviction-90-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-nonconviction-90-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-nonconviction-90-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
@@ -2966,10 +3051,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf04",
-        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -2988,18 +3073,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+          "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -3015,17 +3101,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "al-misd-conviction-set",
-        "foundBy": [
-          "vf04 (current independent verification)"
-        ],
-        "why": "KNOWN_PREFILLS: AL6-03. CR-65's header caption box is printed \"Court Case Number\" with \"(Assigned by Clerk)\" directly beneath it. This packet writes matter.case_number into that box on nine of its eleven pages and leaves the identical box empty on the other two, and nothing in the held record says which case number the box is asking for.\n\nWhat I measured in the delivered bytes. The caption box is filled on CR-65 pages 1, 2, 3, 4, 5, 6 and 8 (AcroForm fields Text1, Text4, Text7, Text5, \"Court Case Number\", \"Court Case Number_2\" and \"Court Case Number_4\") and on C-10-CRIMINAL pages 1 and 2 (\"Court Case Number\" and \"Court Case Number_2\"). It is empty on CR-65 page 7, the certificate of service, where the field is CR-65:Court Case Number_3 at x=445.44 y=691.32 w=129.00 h=35.33 - the same x origin and the same 129.00pt width as \"Court Case Number_2\" on page 6 and \"Court Case Number_4\" on page 8, both of which are filled - and empty again on C-10-CRIMINAL page 3 (C-10-CRIMINAL:Court Case Number_3). So the omission is not a different field or a different box; it is the same box on two of eleven pages. Both blanks are refused in production-field-map.json with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\", which is not a true description of a caption box and, because the class is protected, keeps both out of the participant's \"Blanks you must fill in\" list. I rastered both pages of the boundary fixture at 150 dpi and looked at them: page 1 shows CC-2024-000001.99 sitting directly above the printed words \"(Assigned by Clerk)\"; page 7 shows an empty ruled box in the same position.\n\nThe fact that makes this a real question rather than a tidy-up. CR-65 page 1 separately prints its own line, \"COURT CASE NUMBER TO BE EXPUNGED:\", with its own field (CR-65:Text3, x=257.20 w=287.32), and this packet fills that line with the same matter.case_number value it puts in the caption box. Two differently labelled places on the same page therefore receive the same number. If the form already has a dedicated line for the case number to be expunged, the separately labelled caption box marked \"(Assigned by Clerk)\" is most naturally the expungement case the clerk opens on filing - a number that does not exist yet when the packet is generated and that no participant fact can supply. But that is a reading of Alabama court-form practice, not a fact recorded anywhere in this repository, and this lane will not author it.\n\nWhy the held record cannot settle it. AL.memo.json track al-misd-conviction records rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, rules.participantSignature and rules.notarization, and not one of them addresses the caption box. No participantInput on the track collects an expungement case number, and none distinguishes the underlying criminal case number from a clerk-assigned one. The packet's own field map offers no justification either: the nine writes carry factId matter.case_number with no decision or authority recorded, and the two refusals carry a reason that is false of the field.\n\nEither answer leaves a defect; only its direction is open. If the box means the expungement case number the clerk assigns, then nine pages of this packet - including CR-65 pages 1 through 6, which the petitioner swears to under penalty of perjury on page 6 - carry a number that is not the number the box asks for, and the repair is to stop writing all nine and name the box as clerk-completed. If the box means the underlying criminal case, then CR-65 page 7 and C-10-CRIMINAL page 3 are wrongly blank, the page-7 refusal reason is false, and the repair is to write those two and reclassify them. The defect is certain; which repair is correct is not, and this lane does not choose between them. AL6-01 and AL6-02 are both genuinely gone from these bytes, and every other proof obligation this lane can settle from the record passes, so AL6-03 is the whole of the hold.\n\nWhat would unblock it. A legal-design answer recorded in AL.memo.json - not in a lane return, a build script or a status file - stating whether CR-65's \"Court Case Number (Assigned by Clerk)\" caption box takes the underlying criminal case number or the expungement case number the clerk assigns on filing, and whether the same answer governs the identically captioned box on C-10-CRIMINAL. An owner or Alabama counsel establishing that one sentence makes the remaining work mechanical: whichever way it goes, the fix is a field-map change plus a refusal-class correction on CR-65:Court Case Number_3 and C-10-CRIMINAL:Court Case Number_3, and the packet can then be rebuilt and independently re-read. Nothing else about these six families is waiting on it.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3042,11 +3121,65 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-conviction-set.mjs",
@@ -3143,10 +3276,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf05",
-        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -3165,18 +3298,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+          "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -3192,17 +3326,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "al-misd-dwop-set",
-        "foundBy": [
-          "vf05 (current independent verification)"
-        ],
-        "why": "KNOWN_PREFILLS: AL6-03. CR-65's header caption box is printed \"Court Case Number\" with \"(Assigned by Clerk)\" directly beneath it. This packet writes matter.case_number into that box on nine of its eleven pages and leaves the identical box empty on the other two, and nothing in the held record says which case number the box is asking for.\n\nWhat I measured in the delivered bytes. The caption box is filled on CR-65 pages 1, 2, 3, 4, 5, 6 and 8 (AcroForm fields Text1, Text4, Text7, Text5, \"Court Case Number\", \"Court Case Number_2\" and \"Court Case Number_4\") and on C-10-CRIMINAL pages 1 and 2 (\"Court Case Number\" and \"Court Case Number_2\"). It is empty on CR-65 page 7, the certificate of service, where the field is CR-65:Court Case Number_3 at x=445.44 y=691.32 w=129.00 h=35.33 - the same x origin and the same 129.00pt width as \"Court Case Number_2\" on page 6 and \"Court Case Number_4\" on page 8, both of which are filled - and empty again on C-10-CRIMINAL page 3 (C-10-CRIMINAL:Court Case Number_3). So the omission is not a different field or a different box; it is the same box on two of eleven pages. Both blanks are refused in production-field-map.json with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\", which is not a true description of a caption box and, because the class is protected, keeps both out of the participant's \"Blanks you must fill in\" list. I rastered both pages of the boundary fixture at 150 dpi and looked at them: page 1 shows CC-2024-000001.99 sitting directly above the printed words \"(Assigned by Clerk)\"; page 7 shows an empty ruled box in the same position.\n\nThe fact that makes this a real question rather than a tidy-up. CR-65 page 1 separately prints its own line, \"COURT CASE NUMBER TO BE EXPUNGED:\", with its own field (CR-65:Text3, x=257.20 w=287.32), and this packet fills that line with the same matter.case_number value it puts in the caption box. Two differently labelled places on the same page therefore receive the same number. If the form already has a dedicated line for the case number to be expunged, the separately labelled caption box marked \"(Assigned by Clerk)\" is most naturally the expungement case the clerk opens on filing - a number that does not exist yet when the packet is generated and that no participant fact can supply. But that is a reading of Alabama court-form practice, not a fact recorded anywhere in this repository, and this lane will not author it.\n\nWhy the held record cannot settle it. AL.memo.json track al-misd-dwop records rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, rules.participantSignature and rules.notarization, and not one of them addresses the caption box. No participantInput on the track collects an expungement case number, and none distinguishes the underlying criminal case number from a clerk-assigned one. The packet's own field map offers no justification either: the nine writes carry factId matter.case_number with no decision or authority recorded, and the two refusals carry a reason that is false of the field.\n\nEither answer leaves a defect; only its direction is open. If the box means the expungement case number the clerk assigns, then nine pages of this packet - including CR-65 pages 1 through 6, which the petitioner swears to under penalty of perjury on page 6 - carry a number that is not the number the box asks for, and the repair is to stop writing all nine and name the box as clerk-completed. If the box means the underlying criminal case, then CR-65 page 7 and C-10-CRIMINAL page 3 are wrongly blank, the page-7 refusal reason is false, and the repair is to write those two and reclassify them. The defect is certain; which repair is correct is not, and this lane does not choose between them. AL6-01 and AL6-02 are both genuinely gone from these bytes, and every other proof obligation this lane can settle from the record passes, so AL6-03 is the whole of the hold.\n\nWhat would unblock it. A legal-design answer recorded in AL.memo.json - not in a lane return, a build script or a status file - stating whether CR-65's \"Court Case Number (Assigned by Clerk)\" caption box takes the underlying criminal case number or the expungement case number the clerk assigns on filing, and whether the same answer governs the identically captioned box on C-10-CRIMINAL. An owner or Alabama counsel establishing that one sentence makes the remaining work mechanical: whichever way it goes, the fix is a field-map change plus a refusal-class correction on CR-65:Court Case Number_3 and C-10-CRIMINAL:Court Case Number_3, and the packet can then be rebuilt and independently re-read. Nothing else about these six families is waiting on it.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3219,11 +3346,65 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-dwop-set.mjs",
@@ -3577,9 +3758,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf06",
-        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "lane": "vf02",
+        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -3598,18 +3779,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+          "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -3628,7 +3810,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS: CR-65 Section V boxes are participant attestations, never builder-owned constants. Ask every required question, check only facts affirmatively supplied and supported, and stop self-help if all required statements for the route cannot truthfully be made. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS: CR-65 Section V boxes are participant attestations, never builder-owned constants. Ask every required question, check only facts affirmatively supplied and supported, and stop self-help if all required statements for the route cannot truthfully be made. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3646,19 +3828,38 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ROUTE_OPTIONS"
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "AL6-04, new here and decisive. CR-65 Section V is a conjunctive sworn certification - \"AND ALL OF THE FOLLOWING HAVE OCCURRED. If you have not checked all eight boxes, the conviction is not eligible for expungement\" - and the packet ticks all eight on the participant's behalf: Check Box10.6 on page 3 and Check Box11.0 through 11.6 on page 4, all under factId route.selection, on a petition sworn on CR-65 page 6. I rastered page 4 and read the eight printed lines against AL.memo.json track al-pardoned-felony. That track records eligibleDispositions [\"a felony conviction for which a pardon has been granted\"], exclusions [] (empty), waitingPeriods [] (empty), and only four participantInputs: pardonDate, restorationLanguage, firearmRightsExcluded, countyOfFiling. Six of the eight ticks therefore assert facts the route never establishes and never asks about: 11.1 \"One hundred eighty days have passed from the date of the issuance of the certification of pardon\" (no waiting period is recorded at all); 11.2 \"the conviction is not a violent offense, as provided in Section 12-25-32\"; 11.3 \"not a sex offense, as provided in Section 15-20A-5\"; 11.4 \"not an offense involving moral turpitude, as provided in Section 17-3-30.1 ... and I have not been arrested for any offense, excluding minor traffic violations, 15 years prior to the filing of the petition\"; 11.5 \"not a serious traffic offense, as provided in Article 9 of Chapter 5A of Title 32\"; 11.6 \"At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit\". A seventh, 11.0 \"All civil and political rights that were forfeited as a result of the conviction have been restored\", is contradicted by the track's own stop condition \"The pardon withholds firearm rights and the restoration question controls\" - the route expressly contemplates that this box may be false. Only 10.6, the certificate of pardon with restoration of civil and political rights, is the route's defining disposition. The comparison that proves this is not a general objection to conjunctive ticking: the sibling al-misd-conviction-set ticks its seven Section II boxes and every one of those seven IS backed by a memo exclusion, waiting period or participant input. Here six are backed by nothing. The eight-box list is source-authored, hardcoded as FAMILY_CONFIG[\"al-pardoned-felony-set\"].selected in scripts/build-census-v1-al-diversion-set.mjs line 56, and assertRepairInvariants checks nothing about whether a ticked box is supported by the record. Telling the participant in step 3 to \"confirm every condition printed in CR-65 Section V\" does not cure ink already sworn on their behalf. This is the AL6-01 defect class - a semantically unsupported write into a sworn field - surviving the AL6-01 repair, with all nine counters at zero.",
-          "findingReadFrom": "detail",
-          "evidence": null
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+          ]
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
@@ -21941,8 +22142,10 @@
         "scripts/build-census-v1-ks-21-6614-conviction-set.mjs"
       ],
       "prohibitedPaths": [],
-      "importedBy": [],
-      "exclusiveScript": true
+      "importedBy": [
+        "ks-21-6614-specialty-court-set"
+      ],
+      "exclusiveScript": false
     },
     {
       "familyId": "ks-21-6614-diversion-set",
@@ -22675,8 +22878,8 @@
       "executionOwner": null,
       "nextExecutableAction": "Continue from the current nonlegal state PRODUCT_PATH_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -22688,11 +22891,11 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-specialty-court-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
-      "directory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--custom-pleading",
+      "directory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill",
       "ownedPaths": [
-        "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--custom-pleading/**",
+        "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/**",
         "scripts/build-census-v1-ks-21-6614-specialty-court-set.mjs"
       ],
       "prohibitedPaths": [],
@@ -51645,11 +51848,11 @@
     }
   ],
   "totals": {
-    "lanes": 53,
+    "lanes": 57,
     "builders": 25,
     "verifiers": 8,
     "sourceLanes": 16,
-    "repairLanes": 4,
+    "repairLanes": 8,
     "familiesAssignedToBuilders": 33,
     "sourceObligationsAssigned": 0,
     "actualPromotedAndReleased": 33,
