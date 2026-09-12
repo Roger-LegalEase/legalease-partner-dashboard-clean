@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "rcap-independent-input-behavior/v1",
+  "familyId": "az_set_aside-set",
+  "method": "Independent test cases exercising the current pure classifier; no builder execution and no PDF generation",
+  "checks": [
+    {
+      "label": "Exactly four named participant inputs",
+      "result": "PASS"
+    },
+    {
+      "label": "No absent answer fabricated",
+      "result": "PASS"
+    },
+    {
+      "label": "All missing questions have a form destination",
+      "result": "PASS"
+    },
+    {
+      "label": "Actual complete bundle accepted, including false certificate request",
+      "result": "PASS"
+    },
+    {
+      "label": "Provided does not mean transferred or ready for filing",
+      "result": "PASS"
+    },
+    {
+      "label": "Participant certificate request never becomes court decision",
+      "result": "PASS"
+    },
+    {
+      "label": "Reject malformed sentenceImposed: \" \"",
+      "result": "PASS"
+    },
+    {
+      "label": "Reject malformed offenseClasses: [\"Class 1\"]",
+      "result": "PASS"
+    },
+    {
+      "label": "Reject malformed offenseClasses: [\"1\",\"2\",\"3\",\" \"]",
+      "result": "PASS"
+    },
+    {
+      "label": "Reject malformed conditionsFulfilled: {\"conditionsFulfilled\":true,\"discharged\":true}",
+      "result": "PASS"
+    },
+    {
+      "label": "Reject malformed conditionsFulfilled: {\"conditionsFulfilled\":true,\"discharged\":true,\"dischargeDate\":\"2023-02-29\"}",
+      "result": "PASS"
+    },
+    {
+      "label": "Reject malformed conditionsFulfilled: {\"conditionsFulfilled\":\"yes\",\"discharged\":true,\"dischargeDate\":\"2024-02-29\"}",
+      "result": "PASS"
+    },
+    {
+      "label": "Reject malformed certificateRequested: \"yes\"",
+      "result": "PASS"
+    },
+    {
+      "label": "Explicit noncompletion/discharge stops filing: {\"conditionsFulfilled\":false,\"discharged\":true,\"dischargeDate\":\"2024-02-29\"}",
+      "result": "PASS"
+    },
+    {
+      "label": "Explicit noncompletion/discharge stops filing: {\"conditionsFulfilled\":true,\"discharged\":false}",
+      "result": "PASS"
+    },
+    {
+      "label": "Five-count fixture requires exactly five offence classes",
+      "result": "PASS"
+    }
+  ],
+  "pass": 16,
+  "fail": 0,
+  "scenarios": {
+    "missing": [
+      {
+        "key": "sentenceImposed",
+        "factId": "case.sentence_imposed",
+        "question": "What sentence did the court impose?",
+        "formDestination": "Form 31(a) Section V, item 1 (Other Information for the Court), or a clearly labeled attached continuation if the answer does not fit.",
+        "required": true,
+        "collectionStatus": "not_provided",
+        "validationCode": "awaiting_participant_answer",
+        "participantStatus": "Not provided",
+        "participantNextAction": "Answer: What sentence did the court impose?",
+        "participantAuthored": true,
+        "builderMayInfer": false,
+        "courtDecision": false,
+        "blocksPacketReadyUntilProvided": true,
+        "blocksSelfHelpFiling": false,
+        "selfHelpTreatment": null
+      },
+      {
+        "key": "offenseClasses",
+        "factId": "case.offense_classes",
+        "question": "What is the class of each conviction listed in Section I?",
+        "formDestination": "Add the class beside its matching conviction in Form 31(a) Section I; use the Section I count continuation immediately after Form 31(a) when needed.",
+        "required": true,
+        "collectionStatus": "not_provided",
+        "validationCode": "awaiting_participant_answer",
+        "participantStatus": "Not provided",
+        "participantNextAction": "Answer: What is the class of each conviction listed in Section I?",
+        "participantAuthored": true,
+        "builderMayInfer": false,
+        "courtDecision": false,
+        "blocksPacketReadyUntilProvided": true,
+        "blocksSelfHelpFiling": false,
+        "selfHelpTreatment": null
+      },
+      {
+        "key": "conditionsFulfilled",
+        "factId": "case.conditions_fulfilled_and_discharge",
+        "question": "Have all probation or sentence conditions been fulfilled, have you been discharged, and on what date?",
+        "formDestination": "Answer the printed Form 31(a) Section II compliance choices and put the completion/discharge date in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation.",
+        "required": true,
+        "collectionStatus": "not_provided",
+        "validationCode": "awaiting_participant_answer",
+        "participantStatus": "Not provided",
+        "participantNextAction": "Answer: Have all probation or sentence conditions been fulfilled, have you been discharged, and on what date?",
+        "participantAuthored": true,
+        "builderMayInfer": false,
+        "courtDecision": false,
+        "blocksPacketReadyUntilProvided": true,
+        "selfHelpTreatment": null
+      },
+      {
+        "key": "certificateRequested",
+        "factId": "participant.certificate_of_second_chance_requested",
+        "question": "Do you request a certificate of second chance with this application?",
+        "formDestination": "State Yes or No in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation. Do not mark any Form 31(b) certificate finding or grant/deny box.",
+        "required": true,
+        "collectionStatus": "not_provided",
+        "validationCode": "awaiting_participant_answer",
+        "participantStatus": "Not provided",
+        "participantNextAction": "Answer: Do you request a certificate of second chance with this application?",
+        "participantAuthored": true,
+        "builderMayInfer": false,
+        "courtDecision": false,
+        "blocksPacketReadyUntilProvided": true,
+        "blocksSelfHelpFiling": false,
+        "selfHelpTreatment": null
+      }
+    ],
+    "provided": [
+      {
+        "key": "sentenceImposed",
+        "factId": "case.sentence_imposed",
+        "question": "What sentence did the court impose?",
+        "formDestination": "Form 31(a) Section V, item 1 (Other Information for the Court), or a clearly labeled attached continuation if the answer does not fit.",
+        "required": true,
+        "collectionStatus": "provided",
+        "validationCode": "provided_pending_participant_transfer_and_review",
+        "participantStatus": "Provided — review and transfer to Form 31(a) before filing",
+        "participantNextAction": "Form 31(a) Section V, item 1 (Other Information for the Court), or a clearly labeled attached continuation if the answer does not fit.",
+        "participantAuthored": true,
+        "builderMayInfer": false,
+        "courtDecision": false,
+        "blocksPacketReadyUntilProvided": true,
+        "blocksSelfHelpFiling": false,
+        "selfHelpTreatment": null
+      },
+      {
+        "key": "offenseClasses",
+        "factId": "case.offense_classes",
+        "question": "What is the class of each conviction listed in Section I?",
+        "formDestination": "Add the class beside its matching conviction in Form 31(a) Section I; use the Section I count continuation immediately after Form 31(a) when needed.",
+        "required": true,
+        "collectionStatus": "provided",
+        "validationCode": "provided_pending_participant_transfer_and_review",
+        "participantStatus": "Provided — review and transfer to Form 31(a) before filing",
+        "participantNextAction": "Add the class beside its matching conviction in Form 31(a) Section I; use the Section I count continuation immediately after Form 31(a) when needed.",
+        "participantAuthored": true,
+        "builderMayInfer": false,
+        "courtDecision": false,
+        "blocksPacketReadyUntilProvided": true,
+        "blocksSelfHelpFiling": false,
+        "selfHelpTreatment": null
+      },
+      {
+        "key": "conditionsFulfilled",
+        "factId": "case.conditions_fulfilled_and_discharge",
+        "question": "Have all probation or sentence conditions been fulfilled, have you been discharged, and on what date?",
+        "formDestination": "Answer the printed Form 31(a) Section II compliance choices and put the completion/discharge date in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation.",
+        "required": true,
+        "collectionStatus": "provided",
+        "validationCode": "provided_pending_participant_transfer_and_review",
+        "participantStatus": "Provided — review and transfer to Form 31(a) before filing",
+        "participantNextAction": "Answer the printed Form 31(a) Section II compliance choices and put the completion/discharge date in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation.",
+        "participantAuthored": true,
+        "builderMayInfer": false,
+        "courtDecision": false,
+        "blocksPacketReadyUntilProvided": true,
+        "blocksSelfHelpFiling": false,
+        "selfHelpTreatment": null
+      },
+      {
+        "key": "certificateRequested",
+        "factId": "participant.certificate_of_second_chance_requested",
+        "question": "Do you request a certificate of second chance with this application?",
+        "formDestination": "State Yes or No in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation. Do not mark any Form 31(b) certificate finding or grant/deny box.",
+        "required": true,
+        "collectionStatus": "provided",
+        "validationCode": "provided_pending_participant_transfer_and_review",
+        "participantStatus": "Provided — review and transfer to Form 31(a) before filing",
+        "participantNextAction": "State Yes or No in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation. Do not mark any Form 31(b) certificate finding or grant/deny box.",
+        "participantAuthored": true,
+        "builderMayInfer": false,
+        "courtDecision": false,
+        "blocksPacketReadyUntilProvided": true,
+        "blocksSelfHelpFiling": false,
+        "selfHelpTreatment": null
+      }
+    ]
+  }
+}
