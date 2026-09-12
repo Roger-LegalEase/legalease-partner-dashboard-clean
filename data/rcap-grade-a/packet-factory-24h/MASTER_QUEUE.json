@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "333c38f9b1482257c376cc02db25aa7fce3b71a5",
+  "minimumCaptainSha": "02c75a839636e69418e3e85258c56c49bd11cf7e",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "740c538c3cfbaa748a44a43b48d661764acf0802fa6deb8a1daa8dfb42bea65a",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "a4d8daa53ae02c8227271b6cf563ccc616bcfed2b327478433804ad14a28f313",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -80,16 +80,16 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 9,
+    "repairRequired": 8,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 276,
+    "COMPLETE_PACKET_PROVEN": 277,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 31,
     "HANDOFF_READY": 2,
-    "FAIL_REPAIR_REQUIRED": 9,
+    "FAIL_REPAIR_REQUIRED": 8,
     "PRODUCT_PATH_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -42728,15 +42728,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "665f6cdbf95322b11e77defafffff6ea193bd2cc",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-tx-automatic-current.json"
+        "verifiedAtBase": "36bb7a1f20adb24447b599f57c973541ce21359e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-tx-automatic-original-final-20260912.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42765,34 +42763,11 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "TX072-VF02-01/02/03: 6 unique text fields are missing or incomplete across 11 fixture-field occurrences: court number, mailing address, birth month/day/year, and boundary complete declaration address. All 26 declared text writes per fixture match their mapped facts, demonstrating that the omission is in the map/semantic treatment rather than a lost write.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "All 98 declared labels occur in participant-instructions.md (0 missing declared labels), but the declarations are not all valid: held court number, mailing address and birth year are not genuinely unavailable; birth month/day are not properly identified manual tasks; and the source clerk-owned cause number is incorrectly assigned to the participant. TX072-VF02-01/02/03/04.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "The recovery-letter five eligibility marks and both native Group10 answers render correctly. The known destination court type remains unselected on the Statement: Choice3 County Court at Law should follow the held court identity in both fixtures; all five control centers contain 0 dark pixels. TX072-VF02-01.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",
