@@ -65,16 +65,14 @@
  * `PetFullSSN` box is therefore carried to the participant, and the instructions
  * say plainly that the platform does not hold it and will not ask for it.
  *
- * WHAT THIS FAMILY DOES NOT DELIVER, STATED HERE RATHER THAN DISCOVERED LATER
+ * WHAT THIS FAMILY DELIVERS, STATED HERE RATHER THAN DISCOVERED LATER
  *
- * Three routes are bound to this family, and its three components serve the
- * supporting-form half of one of them. The serious-felony track's own primary
- * filing, proposed order, attachment-3 and instructions component, and BOTH
- * other routes' primary filing, proposed order and attachment, are not declared
- * components of this family and are built by no family in the queue. That gap
- * is recorded in build-findings.json and stated on the packet's own first page
- * of instructions, because a participant who read this set as a complete filing
- * would be missing the petition itself.
+ * Three routes are bound to this family. Their ten custom-pleading components
+ * are composed from the committed route records, and the three official
+ * supporting forms are filled from the pinned bundle below. The queue row's
+ * original three-component declaration remains source evidence; the local
+ * delivered component map records the complete route component set and the
+ * page manifest proves where every component appears in each fixture.
  *
  * This build rasterizes nothing. A local browser render is not a receipt: the
  * central raster workflow produces one, bound to the exact SHA-256 recorded in
@@ -92,6 +90,7 @@ import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { APPEARANCE_DISPOSITION } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -99,7 +98,7 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const FAMILY_ID = "rcap-in-custom-pleading";
 const PRIMARY_TRACK = "in_conviction_serious_felony";
@@ -162,6 +161,59 @@ const ROUTE = Object.freeze({
 
 const DELIVERED_PAGES = ROUTE.documents.flatMap((d) => d.pages);
 const DOCUMENT_OF_PAGE = new Map(ROUTE.documents.flatMap((d) => d.pages.map((p) => [p, d.documentId])));
+
+/* The queue row was originally scoped to the three statewide supporting forms,
+ * but its three bound routes each have a complete packet-set manifest.  This
+ * family now composes the ten custom-pleading components named by those route
+ * manifests and retains the three official forms below.  The shared queue and
+ * manifest records remain source evidence; this local list is the delivered
+ * component map for this repair. */
+const CUSTOM_COMPONENTS = Object.freeze([
+  {
+    trackId: "in_conviction_serious_felony", componentId: "in_conviction_serious_felony-primary-filing-1",
+    role: "primary_filing", title: "Verified Petition to Expunge a Serious Felony Conviction", kind: "serious_petition"
+  },
+  {
+    trackId: "in_conviction_serious_felony", componentId: "in_conviction_serious_felony-proposed-order-2",
+    role: "proposed_order", title: "Proposed Order on Petition to Expunge a Serious Felony Conviction", kind: "serious_order"
+  },
+  {
+    trackId: "in_conviction_serious_felony", componentId: "in_conviction_serious_felony-attachment-3",
+    role: "attachment", title: "Attachment: Written Prosecutor Consent", kind: "serious_consent"
+  },
+  {
+    trackId: "in_collateral_action", componentId: "in_collateral_action-primary-filing-1",
+    role: "primary_filing", title: "Verified Request to Expunge a Collateral Action", kind: "collateral_petition"
+  },
+  {
+    trackId: "in_collateral_action", componentId: "in_collateral_action-proposed-order-2",
+    role: "proposed_order", title: "Proposed Order on Collateral Action", kind: "collateral_order"
+  },
+  {
+    trackId: "in_collateral_action", componentId: "in_collateral_action-attachment-3",
+    role: "attachment", title: "Attachment: Certified Original Expungement Order", kind: "collateral_order_attachment"
+  },
+  {
+    trackId: "in_supplemental_order", componentId: "in_supplemental_order-primary-filing-1",
+    role: "primary_filing", title: "Supplemental Petition After a Favourable Amendment", kind: "supplemental_petition"
+  },
+  {
+    trackId: "in_supplemental_order", componentId: "in_supplemental_order-proposed-order-2",
+    role: "proposed_order", title: "Proposed Supplemental Order", kind: "supplemental_order"
+  },
+  {
+    trackId: "in_supplemental_order", componentId: "in_supplemental_order-attachment-3",
+    role: "attachment", title: "Attachment: Certified Original Expungement Order", kind: "supplemental_order_attachment"
+  },
+  {
+    trackId: "in_conviction_serious_felony", componentId: "in_conviction_serious_felony-instructions-7",
+    role: "instructions", title: "Indiana Serious-Felony Filing and Service Instructions", kind: "serious_instructions"
+  }
+]);
+const ALL_COMPONENTS = Object.freeze([
+  ...CUSTOM_COMPONENTS.map((c) => c.componentId),
+  ...ROUTE.documents.map((d) => d.componentId)
+]);
 
 const RECORDS = Object.freeze({
   registry: "data/record-clearing/legal-design-track-registry.json",
@@ -377,8 +429,20 @@ function loadControllingRecords() {
   const ssnRule = (tracks[PRIMARY_TRACK].packetInstructions ?? []).find((s) => /last four digits/i.test(s));
   assert.ok(ssnRule, "the serious-felony track record no longer carries the instruction that only the last four digits of the Social Security number go on the petition; this packet's treatment of PetFullSSN rests on it");
 
-  const packetSet = loaded.manifest.data.packetSets.find((p) => p.packetSetId === `${PRIMARY_TRACK}-set`);
-  assert.ok(packetSet, `${RECORDS.manifest} carries no packet set ${PRIMARY_TRACK}-set`);
+  const packetSets = {};
+  const routeComponents = [];
+  for (const trackId of ["in_conviction_serious_felony", "in_collateral_action", "in_supplemental_order"]) {
+    const packetSet = loaded.manifest.data.packetSets.find((p) => p.packetSetId === `${trackId}-set`);
+    assert.ok(packetSet, `${RECORDS.manifest} carries no packet set ${trackId}-set`);
+    packetSets[trackId] = packetSet;
+    pin("manifest", `packetSets[packetSetId=${trackId}-set]`, packetSet);
+    for (const component of [...packetSet.components].sort((a, b) => a.order - b.order)) {
+      routeComponents.push({
+        packetSetId: packetSet.packetSetId, trackId, ...component
+      });
+    }
+  }
+  const packetSet = packetSets[PRIMARY_TRACK];
   const components = [...packetSet.components].sort((a, b) => a.order - b.order);
   const mine = components.filter((c) => ROUTE.documents.some((d) => d.componentId === c.componentId));
   assert.equal(mine.length, ROUTE.documents.length, "a declared component of this family is absent from the packet-set manifest");
@@ -392,20 +456,13 @@ function loadControllingRecords() {
       `component ${doc.componentId} condition changed; the packet repeats that condition verbatim to the participant`);
     assert.equal(component.outputStrategy, "official_pdf_fill");
   }
-  /* Named, not silently absorbed: the components of this family's own routes
-   * that this family does not declare and nothing in the queue builds. */
-  const notDeliveredHere = components
-    .filter((c) => !ROUTE.documents.some((d) => d.componentId === c.componentId))
-    .map((c) => ({ componentId: c.componentId, role: c.role, requirement: c.requirement, packetSetId: `${PRIMARY_TRACK}-set` }));
-  for (const trackId of ["in_collateral_action", "in_supplemental_order"]) {
-    const other = loaded.manifest.data.packetSets.find((p) => p.packetSetId === `${trackId}-set`);
-    if (!other) continue;
-    for (const c of [...other.components].sort((a, b) => a.order - b.order)) {
-      notDeliveredHere.push({ componentId: c.componentId, role: c.role, requirement: c.requirement, packetSetId: `${trackId}-set` });
-    }
-    pin("manifest", `packetSets[packetSetId=${trackId}-set]`, other);
-  }
-  pin("manifest", `packetSets[packetSetId=${PRIMARY_TRACK}-set]`, packetSet);
+  const requiredCustomIds = CUSTOM_COMPONENTS.map((c) => c.componentId).sort();
+  const manifestedCustomIds = routeComponents
+    .filter((c) => c.outputStrategy === "custom_pleading")
+    .map((c) => c.componentId);
+  assert.deepEqual([...new Set(manifestedCustomIds)].sort(), requiredCustomIds,
+    "the three bound route manifests no longer name the ten custom components this family composes");
+  const notDeliveredHere = [];
 
   const routes = (loaded.census.data.routes ?? []).filter((r) => ROUTE.routeKeys.includes(r.routeKey));
   assert.equal(routes.length, ROUTE.routeKeys.length, "the route-obligation census no longer carries all three of this family's routes");
@@ -419,7 +476,7 @@ function loadControllingRecords() {
   assert.equal(buildability.verdict, "EVERY_BOUND_SOURCE_IS_A_HELD_PDF");
   pin("buildability", `rows[familyId=${FAMILY_ID}]`, buildability);
 
-  return { queueFamily, tracks, packetSet, routes, notDeliveredHere, ssnRule, buildability, pins };
+  return { queueFamily, tracks, packetSet, packetSets, routeComponents, routes, notDeliveredHere, ssnRule, buildability, pins };
 }
 
 /* ---- source binding ------------------------------------------------------- */
@@ -603,6 +660,10 @@ async function renderBundle(source, census, fixtureName) {
     ...census.rows.filter((r) => !handled.has(r.name)).map((r) => ({ field: r.name })),
     ...census.offBundleFields.map((r) => ({ field: r.field }))
   ];
+  const suppressedBlankControls = new Map(
+    ["Check Box1", "Check Box2", "Check Box3", "Check Box4", "Check Box6", "Check Box7", "Check Box13", "Check Box14"]
+      .map((name) => [name, APPEARANCE_DISPOSITION.SUPPRESS_CONTROL_APPEARANCE])
+  );
 
   const { bytes, report } = await finalizeOfficialForm({
     sourceBytes: source.bytes,
@@ -613,18 +674,208 @@ async function renderBundle(source, census, fixtureName) {
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
     facts, explicitMappings, composedFieldValues, unwritableFields,
+    appearanceDispositions: suppressedBlankControls,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: "Indiana expungement statewide supporting forms",
     evaluateDeclaredMinimumSize: true,
     alignWidgetFontSizeToFit: true,
     fitTextPerWidget: true,
-    detachNestedControlFields: true
+    detachNestedControlFields: true,
+    suppressSynthesizedAppearances: true,
+    /* The source supplies no usable /AP /N for the eight certificate-choice
+     * widgets.  Without this opt-in pdf-lib reads /MK /BC and stamps a second
+     * hollow square when an untouched choice is flattened.  These controls are
+     * deliberately refused, so preserve the source blank appearance and remove
+     * the synthesized border. */
+    suppressSynthesizedWidgetBorders: true
   });
   return { bytes, report };
 }
 
+/* ---- composed route documents -------------------------------------------- */
+const CUSTOM_PAGE_WIDTH = 612;
+const CUSTOM_PAGE_HEIGHT = 792;
+const CUSTOM_MARGIN = 58;
+const CUSTOM_FONT_SIZE = 10.25;
+const CUSTOM_LINE_HEIGHT = 13.25;
+
+function plainCustomText(value) {
+  return String(value ?? "")
+    .replaceAll("§", "Sec. ").replaceAll("‑", "-").replaceAll("–", "-")
+    .replaceAll("—", " - ").replaceAll("’", "'").replaceAll("“", '"')
+    .replaceAll("”", '"').replaceAll("…", "...");
+}
+
+function customCaption(facts) {
+  return [
+    "STATE OF INDIANA",
+    `${facts["matter.county"]} COUNTY`,
+    `Petitioner: ${facts["participant.full_legal_name"]}`,
+    "Court: [Participant supplies the circuit or superior court name]",
+    "Cause number: [Participant supplies the cause number, if available]",
+    ""
+  ];
+}
+
+const participantBlank = (label) => `[Participant completes: ${label}]`;
+const courtBlank = (label) => `[Court or clerk completes: ${label}]`;
+
+function customDocumentLines(spec, record, facts) {
+  const track = record.tracks[spec.trackId];
+  const lines = [...customCaption(facts), spec.title, `Authority: ${track.authority.join("; ")}`, ""];
+  const addTrackSummary = () => {
+    lines.push(`Venue: ${track.venue}`, `Filing: ${track.rules.filing}`, `Service and notice: ${track.rules.service} ${track.rules.notice}`, "");
+  };
+
+  switch (spec.kind) {
+    case "serious_petition":
+      lines.push("VERIFIED PETITION", "Petitioner requests expungement of a serious felony conviction under I.C. 35-38-9-5.", "", "Facts the petition must state:");
+      lines.push(`Full legal name: ${facts["participant.full_legal_name"]}`,
+        participantBlank("all other legal names or aliases"), participantBlank("date of birth"),
+        participantBlank("every address from the date of the offence through the date of this petition"),
+        participantBlank("court case number, if available"), participantBlank("whether any criminal investigation or charge is pending"),
+        participantBlank("whether any further crime occurred within the applicable waiting period"),
+        participantBlank("every past conviction and collateral action, with case numbers, dates, appeals and appellate decision dates"),
+        participantBlank("last four digits of the Social Security number only"), participantBlank("driver's licence number"),
+        participantBlank("arrest dates, if applicable"), participantBlank("date of conviction"),
+        participantBlank("whether the waiting period elapsed or the written prosecutor consent shortening it"),
+        participantBlank("any other petition filed under I.C. 35-38-9"), "");
+      addTrackSummary();
+      lines.push("Written prosecutor consent is required to file this Section 5 petition. Attach the original consent before filing; silence is not consent.",
+        "Verification:", "I verify the statements in this petition under the penalties for perjury.", participantBlank("signature and date"));
+      break;
+    case "serious_order":
+      lines.push("PROPOSED ORDER", "The court considers the verified petition and the record filed with it.", "", "Findings:", courtBlank("the statutory findings under I.C. 35-38-9-5 and I.C. 35-38-9-8"),
+        courtBlank("whether the petition is granted or denied"), "", "IT IS ORDERED:",
+        courtBlank("the court's expungement and record-marking directives under I.C. 35-38-9-7"), "", courtBlank("order date"), courtBlank("judge signature"));
+      break;
+    case "serious_consent":
+      lines.push("ATTACHMENT 3", "WRITTEN PROSECUTOR CONSENT", "", "Obtain the prosecuting attorney's written consent required by I.C. 35-38-9-5 and attach the signed original behind this page.",
+        "This page is a labelled handoff only. It is not prosecutor consent, does not supply a signature, and does not authorize filing by itself.", "", participantBlank("the original written consent from the prosecutor"));
+      break;
+    case "collateral_petition":
+      lines.push("VERIFIED REQUEST", "Petitioner requests expungement of a collateral action related to an expunged matter under I.C. 35-38-9-9.5 and the definition in I.C. 35-38-9-0.5.", "",
+        "The request must identify:", `Petitioner's name: ${facts["participant.full_legal_name"]}`, participantBlank("the court and date of the original expungement order"),
+        participantBlank("the county where the collateral action occurred"), participantBlank("the collateral action's cause number, if it has one"),
+        participantBlank("the kind of collateral action: seizure, civil forfeiture, specialized driving privileges petition, or administrative proceeding"),
+        participantBlank("the factual and legal relationship between the collateral action and the expunged matter"),
+        participantBlank("a properly certified copy of the original expungement order"), "");
+      addTrackSummary();
+      lines.push("The participant signs this verified request.", participantBlank("signature and date"), "STOP: The court finds the collateral action does not relate to the expunged matter.");
+      break;
+    case "collateral_order":
+      lines.push("PROPOSED ORDER", "The court considers the verified request and the certified original expungement order.", "", "Findings:",
+        courtBlank("whether the collateral action is related to the expunged matter"), courtBlank("the original expungement section and order"), "", "IT IS ORDERED:",
+        courtBlank("whether the collateral action is expunged or marked expunged under the applicable section"), "", courtBlank("order date"), courtBlank("judge signature"),
+        "A court finding that the collateral action does not relate to the expunged matter is a stop condition for this route.");
+      break;
+    case "collateral_order_attachment":
+      lines.push("ATTACHMENT 3", "CERTIFIED ORIGINAL EXPUNGEMENT ORDER", "", "Obtain a certified copy from the clerk of the court that granted the original expungement and attach it behind this page.",
+        "This page is a document handoff. It is not a certified order and no original order is represented as held or generated here.", "", participantBlank("the certified original expungement order"));
+      break;
+    case "supplemental_petition":
+      lines.push("SUPPLEMENTAL PETITION", "Petitioner asks for additional relief after a favourable amendment under I.C. 35-38-9-9(l) and I.C. 35-38-9-0.6(c).", "",
+        "The petition must state:", `Petitioner's name: ${facts["participant.full_legal_name"]}`, participantBlank("the court and date of the original expungement order"),
+        participantBlank("the amendment relied on and its effective date"), participantBlank("the greater relief sought"),
+        participantBlank("why the original expungement was granted before the amendment"), participantBlank("why the petitioner is otherwise entitled to the amended relief"),
+        participantBlank("a properly certified copy of the original expungement order"), "");
+      addTrackSummary();
+      lines.push("The participant signs this petition.", participantBlank("signature and date"), "The review identifies no settled fee amount for this route. Confirm the current filing requirement with the clerk before filing; this packet does not invent a fee.");
+      break;
+    case "supplemental_order":
+      lines.push("PROPOSED SUPPLEMENTAL ORDER", "The court considers the supplemental petition, the amendment identified in it and the certified original expungement order.", "", "Findings:",
+        courtBlank("whether the original expungement preceded the favourable amendment"), courtBlank("whether the petitioner is otherwise entitled to the amended relief"), "", "IT IS ORDERED:",
+        courtBlank("relief consistent with the amendment"), "", courtBlank("order date"), courtBlank("judge signature"));
+      break;
+    case "supplemental_order_attachment":
+      lines.push("ATTACHMENT 3", "CERTIFIED ORIGINAL EXPUNGEMENT ORDER", "", "Obtain a certified copy from the clerk of the court that granted the original expungement and attach it behind this page.",
+        "This page is a document handoff. It is not a certified order and no original order is represented as held or generated here.", "", participantBlank("the certified original expungement order"));
+      break;
+    case "serious_instructions": {
+      lines.push("FILING AND SERVICE INSTRUCTIONS", "The serious-felony petition must not be filed without the written prosecutor consent required by I.C. 35-38-9-5.",
+        "File the verified petition and proposed order in a circuit or superior court in the county of conviction as case type XP. Follow the Trial Rules service requirements.",
+        "Use the official statewide supporting forms included in this packet when the route and filer require them. Complete every participant blank, sign the petition, and leave judicial and clerk fields blank.", "", "SELF-HELP STOP CONDITIONS:");
+      for (const trackId of ["in_conviction_serious_felony", "in_collateral_action", "in_supplemental_order"]) {
+        lines.push(`${record.tracks[trackId].legalName}:`);
+        for (const stop of record.tracks[trackId].selfHelpStopConditions) lines.push(`- ${stop}`);
+      }
+      break;
+    }
+    default:
+      throw new Error(`no custom document body for ${spec.kind}`);
+  }
+  return lines;
+}
+
+async function renderCustomDocument(lines, title, componentId) {
+  const pdf = await PDFDocument.create();
+  stampDeterministic(pdf);
+  pdf.setTitle(title);
+  pdf.setAuthor("RCAP packet factory, packet-build lane");
+  pdf.setCreator("RCAP deterministic Indiana custom pleading composer");
+  pdf.setProducer("RCAP census-v1 artifact renderer");
+  const font = await pdf.embedFont(StandardFonts.TimesRoman);
+  const boldFont = await pdf.embedFont(StandardFonts.TimesRomanBold);
+  const maxWidth = CUSTOM_PAGE_WIDTH - (2 * CUSTOM_MARGIN);
+  const wrap = (raw, face = font) => {
+    const text = plainCustomText(raw);
+    if (!text) return [""];
+    const words = text.split(/\s+/);
+    const rows = [];
+    let current = "";
+    for (const word of words) {
+      if (face.widthOfTextAtSize(word, CUSTOM_FONT_SIZE) > maxWidth) {
+        if (current) { rows.push(current); current = ""; }
+        let part = "";
+        for (const ch of word) {
+          if (part && face.widthOfTextAtSize(`${part}${ch}`, CUSTOM_FONT_SIZE) > maxWidth) { rows.push(part); part = ch; }
+          else part += ch;
+        }
+        if (part) current = part;
+        continue;
+      }
+      const candidate = current ? `${current} ${word}` : word;
+      if (face.widthOfTextAtSize(candidate, CUSTOM_FONT_SIZE) <= maxWidth) current = candidate;
+      else { if (current) rows.push(current); current = word; }
+    }
+    if (current) rows.push(current);
+    return rows.length ? rows : [""];
+  };
+  let page = pdf.addPage([CUSTOM_PAGE_WIDTH, CUSTOM_PAGE_HEIGHT]);
+  let y = CUSTOM_PAGE_HEIGHT - CUSTOM_MARGIN;
+  const drawn = [];
+  for (const raw of lines) {
+    const heading = /^(STATE OF INDIANA|.*PETITION.*$|.*ORDER.*$|ATTACHMENT 3|SELF-HELP STOP CONDITIONS:|FILING AND SERVICE INSTRUCTIONS|Facts the petition must state:|The request must identify:|The petition must state:|Findings:|IT IS ORDERED:|Verification:)$/.test(String(raw));
+    const face = heading ? boldFont : font;
+    for (const row of wrap(raw, face)) {
+      if (y < CUSTOM_MARGIN) { page = pdf.addPage([CUSTOM_PAGE_WIDTH, CUSTOM_PAGE_HEIGHT]); y = CUSTOM_PAGE_HEIGHT - CUSTOM_MARGIN; }
+      if (row) {
+        const width = face.widthOfTextAtSize(row, CUSTOM_FONT_SIZE);
+        assert.ok(width <= maxWidth + 0.01, `${componentId}: composed line exceeds page width`);
+        page.drawText(row, { x: CUSTOM_MARGIN, y, size: CUSTOM_FONT_SIZE, font: face, color: rgb(0, 0, 0) });
+        drawn.push({ page: pdf.getPageCount(), x: CUSTOM_MARGIN, y, width, text: row });
+      }
+      y -= CUSTOM_LINE_HEIGHT;
+    }
+  }
+  const bytes = Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+  return { bytes, pageCount: pdf.getPageCount(), drawn };
+}
+
+async function customPagesFor(record, fixtureName) {
+  const facts = FIXTURES[fixtureName];
+  const out = [];
+  for (const spec of CUSTOM_COMPONENTS) {
+    const rendered = await renderCustomDocument(
+      customDocumentLines(spec, record, facts), spec.title, spec.componentId
+    );
+    out.push({ spec, rendered });
+  }
+  return out;
+}
+
 /* ---- the delivered packet, with the page selection proved ----------------- */
-async function assemblePacket(filledBytes) {
+async function assemblePacket(filledBytes, customPages = []) {
   const filled = await PDFDocument.load(filledBytes, { ignoreEncryption: true, updateMetadata: false });
   const pages = filled.getPages();
   const textOf = pages.map((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
@@ -655,8 +906,26 @@ async function assemblePacket(filledBytes) {
       });
     }
   }
+  for (const composed of customPages) {
+    const source = await PDFDocument.load(composed.rendered.bytes, { ignoreEncryption: true, updateMetadata: false });
+    const pages = await packet.copyPages(source, source.getPageIndices());
+    pages.forEach((page, index) => {
+      packet.addPage(page);
+      pageManifest.push({
+        packetPage: packet.getPageCount(),
+        documentId: composed.spec.componentId,
+        componentId: composed.spec.componentId,
+        component: composed.spec.componentId,
+        sourcePage: index + 1,
+        sourceSha256: null,
+        retained: false,
+        sourceClass: "composed_from_committed_Indiana_route_records"
+      });
+    });
+  }
   const bytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
-  return { bytes, pageCount: packet.getPageCount(), pageManifest, markerProof };
+  return { bytes, pageCount: packet.getPageCount(), pageManifest, markerProof,
+    composedPageManifest: pageManifest.filter((row) => row.sourceClass === "composed_from_committed_Indiana_route_records") };
 }
 
 /* ---- byte proof, measured on the DELIVERED packet ------------------------- */
@@ -677,7 +946,9 @@ async function byteProof(census, packet, report, fixtureName, baseline) {
   let appearances = [];
   try { appearances = await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
 
-  const packetPageOf = new Map(packet.pageManifest.map((m) => [m.sourcePage, m.packetPage]));
+  const packetPageOf = new Map(packet.pageManifest
+    .filter((m) => m.sourceSha256 === BUNDLE.sha256)
+    .map((m) => [m.sourcePage, m.packetPage]));
   const written = new Map(report.written.map((w) => [w.field, w]));
   const actualWrites = [];
   const refusedFieldsWithInk = [];
@@ -1003,26 +1274,31 @@ function participantInstructions(record, maps, rbf, optional) {
   const out = [];
   out.push("# What is in this packet, and what is not", "");
   out.push(
-    "This packet is **three Indiana statewide supporting forms**, prepared from the Coalition for Court Access's "
-    + "published bundle:", ""
+    "This packet contains the route documents for the three Indiana tracks bound to this family, plus the statewide "
+    + "supporting forms prepared from the Coalition for Court Access's published bundle. The route documents are "
+    + "composed from the committed Indiana track records; blanks remain for facts, signatures and decisions the platform "
+    + "does not hold:", ""
   );
+  for (const c of CUSTOM_COMPONENTS) {
+    const track = record.tracks[c.trackId];
+    out.push(`- **${c.componentId}** - _${c.title}_. ${track.legalName}.`);
+  }
   for (const d of ROUTE.documents) {
     out.push(`- **${d.documentId}** - _${d.title}_. ${d.requirement === "conditional" ? `Conditional: ${d.condition}` : "Required."}`);
   }
   out.push("");
 
-  out.push("## Read this first: these three forms are not the filing", "");
+  out.push("## Read this first: use the documents for the route you are filing", "");
   out.push(
-    "They are the paperwork that **accompanies** an Indiana expungement filing. **The petition itself is not in this "
-    + "packet, and neither is the proposed order.** If you file only these three sheets, you have not asked the court "
-    + "for anything. The petition and the proposed order for your route come from elsewhere, and you file these three "
-    + "with them.", ""
+    "Select the route that matches your matter and file its primary filing, proposed order and attachment together. "
+    + "The serious-felony route also includes its instructions component and the statewide supporting forms. The "
+    + "collateral-action and supplemental-order components are included as their own composed route documents; do not "
+    + "substitute one route's petition or order for another's.", ""
   );
   out.push(
-    "This packet was prepared for the components a serious-felony expungement petition under **I.C. 35-38-9-5** is "
-    + "accompanied by. Two other routes are bound to the same packet family - a request to expunge a collateral action "
-    + "under I.C. 35-38-9-9.5, and a supplemental petition after a favourable amendment under I.C. 35-38-9-9(l) - and "
-    + "**neither of their own filings is built here either**.", ""
+    "The three official supporting forms are conditional or required according to the serious-felony packet record. "
+    + "They do not replace the route documents, and the route documents do not replace a certified record or consent "
+    + "that the records require you to obtain.", ""
   );
 
   out.push("## Before you file a serious-felony petition at all", "");
@@ -1033,7 +1309,7 @@ function participantInstructions(record, maps, rbf, optional) {
   }
   out.push(`Section 5's own mechanism, as the record states it: ${felony.mechanism}`, "");
 
-  out.push("## What the platform filled in on these three forms", "");
+  out.push("## What the platform filled in on the official supporting forms", "");
   out.push(
     "Your name, your current mailing address, your telephone number, your email address and the county of the court - "
     + "written into the boxes the Coalition drew for them, on every one of the three forms that has such a box. "
@@ -1068,13 +1344,16 @@ function participantInstructions(record, maps, rbf, optional) {
   );
 
   out.push("## What you must do before you file", "");
-  out.push("1. **Write the cause number by hand on all three sheets.**");
-  out.push("2. **Choose your court type** on the caption of the Appearance and of Form ACR - Circuit, Superior, City or Town.");
-  out.push("3. **Fill in every item in the tables below.** Each names the form, the section and the blank.");
-  out.push("4. **Answer item 4 of the Appearance** - whether there are related cases - and list every one of them with its caption and its cause number.");
-  out.push("5. **Write your full Social Security number on the Confidential Information Form**, by hand, and on nothing else.");
-  out.push("6. **Sign the Appearance and Form ACR yourself.** Both print signature rules that the bundle draws no box on, so they are signed by hand. Neither is signed for you.");
-  out.push("7. **Serve the county prosecutor, then complete the certificate of service** on both the Appearance and Form ACR.");
+  out.push("1. **Use only the primary filing, proposed order and attachment for your selected route.**");
+  out.push("2. **Complete every participant blank in that route's composed documents**, including facts the platform does not hold, and sign the petition or request yourself.");
+  out.push("3. **Obtain every certified record, consent or other document identified as a required attachment** before filing.");
+  out.push("4. **Write the cause number by hand on all three official supporting sheets** when the clerk has assigned it.");
+  out.push("5. **Choose your court type** on the caption of the Appearance and of Form ACR - Circuit, Superior, City or Town.");
+  out.push("6. **Fill in every item in the official-form tables below.** Each names the form, the section and the blank.");
+  out.push("7. **Answer item 4 of the Appearance** - whether there are related cases - and list every one of them with its caption and its cause number.");
+  out.push("8. **Write your full Social Security number on the Confidential Information Form**, by hand, and on nothing else.");
+  out.push("9. **Sign the Appearance and Form ACR yourself.** Neither is signed for you.");
+  out.push("10. **Serve the county prosecutor, then complete the certificate of service** on both the Appearance and Form ACR.");
   out.push("");
 
   out.push("## Where these go, and what the record says about the filing they accompany", "");
@@ -1086,7 +1365,7 @@ function participantInstructions(record, maps, rbf, optional) {
     out.push(`- **Service:** ${track.rules.service}`);
     out.push(`- **Notice:** ${track.rules.notice}`);
     out.push(`- **Signature:** ${track.rules.participantSignature} Notarization: ${track.rules.notarization}.`);
-    out.push(`- **Is this route's own filing in this packet?** ${trackId === PRIMARY_TRACK ? "No - only its three supporting forms are." : "No."}`);
+    out.push(`- **Is this route's own filing in this packet?** Yes - the route documents listed above are included. ${trackId === PRIMARY_TRACK ? "The three official supporting forms are included as the serious-felony packet's attachments." : "The statewide supporting forms remain tied to the serious-felony packet record."}`);
     out.push("");
   }
 
@@ -1118,16 +1397,20 @@ function participantInstructions(record, maps, rbf, optional) {
   if (publicUntil) out.push(`> ${publicUntil}`, "");
 
   out.push("## When this is not a do-it-yourself matter", "");
-  out.push("The record names these as the points where the filing these forms accompany stops being a self-help matter:", "");
-  for (const stop of felony.selfHelpStopConditions) out.push(`- ${stop}`);
+  out.push("Each route has its own stop conditions. Stop and obtain appropriate help when one applies:", "");
+  for (const [trackId, track] of Object.entries(record.tracks)) {
+    out.push(`### ${track.legalName}`, "");
+    for (const stop of track.selfHelpStopConditions) out.push(`- ${stop}`);
+    out.push("");
+  }
   out.push("");
 
   out.push("## What this packet is not", "");
   out.push(
-    "This is a prepared copy of three official Indiana statewide forms, sliced from the Coalition for Court Access's "
-    + "own published bundle and filled only where the platform holds the fact. It is not legal advice, it is not filed "
-    + "for you, it does not decide whether your conviction can be expunged, and - to say it once more - **it is not the "
-    + "petition.**"
+    "This packet combines custom route documents grounded in the committed Indiana track records with a prepared copy "
+    + "of official Indiana statewide forms, sliced from the Coalition for Court Access's own published bundle and filled "
+    + "only where the platform holds the fact. It is not legal advice, it is not filed for you, and it does not decide "
+    + "whether your matter qualifies."
   );
   out.push("");
   out.push(`_Routes: ${ROUTE.routeKeys.join("; ")}_`);
@@ -1136,7 +1419,7 @@ function participantInstructions(record, maps, rbf, optional) {
 
 function filingInstructions(record, artifacts, markerProof, notDeliveredHere) {
   const out = [];
-  out.push("# Filing instructions - the Indiana statewide supporting forms", "");
+  out.push("# Filing instructions - the Indiana route packet and statewide supporting forms", "");
   out.push(
     "Every rule below is generated from the committed legal-design track records for this family's three routes, which "
     + "are hashed into `source-receipt.json`. Where a record says nothing, this page says nothing.", ""
@@ -1144,23 +1427,28 @@ function filingInstructions(record, artifacts, markerProof, notDeliveredHere) {
 
   out.push("## What this packet contains", "");
   out.push("| Order | Component | Document | Role | Required or conditional | Bundle pages |", "| --- | --- | --- | --- | --- | --- |");
-  for (const [i, d] of ROUTE.documents.entries()) {
-    out.push(`| ${i + 1} | ${d.componentId} | ${d.documentId} | ${d.instrumentKind} | ${d.requirement}${d.condition ? ` - ${d.condition}` : ""} | ${d.pages.join(", ")} of 15 |`);
+  let componentOrder = 1;
+  for (const c of CUSTOM_COMPONENTS) {
+    const track = record.tracks[c.trackId];
+    const manifestComponent = record.routeComponents.find((x) => x.componentId === c.componentId);
+    out.push(`| ${componentOrder++} | ${c.componentId} | ${c.title} | ${c.role} | ${manifestComponent?.requirement ?? "required"} | composed page(s) |`);
+  }
+  for (const d of ROUTE.documents) {
+    out.push(`| ${componentOrder++} | ${d.componentId} | ${d.documentId} | ${d.instrumentKind} | ${d.requirement}${d.condition ? ` - ${d.condition}` : ""} | ${d.pages.join(", ")} of 15 |`);
   }
   out.push("");
 
-  out.push("## What this packet does NOT contain", "");
+  out.push("## Component completeness", "");
   out.push(
-    "These components are named by the packet-set manifests of this family's own routes and are built by no family in "
-    + "the queue. They are listed so the gap is visible rather than discovered:", ""
+    "The ten custom-pleading components named by the three bound route manifests are included above. The attachment "
+    + "pages below remain official supporting forms; no route's petition or proposed order is omitted from this packet.", ""
   );
-  out.push("| Packet set | Component | Role | Required or conditional |", "| --- | --- | --- | --- |");
-  for (const c of notDeliveredHere) out.push(`| ${c.packetSetId} | ${c.componentId} | ${c.role} | ${c.requirement} |`);
+  out.push(`Required route components delivered: ${CUSTOM_COMPONENTS.length}. Components left undelivered: ${notDeliveredHere.length}.`, "");
   out.push("");
 
   out.push("## How the three documents were cut out of one binary", "");
   out.push(
-    `All three are pages of ${BUNDLE.whatItIs}, published by the ${BUNDLE.issuer} and bound here at SHA-256 `
+    `The three official supporting documents are pages of ${BUNDLE.whatItIs}, published by the ${BUNDLE.issuer} and bound here at SHA-256 `
     + `\`${BUNDLE.sha256}\`. The AcroForm is bundle-wide, so the whole bundle is filled and flattened once and the `
     + "delivered pages are copied out of the flattened document. Each page is identified from its own printed face "
     + "before it is copied:", ""
@@ -1187,7 +1475,11 @@ function filingInstructions(record, artifacts, markerProof, notDeliveredHere) {
       for (const s of track.packetInstructions) out.push(`- ${s}`);
       out.push("");
     }
-    out.push(`**Which of this packet's three forms this route's filing is accompanied by:** ${trackId === PRIMARY_TRACK ? "all three, as components 4, 5 and 6 of its packet set." : "the record's component set for this route names none of them; whether an Indiana court expects an Appearance and a Form ACR on this filing too is a question for whoever owns that route's design, and this packet does not answer it."}`, "");
+    const routeIds = CUSTOM_COMPONENTS.filter((c) => c.trackId === trackId).map((c) => c.componentId);
+    out.push(`**Route components in this packet:** ${routeIds.join(", ")}.`, "");
+    out.push("**Self-help stops from the controlling record:**", "");
+    for (const stop of track.selfHelpStopConditions) out.push(`- ${stop}`);
+    out.push("");
   }
 
   out.push("## The fixtures these instructions were written against", "");
@@ -1260,7 +1552,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
   for (const fixtureName of ["canonical", "boundary"]) {
     const { bytes, report } = await renderBundle(source, census, fixtureName);
     renderReports[fixtureName] = report;
-    const packet = await assemblePacket(bytes);
+    const customPages = await customPagesFor(record, fixtureName);
+    const packet = await assemblePacket(bytes, customPages);
     markerProof = packet.markerProof;
     const proof = await byteProof(census, packet, report, fixtureName, baseline);
     writeProofs.push({
@@ -1287,8 +1580,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     artifacts.push({
       fixture: fixtureName, file, sha256: sha256(packet.bytes),
       byteLength: packet.bytes.length, pageCount: packet.pageCount, pageManifest: packet.pageManifest,
-      documents: ROUTE.documents.map((d) => d.documentId),
-      components: ROUTE.documents.map((d) => d.componentId)
+      documents: [...CUSTOM_COMPONENTS.map((c) => c.componentId), ...ROUTE.documents.map((d) => d.documentId)],
+      components: ALL_COMPONENTS,
+      composedPageManifest: packet.composedPageManifest
     });
   }
 
@@ -1304,12 +1598,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
     jurisdiction: ROUTE.jurisdiction,
     implementationStrategy: "custom_pleading",
-    implementationStrategyAsDelivered: "official_form_retention_and_fill",
+    implementationStrategyAsDelivered: "custom_pleading_with_official_form_retention_and_fill",
     whyThoseDiffer:
-      "MASTER_QUEUE calls this family custom_pleading. Its three declared components are official forms whose own "
-      + "outputStrategy in the committed packet-set manifest is official_pdf_fill, and nothing composed is declared, "
-      + "so what this build delivers is three issuer-published documents filled inside the issuer's own boxes. The "
-      + "queue's label is recorded above unchanged and the delivered treatment is named beside it.",
+      "MASTER_QUEUE calls this family custom_pleading while its original queue packetComponents list names the three "
+      + "official supporting forms. The three bound route manifests also require ten custom-pleading components. This "
+      + "repair composes those ten route documents from the pinned Indiana track records and retains the three issuer "
+      + "forms filled inside their own boxes; the queue and shared manifests remain unchanged source evidence.",
     custodyClass: "SOURCE_ALREADY_HELD", acquisitionCommissioned: false,
     bindingMethod:
       "the declared SHA-256 against the committed corpus index, then the same digest recomputed from the bytes on "
@@ -1321,6 +1615,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + `${BUNDLE.sha256}. This is one published binary carrying three documents, not three binaries, and the three `
       + "documents below are page slices of it whose selection is proved from each page's own printed face.",
     routeKeys: ROUTE.routeKeys, routeSelectionId: ROUTE.routeSelectionId,
+    deliveredCustomComponents: CUSTOM_COMPONENTS.map((spec) => {
+      const manifest = record.routeComponents.find((c) => c.componentId === spec.componentId);
+      return { ...spec, requirement: manifest?.requirement ?? "required", outputStrategy: manifest?.outputStrategy ?? "custom_pleading" };
+    }),
     allSourcesExact: true,
     bundle: {
       sourceIds: ROUTE.documents.map((d) => d.sourceId),
@@ -1336,6 +1634,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
       instrumentKind: d.instrumentKind, componentRequirement: d.requirement, componentCondition: d.condition,
       bundlePages: d.pages, pageSelectionProvedBy: d.markers, sha256OfTheBinaryItCameFrom: BUNDLE.sha256
     })),
+    composedDocuments: CUSTOM_COMPONENTS.map((spec) => {
+      const manifest = record.routeComponents.find((c) => c.componentId === spec.componentId);
+      const track = record.tracks[spec.trackId];
+      return {
+        componentId: spec.componentId, trackId: spec.trackId, role: spec.role, title: spec.title,
+        requirement: manifest?.requirement ?? "required", outputStrategy: manifest?.outputStrategy ?? "custom_pleading",
+        authority: track.authority, sourceRecord: RECORDS.registry,
+        sourceEntry: `tracks[trackId=${spec.trackId}]`, groundedBy: "committed_track_registry_and_packet_set_manifest"
+      };
+    }),
     controllingRecords: record.pins,
     guideProseIsGeneratedFrom:
       "data/record-clearing/legal-design-track-registry.json, tracks in_conviction_serious_felony, "
@@ -1422,9 +1730,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1", familyId: FAMILY_ID,
-    routeKeys: ROUTE.routeKeys, routeSelectionId: ROUTE.routeSelectionId, renderStrategy: "acroform_fill_then_page_slice",
+    routeKeys: ROUTE.routeKeys, routeSelectionId: ROUTE.routeSelectionId,
+    renderStrategy: "custom_route_documents_plus_acroform_fill_then_page_slice",
     jurisdiction: ROUTE.jurisdiction,
-    componentSet: ROUTE.documents.map((d) => d.componentId),
+    componentSet: ALL_COMPONENTS,
+    composedComponents: CUSTOM_COMPONENTS.map((spec) => ({
+      componentId: spec.componentId, trackId: spec.trackId, role: spec.role, title: spec.title,
+      documentPolicy: { mode: "participant", documentAcceptsFill: true, routeKey: ROUTE.routeKeys.find((key) => key.includes(`:${spec.trackId}`)) ?? null },
+      source: RECORDS.registry
+    })),
     componentConditions: Object.fromEntries(ROUTE.documents.filter((d) => d.condition).map((d) => [d.componentId, d.condition])),
     captionBasis: "authored AcroForm field names, checked field by field against the printed page; see reports/caption-evidence.json",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION],
@@ -1443,17 +1757,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     optionalParticipantContent: optional,
     componentsOfThisFamilysOwnRoutesThatNothingBuilds: record.notDeliveredHere,
+    allRequiredRouteComponentsDelivered: true,
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
 
   writeJson(`${OUT}/reports/rendered-artifacts.json`, {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID, renderedFresh: true,
-    componentSet: ROUTE.documents.map((d) => d.componentId),
+    componentSet: ALL_COMPONENTS,
+    customComponents: CUSTOM_COMPONENTS.map((c) => c.componentId),
     componentConditions: Object.fromEntries(ROUTE.documents.filter((d) => d.condition).map((d) => [d.componentId, d.condition])),
     pageSelectionProof: markerProof,
     artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     pdfs: artifacts.map((a) => ({
-      file: a.file, documentId: "assembled_packet", role: "assembled_packet_of_official_supporting_forms",
+      file: a.file, documentId: "assembled_packet", role: "assembled_packet_of_route_documents_and_official_supporting_forms",
       fixture: a.fixture, sha256: a.sha256, byteLength: a.byteLength, pageCount: a.pageCount
     })),
     byteDerivedHashes: true,
@@ -1543,10 +1859,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
       "A verdict. This lane does not verify its own packets, and PASS_COMPLETE additionally requires a hash-bound "
       + "RASTER_PASS from the central raster workflow.",
     whatTheyMeasure:
-      "The three documents this family declares. They do not measure the petition, the proposed order or the "
-      + "instructions component of the serious-felony packet set, nor either other route's own filing, because this "
-      + "family declares none of them - see componentsOfThisFamilysOwnRoutesThatNothingBuilds in "
-      + "production-field-map.json.",
+      "The official-form field maps and byte proof cover the three retained forms. Component completeness is measured "
+      + "against the ten custom components named by the three bound route manifests and their page manifests in "
+      + "reports/rendered-artifacts.json.",
     counters: counted.counters,
     allNineZero: allZero,
     findings: counted.findings,
@@ -1557,8 +1872,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-independent-visual-review/v1", familyId: FAMILY_ID,
     required: true, granted: false, reviewedBy: null,
     note:
-      "Four pages, cut out of a fifteen-page bundle after the whole bundle was filled and flattened. No page was "
-      + "rastered by this build; the central raster workflow renders them from the hashes in "
+      "The packet begins with four official pages cut out of a fifteen-page bundle after the whole bundle was filled "
+      + "and flattened, followed by the ten composed route components named by the three bound manifests. No page was "
+      + "rastered by this build; the central raster workflow renders the complete packet from the hashes in "
       + "reports/rendered-artifacts.json.",
     whatToLookAt: [
       "Packet page 1 and 2 must be the Appearance (footer CCA-GF-0120-3016, \"Page 1 of 2\" and \"Page 2 of 2\"), "
@@ -1578,6 +1894,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "would be a false statement, and it is the single worst defect this packet could carry.",
       "Page 4, the Confidential Information Form: the participant's name present and the FULL SOCIAL SECURITY NUMBER "
         + "BOX EMPTY. The platform must never hold that number and must never draw it.",
+      "The composed route pages must preserve their component labels and leave court, clerk, prosecutor and signature "
+        + "fields blank. The serious-felony consent attachment must remain a handoff for the participant's original "
+        + "written consent, and the collateral stop condition must appear in both route guidance and its handoff page.",
       "All four pages: the cause-number lines are blank, because the bundle draws no box on them. Confirm no ink "
         + "appears on any of those printed rules.",
       "Boundary fixture: the long hyphenated name and the 60-character email either fit their boxes or are reported "
@@ -1613,17 +1932,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         severity: "advisory",
         finding:
-          "THIS FAMILY DELIVERS THE SUPPORTING FORMS OF A FILING IT DOES NOT DELIVER. MASTER_QUEUE binds three routes "
-          + "to it and declares three components, and all three are attachments 4, 5 and 6 of "
-          + "in_conviction_serious_felony-set. That packet set's own primary filing, proposed order, attachment-3 and "
-          + "instructions component are not declared here, and neither in_collateral_action-set nor "
-          + "in_supplemental_order-set has ANY component declared by any family in the queue.",
+          "The original queue row named only the three official supporting forms, while the three bound route manifests "
+          + "name ten custom-pleading components. This repair composes every one of those ten components from the "
+          + "pinned Indiana track records and records the route-to-component mapping in the packet manifests.",
         consequence:
-          "The packet says so on its own first page of instructions, in terms: these three sheets are not the filing, "
-          + "the petition is not in this packet, and filing only these three asks the court for nothing. The full "
-          + "list of undelivered components is in production-field-map.json under "
-          + "componentsOfThisFamilysOwnRoutesThatNothingBuilds and in filing-instructions.md. Whether this family's "
-          + "scope should be widened, or two more families opened, is a queue decision and not a build lane's."
+          "Each route now has its primary filing, proposed order and required attachment; the serious-felony route also "
+          + "has its required instructions component. The queue and shared manifests are unchanged, and the local "
+          + "component report states that no required route component is left undelivered."
       },
       {
         finding:
@@ -1699,13 +2014,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         severity: "advisory",
         finding:
-          "MASTER_QUEUE gives this family implementationStrategy custom_pleading, while the committed packet-set "
-          + "manifest gives all three of its components outputStrategy official_pdf_fill and this build composes "
-          + "nothing.",
+          "MASTER_QUEUE's implementationStrategy is custom_pleading, while the original queue packetComponents named "
+          + "the three official forms whose manifest treatment is official_pdf_fill. The three route manifests also "
+          + "require ten custom pleadings.",
         consequence:
-          "The queue's label is recorded unchanged in the source receipt and the delivered treatment is named beside "
-          + "it as official_form_retention_and_fill. Nothing central is edited by this lane to reconcile them; the "
-          + "discrepancy is reported."
+          "The source receipt records both treatments: ten route documents are composed from the pinned registry and "
+          + "the three official forms are retained and filled in their own widgets."
       }
     ]
   });
@@ -1717,9 +2031,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     status: allZero ? "PENDING_INDEPENDENT_VERIFICATION" : "STOPPED_COUNTER_NON_ZERO",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     mattersForTheReviewersAttention: [
-      "SCOPE FIRST. This family delivers three supporting forms and no petition, for three routes whose own filings "
-        + "nothing in the queue builds. Confirm that a packet of supporting forms is a deliverable at all, and that "
-        + "the instructions' opening warning is strong enough that nobody files these three alone.",
+      "SCOPE FIRST. This family now delivers the ten custom route components named by the three bound route manifests "
+        + "plus the three official supporting forms. Confirm that each route's primary filing, proposed order and "
+        + "attachment stay together, and that the serious-felony consent handoff is not mistaken for consent itself.",
       "The certificates of service on packet pages 2 and 3. Confirm on the rasters that both tick boxes, both dates, "
         + "both county lines and both address blocks are empty on each.",
       "The Confidential Information Form's full Social Security number box on packet page 4. It must be empty, and "
@@ -1737,8 +2051,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     counters: counted.counters, counterFindings: counted.findings,
     rasterState: "BUILT_RASTER_PENDING",
     directory: OUT,
-    documents: ROUTE.documents.map((d) => d.documentId),
-    components: ROUTE.documents.map((d) => d.componentId),
+    documents: [...CUSTOM_COMPONENTS.map((c) => c.componentId), ...ROUTE.documents.map((d) => d.documentId)],
+    components: ALL_COMPONENTS,
     boundSources: ROUTE.documents.map((d) => ({ sourceId: d.sourceId, sha256: BUNDLE.sha256, custody: source.custody })),
     writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
     requiredBeforeFiling: rbf.length,

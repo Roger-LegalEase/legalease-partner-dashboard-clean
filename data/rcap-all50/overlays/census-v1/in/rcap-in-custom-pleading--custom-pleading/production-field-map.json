@@ -7,12 +7,144 @@
     "obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged"
   ],
   "routeSelectionId": "rcap-in-custom-pleading-cca-supporting-forms",
-  "renderStrategy": "acroform_fill_then_page_slice",
+  "renderStrategy": "custom_route_documents_plus_acroform_fill_then_page_slice",
   "jurisdiction": "IN",
   "componentSet": [
+    "in_conviction_serious_felony-primary-filing-1",
+    "in_conviction_serious_felony-proposed-order-2",
+    "in_conviction_serious_felony-attachment-3",
+    "in_collateral_action-primary-filing-1",
+    "in_collateral_action-proposed-order-2",
+    "in_collateral_action-attachment-3",
+    "in_supplemental_order-primary-filing-1",
+    "in_supplemental_order-proposed-order-2",
+    "in_supplemental_order-attachment-3",
+    "in_conviction_serious_felony-instructions-7",
     "in_conviction_serious_felony-attachment-4",
     "in_conviction_serious_felony-attachment-5",
     "in_conviction_serious_felony-attachment-6"
+  ],
+  "composedComponents": [
+    {
+      "componentId": "in_conviction_serious_felony-primary-filing-1",
+      "trackId": "in_conviction_serious_felony",
+      "role": "primary_filing",
+      "title": "Verified Petition to Expunge a Serious Felony Conviction",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_conviction_serious_felony-proposed-order-2",
+      "trackId": "in_conviction_serious_felony",
+      "role": "proposed_order",
+      "title": "Proposed Order on Petition to Expunge a Serious Felony Conviction",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_conviction_serious_felony-attachment-3",
+      "trackId": "in_conviction_serious_felony",
+      "role": "attachment",
+      "title": "Attachment: Written Prosecutor Consent",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_collateral_action-primary-filing-1",
+      "trackId": "in_collateral_action",
+      "role": "primary_filing",
+      "title": "Verified Request to Expunge a Collateral Action",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:IN:in_collateral_action"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_collateral_action-proposed-order-2",
+      "trackId": "in_collateral_action",
+      "role": "proposed_order",
+      "title": "Proposed Order on Collateral Action",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:IN:in_collateral_action"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_collateral_action-attachment-3",
+      "trackId": "in_collateral_action",
+      "role": "attachment",
+      "title": "Attachment: Certified Original Expungement Order",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:IN:in_collateral_action"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_supplemental_order-primary-filing-1",
+      "trackId": "in_supplemental_order",
+      "role": "primary_filing",
+      "title": "Supplemental Petition After a Favourable Amendment",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:IN:in_supplemental_order"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_supplemental_order-proposed-order-2",
+      "trackId": "in_supplemental_order",
+      "role": "proposed_order",
+      "title": "Proposed Supplemental Order",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:IN:in_supplemental_order"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_supplemental_order-attachment-3",
+      "trackId": "in_supplemental_order",
+      "role": "attachment",
+      "title": "Attachment: Certified Original Expungement Order",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:IN:in_supplemental_order"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    },
+    {
+      "componentId": "in_conviction_serious_felony-instructions-7",
+      "trackId": "in_conviction_serious_felony",
+      "role": "instructions",
+      "title": "Indiana Serious-Felony Filing and Service Instructions",
+      "documentPolicy": {
+        "mode": "participant",
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged"
+      },
+      "source": "data/record-clearing/legal-design-track-registry.json"
+    }
   ],
   "componentConditions": {
     "in_conviction_serious_felony-attachment-4": "Required for a self-represented filer."
@@ -296,68 +428,8 @@
       "participantMaySupply": "anything your county's local rule requires on an appearance. Most counties require nothing extra; the packet leaves it empty rather than guessing at a local rule it has not read"
     }
   ],
-  "componentsOfThisFamilysOwnRoutesThatNothingBuilds": [
-    {
-      "componentId": "in_conviction_serious_felony-primary-filing-1",
-      "role": "primary_filing",
-      "requirement": "required",
-      "packetSetId": "in_conviction_serious_felony-set"
-    },
-    {
-      "componentId": "in_conviction_serious_felony-proposed-order-2",
-      "role": "proposed_order",
-      "requirement": "required",
-      "packetSetId": "in_conviction_serious_felony-set"
-    },
-    {
-      "componentId": "in_conviction_serious_felony-attachment-3",
-      "role": "attachment",
-      "requirement": "required",
-      "packetSetId": "in_conviction_serious_felony-set"
-    },
-    {
-      "componentId": "in_conviction_serious_felony-instructions-7",
-      "role": "instructions",
-      "requirement": "required",
-      "packetSetId": "in_conviction_serious_felony-set"
-    },
-    {
-      "componentId": "in_collateral_action-primary-filing-1",
-      "role": "primary_filing",
-      "requirement": "required",
-      "packetSetId": "in_collateral_action-set"
-    },
-    {
-      "componentId": "in_collateral_action-proposed-order-2",
-      "role": "proposed_order",
-      "requirement": "required",
-      "packetSetId": "in_collateral_action-set"
-    },
-    {
-      "componentId": "in_collateral_action-attachment-3",
-      "role": "attachment",
-      "requirement": "required",
-      "packetSetId": "in_collateral_action-set"
-    },
-    {
-      "componentId": "in_supplemental_order-primary-filing-1",
-      "role": "primary_filing",
-      "requirement": "required",
-      "packetSetId": "in_supplemental_order-set"
-    },
-    {
-      "componentId": "in_supplemental_order-proposed-order-2",
-      "role": "proposed_order",
-      "requirement": "required",
-      "packetSetId": "in_supplemental_order-set"
-    },
-    {
-      "componentId": "in_supplemental_order-attachment-3",
-      "role": "attachment",
-      "requirement": "required",
-      "packetSetId": "in_supplemental_order-set"
-    }
-  ],
+  "componentsOfThisFamilysOwnRoutesThatNothingBuilds": [],
+  "allRequiredRouteComponentsDelivered": true,
   "maps": [
     {
       "formNumber": "CCA-GF-0120-3016",

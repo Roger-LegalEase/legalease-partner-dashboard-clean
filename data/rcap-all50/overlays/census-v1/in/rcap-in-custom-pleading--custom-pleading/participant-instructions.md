@@ -1,16 +1,26 @@
 # What is in this packet, and what is not
 
-This packet is **three Indiana statewide supporting forms**, prepared from the Coalition for Court Access's published bundle:
+This packet contains the route documents for the three Indiana tracks bound to this family, plus the statewide supporting forms prepared from the Coalition for Court Access's published bundle. The route documents are composed from the committed Indiana track records; blanks remain for facts, signatures and decisions the platform does not hold:
 
+- **in_conviction_serious_felony-primary-filing-1** - _Verified Petition to Expunge a Serious Felony Conviction_. Petition to Expunge a Serious Felony Conviction, I.C. 35-38-9-5.
+- **in_conviction_serious_felony-proposed-order-2** - _Proposed Order on Petition to Expunge a Serious Felony Conviction_. Petition to Expunge a Serious Felony Conviction, I.C. 35-38-9-5.
+- **in_conviction_serious_felony-attachment-3** - _Attachment: Written Prosecutor Consent_. Petition to Expunge a Serious Felony Conviction, I.C. 35-38-9-5.
+- **in_collateral_action-primary-filing-1** - _Verified Request to Expunge a Collateral Action_. Request to Expunge a Collateral Action, I.C. 35-38-9-9.5.
+- **in_collateral_action-proposed-order-2** - _Proposed Order on Collateral Action_. Request to Expunge a Collateral Action, I.C. 35-38-9-9.5.
+- **in_collateral_action-attachment-3** - _Attachment: Certified Original Expungement Order_. Request to Expunge a Collateral Action, I.C. 35-38-9-9.5.
+- **in_supplemental_order-primary-filing-1** - _Supplemental Petition After a Favourable Amendment_. Supplemental Petition After a Favourable Amendment, I.C. 35-38-9-9(l).
+- **in_supplemental_order-proposed-order-2** - _Proposed Supplemental Order_. Supplemental Petition After a Favourable Amendment, I.C. 35-38-9-9(l).
+- **in_supplemental_order-attachment-3** - _Attachment: Certified Original Expungement Order_. Supplemental Petition After a Favourable Amendment, I.C. 35-38-9-9(l).
+- **in_conviction_serious_felony-instructions-7** - _Indiana Serious-Felony Filing and Service Instructions_. Petition to Expunge a Serious Felony Conviction, I.C. 35-38-9-5.
 - **CCA-GF-0120-3016** - _Appearance by Unrepresented Person in Expungement Matter_. Conditional: Required for a self-represented filer.
 - **CCA-XP-0120-7002 Form ACR** - _Form ACR - Notice of Exclusion of Confidential Information from Public Access_. Required.
 - **Confidential Information Form** - _Confidential Information Form_. Required.
 
-## Read this first: these three forms are not the filing
+## Read this first: use the documents for the route you are filing
 
-They are the paperwork that **accompanies** an Indiana expungement filing. **The petition itself is not in this packet, and neither is the proposed order.** If you file only these three sheets, you have not asked the court for anything. The petition and the proposed order for your route come from elsewhere, and you file these three with them.
+Select the route that matches your matter and file its primary filing, proposed order and attachment together. The serious-felony route also includes its instructions component and the statewide supporting forms. The collateral-action and supplemental-order components are included as their own composed route documents; do not substitute one route's petition or order for another's.
 
-This packet was prepared for the components a serious-felony expungement petition under **I.C. 35-38-9-5** is accompanied by. Two other routes are bound to the same packet family - a request to expunge a collateral action under I.C. 35-38-9-9.5, and a supplemental petition after a favourable amendment under I.C. 35-38-9-9(l) - and **neither of their own filings is built here either**.
+The three official supporting forms are conditional or required according to the serious-felony packet record. They do not replace the route documents, and the route documents do not replace a certified record or consent that the records require you to obtain.
 
 ## Before you file a serious-felony petition at all
 
@@ -20,7 +30,7 @@ The committed record for that route is emphatic, and this is its own sentence:
 
 Section 5's own mechanism, as the record states it: A felony resulting in serious bodily injury, elected-official offences and other serious felonies may be expunged at the later of ten years from conviction or five years from completion of the sentence, shortened by written consent. The prosecuting attorney's written consent is required to file at all. The grant is discretionary. Effect is Section 7. Section 5 was amended by P.L.77-2025.
 
-## What the platform filled in on these three forms
+## What the platform filled in on the official supporting forms
 
 Your name, your current mailing address, your telephone number, your email address and the county of the court - written into the boxes the Coalition drew for them, on every one of the three forms that has such a box. Everything else is yours, and every one of those blanks is listed below.
 
@@ -42,13 +52,16 @@ The Appearance and Form ACR each carry a **certificate of service** at the foot,
 
 ## What you must do before you file
 
-1. **Write the cause number by hand on all three sheets.**
-2. **Choose your court type** on the caption of the Appearance and of Form ACR - Circuit, Superior, City or Town.
-3. **Fill in every item in the tables below.** Each names the form, the section and the blank.
-4. **Answer item 4 of the Appearance** - whether there are related cases - and list every one of them with its caption and its cause number.
-5. **Write your full Social Security number on the Confidential Information Form**, by hand, and on nothing else.
-6. **Sign the Appearance and Form ACR yourself.** Both print signature rules that the bundle draws no box on, so they are signed by hand. Neither is signed for you.
-7. **Serve the county prosecutor, then complete the certificate of service** on both the Appearance and Form ACR.
+1. **Use only the primary filing, proposed order and attachment for your selected route.**
+2. **Complete every participant blank in that route's composed documents**, including facts the platform does not hold, and sign the petition or request yourself.
+3. **Obtain every certified record, consent or other document identified as a required attachment** before filing.
+4. **Write the cause number by hand on all three official supporting sheets** when the clerk has assigned it.
+5. **Choose your court type** on the caption of the Appearance and of Form ACR - Circuit, Superior, City or Town.
+6. **Fill in every item in the official-form tables below.** Each names the form, the section and the blank.
+7. **Answer item 4 of the Appearance** - whether there are related cases - and list every one of them with its caption and its cause number.
+8. **Write your full Social Security number on the Confidential Information Form**, by hand, and on nothing else.
+9. **Sign the Appearance and Form ACR yourself.** Neither is signed for you.
+10. **Serve the county prosecutor, then complete the certificate of service** on both the Appearance and Form ACR.
 
 ## Where these go, and what the record says about the filing they accompany
 
@@ -60,7 +73,7 @@ The Appearance and Form ACR each carry a **certificate of service** at the foot,
 - **Service:** In accordance with the Indiana Rules of Trial Procedure, I.C. 35-38-9-8(e).
 - **Notice:** Service is made in accordance with the Indiana Rules of Trial Procedure under I.C. 35-38-9-8(e). The prosecuting attorney must respond no later than 30 days after receipt and waives objection by failing to respond, under I.C. 35-38-9-8(g). The prosecuting attorney must notify the victim of their rights under I.C. 35-38-9-8(f), and the victim may submit an oral or written statement under I.C. 35-38-9-9(d).
 - **Signature:** The petition is verified and signed by the petitioner. Notarization: none.
-- **Is this route's own filing in this packet?** No - only its three supporting forms are.
+- **Is this route's own filing in this packet?** Yes - the route documents listed above are included. The three official supporting forms are included as the serious-felony packet's attachments.
 
 ### Request to Expunge a Collateral Action, I.C. 35-38-9-9.5
 
@@ -70,7 +83,7 @@ The Appearance and Form ACR each carry a **certificate of service** at the foot,
 - **Service:** The court notifies the prosecuting attorney. Confirm local practice before assuming the participant need not serve.
 - **Notice:** The court notifies the prosecuting attorney of that county and sets a hearing, or may grant without a hearing where the record conclusively establishes entitlement.
 - **Signature:** The participant signs the request. Notarization: none.
-- **Is this route's own filing in this packet?** No.
+- **Is this route's own filing in this packet?** Yes - the route documents listed above are included. The statewide supporting forms remain tied to the serious-felony packet record.
 
 ### Supplemental Petition After a Favourable Amendment, I.C. 35-38-9-9(l)
 
@@ -80,7 +93,7 @@ The Appearance and Form ACR each carry a **certificate of service** at the foot,
 - **Service:** Follow the ordinary Trial Rules service on the prosecuting attorney. Confirm local practice.
 - **Notice:** The review does not state a distinct notice rule for a supplemental petition. Follow the ordinary Trial Rules service on the prosecuting attorney.
 - **Signature:** The participant signs the petition. Notarization: none.
-- **Is this route's own filing in this packet?** No.
+- **Is this route's own filing in this packet?** Yes - the route documents listed above are included. The statewide supporting forms remain tied to the serious-felony packet record.
 
 ## CCA-GF-0120-3016 - Appearance by Unrepresented Person in Expungement Matter: the items you must supply
 
@@ -152,7 +165,9 @@ _This form is conditional: Required for a self-represented filer._
 
 ## When this is not a do-it-yourself matter
 
-The record names these as the points where the filing these forms accompany stops being a self-help matter:
+Each route has its own stop conditions. Stop and obtain appropriate help when one applies:
+
+### Petition to Expunge a Serious Felony Conviction, I.C. 35-38-9-5
 
 - The prosecutor objects or files a notice in opposition.
 - A victim submits a statement in opposition.
@@ -168,8 +183,42 @@ The record names these as the points where the filing these forms accompany stop
 - Immigration, firearm, licensing or CDL consequences are in play.
 - The person wants to attack the underlying conviction rather than expunge it.
 
+### Request to Expunge a Collateral Action, I.C. 35-38-9-9.5
+
+- The prosecutor objects or files a notice in opposition.
+- A victim submits a statement in opposition.
+- The court sets a hearing.
+- The person has convictions in more than one county and the 365-day window is already partly consumed.
+- A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.
+- The person has already filed a Sections 2 through 5 petition.
+- Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.
+- The person is a sex or violent offender or subject to registration.
+- Fines, fees, costs or restitution are unpaid or disputed.
+- Charges are pending anywhere, or the person is in a pretrial diversion programme.
+- The record involves a commercial driver's licence and 49 C.F.R. 384.226.
+- Immigration, firearm, licensing or CDL consequences are in play.
+- The person wants to attack the underlying conviction rather than expunge it.
+- The court finds the collateral action does not relate to the expunged matter.
+
+### Supplemental Petition After a Favourable Amendment, I.C. 35-38-9-9(l)
+
+- The prosecutor objects or files a notice in opposition.
+- A victim submits a statement in opposition.
+- The court sets a hearing.
+- The person has convictions in more than one county and the 365-day window is already partly consumed.
+- A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.
+- The person has already filed a Sections 2 through 5 petition.
+- Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.
+- The person is a sex or violent offender or subject to registration.
+- Fines, fees, costs or restitution are unpaid or disputed.
+- Charges are pending anywhere, or the person is in a pretrial diversion programme.
+- The record involves a commercial driver's licence and 49 C.F.R. 384.226.
+- Immigration, firearm, licensing or CDL consequences are in play.
+- The person wants to attack the underlying conviction rather than expunge it.
+
+
 ## What this packet is not
 
-This is a prepared copy of three official Indiana statewide forms, sliced from the Coalition for Court Access's own published bundle and filled only where the platform holds the fact. It is not legal advice, it is not filed for you, it does not decide whether your conviction can be expunged, and - to say it once more - **it is not the petition.**
+This packet combines custom route documents grounded in the committed Indiana track records with a prepared copy of official Indiana statewide forms, sliced from the Coalition for Court Access's own published bundle and filled only where the platform holds the fact. It is not legal advice, it is not filed for you, and it does not decide whether your matter qualifies.
 
 _Routes: obligation:track-only:IN:in_collateral_action; obligation:track-only:IN:in_supplemental_order; obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged_

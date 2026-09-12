@@ -62,14 +62,7 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34413372916",
-      "jobId": "102673422837",
-      "artifactId": "10128275070",
-      "boundToCanonicalSha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf05",
@@ -83,7 +76,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
+        "replacedByCanonicalSha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34413372916",
+          "jobId": "102673422837",
+          "artifactId": "10128275070",
+          "boundToCanonicalSha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -92,30 +100,147 @@
     "components": [
       {
         "componentId": "rcap-in-custom-pleading-component-1",
-        "role": "primary_filing",
+        "role": "attachment",
         "order": 1,
         "documentId": "CCA-GF-0120-3016",
         "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
-        "requirement": "required"
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "conditional",
+        "firstPage": 1,
+        "pageCount": 2,
+        "conditionDescription": "Required for a self-represented filer."
       },
       {
         "componentId": "rcap-in-custom-pleading-component-2",
-        "role": "companion_document",
+        "role": "attachment",
         "order": 2,
         "documentId": "CCA-XP-0120-7002 Form ACR",
         "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
-        "requirement": "required"
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 3,
+        "pageCount": 1
       },
       {
         "componentId": "rcap-in-custom-pleading-component-3",
-        "role": "companion_document",
+        "role": "attachment",
         "order": 3,
         "documentId": "Confidential Information Form",
         "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
-        "requirement": "required"
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 4,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-4",
+        "role": "primary_filing",
+        "order": 4,
+        "documentId": "in_conviction_serious_felony-primary-filing-1",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 5,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-5",
+        "role": "proposed_order",
+        "order": 5,
+        "documentId": "in_conviction_serious_felony-proposed-order-2",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 6,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-6",
+        "role": "attachment",
+        "order": 6,
+        "documentId": "in_conviction_serious_felony-attachment-3",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 7,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-7",
+        "role": "primary_filing",
+        "order": 7,
+        "documentId": "in_collateral_action-primary-filing-1",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 8,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-8",
+        "role": "proposed_order",
+        "order": 8,
+        "documentId": "in_collateral_action-proposed-order-2",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 9,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-9",
+        "role": "attachment",
+        "order": 9,
+        "documentId": "in_collateral_action-attachment-3",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 10,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-10",
+        "role": "primary_filing",
+        "order": 10,
+        "documentId": "in_supplemental_order-primary-filing-1",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 11,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-11",
+        "role": "proposed_order",
+        "order": 11,
+        "documentId": "in_supplemental_order-proposed-order-2",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 12,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-12",
+        "role": "attachment",
+        "order": 12,
+        "documentId": "in_supplemental_order-attachment-3",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 13,
+        "pageCount": 1
+      },
+      {
+        "componentId": "rcap-in-custom-pleading-component-13",
+        "role": "instructions",
+        "order": 13,
+        "documentId": "in_conviction_serious_felony-instructions-7",
+        "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+        "requirement": "required",
+        "firstPage": 14,
+        "pageCount": 2
       }
     ]
   }

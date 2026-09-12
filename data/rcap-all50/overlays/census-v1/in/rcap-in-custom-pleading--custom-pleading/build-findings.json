@@ -5,8 +5,8 @@
   "findings": [
     {
       "severity": "advisory",
-      "finding": "THIS FAMILY DELIVERS THE SUPPORTING FORMS OF A FILING IT DOES NOT DELIVER. MASTER_QUEUE binds three routes to it and declares three components, and all three are attachments 4, 5 and 6 of in_conviction_serious_felony-set. That packet set's own primary filing, proposed order, attachment-3 and instructions component are not declared here, and neither in_collateral_action-set nor in_supplemental_order-set has ANY component declared by any family in the queue.",
-      "consequence": "The packet says so on its own first page of instructions, in terms: these three sheets are not the filing, the petition is not in this packet, and filing only these three asks the court for nothing. The full list of undelivered components is in production-field-map.json under componentsOfThisFamilysOwnRoutesThatNothingBuilds and in filing-instructions.md. Whether this family's scope should be widened, or two more families opened, is a queue decision and not a build lane's."
+      "finding": "The original queue row named only the three official supporting forms, while the three bound route manifests name ten custom-pleading components. This repair composes every one of those ten components from the pinned Indiana track records and records the route-to-component mapping in the packet manifests.",
+      "consequence": "Each route now has its primary filing, proposed order and required attachment; the serious-felony route also has its required instructions component. The queue and shared manifests are unchanged, and the local component report states that no required route component is left undelivered."
     },
     {
       "finding": "MASTER_QUEUE names three sourceIds - official-form:CCA-GF-0120-3016, official-form:CCA-XP-0120-7002 Form ACR and official-form:Confidential Information Form - and all three declare the same digest, b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5.",
@@ -38,8 +38,8 @@
     },
     {
       "severity": "advisory",
-      "finding": "MASTER_QUEUE gives this family implementationStrategy custom_pleading, while the committed packet-set manifest gives all three of its components outputStrategy official_pdf_fill and this build composes nothing.",
-      "consequence": "The queue's label is recorded unchanged in the source receipt and the delivered treatment is named beside it as official_form_retention_and_fill. Nothing central is edited by this lane to reconcile them; the discrepancy is reported."
+      "finding": "MASTER_QUEUE's implementationStrategy is custom_pleading, while the original queue packetComponents named the three official forms whose manifest treatment is official_pdf_fill. The three route manifests also require ten custom pleadings.",
+      "consequence": "The source receipt records both treatments: ten route documents are composed from the pinned registry and the three official forms are retained and filled in their own widgets."
     }
   ]
 }

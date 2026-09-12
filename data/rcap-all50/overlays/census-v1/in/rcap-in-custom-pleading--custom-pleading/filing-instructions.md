@@ -1,4 +1,4 @@
-# Filing instructions - the Indiana statewide supporting forms
+# Filing instructions - the Indiana route packet and statewide supporting forms
 
 Every rule below is generated from the committed legal-design track records for this family's three routes, which are hashed into `source-receipt.json`. Where a record says nothing, this page says nothing.
 
@@ -6,30 +6,30 @@ Every rule below is generated from the committed legal-design track records for 
 
 | Order | Component | Document | Role | Required or conditional | Bundle pages |
 | --- | --- | --- | --- | --- | --- |
-| 1 | in_conviction_serious_felony-attachment-4 | CCA-GF-0120-3016 | attachment | conditional - Required for a self-represented filer. | 1, 2 of 15 |
-| 2 | in_conviction_serious_felony-attachment-5 | CCA-XP-0120-7002 Form ACR | attachment | required | 7 of 15 |
-| 3 | in_conviction_serious_felony-attachment-6 | Confidential Information Form | attachment | required | 8 of 15 |
+| 1 | in_conviction_serious_felony-primary-filing-1 | Verified Petition to Expunge a Serious Felony Conviction | primary_filing | required | composed page(s) |
+| 2 | in_conviction_serious_felony-proposed-order-2 | Proposed Order on Petition to Expunge a Serious Felony Conviction | proposed_order | required | composed page(s) |
+| 3 | in_conviction_serious_felony-attachment-3 | Attachment: Written Prosecutor Consent | attachment | required | composed page(s) |
+| 4 | in_collateral_action-primary-filing-1 | Verified Request to Expunge a Collateral Action | primary_filing | required | composed page(s) |
+| 5 | in_collateral_action-proposed-order-2 | Proposed Order on Collateral Action | proposed_order | required | composed page(s) |
+| 6 | in_collateral_action-attachment-3 | Attachment: Certified Original Expungement Order | attachment | required | composed page(s) |
+| 7 | in_supplemental_order-primary-filing-1 | Supplemental Petition After a Favourable Amendment | primary_filing | required | composed page(s) |
+| 8 | in_supplemental_order-proposed-order-2 | Proposed Supplemental Order | proposed_order | required | composed page(s) |
+| 9 | in_supplemental_order-attachment-3 | Attachment: Certified Original Expungement Order | attachment | required | composed page(s) |
+| 10 | in_conviction_serious_felony-instructions-7 | Indiana Serious-Felony Filing and Service Instructions | instructions | required | composed page(s) |
+| 11 | in_conviction_serious_felony-attachment-4 | CCA-GF-0120-3016 | attachment | conditional - Required for a self-represented filer. | 1, 2 of 15 |
+| 12 | in_conviction_serious_felony-attachment-5 | CCA-XP-0120-7002 Form ACR | attachment | required | 7 of 15 |
+| 13 | in_conviction_serious_felony-attachment-6 | Confidential Information Form | attachment | required | 8 of 15 |
 
-## What this packet does NOT contain
+## Component completeness
 
-These components are named by the packet-set manifests of this family's own routes and are built by no family in the queue. They are listed so the gap is visible rather than discovered:
+The ten custom-pleading components named by the three bound route manifests are included above. The attachment pages below remain official supporting forms; no route's petition or proposed order is omitted from this packet.
 
-| Packet set | Component | Role | Required or conditional |
-| --- | --- | --- | --- |
-| in_conviction_serious_felony-set | in_conviction_serious_felony-primary-filing-1 | primary_filing | required |
-| in_conviction_serious_felony-set | in_conviction_serious_felony-proposed-order-2 | proposed_order | required |
-| in_conviction_serious_felony-set | in_conviction_serious_felony-attachment-3 | attachment | required |
-| in_conviction_serious_felony-set | in_conviction_serious_felony-instructions-7 | instructions | required |
-| in_collateral_action-set | in_collateral_action-primary-filing-1 | primary_filing | required |
-| in_collateral_action-set | in_collateral_action-proposed-order-2 | proposed_order | required |
-| in_collateral_action-set | in_collateral_action-attachment-3 | attachment | required |
-| in_supplemental_order-set | in_supplemental_order-primary-filing-1 | primary_filing | required |
-| in_supplemental_order-set | in_supplemental_order-proposed-order-2 | proposed_order | required |
-| in_supplemental_order-set | in_supplemental_order-attachment-3 | attachment | required |
+Required route components delivered: 10. Components left undelivered: 0.
+
 
 ## How the three documents were cut out of one binary
 
-All three are pages of the Coalition for Court Access Section 1 non-conviction expungement petition and order bundle, fifteen pages, published by the Indiana Coalition for Court Access and bound here at SHA-256 `b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5`. The AcroForm is bundle-wide, so the whole bundle is filled and flattened once and the delivered pages are copied out of the flattened document. Each page is identified from its own printed face before it is copied:
+The three official supporting documents are pages of the Coalition for Court Access Section 1 non-conviction expungement petition and order bundle, fifteen pages, published by the Indiana Coalition for Court Access and bound here at SHA-256 `b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5`. The AcroForm is bundle-wide, so the whole bundle is filled and flattened once and the delivered pages are copied out of the flattened document. Each page is identified from its own printed face before it is copied:
 
 | Document | Bundle page | Packet page | Markers found in that page's own printed text |
 | --- | --- | --- | --- |
@@ -67,7 +67,23 @@ All three are pages of the Coalition for Court Access Section 1 non-conviction e
 - The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d). Surface the waiver.
 - The prosecuting attorney must respond within 30 days of receipt and waives any objection by failing to respond, under I.C. 35-38-9-8(g).
 
-**Which of this packet's three forms this route's filing is accompanied by:** all three, as components 4, 5 and 6 of its packet set.
+**Route components in this packet:** in_conviction_serious_felony-primary-filing-1, in_conviction_serious_felony-proposed-order-2, in_conviction_serious_felony-attachment-3, in_conviction_serious_felony-instructions-7.
+
+**Self-help stops from the controlling record:**
+
+- The prosecutor objects or files a notice in opposition.
+- A victim submits a statement in opposition.
+- The court sets a hearing.
+- The person has convictions in more than one county and the 365-day window is already partly consumed.
+- A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.
+- The person has already filed a Sections 2 through 5 petition.
+- Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.
+- The person is a sex or violent offender or subject to registration.
+- Fines, fees, costs or restitution are unpaid or disputed.
+- Charges are pending anywhere, or the person is in a pretrial diversion programme.
+- The record involves a commercial driver's licence and 49 C.F.R. 384.226.
+- Immigration, firearm, licensing or CDL consequences are in play.
+- The person wants to attack the underlying conviction rather than expunge it.
 
 ## Request to Expunge a Collateral Action, I.C. 35-38-9-9.5
 
@@ -96,7 +112,24 @@ All three are pages of the Coalition for Court Access Section 1 non-conviction e
 - A properly certified original expungement order is a prerequisite the participant obtains and attaches. It is a required-before-filing item, not a generation blocker.
 - Offer this as a free follow-on to every granted conviction expungement.
 
-**Which of this packet's three forms this route's filing is accompanied by:** the record's component set for this route names none of them; whether an Indiana court expects an Appearance and a Form ACR on this filing too is a question for whoever owns that route's design, and this packet does not answer it.
+**Route components in this packet:** in_collateral_action-primary-filing-1, in_collateral_action-proposed-order-2, in_collateral_action-attachment-3.
+
+**Self-help stops from the controlling record:**
+
+- The prosecutor objects or files a notice in opposition.
+- A victim submits a statement in opposition.
+- The court sets a hearing.
+- The person has convictions in more than one county and the 365-day window is already partly consumed.
+- A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.
+- The person has already filed a Sections 2 through 5 petition.
+- Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.
+- The person is a sex or violent offender or subject to registration.
+- Fines, fees, costs or restitution are unpaid or disputed.
+- Charges are pending anywhere, or the person is in a pretrial diversion programme.
+- The record involves a commercial driver's licence and 49 C.F.R. 384.226.
+- Immigration, firearm, licensing or CDL consequences are in play.
+- The person wants to attack the underlying conviction rather than expunge it.
+- The court finds the collateral action does not relate to the expunged matter.
 
 ## Supplemental Petition After a Favourable Amendment, I.C. 35-38-9-9(l)
 
@@ -124,14 +157,30 @@ All three are pages of the Coalition for Court Access Section 1 non-conviction e
 - Disclose that the expungement case file is public until the order is granted.
 - Run this as a periodic sweep of past participants after each legislative session rather than as an on-demand consumer route.
 
-**Which of this packet's three forms this route's filing is accompanied by:** the record's component set for this route names none of them; whether an Indiana court expects an Appearance and a Form ACR on this filing too is a question for whoever owns that route's design, and this packet does not answer it.
+**Route components in this packet:** in_supplemental_order-primary-filing-1, in_supplemental_order-proposed-order-2, in_supplemental_order-attachment-3.
+
+**Self-help stops from the controlling record:**
+
+- The prosecutor objects or files a notice in opposition.
+- A victim submits a statement in opposition.
+- The court sets a hearing.
+- The person has convictions in more than one county and the 365-day window is already partly consumed.
+- A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.
+- The person has already filed a Sections 2 through 5 petition.
+- Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.
+- The person is a sex or violent offender or subject to registration.
+- Fines, fees, costs or restitution are unpaid or disputed.
+- Charges are pending anywhere, or the person is in a pretrial diversion programme.
+- The record involves a commercial driver's licence and 49 C.F.R. 384.226.
+- Immigration, firearm, licensing or CDL consequences are in play.
+- The person wants to attack the underlying conviction rather than expunge it.
 
 ## The fixtures these instructions were written against
 
 | Fixture | Pages | SHA-256 |
 | --- | --- | --- |
-| canonical | 4 | `9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131` |
-| boundary | 4 | `46a8741e935498111a9940106342391e82722310f1684aff4663deb897cd07f8` |
+| canonical | 15 | `d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e` |
+| boundary | 15 | `e953492c5bab14c786b503a9a5fd8e594640f6f7b01b567a559fcb45b2b9761b` |
 
 _These are review fixtures built from invented participant facts. They are not anybody's filing, and no packet here has been verified, approved or made sellable by this build._
 
