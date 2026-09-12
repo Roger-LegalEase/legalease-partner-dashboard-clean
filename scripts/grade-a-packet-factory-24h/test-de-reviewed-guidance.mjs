@@ -3,13 +3,16 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {acceptedRasterFor, candidateRowsByFamily} from './acceptance-identity.mjs';
-import {assessDeReviewedGuidance, additiveOtherFamilyRegistry, CURRENT_REVIEW} from './de-reviewed-guidance.mjs';
+import {assessDeReviewedGuidance, additiveOtherFamilyRegistry, deFamilyCourtSourceDelta, CURRENT_REVIEW} from './de-reviewed-guidance.mjs';
 import {DE_DECISION, DE_DIRECTORY, DE_FAMILY, DE_ROUTE} from './de-guidance-binding.mjs';
 
 const root = process.cwd();
 const read = relative => fs.readFileSync(relative);
 const json = relative => JSON.parse(read(relative));
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const SOURCE_REGISTRY = 'data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json';
+const DEFC_ADOPTION_PROOF = 'data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-form283-source-adoption-20260912.json';
+const historicalRegistry = execFileSync('git', ['show', `a9d0acdf:${SOURCE_REGISTRY}`]);
 const originalPdfHashes = Object.fromEntries(['canonical', 'boundary'].map(fixture => {
   const relative = `${DE_DIRECTORY}/fixtures/${fixture}.pdf`;
   return [relative, hash(read(relative))];
@@ -52,12 +55,13 @@ const fixture = (doc=review) => ({
   currentFamily,
   rasterEvaluation:structuredClone(rasterEvaluation),
   readBytes:relative=>relative===CURRENT_REVIEW?Buffer.from(JSON.stringify(doc)):read(relative),
-  readHistorical:(_commit,relative)=>read(relative)
+  readHistorical:(_commit,relative)=>relative===SOURCE_REGISTRY?historicalRegistry:read(relative)
 });
 
 const accepted=assessDeReviewedGuidance(root,returned,fixture());
 assert.equal(accepted.eligible,true,accepted.reason);
 const historicalWiring = mutate => ({...fixture(), readHistorical: (_commit, relative) => {
+  if (relative === SOURCE_REGISTRY) return historicalRegistry;
   if (relative !== `${DE_DIRECTORY}/product-wiring.json`) return read(relative);
   const value = json(relative); mutate(value); return Buffer.from(JSON.stringify(value));
 }});
@@ -75,8 +79,31 @@ for (const mutate of [value => {value.binding.filingPermitted = true;},
 assert.equal(accepted.terminalTreatment,'GUIDANCE_READY');
 assert.equal(accepted.outputs.reduce((sum,item)=>sum+item.pageCount,0),8);
 assert.equal(accepted.sourceChecks.length,9);
+const acceptedRegistryRefresh = accepted.sourceChecks.find(source => source.path === SOURCE_REGISTRY);
+assert.equal(acceptedRegistryRefresh.matched,false);
+assert.equal(acceptedRegistryRefresh.currentSha256,hash(read(SOURCE_REGISTRY)));
+assert.equal(acceptedRegistryRefresh.currentByteLength,read(SOURCE_REGISTRY).length);
+assert.deepEqual(acceptedRegistryRefresh.changedFamilyIds,['de_discretionary_family_court-set']);
 for(const key of ['reviewAuthoredByIntegrator','packetBytesChanged','runtimeInstalled','filingPermitted','paymentEligible','sponsorshipEligible'])assert.equal(accepted[key],false);
 let rejected=0;
+const directRegistryRefresh=deFamilyCourtSourceDelta(historicalRegistry,read(SOURCE_REGISTRY),{proofBytes:read(DEFC_ADOPTION_PROOF)});
+assert.equal(directRegistryRefresh.scopeUnchanged,true);
+assert.deepEqual(directRegistryRefresh.changedFamilyIds,['de_discretionary_family_court-set']);
+assert.deepEqual(directRegistryRefresh.addedEvidencePaths,[DEFC_ADOPTION_PROOF]);
+assert.equal(directRegistryRefresh.sourceAdoptionProof.sha256,hash(read(DEFC_ADOPTION_PROOF)));
+assert.equal(directRegistryRefresh.sourceAdoptionProof.byteLength,read(DEFC_ADOPTION_PROOF).length);
+const currentRegistry=json(SOURCE_REGISTRY);
+const rejectRegistryDelta=(name,mutate)=>{
+  const candidate=structuredClone(currentRegistry); mutate(candidate);
+  assert.throws(()=>deFamilyCourtSourceDelta(historicalRegistry,Buffer.from(JSON.stringify(candidate)),{proofBytes:read(DEFC_ADOPTION_PROOF)}),name);
+  rejected++;
+};
+rejectRegistryDelta('target family drift',value=>{value.reconciliation42.families.find(row=>row.familyId===DE_FAMILY).disposition='changed';});
+rejectRegistryDelta('global source metadata drift',value=>{value.reconciliation42.sharedExactBindings = {...value.reconciliation42.sharedExactBindings, drifted:true};});
+rejectRegistryDelta('unknown family drift',value=>{value.reconciliation42.families.find(row=>row.familyId!=='de_discretionary_family_court-set').exactNextAction='changed';});
+assert.throws(()=>deFamilyCourtSourceDelta(historicalRegistry,read(SOURCE_REGISTRY),{proofBytes:Buffer.from('{}')}),'invalid adoption proof'); rejected++;
+assert.throws(()=>deFamilyCourtSourceDelta(historicalRegistry,read(SOURCE_REGISTRY)),'unavailable adoption proof'); rejected++;
+assert.throws(()=>deFamilyCourtSourceDelta(Buffer.concat([historicalRegistry,Buffer.from('changed')]),read(SOURCE_REGISTRY),{proofBytes:read(DEFC_ADOPTION_PROOF)}),'historical source drift'); rejected++;
 const denyReview=(name,mutate)=>{const doc=structuredClone(review);mutate(doc,doc.rows[0]);const result=assessDeReviewedGuidance(root,returned,fixture(doc));assert.equal(result.eligible,false,name);rejected++;};
 for(const [name,mutate] of [
   ['partial review',(_d,row)=>row.proofObligations.SERVICE.measured=false],
@@ -111,7 +138,8 @@ assert.match(absentCurrent.reason,/ENOENT/);
 
 const registryPath='data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json';
 const old=execFileSync('git',['show',`97d5b4ba933537f8baf0371c7ba99c0dae5e6d00:${registryPath}`]);
-const refresh=additiveOtherFamilyRegistry(old,read(registryPath),DE_FAMILY);
+const legacyCurrent=execFileSync('git',['show',`d70e5995e^:${registryPath}`]);
+const refresh=additiveOtherFamilyRegistry(old,legacyCurrent,DE_FAMILY);
 assert.deepEqual(refresh.changedFamilyIds,['census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement']);
 assert.equal(refresh.unchangedPriorFamilyEntries,73);
 const changedMandatory=JSON.parse(read(registryPath));changedMandatory.reconciliation42.families.find(row=>row.familyId===DE_FAMILY).disposition='changed';

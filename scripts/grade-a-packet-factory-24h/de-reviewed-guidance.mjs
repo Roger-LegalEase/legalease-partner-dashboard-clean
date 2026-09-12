@@ -18,6 +18,148 @@ export const CURRENT_REVIEW = 'data/rcap-grade-a/packet-factory-24h/vf62/rows-vf
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const blob = b => crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}\0`)).update(b).digest('hex');
 
+const DEFC_FAMILY = 'de_discretionary_family_court-set';
+const DEFC_ADOPTION_PROOF = 'data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-form283-source-adoption-20260912.json';
+const DEFC_HISTORICAL_REGISTRY_SHA256 = '054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982';
+const DEFC_HISTORICAL_REGISTRY_BYTES = 82180;
+const DEFC_CURRENT_REGISTRY_SHA256 = 'ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1';
+const DEFC_CURRENT_REGISTRY_BYTES = 82712;
+const DEFC_ADOPTION_PROOF_SHA256 = '416bed5e70f2cba68f4f1a2aa9cdb416980c58e4e7a2cbc5ff95b09c272427d5';
+const DEFC_ADOPTION_PROOF_BYTES = 1088;
+const DEFC_FORM_283_SHA256 = 'f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602';
+const DEFC_ADOPTION_PROOF_RECORD = {
+  schemaVersion: 'rcap-source-acquisition-return/v1',
+  familyId: DEFC_FAMILY,
+  itemId: `${DEFC_FAMILY}::official-form:FORM-283`,
+  result: 'OFFICIAL_SOURCE_ALREADY_HELD',
+  heldCorpusPath: 'private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/reference-only/Form-1021IP__adult-expungement-instruction-packet__rev-2023-10.pdf',
+  sha256: DEFC_FORM_283_SHA256,
+  byteLength: 630042,
+  pageCount: 15,
+  selectedSourcePages: [15],
+  sourcePageIdentity: 'Form 283, Rev 6/20; official proposed-order page within Form1021IP Rev10/23',
+  officialReaderUrl: 'https://courts.delaware.gov/forms/download.aspx?id=118608',
+  currentRemoteBinaryHashMeasured: false,
+  independentSourceReview: {
+    path: 'data/rcap-grade-a/packet-factory-24h/vf44/de-family-court-source-input-review-20260912.json',
+    sha256: '99df3191d6714364158b36f2b1f39826d6c739e7b6d42e39e760b4b96a4d2ce1',
+    byteLength: 11161
+  },
+  packetAcceptanceGranted: false
+};
+const DEFC_HISTORICAL_FAMILY = {
+  familyId: DEFC_FAMILY,
+  group: 'D',
+  disposition: 'SOURCE_READY',
+  relationshipNote: 'Form 281 is the parent initiating petition. Form 281E is only its continuation/charge-extension sheet.',
+  exactNextAction: 'Build Form 281 with Form 281E only where charge continuation is required.'
+};
+const DEFC_CURRENT_FAMILY = {
+  familyId: DEFC_FAMILY,
+  group: 'D',
+  disposition: 'SOURCE_READY',
+  relationshipNote: 'Form 281 is the initiating petition;281E is conditional charge continuation. Held Form 1021IP pages 2–4 require proposedorderForm 283, held on its page 15.',
+  exactNextAction: 'Build Form 281, conditional 281E, requiredForm 283(source1021IPpage 15), then assembly guidance; obtain independent current-byte acceptance.',
+  additionalRequiredSourceIds: ['official-form:FORM-283'],
+  requiredPacketSourceBindings: [{sourceId: 'official-form:FORM-283', sha256: DEFC_FORM_283_SHA256}]
+};
+
+function parseDefcAdoptionProof(proofBytes) {
+  assert.ok(proofBytes, 'DE Family Court source adoption proof unavailable');
+  assert.equal(sha(proofBytes), DEFC_ADOPTION_PROOF_SHA256, 'DE Family Court source adoption proof changed');
+  assert.equal(proofBytes.length, DEFC_ADOPTION_PROOF_BYTES, 'DE Family Court source adoption proof byte length changed');
+  let proof;
+  try { proof = JSON.parse(Buffer.from(proofBytes).toString('utf8')); }
+  catch (error) { throw new Error(`DE Family Court source adoption proof is invalid JSON: ${error.message}`); }
+  assert.deepEqual(proof, DEFC_ADOPTION_PROOF_RECORD, 'DE Family Court source adoption proof contents changed');
+  return proof;
+}
+
+// The current VF62 review predates one independently accepted DE Family Court
+// source-determination record. Permit that one source-registry refresh only
+// after proving the old receipt pin, the exact DEFC-only delta, and the
+// immutable source-adoption proof. This does not refresh the receipt or grant
+// packet, filing, payment, or sponsorship authority.
+export function deFamilyCourtSourceDelta(oldBytes, currentBytes, {proofBytes} = {}) {
+  assert.equal(sha(oldBytes), DEFC_HISTORICAL_REGISTRY_SHA256, 'DE Family Court historical source registry pin changed');
+  assert.equal(oldBytes.length, DEFC_HISTORICAL_REGISTRY_BYTES, 'DE Family Court historical source registry byte length changed');
+  assert.equal(sha(currentBytes), DEFC_CURRENT_REGISTRY_SHA256, 'DE Family Court current source registry is not the accepted refresh');
+  assert.equal(currentBytes.length, DEFC_CURRENT_REGISTRY_BYTES, 'DE Family Court current source registry byte length changed');
+  const proof = parseDefcAdoptionProof(proofBytes);
+  let old, current;
+  try {
+    old = JSON.parse(Buffer.from(oldBytes).toString('utf8'));
+    current = JSON.parse(Buffer.from(currentBytes).toString('utf8'));
+  } catch (error) { throw new Error(`DE Family Court source registry is invalid JSON: ${error.message}`); }
+  const oldReconciliation = old.reconciliation42;
+  const currentReconciliation = current.reconciliation42;
+  assert.ok(oldReconciliation && currentReconciliation, 'DE Family Court source registry reconciliation is missing');
+  assert.deepEqual(Object.keys(current), Object.keys(old), 'DE Family Court global source authority shape changed');
+  const oldOutsideReconciliation = structuredClone(old);
+  const currentOutsideReconciliation = structuredClone(current);
+  delete oldOutsideReconciliation.reconciliation42;
+  delete currentOutsideReconciliation.reconciliation42;
+  assert.deepEqual(currentOutsideReconciliation, oldOutsideReconciliation,
+    'DE Family Court global authority outside reconciliation42 changed');
+  assert.deepEqual(currentReconciliation.sharedExactBindings, oldReconciliation.sharedExactBindings,
+    'DE Family Court shared exact bindings changed');
+
+  const oldEvidencePaths = oldReconciliation.acquisitionEvidencePaths;
+  const currentEvidencePaths = currentReconciliation.acquisitionEvidencePaths;
+  assert.ok(Array.isArray(oldEvidencePaths) && Array.isArray(currentEvidencePaths),
+    'DE Family Court source evidence paths are missing');
+  assert.equal(new Set(oldEvidencePaths).size, oldEvidencePaths.length, 'historical DE Family Court evidence paths are duplicated');
+  assert.equal(new Set(currentEvidencePaths).size, currentEvidencePaths.length, 'current DE Family Court evidence paths are duplicated');
+  assert.deepEqual(currentEvidencePaths.slice(0, oldEvidencePaths.length), oldEvidencePaths,
+    'DE Family Court source evidence was removed or reordered');
+  assert.deepEqual(currentEvidencePaths.slice(oldEvidencePaths.length), [DEFC_ADOPTION_PROOF],
+    'DE Family Court source evidence delta is not the exact adopted Form 283 proof');
+
+  const oldSharedReconciliation = structuredClone(oldReconciliation);
+  const currentSharedReconciliation = structuredClone(currentReconciliation);
+  delete oldSharedReconciliation.families;
+  delete currentSharedReconciliation.families;
+  currentSharedReconciliation.acquisitionEvidencePaths = oldEvidencePaths;
+  assert.deepEqual(currentSharedReconciliation, oldSharedReconciliation,
+    'DE Family Court shared reconciliation metadata changed outside the proof path');
+
+  const oldFamilyIds = oldReconciliation.families?.map(row => row.familyId);
+  const currentFamilyIds = currentReconciliation.families?.map(row => row.familyId);
+  assert.ok(Array.isArray(oldFamilyIds) && Array.isArray(currentFamilyIds), 'DE Family Court family determinations are missing');
+  assert.deepEqual(currentFamilyIds, oldFamilyIds, 'DE Family Court source determination family set or order changed');
+  const oldFamilies = new Map(oldReconciliation.families.map(row => [row.familyId, row]));
+  const currentFamilies = new Map(currentReconciliation.families.map(row => [row.familyId, row]));
+  const changedFamilyIds = oldFamilyIds.filter(id => JSON.stringify(oldFamilies.get(id)) !== JSON.stringify(currentFamilies.get(id)));
+  assert.deepEqual(changedFamilyIds, [DEFC_FAMILY], 'DE Family Court source registry changed outside the exact DEFC family');
+  assert.deepEqual(oldFamilies.get(DEFC_FAMILY), DEFC_HISTORICAL_FAMILY, 'DE Family Court historical family anchor changed');
+  assert.deepEqual(currentFamilies.get(DEFC_FAMILY), DEFC_CURRENT_FAMILY, 'DE Family Court current family delta is unknown');
+  assert.deepEqual(currentFamilies.get(DE_FAMILY), oldFamilies.get(DE_FAMILY), 'DE mandatory source determination changed');
+  const sharedAnchorBytes = Buffer.from(JSON.stringify(oldSharedReconciliation));
+  const mandatoryAnchorBytes = Buffer.from(JSON.stringify(oldFamilies.get(DE_FAMILY)));
+  return {
+    comparison: 'historical DE source pin and all source authority remain identical except the exact DE Family Court Form 283 adoption delta',
+    scopeUnchanged: true,
+    historicalSource: {path: SOURCE_REGISTRY, sha256: sha(oldBytes), byteLength: oldBytes.length},
+    currentSource: {path: SOURCE_REGISTRY, sha256: sha(currentBytes), byteLength: currentBytes.length},
+    changedFamilyIds,
+    addedEvidencePaths: [DEFC_ADOPTION_PROOF],
+    sourceAdoptionProof: {
+      path: DEFC_ADOPTION_PROOF,
+      sha256: sha(proofBytes),
+      byteLength: proofBytes.length,
+      familyId: proof.familyId,
+      itemId: proof.itemId,
+      sourceSha256: proof.sha256,
+      sourceByteLength: proof.byteLength,
+      selectedSourcePages: proof.selectedSourcePages
+    },
+    unchangedAnchors: {
+      sharedReconciliationSha256: sha(sharedAnchorBytes),
+      deMandatoryFamilySha256: sha(mandatoryAnchorBytes)
+    }
+  };
+}
+
 // The receipt retains its historical pin and records an explicit identity
 // refresh. Only the measured DE-pardon and UT-PCRA changes may explain the new
 // whole-registry hash; Delaware mandatory and all other authority must compare
@@ -256,9 +398,19 @@ function assessCurrentDeReviewedGuidance(root, returned, overrides = {}) {
       const declared = declaredSources.get(source.path);
       assert.ok(declared, `review omitted source ${source.path}`);
       assert.equal(declared.sha256, source.sha256);
-      assert.equal(sha(bytes(source.path)), source.sha256, `current source changed: ${source.path}`);
-      assert.equal(sha(historical(row.verifiedAtBase, source.path)), source.sha256, `reviewed source changed: ${source.path}`);
-      return {path: source.path, sha256: source.sha256, matched: true};
+      const currentBytes = bytes(source.path);
+      const historicalBytes = historical(row.verifiedAtBase, source.path);
+      assert.equal(sha(historicalBytes), source.sha256, `reviewed source changed: ${source.path}`);
+      const currentSha256 = sha(currentBytes);
+      if (currentSha256 !== source.sha256) {
+        assert.equal(source.path, SOURCE_REGISTRY, `current source changed: ${source.path}`);
+        const delta = deFamilyCourtSourceDelta(historicalBytes, currentBytes, {
+          proofBytes: bytes(DEFC_ADOPTION_PROOF)
+        });
+        return {path: source.path, sha256: source.sha256, byteLength: source.byteLength,
+          matched: false, currentSha256, currentByteLength: currentBytes.length, ...delta};
+      }
+      return {path: source.path, sha256: source.sha256, byteLength: currentBytes.length, matched: true};
     });
 
     const rasterQueue = json('data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json');
