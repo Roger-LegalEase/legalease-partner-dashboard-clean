@@ -167,10 +167,10 @@ export const DE_CAPTION_CORRECTIONS = {
         "page 1 widget rect x[138.10,152.14] y[568.63,577.99]; the form's own printed text reads 'Interpreter needed?' at x[46.44,134.16] y[566.52,580.12]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
     },
     "No": {
-      capturedLabel: "Interpreter needed?  %¡  Yes",
+      capturedLabel: "Interpreter needed?   Yes",
       measuredLabel: "Interpreter needed?",
       measuredAt:
-        "page 1 widget rect x[182.91,196.95] y[568.63,577.99]; the form's own printed text reads 'Interpreter needed?' at x[46.44,134.16] y[566.52,580.12]; the shared capture returned \"Interpreter needed?  %¡  Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
+        "page 1 widget rect x[182.91,196.95] y[568.63,577.99]; the form's own printed text reads 'Interpreter needed?' at x[46.44,134.16] y[566.52,580.12]; the shared capture returned \"Interpreter needed?   Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
     },
     "Language": {
       capturedLabel: "Interpreter",
@@ -434,10 +434,10 @@ export const DE_CAPTION_CORRECTIONS = {
         "page 1 widget rect x[134.84,144.80] y[513.02,522.98]; the form's own printed text reads 'Interpreter Needed?' at x[61.80,124.50] y[514.50,521.73]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
     },
     "No": {
-      capturedLabel: "Interpreter Needed?       Yes",
+      capturedLabel: "Interpreter Needed?       Yes",
       measuredLabel: "Interpreter Needed?",
       measuredAt:
-        "page 1 widget rect x[172.80,182.76] y[512.37,522.33]; the form's own printed text reads 'Interpreter Needed?' at x[61.80,124.50] y[514.50,521.73]; the shared capture returned \"Interpreter Needed?       Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
+        "page 1 widget rect x[172.80,182.76] y[512.37,522.33]; the form's own printed text reads 'Interpreter Needed?' at x[61.80,124.50] y[514.50,521.73]; the shared capture returned \"Interpreter Needed?       Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
     },
     "Case ID or Criminal Case Row1": {
       capturedLabel: "Criminal Case # Date",
