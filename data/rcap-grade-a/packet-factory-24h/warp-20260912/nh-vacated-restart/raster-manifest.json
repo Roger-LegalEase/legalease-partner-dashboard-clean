@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-raster-queue/v1",
   "preparedOn": "2026-09-12",
   "packetCommitSha": "cad16eaf1897074696162b5b6edd5a53e87189c3",
-  "packetCommitShaStatus": "Independent VF03 semantic PASS published; packet bytes unchanged from this repair commit. Dispatch separately pins exact manifest commit.",
+  "packetCommitShaStatus": "Coverage declaration repaired; exact packet PDFs and document identity unchanged. Dispatch pins the full manifest commit.",
   "rows": [
     {
       "familyId": "nh_petition_vacated-set",
@@ -45,7 +45,19 @@
         }
       ],
       "documentsDigest": "c7fb9d7ad288aac39570f3887cb80ca2d2c2c06e518392186572a10df958a6a2",
-      "coverage": "Both complete packets including all four official forms and both guidance components; 26 pages total."
+      "coverage": {
+        "complete": true,
+        "basis": "Every current candidate packet PDF is enrolled by exact path, SHA-256, byte length and parsed page count; no component is omitted.",
+        "documents": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": []
+      }
     }
   ]
 }
