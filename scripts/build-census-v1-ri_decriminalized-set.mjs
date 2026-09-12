@@ -2190,7 +2190,7 @@ function sanitizePdfText(text) {
  */
 const MIN_ROWS_EITHER_SIDE = 2;
 
-async function renderComposedPdf(fullText, title) {
+async function renderComposedPdf(fullText, title, { keepGuideHeadingsWithBody = false } = {}) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
@@ -2248,7 +2248,10 @@ async function renderComposedPdf(fullText, title) {
    * of the notice package can go back to being a page of bare identifiers. */
   const TRAILER_LINE = new RegExp(`^(Route: |${INTERNAL_RECORD_REFERENCE_PREFIX})`);
   const rows = [];
-  for (const raw of sanitizePdfText(fullText).split("\n")) {
+  const layoutText = keepGuideHeadingsWithBody
+    ? sanitizePdfText(fullText).replace(/^([A-Z][A-Z0-9 ,.'()/:?!-]+[.!?])\n\n(?=\S)/gm, "$1\n")
+    : sanitizePdfText(fullText);
+  for (const raw of layoutText.split("\n")) {
     const trailer = TRAILER_LINE.test(raw);
     for (const row of wrap(raw)) rows.push({ text: row, trailer });
   }
@@ -3197,7 +3200,10 @@ export async function runRhodeIslandFamily(familyId, argv = process.argv.slice(2
         assert.ok(value.length > 0 && String(body).includes(value),
           `${component.id}: the composed page must carry the value bound to ${w.fact}`);
       }
-      const composed = await renderComposedPdf(body, component.title);
+      const composed = await renderComposedPdf(body, component.title, {
+        keepGuideHeadingsWithBody: familyId === "ri_first_offender_felony-set"
+          && component.role === "filing_instructions"
+      });
       const lonely = composed.drawnPerPage.map((n, i) => ({ page: i + 1, n })).filter((x) => x.n <= 1);
       assert.equal(lonely.length, 0,
         `${component.id} (${fixtureName}): a composed page carries a single drawn line: `
