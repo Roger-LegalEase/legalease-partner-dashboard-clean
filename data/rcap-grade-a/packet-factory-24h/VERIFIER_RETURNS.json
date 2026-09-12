@@ -34,14 +34,13 @@
     }
   ],
   "counts": {
-    "returnDirectories": 335,
-    "rows": 1426,
+    "returnDirectories": 338,
+    "rows": 1429,
     "independentVerdicts": 314,
-    "failRepairRequired": 2,
-    "passIndependent": 308
+    "failRepairRequired": 1,
+    "passIndependent": 310
   },
   "failRepairRequiredFamilies": [
-    "ia-dci77-set",
     "ky_protective_order_record_expungement-set"
   ],
   "refusedAtTheClaimGate": {
@@ -11771,6 +11770,20 @@
     },
     {
       "familyId": "ia-dci77-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfia1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c5b3bcc7e5618ee4bda9c3ca076159d3cb7cd393",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfia1/rows-vfia1-ia-dci77-original-final-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-dci77-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ia-dci77-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vfia1",
       "isIndependentVerification": true,
@@ -11819,7 +11832,23 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfia1/rows-vfia1-ia-dci77-semantic-fail-20260912.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-dci77-set",
-      "superseded": false
+      "superseded": true
+    },
+    {
+      "familyId": "ia-dci77-set",
+      "verdict": "PASS",
+      "lane": "vfia1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "16dfbc21719de3275b6424fcd99584ba011a042f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfia1/rows-vfia1-ia-dci77-semantic-pass-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-dci77-set",
+      "superseded": true
     },
     {
       "familyId": "id_clean_slate_shield-set",
@@ -21067,6 +21096,22 @@
         "ROUTE_OPTIONS"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-nh-conviction-streamlined-restart-semantic-blocked-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_conviction_streamlined-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nh_conviction_streamlined-set",
+      "verdict": "PASS",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c5b3bcc7e5618ee4bda9c3ca076159d3cb7cd393",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-nh-conviction-streamlined-revision-semantic-pass-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_conviction_streamlined-set",
       "superseded": false

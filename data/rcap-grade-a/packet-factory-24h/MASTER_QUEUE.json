@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
+  "minimumCaptainSha": "50424aa3c0d792a4d0d3e98d8fe7daf405bc2acd",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "7ff12ad939c26676481df778cb1de8ada1ce5518ec68de24b529020d70d26bcc",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "edc4c4271d4fea8350a3c636592ce6abccc6e2d21ce596eb5bb6dbe8a179dae0",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -76,21 +76,21 @@
     "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
     "remaining": 345,
-    "sourceReady": 30,
+    "sourceReady": 29,
     "sourceBlocked": 0,
-    "legalBlocked": 1,
+    "legalBlocked": 0,
     "verifyPending": 0,
     "repairRequired": 2,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 286,
+    "COMPLETE_PACKET_PROVEN": 287,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 30,
-    "HANDOFF_READY": 2,
     "FAIL_REPAIR_REQUIRED": 2,
-    "LEGAL_BLOCKED": 1,
+    "SOURCE_READY": 29,
+    "HANDOFF_READY": 2,
+    "BUILT_RASTER_PENDING": 1,
     "PRODUCT_PATH_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -159,11 +159,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 25,
-    "sourceReadyFamilies": 30,
+    "sourceReadyFamilies": 29,
     "familiesPerBuilder": 1.2,
     "targetPerBuilder": "15 to 25",
-    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 30 do, so a full roster of 25 builders averages 1.2 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 0 source obligations across 1 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 29 do, so a full roster of 25 builders averages 1.2 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -3942,9 +3942,8 @@
       "selectedIndependentVerdict": null,
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
+        "the current failed obligations have not been repaired",
+        "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -3959,20 +3958,33 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
-      "failingCounters": [],
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
+      "allNineCountersZero": false,
+      "counters": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 2,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failingCounters": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks"
+      ],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-act346-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill",
       "ownedPaths": [
@@ -18026,15 +18038,13 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfia1",
-        "verifiedAtBase": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfia1/rows-vfia1-ia-dci77-semantic-fail-20260912.json"
+        "verifiedAtBase": "c5b3bcc7e5618ee4bda9c3ca076159d3cb7cd393",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfia1/rows-vfia1-ia-dci77-original-final-20260912.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -18063,47 +18073,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The participant guide leaves the required payment-method instruction unresolved at participant-instructions.md line 9: \"Payment method — include one method (page 1): undefined\". Later text names some payment details, but the literal unresolved placeholder means this required before-filing instruction is not acceptable for an independent PASS. Repair the guide, rerun the bounded semantic preflight and obtain a new independent verdict.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            {
-              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
-              "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
-              "byteLength": 3921,
-              "line": 9,
-              "match": "Payment method — include one method (page 1): undefined"
-            },
-            {
-              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
-              "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
-              "byteLength": 123001,
-              "locator": "refusals[field=Payment]"
-            },
-            {
-              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
-              "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
-              "byteLength": 1076864,
-              "pageCount": 3,
-              "locator": "DCI-76 payment checklist"
-            },
-            {
-              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
-              "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
-              "byteLength": 1098,
-              "locator": "steps 2-6"
-            }
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-dci77-set.mjs",
@@ -22914,6 +22888,7 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -23096,6 +23071,7 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -34466,31 +34442,22 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verdict": "PASS",
         "lane": "vf02",
-        "verifiedAtBase": "cd60bf62a2186c46b6e245ade48c744ff189bae9",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-nh-conviction-streamlined-restart-semantic-blocked-20260912.json"
+        "verifiedAtBase": "c5b3bcc7e5618ee4bda9c3ca076159d3cb7cd393",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-nh-conviction-streamlined-revision-semantic-pass-20260912.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "an open legal input"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "nh_conviction_streamlined-set",
-        "foundBy": [
-          "vf02 (current independent verification)"
-        ],
-        "why": "ROUTE_OPTIONS: The controlling NH record leaves unresolved how the highest offense of conviction is determined when charges resolve on different dates and leaves RSA 651:5, VI whole-record eligibility analysis undetermined. The packet leaves route-critical participant/court choices blank and discloses the stop; it does not invent an eligibility branch. | FEE_AND_WAIVER: The packet correctly discloses the $125 filing fee and conditional NHJB-2311/NHJB-2328 pair, but the controlling NH record leaves unresolved whether the Department of Corrections investigation and $100 fee apply to this streamlined route. The legal question prevents acceptance and raster authorization.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-nh-conviction-streamlined-restart-semantic-blocked-20260912.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -34514,7 +34481,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_conviction_streamlined-set.mjs",
@@ -51613,9 +51580,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 30,
+    "familiesAssignedToBuilders": 29,
     "sourceObligationsAssigned": 0,
-    "actualPromotedAndReleased": 30,
+    "actualPromotedAndReleased": 29,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",

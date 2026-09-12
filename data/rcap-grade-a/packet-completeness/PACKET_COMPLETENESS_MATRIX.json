@@ -15,15 +15,16 @@
     "FAIL_COMPONENT_SET",
     "FAIL_CURRENTNESS"
   ],
-  "familiesAudited": 314,
+  "familiesAudited": 315,
   "byResult": {
     "PASS_COMPLETE": 280,
+    "FAIL_MISSING_REQUIRED_FACTS": 1,
     "NOT_MEASURABLE_HERE": 34
   },
   "counterTotals": {
-    "knownRequiredFieldsMissing": 0,
+    "knownRequiredFieldsMissing": 1,
     "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
+    "unclassifiedBlanks": 2,
     "incompleteRows": 0,
     "requiredOptionsMissing": 0,
     "requiredComponentsMissing": 0,
@@ -752,6 +753,71 @@
       "outputApprovalStatus": "BUILT_RASTER_PENDING",
       "sourceCurrentness": "EXACT",
       "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "ar-act346-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill",
+      "result": "FAIL_MISSING_REQUIRED_FACTS",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 2,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks"
+      ],
+      "totals": {
+        "terminalFields": 86,
+        "written": 14,
+        "blank": 72,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 11,
+          "OPTIONAL_PARTICIPANT_CONTENT": 8,
+          "PROTECTED_FIELD": 46,
+          "KNOWN_FACT_NOT_WRITTEN": 1,
+          "UNCLASSIFIED_BLANK": 2,
+          "PARTICIPANT_ELECTION_GENUINE": 4
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "documents-and-decisions"
+      },
+      "outputApprovalStatus": "REQUESTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "DAY",
+          "label": "The defendant was arrested on the",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "a required known fact with no approved reason for being blank",
+          "reasonGiven": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "MONTH",
+          "label": "1",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action.",
+          "reasonGiven": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "YEAR",
+          "label": "______________,",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action.",
+          "reasonGiven": "This participant-completed form blank is not held by the platform; complete it from the official record or after the required participant action."
+        }
+      ],
       "findingsTruncated": 0
     },
     {
