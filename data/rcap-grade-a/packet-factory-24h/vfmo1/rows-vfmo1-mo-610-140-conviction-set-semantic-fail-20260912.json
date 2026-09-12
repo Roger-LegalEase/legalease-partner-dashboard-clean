@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VFMO1",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "rows": [
+    {
+      "itemId": "mo-610-140-conviction-set",
+      "familyId": "mo-610-140-conviction-set",
+      "lane": "VFMO1",
+      "laneKind": "independent-verification",
+      "isIndependentVerification": true,
+      "status": "COMPLETED",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "a03afb773473e831fca70966bf66bfe8bc231ac0",
+      "reviewPhase": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "reviewer": "seven_independent_review (independent Astra xhigh)",
+      "claimEvidence": {
+        "lane": "VFMO1",
+        "assertedBeforeReads": true,
+        "grantSet": "e5dd61f91f9bf44d",
+        "grantCommit": "e5ce4836e",
+        "assertedLedgerGeneratedAtCommit": "c43d4d02c441f0dad3166de0cb1992ae6b527822",
+        "families": [
+          "mo-610-140-arrest-set",
+          "mo-610-140-conviction-set"
+        ],
+        "results": [
+          "CLAIM_OK",
+          "CLAIM_OK"
+        ]
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Exact separate arrest/no-charge and general conviction packet identities match the memo. Arrest release questions are explicitly retained in supporting proof; no legal answers invented.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "MO-S6 \u2014 exact measured findings in the linked record.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Canonical and boundary complete component manifests assembled in source order; CR370 and GN10 conditional on explicit fixture elections.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "MO-S1; MO-S2; MO-S3 \u2014 exact measured findings in the linked record.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "MO-S1; MO-S5; MO-S7 \u2014 exact measured findings in the linked record.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "MO-S4; MO-S5; MO-S7 \u2014 exact measured findings in the linked record.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "REPEATING_ROWS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "MO-S2; MO-S3; MO-S4 \u2014 exact measured findings in the linked record.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Current source/actor inspection preserves blank personal signatures, judicial dates/findings, clerk number/division; injected judgeSignature is refused. Only neutral facts and participant-supplied source elections are written. This is semantic ownership proof, not visual acceptance.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Current sources, fixtures, maps, instruction outputs and assembled PDFs are hash-bound. Runtime/payment/sponsorship remain refused.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Exact 13/14 arrest and 12/14 conviction pages agree with component manifests; all original CR360/CR370/FI-05 source glyphs survive at their positions. Final appearance still requires central originals.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "NOT_MEASURABLE_HERE",
+          "measured": false,
+          "finding": "Final current-original visual acceptance remains pending central raster. Semantic source/known-field findings already prevent dispatch.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "FILING_DESTINATION": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "MO-S4 \u2014 exact measured findings in the linked record.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Current fee is referred to clerk, repealed surcharge is not charged, and GN10 is conditional. Its missing caption and married-input defects are separately failed under source/required-input obligations.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "MO-S7 \u2014 exact measured findings in the linked record.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "MO-S7 \u2014 exact measured findings in the linked record.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        }
+      },
+      "failedObligationNames": [
+        "SOURCE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "FILING_DESTINATION",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationCounts": {
+        "PASS": 6,
+        "FAIL": 8,
+        "NOT_MEASURABLE_HERE": 1
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 14,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allZero": false,
+        "measuredHere": false,
+        "countingNotes": "Known missing field occurrences independently enumerated. Declared text writes all read back; semantic protected input rejection holds. Remaining full nine-counter audit, particularly visualDefects, is not invented before central originals."
+      },
+      "artifactsRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/canonical.packet.pdf",
+          "sha256": "d5563d0ec09f3ce2e3065b8c1c12a904158d7d13a2ae62e998b32f9fb236b586",
+          "byteLength": 798311,
+          "pages": 12
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/boundary.packet.pdf",
+          "sha256": "09dc32f4032115c9514db17f92ca9adc094f068009318f0917f684d0d0d8df3a",
+          "byteLength": 816887,
+          "pages": 14
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+      ],
+      "evidenceBindings": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json",
+          "sha256": "67c903de9be7e2309c5f901c9160419bbcc0c0667c886009dfaefcd538b1199b",
+          "byteLength": 39914
+        }
+      ],
+      "rasterDispatchAuthorized": false,
+      "terminalPromotionAuthorized": false,
+      "packetBytesChangedByReviewer": false,
+      "remainingBlocker": "Repair all measured source, known-field, conditional-input and participant-guidance findings before dispatch.",
+      "historicalDisposition": "No prior native independent packet verdict selected for this family in the inspected queue. Implementation return and all legal/source history are preserved; this independent FAIL measures current candidate bytes and makes no final visual claim."
+    }
+  ]
+}
