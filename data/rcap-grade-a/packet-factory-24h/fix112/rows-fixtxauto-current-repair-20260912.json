@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-bounded-repair-return/v1",
+  "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+  "lane": "FIXTXAUTO",
+  "author": "/root/sd_caption",
+  "recordedBy": "/root",
+  "packetCommitSha": "7b6d12fcdf07540fd6a063396c3057e277bb4381",
+  "semanticPreflight": "PASS",
+  "rasterDispatchAuthorized": true,
+  "finalAcceptance": false,
+  "resolvedFindings": [
+    "Prefill held court number and native County Court at Law Choice3 from held court name",
+    "Complete mailing and declaration addresses from held street and locality",
+    "Prefill declaration DOB month/day/year from held date, preserving separate notary month widget blank",
+    "Declare Statement Cause Number clerk-owned",
+    "Preserve governance during build and saved-byte checks"
+  ],
+  "workerChecks": {
+    "focusedTest": "PASS: scripts/rcap-packet-recovery/tx-automatic-native-controls.test.mjs",
+    "builderCheck": "PASS: --check",
+    "governance": "EVERY_GOVERNANCE_KEY_SURVIVED"
+  },
+  "completenessReport": {
+    "schemaVersion": "rcap-builder-completeness-counters/v1",
+    "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "allNineZero": true,
+    "findings": [],
+    "measurementBasis": {
+      "censusFields": 157,
+      "mappedComponents": 3,
+      "packetFixtures": 2,
+      "declaredWrites": 39,
+      "requiredBeforeFiling": 94,
+      "terminalFieldsClassified": 159,
+      "blankDispositionLedgerEntries": 120,
+      "refusedWidgetsMeasuredFromFinalBytes": 240,
+      "rasterState": "RASTER_PENDING",
+      "visualDefectsCountsOnlyStructurallyDetectedInk": true
+    },
+    "note": "Derived from the exhaustive source census, three-component page manifest, and actual-write proofs. No visual acceptance is claimed."
+  },
+  "manifest": {
+    "path": "data/rcap-grade-a/packet-factory-24h/fix112/tx-automatic-raster-manifest-20260912.json",
+    "sha256": "692f36eb0482dcb9ae756d521a281c2a5c21870a8bbf6832d13f6a3937dee207",
+    "byteLength": 3243,
+    "documentsDigest": "2da1d9fc20fbdf65be7b63fb50b33eb7c3b118f002a292d87d30216f16667439"
+  },
+  "documents": [
+    {
+      "name": "canonical.pdf",
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/fixtures/canonical.pdf",
+      "role": "canonical",
+      "sha256": "d4336f778833e40df39570f5b2bb5b4b9979d9db87470b193e6e8de3dba30e5b",
+      "byteLength": 716248,
+      "pageCount": 22,
+      "pageCountBasis": "parsed from queued PDF bytes with pdf-lib",
+      "pageCountEvidence": {
+        "method": "pdf-lib 1.17.1",
+        "pageCount": 22,
+        "sourceSha256": "d4336f778833e40df39570f5b2bb5b4b9979d9db87470b193e6e8de3dba30e5b"
+      }
+    },
+    {
+      "name": "boundary.pdf",
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/fixtures/boundary.pdf",
+      "role": "boundary",
+      "sha256": "3d645fdf1509d80ff7bf6d988a8ae95165c5ffbc1a005a3b91871202d98fe41d",
+      "byteLength": 716423,
+      "pageCount": 22,
+      "pageCountBasis": "parsed from queued PDF bytes with pdf-lib",
+      "pageCountEvidence": {
+        "method": "pdf-lib 1.17.1",
+        "pageCount": 22,
+        "sourceSha256": "3d645fdf1509d80ff7bf6d988a8ae95165c5ffbc1a005a3b91871202d98fe41d"
+      }
+    }
+  ],
+  "unfinishedGates": [
+    "Independent current-byte semantic acceptance",
+    "Central raster and original visual acceptance",
+    "Final independent acceptance and native terminal integration"
+  ]
+}
