@@ -1,0 +1,330 @@
+{
+  "schemaVersion": "rcap-vf02-bounded-semantic-review/v2",
+  "familyId": "de_discretionary_superior_court-set",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS_PRE_RASTER_SEMANTIC",
+  "reviewedAtBase": "fded60e657631cdee0c146396e446482f4d66384",
+  "packetCommitSha": "64de122c21553331326457ac1d778b41bd113033",
+  "scope": "Bounded independent recheck of the prior VF02 COMPONENT_SET and REQUIRED_BEFORE_FILING failures against the exact committed DE repair and current metadata. Both two-page official-form fixtures pass current saved-byte, source, component, guide, write-proof and nine-counter checks. Raster visual measurement and final acceptance remain open.",
+  "claimEvidence": {
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 de_discretionary_superior_court-set",
+    "result": "CAPTAIN_REISSUE_REQUIRED",
+    "assertedBeforeFamilyReads": false,
+    "note": "No active VF02 claim was present after the prior withdrawal at review time; reviewer did not mutate the shared claim ledger. Captain may reissue/assert this exact family before raster dispatch."
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909e.json",
+    "sha256": "1a977b2eb1d55c1ce1f4024a700b41f05f2c817f855b562aeaebe397ad3f3d5f",
+    "byteLength": 76401,
+    "failedObligations": [
+      "COMPONENT_SET",
+      "REQUIRED_BEFORE_FILING"
+    ],
+    "priorReviewBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8"
+  },
+  "resolvedFindings": [
+    {
+      "findingId": "COMPONENT_SET",
+      "status": "RESOLVED",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix112/de-current-saved-byte-preflight-20260912.json",
+      "evidenceSha256": "914c4e5ae01c4f9cb00604e37627ad77d461597031e8084ff993cdb4980bd61f",
+      "details": "Current legal-clear decision and packet-set manifest v1.0.1 require Petition + Proposed Order plus external SBI cover letter and qualifying certified history. The committed current component set is primary petition, conditional CIV_EXP_02_B continuation, and proposed order; both four-row fixtures render only the two required official forms. No stale generic cover sheet is rendered or instructed.",
+      "byteEvidence": "Exact canonical and boundary PDFs are 2 pages each, with page manifests CIV_EXP_02_A then CIV_EXP_04_A and no stale cover markers."
+    },
+    {
+      "findingId": "REQUIRED_BEFORE_FILING",
+      "status": "RESOLVED",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix112/de-current-saved-byte-preflight-20260912.json",
+      "evidenceSha256": "914c4e5ae01c4f9cb00604e37627ad77d461597031e8084ff993cdb4980bd61f",
+      "details": "The current participant guide reproduces all nine current manifest requiredBeforeFiling entries, including the manifest-injustice assertion checkbox and explanation, SBI cover letter and certified-history attachment, signature/notarization and fee/waiver actions.",
+      "byteEvidence": "Current guide hash is bound; saved PDF text contains the source manifest-injustice checkbox and leaves it for the participant without marking it."
+    }
+  ],
+  "sourceIdentity": {
+    "status": "PASS",
+    "allSourcesExact": true,
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/source-receipt.json",
+      "sha256": "376808e6f480c556eeafe00084f3e11cce3225c7476a249f3359a9d6c27a3af8",
+      "byteLength": 19278,
+      "allSourcesExact": true
+    },
+    "documents": [
+      {
+        "documentId": "CIV_EXP_02_A",
+        "role": null,
+        "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+        "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+        "byteLength": 179445,
+        "pageCount": 1,
+        "ok": true
+      },
+      {
+        "documentId": "CIV_EXP_04_A",
+        "role": null,
+        "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+        "sha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+        "byteLength": 987462,
+        "pageCount": null,
+        "ok": true
+      }
+    ],
+    "conditionalDocument": {
+      "documentId": "CIV_EXP_02_B",
+      "sha256": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+      "byteLength": 227057,
+      "condition": "When charges exceed the table on the petition.",
+      "usedInFixtures": false
+    },
+    "committedRecords": [
+      {
+        "recordId": "packet-set-manifest:de_discretionary_superior_court-set",
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+        "byteLength": 3710466,
+        "ok": true
+      },
+      {
+        "recordId": "track-registry:de_discretionary_superior_court",
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "byteLength": 16781025,
+        "ok": true
+      },
+      {
+        "recordId": "legal-decision:DE-DISCRETIONARY-SUPERIOR-CURRENT-PACKET",
+        "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+        "byteLength": 22372,
+        "ok": true
+      }
+    ]
+  },
+  "obligations": {
+    "ROUTE_IDENTITY": "PASS",
+    "SOURCE_IDENTITY": "PASS",
+    "COMPONENT_SET": "PASS_BOUNDED_REPAIR",
+    "KNOWN_PREFILLS": "PASS_NONVISUAL",
+    "REQUIRED_BEFORE_FILING": "PASS_BOUNDED_REPAIR",
+    "REPEATING_ROWS": "PASS_NONVISUAL",
+    "PROTECTED_FIELDS": "PASS_NONVISUAL",
+    "ARTIFACTS": "PASS_NONVISUAL",
+    "PAGE_ORDER": "PASS_NONVISUAL",
+    "CLIPPING_AND_OVERLAP": "NOT_MEASURABLE_HERE",
+    "FILING_DESTINATION": "PASS",
+    "FEE_AND_WAIVER": "PASS",
+    "SERVICE": "PASS",
+    "SELF_HELP_STOP": "PASS"
+  },
+  "obligationCounts": {
+    "pass": 14,
+    "fail": 0,
+    "notMeasurable": 1,
+    "failedObligationNames": [],
+    "unmeasuredObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ]
+  },
+  "nonvisualCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonvisualZero": true,
+    "visualMeasuredHere": false
+  },
+  "currentCandidateBindings": {
+    "packetCommitSha": "64de122c21553331326457ac1d778b41bd113033",
+    "sourceDocuments": [
+      {
+        "documentId": "CIV_EXP_02_A",
+        "role": null,
+        "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+        "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+        "byteLength": 179445,
+        "pageCount": 1,
+        "ok": true
+      },
+      {
+        "documentId": "CIV_EXP_04_A",
+        "role": null,
+        "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+        "sha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+        "byteLength": 987462,
+        "pageCount": null,
+        "ok": true
+      }
+    ],
+    "metadata": {
+      "packetSetManifest": {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+        "byteLength": 3710466
+      },
+      "trackRegistry": {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "byteLength": 16781025
+      },
+      "legalDecision": {
+        "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+        "byteLength": 22372
+      },
+      "sourceReceipt": {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/source-receipt.json",
+        "sha256": "376808e6f480c556eeafe00084f3e11cce3225c7476a249f3359a9d6c27a3af8",
+        "byteLength": 19278
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "6e7f02f65d861df60dd251da0174bb16d4a35d7519a49fcdc14862b43804ce35",
+        "byteLength": 25680
+      },
+      "renderedArtifacts": {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "e4bf91c9fa3fcc12d58fb20a10b6da88aa4530244a46a86c67c8978951a7576c",
+        "byteLength": 5066
+      },
+      "actualWrites": {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "65944e8ae24f2cafb3857b8e7d202afdbf24c82d72d2daa06bc2593b340ad76d",
+        "byteLength": 56486
+      },
+      "completenessCounters": {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/reports/completeness-counters.json",
+        "sha256": "87907f7dd42de16e9b75cb127858152229c197438a99d2d96da262bc7581045d",
+        "byteLength": 1037
+      },
+      "participantBlanks": {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "sha256": "ad28994248c9d20aa46ff19619b1a0e1eee616a3834b780a4fdb8aace487fe50",
+        "byteLength": 81345
+      },
+      "buildFindings": {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/build-findings.json",
+        "sha256": "f31653b69b554f6ec1e0ea2108cc645e3bd8bc37b7d107224bb9d71b45cbfacc",
+        "byteLength": 45534
+      },
+      "builder": {
+        "path": "scripts/build-census-v1-de_discretionary_superior_court-set.mjs",
+        "sha256": "ef5f1f380c1cb312d791e39f8da412d37d740d578f053ea89981f3e92005db43",
+        "byteLength": 39571
+      },
+      "savedBytePreflight": {
+        "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-current-saved-byte-preflight-20260912.json",
+        "sha256": "914c4e5ae01c4f9cb00604e37627ad77d461597031e8084ff993cdb4980bd61f",
+        "byteLength": 1239
+      },
+      "rasterManifest": {
+        "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-current-raster-manifest-20260912.json",
+        "sha256": "fba4d3ea49d8c8c25ebd7a35001dd27deb20e7e619d152d8ee086edaa93892de",
+        "byteLength": 3290
+      }
+    },
+    "fixtures": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "05033793dcf746e364ff4fdd67506e60778752ce52f647cdd68fe8387882af06",
+        "byteLength": 1075754,
+        "role": "canonical",
+        "pageCount": 2
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "254189a3489271b2b72cb9f9448ef0e0b01feb6bdadd072c5c1b12bcd94ab17d",
+        "byteLength": 1075950,
+        "role": "boundary",
+        "pageCount": 2
+      }
+    ],
+    "manifestPacketCommitSha": "64de122c21553331326457ac1d778b41bd113033",
+    "manifestDocumentsDigest": "fa4afb4f86abfed8535ffdde4b96742086d2a00af40faecd61114cd59330d8e2",
+    "manifestCoverage": {
+      "complete": true,
+      "basis": "Both complete two-page assemblies cover the official petition and proposed order; the conditional continuation is not triggered by either fixture. SBI letter and certified history remain required participant attachments.",
+      "documents": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "rastered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "notRastered": [],
+      "notRenderedByThisGate": [],
+      "whatCompleteMeansHere": "Every canonical and boundary PDF page is rendered in full."
+    },
+    "currentHeadAtReview": "fded60e657631cdee0c146396e446482f4d66384"
+  },
+  "derivedFactLineage": [
+    "Participant name, address, date of birth, telephone and criminal case number are the held identity facts written into the official CIV_EXP_02_A and CIV_EXP_04_A widgets; charge tables, venue, interpreter election, manifest-injustice assertion, signature/jurat, attorney fields and court-assigned numbers remain participant/court-owned.",
+    "The proposed order is CIV_EXP_04_A under current packet-set manifest v1.0.1; CIV_EXP_02_B is bound only for the conditional more-than-four-charge case and is not in either four-row fixture.",
+    "SBI cover letter and qualifying certified criminal history are external participant attachments required by the current legal decision and guide; no generic cover sheet is synthesized."
+  ],
+  "independentByteProof": {
+    "status": "PASS_NONVISUAL",
+    "method": "Independent SHA-256, Poppler page count/text readback, current actual-writes report inspection, source receipt rehash and manifest/guide/legal binding comparison. No raster PNGs or visual zero asserted.",
+    "checkReport": "/tmp/de-independent-semantic-final-20260912.json",
+    "checkCount": 32,
+    "passedChecks": 32,
+    "exactPdfBindings": {
+      "canonical": {
+        "path": "/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "05033793dcf746e364ff4fdd67506e60778752ce52f647cdd68fe8387882af06",
+        "byteLength": 1075754,
+        "pageCount": 2
+      },
+      "boundary": {
+        "path": "/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "254189a3489271b2b72cb9f9448ef0e0b01feb6bdadd072c5c1b12bcd94ab17d",
+        "byteLength": 1075950,
+        "pageCount": 2
+      }
+    }
+  },
+  "repairReturn": {
+    "status": "PASS_BOUNDED_REPAIR",
+    "packetCommitSha": "64de122c21553331326457ac1d778b41bd113033",
+    "savedBytePreflight": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-current-saved-byte-preflight-20260912.json",
+      "sha256": "914c4e5ae01c4f9cb00604e37627ad77d461597031e8084ff993cdb4980bd61f",
+      "byteLength": 1239
+    }
+  },
+  "rasterDispatchAuthorized": true,
+  "rasterEvidence": {
+    "status": "PENDING",
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-current-raster-manifest-20260912.json",
+      "sha256": "fba4d3ea49d8c8c25ebd7a35001dd27deb20e7e619d152d8ee086edaa93892de",
+      "byteLength": 3290,
+      "packetCommitSha": "64de122c21553331326457ac1d778b41bd113033",
+      "documentsDigest": "fa4afb4f86abfed8535ffdde4b96742086d2a00af40faecd61114cd59330d8e2"
+    },
+    "runId": null,
+    "artifactId": null,
+    "visualPagesMeasured": 0
+  },
+  "finalAcceptance": false,
+  "unfinishedGates": [
+    "hash-bound original raster pages and independent visual acceptance",
+    "native integration/terminal closure"
+  ],
+  "independence": {
+    "implementationEditsByReviewer": false,
+    "sharedManifestOrLedgerEditsByReviewer": false,
+    "visualAcceptanceClaimed": false,
+    "reviewerAuthoritativeForFinalVisual": true
+  }
+}
