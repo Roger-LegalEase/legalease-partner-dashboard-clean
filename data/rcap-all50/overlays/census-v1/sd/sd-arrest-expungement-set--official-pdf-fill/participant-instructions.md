@@ -5,6 +5,7 @@ The canonical and boundary PDFs are review fixtures. Do not copy their sample va
 ## Required before filing or service
 
 - **Judicial Circuit number** (UJS-391, UJS-392, UJS-393, UJS-394, UJS-395): before filing each captioned component.
+- **UJS-232 new-action Case Type** (UJS-232): before filing, select the truthful Case Type for this new civil action from the current UJS list or confirm it with the Clerk; the packet does not infer it.
 - **State's Attorney name** (UJS-391): before service.
 - **State's Attorney mailing address** (UJS-391): before service.
 - **Notice recipient name** (UJS-393, UJS-395): before mailing the notice.
@@ -25,6 +26,7 @@ The canonical and boundary PDFs are review fixtures. Do not copy their sample va
 ## Where you file this
 
 File with the **Clerk of Court of the circuit court for the county where the arrest record or case is filed** — UJS-391's own instruction sheet says the county you file in "will be the same county where the arrest record or case is filed in", and every caption in this packet reads "STATE OF SOUTH DAKOTA, IN CIRCUIT COURT". Enter that county and its Judicial Circuit number in each caption (the circuit number is the item listed above; the Clerk of Court can tell you the number for your county). **The case number will be provided to you by the Clerk of Court at the time of filing** — UJS-391 instruction 1(b) — so do not invent one. File the Motion for Expungement UJS-391A with the Clerk of Court **along with the Case Filing Statement UJS-232**.
+**UJS-232's case-entry fork is left truthful and blank.** It asks for the Case File No. of an existing record or the Case Type when initiating a new action. This packet treats the expungement filing as the new civil action and holds no supported existing-action election, civil Case File No., or official Case Type value. Before filing, select the applicable Case Type from the current UJS list or confirm it with the Clerk; do not copy the criminal docket number into this field or use it as a civil Case No.
 
 ## The filing fee
 

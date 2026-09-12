@@ -670,6 +670,24 @@ const FAMILY_CONFIGS = {
     state: "sd",
     action: "BUILD",
     outputVehicle: "official-pdf-fill",
+    deferRasterToActions: true,
+    /* FIX112. The criminal docket fact is held, but these caption fields are
+     * the new civil action's Case No. They belong to the Clerk and must stay
+     * empty until filing. This is consumed by the shared AcroForm finalizer so
+     * the wrapper never inherits stale criminal-number ink from the base packet.
+     * The family-local declaration keeps every sibling on this host unchanged.
+     */
+    sourceProtectedFields: {
+      "UJS-391": { "case number": "court_prosecutor_clerk_or_agency_owned" },
+      "UJS-392": { "case number": "court_prosecutor_clerk_or_agency_owned" },
+      "UJS-393": {
+        "Case Number": "court_prosecutor_clerk_or_agency_owned",
+        "case number": "court_prosecutor_clerk_or_agency_owned"
+      },
+      "UJS-394": { "case number": "court_prosecutor_clerk_or_agency_owned" },
+      "UJS-395": { "case number": "court_prosecutor_clerk_or_agency_owned" }
+    },
+    enforceSourceProtectedFieldsBeforePrefill: true,
     assignmentOwnedPath: "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
     routeKeys: ["obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"],
     selectionId: "sd-stage-2-ujs-232-391-through-395",
@@ -2367,6 +2385,14 @@ function prepareAcroPolicy(census, policy, namedFactWrites = []) {
     );
     let reason = null;
     if (!policy.documentAcceptsFill) reason = policy.reason ?? "document_role_does_not_accept_prefill";
+    /* A family may declare a source-proven role for a field whose printed
+     * caption otherwise looks like a held fact. Apply this only when the
+     * family opts in before the finalizer runs; the existing source-protected
+     * disposition remains the single typed refusal vocabulary downstream. */
+    if (!reason && policy.enforceSourceProtectedFieldsBeforePrefill === true
+      && policy.sourceProtectedFields?.[field.name]) {
+      reason = "source_protected_field";
+    }
     if (!reason) reason = unsafeReason(subject, field.regionHeading, decision.factId);
     if (!reason && decision.writable && !approvedFactLabel(decision.factId, subject)) reason = "binding_not_approved_by_exact_caption_gate";
     if (reason && namedFactFields.has(field.name)) {
@@ -3027,6 +3053,7 @@ async function renderOneDocument(source, config, fixture) {
   const policy = { ...policyFor(source), routeKey: config.routeKeys[0] ?? null,
     ...(config.classifyNonFilingSourceControls ? { sourceSha256: source.sha256, manualCaptionTemplates: config.manualCaptionTemplates } : {}),
     ...(config.sourceProtectedFields?.[source.formNumber] ? { sourceProtectedFields: config.sourceProtectedFields[source.formNumber] } : {}),
+    ...(config.enforceSourceProtectedFieldsBeforePrefill ? { enforceSourceProtectedFieldsBeforePrefill: true } : {}),
     ...(config.referenceOnlyDocuments?.includes(source.formNumber) ? { referenceOnly: true } : {}),
     ...(nonprintingControls.length ? { nonprintingSourceControls: nonprintingControls } : {}),
     ...(caption ? { completedCaptionFields: [caption.choiceField, "enter the type of court"] } : {}) };

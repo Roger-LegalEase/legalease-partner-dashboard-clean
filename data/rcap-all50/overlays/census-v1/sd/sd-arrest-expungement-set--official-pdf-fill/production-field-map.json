@@ -703,14 +703,6 @@
     },
     {
       "document": "UJS-392",
-      "field": "case number",
-      "page": 2,
-      "basis": "refused_by_role",
-      "readOnlyInSource": false,
-      "why": "this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as \"Who must receive a copy, and how\" below directs."
-    },
-    {
-      "document": "UJS-392",
       "field": "City State Zip Code-waiver",
       "page": 2,
       "basis": "refused_by_role",
@@ -816,22 +808,6 @@
     {
       "document": "UJS-393",
       "field": "am hearing",
-      "page": 2,
-      "basis": "refused_by_role",
-      "readOnlyInSource": false,
-      "why": "this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as \"Who must receive a copy, and how\" below directs."
-    },
-    {
-      "document": "UJS-393",
-      "field": "case number",
-      "page": 3,
-      "basis": "refused_by_role",
-      "readOnlyInSource": false,
-      "why": "this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as \"Who must receive a copy, and how\" below directs."
-    },
-    {
-      "document": "UJS-393",
-      "field": "Case Number",
       "page": 2,
       "basis": "refused_by_role",
       "readOnlyInSource": false,
@@ -1111,14 +1087,6 @@
     },
     {
       "document": "UJS-395",
-      "field": "case number",
-      "page": 2,
-      "basis": "refused_by_role",
-      "readOnlyInSource": false,
-      "why": "this build refused the field by role: the value comes from the court, the clerk or the prosecutor, or from the act of service, not from your own knowledge. Complete it only as \"Who must receive a copy, and how\" below directs."
-    },
-    {
-      "document": "UJS-395",
       "field": "city and state mailed from",
       "page": 3,
       "basis": "refused_by_role",
@@ -1308,7 +1276,8 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+        "enforceSourceProtectedFieldsBeforePrefill": true
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
@@ -1364,18 +1333,6 @@
       "offeredAnchors": null,
       "protectedRules": null,
       "canonicalWrites": [
-        {
-          "field": "case type",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 9.072,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 1,
-          "packetPage": 1,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
         {
           "field": "LastBusiness Name - plaintiff",
           "factId": "participant.last_name",
@@ -1498,6 +1455,15 @@
         }
       ],
       "canonicalRefusals": [
+        {
+          "field": "case type",
+          "reason": "UJS-232 requires either an existing-record Case File No. or a Case Type for a new action; this packet has no supported existing-action election or held civil identifier, so supply or confirm the truthful new-action Case Type before filing and never copy the criminal docket number",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "UJS-232 Case Filing Statement: Provide the Case File No. for the record you are filing into or the Case Type if initiating a new action",
+          "requiredBeforeFiling": true
+        },
         {
           "field": "Suffix plaintiff",
           "reason": "optional participant-authored content; the platform does not invent it",
@@ -1942,18 +1908,6 @@
       ],
       "boundaryWrites": [
         {
-          "field": "case type",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 4.571999999999999,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 1,
-          "packetPage": 1,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "LastBusiness Name - plaintiff",
           "factId": "participant.last_name",
           "kind": "text",
@@ -2075,6 +2029,15 @@
         }
       ],
       "boundaryRefusals": [
+        {
+          "field": "case type",
+          "reason": "UJS-232 requires either an existing-record Case File No. or a Case Type for a new action; this packet has no supported existing-action election or held civil identifier, so supply or confirm the truthful new-action Case Type before filing and never copy the criminal docket number",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "UJS-232 Case Filing Statement: Provide the Case File No. for the record you are filing into or the Case Type if initiating a new action",
+          "requiredBeforeFiling": true
+        },
         {
           "field": "Suffix plaintiff",
           "reason": "optional participant-authored content; the platform does not invent it",
@@ -2525,7 +2488,11 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+        "sourceProtectedFields": {
+          "case number": "court_prosecutor_clerk_or_agency_owned"
+        },
+        "enforceSourceProtectedFieldsBeforePrefill": true
       },
       "structuralClass": "acroform",
       "explicitMappings": {
@@ -2758,44 +2725,8 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 10,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 2,
-          "packetPage": 3,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 10,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 4,
-          "packetPage": 5,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 10,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 3,
-          "packetPage": 4,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "criminal case number",
-          "factId": "matter.case_number",
+          "factId": "matter.charges[0].case_number",
           "kind": "text",
           "fontSize": 7.4448,
           "outcome": "fit",
@@ -2807,7 +2738,7 @@
         },
         {
           "field": "criminal case number",
-          "factId": "matter.case_number",
+          "factId": "matter.charges[0].case_number",
           "kind": "text",
           "fontSize": 10,
           "outcome": "fit",
@@ -3025,6 +2956,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         },
         {
           "field": "date mailed",
@@ -3227,44 +3170,8 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 7,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 2,
-          "packetPage": 3,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 7,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 4,
-          "packetPage": 5,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 7,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 3,
-          "packetPage": 4,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "criminal case number",
-          "factId": "matter.case_number",
+          "factId": "matter.charges[0].case_number",
           "kind": "text",
           "fontSize": 5.1948,
           "outcome": "fit",
@@ -3276,7 +3183,7 @@
         },
         {
           "field": "criminal case number",
-          "factId": "matter.case_number",
+          "factId": "matter.charges[0].case_number",
           "kind": "text",
           "fontSize": 6.5,
           "outcome": "fit",
@@ -3496,6 +3403,18 @@
           "requiredBeforeFiling": true
         },
         {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
+        },
+        {
           "field": "date mailed",
           "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
           "category": null,
@@ -3595,7 +3514,11 @@
         "reason": "waiver and service-act companion; left for post-event completion",
         "captionOnly": false,
         "documentAcceptsFill": false,
-        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+        "sourceProtectedFields": {
+          "case number": "court_prosecutor_clerk_or_agency_owned"
+        },
+        "enforceSourceProtectedFieldsBeforePrefill": true
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
@@ -3762,20 +3685,8 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 9.504,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 2,
-          "packetPage": 7,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "criminal case number",
-          "factId": "matter.case_number",
+          "factId": "matter.charges[0].case_number",
           "kind": "text",
           "fontSize": 9.504,
           "outcome": "fit",
@@ -3822,6 +3733,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         },
         {
           "field": "person completing the form",
@@ -3958,20 +3881,8 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 6.754,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 2,
-          "packetPage": 7,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "criminal case number",
-          "factId": "matter.case_number",
+          "factId": "matter.charges[0].case_number",
           "kind": "text",
           "fontSize": 9.504,
           "outcome": "fit",
@@ -4018,6 +3929,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         },
         {
           "field": "person completing the form",
@@ -4137,7 +4060,12 @@
         "reason": "notice-of-hearing companion containing court/process facts not held by the platform",
         "captionOnly": false,
         "documentAcceptsFill": false,
-        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+        "sourceProtectedFields": {
+          "Case Number": "court_prosecutor_clerk_or_agency_owned",
+          "case number": "court_prosecutor_clerk_or_agency_owned"
+        },
+        "enforceSourceProtectedFieldsBeforePrefill": true
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
@@ -4216,18 +4144,6 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "Case Number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 10,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 2,
-          "packetPage": 9,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "county name",
           "factId": "matter.county",
           "kind": "text",
@@ -4242,18 +4158,6 @@
         {
           "field": "petitioner name",
           "factId": "participant.full_legal_name",
-          "kind": "text",
-          "fontSize": 10,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 3,
-          "packetPage": 10,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
-          "field": "case number",
-          "factId": "matter.case_number",
           "kind": "text",
           "fontSize": 10,
           "outcome": "fit",
@@ -4413,6 +4317,18 @@
           "requiredBeforeFiling": true
         },
         {
+          "field": "Case Number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
+        },
+        {
           "field": "judicial circuit",
           "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
@@ -4420,6 +4336,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         },
         {
           "field": "date mailed",
@@ -4529,18 +4457,6 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "Case Number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 6,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 2,
-          "packetPage": 9,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "county name",
           "factId": "matter.county",
           "kind": "text",
@@ -4557,18 +4473,6 @@
           "factId": "participant.full_legal_name",
           "kind": "text",
           "fontSize": 7,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 3,
-          "packetPage": 10,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 6.5,
           "outcome": "fit",
           "lines": 1,
           "sourcePage": 3,
@@ -4726,6 +4630,18 @@
           "requiredBeforeFiling": true
         },
         {
+          "field": "Case Number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
+        },
+        {
           "field": "judicial circuit",
           "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
@@ -4733,6 +4649,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         },
         {
           "field": "date mailed",
@@ -4824,7 +4752,11 @@
         "mode": "caption_only",
         "captionOnly": true,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+        "sourceProtectedFields": {
+          "case number": "court_prosecutor_clerk_or_agency_owned"
+        },
+        "enforceSourceProtectedFieldsBeforePrefill": true
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
@@ -4858,20 +4790,8 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 10,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 1,
-          "packetPage": 11,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "criminal case number",
-          "factId": "matter.case_number",
+          "factId": "matter.charges[0].case_number",
           "kind": "text",
           "fontSize": 10,
           "outcome": "fit",
@@ -4891,6 +4811,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": "IN THE M OFAT TTEHRE EXPU NGEM ENT",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         }
       ],
       "boundaryWrites": [
@@ -4919,20 +4851,8 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 5.75,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 1,
-          "packetPage": 11,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "criminal case number",
-          "factId": "matter.case_number",
+          "factId": "matter.charges[0].case_number",
           "kind": "text",
           "fontSize": 6.25,
           "outcome": "fit",
@@ -4952,6 +4872,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": "IN THE M OFAT TTEHRE EXPU NGEM ENT",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         }
       ],
       "roleRefusalDuplicatesRetired": true
@@ -4963,7 +4895,11 @@
         "reason": "notice-of-entry/service companion; the triggering acts have not occurred",
         "captionOnly": false,
         "documentAcceptsFill": false,
-        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+        "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+        "sourceProtectedFields": {
+          "case number": "court_prosecutor_clerk_or_agency_owned"
+        },
+        "enforceSourceProtectedFieldsBeforePrefill": true
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
@@ -4987,18 +4923,6 @@
         {
           "field": "county name",
           "factId": "matter.county",
-          "kind": "text",
-          "fontSize": 10,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 2,
-          "packetPage": 13,
-          "fixture": "canonical",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
-          "field": "case number",
-          "factId": "matter.case_number",
           "kind": "text",
           "fontSize": 10,
           "outcome": "fit",
@@ -5165,6 +5089,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": "COUNTY OF JUDICIAL CIRCUIT",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         },
         {
           "field": "day order signed",
@@ -5364,18 +5300,6 @@
           "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
         },
         {
-          "field": "case number",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 6.75,
-          "outcome": "fit",
-          "lines": 1,
-          "sourcePage": 2,
-          "packetPage": 13,
-          "fixture": "boundary",
-          "repairedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR"
-        },
-        {
           "field": "county filed",
           "factId": "matter.county",
           "kind": "text",
@@ -5532,6 +5456,18 @@
           "blankDisposition": "REQUIRED_BEFORE_FILING",
           "dispositionBasis": "P4 exact-form route and role classification",
           "requiredBeforeFiling": true
+        },
+        {
+          "field": "case number",
+          "reason": "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "role": "clerk",
+          "regionHeading": "COUNTY OF JUDICIAL CIRCUIT",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+          "requiredBeforeFiling": false
         },
         {
           "field": "day order signed",

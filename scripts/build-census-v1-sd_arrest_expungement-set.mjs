@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 // Completeness-repair runner for P4_NE_SD_SETASIDE_COMPLETENESS.
 //
-// The shared CENTRAL builder remains untouched because eleven families outside
-// this lane import it. This runner first regenerates the existing exact-source
-// packet, then repairs only the two assignment-owned overlay directories. The
-// repair is an output-layer pass: it adds held participant/case facts, applies
-// route-determined selections, records a closed blank disposition for every
-// remaining terminal field, and recomputes byte-derived evidence and rasters.
+// The shared CENTRAL builder remains shared by the other families on its host;
+// its SD-only source policy is opted into by this lane. This runner first
+// regenerates the existing exact-source packet, then repairs only the two
+// assignment-owned overlay directories. The repair is an output-layer pass: it
+// adds held participant/case facts, applies route-determined selections,
+// records a closed blank disposition for every remaining terminal field, and
+// recomputes byte-derived evidence and rasters.
 
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -64,6 +65,18 @@ const DISCLOSURE_REPAIR_ROWS = Object.freeze([
   "state Code mailed to",
 ]);
 
+const CIVIL_CASE_NUMBER_FIELDS = new Set([
+  "UJS-391:case number",
+  "UJS-392:case number",
+  "UJS-393:Case Number",
+  "UJS-393:case number",
+  "UJS-394:case number",
+  "UJS-395:case number",
+]);
+
+const CIVIL_CASE_NUMBER_REASON =
+  "the civil Case No. is assigned by the Clerk of Court at filing; leave it blank and do not copy the underlying criminal docket number";
+
 const FAMILY_DIRS = Object.freeze({
   "ne-setaside-custodial-set": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
   "sd_arrest_expungement-set": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
@@ -118,7 +131,6 @@ const TEXT_FIELDS = Object.freeze({
     emailaddress: "participant.email",
   },
   "UJS-232": {
-    "case type": "matter.case_number",
     "LastBusiness Name - plaintiff": "participant.last_name",
     "Plaintiff First Name": "participant.first_name",
     "plaintiff Middle name": "participant.middle_name",
@@ -135,8 +147,7 @@ const TEXT_FIELDS = Object.freeze({
   "UJS-394": {
     "Name of Applicant for Expungement": "participant.full_legal_name",
     "COUNTY Name": "matter.county",
-    "case number": "matter.case_number",
-    "criminal case number": "matter.case_number",
+    "criminal case number": "matter.charges[0].case_number",
   },
   "UJS-391": {
     "enter your date of birth": "participant.date_of_birth",
@@ -144,8 +155,7 @@ const TEXT_FIELDS = Object.freeze({
     "enter what you were charged with": "matter.charge",
     "COUNTY name": "matter.county",
     "Name of Applicant for Expungement": "participant.full_legal_name",
-    "case number": "matter.case_number",
-    "criminal case number": "matter.case_number",
+    "criminal case number": "matter.charges[0].case_number",
     "Petitioner Name-motion": "participant.full_legal_name",
     "City State Zip Code-motion": "participant.city_state_zip",
     "Address-motion": "participant.street_address",
@@ -154,16 +164,13 @@ const TEXT_FIELDS = Object.freeze({
   "UJS-392": {
     "Name of Applicant for Expungement": "participant.full_legal_name",
     "COUNTY name": "matter.county",
-    "case number": "matter.case_number",
-    "criminal case number": "matter.case_number",
+    "criminal case number": "matter.charges[0].case_number",
   },
   "UJS-393": {
     "Name of Applicant for Expungement": "participant.full_legal_name",
     "COUNTY Name": "matter.county",
-    "Case Number": "matter.case_number",
     "county name": "matter.county",
     "petitioner name": "participant.full_legal_name",
-    "case number": "matter.case_number",
     "your name": "participant.full_legal_name",
     "you street address": "participant.street_address",
     "your city, state and zip code": "participant.city_state_zip",
@@ -172,7 +179,6 @@ const TEXT_FIELDS = Object.freeze({
   "UJS-395": {
     "Name of Applicant for Expungement": "participant.full_legal_name",
     "county name": "matter.county",
-    "case number": "matter.case_number",
     "county filed": "matter.county",
     "Petitioner Name-noe": "participant.full_legal_name",
     "Address-noe": "participant.street_address",
@@ -221,6 +227,7 @@ const REQUIRED_BEFORE_FILING = Object.freeze({
   ],
   "sd_arrest_expungement-set": [
     { factId: "matter.judicial_circuit_number", label: "Judicial Circuit number", forms: ["UJS-391", "UJS-392", "UJS-393", "UJS-394", "UJS-395"], when: "before filing each captioned component" },
+    { factId: "matter.civil_case_type", label: "UJS-232 new-action Case Type", forms: ["UJS-232"], when: "before filing, select the truthful Case Type for this new civil action from the current UJS list or confirm it with the Clerk; the packet does not infer it" },
     { factId: "service.states_attorney_name", label: "State's Attorney name", forms: ["UJS-391"], when: "before service" },
     { factId: "service.states_attorney_address", label: "State's Attorney mailing address", forms: ["UJS-391"], when: "before service" },
     { factId: "service.notice_recipient_name", label: "Notice recipient name", forms: ["UJS-393", "UJS-395"], when: "before mailing the notice" },
@@ -307,6 +314,7 @@ function factsFor(familyId, fixture) {
       ? (boundary ? "SCOTTS BLUFF" : "DOUGLAS")
       : (boundary ? "Oglala Lakota" : "Minnehaha"),
     "matter.case_number": boundary ? "2026-CR-900123-EXTENDED-CASE-IDENTIFIER" : "24-CR-001234",
+    "matter.charges[0].case_number": boundary ? "2026-CR-900123-EXTENDED-CASE-IDENTIFIER" : "24-CR-001234",
     "matter.charge": chargeLabel,
     "matter.arrest_date": "2019-03-08",
     "matter.conviction_date": "2019-11-02",
@@ -332,6 +340,22 @@ function textFactId(formNumber, id) {
 function directDisposition(familyId, formNumber, field) {
   const id = fieldId(field) ?? "";
   const joined = `${id} ${field.effectiveLabel ?? field.caption ?? field.label ?? ""} ${field.regionHeading ?? ""}`;
+  if (familyId === "sd_arrest_expungement-set" && CIVIL_CASE_NUMBER_FIELDS.has(`${formNumber}:${id}`)) {
+    return {
+      disposition: "PROTECTED_FIELD",
+      refusalClass: "court_prosecutor_clerk_or_agency_owned",
+      role: "clerk",
+      reason: CIVIL_CASE_NUMBER_REASON,
+      basis: "UJS-391 instruction 1(b): the case number will be provided by the Clerk of Court at the time of filing",
+    };
+  }
+  if (familyId === "sd_arrest_expungement-set" && formNumber === "UJS-232" && id === "case type") {
+    return {
+      disposition: "REQUIRED_BEFORE_FILING",
+      reason: "UJS-232 requires either an existing-record Case File No. or a Case Type for a new action; this packet has no supported existing-action election or held civil identifier, so supply or confirm the truthful new-action Case Type before filing and never copy the criminal docket number",
+      basis: "UJS-232 Case Filing Statement: Provide the Case File No. for the record you are filing into or the Case Type if initiating a new action",
+    };
+  }
   // The disclosure repair's own classification, restated here so the committed
   // map reproduces from its committed generator. These nine statement-of-mailing
   // fields record what occurred DURING mailing; none may carry ink before it.
@@ -474,6 +498,7 @@ async function renderRepairedFixture({ familyId, fixture, census, baseMap, rende
   pdf.setModificationDate(FIXED_DATE);
   const font = await pdf.embedFont(StandardFonts.Helvetica);
   const facts = factsFor(familyId, fixture);
+  const civilCaptionBoxes = [];
   const writes = [];
 
   const addText = ({ formNumber, field, factId, sourcePage, box, preserve = false, kind = "text" }) => {
@@ -494,6 +519,17 @@ async function renderRepairedFixture({ familyId, fixture, census, baseMap, rende
     const preserved = baseWriteFields(baseMap, document.formNumber, fixture);
     for (const field of document.fields) {
       if (!field.name) continue;
+      if (familyId === "sd_arrest_expungement-set"
+        && (CIVIL_CASE_NUMBER_FIELDS.has(`${document.formNumber}:${field.name}`)
+          || (document.formNumber === "UJS-232" && field.name === "case type"))) {
+        assert.ok(field.widgets?.length, `${document.formNumber}/${field.name}: no widget geometry`);
+        for (const widget of field.widgets) civilCaptionBoxes.push({
+          formNumber: document.formNumber,
+          field: field.name,
+          packetPage: packetPageFor(artifact, document.formNumber, widget.page),
+          box: widgetBox(widget),
+        });
+      }
       const factId = textFactId(document.formNumber, field.name);
       if (!factId) continue;
       assert.ok(field.widgets?.length, `${document.formNumber}/${field.name}: no widget geometry`);
@@ -538,6 +574,15 @@ async function renderRepairedFixture({ familyId, fixture, census, baseMap, rende
 
   const finalPdf = await PDFDocument.load(finalBytes, { ignoreEncryption: true, updateMetadata: false });
   const finalGlyphs = glyphsOf(finalPdf);
+  const criminalCaseNumber = normalized(facts["matter.charges[0].case_number"]);
+  for (const caption of civilCaptionBoxes) {
+    const baseValue = normalized(textReadFromBox(baseGlyphs, caption.packetPage, caption.box));
+    const finalValue = normalized(textReadFromBox(finalGlyphs, caption.packetPage, caption.box));
+    assert.ok(!baseValue.includes(criminalCaseNumber),
+      `${familyId}/${fixture}/${caption.formNumber}/${caption.field}: base packet still carries the criminal case number in a civil caption`);
+    assert.ok(!finalValue.includes(criminalCaseNumber),
+      `${familyId}/${fixture}/${caption.formNumber}/${caption.field}: final packet carries the criminal case number in a civil caption`);
+  }
   const addedGlyphs = subtractGlyphs(baseGlyphs, finalGlyphs);
   for (const write of writes) {
     const readBack = textReadFromBox(finalGlyphs, write.packetPage, write.box);
@@ -563,7 +608,12 @@ function refusalRecord(familyId, formNumber, field) {
   return {
     field: fieldId(field),
     reason: direct.reason,
-    category: null,
+    ...(direct.refusalClass === undefined ? { category: null } : {
+      completenessClass: direct.refusalClass,
+      category: direct.refusalClass,
+      class: direct.refusalClass,
+    }),
+    ...(direct.role ? { role: direct.role } : {}),
     regionHeading: field.regionHeading ?? null,
     blankDisposition: direct.disposition,
     dispositionBasis: direct.basis ?? "P4 exact-form route and role classification",
@@ -636,13 +686,18 @@ function popplerVersion() {
   return version;
 }
 
-async function rasterArtifact(artifact) {
+async function rasterArtifact(artifact, { scratchOnly = false } = {}) {
   const pdfPath = path.join(rootDir, artifact.file);
-  const outDir = path.join(rootDir, path.dirname(artifact.rasterPages[0].file));
-  fs.mkdirSync(outDir, { recursive: true });
-  for (const name of fs.readdirSync(outDir)) {
-    if (/^page-(?:raw-)?\d+\.png$/.test(name)) fs.rmSync(path.join(outDir, name));
+  const outDir = scratchOnly ? null : path.join(rootDir, path.dirname(artifact.rasterPages[0].file));
+  if (outDir) {
+    fs.mkdirSync(outDir, { recursive: true });
+    for (const name of fs.readdirSync(outDir)) {
+      if (/^page-(?:raw-)?\d+\.png$/.test(name)) fs.rmSync(path.join(outDir, name));
+    }
   }
+  /* FIX112. The central host defers SD raster acceptance. Render only into a
+   * temporary directory for the byte-level page/blank checks; no PNG is a
+   * repair deliverable and no existing raster receipt is rewritten here. */
   const stage = fs.mkdtempSync(path.join(os.tmpdir(), "p4-raster-"));
   try {
     const run = spawnSync(POPPLER, ["-png", "-r", String(RASTER_DPI), pdfPath, path.join(stage, "page")], {
@@ -660,8 +715,8 @@ async function rasterArtifact(artifact) {
     for (let pageNumber = 1; pageNumber <= pdf.getPageCount(); pageNumber += 1) {
       const staged = stagedByPage.get(pageNumber);
       assert.ok(staged && fs.existsSync(staged), `${artifact.fixture}: raster page ${pageNumber} missing`);
-      const output = path.join(outDir, `page-${String(pageNumber).padStart(2, "0")}.png`);
-      fs.copyFileSync(staged, output);
+      const output = outDir ? path.join(outDir, `page-${String(pageNumber).padStart(2, "0")}.png`) : staged;
+      if (outDir) fs.copyFileSync(staged, output);
       const bytes = fs.readFileSync(output);
       const metadata = await sharp(output).metadata();
       const { channels } = await sharp(output).greyscale().stats();
@@ -670,7 +725,7 @@ async function rasterArtifact(artifact) {
       const expectedHeight = Math.round(geometry.height * RASTER_DPI / 72);
       pages.push({
         page: pageNumber,
-        file: path.relative(rootDir, output).split(path.sep).join("/"),
+        ...(outDir ? { file: path.relative(rootDir, output).split(path.sep).join("/") } : { file: null }),
         widthPx: metadata.width, heightPx: metadata.height,
         pdfWidthPt: geometry.width, pdfHeightPt: geometry.height,
         attempts: 1,
@@ -811,6 +866,7 @@ function participantInstructions(familyId) {
     "## Where you file this",
     "",
     "File with the **Clerk of Court of the circuit court for the county where the arrest record or case is filed** — UJS-391's own instruction sheet says the county you file in \"will be the same county where the arrest record or case is filed in\", and every caption in this packet reads \"STATE OF SOUTH DAKOTA, IN CIRCUIT COURT\". Enter that county and its Judicial Circuit number in each caption (the circuit number is the item listed above; the Clerk of Court can tell you the number for your county). **The case number will be provided to you by the Clerk of Court at the time of filing** — UJS-391 instruction 1(b) — so do not invent one. File the Motion for Expungement UJS-391A with the Clerk of Court **along with the Case Filing Statement UJS-232**.",
+    "**UJS-232's case-entry fork is left truthful and blank.** It asks for the Case File No. of an existing record or the Case Type when initiating a new action. This packet treats the expungement filing as the new civil action and holds no supported existing-action election, civil Case File No., or official Case Type value. Before filing, select the applicable Case Type from the current UJS list or confirm it with the Clerk; do not copy the criminal docket number into this field or use it as a civil Case No.",
     "",
     "## The filing fee",
     "",
@@ -940,7 +996,7 @@ async function repairFamily(familyId) {
   for (const fixture of ["canonical", "boundary"]) {
     const result = fixtureResults[fixture];
     const artifact = result.artifact;
-    const pages = await rasterArtifact(artifact);
+    const pages = await rasterArtifact(artifact, { scratchOnly: familyId === "sd_arrest_expungement-set" });
     artifact.sha256 = sha256(result.finalBytes);
     artifact.byteLength = result.finalBytes.length;
     artifact.pageCount = pages.length;
