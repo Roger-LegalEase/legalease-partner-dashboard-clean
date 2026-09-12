@@ -57,14 +57,7 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34583375403",
-      "jobId": "103212768613",
-      "artifactId": "10192851753",
-      "boundToCanonicalSha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf41",
@@ -92,6 +85,19 @@
           "boundToCanonicalSha256": "b05730fdf3132f9448b477a6993b5b23083a2ab886572de054d35f44658e99a6",
           "coversTheWholeFamily": true
         }
+      },
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
+        "replacedByCanonicalSha256": "40eccc47f8c05a9ce44f467e29e6239a27bfda884c66301b68b4e81b81342b8c",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34583375403",
+          "jobId": "103212768613",
+          "artifactId": "10192851753",
+          "boundToCanonicalSha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
+          "coversTheWholeFamily": true
+        }
       }
     ]
   },
@@ -106,7 +112,7 @@
         "order": 1,
         "documentId": "CR-65",
         "file": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
+        "sha256": "40eccc47f8c05a9ce44f467e29e6239a27bfda884c66301b68b4e81b81342b8c",
         "requirement": "required"
       },
       {
@@ -115,7 +121,7 @@
         "order": 2,
         "documentId": "C-10-CRIMINAL",
         "file": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
+        "sha256": "40eccc47f8c05a9ce44f467e29e6239a27bfda884c66301b68b4e81b81342b8c",
         "requirement": "required"
       }
     ]

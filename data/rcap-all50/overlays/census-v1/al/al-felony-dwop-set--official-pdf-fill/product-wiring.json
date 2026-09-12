@@ -57,14 +57,7 @@
         "tier": "exact_identity_confirmed_from_document_text"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34506224832",
-      "jobId": "102970216779",
-      "artifactId": null,
-      "boundToCanonicalSha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf55",
@@ -92,6 +85,19 @@
           "boundToCanonicalSha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
           "coversTheWholeFamily": true
         }
+      },
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe",
+        "replacedByCanonicalSha256": "77f6fb0c16f67919bf70dd313e9fe37440a13fb14a45ff468a20b9948d9fc2f2",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34506224832",
+          "jobId": "102970216779",
+          "artifactId": null,
+          "boundToCanonicalSha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe",
+          "coversTheWholeFamily": true
+        }
       }
     ]
   },
@@ -106,7 +112,7 @@
         "order": 1,
         "documentId": "CR-65",
         "file": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe",
+        "sha256": "77f6fb0c16f67919bf70dd313e9fe37440a13fb14a45ff468a20b9948d9fc2f2",
         "requirement": "required"
       },
       {
@@ -115,7 +121,7 @@
         "order": 2,
         "documentId": "C-10-CRIMINAL",
         "file": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe",
+        "sha256": "77f6fb0c16f67919bf70dd313e9fe37440a13fb14a45ff468a20b9948d9fc2f2",
         "requirement": "required"
       }
     ]
