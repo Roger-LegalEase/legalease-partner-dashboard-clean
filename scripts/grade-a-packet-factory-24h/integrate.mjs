@@ -33,6 +33,7 @@
 import { execFileSync, spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { rasterCustodyIntegrationSteps } from "./raster-custody-integration.mjs";
 
 const ROOT = process.cwd();
 const QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
@@ -131,6 +132,12 @@ const readCounts = () => {
     return { byState, states, terminal, completePacketProven: byState.get("COMPLETE_PACKET_PROVEN") ?? 0 };
   } catch { return null; }
 };
+
+const custodyArg = process.argv.indexOf('--raster-custody');
+if (custodyArg !== -1) {
+  const steps = rasterCustodyIntegrationSteps(ROOT, process.argv[custodyArg + 1]);
+  CHAIN.splice(CHAIN.findIndex(step => step.name === 'generate (second pass)'), 0, ...steps);
+}
 
 const before = readCounts();
 
