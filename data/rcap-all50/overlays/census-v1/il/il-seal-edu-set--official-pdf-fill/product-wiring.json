@@ -138,13 +138,33 @@
         "requirement": "required"
       },
       {
-        "componentId": "il-seal-edu-set-component-4",
+        "componentId": "il-seal-edu-set-component-5",
         "role": "companion_document",
         "order": 4,
-        "documentId": "FW-CIV-APPLICATION",
+        "documentId": "EXP-AD Order Denying",
         "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
         "sha256": "27b895defb18c09f85c66c17a3cf8636a2b1b4e91d25203659f160bd0cf21072",
         "requirement": "required"
+      },
+      {
+        "componentId": "il-seal-edu-set-component-4",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "FW-CIV-APPLICATION",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "27b895defb18c09f85c66c17a3cf8636a2b1b4e91d25203659f160bd0cf21072",
+        "requirement": "conditional",
+        "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data."
+      },
+      {
+        "componentId": "il-seal-edu-set-component-6",
+        "role": "companion_document",
+        "order": 6,
+        "documentId": "FW-CIV-ORDER",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "27b895defb18c09f85c66c17a3cf8636a2b1b4e91d25203659f160bd0cf21072",
+        "requirement": "conditional",
+        "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data."
       }
     ]
   }
