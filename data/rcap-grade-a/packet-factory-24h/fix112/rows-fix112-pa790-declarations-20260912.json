@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-worker-return/v1",
+  "lane": "FIX112",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "rows": [
+    {
+      "itemId": "pa_790_nonconviction-set",
+      "familyId": "pa_790_nonconviction-set",
+      "status": "COMPLETED",
+      "packetCommitSha": "4a6e02fef425e7b773f33615355f743bceb07e00",
+      "repairedByThisLane": true,
+      "repairAuthor": "/root",
+      "scope": "Four current VF01 declaration findings only. The custom certificate identifies the Commonwealth recipient served by name, service address and telephone while retaining the explicit attorney-for-Commonwealth service requirement. The captionless CPCMS 2046 field PA retains its source identity and has a readable guide/map label.",
+      "resolvedFindingIds": [
+        "PA-VF01-COMPLETE-01",
+        "PA-VF01-COMPLETE-02"
+      ],
+      "sourcePdfBytesChanged": false,
+      "changedComponentPdfs": [
+        "certificate-of-service-canonical.pdf",
+        "certificate-of-service-boundary.pdf"
+      ],
+      "unchangedComponentPdfCount": 6,
+      "conditionalAssemblies": "All eight existing reference branches regenerated because each includes the corrected service certificate. No central evidence was duplicated.",
+      "checks": [
+        {
+          "command": "node scripts/rcap-packet-recovery/test-recovery.mjs",
+          "result": "PASS 40/40"
+        },
+        {
+          "command": "node scripts/rcap-packet-recovery/chat1/test-pa-790-optional-order.mjs",
+          "result": "PASS 1 positive and 11 rejection cases"
+        },
+        {
+          "command": "node scripts/build-census-v1-pa_790_nonconviction-set.mjs --check-nonvisual",
+          "result": "PASS 8 PDFs, saved-byte write proof"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
+          "result": "All semantic counters zero; invisibleWrites and visualDefects remain UNMEASURED in this audit pending central evidence."
+        }
+      ],
+      "rasterManifest": {
+        "path": "data/rcap-grade-a/packet-factory-24h/fix112/pa790-raster-manifest-20260912.json",
+        "sha256": "7cd7be8fd15e83b795daafb7d352d7ee72899aa59dacdfac1ee35b34c74d63de",
+        "byteLength": 8102,
+        "documentsDigest": "b892fe8330e38d3faa25d0e89a6c18c2d90c9ec0aa5c18a1fb711ccbb4c64d50",
+        "pdfCount": 8,
+        "pageCount": 12
+      },
+      "authorVerdict": "REPAIRED_INDEPENDENT_SEMANTIC_REVIEW_PENDING",
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "runtimeSelectable": false,
+      "commercialAuthorityGranted": false
+    }
+  ]
+}
