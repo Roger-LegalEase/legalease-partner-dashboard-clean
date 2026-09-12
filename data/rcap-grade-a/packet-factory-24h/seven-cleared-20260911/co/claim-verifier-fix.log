@@ -1,0 +1,37 @@
+Claim-ledger verifier robustness check
+Recorded: 2026-09-12 UTC
+Scope: scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs
+
+Defect reproduced before repair:
+  no active source lane has two live claims to exercise
+
+Repair exercised:
+  No canonical source claim was reissued and no assignment was fabricated.
+  The verifier copied the canonical ledger to an isolated temporary directory,
+  selected DISC01 from preserved source-claim history, and invoked claim.mjs
+  --reissue against that temporary ledger for exactly two released claims.
+
+Command:
+  node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs
+Exit: 0
+Output:
+  CLAIM_LEDGER_OK 1035 claims; 0 explicit source grants asserted; DISC01 64/64 exercised (2 assertable, 62 already released; isolated native reissue of 2 released claims); canonical ledger byte-preserved
+
+Command:
+  node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs --mutations
+Exit: 0
+Output:
+  CLAIM_LEDGER_MUTATIONS_OK positive controls 4/4; negative controls 10/10; preservation controls 7/7
+
+Focused totals:
+  commands passed: 2/2
+  commands failed: 0
+  source claims exercised through claim.mjs: 64/64
+  isolated native reissues: 2/2
+  mutation positive controls: 4/4
+  mutation negative controls: 10/10
+  mutation preservation controls: 7/7
+
+Canonical ledger byte-preservation proof:
+  before SHA-256: b47bc02b6794aadd0a2d5593019908057ef04636ae3ad8082aaf2435bb89cff7
+  after SHA-256:  b47bc02b6794aadd0a2d5593019908057ef04636ae3ad8082aaf2435bb89cff7
