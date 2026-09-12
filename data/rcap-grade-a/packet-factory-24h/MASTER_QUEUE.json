@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e9cd8af4e4e5772097055df2921fd91559f1f554",
+  "minimumCaptainSha": "e5ce4836e6238322126e6eb5f09ca1361b8d6d5b",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -78,19 +78,20 @@
     "sourceReady": 33,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 4,
+    "verifyPending": 1,
     "repairRequired": 14,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 264,
+    "COMPLETE_PACKET_PROVEN": 266,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 33,
+    "BUILT_RASTER_PENDING": 1,
     "FAIL_REPAIR_REQUIRED": 15,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 4,
     "PRODUCT_PATH_PENDING": 6,
+    "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -932,10 +933,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PRODUCT_PATH_PENDING",
-        "lane": "vf20",
-        "verifiedAtBase": "7f386ab54",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfct1",
+        "verifiedAtBase": "f0106bea68707bc0a8418e049fde06a6a5c43732",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-ct-three-current-original-guidance-pass-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -1391,10 +1392,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PRODUCT_PATH_PENDING",
-        "lane": "vf20",
-        "verifiedAtBase": "7f386ab54",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfct1",
+        "verifiedAtBase": "f0106bea68707bc0a8418e049fde06a6a5c43732",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-ct-three-current-original-guidance-pass-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -1840,10 +1841,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PRODUCT_PATH_PENDING",
-        "lane": "vf05",
-        "verifiedAtBase": "7f386ab54",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfct1",
+        "verifiedAtBase": "f0106bea68707bc0a8418e049fde06a6a5c43732",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-ct-three-current-original-guidance-pass-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -7674,10 +7675,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS",
+        "lane": "vfcg1",
+        "verifiedAtBase": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-20260911-ca17-preraster.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -7696,7 +7697,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+          "verifiedAtBase": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -7714,9 +7715,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -7728,7 +7727,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule CA-17B-17D2-OFFENSE-BY-OFFENSE: There is no global either/or participant election between Penal Code 17(b) and 17(d)(2). Determine eligibility offense by offense and request every reduction legally applicable to that offense. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule CA-17B-17D2-OFFENSE-BY-OFFENSE: There is no global either/or participant election between Penal Code 17(b) and 17(d)(2). Determine eligibility offense by offense and request every reduction legally applicable to that offense. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -7745,20 +7744,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "A clipped, semantically broken sentence is printed on a delivered filing document, and the packet's own counters and the acceptance receipt both read zero problems for it. It is not participant content - it is the form's interactive toolbar strip - and it does not obscure any petition text, which is why this row states plainly what it is. It is still a defect this build introduced into the issuer's page, and CLIPPING_AND_OVERLAP has no materiality threshold. The proof that it is introduced rather than preserved is the two comparison renders above.",
-          "findingReadFrom": "finding",
-          "evidence": "CR-180 page 3 of every delivered fixture prints the issuer's privacy banner as a single clipped line reading 'd privacy, please press the Clear This Form button after you'. The full string is 'For your protection and privacy, please press the Clear This Form button after you have printed the form.' Both ends are cut: the opening 'For your protection an' is lost off the left of the grey box and 'have printed the form.' is lost off the right. This is not source-authored. Rendering page 3 of the pinned Master Library CR-180 at 06c1b643 shows the same banner laid out correctly on two lines and complete. Rendering page 3 of this family's own derived-sources/cr-180-pikepdf-unlocked.pdf shows it correctly on two lines as well. So the source is clean, the unlocking step is clean, and the defect enters at the fill-and-flatten step in this family's build. The same step also redraws every checkbox on the form with a doubled outline where the source and the derivative draw a single one."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-17b-reduction-set.mjs",
@@ -11816,10 +11806,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf01",
-        "verifiedAtBase": "628589374",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfok1",
+        "verifiedAtBase": "c37d17e114664a2e8108dbc13cb572e4d000ec47",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfok1/rows-vfok1-ok-trafficking-current-original-pass-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -11838,18 +11828,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "628589374",
+          "verifiedAtBase": "c37d17e114664a2e8108dbc13cb572e4d000ec47",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -11865,17 +11856,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
-        "foundBy": [
-          "vf01 (current independent verification)"
-        ],
-        "why": "FILING_DESTINATION: The controlling legal-design record for this exact matter leaves the destination undetermined, so the obligation cannot be discharged here and I will not score the packet's own inference as a pass. data/record-clearing/legal-design-intake/OK.memo.json, track ok-ls-1 'Human-Trafficking Survivor Relief (22 O.S. Sec. 19c)', records destination.kind 'court' but destination.name 'Not determined', rules.filing 'Not determined.', geography.venue 'Not stated by the review for this matter.', and destination.detail that the review 'routes the matter to legal aid or a survivor clinic rather than to a packet'. Its one unresolvedQuestion carries impact 'build_blocker' and affectedElement 'governing_mechanism' and asks for the full text of 22 O.S. Sec. 19c including 'whether relief comes by motion or petition' - which is the instrument this family composes. What the packet does is honest and is not the defect: it says the census records the destination as not recorded, and it names the office of the court clerk of the Oklahoma district court for the county in which the case was filed as the office to ask, printing that same description in the caption line rather than inventing a courthouse. But the obligation is that the instructions name the court the route names, and the route names none. | FEE_AND_WAIVER: Unsettled by the same record and named exactly: OK.memo.json track ok-ls-1 carries rules.fees 'Not determined.' and rules.feeWaiver 'Not determined.', and no Oklahoma entry exists anywhere in data/record-clearing/legal-decisions/ to resolve either (the 2026-08-28 national decisions carry zero OK rows, and the route-ratification-registry carries no Oklahoma route at all). The packet states the absence rather than inventing a figure, and it imports nothing from the neighbouring Title 22 sections 18 and 19, which is the discipline that matters most on this route; page 4 names the court clerk's office as the authority that answers both. That is the right behaviour on an open input, and it is still not the obligation being met: the fee and any waiver route are not stated because no record states them. | SERVICE: Unsettled by the same record and named exactly: OK.memo.json track ok-ls-1 carries rules.service 'Not determined.' and rules.notice 'Not determined.', alongside rules.participantSignature 'Not determined.' and rules.notarization 'Not determined.'. The packet does not invent a service rule for a statute whose form of process the compiled record leaves open between motion and petition; page 4 says no committed record states who must be served or how, and names the court clerk's office to ask. Who must be served, and how, is therefore not stated on this packet because it is not settled anywhere.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule OK-TRAFFICKING-SURVIVOR-22-OS-19C: Use a custom Petition for Expungement under 22 O.S. Section 19c for qualifying prostitution-related charge/conviction relief resulting from human trafficking. Apply the incorporated Section 19(B)-(M) hearing and 30-day notice framework. Do not invent a special statewide notary requirement. Use the current fee and in-forma-pauperis mechanism identified in the supplied disposition where applicable. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule OK-TRAFFICKING-SURVIVOR-22-OS-19C: Use a custom Petition for Expungement under 22 O.S. Section 19c for qualifying prostitution-related charge/conviction relief resulting from human trafficking. Apply the incorporated Section 19(B)-(M) hearing and 30-day notice framework. Do not invent a special statewide notary requirement. Use the current fee and in-forma-pauperis mechanism identified in the supplied disposition where applicable. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -11896,7 +11880,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs",
@@ -20726,10 +20710,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf42",
-        "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfcg1",
+        "verifiedAtBase": "c37d17e114664a2e8108dbc13cb572e4d000ec47",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-arrest-no-charges-repaired-original-pass-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -20761,27 +20745,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "The clone stands on the bytes at this base, recomputed here with sha256sum. packet-boundary-filled.pdf is ONE file shared by both Indiana families: 0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9, 250876 bytes, byte-identical in in_arrest_no_charges-set and in_section1_petition-set. inserts-canonical-filled.pdf and inserts-boundary-filled.pdf are ONE file across all four insert fixtures of both families: f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343, 169596 bytes. The two packet canonicals differ (d24f831d here, 6958a2a2 in the sibling) but the difference is not a legal mark: I diffed them with pikepdf and all 15 page content streams are byte-identical; the entire difference is 9 flattened widget XObjects that carry the SAME decoded text at a different auto-fit font size (Helvetica 10.51 vs 11, 9.94 vs 11, 11 vs 12) and a correspondingly shifted baseline. Both write 'Jordan Avery Reyes' and 'Example County'. Two routes with different statutory subsections, different dispositions and different waiting periods deliver, on paper, the same filing.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Independently re-rendered at 200 dpi against the pinned insert source (65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707, recomputed on the corpus file), source drawn WITH annotations, threshold < 128, whole page, all four pages: added 2450 / removed 10372 (p1), 0 / 0 (p2), 4373 / 12656 (p3), 3242 / 4151 (p4). Total removed 27179, reproducing VF26's number exactly, and added 10065, reproducing FIX140's. At threshold < 200 both get worse: added 20707 / removed 30978. The defect is not a threshold artefact.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
@@ -21649,12 +21617,14 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf42",
-        "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
+        "lane": "vfcg1",
+        "verifiedAtBase": "c37d17e114664a2e8108dbc13cb572e4d000ec47",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-section1-petition-repaired-original-date-fail-20260912.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -21684,26 +21654,24 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS",
         "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "ARTIFACTS",
-          "finding": "Recomputed with sha256sum at this base: packet-boundary-filled.pdf is 0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9, 250876 bytes -- the SAME FILE as in_arrest_no_charges-set's boundary fixture. inserts-canonical-filled.pdf and inserts-boundary-filled.pdf are f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343, 169596 bytes -- the same file as both of the sibling's insert fixtures, four identical copies across two families. This family's packet canonical is 6958a2a2f3537ab4bdc42c0ca61b63f545a20f08486c30075c18e1361a9df620 (251801 bytes) against the sibling's d24f831d (251802). Diffed with pikepdf: all 15 page content streams byte-identical; the whole difference is 9 flattened widget XObjects carrying the SAME decoded text at a different auto-fit font size. Two routes under different statutory subsections (I.C. 35-38-9-1(d) here, (c) in the sibling) with different declared dispositions and different waiting periods deliver the same filing.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Measured on inserts-canonical-filled.pdf, which is this family's own byte-identical copy of f06f7dbb. 200 dpi, threshold < 128, pinned source 65500e2c rendered WITH annotations, whole page, all four pages: added 2450 / removed 10372 (p1), 0 / 0 (p2), 4373 / 12656 (p3), 3242 / 4151 (p4). Total removed 27179; at threshold < 200, removed 30978. All 62 choice widgets of the source are dropped from the delivered file and page 4 renders byte-identical to the source with -hide-annotations.",
+          "finding": "All 46 current originals accounted: 12 directly inspected changed originals, 22 exact prior PNG hash matches and 12 same-run matches to independently inspected pages. All 202 known text occurrences swept over full glyph height against actual PNG ink: four DateChargesFiled upper-glyph crossings remain (canonical insert p1; boundary insert p1/p5/p9). The 94 previously recorded intersections are resolved, but this obligation remains FAIL. No other new clipping/overlap finding.",
           "findingReadFrom": "finding",
-          "evidence": null
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-final-review/in_section1_petition-set.current-original-review.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-final-review/in_section1_petition-set.current-original-baseline-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-semantic-review/current-source-rule-delta.json"
+          ]
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
@@ -29560,7 +29528,6 @@
       "selectedIndependentVerdict": null,
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "packet build has not completed",
         "no completeness audit"
       ],
@@ -29577,8 +29544,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -29590,7 +29557,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-610-140-arrest-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill",
       "ownedPaths": [
@@ -29728,7 +29695,6 @@
       "selectedIndependentVerdict": null,
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "packet build has not completed",
         "no completeness audit"
       ],
@@ -29745,8 +29711,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -29758,7 +29724,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-610-140-conviction-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill",
       "ownedPaths": [

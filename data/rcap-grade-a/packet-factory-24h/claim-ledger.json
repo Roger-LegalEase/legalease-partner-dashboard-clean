@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c43d4d02c441f0dad3166de0cb1992ae6b527822",
+  "generatedAtCommit": "e5ce4836e6238322126e6eb5f09ca1361b8d6d5b",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2454,7 +2454,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T18:20:34.337Z"
@@ -4733,7 +4733,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T22:27:56.408Z"
@@ -6600,6 +6600,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "mo-610-140-arrest-set",
+      "itemId": null,
+      "familyId": "mo-610-140-arrest-set",
+      "familyIds": [
+        "mo-610-140-arrest-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFMO1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-arrest-set",
       "familyId": "mo-610-140-arrest-set",
       "itemId": null,
       "familyIds": [
@@ -6610,6 +6625,21 @@
       "lane": "PF11",
       "laneKind": "packet-build",
       "released": false
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-conviction-set",
+      "itemId": null,
+      "familyId": "mo-610-140-conviction-set",
+      "familyIds": [
+        "mo-610-140-conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFMO1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15627,39 +15657,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mo-610-140-arrest-set",
-      "itemId": null,
-      "familyId": "mo-610-140-arrest-set",
-      "familyIds": [
-        "mo-610-140-arrest-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFMO1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mo-610-140-conviction-set",
-      "itemId": null,
-      "familyId": "mo-610-140-conviction-set",
-      "familyIds": [
-        "mo-610-140-conviction-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFMO1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "e5dd61f91f9bf44d2a31c17cef5ae0ed360b0380adac2027680c4c113a5f0fa7",
+  "claimsDigest": "ac8e3e4a45a294433e8768bd88e870a3ea3ac4d4fc7c9c384de12e0c95e2101f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
