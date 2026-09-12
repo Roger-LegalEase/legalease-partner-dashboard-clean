@@ -9,6 +9,26 @@ def api(endpoint):
 def save(p, value):
     p.write_text(json.dumps(value, indent=2) + '\n')
 
+def validate_selection(run, jobs, requested, selected, partial):
+    controls = {'Synthetic canary and live negative controls', 'Plan the family matrix'}
+    assert selected and len(selected) == len(set(selected)) and set(selected) <= set(requested)
+    assert len(requested) == len(set(requested))
+    assert run['path'] == '.github/workflows/rcap-packet-raster-acceptance-batch.yml'
+    assert len(jobs['jobs']) == jobs['total_count']
+    names = [j['name'] for j in jobs['jobs']]
+    assert len(names) == len(set(names)) and set(names) == set(requested) | controls
+    if partial:
+        assert ((run['status'] == 'in_progress' and not run['conclusion']) or
+                (run['status'] == 'completed' and run['conclusion'] in ('success', 'failure')))
+    else:
+        assert run['status'] == 'completed' and run['conclusion'] == 'success'
+        assert set(selected) == set(requested)
+        assert all(j['status'] == 'completed' and j['conclusion'] == 'success' for j in jobs['jobs'])
+    required = set(selected) | controls
+    assert all(j['status'] == 'completed' and j['conclusion'] == 'success'
+               for j in jobs['jobs'] if j['name'] in required), 'Selected family/shared control has not passed'
+    return [j for j in jobs['jobs'] if j['status'] == 'completed' and j['conclusion'] != 'success']
+
 run_id = int(sys.argv[1])
 source = pathlib.Path(sys.argv[2])
 request = json.loads(source.read_text())['inputs']
@@ -16,28 +36,13 @@ out = ROOT / str(run_id)
 out.mkdir(exist_ok=True)
 run = json.loads(api(f'/actions/runs/{run_id}'))
 save(out / 'run.json', run)
-assert run['status'] == 'completed', 'Run still executing; do not consume yet'
 selected = sys.argv[3].split(',') if len(sys.argv) == 4 else request['family_batch'].split(',')
 partial = len(sys.argv) == 4
-assert selected and len(selected) == len(set(selected)) and set(selected) <= set(request['family_batch'].split(','))
-assert run['conclusion'] == 'success' or (partial and run['conclusion'] == 'failure'), 'Central run failed; explicit successful-job selection required'
-assert run['path'] == '.github/workflows/rcap-packet-raster-acceptance-batch.yml'
 jobs = json.loads(api(f'/actions/runs/{run_id}/jobs?per_page=100'))
 artifacts = json.loads(api(f'/actions/runs/{run_id}/artifacts?per_page=100'))
 save(out / 'jobs.json', jobs)
 save(out / 'artifacts.json', artifacts)
-assert len(jobs['jobs']) == jobs['total_count']
-assert all(j['status'] == 'completed' for j in jobs['jobs'])
-required_jobs = set(selected) | {'Synthetic canary and live negative controls', 'Plan the family matrix'}
-assert all(j['conclusion'] == 'success' for j in jobs['jobs'] if j['name'] in required_jobs), 'A selected family or shared control job failed'
-failed_jobs = [j for j in jobs['jobs'] if j['conclusion'] != 'success']
-if failed_jobs:
-    assert partial, 'Central run failed; no whole-run admission'
-    for job in failed_jobs:
-        failed_steps = [s for s in job['steps'] if s['conclusion'] == 'failure']
-        assert failed_steps and all('upload-artifact' in s['name'] for s in failed_steps), 'Partial admission only supports isolated unselected artifact-upload failures'
-        assert any(s['name'].startswith('Render and measure ') and s['conclusion'] == 'success' for s in job['steps']), 'Unselected packet rendering did not pass'
-assert {j['name'] for j in jobs['jobs']} == set(request['family_batch'].split(',')) | {'Synthetic canary and live negative controls', 'Plan the family matrix'}
+failed_jobs = validate_selection(run, jobs, request['family_batch'].split(','), selected, partial)
 commit = request['commit_sha']
 original = lambda p: subprocess.check_output(['git', 'show', commit + ':' + p])
 pinned = json.loads(original(request['raster_manifest_path']))
@@ -123,5 +128,23 @@ for family in selected:
                        verdict='RASTER_PASS', currentAndPinnedPdfHashesVerified=True,
                        originalArtifactAndJobLogAgree=True, originalPngBytesVerified=True,
                        archivePath=str(archive), archiveSha256=sha(body), jobLogSha256=sha(log)))
-save(out / 'ORIGINAL_EVIDENCE_VERIFIED.json', dict(runId=run_id, conclusion=run['conclusion'], inputs=request, selectedFamilies=selected, selectedFamiliesConclusion='success', partialRunAdmission=partial, excludedJobFailures=[dict(name=j['name'], id=j['id'], conclusion=j['conclusion'], failedSteps=[s['name'] for s in j['steps'] if s['conclusion']=='failure']) for j in failed_jobs], families=proofs))
+metadata = dict(runId=run_id, conclusion=run['conclusion'], runStatusAtVerification=run['status'], inputs=request,
+                selectedFamiliesConclusion='success', partialRunAdmission=partial,
+                excludedJobFailures=[dict(name=j['name'], id=j['id'], conclusion=j['conclusion'],
+                    failedSteps=[s['name'] for s in j['steps'] if s['conclusion']=='failure']) for j in failed_jobs])
+if partial:
+    # Family-scoped immutable custody: completing a sibling must not rewrite a reviewed proof.
+    for proof in proofs:
+        family = proof['familyId']
+        target = out / (re.sub(r'[^A-Za-z0-9._-]', '_', family) + '.ORIGINAL_EVIDENCE_VERIFIED.json')
+        record = dict(metadata, selectedFamilies=[family], families=[proof],
+                      unselectedJobs=[dict(name=j['name'], id=j['id'], status=j['status'], conclusion=j['conclusion'])
+                                      for j in jobs['jobs'] if j['name'] not in {family, 'Synthetic canary and live negative controls', 'Plan the family matrix'}])
+        if target.exists():
+            prior = json.loads(target.read_text())
+            assert prior['runId'] == run_id and prior['inputs'] == request and prior['families'] == [proof], 'Existing custody differs; preserve it for reconciliation'
+        else:
+            save(target, record)
+else:
+    save(out / 'ORIGINAL_EVIDENCE_VERIFIED.json', dict(metadata, selectedFamilies=selected, families=proofs))
 print(json.dumps(dict(runId=run_id, conclusion=run['conclusion'], families=len(proofs), pages=sum(p['pagesMeasured'] for p in proofs))))
