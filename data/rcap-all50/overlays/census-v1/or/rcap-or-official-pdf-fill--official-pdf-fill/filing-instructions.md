@@ -22,12 +22,12 @@ THE ORDER OF THE STEPS MATTERS
 
 The Oregon Judicial Department's own instruction pages are the first three pages of this packet, and they set the order. In short:
 
-1. Get fingerprinted and send the fingerprint card to the Oregon State Police, using the Oregon State Police request form included in this packet. The Oregon State Police send the results to the prosecuting attorney.
+1. Handle the Oregon State Police request and fingerprint card as a separate agency handoff. Follow the current county or jurisdiction instructions for when that handoff is sent; enclosing the request here is not proof that fingerprints have been filed.
 2. Complete the Motion and Declaration. Every item this packet's participant instructions list is yours to fill in.
 3. Make two copies: one for your records, one for the District Attorney.
 4. Mail a copy to the prosecuting attorney in the county where charges were or could have been filed, or where the arrest happened.
 5. Complete the certificate of mailing at the bottom of the motion - at the time you mail it, not before.
-6. File your forms in the circuit court.
+6. File the court forms in the circuit court.
 
 WHAT THIS PACKET ANSWERED FOR YOU
 
@@ -39,19 +39,38 @@ WHAT THIS PACKET DID NOT ANSWER
 
 The declaration boxes on page 5 are your sworn statements about your own case, and nothing marks them for you. Read each one and tick the ones that are true.
 
+The statement that you have filed fingerprints with the Oregon State Police remains yours to make. The included agency request does not answer that sworn statement for you.
+
 The last three declaration boxes are printed under "If you selected Option 1 above". This packet is filed on Option 3, so they are left unmarked as a branch this route does not use.
 
-The motion says "No Filing Fee" on its own face. The Oregon State Police background check fee is a different charge and this packet states no amount for it: ask the Oregon State Police.
+The motion says "No Filing Fee" on its own face. The included Oregon State Police fee line is for requests to set aside convictions, while these two routes concern no conviction. Any separate fingerprint-provider charge is a participant and agency matter; this packet does not invent an amount.
+
+BEFORE YOU FILE
+
+- Before using this packet, obtain the Oregon State Police LEDS criminal history or equivalent record check and use it to confirm the record and disposition.
+- Before filing, have the prosecutor's declination and its date from the prosecutor's office or the circuit court file; the 60-day clock runs from that declination, not from the arrest.
+- Before filing, answer whether the matter was a DUII diversion dismissal, a traffic-violation citation, a pending charge or contempt proceeding, or a matter in more than one Oregon county.
+STOP AND ASK FOR HELP
+
+Stop before filing if any of these conditions applies:
+- The prosecutor's declination or its date cannot be established.
+- The matter was a DUII charge dismissed after successful completion of a diversion agreement.
+- The matter was a traffic-violation citation dismissal.
+- A criminal charge or covered contempt proceeding is pending while the motion is before the court.
+- The prosecuting attorney objects and a hearing is required.
+- The participant has matters in multiple Oregon counties, requiring separate filings.
+- The request concerns federal or out-of-state records.
+- The participant's goal is restoration of firearm rights; an Oregon set-aside does not restore them.
+- The participant has an immigration concern.
 
 NO PROPOSED ORDER IS ENCLOSED
 
-This packet contains the Motion, the Declaration of Eligibility, the Certificate of Mailing and the Oregon State Police criminal history request. It contains no proposed order. The court's own packet does not include one and none is drafted here; the order is the court's act, not this packet's.
+The court filing packet contains the Motion, the Declaration of Eligibility and the Certificate of Mailing. The Oregon State Police request is a separate agency handoff file, governed by the current county or jurisdiction instructions. Neither file contains a proposed order; the court's own packet does not include one and none is drafted here because the order is the court's act, not this packet's.
 
 WHAT THIS PACKET IS NOT
 
 This is a prepared set of official Oregon forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will set aside your record. The instruction pages say the same thing in the court's own words: court staff are not allowed to give legal advice.
 
-Route: obligation:track-only:OR:or_arrest_no_charges
 ```
 
 ## Motion to Set Aside the Record of a Dismissed Charge (ORS 137.225(1)(d))
@@ -72,12 +91,12 @@ THE ORDER OF THE STEPS MATTERS
 
 The Oregon Judicial Department's own instruction pages are the first three pages of this packet, and they set the order. In short:
 
-1. Get fingerprinted and send the fingerprint card to the Oregon State Police, using the Oregon State Police request form included in this packet. The Oregon State Police send the results to the prosecuting attorney.
+1. Handle the Oregon State Police request and fingerprint card as a separate agency handoff. Follow the current county or jurisdiction instructions for when that handoff is sent; enclosing the request here is not proof that fingerprints have been filed.
 2. Complete the Motion and Declaration. Every item this packet's participant instructions list is yours to fill in.
 3. Make two copies: one for your records, one for the District Attorney.
 4. Mail a copy to the prosecuting attorney in the county where charges were or could have been filed, or where the arrest happened.
 5. Complete the certificate of mailing at the bottom of the motion - at the time you mail it, not before.
-6. File your forms in the circuit court.
+6. File the court forms in the circuit court.
 
 WHAT THIS PACKET ANSWERED FOR YOU
 
@@ -89,17 +108,36 @@ WHAT THIS PACKET DID NOT ANSWER
 
 The declaration boxes on page 5 are your sworn statements about your own case, and nothing marks them for you. Read each one and tick the ones that are true.
 
+The statement that you have filed fingerprints with the Oregon State Police remains yours to make. The included agency request does not answer that sworn statement for you.
+
 The last three declaration boxes are printed under "If you selected Option 1 above". This packet is filed on Option 2, so they are left unmarked as a branch this route does not use.
 
-The motion says "No Filing Fee" on its own face. The Oregon State Police background check fee is a different charge and this packet states no amount for it: ask the Oregon State Police.
+The motion says "No Filing Fee" on its own face. The included Oregon State Police fee line is for requests to set aside convictions, while these two routes concern no conviction. Any separate fingerprint-provider charge is a participant and agency matter; this packet does not invent an amount.
+
+BEFORE YOU FILE
+
+- Before using this packet, obtain the Oregon State Police LEDS criminal history or equivalent record check and use it to confirm the record and disposition.
+- Before filing, have the circuit-court docket, judgment or order showing the dismissal or acquittal and its date.
+- Before filing, answer whether the matter was a DUII diversion dismissal, a traffic-violation citation, a pending charge or contempt proceeding, or a matter in more than one Oregon county.
+STOP AND ASK FOR HELP
+
+Stop before filing if any of these conditions applies:
+- The dismissal or acquittal disposition and its date cannot be established from the court record.
+- The matter was a DUII charge dismissed after successful completion of a diversion agreement.
+- The matter was a traffic-violation citation dismissal.
+- A criminal charge or covered contempt proceeding is pending while the motion is before the court.
+- The prosecuting attorney objects and a hearing is required.
+- The participant has matters in multiple Oregon counties, requiring separate filings.
+- The request concerns federal or out-of-state records.
+- The participant's goal is restoration of firearm rights; an Oregon set-aside does not restore them.
+- The participant has an immigration concern.
 
 NO PROPOSED ORDER IS ENCLOSED
 
-This packet contains the Motion, the Declaration of Eligibility, the Certificate of Mailing and the Oregon State Police criminal history request. It contains no proposed order. The court's own packet does not include one and none is drafted here; the order is the court's act, not this packet's.
+The court filing packet contains the Motion, the Declaration of Eligibility and the Certificate of Mailing. The Oregon State Police request is a separate agency handoff file, governed by the current county or jurisdiction instructions. Neither file contains a proposed order; the court's own packet does not include one and none is drafted here because the order is the court's act, not this packet's.
 
 WHAT THIS PACKET IS NOT
 
 This is a prepared set of official Oregon forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will set aside your record. The instruction pages say the same thing in the court's own words: court staff are not allowed to give legal advice.
 
-Route: obligation:track-only:OR:or_dismissed_charge
 ```

@@ -4,9 +4,19 @@
   "renderedFresh": true,
   "componentSet": [
     "motion_and_declaration",
-    "criminal_history_request",
     "filing_instructions"
   ],
+  "separateAgencyComponents": [
+    "criminal_history_request"
+  ],
+  "deliveryTopology": {
+    "courtPacket": [
+      "motion_and_declaration",
+      "filing_instructions"
+    ],
+    "separateAgencyHandoff": "criminal_history_request",
+    "sequencePolicy": "current county or jurisdiction instructions; no universal pre-filing order is asserted"
+  },
   "artifacts": [
     {
       "fixture": "canonical--arrest-no-charges",
@@ -15,10 +25,10 @@
       "option": "Option 3",
       "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
       "motionFile": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--motion-and-declaration.pdf",
-      "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-      "motionSha256": "4bec344b2419cbbec3e813677259f1639d64bba56fff2dce85e9d95e77c6208e",
-      "byteLength": 453594,
-      "pageCount": 9,
+      "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+      "motionSha256": "393f1895915fad250fa587c267af404c4398a9cafb8dd15f821977ea827bb85e",
+      "byteLength": 223749,
+      "pageCount": 7,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -57,27 +67,13 @@
         },
         {
           "packetPage": 6,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 1,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 7,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 2,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 8,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_arrest_no_charges",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 7,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_arrest_no_charges",
           "sourcePage": 2,
@@ -88,16 +84,50 @@
         "motion_and_declaration",
         "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
         "OR-OJD-ADULT-SET-ASIDE-PACKET",
-        "criminal_history_request",
-        "OR-OSP-SET-ASIDE-CCH",
         "filing_instructions",
         "filing_instructions:or_arrest_no_charges"
       ],
       "components": [
         "motion_and_declaration",
-        "criminal_history_request",
         "filing_instructions"
-      ]
+      ],
+      "agencyHandoff": {
+        "component": "criminal_history_request",
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "deliveryRole": "separate_agency_handoff",
+        "sequencePolicy": "current county or jurisdiction instructions",
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+        "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+        "byteLength": 223499,
+        "pageCount": 2,
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 1,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          },
+          {
+            "packetPage": 2,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 2,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          }
+        ],
+        "documents": [
+          "criminal_history_request",
+          "OR-OSP-SET-ASIDE-CCH"
+        ],
+        "components": [
+          "criminal_history_request"
+        ]
+      }
     },
     {
       "fixture": "boundary--arrest-no-charges",
@@ -106,10 +136,10 @@
       "option": "Option 3",
       "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges.pdf",
       "motionFile": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges--motion-and-declaration.pdf",
-      "sha256": "6f2196e7b2bed7581eaa436cb066b9195eec5d424a6fcdedb32bb04e3279cc3d",
-      "motionSha256": "46cf0f005e6ef9e465e9aaf4b13e348a559db982f7ca188b6f49ddaee18f757c",
-      "byteLength": 453717,
-      "pageCount": 9,
+      "sha256": "2d78d560ddaca770ffe129bda74d8bb134e5d3c2e8a54b5c94099e2529a04470",
+      "motionSha256": "56c10bb2b77948885f8e407aebb64d68254c4b52c66c9e1b6c6bc5e83a47db06",
+      "byteLength": 223876,
+      "pageCount": 7,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -148,27 +178,13 @@
         },
         {
           "packetPage": 6,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 1,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 7,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 2,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 8,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_arrest_no_charges",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 7,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_arrest_no_charges",
           "sourcePage": 2,
@@ -179,16 +195,50 @@
         "motion_and_declaration",
         "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
         "OR-OJD-ADULT-SET-ASIDE-PACKET",
-        "criminal_history_request",
-        "OR-OSP-SET-ASIDE-CCH",
         "filing_instructions",
         "filing_instructions:or_arrest_no_charges"
       ],
       "components": [
         "motion_and_declaration",
-        "criminal_history_request",
         "filing_instructions"
-      ]
+      ],
+      "agencyHandoff": {
+        "component": "criminal_history_request",
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "deliveryRole": "separate_agency_handoff",
+        "sequencePolicy": "current county or jurisdiction instructions",
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges--criminal-history-request.pdf",
+        "sha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+        "byteLength": 223553,
+        "pageCount": 2,
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 1,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          },
+          {
+            "packetPage": 2,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 2,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          }
+        ],
+        "documents": [
+          "criminal_history_request",
+          "OR-OSP-SET-ASIDE-CCH"
+        ],
+        "components": [
+          "criminal_history_request"
+        ]
+      }
     },
     {
       "fixture": "canonical--dismissed-charge",
@@ -197,10 +247,10 @@
       "option": "Option 2",
       "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
       "motionFile": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--motion-and-declaration.pdf",
-      "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
-      "motionSha256": "b9ae2b154948672b5a331134f2056ffbace877109a51f898f6a2488c60da3689",
-      "byteLength": 453455,
-      "pageCount": 9,
+      "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+      "motionSha256": "3bd41cb1cfaf257f21e5b67c41f04991cf1849b230026f9d56539402d7b02ebd",
+      "byteLength": 223603,
+      "pageCount": 7,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -239,27 +289,13 @@
         },
         {
           "packetPage": 6,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 1,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 7,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 2,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 8,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_dismissed_charge",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 7,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_dismissed_charge",
           "sourcePage": 2,
@@ -270,16 +306,50 @@
         "motion_and_declaration",
         "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
         "OR-OJD-ADULT-SET-ASIDE-PACKET",
-        "criminal_history_request",
-        "OR-OSP-SET-ASIDE-CCH",
         "filing_instructions",
         "filing_instructions:or_dismissed_charge"
       ],
       "components": [
         "motion_and_declaration",
-        "criminal_history_request",
         "filing_instructions"
-      ]
+      ],
+      "agencyHandoff": {
+        "component": "criminal_history_request",
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "deliveryRole": "separate_agency_handoff",
+        "sequencePolicy": "current county or jurisdiction instructions",
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--criminal-history-request.pdf",
+        "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+        "byteLength": 223499,
+        "pageCount": 2,
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 1,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          },
+          {
+            "packetPage": 2,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 2,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          }
+        ],
+        "documents": [
+          "criminal_history_request",
+          "OR-OSP-SET-ASIDE-CCH"
+        ],
+        "components": [
+          "criminal_history_request"
+        ]
+      }
     },
     {
       "fixture": "boundary--dismissed-charge",
@@ -288,10 +358,10 @@
       "option": "Option 2",
       "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge.pdf",
       "motionFile": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge--motion-and-declaration.pdf",
-      "sha256": "888294a313ac785e50bdea6c2ec76b09a5a0bd2674de7a7885689cd2496aff19",
-      "motionSha256": "7e3d8ade5aa12161c821386dace24646e4086de3e3c05aef6baa2106a80ddd32",
-      "byteLength": 453590,
-      "pageCount": 9,
+      "sha256": "54f05131f7b7168c3808bdf9ad037e211b383dce6913ee8983129941256f2a7a",
+      "motionSha256": "a70f17ca894a5e3d1ab3200861dc81356323456801d48bbc4e75c24180c672c4",
+      "byteLength": 223734,
+      "pageCount": 7,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -330,27 +400,13 @@
         },
         {
           "packetPage": 6,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 1,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 7,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 2,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 8,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_dismissed_charge",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 7,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_dismissed_charge",
           "sourcePage": 2,
@@ -361,31 +417,63 @@
         "motion_and_declaration",
         "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
         "OR-OJD-ADULT-SET-ASIDE-PACKET",
-        "criminal_history_request",
-        "OR-OSP-SET-ASIDE-CCH",
         "filing_instructions",
         "filing_instructions:or_dismissed_charge"
       ],
       "components": [
         "motion_and_declaration",
-        "criminal_history_request",
         "filing_instructions"
-      ]
+      ],
+      "agencyHandoff": {
+        "component": "criminal_history_request",
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "deliveryRole": "separate_agency_handoff",
+        "sequencePolicy": "current county or jurisdiction instructions",
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge--criminal-history-request.pdf",
+        "sha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+        "byteLength": 223553,
+        "pageCount": 2,
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 1,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          },
+          {
+            "packetPage": 2,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 2,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          }
+        ],
+        "documents": [
+          "criminal_history_request",
+          "OR-OSP-SET-ASIDE-CCH"
+        ],
+        "components": [
+          "criminal_history_request"
+        ]
+      }
     }
   ],
   "packets": [
     {
       "fixture": "canonical--arrest-no-charges",
       "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
-      "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-      "byteLength": 453594,
-      "pageCount": 9,
+      "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+      "byteLength": 223749,
+      "pageCount": 7,
       "documents": [
         "motion_and_declaration",
         "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
         "OR-OJD-ADULT-SET-ASIDE-PACKET",
-        "criminal_history_request",
-        "OR-OSP-SET-ASIDE-CCH",
         "filing_instructions",
         "filing_instructions:or_arrest_no_charges"
       ],
@@ -427,46 +515,67 @@
         },
         {
           "packetPage": 6,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 1,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 7,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 2,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 8,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_arrest_no_charges",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 7,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_arrest_no_charges",
           "sourcePage": 2,
           "sourceSha256": null
         }
-      ]
+      ],
+      "agencyHandoff": {
+        "component": "criminal_history_request",
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "deliveryRole": "separate_agency_handoff",
+        "sequencePolicy": "current county or jurisdiction instructions",
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+        "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+        "byteLength": 223499,
+        "pageCount": 2,
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 1,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          },
+          {
+            "packetPage": 2,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 2,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          }
+        ],
+        "documents": [
+          "criminal_history_request",
+          "OR-OSP-SET-ASIDE-CCH"
+        ],
+        "components": [
+          "criminal_history_request"
+        ]
+      }
     },
     {
       "fixture": "boundary--arrest-no-charges",
       "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges.pdf",
-      "sha256": "6f2196e7b2bed7581eaa436cb066b9195eec5d424a6fcdedb32bb04e3279cc3d",
-      "byteLength": 453717,
-      "pageCount": 9,
+      "sha256": "2d78d560ddaca770ffe129bda74d8bb134e5d3c2e8a54b5c94099e2529a04470",
+      "byteLength": 223876,
+      "pageCount": 7,
       "documents": [
         "motion_and_declaration",
         "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
         "OR-OJD-ADULT-SET-ASIDE-PACKET",
-        "criminal_history_request",
-        "OR-OSP-SET-ASIDE-CCH",
         "filing_instructions",
         "filing_instructions:or_arrest_no_charges"
       ],
@@ -508,46 +617,67 @@
         },
         {
           "packetPage": 6,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 1,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 7,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 2,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 8,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_arrest_no_charges",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 7,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_arrest_no_charges",
           "sourcePage": 2,
           "sourceSha256": null
         }
-      ]
+      ],
+      "agencyHandoff": {
+        "component": "criminal_history_request",
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "deliveryRole": "separate_agency_handoff",
+        "sequencePolicy": "current county or jurisdiction instructions",
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges--criminal-history-request.pdf",
+        "sha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+        "byteLength": 223553,
+        "pageCount": 2,
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 1,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          },
+          {
+            "packetPage": 2,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 2,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          }
+        ],
+        "documents": [
+          "criminal_history_request",
+          "OR-OSP-SET-ASIDE-CCH"
+        ],
+        "components": [
+          "criminal_history_request"
+        ]
+      }
     },
     {
       "fixture": "canonical--dismissed-charge",
       "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
-      "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
-      "byteLength": 453455,
-      "pageCount": 9,
+      "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+      "byteLength": 223603,
+      "pageCount": 7,
       "documents": [
         "motion_and_declaration",
         "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
         "OR-OJD-ADULT-SET-ASIDE-PACKET",
-        "criminal_history_request",
-        "OR-OSP-SET-ASIDE-CCH",
         "filing_instructions",
         "filing_instructions:or_dismissed_charge"
       ],
@@ -589,46 +719,67 @@
         },
         {
           "packetPage": 6,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 1,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 7,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 2,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 8,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_dismissed_charge",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 7,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_dismissed_charge",
           "sourcePage": 2,
           "sourceSha256": null
         }
-      ]
+      ],
+      "agencyHandoff": {
+        "component": "criminal_history_request",
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "deliveryRole": "separate_agency_handoff",
+        "sequencePolicy": "current county or jurisdiction instructions",
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--criminal-history-request.pdf",
+        "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+        "byteLength": 223499,
+        "pageCount": 2,
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 1,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          },
+          {
+            "packetPage": 2,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 2,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          }
+        ],
+        "documents": [
+          "criminal_history_request",
+          "OR-OSP-SET-ASIDE-CCH"
+        ],
+        "components": [
+          "criminal_history_request"
+        ]
+      }
     },
     {
       "fixture": "boundary--dismissed-charge",
       "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge.pdf",
-      "sha256": "888294a313ac785e50bdea6c2ec76b09a5a0bd2674de7a7885689cd2496aff19",
-      "byteLength": 453590,
-      "pageCount": 9,
+      "sha256": "54f05131f7b7168c3808bdf9ad037e211b383dce6913ee8983129941256f2a7a",
+      "byteLength": 223734,
+      "pageCount": 7,
       "documents": [
         "motion_and_declaration",
         "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
         "OR-OJD-ADULT-SET-ASIDE-PACKET",
-        "criminal_history_request",
-        "OR-OSP-SET-ASIDE-CCH",
         "filing_instructions",
         "filing_instructions:or_dismissed_charge"
       ],
@@ -670,35 +821,58 @@
         },
         {
           "packetPage": 6,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 1,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 7,
-          "component": "criminal_history_request",
-          "documentId": "OR-OSP-SET-ASIDE-CCH",
-          "sourcePage": 2,
-          "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
-        },
-        {
-          "packetPage": 8,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_dismissed_charge",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 7,
           "component": "filing_instructions",
           "documentId": "filing_instructions:or_dismissed_charge",
           "sourcePage": 2,
           "sourceSha256": null
         }
-      ]
+      ],
+      "agencyHandoff": {
+        "component": "criminal_history_request",
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "deliveryRole": "separate_agency_handoff",
+        "sequencePolicy": "current county or jurisdiction instructions",
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge--criminal-history-request.pdf",
+        "sha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+        "byteLength": 223553,
+        "pageCount": 2,
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 1,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          },
+          {
+            "packetPage": 2,
+            "component": "criminal_history_request",
+            "documentId": "OR-OSP-SET-ASIDE-CCH",
+            "deliveryRole": "separate_agency_handoff",
+            "sequencePolicy": "current county or jurisdiction instructions",
+            "sourcePage": 2,
+            "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+          }
+        ],
+        "documents": [
+          "criminal_history_request",
+          "OR-OSP-SET-ASIDE-CCH"
+        ],
+        "components": [
+          "criminal_history_request"
+        ]
+      }
     }
   ],
-  "rasterEngine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+  "rasterEngine": null,
   "rasterState": "BUILT_RASTER_PENDING"
 }

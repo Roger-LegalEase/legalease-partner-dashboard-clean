@@ -1,7 +1,8 @@
 {
   "schemaVersion": "rcap-actual-writes-byte-proof/v1",
   "familyId": "rcap-or-official-pdf-fill",
-  "derivedFromArtifactBytes": true,
+  "derivedFromArtifactBytes": false,
+  "visibilityMeasurement": "deferred_to_saved_byte_preflight",
   "documents": [
     {
       "fixture": "canonical--arrest-no-charges",
@@ -9,11 +10,16 @@
       "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
       "formNumber": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
       "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
-      "proofMethod": "flat overlay: values drawn into page content at measured anchors. The finalizer reports each write with the value it drew and each selection with the measured box it marked, and this build refuses the fixture if any anchor it claims was refused or any selection was not marked.",
-      "valuesReportedByFinalizer": 7,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
-      "addedGlyphsReadFromOutputBytes": 104,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "supportingSourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "agencyFile": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+      "agencySha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+      "agencyByteLength": 223499,
+      "agencyPageCount": 2,
+      "proofMethod": "motion values and route marks are drawn at the measured flat anchors; OSP values and the NO selection are written through the exact source-field census and flattened into the separate agency handoff. The finalizer reports every write, and this build refuses any claimed write or selection that is refused.",
+      "valuesReportedByFinalizer": 15,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "addedGlyphsReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
       "routeSelectionMarks": [
         {
           "control": "Option 3",
@@ -29,78 +35,371 @@
           "redrewTheCourtsBox": false
         }
       ],
-      "anchorsRefused": [],
+      "ospSelectionMarks": [
+        {
+          "field": "NO",
+          "basis": "both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no"
+        }
+      ],
+      "anchorsRefused": [
+        {
+          "field": "AREA CODE",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PHONE NUMBER",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "6",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "7",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "8",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "4",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "9",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "5",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "10",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "YES",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fingerprint Card Form",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fee for set aside of CONVICTION Include check or money order in the amount of 3300 payable",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
       "unfittable": [],
       "actualWrites": [
         {
+          "component": "motion_and_declaration",
           "field": "FOR THE COUNTY OF",
           "anchor": "FOR THE COUNTY OF",
           "factId": "matter.county",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 306.56,
+            "y": 695.92,
+            "width": 123.44,
+            "height": 12.5
+          },
+          "drawnText": "Multnomah",
+          "expected": "Multnomah",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Defendant",
           "anchor": "Defendant",
           "factId": "participant.full_legal_name",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 74,
+            "y": 614.08,
+            "width": 239,
+            "height": 12.5
+          },
+          "drawnText": "Jordan Avery Reyes",
+          "expected": "Jordan Avery Reyes",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "DOB:",
           "anchor": "DOB:",
           "factId": "participant.date_of_birth",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 103.76,
+            "y": 587.8,
+            "width": 110.24,
+            "height": 12.5
+          },
+          "drawnText": "1991-04-17",
+          "expected": "1991-04-17",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Name (typed or printed)",
           "anchor": "Name (typed or printed)",
           "factId": "participant.full_legal_name",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 290,
+            "y": 343,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Jordan Avery Reyes",
+          "expected": "Jordan Avery Reyes",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Email",
           "anchor": "Email",
           "factId": "participant.email",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 74,
+            "y": 343,
+            "width": 176,
+            "height": 12.5
+          },
+          "drawnText": "jordan.reyes@example.org",
+          "expected": "jordan.reyes@example.org",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Address",
           "anchor": "Address",
           "factId": "participant.street_address",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 74,
+            "y": 305.44,
+            "width": 174,
+            "height": 12.5
+          },
+          "drawnText": "42 Maple Street",
+          "expected": "42 Maple Street",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "City, State, ZIP",
           "anchor": "City, State, ZIP",
           "factId": "participant.city_state_zip",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 252,
+            "y": 305.44,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Portland, OR 97205",
+          "expected": "Portland, OR 97205",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "motion_and_declaration",
+          "field": "Defendant Name printed on the certificate of mailing",
+          "anchor": "Defendant Name printed on the certificate of mailing",
+          "factId": "participant.full_legal_name",
+          "page": 5,
+          "rect": {
+            "x": 290,
+            "y": 117.76,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Jordan Avery Reyes",
+          "expected": "Jordan Avery Reyes",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "motion_and_declaration",
+          "field": "Option 3",
+          "anchor": null,
+          "factId": null,
+          "page": 4,
+          "rect": {
+            "x0": 128.52,
+            "y0": 151.92,
+            "x1": 138.72,
+            "y1": 162.12
+          },
+          "drawnText": "route selection marked",
+          "expected": "route selection marked",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NAME",
+          "anchor": "NAME",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 64.8,
+            "y": 626.04,
+            "width": 433.44,
+            "height": 19.68
+          },
+          "drawnText": "Jordan Avery Reyes",
+          "expected": "Jordan Avery Reyes",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "DATE OF BIRTH",
+          "anchor": "DATE OF BIRTH",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 102.48,
+            "y": 590.88,
+            "width": 171.48,
+            "height": 19.68
+          },
+          "drawnText": "04/17/1991",
+          "expected": "04/17/1991",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "Street, City, State, Zip code",
+          "anchor": "Street, City, State, Zip code",
+          "factId": "participant.city_state_zip",
+          "page": 1,
+          "rect": {
+            "x": 119.4,
+            "y": 556.44,
+            "width": 379.08,
+            "height": 19.68
+          },
+          "drawnText": "42 Maple Street, Portland, OR 97205",
+          "expected": "42 Maple Street, Portland, OR 97205",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "1",
+          "anchor": "1",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 51.12,
+            "y": 353.88,
+            "width": 240.72,
+            "height": 19.44
+          },
+          "drawnText": "Circuit Court for Multnomah County",
+          "expected": "Circuit Court for Multnomah County",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NO",
+          "anchor": "NO",
+          "factId": null,
+          "page": 1,
+          "rect": {
+            "x": 426.12,
+            "y": 234.48,
+            "width": 17.88,
+            "height": 18
+          },
+          "drawnText": "selection marked",
+          "expected": "selection marked",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NO",
+          "anchor": "NO",
+          "factId": null,
+          "page": 1,
+          "rect": {
+            "x": 426.12,
+            "y": 234.48,
+            "width": 17.88,
+            "height": 18
+          },
+          "drawnText": "selection marked",
+          "expected": "selection marked",
+          "selectionBasis": "both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         }
       ]
     },
@@ -110,11 +409,16 @@
       "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
       "formNumber": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
       "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
-      "proofMethod": "flat overlay: values drawn into page content at measured anchors. The finalizer reports each write with the value it drew and each selection with the measured box it marked, and this build refuses the fixture if any anchor it claims was refused or any selection was not marked.",
-      "valuesReportedByFinalizer": 7,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
-      "addedGlyphsReadFromOutputBytes": 203,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "supportingSourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "agencyFile": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges--criminal-history-request.pdf",
+      "agencySha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+      "agencyByteLength": 223553,
+      "agencyPageCount": 2,
+      "proofMethod": "motion values and route marks are drawn at the measured flat anchors; OSP values and the NO selection are written through the exact source-field census and flattened into the separate agency handoff. The finalizer reports every write, and this build refuses any claimed write or selection that is refused.",
+      "valuesReportedByFinalizer": 15,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "addedGlyphsReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
       "routeSelectionMarks": [
         {
           "control": "Option 3",
@@ -130,78 +434,371 @@
           "redrewTheCourtsBox": false
         }
       ],
-      "anchorsRefused": [],
+      "ospSelectionMarks": [
+        {
+          "field": "NO",
+          "basis": "both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no"
+        }
+      ],
+      "anchorsRefused": [
+        {
+          "field": "AREA CODE",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PHONE NUMBER",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "6",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "7",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "8",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "4",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "9",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "5",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "10",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "YES",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fingerprint Card Form",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fee for set aside of CONVICTION Include check or money order in the amount of 3300 payable",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
       "unfittable": [],
       "actualWrites": [
         {
+          "component": "motion_and_declaration",
           "field": "FOR THE COUNTY OF",
           "anchor": "FOR THE COUNTY OF",
           "factId": "matter.county",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 306.56,
+            "y": 695.92,
+            "width": 123.44,
+            "height": 12.5
+          },
+          "drawnText": "Josephine",
+          "expected": "Josephine",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Defendant",
           "anchor": "Defendant",
           "factId": "participant.full_legal_name",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 74,
+            "y": 614.08,
+            "width": 239,
+            "height": 12.5
+          },
+          "drawnText": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "DOB:",
           "anchor": "DOB:",
           "factId": "participant.date_of_birth",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 103.76,
+            "y": 587.8,
+            "width": 110.24,
+            "height": 12.5
+          },
+          "drawnText": "1968-12-31",
+          "expected": "1968-12-31",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Name (typed or printed)",
           "anchor": "Name (typed or printed)",
           "factId": "participant.full_legal_name",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 290,
+            "y": 343,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Email",
           "anchor": "Email",
           "factId": "participant.email",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 74,
+            "y": 343,
+            "width": 176,
+            "height": 12.5
+          },
+          "drawnText": "maria.alejandra.oshaughnessy@longmailexample.org",
+          "expected": "maria.alejandra.oshaughnessy@longmailexample.org",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Address",
           "anchor": "Address",
           "factId": "participant.street_address",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 74,
+            "y": 305.44,
+            "width": 174,
+            "height": 12.5
+          },
+          "drawnText": "1188 Upper Notch Crossing Road, Apt 14B",
+          "expected": "1188 Upper Notch Crossing Road, Apt 14B",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "City, State, ZIP",
           "anchor": "City, State, ZIP",
           "factId": "participant.city_state_zip",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 252,
+            "y": 305.44,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Grants Pass, Oregon 97526-2214",
+          "expected": "Grants Pass, Oregon 97526-2214",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "motion_and_declaration",
+          "field": "Defendant Name printed on the certificate of mailing",
+          "anchor": "Defendant Name printed on the certificate of mailing",
+          "factId": "participant.full_legal_name",
+          "page": 5,
+          "rect": {
+            "x": 290,
+            "y": 117.76,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "motion_and_declaration",
+          "field": "Option 3",
+          "anchor": null,
+          "factId": null,
+          "page": 4,
+          "rect": {
+            "x0": 128.52,
+            "y0": 151.92,
+            "x1": 138.72,
+            "y1": 162.12
+          },
+          "drawnText": "route selection marked",
+          "expected": "route selection marked",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NAME",
+          "anchor": "NAME",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 64.8,
+            "y": 626.04,
+            "width": 433.44,
+            "height": 19.68
+          },
+          "drawnText": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "DATE OF BIRTH",
+          "anchor": "DATE OF BIRTH",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 102.48,
+            "y": 590.88,
+            "width": 171.48,
+            "height": 19.68
+          },
+          "drawnText": "12/31/1968",
+          "expected": "12/31/1968",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "Street, City, State, Zip code",
+          "anchor": "Street, City, State, Zip code",
+          "factId": "participant.city_state_zip",
+          "page": 1,
+          "rect": {
+            "x": 119.4,
+            "y": 556.44,
+            "width": 379.08,
+            "height": 19.68
+          },
+          "drawnText": "1188 Upper Notch Crossing Road, Apt 14B, Grants Pass, Oregon 97526-2214",
+          "expected": "1188 Upper Notch Crossing Road, Apt 14B, Grants Pass, Oregon 97526-2214",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "1",
+          "anchor": "1",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 51.12,
+            "y": 353.88,
+            "width": 240.72,
+            "height": 19.44
+          },
+          "drawnText": "Circuit Court for Josephine County",
+          "expected": "Circuit Court for Josephine County",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NO",
+          "anchor": "NO",
+          "factId": null,
+          "page": 1,
+          "rect": {
+            "x": 426.12,
+            "y": 234.48,
+            "width": 17.88,
+            "height": 18
+          },
+          "drawnText": "selection marked",
+          "expected": "selection marked",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NO",
+          "anchor": "NO",
+          "factId": null,
+          "page": 1,
+          "rect": {
+            "x": 426.12,
+            "y": 234.48,
+            "width": 17.88,
+            "height": 18
+          },
+          "drawnText": "selection marked",
+          "expected": "selection marked",
+          "selectionBasis": "both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         }
       ]
     },
@@ -211,11 +808,16 @@
       "routeKey": "obligation:track-only:OR:or_dismissed_charge",
       "formNumber": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
-      "proofMethod": "flat overlay: values drawn into page content at measured anchors. The finalizer reports each write with the value it drew and each selection with the measured box it marked, and this build refuses the fixture if any anchor it claims was refused or any selection was not marked.",
-      "valuesReportedByFinalizer": 8,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
-      "addedGlyphsReadFromOutputBytes": 113,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "supportingSourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "agencyFile": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--criminal-history-request.pdf",
+      "agencySha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+      "agencyByteLength": 223499,
+      "agencyPageCount": 2,
+      "proofMethod": "motion values and route marks are drawn at the measured flat anchors; OSP values and the NO selection are written through the exact source-field census and flattened into the separate agency handoff. The finalizer reports every write, and this build refuses any claimed write or selection that is refused.",
+      "valuesReportedByFinalizer": 16,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "addedGlyphsReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
       "routeSelectionMarks": [
         {
           "control": "Option 2",
@@ -231,88 +833,389 @@
           "redrewTheCourtsBox": false
         }
       ],
-      "anchorsRefused": [],
+      "ospSelectionMarks": [
+        {
+          "field": "NO",
+          "basis": "both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no"
+        }
+      ],
+      "anchorsRefused": [
+        {
+          "field": "AREA CODE",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PHONE NUMBER",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "6",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "7",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "8",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "4",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "9",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "5",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "10",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "YES",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fingerprint Card Form",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fee for set aside of CONVICTION Include check or money order in the amount of 3300 payable",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
       "unfittable": [],
       "actualWrites": [
         {
+          "component": "motion_and_declaration",
           "field": "FOR THE COUNTY OF",
           "anchor": "FOR THE COUNTY OF",
           "factId": "matter.county",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 306.56,
+            "y": 695.92,
+            "width": 123.44,
+            "height": 12.5
+          },
+          "drawnText": "Multnomah",
+          "expected": "Multnomah",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Case No:",
           "anchor": "Case No:",
           "factId": "matter.case_number",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 397.4,
+            "y": 668.68,
+            "width": 137,
+            "height": 12.5
+          },
+          "drawnText": "21CR04170",
+          "expected": "21CR04170",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Defendant",
           "anchor": "Defendant",
           "factId": "participant.full_legal_name",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 74,
+            "y": 614.08,
+            "width": 239,
+            "height": 12.5
+          },
+          "drawnText": "Jordan Avery Reyes",
+          "expected": "Jordan Avery Reyes",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "DOB:",
           "anchor": "DOB:",
           "factId": "participant.date_of_birth",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 103.76,
+            "y": 587.8,
+            "width": 110.24,
+            "height": 12.5
+          },
+          "drawnText": "1991-04-17",
+          "expected": "1991-04-17",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Name (typed or printed)",
           "anchor": "Name (typed or printed)",
           "factId": "participant.full_legal_name",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 290,
+            "y": 343,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Jordan Avery Reyes",
+          "expected": "Jordan Avery Reyes",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Email",
           "anchor": "Email",
           "factId": "participant.email",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 74,
+            "y": 343,
+            "width": 176,
+            "height": 12.5
+          },
+          "drawnText": "jordan.reyes@example.org",
+          "expected": "jordan.reyes@example.org",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Address",
           "anchor": "Address",
           "factId": "participant.street_address",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 74,
+            "y": 305.44,
+            "width": 174,
+            "height": 12.5
+          },
+          "drawnText": "42 Maple Street",
+          "expected": "42 Maple Street",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "City, State, ZIP",
           "anchor": "City, State, ZIP",
           "factId": "participant.city_state_zip",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 252,
+            "y": 305.44,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Portland, OR 97205",
+          "expected": "Portland, OR 97205",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "motion_and_declaration",
+          "field": "Defendant Name printed on the certificate of mailing",
+          "anchor": "Defendant Name printed on the certificate of mailing",
+          "factId": "participant.full_legal_name",
+          "page": 5,
+          "rect": {
+            "x": 290,
+            "y": 117.76,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Jordan Avery Reyes",
+          "expected": "Jordan Avery Reyes",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "motion_and_declaration",
+          "field": "Option 2",
+          "anchor": null,
+          "factId": null,
+          "page": 4,
+          "rect": {
+            "x0": 128.52,
+            "y0": 186.24,
+            "x1": 138.72,
+            "y1": 196.44
+          },
+          "drawnText": "route selection marked",
+          "expected": "route selection marked",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NAME",
+          "anchor": "NAME",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 64.8,
+            "y": 626.04,
+            "width": 433.44,
+            "height": 19.68
+          },
+          "drawnText": "Jordan Avery Reyes",
+          "expected": "Jordan Avery Reyes",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "DATE OF BIRTH",
+          "anchor": "DATE OF BIRTH",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 102.48,
+            "y": 590.88,
+            "width": 171.48,
+            "height": 19.68
+          },
+          "drawnText": "04/17/1991",
+          "expected": "04/17/1991",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "Street, City, State, Zip code",
+          "anchor": "Street, City, State, Zip code",
+          "factId": "participant.city_state_zip",
+          "page": 1,
+          "rect": {
+            "x": 119.4,
+            "y": 556.44,
+            "width": 379.08,
+            "height": 19.68
+          },
+          "drawnText": "42 Maple Street, Portland, OR 97205",
+          "expected": "42 Maple Street, Portland, OR 97205",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "1",
+          "anchor": "1",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 51.12,
+            "y": 353.88,
+            "width": 240.72,
+            "height": 19.44
+          },
+          "drawnText": "Circuit Court for Multnomah County",
+          "expected": "Circuit Court for Multnomah County",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NO",
+          "anchor": "NO",
+          "factId": null,
+          "page": 1,
+          "rect": {
+            "x": 426.12,
+            "y": 234.48,
+            "width": 17.88,
+            "height": 18
+          },
+          "drawnText": "selection marked",
+          "expected": "selection marked",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NO",
+          "anchor": "NO",
+          "factId": null,
+          "page": 1,
+          "rect": {
+            "x": 426.12,
+            "y": 234.48,
+            "width": 17.88,
+            "height": 18
+          },
+          "drawnText": "selection marked",
+          "expected": "selection marked",
+          "selectionBasis": "both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         }
       ]
     },
@@ -322,11 +1225,16 @@
       "routeKey": "obligation:track-only:OR:or_dismissed_charge",
       "formNumber": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
-      "proofMethod": "flat overlay: values drawn into page content at measured anchors. The finalizer reports each write with the value it drew and each selection with the measured box it marked, and this build refuses the fixture if any anchor it claims was refused or any selection was not marked.",
-      "valuesReportedByFinalizer": 8,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
-      "addedGlyphsReadFromOutputBytes": 214,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "supportingSourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "agencyFile": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge--criminal-history-request.pdf",
+      "agencySha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+      "agencyByteLength": 223553,
+      "agencyPageCount": 2,
+      "proofMethod": "motion values and route marks are drawn at the measured flat anchors; OSP values and the NO selection are written through the exact source-field census and flattened into the separate agency handoff. The finalizer reports every write, and this build refuses any claimed write or selection that is refused.",
+      "valuesReportedByFinalizer": 16,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "addedGlyphsReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
       "routeSelectionMarks": [
         {
           "control": "Option 2",
@@ -342,88 +1250,389 @@
           "redrewTheCourtsBox": false
         }
       ],
-      "anchorsRefused": [],
+      "ospSelectionMarks": [
+        {
+          "field": "NO",
+          "basis": "both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no"
+        }
+      ],
+      "anchorsRefused": [
+        {
+          "field": "AREA CODE",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "PHONE NUMBER",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ALIAS NAME3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "6",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "7",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "8",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "4",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "9",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "5",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "10",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "YES",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fingerprint Card Form",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fee for set aside of CONVICTION Include check or money order in the amount of 3300 payable",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
       "unfittable": [],
       "actualWrites": [
         {
+          "component": "motion_and_declaration",
           "field": "FOR THE COUNTY OF",
           "anchor": "FOR THE COUNTY OF",
           "factId": "matter.county",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 306.56,
+            "y": 695.92,
+            "width": 123.44,
+            "height": 12.5
+          },
+          "drawnText": "Josephine",
+          "expected": "Josephine",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Case No:",
           "anchor": "Case No:",
           "factId": "matter.case_number",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 397.4,
+            "y": 668.68,
+            "width": 137,
+            "height": 12.5
+          },
+          "drawnText": "24CR0012760",
+          "expected": "24CR0012760",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Defendant",
           "anchor": "Defendant",
           "factId": "participant.full_legal_name",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 74,
+            "y": 614.08,
+            "width": 239,
+            "height": 12.5
+          },
+          "drawnText": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "DOB:",
           "anchor": "DOB:",
           "factId": "participant.date_of_birth",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 4,
+          "rect": {
+            "x": 103.76,
+            "y": 587.8,
+            "width": 110.24,
+            "height": 12.5
+          },
+          "drawnText": "1968-12-31",
+          "expected": "1968-12-31",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Name (typed or printed)",
           "anchor": "Name (typed or printed)",
           "factId": "participant.full_legal_name",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 290,
+            "y": 343,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Email",
           "anchor": "Email",
           "factId": "participant.email",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 74,
+            "y": 343,
+            "width": 176,
+            "height": 12.5
+          },
+          "drawnText": "maria.alejandra.oshaughnessy@longmailexample.org",
+          "expected": "maria.alejandra.oshaughnessy@longmailexample.org",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "Address",
           "anchor": "Address",
           "factId": "participant.street_address",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 74,
+            "y": 305.44,
+            "width": 174,
+            "height": 12.5
+          },
+          "drawnText": "1188 Upper Notch Crossing Road, Apt 14B",
+          "expected": "1188 Upper Notch Crossing Road, Apt 14B",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         },
         {
+          "component": "motion_and_declaration",
           "field": "City, State, ZIP",
           "anchor": "City, State, ZIP",
           "factId": "participant.city_state_zip",
-          "page": null,
-          "drawnText": null,
-          "expected": null,
-          "visibleInArtifactBytes": true,
-          "everyWidgetVisibleInArtifactBytes": true
+          "page": 5,
+          "rect": {
+            "x": 252,
+            "y": 305.44,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Grants Pass, Oregon 97526-2214",
+          "expected": "Grants Pass, Oregon 97526-2214",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "motion_and_declaration",
+          "field": "Defendant Name printed on the certificate of mailing",
+          "anchor": "Defendant Name printed on the certificate of mailing",
+          "factId": "participant.full_legal_name",
+          "page": 5,
+          "rect": {
+            "x": 290,
+            "y": 117.76,
+            "width": 248,
+            "height": 12.5
+          },
+          "drawnText": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "motion_and_declaration",
+          "field": "Option 2",
+          "anchor": null,
+          "factId": null,
+          "page": 4,
+          "rect": {
+            "x0": 128.52,
+            "y0": 186.24,
+            "x1": 138.72,
+            "y1": 196.44
+          },
+          "drawnText": "route selection marked",
+          "expected": "route selection marked",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NAME",
+          "anchor": "NAME",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 64.8,
+            "y": 626.04,
+            "width": 433.44,
+            "height": 19.68
+          },
+          "drawnText": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "DATE OF BIRTH",
+          "anchor": "DATE OF BIRTH",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 102.48,
+            "y": 590.88,
+            "width": 171.48,
+            "height": 19.68
+          },
+          "drawnText": "12/31/1968",
+          "expected": "12/31/1968",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "Street, City, State, Zip code",
+          "anchor": "Street, City, State, Zip code",
+          "factId": "participant.city_state_zip",
+          "page": 1,
+          "rect": {
+            "x": 119.4,
+            "y": 556.44,
+            "width": 379.08,
+            "height": 19.68
+          },
+          "drawnText": "1188 Upper Notch Crossing Road, Apt 14B, Grants Pass, Oregon 97526-2214",
+          "expected": "1188 Upper Notch Crossing Road, Apt 14B, Grants Pass, Oregon 97526-2214",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "1",
+          "anchor": "1",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 51.12,
+            "y": 353.88,
+            "width": 240.72,
+            "height": 19.44
+          },
+          "drawnText": "Circuit Court for Josephine County",
+          "expected": "Circuit Court for Josephine County",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NO",
+          "anchor": "NO",
+          "factId": null,
+          "page": 1,
+          "rect": {
+            "x": 426.12,
+            "y": 234.48,
+            "width": 17.88,
+            "height": 18
+          },
+          "drawnText": "selection marked",
+          "expected": "selection marked",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
+        },
+        {
+          "component": "criminal_history_request",
+          "field": "NO",
+          "anchor": "NO",
+          "factId": null,
+          "page": 1,
+          "rect": {
+            "x": 426.12,
+            "y": 234.48,
+            "width": 17.88,
+            "height": 18
+          },
+          "drawnText": "selection marked",
+          "expected": "selection marked",
+          "selectionBasis": "both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no",
+          "visibleInArtifactBytes": null,
+          "everyWidgetVisibleInArtifactBytes": null,
+          "visibilityMeasurement": "deferred_to_saved_byte_preflight"
         }
       ]
     }
@@ -431,35 +1640,35 @@
   "artifacts": [
     {
       "fixture": "canonical--arrest-no-charges",
-      "valuesReportedByFinalizer": 7,
-      "addedGlyphsReadFromOutputBytes": 104,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "refusedFieldsWithInk": []
+      "valuesReportedByFinalizer": 15,
+      "addedGlyphsReadFromOutputBytes": null,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+      "refusedFieldsWithInk": null
     },
     {
       "fixture": "boundary--arrest-no-charges",
-      "valuesReportedByFinalizer": 7,
-      "addedGlyphsReadFromOutputBytes": 203,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "refusedFieldsWithInk": []
+      "valuesReportedByFinalizer": 15,
+      "addedGlyphsReadFromOutputBytes": null,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+      "refusedFieldsWithInk": null
     },
     {
       "fixture": "canonical--dismissed-charge",
-      "valuesReportedByFinalizer": 8,
-      "addedGlyphsReadFromOutputBytes": 113,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "refusedFieldsWithInk": []
+      "valuesReportedByFinalizer": 16,
+      "addedGlyphsReadFromOutputBytes": null,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+      "refusedFieldsWithInk": null
     },
     {
       "fixture": "boundary--dismissed-charge",
-      "valuesReportedByFinalizer": 8,
-      "addedGlyphsReadFromOutputBytes": 214,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
-      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
-      "refusedFieldsWithInk": []
+      "valuesReportedByFinalizer": 16,
+      "addedGlyphsReadFromOutputBytes": null,
+      "flattenedWidgetAppearancesReadFromOutputBytes": null,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+      "refusedFieldsWithInk": null
     }
   ]
 }

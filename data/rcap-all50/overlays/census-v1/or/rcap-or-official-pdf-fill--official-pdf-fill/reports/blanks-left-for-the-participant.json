@@ -295,8 +295,8 @@
       "field": "p4.r564.1.x146.rule",
       "page": 4,
       "label": "SID# if known",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
       "participantMustSupply": "your Oregon SID number, if you know it -- it appears on Oregon State Police correspondence and on your criminal history"
     },
     {
@@ -322,8 +322,8 @@
       "field": "p4.r479.0.x264.rule",
       "page": 4,
       "label": "Fingerprint number (FPN #) if known",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
       "participantMustSupply": "your fingerprint number (FPN #), if you know it -- the Oregon State Police assign it when a fingerprint card is processed"
     },
     {
@@ -510,6 +510,24 @@
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
       "field": "p4.r87.5.x126.rule",
       "page": 4,
+      "label": "Printed border line near citation/arrest offenses (line 4)",
+      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "basis": "a printed border line in the court's Option 3 offense area, not a fifth-or-later offense blank; it is never a filing fact",
+      "participantMustSupply": null
+    },
+    {
+      "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
+      "field": "p4.r73.4.x126.rule",
+      "page": 4,
+      "label": "Printed border line near citation/arrest offenses (line 5)",
+      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "basis": "a printed border line in the court's Option 3 offense area, not a fifth-or-later offense blank; it is never a filing fact",
+      "participantMustSupply": null
+    },
+    {
+      "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
+      "field": "p5.r719.5.x126.rule",
+      "page": 5,
       "label": "Name of Citation/Arrest Offenses (line 4)",
       "disposition": "REQUIRED_BEFORE_FILING",
       "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
@@ -517,8 +535,8 @@
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
-      "field": "p4.r73.4.x126.rule",
-      "page": 4,
+      "field": "p5.r705.6.x126.rule",
+      "page": 5,
       "label": "Name of Citation/Arrest Offenses (line 5)",
       "disposition": "REQUIRED_BEFORE_FILING",
       "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
@@ -526,30 +544,12 @@
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
-      "field": "p5.r719.5.x126.rule",
-      "page": 5,
-      "label": "Name of Citation/Arrest Offenses (line 6)",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
-      "participantMustSupply": "the sixth citation or arrest offence you are asking the court to set aside, worded as it appears on the citation, the booking record or the Oregon State Police criminal history you requested"
-    },
-    {
-      "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
-      "field": "p5.r705.6.x126.rule",
-      "page": 5,
-      "label": "Name of Citation/Arrest Offenses (line 7)",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
-      "participantMustSupply": "the seventh citation or arrest offence you are asking the court to set aside, worded as it appears on the citation, the booking record or the Oregon State Police criminal history you requested"
-    },
-    {
-      "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
       "field": "p5.r691.6.x126.rule",
       "page": 5,
-      "label": "Name of Citation/Arrest Offenses (line 8)",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
-      "participantMustSupply": "the eighth citation or arrest offence you are asking the court to set aside, worded as it appears on the citation, the booking record or the Oregon State Police criminal history you requested"
+      "label": "Additional citation/arrest offenses attached on a separate page",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "an additional citation or arrest offense only if the five printed offense rows are not enough; attach the extra page and tick the printed additional-offenses box by hand"
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
@@ -600,19 +600,19 @@
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
       "field": "p5.r211.1.x432.rule",
       "page": 5,
-      "label": "Address of the prosecuting attorney on the certificate of mailing",
-      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "basis": "no attorney-representation fact is held for this participant",
-      "participantMustSupply": "the mailing address of the prosecuting attorney for the county where the charges were or could have been filed -- the Oregon Judicial Department instruction pages in this packet say where to look it up"
+      "label": "Prosecuting office mailing address on the certificate of mailing",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "the mailing address of the prosecuting office for the county where the charges were or could have been filed -- the Oregon Judicial Department instruction pages in this packet say where to look it up"
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
       "field": "p5.r192.4.x72.rule",
       "page": 5,
       "label": "Second line of the prosecuting attorney's address",
-      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "basis": "no attorney-representation fact is held for this participant",
-      "participantMustSupply": "the rest of that prosecuting attorney's address, if it needs a second line"
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "the rest of that prosecuting attorney's address, if the recipient's address needs a second line"
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
@@ -628,15 +628,6 @@
       "field": "p5.r154.8.x288.rule",
       "page": 5,
       "label": "Defendant (signature) on the certificate of mailing",
-      "disposition": "PROTECTED_FIELD",
-      "basis": "refusal class signature_or_date_participant_completion",
-      "participantMustSupply": null
-    },
-    {
-      "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
-      "field": "p5.r115.6.x288.rule",
-      "page": 5,
-      "label": "Defendant Name printed on the certificate of mailing",
       "disposition": "PROTECTED_FIELD",
       "basis": "refusal class signature_or_date_participant_completion",
       "participantMustSupply": null
@@ -721,6 +712,204 @@
       "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
       "basis": "the field map names the route condition that puts this blank outside the route: the form prints \"If you selected Option 1 above, all of the following must also be true\" above these three boxes; this packet is filed on Option 3 and selects no conviction to set aside",
       "participantMustSupply": null
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "AREA CODE",
+      "page": 1,
+      "label": "Area code for the Oregon State Police request",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "the area code for the phone number you will use on the OSP request"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "PHONE NUMBER",
+      "page": 1,
+      "label": "Phone number for the Oregon State Police request",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "the phone number OSP can use to reach you about this request"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "ALIAS NAME1",
+      "page": 1,
+      "label": "Other name used at the time of arrest (first alias line)",
+      "disposition": "LATER_COMPLETION",
+      "basis": "the court completes this field at or after filing",
+      "participantMustSupply": "an alias or other name only if it applies to you; leave it blank when none applies"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "ALIAS NAME2",
+      "page": 1,
+      "label": "Other name used at the time of arrest (second alias line)",
+      "disposition": "LATER_COMPLETION",
+      "basis": "the court completes this field at or after filing",
+      "participantMustSupply": "an additional alias only if it applies to you"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "ALIAS NAME3",
+      "page": 1,
+      "label": "Other name used at the time of arrest (third alias line)",
+      "disposition": "LATER_COMPLETION",
+      "basis": "the court completes this field at or after filing",
+      "participantMustSupply": "an additional alias only if it applies to you"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "6",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 6)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "2",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 2)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "7",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 7)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "3",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 3)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "8",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 8)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "4",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 4)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "9",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 9)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "5",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 5)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "10",
+      "page": 1,
+      "label": "Additional circuit or municipal court (court 10)",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "another Oregon circuit or municipal court only if the motion covers it"
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "YES",
+      "page": 1,
+      "label": "Does the motion to set aside include a conviction? YES (selection)",
+      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "basis": "the field map names the route condition that puts this blank outside the route: both included Oregon routes are nonconviction routes; the OSP request asks whether the motion includes a conviction and the answer is no",
+      "participantMustSupply": null
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "Fingerprint Card Form",
+      "page": 1,
+      "label": "Fingerprint Card Form (selection)",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election",
+      "participantMustSupply": null
+    },
+    {
+      "document": "OR-OSP-SET-ASIDE-CCH",
+      "field": "Fee for set aside of CONVICTION Include check or money order in the amount of 3300 payable",
+      "page": 1,
+      "label": "Fee for set aside of a CONVICTION (selection)",
+      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "basis": "the field map names the route condition that puts this blank outside the route: the OSP source labels this fee for set aside of CONVICTION, and this packet marks NO for conviction on the nonconviction route",
+      "participantMustSupply": null
+    },
+    {
+      "document": "filing_instructions:or_arrest_no_charges",
+      "field": "manual.prosecutor_declination_evidence",
+      "page": null,
+      "label": "Evidence of the prosecutor's declination and its date",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "the document or docket entry showing that the prosecutor elected not to proceed and the date of that election"
+    },
+    {
+      "document": "filing_instructions:or_arrest_no_charges",
+      "field": "manual.pending_charge_or_contempt",
+      "page": null,
+      "label": "Pending charge or contempt status",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "whether any criminal charge or covered contempt proceeding is pending while this motion is before the court"
+    },
+    {
+      "document": "filing_instructions:or_arrest_no_charges",
+      "field": "manual.multiple_oregon_counties",
+      "page": null,
+      "label": "Other Oregon counties",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "whether you have matters in more than one Oregon county, because each county requires its own filing"
+    },
+    {
+      "document": "filing_instructions:or_arrest_no_charges",
+      "field": "manual.duii_diversion",
+      "page": null,
+      "label": "DUII diversion dismissal status",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "whether this was a DUII charge dismissed after completion of a diversion agreement"
+    },
+    {
+      "document": "filing_instructions:or_arrest_no_charges",
+      "field": "manual.traffic_violation",
+      "page": null,
+      "label": "Traffic-violation citation status",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "whether the citation was for a traffic violation"
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
@@ -1006,8 +1195,8 @@
       "field": "p4.r564.1.x146.rule",
       "page": 4,
       "label": "SID# if known",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
       "participantMustSupply": "your Oregon SID number, if you know it -- it appears on Oregon State Police correspondence and on your criminal history"
     },
     {
@@ -1033,8 +1222,8 @@
       "field": "p4.r479.0.x264.rule",
       "page": 4,
       "label": "Fingerprint number (FPN #) if known",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
       "participantMustSupply": "your fingerprint number (FPN #), if you know it -- the Oregon State Police assign it when a fingerprint card is processed"
     },
     {
@@ -1221,25 +1410,25 @@
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "field": "p4.r87.5.x126.rule",
       "page": 4,
-      "label": "Name of Citation/Arrest Offenses (line 4)",
+      "label": "Printed border line near citation/arrest offenses (line 4)",
       "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "basis": "the field map names the route condition that puts this blank outside the route: these lines belong to Option 3, a citation or arrest with no court case; this packet is filed on Option 2, which is a charge that reached the court",
+      "basis": "the field map names the route condition that puts this blank outside the route: this printed border belongs to the Option 3 citation/arrest branch, while this packet is filed on Option 2",
       "participantMustSupply": null
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "field": "p4.r73.4.x126.rule",
       "page": 4,
-      "label": "Name of Citation/Arrest Offenses (line 5)",
+      "label": "Printed border line near citation/arrest offenses (line 5)",
       "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "basis": "the field map names the route condition that puts this blank outside the route: these lines belong to Option 3, a citation or arrest with no court case; this packet is filed on Option 2, which is a charge that reached the court",
+      "basis": "the field map names the route condition that puts this blank outside the route: this printed border belongs to the Option 3 citation/arrest branch, while this packet is filed on Option 2",
       "participantMustSupply": null
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "field": "p5.r719.5.x126.rule",
       "page": 5,
-      "label": "Name of Citation/Arrest Offenses (line 6)",
+      "label": "Name of Citation/Arrest Offenses (line 4)",
       "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
       "basis": "the field map names the route condition that puts this blank outside the route: these lines belong to Option 3, a citation or arrest with no court case; this packet is filed on Option 2, which is a charge that reached the court",
       "participantMustSupply": null
@@ -1248,7 +1437,7 @@
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "field": "p5.r705.6.x126.rule",
       "page": 5,
-      "label": "Name of Citation/Arrest Offenses (line 7)",
+      "label": "Name of Citation/Arrest Offenses (line 5)",
       "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
       "basis": "the field map names the route condition that puts this blank outside the route: these lines belong to Option 3, a citation or arrest with no court case; this packet is filed on Option 2, which is a charge that reached the court",
       "participantMustSupply": null
@@ -1257,9 +1446,9 @@
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "field": "p5.r691.6.x126.rule",
       "page": 5,
-      "label": "Name of Citation/Arrest Offenses (line 8)",
+      "label": "Additional citation/arrest offenses attached on a separate page",
       "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "basis": "the field map names the route condition that puts this blank outside the route: these lines belong to Option 3, a citation or arrest with no court case; this packet is filed on Option 2, which is a charge that reached the court",
+      "basis": "the field map names the route condition that puts this blank outside the route: this additional-offenses box belongs to Option 3, while this packet is filed on Option 2",
       "participantMustSupply": null
     },
     {
@@ -1311,19 +1500,19 @@
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "field": "p5.r211.1.x432.rule",
       "page": 5,
-      "label": "Address of the prosecuting attorney on the certificate of mailing",
-      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "basis": "no attorney-representation fact is held for this participant",
-      "participantMustSupply": "the mailing address of the prosecuting attorney for the county where the charges were or could have been filed -- the Oregon Judicial Department instruction pages in this packet say where to look it up"
+      "label": "Prosecuting office mailing address on the certificate of mailing",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "the mailing address of the prosecuting office for the county where the charges were or could have been filed -- the Oregon Judicial Department instruction pages in this packet say where to look it up"
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
       "field": "p5.r192.4.x72.rule",
       "page": 5,
       "label": "Second line of the prosecuting attorney's address",
-      "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
-      "basis": "no attorney-representation fact is held for this participant",
-      "participantMustSupply": "the rest of that prosecuting attorney's address, if it needs a second line"
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "basis": "optional participant-authored content; the platform does not invent it",
+      "participantMustSupply": "the rest of that prosecuting attorney's address, if the recipient's address needs a second line"
     },
     {
       "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
@@ -1339,15 +1528,6 @@
       "field": "p5.r154.8.x288.rule",
       "page": 5,
       "label": "Defendant (signature) on the certificate of mailing",
-      "disposition": "PROTECTED_FIELD",
-      "basis": "refusal class signature_or_date_participant_completion",
-      "participantMustSupply": null
-    },
-    {
-      "document": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
-      "field": "p5.r115.6.x288.rule",
-      "page": 5,
-      "label": "Defendant Name printed on the certificate of mailing",
       "disposition": "PROTECTED_FIELD",
       "basis": "refusal class signature_or_date_participant_completion",
       "participantMustSupply": null
@@ -1434,13 +1614,40 @@
       "participantMustSupply": null
     },
     {
-      "document": "OR-OSP-SET-ASIDE-CCH",
-      "field": "OR-OSP-SET-ASIDE-CCH.whole_form",
-      "page": 1,
-      "label": "The Oregon State Police Request for Set Aside Criminal Record Check, completed in full by the participant",
+      "document": "filing_instructions:or_dismissed_charge",
+      "field": "manual.dismissal_disposition_evidence",
+      "page": null,
+      "label": "Circuit-court disposition and date",
       "disposition": "REQUIRED_BEFORE_FILING",
       "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
-      "participantMustSupply": "every entry on the Oregon State Police request form, which you send to the Oregon State Police with your fingerprint card before you file the motion"
+      "participantMustSupply": "the docket, judgment or order showing how the case ended and when"
+    },
+    {
+      "document": "filing_instructions:or_dismissed_charge",
+      "field": "manual.pending_charge_or_contempt",
+      "page": null,
+      "label": "Pending charge or contempt status",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "whether any criminal charge or covered contempt proceeding is pending while this motion is before the court"
+    },
+    {
+      "document": "filing_instructions:or_dismissed_charge",
+      "field": "manual.multiple_oregon_counties",
+      "page": null,
+      "label": "Other Oregon counties",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "whether you have matters in more than one Oregon county, because each county requires its own filing"
+    },
+    {
+      "document": "filing_instructions:or_dismissed_charge",
+      "field": "manual.duii_diversion",
+      "page": null,
+      "label": "DUII diversion dismissal status",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "participantMustSupply": "whether this was a DUII matter resolved through a diversion agreement"
     }
   ]
 }
