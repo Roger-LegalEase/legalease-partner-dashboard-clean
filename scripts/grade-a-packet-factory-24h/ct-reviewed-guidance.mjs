@@ -7,7 +7,7 @@ import { CT_DESTRUCTION, CT_PROVISIONAL, CT_ABSOLUTE } from './treatment-reconci
 
 export const CT_GUIDANCE_REVIEW = 'data/rcap-grade-a/terminal-treatment-verification/SESSION10_CT_GUIDANCE_ROWS.json';
 export const CT_GUIDANCE_CANDIDATE = '52785b1c8d82aae25a92ed03788d037a0c96933d';
-export const CT_CURRENT_GUIDANCE_CANDIDATE = 'data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate.json';
+export const CT_CURRENT_GUIDANCE_CANDIDATE = 'data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v2.json';
 export const CT_CURRENT_GUIDANCE_REVIEW = 'data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-guidance-review.json';
 export const CT_GUIDANCE_FAMILIES = Object.freeze([CT_DESTRUCTION, CT_PROVISIONAL, CT_ABSOLUTE]);
 const EVIDENCE = 'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-guidance';
@@ -206,7 +206,7 @@ export function connecticutCurrentGuidanceCandidate(root, familyId, overrides = 
   const candidateBytes = read(CT_CURRENT_GUIDANCE_CANDIDATE);
   const candidate = JSON.parse(candidateBytes);
   assert.equal(candidate.schemaVersion, 'rcap-ct-current-guidance-candidate/v1');
-  assert.equal(candidate.candidateVersion, 'CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20260912-V1');
+  assert.equal(candidate.candidateVersion, 'CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20260912-V2');
   assert.deepEqual(candidate.families.map(row => row.familyId).sort(), [...CT_GUIDANCE_FAMILIES].sort());
   assert.equal(candidate.historicalTrustAnchor.candidateCommit, CT_GUIDANCE_CANDIDATE);
   assert.equal(candidate.historicalTrustAnchor.reviewPath, CT_GUIDANCE_REVIEW);
@@ -264,6 +264,11 @@ function assessCurrentConnecticutReviewedGuidance(root, familyId, overrides = {}
     assert(typeof review.reviewer === 'string' && review.reviewer.trim());
     assert(typeof review.lane === 'string' && review.lane.trim());
     assert(/^[0-9a-f]{40}$/.test(review.verifiedAtBase));
+    const currentIntegrationCommit = overrides.currentIntegrationCommit ?? overrides.reviewPublicationCommit
+      ?? execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
+    assert(/^[0-9a-f]{40}$/.test(currentIntegrationCommit));
+    assert.equal(sha(historical(currentIntegrationCommit, CT_CURRENT_GUIDANCE_REVIEW)), sha(reviewBytes),
+      'Current CT review is not published at the integration head');
     const publication = overrides.reviewPublicationCommit
       ?? execFileSync('git', ['log', '-1', '--format=%H', '--', CT_CURRENT_GUIDANCE_REVIEW], { cwd: root, encoding: 'utf8' }).trim();
     assert(/^[0-9a-f]{40}$/.test(publication));
@@ -276,7 +281,8 @@ function assessCurrentConnecticutReviewedGuidance(root, familyId, overrides = {}
     assert.equal(row.verdict, 'TREATMENT_CORRECT');
     assert.equal(row.recordedTreatment, 'GUIDANCE_READY');
     assert.equal(row.scope, 'current_static_family_treatment');
-    for (const flag of ['runtimeInstalled', 'participantApplicationDischarged', 'commercialAuthority']) assert.equal(row[flag], false);
+    for (const flag of ['runtimeInstalled', 'participantFilesGeneratedOutput', 'participantApplicationDischarged', 'commercialAuthority']) assert.equal(row[flag], false);
+    assert(typeof row.verdictScope === 'string' && row.verdictScope.trim().length > 40);
     assert.deepEqual(row.routeKeys, inventory.routeKeys);
     assert.deepEqual(row.reviewedInputs, inventory.reviewedInputs);
     assert.deepEqual(row.reviewedOutputs, inventory.reviewedOutputs);
@@ -285,6 +291,7 @@ function assessCurrentConnecticutReviewedGuidance(root, familyId, overrides = {}
     assert.deepEqual(row.unmeasuredObligations ?? [], []);
     const closed = row.closedCurrentFindings ?? [];
     assert.equal(closed.length, inventory.currentFailedFindings.length);
+    assert.equal(new Set(closed.map(item => item.obligation)).size, closed.length);
     for (const prior of inventory.currentFailedFindings) {
       const closure = closed.find(item => item.obligation === prior.obligation);
       assert(closure && closure.priorFindingSha256 === prior.priorFindingSha256);
@@ -292,16 +299,28 @@ function assessCurrentConnecticutReviewedGuidance(root, familyId, overrides = {}
       assert(typeof closure.finding === 'string' && closure.finding.trim().length > 40);
       assert(Array.isArray(closure.evidence) && closure.evidence.length > 0);
     }
+    for (const [items, key] of [[row.closedSourceHolds ?? [], 'holdSha256'], [row.closedCurrentVerdicts ?? [], 'verdictSha256']]) {
+      assert.equal(new Set(items.map(item => item[key])).size, items.length);
+      for (const item of items) {
+        assert(isDigest(item[key])); assert.equal(item.result, 'CLOSED_BY_INDEPENDENT_DELTA');
+        assert(typeof item.finding === 'string' && item.finding.trim().length > 40);
+        assert(Array.isArray(item.evidence) && item.evidence.length > 0);
+      }
+    }
     const checked = [];
     const allPins = [
       { path: inventory.candidatePath, sha256: inventory.candidateSha256, byteLength: read(inventory.candidatePath).length },
       ...inventory.reviewedInputs, ...inventory.reviewedOutputs, ...inventory.sourceBindings,
-      ...(row.reviewedEvidence ?? []), ...closed.flatMap(item => item.evidence)
+      ...(row.reviewedEvidence ?? []), ...closed.flatMap(item => item.evidence),
+      ...(row.closedSourceHolds ?? []).flatMap(item => item.evidence),
+      ...(row.closedCurrentVerdicts ?? []).flatMap(item => item.evidence)
     ];
     for (const item of allPins) {
       safePath(item.path); assert(isDigest(item.sha256));
       const bytes = read(item.path);
       assert.equal(sha(bytes), item.sha256, `Current CT reviewed identity changed: ${item.path}`);
+      assert.equal(sha(historical(currentIntegrationCommit, item.path)), item.sha256,
+        `Current CT evidence differs from committed integration input: ${item.path}`);
       assert.equal(sha(historical(review.verifiedAtBase, item.path)), item.sha256,
         `Current CT evidence differs from reviewed candidate: ${item.path}`);
       if (item.byteLength !== undefined) assert.equal(bytes.length, item.byteLength);

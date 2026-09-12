@@ -51,7 +51,9 @@ const review = {
     verdict: "TREATMENT_CORRECT",
     recordedTreatment: "GUIDANCE_READY",
     scope: "current_static_family_treatment",
+    verdictScope: "Synthetic static guidance acceptance only; the participant still performs the separate receiving-authority process.",
     runtimeInstalled: false,
+    participantFilesGeneratedOutput: false,
     participantApplicationDischarged: false,
     commercialAuthority: false,
     routeKeys: inventory.routeKeys,
@@ -73,12 +75,14 @@ const makeReviewBytes = (mutate = () => {}) => {
   mutate(value);
   return Buffer.from(JSON.stringify(value));
 };
-const assess = (familyId, reviewBytes, changedPath = null) => assessConnecticutReviewedGuidance(root, familyId, {
+const assess = (familyId, reviewBytes, changedPath = null, headChangedPath = null) => assessConnecticutReviewedGuidance(root, familyId, {
   preferCurrentCandidate: true,
   reviewPublicationCommit: "a".repeat(40),
+  currentIntegrationCommit: "b".repeat(40),
   readBytes: (relative) => relative === CT_CURRENT_GUIDANCE_REVIEW ? reviewBytes
     : relative === changedPath ? Buffer.from("changed") : read(relative),
-  readHistorical: (_commit, relative) => relative === CT_CURRENT_GUIDANCE_REVIEW ? reviewBytes : read(relative)
+  readHistorical: (commit, relative) => commit === "b".repeat(40) && relative === headChangedPath
+    ? Buffer.from("changed at HEAD") : relative === CT_CURRENT_GUIDANCE_REVIEW ? reviewBytes : read(relative)
 });
 
 let accepted = 0;
@@ -96,12 +100,28 @@ for (const inventory of inventories) {
 }
 
 const target = inventories[0];
+const closure = { verdictSha256: "1".repeat(64), result: "CLOSED_BY_INDEPENDENT_DELTA",
+  finding: "Synthetic exact current finding closure supported by the same immutable reviewed participant artifact.",
+  evidence: [target.reviewedOutputs[0]] };
 const rejected = [
   assess(target.familyId, makeReviewBytes((value) => { value.authoredByADifferentLaneThanTheCandidate = false; })),
   assess(target.familyId, makeReviewBytes((value) => { value.reviewedCandidate.sha256 = "0".repeat(64); })),
   assess(target.familyId, makeReviewBytes((value) => { value.families[0].reviewedOutputs.pop(); })),
   assess(target.familyId, makeReviewBytes((value) => { value.families[0].unmeasuredObligations = ["ARTIFACTS"]; })),
-  assess(target.familyId, makeReviewBytes(), target.reviewedOutputs[0].path)
+  assess(target.familyId, makeReviewBytes(), target.reviewedOutputs[0].path),
+  assess(target.familyId, makeReviewBytes(), null, CT_CURRENT_GUIDANCE_REVIEW),
+  assess(target.familyId, makeReviewBytes(), null, target.reviewedOutputs[0].path),
+  assess(target.familyId, makeReviewBytes(value => { value.families[0].participantFilesGeneratedOutput = true; })),
+  assess(target.familyId, makeReviewBytes(value => { delete value.families[0].verdictScope; })),
+  assess(target.familyId, makeReviewBytes(value => { value.families[0].closedCurrentVerdicts = [{ ...closure, verdictSha256: "invalid" }]; })),
+  assess(target.familyId, makeReviewBytes(value => { value.families[0].closedCurrentVerdicts = [{ ...closure, result: "NOT_CLOSED" }]; })),
+  assess(target.familyId, makeReviewBytes(value => { value.families[0].closedCurrentVerdicts = [closure, closure]; })),
+  assess(target.familyId, makeReviewBytes(value => { value.families[0].closedCurrentVerdicts = [{ ...closure, evidence: [] }]; })),
+  assess(target.familyId, makeReviewBytes(value => { value.families[0].closedCurrentVerdicts = [{ ...closure,
+    evidence: [{ ...target.reviewedOutputs[0], sha256: "0".repeat(64) }] }]; })),
+  assess(target.familyId, makeReviewBytes(value => { value.families[0].closedSourceHolds = [{ ...closure, holdSha256: "invalid" }]; })),
+  assess(target.familyId, makeReviewBytes(value => { value.families[0].closedSourceHolds = [{ ...closure, holdSha256: "2".repeat(64),
+    evidence: [{ ...target.reviewedOutputs[0], sha256: "0".repeat(64) }] }]; }))
 ];
 assert(rejected.every((row) => row.eligible === false));
 
