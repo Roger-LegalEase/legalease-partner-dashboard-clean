@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 289,
-    "rows": 1381,
+    "returnDirectories": 290,
+    "rows": 1382,
     "independentVerdicts": 308,
-    "failRepairRequired": 17,
-    "passIndependent": 282
+    "failRepairRequired": 16,
+    "passIndependent": 283
   },
   "failRepairRequiredFamilies": [
     "ca-17b-reduction-set",
@@ -54,7 +54,6 @@
     "nj_indictable_conviction-set",
     "pa_6308_underage-set",
     "rcap-in-custom-pleading",
-    "ri_first_offender_felony-set",
     "sd_arrest_expungement-set",
     "tx_nd_automatic_misdemeanor_deferred-set",
     "wv_acc_treatment_job_readiness-set"
@@ -29495,6 +29494,20 @@
     },
     {
       "familyId": "ri_first_offender_felony-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b299ce8998e4ab2bcad7956dc3615db96c9dc524",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-ri-first-offender-felony-current-original-pass-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -29514,7 +29527,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-ri-first-offender-felony-repair-delta-fail-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_first_offender_felony-set",

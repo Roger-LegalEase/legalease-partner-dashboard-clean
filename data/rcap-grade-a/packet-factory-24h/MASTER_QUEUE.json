@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "c7661da65175fcc910e0b213d46fbd3ab47dff61",
+  "minimumCaptainSha": "8bfbb2252a23fbcab7152cae1a302eabd0bd6704",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -83,14 +83,14 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 263,
+    "COMPLETE_PACKET_PROVEN": 264,
     "PRODUCT_PATH_PENDING": 9,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 33,
     "FAIL_REPAIR_REQUIRED": 15,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 4,
+    "BUILT_RASTER_PENDING": 3,
     "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -40664,10 +40664,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "fc6a572064d2db64d8c5e07953f8ca0ebaa91806",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-ri-first-offender-felony-repair-delta-fail-20260912.json"
+        "verifiedAtBase": "b299ce8998e4ab2bcad7956dc3615db96c9dc524",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-ri-first-offender-felony-current-original-pass-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -40686,7 +40686,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "fc6a572064d2db64d8c5e07953f8ca0ebaa91806",
+          "verifiedAtBase": "b299ce8998e4ab2bcad7956dc3615db96c9dc524",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -40744,7 +40744,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule RI-FIRST-OFFENDER-SUPERIOR-55-PART-TWO: For a single-felony first-offender route use Superior-55 Part Two. The participant must truthfully satisfy/check the required statements and execute the affidavit before the authorized notary or clerk. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule RI-FIRST-OFFENDER-SUPERIOR-55-PART-TWO: For a single-felony first-offender route use Superior-55 Part Two. The participant must truthfully satisfy/check the required statements and execute the affidavit before the authorized notary or clerk. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -40761,20 +40761,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Four measured orphan headings: in each canonical/boundary PDF page 8 ends with THE AFFIDAVIT, AND THE ONE PART THAT IS YOURS. while its paragraph starts page 9; page 11 ends WHO IS EXCLUDED FROM THIS ROUTE. while its list starts page 12. Exact current PDF text and bboxes are measured; no central visual PASS is claimed.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
