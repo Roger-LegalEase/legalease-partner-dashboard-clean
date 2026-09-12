@@ -41,6 +41,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -121,6 +122,7 @@ jobs:
           BROWSER_VERSION: ${{ steps.browser.outputs.version }}
           REQUESTED_SCALE: ${{ inputs.requested_scale }}
           WORKFLOW_RUN_ID: ${{ github.run_id }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p raster-out
@@ -272,6 +274,7 @@ jobs:
           COMMIT_SHA: ${{ inputs.commit_sha }}
           REQUESTED_SCALE: ${{ inputs.requested_scale }}
           WORKFLOW_RUN_ID: ${{ github.run_id }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           node scripts/rcap-raster-batch.mjs \
             --manifest "$MANIFEST_PATH" \

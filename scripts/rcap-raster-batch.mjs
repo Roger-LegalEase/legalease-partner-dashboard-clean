@@ -235,7 +235,7 @@ for (const target of targets) {
   }
   if (target.reuseOriginalPageEvidence) {
     try {
-      const reuse = target.reuseOriginalPageEvidence.policyId === "HELD-FACT-FIT-20260912"
+      const reuse = ["HELD-FACT-FIT-20260912", "IN-SECTION1-DATE-FOLLOWUP-20260912"].includes(target.reuseOriginalPageEvidence.policyId)
         ? reuseHeldFactCanonicalEvidence : reuseOriginalPageEvidence;
       const reused = await reuse({
         root: ROOT, out: OUT, familyId: FAMILY, familyPath: FAMILY_PATH,
