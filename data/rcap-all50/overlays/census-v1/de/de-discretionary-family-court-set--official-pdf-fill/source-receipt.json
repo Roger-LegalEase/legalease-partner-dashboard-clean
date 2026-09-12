@@ -5,7 +5,7 @@
   "implementationStrategy": "official_pdf_fill",
   "routeKey": "obligation:track-only:DE:de_discretionary_family_court",
   "allSourcesExact": true,
-  "bindingMethod": "Exact held DOC/DOCX bytes bound by SHA-256 before conversion, census or rendering.",
+  "bindingMethod": "Exact held DOC/DOCX/PDF bytes bound by SHA-256 before conversion, census or rendering; Form 283 is selected from source PDF page 15.",
   "documents": [
     {
       "sourceIds": [
@@ -27,8 +27,12 @@
         "declaredWords": 574
       },
       "sourceIdentityIsOriginalWordBytes": true,
+      "sourceIdentityIsOriginalPdfBytes": false,
+      "selectedSourcePages": [
+        1
+      ],
       "derivedPrint": {
-        "sha256": "2945ec445fe8f5026f67ce8d328f60af6432d7287527241d721a49f9aa56751d",
+        "sha256": "1254d58f66cb4e600c7184bfce65740c6732fe66a7c3b9452ed8ae56de4d3b35",
         "byteLength": 103220,
         "exportedPages": 1,
         "selectedSubstantivePages": 1,
@@ -64,21 +68,25 @@
       "officialFormId": "FORM-281E",
       "officialTitle": "Form 281E, Petition for Expungement of Adult Record Charge Sheet",
       "sourceFormat": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "pathInCustody": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+      "pathInCustody": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
       "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
       "sourceSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
       "byteLength": 26118,
-      "custody": "nationwide_recovery_pool_2026_09_02",
+      "custody": "reference_source_recovery_2026_09_11_wave1",
       "matchedBy": "exact_pinned_sha256_recomputed_from_bytes_on_disk",
       "originalMetadata": {
-        "file": "DOCX OOXML metadata verified from private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+        "file": "DOCX OOXML metadata verified from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
         "declaredPages": 1,
         "declaredWords": null,
         "documentXmlSha256": "67970aafb4195448e3daf870b776072b0772fa7ff30c88ade8b1d8460d275c77"
       },
       "sourceIdentityIsOriginalWordBytes": true,
+      "sourceIdentityIsOriginalPdfBytes": false,
+      "selectedSourcePages": [
+        1
+      ],
       "derivedPrint": {
-        "sha256": "31135c8a001b68eaef1551d8ef9a9726a088de83b389ce58a70cbdc3b3a9dc9f",
+        "sha256": "bee442f8e00fcc07db10e66c2b622f7c55ecb296787b66ecff76693a50b502da",
         "byteLength": 82872,
         "exportedPages": 2,
         "selectedSubstantivePages": 1,
@@ -110,13 +118,69 @@
         }
       },
       "renderStrategy": "copy_exact_source_page_when_charge_overflow_then_write_supplied_facts"
+    },
+    {
+      "sourceIds": [
+        "official-form:FORM-283"
+      ],
+      "documentId": "de_discretionary_family_court-proposed-order-4",
+      "officialFormId": "FORM-283",
+      "officialTitle": "Form 283, Order Granting Expungement of Adult Record",
+      "sourceFormat": "application/pdf",
+      "pathInCustody": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/reference-only/Form-1021IP__adult-expungement-instruction-packet__rev-2023-10.pdf",
+      "sha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+      "sourceSha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+      "byteLength": 630042,
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_bytes_on_disk",
+      "originalMetadata": {
+        "file": "Exact held Form 1021IP PDF; Form 283 selected from source page 15",
+        "declaredPages": 15
+      },
+      "sourceIdentityIsOriginalWordBytes": false,
+      "sourceIdentityIsOriginalPdfBytes": true,
+      "selectedSourcePages": [
+        15
+      ],
+      "sourcePage": 15,
+      "sourcePageSha256": "a58d8bbabb2a304277bc4ccdd53f3bbcc0ecdd179bd600b2015ad96272e059ac",
+      "sourcePageAnchors": [
+        "Form 283",
+        "The Family Court of the State of Delaware",
+        "ORDER GRANTING EXPUNGEMENT OF ADULT RECORD",
+        "Petitioner",
+        "ATTORNEY GENERAL",
+        "Crim. Case No(s).",
+        "Case # or Criminal Case #",
+        "Judge/Commissioner"
+      ],
+      "sourcePageSize": {
+        "width": 612,
+        "height": 792
+      },
+      "sourcePageCount": 15,
+      "renderStrategy": "copy_exact_Form_283_source_page_15_then_write_held_party_and_charge_facts"
     }
   ],
   "conditionalDocumentsBoundButNotExercised": [],
   "sourceReconciliation": {
     "queueState": "SOURCE_READY",
-    "legalInputStatus": "SETTLED",
-    "exactNextAction": "Build Form 281 with Form 281E only where charge continuation is required."
+    "legalInputStatus": "LEGAL_CLEAR",
+    "legalResolution": {
+      "path": "data/rcap-grade-a/legal-decisions/DE_FAMILY_COURT_SOURCE_FACTS_2026-09-12.json",
+      "sha256": "818ffc3c4dc9c6a4fb9a8328c9a8d7f9620ad58c855f58a7d4666ea1fa95c7a9",
+      "byteLength": 3961,
+      "scope": "Form 283 identity and packet order, current $0.00 Family Court schedule exception, and § 4374(e) victim-contact amendment; packet and independent review remain pending."
+    },
+    "sourceAdoptionEvidence": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-form283-source-adoption-20260912.json",
+      "sha256": "416bed5e70f2cba68f4f1a2aa9cdb416980c58e4e7a2cbc5ff95b09c272427d5",
+      "officialFormId": "FORM-283",
+      "selectedSourcePages": [
+        15
+      ]
+    },
+    "exactNextAction": "Build Form 281, add Form 281E only where charge continuation is required, then include Form 283 and the participant-supplied SBI cover letter and certified history in the prescribed order."
   },
   "sourceForms": [
     {
@@ -130,6 +194,12 @@
       "officialFormId": "FORM-281E",
       "requirement": "conditional",
       "conditionDescription": "When charges exceed the table on the petition."
+    },
+    {
+      "componentId": "de_discretionary_family_court-proposed-order-4",
+      "officialFormId": "FORM-283",
+      "requirement": "required",
+      "conditionDescription": null
     },
     {
       "componentId": "de_discretionary_family_court-cover-sheet-3",
@@ -150,7 +220,7 @@
   "whatThisReceiptDoesNotEstablish": [
     "that any fixture is eligible for expungement",
     "that a court has assigned a civil petition number",
-    "that the unresolved Family Court fee amount has been decided",
+    "that an external certified-history cost has been paid",
     "that any output is approved for participant delivery"
   ]
 }

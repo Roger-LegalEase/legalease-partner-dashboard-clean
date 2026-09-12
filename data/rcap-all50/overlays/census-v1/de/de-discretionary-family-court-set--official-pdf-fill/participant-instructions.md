@@ -1,10 +1,10 @@
-# Delaware Family Court Form 281 packet — completion guide
+# Delaware Family Court Form 281 / Form 283 packet — completion guide
 
 This packet is for **Discretionary Expungement in Family Court** under 11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10 and 11 Del. C. § 4374(c). File in **Family Court for the county where the most recent case was terminated.** only when every charge and conviction you want expunged was disposed of in Family Court. Venue is the county where the most recent case was terminated.
 
-The primary filing is the official **Form 281, Petition for Expungement of Adult Record**, source-bound at SHA-256 84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda. The required assembly sheet is included after it. Form 281E is the exact continuation source at SHA-256 aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33; attach it only when charges exceed the table on Form 281. The boundary fixture exercises that condition and includes the completed continuation; the canonical fixture fits on the petition.
+The required official packet order is **Form 281**, conditional **Form 281E** when charges exceed the petition table, **Form 283 (Order Granting Expungement of Adult Record)**, then the participant-supplied SBI cover letter and certified criminal history. The separate assembly sheet follows the generated official forms for preparation reference. Form 281 is source-bound at SHA-256 84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda; Form 281E is source-bound at SHA-256 aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33; Form 283 is copied from page 15 of the held Form 1021IP PDF at SHA-256 f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602.
 
-The builder fills supplied participant contact facts, the criminal case number and each supplied charge. Optional contact and interpreter fields are included only when supplied. It copies participant-supplied charge facts, including overflow on Form 281E. It does not choose a county, mark the manifest-injustice assertion, create a Civil Petition No., sign, notarize, or invent a fee, approval or court order.
+The builder fills supplied participant contact facts, the criminal case number and each supplied charge on Form 281 and Form 283. It carries charge overflow on Form 281E. It does not choose a county, mark the manifest-injustice assertion, create a Civil Petition No. or Petition Number, decide the order, sign, notarize, or invent a court approval. Form 283 has four printed charge rows; when a continuation is included, review the complete Form 281/Form 281E charge list before filing.
 
 ## Participant questions
 
@@ -24,8 +24,11 @@ The builder fills supplied participant contact facts, the criminal case number a
 - Manifest-injustice explanation — Form 281, manifest-injustice section.
 - The petition is sworn and subscribed before a clerk of court or notary.
 - Required.
-- Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved.
+- Family Court adult criminal-record expungement filing is $0 under the Schedule of Assessed Costs effective July 20, 2026, including no archive or court-security charge. Its specific page 2 expungement exception governs the generic page 3 list. Certified-history acquisition is a separate expense.
 - Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.
+- Include the required Form 283 proposed order (Rev 6/20), copied from the held Form 1021IP source page 15.
+- The Family Court Schedule of Assessed Costs effective July 20, 2026 lists Expungement of Criminal Adult or Juvenile Record at $0.00, with no archive fee and no court security assessment. The specific page 2 expungement entry controls the generic page 3 security list, which still names Petition for Expungement of Adult Record. The separate certified-history acquisition cost is external and unresolved; it is not the Family Court filing fee.
+- Obtain and attach the participant-supplied SBI cover letter and certified criminal history in the prescribed filing packet.
 
 The source record requires these exact completion destinations:
 
@@ -40,12 +43,17 @@ The source record requires these exact completion destinations:
 - **Fines, fees and restitution status** — answer it before filing; the packet leaves the corresponding source or assembly item blank for you.
 - **Filing fee confirmation under § 4374(j)** — answer it before filing; the packet leaves the corresponding source or assembly item blank for you.
 - **Notarization — required before filing** — answer it before filing; the packet leaves the corresponding source or assembly item blank for you.
+- **Form 283 charge list review against Form 281/Form 281E** — answer it before filing; the packet leaves the corresponding source or assembly item blank for you.
 
 The certified history is obtained externally. The packet is generated without collecting or reviewing it. Check every answer to “List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.” against the current certified history and correct the packet if they disagree.
 
-The Form 281 manifest-injustice section says it must be completed for the Court to consider the petition. Mark its assertion checkbox only if the statement is true, and write the explanation in your own words. The petition is sworn and subscribed before a clerk of court or notary. Leave the Civil Petition No. for Family Court.
+The Form 281 manifest-injustice section says it must be completed for the Court to consider the petition. Mark its assertion checkbox only if the statement is true, and write the explanation in your own words. The petition is sworn and subscribed before a clerk of court or notary. Leave the Civil Petition No. and Form 283 Petition Number for Family Court.
 
-The filing fee is **Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved.**. The amount is not resolved for Family Court; this packet inserts no dollar amount. Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.
+The Family Court Schedule of Assessed Costs effective July 20, 2026 lists Expungement of Criminal Adult or Juvenile Record at $0.00, with no archive fee and no court security assessment. The specific page 2 expungement entry controls the generic page 3 security list, which still names Petition for Expungement of Adult Record. The separate certified-history acquisition cost is external and unresolved; it is not the Family Court filing fee.
+
+Under § 4372(l), outstanding conviction fines or fees unpaid for reasons other than wilful noncompliance may be waived or converted to a civil judgment when the person is otherwise eligible. This is separate from the $0.00 filing charge and does not waive restitution.
+
+Under 85 Del. Laws c. 142, § 10, the § 4374(e) victim-contact reference is contact under § 9414(a) of Title 11; the § 9401 victim definition remains unchanged.
 
 ## Filing and service
 
@@ -64,4 +72,4 @@ File in Family Court for the county where the most recent case was terminated. O
 - Fines, fees, or restitution are unpaid and the person needs the § 4372(l) waiver or conversion.
 - Immigration, firearm, professional licensing, registry, or law enforcement employment consequences are in play.
 
-This is an internal preparation artifact. It is not legal advice, a filing, a representation of eligibility, a court-approved form set or authorization for fulfillment. Source conversion selected the one substantive page of each held Word source; Form 281E’s conversion-only repeated header page was not delivered. Source-derived converter evidence is recorded in source-receipt.json.
+This is an internal preparation artifact. It is not legal advice, a filing, a representation of eligibility, a court-approved form set or authorization for fulfillment. Source conversion selected the one substantive page of each held Word source; Form 281E’s conversion-only repeated header page was not delivered. Form 283 is the exact held Form 1021IP page 15. Source-derived evidence is recorded in source-receipt.json.

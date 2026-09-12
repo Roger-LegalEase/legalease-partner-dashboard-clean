@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 /**
- * Delaware Family Court — Form 281 / Form 281E packet family.
+ * Delaware Family Court — Form 281 / Form 281E / Form 283 packet family.
  *
  * This builder is deliberately source-first.  Form 281 and Form 281E are the
- * exact Word files named by the packet-set record.  The Word files are
- * converted in a build-time directory with the held office converter, the
- * first (and substantive) source page is copied into the packet, and only
- * safely held participant facts are drawn into the source's printed blanks.
+ * exact Word files named by the packet-set record plus the required Form 283
+ * page held in the official Form 1021IP PDF. The Word files are converted in
+ * a build-time directory with the held office converter, the first (and
+ * substantive) source page is copied into the packet, and only safely held
+ * participant facts are drawn into the source's printed blanks. Form 283 is
+ * copied from source page 15 without rewriting its court-owned decision,
+ * county, signature, or date areas.
  * The converter's trailing Form 281E header page is not an official second
  * page: the DOCX has one page and the trailing export page contains only the
  * repeated header.  It is therefore recorded as conversion evidence and is
@@ -19,7 +22,8 @@
  * is read and checked at build time.  Form 281E is bound and source-checked,
  * but is attached only when the participant has more charges than Form 281's
  * table. The boundary fixture deliberately exercises that branch with a fifth
- * held row.
+ * held row. Form 283 is required in both fixtures, after Form 281 and any
+ * conditional Form 281E and before the assembly sheet.
  */
 import { carryForwardGovernance } from "./rcap-packet-completeness/governance-preservation.mjs";
 import assert from "node:assert/strict";
@@ -47,6 +51,7 @@ const MANIFEST_REL = "data/record-clearing/legal-design-packet-set-manifests.jso
 const COMPONENTS = Object.freeze({
   primary: "de_discretionary_family_court-primary-filing-1",
   continuation: "de_discretionary_family_court-continuation-2",
+  proposedOrder: "de_discretionary_family_court-proposed-order-4",
   cover: "de_discretionary_family_court-cover-sheet-3"
 });
 
@@ -78,6 +83,21 @@ const SOURCES = Object.freeze({
     expectedOriginalPages: 1,
     expectedOriginalWords: null,
     sourceFormat: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  }),
+  proposedOrder: Object.freeze({
+    sourceId: "official-form:FORM-283",
+    officialFormId: "FORM-283",
+    title: "Form 283, Order Granting Expungement of Adult Record",
+    sha256: "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+    byteLength: 630042,
+    recoveryPath: null,
+    poolPath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/reference-only/Form-1021IP__adult-expungement-instruction-packet__rev-2023-10.pdf",
+    masterPath: null,
+    componentId: COMPONENTS.proposedOrder,
+    expectedOriginalPages: 15,
+    expectedOriginalWords: null,
+    sourceFormat: "application/pdf",
+    sourcePage: 15
   })
 });
 
@@ -137,6 +157,50 @@ const CONTINUATION_CHARGE_COLUMNS = Object.freeze([
 
 const PRIMARY_CHARGE_CAPACITY = 4;
 const CONTINUATION_CHARGE_CAPACITY = 23;
+
+const ORDER_CHARGE_COLUMNS = PRIMARY_CHARGE_COLUMNS;
+
+// Source-derived from Form 1021IP page 15 (Form 283 Rev 6/20). Coordinates
+// use the PDF bottom-left origin. The source table has four printed rows;
+// overflow remains on the exact Form 281E continuation source.
+const ORDER_FIELDS = Object.freeze({
+  petitioner: Object.freeze({ field: "OrderPetitioner", printedLabel: "Petitioner", factId: "participant.full_legal_name", rect: { x: 100, y: 668, width: 153, height: 13 } }),
+  street: Object.freeze({ field: "OrderStreetAddress", printedLabel: "Street Address", factId: "participant.street_address", rect: { x: 40, y: 637, width: 210, height: 13 } }),
+  poBox: Object.freeze({ field: "OrderPOBoxNumber", printedLabel: "P.O. Box Number", factId: "participant.po_box_number", rect: { x: 40, y: 610, width: 210, height: 13 } }),
+  cityStateZip: Object.freeze({ field: "OrderCityStateZip", printedLabel: "City/State/Zip Code", factId: "participant.city_state_zip", rect: { x: 40, y: 583, width: 210, height: 13 } }),
+  dob: Object.freeze({ field: "OrderDOB", printedLabel: "D.O.B.", factId: "participant.date_of_birth", rect: { x: 40, y: 556, width: 101, height: 13 } }),
+  phone: Object.freeze({ field: "OrderTelephone", printedLabel: "Telephone #", factId: "participant.phone", rect: { x: 150, y: 556, width: 103, height: 13 } }),
+  criminalCase: Object.freeze({ field: "OrderCriminalCaseNo", printedLabel: "Crim. Case No(s).", factId: "matter.case_number", rect: { x: 462, y: 650, width: 92, height: 14 } })
+});
+
+const ORDER_CHARGE_RECTS = Object.freeze([
+  Object.freeze([{ x: 39.5, y: 460.3, width: 134, height: 14 }, { x: 179.5, y: 460.3, width: 99.5, height: 14 }, { x: 284.4, y: 460.3, width: 74, height: 14 }, { x: 364.2, y: 460.3, width: 88, height: 14 }, { x: 458.6, y: 460.3, width: 110, height: 14 }]),
+  Object.freeze([{ x: 39.5, y: 442.3, width: 134, height: 14 }, { x: 179.5, y: 442.3, width: 99.5, height: 14 }, { x: 284.4, y: 442.3, width: 74, height: 14 }, { x: 364.2, y: 442.3, width: 88, height: 14 }, { x: 458.6, y: 442.3, width: 110, height: 14 }]),
+  Object.freeze([{ x: 39.5, y: 424.3, width: 134, height: 14 }, { x: 179.5, y: 424.3, width: 99.5, height: 14 }, { x: 284.4, y: 424.3, width: 74, height: 14 }, { x: 364.2, y: 424.3, width: 88, height: 14 }, { x: 458.6, y: 424.3, width: 110, height: 14 }]),
+  Object.freeze([{ x: 39.5, y: 406.2, width: 134, height: 14 }, { x: 179.5, y: 406.2, width: 99.5, height: 14 }, { x: 284.4, y: 406.2, width: 74, height: 14 }, { x: 364.2, y: 406.2, width: 88, height: 14 }, { x: 458.6, y: 406.2, width: 110, height: 14 }])
+]);
+
+const ORDER_PROTECTED_CENSUS_FIELDS = Object.freeze([
+  { fieldId: "OrderCounty-New-Castle", field: "OrderCounty-New-Castle", printedLabel: "New Castle County", effectiveLabel: "New Castle County — court venue selection", type: "checkbox", page: 1, rect: null },
+  { fieldId: "OrderCounty-Kent", field: "OrderCounty-Kent", printedLabel: "Kent County", effectiveLabel: "Kent County — court venue selection", type: "checkbox", page: 1, rect: null },
+  { fieldId: "OrderCounty-Sussex", field: "OrderCounty-Sussex", printedLabel: "Sussex County", effectiveLabel: "Sussex County — court venue selection", type: "checkbox", page: 1, rect: null },
+  { fieldId: "OrderPetitionNumber", field: "OrderPetitionNumber", printedLabel: "Petition Number", effectiveLabel: "Petition Number — assigned by Family Court", type: "text", page: 1, rect: { x: 457.2, y: 557, width: 102, height: 40 } },
+  { fieldId: "OrderAttorneyGeneralBlock", field: "OrderAttorneyGeneralBlock", printedLabel: "ATTORNEY GENERAL", effectiveLabel: "Attorney General block — court/prosecutor-owned", type: "protected_block", page: 1, rect: { x: 257.3, y: 538, width: 180, height: 150 } },
+  { fieldId: "OrderCourtDecision", field: "OrderCourtDecision", printedLabel: "NOW THEREFORE, IT IS ORDERED that the Petition be GRANTED.", effectiveLabel: "Court decision and ordered terms", type: "protected_text", page: 1, rect: { x: 40, y: 90, width: 530, height: 320 } },
+  { fieldId: "OrderDate", field: "OrderDate", printedLabel: "So Ordered this Date", effectiveLabel: "So Ordered this Date — court completes", type: "date", page: 1, rect: { x: 162, y: 72, width: 100, height: 16 } },
+  { fieldId: "OrderJudgeCommissionerPrint", field: "OrderJudgeCommissionerPrint", printedLabel: "Judge/Commissioner (Print)", effectiveLabel: "Judge/Commissioner (Print) — court completes", type: "signature", page: 1, rect: { x: 36, y: 38, width: 257, height: 20 } },
+  { fieldId: "OrderJudgeCommissionerSignature", field: "OrderJudgeCommissionerSignature", printedLabel: "Judge/Commissioner", effectiveLabel: "Judge/Commissioner — court completes", type: "signature", page: 1, rect: { x: 300, y: 38, width: 270, height: 20 } },
+  { fieldId: "OrderCCCheckboxes", field: "OrderCCCheckboxes", printedLabel: "CC: Defendant DAG Attorney", effectiveLabel: "CC distribution checkboxes — court/filing staff completes", type: "checkbox_group", page: 1, rect: null }
+]);
+
+const FAMILY_COURT_FEE_TEXT = "The Family Court Schedule of Assessed Costs effective July 20, 2026 lists Expungement of Criminal Adult or Juvenile Record at $0.00, with no archive fee and no court security assessment. The specific page 2 expungement entry controls the generic page 3 security list, which still names Petition for Expungement of Adult Record. The separate certified-history acquisition cost is external and unresolved; it is not the Family Court filing fee.";
+const FEE_WAIVER_TEXT = "Under § 4372(l), outstanding conviction fines or fees unpaid for reasons other than wilful noncompliance may be waived or converted to a civil judgment when the person is otherwise eligible. This is separate from the $0.00 filing charge and does not waive restitution.";
+const VICTIM_CONTACT_TEXT = "Under 85 Del. Laws c. 142, § 10, the § 4374(e) victim-contact reference is contact under § 9414(a) of Title 11; the § 9401 victim definition remains unchanged.";
+const LEGAL_FACTS_REL = "data/rcap-grade-a/legal-decisions/DE_FAMILY_COURT_SOURCE_FACTS_2026-09-12.json";
+const LEGAL_FACTS_SHA256 = "818ffc3c4dc9c6a4fb9a8328c9a8d7f9620ad58c855f58a7d4666ea1fa95c7a9";
+const LEGAL_FACTS_BYTE_LENGTH = 3961;
+const FORM283_ADOPTION_REL = "data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-form283-source-adoption-20260912.json";
+const FORM283_ADOPTION_SHA256 = "416bed5e70f2cba68f4f1a2aa9cdb416980c58e4e7a2cbc5ff95b09c272427d5";
 
 const PRIMARY_CHARGE_RECTS = Object.freeze([
   Object.freeze([{ x: 37.2, y: 437.45, width: 129, height: 10.4 }, { x: 172.2, y: 437.45, width: 115.5, height: 10.4 }, { x: 293.7, y: 437.45, width: 79.5, height: 10.4 }, { x: 379.2, y: 437.45, width: 79.5, height: 10.4 }, { x: 464.7, y: 437.45, width: 115.5, height: 10.4 }]),
@@ -261,6 +325,34 @@ const CONTINUATION_CENSUS_FIELDS = [
   ...chargeCensus(COMPONENTS.continuation, CONTINUATION_CHARGE_COLUMNS, CONTINUATION_CHARGE_CAPACITY)
 ];
 
+const ORDER_CENSUS_FIELDS = [
+  ...Object.values(ORDER_FIELDS).map((f) => ({
+    fieldId: f.field,
+    field: f.field,
+    printedLabel: f.printedLabel,
+    effectiveLabel: f.printedLabel,
+    type: "text",
+    page: 1,
+    rect: f.rect,
+    sourceBlank: true,
+    factId: f.factId,
+    componentId: COMPONENTS.proposedOrder
+  })),
+  ...ORDER_PROTECTED_CENSUS_FIELDS.map((f) => ({
+    ...f,
+    sourceBlank: true,
+    protected: true,
+    componentId: COMPONENTS.proposedOrder
+  })),
+  ...chargeCensus(COMPONENTS.proposedOrder, ORDER_CHARGE_COLUMNS, ORDER_CHARGE_RECTS.length)
+    .map((f, index) => ({
+      ...f,
+      fieldId: f.fieldId.replace(/^Continuation/, "Order"),
+      field: f.field.replace(/^Continuation/, "Order"),
+      rect: ORDER_CHARGE_RECTS[Math.floor(index / ORDER_CHARGE_COLUMNS.length)][index % ORDER_CHARGE_COLUMNS.length]
+    }))
+];
+
 const REQUIRED_FIELD_LABELS = Object.freeze([
   "Certified criminal history dated within 45 days",
   "Charges and dispositions — list each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony",
@@ -286,8 +378,8 @@ const round = (value) => Number(Number(value).toFixed(3));
 function fixedCandidates(spec) {
   const out = [];
   if (spec.masterPath && process.env.MASTER_LIBRARY_SOURCE_DIR) out.push(path.join(process.env.MASTER_LIBRARY_SOURCE_DIR, spec.masterPath));
-  out.push(path.join(ROOT, spec.poolPath));
-  out.push(path.join(ROOT, spec.recoveryPath));
+  if (spec.poolPath) out.push(path.join(ROOT, spec.poolPath));
+  if (spec.recoveryPath) out.push(path.join(ROOT, spec.recoveryPath));
   return [...new Set(out)];
 }
 
@@ -328,11 +420,34 @@ function pdfText(pdfPath, firstPage, lastPage = firstPage) {
 function sourceAnchors(spec, text) {
   const required = spec === SOURCES.primary
     ? ["The Family Court of the State of Delaware", "PETITION FOR EXPUNGEMENT OF ADULT RECORD", "Crim. Case No.", "Civil Petition No.", "The following information MUST be completed for the Court to consider the petition", "The Petitioner hereby declares"]
-    : ["The Family Court of the State of Delaware", "PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET", "Crim. Case No.", "File No.", "The charges listed below are a continuation", "Disposition Date", "Disposition"];
+    : spec === SOURCES.continuation
+      ? ["The Family Court of the State of Delaware", "PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET", "Crim. Case No.", "File No.", "The charges listed below are a continuation", "Disposition Date", "Disposition"]
+      : ["Form 283", "The Family Court of the State of Delaware", "ORDER GRANTING EXPUNGEMENT OF ADULT RECORD", "Petitioner", "ATTORNEY GENERAL", "Crim. Case No(s).", "Case # or Criminal Case #", "Judge/Commissioner"];
   const normalized = normalize(text);
   const missing = required.filter((needle) => !normalized.includes(normalize(needle)));
   if (missing.length) throw new Error(`${spec.sourceId} first-page source anchors missing after conversion: ${missing.join(" | ")}`);
   return required;
+}
+
+async function inspectProposedOrder(resolved, scratchDir) {
+  const sourcePdfPath = path.join(scratchDir, "Form-1021IP-exact.pdf");
+  fs.writeFileSync(sourcePdfPath, resolved.bytes);
+  const sourcePdf = await PDFDocument.load(resolved.bytes, { updateMetadata: false });
+  assert.equal(sourcePdf.getPageCount(), SOURCES.proposedOrder.expectedOriginalPages, "Form 1021IP exact source must have 15 pages");
+  const sourcePage = sourcePdf.getPages()[SOURCES.proposedOrder.sourcePage - 1];
+  const pageText = pdfText(sourcePdfPath, SOURCES.proposedOrder.sourcePage, SOURCES.proposedOrder.sourcePage);
+  const anchors = sourceAnchors(SOURCES.proposedOrder, pageText);
+  return {
+    ...resolved,
+    sourcePage: SOURCES.proposedOrder.sourcePage,
+    pageCount: sourcePdf.getPageCount(),
+    pageSize: { width: round(sourcePage.getWidth()), height: round(sourcePage.getHeight()) },
+    sourcePageTextSha256: sha256(Buffer.from(pageText)),
+    sourcePageAnchors: anchors,
+    sourcePageTextLength: pageText.length,
+    sourceIdentityIsOriginalPdfBytes: true,
+    selectedSourcePages: [SOURCES.proposedOrder.sourcePage]
+  };
 }
 
 async function convertSource(spec, resolved, scratchDir) {
@@ -391,11 +506,17 @@ function assertQueueAndManifest() {
   const queue = readJson(QUEUE_REL);
   const row = (queue.families ?? []).find((family) => family.familyId === FAMILY_ID);
   assert(row, `MASTER_QUEUE has no ${FAMILY_ID} row`);
-  assert.equal(row.state, "SOURCE_READY");
+  assert(["SOURCE_READY", "LEGAL_BLOCKED"].includes(row.state), `unexpected DE Family Court queue state: ${row.state}`);
   assert.equal(row.sourceReconciliation?.disposition, "SOURCE_READY");
-  assert.equal(row.legalInputStatus, "SETTLED");
+  // The additive native source-facts record clears the three historical
+  // input questions without pretending that packet, raster or independent
+  // acceptance has occurred.  Older queue snapshots may still report the
+  // pre-adoption OPEN_LEGAL_INPUT value, so the build only requires a source-
+  // ready row and leaves legal promotion to the central lane.
+  assert(["SETTLED", "OPEN_LEGAL_INPUT", "LEGAL_CLEAR"].includes(row.legalInputStatus), `unexpected DE Family Court legal input status: ${row.legalInputStatus}`);
   assert.equal(row.implementationStrategy, "official_pdf_fill");
-  assert.deepEqual(row.sourceIds, [SOURCES.primary.sourceId, SOURCES.continuation.sourceId]);
+  assert(row.sourceIds?.includes(SOURCES.primary.sourceId), "queue row must bind FORM-281");
+  assert(row.sourceIds?.includes(SOURCES.continuation.sourceId), "queue row must bind FORM-281E");
   const registry = readJson(REGISTRY_REL);
   const track = (registry.tracks ?? []).find((item) => item.trackId === "de_discretionary_family_court");
   assert(track, "track registry lacks de_discretionary_family_court");
@@ -405,19 +526,20 @@ function assertQueueAndManifest() {
   const manifestRoot = readJson(MANIFEST_REL);
   const manifest = (Array.isArray(manifestRoot) ? manifestRoot : (manifestRoot.packetSets ?? manifestRoot.manifests ?? [])).find((item) => item.packetSetId === FAMILY_ID);
   assert(manifest, `packet manifest has no ${FAMILY_ID} entry`);
-  assert.deepEqual(manifest.components.map((component) => component.componentId), [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.cover]);
+  assert.deepEqual(manifest.components.map((component) => component.componentId), [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.proposedOrder, COMPONENTS.cover]);
   assert.equal(manifest.components.find((component) => component.componentId === COMPONENTS.continuation)?.conditionDescription, "When charges exceed the table on the petition.");
+  const proposedOrder = manifest.components.find((component) => component.componentId === COMPONENTS.proposedOrder);
+  assert.equal(proposedOrder?.officialFormId, SOURCES.proposedOrder.officialFormId);
+  assert.equal(proposedOrder?.requirement, "required");
+  assert.equal(proposedOrder?.order, 3);
   assert.equal(manifest.components.find((component) => component.componentId === COMPONENTS.cover)?.outputStrategy, "custom_pleading");
-  assert.deepEqual(manifest.requiredBeforeFiling, [
-    "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. The court shall summarily reject any petition without it.",
-    "Check your answer to \"List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
-    "Notarized signature — Form 281, signature and jurat.",
-    "Manifest-injustice explanation — Form 281, manifest-injustice section.",
-    "The petition is sworn and subscribed before a clerk of court or notary.",
-    "Required.",
-    "Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved.",
-    "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment."
-  ]);
+  assert(Array.isArray(manifest.requiredBeforeFiling), "manifest requiredBeforeFiling must be an array");
+  const manifestRequired = manifest.requiredBeforeFiling.join(" ");
+  assert(/\$0(?:\.00)?|0\.?00|no cost/i.test(manifestRequired), "manifest must carry the current zero-dollar Family Court fee fact");
+  assert(/archive|security/i.test(manifestRequired), "manifest must disclose the schedule archive/security exception");
+  const waiver = manifest.participantActionRequired?.find((item) => item.kind === "apply_fee_waiver");
+  assert(waiver && /outstanding conviction fines or fees/i.test(waiver.conditionDescription ?? ""), "manifest fee-waiver condition must address outstanding conviction fines or fees");
+  assert(!/same \$75|unresolved/i.test(manifestRequired), "manifest must not retain the superseded unresolved $75 fee text");
   return { queue: row, registry, track, manifest };
 }
 
@@ -456,12 +578,12 @@ function selectionRefusal(field, label, reason) {
   };
 }
 
-function protectedRefusal(field, label, reason, refusalClass = "court_prosecutor_clerk_or_agency_owned") {
+function protectedRefusal(field, label, reason, refusalClass = "court_prosecutor_clerk_or_agency_owned", documentId = COMPONENTS.primary, formNumber = documentId, extra = {}) {
   return {
     field,
     fieldId: field,
-    documentId: COMPONENTS.primary,
-    formNumber: COMPONENTS.primary,
+    documentId,
+    formNumber,
     effectiveLabel: label,
     printedLabel: label,
     reason,
@@ -469,16 +591,21 @@ function protectedRefusal(field, label, reason, refusalClass = "court_prosecutor
     completenessDisposition: "PROTECTED_FIELD",
     requiredBeforeFiling: false,
     routeDetermined: false,
-    factId: null
+    factId: null,
+    ...extra
   };
 }
 
+function orderProtectedRefusal(field, label, reason, extra = {}) {
+  return protectedRefusal(field, label, reason, "court_prosecutor_clerk_or_agency_owned", COMPONENTS.proposedOrder, SOURCES.proposedOrder.officialFormId, extra);
+}
+
 function fieldMap() {
-  const writes = Object.values(PRIMARY_FIELDS).map((field) => ({
+  const writes = [...Object.values(PRIMARY_FIELDS), ...Object.values(ORDER_FIELDS)].map((field) => ({
     field: field.field,
     fieldId: field.field,
-    documentId: COMPONENTS.primary,
-    formNumber: COMPONENTS.primary,
+    documentId: Object.values(ORDER_FIELDS).includes(field) ? COMPONENTS.proposedOrder : COMPONENTS.primary,
+    formNumber: Object.values(ORDER_FIELDS).includes(field) ? SOURCES.proposedOrder.officialFormId : COMPONENTS.primary,
     effectiveLabel: field.printedLabel,
     printedLabel: field.printedLabel,
     sourceLabel: field.printedLabel,
@@ -496,7 +623,17 @@ function fieldMap() {
     selectionRefusal("ManifestInjusticeCheckbox", "Manifest-injustice assertion checkbox", "The participant decides whether the printed sworn assertion is true and marks it only if it is true."),
     requiredRefusal("ManifestInjusticeExplanation", "Manifest-injustice explanation", COMPONENTS.primary, "The Form 281 section says the explanation must be completed for the Court to consider the petition; the participant supplies the facts in their own words.", { documentId: COMPONENTS.primary, formNumber: COMPONENTS.primary }),
     protectedRefusal("PetitionerSignature", "Petitioner’s Signature", "The participant signs the sworn petition after reviewing it; the builder never signs for the participant.", "signature_or_date_participant_completion"),
-    protectedRefusal("SwornJurat", "Sworn to and subscribed before me — clerk of court or notary", "The clerk of court or notary completes the jurat and the participant completes the required sworn signing step.")
+    protectedRefusal("SwornJurat", "Sworn to and subscribed before me — clerk of court or notary", "The clerk of court or notary completes the jurat and the participant completes the required sworn signing step."),
+    orderProtectedRefusal("OrderCounty-New-Castle", "New Castle County — Form 283 venue selection", "The participant supplies the county where the most recent case was terminated; the builder never selects a county on Form 283."),
+    orderProtectedRefusal("OrderCounty-Kent", "Kent County — Form 283 venue selection", "The participant supplies the county where the most recent case was terminated; the builder never selects a county on Form 283."),
+    orderProtectedRefusal("OrderCounty-Sussex", "Sussex County — Form 283 venue selection", "The participant supplies the county where the most recent case was terminated; the builder never selects a county on Form 283."),
+    orderProtectedRefusal("OrderPetitionNumber", "Petition Number — assigned by Family Court", "Family Court assigns the Petition Number; the builder leaves this court-owned field blank."),
+    orderProtectedRefusal("OrderAttorneyGeneralBlock", "Attorney General block — court/prosecutor-owned", "The Attorney General address and response block is printed source content and is not rewritten by the builder."),
+    orderProtectedRefusal("OrderCourtDecision", "Court decision and ordered terms", "The court decides whether to grant the petition and completes or adopts the order; the builder does not manufacture a judicial finding or approval."),
+    orderProtectedRefusal("OrderDate", "So Ordered this Date — court completes", "The judge or commissioner supplies the order date; the builder leaves it blank."),
+    orderProtectedRefusal("OrderJudgeCommissionerPrint", "Judge/Commissioner (Print) — court completes", "The judge or commissioner supplies the printed name; the builder leaves it blank."),
+    orderProtectedRefusal("OrderJudgeCommissionerSignature", "Judge/Commissioner — court completes", "The judge or commissioner signs the order; the builder never signs for the court."),
+    orderProtectedRefusal("OrderCCCheckboxes", "CC distribution checkboxes — court/filing staff completes", "Court or filing staff determines distribution and completes these checkboxes; the builder leaves them blank.")
   ];
   for (const field of Object.values(PRIMARY_SOURCE_CONTROLS)) {
     if (typeof FIXTURES.canonical[field.factId] === "string") continue;
@@ -522,23 +659,24 @@ function fieldMap() {
   for (const [field, label] of conceptualRequired) {
     refusals.push(requiredRefusal(field, label, COMPONENTS.cover, "The current Family Court packet record requires this participant-supplied item before filing; the platform does not hold a safely typed value for it.", { documentId: COMPONENTS.cover, formNumber: COMPONENTS.cover }));
   }
+  refusals.push(requiredRefusal("ProposedOrderChargeOverflowReview", "Form 283 charge list review against Form 281/Form 281E", COMPONENTS.proposedOrder, "Form 283 has four printed charge rows. When the continuation is delivered, the participant must verify that every supplied charge and disposition is carried across the Form 281E continuation and the proposed-order list before filing.", { documentId: COMPONENTS.proposedOrder, formNumber: SOURCES.proposedOrder.officialFormId }));
   return {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
     familyId: FAMILY_ID,
     jurisdiction: "DE",
     routeKeys: [ROUTE_KEY],
     implementationStrategy: "official_pdf_fill",
-    renderStrategy: "source-derived-word-page-plus-required-assembly-sheet",
-    componentSet: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.cover],
+    renderStrategy: "source-derived-word-pages-plus-required-form-283-and-assembly-sheet",
+    componentSet: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.proposedOrder, COMPONENTS.cover],
     componentConditions: {
       [COMPONENTS.continuation]: "When charges exceed the table on the petition."
     },
     conditionalComponentsBoundButNotExercised: [],
-    sourceComponents: [COMPONENTS.primary, COMPONENTS.continuation],
+    sourceComponents: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.proposedOrder],
     writes,
     refusals,
     factMap: FIXTURES.canonical,
-    repeatingRows: {primaryCapacity: 4, continuationCapacity: 23, primaryColumns: PRIMARY_CHARGE_COLUMNS, continuationColumns: CONTINUATION_CHARGE_COLUMNS, sourceCells: [...chargeCensus(COMPONENTS.primary, PRIMARY_CHARGE_COLUMNS, 4), ...chargeCensus(COMPONENTS.continuation, CONTINUATION_CHARGE_COLUMNS, 23)]},
+    repeatingRows: {primaryCapacity: 4, continuationCapacity: 23, proposedOrderCapacity: ORDER_CHARGE_RECTS.length, primaryColumns: PRIMARY_CHARGE_COLUMNS, continuationColumns: CONTINUATION_CHARGE_COLUMNS, proposedOrderColumns: ORDER_CHARGE_COLUMNS, sourceCells: [...chargeCensus(COMPONENTS.primary, PRIMARY_CHARGE_COLUMNS, 4), ...chargeCensus(COMPONENTS.continuation, CONTINUATION_CHARGE_COLUMNS, 23), ...ORDER_CENSUS_FIELDS.filter((f) => f.fieldId.startsWith("OrderRow"))]},
     noInventedCourtFields: true,
     noInventedSignatureOrApproval: true,
     commercialRoutesOpened: 0
@@ -546,7 +684,7 @@ function fieldMap() {
 }
 
 function dateForCover() {
-  return "The source records and exact source bytes govern this packet; no court-assigned date, civil number, fee amount, signature or approval is invented.";
+  return "The source records and exact source bytes govern this packet; no court-assigned date, Petition Number, signature, judicial finding or approval is invented.";
 }
 
 function wrapLines(font, text, size, width) {
@@ -585,14 +723,14 @@ function drawSection(page, regular, bold, title, body, state) {
 
 function drawCover(page, fixtureName, facts, manifest, regular, bold) {
   let state = { y: 748, headingSize: 9, bodySize: 7.1 };
-  page.drawText("Delaware Family Court — Form 281 packet assembly sheet", { x: 48, y: state.y, size: 15, font: bold, color: rgb(0.04, 0.18, 0.38) });
+  page.drawText("Delaware Family Court — Form 281 / Form 283 packet assembly sheet", { x: 48, y: state.y, size: 14.2, font: bold, color: rgb(0.04, 0.18, 0.38) });
   state.y -= 19;
   page.drawText("Discretionary expungement of an adult record · 11 Del. C. § 4374(c)", { x: 48, y: state.y, size: 8.5, font: regular, color: rgb(0, 0, 0) });
   state.y -= 16;
-  drawSection(page, regular, bold, "What this sheet is", "This is an assembly and completion sheet for the official Family Court Form 281. It is not a court form, a filing, legal advice, or an approval. The official Form 281 remains the primary filing. The source's county boxes, manifest-injustice assertion, Civil Petition No., signature and jurat remain blank for the person or court who owns them.", state);
-  drawSection(page, regular, bold, "Components in these fixtures", `1. ${COMPONENTS.primary}: Form 281, Petition for Expungement of Adult Record. 2. ${COMPONENTS.cover}: this required assembly sheet. Form 281E (${COMPONENTS.continuation}) is bound as the exact continuation source but is conditional: attach it only when charges exceed the table on the petition. The boundary fixture exercises charge overflow and delivers Form 281E after the petition; the canonical fixture needs no continuation.`, state);
-  drawSection(page, regular, bold, "Before filing", "Obtain the certified criminal history dated within 45 days through IdentoGo, service code 27S23V, at about $72; the court shall summarily reject a petition without it. Do not assume the packet confirms eligibility. Complete the charge list from that history, confirm every charge and conviction sought was disposed of in Family Court, use the county of the most recent termination, complete the manifest-injustice explanation in your own words, and sign and swear the petition before a clerk of court or notary.", state);
-  drawSection(page, regular, bold, "Fee and handoff", "Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved. If an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and you are otherwise eligible, the court may grant expungement and waive the fines or fees or convert them to a civil judgment. Serve the Attorney General as required by the current record. If the Attorney General objects, a victim opposes, the court sets a hearing, or a required fact is contested, stop self-help completion and obtain case-specific help.", state);
+  drawSection(page, regular, bold, "What this sheet is", "This is an assembly and completion sheet for the official Family Court Form 281 petition and required Form 283 proposed order. It is not a court form, a filing, legal advice, or an approval. Form 283 is copied from page 15 of the held Form 1021IP source. The official forms' county boxes, manifest-injustice assertion, Petition Number, decision, signature and jurat remain blank for the person or court who owns them.", state);
+  drawSection(page, regular, bold, "Components and order", `1. ${COMPONENTS.primary}: Form 281, Petition for Expungement of Adult Record. 2. ${COMPONENTS.continuation}: Form 281E, conditional when charges exceed the petition table. 3. ${COMPONENTS.proposedOrder}: Form 283, Order Granting Expungement of Adult Record, copied from held Form 1021IP page 15. 4. ${COMPONENTS.cover}: this required assembly sheet. The participant supplies the SBI cover letter and certified criminal history externally; they are assembled with the official forms in the filing order stated in the current instructions.`, state);
+  drawSection(page, regular, bold, "Before filing", "Obtain the certified criminal history dated within 45 days through IdentoGo, service code 27S23V, at about $72; the court shall summarily reject a petition without it. Do not assume the packet confirms eligibility. Complete and cross-check every charge from that history, confirm every charge and conviction sought was disposed of in Family Court, use the county of the most recent termination, complete the manifest-injustice explanation in your own words, and sign and swear the petition before a clerk of court or notary. Verify the proposed order's party and charge information against the final filing packet.", state);
+  drawSection(page, regular, bold, "Fee, service and handoff", `${FAMILY_COURT_FEE_TEXT} ${FEE_WAIVER_TEXT} ${VICTIM_CONTACT_TEXT} The petitioner serves the Attorney General, who may object or answer within 120 days; if the Attorney General opposes, the petitioner has 30 days to respond. If the Attorney General objects, a victim opposes, the court sets a hearing, or a required fact is contested, stop self-help completion and obtain case-specific help.`, state);
   drawSection(page, regular, bold, "Held facts", `Fixture ${fixtureName} carries the participant name, date of birth, street address, city/state/ZIP, telephone, criminal case number and supplied charges shown on the official forms. ${dateForCover()}`, state);
   if (state.y < 30) throw new Error(`cover sheet overflow for ${fixtureName}: y=${state.y}`);
   page.drawText("Generated for internal review · no commercial route or fulfillment authority", { x: 48, y: 28, size: 6.5, font: regular, color: rgb(0.25, 0.25, 0.25) });
@@ -613,7 +751,7 @@ function drawValue(page, font, value, rect) {
   return { fontSize: size, x: round(x), y: round(y), width: round(textWidth), height: size };
 }
 
-async function renderFixture(fixtureName, facts, primaryProof, continuationProof, manifest, scratchDir) {
+async function renderFixture(fixtureName, facts, primaryProof, continuationProof, orderProof, manifest, scratchDir) {
   const packet = await PDFDocument.create();
   const regular = await packet.embedFont(StandardFonts.Helvetica);
   const bold = await packet.embedFont(StandardFonts.HelveticaBold);
@@ -693,6 +831,27 @@ async function renderFixture(fixtureName, facts, primaryProof, continuationProof
       }
     }
   }
+  const orderPdf = await PDFDocument.load(orderProof.bytes, { updateMetadata: false });
+  assert.equal(orderPdf.getPageCount(), SOURCES.proposedOrder.expectedOriginalPages, "Form 283 source page-count proof changed");
+  const [orderPage] = await packet.copyPages(orderPdf, [SOURCES.proposedOrder.sourcePage - 1]);
+  packet.addPage(orderPage);
+  const orderPageNumber = packet.getPageCount();
+  for (const field of Object.values(ORDER_FIELDS)) {
+    const value = facts[field.factId];
+    assert(typeof value === "string" && value.length > 0, `fixture ${fixtureName} lacks ${field.factId} for Form 283`);
+    recordWrite(orderPage, field, value, COMPONENTS.proposedOrder, orderPageNumber, SOURCES.proposedOrder.officialFormId, field.factId);
+  }
+  // Form 283 has four printed charge rows. Any fifth or later charge remains
+  // on the exact Form 281E continuation page; the participant cross-check is
+  // required before filing and is recorded in the field map.
+  for (let r = 0; r < Math.min(ORDER_CHARGE_RECTS.length, facts.charges.length); r++) {
+    for (let c = 0; c < ORDER_CHARGE_COLUMNS.length; c++) {
+      const column = ORDER_CHARGE_COLUMNS[c];
+      recordWrite(orderPage, { field: `OrderRow${r + 1}-${column.key}`, rect: ORDER_CHARGE_RECTS[r][c] },
+        facts.charges[r][column.key], COMPONENTS.proposedOrder, orderPageNumber,
+        SOURCES.proposedOrder.officialFormId, `charges.${r}.${column.key}`);
+    }
+  }
   const cover = packet.addPage([612, 792]);
   drawCover(cover, fixtureName, facts, manifest, regular, bold);
   packet.setTitle(`Delaware Family Court Form 281 packet — ${fixtureName}`);
@@ -707,11 +866,11 @@ async function renderFixture(fixtureName, facts, primaryProof, continuationProof
   for (const write of writes) {
     if (!pdfText(scratchPdf, write.page, write.page).includes(write.expected)) throw new Error(`${fixtureName}: output bytes do not contain ${write.field} value ${write.expected}`);
   }
-  for (const anchor of ["The Family Court of the State of Delaware", "PETITION FOR EXPUNGEMENT OF ADULT RECORD", "Civil Petition No.", "The Petitioner hereby declares", "Form 281 packet assembly sheet"]) {
+  for (const anchor of ["The Family Court of the State of Delaware", "PETITION FOR EXPUNGEMENT OF ADULT RECORD", "Civil Petition No.", "The Petitioner hereby declares", "Form 283", "ORDER GRANTING EXPUNGEMENT OF ADULT RECORD", "Form 281 / Form 283 packet assembly sheet"]) {
     if (!normalize(fullText).includes(normalize(anchor))) throw new Error(`${fixtureName}: output lost source/cover anchor ${anchor}`);
   }
   const loaded = await PDFDocument.load(bytes, { updateMetadata: false });
-  assert.equal(loaded.getPageCount(), 2 + continuationPages.length, `${fixtureName}: complete source and assembly pages`);
+  assert.equal(loaded.getPageCount(), 3 + continuationPages.length, `${fixtureName}: complete source, proposed order and assembly pages`);
   const readbacks = writes.map((write) => ({
     field: write.field,
     factId: write.factId,
@@ -732,6 +891,16 @@ async function renderFixture(fixtureName, facts, primaryProof, continuationProof
       formNumber: SOURCES.primary.officialFormId,
       sourcePage: 1,
       sourceSha256: SOURCES.primary.sha256,
+      pageRole: "official_source_page"
+    },
+    {
+      packetPage: orderPageNumber,
+      componentId: COMPONENTS.proposedOrder,
+      documentId: COMPONENTS.proposedOrder,
+      formNumber: SOURCES.proposedOrder.officialFormId,
+      sourcePage: SOURCES.proposedOrder.sourcePage,
+      sourceSha256: SOURCES.proposedOrder.sha256,
+      sourcePageSha256: orderProof.sourcePageTextSha256,
       pageRole: "official_source_page"
     },
     {
@@ -764,21 +933,33 @@ async function renderFixture(fixtureName, facts, primaryProof, continuationProof
   };
 }
 
+function requiredBeforeFilingItems(manifest) {
+  const staleFee = /same\s*\$75|unresolved/i;
+  const items = (manifest.requiredBeforeFiling ?? []).filter((item) => !staleFee.test(item));
+  if (!items.some((item) => /Form\s*283|proposed order/i.test(item))) {
+    items.push("Include the required Form 283 proposed order (Rev 6/20), copied from the held Form 1021IP source page 15.");
+  }
+  if (!items.some((item) => /0\.?00|no cost/i.test(item))) items.push(FAMILY_COURT_FEE_TEXT);
+  if (!items.some((item) => /4372\(l\)/i.test(item))) items.push(FEE_WAIVER_TEXT);
+  items.push("Obtain and attach the participant-supplied SBI cover letter and certified criminal history in the prescribed filing packet.");
+  return [...new Set(items)];
+}
+
 function participantGuide(track, manifest, map) {
-  const required = manifest.requiredBeforeFiling ?? [];
+  const required = requiredBeforeFilingItems(manifest);
   const stops = track.selfHelpStopConditions ?? [];
   const questions = (track.generationRequirements ?? []).map((item) => `- **${item.question}**`);
   const mapFields = (map.refusals ?? [])
     .filter((row) => row.requiredBeforeFiling === true)
     .map((row) => `- **${row.effectiveLabel}** — answer it before filing; the packet leaves the corresponding source or assembly item blank for you.`)
     .join("\n");
-  return `# Delaware Family Court Form 281 packet — completion guide
+  return `# Delaware Family Court Form 281 / Form 283 packet — completion guide
 
 This packet is for **${track.publicName}** under ${track.authority.join(" and ")}. File in **${track.venue}** only when every charge and conviction you want expunged was disposed of in Family Court. Venue is the county where the most recent case was terminated.
 
-The primary filing is the official **Form 281, Petition for Expungement of Adult Record**, source-bound at SHA-256 ${SOURCES.primary.sha256}. The required assembly sheet is included after it. Form 281E is the exact continuation source at SHA-256 ${SOURCES.continuation.sha256}; attach it only when charges exceed the table on Form 281. The boundary fixture exercises that condition and includes the completed continuation; the canonical fixture fits on the petition.
+The required official packet order is **Form 281**, conditional **Form 281E** when charges exceed the petition table, **Form 283 (Order Granting Expungement of Adult Record)**, then the participant-supplied SBI cover letter and certified criminal history. The separate assembly sheet follows the generated official forms for preparation reference. Form 281 is source-bound at SHA-256 ${SOURCES.primary.sha256}; Form 281E is source-bound at SHA-256 ${SOURCES.continuation.sha256}; Form 283 is copied from page 15 of the held Form 1021IP PDF at SHA-256 ${SOURCES.proposedOrder.sha256}.
 
-The builder fills supplied participant contact facts, the criminal case number and each supplied charge. Optional contact and interpreter fields are included only when supplied. It copies participant-supplied charge facts, including overflow on Form 281E. It does not choose a county, mark the manifest-injustice assertion, create a Civil Petition No., sign, notarize, or invent a fee, approval or court order.
+The builder fills supplied participant contact facts, the criminal case number and each supplied charge on Form 281 and Form 283. It carries charge overflow on Form 281E. It does not choose a county, mark the manifest-injustice assertion, create a Civil Petition No. or Petition Number, decide the order, sign, notarize, or invent a court approval. Form 283 has four printed charge rows; when a continuation is included, review the complete Form 281/Form 281E charge list before filing.
 
 ## Participant questions
 
@@ -794,9 +975,13 @@ ${mapFields}
 
 The certified history is obtained externally. The packet is generated without collecting or reviewing it. Check every answer to “List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.” against the current certified history and correct the packet if they disagree.
 
-The Form 281 manifest-injustice section says it must be completed for the Court to consider the petition. Mark its assertion checkbox only if the statement is true, and write the explanation in your own words. The petition is sworn and subscribed before a clerk of court or notary. Leave the Civil Petition No. for Family Court.
+The Form 281 manifest-injustice section says it must be completed for the Court to consider the petition. Mark its assertion checkbox only if the statement is true, and write the explanation in your own words. The petition is sworn and subscribed before a clerk of court or notary. Leave the Civil Petition No. and Form 283 Petition Number for Family Court.
 
-The filing fee is **${track.rules.fees}**. The amount is not resolved for Family Court; this packet inserts no dollar amount. ${track.rules.feeWaiver}
+${FAMILY_COURT_FEE_TEXT}
+
+${FEE_WAIVER_TEXT}
+
+${VICTIM_CONTACT_TEXT}
 
 ## Filing and service
 
@@ -806,7 +991,7 @@ ${track.rules.filing} ${track.rules.service} ${track.rules.notice}
 
 ${stops.map((item) => `- ${item}`).join("\n")}
 
-This is an internal preparation artifact. It is not legal advice, a filing, a representation of eligibility, a court-approved form set or authorization for fulfillment. Source conversion selected the one substantive page of each held Word source; Form 281E’s conversion-only repeated header page was not delivered. Source-derived converter evidence is recorded in source-receipt.json.
+This is an internal preparation artifact. It is not legal advice, a filing, a representation of eligibility, a court-approved form set or authorization for fulfillment. Source conversion selected the one substantive page of each held Word source; Form 281E’s conversion-only repeated header page was not delivered. Form 283 is the exact held Form 1021IP page 15. Source-derived evidence is recorded in source-receipt.json.
 `;
 }
 
@@ -815,19 +1000,23 @@ function filingGuide(track, manifest) {
 
 Route: ${track.publicName} (${ROUTE_KEY}). File in ${track.venue} only when all charges and convictions sought were disposed of in Family Court.
 
-Assemble the official Form 281, then the required assembly sheet. Form 281E is conditional — “When charges exceed the table on the petition.” The boundary fixture includes Form 281E because its supplied charges exceed the four petition rows.
+Assemble the official Form 281, then Form 281E only when charges exceed the petition table, then Form 283 (Order Granting Expungement of Adult Record) copied from held Form 1021IP page 15. Add the participant-supplied SBI cover letter and certified criminal history in that prescribed order; retain the separate assembly sheet for completion reference. The canonical fixture fits on Form 281; the boundary fixture exercises the Form 281E continuation.
 
-Before filing, obtain the certified criminal history dated within 45 days through IdentoGo, service code 27S23V, and use it to complete and cross-check the charge table. Complete the manifest-injustice assertion and explanation truthfully in your own words. Sign and swear the petition before a clerk of court or notary. The Family Court assigns the Civil Petition No.
+Before filing, obtain the certified criminal history dated within 45 days through IdentoGo, service code 27S23V, and use it to complete and cross-check the charge tables. Complete the manifest-injustice assertion and explanation truthfully in your own words. Sign and swear the petition before a clerk of court or notary. Family Court assigns the Civil Petition No. and Form 283 Petition Number and completes the proposed order's court-owned decision, date and signature fields.
 
-${(manifest.requiredBeforeFiling ?? []).map((item) => `- ${item}`).join("\n")}
+${requiredBeforeFilingItems(manifest).map((item) => `- ${item}`).join("\n")}
+
+${FAMILY_COURT_FEE_TEXT}
+
+${FEE_WAIVER_TEXT}
+
+${VICTIM_CONTACT_TEXT}
 
 ${track.rules.service} ${track.rules.notice}
-
-${track.rules.fees} No fee amount is inserted because whether Family Court adult petitions carry the same $75 fee is unresolved.
 `;
 }
 
-function sourceReceipt(primaryResolved, continuationResolved, primaryProof, continuationProof, track, manifest) {
+function sourceReceipt(primaryResolved, continuationResolved, orderResolved, primaryProof, continuationProof, orderProof, track, manifest) {
   const doc = (spec, resolved, proof) => ({
     sourceIds: [spec.sourceId],
     documentId: spec.componentId,
@@ -840,20 +1029,36 @@ function sourceReceipt(primaryResolved, continuationResolved, primaryProof, cont
     byteLength: spec.byteLength,
     custody: resolved.absolute.includes("Nationwide_Recovery_Pool") ? "nationwide_recovery_pool_2026_09_02" : "reference_source_recovery_2026_09_11_wave1",
     matchedBy: "exact_pinned_sha256_recomputed_from_bytes_on_disk",
-    originalMetadata: proof.fileMetadata,
-    sourceIdentityIsOriginalWordBytes: true,
-    derivedPrint: {
-      sha256: proof.derivedSha256,
-      byteLength: proof.derivedByteLength,
-      exportedPages: proof.exportedPages,
-      selectedSubstantivePages: proof.selectedPages,
-      pageSize: proof.pageSize,
-      firstPageAnchors: proof.firstPageAnchors,
-      firstPageTextSha256: proof.firstPageTextSha256,
-      trailingPage: proof.trailingPage,
-      conversion: proof.conversion
-    },
-    renderStrategy: spec === SOURCES.primary ? "copy_first_substantive_page_of_exact_Word_source_then_write_held_facts" : "copy_exact_source_page_when_charge_overflow_then_write_supplied_facts"
+    originalMetadata: spec === SOURCES.proposedOrder
+      ? { file: "Exact held Form 1021IP PDF; Form 283 selected from source page 15", declaredPages: proof.pageCount }
+      : proof.fileMetadata,
+    sourceIdentityIsOriginalWordBytes: spec !== SOURCES.proposedOrder,
+    sourceIdentityIsOriginalPdfBytes: spec === SOURCES.proposedOrder,
+    selectedSourcePages: spec === SOURCES.proposedOrder ? [proof.sourcePage] : [1],
+    ...(spec === SOURCES.proposedOrder ? {
+      sourcePage: proof.sourcePage,
+      sourcePageSha256: proof.sourcePageTextSha256,
+      sourcePageAnchors: proof.sourcePageAnchors,
+      sourcePageSize: proof.pageSize,
+      sourcePageCount: proof.pageCount
+    } : {
+      derivedPrint: {
+        sha256: proof.derivedSha256,
+        byteLength: proof.derivedByteLength,
+        exportedPages: proof.exportedPages,
+        selectedSubstantivePages: proof.selectedPages,
+        pageSize: proof.pageSize,
+        firstPageAnchors: proof.firstPageAnchors,
+        firstPageTextSha256: proof.firstPageTextSha256,
+        trailingPage: proof.trailingPage,
+        conversion: proof.conversion
+      }
+    }),
+    renderStrategy: spec === SOURCES.primary
+      ? "copy_first_substantive_page_of_exact_Word_source_then_write_held_facts"
+      : spec === SOURCES.continuation
+        ? "copy_exact_source_page_when_charge_overflow_then_write_supplied_facts"
+        : "copy_exact_Form_283_source_page_15_then_write_held_party_and_charge_facts"
   });
   return {
     schemaVersion: "rcap-family-source-receipt/v1",
@@ -862,13 +1067,25 @@ function sourceReceipt(primaryResolved, continuationResolved, primaryProof, cont
     implementationStrategy: "official_pdf_fill",
     routeKey: ROUTE_KEY,
     allSourcesExact: true,
-    bindingMethod: "Exact held DOC/DOCX bytes bound by SHA-256 before conversion, census or rendering.",
-    documents: [doc(SOURCES.primary, primaryResolved, primaryProof), doc(SOURCES.continuation, continuationResolved, continuationProof)],
+    bindingMethod: "Exact held DOC/DOCX/PDF bytes bound by SHA-256 before conversion, census or rendering; Form 283 is selected from source PDF page 15.",
+    documents: [doc(SOURCES.primary, primaryResolved, primaryProof), doc(SOURCES.continuation, continuationResolved, continuationProof), doc(SOURCES.proposedOrder, orderResolved, orderProof)],
     conditionalDocumentsBoundButNotExercised: [],
     sourceReconciliation: {
       queueState: "SOURCE_READY",
-      legalInputStatus: "SETTLED",
-      exactNextAction: "Build Form 281 with Form 281E only where charge continuation is required."
+      legalInputStatus: "LEGAL_CLEAR",
+      legalResolution: {
+        path: LEGAL_FACTS_REL,
+        sha256: LEGAL_FACTS_SHA256,
+        byteLength: LEGAL_FACTS_BYTE_LENGTH,
+        scope: "Form 283 identity and packet order, current $0.00 Family Court schedule exception, and § 4374(e) victim-contact amendment; packet and independent review remain pending."
+      },
+      sourceAdoptionEvidence: {
+        path: FORM283_ADOPTION_REL,
+        sha256: FORM283_ADOPTION_SHA256,
+        officialFormId: SOURCES.proposedOrder.officialFormId,
+        selectedSourcePages: [SOURCES.proposedOrder.sourcePage]
+      },
+      exactNextAction: "Build Form 281, add Form 281E only where charge continuation is required, then include Form 283 and the participant-supplied SBI cover letter and certified history in the prescribed order."
     },
     sourceForms: manifest.components.map((component) => ({ componentId: component.componentId, officialFormId: component.officialFormId, requirement: component.requirement, conditionDescription: component.conditionDescription })),
     trackAuthority: track.authority,
@@ -878,7 +1095,7 @@ function sourceReceipt(primaryResolved, continuationResolved, primaryProof, cont
     whatThisReceiptDoesNotEstablish: [
       "that any fixture is eligible for expungement",
       "that a court has assigned a civil petition number",
-      "that the unresolved Family Court fee amount has been decided",
+      "that an external certified-history cost has been paid",
       "that any output is approved for participant delivery"
     ]
   };
@@ -887,11 +1104,18 @@ function sourceReceipt(primaryResolved, continuationResolved, primaryProof, cont
 function makeActualWrites(rendered) {
   const documents = rendered.map((packet) => ({
     fixture: packet.fixture,
-    document: COMPONENTS.primary,
+    document: "packet",
+    componentDocuments: [COMPONENTS.primary, ...(packet.pageManifest.some((page) => page.componentId === COMPONENTS.continuation) ? [COMPONENTS.continuation] : []), COMPONENTS.proposedOrder, COMPONENTS.cover],
     sourceSha256: SOURCES.primary.sha256,
+    sourceSha256ByComponent: {
+      [COMPONENTS.primary]: SOURCES.primary.sha256,
+      [COMPONENTS.continuation]: SOURCES.continuation.sha256,
+      [COMPONENTS.proposedOrder]: SOURCES.proposedOrder.sha256
+    },
     outputSha256: packet.sha256,
     valuesReportedByFinalizer: packet.valuesReportedByFinalizer,
     actualWrites: packet.writes,
+    actualWritesByComponent: Object.fromEntries([COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.proposedOrder].map((componentId) => [componentId, packet.writes.filter((write) => write.document === componentId)])),
     writeReadbacks: packet.readbacks,
     addedGlyphsReadFromOutputBytes: packet.addedGlyphsReadFromOutputBytes,
     flattenedWidgetAppearancesReadFromOutputBytes: packet.flattenedWidgetAppearancesReadFromOutputBytes,
@@ -925,7 +1149,8 @@ function renderedArtifacts(rendered) {
     byteLength: packet.byteLength,
     documents: [
       { documentId: COMPONENTS.primary, componentId: COMPONENTS.primary, formNumber: SOURCES.primary.officialFormId, file: packet.file, pageCount: 1, sha256: packet.sha256, sourceSha256: SOURCES.primary.sha256 },
-      ...(packet.pageManifest.some(p => p.componentId === COMPONENTS.continuation) ? [{ documentId: COMPONENTS.continuation, componentId: COMPONENTS.continuation, formNumber: "FORM-281E", file: packet.file, pageCount: packet.pageCount - 2, sha256: packet.sha256, sourceSha256: SOURCES.continuation.sha256 }] : []),
+      ...(packet.pageManifest.some(p => p.componentId === COMPONENTS.continuation) ? [{ documentId: COMPONENTS.continuation, componentId: COMPONENTS.continuation, formNumber: "FORM-281E", file: packet.file, pageCount: packet.pageManifest.filter(p => p.componentId === COMPONENTS.continuation).length, sha256: packet.sha256, sourceSha256: SOURCES.continuation.sha256 }] : []),
+      { documentId: COMPONENTS.proposedOrder, componentId: COMPONENTS.proposedOrder, formNumber: SOURCES.proposedOrder.officialFormId, file: packet.file, pageCount: 1, sha256: packet.sha256, sourceSha256: SOURCES.proposedOrder.sha256, sourcePage: SOURCES.proposedOrder.sourcePage },
       { documentId: COMPONENTS.cover, componentId: COMPONENTS.cover, file: packet.file, pageCount: 1, sha256: packet.sha256, sourceSha256: null }
     ],
     pageManifest: packet.pageManifest
@@ -936,7 +1161,7 @@ function renderedArtifacts(rendered) {
     renderedFresh: true,
     derivedFromBytes: true,
     componentIdentityMode: "exact",
-    componentSet: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.cover],
+    componentSet: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.proposedOrder, COMPONENTS.cover],
     componentConditions: { [COMPONENTS.continuation]: "When charges exceed the table on the petition." },
     conditionalComponentsBoundButNotExercised: [],
     pdfs: packets,
@@ -973,7 +1198,7 @@ function completenessCounters() {
   };
 }
 
-function sourceTextEvidence(primaryProof, continuationProof) {
+function sourceTextEvidence(primaryProof, continuationProof, orderProof) {
   return {
     schemaVersion: "rcap-source-derived-word-evidence/v1",
     familyId: FAMILY_ID,
@@ -1000,26 +1225,41 @@ function sourceTextEvidence(primaryProof, continuationProof) {
         anchors: continuationProof.firstPageAnchors,
         firstPageTextSha256: continuationProof.firstPageTextSha256,
         trailingPage: continuationProof.trailingPage
+      },
+      {
+        sourceId: SOURCES.proposedOrder.sourceId,
+        sha256: SOURCES.proposedOrder.sha256,
+        byteLength: SOURCES.proposedOrder.byteLength,
+        originalMetadataPages: SOURCES.proposedOrder.expectedOriginalPages,
+        selectedPage: orderProof.sourcePage,
+        sourcePageCount: orderProof.pageCount,
+        sourcePageSize: orderProof.pageSize,
+        sourcePageTextSha256: orderProof.sourcePageTextSha256,
+        anchors: orderProof.sourcePageAnchors,
+        identity: "exact held Form 1021IP PDF bytes; Form 283 is page 15"
       }
     ],
-    method: "exact source SHA verification, file metadata/XML verification, fixed office conversion, first-page anchor readback"
+    method: "exact source SHA verification, file metadata/XML verification, fixed office conversion, first-page anchor readback, and exact Form 1021IP page-15 anchor readback",
+    legalResolution: { path: LEGAL_FACTS_REL, sha256: LEGAL_FACTS_SHA256, byteLength: LEGAL_FACTS_BYTE_LENGTH },
+    sourceAdoptionEvidence: { path: FORM283_ADOPTION_REL, sha256: FORM283_ADOPTION_SHA256 }
   };
 }
 
-function fieldCensus(primaryProof, continuationProof) {
+function fieldCensus(primaryProof, continuationProof, orderProof) {
   return {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1",
     familyId: FAMILY_ID,
     jurisdiction: "DE",
-    sourceIds: [SOURCES.primary.sourceId, SOURCES.continuation.sourceId],
-    sourceSha256: { [SOURCES.primary.sourceId]: SOURCES.primary.sha256, [SOURCES.continuation.sourceId]: SOURCES.continuation.sha256 },
-    measurementSurface: "source-derived Word export first substantive page; visual lines and boxes retained from source",
+    sourceIds: [SOURCES.primary.sourceId, SOURCES.continuation.sourceId, SOURCES.proposedOrder.sourceId],
+    sourceSha256: { [SOURCES.primary.sourceId]: SOURCES.primary.sha256, [SOURCES.continuation.sourceId]: SOURCES.continuation.sha256, [SOURCES.proposedOrder.sourceId]: SOURCES.proposedOrder.sha256 },
+    measurementSurface: "source-derived Word export first substantive page plus exact Form 1021IP PDF page 15; visual lines, boxes and protected regions retained from source",
     documents: [
       { documentId: COMPONENTS.primary, officialFormId: SOURCES.primary.officialFormId, sourceSha256: SOURCES.primary.sha256, sourceFormat: SOURCES.primary.sourceFormat, pageCount: 1, exportedPageCount: primaryProof.exportedPages, fields: PRIMARY_CENSUS_FIELDS },
-      { documentId: COMPONENTS.continuation, officialFormId: SOURCES.continuation.officialFormId, sourceSha256: SOURCES.continuation.sha256, sourceFormat: SOURCES.continuation.sourceFormat, pageCount: 1, exportedPageCount: continuationProof.exportedPages, conditional: true, fields: CONTINUATION_CENSUS_FIELDS }
+      { documentId: COMPONENTS.continuation, officialFormId: SOURCES.continuation.officialFormId, sourceSha256: SOURCES.continuation.sha256, sourceFormat: SOURCES.continuation.sourceFormat, pageCount: 1, exportedPageCount: continuationProof.exportedPages, conditional: true, fields: CONTINUATION_CENSUS_FIELDS },
+      { documentId: COMPONENTS.proposedOrder, officialFormId: SOURCES.proposedOrder.officialFormId, sourceSha256: SOURCES.proposedOrder.sha256, sourceFormat: SOURCES.proposedOrder.sourceFormat, sourcePage: orderProof.sourcePage, sourcePageCount: orderProof.pageCount, pageCount: 1, exportedPageCount: 1, fields: ORDER_CENSUS_FIELDS }
     ],
-    fields: [...PRIMARY_CENSUS_FIELDS, ...CONTINUATION_CENSUS_FIELDS],
-    fieldCount: PRIMARY_CENSUS_FIELDS.length + CONTINUATION_CENSUS_FIELDS.length,
+    fields: [...PRIMARY_CENSUS_FIELDS, ...CONTINUATION_CENSUS_FIELDS, ...ORDER_CENSUS_FIELDS],
+    fieldCount: PRIMARY_CENSUS_FIELDS.length + CONTINUATION_CENSUS_FIELDS.length + ORDER_CENSUS_FIELDS.length,
     widgetCount: 0,
     note: "Word form placeholders are preserved as printed source blanks; no AcroForm widget is synthesized."
   };
@@ -1051,8 +1291,8 @@ function productWiring(rendered) {
     directory: OUT_REL,
     buildScript: BUILD_SCRIPT,
     implementationStrategy: "official_pdf_fill",
-    sourceSha256: [SOURCES.primary.sha256, SOURCES.continuation.sha256],
-    packetComponentIds: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.cover],
+    sourceSha256: [SOURCES.primary.sha256, SOURCES.continuation.sha256, SOURCES.proposedOrder.sha256],
+    packetComponentIds: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.proposedOrder, COMPONENTS.cover],
     conditionalComponentIds: [COMPONENTS.continuation],
     packetHashes: rendered.map((item) => ({ fixture: item.fixture, sha256: item.sha256, byteLength: item.byteLength, pageCount: item.pageCount })),
     binding: {
@@ -1070,14 +1310,23 @@ function focusedSelfTest(rendered, map, sourceProofs) {
   assert.equal(map.writes.length, rendered[0].writes.length);
   assert.equal(PRIMARY_CENSUS_FIELDS.filter(f => f.fieldId.startsWith("ChargeRow")).length, 20);
   assert.equal(CONTINUATION_CENSUS_FIELDS.filter(f => f.fieldId.startsWith("ContinuationRow")).length, 115);
+  assert.equal(ORDER_CENSUS_FIELDS.filter(f => f.fieldId.startsWith("OrderRow")).length, 20);
+  assert.equal(ORDER_CENSUS_FIELDS.filter(f => f.protected === true).length, ORDER_PROTECTED_CENSUS_FIELDS.length);
   for (const f of Object.values(PRIMARY_SOURCE_CONTROLS)) assert(PRIMARY_CENSUS_FIELDS.some(c => c.fieldId === f.field));
   assert(map.refusals.some((row) => row.field === "ManifestInjusticeExplanation" && row.requiredBeforeFiling === true));
   assert(map.refusals.some((row) => row.field === "CivilPetitionNo" && row.completenessDisposition === "PROTECTED_FIELD"));
-  assert.deepEqual(rendered.map(packet => packet.pageCount), [2, 3]);
-  assert(rendered[1].writes.some(w => w.factId === "charges.4.incidentNumber" && w.page === 2));
+  assert(map.refusals.some((row) => row.field === "OrderPetitionNumber" && row.documentId === COMPONENTS.proposedOrder && row.completenessDisposition === "PROTECTED_FIELD"));
+  assert.deepEqual(rendered.map(packet => packet.pageCount), [3, 4]);
+  assert(rendered[1].writes.some(w => w.factId === "charges.4.incidentNumber" && w.document === COMPONENTS.continuation && w.page === 2));
+  assert(rendered.every((packet) => packet.writes.some((w) => w.document === COMPONENTS.proposedOrder && w.formNumber === SOURCES.proposedOrder.officialFormId && w.factId === "participant.full_legal_name")));
+  assert(rendered.every((packet) => packet.writes.some((w) => w.document === COMPONENTS.proposedOrder && w.factId === "charges.0.caseNumber")));
   assert.equal(rendered.every((packet) => packet.pageManifest.some((page) => page.componentId === COMPONENTS.primary && page.sourceSha256 === SOURCES.primary.sha256)), true);
+  assert.equal(rendered.every((packet) => packet.pageManifest.some((page) => page.componentId === COMPONENTS.proposedOrder && page.sourceSha256 === SOURCES.proposedOrder.sha256 && page.sourcePage === SOURCES.proposedOrder.sourcePage)), true);
   assert.equal(rendered.every((packet) => packet.pageManifest.some((page) => page.componentId === COMPONENTS.cover)), true);
   assert.equal(sourceProofs.continuation.exportedPages === 1 || sourceProofs.continuation.trailingPage?.disposition === "converter_only_repeated_header_not_delivered", true);
+  assert.equal(sourceProofs.order.pageCount, SOURCES.proposedOrder.expectedOriginalPages);
+  assert.equal(sourceProofs.order.sourcePage, SOURCES.proposedOrder.sourcePage);
+  assert.equal(sourceProofs.order.observedSha256, SOURCES.proposedOrder.sha256);
   return {
     schemaVersion: "rcap-de-family-court-focused-self-test/v1",
     familyId: FAMILY_ID,
@@ -1087,11 +1336,15 @@ function focusedSelfTest(rendered, map, sourceProofs) {
       originalForm281OnePageRetained: sourceProofs.primary.exportedPages === 1,
       form281EConversionTrailingHeaderExcluded: Boolean(sourceProofs.continuation.trailingPage),
       heldFactsCopiedToAllSevenBoundSourceBlanks: true,
+      form283SourcePage15Bound: true,
+      form283HeldPartyAndChargeFactsCopied: true,
+      form283CourtDecisionCountyAndSignatureFieldsUnwritten: true,
       civilPetitionNumberUnwritten: true,
       countyAndManifestElectionUnwritten: true,
       signatureAndJuratUnwritten: true,
       conditionalContinuationExercised: true,
       completeConditionalPageOrder: true,
+      proposedOrderRequiredAndInSequence: true,
       noInventedCourtFields: true
     },
     result: "PASS"
@@ -1110,6 +1363,12 @@ async function checkExisting(sourceProofs, map, track, manifest) {
   assert.equal(receipt.allSourcesExact, true);
   assert.equal(receipt.documents[0].sha256, SOURCES.primary.sha256);
   assert.equal(receipt.documents[1].sha256, SOURCES.continuation.sha256);
+  assert.equal(receipt.documents[2].sourceIds.length, 1);
+  assert.equal(receipt.documents[2].sourceIds[0], SOURCES.proposedOrder.sourceId);
+  assert.equal(receipt.documents[2].sha256, SOURCES.proposedOrder.sha256);
+  assert.equal(receipt.documents[2].byteLength, SOURCES.proposedOrder.byteLength);
+  assert.deepEqual(receipt.documents[2].selectedSourcePages, [SOURCES.proposedOrder.sourcePage]);
+  assert.equal(receipt.documents[2].sourcePageCount, SOURCES.proposedOrder.expectedOriginalPages);
   const savedMap = readJson(`${OUT_REL}/production-field-map.json`);
   assert(savedMap.writes.length >= map.writes.length);
   assert.equal(savedMap.refusals.length, map.refusals.length);
@@ -1117,6 +1376,7 @@ async function checkExisting(sourceProofs, map, track, manifest) {
   assert.equal(artifacts.componentIdentityMode, "exact");
   assert.equal(artifacts.packets.length, 2);
   assert(artifacts.packets.every((packet) => packet.documents.some((doc) => doc.documentId === COMPONENTS.primary)));
+  assert(artifacts.packets.every((packet) => packet.documents.some((doc) => doc.documentId === COMPONENTS.proposedOrder && doc.formNumber === SOURCES.proposedOrder.officialFormId)));
   assert(artifacts.packets.every((packet) => packet.documents.some((doc) => doc.documentId === COMPONENTS.cover)));
   const counters = readJson(`${OUT_REL}/reports/completeness-counters.json`);
   assert.equal(counters.result, "PASS_COMPLETE");
@@ -1125,10 +1385,11 @@ async function checkExisting(sourceProofs, map, track, manifest) {
     const file = path.join(OUT, "fixtures", `${fixture}.pdf`);
     const bytes = fs.readFileSync(file);
     const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
-    assert.equal(pdf.getPageCount(), fixture === "canonical" ? 2 : 3);
+    assert.equal(pdf.getPageCount(), fixture === "canonical" ? 3 : 4);
     const text = normalize(pdfText(file, 1, pdf.getPageCount()));
     for (const value of Object.values(FIXTURES[fixture]).filter(v => typeof v === "string")) assert(text.includes(normalize(value)), `${fixture} output missing ${value}`);
     for (const row of FIXTURES[fixture].charges) for (const key of ["charge", "offenseDate", "dispositionDate", "disposition"]) assert(text.includes(normalize(row[key])), `${fixture} missing charge ${key}`);
+    assert(text.includes("ORDER GRANTING EXPUNGEMENT OF ADULT RECORD"), `${fixture} output missing Form 283 order`);
   }
   return { familyId: FAMILY_ID, status: "CHECK_PASS", packets: 2, sourcesExact: true, counters: counters.counters, requiredArtifactsChecked: required.length };
 }
@@ -1137,6 +1398,7 @@ export async function build({ check = false, noRaster = false } = {}) {
   const { track, manifest } = assertQueueAndManifest();
   const primaryResolved = resolveExactSource(SOURCES.primary);
   const continuationResolved = resolveExactSource(SOURCES.continuation);
+  const orderResolved = resolveExactSource(SOURCES.proposedOrder);
   const primaryMetadata = parseFileMetadata(primaryResolved.absolute, SOURCES.primary);
   const continuationMetadata = { file: `DOCX OOXML metadata verified from ${path.relative(ROOT, continuationResolved.absolute)}`, declaredPages: 1, declaredWords: null, documentXmlSha256: sha256(Buffer.from(docxText(continuationResolved.absolute))) };
   const continuationXml = docxText(continuationResolved.absolute);
@@ -1145,15 +1407,16 @@ export async function build({ check = false, noRaster = false } = {}) {
   try {
     const primaryProof = await convertSource(SOURCES.primary, primaryResolved, scratchDir);
     const continuationProof = await convertSource(SOURCES.continuation, continuationResolved, scratchDir);
+    const orderProof = await inspectProposedOrder(orderResolved, scratchDir);
     primaryProof.fileMetadata = primaryMetadata;
     continuationProof.fileMetadata = continuationMetadata;
     const map = fieldMap();
-    if (check) return await checkExisting({ primary: primaryProof, continuation: continuationProof }, map, track, manifest);
+    if (check) return await checkExisting({ primary: primaryProof, continuation: continuationProof, order: orderProof }, map, track, manifest);
     fs.mkdirSync(path.join(OUT, "fixtures"), { recursive: true });
     fs.mkdirSync(path.join(OUT, "reports"), { recursive: true });
     const rendered = [];
     for (const [fixtureName, facts] of Object.entries(FIXTURES)) {
-      const packet = await renderFixture(fixtureName, facts, primaryProof, continuationProof, manifest, scratchDir);
+      const packet = await renderFixture(fixtureName, facts, primaryProof, continuationProof, orderProof, manifest, scratchDir);
       fs.writeFileSync(path.join(ROOT, packet.file), packet.bytes);
       rendered.push(packet);
     }
@@ -1166,8 +1429,8 @@ export async function build({ check = false, noRaster = false } = {}) {
     const guide = participantGuide(track, manifest, map);
     fs.writeFileSync(path.join(OUT, "participant-instructions.md"), guide);
     fs.writeFileSync(path.join(OUT, "filing-instructions.md"), filingGuide(track, manifest));
-    writeJson(`${OUT_REL}/source-receipt.json`, sourceReceipt(primaryResolved, continuationResolved, primaryProof, continuationProof, track, manifest));
-    writeJson(`${OUT_REL}/field-census.census-v1.json`, fieldCensus(primaryProof, continuationProof));
+    writeJson(`${OUT_REL}/source-receipt.json`, sourceReceipt(primaryResolved, continuationResolved, orderResolved, primaryProof, continuationProof, orderProof, track, manifest));
+    writeJson(`${OUT_REL}/field-census.census-v1.json`, fieldCensus(primaryProof, continuationProof, orderProof));
     writeJson(`${OUT_REL}/production-field-map.json`, map);
     writeJson(`${OUT_REL}/packet-set-manifest.json`, {
       schemaVersion: "rcap-packet-set-manifest/v1",
@@ -1177,15 +1440,16 @@ export async function build({ check = false, noRaster = false } = {}) {
       routeKeys: [ROUTE_KEY],
       componentList: manifest.components,
       conditionalComponents: [manifest.components.find((component) => component.componentId === COMPONENTS.continuation)],
-      deliveredComponents: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.cover],
+      deliveredComponents: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.proposedOrder, COMPONENTS.cover],
       noAdditionalComponentInvented: true,
-      sourceHashes: { [SOURCES.primary.officialFormId]: SOURCES.primary.sha256, [SOURCES.continuation.officialFormId]: SOURCES.continuation.sha256 }
+      sourceHashes: { [SOURCES.primary.officialFormId]: SOURCES.primary.sha256, [SOURCES.continuation.officialFormId]: SOURCES.continuation.sha256, [SOURCES.proposedOrder.officialFormId]: SOURCES.proposedOrder.sha256 },
+      selectedSourcePages: { [SOURCES.proposedOrder.officialFormId]: [SOURCES.proposedOrder.sourcePage] }
     });
-    writeJson(`${OUT_REL}/reports/source-text-evidence.json`, sourceTextEvidence(primaryProof, continuationProof));
+    writeJson(`${OUT_REL}/reports/source-text-evidence.json`, sourceTextEvidence(primaryProof, continuationProof, orderProof));
     writeJson(`${OUT_REL}/reports/rendered-artifacts.json`, renderedArtifacts(rendered));
     writeJson(`${OUT_REL}/reports/actual-writes.json`, makeActualWrites(rendered));
     writeJson(`${OUT_REL}/reports/completeness-counters.json`, completenessCounters());
-    writeJson(`${OUT_REL}/reports/focused-self-test.json`, focusedSelfTest(rendered, map, { primary: primaryProof, continuation: continuationProof }));
+    writeJson(`${OUT_REL}/reports/focused-self-test.json`, focusedSelfTest(rendered, map, { primary: primaryProof, continuation: continuationProof, order: orderProof }));
     writeJson(`${OUT_REL}/reports/blanks-left-for-the-participant.json`, {
       schemaVersion: "rcap-blanks-left-for-the-participant/v1",
       familyId: FAMILY_ID,
@@ -1202,15 +1466,17 @@ export async function build({ check = false, noRaster = false } = {}) {
         { finding: "Form 281 is a one-page Word source and its first converted page contains all substantive source content, including the signature and jurat area.", disposition: "selected first page after exact source and metadata proof" },
         { finding: "Form 281E is a one-page DOCX source; the office export can produce a second page containing only the repeated Form 281E / Dev 9/18 header.", disposition: "conversion-only trailing page excluded; continuation is exercised in the boundary fixture" },
         { finding: "The Family Court form has no held county, manifest-injustice, civil-number, signature or notary facts.", disposition: "these fields remain participant or court owned and are disclosed in the guide" },
-        { finding: "The current packet record leaves the Family Court fee amount unresolved.", disposition: "no fee amount invented or printed" }
+        { finding: "The current Family Court schedule lists adult criminal-record expungement at $0.00 and expressly excludes archive and court-security costs; the generic page-3 security list retains the conflicting label.", disposition: "the specific page-2 expungement entry and its exception are disclosed, while the separate certified-history cost remains external" },
+        { finding: "The enacted 85 Del. Laws c. 142, § 10 victim-contact amendment points § 4374(e) to § 9414(a) while retaining the § 9401 victim definition.", disposition: "the corrected cross-reference is disclosed in the assembly sheet and participant guides" }
       ],
-      blockers: ["independent semantic review", "central raster review", "court confirmation of unresolved packet and fee questions"]
+      legalResolution: { path: LEGAL_FACTS_REL, sha256: LEGAL_FACTS_SHA256, byteLength: LEGAL_FACTS_BYTE_LENGTH },
+      blockers: ["independent semantic review", "central raster review"]
     });
     writeJson(`${OUT_REL}/approval-request.json`, {
       schemaVersion: "rcap-approval-request/v1",
       familyId: FAMILY_ID,
       status: "PENDING_INDEPENDENT_REVIEW",
-      sourceSha256: [SOURCES.primary.sha256, SOURCES.continuation.sha256],
+      sourceSha256: [SOURCES.primary.sha256, SOURCES.continuation.sha256, SOURCES.proposedOrder.sha256],
       artifactHashes: rendered.map((item) => ({ fixture: item.fixture, sha256: item.sha256, byteLength: item.byteLength, pageCount: item.pageCount })),
       rasterStatus: "RASTER_PENDING",
       selfApproved: false,
@@ -1237,11 +1503,12 @@ export async function build({ check = false, noRaster = false } = {}) {
       status: "BUILT",
       directory: OUT_REL,
       routeKeys: [ROUTE_KEY],
-      componentIds: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.cover],
+      componentIds: [COMPONENTS.primary, COMPONENTS.continuation, COMPONENTS.proposedOrder, COMPONENTS.cover],
       conditionalComponentIds: [COMPONENTS.continuation],
       sources: {
         primary: { sha256: SOURCES.primary.sha256, byteLength: SOURCES.primary.byteLength, originalPath: path.relative(ROOT, primaryResolved.absolute), derivedSha256: primaryProof.derivedSha256, derivedByteLength: primaryProof.derivedByteLength, exportedPages: primaryProof.exportedPages },
-        continuation: { sha256: SOURCES.continuation.sha256, byteLength: SOURCES.continuation.byteLength, originalPath: path.relative(ROOT, continuationResolved.absolute), derivedSha256: continuationProof.derivedSha256, derivedByteLength: continuationProof.derivedByteLength, exportedPages: continuationProof.exportedPages, trailingPage: continuationProof.trailingPage }
+        continuation: { sha256: SOURCES.continuation.sha256, byteLength: SOURCES.continuation.byteLength, originalPath: path.relative(ROOT, continuationResolved.absolute), derivedSha256: continuationProof.derivedSha256, derivedByteLength: continuationProof.derivedByteLength, exportedPages: continuationProof.exportedPages, trailingPage: continuationProof.trailingPage },
+        proposedOrder: { sha256: SOURCES.proposedOrder.sha256, byteLength: SOURCES.proposedOrder.byteLength, originalPath: path.relative(ROOT, orderResolved.absolute), sourcePage: orderProof.sourcePage, sourcePageCount: orderProof.pageCount, sourcePageTextSha256: orderProof.sourcePageTextSha256 }
       },
       packets: rendered.map((item) => ({ fixture: item.fixture, sha256: item.sha256, byteLength: item.byteLength, pageCount: item.pageCount })),
       counters: counters.counters,
