@@ -12,6 +12,7 @@ const FAMILY = makeAgencyGuidanceFamily({
   legalName: "Connecticut request for physical destruction of already-erased records under C.G.S. Sec. 54-142a(g)(1)",
   routeName: "asking the Superior Court clerk that holds an already-erased record to cause its physical destruction after the statutory three-year period",
   title: "Connecticut Erased-Record Destruction Request Preparation Guide",
+  participantPresentation: "direct",
   statutes: ["C.G.S. Sec. 54-142a(g)(1)", "C.G.S. Sec. 54-142a(j)"],
   compositionSources: [
     "data/record-clearing/legal-design-intake/CT.memo.json",
@@ -42,15 +43,15 @@ const FAMILY = makeAgencyGuidanceFamily({
       heading: "Route boundary",
       paragraphs: [
         "This route is only for the actual physical destruction of records already erased under Section 54-142a. It does not erase a record, does not seal a record, and is not a court petition. Connecticut's word for the underlying relief is erasure; physical destruction goes further.",
-        "The receiving office is the Superior Court clerk at the court location holding the erased records. The clerk acts on the accused's request, but the committed review does not confirm an accepted statewide form, written-request format, or destination."
+        "The receiving office is the Superior Court clerk at the court location holding the erased records. The clerk acts on the accused's request. Before acting, ask that clerk to confirm the accepted request format and destination."
       ]
     },
     {
       heading: "Timing and safety",
       paragraphs: [
-        "Physical destruction may not occur until three years have elapsed from the date of final disposition. If fewer than three years have elapsed, wait; the committed review identifies no outside deadline by which the later request must be made.",
+        "Physical destruction may not occur until three years have elapsed from the date of final disposition. If fewer than three years have elapsed, wait. Ask the clerk whether any other timing rule applies to the later request.",
         "Confirm first that the record was actually erased, the final-disposition date, and the court location holding the erased record. Ask that clerk's office exactly how it wants a request under Section 54-142a(g)(1) made, and follow that answer.",
-        "Stop for counsel if the record was not erased, the clerk requires something the committed review does not establish, or any immigration issue exists. Section 54-142a(j) warns that erasure can make it harder to prove a disposition to federal authorities; destruction goes further."
+        "Stop for counsel if the record was not erased, the clerk requires a format, document, or step you cannot confirm, or any immigration issue exists. Section 54-142a(j) warns that erasure can make it harder to prove a disposition to federal authorities; destruction goes further."
       ]
     }
   ],

@@ -2,7 +2,7 @@
 
 This packet is prepared for **Connecticut request for physical destruction of already-erased records under C.G.S. Sec. 54-142a(g)(1)**.
 
-The PDF is a preparation guide composed from the committed legal records listed in the source receipt. It is not an official agency form, is not filed with a court, and does not replace any current form, portal, address, fee, or submission rule the receiving agency requires.
+The PDF is a preparation guide. It is not an official agency form, is not filed with a court, and does not replace any current form, portal, address, fee, or submission rule the receiving agency requires.
 
 The platform wrote only the identity and contact facts it holds: full legal name, date of birth, mailing address, telephone, and email. It did not sign, date, notarize, or make a legal election for you.
 
@@ -24,5 +24,3 @@ Stop and obtain counsel if the record is not erased, the clerk asks for somethin
 ## Protected items left blank
 
 Your signature, signature date, any notarization, and every agency-, clerk-, prosecutor-, court-, or hearing-officer field remain blank. Complete them only on the receiving authority's own instrument and only when that authority directs.
-
-Route: obligation:track-only:CT:ct-destruction-request

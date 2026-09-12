@@ -12,6 +12,7 @@ const FAMILY = makeAgencyGuidanceFamily({
   legalName: "Connecticut provisional pardon or certificate of employability application to the Board of Pardons and Paroles",
   routeName: "using the Board's own application for relief from employment or licensing barriers without erasure",
   title: "Connecticut Provisional-Pardon Preparation Guide",
+  participantPresentation: "direct",
   statutes: ["Connecticut provisional pardon and certificate of employability process"],
   compositionSources: [
     "data/record-clearing/legal-design-intake/CT.memo.json",
@@ -51,11 +52,11 @@ const FAMILY = makeAgencyGuidanceFamily({
     {
       heading: "Use the Board's own process",
       paragraphs: [
-        "No stable participant application document has been identified that LegalEase could lawfully generate and submit. An intake worksheet is not the legal application. Obtain and use the Board's own current application and instructions, and sign that application personally.",
+        "Obtain and use the Board's own current application and instructions, and sign that application personally. This preparation guide and any intake worksheet are not the legal application and must not be submitted in its place.",
         "If you are currently on probation with more than 90 days of supervision remaining, apply through your probation officer. If your supervision status or remaining period is unknown, verify it with your supervising officer before choosing the destination. Exactly 90 days does not satisfy this more-than-90-day handoff; it does not itself establish eligibility.",
         "For the Board application route, use https://epardonportal.ct.gov/portal . Check current Certificate of Employability eligibility at https://portal.ct.gov/bopp/pardon-division/pardon/coe-eligibility .",
         "Check the current required-document list at https://portal.ct.gov/bopp/pardon-division/pardon/coe-documents-required-for-certificate-of-employability . The Background Investigation Authorization is a supporting document, not the whole application. Take it unsigned to a notary and sign in the notary's presence. If under supervision, the supervising officer must complete the required questionnaire; do not complete the officer's answers yourself.",
-        "The committed review did not verify the eligibility rules, timing, fee, or notice rules. Confirm all of them from the Board's own current materials before applying; no figure is supplied here.",
+        "Confirm the current eligibility, timing, fee, and notice rules from the Board's own materials before applying; no unverified figure is supplied here.",
         "Gather the complete record and every conviction creating the employment or licensing barrier. Stop for counsel if the Board sets a hearing or any immigration issue exists."
       ]
     }

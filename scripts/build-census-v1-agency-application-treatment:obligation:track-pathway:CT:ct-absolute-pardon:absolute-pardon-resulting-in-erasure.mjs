@@ -12,6 +12,7 @@ const FAMILY = makeAgencyGuidanceFamily({
   legalName: "Connecticut absolute-pardon application resulting in erasure under C.G.S. Sec. 54-142a(d)",
   routeName: "using the Board of Pardons and Paroles' own absolute-pardon application on the pathway where the pardon results in erasure",
   title: "Connecticut Absolute-Pardon and Erasure Preparation Guide",
+  participantPresentation: "direct",
   statutes: ["C.G.S. Sec. 54-142a(d)", "C.G.S. Secs. 54-130a to 54-130e"],
   compositionSources: [
     "data/record-clearing/legal-design-intake/CT.memo.json",
@@ -49,10 +50,10 @@ const FAMILY = makeAgencyGuidanceFamily({
     {
       heading: "Erasure consequence and process boundary",
       paragraphs: [
-        "The committed record states that an absolute pardon received on or after October 1, 1974 results in erasure without a petition under Section 54-142a(d). The pre-October 1, 1974 branch requires a separate Superior Court petition and is not this route.",
-        "No stable participant application document has been identified that LegalEase could lawfully generate and submit. Use the Board's own current ePardon application and instructions and sign there personally; this guide is not a substitute.",
+        "An absolute pardon received on or after October 1, 1974 results in erasure without a petition under Section 54-142a(d). The pre-October 1, 1974 branch requires a separate Superior Court petition and is not this route.",
+        "Use the Board's own current ePardon application and instructions and sign there personally; this preparation guide is not an application and cannot be submitted as a substitute.",
         "Apply through https://epardonportal.ct.gov/portal . The Board's current Absolute Pardon instructions are at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions . Follow the portal's current application and attachment steps; this guide opens no application and supplies no Board decision.",
-        "The waiting-period figures and no-fee claim in the committed review are unverified, so this guide quotes none. Confirm eligibility, timing, fee, and hearing mechanics from the Board's current rules. Stop for counsel if a hearing is set or any immigration issue exists."
+        "This guide does not state a waiting period or fee. Confirm current eligibility, timing, fee, and hearing mechanics from the Board's current rules. Stop for counsel if a hearing is set or any immigration issue exists."
       ]
     }
   ],

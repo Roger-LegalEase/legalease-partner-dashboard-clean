@@ -31,8 +31,10 @@ function run(index, mutate = () => {}, alterBytes = null, alterHistorical = null
   const review = structuredClone(synthetic); mutate(review, review.families[index]);
   const reviewBytes = Buffer.from(JSON.stringify(review));
   return assessConnecticutReviewedGuidance(root, CT_GUIDANCE_FAMILIES[index], {
+    preferHistoricalCandidate: true,
     reviewPublicationCommit: CT_GUIDANCE_CANDIDATE,
-    readBytes: relative => relative === CT_GUIDANCE_REVIEW ? reviewBytes : alterBytes?.(relative) ?? read(relative),
+    readBytes: relative => relative === CT_GUIDANCE_REVIEW ? reviewBytes
+      : alterBytes?.(relative) ?? actualHistorical(CT_GUIDANCE_CANDIDATE, relative),
     readHistorical: (commit, relative) => relative === CT_GUIDANCE_REVIEW ? alterHistorical?.(commit, relative) ?? reviewBytes
       : alterHistorical?.(commit, relative) ?? (commit === CT_GUIDANCE_CANDIDATE ? read(relative) :
         // Destruction's source-only equivalence is checked against the real original Git blob.

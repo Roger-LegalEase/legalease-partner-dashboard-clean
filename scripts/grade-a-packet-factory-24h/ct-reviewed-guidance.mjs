@@ -7,6 +7,8 @@ import { CT_DESTRUCTION, CT_PROVISIONAL, CT_ABSOLUTE } from './treatment-reconci
 
 export const CT_GUIDANCE_REVIEW = 'data/rcap-grade-a/terminal-treatment-verification/SESSION10_CT_GUIDANCE_ROWS.json';
 export const CT_GUIDANCE_CANDIDATE = '52785b1c8d82aae25a92ed03788d037a0c96933d';
+export const CT_CURRENT_GUIDANCE_CANDIDATE = 'data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate.json';
+export const CT_CURRENT_GUIDANCE_REVIEW = 'data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-guidance-review.json';
 export const CT_GUIDANCE_FAMILIES = Object.freeze([CT_DESTRUCTION, CT_PROVISIONAL, CT_ABSOLUTE]);
 const EVIDENCE = 'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-guidance';
 const SHARED = [
@@ -113,7 +115,7 @@ export function connecticutGuidanceReviewInventory(root, familyId, overrides = {
 // invoking/source identity, original review and precise failed finding must
 // match. This consumes independent static guidance evidence, not packet or
 // runtime authority. The reviewer states how the existing criterion is met.
-export function assessConnecticutReviewedGuidance(root, familyId, overrides = {}) {
+function assessHistoricalConnecticutReviewedGuidance(root, familyId, overrides = {}) {
   if (!CT_GUIDANCE_FAMILIES.includes(familyId)) return null;
   try {
     const { read, historical } = readers(root, overrides);
@@ -191,6 +193,143 @@ export function assessConnecticutReviewedGuidance(root, familyId, overrides = {}
   } catch (error) {
     return { eligible: false, familyId, reviewPath: CT_GUIDANCE_REVIEW, reason: error.message };
   }
+}
+
+// A changed participant artifact cannot inherit SESSION10's acceptance. The
+// implementation lane publishes a versioned, exact-byte candidate; a separate
+// reviewer later publishes CT_CURRENT_GUIDANCE_REVIEW after the current raster.
+// Until that independent record exists and binds every candidate input/output,
+// this path deliberately remains ineligible.
+export function connecticutCurrentGuidanceCandidate(root, familyId, overrides = {}) {
+  assert(CT_GUIDANCE_FAMILIES.includes(familyId), 'Unsupported CT guidance family');
+  const { read } = readers(root, overrides);
+  const candidateBytes = read(CT_CURRENT_GUIDANCE_CANDIDATE);
+  const candidate = JSON.parse(candidateBytes);
+  assert.equal(candidate.schemaVersion, 'rcap-ct-current-guidance-candidate/v1');
+  assert.equal(candidate.candidateVersion, 'CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20260912-V1');
+  assert.deepEqual(candidate.families.map(row => row.familyId).sort(), [...CT_GUIDANCE_FAMILIES].sort());
+  assert.equal(candidate.historicalTrustAnchor.candidateCommit, CT_GUIDANCE_CANDIDATE);
+  assert.equal(candidate.historicalTrustAnchor.reviewPath, CT_GUIDANCE_REVIEW);
+  const historicalReview = read(CT_GUIDANCE_REVIEW);
+  assert.equal(sha(historicalReview), candidate.historicalTrustAnchor.reviewSha256);
+  const failureBytes = read(candidate.currentFailure.path);
+  assert.equal(sha(failureBytes), candidate.currentFailure.sha256);
+  const failure = JSON.parse(failureBytes);
+  const row = candidate.families.find(item => item.familyId === familyId);
+  assert(row, 'Current CT candidate omits the family');
+  assert.deepEqual(row.routeKeys, [familyId.replace(/^agency-application-treatment:/, '')]);
+  const failureRows = failure.rows.filter(item => item.familyId === familyId);
+  assert.equal(failureRows.length, 1, 'Current CT failure row missing or duplicated');
+  assert.equal(ctGuidanceObjectSha256(failureRows[0]), row.currentFailureRowSha256);
+  assert.deepEqual(failureRows[0].failedObligationNames, ['ARTIFACTS']);
+  assert.equal(row.currentFailedFindings.length, 1);
+  assert.equal(row.currentFailedFindings[0].obligation, 'ARTIFACTS');
+  assert.equal(row.currentFailedFindings[0].priorFindingSha256,
+    ctGuidanceObjectSha256(failureRows[0].proofObligations.ARTIFACTS));
+  for (const pin of [...row.reviewedInputs, ...row.reviewedOutputs, ...row.sourceBindings]) {
+    safePath(pin.path); const bytes = read(pin.path);
+    assert.equal(sha(bytes), pin.sha256, `Current CT candidate identity changed: ${pin.path}`);
+    assert.equal(bytes.length, pin.byteLength);
+  }
+  return {
+    ...row,
+    candidatePath: CT_CURRENT_GUIDANCE_CANDIDATE,
+    candidateSha256: sha(candidateBytes),
+    candidateVersion: candidate.candidateVersion,
+    priorSelectedReturn: ctGuidanceVerdictIdentity(failureRows[0]),
+    originalIndependentReview: {
+      path: candidate.currentFailure.path,
+      lane: failureRows[0].lane,
+      verifiedAtBase: failureRows[0].verifiedAtBase,
+      recordedAtCandidate: candidate.candidateVersion,
+      rowSha256: row.currentFailureRowSha256
+    },
+    priorFindings: row.currentFailedFindings
+  };
+}
+
+function assessCurrentConnecticutReviewedGuidance(root, familyId, overrides = {}) {
+  try {
+    const { read, historical } = readers(root, overrides);
+    const inventory = connecticutCurrentGuidanceCandidate(root, familyId, overrides);
+    const reviewBytes = read(CT_CURRENT_GUIDANCE_REVIEW);
+    const review = JSON.parse(reviewBytes);
+    assert.equal(review.schemaVersion, 'rcap-ct-current-guidance-independent-review/v1');
+    assert.equal(review.reviewedCandidate.path, inventory.candidatePath);
+    assert.equal(review.reviewedCandidate.sha256, inventory.candidateSha256);
+    assert.equal(review.reviewedCandidate.candidateVersion, inventory.candidateVersion);
+    for (const flag of ['authoredByADifferentLaneThanTheCandidate', 'editsNothingItVerifies', 'createsNoApproval', 'opensNoRoute']) {
+      assert.equal(review[flag], true);
+    }
+    assert(typeof review.reviewer === 'string' && review.reviewer.trim());
+    assert(typeof review.lane === 'string' && review.lane.trim());
+    assert(/^[0-9a-f]{40}$/.test(review.verifiedAtBase));
+    const publication = overrides.reviewPublicationCommit
+      ?? execFileSync('git', ['log', '-1', '--format=%H', '--', CT_CURRENT_GUIDANCE_REVIEW], { cwd: root, encoding: 'utf8' }).trim();
+    assert(/^[0-9a-f]{40}$/.test(publication));
+    assert.equal(sha(historical(publication, CT_CURRENT_GUIDANCE_REVIEW)), sha(reviewBytes), 'Current CT review publication changed');
+    assert.equal(sha(historical(review.verifiedAtBase, inventory.candidatePath)), inventory.candidateSha256,
+      'Current CT candidate was not published at the reviewed base');
+    const rows = review.families?.filter(row => row.familyId === familyId) ?? [];
+    assert.equal(rows.length, 1, 'Current independent review must name the exact CT family once');
+    const row = rows[0];
+    assert.equal(row.verdict, 'TREATMENT_CORRECT');
+    assert.equal(row.recordedTreatment, 'GUIDANCE_READY');
+    assert.equal(row.scope, 'current_static_family_treatment');
+    for (const flag of ['runtimeInstalled', 'participantApplicationDischarged', 'commercialAuthority']) assert.equal(row[flag], false);
+    assert.deepEqual(row.routeKeys, inventory.routeKeys);
+    assert.deepEqual(row.reviewedInputs, inventory.reviewedInputs);
+    assert.deepEqual(row.reviewedOutputs, inventory.reviewedOutputs);
+    assert.deepEqual(row.sourceBindings, inventory.sourceBindings);
+    assert.deepEqual(row.failedObligations ?? [], []);
+    assert.deepEqual(row.unmeasuredObligations ?? [], []);
+    const closed = row.closedCurrentFindings ?? [];
+    assert.equal(closed.length, inventory.currentFailedFindings.length);
+    for (const prior of inventory.currentFailedFindings) {
+      const closure = closed.find(item => item.obligation === prior.obligation);
+      assert(closure && closure.priorFindingSha256 === prior.priorFindingSha256);
+      assert.equal(closure.result, 'CLOSED_BY_INDEPENDENT_DELTA');
+      assert(typeof closure.finding === 'string' && closure.finding.trim().length > 40);
+      assert(Array.isArray(closure.evidence) && closure.evidence.length > 0);
+    }
+    const checked = [];
+    const allPins = [
+      { path: inventory.candidatePath, sha256: inventory.candidateSha256, byteLength: read(inventory.candidatePath).length },
+      ...inventory.reviewedInputs, ...inventory.reviewedOutputs, ...inventory.sourceBindings,
+      ...(row.reviewedEvidence ?? []), ...closed.flatMap(item => item.evidence)
+    ];
+    for (const item of allPins) {
+      safePath(item.path); assert(isDigest(item.sha256));
+      const bytes = read(item.path);
+      assert.equal(sha(bytes), item.sha256, `Current CT reviewed identity changed: ${item.path}`);
+      assert.equal(sha(historical(review.verifiedAtBase, item.path)), item.sha256,
+        `Current CT evidence differs from reviewed candidate: ${item.path}`);
+      if (item.byteLength !== undefined) assert.equal(bytes.length, item.byteLength);
+      checked.push({ path: item.path, sha256: item.sha256, publishedAt: review.verifiedAtBase });
+    }
+    return {
+      eligible: true, familyId, terminalTreatment: 'GUIDANCE_READY', reviewPath: CT_CURRENT_GUIDANCE_REVIEW,
+      reviewSha256: sha(reviewBytes), reviewer: review.reviewer, lane: review.lane,
+      reviewedAtBase: review.verifiedAtBase, reviewPublicationCommit: publication,
+      originalIndependentReview: inventory.originalIndependentReview,
+      closedPriorFindings: closed,
+      priorSelectedReturn: inventory.priorSelectedReturn,
+      closedCurrentVerdicts: row.closedCurrentVerdicts ?? [], closedSourceHolds: row.closedSourceHolds ?? [],
+      reviewedOutputs: inventory.reviewedOutputs, checked,
+      runtimeInstalled: false, participantApplicationDischarged: false, commercialAuthority: false
+    };
+  } catch (error) {
+    return { eligible: false, familyId, reviewPath: CT_CURRENT_GUIDANCE_REVIEW, reason: error.message };
+  }
+}
+
+export function assessConnecticutReviewedGuidance(root, familyId, overrides = {}) {
+  if (!CT_GUIDANCE_FAMILIES.includes(familyId)) return null;
+  const currentExists = overrides.preferHistoricalCandidate === true ? false
+    : overrides.preferCurrentCandidate === true || fs.existsSync(path.join(root, CT_CURRENT_GUIDANCE_CANDIDATE));
+  return currentExists
+    ? assessCurrentConnecticutReviewedGuidance(root, familyId, overrides)
+    : assessHistoricalConnecticutReviewedGuidance(root, familyId, overrides);
 }
 
 // Separate from treatment-reconciliation.mjs so CT admission cannot change the

@@ -40,10 +40,11 @@ export function makeAgencyGuidanceFamily(config) {
   let family;
 
   const composedBody = (_componentId, facts) => {
+    const directParticipantCopy = config.participantPresentation === "direct";
     const lines = [
       config.title.toUpperCase(),
       "",
-      `ROUTE: ${config.routeKey}`,
+      ...(directParticipantCopy ? [] : [`ROUTE: ${config.routeKey}`]),
       "THIS IS AN AGENCY-APPLICATION PREPARATION GUIDE, NOT AN OFFICIAL FORM AND NOT A COURT FILING.",
       "",
       `Prepared for: ${facts["participant.full_legal_name"]}`,
@@ -63,7 +64,7 @@ export function makeAgencyGuidanceFamily(config) {
     lines.push("PROTECTED ITEMS", "");
     lines.push("Do not sign or date this guide. Sign and date only the agency's own request or application, in the manner that agency directs.");
     lines.push("No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide.");
-    lines.push("", `Route: ${config.routeKey}`);
+    if (!directParticipantCopy) lines.push("", `Route: ${config.routeKey}`);
     return lines.join("\n");
   };
 
@@ -86,12 +87,15 @@ export function makeAgencyGuidanceFamily(config) {
   };
 
   const participantInstructions = (requiredBeforeFiling) => {
+    const directParticipantCopy = config.participantPresentation === "direct";
     const out = [
       `# Before you act - ${config.routeName}`,
       "",
       `This packet is prepared for **${config.legalName}**.`,
       "",
-      "The PDF is a preparation guide composed from the committed legal records listed in the source receipt. It is not an official agency form, is not filed with a court, and does not replace any current form, portal, address, fee, or submission rule the receiving agency requires.",
+      directParticipantCopy
+        ? "The PDF is a preparation guide. It is not an official agency form, is not filed with a court, and does not replace any current form, portal, address, fee, or submission rule the receiving agency requires."
+        : "The PDF is a preparation guide composed from the committed legal records listed in the source receipt. It is not an official agency form, is not filed with a court, and does not replace any current form, portal, address, fee, or submission rule the receiving agency requires.",
       "",
       "The platform wrote only the identity and contact facts it holds: full legal name, date of birth, mailing address, telephone, and email. It did not sign, date, notarize, or make a legal election for you.",
       "",
@@ -112,10 +116,9 @@ export function makeAgencyGuidanceFamily(config) {
       "## Protected items left blank",
       "",
       "Your signature, signature date, any notarization, and every agency-, clerk-, prosecutor-, court-, or hearing-officer field remain blank. Complete them only on the receiving authority's own instrument and only when that authority directs.",
-      "",
-      `Route: ${config.routeKey}`,
       ""
     );
+    if (!directParticipantCopy) out.push(`Route: ${config.routeKey}`, "");
     return out.join("\n");
   };
 
