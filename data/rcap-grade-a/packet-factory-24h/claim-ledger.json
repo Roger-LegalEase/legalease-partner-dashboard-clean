@@ -9150,10 +9150,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX120",
+      "lane": "FIXRI1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:30.711Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
     },
     {
@@ -10148,9 +10148,9 @@
       "operation": "rapid-repair",
       "lane": "FIXVA1",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Bounded Virginia repair committed ccbfcb2a4 with native return; ready for independent semantic preflight, no acceptance implied."
+      "released": true,
+      "releasedAt": "2026-09-12T05:32:41.112Z",
+      "releaseReason": "Virginia follow-up committed: all five independent gate bypasses repaired, current PDFs unchanged, native return ready for independent semantic reread."
     },
     {
       "subjectType": "packet-family",
@@ -15583,7 +15583,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "7ee7b411c56dfab7532f9f38768e7b02948ff99c7eaab2b4e5dfd22f8cdc7251",
+  "claimsDigest": "f3b3c7661e08e165aff3492601be22b3e158ca66f8c851de9f3763fd2188df87",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42204,6 +42204,19 @@
       "returnEvidence": {
         "namedReturnCommit": "b6b13436611b90083d6fa3088fc5f5007a6d7f5e"
       }
+    },
+    {
+      "lane": "FIXVA1",
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-12T05:32:41.112Z",
+      "reason": "Virginia follow-up committed: all five independent gate bypasses repaired, current PDFs unchanged, native return ready for independent semantic reread.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "namedReturnCommit": "60a06ac2ba144e4c1766db22a267bd59985a2bd7"
+      }
     }
   ],
   "reissues": [
@@ -64552,6 +64565,17 @@
       "previouslyReleasedAt": "2026-09-09T11:48:42.386Z",
       "transferredAt": "2026-09-12T05:20:47.505Z",
       "reason": "Prior verifier explicitly returned and released. Bounded independent reread of current guidance against governing treatment reconciliation; recover exact successful original raster evidence, no implementation or approval implied."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX120",
+      "toLane": "FIXRI1",
+      "previouslyReleasedAt": "2026-09-10T11:23:30.711Z",
+      "transferredAt": "2026-09-12T05:32:41.250Z",
+      "reason": "Prior local worker explicitly returned/released with no process holding grant. Sole implementation worker follows completed Virginia repair; repair full current independent RI semantic FAIL7687e219e without reopening source acquisition or untrue oath selections."
     }
   ],
   "grants": [

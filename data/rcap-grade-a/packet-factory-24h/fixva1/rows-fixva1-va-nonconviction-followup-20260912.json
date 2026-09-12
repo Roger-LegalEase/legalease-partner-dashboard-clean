@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-native-verifier-returns/v1",
+  "preparedOn": "2026-09-12",
+  "laneId": "FIXVA1",
+  "rows": [
+    {
+      "itemId": "va_exp_nonconviction-set",
+      "familyId": "va_exp_nonconviction-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "claim": {
+        "workerId": "FIXVA1",
+        "grantSetId": "7ee7b411c56dfab7"
+      },
+      "obligationsRepaired": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-va-nonconviction-current-semantic-fail-20260912.json",
+        "sha256": "cea47eef6f83934532c2087d241cde4b00ff1a6a1eea03fda55c6694329991a5",
+        "preserved": true
+      },
+      "actualDefect": "Reduced records with no subsection-D statute could fall through the ordinary dismissal branch, including false original-target and alternative-conviction cases; the input status demanded a deferred statute for an ordinary nondeferred dismissal; four participant headings exposed internal component IDs.",
+      "correction": "The reduced enum now fails closed before ordinary dismissal unless the exact 19.2-298.02(D) branch is established, and the existing original-target/all-party-agreement evidence gates still apply. Ordinary nondeferred dismissals no longer request a nonexistent deferred statute. Participant headings retain only human document titles.",
+      "packetBytesChanged": false,
+      "packetByteChangeScope": {
+        "changed": [],
+        "unchanged": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ]
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "f593a8dec288bc29cbe8ad67d236c2beb986538fc6b12faa97bfaa7178dcb9e6",
+            "byteLength": 133842,
+            "pageCount": 9,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 9,
+              "sourceSha256": "f593a8dec288bc29cbe8ad67d236c2beb986538fc6b12faa97bfaa7178dcb9e6"
+            },
+            "currentSha256": "f593a8dec288bc29cbe8ad67d236c2beb986538fc6b12faa97bfaa7178dcb9e6",
+            "matchesFrozenPreFollowup": true
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "9348f1069237ddba5adaf20a6a5b272c55196e3b1365f52ef74c792101c137e1",
+            "byteLength": 134080,
+            "pageCount": 9,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 9,
+              "sourceSha256": "9348f1069237ddba5adaf20a6a5b272c55196e3b1365f52ef74c792101c137e1"
+            },
+            "currentSha256": "9348f1069237ddba5adaf20a6a5b272c55196e3b1365f52ef74c792101c137e1",
+            "matchesFrozenPreFollowup": true
+          }
+        ],
+        "documentsDigest": "3965d6500805237e0c785a5bb828de7a28a6e1c9ec2915d87417001387b353d3"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "27/27 basis gate cases pass, including rejection of all five prior reduced fallthroughs; focused tests and current completeness pass. Visual defects remain unmeasured here pending independent review/raster.",
+      "rasterState": "BUILT_RASTER_PENDING_INDEPENDENT_PRE_RASTER_REVIEW",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/current-byte-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/focused-check-results.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "grantsNothing": "The historical FAIL is preserved; implementation grants no independent or visual acceptance and opens no route."
+    }
+  ]
+}
