@@ -47,7 +47,7 @@ function adoptedInputs() {
       adopted += 1;
     }
   }
-  assert.equal(adopted, 19, "the real NJ map must expose every closed-registry field");
+  assert.equal(adopted, 32, "the real NJ map must expose every closed-registry field");
   const disclosures = NJ_PARTICIPANT_LATER_COMPLETION_FIELDS.map((field) => {
     const expected = NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY[field];
     return `- **${expected.trigger}.** Complete this participant task when the source event occurs (source field: \`${field}\`)`;
@@ -63,11 +63,11 @@ function adoptedInputs() {
   };
 }
 
-function audit(inputs, familyId = FAMILY_ID) {
+function audit(inputs, familyId = FAMILY_ID, directory = FAMILY_DIR) {
   const prior = process.env.MASTER_LIBRARY_SOURCE_DIR;
   process.env.MASTER_LIBRARY_SOURCE_DIR = SOURCE_ROOT;
   try {
-    return auditPreparedInputs(FAMILY_DIR, familyId, inputs);
+    return auditPreparedInputs(directory, familyId, inputs);
   } finally {
     if (prior === undefined) delete process.env.MASTER_LIBRARY_SOURCE_DIR;
     else process.env.MASTER_LIBRARY_SOURCE_DIR = prior;
@@ -80,16 +80,36 @@ function expectFieldFailure(result, field, counter, pattern) {
   assert.match(finding.basis ?? finding.why ?? "", pattern);
 }
 
-test("the real reader verifies all 19 participant later-completion declarations from source", () => {
+test("the real reader verifies all 32 participant later-completion declarations from source", () => {
   const result = audit(adoptedInputs());
   assert.equal(result.result, "PASS_COMPLETE");
-  assert.equal(result.totals.blanksByDisposition.PARTICIPANT_LATER_COMPLETION, 19);
-  assert.equal(result.sourceStageMeasurements?.length, 19);
+  assert.equal(result.totals.blanksByDisposition.PARTICIPANT_LATER_COMPLETION, 32);
+  assert.equal(result.sourceStageMeasurements?.length, 32);
   assert.deepEqual(result.sourceStageMeasurements.map((row) => row.field).sort(),
     [...NJ_PARTICIPANT_LATER_COMPLETION_FIELDS].sort());
   assert.ok(result.sourceStageMeasurements.every((row) => row.actor === "participant"));
   assert.ok(result.sourceStageMeasurements.every((row) => row.sourceByteLength === 1924831));
   assert.ok(result.sourceStageMeasurements.every((row) => row.widgetCount >= 1));
+});
+
+test("conviction guides bind readable stages to normalized printed labels and reject missing disclosure", () => {
+  for (const familyId of ["nj_disorderly_persons-set", "nj_indictable_conviction-set"]) {
+    const directory = `data/rcap-all50/overlays/census-v1/nj/${familyId.replaceAll("_", "-")}--official-pdf-fill`;
+    const read = (file) => JSON.parse(fs.readFileSync(path.join(ROOT, directory, file), "utf8"));
+    const inputs = {
+      fieldMap: read("production-field-map.json"), actualWrites: read("reports/actual-writes.json"),
+      rendered: read("reports/rendered-artifacts.json"), receipt: read("source-receipt.json"),
+      census: read("field-census.census-v1.json"), approval: read("approval-request.json"),
+      instructions: fs.readFileSync(path.join(ROOT, directory, "participant-instructions.md"), "utf8"),
+    };
+    const good = audit(inputs, familyId, directory);
+    assert.equal(good.counters.unclassifiedBlanks, 0, familyId);
+    assert.equal(good.counters.knownRequiredFieldsMissing, 0, familyId);
+    const label = rowOf(inputs.fieldMap, "CoverLtrEDt").effectiveLabel;
+    inputs.instructions = inputs.instructions.split(/\r?\n/).filter((line) => !line.includes(label)).join("\n");
+    expectFieldFailure(audit(inputs, familyId, directory), "CoverLtrEDt", "unclassifiedBlanks",
+      /missing its printed-label and participant-facing stage disclosure/);
+  }
 });
 
 test("source-stage claims fail closed for forged identity, stage, actor and family", async (t) => {
@@ -120,7 +140,7 @@ test("receipt, census, widgets and participant disclosure are independently requ
     ["missing exact disclosure", (inputs) => {
       inputs.instructions = inputs.instructions.split(/\r?\n/)
         .filter((line) => !line.includes("source field: `CoverLtrEDt`")).join("\n");
-    }, /missing its exact source-field and stage disclosure/],
+    }, /missing its printed-label and participant-facing stage disclosure/],
   ];
   for (const [name, mutate, pattern] of cases) await t.test(name, () => {
     const inputs = adoptedInputs(); mutate(inputs);

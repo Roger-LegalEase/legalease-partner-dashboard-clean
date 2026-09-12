@@ -20,6 +20,27 @@ const NOTICE_AND_ORDER_ADDRESSES = Object.freeze([
   ...NOTICE_ADDRESSES,
   { page: 41, text: "fill in the addresses for each applicable agency that you want to notify that your record has been expunged" },
 ]);
+const ORDER_ADDRESSES = Object.freeze([
+  { page: 41, text: "fill in the addresses for each applicable agency that you want to notify that your record has been expunged" },
+]);
+
+export const NJ_PARTICIPANT_LATER_COMPLETION_STAGE_LABELS = Object.freeze({
+  AFTER_COURT_ASSIGNMENT_COPY_TO_LATER_FORMS: "After the court assigns the docket number",
+  AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING: "After the court returns the signed Order for Hearing",
+  AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT:
+    "After the initial filing, when preparing service for each applicable recipient",
+  NOTICE_OF_HEARING_MAILING: "When mailing the Notice of Hearing package",
+  AFTER_NOTICE_SERVICE_PROOF: "After notice is mailed, when preparing proof",
+  POST_ORDER_SERVICE: "After the Expungement Order is signed, when mailing the order",
+  POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY:
+    "After the Expungement Order is signed, when addressing each applicable agency notice",
+});
+
+export function njParticipantLaterCompletionStageLabel(trigger) {
+  const label = NJ_PARTICIPANT_LATER_COMPLETION_STAGE_LABELS[trigger];
+  if (!label) throw new Error(`No NJ participant-facing later-completion label for ${trigger}`);
+  return label;
+}
 
 const entry = (trigger, instructionEvidence, completesAfterService) => Object.freeze({
   actor: "participant",
@@ -48,8 +69,17 @@ export const NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY = Object.freeze({
   SheriffAddr2: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_ADDRESSES, false),
   ProsCntyName: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
   ProsAddrStr: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  ProsAddr2: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
   PoliceAddrStr: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
   PoliceAddr2: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  ProbCntyName: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  ProbAddrStr: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  ProbAddr2: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  Prob2CntyName: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  Prob2AddrStr: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  Prob2Addr2: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  MuniCrtsAddrStr: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
+  MuniCrtsAddr2: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
   SuperintendentAddrStr: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
   SuperintendentAddr2: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
   WardenAddrStr: entry("AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT", NOTICE_AND_ORDER_ADDRESSES, false),
@@ -69,6 +99,10 @@ export const NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY = Object.freeze({
   FamDivAddr2: entry("POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY", [
     { page: 41, text: "fill in the addresses for each applicable agency that you want to notify that your record has been expunged" },
   ], true),
+  IdbCnty: entry("POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY", ORDER_ADDRESSES, true),
+  IdbAddrStr: entry("POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY", ORDER_ADDRESSES, true),
+  FamDivName: entry("POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY", ORDER_ADDRESSES, true),
+  FamDivAddrStr: entry("POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY", ORDER_ADDRESSES, true),
 });
 
 export const NJ_PARTICIPANT_LATER_COMPLETION_FIELDS = Object.freeze(
@@ -208,11 +242,20 @@ export function verifyParticipantLaterCompletionSourceStage({
     }
   }
 
-  const disclosedAtStage = String(instructions ?? "").split(/\r?\n/)
-    .some((line) => line.includes(`source field: \`${blank.id}\``)
-      && line.includes(expected.trigger));
+  const participantStage = njParticipantLaterCompletionStageLabel(expected.trigger);
+  const effectiveLabel = blank.label ?? blank.effectiveLabel ?? blank.declared?.effectiveLabel;
+  const plainDisclosure = typeof effectiveLabel === "string" && effectiveLabel.trim() !== ""
+    && String(instructions ?? "").split(/\r?\n/)
+      .some((line) => line.includes(participantStage)
+        && norm(line).includes(norm(effectiveLabel)));
+  // Retain the previously accepted ordinance disclosure format; the two
+  // conviction packets must disclose the printed label and readable stage.
+  const legacyOrdinanceDisclosure = familyId === NJ_ORDINANCE_FAMILY
+    && String(instructions ?? "").split(/\r?\n/).some((line) =>
+      line.includes(`source field: \`${blank.id}\``) && line.includes(expected.trigger));
+  const disclosedAtStage = plainDisclosure || legacyOrdinanceDisclosure;
   if (!disclosedAtStage) {
-    return fail("participant later-completion is missing its exact source-field and stage disclosure");
+    return fail("participant later-completion is missing its printed-label and participant-facing stage disclosure");
   }
 
   const proof = {

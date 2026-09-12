@@ -31,6 +31,7 @@ import { readOutputGlyphs } from "./rcap-official-forms/rcap-output-glyph-readin
 import {
   NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY,
   njParticipantLaterCompletionSourceStage,
+  njParticipantLaterCompletionStageLabel,
 } from "./rcap-packet-completeness/nj-participant-later-completion.mjs";
 import {
   assertNjCn10557ConvictionPacketAuthorized,
@@ -335,13 +336,20 @@ function familyFacts(config, boundary = false) {
     const disorderly = config.familyId === "nj_disorderly_persons-set";
     assert.ok(disorderly || config.familyId === "nj_indictable_conviction-set",
       `${config.familyId}: NJ conviction fixture profile is outside its two-family scope`);
+    const charge = disorderly
+      ? (boundary ? "Disorderly conduct, synthetic boundary example" : "Disorderly conduct")
+      : (boundary ? "Third-degree theft, synthetic boundary example" : "Third-degree theft");
+    const statute = disorderly ? "2C:33-2" : "2C:20-3";
     Object.assign(facts, {
       "fixture.synthetic": true,
       "fixture.synthetic_notice": "All names and case facts in this fixture are synthetic review examples.",
-      "matter.charge": disorderly
-        ? (boundary ? "Disorderly conduct, synthetic boundary example" : "Disorderly conduct")
-        : (boundary ? "Third-degree theft, synthetic boundary example" : "Third-degree theft"),
-      "matter.statute_citation": disorderly ? "2C:33-2" : "2C:20-3",
+      "matter.charge": charge,
+      "matter.statute_citation": statute,
+      "matter.original_arrest_charge": charge,
+      "matter.original_arrest_statute": statute,
+      "matter.original_arrest_municipality": boundary ? "Jersey City" : "Newark",
+      "matter.original_case_number": boundary ? "FO-2026-900123" : "24-CR-001234",
+      "matter.county": boundary ? "Hudson" : "Essex",
       "matter.final_sentence": "10 days jail; 12 months probation; $250 fine",
       "matter.court": disorderly ? "Municipal" : "Superior",
       "matter.conviction_date": "2020-04-17",
@@ -349,12 +357,16 @@ function familyFacts(config, boundary = false) {
       "matter.incarceration_completion_date": "2020-04-27",
       "matter.probation_completion_date": "2021-04-17",
       "matter.fines_paid_date": "2021-05-03",
+      "matter.parole_applicable": false,
       "nj.disposition_kind": "convicted_or_adjudicated_delinquent",
       "nj.pending_charges": false,
       "nj.prior_criminal_conviction_expungement": false,
       "nj.includes_title_39_matter": false,
       "nj.marijuana_regrading_applies": false,
       "nj.early_pathway_compelling_circumstances": false,
+      "nj.outstanding_financial_assessment": false,
+      "nj.prosecutor_objection": false,
+      "nj.nonexpungeable_offense": false,
       "participant.has_legal_name_change": false,
       ...(disorderly ? {
         "nj.any_crime_conviction": false,
@@ -370,6 +382,18 @@ function familyFacts(config, boundary = false) {
         "nj.drug_crime_compelling_circumstances_route": false,
       }),
     });
+    // The classifier and every rendered occurrence read the same single-matter
+    // record. Keeping the seed's generic charges array here previously printed
+    // a controlled-substance offense beside the route's disorderly/theft facts.
+    facts["matter.charges"] = [{
+      case_number: facts["matter.case_number"],
+      citation_number: facts["matter.citation_number"],
+      charge, statute_citation: statute,
+      arrest_date: facts["matter.arrest_date"],
+      offense_date: facts["matter.offense_date"],
+      conviction_date: facts["matter.conviction_date"],
+      disposition_date: facts["matter.conviction_date"],
+    }];
     const classification = assertNjCn10557ConvictionPacketAuthorized(config.familyId, facts);
     facts["nj.cn10557_item_d_branch"] = classification.branch;
   }
@@ -524,10 +548,13 @@ const SHARED_EXACT_FACT_ALLOWLIST = Object.freeze({
     DefAddr3: "participant.state_zip",
     ExpungeCntyName: "matter.county",
     DefBirthDt: "participant.date_of_birth",
-    origCaseNums: "matter.case_number",
-    arrestOff1: "matter.charge",
+    origCaseNums: "matter.original_case_number",
+    arrestOff1: "matter.original_arrest_charge",
+    arrestStatute: "matter.original_arrest_statute",
+    arrestMuni: "matter.original_arrest_municipality",
     arrest1Dt: "matter.arrest_date",
-    arrest1CaseNum: "matter.case_number",
+    arrest1Statute: "matter.original_arrest_statute",
+    arrest1CaseNum: "matter.original_case_number",
   }),
   "NY-CPL-160.59-APPLICATION": Object.freeze({
     Date_of_Birth: "participant.date_of_birth",
@@ -971,6 +998,14 @@ const NJ_PETITION_ARREST_DATE_BLANK = Object.freeze({
   page: 18,
   printed: "“I was arrested/taken into custody on (date) ______” — Petition for Expungement (Form A), paragraph 1",
   whatGoesThere: "The arrest or custody date verified from the court record. Complete this printed line by hand with the rest of paragraph 1. The proposed-order row on page 31 is also withheld when its statutory citation is missing, so it is not a printed source for this date. A blank or incomplete paragraph is not ready to sign or file.",
+});
+const NJ_CN10557_FLAT_ARREST_DATE_ANCHOR = Object.freeze({
+  label: "Arrest Date — I was arrested/taken into custody on (date)",
+  page: 18,
+  factId: "matter.arrest_date",
+  requiresExplicitMapping: true,
+  writeBox: { x: 291, y: 392, width: 61, height: 13 },
+  fontSize: 9,
 });
 const NJ_PETITION_ARREST_ROW = Object.freeze({
   row: "Petition for Expungement (Form A), paragraph 1, delivered page 18",
@@ -2104,7 +2139,7 @@ Object.assign(FAMILY, {
       familyId: "nj_disorderly_persons-set",
       fixtureProfile: "nj_cn10557_conviction_facts",
       participantRouteName: "New Jersey disorderly-persons conviction petition",
-      unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
+      unwidgetedParticipantBlanks: [],
       registryGuidance: {
         trackId: "nj_disorderly_persons",
         sections: [
@@ -2167,11 +2202,14 @@ Object.assign(FAMILY, {
     },
     {
       fitTextPerWidget: true,
-      deny: ["ExpungeCntyName"],
+      deny: [],
       selectionAuthorization: "NJ_CN10557_FACT_DERIVED_CONVICTION_SELECTIONS",
       exactDropdownValues: {
         guiltyTimeType: ["jail time", "prison time", "incarceration time"],
+        ExpungeCntyName: ["Essex", "Hudson"],
       },
+      standardFontFallbackByField: { arrest1CaseNum: StandardFonts.TimesRoman },
+      evaluateDeclaredMinimumSize: true,
       declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
       repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
@@ -2184,7 +2222,7 @@ Object.assign(FAMILY, {
       familyId: "nj_indictable_conviction-set",
       fixtureProfile: "nj_cn10557_conviction_facts",
       participantRouteName: "New Jersey indictable-conviction petition",
-      unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
+      unwidgetedParticipantBlanks: [],
       /*
        * FIX76, COMPONENT_SET. The route declares nine components. This family
        * bound the four official-form ones and delivered none of the five
@@ -2246,7 +2284,10 @@ Object.assign(FAMILY, {
       selectionAuthorization: "NJ_CN10557_FACT_DERIVED_CONVICTION_SELECTIONS",
       exactDropdownValues: {
         guiltyTimeType: ["jail time", "prison time", "incarceration time"],
+        ExpungeCntyName: ["Essex", "Hudson"],
       },
+      standardFontFallbackByField: { arrest1CaseNum: StandardFonts.TimesRoman },
+      evaluateDeclaredMinimumSize: true,
       declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
       repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
@@ -3376,6 +3417,34 @@ const NJ_ORDINANCE_COMPLETE_SEMANTIC_DECLARATIONS = Object.freeze({
   ...NJ_ORDINANCE_MAILING_DECLARATIONS,
   ...NJ_ORDINANCE_SPECIAL_ELECTION_DECLARATIONS,
 });
+const NJ_CN10557_INACTIVE_SINGLE_MATTER_FIELDS = Object.freeze([
+  ...Object.keys(NJ_ORDINANCE_HISTORY_LABELS).filter((field) => !field.startsWith("guilty")),
+  "arrestOff2", "contOwe", "oweDocket", "oweAmt", "cnt", "contArrestDt",
+  "contOffense1", "contOffense2", "contStatute", "contArrestMuni", "contOrigNums",
+  "contDsmissOff2", "contGuilty", "contGuiltyDt", "contGuiltyOff1",
+  "contGuiltyOff2", "contGuiltyStatute", "contGuiltyFinal1", "contGuiltyFinal2",
+  "contGuiltyCrt", "contGuiltyTimeType", "contGuiltyDocCmpltDt",
+  "contGuiltyProbDt", "contGuiltyFineDt", "fjDocketNums",
+  "arrest2Dt", "arrest2Statute", "arrest2CaseNum", "arrest3Dt", "arrest3Statute",
+  "arrest3CaseNum", "arrest4Dt", "arrest4Statute", "arrest4CaseNum",
+  "arrest5Dt", "arrest5Statute", "arrest5CaseNum",
+]);
+const NJ_CN10557_EXTRA_LATER_FIELDS = Object.freeze([
+  "ProsAddr2", "ProbCntyName", "ProbAddrStr", "ProbAddr2", "Prob2CntyName",
+  "Prob2AddrStr", "Prob2Addr2", "MuniCrtsAddrStr", "MuniCrtsAddr2", "IdbCnty",
+  "IdbAddrStr", "FamDivName", "FamDivAddrStr",
+]);
+const njInactiveCurrentRecord = (field, effectiveLabel) => Object.freeze({
+  refusalClass: null,
+  blankTreatment: "NOT_APPLICABLE_ON_THIS_ROUTE",
+  completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+  requiredBeforeFiling: false, routeDetermined: false,
+  conditionalCaseHistory: true,
+  caseApplicability: "INACTIVE_IN_CURRENT_COMPLETE_SYNTHETIC_RECORD",
+  routeConditionThatMakesItInapplicable: "The complete fixture record contains one conviction and no additional arrest, dismissal, acquittal, diversion, debt, juvenile or continuation record for this conditional occurrence.",
+  effectiveLabel,
+  reason: `This conditional ${field} occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it.`,
+});
 for (const familyId of FIX175_NJ_FAMILY_IDS) {
   const doc = FAMILY[familyId].documents[0];
   doc.captions = {
@@ -3406,6 +3475,33 @@ for (const familyId of FIX175_NJ_FAMILY_IDS) {
     });
     doc.declarations = {
       ...doc.declarations,
+      ...Object.fromEntries(NJ_CN10557_INACTIVE_SINGLE_MATTER_FIELDS.map((field) => [field,
+        njInactiveCurrentRecord(field, doc.captions[field]?.caption ?? doc.captions[field]
+          ?? NJ_ORDINANCE_HISTORY_LABELS[field] ?? `Conditional ${field} field`)])),
+      ...NJ_ORDINANCE_LATER_COURT_COPY_DECLARATIONS,
+      ...NJ_ORDINANCE_RECIPIENT_DECLARATIONS,
+      ...NJ_ORDINANCE_MAILING_DECLARATIONS,
+      ...NJ_ORDINANCE_SPECIAL_ELECTION_DECLARATIONS,
+      ...Object.fromEntries(NJ_CN10557_EXTRA_LATER_FIELDS.map((field) => [field,
+        njParticipantLaterCompletion(field,
+          doc.captions[field]?.caption ?? doc.captions[field] ?? `Later participant field ${field}`,
+          "complete this neutral recipient detail only at the stage printed in the guide, using the actual agency address or court-returned information; never invent it or make it an initial-filing prerequisite.",
+          { conditionalRecipient: true }, familyId)])),
+      DefSbiNum: {
+        refusalClass: "participant_sworn_narrative_or_legal_election", blankTreatment: null,
+        requiredBeforeFiling: false, routeDetermined: false, participantOwnedCompletion: true,
+        effectiveLabel: NJ_FIX175_EXTRA_PRINTED_CAPTIONS.DefSbiNum,
+        reason: "The order says SBI number if available. Verify and add it when available; do not make an unavailable identifier a filing prerequisite and do not invent one.",
+      },
+      AdminMuniCts: njParticipantRequirement(doc.captions.AdminMuniCts,
+        "identify each applicable Municipal Court administrator named in the proposed order from the complete case record; do not infer a recipient from the route alone.",
+        { conditionalRecipient: true, requiredBeforeInitialFiling: true }),
+      sigNoticeDt: {
+        refusalClass: "signature_or_date_participant_completion", blankTreatment: null,
+        requiredBeforeFiling: false, routeDetermined: false,
+        effectiveLabel: doc.captions.sigNoticeDt,
+        reason: "The participant dates the Proof of Notice only when signing it after notice has actually been mailed; the packet never predates this signature block.",
+      },
       seek5yrs: routeNotApplicable(
         NJ_FIX175_EXTRA_PRINTED_CAPTIONS.seek5yrs,
         "The verified fixture fact nj.early_pathway_compelling_circumstances is false.",
@@ -3439,6 +3535,28 @@ for (const familyId of FIX175_NJ_FAMILY_IDS) {
         "(city, state, zip code) under County Identification Bureau and under County Family Division — Cover Letter – Notice Expungement Granted (Form G), page 42; the pinned form reuses one field for both recipient blocks",
         "after the signed order, enter the city/state/ZIP separately for each applicable County Identification Bureau and County Family Division recipient. The source aliases those two occurrences, so do not type one digital field value into both; print and complete each applicable recipient line from the actual agency address.",
         { aliasedOccurrencesRequireSeparateHandCompletion: true }, familyId),
+    };
+    // Shared declaration tables are authored for nj_ordinance-set. Rebind every
+    // source-stage claim to this exact family so the closed reader verifies the
+    // same source field without accepting another family's serialized claim.
+    doc.declarations = Object.fromEntries(Object.entries(doc.declarations).map(([field, declaration]) => {
+      if (declaration?.blankTreatment !== "PARTICIPANT_LATER_COMPLETION") {
+        return [field, declaration];
+      }
+      const expected = NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY[field];
+      assert.ok(expected, `${familyId}/${field}: participant-later field lacks closed source evidence`);
+      return [field, Object.freeze({
+        ...declaration,
+        completionStage: expected.trigger,
+        completesAfterService: expected.completesAfterService,
+        sourceStage: njParticipantLaterCompletionSourceStage(field, familyId),
+      })];
+    }));
+    doc.captions = {
+      ...doc.captions,
+      ...Object.fromEntries(Object.entries(doc.declarations)
+        .filter(([, declaration]) => declaration?.effectiveLabel)
+        .map(([field, declaration]) => [field, declaration.effectiveLabel])),
     };
   }
 }
@@ -3557,8 +3675,12 @@ async function selfTestFix88() {
   assert.deepEqual(extractTextItems(withheldPdf.getPages()[18]), []);
   for (const id of ["nj_disorderly_persons-set", "nj_indictable_conviction-set", "nj_ordinance-set"]) {
     const config = FAMILY[id].documents[0];
-    assert.deepEqual(FAMILY[id].unwidgetedParticipantBlanks, [NJ_PETITION_ARREST_DATE_BLANK]);
-    assert.ok(participantInstructions(FAMILY[id], []).includes("date verified from the court record"));
+    if (id === "nj_ordinance-set") {
+      assert.deepEqual(FAMILY[id].unwidgetedParticipantBlanks, [NJ_PETITION_ARREST_DATE_BLANK]);
+    } else {
+      assert.deepEqual(FAMILY[id].unwidgetedParticipantBlanks, []);
+      assert.ok(participantInstructions(FAMILY[id], []).includes("arrest date"));
+    }
     assert.ok(config.repeatingRowGroups.includes(NJ_PETITION_CONVICTION_ROW));
     const mappings = factMappingsForDocument(config);
     const installed = new Map();
@@ -3595,10 +3717,8 @@ async function selfTest(familyId) {
   const disorderlyDocument = FAMILY["nj_disorderly_persons-set"].documents[0];
   assert.equal(disorderlyDocument.fitTextPerWidget, true,
     "NJ disorderly-persons repeated widgets must be fitted independently");
-  assert.ok(disorderlyDocument.deny.includes("ExpungeCntyName"),
-    "NJ disorderly-persons must not substitute residence county for filing county");
-  assert.equal(factMappingsForDocument(disorderlyDocument).ExpungeCntyName, undefined,
-    "NJ disorderly-persons ExpungeCntyName must remain REQUIRED_BEFORE_FILING");
+  assert.ok(!disorderlyDocument.deny.includes("ExpungeCntyName"));
+  assert.equal(factMappingsForDocument(disorderlyDocument).ExpungeCntyName, "matter.county");
   assert.deepEqual(routeSelectionProtection({
     name: "syntheticOrderControl",
     widgets: [{ page: 3, rect: { x: 10, y: 10, width: 12, height: 12 } }],
@@ -4277,7 +4397,8 @@ function mergeReport(fieldReport, selectionReport = null) {
   return {
     fieldFinalizer: fieldReport,
     selectionFinalizer: selectionReport,
-    written: fieldReport.written,
+    written: [...fieldReport.written,
+      ...(selectionReport?.written ?? []).filter((row) => row.field)],
     refused: fieldReport.refused,
     selections: selectionReport?.selections ?? [],
     selectionsRefused: selectionReport?.selectionsRefused ?? [],
@@ -4334,7 +4455,8 @@ function placeExactFactAppearance({ pdf, page, font, widget, fit }) {
   return { renderedAs: "form_xobject_appearance", xObject: key.toString() };
 }
 
-async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report }) {
+async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report,
+  standardFontFallbackByField = {} }) {
   const alreadyWritten = new Set(report.written.map((row) => row.field));
   const duplicateLosers = new Set(report.refused
     .filter((row) => row.reason === "duplicate_widget_for_one_slot")
@@ -4345,6 +4467,7 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
 
   const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   const font = await pdf.embedFont(StandardFonts.Helvetica);
+  const fallbackFonts = new Map();
   const written = [];
   const refused = [];
   for (const mapping of pending) {
@@ -4373,13 +4496,26 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
     if (mapping.writableWidgetIndexes) {
       assert.ok(writableWidgets.length, `${mapping.field}: exact mapping has no writable widget`);
     }
-    const fittedWidgets = writableWidgets.map((widget) => ({
-      widget,
-      fit: fitTextToWidget({
+    const fallbackName = standardFontFallbackByField[mapping.field] ?? null;
+    assert.ok(fallbackName === null || fallbackName === StandardFonts.TimesRoman,
+      `${mapping.field}: unsupported exact-overlay standard font fallback`);
+    if (fallbackName && !fallbackFonts.has(fallbackName)) {
+      fallbackFonts.set(fallbackName, await pdf.embedFont(fallbackName));
+    }
+    const fittedWidgets = writableWidgets.map((widget) => {
+      const primaryFit = fitTextToWidget({
         font, text: String(value), rect: widget.rect, multiline: field.multiline === true,
         maxFontSize: 9, minFontSize: 6,
-      }),
-    }));
+      });
+      const fallbackFont = fallbackName ? fallbackFonts.get(fallbackName) : null;
+      const fallbackFit = primaryFit.outcome === "refused" && fallbackFont
+        ? fitTextToWidget({ font: fallbackFont, text: String(value), rect: widget.rect,
+          multiline: field.multiline === true, maxFontSize: 9, minFontSize: 6 }) : null;
+      const usesFallback = Boolean(fallbackFit && fallbackFit.outcome !== "refused");
+      return { widget, fit: usesFallback ? fallbackFit : primaryFit,
+        selectedFont: usesFallback ? fallbackFont : font,
+        fallbackName: usesFallback ? fallbackName : null };
+    });
     const failed = fittedWidgets.find(({ fit }) => fit.outcome === "refused");
     if (failed) {
       refused.push({ field: mapping.field, factId: mapping.factId,
@@ -4387,12 +4523,14 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
       continue;
     }
     const widgetWrites = [];
-    for (const { widget, fit } of fittedWidgets) {
+    for (const { widget, fit, selectedFont, fallbackName: usedFallback } of fittedWidgets) {
       const page = pdf.getPages()[widget.page - 1];
       assert.ok(page, `${mapping.field}: measured widget page ${widget.page} is absent`);
-      const appearance = placeExactFactAppearance({ pdf, page, font, widget, fit });
+      const appearance = placeExactFactAppearance({ pdf, page, font: selectedFont, widget, fit });
       widgetWrites.push({ widgetIndex: widget.widgetIndex, page: widget.page,
-        rect: widget.rect, fontSize: fit.fontSize, outcome: fit.outcome, ...appearance });
+        rect: widget.rect, fontSize: fit.fontSize, outcome: fit.outcome,
+        font: usedFallback ?? StandardFonts.Helvetica,
+        standardFontFallbackUsed: Boolean(usedFallback), ...appearance });
     }
     written.push({ field: mapping.field, factId: mapping.factId,
       kind: "exact_measured_fact_overlay", widgets: widgetWrites,
@@ -4550,6 +4688,7 @@ async function finalizeEastOfficialForm(options) {
     const overlaid = await overlayExactMappedFacts({
       bytes: result.bytes, census: officialOptions.census,
       fieldMap: exactFieldMap, facts: officialOptions.facts, report: result.report,
+      standardFontFallbackByField: officialOptions.standardFontFallbackByField ?? {},
     });
     // The neutralized, not-yet-flattened bytes. Conditions 2 and 3 of the
     // protected-field rule are about the state that goes INTO the flatten, so
@@ -5825,17 +5964,6 @@ function sourceFieldList(rows) {
     .join("\n");
 }
 
-const NJ_ORDINANCE_STAGE_LABELS = Object.freeze({
-  AFTER_COURT_ASSIGNMENT_COPY_TO_LATER_FORMS: "After the court assigns the docket number",
-  AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING: "After the court returns the signed Order for Hearing",
-  AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT: "After the initial filing, when preparing service for each applicable recipient",
-  NOTICE_OF_HEARING_MAILING: "When mailing the Notice of Hearing package",
-  AFTER_NOTICE_SERVICE_PROOF: "After notice is mailed, when preparing proof",
-  POST_ORDER_SERVICE: "After the Expungement Order is signed, when mailing the order",
-  POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY:
-    "After the Expungement Order is signed, when addressing each applicable agency notice",
-});
-
 function njOrdinanceStageSections(config, fieldMaps) {
   if (config.njOrdinanceCompleteSemantics !== true
     && config.fixtureProfile !== "nj_cn10557_conviction_facts") return null;
@@ -5852,8 +5980,7 @@ function njOrdinanceStageSections(config, fieldMaps) {
     return `- ${field.effectiveLabel ?? field.field} (source field: \`${field.field}\`) — ${explanation}`;
   }).join("\n");
   const laterRows = later.map((field) => {
-    const stageLabel = NJ_ORDINANCE_STAGE_LABELS[field.completionStage];
-    assert.ok(stageLabel, `${field.field}: no participant-facing label for ${field.completionStage}`);
+    const stageLabel = njParticipantLaterCompletionStageLabel(field.completionStage);
     return `- **${stageLabel}.** ${field.effectiveLabel ?? field.field} `
       + `(source field: \`${field.field}\`) <!-- source-stage: ${field.completionStage} --> — `
       + field.reason.replace(/^PARTICIPANT_LATER_COMPLETION:\s*/i, "");
@@ -5868,7 +5995,53 @@ function njOrdinanceStageSections(config, fieldMaps) {
   };
 }
 
+function njCn10557ConvictionParticipantInstructions(config, fieldMaps, heldButNotPrinted) {
+  const fields = fieldMaps.flatMap((document) => document.fields);
+  const initial = fields.filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING"
+    && field.requiredBeforeInitialFiling !== false);
+  const later = fields.filter((field) => field.blankTreatment === "PARTICIPANT_LATER_COMPLETION"
+    || field.participantOwnedCompletion === true && field.requiredBeforeFiling === false);
+  const labels = (rows) => [...new Set(rows.map((row) => row.effectiveLabel).filter(Boolean))]
+    .map((label) => `- ${label}`).join("\n");
+  const laterLabels = (rows) => [...new Map(rows.filter((row) => row.effectiveLabel)
+    .map((row) => [`${row.completionStage}|${row.effectiveLabel}`, row])).values()]
+    .map((row) => row.completionStage
+      ? `- **${njParticipantLaterCompletionStageLabel(row.completionStage)}.** ${row.effectiveLabel}`
+      : `- ${row.effectiveLabel}`)
+    .join("\n");
+  const isDisorderly = config.familyId === "nj_disorderly_persons-set";
+  const countRule = isDisorderly
+    ? "This route permits no crime conviction and uses the verified disorderly/petty-disorderly count. The ordinary branch allows no more than five; a larger record reaches a same-day or closely-related branch only when the underlying disposition records establish that relationship."
+    : "The ordinary branch requires one indictable conviction and no more than three disorderly or petty-disorderly convictions. A single-judgment, same-day, or closely-related branch is used only when the underlying disposition records establish that relationship.";
+  return `# Participant instructions — ${config.participantRouteName}\n\n`
+    + `These are synthetic review packets. Replace the examples with the participant's verified SBI history and complete court records before filing.\n\n`
+    + `## Facts that control this packet route\n\n`
+    + `Supply one coherent record for each matter: arrest date, original charge and statute, arrest municipality, every case identifier, disposition, conviction date, final sentence, custody type and completion, probation completion, parole applicability and completion, and the date every court-ordered financial assessment was paid. Also answer pending-charge, prior expungement or sealing in any state or federal court, Title 39, marijuana regrading, later conviction, prosecutor-objection, and excluded-offense questions with explicit true or false answers. Missing, malformed, inconsistent, or unknown answers stop generation.\n\n`
+    + `The ordinary waiting period is measured from the latest of conviction, payment of financial assessments, completion of probation or parole, or release from incarceration. The rules engine validates the dates and requires five years to have passed before it marks item (d).\n\n`
+    + `## How the offence count works on this route\n\n${countRule}\n\n`
+    + `The participant supplies factual records. The rules engine classifies the supported branch; the participant is not asked to choose a statute.\n\n`
+    + `## Records to gather before you file\n\n`
+    + `Obtain the complete fingerprint-based SBI history and the court record for every arrest, charge and prosecution, including matters for which relief is not requested. Resolve missing case identifiers, dispositions, payment records, and any disagreement between the SBI and court records before signing.\n\n`
+    + `## Exact facts still required before filing\n\n`
+    + `${labels(initial) || "- No unresolved initial-filing fact is identified in this synthetic fixture."}\n\n`
+    + `Conditional continuation, additional-arrest, additional-conviction, debt, juvenile, and transfer rows stay blank when the verified complete record says they do not apply. If another record exists, complete the whole applicable row; never add a partial row or reuse one answer in differently labelled blanks.\n\n`
+    + `## What it costs to file\n\nThere is no court filing fee for this petition. The State Police may charge separately for the SBI history; that records cost is not a court filing fee.\n\n`
+    + `## Where to file, and the e-filing route\n\nFile in the Superior Court, Criminal Division, in a county supported by the kit: the county where the participant resides or a county where a conviction was entered. Use either the eCourts Expungement System or the Judiciary kit forms, following the court's current instructions.\n\n`
+    + `## Who must be served, and what an objection is\n\nAfter filing, follow the kit's instructions for notice to every applicable prosecutor, court, arresting agency, probation office, State Police unit, jail or juvenile institution. Use actual agency names and addresses. Complete mailing dates and proof only after mailing occurs. If a prosecutor objects, stop and obtain legal help.\n\n`
+    + `## Participant tasks after the initial filing\n\n${laterLabels(later) || "- Complete court-returned and service facts only when that later stage occurs."}\n\n`
+    + `On Form G, page 42, enter the city, state and ZIP separately for each applicable County Identification Bureau and County Family Division. The electronic form links these two address lines: do not type one digital field value into both. Print and complete each applicable line using that agency's actual address after the order is signed.\n\n`
+    + `The clerk assigns the expungement docket number and the court sets hearing and order dates. Copy those facts to later forms only after they exist. The participant signs and verifies participant statements; the judge, clerk, prosecutor, and notary complete only their own blocks.\n\n`
+    + `## After the order is signed\n\nServe the certified signed order on each applicable record-holding agency and keep proof. Do not predate post-order letters or service records.\n\n`
+    + `## Transcripts you are not required to produce\n\nFollow the Judiciary kit's transcript instruction; do not add a transcript merely to replace missing court-record facts.\n\n`
+    + `## What this packet does not decide about your eligibility\n\nThe rules engine checks only the encoded ordinary timing, count, and stop predicates. It does not decide disputed classification, same-day or closely-related arguments unsupported by records, compelling circumstances, immigration consequences, or an objection.\n\n`
+    + `## Where self-help ends\n\nStop before signing or filing for a pending case, unpaid or disputed assessment, prosecutor objection, prior criminal-conviction expungement/sealing/similar relief, Title 39 matter, marijuana regrading, potentially excluded offense, incomplete identifiers, disputed count or relationship, out-of-state equivalency issue, compelling-circumstances pathway, or source-alias conflict.\n`
+    + heldButNotPrintedSection(heldButNotPrinted);
+}
+
 function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
+  if (config.fixtureProfile === "nj_cn10557_conviction_facts") {
+    return njCn10557ConvictionParticipantInstructions(config, fieldMaps, heldButNotPrinted);
+  }
   // FIX84: the guided template dropped this list on the floor. The host already
   // computed every value it held and could not print; the guided path took two
   // arguments and threw the third away, so on pa_790_nonconviction-set eight
@@ -6293,7 +6466,7 @@ async function buildOfficialUnsafe(familyId, config) {
     /* FIX13's wrapper once promoted the two continuation lines to mandatory.
      * The printed source makes them conditional on needing more room. Do not
      * let that stale installed classification outrank the current declaration. */
-    for (const field of ["guiltyOff2", "guiltyFinal2"]) {
+    for (const field of Object.keys(config.documents[0].declarations ?? {})) {
       installed.delete(`NJ-CN-10557::${field}`);
     }
   }
@@ -6320,6 +6493,17 @@ async function buildOfficialUnsafe(familyId, config) {
     const sourceRow = resolveSource(doc);
     const census = await censusDocument(doc, sourceRow.bytes);
     const map = fieldMapFor(doc, census, installed);
+    if (config.fixtureProfile === "nj_cn10557_conviction_facts") {
+      map.push({
+        field: "p18FlatArrestDate", decision: "candidate_write",
+        factId: "matter.arrest_date", requiredBeforeFiling: false,
+        identity: "NJ-CN-10557 flat petition arrest date",
+        effectiveLabel: NJ_CN10557_FLAT_ARREST_DATE_ANCHOR.label,
+        widgets: [{ widgetIndex: 0, page: 18,
+          rect: { ...NJ_CN10557_FLAT_ARREST_DATE_ANCHOR.writeBox } }],
+        mappingBasis: "measured printed page-18 date line; flat source has no AcroForm widget",
+      });
+    }
     rows.push({ doc, sourceRow, census });
     fieldMaps.push({ documentId: doc.documentId, documentRole: doc.documentRole,
       generatedParticipantArtifact: doc.render !== false, fields: map });
@@ -6347,17 +6531,19 @@ async function buildOfficialUnsafe(familyId, config) {
       const finalizeWith = (explicitMappings, withheld) => finalizeEastOfficialForm({
         sourceBytes: sourceRow.bytes, expectedSha256: doc.sha256,
         census: census.fields, facts, explicitMappings,
-        exactFieldMap: withheld.size === 0 ? map
+        exactFieldMap: (withheld.size === 0 ? map
           : map.map((row) => (withheld.has(row.field)
             ? { ...row, decision: "refuse", factId: null, blankTreatment: "REQUIRED_BEFORE_FILING",
               requiredBeforeFiling: true, reason: "WITHHELD_FOR_ROW_INTEGRITY: another cell of this row could not be printed." }
-            : row)),
+            : row))).filter((row) => row.field !== "p18FlatArrestDate"),
         unwritableFields: [...unwritableFields, ...[...withheld].map((field) => ({
           field, class: "required_before_filing",
         }))],
         documentTextLines: census.documentTextLines,
         alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
         fitTextPerWidget: doc.fitTextPerWidget === true,
+        standardFontFallbackByField: doc.standardFontFallbackByField ?? {},
+        evaluateDeclaredMinimumSize: doc.evaluateDeclaredMinimumSize === true,
         honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true,
         preserveUnwrittenSelectionBackgrounds: doc.preserveUnwrittenSelectionBackgrounds === true,
         normalizeMissingAppearanceSubtype: doc.normalizeMissingAppearanceSubtype === true,
@@ -6401,9 +6587,12 @@ async function buildOfficialUnsafe(familyId, config) {
       const withdrawnElections = new Set(withholdings.elections.map((row) => row.control));
       const selections = measuredSelections(doc, census)
         .filter((selection) => !withdrawnElections.has(selection.label));
-      if (selections.length) {
+      const flatAnchors = config.fixtureProfile === "nj_cn10557_conviction_facts"
+        ? [NJ_CN10557_FLAT_ARREST_DATE_ANCHOR] : [];
+      if (selections.length || flatAnchors.length) {
         const selected = await finalizeFlatOverlay({
-          sourceBytes: bytes, expectedSha256: sha256(bytes), anchors: [], selections,
+          sourceBytes: bytes, expectedSha256: sha256(bytes), anchors: flatAnchors, selections,
+          explicitMappings: { [NJ_CN10557_FLAT_ARREST_DATE_ANCHOR.label]: "matter.arrest_date" },
           facts, documentTextLines: census.documentTextLines,
           title: `${config.jurisdiction} ${doc.documentId} ${fixture} measured-route-selection artifact`,
         });
@@ -6828,6 +7017,9 @@ async function buildOfficialUnsafe(familyId, config) {
        * OUTPUT_GLYPH_READING_FAMILIES, which is measurably different from zero. */
       ...(row.outputGlyphReading ? row.outputGlyphReading : {}),
       written: row.report.written, refused: row.report.refused,
+      ...(row.report.selectionFinalizer?.written?.length ? {
+        flatAnchorWrites: row.report.selectionFinalizer.written,
+      } : {}),
       // Refusals of facts the platform HOLDS, separated out of the 160-odd
       // refusals of fields nothing was ever going to be written into. Without
       // this separation a dropped charge and a dropped docket number are
@@ -7236,7 +7428,9 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     }
     const documentCensus = census.documents.find((row) => row.documentId === documentMap.documentId);
     assert.ok(documentCensus, `${documentMap.documentId}: census absent`);
-    assert.equal(documentMap.fields.length, documentCensus.fields.length, `${documentMap.documentId}: incomplete field dispositions`);
+    const expectedFieldMapRows = documentCensus.fields.length
+      + (config.fixtureProfile === "nj_cn10557_conviction_facts" ? 1 : 0);
+    assert.equal(documentMap.fields.length, expectedFieldMapRows, `${documentMap.documentId}: incomplete field dispositions`);
     assert.equal(new Set(documentMap.fields.map((row) => row.field)).size, documentMap.fields.length,
       `${documentMap.documentId}: duplicate field-map disposition`);
   }
@@ -7343,6 +7537,17 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     // The stored map is its own carry-forward source: a carried row carries to
     // itself, so the drift check still proves the stored map is reproducible.
     const liveMap = fieldMapFor(doc, liveCensus, installedRefusalRows(map));
+    if (config.fixtureProfile === "nj_cn10557_conviction_facts") {
+      liveMap.push({
+        field: "p18FlatArrestDate", decision: "candidate_write",
+        factId: "matter.arrest_date", requiredBeforeFiling: false,
+        identity: "NJ-CN-10557 flat petition arrest date",
+        effectiveLabel: NJ_CN10557_FLAT_ARREST_DATE_ANCHOR.label,
+        widgets: [{ widgetIndex: 0, page: 18,
+          rect: { ...NJ_CN10557_FLAT_ARREST_DATE_ANCHOR.writeBox } }],
+        mappingBasis: "measured printed page-18 date line; flat source has no AcroForm widget",
+      });
+    }
     assert.deepEqual(liveCensus.fields, documentCensus.fields,
       `${artifact.file}: live first-hand census drift`);
     assert.deepEqual(liveMap, documentMap.fields,
@@ -7374,17 +7579,19 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     const finalizeWith = (explicitMappings, withheld) => finalizeEastOfficialForm({
       sourceBytes: sourceRow.bytes, expectedSha256: doc.sha256,
       census: liveCensus.fields, facts: fixtureFacts, explicitMappings,
-      exactFieldMap: withheld.size === 0 ? liveMap
+      exactFieldMap: (withheld.size === 0 ? liveMap
         : liveMap.map((row) => (withheld.has(row.field)
           ? { ...row, decision: "refuse", factId: null, blankTreatment: "REQUIRED_BEFORE_FILING",
             requiredBeforeFiling: true, reason: "WITHHELD_FOR_ROW_INTEGRITY: another cell of this row could not be printed." }
-          : row)),
+          : row))).filter((row) => row.field !== "p18FlatArrestDate"),
       unwritableFields: [...unwritableFields, ...[...withheld].map((field) => ({
         field, class: "required_before_filing",
       }))],
       documentTextLines: liveCensus.documentTextLines,
       alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
       fitTextPerWidget: doc.fitTextPerWidget === true,
+      standardFontFallbackByField: doc.standardFontFallbackByField ?? {},
+      evaluateDeclaredMinimumSize: doc.evaluateDeclaredMinimumSize === true,
       honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true,
       preserveUnwrittenSelectionBackgrounds: doc.preserveUnwrittenSelectionBackgrounds === true,
         normalizeMissingAppearanceSubtype: doc.normalizeMissingAppearanceSubtype === true,
@@ -7414,9 +7621,12 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
       recomputedWithholdings.elections.map((row) => row.control));
     const selections = measuredSelections(doc, liveCensus)
       .filter((selection) => !recomputedWithdrawnElections.has(selection.label));
-    if (selections.length) {
+    const flatAnchors = config.fixtureProfile === "nj_cn10557_conviction_facts"
+      ? [NJ_CN10557_FLAT_ARREST_DATE_ANCHOR] : [];
+    if (selections.length || flatAnchors.length) {
       const selected = await finalizeFlatOverlay({
-        sourceBytes: recomputedBytes, expectedSha256: sha256(recomputedBytes), anchors: [], selections,
+        sourceBytes: recomputedBytes, expectedSha256: sha256(recomputedBytes), anchors: flatAnchors, selections,
+        explicitMappings: { [NJ_CN10557_FLAT_ARREST_DATE_ANCHOR.label]: "matter.arrest_date" },
         facts: fixtureFacts, documentTextLines: liveCensus.documentTextLines,
         title: `${config.jurisdiction} ${doc.documentId} ${artifact.fixture} measured-route-selection artifact`,
       });

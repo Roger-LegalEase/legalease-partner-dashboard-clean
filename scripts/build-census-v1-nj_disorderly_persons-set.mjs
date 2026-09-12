@@ -363,13 +363,14 @@ function assertCurrentFactDerivedRepair() {
   const writes = readJson(`${out}/reports/actual-writes.json`);
   const routeFacts = readJson(`${out}/reports/route-fact-classification.json`);
 
-  for (const field of ["ExpungeCntyName", "arrest3Statute", "arrest4Statute", "arrest5Statute"]) {
+  for (const field of ["arrest3Statute", "arrest4Statute", "arrest5Statute"]) {
     const row = fields.find((candidate) => candidate.field === field);
     assert.ok(row, `${field}: field-map row is absent`);
     assert.equal(row.decision, "refuse");
-    assert.equal(row.blankTreatment, "REQUIRED_BEFORE_FILING");
-    assert.equal(row.requiredBeforeFiling, true);
+    assert.equal(row.blankTreatment, "NOT_APPLICABLE_ON_THIS_ROUTE");
+    assert.equal(row.requiredBeforeFiling, false);
   }
+  assert.equal(fields.find((row) => row.field === "ExpungeCntyName")?.decision, "candidate_write");
   for (const field of ["guiltyDt", "guiltyOff1", "guiltyStatute", "guiltyFinal1", "guiltyCrt",
     "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"]) {
     const row = fields.find((candidate) => candidate.field === field);
@@ -398,8 +399,13 @@ function assertCurrentFactDerivedRepair() {
     "## Where self-help ends", COUNTING_DISCLOSURE_HEADING, "## Facts that control this packet route"]) {
     assert.ok(instructions.includes(heading), `${heading}: instruction section is absent`);
   }
-  assert.ok(instructions.includes("You do not choose a legal route"));
+  assert.ok(instructions.includes("participant is not asked to choose a statute"));
   assert.ok(!instructions.includes("The item (d) conviction election on page 19 is withdrawn"));
+  assert.ok(!instructions.includes("source field:"));
+  assert.ok(!instructions.includes("legal-design-track-registry.json"));
+  assert.ok(writes.artifacts.every((artifact) => artifact.flatAnchorWrites
+    .some((row) => row.anchor === "Arrest Date — I was arrested/taken into custody on (date)"
+      && row.factId === "matter.arrest_date")));
   for (const artifact of writes.artifacts) {
     assert.deepEqual(artifact.proof.protectedInk, []);
     assert.deepEqual(artifact.proof.protectedVectorInk, []);
@@ -485,13 +491,11 @@ if (args.includes("--assert-fix13")) {
   console.log(`${familyId}: fact-derived CN-10557 assertions complete`);
 } else if (args.includes("--check") || args.includes("--check-nonvisual")) {
   await runEastFamily(familyId, ["--check-nonvisual"]);
-  repairInstructions();
   assertCurrentFactDerivedRepair();
   writeElectionDetermination(await readFactDerivedElection());
   console.log(`${familyId}: CHECK PASS (fact-derived CN-10557 conviction route)`);
 } else {
   await runEastFamily(familyId, ["--no-raster"]);
-  repairInstructions();
   writeElectionDetermination(await readFactDerivedElection());
   assertCurrentFactDerivedRepair();
   console.log(`${familyId}: BUILD PASS (fact-derived CN-10557 conviction route; central raster pending)`);

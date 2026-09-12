@@ -21,6 +21,10 @@ const REQUIRED_ROW_FIELDS = [
   "guiltyDt", "guiltyOff1", "guiltyStatute", "guiltyFinal1", "guiltyCrt",
   "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt",
 ];
+const REQUIRED_ARREST_FIELDS = [
+  "arrestOff1", "arrestStatute", "arrestMuni", "origCaseNums",
+  "arrest1Dt", "arrest1Statute", "arrest1CaseNum", "ExpungeCntyName",
+];
 const zeroCounters = [
   "knownRequiredFieldsMissing", "requiredFactsNotCollected", "unclassifiedBlanks",
   "incompleteRows", "requiredOptionsMissing", "requiredComponentsMissing", "protectedWrites",
@@ -79,15 +83,33 @@ for (const familyId of ["nj_disorderly_persons-set", "nj_indictable_conviction-s
   assert.equal(postOrderAlias?.widgets.length, 2); assertions += 1;
   assert.equal(postOrderAlias?.sourceStage?.familyId, familyId); assertions += 1;
   assert.match(guide, /do not type one digital field value into both/); assertions += 1;
-  assert.ok(!guide.includes("obligation:")); assertions += 1;
+  for (const internal of ["obligation:", "source field:", "source-stage:",
+    "legal-design-track-registry", "registry path", "track id", "AcroForm"]) {
+    assert.ok(!guide.toLowerCase().includes(internal.toLowerCase()), `${familyId}/${internal}`);
+    assertions += 1;
+  }
+  const later = fields.filter((row) => row.completenessDisposition === "PARTICIPANT_LATER_COMPLETION");
+  assert.ok(later.length >= 20, `${familyId}: expected complete later-stage recipient inventory`); assertions += 1;
+  assert.ok(later.every((row) => row.sourceStage?.familyId === familyId)); assertions += 1;
+  assert.ok(later.every((row) => guide.includes(row.effectiveLabel))); assertions += 1;
+  const inactive = fields.filter((row) => row.caseApplicability === "INACTIVE_IN_CURRENT_COMPLETE_SYNTHETIC_RECORD");
+  assert.ok(inactive.length >= 20); assertions += 1;
+  assert.ok(inactive.every((row) => row.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE"
+    && row.refusalClass == null)); assertions += 1;
 
   assert.equal(writes.artifacts.length, 2); assertions += 1;
   for (const artifact of writes.artifacts) {
-    assert.equal(artifact.written.length, 19); assertions += 1;
-    for (const field of REQUIRED_ROW_FIELDS) {
+    assert.equal(artifact.written.length, 27); assertions += 1;
+    for (const field of [...REQUIRED_ROW_FIELDS, ...REQUIRED_ARREST_FIELDS]) {
       assert.ok(artifact.written.some((row) => row.field === field),
         `${familyId}/${artifact.fixture}/${field}`); assertions += 1;
     }
+    const offense = artifact.proof.writtenProof.find((row) => row.field === "guiltyOff1");
+    assert.match(offense?.expectedValue ?? "", familyId === "nj_disorderly_persons-set"
+      ? /^Disorderly conduct/ : /^Third-degree theft/); assertions += 1;
+    assert.doesNotMatch(offense?.expectedValue ?? "", /controlled substance/i); assertions += 1;
+    assert.deepEqual(artifact.flatAnchorWrites?.map((row) => row.factId), ["matter.arrest_date"]); assertions += 1;
+    assert.ok(artifact.flatAnchorWrites.every((row) => row.outcome === "fit" && row.fontSize >= 6)); assertions += 1;
     assert.deepEqual(artifact.selections.map((row) => row.control), expectedSelections); assertions += 1;
     assert.equal(artifact.proof.selectionProof.length, expectedSelections.length); assertions += 1;
     assert.ok(artifact.proof.selectionProof.every((row) => row.markObservedInArtifactBytes === true)); assertions += 1;
