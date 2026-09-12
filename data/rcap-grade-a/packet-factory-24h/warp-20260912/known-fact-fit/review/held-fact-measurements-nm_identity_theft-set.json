@@ -1,0 +1,686 @@
+{
+  "familyId": "nm_identity_theft-set",
+  "fixtureDeclaration": {
+    "path": "scripts/build-census-v1-nm_identity_theft-set.mjs",
+    "sha256": "71b9326ba0992ebce74497432b9c9194993b8eaed9eb231f45db39c8b7923145",
+    "byteLength": 77451
+  },
+  "fixtureFactsReadWithoutExecutingBuilder": {
+    "canonical": {
+      "participant.full_legal_name": "Jordan Avery Reyes",
+      "participant.other_names": "Jordan A. Reyes; Jordy Reyes",
+      "participant.date_of_birth": "1978-04-17",
+      "participant.street_address": "412 Coal Avenue SW",
+      "participant.city": "Albuquerque",
+      "participant.state": "NM",
+      "participant.zip": "87102",
+      "matter.county": "Bernalillo",
+      "matter.court": "Second",
+      "matter.case_number": "D-202-CR-2019-01147",
+      "matter.arresting_agency": "Albuquerque Police Department",
+      "participant.full_mailing_address": "412 Coal Avenue SW, Albuquerque, NM 87102",
+      "participant.city_state_zip": "Albuquerque, NM 87102",
+      "matter.fee_waiver_court_caption": "Second Judicial District"
+    },
+    "boundary": {
+      "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "participant.other_names": "Maria A. Whitfield; M. A. O'Shaughnessy; Maria Alejandra Whitfield-Ruiz",
+      "participant.date_of_birth": "1961-12-31",
+      "participant.street_address": "1188 Upper Notch Crossing Rd Apt 14B",
+      "participant.city": "Truth or Consequences",
+      "participant.state": "NM",
+      "participant.zip": "87901",
+      "matter.county": "Sierra",
+      "matter.court": "Seventh",
+      "matter.case_number": "D-721-CR-2014-00118",
+      "matter.arresting_agency": "Sierra County Sheriff's Office",
+      "participant.full_mailing_address": "1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "participant.city_state_zip": "Truth or Consequences, NM 87901",
+      "matter.fee_waiver_court_caption": "Seventh Judicial District"
+    }
+  },
+  "intendedWrites": [
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y62820-x14328",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Bernalillo",
+      "readFromPdf": "EW MEXICO \n_________________________ \nBernalillo",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y61236-x7200",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Second",
+      "readFromPdf": "COUNTY OF ____\n_______________J\nBern\nSecond",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y55512-x9720",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "_________________________________,\nJordan Avery Reyes",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y35796-x16260",
+      "factId": "participant.date_of_birth",
+      "independentlyDerivedExpected": "1978-04-17",
+      "readFromPdf": "out Petitioner: \n \n \n \n \n \n \n \n1978-04-17",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y34212-x21336",
+      "factId": "participant.street_address",
+      "independentlyDerivedExpected": "412 Coal Avenue SW",
+      "readFromPdf": " \n \n \n \n  \n \n \n \n \n \n \n \n \n7\n412 Coal Avenue SW",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y32616-x11700",
+      "factId": "participant.city",
+      "independentlyDerivedExpected": "Albuquerque",
+      "readFromPdf": "ent Mailing Address:  \n \n \n \n \n412 Coa\nAlbuquerque",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y32616-x28536",
+      "factId": "participant.state",
+      "independentlyDerivedExpected": "NM",
+      "readFromPdf": " \n \n \n  \n \n \nue SW\nNM",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y32616-x45036",
+      "factId": "participant.zip",
+      "independentlyDerivedExpected": "87102",
+      "readFromPdf": " \n \n \n \n \n87102",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p1-y20328-x35976",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Second",
+      "readFromPdf": "_________ \nSecond",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p2-y59304-x15924",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "D-202-CR-2019-01147",
+      "readFromPdf": "________________________________________________________________\n_______________________________________________________________\nD-202-CR-2019-01147",
+      "page": 2,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p2-y44904-x20340",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Second",
+      "readFromPdf": "of the following \n _____________\nSecond",
+      "page": 2,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p2-y29724-x20340",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Second",
+      "readFromPdf": " ____________\nSecond",
+      "page": 2,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p2-y10404-x7200",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "__________________________________\nJordan Avery Reyes",
+      "page": 2,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-951",
+      "field": "p3-y68964-x7200",
+      "factId": "participant.full_mailing_address",
+      "independentlyDerivedExpected": "412 Coal Avenue SW, Albuquerque, NM 87102",
+      "readFromPdf": "Signature of Petitioner \n__________________________________\n412 Coal Avenue SW, Albuquerque, NM 87102",
+      "page": 3,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y62820-x14328",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Sierra",
+      "readFromPdf": "EW MEXICO \n_________________________ \nSierra",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y61236-x7200",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Seventh",
+      "readFromPdf": "COUNTY OF ____\n_______________J\nSier\nSeventh",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y55512-x9720",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "readFromPdf": "_________________________________,\nMaria-Alejandra O'Shaughnessy-Whitfield",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y35796-x16260",
+      "factId": "participant.date_of_birth",
+      "independentlyDerivedExpected": "1961-12-31",
+      "readFromPdf": "out Petitioner: \n \n \n \n \n \n \n \n1961-12-31",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y34212-x21336",
+      "factId": "participant.street_address",
+      "independentlyDerivedExpected": "1188 Upper Notch Crossing Rd Apt 14B",
+      "readFromPdf": " \n \n \n \n  \n \n \n \n \n \n \n \n \n1\n1188 Upper Notch Crossing Rd Apt 14B",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y32616-x11700",
+      "factId": "participant.city",
+      "independentlyDerivedExpected": "Truth or Consequences",
+      "readFromPdf": "ent Mailing Address:  \n \n \n \n \n1188 Up\nTruth or Consequences",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y32616-x28536",
+      "factId": "participant.state",
+      "independentlyDerivedExpected": "NM",
+      "readFromPdf": " \n \n \n  \n \n \ntch Crossing Rd Apt 14B\nNM",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y32616-x45036",
+      "factId": "participant.zip",
+      "independentlyDerivedExpected": "87901",
+      "readFromPdf": " \n \n \n \n \n87901",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p1-y20328-x35976",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Seventh",
+      "readFromPdf": "_________ \nSeventh",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p2-y59304-x15924",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "D-721-CR-2014-00118",
+      "readFromPdf": "________________________________________________________________\n_______________________________________________________________\nD-721-CR-2014-00118",
+      "page": 2,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p2-y44904-x20340",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Seventh",
+      "readFromPdf": "of the following \n _____________\nSeventh",
+      "page": 2,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p2-y29724-x20340",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Seventh",
+      "readFromPdf": " ____________\nSeventh",
+      "page": 2,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p2-y10404-x7200",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "readFromPdf": "__________________________________\nMaria-Alejandra O'Shaughnessy-Whitfield",
+      "page": 2,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-951",
+      "field": "p3-y68964-x7200",
+      "factId": "participant.full_mailing_address",
+      "independentlyDerivedExpected": "1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "readFromPdf": "Signature of Petitioner \n__________________________________\n1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "page": 3,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-960.1",
+      "field": "p1-y63970-x14328",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Bernalillo",
+      "readFromPdf": "EW MEXICO \n_________________________\nBernalillo",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-960.1",
+      "field": "p1-y62590-x7202",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Second",
+      "readFromPdf": "COUNTY OF ____\n_______________\nBern\nSecond",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-960.1",
+      "field": "p1-y58450-x9722",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "_________________________________\nJordan Avery Reyes",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-960.1",
+      "field": "p1-y19586-x7202",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": " \n______________________________________ \nJordan Avery Reyes",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-960.1",
+      "field": "p1-y16826-x7202",
+      "factId": "participant.full_mailing_address",
+      "independentlyDerivedExpected": "412 Coal Avenue SW, Albuquerque, NM 87102",
+      "readFromPdf": "Petitioner Name \n______________________________________ \n412 Coal Avenue SW, Albuquerque, NM 87102",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-960.1",
+      "field": "p1-y63970-x14328",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Sierra",
+      "readFromPdf": "EW MEXICO \n_________________________\nSierra",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-960.1",
+      "field": "p1-y62590-x7202",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Seventh",
+      "readFromPdf": "COUNTY OF ____\n_______________\nSier\nSeventh",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-960.1",
+      "field": "p1-y58450-x9722",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "readFromPdf": "_________________________________\nMaria-Alejandra O'Shaughnessy-Whitfield",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-960.1",
+      "field": "p1-y19586-x7202",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "readFromPdf": " \n______________________________________ \nMaria-Alejandra O'Shaughnessy-Whitfield",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-960.1",
+      "field": "p1-y16826-x7202",
+      "factId": "participant.full_mailing_address",
+      "independentlyDerivedExpected": "1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "readFromPdf": "Petitioner Name \n______________________________________ \n1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "page": 4,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "field": "p1-y69300-x14652",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Bernalillo",
+      "readFromPdf": "EW MEXICO \n_________________________\nBernalillo",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "field": "p1-y67716-x7200",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Second",
+      "readFromPdf": "COUNTY OF ___\n_______________\nBer\nSecond",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "field": "p1-y60600-x9996",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": " _________________________________\nJordan Avery Reyes",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "field": "p1-y69300-x14652",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Sierra",
+      "readFromPdf": "EW MEXICO \n_________________________\nSierra",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "field": "p1-y67716-x7200",
+      "factId": "matter.court",
+      "independentlyDerivedExpected": "Seventh",
+      "readFromPdf": "COUNTY OF ___\n_______________\nSie\nSeventh",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "field": "p1-y60600-x9996",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "readFromPdf": " _________________________________\nMaria-Alejandra O'Shaughnessy-Whitfield",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-222",
+      "field": "p1-y63840-x14364",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Bernalillo",
+      "readFromPdf": "EW MEXICO\n___________________\nBernalillo",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-222",
+      "field": "p1-y62436-x7200",
+      "factId": "matter.fee_waiver_court_caption",
+      "independentlyDerivedExpected": "Second Judicial District",
+      "readFromPdf": "COUNTY OF_____________\n________________________\nBernalillo\nSecond Judicial District",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-222",
+      "field": "p1-y58248-x7200",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "_______________________________\nJordan Avery Reyes",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-222",
+      "field": "p3-y20478-x11168",
+      "factId": "participant.full_mailing_address",
+      "independentlyDerivedExpected": "412 Coal Avenue SW, Albuquerque, NM 87102",
+      "readFromPdf": "________________________________________________________________\n412 Coal Avenue SW, Albuquerque, NM 87102",
+      "page": 13,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-222",
+      "field": "p4-y37380-x28800",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "___________________________________\nJordan Avery Reyes",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-222",
+      "field": "p4-y29064-x28800",
+      "factId": "participant.street_address",
+      "independentlyDerivedExpected": "412 Coal Avenue SW",
+      "readFromPdf": "___________________________________\n412 Coal Avenue SW",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "NM-4-222",
+      "field": "p4-y24906-x28800",
+      "factId": "participant.city_state_zip",
+      "independentlyDerivedExpected": "Albuquerque, NM 87102",
+      "readFromPdf": "___________________________________\nAlbuquerque, NM 87102",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-222",
+      "field": "p1-y63840-x14364",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Sierra",
+      "readFromPdf": "EW MEXICO\n___________________\nSierra",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-222",
+      "field": "p1-y62436-x7200",
+      "factId": "matter.fee_waiver_court_caption",
+      "independentlyDerivedExpected": "Seventh Judicial District",
+      "readFromPdf": "COUNTY OF_____________\n________________________\nSierra\nSeventh Judicial District",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-222",
+      "field": "p1-y58248-x7200",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "readFromPdf": "_______________________________\nMaria-Alejandra O'Shaughnessy-Whitfield",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-222",
+      "field": "p3-y20478-x11168",
+      "factId": "participant.full_mailing_address",
+      "independentlyDerivedExpected": "1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "readFromPdf": "________________________________________________________________\n1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "page": 13,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-222",
+      "field": "p4-y37380-x28800",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "readFromPdf": "___________________________________\nMaria-Alejandra O'Shaughnessy-Whitfield",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-222",
+      "field": "p4-y29064-x28800",
+      "factId": "participant.street_address",
+      "independentlyDerivedExpected": "1188 Upper Notch Crossing Rd Apt 14B",
+      "readFromPdf": "___________________________________\n1188 Upper Notch Crossing Rd Apt 14B",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "NM-4-222",
+      "field": "p4-y24906-x28800",
+      "factId": "participant.city_state_zip",
+      "independentlyDerivedExpected": "Truth or Consequences, NM 87901",
+      "readFromPdf": "___________________________________\nTruth or Consequences, NM 87901",
+      "page": 14,
+      "matches": true
+    }
+  ],
+  "repairedFields": [
+    {
+      "document": "NM-4-951",
+      "field": "p3-y68964-x7200",
+      "page": 3,
+      "expected": "1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "read": "Signature of Petitioner \n__________________________________\n1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+      "sourceWriteRectangle": {
+        "x": 74,
+        "y": 691.64,
+        "width": 200,
+        "height": 12
+      },
+      "actualSpan": {
+        "size": 6.0,
+        "flags": 4,
+        "bidi": 0,
+        "char_flags": 16,
+        "font": "Times-Roman",
+        "color": 0,
+        "alpha": 255,
+        "ascender": 1.0529999732971191,
+        "descender": -0.2809999883174896,
+        "text": "1188 Upper Notch Crossing Rd Apt 14B, Truth or Consequences, NM 87901",
+        "origin": [
+          74.0,
+          100.3599853515625
+        ],
+        "bbox": [
+          74.0,
+          94.04198455810547,
+          259.82000732421875,
+          102.04598236083984
+        ]
+      },
+      "independentTimesRomanWidthPt": 185.82000017166138,
+      "fitsWidthWithoutHorizontalScaling": true,
+      "fontAtOrAboveSixPointFloor": true,
+      "oldPdfSha256": "5360c3b3aa98ce68b206d848b7ced0fdf57e12ec784995c6491d20bd51deac01",
+      "oldExactFieldRead": "Signature of Petitioner \n__________________________________",
+      "oldFailureNegativeControl": true,
+      "currentPdf": {
+        "path": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "b58c170f4aa18c1abe259c5391b9ca156071b898879cdabcd6958b57a50d3b56",
+        "byteLength": 229362
+      },
+      "originalRasterPageSha256": "f1854d45550247b46bf48c7b81d9d3cedc742a8219f0e2c71f65ce9b848674ce",
+      "originalRasterFocus": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/known-fact-fit/review/nm_identity_theft-set-NM-4-951-p3-y68964-x7200-repaired-field.png",
+        "sha256": "953e9f1babfd42314060d3bc19834f4e8e3f5570b645dce5626f0ba0d2b3539f",
+        "byteLength": 22020
+      }
+    }
+  ],
+  "refusedHeldFacts": [],
+  "unfittable": [],
+  "totals": {
+    "intendedWritesMatchedToVisibleExactFacts": 58,
+    "formerlyMissingFactsNowPresent": 1,
+    "heldFactsStillRefused": 0,
+    "unfittableWrites": 0
+  }
+}

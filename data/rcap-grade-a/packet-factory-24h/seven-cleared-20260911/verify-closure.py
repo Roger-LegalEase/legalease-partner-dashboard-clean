@@ -37,7 +37,22 @@ def pinned(obj):
                 b=target.read_bytes(); check(sha(b)==h, f'changed pinned path {p}')
                 if 'byteLength' in obj: check(len(b)==obj['byteLength'],f'changed size {p}')
                 stats['pinnedReferences'] += 1
-        for x in obj.values(): pinned(x)
+        for key,x in obj.items():
+            if key=='previousRowPreserved' and 'previousKnownFactFitFailure' in obj:
+                # A preserved FAIL describes old bytes, not today's files. Bind
+                # the snapshot to its immutable native return, then check its
+                # PDFs at the commit that the historical reviewer actually read.
+                prior=read(obj['previousKnownFactFitFailure']['path'])
+                for token in obj['rowPointer'].strip('/').split('/'):
+                    prior=prior[int(token)] if isinstance(prior,list) else prior[token]
+                check(x==prior,'historical FAIL snapshot differs from its native return')
+                for artifact in x.get('artifactsRead',[]):
+                    body=subprocess.check_output(['git','show',x['verifiedAtBase']+':'+artifact['path']])
+                    check(sha(body)==artifact['sha256'],'historical PDF differs at review commit')
+                    check(len(body)==artifact['byteLength'],'historical PDF size differs at review commit')
+                    stats['historicalPdfs']+=1
+            else:
+                pinned(x)
 
 queue = {r['familyId']:r for r in read(BASE/'MASTER_QUEUE.json')['families']}
 raster = {r['familyId']:r for r in read(BASE/'RASTER_QUEUE.json')['rows']}

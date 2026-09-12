@@ -1,0 +1,742 @@
+{
+  "familyId": "co_motion_seal_conviction-set",
+  "fixtureDeclaration": {
+    "path": "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
+    "sha256": "481271971d4096ea69e1e7d069425ee9190b509b8a7f85658831c69e5f824724",
+    "byteLength": 138821
+  },
+  "fixtureFactsReadWithoutExecutingBuilder": {
+    "canonical": {
+      "participant.full_legal_name": "Jordan Avery Reyes",
+      "participant.date_of_birth": "1991-04-17",
+      "participant.street_address": "412 Cherry Creek Way",
+      "participant.city": "Denver",
+      "participant.state": "CO",
+      "participant.zip": "80202",
+      "participant.phone": "303-555-0142",
+      "participant.email": "jordan.reyes@example.org",
+      "matter.county": "Denver",
+      "matter.case_number": "2019CR004217",
+      "participant.full_mailing_address": "412 Cherry Creek Way, Denver, CO 80202",
+      "participant.city_state_zip": "Denver, CO 80202"
+    },
+    "boundary": {
+      "participant.full_legal_name": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "participant.date_of_birth": "1968-12-31",
+      "participant.street_address": "1188 Upper Notch Crossing Road, Apartment 14B",
+      "participant.city": "Colorado Springs",
+      "participant.state": "CO",
+      "participant.zip": "80921-2214",
+      "participant.phone": "(719) 555-0199 ext. 4417",
+      "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "matter.county": "El Paso",
+      "matter.case_number": "2024CR0011882-SUPPLEMENTAL",
+      "participant.full_mailing_address": "1188 Upper Notch Crossing Road, Apartment 14B, Colorado Springs, CO 80921-2214",
+      "participant.city_state_zip": "Colorado Springs, CO 80921-2214"
+    }
+  },
+  "intendedWrites": [
+    {
+      "fixture": "canonical",
+      "document": "JDF-612",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Denver",
+      "readFromPdf": "  \n \nDenver",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-612",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2019CR004217",
+      "readFromPdf": "  \n \n2019CR004217",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-612",
+      "field": "\u2206 DoB",
+      "factId": "participant.date_of_birth",
+      "independentlyDerivedExpected": "1991-04-17",
+      "readFromPdf": "  \n \n1991-04-17",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-612",
+      "field": "Address",
+      "factId": "participant.full_mailing_address",
+      "independentlyDerivedExpected": "412 Cherry Creek Way, Denver, CO 80202",
+      "readFromPdf": "  \n \n412 Cherry Creek Way, Denver, CO 80202",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-612",
+      "field": "Phone",
+      "factId": "participant.phone",
+      "independentlyDerivedExpected": "303-555-0142",
+      "readFromPdf": "  \n \n303-555-0142",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-612",
+      "field": "Email",
+      "factId": "participant.email",
+      "independentlyDerivedExpected": "jordan.reyes@example.org",
+      "readFromPdf": "  \n \njordan.reyes@example.org",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-612",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "  \n \nJordan Avery Reyes",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-612",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "  \n \nJordan Avery Reyes",
+      "page": 5,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-612",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "El Paso",
+      "readFromPdf": "  \n \nEl Paso",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-612",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2024CR0011882-SUPPLEMENTAL",
+      "readFromPdf": "  \n \n2024CR0011882-SUPPLEMENTAL",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-612",
+      "field": "\u2206 DoB",
+      "factId": "participant.date_of_birth",
+      "independentlyDerivedExpected": "1968-12-31",
+      "readFromPdf": "  \n \n1968-12-31",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-612",
+      "field": "Address",
+      "factId": "participant.full_mailing_address",
+      "independentlyDerivedExpected": "1188 Upper Notch Crossing Road, Apartment 14B, Colorado Springs, CO 80921-2214",
+      "readFromPdf": "  \n \n1188 Upper Notch Crossing Road, Apartment 14B, Colorado Springs, CO 80921-2214",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-612",
+      "field": "Phone",
+      "factId": "participant.phone",
+      "independentlyDerivedExpected": "(719) 555-0199 ext. 4417",
+      "readFromPdf": "  \n \n(719) 555-0199 ext. 4417",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-612",
+      "field": "Email",
+      "factId": "participant.email",
+      "independentlyDerivedExpected": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "readFromPdf": "  \n \nmaria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-612",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": "  \n \nMaria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 1,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-612",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": "  \n \nMaria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 5,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-613",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Denver",
+      "readFromPdf": "  \n \nDenver",
+      "page": 6,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-613",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "  \n \nJordan Avery Reyes",
+      "page": 6,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-613",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2019CR004217",
+      "readFromPdf": "  \n \n2019CR004217",
+      "page": 6,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-613",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "El Paso",
+      "readFromPdf": "  \n \nEl Paso",
+      "page": 6,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-613",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": "  \n \nMaria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 6,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-613",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2024CR0011882-SUPPLEMENTAL",
+      "readFromPdf": "  \n \n2024CR0011882-SUPPLEMENTAL",
+      "page": 6,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-614",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Denver",
+      "readFromPdf": "  \n \nDenver",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-614",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "  \n \nJordan Avery Reyes",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-614",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2019CR004217",
+      "readFromPdf": ":  \n \n2019CR004217",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-614",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "El Paso",
+      "readFromPdf": "  \n \nEl Paso",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-614",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": "  \n \nMaria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-614",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2024CR0011882-SUPPLEMENTAL",
+      "readFromPdf": ":  \n \n2024CR0011882-SUPPLEMENTAL",
+      "page": 7,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-615",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Denver",
+      "readFromPdf": " \nDenver",
+      "page": 8,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-615",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2019CR004217",
+      "readFromPdf": "2019CR004217",
+      "page": 8,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-615",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "Jordan Avery Reyes",
+      "page": 8,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-615",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": ":\nJordan Avery Reyes",
+      "page": 8,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-615",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "El Paso",
+      "readFromPdf": " \nEl Paso",
+      "page": 8,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-615",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2024CR0011882-SUPPLEMENTAL",
+      "readFromPdf": "2024CR0011882-SUPPLEMENTAL",
+      "page": 8,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-615",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 8,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-615",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": ":\nMaria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 8,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2019CR004217",
+      "readFromPdf": "  \n \n2019CR004217",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Denver",
+      "readFromPdf": "  \n \nDenver",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "DoB",
+      "factId": "participant.date_of_birth",
+      "independentlyDerivedExpected": "17/04/1991",
+      "readFromPdf": "  \n \n17/04/1991",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "Phone",
+      "factId": "participant.phone",
+      "independentlyDerivedExpected": "303-555-0142",
+      "readFromPdf": "City:  \n  \n \n303-555-0142",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "Email",
+      "factId": "participant.email",
+      "independentlyDerivedExpected": "jordan.reyes@example.org",
+      "readFromPdf": " State:  \n Zip:  \n \n  \n \njordan.reyes@example.org",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "4.6",
+      "factId": "participant.street_address",
+      "independentlyDerivedExpected": "412 Cherry Creek Way",
+      "readFromPdf": "  \n \n412 Cherry Creek Way",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "4.7",
+      "factId": "participant.city",
+      "independentlyDerivedExpected": "Denver",
+      "readFromPdf": "  \n  \n S\nDenver",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "4.8",
+      "factId": "participant.state",
+      "independentlyDerivedExpected": "CO",
+      "readFromPdf": "  \n \nCO",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "4.9",
+      "factId": "participant.zip",
+      "independentlyDerivedExpected": "80202",
+      "readFromPdf": " \n  \n \n80202",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "Name",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "  \n \nJordan Avery Reyes",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-205",
+      "field": "Name",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "  \n \nJordan Avery Reyes",
+      "page": 13,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2024CR0011882-SUPPLEMENTAL",
+      "readFromPdf": "  \n \n2024CR0011882-SUPPLEMENTAL",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "El Paso",
+      "readFromPdf": "  \n \nEl Paso",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "DoB",
+      "factId": "participant.date_of_birth",
+      "independentlyDerivedExpected": "31/12/1968",
+      "readFromPdf": "  \n \n31/12/1968",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "Phone",
+      "factId": "participant.phone",
+      "independentlyDerivedExpected": "(719) 555-0199 ext. 4417",
+      "readFromPdf": "City:  \n  \n \n(719) 555-0199 ext. 4417",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "Email",
+      "factId": "participant.email",
+      "independentlyDerivedExpected": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "readFromPdf": " State:  \n Zip:  \n \n  \n \nmaria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "4.6",
+      "factId": "participant.street_address",
+      "independentlyDerivedExpected": "1188 Upper Notch Crossing Road, Apartment 14B",
+      "readFromPdf": "  \n \n1188 Upper Notch Crossing Road, Apartment 14B",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "4.7",
+      "factId": "participant.city",
+      "independentlyDerivedExpected": "Colorado Springs",
+      "readFromPdf": "  \n  \n S\nColorado Springs",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "4.8",
+      "factId": "participant.state",
+      "independentlyDerivedExpected": "CO",
+      "readFromPdf": "  \n \nCO",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "4.9",
+      "factId": "participant.zip",
+      "independentlyDerivedExpected": "80921-2214",
+      "readFromPdf": " \n  \n \n80921-2214",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "Name",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": "  \n \nMaria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 11,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-205",
+      "field": "Name",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": "  \n \nMaria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 13,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-206",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "Denver",
+      "readFromPdf": " \n \nDenver",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-206",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Jordan Avery Reyes",
+      "readFromPdf": "Jordan Avery Reyes",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "canonical",
+      "document": "JDF-206",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2019CR004217",
+      "readFromPdf": "2019CR004217",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-206",
+      "field": "County",
+      "factId": "matter.county",
+      "independentlyDerivedExpected": "El Paso",
+      "readFromPdf": " \n \nEl Paso",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-206",
+      "field": "\u2206",
+      "factId": "participant.full_legal_name",
+      "independentlyDerivedExpected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "readFromPdf": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+      "page": 14,
+      "matches": true
+    },
+    {
+      "fixture": "boundary",
+      "document": "JDF-206",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "independentlyDerivedExpected": "2024CR0011882-SUPPLEMENTAL",
+      "readFromPdf": "2024CR0011882-SUPPLEMENTAL",
+      "page": 14,
+      "matches": true
+    }
+  ],
+  "repairedFields": [
+    {
+      "document": "JDF-205",
+      "field": "Email",
+      "page": 11,
+      "expected": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "read": " State:  \n Zip:  \n \n  \n \nmaria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "sourceWriteRectangle": {
+        "x": 372.6,
+        "y": 365.37,
+        "width": 167.56,
+        "height": 13.68
+      },
+      "actualSpan": {
+        "size": 6.0,
+        "flags": 4,
+        "bidi": 0,
+        "char_flags": 16,
+        "font": "Times-Roman",
+        "color": 0,
+        "alpha": 255,
+        "ascender": 1.0529999732971191,
+        "descender": -0.2809999883174896,
+        "text": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+        "origin": [
+          373.6000061035156,
+          421.8420104980469
+        ],
+        "bbox": [
+          373.6000061035156,
+          415.5240173339844,
+          525.43603515625,
+          423.52801513671875
+        ]
+      },
+      "independentTimesRomanWidthPt": 151.8360003232956,
+      "fitsWidthWithoutHorizontalScaling": true,
+      "fontAtOrAboveSixPointFloor": true,
+      "oldPdfSha256": "bb1d9b45bb801ad176ef1a05cd028fa8b42d34c6a7b46b670b5289f78a2444b4",
+      "oldExactFieldRead": " State:  \n Zip:  \n \n  \n ",
+      "oldFailureNegativeControl": true,
+      "currentPdf": {
+        "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "8b553b296f054326c9c0441ba5c56adb6fd19b5b65751fa9b4ffa570e94afef6",
+        "byteLength": 1051171
+      },
+      "originalRasterPageSha256": "dfbfcf1f4ba7189f2d0aa4ee5df7f3e1f11b164d714b8f3dbece60dd8eef25ed",
+      "originalRasterFocus": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/known-fact-fit/review/co_motion_seal_conviction-set-JDF-205-Email-repaired-field.png",
+        "sha256": "08891e073670a8f45f75feb0a672e13a753a596424d0f7d8df0235e08b639e85",
+        "byteLength": 17458
+      }
+    }
+  ],
+  "refusedHeldFacts": [],
+  "unfittable": [],
+  "totals": {
+    "intendedWritesMatchedToVisibleExactFacts": 64,
+    "formerlyMissingFactsNowPresent": 1,
+    "heldFactsStillRefused": 0,
+    "unfittableWrites": 0
+  }
+}
