@@ -22,28 +22,43 @@
     ],
     "deliveryType": "official_pdf_fill",
     "instrumentKinds": [
-      "no filing — process guidance",
-      "OCA model recovery letter",
-      "proposed order",
-      "fee waiver statement"
+      "OCA model letter to the court where the order did not issue (official_pdf_fill)",
+      "no filing — process guidance"
     ],
     "packetComponents": [
-      "component:tx_nd_automatic_misdemeanor_deferred-recovery-letter-2",
+      "component:tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
       "component:tx_nd_automatic_misdemeanor_deferred-proposed-order-3",
-      "component:tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4"
+      "component:tx_nd_automatic_misdemeanor_deferred-recovery-letter-2"
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/participant-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+        "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+        "tier": "exact_statute_section_and_document_kind"
+      },
+      {
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+        "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
     "acceptanceReceipt": null,
-    "paymentEligible": false,
-    "sponsorshipEligible": false,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "verifiedAtBase": "665f6cdbf95322b11e77defafffff6ea193bd2cc"
     },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
     "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
     "maintenanceRelationship": {
       "rebuiltFrom": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",

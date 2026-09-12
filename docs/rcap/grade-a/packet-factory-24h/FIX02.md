@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `56a75af9d8224b56ec2b5ccd12b33acf78ef11ed` (or the newer dispatch base)
+**Minimum required ancestor:** `333c38f9b1482257c376cc02db25aa7fce3b71a5` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'mo-610-140-arrest-set' \
   --codex-cloud \
-  --minimum-captain-sha 56a75af9d8224b56ec2b5ccd12b33acf78ef11ed
+  --minimum-captain-sha 333c38f9b1482257c376cc02db25aa7fce3b71a5
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -41,7 +41,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'mo-610-140-arrest-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-seal-edu-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'tx_nd_automatic_misdemeanor_deferred-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'wv_acc_treatment_job_readiness-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -66,7 +66,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `mo-610-140-arrest-set`
 - `il-seal-edu-set`
-- `tx_nd_automatic_misdemeanor_deferred-set`
+- `wv_acc_treatment_job_readiness-set`
 
 ## What you receive
 
@@ -81,10 +81,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/**`
 - `scripts/build-census-v1-mo-610-140-arrest-set.mjs`
 - `scripts/build-census-v1-il-seal-edu-set.mjs`
-- `scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs`
+- `scripts/build-census-v1-wv_acc_treatment_job_readiness-set.mjs`
 
 ## Never write here
 
