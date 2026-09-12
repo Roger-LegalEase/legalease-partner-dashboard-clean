@@ -10,15 +10,14 @@
     "nextGate": "Repair frozen current semantic failures, then independent semantic recheck before raster."
   },
   "independentReview": {
-    "lanes": [
-      "VF03",
-      "VF01"
-    ],
+    "lane": "VF67",
     "families": [
-      "nh_petition_vacated-set",
-      "va_exp_nonconviction-set"
+      "ks-21-6614-conviction-set",
+      "ks-21-6614-diversion-set",
+      "ks-21-6614-prostitution-coercion-set",
+      "ks-21-6614-specialty-court-set"
     ],
-    "nextGate": "Finish current-byte semantic preflight; IN2 ready next under existing VFCG1 grants."
+    "nextGate": "Final independent acceptance of current central originals; semantic preflight already passed."
   },
   "parked": [
     {
@@ -60,11 +59,25 @@
     "dispatcherConclusion": "success",
     "dispatcherCommit": "93a028adf49e072fe4e05930d9a42756825f884e",
     "packetCommit": "f6fc009ffc3a94b1a4bc9db84888db3a081f9f01",
-    "observedState": "queued",
+    "observedState": "completed",
     "familyCount": 4,
     "pdfCount": 8,
     "pageCount": 160,
     "semanticPreflightSha256": "c97ac69f195b5072c88a18c14187727de1ca0beeb7a9bb1836702d8f0b19c7f2",
-    "pollingPolicy": "Inspect at next completed worker or independent-review checkpoint; no active polling loop."
+    "pollingPolicy": "Inspect at next completed worker or independent-review checkpoint; no active polling loop.",
+    "conclusion": "success",
+    "jobsPassed": 6,
+    "originalPageImagesVerified": 160,
+    "nativeReceiptsIngested": 4,
+    "originalProof": "data/rcap-grade-a/packet-factory-24h/raster-runs/34669691683/ORIGINAL_EVIDENCE_VERIFIED.json",
+    "independentFinalAcceptance": "pending"
+  },
+  "reviewNext": {
+    "lane": "VFCG1",
+    "families": [
+      "in_arrest_no_charges-set",
+      "in_section1_petition-set"
+    ],
+    "nextGate": "Pre-raster semantic preflight of frozen route treatment."
   }
 }
