@@ -102,3 +102,26 @@ test('a symlink output refuses without following it', () => mutate(first, (p,b) 
 test('all original candidate files remain byte-identical after execution', () => {
   assert.deepEqual(inventory(),original);
 });
+
+for (const family of ['mo-610-140-arrest-set', 'mo-610-140-conviction-set']) {
+  test(`${family}: exact current root packets discovered; relevant mutations refused`, () => {
+    const dir = `data/rcap-all50/overlays/census-v1/mo/${family}--official-pdf-fill`;
+    const dest = path.join(root, dir);
+    fs.cpSync(path.join(supplied, dir), dest, {recursive: true});
+    assert.equal(hasDeclaredMoPacketSet(root, dir), true);
+    const file = path.join(dest, 'canonical.packet.pdf');
+    const bytes = fs.readFileSync(file);
+    fs.writeFileSync(file, Buffer.concat([bytes, Buffer.from('changed')]));
+    assert.equal(hasDeclaredMoPacketSet(root, dir), false);
+    fs.writeFileSync(file, bytes);
+    const report = path.join(dest, 'reports/rendered-artifacts.json');
+    const held = fs.readFileSync(report);
+    for (const mutate of [r => r.packets.pop(), r => r.artifacts[0].sha256 = '0'.repeat(64),
+      r => r.packets[0].file = '../canonical.packet.pdf', r => r.packets[1].fixture = r.packets[0].fixture]) {
+      const r = JSON.parse(held); mutate(r); fs.writeFileSync(report, JSON.stringify(r));
+      assert.equal(hasDeclaredMoPacketSet(root, dir), false);
+    }
+    fs.writeFileSync(report, held);
+    assert.equal(hasDeclaredMoPacketSet(root, dir), true);
+  });
+}

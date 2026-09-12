@@ -10,7 +10,10 @@ export const MO_DISCOVERY_DIRECTORY =
 // completeness. A root-level native packet set must not be mistaken for no build.
 // This does not add a generic "any PDF means complete" fallback.
 export function hasDeclaredMoPacketSet(root, directory) {
-  if (directory !== MO_DISCOVERY_DIRECTORY) return false;
+  const family = directory === MO_DISCOVERY_DIRECTORY ? MO_DISCOVERY_FAMILY :
+    ['mo-610-140-arrest-set', 'mo-610-140-conviction-set'].find(id =>
+      directory === `data/rcap-all50/overlays/census-v1/mo/${id}--official-pdf-fill`);
+  if (!family) return false;
   try {
     const read = relative => {
       let current = path.resolve(root);
@@ -27,9 +30,27 @@ export function hasDeclaredMoPacketSet(root, directory) {
     };
     const approval = json('approval-request.json');
     const fieldMap = json('production-field-map.json');
-    const manifest = json('packet-manifest.json');
-    const rendered = json('reports/rendered-artifacts.json');
-    if ([approval, fieldMap, manifest, rendered].some(value => value?.familyId !== MO_DISCOVERY_FAMILY)) return false;
+    let manifest = json(family === MO_DISCOVERY_FAMILY ? 'packet-manifest.json' : 'packet-set-manifest.json');
+    let rendered = json('reports/rendered-artifacts.json');
+    if ([approval, fieldMap, manifest, rendered].some(value => value?.familyId !== family)) return false;
+    if (family !== MO_DISCOVERY_FAMILY) {
+      if (manifest.schemaVersion !== 'rcap-composed-packet-set/v1'
+        || !Array.isArray(manifest.components) || !manifest.components.length
+        || rendered.schemaVersion !== 'rcap-rendered-artifacts/v1'
+        || !Array.isArray(rendered.packets) || rendered.packets.length !== 2
+        || !Array.isArray(rendered.artifacts) || rendered.artifacts.length !== 2
+        || rendered.packets.map(p => p.fixture).sort().join(',') !== 'boundary,canonical') return false;
+      for (const packet of rendered.packets) {
+        if (packet.file !== `${packet.fixture}.packet.pdf`) return false;
+        const matching = rendered.artifacts.filter(a => a.fixture === packet.fixture);
+        if (matching.length !== 1 || matching[0].file !== packet.file
+          || matching[0].sha256 !== packet.sha256 || matching[0].pageCount !== packet.pageCount) return false;
+      }
+      manifest = {...manifest, schemaVersion: 1, variants: rendered.packets.map(p =>
+        ({id: p.fixture, packet: p.file, sha256: p.sha256, pages: p.pageCount}))};
+      rendered = {...rendered, schemaVersion: 1, artifacts: rendered.artifacts.map(a =>
+        ({...a, file: `${directory}/${a.file}`}))};
+    }
     if (manifest.schemaVersion !== 1 || rendered.schemaVersion !== 1
       || !Array.isArray(manifest.variants) || manifest.variants.length === 0
       || !Array.isArray(rendered.artifacts)
