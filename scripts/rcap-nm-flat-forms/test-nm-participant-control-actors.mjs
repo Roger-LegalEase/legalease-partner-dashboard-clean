@@ -1,3 +1,4 @@
+import { heldNotWrittenItems } from './nm-packet-host.mjs';
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { PARTICIPANT_ELECTION } from "./nm-packet-host.mjs";
@@ -40,6 +41,11 @@ for (const family of families) {
   if (family.courtDocument) assert.equal(grouped.has(family.courtDocument), false);
 
   const instructions = fs.readFileSync(`${dir}/participant-instructions.md`, "utf8");
+  const map = JSON.parse(fs.readFileSync(`${dir}/production-field-map.json`, "utf8"));
+  for (const held of heldNotWrittenItems(map.maps)) {
+    assert.ok(instructions.includes(held.disclosureLabel), `missing current hand-fill task: ${held.document} ${held.disclosureLabel}`);
+    assert.ok(instructions.includes(held.participantMustSupply), `missing hand-fill fact guidance: ${held.document}`);
+  }
   const participantSection = instructions
     .split("## Boxes you tick with a pen\n\n")[1]
     .split("\n## What you must do before you file")[0];

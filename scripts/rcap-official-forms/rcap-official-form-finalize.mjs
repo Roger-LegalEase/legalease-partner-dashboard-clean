@@ -38,6 +38,41 @@ export const BASELINE_ABOVE_RULE = 2;
 // Tolerance around that, so a profile that rounds differently still trips.
 export const PROTECTED_RULE_BAND = 3;
 
+// A narrow standard-font fallback is available only when a caller opts one
+// field or anchor into it. It is deliberately not a new default: Helvetica
+// remains the measuring and drawing font unless it cannot carry the complete
+// held value at the shared readable floor, and Times-Roman can. Both fonts are
+// PDF standard 14 fonts, so this changes neither the value nor the source form.
+export const STANDARD_FONT_FALLBACK = Object.freeze({ TIMES_ROMAN: StandardFonts.TimesRoman });
+
+function validateStandardFontFallback(name, where) {
+  if (name === undefined || name === null) return null;
+  if (name !== STANDARD_FONT_FALLBACK.TIMES_ROMAN) {
+    throw new Error(`${where} requests unsupported standard-font fallback ${JSON.stringify(name)}; only Times-Roman is governed`);
+  }
+  return name;
+}
+
+function fitWithOptionalFallback({ primaryFont, fallbackFont = null, text, rect, multiline,
+  maxFontSize, minFontSize, evaluateDeclaredMinimumSize }) {
+  const primaryFit = fitTextToWidget({
+    font: primaryFont, text, rect, multiline, maxFontSize, minFontSize,
+    evaluateDeclaredMinimumSize
+  });
+  if (primaryFit.outcome !== "refused" || !fallbackFont) {
+    return { fit: primaryFit, font: primaryFont, usedFallback: false, primaryFit };
+  }
+  const fallbackFit = fitTextToWidget({
+    font: fallbackFont, text, rect, multiline, maxFontSize, minFontSize,
+    evaluateDeclaredMinimumSize
+  });
+  return {
+    fit: fallbackFit, font: fallbackFont,
+    usedFallback: fallbackFit.outcome !== "refused",
+    primaryFit, fallbackFit
+  };
+}
+
 /**
  * The one way a form may use another ink.
  *
@@ -282,8 +317,19 @@ export async function finalizeFlatOverlay({
 
   const pdfDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  for (const anchor of anchors ?? []) {
+    validateStandardFontFallback(anchor?.standardFontFallback, `flat anchor ${JSON.stringify(anchor?.label ?? null)}`);
+  }
+  const fallbackFonts = new Map();
+  const fallbackFont = async (name) => {
+    if (!fallbackFonts.has(name)) fallbackFonts.set(name, await pdfDoc.embedFont(name));
+    return fallbackFonts.get(name);
+  };
   const pages = pdfDoc.getPages();
-  const report = { sourceSha256: sourceSha, written: [], refused: [], unfittable: [], expectedValues: [], normalized: [] };
+  const report = {
+    sourceSha256: sourceSha, written: [], refused: [], unfittable: [], expectedValues: [], normalized: [],
+    standardFontFallbacks: []
+  };
 
   for (const anchor of anchors) {
     const page = pages[anchor.page - 1];
@@ -380,19 +426,52 @@ export async function finalizeFlatOverlay({
       report.refused.push({ anchor: anchor.label, reason: "no_value_or_type_mismatch", factId });
       continue;
     }
-    const fit = fitTextToWidget({
-      font, text: String(value), rect: anchor.writeBox, multiline: false,
+    const primarySelection = fitWithOptionalFallback({
+      primaryFont: font,
+      text: String(value), rect: anchor.writeBox, multiline: false,
       maxFontSize: anchor.fontSize, minFontSize
     });
+    const selected = primarySelection.fit.outcome === "refused" && anchor.standardFontFallback
+      ? fitWithOptionalFallback({
+        primaryFont: font,
+        fallbackFont: await fallbackFont(anchor.standardFontFallback),
+        text: String(value), rect: anchor.writeBox, multiline: false,
+        maxFontSize: anchor.fontSize, minFontSize
+      })
+      : primarySelection;
+    const fit = selected.fit;
     if (fit.outcome === "refused") {
-      report.unfittable.push({ anchor: anchor.label, factId, ...fit });
+      report.unfittable.push({
+        anchor: anchor.label, factId, ...fit,
+        ...(anchor.standardFontFallback ? {
+          primaryFont: StandardFonts.Helvetica,
+          fallbackFont: anchor.standardFontFallback,
+          primaryRequiredWidthAtMin: selected.primaryFit.requiredWidthAtMin ?? null,
+          fallbackRequiredWidthAtMin: selected.fallbackFit?.requiredWidthAtMin ?? null
+        } : {})
+      });
       report.refused.push({ anchor: anchor.label, reason: fit.reason, category: "unfittable" });
       continue;
     }
     page.drawText(fit.lines.join(" "), {
-      x: anchor.writeBox.x, y: anchor.writeBox.y, size: fit.fontSize, font, color: ink
+      x: anchor.writeBox.x, y: anchor.writeBox.y, size: fit.fontSize, font: selected.font, color: ink
     });
-    report.written.push({ anchor: anchor.label, factId, fontSize: fit.fontSize, outcome: fit.outcome });
+    if (selected.usedFallback) {
+      report.standardFontFallbacks.push({
+        anchor: anchor.label, factId,
+        primaryFont: StandardFonts.Helvetica,
+        fallbackFont: anchor.standardFontFallback,
+        primaryOutcome: selected.primaryFit.outcome,
+        primaryRequiredWidthAtMin: selected.primaryFit.requiredWidthAtMin ?? null,
+        fallbackOutcome: fit.outcome,
+        fallbackFontSize: fit.fontSize
+      });
+    }
+    report.written.push({
+      anchor: anchor.label, factId, fontSize: fit.fontSize, outcome: fit.outcome,
+      font: selected.usedFallback ? anchor.standardFontFallback : StandardFonts.Helvetica,
+      standardFontFallbackUsed: selected.usedFallback
+    });
     report.expectedValues.push(String(value));
   }
 
@@ -554,6 +633,11 @@ export async function finalizeOfficialForm({
   documentTextLines = [],
   maxFontSize,
   minFontSize = MIN_READABLE_FONT_SIZE,
+  // Ordinary text field -> governed PDF standard-font fallback. Helvetica is
+  // still tried first at the same readable floor. The fallback is used only
+  // when Helvetica refuses the complete value and the fallback fits it; a
+  // value is never shortened, condensed, moved, or drawn below the floor.
+  standardFontFallbackByField = {},
   // Passed straight through to the fitter. See its own comment: the descending
   // ladder can step past the declared minimum without ever trying it, and a
   // value that fits there is refused. Opt-in, because the families sharing this
@@ -1052,6 +1136,21 @@ export async function finalizeOfficialForm({
   const pdfDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const form = pdfDoc.getForm();
   const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const fallbackRequests = new Map(Object.entries(standardFontFallbackByField ?? {}).map(([fieldName, fontName]) => [
+    fieldName,
+    validateStandardFontFallback(fontName, `AcroForm field ${JSON.stringify(fieldName)}`)
+  ]));
+  for (const fieldName of fallbackRequests.keys()) {
+    if (!(census ?? []).some((field) => field.name === fieldName)) {
+      throw new Error(`standardFontFallbackByField names field ${JSON.stringify(fieldName)}, which is absent from the census`);
+    }
+  }
+  const embeddedFallbackFonts = new Map();
+  const fallbackFont = async (name) => {
+    if (!embeddedFallbackFonts.has(name)) embeddedFallbackFonts.set(name, await pdfDoc.embedFont(name));
+    return embeddedFallbackFonts.get(name);
+  };
+  const fallbackAppearanceFields = new Map();
   // Before anything is written: setting a font size edits the /DA string, so a
   // field without one has to be given a default first.
   const defaultAppearancesRepaired = ensureDefaultAppearances(form);
@@ -1069,7 +1168,8 @@ export async function finalizeOfficialForm({
     // carries its own /DA, or the fit already equals what that /DA declares.
     widgetFontSizeAligned: [],
     // Widgets fitted on their own rectangle. Empty unless fitTextPerWidget is on.
-    widgetFittedIndividually: []
+    widgetFittedIndividually: [],
+    standardFontFallbacks: []
   };
 
   // Deciding and writing used to happen in one pass, which cannot see that two
@@ -1203,35 +1303,49 @@ export async function finalizeOfficialForm({
     const rects = fitTextPerWidget
       ? (field.widgets ?? []).map((w) => w?.rect).filter((r) => r)
       : [];
-    const perWidgetFits = rects.map((widgetRect) => fitTextToWidget({
-      font: helvetica,
-      text,
-      rect: widgetRect,
-      multiline: wrapMultiline,
-      maxFontSize: wrapCeiling,
-      minFontSize,
-      evaluateDeclaredMinimumSize
-    }));
-    // The most constraining widget decides the string that is stored and, for a
-    // multiline field, where its lines break; a field holds one value however
-    // many places it is printed.
-    const fit = perWidgetFits.length > 0
-      ? (perWidgetFits.find((f) => f.outcome === "refused")
-        ?? perWidgetFits.reduce((tightest, candidate) => (candidate.fontSize < tightest.fontSize ? candidate : tightest)))
-      : fitTextToWidget({
-        font: helvetica,
-        text,
-        rect,
-        multiline: wrapMultiline,
-        maxFontSize: wrapCeiling,
-        minFontSize,
-        evaluateDeclaredMinimumSize
-      });
+    const fitsWith = (font) => {
+      const perWidget = rects.map((widgetRect) => fitTextToWidget({
+        font, text, rect: widgetRect, multiline: wrapMultiline,
+        maxFontSize: wrapCeiling, minFontSize, evaluateDeclaredMinimumSize
+      }));
+      // The most constraining widget decides the string that is stored and,
+      // for a multiline field, where its lines break; a field holds one value
+      // however many places it is printed.
+      const tightest = perWidget.length > 0
+        ? (perWidget.find((candidate) => candidate.outcome === "refused")
+          ?? perWidget.reduce((current, candidate) => (candidate.fontSize < current.fontSize ? candidate : current)))
+        : fitTextToWidget({
+          font, text, rect, multiline: wrapMultiline,
+          maxFontSize: wrapCeiling, minFontSize, evaluateDeclaredMinimumSize
+        });
+      return { fit: tightest, perWidgetFits: perWidget };
+    };
+    const primary = fitsWith(helvetica);
+    let fit = primary.fit;
+    let perWidgetFits = primary.perWidgetFits;
+    let selectedFont = helvetica;
+    const requestedFallback = fallbackRequests.get(field.name) ?? null;
+    let fallback = null;
+    if (fit.outcome === "refused" && requestedFallback) {
+      const alternate = await fallbackFont(requestedFallback);
+      fallback = fitsWith(alternate);
+      if (fallback.fit.outcome !== "refused") {
+        fit = fallback.fit;
+        perWidgetFits = fallback.perWidgetFits;
+        selectedFont = alternate;
+      }
+    }
 
     if (fit.outcome === "refused") {
       const refusedWidget = perWidgetFits.findIndex((f) => f.outcome === "refused");
       report.unfittable.push({
         field: field.name, factId: decision.factId, ...fit,
+        ...(requestedFallback ? {
+          primaryFont: StandardFonts.Helvetica,
+          fallbackFont: requestedFallback,
+          primaryRequiredWidthAtMin: primary.fit.requiredWidthAtMin ?? null,
+          fallbackRequiredWidthAtMin: fallback?.fit?.requiredWidthAtMin ?? null
+        } : {}),
         ...(refusedWidget >= 0 ? { refusedAtWidgetIndex: refusedWidget, widgetsMeasured: perWidgetFits.length } : {})
       });
       report.refused.push({
@@ -1277,9 +1391,24 @@ export async function finalizeOfficialForm({
     if (widgetsAligned.length) {
       report.widgetFontSizeAligned.push({ field: field.name, fontSize: fit.fontSize, widgets: widgetsAligned });
     }
+    const usedFallback = selectedFont !== helvetica;
+    if (usedFallback) {
+      fallbackAppearanceFields.set(field.name, { handle, font: selectedFont });
+      report.standardFontFallbacks.push({
+        field: field.name, factId: decision.factId,
+        primaryFont: StandardFonts.Helvetica,
+        fallbackFont: requestedFallback,
+        primaryOutcome: primary.fit.outcome,
+        primaryRequiredWidthAtMin: primary.fit.requiredWidthAtMin ?? null,
+        fallbackOutcome: fit.outcome,
+        fallbackFontSize: fit.fontSize
+      });
+    }
     report.written.push({
       field: field.name, factId: decision.factId, kind: "text",
       fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length,
+      font: usedFallback ? requestedFallback : StandardFonts.Helvetica,
+      standardFontFallbackUsed: usedFallback,
       ...(printedOrder !== undefined
         ? { printedDateOrder: printedOrder, storedValue: String(value), printedValue: text }
         : {}),
@@ -1554,6 +1683,15 @@ export async function finalizeOfficialForm({
         `clearSourceCarriedTextValues names ${notFound.length} field(s) this source does not carry a value in: ${notFound.join(", ")}`
       );
     }
+  }
+
+  // Generate opted-in fallback appearances with the same font used for the
+  // fit measurement, then mark those fields clean. sanitizeAndFlatten's global
+  // Helvetica update regenerates dirty fields only, so it preserves these
+  // per-field appearances and flatten stamps the measured font onto the page.
+  for (const { handle, font: selectedFont } of fallbackAppearanceFields.values()) {
+    handle.defaultUpdateAppearances(selectedFont);
+    form.markFieldAsClean(handle.ref);
   }
 
   // The fields this run actually bound. A chooser in this set was answered by

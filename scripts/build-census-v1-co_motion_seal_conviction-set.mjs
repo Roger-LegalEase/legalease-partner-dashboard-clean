@@ -64,7 +64,8 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { finalizeOfficialForm, isoDateInPrintedOrder } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { finalizeOfficialForm, isoDateInPrintedOrder, STANDARD_FONT_FALLBACK }
+  from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
@@ -916,6 +917,15 @@ async function renderDocument(source, census, fixtureName) {
     facts, explicitMappings, unwritableFields,
     clearSourceCarriedTextValues: source.formNumber === "JDF-205" ? ["9A.8", "9B.8"] : [],
     printedDateOrderByField: source.formNumber === "JDF-205" ? { DoB: "day_month_year" } : {},
+    // JDF 205 gives Email a single 167.56pt widget. The boundary email is a
+    // complete held fact and exceeds that widget under Helvetica at the 6pt
+    // floor by about two points. Times-Roman is another PDF standard 14 font
+    // and fits the exact value at the same floor. The shared finalizer still
+    // tries Helvetica first, so canonical bytes keep the default font and only
+    // the measured refusal takes this fallback.
+    standardFontFallbackByField: source.formNumber === "JDF-205"
+      ? { Email: STANDARD_FONT_FALLBACK.TIMES_ROMAN }
+      : {},
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title,
     /*
@@ -1141,7 +1151,7 @@ function mapFor(source, census, report) {
 }
 
 /* ---- the builder's own count of the nine counters --------------------------- */
-function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
+export function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
   const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
   const findings = [];
   const note = (counter, detail) => { counters[counter] += 1; findings.push({ counter, ...detail }); };
@@ -1214,6 +1224,20 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
   }
 
   for (const p of writeProofs) {
+    // A refusal discovered only on a boundary value used to disappear behind
+    // the canonical map. The proof is derived from those boundary bytes, and
+    // every entry in `unfittable` began as a known write, so it is a blocking
+    // known-fact omission unless the renderer actually writes it.
+    for (const refused of p.unfittable ?? []) {
+      note("knownRequiredFieldsMissing", {
+        fixture: p.fixture,
+        document: p.formNumber,
+        field: refused.field ?? null,
+        factId: refused.factId ?? null,
+        disposition: "KNOWN_FACT_NOT_WRITTEN",
+        basis: refused.reason ?? "held value did not fit the form's widget at the readable floor"
+      });
+    }
     const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
     if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) {
       note("invisibleWrites", { fixture: p.fixture, why: "the finalizer reported values and the output bytes carry no glyph and no flattened appearance" });
@@ -1516,6 +1540,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
         refusedFieldsWithInk: proof.refusedFieldsWithInk,
         documentAuthoredAppearances: proof.documentAuthoredAppearances,
         unfittable: report.unfittable,
+        standardFontFallbacks: report.standardFontFallbacks ?? [],
         actualWrites: proof.actualWrites
       });
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
@@ -1970,22 +1995,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "receives the structured street, city, state and ZIP facts separately, so neither form omits or duplicates parts."
       },
       {
-        severity: "advisory",
         finding:
-          "A boundary value that does not fit its line at the minimum readable font is refused by the shared finalizer "
-          + "rather than clipped.",
+          "JDF 205's Email widget is 167.56pt wide. The complete boundary email exceeds its usable width under "
+          + "Helvetica at the 6pt readable floor, while Times-Roman fits at that same floor.",
         consequence:
-          "Recorded in reports/actual-writes.json under unfittable. That is the boundary fixture doing its job; the "
-          + "canonical fixture writes the value."
-      },
-      {
-        severity: "advisory",
-        finding:
-          "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the "
-          + "name without it.",
-        consequence:
-          "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in "
-          + "vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+          "Only that field is eligible for the governed standard-font fallback. The finalizer tries Helvetica first, "
+          + "uses Times-Roman only after the measured refusal, and reads the complete exact value back from the "
+          + "flattened bytes. Any value that still fails both fonts remains unfittable and now increments "
+          + "knownRequiredFieldsMissing instead of disappearing behind the canonical map."
       }
     ]
   });

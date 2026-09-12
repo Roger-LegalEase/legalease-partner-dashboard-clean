@@ -63,7 +63,8 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "../rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { finalizeOfficialForm, finalizeFlatOverlay } from "../rcap-official-forms/rcap-official-form-finalize.mjs";
+import { finalizeOfficialForm, finalizeFlatOverlay, STANDARD_FONT_FALLBACK }
+  from "../rcap-official-forms/rcap-official-form-finalize.mjs";
 import { fitTextToWidget, MIN_READABLE_FONT_SIZE, HORIZONTAL_PADDING as TEXT_FITTING_HORIZONTAL_PADDING }
   from "../rcap-official-forms/rcap-text-fitting.mjs";
 import { protectCategoryOf, descriptorsMatching } from "../rcap-official-forms/rcap-field-semantics.mjs";
@@ -531,14 +532,14 @@ const writeBoxOf = (blank) => ({
  * quietly when the shared list changes.
  * ------------------------------------------------------------------ */
 
-/** The font the finalizer will use, embedded once, for measurement only. */
-let MEASURING_FONT = null;
-async function measuringFont() {
-  if (!MEASURING_FONT) {
+/** The governed fonts the finalizer may use, embedded once for measurement. */
+const MEASURING_FONTS = new Map();
+async function measuringFont(name = StandardFonts.Helvetica) {
+  if (!MEASURING_FONTS.has(name)) {
     const scratch = await PDFDocument.create();
-    MEASURING_FONT = await scratch.embedFont(StandardFonts.Helvetica);
+    MEASURING_FONTS.set(name, await scratch.embedFont(name));
   }
-  return MEASURING_FONT;
+  return MEASURING_FONTS.get(name);
 }
 
 function bindingMeasurementOf(documentId, key, printedLabel, binding) {
@@ -684,10 +685,22 @@ export async function censusFlat(source, facts = {}) {
       }
       if (entry.policy === "write" && entry.ifItDoesNotFit && row.writeBox) {
         const value = String(facts[entry.fact] ?? "");
-        const fit = fitTextToWidget({
+        const primaryFit = fitTextToWidget({
           font: await measuringFont(), text: value, rect: row.writeBox,
           multiline: false, maxFontSize: FLAT_WRITE_FONT_SIZE, minFontSize: MIN_READABLE_FONT_SIZE
         });
+        let fit = primaryFit;
+        let fallbackFit = null;
+        if (primaryFit.outcome === "refused") {
+          fallbackFit = fitTextToWidget({
+            font: await measuringFont(STANDARD_FONT_FALLBACK.TIMES_ROMAN), text: value, rect: row.writeBox,
+            multiline: false, maxFontSize: FLAT_WRITE_FONT_SIZE, minFontSize: MIN_READABLE_FONT_SIZE
+          });
+          if (fallbackFit.outcome !== "refused") {
+            fit = fallbackFit;
+            row.standardFontFallback = STANDARD_FONT_FALLBACK.TIMES_ROMAN;
+          }
+        }
         row.fitOnThePrintedLine = {
           measuredBlankWidthPt: r2(row.writeBox.width + WRITE_BOX_INSET * 2),
           writeBoxWidthPt: row.writeBox.width,
@@ -696,6 +709,14 @@ export async function censusFlat(source, facts = {}) {
           readableFloorFontSize: MIN_READABLE_FONT_SIZE,
           ceilingFontSize: FLAT_WRITE_FONT_SIZE,
           outcome: fit.outcome,
+          ...(fallbackFit ? {
+            primaryFont: StandardFonts.Helvetica,
+            primaryOutcome: primaryFit.outcome,
+            primaryWidthTheValueNeedsAtTheReadableFloor: primaryFit.requiredWidthAtMin ?? null,
+            fallbackFont: STANDARD_FONT_FALLBACK.TIMES_ROMAN,
+            fallbackOutcome: fallbackFit.outcome,
+            fallbackWidthTheValueNeedsAtTheReadableFloor: fallbackFit.requiredWidthAtMin ?? null
+          } : {}),
           ...(fit.outcome === "refused"
             ? { widthTheValueNeedsAtTheReadableFloor: fit.requiredWidthAtMin ?? null, reason: fit.reason }
             : { fittedAtFontSize: fit.fontSize })
@@ -948,7 +969,8 @@ export async function renderFlat(source, census, facts) {
     `${source.documentId}: two blanks are bound under the same caption: ${JSON.stringify(anchorLabels.filter((l, i) => anchorLabels.indexOf(l) !== i))}`);
   const anchors = writable.map((r) => ({
     page: r.page, label: r.anchorLabel, writeBox: r.writeBox,
-    factId: r.fact, fontSize: FLAT_WRITE_FONT_SIZE, protectedRules
+    factId: r.fact, fontSize: FLAT_WRITE_FONT_SIZE, protectedRules,
+    ...(r.standardFontFallback ? { standardFontFallback: r.standardFontFallback } : {})
   }));
   return finalizeFlatOverlay({
     sourceBytes: source.bytes,
@@ -1394,9 +1416,19 @@ export function countCompleteness(maps, writeProofs, artifacts, instructionsText
     };
     const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
     ledger.push({ field: blank.id, label: blank.label, document: blank.document, ...verdict });
+    // A held value omitted from the filing is blocking even though the
+    // completeness vocabulary treats the row as a truthful, classified blank.
+    // "Allowed" there means the row is intelligible; it does not make the
+    // missing known value acceptable for a packet claiming zero defects.
+    if (verdict.disposition === "KNOWN_FACT_NOT_WRITTEN") {
+      note("knownRequiredFieldsMissing", {
+        field: blank.id, label: blank.label, disposition: verdict.disposition,
+        basis: verdict.basis, reasonGiven: blank.reason || null
+      });
+      continue;
+    }
     if (BLANK_DISPOSITIONS[verdict.disposition].allowed) continue;
-    const counter = verdict.disposition === "KNOWN_FACT_NOT_WRITTEN" ? "knownRequiredFieldsMissing"
-      : verdict.disposition === "ROUTE_OPTION_NOT_SELECTED" ? "requiredOptionsMissing" : "unclassifiedBlanks";
+    const counter = verdict.disposition === "ROUTE_OPTION_NOT_SELECTED" ? "requiredOptionsMissing" : "unclassifiedBlanks";
     note(counter, { field: blank.id, label: blank.label, disposition: verdict.disposition, basis: verdict.basis, reasonGiven: blank.reason || null });
   }
 
@@ -1693,6 +1725,7 @@ export async function runNmFamily(family, argv = []) {
         refusedFieldsWithInk: proof.refusedFieldsWithInk,
         documentAuthoredAppearances: proof.documentAuthoredAppearances,
         unfittable: report.unfittable,
+        standardFontFallbacks: report.standardFontFallbacks ?? [],
         actualWrites: proof.actualWrites
       });
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });

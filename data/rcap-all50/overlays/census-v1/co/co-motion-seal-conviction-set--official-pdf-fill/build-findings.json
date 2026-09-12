@@ -40,14 +40,8 @@
       "consequence": "The shared semantic registry now binds only captions that expressly require city/state/ZIP to a derived participant.full_mailing_address value. JDF 612 receives the derived one-line postal address; JDF 205 receives the structured street, city, state and ZIP facts separately, so neither form omits or duplicates parts."
     },
     {
-      "severity": "advisory",
-      "finding": "A boundary value that does not fit its line at the minimum readable font is refused by the shared finalizer rather than clipped.",
-      "consequence": "Recorded in reports/actual-writes.json under unfittable. That is the boundary fixture doing its job; the canonical fixture writes the value."
-    },
-    {
-      "severity": "advisory",
-      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
-      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+      "finding": "JDF 205's Email widget is 167.56pt wide. The complete boundary email exceeds its usable width under Helvetica at the 6pt readable floor, while Times-Roman fits at that same floor.",
+      "consequence": "Only that field is eligible for the governed standard-font fallback. The finalizer tries Helvetica first, uses Times-Roman only after the measured refusal, and reads the complete exact value back from the flattened bytes. Any value that still fails both fonts remains unfittable and now increments knownRequiredFieldsMissing instead of disappearing behind the canonical map."
     }
   ]
 }
