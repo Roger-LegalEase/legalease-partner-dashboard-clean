@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "61aa12fcab172fde688feb5d496cd22f96327bbf",
+  "minimumCaptainSha": "3912487878def16186df0eec60d1b4218afae9ab",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -78,20 +78,20 @@
     "sourceReady": 33,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 3,
-    "repairRequired": 21,
+    "verifyPending": 10,
+    "repairRequired": 15,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 250,
+    "COMPLETE_PACKET_PROVEN": 252,
     "PRODUCT_PATH_PENDING": 9,
     "OUT_OF_SCOPE": 5,
-    "FAIL_REPAIR_REQUIRED": 22,
+    "VERIFY_PENDING": 10,
     "SOURCE_READY": 33,
-    "VERIFY_PENDING": 3,
+    "FAIL_REPAIR_REQUIRED": 16,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 8,
+    "BUILT_RASTER_PENDING": 5,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -166,7 +166,7 @@
     "sourceReadyFamilies": 33,
     "familiesPerBuilder": 1.3,
     "targetPerBuilder": "15 to 25",
-    "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 33 do, so a full roster of 25 builders averages 1.3 families each rather than 15 to 25.",
+    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 33 do, so a full roster of 25 builders averages 1.3 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -2560,7 +2560,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -2635,7 +2635,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-diversion-set.mjs",
@@ -2736,10 +2736,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
+        "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-guidance-only-two-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -2771,26 +2771,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-dwop-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
@@ -2887,10 +2872,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
+        "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-guidance-only-two-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -2922,39 +2907,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-nonconviction-90-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-nonconviction-90-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-nonconviction-90-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-felony-nonconviction-90-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-nonconviction-90-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-felony-nonconviction-90-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
@@ -3104,7 +3061,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3179,7 +3136,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-conviction-set.mjs",
@@ -3329,7 +3286,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3404,7 +3361,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-dwop-set.mjs",
@@ -3759,8 +3716,8 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf02",
-        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
+        "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-pardon-conditional-guidance-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -3779,7 +3736,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+          "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -3810,7 +3767,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS: CR-65 Section V boxes are participant attestations, never builder-owned constants. Ask every required question, check only facts affirmatively supplied and supported, and stop self-help if all required statements for the route cannot truthfully be made. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS: CR-65 Section V boxes are participant attestations, never builder-owned constants. Ask every required question, check only facts affirmatively supplied and supported, and stop self-help if all required statements for the route cannot truthfully be made. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3828,38 +3785,46 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING"
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
       ],
       "failedObligations": [
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
+          "finding": "FAIL: The oath, municipality and fee corrections are verified, and all 57 required field labels are disclosed. However, two current pardon attestation descriptions omit source conditions, changing the required participant facts and branch applicability. Exact full source quotations, guide excerpts and current guide SHA are preserved in the fresh findings record.",
           "findingReadFrom": "finding",
           "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-guidance-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/retained-originals-al-pardoned-felony-set.json",
             "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-pardoned-felony-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/VF02-al-pardoned-felony-set-claim.txt",
+            "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json",
+            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/pardon-conditional-guidance-findings.json"
           ]
         },
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "FAIL: All 16 Section V appearances remain empty, disproving the old unsupported-precheck finding. Nevertheless Check Box11.4 guidance deletes the felony-reclassification alternative and incorrectly says both remaining halves must be established; Check Box11.6 deletes the 49 C.F.R. § 383.51 offense qualifier. Empty controls do not cure incorrect completion guidance.",
           "findingReadFrom": "finding",
           "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-guidance-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/retained-originals-al-pardoned-felony-set.json",
             "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-pardoned-felony-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/VF02-al-pardoned-felony-set-claim.txt",
+            "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json",
+            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/pardon-conditional-guidance-findings.json"
           ]
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
@@ -6677,7 +6642,12 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "7aaa6e53318e41ccea48ae6457bf925560cd025d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-az-current-form-initial-input-fail-20260912.json"
+      },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
         "status": "PACKET_SOURCE_ADOPTION_CURRENT",
@@ -6741,8 +6711,38 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: The packet does not model or hand back the sentence imposed required by Rule29.2(a), offense class required by the governed track, or the distinct completion/discharge timing fact required by that track. Sentence-compliance yes/no and judgment date do not supply those facts. The current zero-length requiredBeforeFiling array and generic choices paragraph do not cure the omissions. Exact input/map/guide snapshots and source requirements are bound in findings.json.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/current-byte-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/az_set_aside-set-34663873573-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/independent-rule29-reading.json",
+            "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/service-source-resolution.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "FAIL: The governed participant question asking whether a certificate of second chance is requested is omitted. Asking about prior certificates and leaving judicial certificate controls blank does not ask this different participant question. A repair may use participant-authored application additional information; it must not select the judge’s grant/deny or decide certificate entitlement. All present case-specific form elections remain unselected except the correctly fact-determined additional-count marker.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/current-byte-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/az_set_aside-set-34663873573-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/independent-rule29-reading.json",
+            "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/service-source-resolution.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -22081,10 +22081,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -22096,7 +22093,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22126,7 +22123,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-conviction-set.mjs",
@@ -22350,10 +22347,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -22365,7 +22359,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22386,7 +22380,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-diversion-set.mjs",
@@ -22608,10 +22602,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -22623,7 +22614,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22644,7 +22635,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs",
@@ -22851,10 +22842,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -51848,11 +51836,11 @@
     }
   ],
   "totals": {
-    "lanes": 57,
+    "lanes": 53,
     "builders": 25,
     "verifiers": 8,
     "sourceLanes": 16,
-    "repairLanes": 8,
+    "repairLanes": 4,
     "familiesAssignedToBuilders": 33,
     "sourceObligationsAssigned": 0,
     "actualPromotedAndReleased": 33,

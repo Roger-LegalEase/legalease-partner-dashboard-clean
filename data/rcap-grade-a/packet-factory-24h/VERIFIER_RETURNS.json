@@ -34,19 +34,18 @@
     }
   ],
   "counts": {
-    "returnDirectories": 270,
-    "rows": 1355,
-    "independentVerdicts": 306,
-    "failRepairRequired": 22,
-    "passIndependent": 269
+    "returnDirectories": 273,
+    "rows": 1359,
+    "independentVerdicts": 307,
+    "failRepairRequired": 21,
+    "passIndependent": 271
   },
   "failRepairRequiredFamilies": [
     "al-diversion-set",
-    "al-felony-dwop-set",
-    "al-felony-nonconviction-90-set",
     "al-misd-conviction-set",
     "al-misd-dwop-set",
     "al-pardoned-felony-set",
+    "az_set_aside-set",
     "ca-17b-reduction-set",
     "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
@@ -1174,6 +1173,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-guidance-only-two-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
       "superseded": false
     },
     {
@@ -1489,6 +1502,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-guidance-only-two-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
       "superseded": false
@@ -2042,6 +2069,56 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardoned-felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: The oath, municipality and fee corrections are verified, and all 57 required field labels are disclosed. However, two current pardon attestation descriptions omit source conditions, changing the required participant facts and branch applicability. Exact full source quotations, guide excerpts and current guide SHA are preserved in the fresh findings record.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-guidance-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/retained-originals-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/VF02-al-pardoned-felony-set-claim.txt",
+            "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json",
+            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/pardon-conditional-guidance-findings.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "FAIL: All 16 Section V appearances remain empty, disproving the old unsupported-precheck finding. Nevertheless Check Box11.4 guidance deletes the felony-reclassification alternative and incorrectly says both remaining halves must be established; Check Box11.6 deletes the 49 C.F.R. § 383.51 offense qualifier. Empty controls do not cure incorrect completion guidance.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-measurements-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-guidance-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/retained-originals-al-pardoned-felony-set.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/VF02-al-pardoned-felony-set-claim.txt",
+            "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json",
+            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/pardon-conditional-guidance-findings.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-pardon-conditional-guidance-fail-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardoned-felony-set",
       "superseded": false
@@ -3986,6 +4063,50 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_dismissal_not_guilty-set",
       "superseded": true
+    },
+    {
+      "familyId": "az_set_aside-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7aaa6e53318e41ccea48ae6457bf925560cd025d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: The packet does not model or hand back the sentence imposed required by Rule29.2(a), offense class required by the governed track, or the distinct completion/discharge timing fact required by that track. Sentence-compliance yes/no and judgment date do not supply those facts. The current zero-length requiredBeforeFiling array and generic choices paragraph do not cure the omissions. Exact input/map/guide snapshots and source requirements are bound in findings.json.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/current-byte-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/az_set_aside-set-34663873573-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/independent-rule29-reading.json",
+            "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/service-source-resolution.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "FAIL: The governed participant question asking whether a certificate of second chance is requested is omitted. Asking about prior certificates and leaving judicial certificate controls blank does not ask this different participant question. A repair may use participant-authored application additional information; it must not select the judge’s grant/deny or decide certificate entitlement. All present case-specific form elections remain unselected except the correctly fact-determined additional-count marker.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/current-byte-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/az_set_aside-set-34663873573-original-raster-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/findings.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/independent-rule29-reading.json",
+            "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json",
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/service-source-resolution.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-az-current-form-initial-input-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_set_aside-set",
+      "superseded": false
     },
     {
       "familyId": "az_wrongful_arrest_clearance-set",
