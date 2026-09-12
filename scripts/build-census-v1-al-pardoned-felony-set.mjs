@@ -65,6 +65,14 @@ function assertPardonedFelonyInvariants(dir) {
   }
   assert.match(instructions, /This packet checks none of them/,
     "the guide must say plainly that it checked nothing");
+  assert.ok(instructions.includes("or was classified as a felony at the time of the conviction, but has been reclassified as a misdemeanor, pursuant to Act 2015-185, and I have not been arrested"),
+    "the moral-turpitude alternative must retain its reclassification branch");
+  assert.ok(instructions.includes("The 15-year arrest-history condition belongs to the felony-to-misdemeanor reclassification alternative"),
+    "the arrest-history condition must not be imposed on every pardoned conviction");
+  assert.ok(instructions.includes("commercial learner permit for a conviction of an offense enumerated in 49 C.F.R. § 383.51."),
+    "the commercial-driving condition must retain its enumerated-offense limitation");
+  assert.ok(!instructions.includes("Both halves of this box are yours to establish."),
+    "the prior universal-condition instruction must not return");
 
   // The record's own dispositive blocker must reach the participant, not be
   // quietly resolved in their favour by a tick.

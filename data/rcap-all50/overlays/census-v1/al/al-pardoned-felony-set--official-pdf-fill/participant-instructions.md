@@ -127,9 +127,9 @@ What the held record says: The held record does not say whether your conviction 
 
 ### Check Box11.4 — left empty by this packet
 
-The form prints: "the conviction is not an offense involving moral turpitude, as provided in Section 17-3-30.1 ... and I have not been arrested for any offense, excluding minor traffic violations, 15 years prior to the filing of the petition."
+The form prints: "the conviction is not an offense involving moral turpitude, as provided in Section 17-3-30.1, or was classified as a felony at the time of the conviction, but has been reclassified as a misdemeanor, pursuant to Act 2015-185, and I have not been arrested for any offense, excluding minor traffic violations, 15 years prior to the filing of the petition."
 
-What the held record says: The held record says nothing about moral turpitude and holds no 15-year arrest history for you. Both halves of this box are yours to establish.
+What the held record says: Read the two alternatives exactly as printed. The 15-year arrest-history condition belongs to the felony-to-misdemeanor reclassification alternative; it is not a universal requirement for every pardoned conviction. The packet establishes neither alternative for you. If you cannot determine which alternative applies and truthfully certify it, stop and seek legal help rather than selecting this box.
 
 ### Check Box11.5 — left empty by this packet
 
@@ -139,9 +139,9 @@ What the held record says: The held record does not say whether your conviction 
 
 ### Check Box11.6 — left empty by this packet
 
-The form prints: "At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit."
+The form prints: "At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit for a conviction of an offense enumerated in 49 C.F.R. § 383.51."
 
-What the held record says: The held record holds no commercial-licence fact for you and never asks for one.
+What the held record says: Read the complete condition, including its limitation to a conviction of an offense enumerated in 49 C.F.R. § 383.51. The packet supplies no commercial-driving, licence, permit, or enumerated-offense determination. If you cannot truthfully certify the printed condition, stop and seek legal help rather than selecting this box.
 
 ## Elections on CR-65 that this packet has not made
 
