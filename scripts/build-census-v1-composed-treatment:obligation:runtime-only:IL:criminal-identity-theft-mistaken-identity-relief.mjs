@@ -76,6 +76,15 @@ const SPEC = {
         "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
         "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2"
       ]
+    },
+    {
+      "recordId": "legal-decision:IL-MISTAKEN-IDENTITY-VERIFICATION",
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "role": "Binding certification treatment for this exact mistaken-identity route",
+      "mustContain": [
+        "IL-MISTAKEN-IDENTITY-VERIFICATION",
+        "735 ILCS 5/1-109"
+      ]
     }
   ],
   "components": [
@@ -88,66 +97,44 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(the Illinois judicial circuit where the arrest occurred, addressed to its chief judge)",
+        "(Illinois circuit where the arrest occurred; addressed to its chief judge)",
         "",
-        "IN RE: {{participant.full_legal_name}},",
-        "PETITIONER.",
+        "IN RE: {{participant.full_legal_name}}, PETITIONER.",
         "",
-        "Case number, if the court assigns one at filing:",
-        "{{DOTS}}",
+        "Case number assigned by the court: {{DOTS:38}}",
         "",
-        "ILLINOIS VERIFIED MISTAKEN-IDENTITY PETITION UNDER 20 ILCS 2630/5.2",
+        "A. REQUEST FOR MISTAKEN-IDENTITY CORRECTION",
         "",
-        "A. WHAT THE COMMITTED RECORD ESTABLISHES ABOUT THIS ROUTE",
-        "",
-        "This petition is brought on the route the committed route contract records as \"Mistaken-identity correction and sealing\", under 20 ILCS 2630/5.2, mistaken-identity provisions.",
-        "",
-        "The compiled Illinois profile records the substance of this route as follows. If someone was arrested or convicted under the name of a person whose identity was stolen or used without authorization, the aggrieved person may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records by removing their name and substituting the offender's name if known. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\")",
-        "",
-        "The committed contract records the timing of this route as: no elapsed waiting period; the verified petition may be filed upon learning of the record.",
-        "",
-        "The committed contract records these conditions on the route: Verified stolen/mistaken identity or qualifying Class 4 prostitution record under the specific statutory relief provisions.",
+        "I petition the chief judge under the mistaken-identity provisions of 20 ILCS 2630/5.2 to correct records made in my name through identity theft or unauthorized use of my identity. The facts and supporting records are described below.",
         "",
         "B. THE PETITIONER",
-        "",
         "Name: {{participant.full_legal_name}}",
         "Date of birth: {{participant.date_of_birth}}",
         "",
-        "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
+        "C. CASE INFORMATION TO COMPLETE BEFORE SIGNING",
         "",
-        "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself, never from memory.",
-        "",
-        "[C1 - identity theft report and mismatched identifiers] Identity theft report and mismatched identifiers?",
+        "[C1 - identity theft report and mismatched identifiers] Describe the affected record and how the identifiers show that someone else used your name. Identify the attached identity-theft report and supporting identifier evidence.",
         "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C2 - arrest circuit] Arrest circuit?",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C3 - exact prostitution statute/class] Exact prostitution statute/class?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C4 - sentence completion] Sentence completion?",
-        "{{DOTS}}",
+        "[C2 - arrest circuit] Illinois circuit where the arrest occurred:",
         "{{DOTS}}",
         "",
-        "[C5 - trafficking/victimization facts] Trafficking/victimization facts?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C6 - automatic-seal status] Automatic-seal status?",
-        "{{DOTS}}",
+        "[C6 - automatic-seal status] State the record's automatic-seal status. If uncertain, ask the circuit clerk or get legal help before filing.",
         "{{DOTS}}",
         "",
-        "D. THE REQUEST",
+        "D. RELIEF REQUESTED",
         "",
-        "The petitioner asks the chief judge to correct the arrest or conviction record and the official records by removing the petitioner's name and substituting the offender's name if it is known.",
+        "I ask the chief judge to correct the arrest or conviction and official records by removing my name and substituting the offender's name if known. An unknown offender name must not be invented.",
+        "",
+        "E. CERTIFICATION UNDER 735 ILCS 5/1-109",
+        "",
+        "Under penalties as provided by law pursuant to Section 1-109 of the Code of Civil Procedure, I certify that the statements set forth in this petition are true and correct, except as to matters stated to be on information and belief and as to such matters I certify that I verily believe the same to be true.",
         "",
         "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
         "",
-        "(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)",
+        "(Sign and date personally after completing and checking this petition. No notarization is required by this certification.)",
         "",
         "PRINTED NAME: {{participant.full_legal_name}}",
         "MAILING ADDRESS: {{participant.street_address}}",
@@ -194,42 +181,21 @@ const SPEC = {
           "id": "fact_q1",
           "label": "Item C1 - identity theft report and mismatched identifiers",
           "supply": "Identity theft report and mismatched identifiers — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "why": "The case-specific information is not held; the participant must supply it accurately before signing."
         },
         {
           "kind": "rbf",
           "id": "fact_q2",
           "label": "Item C2 - arrest circuit",
           "supply": "Arrest circuit — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q3",
-          "label": "Item C3 - exact prostitution statute/class",
-          "supply": "Exact prostitution statute/class — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q4",
-          "label": "Item C4 - sentence completion",
-          "supply": "Sentence completion — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q5",
-          "label": "Item C5 - trafficking/victimization facts",
-          "supply": "Trafficking/victimization facts — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "why": "The case-specific information is not held; the participant must supply it accurately before signing."
         },
         {
           "kind": "rbf",
           "id": "fact_q6",
           "label": "Item C6 - automatic-seal status",
           "supply": "Automatic-seal status — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "why": "The case-specific information is not held; the participant must supply it accurately before signing."
         },
         {
           "kind": "court",
@@ -261,44 +227,32 @@ const SPEC = {
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "FILING INSTRUCTIONS - ILLINOIS VERIFIED MISTAKEN-IDENTITY PETITION UNDER 20 ILCS 2630/5.2",
+        "PURPOSE AND FILING COURT",
         "",
-        "WHAT THIS ROUTE IS, AND WHO RUNS IT",
+        "Use this petition for criminal identity theft or mistaken identity under 20 ILCS 2630/5.2. Petition the chief judge of the Illinois circuit where the arrest occurred. This is a record-correction process; an ordinary expungement petition is not a substitute.",
         "",
-        "The committed route contract records this route as \"Mistaken-identity correction and sealing\", under 20 ILCS 2630/5.2, mistaken-identity provisions, with outcome mode \"participant_packet\".",
+        "BEFORE YOU SIGN",
         "",
-        "The committed contract names the packet components for this route as: Verified petition; Identity-theft report; Mismatched identifier evidence. This packet composes the filing pages; anything on that list that is a RECORD rather than a pleading is a document you obtain and file with the petition.",
+        "Obtain the identity-theft report and evidence showing the mismatch between your identifiers and those in the affected arrest or conviction record. Attach these records to the petition.",
+        "Complete C1, C2 and C6 and the arrest-circuit caption from accurate records. Do not guess case facts, dates or an unknown offender's name.",
+        "Review the entire completed petition and its certification under 735 ILCS 5/1-109. Sign and date personally only if its statements are true. The certification does not require a notary.",
+        "Leave a new court-assigned case number blank until the court supplies it.",
         "",
-        "Who runs it: The participant petitions and the chief judge of the circuit decides. This is a CORRECTION route, not an expungement route: the compiled profile records the Wilma rule that a person saying 'that was not me, someone used my name' is routed to the criminal-identity-theft correction process and not to ordinary expungement or sealing first.",
+        "FILING COST AND WAIVER",
         "",
-        "WHAT YOU DO",
+        "Confirm the current filing fee and any fee-waiver procedure with the office of the chief judge of the Illinois circuit where the arrest occurred. This packet does not establish a fee amount or a waiver decision. If you cannot afford a fee, ask about available waiver procedures or legal aid; do not assume inability to pay bars filing.",
         "",
-        "- Get the identity-theft report and anything showing the identifiers on the record do not match yours; the committed contract names both as components of this packet.",
-        "- Fill every labelled item on the petition from the record itself.",
-        "- Complete the opening IN THE ... COURT caption with the name of the Illinois circuit court identified by the arrest record and item C2. If its exact name is unclear, ask the office of that circuit's chief judge before filing.",
-        "- Sign and date the petition personally, then take it to the office of the chief judge of the circuit where the arrest occurred.",
+        "NOTICE AND SERVICE",
         "",
-        "WHAT YOU DO NOT DO",
+        "Before filing, ask the office of the chief judge of the arrest circuit who must receive notice or service, how to provide it, and whether proof of service is required. Follow the court's instructions; this packet does not certify that anyone has been served.",
         "",
-        "- Do not file an ordinary expungement or sealing petition first. The compiled profile records in terms that a mistaken-identity fact pattern routes to the correction process rather than to ordinary expungement or sealing.",
-        "- Do not fill in the other person's name unless you actually know it. The recorded remedy substitutes the offender's name 'if known', which means it is not required.",
+        "WHEN TO GET LEGAL HELP",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
-        "",
-        "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the chief judge of the Illinois judicial circuit where the arrest occurred. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
-        "",
-        "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
-        "",
-        "No committed record this packet binds states who must be served on this route, or how. The office that answers it is the office of the chief judge of the Illinois judicial circuit where the arrest occurred.",
-        "",
-        "WHEN TO STOP AND GET HELP INSTEAD",
-        "",
-        "- you are not certain the record was made in your name by someone else — that is the whole premise of this route;",
-        "- what you actually have is an ordinary conviction or arrest of your own, which is a different Illinois route with a different instrument;",
-        "- the record may already have been reached by Illinois automatic sealing, which the committed contract records as a fact this route must collect;",
-        "- the matter involves a prostitution record, which the committed contract records as a separate branch of the same decision;",
-        "- any immigration question is involved.",
-        ""
+        "- you are uncertain that someone else used your identity to create the record;",
+        "- the arrest or conviction is actually your own, rather than a mistaken-identity record;",
+        "- the record may already have been automatically sealed and its status is unresolved;",
+        "- you need relief on the separate prostitution or trafficking-related conviction route;",
+        "- an immigration issue is involved."
       ],
       "writes": [
         {
@@ -339,53 +293,44 @@ const SPEC = {
   ],
   "obligationTable": [
     [
-      "FILING_DESTINATION",
-      "**The repository establishes this one.** The compiled Illinois profile records that the aggrieved person \"may petition the chief judge of the circuit where the arrest occurred\". That is the destination this packet states. The census records the route's own destination field as not recorded; the compiled profile answers it for this route, and DET-FEE-AND-WAIVER-001-A2 makes the compiled profile part of the repository this packet must ask first."
+      "Filing court",
+      "The chief judge of the Illinois circuit where the arrest occurred."
     ],
     [
-      "FEE_AND_WAIVER",
-      "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the chief judge of the Illinois judicial circuit where the arrest occurred. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
+      "Filing fee and waiver",
+      "Confirm the current filing fee and any fee-waiver procedure with the office of the chief judge of the Illinois circuit where the arrest occurred. This packet does not establish a fee amount or a waiver decision. If you cannot afford a fee, ask about available waiver procedures or legal aid; do not assume inability to pay bars filing."
     ],
     [
-      "SERVICE",
-      "No committed record this packet binds states who must be served on this route, or how. The office that answers it is the office of the chief judge of the Illinois judicial circuit where the arrest occurred."
+      "Notice and service",
+      "Before filing, ask the office of the chief judge of the arrest circuit who must receive notice or service, how to provide it, and whether proof of service is required. Follow the court's instructions; this packet does not certify that anyone has been served."
     ],
     [
-      "SELF_HELP_STOP",
-      "**Stop and get help if:** you are not certain the record was made in your name by someone else — that is the whole premise of this route; **Stop and get help if:** what you actually have is an ordinary conviction or arrest of your own, which is a different Illinois route with a different instrument; **Stop and get help if:** the record may already have been reached by Illinois automatic sealing, which the committed contract records as a fact this route must collect; **Stop and get help if:** the matter involves a prostitution record, which the committed contract records as a separate branch of the same decision; **Stop and get help if:** any immigration question is involved."
+      "When to get help",
+      "Stop and obtain legal help if you are uncertain that someone else used your identity to create the record; the arrest or conviction is actually your own, rather than a mistaken-identity record; the record may already have been automatically sealed and its status is unresolved; you need relief on the separate prostitution or trafficking-related conviction route; an immigration issue is involved."
     ]
   ],
   "instructionsIntro": [
-    "This packet is composed from committed repository records, not from an official form: no committed record names an official Illinois participant form for this route.",
-    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every fact about your own case belongs to the record itself, so each one is a labelled dotted blank listed below, and you fill it from the record, never from memory."
+    "This is a prepared mistaken-identity petition, not an official statewide form. It asks the chief judge of the arrest circuit to correct records created through someone else's use of your identity.",
+    "Your held name, birth date and contact details are filled in. Complete the listed case-specific blanks from accurate records before signing the certification under 735 ILCS 5/1-109."
   ],
   "instrumentChoice": null,
-  "recordSays": [
-    [
-      "The compiled Illinois profile",
-      "Criminal identity theft / mistaken identity If someone was arrested or convicted under the name of a person whose identity was stolen or used without authorization, the aggrieved person may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records by removing their name and substituting the offender's name if known. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\") Wilma rule: If the user says that was not me, someone used my name, or identity theft, route to the criminal-identity-theft correction process, not ordinary expungement/sealing first."
-    ],
-    [
-      "The committed route contract",
-      "A nunc pro tunc correction, removal and sealing mechanism, not an ordinary conviction-expungement clock. Do not route it through the ordinary expungement eligibility engine."
-    ]
-  ],
+  "recordSays": [],
   "documentsToObtain": [
     [
-      "The identity-theft report — the committed contract names it as a component of this packet",
-      "the police department that took the report, or the agency that issued it"
+      "Identity-theft report",
+      "The police department or agency that issued it."
     ],
     [
-      "Mismatched identifier evidence — the committed contract names it as a component of this packet",
-      "your own identity documents, and the arrest record showing the identifiers used"
+      "Mismatched identifier evidence",
+      "Your identity documents and the arrest or conviction record showing the identifiers used."
     ]
   ],
   "steps": [
-    "**Read the filing instructions page.** It says what this route is, who runs it, what the record establishes about cost and notice, and when to stop.",
-    "**Fill every labelled item on the petition** from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
-    "**Obtain every document the filing instructions page lists**, and file them with the petition.",
-    "**Sign and date the petition personally.** The platform never signs for you and never dates a signing line.",
-    "**File it with the office of the chief judge of the Illinois judicial circuit where the arrest occurred**, and ask that office what it charges and how it accepts filings before you go."
+    "Read the filing instructions and confirm this is a mistaken-identity record.",
+    "Complete the caption and items C1, C2 and C6 accurately; do not supply facts from an unrelated prostitution or trafficking route.",
+    "Obtain and attach the identity-theft report and mismatched identifier evidence.",
+    "Read the certification, then sign and date personally only after the petition is complete and true. No notary is required for the Section 1-109 certification.",
+    "Confirm filing, fee-waiver and service procedures with the office of the chief judge of the arrest circuit. File and follow the court's notice instructions."
   ],
   "deliberatelyBlank": [
     "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
@@ -393,13 +338,13 @@ const SPEC = {
   ],
   "notTold": [],
   "stopConditions": [
-    "you are not certain the record was made in your name by someone else — that is the whole premise of this route;",
-    "what you actually have is an ordinary conviction or arrest of your own, which is a different Illinois route with a different instrument;",
-    "the record may already have been reached by Illinois automatic sealing, which the committed contract records as a fact this route must collect;",
-    "the matter involves a prostitution record, which the committed contract records as a separate branch of the same decision;",
-    "any immigration question is involved."
+    "you are uncertain that someone else used your identity to create the record;",
+    "the arrest or conviction is actually your own, rather than a mistaken-identity record;",
+    "the record may already have been automatically sealed and its status is unresolved;",
+    "you need relief on the separate prostitution or trafficking-related conviction route;",
+    "an immigration issue is involved."
   ],
-  "whatThisIsNot": "This is a composed petition on one Illinois route. It is not an official Illinois form — no committed record names one for this route — it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.",
+  "whatThisIsNot": "This prepared petition is not an official court form. It does not file itself, sign for you, establish your eligibility, or decide what the court will grant.",
   "receiptDoesNotEstablish": [
     "that any Illinois record was in fact made in the participant's name by another person"
   ],
@@ -434,6 +379,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
@@ -554,7 +500,7 @@ function composedBody(componentId, facts) {
       return String(value);
     }));
   }
-  lines.push("", `Route: ${c.routeKey}`);
+
   return lines.join("\n");
 }
 
@@ -651,6 +597,54 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
   return { actualWrites, glyphs, pagesRead: pages.length };
 }
 
+/** Read every saved glyph box and the unsigned execution/court lines. */
+export function measureSavedComposedPacket(file) {
+  const program = String.raw`
+import json, re, sys
+import pymupdf as fitz
+with fitz.open(sys.argv[1]) as doc:
+    outside=[]; glyphs=0; widgets=0; pages=[]; protected=[]; page_chars={}
+    for i,page in enumerate(doc):
+        measured=0; page_chars[i+1]=[]
+        for block in page.get_text('rawdict')['blocks']:
+            for line in block.get('lines',[]):
+                chars=[ch for span in line['spans'] for ch in span['chars']]
+                line_text=''.join(ch['c'] for ch in chars)
+                if ('DATE' in line_text and 'SIGNATURE OF PETITIONER' in line_text) or line_text.startswith('Case number assigned by the court:'):
+                    for m in re.finditer(r'\.{30,}',line_text):
+                        if m.end()-m.start() not in [30,36,38]: continue
+                        first=chars[m.start()]['bbox']; last=chars[m.end()-1]['bbox']
+                        protected.append({'page':i+1,'label':'court case number' if line_text.startswith('Case number') else ('date' if m.end()-m.start()==30 else 'signature'),'bbox':[first[0],first[1],last[2],last[3]]})
+                for span in line['spans']:
+                    for ch in span['chars']:
+                        if ch['c'].isspace(): continue
+                        glyphs+=1; measured+=1; page_chars[i+1].append(ch)
+                        x0,y0,x1,y1=ch['bbox']
+                        if x0 < 70 or x1 > 542 or y0 < 56 or y1 > 736:
+                            outside.append({'page':i+1,'character':ch['c'],'bbox':list(ch['bbox'])})
+        widgets+=sum(bool(re.match(r'(FlatWidget|ExactFactOverlay)-',str(x[1]))) for x in page.get_xobjects())
+        pages.append({'page':i+1,'glyphsMeasured':measured,'declaredContentBox':[70,56,542,736]})
+    text=' '.join(' '.join(p.get_text().split()) for p in doc)
+    refused=[]
+    if len(protected)!=3: refused.append('Expected exactly three protected blank regions')
+    for region in protected:
+        a,b,c,d=region['bbox']
+        for ch in page_chars[region['page']]:
+            if ch['c']=='.': continue
+            x0,y0,x1,y1=ch['bbox']
+            if min(c,x1)-max(a,x0)>0.25 and min(d,y1)-max(b,y0)>0.25:
+                refused.append({'field':region['label'],'page':region['page'],'character':ch['c'],'bbox':list(ch['bbox'])})
+    if not re.search(r'DATE\s+\.{30}\s+SIGNATURE OF PETITIONER\s+\.{36}(?:\s|$)',text):
+        refused.append('petition signature/date line is not exactly the unsigned dotted line')
+    if not re.search(r'Case number assigned by the court:\s+\.{38}(?:\s|$)',text):
+        refused.append('court-assigned caption line is not blank')
+    print(json.dumps({'glyphsMeasured':glyphs,'pages':pages,'nonWhitespaceGlyphsOutsideMeasuredWriteBoxes':len(outside),'outside':outside,'flattenedWidgetAppearancesReadFromOutputBytes':widgets,'refusedFieldsWithInk':refused,'protectedBlankRegions':protected}))
+`;
+  const result=JSON.parse(execFileSync('python',['-c',program,file],{encoding:'utf8',maxBuffer:8*1024*1024}));
+  assert.ok(result.glyphsMeasured>0&&result.pages.every(p=>p.glyphsMeasured>0),'Every composed page must contain measured glyphs');
+  return result;
+}
+
 /* ---- the builder's own count of the nine counters ----------------------------- */
 function countCompleteness(maps, writeProofs, instructionsText) {
   const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
@@ -730,7 +724,9 @@ function countCompleteness(maps, writeProofs, instructionsText) {
   for (const p of writeProofs) {
     const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
     if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) note("invisibleWrites", { fixture: p.fixture, reportedByFinalizer: p.valuesReportedByFinalizer });
-    if ((p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) note("visualDefects", { fixture: p.fixture, glyphsOutside: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes });
+    assert.ok(Number.isInteger(p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes), "Unmeasured geometry cannot count as zero");
+    for (const failure of p.refusedFieldsWithInk) note("protectedWrites", {fixture:p.fixture, failure});
+    if (p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes > 0) note("visualDefects", { fixture: p.fixture, glyphsOutside: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes });
   }
 
   return { counters, findings, ledger, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
@@ -785,11 +781,11 @@ function participantInstructions(maps, rbf) {
 
   out.push("## What is in this packet", "");
   out.push("| Component | What it is |", "| --- | --- |");
-  for (const c of SPEC.components) out.push(`| \`${c.id}\` | ${c.description} |`);
+  for (const c of SPEC.components) out.push(`| ${c.title} | ${c.description} |`);
   out.push("");
 
   out.push("## Where this is filed, what it costs, and who must be served", "");
-  out.push("| Question | What the repository establishes, or the authority that answers it |", "| --- | --- |");
+  out.push("| Question | What to do |", "| --- | --- |");
   for (const [q, answer] of SPEC.obligationTable) out.push(`| ${q} | ${answer} |`);
   out.push("");
 
@@ -816,7 +812,7 @@ function participantInstructions(maps, rbf) {
   out.push("## The items you must supply", "");
   out.push("Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.", "");
   for (const [doc, items] of byDoc) {
-    out.push(`### ${doc} — ${COMPONENT[doc]?.title ?? doc}`, "");
+    out.push(`### ${COMPONENT[doc]?.title ?? "Document"}`, "");
     out.push("| The blank on the document | What to write |", "| --- | --- |");
     for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
     out.push("");
@@ -842,7 +838,7 @@ function participantInstructions(maps, rbf) {
 
   out.push("## What this packet is not", "");
   out.push(SPEC.whatThisIsNot, "");
-  out.push(`_Route(s): ${SPEC.routes.map((r) => r.routeKey).join(" · ")}_`);
+
   return `${out.join("\n")}\n`;
 }
 
@@ -907,14 +903,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
     fs.writeFileSync(path.join(ROOT, file), packetBytes);
 
     const proof = await byteProof(packetBytes, pageManifest, maps, facts, fixtureName);
+    const measured = measureSavedComposedPacket(path.join(ROOT, file));
     writeProofs.push({
       fixture: fixtureName,
       proofMethod: "every written fact value read back from the extracted text of its component's own pages in the saved packet bytes",
       valuesReportedByFinalizer: proof.actualWrites.length,
       addedGlyphsReadFromOutputBytes: proof.glyphs,
-      flattenedWidgetAppearancesReadFromOutputBytes: 0,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
-      refusedFieldsWithInk: [],
+      flattenedWidgetAppearancesReadFromOutputBytes: measured.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: measured.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      refusedFieldsWithInk: measured.refusedFieldsWithInk,
+      geometryMeasurement: measured,
       actualWrites: proof.actualWrites
     });
 
@@ -1033,6 +1031,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
       flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      geometryMeasurement: p.geometryMeasurement,
       refusedFieldsWithInk: p.refusedFieldsWithInk
     })),
     blockingFindings: []
