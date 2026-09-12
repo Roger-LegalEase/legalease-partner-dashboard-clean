@@ -912,6 +912,11 @@ for (const f of master.families) {
       read(`${DIR}/warp-20260912/ca17-offense-by-offense/raster-manifest.json`)?.rows?.[0],
       read(`${DIR}/raster-runs/34690713553/ca-17b-reduction-set.verdict.json`));
   }
+  if (f.familyId === "pa_6308_underage-set") {
+    rows[rows.length - 1] = retainCa17RasterIdentity(rows.at(-1),
+      read(`${DIR}/warp-20260912/pa6308-current/raster-manifest.json`)?.rows?.[0],
+      read(`${DIR}/raster-runs/34692245137/pa_6308_underage-set.verdict.json`));
+  }
 }
 
 /*

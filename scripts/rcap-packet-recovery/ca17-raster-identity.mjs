@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 
-const FAMILY = 'ca-17b-reduction-set';
-const RUN = '34690713553';
+const ORIGINAL_RUNS = {
+  'ca-17b-reduction-set': '34690713553',
+  'pa_6308_underage-set': '34692245137',
+};
 const digest = documents => crypto.createHash('sha256')
   .update(JSON.stringify(documents.map(d => [d.role, d.path, d.sha256 ?? d.pinned]))).digest('hex');
 const fixture = role => /^(canonical|boundary)(?:-|$)/.exec(role)?.[1];
@@ -12,8 +14,9 @@ const fixture = role => /^(canonical|boundary)(?:-|$)/.exec(role)?.[1];
 // unchanged set; any byte, page-count, fixture or membership change follows
 // normal receipt invalidation. Never rewrite the original receipt.
 export function retainCa17RasterIdentity(row, manifest, receipt) {
-  if (row.familyId !== FAMILY || manifest?.familyId !== FAMILY
-      || receipt?.familyId !== FAMILY || receipt.verdict !== 'RASTER_PASS'
+  const RUN = ORIGINAL_RUNS[row.familyId];
+  if (!RUN || manifest?.familyId !== row.familyId
+      || receipt?.familyId !== row.familyId || receipt.verdict !== 'RASTER_PASS'
       || String(receipt.workflowRunId) !== RUN
       || receipt.problems?.length || receipt.environmentProblems?.length) return row;
   assert.equal(digest(receipt.documentsRendered), receipt.documentsDigest);

@@ -32,3 +32,19 @@ test('unrelated family or failed original receipt cannot borrow acceptance', () 
 test('a corrupted original digest fails closed', () => {
   assert.throws(() => retainCa17RasterIdentity(discovered, manifest, { ...receipt, documentsDigest: '0'.repeat(64) }));
 });
+test('PA retains its exact original six-document order and refuses changed membership or run', () => {
+  const original = read('warp-20260912/pa6308-current/raster-manifest.json').rows[0];
+  const verdict = read('raster-runs/34692245137/pa_6308_underage-set.verdict.json');
+  const current = structuredClone(original);
+  current.documents = original.documents.map(d => ({ ...d,
+    role: d.role.startsWith('canonical') ? 'canonical' : 'boundary' })).reverse();
+  const retained = retainCa17RasterIdentity(current, original, verdict);
+  assert.equal(retained.documentsDigest, verdict.documentsDigest);
+  assert.deepEqual(retained.documents.map(d => d.path), original.documents.map(d => d.path));
+  assert.equal(retainCa17RasterIdentity(current, original, { ...verdict, workflowRunId: '34691384078' }), current);
+  for (const mutate of [r => r.documents[0].sha256 = '0'.repeat(64),
+    r => r.documents[0].pageCount++, r => r.documents.pop()]) {
+    const changed = structuredClone(current); mutate(changed);
+    assert.equal(retainCa17RasterIdentity(changed, original, verdict), changed);
+  }
+});
