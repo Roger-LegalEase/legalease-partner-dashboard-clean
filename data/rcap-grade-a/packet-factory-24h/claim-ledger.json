@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "d4b7b80857110979e6f5f046f43b4eb20ceb42ca",
+  "generatedAtCommit": "c7661da65175fcc910e0b213d46fbd3ab47dff61",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7602,10 +7602,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIXNH1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T20:29:21.015Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7697,7 +7697,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.470Z"
@@ -7728,7 +7728,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T22:47:35.962Z"
@@ -8272,7 +8272,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-07T07:42:02.829Z"
@@ -9365,7 +9365,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.619Z"
@@ -15614,7 +15614,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "752f7768719fcec25b2ae72182572785fe27c608bf0b78c2cfe6627dad063f13",
+  "claimsDigest": "80999a995c5abab5e5873ea6c03622e293b7e6e7d0416305cb2cb029d10e7fbe",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -64885,6 +64885,17 @@
       "previouslyReleasedAt": "2026-09-06T21:37:26.019Z",
       "transferredAt": "2026-09-12T06:05:20.057Z",
       "reason": "Prior FIX113 repair explicitly returned/released at8f2d84896. Sole implementation worker follows completed CT cluster to repair all five current independent failures from18892f761 under the held settled Section19c decision."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_vacated-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIXNH1",
+      "previouslyReleasedAt": "2026-09-06T20:29:21.015Z",
+      "transferredAt": "2026-09-12T06:47:41.415Z",
+      "reason": "Prior released repair ownership was normalized to FIX02 by native integration; no active worker. Latest VF03 exact semantic FAIL is frozen; assign one bounded implementation worker and leave VF03 unchanged."
     }
   ],
   "grants": [
