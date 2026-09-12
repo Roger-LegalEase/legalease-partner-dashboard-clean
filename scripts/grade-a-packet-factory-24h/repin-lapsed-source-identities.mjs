@@ -497,13 +497,16 @@ export function currentBytesOf(repoPath, { receipt = null, pin = null } = {}) {
   const cacheKey = `${repoPath}\u0000${receipt?.familyId ?? ""}`;
   if (contentCache.has(cacheKey)) return contentCache.get(cacheKey);
   let answer = { bytes: null, from: "absent", triedBases: [] };
-  for (const base of basesFor(receipt, pin)) {
+  const bases = path.isAbsolute(repoPath)
+    ? [{ root: null, why: "absolute custody path" }]
+    : basesFor(receipt, pin);
+  for (const base of bases) {
     answer.triedBases.push(base.why);
-    try { answer = { bytes: fs.readFileSync(path.join(base.root, repoPath)), from: `working tree (${base.why})`, triedBases: answer.triedBases }; break; }
+    try { answer = { bytes: fs.readFileSync(base.root === null ? repoPath : path.join(base.root, repoPath)), from: `working tree (${base.why})`, triedBases: answer.triedBases }; break; }
     catch { /* try the next base */ }
   }
   /* A repository path that is simply not materialised in a sparse checkout. */
-  if (answer.bytes === null) {
+  if (answer.bytes === null && !path.isAbsolute(repoPath)) {
     try { answer = { bytes: git(["show", `HEAD:${repoPath}`], { encoding: "buffer" }), from: "HEAD (path not materialised in this sparse checkout)", triedBases: answer.triedBases }; }
     catch { /* genuinely unresolvable here */ }
   }
