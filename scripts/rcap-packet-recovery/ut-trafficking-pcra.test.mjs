@@ -159,5 +159,14 @@ test("boundary production exercises conditional source sections while protected 
   assert.equal(wiring.runtimeSelectable, false);
   assert.equal(wiring.commercialRoutesOpened, 0);
   assert.equal(wiring.binding.acceptanceReceipt, null);
-  assert.equal(wiring.binding.lastIndependentVerification, null);
+  assert.equal(wiring.binding.paymentEligible, false);
+  assert.equal(wiring.binding.sponsorshipEligible, false);
+  assert.match(wiring.binding.whyPaymentIsClosed, /Commercial authority comes from a Grade-A fulfillment record/);
+  assert.deepEqual(wiring.binding.maintenanceRelationship, {
+    rebuiltFrom: "scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs",
+    sharedBuildHost: null,
+    reRasterRequiredWhen: "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+    reVerificationRequiredWhen: "the packet bytes, its bound source, or its legal treatment changes",
+  });
+  assert.ok(Object.hasOwn(wiring.binding, "lastIndependentVerification"));
 });
