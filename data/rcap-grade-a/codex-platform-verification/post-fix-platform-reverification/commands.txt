@@ -1,0 +1,17 @@
+git rev-parse HEAD
+# 48f74d82016795307e565220e38ce369cf43da5e
+
+git merge-base --is-ancestor 48f74d82016795307e565220e38ce369cf43da5e HEAD
+# exit 0
+
+git rev-parse --verify origin/codex/fix-consumer-launch-defects
+# exit 128
+
+git rev-parse --verify origin/codex/fix-rcap-attribution-browser-runtime
+# exit 128
+
+git rev-parse --verify origin/codex/fix-platform-verification-runtime
+# exit 128
+
+git fetch origin codex/fix-consumer-launch-defects codex/fix-rcap-attribution-browser-runtime codex/fix-platform-verification-runtime claude/legalease-sprint-captain-utucnw
+# fatal: unable to access repository: CONNECT tunnel failed, response 403
