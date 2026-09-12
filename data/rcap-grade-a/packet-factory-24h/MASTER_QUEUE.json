@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "2eaaa8dced6b82a0b39e0e0f0f0f96c5444126a7",
+  "minimumCaptainSha": "17f64a27c80e196f93485682a56c5b1c8d364418",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "4ec63a558576b2fac52a6e65022b16c267a7554f50d396e3d39c655e3c21e126",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "85188fc83e02c6aad3fbaf98090ab531363a0d771e19dcee790cb475befb8e93",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -83,10 +83,10 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 248,
+    "COMPLETE_PACKET_PROVEN": 252,
     "PRODUCT_PATH_PENDING": 10,
     "OUT_OF_SCOPE": 5,
-    "BUILT_RASTER_PENDING": 11,
+    "BUILT_RASTER_PENDING": 7,
     "FAIL_REPAIR_REQUIRED": 21,
     "SOURCE_READY": 33,
     "GUIDANCE_READY": 12,
@@ -6477,7 +6477,7 @@
       "selectedIndependentVerdict": null,
       "currentLegalResolution": null,
       "packetSourceAdoption": {
-        "status": "PACKET_SOURCE_RECEIPT_MISSING_OR_INVALID",
+        "status": "PACKET_SOURCE_ADOPTION_REQUIRED",
         "ready": false,
         "receiptPath": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json",
         "requiredBindings": [
@@ -6492,11 +6492,34 @@
             "bindingEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
           }
         ],
-        "observedBindings": [],
-        "reason": "Packet source adoption refused: data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json is missing or invalid (ENOENT: no such file or directory, open '/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json')."
+        "observedBindings": [
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(a)",
+            "sha256": []
+          },
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(b)",
+            "sha256": []
+          }
+        ],
+        "mismatches": [
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(a)",
+            "expectedSha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+            "observedSha256": [],
+            "mismatch": "SOURCE_ID_MISSING"
+          },
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(b)",
+            "expectedSha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+            "observedSha256": [],
+            "mismatch": "SOURCE_ID_MISSING"
+          }
+        ],
+        "reason": "Packet source adoption refused: data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json does not bind every required sourceId to its adopted SHA-256."
       },
       "rasterEnrolmentRefusal": [
-        "Packet source adoption refused: data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json is missing or invalid (ENOENT: no such file or directory, open '/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json')."
+        "Packet source adoption refused: data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json does not bind every required sourceId to its adopted SHA-256."
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -6511,10 +6534,20 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
@@ -6524,7 +6557,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_set_aside-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill",
       "ownedPaths": [
@@ -9397,10 +9430,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf07",
-        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-seven-cleared-known-fact-fit-fail-20260912.json"
+        "verifiedAtBase": "17f64a27c80e196f93485682a56c5b1c8d364418",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-known-fact-fit-co_motion_seal_conviction-set-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -9444,23 +9477,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Independently measured1 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/co_motion_seal_conviction-set-finding.json",
-            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/co_motion_seal_conviction-set-34660023738-original-raster-measurements.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
@@ -35887,10 +35908,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf03",
-        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json"
+        "verifiedAtBase": "17f64a27c80e196f93485682a56c5b1c8d364418",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-known-fact-fit-nm_conviction-set-20260912.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
@@ -35944,22 +35965,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Independently measured2 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_conviction-set-finding.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nm_conviction-set.mjs",
@@ -36113,10 +36123,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf03",
-        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json"
+        "verifiedAtBase": "17f64a27c80e196f93485682a56c5b1c8d364418",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-known-fact-fit-nm_identity_theft-set-20260912.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
@@ -36170,23 +36180,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Independently measured1 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_identity_theft-set-finding.json",
-            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/nm_identity_theft-set-34659428344-original-raster-measurements.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nm_identity_theft-set.mjs",
@@ -36395,10 +36393,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf03",
-        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json"
+        "verifiedAtBase": "17f64a27c80e196f93485682a56c5b1c8d364418",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-known-fact-fit-nm_release_without_conviction-set-20260912.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
@@ -36452,23 +36450,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Independently measured2 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_release_without_conviction-set-finding.json",
-            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/nm_release_without_conviction-set-34659428344-original-raster-measurements.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nm_release_without_conviction-set.mjs",
