@@ -119,6 +119,16 @@ SPEC.documents = track.packetSet.components.map(component => {
       `Telephone: ${facts['participant.phone']}`, `Email: ${facts['participant.email']}`
     ].join('\n') };
 });
+const hearingGuide = SPEC.documents.find(document => document.documentId === 'KS-SPECIALTY-COURT-HEARING-PREPARATION');
+assert.ok(hearingGuide, 'specialty-court hearing-preparation component must exist');
+hearingGuide.composedPdfLayout = {
+  // The guide wraps to exactly 46 rows. The shared 14.5pt leading fits 45,
+  // orphaning only "the court will decide." on a second guidance page. This
+  // 0.1pt leading adjustment keeps the complete final paragraph together at
+  // the unchanged 11pt font and 72pt margins. Other Kansas families retain
+  // the shared default, and the separately composed fee request is unchanged.
+  lineHeight: 14.4
+};
 applyKansasSharedPolicy(SPEC, FIXTURES);
 const build = createKansasBuilder(SPEC, FIXTURES, ROUTE_FACTS);
 export async function runFamily(argv = process.argv.slice(2)) {

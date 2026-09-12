@@ -345,14 +345,16 @@ function sanitizePdfText(text) {
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'").replaceAll(" ", " ");
 }
 
-async function renderComposedPdf(fullText, title) {
+async function renderComposedPdf(fullText, title, layout = {}) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
   pdf.setProducer("RCAP census-v1 artifact-only renderer");
   pdf.setCreator("RCAP evidence build");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const fontSize = 11, lineHeight = layout.lineHeight ?? 14.5, width = 612, height = 792, margin = 72;
+  assert.ok(Number.isFinite(lineHeight) && lineHeight >= fontSize * 1.25 && lineHeight <= 18,
+    `composed PDF line height ${lineHeight} is outside the readable 1.25x-font to 18pt range`);
   const maxWidth = width - 2 * margin;
   const renderedWidth = (t) => Math.max(font.widthOfTextAtSize(t, fontSize), [...t].length * fontSize * 0.5);
   let page = pdf.addPage([width, height]);
@@ -835,7 +837,7 @@ async function runFamily(argv = process.argv.slice(2)) {
     }
     for (const guidance of SPEC.documents.filter((d) => !d.officialFormId)) docs.push({
       componentId: guidance.componentId, documentId: guidance.documentId, role: guidance.role,
-      sourceSha256: null, bytes: await renderComposedPdf(guidance.compose ? guidance.compose(facts) : processGuidanceBody(facts), `${SPEC.legalName} — ${guidance.participantName}`),
+      sourceSha256: null, bytes: await renderComposedPdf(guidance.compose ? guidance.compose(facts) : processGuidanceBody(facts), `${SPEC.legalName} — ${guidance.participantName}`, guidance.composedPdfLayout),
       report: { written: [] }, rows: [], facts, composed: true
     });
     fixtures[fixtureName] = docs;

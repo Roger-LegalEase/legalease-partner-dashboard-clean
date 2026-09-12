@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXKS1",
+  "laneKind": "repair",
+  "baseSha": "3912487878def16186df0eec60d1b4218afae9ab",
+  "isIndependentVerification": false,
+  "grantsAsserted": [
+    "CLAIM_OK FIXKS1 ks-21-6614-specialty-court-set (repair, grant set a82290f77a243cb6)"
+  ],
+  "rows": [
+    {
+      "itemId": "ks-21-6614-specialty-court-set",
+      "familyId": "ks-21-6614-specialty-court-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "historicalFailure": {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34666647205/ks-21-6614-specialty-court-set.verdict.json",
+        "verdict": "RASTER_FAIL",
+        "preserved": true
+      },
+      "actualDefect": "The shared 11pt/14.5pt composed guide fit 45 of 46 wrapped rows on its second page, so only the last line of the final paragraph occupied a third guide page. The fee request followed one page later.",
+      "correction": "The specialty hearing-guide component alone opts into 14.4pt leading. Its unchanged 11pt Times Roman text now fits all 46 rows across two guidance pages, keeps the entire final paragraph on page 19, and leaves the separately composed fee request at the shared default.",
+      "packetBytesChanged": true,
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "dc5d6c926c0fd3bc9e1968ab71c0fb7f44a49dd080ac5806b8f6ef1d1401e0fd",
+          "pageCount": 20
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "3e6f1b59b8338471f62bbc5ce2b962a04125aa155e36b4393211be2303ae700a",
+          "pageCount": 20
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/specialty-pagination-repair/completeness.log; visualDefects is null pending central raster",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/specialty-pagination-repair/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/specialty-pagination-repair/current-byte-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/specialty-pagination-repair/focused-check-results.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_RASTER_AND_REVIEW",
+      "grantsNothing": "Implementation completion is not raster or independent acceptance and opens no commercial route."
+    }
+  ]
+}
