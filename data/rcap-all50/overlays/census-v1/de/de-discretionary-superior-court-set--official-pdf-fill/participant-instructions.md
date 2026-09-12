@@ -2,7 +2,7 @@
 
 This packet is prepared for **Petition for Expungement of Adult Record, Superior Court, 11 Del. C. § 4374**.
 
-This packet is the Superior Court of the State of Delaware's own **CIV_EXP_02_A, Petition for Expungement of Adult Record** (updated 6/12/2024) and **CIV_EXP_04_A, Expungement Order Granting** (updated 05/29/2024), delivered exactly as the Court publishes them, filled in with what the platform holds about you and left blank everywhere else, with a cover sheet identifying the filing.
+This packet is the Superior Court of the State of Delaware's own **CIV_EXP_02_A, Petition for Expungement of Adult Record** (updated 6/12/2024) and **CIV_EXP_04_A, Expungement Order Granting** (updated 05/29/2024), delivered exactly as the Court publishes them, filled in with what the platform holds about you and left blank everywhere else. The qualifying SBI cover letter and certified criminal history are external documents you must obtain and attach; this packet does not create either one.
 
 **This route is discretionary.** You have to show the court, by a preponderance, that the continued existence and possible dissemination of the record causes or may cause circumstances that constitute a manifest injustice to you. The State is a party defendant.
 
@@ -20,7 +20,6 @@ This platform does not decide whether you are eligible and does not decide wheth
 | --- | --- |
 | `primary_filing` | the Superior Court's own petition form, delivered exactly as the Court publishes it. Your name, address, date of birth, telephone number and criminal case number are filled in; the charge table, the manifest-injustice explanation, the county box, the interpreter election and your sworn signature are yours |
 | `proposed_order` | the Superior Court's own proposed order granting expungement, with the same caption details filled in. The charge table, paragraph 5 and the judge's date and signature are not yours to complete |
-| `cover_sheet` | a cover sheet identifying you and listing what is in the filing. It asserts nothing about your eligibility and carries no signature |
 
 ## Where this goes
 
@@ -49,7 +48,7 @@ The petition pre-prints the Attorney General's three county addresses on its own
 | Document | Where you get it |
 | --- | --- |
 | Certified criminal history, dated within 45 days | IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. |
-| SBI eligibility letter (only where the State Bureau of Identification directed you here from the mandatory path) | The State Bureau of Identification, after it reviews the certified criminal history. |
+| Qualifying SBI cover letter | Obtain the qualifying letter from the State Bureau of Identification. The original letter is required in the prescribed filing order. This packet does not create or replace it. |
 
 ## The items you must supply
 
@@ -79,6 +78,7 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Offense Date | the offence date for this charge, from the entry for this charge on your certified criminal history, dated within 45 days, on printed row 4 of the table |
 | Disposition Date | the disposition date for this charge, from the entry for this charge on your certified criminal history, dated within 45 days, on printed row 4 of the table |
 | Disposition | the disposition of this charge, from the entry for this charge on your certified criminal history, dated within 45 days, on printed row 4 of the table |
+| The continued existence and possible dissemination of criminal records relating to Petitioner causes, or may cause, circumstances which constitute a manifest injustice to the Petitioner. | your own decision on the sworn assertion this box makes. Tick it only if it is true of you: that the continued existence and possible dissemination of these criminal records causes, or may cause, circumstances which constitute a manifest injustice to you. The form prints "The following information MUST be completed for the Court to consider the petition" directly above this box, so the Court will not consider the petition with it left blank. This packet does not tick it and does not decide it for you; the four ruled lines under it are where you explain it |
 | You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary): | line 1 of your own explanation, in your own words, of how the continued existence and possible dissemination of this record harms you. The form says this section must be completed for the Court to consider the petition, and you may attach additional pages |
 | You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary): | line 2 of your own explanation, in your own words, of how the continued existence and possible dissemination of this record harms you. The form says this section must be completed for the Court to consider the petition, and you may attach additional pages |
 | You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary): | line 3 of your own explanation, in your own words, of how the continued existence and possible dissemination of this record harms you. The form says this section must be completed for the Court to consider the petition, and you may attach additional pages |
@@ -111,12 +111,13 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 
 ## Everything the committed record requires before you file
 
-These 8 items are printed word for word from the committed packet-set manifest for packet set `de_discretionary_superior_court-set` (version 1.0.0), read from `data/record-clearing/legal-design-packet-set-manifests.json` at build time. The file's SHA-256 is `80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7`. Nothing here is this packet's own restatement of the record: if the record changes, this list changes with it, and if the record stops declaring it the packet is not built.
+These 9 items are printed word for word from the committed packet-set manifest for packet set `de_discretionary_superior_court-set` (version 1.0.1), read from `data/record-clearing/legal-design-packet-set-manifests.json` at build time. The file's SHA-256 is `48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30`. Nothing here is this packet's own restatement of the record: if the record changes, this list changes with it, and if the record stops declaring it the packet is not built.
 
 - Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. The court shall summarily reject any petition without it.
 - Check your answer to "List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony." against Certified criminal history, dated within 45 days, and correct the packet if they disagree.
+- Obtain and attach the SBI Cover Letter issued by the State Bureau of Identification after its review of the certified criminal history. The Superior Court filing instructions require this letter with the petition, proposed order, and qualifying certified criminal history.
 - Notarized signature — Petition CIV_EXP_02_A, signature and jurat.
-- Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.
+- Manifest-injustice assertion checkbox and explanation — Petition CIV_EXP_02_A, manifest-injustice section. Review the required assertion and mark the checkbox only if the statement is true; complete your own explanation on the ruled lines or attached pages.
 - The petition is sworn and subscribed before a clerk of court or notary.
 - Required. Filing in person means bringing the petition unsigned and signing in front of the notary at the Prothonotary's office. Filing by mail means notarizing first.
 - $75 filing fee, per CIV_EXP_07_A. Set by the courts under § 4374(j).
@@ -129,9 +130,8 @@ These 8 items are printed word for word from the committed packet-set manifest f
 | `de_discretionary_superior_court-primary-filing-1` | primary_filing | required | official_pdf_fill | CIV_EXP_02_A |
 | `de_discretionary_superior_court-continuation-2` | continuation | conditional — When charges exceed the table on the petition. | official_pdf_fill | CIV_EXP_02_B |
 | `de_discretionary_superior_court-proposed-order-3` | proposed_order | required | official_pdf_fill | CIV_EXP_04_A |
-| `de_discretionary_superior_court-cover-sheet-4` | cover_sheet | required | custom_pleading | — |
 
-The cover sheet is the `custom_pleading` component the committed packet-set manifest declares as `de_discretionary_superior_court-cover-sheet-4`. It is composed by this build from held participant facts and the manifest's own component list. It carries no signature block, states no fee, deadline, clerk's practice or service rule, and asserts nothing about eligibility.
+The controlling legal-clear decision says not to add a generic cover sheet. This build renders only the two official court forms; the participant must obtain and attach the required SBI cover letter and qualifying certified criminal history in the prescribed order. The builder does not invent either external document or make an eligibility assertion.
 
 The `continuation` component the same record declares, CIV_EXP_02_B, is conditional on "When charges exceed the table on the petition". Neither fixture exceeds it, so the continuation sheet is not part of either packet. It is bound and proved all the same, and the reason it is not delivered blank is in source-receipt.json under conditionalDocumentsBoundButNotExercised.
 
@@ -140,16 +140,17 @@ The `continuation` component the same record declares, CIV_EXP_02_B, is conditio
 1. Read the petition and the proposed order through before you write anything on them.
 2. Fill in the charge table on the petition from your certified criminal history, one charge per printed row, and copy the same charges onto the proposed order's table. Note that the two tables do not run the same columns: the petition's fourth column is Disposition Date and its fifth is Disposition, and the order's fourth column is Disposition and Disposition Date and its fifth is Court.
 3. If you have more than four charges, stop and ask for help before filing: the petition has a published continuation sheet (CIV_EXP_02_B) and the proposed order does not.
-4. Write your explanation of how the continued existence and possible dissemination of this record harms you on the four ruled lines. Attach additional pages if you need them; the form says so.
+4. Read the manifest-injustice checkbox above the ruled lines. Decide for yourself whether the continued existence and possible dissemination of these criminal records causes, or may cause, circumstances constituting a manifest injustice to you; mark that checkbox only if your sworn assertion is true, then write your explanation in your own words on the four ruled lines. Attach additional pages if you need them; the form says so.
 5. Mark the county box for the county where your most recent case was terminated, and the interpreter election if you need one.
 6. Do not sign the petition yet if you are filing in person. Take it unsigned, with identification, and sign it in front of the notary. If you are filing by mail, notarize it first.
-7. Assemble it in the order the committed record prescribes: petition, proposed order, cover sheet, then your certified criminal history dated within 45 days. One original plus one copy.
+7. Assemble it in the order the controlling Superior Court instruction prescribes: petition, proposed order, required SBI cover letter, then your qualifying certified criminal history dated within 45 days. Include the original SBI letter and one original plus one copy of the assembled packet.
 8. File it, pay the $75 fee or ask about the § 4372(l) waiver, and serve the Attorney General.
 
 ## Things the platform deliberately left blank
 
 - The whole charge table on both forms. This platform does not collect or review your certified criminal history and does not represent that it has confirmed charge-level eligibility.
 - The manifest-injustice explanation. The committed record records it as the substance of the petition, which must not be templated.
+- The manifest-injustice checkbox above that explanation. The form marks this section as information that MUST be completed for the Court to consider the petition; the participant must make this sworn assertion and the packet never marks it.
 - The county boxes on both forms, which are a venue election keyed to your most recent case termination.
 - The interpreter election and the language line on both forms.
 - The attorney block on both forms. This packet is prepared for a self-represented petitioner and the platform holds no representation fact.

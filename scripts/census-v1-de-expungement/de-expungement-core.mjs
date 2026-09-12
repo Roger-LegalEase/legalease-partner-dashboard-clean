@@ -1935,6 +1935,16 @@ async function runFamily(argv = process.argv.slice(2)) {
             printedDateOrderByField: b.doc.printedDateOrder ?? {},
             unwritableFields: (b.doc.unwritable ?? []).map((u) => ({ field: u.field, class: u.class })),
             captionOnly: b.doc.captionOnly === true,
+            /* A family may classify a source widget with no /AP /N as an
+             * unwritten participant input.  The ordinary finalizer preserves
+             * source appearances by default; on a widget that ships no normal
+             * appearance, pdf-lib would consequently manufacture an empty
+             * Helvetica appearance during flattening.  Keep this opt-in and
+             * family-scoped so a DE repair cannot change another builder's
+             * output. */
+            appearanceDispositions: new Map(
+              Object.entries(SPEC.appearanceDispositions?.[componentId] ?? {})
+            ),
             documentTextLines: census.documentTextLines,
             evaluateDeclaredMinimumSize: true,
             alignWidgetFontSizeToFit: true,

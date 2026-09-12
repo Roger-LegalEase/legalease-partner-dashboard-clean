@@ -11,15 +11,14 @@
  *
  * WHAT KIND OF FAMILY THIS IS
  *
- * An OFFICIAL-FORM packet family. Its committed packet-set manifest declares
- * four components:
+ * An OFFICIAL-FORM packet family. Its current packet-set decision declares
+ * three components:
  *
  *   de_discretionary_superior_court-primary-filing-1  required     CIV_EXP_02_A
  *   de_discretionary_superior_court-continuation-2    conditional  CIV_EXP_02_B
  *   de_discretionary_superior_court-proposed-order-3  required     CIV_EXP_04_A
- *   de_discretionary_superior_court-cover-sheet-4     required     custom_pleading
  *
- * THREE ARE RENDERED. THE CONTINUATION SHEET IS BOUND, PROVED AND NOT RENDERED,
+ * TWO ARE RENDERED. THE CONTINUATION SHEET IS BOUND, PROVED AND NOT RENDERED,
  * AND THE REASON IS ON THE PAPER.
  *
  * CIV_EXP_02_B's condition, in the manifest's own words, is "When charges
@@ -42,7 +41,7 @@
  * is raised to counsel as a question about the form set rather than answered
  * here.
  *
- * ALL THREE RENDERED BINARIES ARE ENCRYPTED
+ * BOTH RENDERED BINARIES ARE ENCRYPTED
  *
  * CIV_EXP_02_A, CIV_EXP_02_B and CIV_EXP_04_A are AES-256 encrypted (V=5, R=6,
  * StdCF) with an empty user password, and pdf-lib cannot open any of them. The
@@ -64,7 +63,7 @@
 import { makeFamily } from "./census-v1-de-expungement/de-expungement-core.mjs";
 import {
   DE_CAPTION_CORRECTIONS, CIV_EXP_02_A, CIV_EXP_02_B, CIV_EXP_04_A,
-  petitionMap, orderMap, coverSheetBody, coverSheetMap
+  petitionMap, orderMap
 } from "./census-v1-de-expungement/de-superior-court-forms.mjs";
 
 const FAMILY_ID = "de_discretionary_superior_court-set";
@@ -87,6 +86,19 @@ const SPEC = {
   assembledPacketRole: "assembled_packet_of_official_forms",
   legalName: "Petition for Expungement of Adult Record, Superior Court, 11 Del. C. § 4374",
   routeName: "discretionary expungement of a Delaware adult record in Superior Court on a showing of manifest injustice",
+  appearanceDispositions: {
+    /* These are the only source widgets in this family that ship with no
+     * /AP /N. They are unwritten participant inputs; dropping their empty
+     * widgets before appearance generation preserves the printed form without
+     * manufacturing empty finalizer appearances. */
+    primary_filing: {
+      Language: "render_participant_value_only_when_written"
+    },
+    proposed_order: {
+      "Attorney Name (if any)": "render_participant_value_only_when_written",
+      Language: "render_participant_value_only_when_written"
+    }
+  },
   statutes: ["11 Del. C. § 4374", "85 Del. Laws, c. 142, § 10", "11 Del. C. § 4372(e)(1)", "11 Del. C. § 4372(l)", "11 Del. C. § 4373(b)", "11 Del. C. § 4376(a)", "11 Del. C. § 9414(a)"],
   routes: [{ routeKey: "obligation:track-pathway:DE:de_discretionary_superior_court:discretionary-court-expungement-under-11-del-c-4374" }],
 
@@ -95,8 +107,8 @@ const SPEC = {
       recordId: "packet-set-manifest:de_discretionary_superior_court-set",
       path: PACKET_SET_MANIFESTS,
       role:
-        "the committed packet-set manifest for this exact packet set. Its components list settles that this "
-        + "family has four components, which three are official forms and which one is conditional; its "
+        "the committed packet-set manifest for this exact packet set. Its components list settles the two "
+        + "rendered official forms and the conditional continuation source; its "
         + "participantActionRequired entries settle the certified-history prerequisite, the notarization "
         + "position, the fee position, the fee-waiver position, the service position and the assembly order; "
         + "and its requiredBeforeFiling list is read from these bytes at build time and printed verbatim "
@@ -104,6 +116,8 @@ const SPEC = {
       mustContain: [
         "de_discretionary_superior_court-set",
         "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. The court shall summarily reject any petition without it.",
+        "Obtain and attach the SBI Cover Letter issued by the State Bureau of Identification after its review of the certified criminal history. The Superior Court filing instructions require this letter with the petition, proposed order, and qualifying certified criminal history.",
+        "Manifest-injustice assertion checkbox and explanation — Petition CIV_EXP_02_A, manifest-injustice section. Review the required assertion and mark the checkbox only if the statement is true; complete your own explanation on the ruled lines or attached pages.",
         "$75 filing fee, per CIV_EXP_07_A. Set by the courts under § 4374(j).",
         "Assemble the packet in the prescribed order: petition, proposed order, SBI cover letter, then the certified criminal history dated within 45 days. One original plus one copy.",
         "The petitioner serves the Attorney General, who may object or answer within 120 days."
@@ -131,6 +145,18 @@ const SPEC = {
         "No Title 21 motor vehicle offense may be expunged under this subchapter except driving after judgment prohibited",
         "The participant supplies any manifest-injustice facts through approved prompts, and LegalEase does not decide whether the showing is sufficient."
       ]
+    },
+    {
+      recordId: "legal-decision:DE-DISCRETIONARY-SUPERIOR-CURRENT-PACKET",
+      path: "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      role:
+        "the controlling legal-clear packet decision for this exact family. It overrides stale component "
+        + "metadata for the packet contents and requires the participant-owned manifest-injustice branch "
+        + "to remain a participant assertion",
+      mustContain: [
+        "DE-DISCRETIONARY-SUPERIOR-CURRENT-PACKET",
+        "Current Superior Court instructions control. Use Petition + Proposed Order + SBI Cover Letter + qualifying certified criminal history in the prescribed filing order. Do not add a generic cover sheet merely because stale metadata says so. Manifest-injustice facts remain participant-owned."
+      ]
     }
   ],
 
@@ -156,11 +182,16 @@ const SPEC = {
     }
   },
 
-  components: ["primary_filing", "proposed_order", "cover_sheet"],
+  /*
+   * The current packet decision expressly disallows a generic cover sheet.
+   * The SBI cover letter and qualifying certified history are external
+   * participant-supplied documents, so only the two official Delaware forms
+   * are generated here.
+   */
+  components: ["primary_filing", "proposed_order"],
   componentTitles: {
     primary_filing: "CIV_EXP_02_A - Petition for Expungement of Adult Record (updated 6/12/2024)",
-    proposed_order: "CIV_EXP_04_A - Expungement Order Granting (updated 05/29/2024)",
-    cover_sheet: "Filing cover sheet"
+    proposed_order: "CIV_EXP_04_A - Expungement Order Granting (updated 05/29/2024)"
   },
   componentConditions: {},
   componentDescriptions: {
@@ -171,10 +202,7 @@ const SPEC = {
       + "signature are yours",
     proposed_order:
       "the Superior Court's own proposed order granting expungement, with the same caption details filled "
-      + "in. The charge table, paragraph 5 and the judge's date and signature are not yours to complete",
-    cover_sheet:
-      "a cover sheet identifying you and listing what is in the filing. It asserts nothing about your "
-      + "eligibility and carries no signature"
+      + "in. The charge table, paragraph 5 and the judge's date and signature are not yours to complete"
   },
 
   fixtures: {
@@ -203,24 +231,8 @@ const SPEC = {
     if (componentId === "proposed_order") {
       return orderMap(componentId, h, { orderDocument: CIV_EXP_04_A });
     }
-    return coverSheetMap(componentId, h);
+    throw new Error(`unexpected DE component ${componentId}`);
   },
-
-  composedBody(componentId, facts) {
-    return coverSheetBody(facts, {
-      legalName: SPEC.legalName,
-      procedureAuthority: ["Most recently amended at 85 Del. Laws, c. 142, § 10"],
-      documentsInOrder: [
-        "CIV_EXP_02_A - Petition for Expungement of Adult Record (updated 6/12/2024).",
-        "CIV_EXP_04_A - Expungement Order Granting (updated 05/29/2024), proposed order."
-      ]
-    });
-  },
-
-  composedFromNote:
-    "authored by this build from the participant facts the platform holds and from the committed packet-set "
-    + "manifest's own component list; it recites no statute beyond the authority this track's committed "
-    + "registry entry names, and states no fee, deadline, clerk's practice or service rule",
 
   formIdentityNote:
     "CIV_EXP_02_A is the Superior Court of the State of Delaware's own Petition for Expungement of Adult "
@@ -290,7 +302,7 @@ const SPEC = {
   instructionsHeading: "Filing instructions - discretionary expungement in Delaware Superior Court (11 Del. C. § 4374)",
 
   instructionsIntro: [
-    "This packet is the Superior Court of the State of Delaware's own **CIV_EXP_02_A, Petition for Expungement of Adult Record** (updated 6/12/2024) and **CIV_EXP_04_A, Expungement Order Granting** (updated 05/29/2024), delivered exactly as the Court publishes them, filled in with what the platform holds about you and left blank everywhere else, with a cover sheet identifying the filing.",
+    "This packet is the Superior Court of the State of Delaware's own **CIV_EXP_02_A, Petition for Expungement of Adult Record** (updated 6/12/2024) and **CIV_EXP_04_A, Expungement Order Granting** (updated 05/29/2024), delivered exactly as the Court publishes them, filled in with what the platform holds about you and left blank everywhere else. The qualifying SBI cover letter and certified criminal history are external documents you must obtain and attach; this packet does not create either one.",
     "**This route is discretionary.** You have to show the court, by a preponderance, that the continued existence and possible dissemination of the record causes or may cause circumstances that constitute a manifest injustice to you. The State is a party defendant.",
     "**The charge table on both forms is left blank on purpose.** The committed record directs that this packet be generated without collecting or reviewing your certified criminal history, and that LegalEase must not represent that it confirmed charge-level eligibility. You fill the table in from your own certified history, which the court requires to be dated within 45 days and without which it shall summarily reject the petition."
   ],
@@ -319,23 +331,24 @@ const SPEC = {
 
   documentsToObtain: [
     ["Certified criminal history, dated within 45 days", "IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once."],
-    ["SBI eligibility letter (only where the State Bureau of Identification directed you here from the mandatory path)", "The State Bureau of Identification, after it reviews the certified criminal history."]
+    ["Qualifying SBI cover letter", "Obtain the qualifying letter from the State Bureau of Identification. The original letter is required in the prescribed filing order. This packet does not create or replace it."]
   ],
 
   steps: [
     "Read the petition and the proposed order through before you write anything on them.",
     "Fill in the charge table on the petition from your certified criminal history, one charge per printed row, and copy the same charges onto the proposed order's table. Note that the two tables do not run the same columns: the petition's fourth column is Disposition Date and its fifth is Disposition, and the order's fourth column is Disposition and Disposition Date and its fifth is Court.",
     "If you have more than four charges, stop and ask for help before filing: the petition has a published continuation sheet (CIV_EXP_02_B) and the proposed order does not.",
-    "Write your explanation of how the continued existence and possible dissemination of this record harms you on the four ruled lines. Attach additional pages if you need them; the form says so.",
+    "Read the manifest-injustice checkbox above the ruled lines. Decide for yourself whether the continued existence and possible dissemination of these criminal records causes, or may cause, circumstances constituting a manifest injustice to you; mark that checkbox only if your sworn assertion is true, then write your explanation in your own words on the four ruled lines. Attach additional pages if you need them; the form says so.",
     "Mark the county box for the county where your most recent case was terminated, and the interpreter election if you need one.",
     "Do not sign the petition yet if you are filing in person. Take it unsigned, with identification, and sign it in front of the notary. If you are filing by mail, notarize it first.",
-    "Assemble it in the order the committed record prescribes: petition, proposed order, cover sheet, then your certified criminal history dated within 45 days. One original plus one copy.",
+    "Assemble it in the order the controlling Superior Court instruction prescribes: petition, proposed order, required SBI cover letter, then your qualifying certified criminal history dated within 45 days. Include the original SBI letter and one original plus one copy of the assembled packet.",
     "File it, pay the $75 fee or ask about the § 4372(l) waiver, and serve the Attorney General."
   ],
 
   deliberatelyBlank: [
     "The whole charge table on both forms. This platform does not collect or review your certified criminal history and does not represent that it has confirmed charge-level eligibility.",
     "The manifest-injustice explanation. The committed record records it as the substance of the petition, which must not be templated.",
+    "The manifest-injustice checkbox above that explanation. The form marks this section as information that MUST be completed for the Court to consider the petition; the participant must make this sworn assertion and the packet never marks it.",
     "The county boxes on both forms, which are a venue election keyed to your most recent case termination.",
     "The interpreter election and the language line on both forms.",
     "The attorney block on both forms. This packet is prepared for a self-represented petitioner and the platform holds no representation fact.",
@@ -407,16 +420,14 @@ const SPEC = {
       owner: "counsel, and the lane that owns the Delaware form set"
     },
     {
-      finding: "MASTER_QUEUE.packetComponents understates this family by one component.",
+      finding: "The current packet decision separates the two generated court forms from external participant attachments.",
       detail:
-        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json lists three packetComponents for "
-        + "de_discretionary_superior_court-set -- continuation-2, primary-filing-1 and proposed-order-3 -- "
-        + "while the same row's own instrumentKinds lists four (continuation, cover_sheet, primary_filing, "
-        + "proposed_order) and both controlling records declare "
-        + "de_discretionary_superior_court-cover-sheet-4 with role cover_sheet and outputStrategy "
-        + "custom_pleading. The same understatement appears on the sibling de_pardon_expungement-set row. "
-        + "The records govern and the queue was not edited.",
-      owner: "the lane that owns MASTER_QUEUE.json"
+        "The current legal-clear decision for this exact family says to use Petition + Proposed Order + SBI "
+        + "Cover Letter + qualifying certified criminal history and says not to add a generic cover sheet. "
+        + "This builder therefore renders only CIV_EXP_02_A and CIV_EXP_04_A. The SBI letter and certified "
+        + "history remain required external participant documents, and CIV_EXP_02_B remains bound but "
+        + "conditional and unexercised in both fixtures.",
+      owner: "the packet-set record and the lane that owns its manifest"
     },
     {
       finding: "SOURCE_READY_BUILDABILITY.json reports this family's sources as not present in any mounted custody. In this container they are all present and all hash exactly.",
@@ -480,25 +491,25 @@ const SPEC = {
   counselQuestions: [
     "Which proposed order the petitioner is expected to lodge. This is the committed track registry's own release blocker on packet_components: all five Superior Court orders are published as court forms and the instructions say only \"Proposed Order\". This build lodged CIV_EXP_04_A because the committed packet-set manifest names it as this family's proposed_order, and the registry directs that the Prothonotary confirm it.",
     "What to do for a matter with more than four charges. The petition extends to CIV_EXP_02_B; the proposed order does not extend at all. This build's participant guide tells the participant to stop and ask for help above four charges, which is a self-help boundary this build invented for a gap in the form set rather than one the committed record states.",
-    "What the committed record means by the \"SBI cover letter\" named third in the prescribed filing order. No committed record states its addressee or its content, so this build composed a filing cover sheet that identifies the petitioner and lists the filing's contents and asserts nothing else. If an SBI cover letter is a distinct instrument with required content, it is not built here.",
+    "The participant must supply the actual SBI cover letter required by the current packet decision. This builder generates no SBI letter and no cover-sheet substitute; confirm the participant's original letter is included before filing.",
     "Whether a date of birth written in ISO form (1992-07-22) is acceptable to the Prothonotary on these two forms. Neither form prints a date order beside the blank, so this build wrote the held value unchanged rather than inferring mm/dd/yyyy.",
     "What 85 Del. Laws, c. 142, § 10 changed in § 4374. The committed track registry carries this as a release blocker on the governing mechanism and records that the amendment was not read in the review this packet's copy descends from."
   ],
 
   reviewersAttention: [
-    "Read the delivered PDFs, not this report. Both fixtures are the petition, the proposed order and a composed cover sheet, in that order.",
+    "Read the delivered PDFs, not this report. Both fixtures contain only the petition and proposed order, in that order; the participant's required SBI cover letter and certified criminal history are external attachments that must be assembled before filing.",
     "The charge tables on both official forms are delivered entirely blank, by design and on the committed record's counsel classification. A reviewer expecting a filled table should read the buildFindings and the routeSelectionsMade before treating it as a gap.",
     "CIV_EXP_02_B is bound, hashed and proved equivalent to its pinned binary, and is in neither packet. The receipt records it under conditionalDocumentsBoundButNotExercised with the reason.",
     "The proposed order CIV_EXP_04_A carries the petitioner's caption details and nothing else; paragraph 5, the date and the judicial officer's signature line are untouched.",
     "Dates are delivered in ISO form because neither form prints a date order beside its date blank. Read the delivered page and say whether that is acceptable in Delaware Superior Court.",
-    "This family and de_pardon_expungement-set share CIV_EXP_02_A. Their packets are not clones: they differ in the proposed order they carry, in the cover sheet's authority lines, and in every participant fact."
+    "This family and de_pardon_expungement-set share CIV_EXP_02_A. Their packets are not clones: they differ in the proposed order they carry and in every participant fact."
   ],
 
   componentCarriageNotes: [
-    "The cover sheet is the `custom_pleading` component the committed packet-set manifest declares as "
-    + "`de_discretionary_superior_court-cover-sheet-4`. It is composed by this build from held participant "
-    + "facts and the manifest's own component list. It carries no signature block, states no fee, deadline, "
-    + "clerk's practice or service rule, and asserts nothing about eligibility.",
+    "The controlling legal-clear decision says not to add a generic cover sheet. This build renders only the "
+    + "two official court forms; the participant must obtain and attach the required SBI cover letter and "
+    + "qualifying certified criminal history in the prescribed order. The builder does not invent either "
+    + "external document or make an eligibility assertion.",
     "The `continuation` component the same record declares, CIV_EXP_02_B, is conditional on \"When charges "
     + "exceed the table on the petition\". Neither fixture exceeds it, so the continuation sheet is not part "
     + "of either packet. It is bound and proved all the same, and the reason it is not delivered blank is in "

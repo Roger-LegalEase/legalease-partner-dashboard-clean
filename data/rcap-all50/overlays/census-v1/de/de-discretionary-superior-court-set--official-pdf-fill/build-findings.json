@@ -14,9 +14,9 @@
       "owner": "counsel, and the lane that owns the Delaware form set"
     },
     {
-      "finding": "MASTER_QUEUE.packetComponents understates this family by one component.",
-      "detail": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json lists three packetComponents for de_discretionary_superior_court-set -- continuation-2, primary-filing-1 and proposed-order-3 -- while the same row's own instrumentKinds lists four (continuation, cover_sheet, primary_filing, proposed_order) and both controlling records declare de_discretionary_superior_court-cover-sheet-4 with role cover_sheet and outputStrategy custom_pleading. The same understatement appears on the sibling de_pardon_expungement-set row. The records govern and the queue was not edited.",
-      "owner": "the lane that owns MASTER_QUEUE.json"
+      "finding": "The current packet decision separates the two generated court forms from external participant attachments.",
+      "detail": "The current legal-clear decision for this exact family says to use Petition + Proposed Order + SBI Cover Letter + qualifying certified criminal history and says not to add a generic cover sheet. This builder therefore renders only CIV_EXP_02_A and CIV_EXP_04_A. The SBI letter and certified history remain required external participant documents, and CIV_EXP_02_B remains bound but conditional and unexercised in both fixtures.",
+      "owner": "the packet-set record and the lane that owns its manifest"
     },
     {
       "finding": "SOURCE_READY_BUILDABILITY.json reports this family's sources as not present in any mounted custody. In this container they are all present and all hash exactly.",
@@ -344,9 +344,9 @@
     {
       "document": "CIV_EXP_02_A",
       "field": "No",
-      "capturedLabel": "Interpreter needed?  %¡  Yes",
+      "capturedLabel": "Interpreter needed?   Yes",
       "measuredLabel": "Interpreter needed?",
-      "measuredAt": "page 1 widget rect x[182.91,196.95] y[568.63,577.99]; the form's own printed text reads 'Interpreter needed?' at x[46.44,134.16] y[566.52,580.12]; the shared capture returned \"Interpreter needed?  %¡  Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
+      "measuredAt": "page 1 widget rect x[182.91,196.95] y[568.63,577.99]; the form's own printed text reads 'Interpreter needed?' at x[46.44,134.16] y[566.52,580.12]; the shared capture returned \"Interpreter needed?   Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
     },
     {
       "document": "CIV_EXP_04_A",
@@ -596,9 +596,9 @@
     {
       "document": "CIV_EXP_04_A",
       "field": "No",
-      "capturedLabel": "Interpreter Needed?       Yes",
+      "capturedLabel": "Interpreter Needed?       Yes",
       "measuredLabel": "Interpreter Needed?",
-      "measuredAt": "page 1 widget rect x[172.80,182.76] y[512.37,522.33]; the form's own printed text reads 'Interpreter Needed?' at x[61.80,124.50] y[514.50,521.73]; the shared capture returned \"Interpreter Needed?       Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
+      "measuredAt": "page 1 widget rect x[172.80,182.76] y[512.37,522.33]; the form's own printed text reads 'Interpreter Needed?' at x[61.80,124.50] y[514.50,521.73]; the shared capture returned \"Interpreter Needed?       Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
     }
   ]
 }
