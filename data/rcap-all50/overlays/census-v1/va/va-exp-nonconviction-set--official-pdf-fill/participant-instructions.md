@@ -2,7 +2,7 @@
 
 This packet is prepared for **Petition for Expungement of Police and Court Records of a Non-Conviction, Va. Code § 19.2-392.2(A)**.
 
-The petition in it is **CC-1473**, the Virginia circuit court form headed *Petition for Expungement Filed in a Circuit Court - Acquittal/Dismissal*. That is the form this route is filed on: the petition prints Va. Code § 19.2-392.2(A) on its own face, the build assignment names CC-1473, and the two agree.
+The petition in it is **CC-1473**, the Virginia circuit court form headed *Petition for Expungement Filed in a Circuit Court - Acquittal/Dismissal*. The petition prints Va. Code § 19.2-392.2(A) on its own face.
 
 The platform filled in what it holds about you: your name (in the caption and printed in the signature block), your date of birth, your address, your telephone number and your email. Everything else on the petition is yours, and this page lists every item by the words printed beside the blank.
 
@@ -20,11 +20,11 @@ One thing this packet does **not** tell you, because it is not established by th
 
 | Component | What it is |
 | --- | --- |
-| `primary_filing` | CC-1473, the petition itself |
-| `commonwealth_service_and_stipulation_request` | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |
-| `ccre_forwarding_request` | the request that the Central Criminal Records Exchange forward your Virginia criminal history record to the court, made after filing |
-| `records_checklist` | the records you need in front of you to complete the petition |
-| `filing_instructions` | where the packet goes and in what order |
+| Official petition | CC-1473, the petition itself |
+| Commonwealth's Attorney copy | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |
+| CCRE request | the request that the Central Criminal Records Exchange forward your Virginia criminal history record to the court, made after filing |
+| Records checklist | the records you need in front of you to complete the petition |
+| Filing instructions | where the packet goes and in what order |
 
 ## Records to obtain and check before filing
 
@@ -42,19 +42,21 @@ Your own CCRE copy is different from the copy sent to the court. Obtain and chec
 ## What you must do
 
 1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.
-2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the 4 boxes the route decides — set out under *What the packet answered for you* below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed. **Before you tick either Part 1 box, read *The Dotson screen* immediately below this list: it is a hard gate on that election.**
+2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the 4 petitioner-capacity boxes explained below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed. Before choosing the second box, read the record gate immediately below.
 3. **Sign and date the petition yourself.** The platform never signs for you and never dates a signature, so those lines are deliberately blank. Leave the clerk's certification block at the foot of page 1 completely alone — it is the clerk's.
 4. **File the petition with the circuit court clerk.**
 5. **Ask the Central Criminal Records Exchange to forward your record to that court**, using the page in this packet headed for that purpose. The petition's checklist words the request around the court where the petition *was* filed, so it comes after filing.
 6. **Have a copy of the petition served on the Attorney for the Commonwealth** for that county or city, using the page in this packet headed for that purpose, in the manner the clerk directs.
 
-### The Dotson screen — a hard gate on the Part 1 basis election
+### Record gate for the Part 1 basis election
 
-Part 1 of CC-1473 makes you check **one** basis: *acquitted*, or *nolle prosequi / otherwise dismissed*. **"Otherwise dismissed" is read narrowly.** The committed track registry states the gate in these words: “The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition, unless it is a dismissal under Va. Code § 19.2-298.02 that the court record shows all parties agreed to treat as otherwise dismissed under subsection D of that section (the pinned CC-1473 Rev. 07/26, Part 1, expressly includes that case in its 'otherwise dismissed' basis). That agreement is a separate fact from agreeing to the deferral and from the Commonwealth's later response to the petition; it is never inferred from the word 'dismissed' or from the prosecutor's silence. Where the agreement is absent, ambiguous or disputed, or the dismissal was under a different first-offender statute such as § 18.2-251, the Dotson screen remains a hard gate: obtain legal review, and route to sealing, not expungement.” It states the same population again among this route's exclusions: “A charge dismissed after a finding of facts sufficient for guilt, and a deferred or first-offender disposition such as a § 18.2-251 drug dismissal. Under Commonwealth v. Dotson 'otherwise dismissed' is read narrowly and this population routes to sealing instead. Exception recorded 2026-09-06 from the owner-relayed research: a dismissal under § 19.2-298.02 that all parties agreed to treat as otherwise dismissed under subsection D of that section (version in force on 2026-09-06) is evaluated under this route rather than excluded automatically; eligibility is not an order granting expungement, the agreement is never inferred, and an absent, ambiguous or disputed agreement goes to human legal review.”
+Part 1 of CC-1473 makes you check **one** basis: *acquitted*, or *nolle prosequi / otherwise dismissed*. The second basis is narrow. A dismissal after admitted facts or a deferred disposition ordinarily requires legal review. The current exception covers a dismissal, or the original charge that was reduced, under 19.2-298.02(D) only when the actual record establishes the separate all-party agreement described below.
 
 A deferred dismissal needs a closer check. A plea, stipulation, judicial finding of facts sufficient for guilt, or deferral does not by itself establish that a charge is otherwise dismissed for expungement.
 
-For a dismissal under Virginia Code 19.2-298.02, evaluate the subsection D exception when the record establishes that all parties agreed to that expungement treatment. Identify the actual agreement document or reference; it may be recorded in the final disposition order, but that order is not the only possible evidence. This is permission to evaluate the existing route and its remaining requirements, not an order granting expungement.
+For a dismissal under Virginia Code 19.2-298.02, or for the original charge when that charge was reduced under that section, evaluate the subsection D exception only when the record establishes that all parties agreed to that expungement treatment. For a reduction, identify the original charge as the charge this petition targets; do not ask to expunge a separate conviction on the reduced charge.
+
+Identify the actual agreement document or reference; it may be recorded in the final disposition order, but that order is not the only possible evidence. This is permission to evaluate the existing route and its remaining requirements, not an order granting expungement.
 
 Agreement to defer the case, agreement to subsection D treatment, and the Commonwealth's later response to the expungement petition are three separate facts. A dismissal label, silence, or a later statement of no objection does not establish the subsection D agreement. If its existence, meaning or legal basis is absent, ambiguous or disputed, obtain legal review before selecting the dismissal ground or filing.
 
@@ -66,7 +68,7 @@ Do not apply this exception to a different first-offender statute such as 18.2-2
 
 | Page | The blank on the document | What to write |
 | --- | --- | --- |
-| 1 | City or county of the circuit court where this petition is filed | the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings |
+| 1 | City or county of the circuit court where this petition is filed | the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. Confirm this court location with the clerk; do not copy your own mailing city into this court-caption line |
 | 1 | Street address of the court | the street address of that circuit court — the clerk's office can give it to you |
 | 1 | My full name when I was arrested on this charge | the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not |
 | 1 | Specific charge(s) to be expunged | the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record |
@@ -114,9 +116,9 @@ This packet is built for one statutory route — Va. Code § 19.2-392.2(A) — a
 - **Page 1, The petition is signed by the Petitioner (selection).** This packet is prepared for the petitioner to file without counsel, so the petitioner signs it.
 - **Page 1, The telephone number given is the Petitioner's (selection).** The telephone number in this block is the petitioner's, because this packet is filed without counsel.
 
-Nothing about the **basis of the petition** is decided for you. Whether you were acquitted, or the charge was nolle prossed or otherwise dismissed, is a fact about your own record, so both Part 1 boxes are left for you to read and tick — exactly one of them.
+Nothing about the **basis of the petition** is decided for you. Whether you were acquitted, the charge was nolle prossed or otherwise dismissed, or the petition targets an original charge reduced under the narrow current exception is a fact about your own record. Both Part 1 boxes remain blank for you to review and tick — exactly one of them.
 
-It is left for you, but it is not unconstrained: *The Dotson screen* above is a hard gate on the *otherwise dismissed* box, and it is the one election in this packet where ticking a box that looks right can be the wrong thing to do.
+If the original charge was reduced, confirm the exact original charge this petition targets, the reduced charge or resulting disposition, and the record connecting the two. Do not use this petition to ask for expungement of a separate conviction on the reduced charge. The separate all-party agreement and its actual documentary reference are still required; agreement to defer or later prosecutorial silence does not establish them.
 
 Check each marked box against your own situation before you file. If any of them is wrong for you — for example, a lawyer is filing this for you — this is the wrong packet and you should not file it.
 
@@ -138,15 +140,15 @@ Check each marked box against your own situation before you file. If any of them
 - **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.
 - **The case number at the top of the petition.** The circuit court clerk assigns it when the petition is filed.
 - **The whole clerk's certification block at the foot of page 1** — the certification, the hearing date and time, and its date line. The clerk completes all of it.
-- **The city or county of the circuit court, and its street address.** The shared field semantics cannot write the court's venue into a field the form names `City`, so you copy it from the clerk's confirmation — the reason is recorded in this family's build findings.
+- **The city or county of the circuit court, and its street address.** These court-location facts are not held in this packet. Confirm them with the clerk and copy them into the petition's caption.
 - **Your full name at the time of arrest.** The arrest record's wording controls, and only you can check it.
 - **Every attorney box, and the VSB number.** This packet is prepared for you to file without a lawyer, so the petitioner boxes are marked and the attorney boxes are not.
 
 ## Where self-help ends
 
-This packet prepares CC-1473 and its companion pages for you to read, complete, sign and file yourself. The committed track registry — `data/record-clearing/legal-design-track-registry.json`, track `va_exp_nonconviction`, field `selfHelpStopConditions` — records these as the points where self-help ends on this route, in its own words and in its own order. If any of them describes your case, stop before you file:
+This packet prepares CC-1473 and its companion pages for you to read, complete, sign and file yourself. If any of these conditions describes your case, stop before you file:
 
-- The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition, unless it is a dismissal under Va. Code § 19.2-298.02 that the court record shows all parties agreed to treat as otherwise dismissed under subsection D of that section (the pinned CC-1473 Rev. 07/26, Part 1, expressly includes that case in its 'otherwise dismissed' basis). That agreement is a separate fact from agreeing to the deferral and from the Commonwealth's later response to the petition; it is never inferred from the word 'dismissed' or from the prosecutor's silence. Where the agreement is absent, ambiguous or disputed, or the dismissal was under a different first-offender statute such as § 18.2-251, the Dotson screen remains a hard gate: obtain legal review, and route to sealing, not expungement.
+- The charge was dismissed after a stipulation, a finding of facts sufficient for guilt, or a deferred or first-offender disposition, unless the actual record shows the narrow current 19.2-298.02(D) exception: the dismissal, or the original charge that was reduced, is the target and all parties separately agreed to that expungement treatment. If the agreement is absent, ambiguous or disputed, or the dismissal was under another statute such as 18.2-251, stop and obtain legal review.
 - The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.
 - The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.
 - Any immigration question.
@@ -157,5 +159,3 @@ This packet prepares CC-1473 and its companion pages for you to read, complete, 
 ## What this packet is not
 
 This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.
-
-_Route: obligation:track-only:VA:va_exp_nonconviction_

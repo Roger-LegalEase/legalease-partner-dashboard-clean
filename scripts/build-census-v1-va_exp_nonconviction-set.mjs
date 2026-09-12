@@ -59,7 +59,7 @@
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
-import { assertVaBasisPreparation, VA_BASIS_POLICY, VA_BASIS_GUIDANCE } from "./rcap-packet-recovery/va-nonconviction-basis.mjs";
+import { assertVaBasisPreparation, VA_BASIS_POLICY, VA_BASIS_GUIDANCE, VA_BASIS_INPUTS, vaBasisInputStatus } from "./rcap-packet-recovery/va-nonconviction-basis.mjs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -86,6 +86,8 @@ const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
 const TRACK_ID = "va_exp_nonconviction";
 const OUT = "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-va_exp_nonconviction-set.mjs";
+const LEGAL_DECISION = "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json";
+const LEGAL_DECISION_SHA256 = "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2";
 
 const ROUTE = Object.freeze({
   jurisdiction: "VA",
@@ -127,6 +129,22 @@ function corpusRoot() {
   return configured;
 }
 
+function assertBindingDecision() {
+  const bytes = fs.readFileSync(path.join(ROOT, LEGAL_DECISION));
+  assert.equal(crypto.createHash("sha256").update(bytes).digest("hex"), LEGAL_DECISION_SHA256,
+    `${VA_BASIS_POLICY.bindingDecisionId}: binding decision bytes drifted`);
+  const ledger = JSON.parse(bytes);
+  const decision = (ledger.decisions ?? []).find((row) => row.decisionId === VA_BASIS_POLICY.bindingDecisionId);
+  assert.ok(decision, `${VA_BASIS_POLICY.bindingDecisionId}: binding decision is missing`);
+  assert.equal(decision.disposition, "LEGAL_CLEAR", `${VA_BASIS_POLICY.bindingDecisionId}: decision is not LEGAL_CLEAR`);
+  assert.ok((decision.familyIds ?? []).includes(FAMILY_ID), `${VA_BASIS_POLICY.bindingDecisionId}: decision does not bind ${FAMILY_ID}`);
+  assert.match(decision.bindingProductRule, /original charge.*reduced|dismissal\/reduction/i,
+    `${VA_BASIS_POLICY.bindingDecisionId}: reduced-original-charge rule is missing`);
+  assert.match(decision.bindingProductRule, /Do not infer agreement/i,
+    `${VA_BASIS_POLICY.bindingDecisionId}: no-inference protection is missing`);
+  return { decisionId: decision.decisionId, disposition: decision.disposition, sha256: LEGAL_DECISION_SHA256, path: LEGAL_DECISION };
+}
+
 const WRITE = (fact) => ({ policy: "write", fact });
 const SUPPLY = (what) => ({ policy: "supply", what });
 const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
@@ -166,7 +184,7 @@ const FORM_FIELDS = {
   "User.City": {
     section: S.CAPTION, caption: "CITY OR COUNTY", captionAt: { page: 1, y: 668 },
     label: "City or county of the circuit court where this petition is filed",
-    ...SUPPLY("the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings")
+    ...SUPPLY("the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. Confirm this court location with the clerk; do not copy your own mailing city into this court-caption line")
   },
   "User.Officer": {
     section: S.CAPTION, caption: "STREET ADDRESS OF COURT", captionAt: { page: 1, y: 641 },
@@ -746,7 +764,11 @@ function selfHelpStops() {
     .find((e) => /Dotson/.test(e));
   assert.ok(narrowReading,
     `the track registry declares no Dotson exclusion for ${TRACK_ID}`);
-  return { conditions, dotson, narrowReading };
+  const participantConditions = [
+    "The charge was dismissed after a stipulation, a finding of facts sufficient for guilt, or a deferred or first-offender disposition, unless the actual record shows the narrow current 19.2-298.02(D) exception: the dismissal, or the original charge that was reduced, is the target and all parties separately agreed to that expungement treatment. If the agreement is absent, ambiguous or disputed, or the dismissal was under another statute such as 18.2-251, stop and obtain legal review.",
+    ...conditions.slice(1)
+  ];
+  return { conditions, participantConditions, dotson, narrowReading };
 }
 
 function recordPreparation() {
@@ -801,8 +823,9 @@ export function composedBody(componentId, facts) {
     for (const check of preparation.checks) L.push(`[ ] ${check}`);
     L.push("", "FACTS TO COMPLETE FROM THOSE RECORDS", "");
     L.push("[ ] The specific charge or charges to be expunged, worded exactly as your court record words them.");
-    L.push("[ ] The disposition of each charge: acquitted, nolle prosequi, or otherwise dismissed - the petition makes you check exactly one basis.");
-    L.push("[ ] For a deferred dismissal: the exact dismissal statute, the separate subsection D agreement if applicable, and the actual document or reference establishing that agreement. Do not infer it from the dismissal label, agreement to defer, or later prosecutorial silence.");
+    L.push("[ ] The disposition of each charge: acquitted, nolle prosequi, otherwise dismissed, or an original charge reduced under 19.2-298.02(D) - the petition makes you check exactly one basis.");
+    L.push("[ ] If an original charge was reduced: the exact original charge this petition targets, the reduced charge or resulting disposition, and the record connecting the two. This packet does not ask to expunge a separate conviction on the reduced charge.");
+    L.push("[ ] For a dismissal or reduction under 19.2-298.02(D): the separate all-party agreement and the actual document or reference establishing that agreement. Do not infer it from the disposition label, agreement to defer, or later prosecutorial silence.");
     L.push("[ ] The date or dates of final disposition, and the court that disposed of the charge or charges.");
     L.push("[ ] The date of arrest, and the name of the agency that arrested you.");
     L.push("[ ] Your full name at the time of arrest, as the arrest record states it.");
@@ -818,7 +841,7 @@ export function composedBody(componentId, facts) {
     L.push("WHAT YOU DO, IN ORDER", "");
     L.push("Before completing these steps, obtain your own CCRE record and the court case papers, and check the packet answers against them using the Records Checklist. Your own CCRE copy is separate from the court copy requested after filing.", "");
     L.push("1. Complete every item this packet's participant instructions list. Each one names the page and the words printed beside the blank.");
-    L.push("2. Check exactly one basis box - acquitted, or nolle prosequi / otherwise dismissed - to match how your charge actually ended. Before you tick the second box, read THE DOTSON SCREEN below: it is a hard gate on that box, and it is the one place where ticking it and filing can be the wrong thing to do.");
+    L.push("2. Check exactly one basis box - acquitted, or nolle prosequi / otherwise dismissed - to match the record for the charge this petition targets. The second box includes only a qualifying original charge reduced under 19.2-298.02(D) with the separate all-party agreement described below; it does not ask to expunge a separate conviction on the reduced charge.");
     L.push("3. Sign and date the petition yourself, and mark nothing in the clerk's certification block at the foot of page 1: that block is the clerk's.");
     L.push("4. File the petition with the circuit court clerk.");
     L.push("5. Ask the Central Criminal Records Exchange to forward your Virginia criminal history record to that court, using the page in this packet headed for that purpose.");
@@ -828,18 +851,17 @@ export function composedBody(componentId, facts) {
     L.push("- How long you have, and exactly how service must be made. The petition sets no filing deadline and states no service mechanics; neither does this page. Ask the same clerk.", "");
     const stops = selfHelpStops();
     L.push("THE DOTSON SCREEN, A HARD GATE ON THE BASIS ELECTION IN PART ONE", "");
-    L.push(`Part 1 makes you check one basis: acquitted, or nolle prosequi / otherwise dismissed. "Otherwise dismissed" is read narrowly, and the committed track registry states the gate in these words: "${stops.dotson}" It states the same population again among this route's exclusions: "${stops.narrowReading}"`, "");
+    L.push("Part 1 makes you check one basis: acquitted, or nolle prosequi / otherwise dismissed. The second basis is narrow. A dismissal after admitted facts or a deferred disposition ordinarily requires legal review. The current exception covers a dismissal, or the original charge that was reduced, under 19.2-298.02(D) only when the actual record establishes the separate all-party agreement described below.", "");
     for (const paragraph of VA_BASIS_GUIDANCE) L.push(paragraph, "");
     L.push("WHERE SELF-HELP ENDS", "");
-    L.push("The committed track registry records these as the points where self-help ends on this route, in its own words and in its own order. If any of them describes your case, stop before you file:", "");
-    for (const condition of stops.conditions) L.push(`- ${condition}`);
+    L.push("If any of these conditions describes your case, stop before filing and obtain the help described below:", "");
+    for (const condition of stops.participantConditions) L.push(`- ${condition}`);
     L.push("");
     L.push("WHO TO ASK WHEN YOU REACH ONE OF THEM", "");
     L.push("The clerk of the circuit court where you file answers procedural questions - what to file, how the copy must be served, and what that court requires - and this packet already sends you to that clerk for those. The clerk cannot tell you whether your own charge is eligible, and is not permitted to. Whether the Dotson screen catches your dismissal, whether the presumption is available to you, what to do if the Attorney for the Commonwealth objects or answers or the court sets a contested hearing, and any immigration, juvenile or federal question, are legal questions: only a lawyer licensed to practise in Virginia can answer them, and if you cannot afford one, ask that same clerk's office how to reach a legal-aid office. No lawyer has reviewed your case in preparing this packet.", "");
     L.push("WHAT THIS PACKET IS NOT", "");
     L.push("This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.");
   }
-  L.push("", `Route: ${ROUTE.routeKey}`);
   return L.join("\n");
 }
 
@@ -1284,7 +1306,7 @@ export function participantInstructions(maps, rbf, routeSelections) {
   const out = [];
   out.push(`# What you must do before you file — ${ROUTE.routeName}`, "");
   out.push(`This packet is prepared for **${ROUTE.legalName}**.`, "");
-  out.push(`The petition in it is **CC-1473**, the Virginia circuit court form headed *${FORM_TITLE}*. That is the form this route is filed on: the petition prints ${ROUTE.statute} on its own face, the build assignment names CC-1473, and the two agree.`, "");
+  out.push(`The petition in it is **CC-1473**, the Virginia circuit court form headed *${FORM_TITLE}*. The petition prints ${ROUTE.statute} on its own face.`, "");
   out.push("The platform filled in what it holds about you: your name (in the caption and printed in the signature block), your date of birth, your address, your telephone number and your email. Everything else on the petition is yours, and this page lists every item by the words printed beside the blank.", "");
 
   out.push("## Where you file this", "");
@@ -1295,11 +1317,11 @@ export function participantInstructions(maps, rbf, routeSelections) {
 
   out.push("## What is in this packet", "");
   out.push("| Component | What it is |", "| --- | --- |");
-  out.push("| `primary_filing` | CC-1473, the petition itself |");
-  out.push("| `commonwealth_service_and_stipulation_request` | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |");
-  out.push("| `ccre_forwarding_request` | the request that the Central Criminal Records Exchange forward your Virginia criminal history record to the court, made after filing |");
-  out.push("| `records_checklist` | the records you need in front of you to complete the petition |");
-  out.push("| `filing_instructions` | where the packet goes and in what order |");
+  out.push("| Official petition | CC-1473, the petition itself |");
+  out.push("| Commonwealth's Attorney copy | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |");
+  out.push("| CCRE request | the request that the Central Criminal Records Exchange forward your Virginia criminal history record to the court, made after filing |");
+  out.push("| Records checklist | the records you need in front of you to complete the petition |");
+  out.push("| Filing instructions | where the packet goes and in what order |");
   out.push("");
 
   out.push("## Records to obtain and check before filing", "");
@@ -1310,15 +1332,15 @@ export function participantInstructions(maps, rbf, routeSelections) {
   out.push("**After service.** " + preparation.notice, "");
   out.push("## What you must do", "");
   out.push("1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.");
-  out.push(`2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the ${routeSelections.length} boxes the route decides — set out under *What the packet answered for you* below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed. **Before you tick either Part 1 box, read *The Dotson screen* immediately below this list: it is a hard gate on that election.**`);
+  out.push(`2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the ${routeSelections.length} petitioner-capacity boxes explained below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed. Before choosing the second box, read the record gate immediately below.`);
   out.push("3. **Sign and date the petition yourself.** The platform never signs for you and never dates a signature, so those lines are deliberately blank. Leave the clerk's certification block at the foot of page 1 completely alone — it is the clerk's.");
   out.push("4. **File the petition with the circuit court clerk.**");
   out.push("5. **Ask the Central Criminal Records Exchange to forward your record to that court**, using the page in this packet headed for that purpose. The petition's checklist words the request around the court where the petition *was* filed, so it comes after filing.");
   out.push("6. **Have a copy of the petition served on the Attorney for the Commonwealth** for that county or city, using the page in this packet headed for that purpose, in the manner the clerk directs.");
   out.push("");
   const stops = selfHelpStops();
-  out.push("### The Dotson screen — a hard gate on the Part 1 basis election", "");
-  out.push(`Part 1 of CC-1473 makes you check **one** basis: *acquitted*, or *nolle prosequi / otherwise dismissed*. **"Otherwise dismissed" is read narrowly.** The committed track registry states the gate in these words: “${stops.dotson}” It states the same population again among this route's exclusions: “${stops.narrowReading}”`, "");
+  out.push("### Record gate for the Part 1 basis election", "");
+  out.push("Part 1 of CC-1473 makes you check **one** basis: *acquitted*, or *nolle prosequi / otherwise dismissed*. The second basis is narrow. A dismissal after admitted facts or a deferred disposition ordinarily requires legal review. The current exception covers a dismissal, or the original charge that was reduced, under 19.2-298.02(D) only when the actual record establishes the separate all-party agreement described below.", "");
   for (const paragraph of VA_BASIS_GUIDANCE) out.push(paragraph, "");
 
   out.push("## The items you must supply", "");
@@ -1336,8 +1358,8 @@ export function participantInstructions(maps, rbf, routeSelections) {
     out.push(`- **Page ${sel.page}, ${sel.printedLabel}.** ${sel.why[0].toUpperCase()}${sel.why.slice(1)}.`);
   }
   out.push("");
-  out.push("Nothing about the **basis of the petition** is decided for you. Whether you were acquitted, or the charge was nolle prossed or otherwise dismissed, is a fact about your own record, so both Part 1 boxes are left for you to read and tick — exactly one of them.", "");
-  out.push("It is left for you, but it is not unconstrained: *The Dotson screen* above is a hard gate on the *otherwise dismissed* box, and it is the one election in this packet where ticking a box that looks right can be the wrong thing to do.", "");
+  out.push("Nothing about the **basis of the petition** is decided for you. Whether you were acquitted, the charge was nolle prossed or otherwise dismissed, or the petition targets an original charge reduced under the narrow current exception is a fact about your own record. Both Part 1 boxes remain blank for you to review and tick — exactly one of them.", "");
+  out.push("If the original charge was reduced, confirm the exact original charge this petition targets, the reduced charge or resulting disposition, and the record connecting the two. Do not use this petition to ask for expungement of a separate conviction on the reduced charge. The separate all-party agreement and its actual documentary reference are still required; agreement to defer or later prosecutorial silence does not establish them.", "");
   out.push("Check each marked box against your own situation before you file. If any of them is wrong for you — for example, a lawyer is filing this for you — this is the wrong packet and you should not file it.", "");
 
   out.push("## The choices that are yours", "");
@@ -1349,19 +1371,18 @@ export function participantInstructions(maps, rbf, routeSelections) {
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
   out.push("- **The case number at the top of the petition.** The circuit court clerk assigns it when the petition is filed.");
   out.push("- **The whole clerk's certification block at the foot of page 1** — the certification, the hearing date and time, and its date line. The clerk completes all of it.");
-  out.push("- **The city or county of the circuit court, and its street address.** The shared field semantics cannot write the court's venue into a field the form names `City`, so you copy it from the clerk's confirmation — the reason is recorded in this family's build findings.");
+  out.push("- **The city or county of the circuit court, and its street address.** These court-location facts are not held in this packet. Confirm them with the clerk and copy them into the petition's caption.");
   out.push("- **Your full name at the time of arrest.** The arrest record's wording controls, and only you can check it.");
   out.push("- **Every attorney box, and the VSB number.** This packet is prepared for you to file without a lawyer, so the petitioner boxes are marked and the attorney boxes are not.");
   out.push("");
 
   out.push("## Where self-help ends", "");
-  out.push("This packet prepares CC-1473 and its companion pages for you to read, complete, sign and file yourself. The committed track registry — `data/record-clearing/legal-design-track-registry.json`, track `va_exp_nonconviction`, field `selfHelpStopConditions` — records these as the points where self-help ends on this route, in its own words and in its own order. If any of them describes your case, stop before you file:", "");
-  for (const condition of stops.conditions) out.push(`- ${condition}`);
+  out.push("This packet prepares CC-1473 and its companion pages for you to read, complete, sign and file yourself. If any of these conditions describes your case, stop before you file:", "");
+  for (const condition of stops.participantConditions) out.push(`- ${condition}`);
   out.push("");
   out.push("**Who to ask when you reach one of them.** The clerk of the circuit court where you file answers procedural questions — what to file, how the copy must be served, and what that court requires — and this packet already sends you to that clerk for those. The clerk cannot tell you whether your own charge is eligible, and is not permitted to. Whether the Dotson screen catches your dismissal, whether the presumption is available to you, what to do if the Attorney for the Commonwealth objects or answers or the court sets a contested hearing, and any immigration, juvenile or federal question, are legal questions: only a lawyer licensed to practise in Virginia can answer them, and if you cannot afford one, ask that same clerk's office how to reach a legal-aid office. No lawyer has reviewed your case in preparing this packet.", "");
   out.push("## What this packet is not", "");
-  out.push("This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
-  out.push(`_Route: ${ROUTE.routeKey}_`);
+  out.push("This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.");
   return `${out.join("\n")}\n`;
 }
 
@@ -1369,6 +1390,7 @@ export function participantInstructions(maps, rbf, routeSelections) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+  const bindingDecision = assertBindingDecision();
 
   const { resolved, failures } = resolveSources();
   if (failures.length > 0) {
@@ -1412,7 +1434,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
     policy: VA_BASIS_POLICY, module: "scripts/rcap-packet-recovery/va-nonconviction-basis.mjs",
     moduleSha256: crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, "scripts/rcap-packet-recovery/va-nonconviction-basis.mjs"))).digest("hex"),
     sourceContract: "docs/rcap/grade-a/research/2026-09-06-batch-04/Virginia_Deferred_Disposition_Exception_Contract.md",
+    bindingDecision,
     participantText: VA_BASIS_GUIDANCE,
+    participantInputs: VA_BASIS_INPUTS,
+    referenceTemplateInputStatus: vaBasisInputStatus(null),
     referenceTemplatesLeaveBasisUnselected: true,
     requiresRemainingRouteChecks: true, grantsFilingOrCommercialAuthority: false,
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0,
