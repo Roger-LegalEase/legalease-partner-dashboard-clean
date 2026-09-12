@@ -34,18 +34,17 @@
     }
   ],
   "counts": {
-    "returnDirectories": 260,
-    "rows": 1338,
-    "independentVerdicts": 305,
-    "failRepairRequired": 22,
-    "passIndependent": 264
+    "returnDirectories": 265,
+    "rows": 1345,
+    "independentVerdicts": 306,
+    "failRepairRequired": 21,
+    "passIndependent": 267
   },
   "failRepairRequiredFamilies": [
     "al-pardoned-felony-set",
     "ca-17b-reduction-set",
     "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
     "co_motion_seal_conviction-set",
-    "co_motion_seal_nonconviction-set",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "de_discretionary_superior_court-set",
     "il-seal-edu-set",
@@ -5562,6 +5561,32 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf07",
       "isIndependentVerification": true,
+      "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Independently measured1 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/co_motion_seal_conviction-set-finding.json",
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/co_motion_seal_conviction-set-34660023738-original-raster-measurements.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-seven-cleared-known-fact-fit-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
       "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
       "failedObligations": [
         {
@@ -5607,7 +5632,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "co_motion_seal_conviction-set",
@@ -5767,6 +5792,20 @@
     },
     {
       "familyId": "co_motion_seal_nonconviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-seven-cleared-co-1families-20260911.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf08",
       "isIndependentVerification": true,
@@ -5872,7 +5911,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "co_motion_seal_nonconviction-set",
@@ -14572,6 +14611,20 @@
     },
     {
       "familyId": "la-987-set-aside-and-dismiss-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7b3247372dcff1ab49dd452b4e62c11fb5e0dcaa",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-seven-cleared-la-20260911.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
+      "superseded": false
+    },
+    {
+      "familyId": "la-987-set-aside-and-dismiss-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
@@ -14723,7 +14776,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "la-987-set-aside-and-dismiss-set",
@@ -21253,6 +21306,36 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
+      "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Independently measured2 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_conviction-set-finding.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nm_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
       "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
       "failedObligations": [
         {
@@ -21285,7 +21368,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nm_conviction-set",
@@ -21342,6 +21425,32 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
+      "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Independently measured1 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_identity_theft-set-finding.json",
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/nm_identity_theft-set-34659428344-original-raster-measurements.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_identity_theft-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nm_identity_theft-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
       "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
       "failedObligations": [
         {
@@ -21367,7 +21476,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_identity_theft-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nm_identity_theft-set",
@@ -21452,6 +21561,32 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
+      "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Independently measured2 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_release_without_conviction-set-finding.json",
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/nm_release_without_conviction-set-34659428344-original-raster-measurements.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nm_release_without_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
       "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
       "failedObligations": [
         {
@@ -21509,7 +21644,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nv_repository_removal-set",
@@ -22370,6 +22505,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "superseded": false
+    },
+    {
+      "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "38c1a0b60df4c7286331baed45569e263245df08",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-seven-cleared-ca-20260911.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
       "superseded": false
     },
     {

@@ -193,9 +193,9 @@
     "additiveInput": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json",
     "familiesExamined": 77,
     "byDisposition": {
-      "SOURCE_READY": 65,
+      "SOURCE_READY": 66,
       "PRODUCT_PATH_PENDING": 8,
-      "SOURCE_BLOCKED": 4
+      "SOURCE_BLOCKED": 3
     },
     "byGroup": {
       "A": 19,
@@ -205,7 +205,6 @@
       "LATER": 7
     },
     "remainingSourceBlockedFamilyIds": [
-      "az_set_aside-set",
       "census-pending-family:UT:path-m-juvenile-expungement"
     ],
     "laterSourceBlockersKeptSeparate": [
@@ -365,7 +364,7 @@
         "group": "A",
         "decidedDisposition": "SOURCE_READY",
         "advancement": null,
-        "projectedState": "SOURCE_READY",
+        "projectedState": "BUILT_RASTER_PENDING",
         "exactNextAction": "Build the missing family renderer using already-held CR-106, CR-430, CR-430-INFO and CR-431 plus the restored exact CR-432. No source reacquisition remains.",
         "exactResidual": null
       },
@@ -453,11 +452,11 @@
       {
         "familyId": "az_set_aside-set",
         "group": "B",
-        "decidedDisposition": "SOURCE_BLOCKED",
+        "decidedDisposition": "SOURCE_READY",
         "advancement": null,
         "projectedState": "SOURCE_BLOCKED",
-        "exactNextAction": "Acquire the actual R-26-0001 effective amended Form 31(a) and Form 31(b) binaries or the order attachment bytes, without substituting the docket or old Yuma forms.",
-        "exactResidual": "R-26-0001 effective standalone Form 31(a) and Form 31(b) binaries / attachment bytes remain absent. Supplied docket has 2 pages, 0 embedded files and no amended form pages. Old Yuma AOC CR41FORM31A-103023 / CR41FORM31B-103023 do not satisfy the amended 2026 identities."
+        "exactNextAction": "Replace superseded pre-R-26-0001 packet forms using the acquired effective amendment attachment. Resolve clean-form rendering from marked-up adopted pages (31(a):3-6;31(b):7-9), preserve court fields, rebuild and obtain fresh raster plus independent review. Source acquisition is complete.",
+        "exactResidual": null
       },
       {
         "familyId": "ri_decriminalized-set",
@@ -862,7 +861,7 @@
         "group": "LATER",
         "decidedDisposition": "SOURCE_READY",
         "advancement": null,
-        "projectedState": "FAIL_REPAIR_REQUIRED",
+        "projectedState": "BUILT_RASTER_PENDING",
         "exactNextAction": "Replace the rejected Sixth Judicial District 4-222 source in the family builder/map with the single governed statewide blank-caption 4-222; preserve and repair current independent packet failures, rebuild, raster and rereview.",
         "exactResidual": null
       },
@@ -871,7 +870,7 @@
         "group": "LATER",
         "decidedDisposition": "SOURCE_READY",
         "advancement": null,
-        "projectedState": "FAIL_REPAIR_REQUIRED",
+        "projectedState": "BUILT_RASTER_PENDING",
         "exactNextAction": "Replace the rejected Sixth Judicial District 4-222 source in the family builder/map with the single governed statewide blank-caption 4-222; preserve and repair current independent packet failures, rebuild, raster and rereview.",
         "exactResidual": null
       },
@@ -880,7 +879,7 @@
         "group": "LATER",
         "decidedDisposition": "SOURCE_READY",
         "advancement": null,
-        "projectedState": "FAIL_REPAIR_REQUIRED",
+        "projectedState": "BUILT_RASTER_PENDING",
         "exactNextAction": "Replace the rejected Sixth Judicial District 4-222 source in the family builder/map with the single governed statewide blank-caption 4-222; preserve and repair current independent packet failures, rebuild, raster and rereview.",
         "exactResidual": null
       },
@@ -897,7 +896,7 @@
         "group": "LATER",
         "decidedDisposition": "SOURCE_READY",
         "advancement": null,
-        "projectedState": "FAIL_REPAIR_REQUIRED",
+        "projectedState": "BUILT_RASTER_PENDING",
         "exactNextAction": "Repair COMPONENT_SET and FEE_AND_WAIVER using held JDF612, JDF613, JDF614, current JDF615 and conditional JDF205/JDF206. Preserve future court findings, then rebuild/raster/independent review.",
         "exactResidual": null
       },
@@ -906,7 +905,7 @@
         "group": "LATER",
         "decidedDisposition": "SOURCE_READY",
         "advancement": null,
-        "projectedState": "FAIL_REPAIR_REQUIRED",
+        "projectedState": "BUILT_RASTER_PENDING",
         "exactNextAction": "Repair COMPONENT_SET, KNOWN_PREFILLS and REQUIRED_BEFORE_FILING using held JDF477/JDF478 plus JDF492/JDF493; retain existing fee/waiver review obligations, then rebuild/raster/independent review.",
         "exactResidual": null
       },
@@ -915,7 +914,7 @@
         "group": "LATER",
         "decidedDisposition": "SOURCE_READY",
         "advancement": null,
-        "projectedState": "VERIFY_PENDING",
+        "projectedState": "COMPLETE_PACKET_PROVEN",
         "exactNextAction": "Repair prescribed Article 987 motion, rule-to-show-cause and order content; implement collection and validation of all four Article 978.1 participant/case documentary inputs. These are not missing reusable official binaries. Independent packet verification remains owed.",
         "exactResidual": null
       }

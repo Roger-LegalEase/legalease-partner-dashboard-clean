@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "78d2f386abb2a61187e16ae519ee00cd29fc74d0",
+  "minimumCaptainSha": "3cd4f56f7460b1e5d0888f8736a032a79213f442",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "f6771785f87314ce2f61ae9275f4ee8a502a5ade88b44d01018c3fa9b2bcefb9",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "4ec63a558576b2fac52a6e65022b16c267a7554f50d396e3d39c655e3c21e126",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -25,7 +25,7 @@
     "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json": "25e0b55d2dcb4ba14ee26f153a4b3f67e2a45aba3ac13d520b88fe79ca00824e",
     "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json": "8a3643fcfca028c08ccc10e8e6738a2bceff6a83aa318d01e50208492bf418d2",
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
-    "data/rcap-all50/local-source-corpus-index.json": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
+    "data/rcap-all50/local-source-corpus-index.json": "0a16b09bdb248a51686948d248a4f0b1698e64a7876e9e7deddad6e1cbb85426",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
     "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json": "7d03705d29178719ae13b0a26a4d79eda92433123458df0feef2933a205a6609",
     "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
@@ -75,32 +75,30 @@
     "activeFamiliesExcluded": 2,
     "guidanceOnly": 0,
     "remaining": 344,
-    "sourceReady": 34,
-    "sourceBlocked": 1,
+    "sourceReady": 33,
+    "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 3,
+    "verifyPending": 2,
     "repairRequired": 23,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 245,
+    "COMPLETE_PACKET_PROVEN": 248,
     "PRODUCT_PATH_PENDING": 10,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 7,
     "FAIL_REPAIR_REQUIRED": 25,
-    "SOURCE_READY": 34,
-    "SOURCE_BLOCKED": 1,
+    "SOURCE_READY": 33,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 3,
+    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 84,
     "GUIDANCE_AUTHORITY_BOUND": 5,
-    "SOURCE_BOUND_BY_HELD_BYTES": 249,
-    "SOURCE_GENUINELY_MISSING": 1,
+    "SOURCE_BOUND_BY_HELD_BYTES": 250,
     "SOURCE_IDENTITY_UNRESOLVED": 4,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3
   },
@@ -166,11 +164,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 25,
-    "sourceReadyFamilies": 34,
-    "familiesPerBuilder": 1.4,
+    "sourceReadyFamilies": 33,
+    "familiesPerBuilder": 1.3,
     "targetPerBuilder": "15 to 25",
-    "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 34 do, so a full roster of 25 builders averages 1.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 2 source obligations across 1 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 33 do, so a full roster of 25 builders averages 1.3 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -6382,22 +6380,47 @@
         "official-form:R-26-0001 adopted Form 31(b)",
         "official-form:AOCCR41FORM31A-082224-CONT"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:R-26-0001 adopted Form 31(a)",
+          "path": "private/source-acquisition-20260911/az-r260001/R260001-FinalRulesOrder.PDF",
+          "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+          "tier": "exact_content_hash"
+        },
+        {
+          "sourceId": "official-form:R-26-0001 adopted Form 31(b)",
+          "path": "private/source-acquisition-20260911/az-r260001/R260001-FinalRulesOrder.PDF",
+          "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+          "tier": "exact_content_hash"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:R-26-0001 adopted Form 31(a): MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:R-26-0001 adopted Form 31(b): MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:R-26-0001 adopted Form 31(a): SOURCE_IDENTITY_DETERMINATION_UNRESOLVED — R-26-0001 effective standalone Form 31(a) and Form 31(b) binaries / attachment bytes remain absent. Supplied docket has 2 pages, 0 embedded files and no amended form pages. Old Yuma AOC CR41FORM31A-103023 / CR41FORM31B-103023 do not satisfy the amended 2026 identities.",
-          "official-form:R-26-0001 adopted Form 31(b): SOURCE_IDENTITY_DETERMINATION_UNRESOLVED — R-26-0001 effective standalone Form 31(a) and Form 31(b) binaries / attachment bytes remain absent. Supplied docket has 2 pages, 0 embedded files and no amended form pages. Old Yuma AOC CR41FORM31A-103023 / CR41FORM31B-103023 do not satisfy the amended 2026 identities."
-        ],
+        "ready": true,
+        "reasons": [],
         "satisfiedByRelationship": [
           "official-form:AOCCR41FORM31A-082224-CONT"
         ],
         "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
-        "boundSources": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(a)",
+            "path": "private/source-acquisition-20260911/az-r260001/R260001-FinalRulesOrder.PDF",
+            "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
+          },
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(b)",
+            "path": "private/source-acquisition-20260911/az-r260001/R260001-FinalRulesOrder.PDF",
+            "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
+          }
+        ],
         "boundGuidanceAuthorityRecords": [],
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
@@ -6410,25 +6433,18 @@
           "official-form:R-26-0001 adopted Form 31(a)",
           "official-form:R-26-0001 adopted Form 31(b)"
         ],
-        "boundCount": 0,
+        "boundCount": 2,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
-        "directAttachment": true,
-        "unresolvedObligations": [
-          "official-form:R-26-0001 adopted Form 31(a)",
-          "official-form:R-26-0001 adopted Form 31(b)"
-        ],
-        "rejectedBindings": []
+        "custodyClassContradictedByThisRow": "custodyClass says SOURCE_GENUINELY_MISSING while this family binds 2 source(s) and readiness is ready. The binding is the measurement. The queue's own bySourceStatus, derived from readiness, does not count this family as missing.",
+        "directAttachment": true
       },
       "sourceReconciliation": {
         "group": "B",
-        "disposition": "SOURCE_BLOCKED",
-        "unresolvedObligations": [
-          "official-form:R-26-0001 adopted Form 31(a)",
-          "official-form:R-26-0001 adopted Form 31(b)"
-        ],
-        "exactNextAction": "Acquire the actual R-26-0001 effective amended Form 31(a) and Form 31(b) binaries or the order attachment bytes, without substituting the docket or old Yuma forms.",
-        "exactResidual": "R-26-0001 effective standalone Form 31(a) and Form 31(b) binaries / attachment bytes remain absent. Supplied docket has 2 pages, 0 embedded files and no amended form pages. Old Yuma AOC CR41FORM31A-103023 / CR41FORM31B-103023 do not satisfy the amended 2026 identities.",
+        "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
+        "exactNextAction": "Replace superseded pre-R-26-0001 packet forms using the acquired effective amendment attachment. Resolve clean-form rendering from marked-up adopted pages (31(a):3-6;31(b):7-9), preserve court fields, rebuild and obtain fresh raster plus independent review. Source acquisition is complete.",
+        "exactResidual": null,
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": {
@@ -6442,16 +6458,45 @@
         "satisfiedWithoutStandaloneBinary": [
           "official-form:AOCCR41FORM31A-082224-CONT"
         ],
-        "sourceAdoptionId": "USER-UPLOAD-20260911",
-        "determinationInput": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+        "requiredPacketSourceBindings": [
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(a)",
+            "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+            "bindingEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
+          },
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(b)",
+            "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+            "bindingEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
+          }
+        ],
+        "sourceAdoptionId": "AZ-R260001-ATTACHMENT-20260911",
+        "determinationInput": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "currentLegalResolution": null,
+      "packetSourceAdoption": {
+        "status": "PACKET_SOURCE_RECEIPT_MISSING_OR_INVALID",
+        "ready": false,
+        "receiptPath": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json",
+        "requiredBindings": [
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(a)",
+            "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+            "bindingEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
+          },
+          {
+            "sourceId": "official-form:R-26-0001 adopted Form 31(b)",
+            "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+            "bindingEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
+          }
+        ],
+        "observedBindings": [],
+        "reason": "Packet source adoption refused: data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json is missing or invalid (ENOENT: no such file or directory, open '/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json')."
+      },
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "sources do not bind",
-        "no completeness audit"
+        "Packet source adoption refused: data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json is missing or invalid (ENOENT: no such file or directory, open '/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/source-receipt.json')."
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -6475,7 +6520,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_set_aside-set.mjs",
@@ -6768,8 +6813,10 @@
         "scripts/build-census-v1-ca-1203-4-set.mjs"
       ],
       "prohibitedPaths": [],
-      "importedBy": [],
-      "exclusiveScript": true
+      "importedBy": [
+        "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b"
+      ],
+      "exclusiveScript": false
     },
     {
       "familyId": "ca-1203-41-set",
@@ -9352,8 +9399,8 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf07",
-        "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-seven-cleared-known-fact-fit-fail-20260912.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
@@ -9400,43 +9447,17 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "COMPONENT_SET",
-        "FEE_AND_WAIVER"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "COMPONENT_SET",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": {
-            "manifestRequires": 4,
-            "packetDelivers": 2,
-            "delivered": [
-              "co_motion_seal_conviction-primary-filing-1 → JDF-612, packet pages 1-5",
-              "co_motion_seal_conviction-proposed-order-2 → JDF-615, packet pages 6-8"
-            ],
-            "notDelivered": [
-              "co_motion_seal_conviction-notice-3, role required_filing, requirement required",
-              "co_motion_seal_conviction-second-order-4, role proposed_order, requirement required"
-            ],
-            "manifestOwnWords": "packetSetCompleteness.state 'incomplete'; basis 'The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.' (recordedBy Captain A, 2026-08-29)",
-            "disclosureIsNowPresentAndAccurate": "participant-instructions.md carries a section headed 'This packet is not the whole filing — read this before you file' which quotes the manifest basis verbatim, names both missing documents and tells the participant to obtain them from Colorado. vf02's disclosure finding at base 5b74dd31b is repaired. The gap it discloses is not.",
-            "whyDisclosureDoesNotSatisfyTheObligation": "the obligation is that every component the route names is rendered and present. A truthful account of an absent component is honesty, not delivery."
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": {
-            "whatThePacketSays": "participant-instructions.md, 'Where you file this': “**Ask the clerk what fee applies, and what to do if you cannot pay it.** The fee position for a motion to seal a conviction record is not established in any source this packet holds, so it is not stated here.”",
-            "whatTheRepositoryHolds": "The official JDF-611 guide — the same document the packet cites by name three paragraphs earlier as the authority for its component-set disclosure — states the waiver route in plain, extractable text: “③ Filing Fees. The Clerk will let you know the fee (if any) when filing. If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).”",
-            "whereThoseBytesAre": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf, sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e, 606,173 bytes, 2 pages. The committed corpus index carries it at that digest in all three declared custodies.",
-            "reproduce": "pdftotext \"$MASTER_LIBRARY_SOURCE_DIR/STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf\" - | sed -n '120,135p'  →  lines 126 and 132 are 'JDF 205' and 'JDF 206'",
-            "whichHalfIsTrue": "the fee AMOUNT genuinely is not established — JDF-611 itself says only that the clerk will tell you. The WAIVER half is established and the packet denies it, and then sends the participant to the clerk for the very thing the held source names.",
-            "theDefectIsAlsoUpstream": "CO.memo.json track co_motion_seal_conviction rules.feeWaiver reads 'The source review does not address a fee waiver.' and participantActionRequired carries the same sentence under kind apply_fee_waiver. The memo is contradicted by the held JDF-611 too, so the repair is needed at both the memo and the packet.",
-            "whatToWrite": "state that JDF-611 directs a participant who cannot afford the fee to file JDF 205 (Motion to Waive Fees) with JDF 206 (Order, §§ A-C), and that neither form is in this packet because neither is in the corpus — JDF 205 and JDF 206 appear nowhere in data/rcap-all50/local-source-corpus-index.json. Do not invent their content; name them and send the participant to the Colorado Judicial Department for them, exactly as the packet already does for the notice and the second order."
-          }
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Independently measured1 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/co_motion_seal_conviction-set-finding.json",
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/co_motion_seal_conviction-set-34660023738-original-raster-measurements.json"
+          ]
         }
       ],
       "continuationResult": null,
@@ -9585,16 +9606,13 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf22",
-        "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf07",
+        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-seven-cleared-co-1families-20260911.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -9609,50 +9627,25 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 1,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "requiredOptionsMissing"
-      ],
-      "failedObligationNames": [
-        "COMPONENT_SET",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "This is the question this lane was asked to answer, and the answer is that the gap is real. The Colorado Judicial Department publishes JDF 491, 'Guide to Sealing Non-Conviction Records (simplified process)', at revision R: August 7, 2024 — the same revision date as both bound forms. Its step 2, headed 'File the Request — File these forms into your criminal case', names four forms with no branch and no condition between them: JDF 477 Motion, JDF 492 Order (just do §§ A-C), JDF 493 Notice (Just do §§ A-C), and JDF 478 Order (just do §§ A-C). Page 2 confirms it is one process, for cases ending in acquittal, a completed diversion agreement, a completed deferred judgment or a vacated conviction, under C.R.S. §§ 24-72-705 and 707 — the same statute and the same dispositions as this route. The packet delivers two of those four. JDF 492 and JDF 493 appear NOWHERE: not in the delivered packet, not in the packet-set manifest's components, not in the track registry entry, not in any file in the family directory (grepped), and not anywhere under STATES/CO in the master library, so they are a source-acquisition gap as well as a component gap. Nothing records the absence — there is no missing-component note, no open source item, no conditionDescription and no sentence in the participant guide telling a filer that the court's own guide names two more documents. The delivered guide instead states without qualification that 'This packet is two Colorado Judicial Department forms, filed together'. This lane read JDF 491 itself rather than a summary of it; its digest is 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685 at STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf. This lane does not conclude that JDF 491 is right and the manifest wrong; it concludes that two committed sources disagree about what this route owes, that the disagreement is recorded nowhere, and that a route sells only what a record proves it delivers.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Two defects on the order the judge signs, both invisible to every counter because every value is present, non-empty, inside its declared write rect and equal to its expected value. FIRST, a value written into a field about something else. JDF-478 draws four separate fields in section 2c and each carries its own tooltip in the form's own metadata: '∆ Street Address' — \"Enter the Defendant's street address.\", '∆ City', '∆ State' and '∆ Zip'. The packet writes participant.street_address into '∆ Street Address' as the full concatenated value '412 Cherry Creek Way, Denver, CO 80202' and ALSO writes Denver, CO and 80202 into the three dedicated fields, so the delivered page 4 reads 'c) Mailing Address: 412 Cherry Creek Way, Denver, CO 80202 / City: Denver ST: CO Zip Code: 80202' and the city, state and ZIP are each printed twice on the proposed order. On the boundary fixture the duplication is a whole line long: the street field carries '1188 Upper Notch Crossing Road, Apartment 14B, Colorado Springs, Colorado 80921-2214' beside '∆ City' Colorado Springs and '∆ Zip' 80921-2214. The combined form is correct on JDF-477, whose field is captioned 'Current Mailing Address: (with city/state/zip)' and carries no tooltip — so the same fact is right on one form and wrong on the other, and the map's own label for the JDF-478 write is the printed caption 'Mailing Address' rather than the widget's declared purpose, which is how it read clean. This family's own municipal sibling writes street-only into the equivalent JDF-686 field with city, state and ZIP separate, so the correct behaviour exists in the same cohort. SECOND, a value that contradicts the field's own printed instruction. '∆ State' declares \"Enter the state (use two letter abbreviation) in the Defendant's mailing address.\" and the boundary fixture writes 'Colorado'. It fits the 33.1 pt field and renders cleanly, so no geometry check sees it. Placement itself was verified for all 17 canonical and 16 boundary writes by reading the delivered pages with pdftotext and matching each value to the printed caption beside it, and every drawnText equals its expected value; the failure is which field the value went into and in what form, not where on the page it landed.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Four of the seven requiredBeforeFiling items in the controlling packet-set manifest reach the delivered guide neither verbatim nor in substance, and two of the four are substantive participant obligations rather than record boilerplate. Missing entirely, tested by literal substring match and then by keyword search of the whole delivered guide: (1) 'Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.' — the strings 'criminal-history' and 'criminal history' occur ZERO times in participant-instructions.md; the CBI appears only as an agency to list and notify, never as the source of a report the participant must obtain. (2) 'Check your answer to \"How did the case end?\" against Colorado criminal-history report, and correct the packet if they disagree.' — absent; the participant is never told to check the packet's account of how the case ended against anything. (3) 'The source review does not state a notarization requirement.' — the string 'notari' occurs zero times, and JDF-477 section 10 is a declaration under penalty of perjury, so whether it must be notarised is a question a filer will actually have. (4) 'The source review does not address a fee waiver.' — 'waiver' and 'waive' occur zero times. Of the three that do land, the movant-signs item and the signature-and-date item are carried in substance as steps 4 and 5 of 'What you must do before you file', and the fee item is carried better than verbatim — 'Ask the clerk what fee applies, if any. C.R.S. § 24-72-705 is the simplified process and the fee position for it is not established in any source this packet holds, so it is not stated here' — which is the correct participant rendering of a record sentence and is worth naming because this lane failed this family's municipal sibling for publishing the raw operator version of the same kind of sentence. The structural cause is visible: the municipal sibling ships both participant-instructions.md and filing-instructions.md and carries these items in the latter, and this family ships only participant-instructions.md, so the items that live in a filing guide have nowhere to go. This is not a disclosure defect about form blanks: all 23 blanks the participant must fill are disclosed by form, section and printed label, and reports/blanks-left-for-the-participant.json's everyRequiredBeforeFilingItemIsDisclosed true is a true claim about those 23 and does not speak to the manifest's seven, which nothing in this family measures.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
@@ -25462,10 +25455,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "b35fbc6ed",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verifiedAtBase": "7b3247372dcff1ab49dd452b4e62c11fb5e0dcaa",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-seven-cleared-la-20260911.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -25484,18 +25477,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b35fbc6ed",
+          "verifiedAtBase": "7b3247372dcff1ab49dd452b4e62c11fb5e0dcaa",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -25511,17 +25505,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "la-987-set-aside-and-dismiss-set",
-        "foundBy": [
-          "vf01 (current independent verification)"
-        ],
-        "why": "KNOWN_PREFILLS: BLOCKED_LEGAL_INPUT, named exactly: whether the Article 987 Motion's 'Conviction offense wording' and 'Conviction statute' lines must be prefilled by LegalEase as neutral case fields, as LA.memo.json's legal-design narrative states, or collected from the participant as the same memo's participantInputs convictionOffense states, or left blank on the instrument for the participant to complete as the build declares. Every other known required fact is written and visible on the page it belongs to. This is not a FAIL and it is not a PASS.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule LA-ARTICLE-987-RECORD-DERIVED-FIELDS: Populate offense, statute, docket and disposition only from collected court/participant records and never infer them. Distinguish Article 987's statutory form from the later expungement stage. For felony expungement governed by Article 978, apply the current 2026 Article 978.1 documentary package requirements identified in the supplied disposition. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule LA-ARTICLE-987-RECORD-DERIVED-FIELDS: Populate offense, statute, docket and disposition only from collected court/participant records and never infer them. Distinguish Article 987's statutory form from the later expungement stage. For felony expungement governed by Article 978, apply the current 2026 Article 978.1 documentary package requirements identified in the supplied disposition. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -25542,7 +25529,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
@@ -35904,13 +35891,13 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
-        "status": "PACKET_SOURCE_ADOPTION_REQUIRED",
-        "ready": false,
+        "status": "PACKET_SOURCE_ADOPTION_CURRENT",
+        "ready": true,
         "receiptPath": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/source-receipt.json",
         "requiredBindings": [
           {
@@ -35923,24 +35910,15 @@
           {
             "sourceId": "official-form:4-222",
             "sha256": [
-              "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+              "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de"
             ]
           }
         ],
-        "mismatches": [
-          {
-            "sourceId": "official-form:4-222",
-            "expectedSha256": "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
-            "observedSha256": [
-              "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
-            ],
-            "mismatch": "SHA256_MISMATCH_OR_AMBIGUOUS"
-          }
-        ],
-        "reason": "Packet source adoption refused: data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/source-receipt.json does not bind every required sourceId to its adopted SHA-256."
+        "mismatches": [],
+        "reason": "The family source receipt binds every required adopted packet source by SHA-256."
       },
       "rasterEnrolmentRefusal": [
-        "Packet source adoption refused: data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/source-receipt.json does not bind every required sourceId to its adopted SHA-256."
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -35971,21 +35949,16 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "SELF_HELP_STOP"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "72 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 6. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts.",
+          "finding": "Independently measured2 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
           "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "Current registry holds ten stops. The packet omits the felony, Crimes Against Household Members Act, unpaid/unclear financial obligations, intervening conviction, multiple-district and justice-narrative stops; it calls the justice narrative the part only you can write. Pending charges, objections, noncitizens and exclusion offenses are discussed, but they do not supply the omitted stops. See self-help-comparison.json.",
-          "findingReadFrom": "finding",
-          "evidence": null
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_conviction-set-finding.json"
+          ]
         }
       ],
       "continuationResult": null,
@@ -36146,13 +36119,13 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
-        "status": "PACKET_SOURCE_ADOPTION_REQUIRED",
-        "ready": false,
+        "status": "PACKET_SOURCE_ADOPTION_CURRENT",
+        "ready": true,
         "receiptPath": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/source-receipt.json",
         "requiredBindings": [
           {
@@ -36165,24 +36138,15 @@
           {
             "sourceId": "official-form:4-222",
             "sha256": [
-              "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+              "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de"
             ]
           }
         ],
-        "mismatches": [
-          {
-            "sourceId": "official-form:4-222",
-            "expectedSha256": "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
-            "observedSha256": [
-              "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
-            ],
-            "mismatch": "SHA256_MISMATCH_OR_AMBIGUOUS"
-          }
-        ],
-        "reason": "Packet source adoption refused: data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/source-receipt.json does not bind every required sourceId to its adopted SHA-256."
+        "mismatches": [],
+        "reason": "The family source receipt binds every required adopted packet source by SHA-256."
       },
       "rasterEnrolmentRefusal": [
-        "Packet source adoption refused: data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/source-receipt.json does not bind every required sourceId to its adopted SHA-256."
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -36218,9 +36182,12 @@
       "failedObligations": [
         {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "48 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 4, boundary 4. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts.",
+          "finding": "Independently measured1 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
           "findingReadFrom": "finding",
-          "evidence": null
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_identity_theft-set-finding.json",
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/nm_identity_theft-set-34659428344-original-raster-measurements.json"
+          ]
         }
       ],
       "continuationResult": null,
@@ -36435,14 +36402,14 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf43",
-        "verifiedAtBase": "937dea9bf2a1e2cc6a9443e576225c036bf46b89",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
+        "lane": "vf03",
+        "verifiedAtBase": "714a9a7550902c6f03ea8cccdb821a0d965abe01",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-seven-cleared-known-fact-fit-fail-20260912.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
-        "status": "PACKET_SOURCE_ADOPTION_REQUIRED",
-        "ready": false,
+        "status": "PACKET_SOURCE_ADOPTION_CURRENT",
+        "ready": true,
         "receiptPath": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/source-receipt.json",
         "requiredBindings": [
           {
@@ -36455,24 +36422,15 @@
           {
             "sourceId": "official-form:4-222",
             "sha256": [
-              "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+              "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de"
             ]
           }
         ],
-        "mismatches": [
-          {
-            "sourceId": "official-form:4-222",
-            "expectedSha256": "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
-            "observedSha256": [
-              "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
-            ],
-            "mismatch": "SHA256_MISMATCH_OR_AMBIGUOUS"
-          }
-        ],
-        "reason": "Packet source adoption refused: data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/source-receipt.json does not bind every required sourceId to its adopted SHA-256."
+        "mismatches": [],
+        "reason": "The family source receipt binds every required adopted packet source by SHA-256."
       },
       "rasterEnrolmentRefusal": [
-        "Packet source adoption refused: data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/source-receipt.json does not bind every required sourceId to its adopted SHA-256."
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -36503,14 +36461,17 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "A delivered page names a court that is not the participant's, and it does so under the participant's own name on a sworn instrument. Delivered page 15 (NM-4-222, Application for Free Process and Affidavit of Indigency) and delivered page 20 (the Order on Application for Free Process bound with it) both print, as page content, 'STATE OF NEW MEXICO / COUNTY OF___________________ / SIXTH JUDICIAL DISTRICT COURT'. On page 20 the petitioner's name is written directly beneath it -- 'Elena Marisol Trujillo' on canonical, 'Maria-Alejandra O'Shaughnessy-Whitfield' on boundary, both confirmed as ink (4580 pixels at gray<200 in the declared rect). Elena's matter is Bernalillo County, the SECOND judicial district; Maria-Alejandra's is Sierra County, the SEVENTH. The Sixth is Grant, Hidalgo and Luna. This is VF01's finding and it survives FIX95's rebuild: what FIX95 fixed is the build's own aggravation of it -- the county blank above the line is now correctly left EMPTY on both fixtures, where VF01 found 'Bernalillo' and 'Sierra' written there -- but the wrong district's name is still on the delivered page. Scored under this obligation because that is how this factory uses it: a defect visible on a delivered page fails it even when the counters are green, which is the sentence VF01 scored it under, and this lane follows that precedent rather than inventing a new obligation for it.",
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Independently measured2 known participant fact(s) absent from exact current boundary fields. Current governing contract forbids accepting these blanks merely because they are disclosed for hand copying. See exact source/packet rectangles and fit measurements in the bound finding.",
           "findingReadFrom": "finding",
-          "evidence": "pdftotext -layout page by page over both fixtures for the caption; the source is confirmed as the origin, not the build -- the master-library binary NM__SUPPORT__NM-4-222__...pdf, rehashed here to 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a, itself prints 'SIXTH JUDICIAL DISTRICT COURT' at both sites."
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/known-fact-fit-failure-20260912/nm_release_without_conviction-set-finding.json",
+            "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/review/nm_release_without_conviction-set-34659428344-original-raster-measurements.json"
+          ]
         }
       ],
       "continuationResult": null,
@@ -37278,13 +37239,14 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf08",
+        "verifiedAtBase": "38c1a0b60df4c7286331baed45569e263245df08",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-seven-cleared-ca-20260911.json"
+      },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37298,20 +37260,30 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ca/official-form-treatment:obligation:research-decision-route:ca:ca-1203-4b--official-pdf-fill",
       "ownedPaths": [
@@ -51709,13 +51681,13 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 34,
-    "sourceObligationsAssigned": 2,
-    "actualPromotedAndReleased": 34,
+    "familiesAssignedToBuilders": 33,
+    "sourceObligationsAssigned": 0,
+    "actualPromotedAndReleased": 33,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 1,
+    "prospectiveReleasesAcrossSourceLanes": 0,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

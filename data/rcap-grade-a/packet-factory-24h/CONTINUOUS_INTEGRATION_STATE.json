@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-11T23:09:50.263Z",
-  "captainHead": "78d2f386abb2a61187e16ae519ee00cd29fc74d0",
+  "generatedAt": "2026-09-12T00:01:36.930Z",
+  "captainHead": "2da233d46c3e1f810881c3de027658f56601500d",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-11T23:29:50.263Z",
-    "nextSourceReleaseDeadline": "2026-09-11T23:39:50.263Z",
+    "nextIntegrationDeadline": "2026-09-12T00:21:36.930Z",
+    "nextSourceReleaseDeadline": "2026-09-12T00:31:36.930Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 4,
+        "measured": 3,
         "threshold": 20,
         "triggered": false
       },
@@ -46,9 +46,9 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 25,
+        "measured": 20,
         "threshold": 20,
-        "triggered": true
+        "triggered": false
       },
       {
         "when": "SOURCE_READY > 80",
@@ -62,7 +62,7 @@
           "PF23",
           "PF24"
         ],
-        "measured": 34,
+        "measured": 33,
         "threshold": 80,
         "triggered": false
       }
@@ -78,22 +78,22 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 34,
+    "sourceReady": 33,
     "sourceBlocked": 1,
     "legalBlocked": 0,
-    "verifyPending": 4,
-    "repairRequired": 25,
+    "verifyPending": 3,
+    "repairRequired": 20,
     "byState": {
-      "COMPLETE_PACKET_PROVEN": 245,
+      "COMPLETE_PACKET_PROVEN": 246,
       "PRODUCT_PATH_PENDING": 10,
       "OUT_OF_SCOPE": 5,
-      "BUILT_RASTER_PENDING": 7,
-      "FAIL_REPAIR_REQUIRED": 25,
-      "SOURCE_READY": 34,
+      "BUILT_RASTER_PENDING": 13,
+      "FAIL_REPAIR_REQUIRED": 20,
+      "SOURCE_READY": 33,
       "SOURCE_BLOCKED": 1,
       "GUIDANCE_READY": 12,
       "HANDOFF_READY": 2,
-      "VERIFY_PENDING": 3,
+      "VERIFY_PENDING": 2,
       "WRONG_DELIVERY_TYPE": 1,
       "VERIFYING": 1
     }
