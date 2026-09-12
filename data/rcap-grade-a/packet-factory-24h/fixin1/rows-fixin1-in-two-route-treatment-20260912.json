@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXIN1",
+  "laneKind": "repair",
+  "baseSha": "a8398d194fcaa07c05e9747cfa4810f8b59522b5",
+  "branch": "claude/legalease-sprint-captain-utucnw",
+  "isIndependentVerification": false,
+  "grantsAsserted": [
+    "CLAIM_OK FIXIN1 in_arrest_no_charges-set (repair, grant set fb6edf040126622f)",
+    "CLAIM_OK FIXIN1 in_section1_petition-set (repair, grant set fb6edf040126622f)"
+  ],
+  "rows": [
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "familyId": "in_arrest_no_charges-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "directlyRepairedByThisLane": [
+        "ARTIFACTS"
+      ],
+      "preexistingRepairReconfirmed": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json",
+        "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "preserved": true
+      },
+      "repairChain": [
+        {
+          "commit": "b724e9353",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/fix132/in-choice-proof-20260911/rows-fix132-in-choice-proof-20260911.json",
+          "effect": "Restored and exact-byte-proved all 62 insert choice widget appearances per artifact, resolving VF42 CLIPPING_AND_OVERLAP before this lane."
+        },
+        {
+          "lane": "FIXIN1",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/current-byte-semantic-proof.json",
+          "effect": "Resolved the remaining ARTIFACTS route-treatment defect with supported participant-only marks and explicit handback for every unknown."
+        }
+      ],
+      "actualDefect": "VF42 measured erased official choice appearances and route-indistinguishable insert bytes. The appearance loss was already repaired by b724e9353, but both current routes still wrote zero insert values: the builder classified every insert control unwritable even though participant FACTS checkboxes are separately named from court FINDINGS and the governed route plus held dates settle a narrow subset.",
+      "correction": "The finalizer now marks Check Box19, Check Box25 from governed route/date facts. Check Box19 is marked only on the arrest/no-charges route; Check Box25 is marked where held filing and latest arrest/disposition dates prove at least one year. Check Box15 remains blank because no-charges does not prove prosecutor declination; the multi-outcome Section 1 disposition choices remain blank; all eight even-numbered court FINDINGS controls remain blank. Guidance and field maps disclose each premark and every handback. The b724 source-appearance path remains exact.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "inserts-canonical-filled.pdf",
+          "inserts-boundary-filled.pdf"
+        ],
+        "unchanged": [
+          "packet-canonical-filled.pdf",
+          "packet-boundary-filled.pdf"
+        ]
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "inserts-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+            "sha256": "a157965991d2287b2dc152f88af45ea08b6149a1eb1a4ad1fe1203d12020a8b2",
+            "byteLength": 197359,
+            "pageCount": 4,
+            "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 4,
+              "sourceSha256": "a157965991d2287b2dc152f88af45ea08b6149a1eb1a4ad1fe1203d12020a8b2"
+            }
+          },
+          {
+            "role": "canonical",
+            "name": "packet-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+            "sha256": "2f2501aec02a5bc6990c0bab0fc631215fa99265572ac9b2fca2672ee4840e01",
+            "byteLength": 253422,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "2f2501aec02a5bc6990c0bab0fc631215fa99265572ac9b2fca2672ee4840e01"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "inserts-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+            "sha256": "a157965991d2287b2dc152f88af45ea08b6149a1eb1a4ad1fe1203d12020a8b2",
+            "byteLength": 197359,
+            "pageCount": 4,
+            "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 4,
+              "sourceSha256": "a157965991d2287b2dc152f88af45ea08b6149a1eb1a4ad1fe1203d12020a8b2"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "packet-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+            "sha256": "281ce746b220f65619c83e10a4e777745e9dcecf9da5c8fa37137f2e854ef526",
+            "byteLength": 252496,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "281ce746b220f65619c83e10a4e777745e9dcecf9da5c8fa37137f2e854ef526"
+            }
+          }
+        ],
+        "documentsDigest": "cc6be0852ee3f433e2477b6d229bdb3c1390ae3775099f9302fcfadf23b3c31d"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "Focused current-byte proof and packet completeness both pass; completeness emitted zero for its nine counters. visualDefects remains null because the required independent pre-raster semantic review and current-byte central raster have not run.",
+      "rasterState": "BUILT_RASTER_PENDING_INDEPENDENT_PRE_RASTER_REVIEW",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/current-byte-semantic-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/focused-check-results.json",
+      "sourceBindingEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/source-binding-preflight.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "grantsNothing": "This implementation return preserves the historical FAIL and opens no route; independent review and current-byte raster remain separate gates."
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "familyId": "in_section1_petition-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "directlyRepairedByThisLane": [
+        "ARTIFACTS"
+      ],
+      "preexistingRepairReconfirmed": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json",
+        "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "preserved": true
+      },
+      "repairChain": [
+        {
+          "commit": "b724e9353",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/fix132/in-choice-proof-20260911/rows-fix132-in-choice-proof-20260911.json",
+          "effect": "Restored and exact-byte-proved all 62 insert choice widget appearances per artifact, resolving VF42 CLIPPING_AND_OVERLAP before this lane."
+        },
+        {
+          "lane": "FIXIN1",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/current-byte-semantic-proof.json",
+          "effect": "Resolved the remaining ARTIFACTS route-treatment defect with supported participant-only marks and explicit handback for every unknown."
+        }
+      ],
+      "actualDefect": "VF42 measured erased official choice appearances and route-indistinguishable insert bytes. The appearance loss was already repaired by b724e9353, but both current routes still wrote zero insert values: the builder classified every insert control unwritable even though participant FACTS checkboxes are separately named from court FINDINGS and the governed route plus held dates settle a narrow subset.",
+      "correction": "The finalizer now marks Check Box25 from governed route/date facts. Check Box19 is marked only on the arrest/no-charges route; Check Box25 is marked where held filing and latest arrest/disposition dates prove at least one year. Check Box15 remains blank because no-charges does not prove prosecutor declination; the multi-outcome Section 1 disposition choices remain blank; all eight even-numbered court FINDINGS controls remain blank. Guidance and field maps disclose each premark and every handback. The b724 source-appearance path remains exact.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "inserts-canonical-filled.pdf",
+          "inserts-boundary-filled.pdf"
+        ],
+        "unchanged": [
+          "packet-canonical-filled.pdf",
+          "packet-boundary-filled.pdf"
+        ]
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "inserts-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+            "sha256": "4150cf85009ca1a4fb813330bc1e9150823e8cf8c8967d9a551b09097b82c041",
+            "byteLength": 197278,
+            "pageCount": 4,
+            "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 4,
+              "sourceSha256": "4150cf85009ca1a4fb813330bc1e9150823e8cf8c8967d9a551b09097b82c041"
+            }
+          },
+          {
+            "role": "canonical",
+            "name": "packet-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+            "sha256": "65553145c032861d64ec5ec8f4c413eeb771c04d3135f92c3fffe9afabfc3854",
+            "byteLength": 253421,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "65553145c032861d64ec5ec8f4c413eeb771c04d3135f92c3fffe9afabfc3854"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "inserts-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+            "sha256": "4150cf85009ca1a4fb813330bc1e9150823e8cf8c8967d9a551b09097b82c041",
+            "byteLength": 197278,
+            "pageCount": 4,
+            "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 4,
+              "sourceSha256": "4150cf85009ca1a4fb813330bc1e9150823e8cf8c8967d9a551b09097b82c041"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "packet-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+            "sha256": "281ce746b220f65619c83e10a4e777745e9dcecf9da5c8fa37137f2e854ef526",
+            "byteLength": 252496,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "281ce746b220f65619c83e10a4e777745e9dcecf9da5c8fa37137f2e854ef526"
+            }
+          }
+        ],
+        "documentsDigest": "5aa8553c239e729f9708c146b45bb95c14f9435138cbf5067e1c86463d69a47f"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "Focused current-byte proof and packet completeness both pass; completeness emitted zero for its nine counters. visualDefects remains null because the required independent pre-raster semantic review and current-byte central raster have not run.",
+      "rasterState": "BUILT_RASTER_PENDING_INDEPENDENT_PRE_RASTER_REVIEW",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/current-byte-semantic-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/focused-check-results.json",
+      "sourceBindingEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/source-binding-preflight.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "grantsNothing": "This implementation return preserves the historical FAIL and opens no route; independent review and current-byte raster remain separate gates."
+    }
+  ]
+}
