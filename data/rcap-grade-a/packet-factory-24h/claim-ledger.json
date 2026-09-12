@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "03ea8848d25d2c63f53a1c78082225ea17c9d471",
+  "generatedAtCommit": "e9cd8af4e4e5772097055df2921fd91559f1f554",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2636,8 +2636,9 @@
       "operation": "independent-verification",
       "lane": "VFOK1",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-12T07:25:43.365Z",
+      "releaseReason": "All15 independent obligations accepted against12 exact current original pages; source, IFP and participant handbacks verified."
     },
     {
       "subjectType": "packet-family",
@@ -15618,7 +15619,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6d2825208bf6d3b357ad019dd32c24ef69731d0a97c5051bfc780dc98b460e30",
+  "claimsDigest": "7175c8230dbbba14a69df7c3805b98182daa054d13dac0c44caff350ab40e53f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42534,6 +42535,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-12T07:22:09.730Z",
       "reason": "Independent exact legacy verdict closure published and actual full-context native transition verified GUIDANCE_READY."
+    },
+    {
+      "lane": "VFOK1",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T07:25:43.365Z",
+      "reason": "All15 independent obligations accepted against12 exact current original pages; source, IFP and participant handbacks verified."
     }
   ],
   "reissues": [
