@@ -1685,8 +1685,8 @@
       "operation": "independent-verification",
       "lane": "VFCG1",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-12T08:19:33.087Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Current semanticFAIL451e2a44b1ce48b427d8962b10af8c9cc0d8239129295c2bb72fb98ae38221e5 resolves oldglobalroutebug but identifies50neutralfieldomissions,actor/conditionalinput/guidance/type defects; no raster approval."
     },
     {
@@ -1701,8 +1701,9 @@
       "operation": "rapid-repair",
       "lane": "FIXCA17",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-12T09:22:15.213Z",
+      "releaseReason": "Complete bounded semantic repair committed fe632a3ae: six current PDFs, focused 56/56 and native completeness pass. Independent VFCG1 pre-raster review must accept current candidate before dispatch."
     },
     {
       "subjectType": "packet-family",
@@ -15712,7 +15713,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "88784dd8a63f588a3d29b59b64d9efb26f604b37343a4108738a4a2875ca7a45",
+  "claimsDigest": "e00b28ca3af078a0f4bd63dec3de684fad6f294c935b5116ec18537e79d4987a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42835,6 +42836,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-12T09:15:49.399Z",
       "reason": "Independent pre-raster return 5f2395a450680208e939ab12a2aacd3488e73d8dcb64b30ca732d6c590d701a9 rejects current 88c4d9fa7 candidate; all six defect classes returned for consolidated FIXNJ2 repair, no raster authorized."
+    },
+    {
+      "lane": "FIXCA17",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-12T09:22:15.213Z",
+      "reason": "Complete bounded semantic repair committed fe632a3ae: six current PDFs, focused 56/56 and native completeness pass. Independent VFCG1 pre-raster review must accept current candidate before dispatch."
     }
   ],
   "reissues": [
@@ -53513,6 +53523,16 @@
       "previouslyReleasedAt": "2026-09-12T09:00:09.605Z",
       "reissuedAt": "2026-09-12T09:15:50.024Z",
       "reason": "Same bounded implementation worker receives complete independent six-class failure inventory from VFCG1; preserve prior candidate and repair all findings before semantic recheck."
+    },
+    {
+      "lane": "VFCG1",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-12T08:19:33.087Z",
+      "reissuedAt": "2026-09-12T09:22:15.505Z",
+      "reason": "Independent semantic recheck of full repair fe632a3ae, exact current six PDFs and previous 50-omission/type/actor/guidance failure inventory; no builder self-review or terminal acceptance before central raster."
     }
   ],
   "transfers": [
