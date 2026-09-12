@@ -34,6 +34,8 @@ source = pathlib.Path(sys.argv[2])
 request = json.loads(source.read_text())['inputs']
 out = ROOT / str(run_id)
 out.mkdir(exist_ok=True)
+scratch = pathlib.Path('/tmp/rcap-raster-artifacts') / str(run_id)
+scratch.mkdir(parents=True, exist_ok=True)
 run = json.loads(api(f'/actions/runs/{run_id}'))
 save(out / 'run.json', run)
 selected = sys.argv[3].split(',') if len(sys.argv) == 4 else request['family_batch'].split(',')
@@ -58,7 +60,8 @@ for family in selected:
     assert any(s['name'] == 'Refuse a modified packet byte' and s['conclusion'] == 'success' for s in job['steps'])
     artifact = next(a for a in artifacts['artifacts'] if a['name'] == f'rcap-raster-{slug}-{run_id}')
     assert not artifact['expired'] and artifact['workflow_run']['id'] == run_id
-    archive = out / (slug + '.zip')
+    legacy_archive = out / (slug + '.zip')
+    archive = legacy_archive if legacy_archive.exists() else scratch / (slug + '.zip')
     if not archive.exists():
         body = api(f"/actions/artifacts/{artifact['id']}/zip")
         assert 'sha256:' + sha(body) == artifact['digest']
@@ -66,7 +69,12 @@ for family in selected:
     body = archive.read_bytes()
     assert 'sha256:' + sha(body) == artifact['digest']
     log = subprocess.check_output(['gh', 'run', 'view', str(run_id), '--repo', REPO[6:], '--job', str(job['id']), '--log'])
-    (out / (slug + '.job.log')).write_bytes(log)
+    log_path = out / (slug + '.job.log')
+    if not log_path.exists():
+        log_path = scratch / (slug + '.job.log')
+        log_path.write_bytes(log)
+    else:
+        assert log_path.read_bytes() == log, 'Existing job log changed; preserve for reconciliation'
     verdicts = [json.loads(line.split('RCAP_RECEIPT_VERDICT ', 1)[1]) for line in log.decode().splitlines() if 'RCAP_RECEIPT_VERDICT {' in line]
     assert len(verdicts) == 1
     with zipfile.ZipFile(io.BytesIO(body)) as z:
