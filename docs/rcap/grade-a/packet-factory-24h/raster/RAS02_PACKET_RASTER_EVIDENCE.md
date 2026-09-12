@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `3912487878def16186df0eec60d1b4218afae9ab`
+**Minimum required ancestor:** `7b62d1f44ad96c01da6332c0c56be41732670e35`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -279,8 +279,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ks-21-6614-specialty-court-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/canonical.pdf` — `dc5d6c926c0fd3bc9e1968ab71c0fb7f44a49dd080ac5806b8f6ef1d1401e0fd`
-- boundary `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/boundary.pdf` — `3e6f1b59b8338471f62bbc5ce2b962a04125aa155e36b4393211be2303ae700a`
+- canonical `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/canonical.pdf` — `7273c6636d3bfbc764eb772c7a1242e65eb04136c12f5b98ae92e558346d0755`
+- boundary `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/boundary.pdf` — `e3fdfea45e53665a506084dac0e1e0898c4bdd7204540b3cc7ae24d500b8e0ff`
 - expected pages 20 · requested scale 2.5
 - built by (no builder lane recorded)
 

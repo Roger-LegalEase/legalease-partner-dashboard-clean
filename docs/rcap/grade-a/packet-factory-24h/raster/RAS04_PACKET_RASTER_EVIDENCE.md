@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `3912487878def16186df0eec60d1b4218afae9ab`
+**Minimum required ancestor:** `7b62d1f44ad96c01da6332c0c56be41732670e35`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -305,8 +305,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ks-21-6614-diversion-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/fixtures/canonical.pdf` — `8ce8e3e9a212104c4fc9834b00fd8a79585614f4cfdb1110e553a6c47d61bacb`
-- boundary `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/fixtures/boundary.pdf` — `5ccf99c21fa0b55d8e5d6da09db6eb23c5b5ef99a1c0b574a0ce8e309f35caa4`
+- canonical `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/fixtures/canonical.pdf` — `551589ef0d8c66a7487c29b58a86c621a78ab072b6ff8a0131ed786ab29775ca`
+- boundary `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/fixtures/boundary.pdf` — `c41ec678310fea9b8a804d1fb76323432e2549cf4672a7c3856576fa98c70178`
 - expected pages 20 · requested scale 2.5
 - built by (no builder lane recorded)
 

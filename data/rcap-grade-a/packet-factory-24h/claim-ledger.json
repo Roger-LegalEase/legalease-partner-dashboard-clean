@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "3912487878def16186df0eec60d1b4218afae9ab",
+  "generatedAtCommit": "7b62d1f44ad96c01da6332c0c56be41732670e35",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -463,8 +463,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
+      "released": true,
+      "releasedAt": "2026-09-12T03:03:10.029Z",
       "releaseReason": "VF returned BLOCKED_LEGAL_INPUT on the current bytes at ef7bf8734"
     },
     {
@@ -604,8 +604,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
+      "released": true,
+      "releasedAt": "2026-09-12T03:03:10.187Z",
       "releaseReason": "VF returned BLOCKED_LEGAL_INPUT on the current bytes at ef7bf8734"
     },
     {
@@ -651,8 +651,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
+      "released": true,
+      "releasedAt": "2026-09-12T03:03:10.342Z",
       "releaseReason": "VF returned BLOCKED_LEGAL_INPUT on the current bytes at ef7bf8734"
     },
     {
@@ -777,8 +777,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
+      "released": true,
+      "releasedAt": "2026-09-12T03:03:10.496Z",
       "releaseReason": "VF returned FAIL_REPAIR_REQUIRED on the current bytes at ef7bf8734"
     },
     {
@@ -5184,6 +5184,21 @@
         "ks-21-6614-specialty-court-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF67",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-specialty-court-set",
+      "itemId": null,
+      "familyId": "ks-21-6614-specialty-court-set",
+      "familyIds": [
+        "ks-21-6614-specialty-court-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF20",
       "laneKind": "packet-build",
@@ -5203,8 +5218,8 @@
       "operation": "rapid-repair",
       "lane": "FIXKS1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-12T02:59:39.418Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Frozen four-family semantic repair returned at 4ecf3585f; pre-raster independent semantic review and fresh raster remain required."
     },
     {
@@ -15549,24 +15564,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ks-21-6614-specialty-court-set",
-      "itemId": null,
-      "familyId": "ks-21-6614-specialty-court-set",
-      "familyIds": [
-        "ks-21-6614-specialty-court-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF67",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "c17d8d3df618004aacf4907a08771b51870afa4f18edcdbb173d13d1bed3b8ce",
+  "claimsDigest": "13847618a53b907a7b35e4ca8714b48ab12fd4b60240d9d900110071db705171",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -41912,6 +41912,38 @@
         "rowFiles": 3,
         "namedReturnCommit": "4ecf3585f45b22b485124f39afaac3cb19d829ad"
       }
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "al-diversion-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T03:03:10.029Z"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "al-misd-conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T03:03:10.187Z"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "al-misd-dwop-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T03:03:10.342Z"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "al-pardoned-felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T03:03:10.496Z"
     }
   ],
   "reissues": [
@@ -52280,6 +52312,16 @@
       "previouslyReleasedAt": "2026-09-12T02:09:24.117Z",
       "reissuedAt": "2026-09-12T02:48:36.715Z",
       "reason": "Independent return identifies omitted order birth years and diversion-conditional handbacks; same Kansas implementation worker, semantic review before raster."
+    },
+    {
+      "lane": "FIXKS1",
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-specialty-court-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-12T02:59:39.418Z",
+      "reissuedAt": "2026-09-12T03:03:10.681Z",
+      "reason": "Independent pre-raster semantic review found ordinary waiting-clock handback contradicting specialty no-wait route; guidance-only correction, PDF hashes must remain unchanged."
     }
   ],
   "transfers": [

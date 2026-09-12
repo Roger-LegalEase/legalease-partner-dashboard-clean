@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3912487878def16186df0eec60d1b4218afae9ab",
+  "minimumCaptainSha": "7b62d1f44ad96c01da6332c0c56be41732670e35",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "fa1c3564e9016a3b5085cd04c71e589f5f923fcf45cf54268df9a9a8fb50cb30",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "094c3ffc34e64bac6ef478afc3819494cf530d153bd337ef665d0c48e087f177",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -78,20 +78,20 @@
     "sourceReady": 33,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 10,
+    "verifyPending": 3,
     "repairRequired": 15,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 252,
+    "COMPLETE_PACKET_PROVEN": 256,
     "PRODUCT_PATH_PENDING": 9,
     "OUT_OF_SCOPE": 5,
-    "VERIFY_PENDING": 10,
     "SOURCE_READY": 33,
+    "VERIFY_PENDING": 3,
     "FAIL_REPAIR_REQUIRED": 16,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 5,
+    "BUILT_RASTER_PENDING": 8,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -2507,10 +2507,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
+        "verifiedAtBase": "7211a8a0849ebc14c51150186fcceba7ea20854b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-remaining-four-current-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -2529,7 +2529,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+          "verifiedAtBase": "7211a8a0849ebc14c51150186fcceba7ea20854b",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -2560,7 +2560,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -2577,65 +2577,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-diversion-set.mjs",
@@ -3008,10 +2954,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
+        "verifiedAtBase": "7211a8a0849ebc14c51150186fcceba7ea20854b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-remaining-four-current-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -3030,7 +2976,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+          "verifiedAtBase": "7211a8a0849ebc14c51150186fcceba7ea20854b",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -3061,7 +3007,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3078,65 +3024,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-conviction-set.mjs",
@@ -3233,10 +3125,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json"
+        "verifiedAtBase": "7211a8a0849ebc14c51150186fcceba7ea20854b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-remaining-four-current-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -3255,7 +3147,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "27f04e02958bad8286db35bcf1da583389f6dacd",
+          "verifiedAtBase": "7211a8a0849ebc14c51150186fcceba7ea20854b",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -3286,7 +3178,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER: Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3303,65 +3195,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it. C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected. Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch. All 216 official widgets have one map classification; this does not excuse incorrect conditional status or oath instructions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "The current source controls and original pages were inspected. Required participant choices are preserved, and no judicial choice is selected. FAIL: Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FAIL: Both canonical and boundary CR-65 page 3 flatten an inverted checkbox appearance across the printed word expired, visibly erasing portions of its letters. Original PNG crops and exact PDF/PNG hashes preserve this observed defect. Other page surfaces, captions and neutral values were reviewed.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAIL: Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-measurements-al-misd-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-guidance-al-misd-dwop-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/guidance-map-findings.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-dwop-set.mjs",
@@ -3714,10 +3552,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-pardon-conditional-guidance-fail-20260912.json"
+        "verifiedAtBase": "7211a8a0849ebc14c51150186fcceba7ea20854b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-remaining-four-current-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -3736,7 +3574,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+          "verifiedAtBase": "7211a8a0849ebc14c51150186fcceba7ea20854b",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -3767,7 +3605,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS: CR-65 Section V boxes are participant attestations, never builder-owned constants. Ask every required question, check only facts affirmatively supplied and supported, and stop self-help if all required statements for the route cannot truthfully be made. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS: CR-65 Section V boxes are participant attestations, never builder-owned constants. Ask every required question, check only facts affirmatively supplied and supported, and stop self-help if all required statements for the route cannot truthfully be made. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -3784,47 +3622,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: The oath, municipality and fee corrections are verified, and all 57 required field labels are disclosed. However, two current pardon attestation descriptions omit source conditions, changing the required participant facts and branch applicability. Exact full source quotations, guide excerpts and current guide SHA are preserved in the fresh findings record.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-measurements-al-pardoned-felony-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-guidance-al-pardoned-felony-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/retained-originals-al-pardoned-felony-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/VF02-al-pardoned-felony-set-claim.txt",
-            "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json",
-            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/pardon-conditional-guidance-findings.json"
-          ]
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "FAIL: All 16 Section V appearances remain empty, disproving the old unsupported-precheck finding. Nevertheless Check Box11.4 guidance deletes the felony-reclassification alternative and incorrectly says both remaining halves must be established; Check Box11.6 deletes the 49 C.F.R. § 383.51 offense qualifier. Empty controls do not cure incorrect completion guidance.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-measurements-al-pardoned-felony-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/current-guidance-al-pardoned-felony-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/retained-originals-al-pardoned-felony-set.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/VF02-al-pardoned-felony-set-claim.txt",
-            "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/starting-evidence.json",
-            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/pardon-conditional-guidance-findings.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
@@ -22041,8 +21843,8 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf67",
-        "verifiedAtBase": "d552504dba7c1b0b6db4fefae4a7792cb3f01713",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-20260910.json"
+        "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -22062,19 +21864,26 @@
         "documentaryPermissionStoredInRepository": false,
         "owner": "Roger Roman",
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "d552504dba7c1b0b6db4fefae4a7792cb3f01713",
+          "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
             "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
+            },
+            {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+              "currentSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "reviewedSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "matches": true
             }
           ]
         },
@@ -22093,7 +21902,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22111,19 +21920,36 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ROUTE_OPTIONS"
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": null
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: 82/82 actual text writes independently match full fixture facts, but four required neutral order birth-year occurrences are blank: pages 10 and 15 in each fixture. Intake DOB and participant.birth_year already provide 1988 and 1979. Source widgets contain no added glyph or vector ink; original PNGs visibly confirm. These omissions are not protected judicial decisions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-conviction-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-conviction-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-conviction-set.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: all 53 declared required labels and instructions are disclosed, but both order birth-year handbacks falsely say the platform has no value and ask the participant to copy an already known fact. The component descriptions also inaccurately say only captions are filled despite neutral body identity writes.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-conviction-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-conviction-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-conviction-set.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-conviction-set.json"
+          ]
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-conviction-set.mjs",
@@ -22305,10 +22131,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "STOPPED",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf67",
-        "verifiedAtBase": "c968d1b85840d870bbfa7579ff9948f7bb35ff5a",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-measurements-20260910.json"
+        "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -22328,19 +22154,26 @@
         "documentaryPermissionStoredInRepository": false,
         "owner": "Roger Roman",
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "c968d1b85840d870bbfa7579ff9948f7bb35ff5a",
+          "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
             "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
+            },
+            {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+              "currentSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "reviewedSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "matches": true
             }
           ]
         },
@@ -22359,7 +22192,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22376,11 +22209,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: 82/82 actual text writes independently match full fixture facts, but four required neutral order birth-year occurrences are blank: pages 10 and 15 in each fixture. Intake DOB and participant.birth_year already provide 1988 and 1979. Source widgets contain no added glyph or vector ink; original PNGs visibly confirm. These omissions are not protected judicial decisions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-diversion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-diversion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-diversion-set.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: all 53 declared required labels and instructions are disclosed, but both order birth-year handbacks falsely say the platform has no value and ask the participant to copy an already known fact. The component descriptions also inaccurately say only captions are filled despite neutral body identity writes.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-diversion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-diversion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-diversion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-diversion-set.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-diversion-set.mjs",
@@ -22560,10 +22419,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "STOPPED",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf67",
-        "verifiedAtBase": "c968d1b85840d870bbfa7579ff9948f7bb35ff5a",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-measurements-20260910.json"
+        "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -22583,19 +22442,26 @@
         "documentaryPermissionStoredInRepository": false,
         "owner": "Roger Roman",
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "c968d1b85840d870bbfa7579ff9948f7bb35ff5a",
+          "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
             "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
+            },
+            {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+              "currentSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "reviewedSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "matches": true
             }
           ]
         },
@@ -22614,7 +22480,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22631,11 +22497,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: 82/82 actual text writes independently match full fixture facts, but four required neutral order birth-year occurrences are blank: pages 10 and 15 in each fixture. Intake DOB and participant.birth_year already provide 1988 and 1979. Source widgets contain no added glyph or vector ink; original PNGs visibly confirm. These omissions are not protected judicial decisions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-prostitution-coercion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-prostitution-coercion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-prostitution-coercion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-prostitution-coercion-set.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: all 58 declared required labels and instructions are disclosed, but both order birth-year handbacks falsely say the platform has no value and ask the participant to copy an already known fact. The component descriptions also inaccurately say only captions are filled despite neutral body identity writes. Four field-specific coercion-route handbacks additionally omit the diversion authority or diversion fulfilment branch while this family expressly supports both dispositions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-prostitution-coercion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-prostitution-coercion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-prostitution-coercion-set.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-prostitution-coercion-set.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs",

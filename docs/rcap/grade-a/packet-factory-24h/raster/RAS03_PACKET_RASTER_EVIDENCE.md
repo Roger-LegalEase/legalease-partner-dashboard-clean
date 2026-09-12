@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `3912487878def16186df0eec60d1b4218afae9ab`
+**Minimum required ancestor:** `7b62d1f44ad96c01da6332c0c56be41732670e35`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -279,8 +279,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ks-21-6614-conviction-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/fixtures/canonical.pdf` — `bd203b582ba5121cda7010d2815bac47deceff4ca54c008f5ecf7d88627ee02c`
-- boundary `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/fixtures/boundary.pdf` — `3eb335ec73624f4582a50dfc7e42d7be85528934bc37ea6094dec6821b135949`
+- canonical `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/fixtures/canonical.pdf` — `03996dd305575e5d421fc8a5575e336e431521e9d10384a9e2ae4fa4875b9f46`
+- boundary `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/fixtures/boundary.pdf` — `28ae8abf021bbd544eee59e09cceafd76383950017e36f19ddbf8cb01377a58b`
 - expected pages 20 · requested scale 2.5
 - built by (no builder lane recorded)
 

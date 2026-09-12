@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `3912487878def16186df0eec60d1b4218afae9ab`
+**Minimum required ancestor:** `7b62d1f44ad96c01da6332c0c56be41732670e35`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -289,8 +289,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ks-21-6614-prostitution-coercion-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/fixtures/canonical.pdf` — `3838ae844aa929ff63b6fee00e373d388cb812419026700156cb9d53d4263e4b`
-- boundary `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/fixtures/boundary.pdf` — `095785043ff1313b338b2f998440de8f9a6e7116a7ca84b413fb78d2c7c17b27`
+- canonical `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/fixtures/canonical.pdf` — `82a9359f3e2606cb3b048590306efa58e55da3268212a377352adc2ecd59722b`
+- boundary `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/fixtures/boundary.pdf` — `81ec729d3f4c03952e97e53339c18bc23e7bee6a0c18ae805c4ef60182ddbc87`
 - expected pages 20 · requested scale 2.5
 - built by (no builder lane recorded)
 
