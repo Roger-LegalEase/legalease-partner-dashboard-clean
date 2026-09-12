@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "rcap-va-nonconviction-basis/v1",
+  "familyId": "va_exp_nonconviction-set",
+  "policy": {
+    "reviewedAsOf": "2026-09-06",
+    "futureVersionStarts": "2026-12-01",
+    "factKey": "va.nonconviction.basis_record",
+    "authority": "Va. Code 19.2-298.02(D) and 19.2-392.2; current 2026-09-06 versions",
+    "bindingDecisionId": "VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE"
+  },
+  "module": "scripts/rcap-packet-recovery/va-nonconviction-basis.mjs",
+  "moduleSha256": "7cf84670f6ecf497621cc7dd49175ae183b86b59ee912d5307afedc1156a11de",
+  "sourceContract": "docs/rcap/grade-a/research/2026-09-06-batch-04/Virginia_Deferred_Disposition_Exception_Contract.md",
+  "bindingDecision": {
+    "decisionId": "VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE",
+    "disposition": "LEGAL_CLEAR",
+    "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+    "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+  },
+  "participantText": [
+    "A deferred dismissal needs a closer check. A plea, stipulation, judicial finding of facts sufficient for guilt, or deferral does not by itself establish that a charge is otherwise dismissed for expungement.",
+    "For a dismissal under Virginia Code 19.2-298.02, or for the original charge when that charge was reduced under that section, evaluate the subsection D exception only when the record establishes that all parties agreed to that expungement treatment. For a reduction, identify the original charge as the charge this petition targets; do not ask to expunge a separate conviction on the reduced charge.",
+    "Identify the actual agreement document or reference; it may be recorded in the final disposition order, but that order is not the only possible evidence. This is permission to evaluate the existing route and its remaining requirements, not an order granting expungement.",
+    "Agreement to defer the case, agreement to subsection D treatment, and the Commonwealth's later response to the expungement petition are three separate facts. A dismissal label, silence, or a later statement of no objection does not establish the subsection D agreement. If its existence, meaning or legal basis is absent, ambiguous or disputed, obtain legal review before selecting the dismissal ground or filing.",
+    "Do not apply this exception to a different first-offender statute such as 18.2-251. That disposition needs its own route and legal review. Do not use the replacement wording effective December 1, 2026 for an earlier filing. Every other 19.2-392.2 requirement and the opposition, presumption, immigration, juvenile and federal self-help boundaries remain."
+  ],
+  "participantInputs": [
+    {
+      "fact": "disposition",
+      "required": true,
+      "values": [
+        "acquitted",
+        "nolle_prosequi",
+        "dismissed",
+        "reduced"
+      ]
+    },
+    {
+      "fact": "deferredStatute",
+      "requiredWhen": "disposition is dismissed or reduced after a deferred disposition"
+    },
+    {
+      "fact": "targetIsOriginalReducedCharge",
+      "requiredWhen": "disposition is reduced",
+      "expected": true
+    },
+    {
+      "fact": "subsectionDAgreement",
+      "requiredWhen": "deferredStatute is 19.2-298.02",
+      "expected": "established"
+    },
+    {
+      "fact": "agreementEvidence",
+      "requiredWhen": "subsectionDAgreement is established"
+    },
+    {
+      "fact": "prosecutionResponse",
+      "requiredWhen": "a response exists; objection or answer is a self-help stop"
+    },
+    {
+      "fact": "reviewFlags",
+      "requiredWhen": "a legal-review boundary is known"
+    }
+  ],
+  "referenceTemplateInputStatus": [
+    {
+      "fact": "disposition",
+      "required": true,
+      "provided": false,
+      "status": "MISSING"
+    },
+    {
+      "fact": "deferredStatute",
+      "required": false,
+      "provided": false,
+      "status": "CONDITIONAL_NOT_TRIGGERED"
+    },
+    {
+      "fact": "targetIsOriginalReducedCharge",
+      "required": false,
+      "provided": false,
+      "status": "CONDITIONAL_NOT_TRIGGERED"
+    },
+    {
+      "fact": "subsectionDAgreement",
+      "required": false,
+      "provided": false,
+      "status": "CONDITIONAL_NOT_TRIGGERED"
+    },
+    {
+      "fact": "agreementEvidence",
+      "required": false,
+      "provided": false,
+      "status": "CONDITIONAL_NOT_TRIGGERED"
+    },
+    {
+      "fact": "prosecutionResponse",
+      "required": false,
+      "provided": false,
+      "status": "CONDITIONAL_NOT_TRIGGERED"
+    },
+    {
+      "fact": "reviewFlags",
+      "required": false,
+      "provided": false,
+      "status": "CONDITIONAL_NOT_TRIGGERED"
+    }
+  ],
+  "referenceTemplatesLeaveBasisUnselected": true,
+  "requiresRemainingRouteChecks": true,
+  "grantsFilingOrCommercialAuthority": false,
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}
