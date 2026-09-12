@@ -105,7 +105,6 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 1 | Item 2 — my full name at the time of my arrest or conviction, if different from item 1 | the full name you were known by at the time of the arrest or conviction, if it is different from the name printed in item 1; leave it blank if it is the same |
 | 1 | Item 3 — the race the petition should state | the race you want the petition to state, in your own words |
 | 1 | Item 3 — the sex the petition should state | the sex you want the petition to state, in your own words |
-| 1 | Item 3 — year of birth | the four-digit year you were born |
 | 1 | Item 4 — the Kansas county I was arrested in | the Kansas county you were arrested in. If it is not the county at the top of this page, stop and read the note about differing counties before you file. |
 | 1 | Item 4 — date of arrest | the date you were arrested |
 | 1 | Item 4 — the law enforcement agency that arrested me | the name of the law enforcement agency that arrested you |
@@ -237,5 +236,7 @@ These blanks are not yours to complete before filing. The court or the clerk sup
 ## What this packet is not
 
 This packet is not legal advice, not a filed petition, and not a decision that you are eligible. It is a set of official Kansas forms with the facts the platform holds printed into them and every other blank left for you or for the court, together with the platform's own account of which is which. No lawyer has reviewed your record and nothing here predicts what a judge will do.
+
+Official forms: Kansas Judicial Council / Kansas Judicial Branch. Retain the printed revision and attribution on every page.
 
 _Route: Prostitution case under coercion - K.S.A. 21-6614(b)_
