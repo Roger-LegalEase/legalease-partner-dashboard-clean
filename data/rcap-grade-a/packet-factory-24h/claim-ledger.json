@@ -7746,9 +7746,9 @@
       "operation": "independent-verification",
       "lane": "VF64",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Verification complete: FAIL_REPAIR_REQUIRED returned and is on record against these exact bytes, and no worker holds it. Obsolete dispatch released; the verdict stands."
+      "released": true,
+      "releasedAt": "2026-09-12T09:15:48.972Z",
+      "releaseReason": "Independent pre-raster return d5d7c6558aede2078261fe84514490f004e40c188474ec996ab081331c1a9869 rejects current 88c4d9fa7 candidate; all six defect classes returned for consolidated FIXNJ2 repair, no raster authorized."
     },
     {
       "subjectType": "packet-family",
@@ -7762,8 +7762,8 @@
       "operation": "rapid-repair",
       "lane": "FIXNJ2",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-12T09:00:09.453Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Candidate88c4d9fa7 committed with focused tests and exact manifest; independent semantic and current-byte raster gates remain."
     },
     {
@@ -7778,9 +7778,9 @@
       "operation": "independent-verification",
       "lane": "VFCG1",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Verification complete: FAIL_REPAIR_REQUIRED returned and is on record against these exact bytes, and no worker holds it. Obsolete dispatch released; the verdict stands."
+      "released": true,
+      "releasedAt": "2026-09-12T09:15:49.399Z",
+      "releaseReason": "Independent pre-raster return 5f2395a450680208e939ab12a2aacd3488e73d8dcb64b30ca732d6c590d701a9 rejects current 88c4d9fa7 candidate; all six defect classes returned for consolidated FIXNJ2 repair, no raster authorized."
     },
     {
       "subjectType": "packet-family",
@@ -7794,8 +7794,8 @@
       "operation": "rapid-repair",
       "lane": "FIXNJ2",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-12T09:00:09.605Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Candidate88c4d9fa7 committed with focused tests and exact manifest; independent semantic and current-byte raster gates remain."
     },
     {
@@ -15712,7 +15712,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "54cb42bafae5fe164419d7aa3c420150780bbb371978eeeb00334b7a231e73bc",
+  "claimsDigest": "88784dd8a63f588a3d29b59b64d9efb26f604b37343a4108738a4a2875ca7a45",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42817,6 +42817,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-12T09:03:59.656Z",
       "reason": "Corrected two-PDF six-page candidate committed with28focusedchecks and8negativecontrols; current independent semantic/raster/final acceptance still required."
+    },
+    {
+      "lane": "VF64",
+      "subjectType": "packet-family",
+      "subjectId": "nj_disorderly_persons-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T09:15:48.972Z",
+      "reason": "Independent pre-raster return d5d7c6558aede2078261fe84514490f004e40c188474ec996ab081331c1a9869 rejects current 88c4d9fa7 candidate; all six defect classes returned for consolidated FIXNJ2 repair, no raster authorized."
+    },
+    {
+      "lane": "VFCG1",
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T09:15:49.399Z",
+      "reason": "Independent pre-raster return 5f2395a450680208e939ab12a2aacd3488e73d8dcb64b30ca732d6c590d701a9 rejects current 88c4d9fa7 candidate; all six defect classes returned for consolidated FIXNJ2 repair, no raster authorized."
     }
   ],
   "reissues": [
@@ -53475,6 +53493,26 @@
       "previouslyReleasedAt": "2026-09-12T08:52:40.842Z",
       "reissuedAt": "2026-09-12T09:03:59.939Z",
       "reason": "Independent seven_independent_review reviews complete five-class repaired candidate after current NJ semantic return; Captain built IL and cannot approve it."
+    },
+    {
+      "lane": "FIXNJ2",
+      "subjectType": "packet-family",
+      "subjectId": "nj_disorderly_persons-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-12T09:00:09.453Z",
+      "reissuedAt": "2026-09-12T09:15:49.720Z",
+      "reason": "Same bounded implementation worker receives complete independent six-class failure inventory from VF64; preserve prior candidate and repair all findings before semantic recheck."
+    },
+    {
+      "lane": "FIXNJ2",
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-12T09:00:09.605Z",
+      "reissuedAt": "2026-09-12T09:15:50.024Z",
+      "reason": "Same bounded implementation worker receives complete independent six-class failure inventory from VFCG1; preserve prior candidate and repair all findings before semantic recheck."
     }
   ],
   "transfers": [

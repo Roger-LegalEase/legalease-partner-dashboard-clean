@@ -1,0 +1,995 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VF64",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "verifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+  "rows": [
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "familyId": "nj_disorderly_persons-set",
+      "lane": "VF64",
+      "laneKind": "independent-verification",
+      "isIndependentVerification": true,
+      "status": "COMPLETED",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+      "observedAtHead": "5050e4fb8995b886b321a6883f1a45e4174ae375",
+      "reviewPhase": "INDEPENDENT_NONVISUAL_SEMANTIC_PREFLIGHT",
+      "reviewer": "seven_independent_review (independent Astra xhigh; no NJ implementation)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "claimEvidence": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF64 nj_disorderly_persons-set",
+        "result": "CLAIM_OK",
+        "exitCode": 0,
+        "grantSetId": "6a512bfa58e52993",
+        "assertedBeforeFamilyReads": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Exact family, ordinary conviction route key and official-form treatment match the assignment. Wrong offense in the current sworn row is independently failed under KNOWN_PREFILLS/ROUTE_OPTIONS.",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json"
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Held CN10557 independently hashes c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7 (1,924,831 bytes), 43 pages. Both Sept11 binding decisions are applied; no source acquisition is reopened.",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json"
+          ]
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "All 43 official-kit pages are present in source order: Petition/Verification/Order for Hearing/Expungement Order and Forms D-G with official instructions. Required route disclosure/guidance sections exist; their substantive defects are failed elsewhere, not a missing source/component label.",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json"
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "NJ-FD-01; NJ-FD-03",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "NJ-FD-02; NJ-FD-03; NJ-FD-04; NJ-FD-05",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "NJ-FD-01; NJ-FD-02",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "REPEATING_ROWS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "NJ-FD-03; NJ-FD-05",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "NJ-FD-04",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "ARTIFACTS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "NJ-FD-06",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "All 43 source page-number labels independently found on corresponding current pages in both PDFs. This is structural order only, not visual acceptance.",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json"
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "NOT_MEASURABLE_HERE",
+          "measured": false,
+          "finding": "Current central originals are not available and no visual acceptance is performed. Semantic failure blocks dispatch.",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json"
+          ]
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Current guide provides Superior Court county selection and eCourts/paper route as held. Venue itself is not re-decided here. Missing/unsupported exact caption handling is failed under known facts.",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Held CN10557 p39 expressly records removal of the court filing fee; guide preserves State Police records costs without inventing a filing charge or waiver. Financial-assessment predicate handling is separately failed.",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json"
+          ]
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "NJ-FD-04",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "NJ-FD-02",
+          "measurementReference": "confirmedFindings/currentPdfMeasurements/evidenceBindings in this native return",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        }
+      },
+      "obligationCounts": {
+        "PASS": 6,
+        "FAIL": 8,
+        "NOT_MEASURABLE_HERE": 1
+      },
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "confirmedFindings": [
+        {
+          "id": "NJ-FD-01",
+          "obligations": [
+            "KNOWN_PREFILLS",
+            "ROUTE_OPTIONS"
+          ],
+          "finding": "The current sworn item (d) combines facts from two different representations of the matter. Its offense text is the unchanged generic possession fixture while the classified offense/statute is Disorderly conduct / 2C:33-2.",
+          "location": "Form A p19 guiltyOff1; host familyFacts lines334-374 overrides matter.charge but actual-writes resolves matter.charges[0].charge. That array also retains old conviction/disposition dates.",
+          "currentByteProof": [
+            {
+              "fixture": "canonical",
+              "sha256": "e0c3c57dee62dad668d3753f596d4486cce2b8ec29ea8512d0000d6c2307c490",
+              "field": {
+                "field": "guiltyOff1",
+                "page": 19,
+                "rect": [
+                  243.96800231933594,
+                  202.43798828125,
+                  539.8150024414062,
+                  216.20501708984375
+                ],
+                "expected": "Disorderly conduct",
+                "observed": "as found guilty/adjudicated delinquent of the \n \nPossession of a controlled substance",
+                "matches": false
+              }
+            },
+            {
+              "fixture": "boundary",
+              "sha256": "c871bbf6bbe1ac356804e027817d36b29a74b8765d80ae75ed34187c13900dda",
+              "field": {
+                "field": "guiltyOff1",
+                "page": 19,
+                "rect": [
+                  243.96800231933594,
+                  202.43798828125,
+                  539.8150024414062,
+                  216.20501708984375
+                ],
+                "expected": "Disorderly conduct, synthetic boundary example",
+                "observed": "as found guilty/adjudicated delinquent of the \n \nPossession of a controlled substance with an unusually long statutory description",
+                "matches": false
+              }
+            }
+          ],
+          "repairAcceptance": "Use a single coherent per-matter factual record for classifier and every filled cell. Compare saved output to independently supplied expected facts, not the finalizer-selected alias. Never infer original arrest charge/statute from a potentially different conviction."
+        },
+        {
+          "id": "NJ-FD-02",
+          "obligations": [
+            "ROUTE_OPTIONS",
+            "SELF_HELP_STOP",
+            "REQUIRED_BEFORE_FILING"
+          ],
+          "finding": "The new classifier does not calculate the ordinary five-year period or validate calendar/chronology, does not account for parole/other financial assessments, and accepts nonboolean unknown/text values for stop predicates. It treats same-day/closely-related booleans as sufficient without underlying disposition relationships. ",
+          "binding": "NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION",
+          "sourceSupport": [
+            "Current held registry waitingPeriods[0]: five years from latest conviction, financial assessment, probation/parole or release.",
+            "Current held self-help lists require complete records and stop for unsupported classifications, pending cases, prior relief, financial-assessment issues and objections.",
+            "CN10557 p24 verification applies to prior criminal expungement, sealing or similar relief from any state or federal court; printed pending-charge statement is unconditional."
+          ],
+          "reproductions": [
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "valid_fixture",
+              "delta": {},
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "invalid_calendar",
+              "delta": {
+                "matter.conviction_date": "2020-02-31"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "unparsed_date",
+              "delta": {
+                "matter.fines_paid_date": "UNKNOWN"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "future_completion",
+              "delta": {
+                "matter.probation_completion_date": "2099-01-01"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "under_five_years",
+              "delta": {
+                "matter.fines_paid_date": "2026-08-29"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "chronology_inverted",
+              "delta": {
+                "matter.incarceration_completion_date": "2010-01-01"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "missing_parole_is_not_queried",
+              "delta": {},
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "later_parole_ignored",
+              "delta": {
+                "matter.parole_completion_date": "2026-08-29"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "text_fact_object",
+              "delta": {
+                "matter.final_sentence": {
+                  "unknown": true
+                }
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "case_missing_ignored",
+              "delta": {},
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "outstanding_restitution_ignored",
+              "delta": {
+                "nj.outstanding_financial_assessment": true
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "prosecutor_objection_ignored",
+              "delta": {
+                "nj.prosecutor_objection": true
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "nj.pending_charges=unknown",
+              "delta": {
+                "nj.pending_charges": "unknown"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "nj.pending_charges=true",
+              "delta": {
+                "nj.pending_charges": "true"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "nj.prior_criminal_conviction_expungement=unknown",
+              "delta": {
+                "nj.prior_criminal_conviction_expungement": "unknown"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "nj.prior_criminal_conviction_expungement=true",
+              "delta": {
+                "nj.prior_criminal_conviction_expungement": "true"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "nj.includes_title_39_matter=unknown",
+              "delta": {
+                "nj.includes_title_39_matter": "unknown"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "nj.includes_title_39_matter=true",
+              "delta": {
+                "nj.includes_title_39_matter": "true"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "nj.marijuana_regrading_applies=unknown",
+              "delta": {
+                "nj.marijuana_regrading_applies": "unknown"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "nj.marijuana_regrading_applies=true",
+              "delta": {
+                "nj.marijuana_regrading_applies": "true"
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "relationship_legal_conclusion_without_dates",
+              "delta": {
+                "nj.disorderly_or_petty_count": 6,
+                "nj.convictions_closely_related": true
+              },
+              "state": "CN10557_ITEM_D_FACTUALLY_SUPPORTED",
+              "authorizedSelections": [
+                "guilty"
+              ]
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "true_pending_stop",
+              "negativeControl": true,
+              "state": "SELF_HELP_STOP",
+              "authorizedSelections": []
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "no_custody_source_stop",
+              "negativeControl": true,
+              "state": "SOURCE_VALUE_UNSUPPORTED",
+              "authorizedSelections": []
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "missing_date_stop",
+              "negativeControl": true,
+              "state": "MISSING_REQUIRED_FACTS",
+              "authorizedSelections": []
+            },
+            {
+              "familyId": "nj_disorderly_persons-set",
+              "id": "name_change_stop",
+              "negativeControl": true,
+              "state": "SOURCE_ALIAS_STOP",
+              "authorizedSelections": []
+            }
+          ],
+          "repairAcceptance": "Validate typed facts and actual dates; derive supported timing, counts and relationships from records or stop explicitly when unsupported. Cover all relevant statutory exclusions and truthful attestation scope; unknown is not false. No participant legal-route election. Preserve correct no-custody/source-alias stops until a truthful supported treatment exists."
+        },
+        {
+          "id": "NJ-FD-03",
+          "obligations": [
+            "KNOWN_PREFILLS",
+            "REQUIRED_BEFORE_FILING",
+            "REPEATING_ROWS"
+          ],
+          "finding": "Four known field values per fixture remain withheld in the incomplete arrest paragraph/order row, and the same held arrest date is left blank on the flat p18 line. Filling the new conviction row did not collect the original arrest statute/municipality needed by those rows. The guide explicitly sends the flat known date to handwriting because it has no widget. ",
+          "fields": [
+            "arrestOff1",
+            "origCaseNums",
+            "arrest1Dt",
+            "arrest1CaseNum",
+            "p18.flat.arrestDate"
+          ],
+          "lowerBoundMissingKnownOccurrences": 10,
+          "missingCollectionQuestions": [
+            "final sentence imposed",
+            "incarceration term/type or explicit no-custody condition",
+            "actual date fines/financial assessments were paid",
+            "prior criminal-conviction expungement, sealing or similar relief by any state or federal court"
+          ],
+          "proof": "currentPdfMeasurements: exact unprinted widget rectangles and false p18 date search; reports/actual-writes.json heldButNotPrinted lists the values. Current guide Facts-that-control section does not request the first three new sentence/date facts and asks only whether a New Jersey record was expunged.",
+          "repairAcceptance": "Collect exact missing original-case facts and complete each applicable row atomically; map known flat facts through measured source geometry. Repair the actual participant collection/handback, including the full prior-relief attestation. A source-preserving supported county mapping requires actual venue facts; unsupported boundary values must fail closed, not be invented."
+        },
+        {
+          "id": "NJ-FD-04",
+          "obligations": [
+            "REQUIRED_BEFORE_FILING",
+            "SERVICE",
+            "PROTECTED_FIELDS"
+          ],
+          "finding": "Unknown neutral participant/recipient fields are generically refused instead of being collected or assigned to a later participant task. Conversely several later service fields and conditional recipients are required before the initial petition. The sole stage-aware repair covers FamDivAddr2 only.",
+          "sourcePages": [
+            28,
+            29,
+            36,
+            39,
+            41
+          ],
+          "neutralParticipantFieldsMissingHandback": [
+            "DefSbiNum",
+            "prosCntys",
+            "PoliceLoc",
+            "WardenLoc",
+            "SuperintendentLoc",
+            "deputyClerkSCCOCnty",
+            "ProsCntyName",
+            "ProsAddrStr",
+            "PoliceAddrStr",
+            "PoliceAddr2",
+            "SheriffLoc",
+            "SheriffAddrStr",
+            "SheriffAddr2",
+            "SuperintendentAddrStr",
+            "SuperintendentAddr2",
+            "WardenAddrStr",
+            "WardenAddr2",
+            "mailPetition",
+            "ExpungeDocketNum"
+          ],
+          "requiredBeforeInitialFilingButActuallyLater": [
+            "CoverLtrEDt",
+            "CoverLtrGDt",
+            "ProsAddr2",
+            "Prob2CntyName",
+            "Prob2AddrStr",
+            "Prob2Addr2",
+            "IdbCnty",
+            "IdbAddrStr",
+            "FamDivName",
+            "FamDivAddrStr"
+          ],
+          "conditionAndActorExamples": [
+            "CN10557 p28-29 instruct the participant to supply prosecutor/town/jail/record-holding county facts; these are not judicial decisions. Jail/custody, municipal court, juvenile, transfer and family-division blocks are conditional.",
+            "CN10557 p36/39/41 direct the participant to copy assigned docket/hearing settings and actual mailing facts at the later stage. Initial clerk-assigned captions and judicial execution must remain blank.",
+            "The source p28 instructions assign gradDC/marijuana/cleanSlate to participant route choices, not court decisions; they correctly remain unselected for these ordinary fixtures, but the actor explanation is inaccurate.",
+            "DP guide All 11 actions required before filing repeats judge signature, monies-owed order block and post-entry service as prerequisites, although later prose correctly says leave the judge signature blank and serve after entry."
+          ],
+          "repairAcceptance": "Classify by printed source role and actual stage, with truthful conditional applicability and full recipient blocks. Do not fill judge findings/signatures, notarization or future dates; do not make future participant tasks prerequisites to initial filing. Preserve and separately complete the two differently addressed FamDivAddr2 occurrences."
+        },
+        {
+          "id": "NJ-FD-05",
+          "obligations": [
+            "REPEATING_ROWS",
+            "REQUIRED_BEFORE_FILING"
+          ],
+          "finding": "All potential arrest-table/addendum blanks are not universally required. The current single-matter fixtures still require unused arrest rows 2-5, the p20 continuation, conditional debt rows, juvenile co-delinquency and an inactive continuation-dismissal line. Additional convicted matters have contGuilty fields generically refused even though the classifier authorizes multiple convictions. ",
+          "examples": [
+            "arrestOff2",
+            "contOwe",
+            "oweDocket",
+            "oweAmt",
+            "cnt",
+            "contArrestDt",
+            "contOffense1",
+            "contOffense2",
+            "contStatute",
+            "contArrestMuni",
+            "contOrigNums",
+            "contDsmissOff2",
+            "arrest2Dt",
+            "arrest2Statute",
+            "arrest2CaseNum",
+            "arrest3Dt",
+            "arrest3Statute",
+            "arrest3CaseNum",
+            "arrest4Dt",
+            "arrest4Statute",
+            "arrest4CaseNum",
+            "arrest5Dt",
+            "arrest5Statute",
+            "arrest5CaseNum",
+            "fjDocketNums",
+            "contGuilty and associated row fields"
+          ],
+          "sourceSupport": "CN10557 pp6,14-22 require actual records/addenda; p29 item14 requires additional sheet only beyond five actual rows, item15 FJ co-delinquency only if applicable. Source shared contOwe widgets and distinct Yes/No radio-style appearances must not be silently treated as independent answers.",
+          "repairAcceptance": "Activate whole rows/continuations from actual records and explicitly mark inactive/optional cells. Keep source aliases safe and collected neutral values complete; do not manufacture extra offenses, debt, juvenile cases or choices to satisfy blanket required flags."
+        },
+        {
+          "id": "NJ-FD-06",
+          "obligations": [
+            "ARTIFACTS"
+          ],
+          "finding": "Participant-facing instructions retain internal field IDs, repository/registry/track references and source-stage implementation comments. The repeated held-list audit narrative is internal implementation prose.",
+          "examples": [
+            "source field: `FamDivAddr2`",
+            "<!-- source-stage: POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY -->",
+            "No build can put anything on a blank without a form field (false implementation limitation)",
+            "data/record-clearing/legal-design-track-registry.json",
+            "Held `selfHelpBoundaries`"
+          ],
+          "repairAcceptance": "Keep source-faithful practical participant instructions with plain role/stage labels; move audit IDs/implementation claims to metadata. Correct stale decision/status copy without reopening resolved source acquisition."
+        }
+      ],
+      "currentPdfMeasurements": [
+        {
+          "family": "nj-disorderly-persons-set",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "e0c3c57dee62dad668d3753f596d4486cce2b8ec29ea8512d0000d6c2307c490",
+          "byteLength": 574744,
+          "pageCount": 43,
+          "knownAppearanceChecks": 57,
+          "knownAppearancesMatch": 56,
+          "knownAppearanceMismatches": [
+            {
+              "field": "guiltyOff1",
+              "page": 19,
+              "rect": [
+                243.96800231933594,
+                202.43798828125,
+                539.8150024414062,
+                216.20501708984375
+              ],
+              "expected": "Disorderly conduct",
+              "observed": "as found guilty/adjudicated delinquent of the \n \nPossession of a controlled substance",
+              "matches": false
+            }
+          ],
+          "heldBlankWidgets": [
+            {
+              "field": "arrestOff1",
+              "page": 18,
+              "rect": [
+                117.16400146484375,
+                401.6310119628906,
+                538.0430297851562,
+                418.9649963378906
+              ],
+              "observed": "ted/taken into custody on (date)\n and was charged with (name of"
+            },
+            {
+              "field": "origCaseNums",
+              "page": 18,
+              "rect": [
+                53.90039825439453,
+                505.08599853515625,
+                531.2960205078125,
+                522.4190063476562
+              ],
+              "observed": "FJ and FO docket number(s) in Family Part matters))"
+            },
+            {
+              "field": "arrest1Dt",
+              "page": 31,
+              "rect": [
+                143.19700622558594,
+                308.9360046386719,
+                211.75,
+                324.1759948730469
+              ],
+              "observed": "te)"
+            },
+            {
+              "field": "arrest1CaseNum",
+              "page": 31,
+              "rect": [
+                418.60699462890625,
+                342.0400085449219,
+                523.4869995117188,
+                357.2799987792969
+              ],
+              "observed": "t/accusation/"
+            }
+          ],
+          "page18FlatArrestDatePrinted": false,
+          "protectedOrOtherUnplannedAddedGlyphs": [],
+          "sourceGlyphsNotAtOriginalRoundedCoordinates": 10,
+          "allSourcePageNumberLabelsPreserved": true
+        },
+        {
+          "family": "nj-disorderly-persons-set",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "c871bbf6bbe1ac356804e027817d36b29a74b8765d80ae75ed34187c13900dda",
+          "byteLength": 577087,
+          "pageCount": 43,
+          "knownAppearanceChecks": 57,
+          "knownAppearancesMatch": 56,
+          "knownAppearanceMismatches": [
+            {
+              "field": "guiltyOff1",
+              "page": 19,
+              "rect": [
+                243.96800231933594,
+                202.43798828125,
+                539.8150024414062,
+                216.20501708984375
+              ],
+              "expected": "Disorderly conduct, synthetic boundary example",
+              "observed": "as found guilty/adjudicated delinquent of the \n \nPossession of a controlled substance with an unusually long statutory description",
+              "matches": false
+            }
+          ],
+          "heldBlankWidgets": [
+            {
+              "field": "arrestOff1",
+              "page": 18,
+              "rect": [
+                117.16400146484375,
+                401.6310119628906,
+                538.0430297851562,
+                418.9649963378906
+              ],
+              "observed": "ted/taken into custody on (date)\n and was charged with (name of"
+            },
+            {
+              "field": "origCaseNums",
+              "page": 18,
+              "rect": [
+                53.90039825439453,
+                505.08599853515625,
+                531.2960205078125,
+                522.4190063476562
+              ],
+              "observed": "FJ and FO docket number(s) in Family Part matters))"
+            },
+            {
+              "field": "arrest1Dt",
+              "page": 31,
+              "rect": [
+                143.19700622558594,
+                308.9360046386719,
+                211.75,
+                324.1759948730469
+              ],
+              "observed": "te)"
+            },
+            {
+              "field": "arrest1CaseNum",
+              "page": 31,
+              "rect": [
+                418.60699462890625,
+                342.0400085449219,
+                523.4869995117188,
+                357.2799987792969
+              ],
+              "observed": "t/accusation/"
+            }
+          ],
+          "page18FlatArrestDatePrinted": false,
+          "protectedOrOtherUnplannedAddedGlyphs": [],
+          "sourceGlyphsNotAtOriginalRoundedCoordinates": 10,
+          "allSourcePageNumberLabelsPreserved": true
+        }
+      ],
+      "sourceAndOptionMeasurements": {
+        "sourcePhysicalWidgets": 269,
+        "sourceUniqueFields": 179,
+        "checkboxFields": 19,
+        "checkboxWidgetOccurrencesPerPdf": 22,
+        "currentCheckboxOccurrencesAccounted": 44,
+        "vectorMarks": 2,
+        "twoDiagonalSegmentsPerMark": true,
+        "markedFields": [
+          "guilty"
+        ],
+        "unintendedCheckboxDiagonalMarks": 0,
+        "currentKnownMappedAppearanceReads": 114,
+        "correctKnownMappedAppearanceReads": 112,
+        "wrongOffenseAppearances": 2,
+        "measuredKnownBlankLowerBound": 10,
+        "protectedOrOtherUnplannedAddedGlyphs": 0,
+        "sourceCoordinatesRemovedOnlyViewerButtonText": "10 Print/Clear characters per PDF; not source form content",
+        "sourceAliases": "seek5yrsDetails has three distinct narratives; correctly blank on this refused-early/name-change route. FamDivAddr2 two distinct recipients remains blank and disclosed for separate later completion."
+      },
+      "evidenceBindings": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json",
+          "sha256": "0042fa346bb29b2e5675863d8d2c00b63fd91cc8093075f0e5c1a9aa6713ffbf",
+          "byteLength": 5580
+        },
+        {
+          "path": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+          "sha256": "6c9cd812996f7488dc5077abfb0bf24eca4763a8ac0c1c71263875af02cf4c43",
+          "byteLength": 573311
+        },
+        {
+          "path": "scripts/lib/nj-cn10557-conviction-route.mjs",
+          "sha256": "9f04670255a21aa5ac52c7cb235d5d3abf309cffb603543647936662317c523b",
+          "byteLength": 7373
+        },
+        {
+          "path": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+          "sha256": "a38b0cc0b05634e9af35b005b08a8af25a821c616daea4676f283e6132303500",
+          "byteLength": 29159
+        },
+        {
+          "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+          "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+          "byteLength": 22372
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025
+        },
+        {
+          "path": "docs/PRODUCT_CONTRACT.md",
+          "sha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+          "byteLength": 64438
+        },
+        {
+          "path": "AGENTS.md",
+          "sha256": "7e0ab084273e2ecf8565b3a8ede3470e06f2d193bbe0a0bd73a1a7de6195cf89",
+          "byteLength": 6956
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "95aa2cefe20f0e0d5c701f154817f6e1d2d9b739bf7eb94b4a261f9390528ace",
+          "byteLength": 27740
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json",
+          "sha256": "9ff527a34da411fd45ee666c4465bc1a82232974ba6a1b64dfea19c442f85de8",
+          "byteLength": 195573
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/source-receipt.json",
+          "sha256": "895c7e56c35afa757f22237ee8b2864ffb4c13e192351f6f443e5cc1c313c390",
+          "byteLength": 1498
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "5394af1e85bb381905fb522472dbef0f5e535d184b9167c0de9a0fbb1bce7432",
+          "byteLength": 112132
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "54aaa3f6ba3dbc62b7112263b1b5dafc7c0055fb4a8afae177b916ea1b330b6b",
+          "byteLength": 8267
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/reports/route-fact-classification.json",
+          "sha256": "8bbb1627903b8a034855c9b1b834c3ab7df4323dc725f8f1c8d52cae3eec8a23",
+          "byteLength": 1973
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/product-wiring.json",
+          "sha256": "9f5f826bc2d3792458dbb659b3278666ca74208f0782b9130c79a92a2b2dd033",
+          "byteLength": 4364
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fixnj2/rows-fixnj2-nj-two-fact-derived-20260912.json",
+          "sha256": "ffef600f82339b6d623518c841bb1d8f023169c11359b1757b2d696bc08472bf",
+          "byteLength": 12117
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260910.json",
+          "sha256": "1b2a9ce152e94b57440a606ab81db290beaaac68d561f3be6f6e47ad0edcbf1f",
+          "byteLength": 100820
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "commitSha": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+          "sha256": "e0c3c57dee62dad668d3753f596d4486cce2b8ec29ea8512d0000d6c2307c490",
+          "byteLength": 574744
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "commitSha": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+          "sha256": "c871bbf6bbe1ac356804e027817d36b29a74b8765d80ae75ed34187c13900dda",
+          "byteLength": 577087
+        },
+        {
+          "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+          "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "byteLength": 1924831
+        }
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 10,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": 4,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "measurementNotes": "Missing-known count is a conservative measured lower bound (four widget omissions plus one flat arrest date per fixture), not an exhaustive production census. Four wrong offense values across the two families are a separate correctness failure. All 114 attempted known source appearances per family contain output; two have the wrong offense. Unknown/refusal classification and visual totals are not authored as zero."
+      },
+      "rasterState": "RASTER_PENDING",
+      "rasterWorkflowRunId": null,
+      "rasterManifest": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json",
+        "sha256": "0042fa346bb29b2e5675863d8d2c00b63fd91cc8093075f0e5c1a9aa6713ffbf",
+        "byteLength": 5580
+      },
+      "rasterDispatchAuthorized": false,
+      "newCentralRasterRequired": true,
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "historicalDisposition": {
+        "preserved": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260910.json",
+          "sha256": "1b2a9ce152e94b57440a606ab81db290beaaac68d561f3be6f6e47ad0edcbf1f",
+          "byteLength": 100820
+        },
+        "priorVerdict": "FAIL_REPAIR_REQUIRED",
+        "priorFailedObligation": "ROUTE_OPTIONS",
+        "supersededToPass": false,
+        "currentCorrectionAcknowledged": "The nine item(d) cells now receive output, and vector guilty/indictable verification marks are present; eight of the nine cell values per fixture match the new declared matter facts. The previous missing physical mark is disproven, but the obligation remains FAIL because the filled offense conflicts with those facts and unsupported inputs authorize marks. Historical component disclosure closure is not reopened. No historical visual or known-field PASS is copied into this review."
+      },
+      "mdDependencyCompatibility": {
+        "scope": "Previously independently inspected dependency-only MD repin; no MD packet reopening or acceptance. All 199 other bound inputs unchanged; strict hash guards retained; 44 existing checks pass and four deliberate same-length dependency changes refused. Applies only to these exact pins.",
+        "reviewedInputs": {
+          "path": "scripts/rcap-packet-completeness/md-conditional-reviewed-inputs.json",
+          "sha256": "0c9c6f25d2d440d2242a6860dff10f5437753e2328d4a65f49f924e4c7791d74",
+          "byteLength": 77741
+        },
+        "adapter": {
+          "path": "scripts/rcap-packet-completeness/md-conditional-native-candidates.mjs",
+          "sha256": "d9c10fef87c5214aea3d6f7176dc2e0f609352dd79161a7d2727ca1ca854fb70",
+          "byteLength": 23567
+        },
+        "sharedContract": {
+          "path": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+          "sha256": "81056fd6cc0e7cf547c28a53965f1f92d03aa520f9441f2b1a4dfe063099c07d",
+          "byteLength": 45673
+        },
+        "laterCompletionHelper": {
+          "path": "scripts/rcap-packet-completeness/nj-participant-later-completion.mjs",
+          "sha256": "3cbcce51c258ff38287b76c32605ab57a70c8c2a40be83de661154a16939a8c5",
+          "byteLength": 12455
+        }
+      },
+      "remainingBlocker": "Six confirmed semantic defect classes above; repair current facts, classifier, collection, row/stage/actor handling and participant copy, then independent semantic recheck before current-byte central raster and final acceptance.",
+      "runtimeAndCommercialBoundary": {
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialAuthorityGranted": false,
+        "fulfillmentRecordCreated": false,
+        "observedWiring": {
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/product-wiring.json",
+          "sha256": "9f5f826bc2d3792458dbb659b3278666ca74208f0782b9130c79a92a2b2dd033",
+          "byteLength": 4364
+        }
+      },
+      "independence": "Reviewer did not modify builders, sources, packet bytes, claims, queues, ledger or implementation tests. Scratch measurements remain in /tmp; this compact native return is the only publication."
+    }
+  ]
+}
