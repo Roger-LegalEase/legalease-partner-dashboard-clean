@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+  "result": "PASS",
+  "checks": [
+    {
+      "command": "node scripts/test-ok-trafficking-current-semantic-repair.mjs",
+      "result": "PASS",
+      "assertions": 162,
+      "negativeControls": 3,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ok-trafficking-semantic-repair/focused-test.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief'",
+      "result": "PASS_COMPLETE",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ok-trafficking-semantic-repair/completeness.log"
+    },
+    {
+      "command": "node 'scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs' --check",
+      "result": "PASS",
+      "recordsBound": 6,
+      "anchorsVerified": 25,
+      "governingDecisionBound": "OK-TRAFFICKING-SURVIVOR-22-OS-19C",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ok-trafficking-semantic-repair/build-check.log"
+    },
+    {
+      "command": "node --test scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs",
+      "result": "PASS",
+      "assertions": 36,
+      "purpose": "Preserves exact historical delimiter-repair proof at its own immutable commit while proving current OK and WV bytes contain no delivered markdown delimiters.",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ok-trafficking-semantic-repair/no-markdown-regression.log"
+    }
+  ],
+  "packetDocuments": [
+    {
+      "role": "canonical",
+      "name": "canonical.pdf",
+      "path": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "67be3cdb44bd2de086b4cd429c961348f547893e172faf67a5286db6e6c5ff09",
+      "byteLength": 16208,
+      "pageCount": 6,
+      "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+      "pageCountEvidence": {
+        "method": "pdf-lib 1.17.1",
+        "pageCount": 6,
+        "sourceSha256": "67be3cdb44bd2de086b4cd429c961348f547893e172faf67a5286db6e6c5ff09"
+      }
+    },
+    {
+      "role": "boundary",
+      "name": "boundary.pdf",
+      "path": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "ca9b3234b184f78ea057a3e512ddf36fc0f0e3d022863952bc7e2cbdfd469797",
+      "byteLength": 16412,
+      "pageCount": 6,
+      "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+      "pageCountEvidence": {
+        "method": "pdf-lib 1.17.1",
+        "pageCount": 6,
+        "sourceSha256": "ca9b3234b184f78ea057a3e512ddf36fc0f0e3d022863952bc7e2cbdfd469797"
+      }
+    }
+  ],
+  "documentsDigest": "9ff3f36d074357c94d7d1695d6f877264e7533e34a93d30d5016d9cc77fdbf9e",
+  "independentReview": "PENDING",
+  "raster": "PENDING"
+}

@@ -25,8 +25,9 @@
  *   3. the transform is a NO-OP on everything that is not a closed emphasis
  *      pair, including the `_____` rules that 386 delivered fixtures print and
  *      the identifiers that carry two underscore runs;
- *   4. no word is lost: the repaired page text equals the pre-repair page text
- *      with exactly the delimiter characters removed.
+ *   4. no word was lost by the delimiter repair itself: the exact packet from
+ *      that repair commit equals the pre-repair packet with only delimiters
+ *      removed. Later lawful packet revisions do not invalidate that history.
  *
  *   node scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs
  */
@@ -51,6 +52,7 @@ const OK_DIR = "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligat
 const WV_DIR = "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading";
 /* The commit the repair was made from: its bytes are the ones VF02 read. */
 const PRE_REPAIR_REF = "b96bad780";
+const MARKDOWN_REPAIR_REF = "6687e670c";
 
 const fail = [];
 const check = (name, ok, detail = "") => {
@@ -62,8 +64,8 @@ const pageTexts = async (bytes) => {
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   return doc.getPages().map((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
 };
-const atRef = (rel) => {
-  try { return execFileSync("git", ["show", `${PRE_REPAIR_REF}:${rel}`], { cwd: ROOT, maxBuffer: 1 << 28 }); }
+const atRef = (rel, ref = PRE_REPAIR_REF) => {
+  try { return execFileSync("git", ["show", `${ref}:${rel}`], { cwd: ROOT, maxBuffer: 1 << 28 }); }
   catch { return null; }
 };
 
@@ -127,11 +129,14 @@ for (const [name, before, after] of removed) {
 /* ---- 4. nothing but the delimiters left the page ----------------------------- */
 console.log("\nno word was lost from the repaired page");
 if (preRepairPages) {
-  const now = await pageTexts(fs.readFileSync(path.join(ROOT, `${OK_DIR}/fixtures/canonical.pdf`)));
+  const repairedBytes = atRef(`${OK_DIR}/fixtures/canonical.pdf`, MARKDOWN_REPAIR_REF);
+  const repaired = repairedBytes ? await pageTexts(repairedBytes) : [];
   const words = (pages) => pages.join(" ").replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
-  check("OK canonical: page text is identical once the delimiters are discounted", words(preRepairPages) === words(now),
-    `${words(preRepairPages).length} chars before vs ${words(now).length} after`);
-  check("OK canonical: page count unchanged", preRepairPages.length === now.length, `${preRepairPages.length} -> ${now.length}`);
+  check(`OK canonical: markdown-repair bytes at ${MARKDOWN_REPAIR_REF} are readable`, repaired.length > 0);
+  check("OK canonical: page text is identical once the delimiters are discounted", words(preRepairPages) === words(repaired),
+    `${words(preRepairPages).length} chars before vs ${words(repaired).length} after`);
+  check("OK canonical: delimiter repair kept the page count unchanged", preRepairPages.length === repaired.length,
+    `${preRepairPages.length} -> ${repaired.length}`);
 }
 
 console.log(`\n${fail.length === 0 ? "NO_MARKDOWN_ON_DELIVERED_PAGES_PROVEN" : `FAILED (${fail.length})`}`);
