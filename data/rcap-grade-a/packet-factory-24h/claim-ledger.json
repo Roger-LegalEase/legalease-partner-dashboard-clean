@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
+  "generatedAtCommit": "223b316e8b9dfec7dd8b38b7de9eff13f7ac8c6d",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -15804,9 +15804,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-act346-set",
+      "itemId": null,
+      "familyId": "ar-act346-set",
+      "familyIds": [
+        "ar-act346-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFAR1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "fbd9433e7f93381db5f521317ca54747c15a1053e48c4f94e87ea8243fcfff72",
+  "claimsDigest": "6e48007a2b09be719e9530775f27d76fc61917c0f26dd7df7a7e64c9f38f2632",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -67028,6 +67043,17 @@
       "grantedAt": "2026-09-12T20:58:18.543Z",
       "grantedBy": "Captain",
       "reason": "Captain assigns review_fl independent review of complete IA build e8526b27f; implementer sd_caption is distinct.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VFAR1",
+      "subjectType": "packet-family",
+      "subjectId": "ar-act346-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-12T21:24:45.835Z",
+      "grantedBy": "Captain",
+      "reason": "Captain reserves repair_ut independent acceptance of sd_caption PF01 Act346 build; review begins only after complete pinned return.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
