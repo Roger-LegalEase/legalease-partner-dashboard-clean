@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `ab73b3f201fa1e938d230d1f18909a31d9a5b632` (or the newer dispatch base)
+**Minimum required ancestor:** `467ed4481a7412522f696d4bc7d27cb98dd3bc33` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'pa_6308_underage-set' \
   --codex-cloud \
-  --minimum-captain-sha ab73b3f201fa1e938d230d1f18909a31d9a5b632
+  --minimum-captain-sha 467ed4481a7412522f696d4bc7d27cb98dd3bc33
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -42,8 +42,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'pa_6308_underage-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'tx_nd_automatic_misdemeanor_deferred-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'il-seal-edu-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'nj_indictable_conviction-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'wv_acc_treatment_job_readiness-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'nh_petition_vacated-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-in-custom-pleading'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -69,8 +69,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `pa_6308_underage-set`
 - `tx_nd_automatic_misdemeanor_deferred-set`
 - `il-seal-edu-set`
-- `nj_indictable_conviction-set`
-- `wv_acc_treatment_job_readiness-set`
+- `nh_petition_vacated-set`
+- `rcap-in-custom-pleading`
 
 ## What you receive
 
@@ -86,13 +86,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
 - `scripts/build-census-v1-pa_6308_underage-set.mjs`
 - `scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs`
 - `scripts/build-census-v1-il-seal-edu-set.mjs`
-- `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
-- `scripts/build-census-v1-wv_acc_treatment_job_readiness-set.mjs`
+- `scripts/build-census-v1-nh_petition_vacated-set.mjs`
+- `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
 
 ## Never write here
 

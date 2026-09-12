@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 277,
-    "rows": 1368,
-    "independentVerdicts": 307,
-    "failRepairRequired": 19,
-    "passIndependent": 276
+    "returnDirectories": 284,
+    "rows": 1378,
+    "independentVerdicts": 308,
+    "failRepairRequired": 18,
+    "passIndependent": 280
   },
   "failRepairRequiredFamilies": [
     "ca-17b-reduction-set",
@@ -48,17 +48,16 @@
     "il-seal-edu-set",
     "in_arrest_no_charges-set",
     "in_section1_petition-set",
-    "ks-21-6614-conviction-set",
-    "ks-21-6614-diversion-set",
-    "ks-21-6614-prostitution-coercion-set",
     "ky_protective_order_record_expungement-set",
     "ma-bmc-multi-set",
+    "nh_petition_vacated-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
     "pa_6308_underage-set",
     "rcap-in-custom-pleading",
     "sd_arrest_expungement-set",
     "tx_nd_automatic_misdemeanor_deferred-set",
+    "va_exp_nonconviction-set",
     "wv_acc_treatment_job_readiness-set"
   ],
   "refusedAtTheClaimGate": {
@@ -14240,6 +14239,58 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf67",
       "isIndependentVerification": true,
+      "verifiedAtBase": "f6fc009ffc3a94b1a4bc9db84888db3a081f9f01",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: 20 known neutral contact occurrences are blank in the participant’s Submitted-by blocks (five fields × two orders × two fixtures). Exact source rectangles and fixture values are enumerated in the additional findings. The previously repaired four order birth years per family are present, and the existing86 official text writes match; that does not excuse the20 additional omissions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-conviction-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-conviction-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-conviction-set-submitted-by-findings.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: the source-labeled defendant/attorney Submitted-by blocks are wrongly classified court-owned, withholding known contact values and omitting accurate participant submission-signature handback. The location below IT IS SO ORDERED is not actor authority. Supreme Court Number stays attorney-only; optional second address/fax stay optional; no signature or signing timing is fabricated. Other existing route-specific missing-fact questions and corrected conditional guidance remain supported.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-conviction-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-conviction-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-conviction-set-submitted-by-findings.json"
+          ]
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "FAIL: the same five known contact facts are omitted from four repeated Submitted-by blocks across canonical/boundary grant/denial orders. Other source alias/record alternatives remain disclosed without invented values.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-conviction-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-conviction-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-conviction-set-submitted-by-findings.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-four-final-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ks-21-6614-conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf67",
+      "isIndependentVerification": true,
       "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
       "failedObligations": [
         {
@@ -14273,6 +14324,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ks-21-6614-conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf67",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-conviction-current-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-conviction-set",
       "superseded": false
     },
     {
@@ -14289,6 +14354,58 @@
         "PROTECTED_FIELDS"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-20260910.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-diversion-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ks-21-6614-diversion-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf67",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f6fc009ffc3a94b1a4bc9db84888db3a081f9f01",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: 20 known neutral contact occurrences are blank in the participant’s Submitted-by blocks (five fields × two orders × two fixtures). Exact source rectangles and fixture values are enumerated in the additional findings. The previously repaired four order birth years per family are present, and the existing86 official text writes match; that does not excuse the20 additional omissions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-diversion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-diversion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-diversion-set-submitted-by-findings.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: the source-labeled defendant/attorney Submitted-by blocks are wrongly classified court-owned, withholding known contact values and omitting accurate participant submission-signature handback. The location below IT IS SO ORDERED is not actor authority. Supreme Court Number stays attorney-only; optional second address/fax stay optional; no signature or signing timing is fabricated. Other existing route-specific missing-fact questions and corrected conditional guidance remain supported.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-diversion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-diversion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-diversion-set-submitted-by-findings.json"
+          ]
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "FAIL: the same five known contact facts are omitted from four repeated Submitted-by blocks across canonical/boundary grant/denial orders. Other source alias/record alternatives remain disclosed without invented values.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-diversion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-diversion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-diversion-set-submitted-by-findings.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-four-final-fail-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-diversion-set",
       "superseded": true
@@ -14331,6 +14448,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-diversion-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ks-21-6614-diversion-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf67",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-diversion-current-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-diversion-set",
       "superseded": false
     },
     {
@@ -14365,6 +14496,58 @@
         "PROTECTED_FIELDS"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-20260910.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf67",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f6fc009ffc3a94b1a4bc9db84888db3a081f9f01",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: 20 known neutral contact occurrences are blank in the participant’s Submitted-by blocks (five fields × two orders × two fixtures). Exact source rectangles and fixture values are enumerated in the additional findings. The previously repaired four order birth years per family are present, and the existing86 official text writes match; that does not excuse the20 additional omissions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-prostitution-coercion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-prostitution-coercion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-prostitution-coercion-set-submitted-by-findings.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: the source-labeled defendant/attorney Submitted-by blocks are wrongly classified court-owned, withholding known contact values and omitting accurate participant submission-signature handback. The location below IT IS SO ORDERED is not actor authority. Supreme Court Number stays attorney-only; optional second address/fax stay optional; no signature or signing timing is fabricated. Other existing route-specific missing-fact questions and corrected conditional guidance remain supported.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-prostitution-coercion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-prostitution-coercion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-prostitution-coercion-set-submitted-by-findings.json"
+          ]
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "FAIL: the same five known contact facts are omitted from four repeated Submitted-by blocks across canonical/boundary grant/denial orders. Other source alias/record alternatives remain disclosed without invented values.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-prostitution-coercion-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-prostitution-coercion-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-prostitution-coercion-set-submitted-by-findings.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-four-final-fail-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set",
       "superseded": true
@@ -14407,6 +14590,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf67",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-prostitution-coercion-current-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set",
       "superseded": false
     },
     {
@@ -14426,6 +14623,72 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set",
       "superseded": true
+    },
+    {
+      "familyId": "ks-21-6614-specialty-court-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf67",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f6fc009ffc3a94b1a4bc9db84888db3a081f9f01",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: 20 known neutral contact occurrences are blank in the participant’s Submitted-by blocks (five fields × two orders × two fixtures). Exact source rectangles and fixture values are enumerated in the additional findings. The previously repaired four order birth years per family are present, and the existing86 official text writes match; that does not excuse the20 additional omissions.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-specialty-court-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-specialty-court-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-specialty-court-set-submitted-by-findings.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: the source-labeled defendant/attorney Submitted-by blocks are wrongly classified court-owned, withholding known contact values and omitting accurate participant submission-signature handback. The location below IT IS SO ORDERED is not actor authority. Supreme Court Number stays attorney-only; optional second address/fax stay optional; no signature or signing timing is fabricated. Other existing route-specific missing-fact questions and corrected conditional guidance remain supported.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-specialty-court-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-specialty-court-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-specialty-court-set-submitted-by-findings.json"
+          ]
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "FAIL: the same five known contact facts are omitted from four repeated Submitted-by blocks across canonical/boundary grant/denial orders. Other source alias/record alternatives remain disclosed without invented values.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/semantic-preflight.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/semantic-review/ks-21-6614-specialty-court-set-pdf-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-specialty-court-set-original-measurements.json",
+            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/ks-21-6614-specialty-court-set-submitted-by-findings.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-four-final-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-specialty-court-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ks-21-6614-specialty-court-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf67",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-specialty-court-current-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-specialty-court-set",
+      "superseded": false
     },
     {
       "familyId": "ky_criminal_record_segregation-set",
@@ -20450,6 +20713,96 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
+      "verifiedAtBase": "353bd91959e26d356c2c94f47f0947004c59eac5",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Confirmed findings: NH-PREFLIGHT-KNOWN-FACT-OMISSIONS, NH-PREFLIGHT-DOB-FORMAT",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Confirmed findings: NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE, NH-PREFLIGHT-KNOWN-FACT-OMISSIONS, NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH, NH-PREFLIGHT-OPTIONAL-AS-MANDATORY",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Confirmed findings: NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Confirmed findings: NH-PREFLIGHT-INTERNAL-METADATA-COPY",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION, NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Confirmed findings: NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE, NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-nh-vacated-semantic-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_vacated-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_petition_vacated-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
       "verifiedAtBase": "d7e293f81",
       "failedObligations": [
         {
@@ -20516,7 +20869,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_vacated-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nh_petition_vacated-set",
@@ -34470,6 +34823,60 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
+      "verifiedAtBase": "b3f4918c1fd57bbb3d6bfc27802ab370d3a34232",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "All18 existing required handback rows and their conditional explanations were read against source and bothpackets. Record, agreement-document, conditionalCC1416, and postfilingCCRE court-copy steps remain. The original-reduced-charge factual pathway is missing (finding1).",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Eight total route-determined pro-se capacity marks are present. Bothbasisboxes remain unselected, as do unknown attachments/unavailable-record/checklist elections. Existinggate11/12cases are correct; the missing original-reduction pathway fails.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FourPDFhashes are recomputed and pinned; complete22pages were read semantically. Source/primaryintermediate geometry is coherent. Eight internalroutekey copies and guide engineering instructions fail customer-facing artifact treatment.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The narrow dismissal agreement exception and evidence gate are implemented; this is not a blanketDotson stop. Opposition, contestedhearing, presumption/priorfelony, immigration, juvenile/federal, otherstatute and unknown/disputedagreement boundaries remain. The qualifying reduced-original-charge pathway is nevertheless unnecessarily absent.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-va-nonconviction-semantic-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
       "verifiedAtBase": "7e01df1d8",
       "failedObligations": [
         {
@@ -34538,7 +34945,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "va_exp_nonconviction-set",

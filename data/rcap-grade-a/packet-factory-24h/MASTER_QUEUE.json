@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "ab73b3f201fa1e938d230d1f18909a31d9a5b632",
+  "minimumCaptainSha": "467ed4481a7412522f696d4bc7d27cb98dd3bc33",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "95510270eac97cc2775a3ced84d08b00e1f6658245ceb5be8e1b72895c6ee3bc",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "0b5043a165b965286e8466023d37d000b800c155f9ba745a176927ae7428691b",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -79,18 +79,18 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 2,
-    "repairRequired": 14,
+    "repairRequired": 17,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 257,
+    "COMPLETE_PACKET_PROVEN": 261,
     "PRODUCT_PATH_PENDING": 9,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 33,
-    "FAIL_REPAIR_REQUIRED": 15,
+    "FAIL_REPAIR_REQUIRED": 18,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 9,
+    "BUILT_RASTER_PENDING": 2,
     "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -20656,7 +20656,9 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20671,8 +20673,8 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "PASS_COMPLETE",
-      "allNineCountersZero": true,
+      "completenessStatus": "FAIL_VISIBLE_APPEARANCE",
+      "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -20682,9 +20684,11 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 0
+        "visualDefects": 1
       },
-      "failingCounters": [],
+      "failingCounters": [
+        "visualDefects"
+      ],
       "failedObligationNames": [
         "ARTIFACTS",
         "CLIPPING_AND_OVERLAP"
@@ -20705,7 +20709,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
@@ -21578,7 +21582,9 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -21593,8 +21599,8 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "PASS_COMPLETE",
-      "allNineCountersZero": true,
+      "completenessStatus": "FAIL_VISIBLE_APPEARANCE",
+      "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -21604,9 +21610,11 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 0
+        "visualDefects": 1
       },
-      "failingCounters": [],
+      "failingCounters": [
+        "visualDefects"
+      ],
       "failedObligationNames": [
         "ARTIFACTS",
         "CLIPPING_AND_OVERLAP"
@@ -21627,7 +21635,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
@@ -21807,10 +21815,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf67",
-        "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json"
+        "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-conviction-current-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -21830,7 +21838,7 @@
         "documentaryPermissionStoredInRepository": false,
         "owner": "Roger Roman",
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
+          "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
@@ -21868,7 +21876,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -21885,37 +21893,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL: 82/82 actual text writes independently match full fixture facts, but four required neutral order birth-year occurrences are blank: pages 10 and 15 in each fixture. Intake DOB and participant.birth_year already provide 1988 and 1979. Source widgets contain no added glyph or vector ink; original PNGs visibly confirm. These omissions are not protected judicial decisions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-conviction-set-pdf-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-conviction-set-original-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-conviction-set.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: all 53 declared required labels and instructions are disclosed, but both order birth-year handbacks falsely say the platform has no value and ask the participant to copy an already known fact. The component descriptions also inaccurately say only captions are filled despite neutral body identity writes.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-conviction-set-pdf-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-conviction-set-original-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-conviction-set.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-conviction-set.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-conviction-set.mjs",
@@ -22097,10 +22079,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf67",
-        "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json"
+        "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-diversion-current-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -22120,7 +22102,7 @@
         "documentaryPermissionStoredInRepository": false,
         "owner": "Roger Roman",
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
+          "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
@@ -22158,7 +22140,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22175,37 +22157,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL: 82/82 actual text writes independently match full fixture facts, but four required neutral order birth-year occurrences are blank: pages 10 and 15 in each fixture. Intake DOB and participant.birth_year already provide 1988 and 1979. Source widgets contain no added glyph or vector ink; original PNGs visibly confirm. These omissions are not protected judicial decisions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-diversion-set-pdf-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-diversion-set-original-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-diversion-set.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: all 53 declared required labels and instructions are disclosed, but both order birth-year handbacks falsely say the platform has no value and ask the participant to copy an already known fact. The component descriptions also inaccurately say only captions are filled despite neutral body identity writes.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-diversion-set-pdf-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-diversion-set-original-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-diversion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-diversion-set.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-diversion-set.mjs",
@@ -22385,10 +22341,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf67",
-        "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-current-three-20260912.json"
+        "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-prostitution-coercion-current-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -22408,7 +22364,7 @@
         "documentaryPermissionStoredInRepository": false,
         "owner": "Roger Roman",
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f",
+          "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
@@ -22446,7 +22402,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22463,37 +22419,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL: 82/82 actual text writes independently match full fixture facts, but four required neutral order birth-year occurrences are blank: pages 10 and 15 in each fixture. Intake DOB and participant.birth_year already provide 1988 and 1979. Source widgets contain no added glyph or vector ink; original PNGs visibly confirm. These omissions are not protected judicial decisions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-prostitution-coercion-set-pdf-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-prostitution-coercion-set-original-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-prostitution-coercion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-prostitution-coercion-set.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL: all 58 declared required labels and instructions are disclosed, but both order birth-year handbacks falsely say the platform has no value and ask the participant to copy an already known fact. The component descriptions also inaccurately say only captions are filled despite neutral body identity writes. Four field-specific coercion-route handbacks additionally omit the diversion authority or diversion fulfilment branch while this family expressly supports both dispositions.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-prostitution-coercion-set-pdf-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/ks-21-6614-prostitution-coercion-set-original-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/current-guidance-ks-21-6614-prostitution-coercion-set.json",
-            "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/independent-review/findings-ks-21-6614-prostitution-coercion-set.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs",
@@ -22669,7 +22599,12 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf67",
+        "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-specialty-court-current-20260912.json"
+      },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
         "decisionId": "KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE",
@@ -22688,14 +22623,28 @@
         "documentaryPermissionStoredInRepository": false,
         "owner": "Roger Roman",
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": null,
+          "verifiedAtBase": "7db573273085f7399a4d0f3f4892a81219609077",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
             "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "independent verdict declares no commit-shaped verifiedAtBase"
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
+          "recordBindings": [
+            {
+              "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+              "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
+            },
+            {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+              "currentSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "reviewedSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "matches": true
+            }
+          ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
@@ -22712,7 +22661,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -22733,7 +22682,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-21-6614-specialty-court-set.mjs",
@@ -25684,9 +25633,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -25754,7 +25701,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
@@ -34941,10 +34888,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "d974bcdd8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verifiedAtBase": "353bd91959e26d356c2c94f47f0947004c59eac5",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-nh-vacated-semantic-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -34963,25 +34910,28 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "d974bcdd8",
+          "verifiedAtBase": "353bd91959e26d356c2c94f47f0947004c59eac5",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -34990,17 +34940,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "nh_petition_vacated-set",
-        "foundBy": [
-          "vf03 (current independent verification)"
-        ],
-        "why": "SERVICE: Who must be served with the NHJB-2328 fee-waiver papers on an RSA 651:5 annulment petition, and how, is not settled by any legal-design record, so the packet cannot state it and this lane cannot measure it satisfied. Open question for legal design, not a build defect.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL: NHJB-2328 is the confidential Statement of Assets and Liabilities, not the fee-waiver motion. Use NHJB-2886-DFPe Motion to Waive Filing Fees with NHJB-2328 attached as required; preserve confidentiality and follow the motion's own service certification/form rules. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL: NHJB-2328 is the confidential Statement of Assets and Liabilities, not the fee-waiver motion. Use NHJB-2886-DFPe Motion to Waive Filing Fees with NHJB-2328 attached as required; preserve confidentiality and follow the motion's own service certification/form rules. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -35017,11 +34960,85 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Confirmed findings: NH-PREFLIGHT-KNOWN-FACT-OMISSIONS, NH-PREFLIGHT-DOB-FORMAT",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Confirmed findings: NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE, NH-PREFLIGHT-KNOWN-FACT-OMISSIONS, NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH, NH-PREFLIGHT-OPTIONAL-AS-MANDATORY",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Confirmed findings: NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Confirmed findings: NH-PREFLIGHT-INTERNAL-METADATA-COPY",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION, NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Confirmed findings: NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE, NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_vacated-set.mjs",
@@ -46717,10 +46734,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf01",
-        "verifiedAtBase": "b70ec78ef",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verifiedAtBase": "b3f4918c1fd57bbb3d6bfc27802ab370d3a34232",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-va-nonconviction-semantic-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -46739,25 +46756,28 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b70ec78ef",
+          "verifiedAtBase": "b3f4918c1fd57bbb3d6bfc27802ab370d3a34232",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -46766,17 +46786,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "va_exp_nonconviction-set",
-        "foundBy": [
-          "vf01 (current independent verification)"
-        ],
-        "why": "SELF_HELP_STOP: The stated defect is repaired and I measured it: all FIVE selfHelpStopConditions are printed verbatim, in the registry's own order, on the composed filing-instructions page and again in participant-instructions.md (checked string by string after whitespace normalisation), and the Dotson screen sits as a hard gate BESIDE the Part 1 basis election in three places -- step 2 of 'WHAT YOU DO, IN ORDER' on the facing composed page, step 2 of 'What you must do' in the guide, and 'The choices that are yours'. What blocks the obligation is what that gate SAYS against the pinned form. The packet instructs: 'if your charge was dismissed after a stipulation or after a judicial finding of facts sufficient for guilt ... do not tick that box and do not file this petition.' The pinned CC-1473 Rev. 07/26, page 1, Part 1, prints the opposite inclusion in the same packet: the 'otherwise dismissed' basis expressly covers 'a charge that is dismissed after a plea or stipulation of the facts that would justify a finding of guilt pursuant to Sec. 19.2-298.02'. A participant in exactly that population is told by the official form that the basis reaches them and by the packet not to file. Which governs is a legal question about Dotson and Sec. 19.2-298.02 that a reader may not settle by measurement, FIX89 itself returned it undischarged as BLOCKED_LEGAL_INPUT, and the standing VF01 row already carried SELF_HELP_STOP as a blocked legal obligation. It is recorded blocked here rather than passed.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE: Remove the blanket Dotson stop. Encode the narrow current Section 19.2-298.02 all-party-agreement fact gate that permits the qualifying deferred-disposition dismissal/reduction to be treated as otherwise dismissed for expungement. Do not infer agreement. Use current CC-1473 and version the rule for the statutory change effective December 1, 2026. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE: Remove the blanket Dotson stop. Encode the narrow current Section 19.2-298.02 all-party-agreement fact gate that permits the qualifying deferred-disposition dismissal/reduction to be treated as otherwise dismissed for expungement. Do not infer agreement. Use current CC-1473 and version the rule for the statutory change effective December 1, 2026. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -46793,11 +46806,49 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "All18 existing required handback rows and their conditional explanations were read against source and bothpackets. Record, agreement-document, conditionalCC1416, and postfilingCCRE court-copy steps remain. The original-reduced-charge factual pathway is missing (finding1).",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Eight total route-determined pro-se capacity marks are present. Bothbasisboxes remain unselected, as do unknown attachments/unavailable-record/checklist elections. Existinggate11/12cases are correct; the missing original-reduction pathway fails.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FourPDFhashes are recomputed and pinned; complete22pages were read semantically. Source/primaryintermediate geometry is coherent. Eight internalroutekey copies and guide engineering instructions fail customer-facing artifact treatment.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json"
+          ]
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The narrow dismissal agreement exception and evidence gate are implemented; this is not a blanketDotson stop. Opposition, contestedhearing, presumption/priorfelony, immigration, juvenile/federal, otherstatute and unknown/disputedagreement boundaries remain. The qualifying reduced-original-charge pathway is nevertheless unnecessarily absent.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json"
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",

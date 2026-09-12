@@ -17,8 +17,9 @@
   ],
   "familiesAudited": 308,
   "byResult": {
-    "PASS_COMPLETE": 275,
+    "PASS_COMPLETE": 273,
     "NOT_MEASURABLE_HERE": 31,
+    "FAIL_VISIBLE_APPEARANCE": 2,
     "FAIL_ROUTE_SELECTION": 1,
     "FAIL_MISSING_REQUIRED_FACTS": 1
   },
@@ -5921,7 +5922,7 @@
     {
       "familyId": "in_arrest_no_charges-set",
       "directory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
-      "result": "PASS_COMPLETE",
+      "result": "FAIL_VISIBLE_APPEARANCE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
@@ -5932,25 +5933,35 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 0
+        "visualDefects": 1
       },
-      "failedCounters": [],
+      "failedCounters": [
+        "visualDefects"
+      ],
       "totals": {
         "terminalFields": 145,
-        "written": 7,
-        "blank": 138,
+        "written": 22,
+        "blank": 123,
         "blanksByDisposition": {
-          "REQUIRED_BEFORE_FILING": 66,
-          "PARTICIPANT_ELECTION_GENUINE": 12,
-          "OPTIONAL_PARTICIPANT_CONTENT": 13,
-          "PROTECTED_FIELD": 47
+          "REQUIRED_BEFORE_FILING": 14,
+          "PARTICIPANT_ELECTION_GENUINE": 8,
+          "OPTIONAL_PARTICIPANT_CONTENT": 14,
+          "PROTECTED_FIELD": 40,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 47
         },
         "rowsInspected": 0,
         "fieldMapSchema": "documents-and-decisions"
       },
       "outputApprovalStatus": "REQUESTED",
       "sourceCurrentness": "EXACT",
-      "findings": [],
+      "findings": [
+        {
+          "counter": "visualDefects",
+          "fixture": "boundary",
+          "glyphsOutsideMeasuredBoxes": 1486,
+          "why": "ink landed outside every measured write box, which is an overlap or a stray mark"
+        }
+      ],
       "findingsTruncated": 0
     },
     {
@@ -6089,7 +6100,7 @@
     {
       "familyId": "in_section1_petition-set",
       "directory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
-      "result": "PASS_COMPLETE",
+      "result": "FAIL_VISIBLE_APPEARANCE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
@@ -6100,25 +6111,35 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 0
+        "visualDefects": 1
       },
-      "failedCounters": [],
+      "failedCounters": [
+        "visualDefects"
+      ],
       "totals": {
         "terminalFields": 145,
-        "written": 6,
-        "blank": 139,
+        "written": 34,
+        "blank": 111,
         "blanksByDisposition": {
-          "REQUIRED_BEFORE_FILING": 66,
-          "PARTICIPANT_ELECTION_GENUINE": 13,
-          "OPTIONAL_PARTICIPANT_CONTENT": 13,
-          "PROTECTED_FIELD": 47
+          "REQUIRED_BEFORE_FILING": 12,
+          "PARTICIPANT_ELECTION_GENUINE": 7,
+          "OPTIONAL_PARTICIPANT_CONTENT": 14,
+          "PROTECTED_FIELD": 39,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 39
         },
         "rowsInspected": 0,
         "fieldMapSchema": "documents-and-decisions"
       },
       "outputApprovalStatus": "REQUESTED",
       "sourceCurrentness": "EXACT",
-      "findings": [],
+      "findings": [
+        {
+          "counter": "visualDefects",
+          "fixture": "boundary",
+          "glyphsOutsideMeasuredBoxes": 1488,
+          "why": "ink landed outside every measured write box, which is an overlap or a stray mark"
+        }
+      ],
       "findingsTruncated": 0
     },
     {
@@ -6140,15 +6161,15 @@
       "failedCounters": [],
       "totals": {
         "terminalFields": 227,
-        "written": 45,
-        "blank": 182,
+        "written": 55,
+        "blank": 172,
         "blanksByDisposition": {
-          "OPTIONAL_PARTICIPANT_CONTENT": 6,
+          "OPTIONAL_PARTICIPANT_CONTENT": 8,
           "REQUIRED_BEFORE_FILING": 47,
           "PARTICIPANT_ELECTION_GENUINE": 18,
           "LATER_COMPLETION": 14,
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 23,
-          "PROTECTED_FIELD": 74
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 27,
+          "PROTECTED_FIELD": 58
         },
         "rowsInspected": 0,
         "fieldMapSchema": "writes-and-refusals"
@@ -6177,15 +6198,15 @@
       "failedCounters": [],
       "totals": {
         "terminalFields": 227,
-        "written": 45,
-        "blank": 182,
+        "written": 55,
+        "blank": 172,
         "blanksByDisposition": {
-          "OPTIONAL_PARTICIPANT_CONTENT": 6,
+          "OPTIONAL_PARTICIPANT_CONTENT": 8,
           "REQUIRED_BEFORE_FILING": 47,
           "PARTICIPANT_ELECTION_GENUINE": 18,
           "LATER_COMPLETION": 14,
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 23,
-          "PROTECTED_FIELD": 74
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 27,
+          "PROTECTED_FIELD": 58
         },
         "rowsInspected": 0,
         "fieldMapSchema": "writes-and-refusals"
@@ -6214,15 +6235,15 @@
       "failedCounters": [],
       "totals": {
         "terminalFields": 227,
-        "written": 44,
-        "blank": 183,
+        "written": 54,
+        "blank": 173,
         "blanksByDisposition": {
-          "OPTIONAL_PARTICIPANT_CONTENT": 6,
+          "OPTIONAL_PARTICIPANT_CONTENT": 8,
           "REQUIRED_BEFORE_FILING": 52,
           "PARTICIPANT_ELECTION_GENUINE": 19,
           "LATER_COMPLETION": 14,
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 18,
-          "PROTECTED_FIELD": 74
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 22,
+          "PROTECTED_FIELD": 58
         },
         "rowsInspected": 0,
         "fieldMapSchema": "writes-and-refusals"
@@ -6251,15 +6272,15 @@
       "failedCounters": [],
       "totals": {
         "terminalFields": 227,
-        "written": 45,
-        "blank": 182,
+        "written": 55,
+        "blank": 172,
         "blanksByDisposition": {
-          "OPTIONAL_PARTICIPANT_CONTENT": 6,
+          "OPTIONAL_PARTICIPANT_CONTENT": 8,
           "REQUIRED_BEFORE_FILING": 43,
           "PARTICIPANT_ELECTION_GENUINE": 18,
           "LATER_COMPLETION": 14,
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 27,
-          "PROTECTED_FIELD": 74
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 31,
+          "PROTECTED_FIELD": 58
         },
         "rowsInspected": 0,
         "fieldMapSchema": "writes-and-refusals"
