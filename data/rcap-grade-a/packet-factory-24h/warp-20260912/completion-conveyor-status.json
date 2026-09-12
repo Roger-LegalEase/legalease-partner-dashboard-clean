@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-completion-conveyor-status/v1",
+  "terminalCheckpoint": 271,
+  "denominator": 346,
+  "implementation": {
+    "lane": "FIXKS1",
+    "families": [
+      "ks-21-6614-conviction-set",
+      "ks-21-6614-diversion-set",
+      "ks-21-6614-prostitution-coercion-set",
+      "ks-21-6614-specialty-court-set"
+    ],
+    "nextGate": "independent semantic preflight before any new raster"
+  },
+  "independentReview": {
+    "lane": "VF02",
+    "families": [
+      "al-diversion-set",
+      "al-misd-conviction-set",
+      "al-misd-dwop-set",
+      "al-pardoned-felony-set"
+    ],
+    "nextGate": "final acceptance against current original raster pages"
+  },
+  "reviewNext": {
+    "lane": "VF01",
+    "family": "az_set_aside-set",
+    "nextGate": "independent four-input followup, unchanged packet hashes"
+  },
+  "parked": [
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "reason": "Exact historical KJC source bodies unavailable: worker and hosted acquisition HTTP403. No repeat retrieval scheduled.",
+      "resumeWhen": "Exact pinned SHA256 and byte length acquired, or governed changed-edition reconciliation.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/source-acquisition-34666647147/exact-source-results.json",
+      "claimsPreserved": true
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "reason": "Exact historical KJC source bodies unavailable: worker and hosted acquisition HTTP403. No repeat retrieval scheduled.",
+      "resumeWhen": "Exact pinned SHA256 and byte length acquired, or governed changed-edition reconciliation.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/source-acquisition-34666647147/exact-source-results.json",
+      "claimsPreserved": true
+    }
+  ],
+  "disk": {
+    "removedOnly": [
+      "/home/codespace/.npm/_cacache",
+      "/home/codespace/.cache/pip"
+    ],
+    "approximatelyReclaimedMiB": 271,
+    "workspaceUtilizationAfter": "97%",
+    "targetBelow85PercentReached": false,
+    "reason": "Inspected additional large holdings are repository objects, sources, evidence, active session history or installed runtimes; no further disposable multi-GB candidate proven.",
+    "newScratchDestination": "/tmp",
+    "tmpAvailableGiB": 101,
+    "protectedInventoryCount": 121,
+    "protectedInventoryHashVerification": "PASS"
+  },
+  "nationalGeneration": "Once per completed closure checkpoint; no regeneration during changing worker bytes",
+  "dispatchPolicy": "Immutable packet+manifest commit only after independent semantic preflight PASS; final acceptance remains separate"
+}
