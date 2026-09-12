@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXNJ2",
+  "laneKind": "repair",
+  "baseSha": "19053ba00728cab45051d8322e5b20c1726fd606",
+  "branch": "claude/legalease-sprint-captain-utucnw",
+  "isIndependentVerification": false,
+  "grantsAsserted": [
+    "CLAIM_OK FIXNJ2 nj_disorderly_persons-set (repair, grant set 510f252f30a7788f)",
+    "CLAIM_OK FIXNJ2 nj_indictable_conviction-set (repair, grant set 510f252f30a7788f)"
+  ],
+  "rows": [
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "familyId": "nj_disorderly_persons-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "ROUTE_OPTIONS"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260910.json",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "preserved": true
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "preserved": true
+        }
+      ],
+      "reconciledPriorImplementation": {
+        "commit": "52fa19a1d624fc1ed78f09bd1043a8cc4e09d081",
+        "method": "reused current compatible implementation content without broad cherry-pick",
+        "untrackedPublicationBackupPreserved": "data/rcap-all50/overlays/census-v1/nj/.fixcxn1-publication-backup-sO5k7B"
+      },
+      "actualDefect": "CN-10557 item (d) was blank because the route lacked the neutral court-record facts needed to complete its nine-cell sworn conviction paragraph. The delivered conviction packets did not state their route. The generic map also made inactive early/drug/name-change controls participant requirements, treated two continuation lines as universal, and reused one recipient-address field across two distinct later recipients.",
+      "correction": "Collects the exact factual predicates and all nine item-(d) values, fails closed when any is absent or unsupported, classifies the statutory branch without asking the participant for a legal election, and marks item (d) only after the facts authorize it. Inactive special branches are explicit N/A. The indictable packet also marks Verification item 3 only from its 2C:52-2 route plus the verified no-prior-criminal-expungement fact. Optional continuation lines and the aliased post-order recipient field now carry source-bound conditional/later-completion treatment. Court, prosecutor, clerk, agency, notary, signature, hearing, and order fields stay protected.",
+      "packetBytesChanged": true,
+      "artifacts": {
+        "packets": [
+          {
+            "role": "canonical",
+            "name": "cn-10557-canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+            "sha256": "e0c3c57dee62dad668d3753f596d4486cce2b8ec29ea8512d0000d6c2307c490",
+            "byteLength": 574744,
+            "pageCount": 43,
+            "pageCountBasis": "parsed from the exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 43,
+              "sourceSha256": "e0c3c57dee62dad668d3753f596d4486cce2b8ec29ea8512d0000d6c2307c490"
+            },
+            "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf"
+          },
+          {
+            "role": "boundary",
+            "name": "cn-10557-boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+            "sha256": "c871bbf6bbe1ac356804e027817d36b29a74b8765d80ae75ed34187c13900dda",
+            "byteLength": 577087,
+            "pageCount": 43,
+            "pageCountBasis": "parsed from the exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 43,
+              "sourceSha256": "c871bbf6bbe1ac356804e027817d36b29a74b8765d80ae75ed34187c13900dda"
+            },
+            "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf"
+          }
+        ],
+        "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "mapSha256": "9ff527a34da411fd45ee666c4465bc1a82232974ba6a1b64dfea19c442f85de8",
+        "guideSha256": "95aa2cefe20f0e0d5c701f154817f6e1d2d9b739bf7eb94b4a261f9390528ace",
+        "actualWritesSha256": "5394af1e85bb381905fb522472dbef0f5e535d184b9167c0de9a0fbb1bce7432",
+        "renderedArtifactsSha256": "54aaa3f6ba3dbc62b7112263b1b5dafc7c0055fb4a8afae177b916ea1b330b6b",
+        "routeFactClassificationSha256": "8bbb1627903b8a034855c9b1b834c3ab7df4323dc725f8f1c8d52cae3eec8a23"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "verify-packet-completeness.mjs on the exact current family: all eight applicable nonvisual counters are zero. invisibleWrites is measured from flattened appearance and glyph counts read from each saved PDF; visualDefects remains unmeasured until current-byte central raster and independent review.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_REVIEW",
+      "tests": {
+        "routeClassifier": "NJ_CN10557_CONVICTION_ROUTE_PASS assertions=47",
+        "currentOutput": "NJ_CN10557_CONVICTION_OUTPUT_PASS assertions=181",
+        "laterCompletion": "21/21 PASS",
+        "familyChecks": "both NONVISUAL CHECK PASS",
+        "rasterPlanner": "2 families enrolled"
+      },
+      "grantsNothing": "This is an implementation return. It preserves historical FAIL evidence and grants no commercial or terminal status; current-byte raster and independent semantic review remain required."
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "familyId": "nj_indictable_conviction-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "ROUTE_OPTIONS"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "preserved": true
+        }
+      ],
+      "reconciledPriorImplementation": {
+        "commit": "52fa19a1d624fc1ed78f09bd1043a8cc4e09d081",
+        "method": "reused current compatible implementation content without broad cherry-pick",
+        "untrackedPublicationBackupPreserved": "data/rcap-all50/overlays/census-v1/nj/.fixcxn1-publication-backup-sO5k7B"
+      },
+      "actualDefect": "CN-10557 item (d) was blank because the route lacked the neutral court-record facts needed to complete its nine-cell sworn conviction paragraph. The delivered conviction packets did not state their route. The generic map also made inactive early/drug/name-change controls participant requirements, treated two continuation lines as universal, and reused one recipient-address field across two distinct later recipients.",
+      "correction": "Collects the exact factual predicates and all nine item-(d) values, fails closed when any is absent or unsupported, classifies the statutory branch without asking the participant for a legal election, and marks item (d) only after the facts authorize it. Inactive special branches are explicit N/A. The indictable packet also marks Verification item 3 only from its 2C:52-2 route plus the verified no-prior-criminal-expungement fact. Optional continuation lines and the aliased post-order recipient field now carry source-bound conditional/later-completion treatment. Court, prosecutor, clerk, agency, notary, signature, hearing, and order fields stay protected.",
+      "packetBytesChanged": true,
+      "artifacts": {
+        "packets": [
+          {
+            "role": "canonical",
+            "name": "cn-10557-canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+            "sha256": "c06e8b321deee111cf0be5a0916c548d10b1daddd19c2c0be6957b19734502b7",
+            "byteLength": 574936,
+            "pageCount": 43,
+            "pageCountBasis": "parsed from the exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 43,
+              "sourceSha256": "c06e8b321deee111cf0be5a0916c548d10b1daddd19c2c0be6957b19734502b7"
+            },
+            "file": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf"
+          },
+          {
+            "role": "boundary",
+            "name": "cn-10557-boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+            "sha256": "2b8943edea4fcbb8507220fd3fc93363baab08c095358b568b68e48af437e3ab",
+            "byteLength": 577279,
+            "pageCount": 43,
+            "pageCountBasis": "parsed from the exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 43,
+              "sourceSha256": "2b8943edea4fcbb8507220fd3fc93363baab08c095358b568b68e48af437e3ab"
+            },
+            "file": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf"
+          }
+        ],
+        "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "mapSha256": "c4f62e26cba4a342f98a217a1e93807655eac5c22b0fc4f2128ab0c81226de13",
+        "guideSha256": "13421466253562eb30413cf193b8ced61af7ecf75be7a9e233fd186b943bbee3",
+        "actualWritesSha256": "1dcde85a2635f06a87cc2d17c9a6d2c4be3983c90b91121f953a483dd74ee62e",
+        "renderedArtifactsSha256": "6e00d1b35b384be23cbf5a19425ec2367af838607b4e2b54e061890f5a544845",
+        "routeFactClassificationSha256": "a57e0d2708b9d308a3585e16346a3e9f09ac84a3f7fe42699ff42d15a1f58a97"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "verify-packet-completeness.mjs on the exact current family: all eight applicable nonvisual counters are zero. invisibleWrites is measured from flattened appearance and glyph counts read from each saved PDF; visualDefects remains unmeasured until current-byte central raster and independent review.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/raster-manifest.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_REVIEW",
+      "tests": {
+        "routeClassifier": "NJ_CN10557_CONVICTION_ROUTE_PASS assertions=47",
+        "currentOutput": "NJ_CN10557_CONVICTION_OUTPUT_PASS assertions=181",
+        "laterCompletion": "21/21 PASS",
+        "familyChecks": "both NONVISUAL CHECK PASS",
+        "rasterPlanner": "2 families enrolled"
+      },
+      "grantsNothing": "This is an implementation return. It preserves historical FAIL evidence and grants no commercial or terminal status; current-byte raster and independent semantic review remain required."
+    }
+  ]
+}

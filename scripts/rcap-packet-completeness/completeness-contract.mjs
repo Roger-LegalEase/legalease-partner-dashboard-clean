@@ -297,6 +297,8 @@ export function classifyField(label, isSelectionControl = false) {
 }
 
 const OPTIONAL_SOURCE_REGISTRY = new Map([
+  ["c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7|guiltyOff2", { page: 19, rect: { x: 67.666, y: 557.96, width: 460.248, height: 13.768 }, sourceText: "charges of (name of offense(s))", condition: "conviction_offense_text_requires_continuation_line" }],
+  ["c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7|guiltyFinal2", { page: 19, rect: { x: 68.155, y: 505.219, width: 470.918, height: 14.237 }, sourceText: "(final sentence)", condition: "conviction_final_sentence_requires_continuation_line" }],
   ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|2", { page: 1, rect: { x: 117, y: 418.8, width: 412.8, height: 14.52 }, sourceText: "charged with the offense(s) of:", condition: "additional_charged_offence_exists" }],
   ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|guilty of the offenses of 2", { page: 1, rect: { x: 117, y: 322.08, width: 420.6, height: 14.52 }, sourceText: "guilty of the offense(s) of:", condition: "additional_convicted_offence_exists" }],
   ["63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23|guilty of the offenses of 3", { page: 1, rect: { x: 117, y: 306, width: 420.48, height: 14.52 }, sourceText: "guilty of the offense(s) of:", condition: "additional_convicted_offence_exists" }],

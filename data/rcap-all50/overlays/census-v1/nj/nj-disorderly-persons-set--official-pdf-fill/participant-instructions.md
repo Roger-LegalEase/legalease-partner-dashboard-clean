@@ -2,11 +2,11 @@
 
 These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.
 
-- Route scope: `obligation:track-pathway:NJ:nj_disorderly_persons:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3`
+- Packet route: **New Jersey disorderly-persons conviction petition**
 
 ## Required participant/local completion
 
-- Review every page, choose only legally applicable elections, and complete every required signature and date yourself.
+- Review the complete court-record facts and the fact-derived item (d) mark. Do not add another disposition or eligibility selection unless your verified record and the form instructions require it.
 - Complete service certificates only after service actually occurs.
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
 - Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, cost, and who must be served are each answered in their own section below.
@@ -20,10 +20,6 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 | `arrest1CaseNum` | `matter.case_number` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrestOff1` | `matter.charge` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
-| `guilty` | the election this row states on the printed form | this box is the election for that row, and another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, so the election is withdrawn with the row: a row is completed or left untouched, and a marked election over an empty row is a half-written row | canonical, boundary |
-| `guiltyCrt` | `matter.court` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
-| `guiltyDt` | `matter.conviction_date` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
-| `guiltyOff1` | `matter.charge` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `origCaseNums` | `matter.case_number` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
 
 ## Records to gather before you file
@@ -55,6 +51,28 @@ The statute expressly provides that a person shall not be required to provide pl
 
 Carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `nj_disorderly_persons`, `packetInstructions`. Nothing is added to it here: if a court or an office asks you for something this statement covers, that is a question to raise rather than a document to go and buy.
 
+## Facts that control this packet route
+
+You do not choose a legal route or diagnose which statutory branch applies. Supply and verify the factual answers below from the SBI history and court records. The rules engine uses those facts to decide whether Form A item (d) is supported. If an answer is missing, inconsistent, or reaches a self-help stop, packet generation stops without marking the box.
+
+- What is your full legal name, and have you used any other names?
+- What is your date of birth?
+- Which New Jersey county do you live in?
+- For each matter: the county, the court and its level, the complaint or indictment number, the docket number, the offence and statute, the disposition and its date.
+- List every conviction you have anywhere, including other states and federal court, with the grading and the date.
+- Is any charge pending against you now, anywhere?
+- Have you ever had a New Jersey record expunged before?
+- Were any of these matters motor vehicle charges, including DWI?
+- Have you paid every fine, fee, penalty and restitution ordered in these cases, and if not, why not?
+- When did you finish probation or parole, or get released from custody, on each matter?
+- Have you ever been convicted of a crime — an indictable offence in New Jersey or a felony anywhere else?
+- How many disorderly persons and petty disorderly persons offences are on your record?
+- Were any of these convictions entered on the same day?
+- Did any of these offences happen as part of one connected sequence of events over a short period?
+- Did any conviction involve marijuana or hashish, or drug paraphernalia used with them?
+
+Item (d) is marked only when all nine cells in its conviction paragraph can be completed from the same verified matter. The generated canonical and boundary examples use clearly synthetic case facts to test that rule; they are not participant answers or an eligibility finding.
+
 ## What it costs to file
 
 There is **no court filing fee**. New Jersey Courts states **"It's free"**, and the Judiciary kit was updated in June 2020 to remove the filing fee. Because there is no court filing fee, there is no court filing fee to waive and no court-fee waiver form is needed for this petition.
@@ -73,7 +91,7 @@ On objections: the committed track record states, of this route's notice rule, t
 
 ## How the offence count works on this route
 
-**This packet does not count your offences and does not decide whether you are eligible.** It holds no offence history for you: the fingerprint-based State Police SBI record named above is what produces the count, and nobody has read it here. What follows is the counting rule as this route's committed legal-design record states it, so that you can apply it to your own record or take it to a lawyer.
+**The rules engine counts only the factual convictions you supply and verify from the SBI history and court records.** It does not ask you to choose a statutory branch. Missing or disputed offense facts stop packet generation. What follows is the counting rule the engine applies; it is not a final eligibility finding.
 
 ### The held counting rule, quoted whole
 
@@ -93,7 +111,7 @@ So a published "up to three" is the cap for a different route, not for this one.
 
 The intake question this route records for the count is: "How many disorderly persons and petty disorderly persons offences are on your record?"
 
-Counting is where this packet stops and a lawyer starts. "Counting disputes at the five-offence line.", "Any same-day or closely-related bundling argument." and "Marijuana regrading analysis." are all held self-help stop conditions on this route, and they are listed again under "Where self-help ends" below. Marijuana and hashish regrading can move a conviction between routes or off the count entirely, and this packet does not perform that analysis.
+The ordinary five-offense count is encoded. A disputed count, a same-day or closely-related characterization that the records do not establish, or marijuana/hashish regrading is a self-help stop. Those conditions are listed again under "Where self-help ends" below.
 
 ## All 11 actions required before filing
 
@@ -119,95 +137,64 @@ Complete and duly verify the petition before filing. Follow the Judiciary kit an
 
 The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.
 
-- offense(s)) (source field: `arrestOff2`)
-- in violation of N.J.S.A. (statute(s)) (source field: `arrestStatute`)
-- (original indict (source field: `arrestMuni`)
-- Charges of (name of offense(s)) — continuation line (source field: `guiltyOff2`)
-- Statute(s) violated — selected conviction row (source field: `guiltyStatute`)
-- Final sentence — selected conviction row, line 1 (source field: `guiltyFinal1`)
-- Final sentence — selected conviction row, line 2 (source field: `guiltyFinal2`)
-- Jail/prison/incarceration term or type (source field: `guiltyTimeType`)
-- Date jail/prison/incarceration was completed (source field: `guiltyDocCmpltDt`)
-- Date probation was completed (source field: `guiltyProbDt`)
-- Date fines were paid (source field: `guiltyFineDt`)
-- contOwe (source field: `contOwe`)
-- Original (source field: `oweDocket`)
-- in the amount of $ (source field: `oweAmt`)
-- cnt (source field: `cnt`)
-- . I was arrested/taken into custody on (dat (source field: `contArrestDt`)
-- . I was arre (source field: `contOffense1`)
-- contOffense2 (source field: `contOffense2`)
-- in violation of N.J.S.A. (statute(s)) (source field: `contStatute`)
-- (municipalities (source field: `contArrestMuni`)
-- (original indictment/accusation/summons/war (source field: `contOrigNums`)
-- a (source field: `contDsmissOff2`)
-- seek5yrs (source field: `seek5yrs`)
-- seek34degree (source field: `seek34degree`)
-- conviction. The compelling circumstances for the Court to gr (source field: `seek5yrsDetails`)
-- 3 (source field: `seekJuvNever`)
-- changeName (source field: `changeName`)
+- “and was charged with (name of offense(s))”, the second line — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestOff2`)
+- “in violation of N.J.S.A. (statute(s))” — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestStatute`)
+- “arising out of (municipalities)” — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestMuni`)
+- I currently owe restitution, a fine(s) or other court-ordered financial assessment(s) — Petition for Expungement (Form A), paragraph e, delivered pages 19 and 21 (source field: `contOwe`)
+- “Original indictment/accusation/summons/warrant/complaint/FO or FJ docket number” — Petition for Expungement (Form A), paragraph e, pages 19 and 21 (source field: `oweDocket`)
+- “in the amount of $” — Petition for Expungement (Form A), paragraph e, pages 19 and 21 (source field: `oweAmt`)
+- the paragraph number for this additional arrest — Petition for Expungement, Form A – Addendum Page, page 20, which says to number each paragraph starting with 2 (source field: `cnt`)
+- “I was arrested/taken into custody on (date)” — Form A – Addendum Page, page 20 (source field: `contArrestDt`)
+- “and was charged with (name of offense(s))” — Form A – Addendum Page, page 20 (source field: `contOffense1`)
+- “and was charged with (name of offense(s))”, the second line — Form A – Addendum Page, page 20 (source field: `contOffense2`)
+- “in violation of N.J.S.A. (statute(s))” — Form A – Addendum Page, page 20 (source field: `contStatute`)
+- “arising out of (municipalities)” — Form A – Addendum Page, page 20 (source field: `contArrestMuni`)
+- “as set forth in the (original indictment/accusation/summons/warrant/complaint/docket number (include FJ and FO docket number(s) in Family Part matters))” — Form A – Addendum Page, page 20 (source field: `contOrigNums`)
+- “the charge(s) of (name of offense(s))”, the second line of item a — Form A – Addendum Page, page 20 (source field: `contDsmissOff2`)
 - County (where you are filing) (source field: `ExpungeCntyName`)
-- , (source field: `orderHearYr`)
-- an Order of (source field: `hearDay`)
-- at (source field: `hearTime`)
-- at        o'clock (source field: `hearTimeM`)
-- sigHearJdg (source field: `sigHearJdg`)
-- gradDC (source field: `gradDC`)
-- marijuana (source field: `marijuana`)
-- cleanSlate (source field: `cleanSlate`)
-- IT IS ORDERED this (source field: `orderFinalDay`)
-- The administrator(s) of the (source field: `MuniCrts`)
-- The (source field: `probDivCntys`)
-- (statute) (source field: `arrest1Statute`)
-- (statu (source field: `arrest2Dt`)
-- (statute (source field: `arrest2Statute`)
-- summons/warrant/ complaint/FJ or FO docket number) (source field: `arrest2CaseNum`)
-- (statu (source field: `arrest3Dt`)
-- (statute) — arrest/custody row 3 (source field: `arrest3Statute`)
-- summons/warrant/ complaint/FJ or FO docket number) (source field: `arrest3CaseNum`)
-- (statut (source field: `arrest4Dt`)
-- (statute) — arrest/custody row 4 (source field: `arrest4Statute`)
-- summons/warrant/ complaint/FJ or FO docket number) (source field: `arrest4CaseNum`)
-- (statu (source field: `arrest5Dt`)
-- (statute) — arrest/custody row 5 (source field: `arrest5Statute`)
-- summons/warrant/ complaint/FJ or FO docket number) (source field: `arrest5CaseNum`)
-- If applicable, including the following Family Par (source field: `fjDocketNums`)
-- jdmnt (source field: `jdmnt`)
-- jdgmntDocket1 (source field: `jdgmntDocket1`)
-- in the amount of $ (source field: `jdgmntAmt1`)
-- jdgmntDocket2 (source field: `jdgmntDocket2`)
-- in the amount of $ (source field: `jdgmntAmt2`)
-- jdgmntDocket3 (source field: `jdgmntDocket3`)
-- in the amount of $ (source field: `jdgmntAmt3`)
-- jdgmntDocket4 (source field: `jdgmntDocket4`)
-- in the amount of $ (source field: `jdgmntAmt4`)
-- sigFinalJdg (source field: `sigFinalJdg`)
-- CoverLtrDDt (source field: `CoverLtrDDt`)
-- (county) (source field: `SccCntyName`)
-- (address) (source field: `SccAddrStr`)
-- (city, state, zip code) (source field: `SccAddr2`)
-- Kit up (source field: `enc`)
-- CoverLtrEDt (source field: `CoverLtrEDt`)
-- Re: Expungement Hearing (source field: `CoverLtrEHearDt`)
-- at (source field: `CoverLtrEHearTime`)
-- Docket Number (source field: `expungDocketNum`)
-- sigNoticeDt (source field: `sigNoticeDt`)
-- Cover Letter – Notice Expungement Granted (Form G) (source field: `CoverLtrGDt`)
-- (address) (address) (source field: `ProsAddr2`)
-- County Probation (source field: `ProbCntyName`)
-- ProbAddrStr (source field: `ProbAddrStr`)
-- (address) (address) (source field: `ProbAddr2`)
-- MuniCrtsAddrStr (source field: `MuniCrtsAddrStr`)
-- (city, state, zip code) (source field: `MuniCrtsAddr2`)
-- County Probatio (source field: `Prob2CntyName`)
-- (use in Transfer Cases only) (source field: `Prob2AddrStr`)
-- (city, state, zip code) (source field: `Prob2Addr2`)
-- (name of institution for juvenile only) (source field: `IdbCnty`)
-- IdbAddrStr (source field: `IdbAddrStr`)
-- Records and Identification Unit (source field: `FamDivName`)
-- Records and Identification Unit (source field: `FamDivAddrStr`)
-- (address) (address) (source field: `FamDivAddr2`)
-- The administrator(s) of the (source field: `AdminMuniCts`)
+- “The administrator(s) of the ___ Municipal Court(s)” — Order for Hearing (Form B) page 27, Expungement Order (Form C) page 30, Proof of Notice (Form F) page 40, and the Form E and Form G cover letters, pages 37 and 42 (source field: `MuniCrts`)
+- “The ___ County(ies) Probation Division” — Order for Hearing (Form B) page 27, Expungement Order (Form C - Continued) page 31, and Proof of Notice (Form F) page 40 (source field: `probDivCntys`)
+- “(statute)”, arrest row (1) — Expungement Order (Form C - Continued), page 31 (source field: `arrest1Statute`)
+- “(date)”, arrest row (2) — Expungement Order (Form C - Continued), page 31 (source field: `arrest2Dt`)
+- “(statute)”, arrest row (2) — Expungement Order (Form C - Continued), page 31 (source field: `arrest2Statute`)
+- “under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (2) — Expungement Order (Form C - Continued), page 31 (source field: `arrest2CaseNum`)
+- “(date)”, arrest row (3) — Expungement Order (Form C - Continued), page 31 (source field: `arrest3Dt`)
+- (statute), arrest row (3) — Expungement Order (Form C - Continued), page 31 (source field: `arrest3Statute`)
+- “under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (3) — Expungement Order (Form C - Continued), page 31 (source field: `arrest3CaseNum`)
+- “(date)”, arrest row (4) — Expungement Order (Form C - Continued), page 31 (source field: `arrest4Dt`)
+- (statute), arrest row (4) — Expungement Order (Form C - Continued), page 31 (source field: `arrest4Statute`)
+- “under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (4) — Expungement Order (Form C - Continued), page 31 (source field: `arrest4CaseNum`)
+- “(date)”, arrest row (5) — Expungement Order (Form C - Continued), page 31 (source field: `arrest5Dt`)
+- (statute), arrest row (5) — Expungement Order (Form C - Continued), page 31 (source field: `arrest5Statute`)
+- “under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (5) — Expungement Order (Form C - Continued), page 31 (source field: `arrest5CaseNum`)
+- “(6) If applicable, including the following Family Part docket numbers in which I am a co-delinquent (FJ docket numbers)” — Expungement Order (Form C - Continued), page 31 (source field: `fjDocketNums`)
+- “(date)” — Cover Letter to Court – For Filing (Form D), page 35 (source field: `CoverLtrDDt`)
+- “(county)”, the court address block — Cover Letter to Court – For Filing (Form D), page 35 (source field: `SccCntyName`)
+- “(address)”, the court address block — Cover Letter to Court – For Filing (Form D), page 35 (source field: `SccAddrStr`)
+- “(city, state, zip code)”, the court address block — Cover Letter to Court – For Filing (Form D), page 35 (source field: `SccAddr2`)
+- “Enc:”, what you are enclosing — Cover Letter to Court – For Filing (Form D), page 35 (source field: `enc`)
+- “(date)” — Cover Letter – Notice of Hearing (Form E), page 37; written when Form E is mailed, which is after the signed Order for Hearing comes back (source field: `CoverLtrEDt`)
+- “(date)” — Cover Letter – Notice Expungement Granted (Form G), page 42; written when Form G is mailed, which is after the Expungement Order is signed (source field: `CoverLtrGDt`)
+- “(city, state, zip code)” under “Prosecutor,” — the Form E and Form G cover letters, pages 37 and 42 (source field: `ProsAddr2`)
+- “___ County Probation”, Original County — the Form E and Form G cover letters, pages 37 and 42 (source field: `ProbCntyName`)
+- “(address)” under “County Probation, Original County” — the Form E and Form G cover letters, pages 37 and 42 (source field: `ProbAddrStr`)
+- “(city, state, zip code)” under “County Probation, Original County” — the Form E and Form G cover letters, pages 37 and 42 (source field: `ProbAddr2`)
+- “(address)” under “Municipal Court Administrator” — the Form E and Form G cover letters, pages 37 and 42 (source field: `MuniCrtsAddrStr`)
+- “(city, state, zip code)” under “Municipal Court Administrator” — the Form E and Form G cover letters, pages 37 and 42 (source field: `MuniCrtsAddr2`)
+- “___ County Probation”, Transfer County, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42 (source field: `Prob2CntyName`)
+- “(address)” under “County Probation, Transfer County”, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42 (source field: `Prob2AddrStr`)
+- “(city, state, zip code)” under “County Probation, Transfer County”, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42 (source field: `Prob2Addr2`)
+- “___ County Identification Bureau,” — Cover Letter – Notice Expungement Granted (Form G), page 42 (source field: `IdbCnty`)
+- “(address)” under “County Identification Bureau” — Cover Letter – Notice Expungement Granted (Form G), page 42 (source field: `IdbAddrStr`)
+- “___ County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42 (source field: `FamDivName`)
+- “(address)” under “County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42 (source field: `FamDivAddrStr`)
+- “The administrator(s) of the ___ Municipal Court(s)” — Expungement Order (Form C - Continued), page 31 (source field: `AdminMuniCts`)
+
+## Participant tasks after the initial filing
+
+These fields are not prerequisites to the initial petition filing. Complete each only at the named stage, from the filed or signed court papers and the actual mailing record; never invent a docket number, hearing setting, recipient, address or mailing date.
+
+- **After the Expungement Order is signed, when addressing each applicable agency notice.** (city, state, zip code) under County Identification Bureau and under County Family Division — Cover Letter – Notice Expungement Granted (Form G), page 42; the pinned form reuses one field for both recipient blocks (source field: `FamDivAddr2`) <!-- source-stage: POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY --> — after the signed order, enter the city/state/ZIP separately for each applicable County Identification Bureau and County Family Division recipient. The source aliases those two occurrences, so do not type one digital field value into both; print and complete each applicable recipient line from the actual agency address.
 
 ## Blanks the form prints with no fill-in box
 
@@ -256,5 +243,5 @@ The committed track record at `data/record-clearing/legal-design-track-registry.
 - Immigration exposure. New Jersey expungement has no federal immigration effect.
 - Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.
 
-- The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. No clean-slate or marijuana election is made.
+- Form A item (d) is completed and marked only after the participant's court-record facts fill the entire conviction row and the governed offense-count rules establish this disorderly-persons branch. No clean-slate, marijuana, or court-owned proposed-order election is made.
 - The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused.

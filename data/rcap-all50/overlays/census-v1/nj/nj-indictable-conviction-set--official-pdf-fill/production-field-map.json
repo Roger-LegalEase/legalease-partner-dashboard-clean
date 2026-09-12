@@ -813,29 +813,10 @@
         },
         {
           "field": "guilty",
-          "decision": "refuse",
+          "decision": "measured_route_selection",
           "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "The route determines that this is a conviction track. It does not determine the sworn assertion this box makes. Marking it swears the whole of Petition for Expungement (Form A), item (d), delivered page 19, and 6 of that paragraph's 9 cells (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) have no held fact on this route, so the paragraph identifies no conviction. Which cells a particular matter fills, and whether it belongs to this item at all, is read off the participant's own court record and is a legal characterisation this packet names as a self-help stop.",
-          "electionWithdrawnWithItsRow": {
-            "row": "Petition for Expungement (Form A), item (d), delivered page 19",
-            "printed": "the election box beside “d.” — Petition for Expungement (Form A), item (d), delivered page 19",
-            "cellsWithNoHeldFact": [
-              "guiltyStatute",
-              "guiltyFinal1",
-              "guiltyTimeType",
-              "guiltyDocCmpltDt",
-              "guiltyProbDt",
-              "guiltyFineDt"
-            ],
-            "withdrawnOnEveryFixture": true
-          },
-          "identity": "NJ-CN-10557 field guilty",
-          "effectiveLabel": "the election box beside “d.” — Petition for Expungement (Form A), item (d), delivered page 19",
-          "reason": "REQUIRED_BEFORE_FILING: this box is the election for a paragraph the platform cannot write, so the build withdraws the mark with the row rather than swearing to a conviction the paragraph does not identify. The participant, with the court record and where necessary a lawyer, decides and marks it.",
+          "decisionBasis": "fact-derived CN-10557 item (d) selection; the complete conviction row and governed route predicates must authorize the mark",
+          "selectionAuthorization": "NJ_CN10557_FACT_DERIVED_CONVICTION_SELECTIONS",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -848,8 +829,7 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          ]
         },
         {
           "field": "guiltyDt",
@@ -894,7 +874,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+          "blankTreatment": "OPTIONAL_PARTICIPANT_CONTENT",
+          "effectiveLabel": "name of offense(s), continuation line if needed — Form A, item (d), delivered page 19",
+          "reason": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -908,19 +890,30 @@
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
           ],
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NJ-CN-10557 field guiltyOff2",
-          "effectiveLabel": "name of offense(s), continuation line if needed — Form A, item (d), delivered page 19",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+            "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+            "page": 19,
+            "rect": {
+              "x": 67.666,
+              "y": 557.96,
+              "width": 460.248,
+              "height": 13.768
+            },
+            "sourceText": "charges of (name of offense(s))",
+            "condition": "conviction_offense_text_requires_continuation_line"
+          }
         },
         {
           "field": "guiltyStatute",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+          "decision": "candidate_write",
+          "factId": "matter.statute_citation",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -933,20 +926,13 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "NJ-CN-10557 field guiltyStatute",
-          "effectiveLabel": "in violation of N.J.S.A. (statute(s)) — Form A, item (d), delivered page 19",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          ]
         },
         {
           "field": "guiltyFinal1",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+          "decision": "candidate_write",
+          "factId": "matter.final_sentence",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -959,20 +945,16 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "NJ-CN-10557 field guiltyFinal1",
-          "effectiveLabel": "final sentence, first line — Form A, item (d), delivered page 19",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          ]
         },
         {
           "field": "guiltyFinal2",
           "decision": "refuse",
           "factId": null,
           "refusalClass": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+          "blankTreatment": "OPTIONAL_PARTICIPANT_CONTENT",
+          "effectiveLabel": "final sentence, continuation line if needed — Form A, item (d), delivered page 19",
+          "reason": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -986,12 +968,24 @@
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
           ],
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line",
+          "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NJ-CN-10557 field guiltyFinal2",
-          "effectiveLabel": "final sentence, continuation line if needed — Form A, item (d), delivered page 19",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          "sourceOptional": {
+            "sourcePath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+            "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+            "page": 19,
+            "rect": {
+              "x": 68.155,
+              "y": 505.219,
+              "width": 470.918,
+              "height": 14.237
+            },
+            "sourceText": "(final sentence)",
+            "condition": "conviction_final_sentence_requires_continuation_line"
+          }
         },
         {
           "field": "guiltyCrt",
@@ -1014,10 +1008,14 @@
         },
         {
           "field": "guiltyTimeType",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+          "decision": "candidate_write",
+          "factId": "matter.incarceration_term_type",
+          "allowedExactValues": [
+            "jail time",
+            "prison time",
+            "incarceration time"
+          ],
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1030,20 +1028,13 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "NJ-CN-10557 field guiltyTimeType",
-          "effectiveLabel": "jail/prison/incarceration time — Form A, item (d), delivered page 19",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          ]
         },
         {
           "field": "guiltyDocCmpltDt",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+          "decision": "candidate_write",
+          "factId": "matter.incarceration_completion_date",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1056,20 +1047,13 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "NJ-CN-10557 field guiltyDocCmpltDt",
-          "effectiveLabel": "date jail/prison/incarceration was completed — Form A, item (d), delivered page 19",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          ]
         },
         {
           "field": "guiltyProbDt",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+          "decision": "candidate_write",
+          "factId": "matter.probation_completion_date",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1082,20 +1066,13 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "NJ-CN-10557 field guiltyProbDt",
-          "effectiveLabel": "date probation was completed — Form A, item (d), delivered page 19",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          ]
         },
         {
           "field": "guiltyFineDt",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+          "decision": "candidate_write",
+          "factId": "matter.fines_paid_date",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1108,13 +1085,7 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "NJ-CN-10557 field guiltyFineDt",
-          "effectiveLabel": "date fines were paid — Form A, item (d), delivered page 19",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          ]
         },
         {
           "field": "contOwe",
@@ -1979,7 +1950,7 @@
           "field": "seek5yrs",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The ordinary timing branch is established; the early compelling-circumstances box stays blank. A true or unknown predicate stops packet generation instead of asking the participant to choose a legal branch.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1994,17 +1965,20 @@
             }
           ],
           "effectiveLabel": "I am seeking an expungement pursuant to N.J.S.A. 2C:52-2(a)(2) (after four years), or pursuant to N.J.S.A. 2C:52-3(b)(2) (after three years), but less than five years have passed since my most recent conviction, payment of court-ordered financial assessment, satisfactory completion of probation or parole, or release from incarceration, whichever is later, and I have not otherwise been convicted of a crime, disorderly persons offense, or petty disorderly persons offense since the most recent conviction — Petition for Expungement (Form A), page 22",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NJ-CN-10557 field seek5yrs",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line",
+          "refusalClass": null,
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "routeConditionThatMakesItInapplicable": "The verified fixture fact nj.early_pathway_compelling_circumstances is false."
         },
         {
           "field": "seek34degree",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The controlled-dangerous-substance compelling-circumstances branch is not established; its box stays blank. A true or unknown predicate stops packet generation.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2019,17 +1993,20 @@
             }
           ],
           "effectiveLabel": "I am seeking an expungement pursuant to N.J.S.A. 2C:52-2(c)(3) of a third or fourth degree controlled dangerous substance crime — Petition for Expungement (Form A), page 22",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NJ-CN-10557 field seek34degree",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line",
+          "refusalClass": null,
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "routeConditionThatMakesItInapplicable": "The verified fixture fact nj.drug_crime_compelling_circumstances_route is false."
         },
         {
           "field": "seek5yrsDetails",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The pinned source aliases two different compelling-circumstances narratives and a name-change narrative to one AcroForm field. These fixtures establish all three branches false. The route classifier stops generation if any branch is true or unknown; it never duplicates one answer across the three occurrences.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2065,18 +2042,22 @@
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
           ],
-          "effectiveLabel": "“The compelling circumstances for the Court to grant me an expungement are as follows”, both boxes on Form A page 22, and the name-change explanation on the Verification, page 24. One form field serves all three, so one answer appears in all three places",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NJ-CN-10557 field seek5yrsDetails",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line",
+          "refusalClass": null,
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "routeConditionThatMakesItInapplicable": "The verified fixture facts establish no early compelling-circumstances branch, no drug-crime compelling-circumstances branch, and no legal name change; all three distinct occurrences aliased to this source field are inactive. If any becomes active, packet generation stops rather than repeating one narrative into unrelated paragraphs.",
+          "effectiveLabel": "Two compelling-circumstances narratives on Form A page 22 and the separate legal-name-change narrative on Verification page 24; the pinned source aliases all three occurrences to field seek5yrsDetails"
         },
         {
           "field": "seekJuvNever",
-          "decision": "refuse",
+          "decision": "measured_route_selection",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "decisionBasis": "fact-derived CN-10557 Verification item 3 selection; the governed indictable route and verified no-prior-criminal-expungement fact must authorize the mark",
+          "selectionAuthorization": "NJ_CN10557_FACT_DERIVED_CONVICTION_SELECTIONS",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2089,19 +2070,13 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "effectiveLabel": "I am seeking expungement of a conviction on a criminal case or an adjudication of delinquency on a juvenile case pursuant to N.J.S.A. 2C:52-2, and I have never been granted an expungement, sealing or similar relief regarding a criminal conviction, by any state or federal court — Verification (Form A), page 24",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "NJ-CN-10557 field seekJuvNever",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          ]
         },
         {
           "field": "changeName",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The participant has not legally changed their name, so this checkbox stays blank. A true or unknown fact stops generation because the source aliases its narrative field to unrelated paragraphs.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2116,11 +2091,14 @@
             }
           ],
           "effectiveLabel": "I have legally changed my name. I have explained the details of my name change(s) below, included my previous legal name(s), and the date of the court order for the name change(s) — Verification (Form A), page 24",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NJ-CN-10557 field changeName",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line",
+          "refusalClass": null,
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "routeConditionThatMakesItInapplicable": "The verified fixture fact participant.has_legal_name_change is false."
         },
         {
           "field": "notaryDay",
@@ -4909,7 +4887,7 @@
           "field": "FamDivAddr2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "PARTICIPANT_LATER_COMPLETION: after the signed order, enter the city/state/ZIP separately for each applicable County Identification Bureau and County Family Division recipient. The source aliases those two occurrences, so do not type one digital field value into both; print and complete each applicable recipient line from the actual agency address.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4934,12 +4912,31 @@
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
           ],
-          "effectiveLabel": "“(city, state, zip code)” under “County Identification Bureau” and under “County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42; one form field serves both blocks, so one value appears in both",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "PARTICIPANT_LATER_COMPLETION",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NJ-CN-10557 field FamDivAddr2",
-          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NJ-CN-10557; the geometric capture reached a different printed line",
+          "aliasedOccurrencesRequireSeparateHandCompletion": true,
+          "refusalClass": null,
+          "completenessDisposition": "PARTICIPANT_LATER_COMPLETION",
+          "requiredBeforeInitialFiling": false,
+          "participantOwnedCompletion": true,
+          "completionStage": "POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY",
+          "completesAfterService": true,
+          "sourceStage": {
+            "kind": "participant_later_completion",
+            "familyId": "nj_indictable_conviction-set",
+            "documentId": "NJ-CN-10557",
+            "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+            "field": "FamDivAddr2",
+            "actor": "participant",
+            "trigger": "POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY",
+            "instructionPages": [
+              41
+            ]
+          },
+          "effectiveLabel": "(city, state, zip code) under County Identification Bureau and under County Family Division — Cover Letter – Notice Expungement Granted (Form G), page 42; the pinned form reuses one field for both recipient blocks"
         },
         {
           "field": "ExpungeDocketNum",

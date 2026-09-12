@@ -32,6 +32,12 @@ import {
   NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY,
   njParticipantLaterCompletionSourceStage,
 } from "./rcap-packet-completeness/nj-participant-later-completion.mjs";
+import {
+  assertNjCn10557ConvictionPacketAuthorized,
+  classifyNjCn10557ConvictionRoute,
+  NJ_CN10557_CONVICTION_ROW_MAPPINGS,
+  njCn10557RequiredFactIds,
+} from "./lib/nj-cn10557-conviction-route.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
@@ -210,6 +216,7 @@ async function writeContactSheet(rasterRows, output) {
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const FIXCXN1_PUBLICATION_FAMILY_IDS = new Set([
   "nj_clean_slate-set",
+  "nj_disorderly_persons-set",
   "nj_ordinance-set",
   "nj_indictable_conviction-set",
 ]);
@@ -324,6 +331,48 @@ function factsForJurisdiction(jurisdiction, boundary = false) {
  */
 function familyFacts(config, boundary = false) {
   const facts = factsForJurisdiction(config.jurisdiction, boundary);
+  if (config.fixtureProfile === "nj_cn10557_conviction_facts") {
+    const disorderly = config.familyId === "nj_disorderly_persons-set";
+    assert.ok(disorderly || config.familyId === "nj_indictable_conviction-set",
+      `${config.familyId}: NJ conviction fixture profile is outside its two-family scope`);
+    Object.assign(facts, {
+      "fixture.synthetic": true,
+      "fixture.synthetic_notice": "All names and case facts in this fixture are synthetic review examples.",
+      "matter.charge": disorderly
+        ? (boundary ? "Disorderly conduct, synthetic boundary example" : "Disorderly conduct")
+        : (boundary ? "Third-degree theft, synthetic boundary example" : "Third-degree theft"),
+      "matter.statute_citation": disorderly ? "2C:33-2" : "2C:20-3",
+      "matter.final_sentence": "10 days jail; 12 months probation; $250 fine",
+      "matter.court": disorderly ? "Municipal" : "Superior",
+      "matter.conviction_date": "2020-04-17",
+      "matter.incarceration_term_type": "jail time",
+      "matter.incarceration_completion_date": "2020-04-27",
+      "matter.probation_completion_date": "2021-04-17",
+      "matter.fines_paid_date": "2021-05-03",
+      "nj.disposition_kind": "convicted_or_adjudicated_delinquent",
+      "nj.pending_charges": false,
+      "nj.prior_criminal_conviction_expungement": false,
+      "nj.includes_title_39_matter": false,
+      "nj.marijuana_regrading_applies": false,
+      "nj.early_pathway_compelling_circumstances": false,
+      "participant.has_legal_name_change": false,
+      ...(disorderly ? {
+        "nj.any_crime_conviction": false,
+        "nj.disorderly_or_petty_count": 1,
+        "nj.convictions_entered_same_day": false,
+        "nj.convictions_closely_related": false,
+      } : {
+        "nj.indictable_conviction_count": 1,
+        "nj.disorderly_or_petty_count": 0,
+        "nj.subsequent_crime_conviction": false,
+        "nj.convictions_single_judgment_or_same_day": false,
+        "nj.convictions_closely_related": false,
+        "nj.drug_crime_compelling_circumstances_route": false,
+      }),
+    });
+    const classification = assertNjCn10557ConvictionPacketAuthorized(config.familyId, facts);
+    facts["nj.cn10557_item_d_branch"] = classification.branch;
+  }
   /*
    * PF26/PA-VF62-S1 and PA-VF62-03. The shared fixture seed is intentionally
    * generic because most families use it only to exercise layout. PA 6308 is
@@ -704,12 +753,25 @@ function readableCaption(label) {
 const OUTPUT_GLYPH_READING_FAMILIES = new Set([
   "pa_6308_underage-set",
   "nj_ordinance-set",
+  "nj_disorderly_persons-set",
+  "nj_indictable_conviction-set",
+]);
+
+const OUTPUT_GLYPH_VISUAL_PENDING_FAMILIES = new Set([
+  "nj_disorderly_persons-set",
+  "nj_indictable_conviction-set",
 ]);
 
 /** Reads the two glyph readings from produced bytes, or null when not enabled. */
 async function outputGlyphReadingFor(familyId, outputBytes, sourceBytes = null) {
   if (!OUTPUT_GLYPH_READING_FAMILIES.has(familyId)) return null;
-  return readOutputGlyphs(outputBytes, { sourceBytes });
+  /* These changed NJ bytes need a fresh central visual pass. Their flattened
+   * output streams are still sufficient to measure whether reported values
+   * produced glyphs, but they intentionally do not publish source-placement
+   * geometry as visual acceptance. */
+  return readOutputGlyphs(outputBytes, {
+    sourceBytes: OUTPUT_GLYPH_VISUAL_PENDING_FAMILIES.has(familyId) ? null : sourceBytes,
+  });
 }
 
 const FAMILY = {};
@@ -957,13 +1019,36 @@ const NJ_CONVICTION_BLANK_DECLARATIONS = Object.freeze(Object.fromEntries([
   ["guiltyDocCmpltDt", "date jail/prison/incarceration was completed"],
   ["guiltyProbDt", "date probation was completed"],
   ["guiltyFineDt", "date fines were paid"],
-].map(([field, caption]) => [field, {
-  blankTreatment: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true,
-  refusalClass: null, routeDetermined: false,
-  identity: `NJ-CN-10557 field ${field}`,
-  effectiveLabel: `${caption} — Form A, item (d), delivered page 19`,
-  reason: "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
-}])));
+].map(([field, caption]) => {
+  const optionalContinuation = field === "guiltyOff2" || field === "guiltyFinal2";
+  return [field, {
+    blankTreatment: optionalContinuation ? "OPTIONAL_PARTICIPANT_CONTENT" : "REQUIRED_BEFORE_FILING",
+    ...(optionalContinuation ? { completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT" } : {}),
+    requiredBeforeFiling: !optionalContinuation,
+    refusalClass: null, routeDetermined: false,
+    identity: `NJ-CN-10557 field ${field}`,
+    effectiveLabel: `${caption} — Form A, item (d), delivered page 19`,
+    ...(optionalContinuation ? {
+      sourceOptional: {
+        sourcePath: "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/"
+          + NJ_SOURCE.pathInArchive,
+        sourceSha256: NJ_SOURCE.sha256,
+        page: 19,
+        rect: field === "guiltyOff2"
+          ? { x: 67.666, y: 557.96, width: 460.248, height: 13.768 }
+          : { x: 68.155, y: 505.219, width: 470.918, height: 14.237 },
+        sourceText: field === "guiltyOff2"
+          ? "charges of (name of offense(s))" : "(final sentence)",
+        condition: field === "guiltyOff2"
+          ? "conviction_offense_text_requires_continuation_line"
+          : "conviction_final_sentence_requires_continuation_line",
+      },
+      reason: "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text.",
+    } : {
+      reason: "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+    }),
+  }];
+})));
 
 // One source field serves two legally different paragraphs. Only its page-18
 // widget answers this route's ordinary dismissal fact; page 19 is a diversion
@@ -2013,10 +2098,12 @@ Object.assign(FAMILY, {
   ),
   "nj_disorderly_persons-set": njFamily(
     "obligation:track-pathway:NJ:nj_disorderly_persons:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
-    ["guilty"], { guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge",
-      guiltyCrt: "matter.court" },
-    "The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. No clean-slate or marijuana election is made.",
+    ["guilty"], NJ_CN10557_CONVICTION_ROW_MAPPINGS,
+    "Form A item (d) is completed and marked only after the participant's court-record facts fill the entire conviction row and the governed offense-count rules establish this disorderly-persons branch. No clean-slate, marijuana, or court-owned proposed-order election is made.",
     {
+      familyId: "nj_disorderly_persons-set",
+      fixtureProfile: "nj_cn10557_conviction_facts",
+      participantRouteName: "New Jersey disorderly-persons conviction petition",
       unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       registryGuidance: {
         trackId: "nj_disorderly_persons",
@@ -2081,17 +2168,22 @@ Object.assign(FAMILY, {
     {
       fitTextPerWidget: true,
       deny: ["ExpungeCntyName"],
-      // The existing FIX13 entrypoint owns these installed conviction-blank
-      // disclosures. Preserve them so rebuild and --check read the same map.
+      selectionAuthorization: "NJ_CN10557_FACT_DERIVED_CONVICTION_SELECTIONS",
+      exactDropdownValues: {
+        guiltyTimeType: ["jail time", "prison time", "incarceration time"],
+      },
+      declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
       repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
   ),
   "nj_indictable_conviction-set": njFamily(
-    "obligation:track-only:NJ:nj_indictable_conviction", ["guilty"], {
-      guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge", guiltyCrt: "matter.court",
-    },
-    "The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. Degree and statutory eligibility remain unselected.",
+    "obligation:track-only:NJ:nj_indictable_conviction", ["guilty", "seekJuvNever"],
+    NJ_CN10557_CONVICTION_ROW_MAPPINGS,
+    "Form A item (d) is completed and marked only after the participant's court-record facts fill the entire conviction row and the governed conviction-count rules establish an indictable-conviction branch. Compelling-circumstances, drug-crime, and court-owned proposed-order elections remain unselected.",
     {
+      familyId: "nj_indictable_conviction-set",
+      fixtureProfile: "nj_cn10557_conviction_facts",
+      participantRouteName: "New Jersey indictable-conviction petition",
       unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       /*
        * FIX76, COMPONENT_SET. The route declares nine components. This family
@@ -2151,6 +2243,10 @@ Object.assign(FAMILY, {
        * nothing; this is that setting, not a new one.
        */
       fitTextPerWidget: true,
+      selectionAuthorization: "NJ_CN10557_FACT_DERIVED_CONVICTION_SELECTIONS",
+      exactDropdownValues: {
+        guiltyTimeType: ["jail time", "prison time", "incarceration time"],
+      },
       declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
       repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
@@ -3005,7 +3101,7 @@ Object.assign(FAMILY, {
  * already carry the row and blank declarations.
  */
 const FIX175_NJ_FAMILY_IDS = Object.freeze([
-  "nj_clean_slate-set", "nj_ordinance-set", "nj_indictable_conviction-set",
+  "nj_clean_slate-set", "nj_disorderly_persons-set", "nj_ordinance-set", "nj_indictable_conviction-set",
 ]);
 const NJ_KIT_PRINTED_CAPTIONS = FAMILY["nj_arrest_no_conviction-set"].documents[0].captions;
 const NJ_CONVICTION_PRINTED_CAPTIONS = Object.freeze(Object.fromEntries([
@@ -3155,8 +3251,9 @@ const njParticipantRequirement = (effectiveLabel, reason, extra = {}) => Object.
   ...extra,
 });
 
-const njParticipantLaterCompletion = (field, effectiveLabel, reason, extra = {}) => {
-  const sourceStage = njParticipantLaterCompletionSourceStage(field);
+const njParticipantLaterCompletion = (field, effectiveLabel, reason, extra = {},
+  sourceFamilyId = "nj_ordinance-set") => {
+  const sourceStage = njParticipantLaterCompletionSourceStage(field, sourceFamilyId);
   const expected = NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY[field];
   assert.ok(expected, `${field}: no closed NJ participant later-completion source-stage entry`);
   return Object.freeze({
@@ -3295,6 +3392,55 @@ for (const familyId of FIX175_NJ_FAMILY_IDS) {
     doc.repeatingRowGroups = [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW,
       NJ_PETITION_CONVICTION_ROW];
   }
+  if (familyId === "nj_disorderly_persons-set" || familyId === "nj_indictable_conviction-set") {
+    const isIndictable = familyId === "nj_indictable_conviction-set";
+    const routeNotApplicable = (effectiveLabel, routeConditionThatMakesItInapplicable, reason) => ({
+      refusalClass: null,
+      blankTreatment: "NOT_APPLICABLE_ON_THIS_ROUTE",
+      completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+      requiredBeforeFiling: false,
+      routeDetermined: false,
+      routeConditionThatMakesItInapplicable,
+      effectiveLabel,
+      reason,
+    });
+    doc.declarations = {
+      ...doc.declarations,
+      seek5yrs: routeNotApplicable(
+        NJ_FIX175_EXTRA_PRINTED_CAPTIONS.seek5yrs,
+        "The verified fixture fact nj.early_pathway_compelling_circumstances is false.",
+        "The ordinary timing branch is established; the early compelling-circumstances box stays blank. A true or unknown predicate stops packet generation instead of asking the participant to choose a legal branch."),
+      seek34degree: routeNotApplicable(
+        NJ_FIX175_EXTRA_PRINTED_CAPTIONS.seek34degree,
+        "The verified fixture fact nj.drug_crime_compelling_circumstances_route is false.",
+        "The controlled-dangerous-substance compelling-circumstances branch is not established; its box stays blank. A true or unknown predicate stops packet generation."),
+      ...(!isIndictable ? {
+        seekJuvNever: routeNotApplicable(
+          NJ_FIX175_EXTRA_PRINTED_CAPTIONS.seekJuvNever,
+          "This disorderly-persons-only route is governed by N.J.S.A. 2C:52-3, while this checkbox expressly applies to a 2C:52-2 criminal-conviction or juvenile-adjudication petition.",
+          "The checkbox's printed 2C:52-2 condition is false on this disorderly-persons route, so it remains blank."),
+      } : {}),
+      changeName: routeNotApplicable(
+        NJ_FIX175_EXTRA_PRINTED_CAPTIONS.changeName,
+        "The verified fixture fact participant.has_legal_name_change is false.",
+        "The participant has not legally changed their name, so this checkbox stays blank. A true or unknown fact stops generation because the source aliases its narrative field to unrelated paragraphs."),
+      seek5yrsDetails: {
+        refusalClass: null,
+        blankTreatment: "NOT_APPLICABLE_ON_THIS_ROUTE",
+        completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+        requiredBeforeFiling: false,
+        routeDetermined: false,
+        routeConditionThatMakesItInapplicable:
+          "The verified fixture facts establish no early compelling-circumstances branch, no drug-crime compelling-circumstances branch, and no legal name change; all three distinct occurrences aliased to this source field are inactive. If any becomes active, packet generation stops rather than repeating one narrative into unrelated paragraphs.",
+        effectiveLabel: "Two compelling-circumstances narratives on Form A page 22 and the separate legal-name-change narrative on Verification page 24; the pinned source aliases all three occurrences to field seek5yrsDetails",
+        reason: "The pinned source aliases two different compelling-circumstances narratives and a name-change narrative to one AcroForm field. These fixtures establish all three branches false. The route classifier stops generation if any branch is true or unknown; it never duplicates one answer across the three occurrences.",
+      },
+      FamDivAddr2: njParticipantLaterCompletion("FamDivAddr2",
+        "(city, state, zip code) under County Identification Bureau and under County Family Division — Cover Letter – Notice Expungement Granted (Form G), page 42; the pinned form reuses one field for both recipient blocks",
+        "after the signed order, enter the city/state/ZIP separately for each applicable County Identification Bureau and County Family Division recipient. The source aliases those two occurrences, so do not type one digital field value into both; print and complete each applicable recipient line from the actual agency address.",
+        { aliasedOccurrencesRequireSeparateHandCompletion: true }, familyId),
+    };
+  }
 }
 {
   const ordinance = FAMILY["nj_ordinance-set"];
@@ -3415,17 +3561,19 @@ async function selfTestFix88() {
     assert.ok(participantInstructions(FAMILY[id], []).includes("date verified from the court record"));
     assert.ok(config.repeatingRowGroups.includes(NJ_PETITION_CONVICTION_ROW));
     const mappings = factMappingsForDocument(config);
-    // FIX13 owns disorderly's installed declarations. Exercise the same
-    // installed-map preservation and declaration precedence as build/check.
-    const installed = id === "nj_disorderly_persons-set"
-      ? installedRefusalRows(readJson(`${officialOut(id, FAMILY[id].jurisdiction)}/production-field-map.json`))
-      : new Map();
+    const installed = new Map();
     for (const name of ["guiltyStatute", "guiltyFinal1", "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"]) {
-      assert.equal(mappings[name], undefined, `${id}/${name}: no invented case fact`);
       const [row] = fieldMapFor(config, { fields: [{ name, widgets: [] }] }, installed);
-      assert.equal(row.decision, "refuse", `${id}/${name}: withheld until verified`);
-      assert.equal(row.factId, null, `${id}/${name}: no invented case fact`);
-      assert.equal(row.requiredBeforeFiling, true, `${id}/${name}: disclosed requirement survives rebuild`);
+      if (id === "nj_ordinance-set") {
+        assert.equal(mappings[name], undefined, `${id}/${name}: no invented case fact`);
+        assert.equal(row.decision, "refuse", `${id}/${name}: withheld until verified`);
+        assert.equal(row.factId, null, `${id}/${name}: no invented case fact`);
+        assert.equal(row.requiredBeforeFiling, true, `${id}/${name}: disclosed requirement survives rebuild`);
+      } else {
+        assert.ok(mappings[name], `${id}/${name}: complete synthetic route fixture must map the fact`);
+        assert.equal(row.decision, "candidate_write", `${id}/${name}: verified fact must be written`);
+        assert.equal(row.factId, mappings[name]);
+      }
     }
   }
   assert.equal(FAMILY["nj_clean_slate-set"].documents[0].exactWidgetBindings, undefined);
@@ -3966,6 +4114,8 @@ function fieldMapFor(doc, census, installed = new Map()) {
           binding.allWidgets, `${doc.documentId}/${field.name}: exact widget binding drift`);
       }
       return { field: field.name, decision: "candidate_write", factId,
+        ...(doc.exactDropdownValues?.[field.name]
+          ? { allowedExactValues: doc.exactDropdownValues[field.name] } : {}),
         ...(binding ? { writableWidgetIndexes: binding.writableWidgetIndexes,
           widgetBindingReason: binding.reason } : {}),
         decisionBasis: Object.hasOwn(sharedMappings, field.name)
@@ -4048,7 +4198,12 @@ function fieldMapFor(doc, census, installed = new Map()) {
           widgets: field.widgets });
       }
       return { field: field.name, decision: "measured_route_selection", factId: null,
-        decisionBasis: "route-specific election drawn only inside an existing measured widget",
+        decisionBasis: doc.selectionAuthorization === "NJ_CN10557_FACT_DERIVED_CONVICTION_SELECTIONS"
+          ? field.name === "guilty"
+            ? "fact-derived CN-10557 item (d) selection; the complete conviction row and governed route predicates must authorize the mark"
+            : "fact-derived CN-10557 Verification item 3 selection; the governed indictable route and verified no-prior-criminal-expungement fact must authorize the mark"
+          : "route-specific election drawn only inside an existing measured widget",
+        ...(doc.selectionAuthorization ? { selectionAuthorization: doc.selectionAuthorization } : {}),
         widgets: field.widgets };
     }
     const installedRow = installed.get(`${doc.documentId}::${field.name}`);
@@ -4195,7 +4350,8 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
   for (const mapping of pending) {
     const field = census.find((row) => row.name === mapping.field);
     assert.ok(field, `${mapping.field}: exact mapped field is absent from the first-hand census`);
-    if (field.type !== "text") {
+    const exactDropdown = field.type === "dropdown" && Array.isArray(mapping.allowedExactValues);
+    if (field.type !== "text" && !exactDropdown) {
       refused.push({ field: mapping.field, factId: mapping.factId,
         reason: "exact_mapping_requires_text_field" });
       continue;
@@ -4204,6 +4360,11 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
     if (value == null || String(value).trim() === "") {
       refused.push({ field: mapping.field, factId: mapping.factId,
         reason: "no_value_for_exact_mapping" });
+      continue;
+    }
+    if (exactDropdown && !mapping.allowedExactValues.includes(String(value))) {
+      refused.push({ field: mapping.field, factId: mapping.factId,
+        reason: "exact_dropdown_value_not_in_governed_source_options" });
       continue;
     }
     const writableWidgets = mapping.writableWidgetIndexes
@@ -5671,10 +5832,13 @@ const NJ_ORDINANCE_STAGE_LABELS = Object.freeze({
   NOTICE_OF_HEARING_MAILING: "When mailing the Notice of Hearing package",
   AFTER_NOTICE_SERVICE_PROOF: "After notice is mailed, when preparing proof",
   POST_ORDER_SERVICE: "After the Expungement Order is signed, when mailing the order",
+  POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY:
+    "After the Expungement Order is signed, when addressing each applicable agency notice",
 });
 
 function njOrdinanceStageSections(config, fieldMaps) {
-  if (config.njOrdinanceCompleteSemantics !== true) return null;
+  if (config.njOrdinanceCompleteSemantics !== true
+    && config.fixtureProfile !== "nj_cn10557_conviction_facts") return null;
   const fields = fieldMaps.flatMap((document) => document.fields);
   const electionNames = new Set(config.conditionalParticipantElectionFields ?? []);
   const initial = fields.filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING"
@@ -5696,8 +5860,9 @@ function njOrdinanceStageSections(config, fieldMaps) {
   }).join("\n");
   return {
     initial: sourceFieldList(initial),
-    elections: `\n## Conditional participant elections left unmarked\n\n`
-      + `These are decisions for the participant based on verified case facts. A blank box is not a held answer and is not an instruction to copy a value. Do not mark any box merely because this is the ordinance packet family.\n\n${electionRows}\n`,
+    elections: elections.length ? `\n## Conditional participant elections left unmarked\n\n`
+      + `These are decisions for the participant based on verified case facts. A blank box is not a held answer and is not an instruction to copy a value. Do not mark any box merely because this is the ordinance packet family.\n\n${electionRows}\n`
+      : "",
     later: `\n## Participant tasks after the initial filing\n\n`
       + `These fields are not prerequisites to the initial petition filing. Complete each only at the named stage, from the filed or signed court papers and the actual mailing record; never invent a docket number, hearing setting, recipient, address or mailing date.\n\n${laterRows}\n`,
   };
@@ -5711,7 +5876,9 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   // recorded in reports/actual-writes.json, and disclosed to the participant
   // nowhere. Rendering it is opt-in, so no other guided family moves a byte.
   if (config.guidance) return guidedParticipantInstructions(config, fieldMaps, heldButNotPrinted);
-  const routeLines = config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
+  const routeLines = config.participantRouteName
+    ? `- Packet route: **${config.participantRouteName}**`
+    : config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
   const notes = (config.notes ?? []).map((note) => `- ${note}`).join("\n");
   const fees = feeAndWaiverSection(config);
   const whereToFile = filingDestinationSection(config);
@@ -5726,6 +5893,7 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   const selfHelpEnds = `${selfHelpStopSection(config)}${registrySelfHelpStopSection(config)}`;
   const confirmBeforeFiling = confirmBeforeFilingLine(config);
   const stageSections = njOrdinanceStageSections(config, fieldMaps);
+  const convictionRouteFacts = njCn10557ConvictionFactsSection(config);
   const requiredBeforeFiling = stageSections?.initial ?? sourceFieldList(fieldMaps.flatMap((document) => document.fields)
     .filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING"));
   const actorLine = config.njOrdinanceCompleteSemantics === true
@@ -5738,7 +5906,9 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   return `# Participant and reviewer instructions\n\n`
     + `These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\n\n`
     + `${routeLines}\n\n## Required participant/local completion\n\n`
-    + `- Review every page, choose only legally applicable elections, and complete every required signature and date yourself.\n`
+    + (config.fixtureProfile === "nj_cn10557_conviction_facts"
+      ? `- Review the complete court-record facts and the fact-derived item (d) mark. Do not add another disposition or eligibility selection unless your verified record and the form instructions require it.\n`
+      : `- Review every page, choose only legally applicable elections, and complete every required signature and date yourself.\n`)
     + `- Complete service certificates only after service actually occurs.\n`
     + (config.governedPa6308Requirements
       ? `- Historical judge, court-address, and affiant information is copied from the participant's old case record. Future judicial rulings, judicial dates and signatures remain for the court.\n`
@@ -5750,12 +5920,27 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
     + whoIsServed
     + heldButNotPrintedSection(heldButNotPrinted)
     + registryGuidanceSections(config)
+    + convictionRouteFacts
     + (stageSections?.elections ?? "")
     + requiredBeforeFilingSection
     + (stageSections?.later ?? "")
     + unwidgetedBlanksSection(config)
     + selfHelpEnds
     + `${notes}\n`;
+}
+
+function njCn10557ConvictionFactsSection(config) {
+  if (config.fixtureProfile !== "nj_cn10557_conviction_facts") return "";
+  const registry = readJson("data/record-clearing/legal-design-track-registry.json");
+  const trackId = config.familyId === "nj_disorderly_persons-set"
+    ? "nj_disorderly_persons" : "nj_indictable_conviction";
+  const track = registry.tracks.find((row) => row.trackId === trackId);
+  assert.ok(track, `${config.familyId}: governed track is absent`);
+  const questions = track.generationRequirements.map((row) => `- ${row.question}`).join("\n");
+  return `\n## Facts that control this packet route\n\n`
+    + `You do not choose a legal route or diagnose which statutory branch applies. Supply and verify the factual answers below from the SBI history and court records. The rules engine uses those facts to decide whether Form A item (d) is supported. If an answer is missing, inconsistent, or reaches a self-help stop, packet generation stops without marking the box.\n\n`
+    + `${questions}\n\n`
+    + `Item (d) is marked only when all nine cells in its conviction paragraph can be completed from the same verified matter. The generated canonical and boundary examples use clearly synthetic case facts to test that rule; they are not participant answers or an eligibility finding.\n`;
 }
 
 /*
@@ -6091,8 +6276,10 @@ async function buildOfficialUnsafe(familyId, config) {
   const noRaster = config.noLocalRaster === true;
   assert.ok(!noRaster || (familyId === "nj_clean_slate-set" && !(config.supplementalDocuments ?? []).length)
     || (familyId === "nj_ordinance-set" && config.metadataOnlyRepairPreservesPdfBytes === true)
+    || familyId === "nj_disorderly_persons-set"
+    || familyId === "nj_indictable_conviction-set"
     || familyId === "pa_6308_underage-set",
-  "Nonvisual build is scoped to NJ clean slate, the NJ ordinance metadata repair, and the PF26 PA 6308 repair");
+  "Nonvisual build is scoped to the authorized NJ repairs and the PF26 PA 6308 repair");
   const out = officialOut(familyId, config.jurisdiction);
   // Read what a repair lane installed on this family BEFORE the reset clears
   // it: the completeness classifications on the prior field map (carried
@@ -6102,6 +6289,14 @@ async function buildOfficialUnsafe(familyId, config) {
   const priorMapFile = abs(`${out}/production-field-map.json`);
   const installed = installedRefusalRows(
     fs.existsSync(priorMapFile) ? JSON.parse(fs.readFileSync(priorMapFile, "utf8")) : null);
+  if (config.fixtureProfile === "nj_cn10557_conviction_facts") {
+    /* FIX13's wrapper once promoted the two continuation lines to mandatory.
+     * The printed source makes them conditional on needing more room. Do not
+     * let that stale installed classification outrank the current declaration. */
+    for (const field of ["guiltyOff2", "guiltyFinal2"]) {
+      installed.delete(`NJ-CN-10557::${field}`);
+    }
+  }
   const priorRenderedFile = abs(`${out}/reports/rendered-artifacts.json`);
   const installedRendered = config.metadataOnlyRepairPreservesPdfBytes === true
     && fs.existsSync(priorRenderedFile)
@@ -6647,6 +6842,42 @@ async function buildOfficialUnsafe(familyId, config) {
       proof: row.proof,
     })),
   });
+  if (config.fixtureProfile === "nj_cn10557_conviction_facts") {
+    const fixtureClassifications = ["canonical", "boundary"].map((fixture) => {
+      const facts = familyFacts(config, fixture === "boundary");
+      const result = classifyNjCn10557ConvictionRoute(familyId, facts);
+      assert.equal(result.state, "CN10557_ITEM_D_FACTUALLY_SUPPORTED");
+      return {
+        fixture,
+        synthetic: facts["fixture.synthetic"] === true,
+        branch: result.branch,
+        authorizedSelections: result.authorizedSelections,
+        aliasedNarrativeBranchesInactive: {
+          earlyCompellingCircumstances:
+            facts["nj.early_pathway_compelling_circumstances"] === false,
+          drugCrimeCompellingCircumstances:
+            facts["nj.drug_crime_compelling_circumstances_route"] !== true,
+          legalNameChange: facts["participant.has_legal_name_change"] === false,
+        },
+        allRequiredFactsPresent: njCn10557RequiredFactIds(familyId)
+          .every((factId) => facts[factId] !== undefined && facts[factId] !== null && facts[factId] !== ""),
+      };
+    });
+    writeJson(`${out}/reports/route-fact-classification.json`, {
+      schemaVersion: "rcap-nj-cn10557-route-fact-classification/v1",
+      familyId,
+      bindingDecision: familyId === "nj_disorderly_persons-set"
+        ? "NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION"
+        : "NJ-INDICTABLE-FACTS-NOT-LEGAL-ELECTION",
+      factualPredicates: njCn10557RequiredFactIds(familyId),
+      missingOrUnsupportedTreatment: "STOP_NO_PACKET_AND_NO_ELECTION",
+      selectionControlledBy: "scripts/lib/nj-cn10557-conviction-route.mjs",
+      fixtures: fixtureClassifications,
+      participantAnswersInvented: false,
+      commercialAuthority: false,
+      runtimeSelectable: false,
+    });
+  }
   const componentDelivery = manifestComponentDelivery(familyId, config);
   writeJson(`${out}/reports/rendered-artifacts.json`, {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId,
@@ -6900,6 +7131,18 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     "reports/actual-writes.json", "reports/rendered-artifacts.json", "build-findings.json",
     "approval-request.json", "participant-instructions.md"];
   for (const file of required) assert.ok(fs.existsSync(abs(`${out}/${file}`)), `${familyId}: missing ${file}`);
+  if (config.fixtureProfile === "nj_cn10557_conviction_facts") {
+    const routeFacts = readJson(`${out}/reports/route-fact-classification.json`);
+    assert.equal(routeFacts.familyId, familyId);
+    assert.equal(routeFacts.missingOrUnsupportedTreatment, "STOP_NO_PACKET_AND_NO_ELECTION");
+    assert.equal(routeFacts.fixtures.length, 2);
+    assert.ok(routeFacts.fixtures.every((row) => row.synthetic === true
+      && row.allRequiredFactsPresent === true
+      && row.authorizedSelections.join(",") === (familyId === "nj_indictable_conviction-set"
+        ? "guilty,seekJuvNever" : "guilty")
+      && Object.values(row.aliasedNarrativeBranchesInactive).every(Boolean)));
+    assertFailClosedEvidence(routeFacts, `${familyId}/route-fact-classification`);
+  }
   if (config.routeVehicle) {
     for (const file of ["route-vehicle-map.json", "packet-component-specification.json"]) {
       assert.ok(fs.existsSync(abs(`${out}/${file}`)), `${familyId}: missing ${file}`);
@@ -7015,7 +7258,8 @@ async function checkOfficial(familyId, config, { replayRaster = true } = {}) {
     const raster = rendered.rasters.find((row) => row.sourcePdf === pdf.file);
     assert.ok(raster, `${pdf.file}: raster record absent`);
     if (raster.status === "RASTER_PENDING") {
-      assert.ok(familyId === "nj_clean_slate-set" || familyId === "nj_ordinance-set"
+      assert.ok(familyId === "nj_clean_slate-set" || familyId === "nj_disorderly_persons-set"
+        || familyId === "nj_indictable_conviction-set" || familyId === "nj_ordinance-set"
         || familyId === "pa_6308_underage-set");
       assert.equal(replayRaster, false, "Pending central raster cannot satisfy a visual check");
       assert.equal(raster.sourcePdfSha256, pdf.sha256);
@@ -8505,18 +8749,22 @@ async function checkPa6308Stop() {
 
 export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
   const nonvisual = argv.includes("--check-nonvisual");
-  if (familyId === "nj_clean_slate-set" || familyId === "nj_ordinance-set") {
+  if (["nj_clean_slate-set", "nj_disorderly_persons-set", "nj_indictable_conviction-set", "nj_ordinance-set"].includes(familyId)) {
     const allowed = new Set(["--check", "--check-nonvisual", "--no-raster", "--self-test", "--self-test-fix88"]);
     assert.ok(argv.every((arg) => allowed.has(arg)), `Unsupported ${familyId} argument: ${argv.filter((arg) => !allowed.has(arg)).join(", ")}`);
     assert.ok(argv.length <= 1, `${familyId} accepts exactly one execution mode`);
     assert.ok(argv.length > 0 || process.env.RCAP_NO_LOCAL_RASTER !== "1", `${familyId} build prohibited while local raster is disabled`);
   }
   assert.ok(!argv.includes("--no-raster") || familyId === "nj_clean_slate-set"
+    || familyId === "nj_disorderly_persons-set"
+    || familyId === "nj_indictable_conviction-set"
     || familyId === "nj_ordinance-set"
-    || familyId === "pa_6308_underage-set", "Nonvisual build is supported only for NJ clean slate, NJ ordinance, and PA 6308");
+    || familyId === "pa_6308_underage-set", "Nonvisual build is supported only for authorized NJ repairs and PA 6308");
   assert.ok(!nonvisual || familyId === "nj_clean_slate-set"
+    || familyId === "nj_disorderly_persons-set"
+    || familyId === "nj_indictable_conviction-set"
     || familyId === "nj_ordinance-set"
-    || familyId === "pa_6308_underage-set", "Nonvisual check is supported only for NJ clean slate, NJ ordinance, and PA 6308");
+    || familyId === "pa_6308_underage-set", "Nonvisual check is supported only for authorized NJ repairs and PA 6308");
   if (argv.includes("--self-test-fix88")) { await selfTestFix88(); return; }
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
   const check = argv.includes("--check");

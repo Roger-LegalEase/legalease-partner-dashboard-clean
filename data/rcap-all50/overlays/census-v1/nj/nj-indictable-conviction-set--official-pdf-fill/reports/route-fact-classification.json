@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-nj-cn10557-route-fact-classification/v1",
+  "familyId": "nj_indictable_conviction-set",
+  "bindingDecision": "NJ-INDICTABLE-FACTS-NOT-LEGAL-ELECTION",
+  "factualPredicates": [
+    "matter.conviction_date",
+    "matter.charge",
+    "matter.statute_citation",
+    "matter.final_sentence",
+    "matter.court",
+    "matter.incarceration_term_type",
+    "matter.incarceration_completion_date",
+    "matter.probation_completion_date",
+    "matter.fines_paid_date",
+    "nj.disposition_kind",
+    "nj.pending_charges",
+    "nj.prior_criminal_conviction_expungement",
+    "nj.includes_title_39_matter",
+    "nj.marijuana_regrading_applies",
+    "nj.early_pathway_compelling_circumstances",
+    "participant.has_legal_name_change",
+    "nj.indictable_conviction_count",
+    "nj.disorderly_or_petty_count",
+    "nj.subsequent_crime_conviction",
+    "nj.convictions_single_judgment_or_same_day",
+    "nj.convictions_closely_related",
+    "nj.drug_crime_compelling_circumstances_route"
+  ],
+  "missingOrUnsupportedTreatment": "STOP_NO_PACKET_AND_NO_ELECTION",
+  "selectionControlledBy": "scripts/lib/nj-cn10557-conviction-route.mjs",
+  "fixtures": [
+    {
+      "fixture": "canonical",
+      "synthetic": true,
+      "branch": "ONE_CRIME_WITH_AT_MOST_THREE_DISORDERLY_OR_PETTY_OFFENSES",
+      "authorizedSelections": [
+        "guilty",
+        "seekJuvNever"
+      ],
+      "aliasedNarrativeBranchesInactive": {
+        "earlyCompellingCircumstances": true,
+        "drugCrimeCompellingCircumstances": true,
+        "legalNameChange": true
+      },
+      "allRequiredFactsPresent": true
+    },
+    {
+      "fixture": "boundary",
+      "synthetic": true,
+      "branch": "ONE_CRIME_WITH_AT_MOST_THREE_DISORDERLY_OR_PETTY_OFFENSES",
+      "authorizedSelections": [
+        "guilty",
+        "seekJuvNever"
+      ],
+      "aliasedNarrativeBranchesInactive": {
+        "earlyCompellingCircumstances": true,
+        "drugCrimeCompellingCircumstances": true,
+        "legalNameChange": true
+      },
+      "allRequiredFactsPresent": true
+    }
+  ],
+  "participantAnswersInvented": false,
+  "commercialAuthority": false,
+  "runtimeSelectable": false
+}

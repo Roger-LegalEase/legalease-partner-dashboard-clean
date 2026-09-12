@@ -4,6 +4,11 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 export const NJ_ORDINANCE_FAMILY = "nj_ordinance-set";
+export const NJ_PARTICIPANT_LATER_COMPLETION_FAMILIES = Object.freeze([
+  NJ_ORDINANCE_FAMILY,
+  "nj_disorderly_persons-set",
+  "nj_indictable_conviction-set",
+]);
 export const NJ_ORDINANCE_DOCUMENT = "NJ-CN-10557";
 export const NJ_CN10557_SHA256 = "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7";
 export const NJ_CN10557_PATH_IN_ARCHIVE = "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf";
@@ -61,6 +66,9 @@ export const NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY = Object.freeze({
     { page: 41, text: "At the top right-hand corner of the page, fill in the date." },
     { page: 41, text: "Attach a copy of this Cover Letter (Form G) to each copy of the signed and filed Expungement Order and mail it" },
   ], true),
+  FamDivAddr2: entry("POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY", [
+    { page: 41, text: "fill in the addresses for each applicable agency that you want to notify that your record has been expunged" },
+  ], true),
 });
 
 export const NJ_PARTICIPANT_LATER_COMPLETION_FIELDS = Object.freeze(
@@ -68,12 +76,15 @@ export const NJ_PARTICIPANT_LATER_COMPLETION_FIELDS = Object.freeze(
 export const isRegisteredParticipantLaterCompletionField = (field) =>
   Object.hasOwn(NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY, String(field ?? ""));
 
-export function njParticipantLaterCompletionSourceStage(field) {
+export function njParticipantLaterCompletionSourceStage(field, familyId = NJ_ORDINANCE_FAMILY) {
   const expected = NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY[field];
   if (!expected) throw new Error(`No NJ participant later-completion source-stage entry for ${field}`);
+  if (!NJ_PARTICIPANT_LATER_COMPLETION_FAMILIES.includes(familyId)) {
+    throw new Error(`No NJ participant later-completion source-stage family opt-in for ${familyId}`);
+  }
   return {
     kind: "participant_later_completion",
-    familyId: NJ_ORDINANCE_FAMILY,
+    familyId,
     documentId: NJ_ORDINANCE_DOCUMENT,
     sourceSha256: NJ_CN10557_SHA256,
     field,
@@ -127,13 +138,13 @@ export function verifyParticipantLaterCompletionSourceStage({
   const claim = blank?.declared?.sourceStage;
   if (!claim) return null;
   const fail = (failure) => ({ ...claim, verified: false, failure });
-  if (familyId !== NJ_ORDINANCE_FAMILY || fieldMap?.familyId !== NJ_ORDINANCE_FAMILY
-    || claim.familyId !== NJ_ORDINANCE_FAMILY) {
+  if (!NJ_PARTICIPANT_LATER_COMPLETION_FAMILIES.includes(familyId)
+    || fieldMap?.familyId !== familyId || claim.familyId !== familyId) {
     return fail("participant later-completion has no closed source-stage opt-in for this family");
   }
   const expected = NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY[blank.id];
   if (!expected) return fail("participant later-completion names a field outside the closed NJ source-stage registry");
-  const expectedClaim = njParticipantLaterCompletionSourceStage(blank.id);
+  const expectedClaim = njParticipantLaterCompletionSourceStage(blank.id, familyId);
   const receivedClaim = {
     kind: claim.kind,
     familyId: claim.familyId,
@@ -161,9 +172,9 @@ export function verifyParticipantLaterCompletionSourceStage({
     return fail("participant later-completion declaration contradicts its participant actor, later stage or required-before-filing flags");
   }
 
-  const receiptDoc = receipt?.familyId === NJ_ORDINANCE_FAMILY
+  const receiptDoc = receipt?.familyId === familyId
     ? receipt.documents?.find((row) => row.documentId === NJ_ORDINANCE_DOCUMENT) : null;
-  const censusDoc = census?.familyId === NJ_ORDINANCE_FAMILY
+  const censusDoc = census?.familyId === familyId
     ? census.documents?.find((row) => row.documentId === NJ_ORDINANCE_DOCUMENT) : null;
   if (!receiptDoc || !censusDoc || receiptDoc.sha256 !== NJ_CN10557_SHA256
     || censusDoc.sourceSha256 !== NJ_CN10557_SHA256 || receiptDoc.byteLength !== 1924831

@@ -47,7 +47,7 @@ function adoptedInputs() {
       adopted += 1;
     }
   }
-  assert.equal(adopted, 18, "the real NJ map must expose every closed-registry field");
+  assert.equal(adopted, 19, "the real NJ map must expose every closed-registry field");
   const disclosures = NJ_PARTICIPANT_LATER_COMPLETION_FIELDS.map((field) => {
     const expected = NJ_PARTICIPANT_LATER_COMPLETION_REGISTRY[field];
     return `- **${expected.trigger}.** Complete this participant task when the source event occurs (source field: \`${field}\`)`;
@@ -80,11 +80,11 @@ function expectFieldFailure(result, field, counter, pattern) {
   assert.match(finding.basis ?? finding.why ?? "", pattern);
 }
 
-test("the real reader verifies all 18 participant later-completion declarations from source", () => {
+test("the real reader verifies all 19 participant later-completion declarations from source", () => {
   const result = audit(adoptedInputs());
   assert.equal(result.result, "PASS_COMPLETE");
-  assert.equal(result.totals.blanksByDisposition.PARTICIPANT_LATER_COMPLETION, 18);
-  assert.equal(result.sourceStageMeasurements?.length, 18);
+  assert.equal(result.totals.blanksByDisposition.PARTICIPANT_LATER_COMPLETION, 19);
+  assert.equal(result.sourceStageMeasurements?.length, 19);
   assert.deepEqual(result.sourceStageMeasurements.map((row) => row.field).sort(),
     [...NJ_PARTICIPANT_LATER_COMPLETION_FIELDS].sort());
   assert.ok(result.sourceStageMeasurements.every((row) => row.actor === "participant"));

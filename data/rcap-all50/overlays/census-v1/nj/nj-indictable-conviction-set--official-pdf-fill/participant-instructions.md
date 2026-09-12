@@ -2,11 +2,11 @@
 
 These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.
 
-- Route scope: `obligation:track-only:NJ:nj_indictable_conviction`
+- Packet route: **New Jersey indictable-conviction petition**
 
 ## Required participant/local completion
 
-- Review every page, choose only legally applicable elections, and complete every required signature and date yourself.
+- Review the complete court-record facts and the fact-derived item (d) mark. Do not add another disposition or eligibility selection unless your verified record and the form instructions require it.
 - Complete service certificates only after service actually occurs.
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
 - Confirm current revision, local procedures, fees, attachments, and proposed-order requirements before filing. Where to file and Who must be served are each answered in their own section below.
@@ -21,10 +21,6 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 | `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrestOff1` | `matter.charge` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `ExpungeCntyName` | `matter.county` | this blank is a chooser the form fills from its own list of options, not a free-text line, and the held value is not one of those options | canonical, boundary |
-| `guilty` | the election this row states on the printed form | this box is the election for that row, and another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, so the election is withdrawn with the row: a row is completed or left untouched, and a marked election over an empty row is a half-written row | canonical, boundary |
-| `guiltyCrt` | `matter.court` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
-| `guiltyDt` | `matter.conviction_date` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
-| `guiltyOff1` | `matter.charge` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `origCaseNums` | `matter.case_number` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
 
 ## Records to gather before you file
@@ -100,6 +96,30 @@ Analyses this route's own record still lists as unencoded — `data/record-clear
 
 If any of these reaches your case, ask a lawyer or a legal-services office before you sign or file.
 
+## Facts that control this packet route
+
+You do not choose a legal route or diagnose which statutory branch applies. Supply and verify the factual answers below from the SBI history and court records. The rules engine uses those facts to decide whether Form A item (d) is supported. If an answer is missing, inconsistent, or reaches a self-help stop, packet generation stops without marking the box.
+
+- What is your full legal name, and have you used any other names?
+- What is your date of birth?
+- Do you know your New Jersey State Bureau of Identification (SBI) number?
+- Which New Jersey county do you live in?
+- For each matter: the county, the court and its level, the complaint or indictment number, the docket number, the arrest date, the offence and statute, the disposition and its date.
+- List every conviction you have anywhere, including other states and federal court, with the grading and the date.
+- Is any charge pending against you now, anywhere?
+- Have you ever had a New Jersey record expunged before?
+- Were any of these matters resolved through pretrial intervention, conditional discharge or another diversion programme?
+- Were any of these matters motor vehicle charges, including DWI?
+- Have you paid every fine, fee, penalty and restitution ordered in these cases, and if not, why not?
+- When did you finish probation or parole, or get released from custody, on each matter?
+- For each conviction, was it an indictable offence, a disorderly persons offence, or a petty disorderly persons offence?
+- Were any of these convictions entered in a single judgment of conviction, or on the same day?
+- Did any of these offences happen as part of one connected sequence of events over a short period?
+- Did any conviction involve marijuana or hashish, or drug paraphernalia used with them?
+- Was any conviction a third or fourth degree controlled dangerous substance crime?
+
+Item (d) is marked only when all nine cells in its conviction paragraph can be completed from the same verified matter. The generated canonical and boundary examples use clearly synthetic case facts to test that rule; they are not participant answers or an eligibility finding.
+
 ## Exact facts still required before filing
 
 The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.
@@ -107,15 +127,6 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - “and was charged with (name of offense(s))”, the second line — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestOff2`)
 - “in violation of N.J.S.A. (statute(s))” — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestStatute`)
 - “arising out of (municipalities)” — Petition for Expungement (Form A), paragraph 1, page 18 (source field: `arrestMuni`)
-- the election box beside “d.” — Petition for Expungement (Form A), item (d), delivered page 19 (source field: `guilty`)
-- name of offense(s), continuation line if needed — Form A, item (d), delivered page 19 (source field: `guiltyOff2`)
-- in violation of N.J.S.A. (statute(s)) — Form A, item (d), delivered page 19 (source field: `guiltyStatute`)
-- final sentence, first line — Form A, item (d), delivered page 19 (source field: `guiltyFinal1`)
-- final sentence, continuation line if needed — Form A, item (d), delivered page 19 (source field: `guiltyFinal2`)
-- jail/prison/incarceration time — Form A, item (d), delivered page 19 (source field: `guiltyTimeType`)
-- date jail/prison/incarceration was completed — Form A, item (d), delivered page 19 (source field: `guiltyDocCmpltDt`)
-- date probation was completed — Form A, item (d), delivered page 19 (source field: `guiltyProbDt`)
-- date fines were paid — Form A, item (d), delivered page 19 (source field: `guiltyFineDt`)
 - I currently owe restitution, a fine(s) or other court-ordered financial assessment(s) — Petition for Expungement (Form A), paragraph e, delivered pages 19 and 21 (source field: `contOwe`)
 - “Original indictment/accusation/summons/warrant/complaint/FO or FJ docket number” — Petition for Expungement (Form A), paragraph e, pages 19 and 21 (source field: `oweDocket`)
 - “in the amount of $” — Petition for Expungement (Form A), paragraph e, pages 19 and 21 (source field: `oweAmt`)
@@ -127,11 +138,6 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - “arising out of (municipalities)” — Form A – Addendum Page, page 20 (source field: `contArrestMuni`)
 - “as set forth in the (original indictment/accusation/summons/warrant/complaint/docket number (include FJ and FO docket number(s) in Family Part matters))” — Form A – Addendum Page, page 20 (source field: `contOrigNums`)
 - “the charge(s) of (name of offense(s))”, the second line of item a — Form A – Addendum Page, page 20 (source field: `contDsmissOff2`)
-- I am seeking an expungement pursuant to N.J.S.A. 2C:52-2(a)(2) (after four years), or pursuant to N.J.S.A. 2C:52-3(b)(2) (after three years), but less than five years have passed since my most recent conviction, payment of court-ordered financial assessment, satisfactory completion of probation or parole, or release from incarceration, whichever is later, and I have not otherwise been convicted of a crime, disorderly persons offense, or petty disorderly persons offense since the most recent conviction — Petition for Expungement (Form A), page 22 (source field: `seek5yrs`)
-- I am seeking an expungement pursuant to N.J.S.A. 2C:52-2(c)(3) of a third or fourth degree controlled dangerous substance crime — Petition for Expungement (Form A), page 22 (source field: `seek34degree`)
-- “The compelling circumstances for the Court to grant me an expungement are as follows”, both boxes on Form A page 22, and the name-change explanation on the Verification, page 24. One form field serves all three, so one answer appears in all three places (source field: `seek5yrsDetails`)
-- I am seeking expungement of a conviction on a criminal case or an adjudication of delinquency on a juvenile case pursuant to N.J.S.A. 2C:52-2, and I have never been granted an expungement, sealing or similar relief regarding a criminal conviction, by any state or federal court — Verification (Form A), page 24 (source field: `seekJuvNever`)
-- I have legally changed my name. I have explained the details of my name change(s) below, included my previous legal name(s), and the date of the court order for the name change(s) — Verification (Form A), page 24 (source field: `changeName`)
 - “The administrator(s) of the ___ Municipal Court(s)” — Order for Hearing (Form B) page 27, Expungement Order (Form C) page 30, Proof of Notice (Form F) page 40, and the Form E and Form G cover letters, pages 37 and 42 (source field: `MuniCrts`)
 - “The ___ County(ies) Probation Division” — Order for Hearing (Form B) page 27, Expungement Order (Form C - Continued) page 31, and Proof of Notice (Form F) page 40 (source field: `probDivCntys`)
 - “(statute)”, arrest row (1) — Expungement Order (Form C - Continued), page 31 (source field: `arrest1Statute`)
@@ -165,8 +171,13 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - “(address)” under “County Identification Bureau” — Cover Letter – Notice Expungement Granted (Form G), page 42 (source field: `IdbAddrStr`)
 - “___ County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42 (source field: `FamDivName`)
 - “(address)” under “County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42 (source field: `FamDivAddrStr`)
-- “(city, state, zip code)” under “County Identification Bureau” and under “County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42; one form field serves both blocks, so one value appears in both (source field: `FamDivAddr2`)
 - “The administrator(s) of the ___ Municipal Court(s)” — Expungement Order (Form C - Continued), page 31 (source field: `AdminMuniCts`)
+
+## Participant tasks after the initial filing
+
+These fields are not prerequisites to the initial petition filing. Complete each only at the named stage, from the filed or signed court papers and the actual mailing record; never invent a docket number, hearing setting, recipient, address or mailing date.
+
+- **After the Expungement Order is signed, when addressing each applicable agency notice.** (city, state, zip code) under County Identification Bureau and under County Family Division — Cover Letter – Notice Expungement Granted (Form G), page 42; the pinned form reuses one field for both recipient blocks (source field: `FamDivAddr2`) <!-- source-stage: POST_ORDER_SERVICE_FOR_EACH_APPLICABLE_AGENCY --> — after the signed order, enter the city/state/ZIP separately for each applicable County Identification Bureau and County Family Division recipient. The source aliases those two occurrences, so do not type one digital field value into both; print and complete each applicable recipient line from the actual agency address.
 
 ## Blanks the form prints with no fill-in box
 
@@ -175,5 +186,5 @@ The lines below are printed on delivered pages of this packet and there is no fo
 | Delivered page | What the form prints | What goes there |
 | --- | --- | --- |
 | 18 | “I was arrested/taken into custody on (date) ______” — Petition for Expungement (Form A), paragraph 1 | The arrest or custody date verified from the court record. Complete this printed line by hand with the rest of paragraph 1. The proposed-order row on page 31 is also withheld when its statutory citation is missing, so it is not a printed source for this date. A blank or incomplete paragraph is not ready to sign or file. |
-- The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. Degree and statutory eligibility remain unselected.
+- Form A item (d) is completed and marked only after the participant's court-record facts fill the entire conviction row and the governed conviction-count rules establish an indictable-conviction branch. Compelling-circumstances, drug-crime, and court-owned proposed-order elections remain unselected.
 - The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused.

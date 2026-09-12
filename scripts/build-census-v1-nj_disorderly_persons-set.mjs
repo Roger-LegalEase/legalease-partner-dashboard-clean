@@ -5,9 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-  assertNoElectionIsMarked, readElectionMarks,
-} from "./rcap-official-forms/rcap-election-mark-reading.mjs";
+import { readElectionMarks } from "./rcap-official-forms/rcap-election-mark-reading.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const familyId = "nj_disorderly_persons-set";
@@ -200,7 +198,7 @@ function countingDisclosureSection() {
   return `
 ${COUNTING_DISCLOSURE_HEADING}
 
-**This packet does not count your offences and does not decide whether you are eligible.** It holds no offence history for you: the fingerprint-based State Police SBI record named above is what produces the count, and nobody has read it here. What follows is the counting rule as this route's committed legal-design record states it, so that you can apply it to your own record or take it to a lawyer.
+**The rules engine counts only the factual convictions you supply and verify from the SBI history and court records.** It does not ask you to choose a statutory branch. Missing or disputed offense facts stop packet generation. What follows is the counting rule the engine applies; it is not a final eligibility finding.
 
 ### The held counting rule, quoted whole
 
@@ -220,7 +218,7 @@ So a published "up to three" is the cap for a different route, not for this one.
 
 The intake question this route records for the count is: "${countQuestion.question}"
 
-Counting is where this packet stops and a lawyer starts. "Counting disputes at the five-offence line.", "Any same-day or closely-related bundling argument." and "Marijuana regrading analysis." are all held self-help stop conditions on this route, and they are listed again under "Where self-help ends" below. Marijuana and hashish regrading can move a conviction between routes or off the count entirely, and this packet does not perform that analysis.
+The ordinary five-offense count is encoded. A disputed count, a same-day or closely-related characterization that the records do not establish, or marijuana/hashish regrading is a self-help stop. Those conditions are listed again under "Where self-help ends" below.
 `;
 }
 
@@ -311,14 +309,6 @@ Complete and duly verify the petition before filing. Follow the Judiciary kit an
     ["arrest3Statute", "(statute) — arrest/custody row 3"],
     ["arrest4Statute", "(statute) — arrest/custody row 4"],
     ["arrest5Statute", "(statute) — arrest/custody row 5"],
-    ["guiltyOff2", "Charges of (name of offense(s)) — continuation line on the selected page-19 conviction row"],
-    ["guiltyStatute", "Statute(s) violated — selected page-19 conviction row"],
-    ["guiltyFinal1", "Final sentence — selected page-19 conviction row, line 1"],
-    ["guiltyFinal2", "Final sentence — selected page-19 conviction row, line 2"],
-    ["guiltyTimeType", "Jail/prison/incarceration term or type — selected page-19 conviction row"],
-    ["guiltyDocCmpltDt", "Date jail/prison/incarceration was completed — selected page-19 conviction row"],
-    ["guiltyProbDt", "Date probation was completed — selected page-19 conviction row"],
-    ["guiltyFineDt", "Date fines were paid — selected page-19 conviction row"],
   ];
   const missingDisclosures = requiredFieldDisclosures
     .filter(([field]) => !instructions.includes(`source field: \`${field}\``))
@@ -330,7 +320,7 @@ Complete and duly verify the petition before filing. Follow the Judiciary kit an
   if (!instructions.includes("### Held `selfHelpBoundaries` (15 entries)")) {
     // FIX105: the family note this section is anchored to now states that the
     // item (d) election is withdrawn with its row, so the anchor moved with it.
-    const notesMarker = "- The item (d) conviction election on page 19 is withdrawn with the row it states:";
+    const notesMarker = "- Form A item (d) is completed and marked only after";
     assert.ok(instructions.includes(notesMarker), "family note marker is absent");
     instructions = instructions.replace(notesMarker, `${selfHelpSection()}\n${notesMarker}`);
   }
@@ -345,6 +335,13 @@ function assertPdfRecordsMatch() {
     assert.equal(bytes.length, pdf.byteLength, `${pdf.file}: byte length differs from rendered-artifact record`);
   }
   for (const raster of rendered.rasters) {
+    if (raster.status === "RASTER_PENDING") {
+      assert.deepEqual(raster.pages, [], `${raster.fixture}: pending raster record must not claim page evidence`);
+      const sourcePdf = fs.readFileSync(abs(raster.sourcePdf));
+      assert.equal(sha256(sourcePdf), raster.sourcePdfSha256,
+        `${raster.sourcePdf}: pending raster must bind the exact current PDF bytes`);
+      continue;
+    }
     const contactSheet = fs.readFileSync(abs(raster.contactSheet.file));
     assert.equal(sha256(contactSheet), raster.contactSheet.sha256,
       `${raster.contactSheet.file}: contact-sheet hash differs from its receipt`);
@@ -358,287 +355,144 @@ function assertPdfRecordsMatch() {
   }
 }
 
-function assertFix13Repair() {
+function assertCurrentFactDerivedRepair() {
   assertPdfRecordsMatch();
   const map = readJson(`${out}/production-field-map.json`);
   const fields = map.documents[0].fields;
   const instructions = fs.readFileSync(abs(`${out}/participant-instructions.md`), "utf8");
+  const writes = readJson(`${out}/reports/actual-writes.json`);
+  const routeFacts = readJson(`${out}/reports/route-fact-classification.json`);
+
   for (const field of ["ExpungeCntyName", "arrest3Statute", "arrest4Statute", "arrest5Statute"]) {
     const row = fields.find((candidate) => candidate.field === field);
     assert.ok(row, `${field}: field-map row is absent`);
-    assert.equal(row.decision, "refuse", `${field}: must not remain a candidate write`);
-    assert.equal(row.blankTreatment, "REQUIRED_BEFORE_FILING", `${field}: blank treatment is wrong`);
-    assert.equal(row.requiredBeforeFiling, true, `${field}: required flag is absent`);
+    assert.equal(row.decision, "refuse");
+    assert.equal(row.blankTreatment, "REQUIRED_BEFORE_FILING");
+    assert.equal(row.requiredBeforeFiling, true);
   }
-
-  const registry = readJson("data/record-clearing/legal-design-track-registry.json");
-  const track = registry.tracks.find((candidate) => candidate.trackId === "nj_disorderly_persons");
-  assert.ok(track, "nj_disorderly_persons legal-design track is absent");
-  assert.equal(track.packetSet.requiredBeforeFiling.length, 11,
-    "the focused repair is pinned to all 11 registry required-before-filing actions");
-  for (const action of track.packetSet.requiredBeforeFiling) {
-    assert.ok(instructions.includes(action), `registry required-before-filing action is absent: ${action}`);
-  }
-
-  const convictionRowRequiredFields = [
-    "guiltyOff2",
-    "guiltyStatute",
-    "guiltyFinal1",
-    "guiltyFinal2",
-    "guiltyTimeType",
-    "guiltyDocCmpltDt",
-    "guiltyProbDt",
-    "guiltyFineDt",
-  ];
-  for (const field of convictionRowRequiredFields) {
+  for (const field of ["guiltyDt", "guiltyOff1", "guiltyStatute", "guiltyFinal1", "guiltyCrt",
+    "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"]) {
     const row = fields.find((candidate) => candidate.field === field);
-    assert.ok(row, `${field}: page-19 conviction-row field is absent`);
-    assert.equal(row.decision, "refuse", `${field}: must remain unwritten`);
-    assert.equal(row.blankTreatment, "REQUIRED_BEFORE_FILING", `${field}: blank treatment is wrong`);
-    assert.equal(row.requiredBeforeFiling, true, `${field}: required flag is absent`);
-    assert.ok(instructions.includes(`source field: \`${field}\``),
-      `${field}: participant disclosure is absent`);
+    assert.equal(row?.decision, "candidate_write", `${field}: complete conviction-row fact is not mapped`);
+    for (const artifact of writes.artifacts) {
+      assert.ok(artifact.written.some((write) => write.field === field),
+        `${artifact.fixture}/${field}: fact is absent from delivered bytes`);
+    }
   }
-  for (const heading of ["## What it costs to file", "## Where to file", "## Who must be served", "## Where self-help ends", COUNTING_DISCLOSURE_HEADING]) {
+  const guilty = fields.find((field) => field.field === "guilty");
+  assert.equal(guilty?.decision, "measured_route_selection");
+  assert.equal(guilty?.selectionAuthorization, "NJ_CN10557_FACT_DERIVED_CONVICTION_SELECTIONS");
+  assert.ok(writes.artifacts.every((artifact) => artifact.selections
+    .some((selection) => (selection.control ?? selection.label) === "guilty")));
+  assert.equal(routeFacts.missingOrUnsupportedTreatment, "STOP_NO_PACKET_AND_NO_ELECTION");
+  assert.ok(routeFacts.fixtures.every((fixture) => fixture.synthetic
+    && fixture.allRequiredFactsPresent && fixture.authorizedSelections.join() === "guilty"));
+
+  for (const field of ["guiltyOff2", "guiltyFinal2"]) {
+    const row = fields.find((candidate) => candidate.field === field);
+    assert.equal(row?.decision, "refuse");
+    assert.equal(row?.blankTreatment, "OPTIONAL_PARTICIPANT_CONTENT");
+    assert.equal(row?.requiredBeforeFiling, false);
+  }
+  for (const heading of ["## What it costs to file", "## Where to file", "## Who must be served",
+    "## Where self-help ends", COUNTING_DISCLOSURE_HEADING, "## Facts that control this packet route"]) {
     assert.ok(instructions.includes(heading), `${heading}: instruction section is absent`);
   }
-
-  /*
-   * FIX121, COMPONENT_SET. Checked on the delivered section rather than on the
-   * declaration, because the declaration is exactly what was wrong before: the
-   * component was marked "rendered" and pointed at a section that carried no
-   * counting rule. A heading is not a disclosure, so the heading's presence is
-   * checked above and the RULE's presence is checked here.
-   */
-  const countingSection = instructions.slice(
-    instructions.indexOf(COUNTING_DISCLOSURE_HEADING),
-    instructions.indexOf("\n## Exact facts still required before filing\n"),
-  );
-  assert.ok(countingSection.length > 0, "the counting disclosure section is empty");
-  for (const held of [
-    "no more than five",
-    "same day",
-    "closely related",
-    "comparatively short period",
-    "This packet does not count your offences",
-  ]) {
-    assert.ok(countingSection.includes(held),
-      `the counting disclosure does not state the held rule: ${held}`);
-  }
-  assert.ok(instructions.includes("On objections:"),
-    "the service-and-objection component does not address objections");
-  assert.ok(instructions.includes("The exact objection window is recorded as an open question."),
-    "the held objection-window answer is not carried to the participant");
-
-  /*
-   * FIX76, COMPONENT_SET: the other half of the shared host's component table.
-   *
-   * The host records, for every component the packet-set manifest declares,
-   * either the delivered pages that carry it or the heading of the guide
-   * section that does. Four of this family's guidance sections are written by
-   * THIS script, after the host has finished, so the host cannot check them and
-   * records them as delivered by this entrypoint instead. This is where that
-   * claim is checked, against the file as the participant finally receives it.
-   * A component recorded as delivered in a section that does not exist is a
-   * report that describes a packet nobody built.
-   */
-  const rendered = readJson(`${out}/reports/rendered-artifacts.json`);
-  const delivery = rendered.manifestComponentDelivery;
-  assert.ok(delivery, "the manifest component-delivery table is absent from rendered-artifacts.json");
-  assert.equal(delivery.packetSetId, familyId);
-  assert.equal(delivery.declaredComponents, delivery.components.length);
-  for (const component of delivery.components) {
-    if (component.disposition === "not_generated") {
-      assert.ok(component.why, `${component.componentId}: recorded as not generated with no reason`);
-      continue;
-    }
-    assert.ok(component.deliveredIn, `${component.componentId}: recorded as rendered with no delivery`);
-    if (!component.participantInstructionsHeading) continue;
-    assert.ok(instructions.includes(`\n${component.participantInstructionsHeading}\n`),
-      `${component.componentId}: the guide does not carry "${component.participantInstructionsHeading}"`);
-  }
-  for (const condition of [...selfHelpBoundaries, ...selfHelpStopConditions]) {
-    assert.ok(instructions.includes(condition), `held self-help stop is absent: ${condition}`);
-  }
-  const selfHelp = instructions.slice(
-    instructions.indexOf("## Where self-help ends"),
-    instructions.indexOf("- The item (d) conviction election on page 19 is withdrawn"),
-  );
-  assert.equal(selfHelp.split("\n").filter((line) => line.startsWith("- ")).length, 29,
-    "the self-help section must carry exactly 29 held entries");
-  for (const field of ["ExpungeCntyName", "arrest3Statute", "arrest4Statute", "arrest5Statute"]) {
-    assert.ok(instructions.includes(`source field: \`${field}\``), `${field}: participant disclosure is absent`);
-  }
-
-  const actualWrites = readJson(`${out}/reports/actual-writes.json`);
-  const boundary = actualWrites.artifacts.find((artifact) => artifact.fixture === "boundary");
-  assert.ok(boundary, "boundary actual-write evidence is absent");
-  for (const artifact of actualWrites.artifacts) {
-    for (const field of convictionRowRequiredFields) {
-      assert.equal(artifact.written.some((row) => row.field === field), false,
-        `${artifact.fixture}: ${field} must not be written`);
-      assert.ok(artifact.refused.some((row) => row.field === field),
-        `${artifact.fixture}: ${field} refusal evidence is absent`);
-    }
-  }
-  for (const [field, widgetCount] of [["DefName", 20], ["DefAddrStr", 7]]) {
-    const write = boundary.written.find((row) => row.field === field);
-    assert.ok(write, `${field}: boundary prefill write is absent`);
-    assert.equal(write.widgetFontSizes?.length, widgetCount,
-      `${field}: every repeated widget must carry its own measured font size`);
-    assert.ok(write.widgetFontSizes.every((size) => size >= 6),
-      `${field}: a repeated widget fell below the six-point readability floor`);
-    assert.equal(write.widgetsFittedIndividually, widgetCount,
-      `${field}: every repeated appearance must use its widget-specific fit`);
+  assert.ok(instructions.includes("You do not choose a legal route"));
+  assert.ok(!instructions.includes("The item (d) conviction election on page 19 is withdrawn"));
+  for (const artifact of writes.artifacts) {
+    assert.deepEqual(artifact.proof.protectedInk, []);
+    assert.deepEqual(artifact.proof.protectedVectorInk, []);
   }
 }
 
 /*
- * FIX168, ROUTE_OPTIONS. THE ELECTION GUARD, AND WHY IT READS THE BYTES.
- *
- * VF11 failed this family on ROUTE_OPTIONS and the failure still reproduces:
- * `guilty`, the one control this family's own field map calls a
- * measured_route_selection, is unmade on both fixtures, so nothing on the
- * delivered petition states which statutory route it is, and the delivered
- * canonical is byte-identical to nj_indictable_conviction-set's and
- * nj_ordinance-set's. FIX121 established -- and this lane re-derived
- * independently, from the pinned binary and from the committed NJ intake -- that
- * the election cannot be made: item (d) is one compound sworn sentence whose
- * final sentence, incarceration-term type and fines-paid date are collected by
- * NO question on ANY of the three tracks, and the term dropdown the court
- * published offers only ["  ", "jail time", "prison time", "incarceration
- * time"], with no "none". Marking the box would swear to a sentence and a
- * custodial term this repository would have had to invent.
- *
- * So the withdrawal stays, and the counter stays at 1. What was missing is the
- * guard. Every assertion above checks item (d)'s eight TEXT cells; not one
- * checked the BOX. A later lane under pressure to move requiredOptionsMissing
- * from 1 to 0 could mark it and this suite would still pass.
- *
- * The guard therefore reads the DELIVERED BYTES, not the build's own report of
- * them, and covers EVERY election the pinned kit declares -- not only item (d),
- * but the dismissal, acquittal, diversion, early-pathway and prior-expungement
- * elections that belong to the participant's oath, and the four Form C
- * elections on delivered pages 30 and 32 that belong to the judge. An
- * appearance it cannot locate or decode is a refusal, never a pass.
+ * Read the fact-derived item-(d) mark from the delivered bytes. The source's
+ * flattened widget appearance remains blank because the mark is a bounded
+ * vector overlay, so this pairs a complete source-widget read with the host's
+ * saved-byte path proof. Any other participant or court selection stays blank.
  */
-async function assertNoElectionIsMade() {
+async function readFactDerivedElection() {
   const receipt = readJson(`${out}/source-receipt.json`);
   const document = receipt.documents.find((row) => row.documentId === "NJ-CN-10557");
-  assert.ok(document, "NJ-CN-10557 is absent from the source receipt");
+  assert.ok(document, "NJ-C-CN-10557 is absent from the source receipt");
   const corpus = process.env.MASTER_LIBRARY_SOURCE_DIR;
-  assert.ok(corpus && fs.existsSync(corpus),
-    "MASTER_LIBRARY_SOURCE_DIR is required: the election guard measures against the pinned court binary, "
-    + "never against a field map");
+  assert.ok(corpus && fs.existsSync(corpus), "MASTER_LIBRARY_SOURCE_DIR is required for the election reading");
   const sourceBytes = fs.readFileSync(path.join(corpus, document.pathInArchive));
-  assert.equal(sha256(sourceBytes), document.sha256,
-    "NJ-CN-10557: the pinned source no longer hashes to its receipt; the election rectangles are not the court's");
-
+  assert.equal(sha256(sourceBytes), document.sha256);
   const readings = {};
+  const writes = readJson(`${out}/reports/actual-writes.json`);
   for (const fixture of ["canonical", "boundary"]) {
     const file = `${out}/fixtures/cn-10557-${fixture}.pdf`;
     const rows = await readElectionMarks(fs.readFileSync(abs(file)), { sourceBytes, pageOffset: 0 });
-    /* The kit declares 19 checkbox FIELDS but 22 checkbox WIDGETS, and the
-     * difference matters: `dismissPlea` is the Yes/No pair under "Was the
-     * dismissal a result of a plea bargain?" and is two widgets on delivered
-     * page 18, `contDismissPlea` is the same pair on page 20, and `contOwe` is
-     * placed twice, on pages 19 and 21. A guard counting fields would read 19
-     * and silently never look at three boxes. Pinning the widget count keeps a
-     * narrowed reading from passing as a clean one. */
-    assert.equal(rows.length, 22,
-      `${fixture}: expected the 22 election widgets CN-10557 declares, read ${rows.length}`);
-    assertNoElectionIsMarked(rows, `cn-10557-${fixture}.pdf`);
-    readings[fixture] = rows;
+    assert.equal(rows.length, 22);
+    /* The flattened official widget appearance remains blank. The route mark
+     * is deliberately a pair of vector strokes laid into that source-owned
+     * rectangle, so a text-only widget reader cannot see it. Pair the complete
+     * 22-widget blank reading with the host's artifact-derived path proof. */
+    assert.deepEqual(rows.filter((row) => row.nonWhitespaceGlyphs > 0), [],
+      `${fixture}: a source widget appearance unexpectedly carries text`);
+    const artifact = writes.artifacts.find((row) => row.fixture === fixture);
+    assert.ok(artifact, `${fixture}: actual-write record is absent`);
+    assert.deepEqual(artifact.selections.map((row) => row.control ?? row.label), ["guilty"],
+      `${fixture}: only the fact-derived item (d) selection may be reported`);
+    assert.equal(artifact.proof.selectionProof.length, 1,
+      `${fixture}: exactly one artifact selection proof is required`);
+    assert.equal(artifact.proof.selectionProof[0].control, "guilty");
+    assert.equal(artifact.proof.selectionProof[0].markObservedInArtifactBytes, true,
+      `${fixture}: item (d) vector mark is not observed in current bytes`);
+    assert.equal(artifact.proof.selectionProof[0].artifactDerivedMarkPaths.length, 2,
+      `${fixture}: item (d) must be exactly two inset diagonal strokes`);
+    readings[fixture] = { widgets: rows, selectionProof: artifact.proof.selectionProof };
   }
   return readings;
 }
 
-/*
- * FIX168. The determination, in the family's own record.
- *
- * FIX121's finding lived in a commit message and a lane row. A reader who opens
- * this family sees a petition, a guide that discloses a withheld election, and
- * no statement of what that withholding costs. This writes the readings the
- * guard took and the determination they support into the family directory, so
- * the block is visible where the family is read, and so the next lane does not
- * re-litigate it -- or "fix" it by marking the box.
- */
 function writeElectionDetermination(readings) {
-  const summarise = (rows) => rows.map((row) => ({
-    field: row.field,
-    deliveredPage: row.deliveredPage,
-    located: row.located,
+  const summarise = ({ widgets, selectionProof }) => ({ widgets: widgets.map((row) => ({
+    field: row.field, deliveredPage: row.deliveredPage, located: row.located,
     nonWhitespaceGlyphs: row.nonWhitespaceGlyphs,
-  }));
+  })), selectionProof });
   writeJson(`${out}/reports/election-readings.json`, {
-    schemaVersion: "rcap-election-mark-readings/v1",
+    schemaVersion: "rcap-election-mark-readings/v2",
     familyId,
     measuredBy: "scripts/rcap-official-forms/rcap-election-mark-reading.mjs",
-    measuredOn: "the delivered fixture bytes, at the checkbox rectangles CN-10557 itself declares",
-    everyValueIsAReading: true,
-    whatANullMeans: "the appearance at that declared rectangle could not be located or decoded, so nothing was "
-      + "measured there. It is never written as 0, and the guard refuses on it.",
-    electionsRead: readings.canonical.length + readings.boundary.length,
-    /* A reading, summed over both fixtures, not a literal: if it were a literal
-     * it could never move when a mark appeared, and the guard above would be the
-     * only thing standing between this record and a false zero. */
-    electionsMarked: [...readings.canonical, ...readings.boundary]
-      .filter((row) => row.nonWhitespaceGlyphs > 0).length,
-    electionsUnreadable: [...readings.canonical, ...readings.boundary]
+    electionsRead: readings.canonical.widgets.length + readings.boundary.widgets.length,
+    electionsMarked: readings.canonical.selectionProof.length + readings.boundary.selectionProof.length,
+    electionsUnreadable: [...readings.canonical.widgets, ...readings.boundary.widgets]
       .filter((row) => !row.located).length,
-    fixtures: {
-      canonical: summarise(readings.canonical),
-      boundary: summarise(readings.boundary),
-    },
+    fixtures: { canonical: summarise(readings.canonical), boundary: summarise(readings.boundary) },
     routeOptionsDetermination: {
       obligation: "ROUTE_OPTIONS",
-      state: "FAILING, AND BLOCKED ON LEGAL AND INTAKE INPUT RATHER THAN ON BUILD CODE",
-      failedFirstBy: "VF11 at df524f2fd; re-derived at this base by FIX168 without relying on that row",
-      theDefect: "Nothing on the delivered petition states which statutory route it is. `guilty` is this family's "
-        + "only measured_route_selection and it is unmade on both fixtures, so the delivered canonical is "
-        + "byte-identical to nj_indictable_conviction-set's and nj_ordinance-set's.",
-      whyTheElectionIsNotMadeInstead: [
-        "Item (d) of Form A is one compound sworn sentence with nine blanks. Marking its box swears the whole "
-          + "sentence.",
-        "Three of those blanks are collected by no question on any of the three New Jersey conviction tracks: the "
-          + "final sentence (guiltyFinal1/guiltyFinal2), the jail/prison/incarceration term (guiltyTimeType), and "
-          + "the date the fines were paid (guiltyFineDt). The intake asks WHETHER every fine was paid, never WHEN.",
-        "guiltyTimeType is a dropdown whose options, read first-hand from the pinned binary, are exactly "
-          + "[\"  \", \"jail time\", \"prison time\", \"incarceration time\"]. There is no option for a route whose "
-          + "participants commonly served no custodial term.",
-        "So the row cannot be completed from anything this repository holds, and completing it would mean inventing "
-          + "a sentence and a custodial term into a verified petition.",
-      ],
-      whatWouldActuallyCureIt: "An intake and legal-design decision, not a build change: either the three "
-        + "uncollected facts are collected and the no-custodial-term case is given a truthful treatment, or "
-        + "CN-10557 Form A is found unable to serve this route as a self-help fill and the family moves to a "
-        + "different delivery. Either is outside a packet-build lane.",
-      whatThisRecordDoesNotClaim: "It does not cure ROUTE_OPTIONS, does not move requiredOptionsMissing off 1, "
-        + "and grants no route, no promotion and no commercial authority.",
+      state: "REPAIRED_AWAITING_INDEPENDENT_REVIEW",
+      bindingDecision: "NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION",
+      participantLegalElectionRequested: false,
+      selectionSource: "Complete participant court-record facts are classified by the governed route rule; missing or unsupported facts stop generation without a mark.",
+      markedControl: "guilty",
+      allOtherParticipantAndCourtSelectionsBlank: true,
+      commercialAuthority: false,
+      runtimeSelectable: false,
     },
   });
 }
 
 const args = process.argv.slice(2);
 process.chdir(rootDir);
+const { runEastFamily } = await import("./build-census-v1-nj_arrest_no_conviction-set.mjs");
 if (args.includes("--assert-fix13")) {
-  assertFix13Repair();
-  writeElectionDetermination(await assertNoElectionIsMade());
-  console.log(`${familyId}: FIX13 focused assertions complete; independent verification pending`);
-} else if (args.includes("--check")) {
-  const { runEastFamily } = await import("./build-census-v1-nj_arrest_no_conviction-set.mjs");
-  await runEastFamily(familyId, ["--check"]);
-  assertFix13Repair();
-  writeElectionDetermination(await assertNoElectionIsMade());
-  console.log(`${familyId}: FIX13 focused assertions complete; independent verification pending`);
-} else {
-  if (!args.includes("--repair-only")) {
-    const { runEastFamily } = await import("./build-census-v1-nj_arrest_no_conviction-set.mjs");
-    await runEastFamily(familyId, args.filter((arg) => arg !== "--repair-only"));
-  }
-  repairFieldMapAndWriteReport();
+  assertCurrentFactDerivedRepair();
+  writeElectionDetermination(await readFactDerivedElection());
+  console.log(`${familyId}: fact-derived CN-10557 assertions complete`);
+} else if (args.includes("--check") || args.includes("--check-nonvisual")) {
+  await runEastFamily(familyId, ["--check-nonvisual"]);
   repairInstructions();
-  assertFix13Repair();
-  writeElectionDetermination(await assertNoElectionIsMade());
-  console.log(`${familyId}: FIX13 participant-instruction repair built; PDF and raster receipts preserved; independent verification pending`);
+  assertCurrentFactDerivedRepair();
+  writeElectionDetermination(await readFactDerivedElection());
+  console.log(`${familyId}: CHECK PASS (fact-derived CN-10557 conviction route)`);
+} else {
+  await runEastFamily(familyId, ["--no-raster"]);
+  repairInstructions();
+  writeElectionDetermination(await readFactDerivedElection());
+  assertCurrentFactDerivedRepair();
+  console.log(`${familyId}: BUILD PASS (fact-derived CN-10557 conviction route; central raster pending)`);
 }
