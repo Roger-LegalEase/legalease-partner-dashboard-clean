@@ -29,13 +29,24 @@ const original = fs.readFileSync(target, "utf8");
 // A signal bypasses `finally`; a killed run must not leave the migration mutated.
 registerMutationRestore(() => fs.writeFileSync(target, original));
 
-function verifierIsRed() {
+function runVerifier() {
   try {
     execFileSync("node", [verifier], { cwd: rootDir, stdio: "pipe" });
-    return false;
-  } catch {
-    return true;
+    return "green";
+  } catch (error) {
+    const output = `${error.stdout ?? ""}\n${error.stderr ?? ""}`;
+    return /"status":"UNAVAILABLE"|\bUNAVAILABLE\b/.test(output) ? "unavailable" : "red";
   }
+}
+
+const baseline = runVerifier();
+if (baseline === "unavailable") {
+  console.error("BASELINE_UNAVAILABLE phase52: zero mutants attempted");
+  process.exit(2);
+}
+if (baseline !== "green") {
+  console.error("BASELINE_NOT_GREEN phase52: zero mutants attempted");
+  process.exit(1);
 }
 
 // Each entry reverts one defence. `find` must appear verbatim in the migration,
@@ -115,7 +126,9 @@ try {
       continue;
     }
     fs.writeFileSync(target, mutated);
-    if (verifierIsRed()) {
+    const result = runVerifier();
+    if (result === "unavailable") throw new Error(`BASELINE_UNAVAILABLE during mutation: ${name}`);
+    if (result === "red") {
       caught += 1;
       console.log(`  caught   ${name}`);
     } else {
@@ -131,7 +144,7 @@ try {
   // provoke, so leaving now would strand a committed report claiming a
   // breakage that no longer exists. One clean run puts the artifact back in
   // step with the restored migration.
-  if (verifierIsRed()) {
+  if (runVerifier() !== "green") {
     console.error("\ntest-rcap-phase52-mutations FAILED: the verifier is red against the RESTORED migration.");
     console.error("The evidence artifact was not returned to a truthful state; investigate before trusting it.");
     process.exit(1);
