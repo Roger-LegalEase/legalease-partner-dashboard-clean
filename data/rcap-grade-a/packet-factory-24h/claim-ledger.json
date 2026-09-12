@@ -6607,10 +6607,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF12",
+      "lane": "PFMO1",
       "laneKind": "packet-build",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain recall of unoccupied imported grant: no MO process, no extant worker worktree, no unmerged implementation commits or uncommitted family files; builder and overlay absent. Reassign exact two-family CR360 architecture with verified held sources."
     },
     {
       "subjectType": "packet-family",
@@ -6622,9 +6623,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PFMO1",
       "laneKind": "packet-build",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Captain recall: PF02 Sept9 checkpoint explicitly says Missouri not touched/not claimed/not read owing to then-missing CR370. CR370 now governed and exact; no unmerged implementation or uncommitted family files."
     },
     {
       "subjectType": "packet-family",
@@ -7604,8 +7607,9 @@
       "operation": "rapid-repair",
       "lane": "FIXNH1",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-12T06:53:26.958Z",
+      "releaseReason": "Exact NHJB-2886-DFPe source unavailable; bounded official retrieval returned 403. Native blocked-source return preserves unchanged packet bytes; no implementation remains active."
     },
     {
       "subjectType": "packet-family",
@@ -15614,7 +15618,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "80999a995c5abab5e5873ea6c03622e293b7e6e7d0416305cb2cb029d10e7fbe",
+  "claimsDigest": "e440c26c692f64b845ebf280dcae54986d4e696f1d6a716b148ce3e98f12fe7e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42433,6 +42437,40 @@
         "rowFiles": 4,
         "namedReturnCommit": "f6ffe024ea9bfd15df1b59c6b44839e6eedd23cf"
       }
+    },
+    {
+      "lane": "FIXNH1",
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_vacated-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-12T06:53:26.958Z",
+      "reason": "Exact NHJB-2886-DFPe source unavailable; bounded official retrieval returned 403. Native blocked-source return preserves unchanged packet bytes; no implementation remains active.",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/fixnh1/rows-fixnh1-nh-vacated-source-blocked-20260912.json",
+        "committedAt": "796e6cc34ec9454b630fb3e5f17dd8fd9d84287f",
+        "rowFiles": 1,
+        "namedReturnCommit": "796e6cc34ec9454b630fb3e5f17dd8fd9d84287f"
+      }
+    },
+    {
+      "lane": "PF12",
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-arrest-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-12T06:53:27.143Z",
+      "reason": "Captain recall of unoccupied imported grant: no MO process, no extant worker worktree, no unmerged implementation commits or uncommitted family files; builder and overlay absent. Reassign exact two-family CR360 architecture with verified held sources."
+    },
+    {
+      "lane": "PF02",
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-conviction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-12T06:53:27.291Z",
+      "reason": "Captain recall: PF02 Sept9 checkpoint explicitly says Missouri not touched/not claimed/not read owing to then-missing CR370. CR370 now governed and exact; no unmerged implementation or uncommitted family files."
     }
   ],
   "reissues": [
@@ -64896,6 +64934,28 @@
       "previouslyReleasedAt": "2026-09-06T20:29:21.015Z",
       "transferredAt": "2026-09-12T06:47:41.415Z",
       "reason": "Prior released repair ownership was normalized to FIX02 by native integration; no active worker. Latest VF03 exact semantic FAIL is frozen; assign one bounded implementation worker and leave VF03 unchanged."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-arrest-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF12",
+      "toLane": "PFMO1",
+      "previouslyReleasedAt": "2026-09-12T06:53:27.143Z",
+      "transferredAt": "2026-09-12T06:53:27.457Z",
+      "reason": "Sole bounded Missouri CR360/CR370/FI-05/GN10 implementation worker; all four held bytes verified; independent verification ownership remains separate."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-conviction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF02",
+      "toLane": "PFMO1",
+      "previouslyReleasedAt": "2026-09-12T06:53:27.291Z",
+      "transferredAt": "2026-09-12T06:53:27.608Z",
+      "reason": "Sole bounded Missouri CR360/CR370/FI-05/GN10 implementation worker; all four held bytes verified; independent verification ownership remains separate."
     }
   ],
   "grants": [
