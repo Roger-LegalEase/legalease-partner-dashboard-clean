@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `17f64a27c80e196f93485682a56c5b1c8d364418` (or the newer dispatch base)
+**Minimum required ancestor:** `8f43c8f390428533c67ebfae769a9da78b15c9af` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'rcap-in-custom-pleading' \
   --codex-cloud \
-  --minimum-captain-sha 17f64a27c80e196f93485682a56c5b1c8d364418
+  --minimum-captain-sha 8f43c8f390428533c67ebfae769a9da78b15c9af
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -40,7 +40,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 - Assert only these 2 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'rcap-in-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'pa_790_nonconviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ks-21-6614-prostitution-coercion-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -64,7 +64,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 2 families
 
 - `rcap-in-custom-pleading`
-- `pa_790_nonconviction-set` — failing: requiredFactsNotCollected, unclassifiedBlanks
+- `ks-21-6614-prostitution-coercion-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks
 
 ## What you receive
 
@@ -78,9 +78,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
 - `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/**`
 - `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
-- `scripts/build-census-v1-pa_790_nonconviction-set.mjs`
+- `scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs`
 
 ## Never write here
 

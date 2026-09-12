@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `57e6205edd2f96e5d2e5c4eaa2783c687999e7bf` (or the newer dispatch base)
+**Minimum required ancestor:** `8f43c8f390428533c67ebfae769a9da78b15c9af` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief' \
+  --family 'al-diversion-set' \
   --codex-cloud \
-  --minimum-captain-sha 57e6205edd2f96e5d2e5c4eaa2783c687999e7bf
+  --minimum-captain-sha 8f43c8f390428533c67ebfae769a9da78b15c9af
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,15 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 4 exact families before reading or writing family content:
+- Assert only these 8 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-felony-dwop-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-felony-nonconviction-90-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-misd-conviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-misd-dwop-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-pardoned-felony-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'in_section1_petition-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ky_protective_order_record_expungement-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-in-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nj_indictable_conviction-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,12 +67,16 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 8 families
 
+- `al-diversion-set`
+- `al-felony-dwop-set`
+- `al-felony-nonconviction-90-set`
+- `al-misd-conviction-set`
+- `al-misd-dwop-set`
+- `al-pardoned-felony-set`
 - `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`
-- `in_section1_petition-set`
-- `ky_protective_order_record_expungement-set`
-- `rcap-in-custom-pleading`
+- `nj_indictable_conviction-set`
 
 ## What you receive
 
@@ -81,14 +89,21 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
+- `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
+- `scripts/build-census-v1-al-felony-dwop-set.mjs`
+- `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`
+- `scripts/build-census-v1-al-misd-conviction-set.mjs`
+- `scripts/build-census-v1-al-misd-dwop-set.mjs`
+- `scripts/build-census-v1-al-pardoned-felony-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs`
-- `scripts/build-census-v1-in_section1_petition-set.mjs`
-- `scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs`
-- `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
+- `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
 
 ## Never write here
 
