@@ -1,15 +1,15 @@
 {
   "schemaVersion": "rcap-census-v1-product-wiring/v1",
-  "family": "ks-21-6614-conviction-set",
-  "routeKey": "obligation:track-pathway:KS:ks-21-6614-conviction:conviction-or-diversion-216614",
+  "family": "ks-21-6614-specialty-court-set",
+  "routeKey": "obligation:track-pathway:KS:ks-21-6614-specialty-court:specialty-court-accelerated",
   "routeKeys": [
-    "obligation:track-pathway:KS:ks-21-6614-conviction:conviction-or-diversion-216614"
+    "obligation:track-pathway:KS:ks-21-6614-specialty-court:specialty-court-accelerated"
   ],
   "workType": "PRODUCT_WIRING_REQUIRED",
   "status": "DECLARED_NOT_INSTALLED",
   "authorityCreated": "none",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
-  "derivedFrom": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/reports/rendered-artifacts.json",
   "explicitNonGrants": [
     "This document opens no commercial route.",
     "It creates no fulfillment record and consumes no packet credit.",
@@ -25,30 +25,27 @@
     "generationAllowed": false
   },
   "binding": {
-    "family": "ks-21-6614-conviction-set",
+    "family": "ks-21-6614-specialty-court-set",
     "jurisdiction": "KS",
     "routeKeys": [
-      "obligation:track-pathway:KS:ks-21-6614-conviction:conviction-or-diversion-216614"
+      "obligation:track-pathway:KS:ks-21-6614-specialty-court:specialty-court-accelerated"
     ],
-    "deliveryType": "official_pdf_fill",
+    "deliveryType": "custom_pleading",
     "instrumentKinds": [
-      "cover_sheet",
-      "notice",
-      "primary_filing",
-      "proposed_order"
+      "Kansas Specialty-Court Expungement Petition under § 21-6614"
     ],
     "packetComponents": [
-      "component:ks-21-6614-conviction-cover-sheet-1",
-      "component:ks-21-6614-conviction-cover-sheet-4",
-      "component:ks-21-6614-conviction-notice-3",
-      "component:ks-21-6614-conviction-primary-filing-2",
-      "component:ks-21-6614-conviction-proposed-order-5",
-      "component:ks-21-6614-conviction-proposed-order-6"
+      "component:ks-21-6614-specialty-court-cover-sheet-1",
+      "component:ks-21-6614-specialty-court-cover-sheet-4",
+      "component:ks-21-6614-specialty-court-notice-3",
+      "component:ks-21-6614-specialty-court-primary-filing-2",
+      "component:ks-21-6614-specialty-court-proposed-order-5",
+      "component:ks-21-6614-specialty-court-proposed-order-6"
     ],
-    "fieldMap": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/production-field-map.json",
-    "instructions": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/participant-instructions.md",
-    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
-    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/source-receipt.json",
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [
       {
         "sourceId": "official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025",
@@ -82,16 +79,12 @@
       }
     ],
     "acceptanceReceipt": null,
-    "lastIndependentVerification": {
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf67",
-      "verifiedAtBase": "d552504dba7c1b0b6db4fefae4a7792cb3f01713"
-    },
+    "lastIndependentVerification": null,
     "paymentEligible": false,
     "sponsorshipEligible": false,
     "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
     "maintenanceRelationship": {
-      "rebuiltFrom": "scripts/build-census-v1-ks-21-6614-conviction-set.mjs",
+      "rebuiltFrom": "scripts/build-census-v1-ks-21-6614-specialty-court-set.mjs",
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
@@ -99,16 +92,16 @@
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
-    "packetSetId": "ks-21-6614-conviction-set",
-    "outputStrategy": "official_pdf_fill",
+    "packetSetId": "ks-21-6614-specialty-court-set",
+    "outputStrategy": "custom_pleading",
     "components": [
       {
-        "componentId": "ks-21-6614-conviction-set-component-1",
+        "componentId": "ks-21-6614-specialty-court-set-component-1",
         "role": "primary_filing",
         "order": 1,
         "documentId": "assembled_packet",
-        "file": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "bd203b582ba5121cda7010d2815bac47deceff4ca54c008f5ecf7d88627ee02c",
+        "file": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "a3599e5f42ba128c0b97d138c7686d0db22124596bd59d4c9018d45d5aab397e",
         "requirement": "required"
       }
     ]
