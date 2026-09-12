@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "e58534df9594235179c0381573987207a9205350",
+  "generatedAtCommit": "2199931690a1efdd3242c3222fdcfe0f380f6b04",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7532,6 +7532,22 @@
       "released": true,
       "releasedAt": "2026-09-09T13:47:01.639Z",
       "releaseReason": "PF11 36ec1c777 COMPLETED: five sources bound by pinned digest, 33 of 206 fields written, nine counters zero; BUILT_RASTER_PENDING. Re-granted only to record this release honestly after the original grant was already gone from the ledger."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_conviction_streamlined-set",
+      "itemId": null,
+      "familyId": "nh_conviction_streamlined-set",
+      "familyIds": [
+        "nh_conviction_streamlined-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "repair_ut stopped before semantic inspection with no files or verdict; now owns IN final originals."
     },
     {
       "subjectType": "packet-family",
@@ -15742,25 +15758,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nh_conviction_streamlined-set",
-      "itemId": null,
-      "familyId": "nh_conviction_streamlined-set",
-      "familyIds": [
-        "nh_conviction_streamlined-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "repair_ut stopped before semantic inspection with no files or verdict; now owns IN final originals."
     }
   ],
-  "claimsDigest": "08668d8c5bad55bb19753e6bdce6bf0f3f0ed71b8ef2a645866c66943af36448",
+  "claimsDigest": "bd9522f6face0925356fdd18ec69cd48848f74aa120bc67b6105ed44e92d5a62",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
