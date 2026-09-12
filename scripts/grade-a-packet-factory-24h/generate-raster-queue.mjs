@@ -32,6 +32,7 @@
 import crypto from "node:crypto";
 import { conditionalPacketDocuments } from "./conditional-raster-documents.mjs";
 import { retainRiNonconvictionRasterOrder } from "../rcap-packet-recovery/ri-nonconviction-raster-order.mjs";
+import { retainCa17RasterIdentity } from "../rcap-packet-recovery/ca17-raster-identity.mjs";
 import { resolveMiMoRasterEnrollment } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
 import { resolveIaForm1RasterEnrollment } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
 import fs from "node:fs";
@@ -906,6 +907,11 @@ for (const f of master.families) {
     currentRasterState: "RASTER_PENDING",
     nextOwner: null
   });
+  if (f.familyId === "ca-17b-reduction-set") {
+    rows[rows.length - 1] = retainCa17RasterIdentity(rows.at(-1),
+      read(`${DIR}/warp-20260912/ca17-offense-by-offense/raster-manifest.json`)?.rows?.[0],
+      read(`${DIR}/raster-runs/34690713553/ca-17b-reduction-set.verdict.json`));
+  }
 }
 
 /*
