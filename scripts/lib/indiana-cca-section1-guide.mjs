@@ -262,6 +262,7 @@ function flattenedDeliverySection(delivered) {
 }
 
 const INSERT_SELECTION_LABELS = {
+  "Check Box17": "charges were filed as an adult",
   "Check Box19": "all charges were not filed or were dismissed before trial",
   "Check Box25": "at least one year has passed"
 };
@@ -608,7 +609,9 @@ export function participantInstructionsMarkdown({
   routeLabel, routeEligibility, routeStatutes, selfHelpTail, delivered, track
 }) {
   const noCharges = delivered.familyId === "in_arrest_no_charges-set";
-  const selected = delivered.insertSelections.map((row) => `\`${row.field}\``).join(", ");
+  const selected = delivered.insertSelections
+    .map((row) => INSERT_SELECTION_LABELS[row.field] ?? "the supported printed choice")
+    .map((label) => `“${label}”`).join(", ");
   const waiting = track?.waitingPeriods?.[0] ?? track?.waitingPeriod ?? null;
   const waitingText = typeof waiting === "string" ? waiting : (waiting?.duration ?? "one year");
   const routeGuard = noCharges
@@ -626,16 +629,21 @@ The delivery contains two official Coalition for Court Access PDFs: the fifteen-
 
 The packet writes held identity, contact, county, arrest and ${noCharges ? "no-charge" : "dismissed-case"} facts only in their printed participant or neutral-record locations. It keeps the clerk-assigned XP cause number separate from ${noCharges ? "any prosecutor declination reference" : "the underlying criminal cause numbers"}. The source-defined participant choices already marked on each Facts set are ${selected}. Check every prefilled fact against your records before filing.
 
+File the verified petition, proposed order, Appearance if you represent yourself, Notice of Exclusion and Confidential Information Form with a **circuit or superior court in the county where the charges were filed**, or in the **county of arrest if no charges were filed**. A Section 1 petition has **no filing fee**, so no fee-waiver application is needed.
+
 ## Complete and check these items
 
-- Sign and verify the petition yourself. Fill the last four digits of your Social Security number on the petition and the full number only on the Confidential Information Form and Exhibit A where printed (source field PetFullSSN).
-- Ask the clerk **which circuit or superior court type** belongs in **the type of court, in the Appearance caption**, and leave the new XP cause number for the clerk. Keep underlying criminal cause numbers separate from that new XP number, and do not invent an appellate cause number.
+- Sign and verify the petition yourself. Fill the last four digits of your Social Security number on the petition and the full number only on the Confidential Information Form and Exhibit A where printed.
+- The packet derives **SUPERIOR** or **CIRCUIT** in all four court-type caption blanks from the held filing-court name. Check it against the court where you will file. Leave the new XP cause number for the clerk. Keep underlying criminal cause numbers separate from that new XP number, and do not invent an appellate cause number.
 - Complete the **last four digits of the Petitioner's Social Security Number, in the petition**, and the **Petitioner's driver license or state identification number** from the participant's own records.
+- Complete the **Full Social Security Number on the Confidential Information Form** and the **Full Social Security Number on Exhibit A** only in those protected identification blanks.
 - A fax number is optional. **Arresting officer, agency, and law-enforcement case number if known or available** are completed only when the source condition is met.
 - For a no-charge matter, leave the charge grid, charge-filing date and cause-number fields blank. For a charged matter, complete only the rows and the dismissal, acquittal or appellate date that match the supported outcome. Unused count rows and unused alternative dates stay blank.
 - On a no-charge matter, answer the separate prosecutor-declination branch only from the actual record. Complete the **Assigned prosecutor-declination number if one exists**; do not infer a declination merely because no charge was filed.
 - For that route, supply the **Date supporting the no-charge disposition statement** from the actual record in the date blank before the combined “not filed or dismissed” statement; the packet does not guess that date.
-- Complete the **alias and address-history questions**: **Alias identity history if any** and **Addresses since arrest**, from your own facts. Complete the Appearance's **related-matter fields only if** a related case actually exists, and complete **Related miscellaneous-criminal matter details if one exists** only when that separate source condition is true. Do not invent an appellate number.
+- Complete the **alias and address-history questions** from your own facts. On petition page 3, list every other name or alias used, or state none as the form permits; leave the proposed order's alias finding for the court. Complete the Appearance's **related-matter fields only if** a related case actually exists, and complete related miscellaneous-criminal matter details only when that separate source condition is true. Do not invent an appellate number.
+- Complete **Other names or aliases used (petition page 3)**, **Alias identity history if any**, and **Addresses since arrest** from your actual history. Complete **Related miscellaneous-criminal matter details if one exists** only when such a matter actually exists.
+- On petition page 5, identify each applicable police department, sheriff, prosecutor or other agency that holds records covered by your request. Its three unlabelled rules are tracked as **Additional record-holding agency 1 on petition page 5**, **Additional record-holding agency 2 on petition page 5**, and **Additional record-holding agency 3 on petition page 5**. The local county is already printed in the county-sheriff and recipient captions. Do not invent an agency, do not copy your home address into an agency block, and leave the proposed order's agency directives for the court.
 - Mark the petition's relief-request squares yourself after checking the requested orders; the packet does not choose your legal request.
 - The bundle has **three certificates of service**, on pages 2, 6 and 7. Each offers two service methods. Do not date, sign or select a method before service occurs. The known county printed beside a recipient does not certify service. Ask the clerk how the court applies the form's certificate language alongside the rule that the court serves the prosecuting attorney.
 - The expungement case file remains public until the order is granted. Indiana expungement seals or restricts access to records; it does not delete or destroy them.
@@ -651,6 +659,7 @@ The proposed order's agency and distribution-address blocks remain blank unless 
 Stop and ask an Indiana lawyer or the filing clerk for procedural direction if a prefilled fact is wrong, a disposition is unclear, a case is still pending, a pretrial-diversion issue exists, the case has an appellate record, the correct insert branch is uncertain, or the court requires information you do not have.
 
 - The recorded waiting period for this route is **${waitingText}**. Stop if it has not run.
+${noCharges ? "" : "- Early filing is available only when the prosecuting attorney agrees **in writing**. Silence is not agreement, and this packet does not select or fabricate that exception.\n"}
 ${selfHelpTail}
 
 This packet prepares official forms; it does not file them or decide eligibility. Indiana authority used: ${routeStatutes}.
@@ -685,10 +694,21 @@ export async function assertRepairInvariants({ rootDir, outRel, familyId }) {
   assert.match(guide, /NOT expunged/);
   assert.match(guide, /if known or available/);
   assert.match(guide, /Unused count rows and unused alternative dates stay blank/);
+  assert.match(guide, /county where the charges were filed/);
+  assert.match(guide, /county of arrest if no charges were filed/);
+  assert.match(guide, /no filing fee/);
+  assert.match(guide, /no fee-waiver application is needed/);
+  assert.match(guide, /local county is already printed/);
+  assert.match(guide, /petition page 3, list every other name or alias used/);
   assert.doesNotMatch(guide, /data\/rcap|reports\/|obligation:track-pathway:|committed record|earlier build/);
+  assert.doesNotMatch(guide, /Check Box\d+|PetFullSSN|selfHelpStopConditions|track `|registry/i);
   if (familyId === "in_arrest_no_charges-set") {
     assert.match(guide, /after June 30, 2022/);
     assert.match(guide, /does \*\*not\*\* shorten the statute of limitations/);
+    assert.match(guide, /court sets a hearing/i);
+  } else {
+    assert.match(guide, /agrees \*\*in writing\*\*/);
+    assert.match(guide, /Silence is not agreement/);
   }
   const expectedSelections = familyId === "in_arrest_no_charges-set"
     ? ["Check Box19", "Check Box25"]
@@ -704,5 +724,5 @@ export async function assertRepairInvariants({ rootDir, outRel, familyId }) {
   const boundaryInsert = await PDFDocument.load(fs.readFileSync(path.join(out, "fixtures/inserts-boundary-filled.pdf")));
   assert.equal(canonicalInsert.getPageCount(), 4);
   assert.equal(boundaryInsert.getPageCount(), 12);
-  return { ...delivered, assertions: 22, result: "PASS" };
+  return { ...delivered, assertions: 34, result: "PASS" };
 }

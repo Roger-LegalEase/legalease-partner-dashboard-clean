@@ -1219,10 +1219,7 @@ function actualWritesArtifacts(documents) {
  * assertRepairInvariants() re-reads the finished artifacts and refuses a guide
  * that has drifted from them again.
  */
-const SELF_HELP_TAIL = `
-The committed track registry for this route — \`data/record-clearing/legal-design-track-registry.json\`, track \`in_section1_petition\`, \`selfHelpStopConditions\` — holds thirteen conditions of its own. They are reproduced here word for word, and each of them is a point at which this packet stops being enough:
-
-- The prosecutor objects or files a notice in opposition.
+const SELF_HELP_TAIL = `- The prosecutor objects or files a notice in opposition.
 - A victim submits a statement in opposition.
 - The court sets a hearing.
 - The person has convictions in more than one county and the 365-day window is already partly consumed.

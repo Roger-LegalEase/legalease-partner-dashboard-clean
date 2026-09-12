@@ -77,7 +77,38 @@
           "why": "Named so the row says what it is. It is a dropdown rather than a text field, and the shared binder never writes a non-text widget."
         }
       },
-      "partialFills": [],
+      "partialFills": [
+        {
+          "field": "County",
+          "writtenOccurrences": "petition page 5 and local prosecutor/sheriff captions on page 13",
+          "leftBlankOccurrences": "court decree on page 12 and conditional other-county clerk on page 14",
+          "reason": "The shared field has different printed actors. Only the exact local-county occurrences are neutral held facts."
+        },
+        {
+          "field": "PetitionerAliases",
+          "writtenOccurrences": "none; alias history is not held",
+          "leftBlankOccurrences": "participant alias question on page 3 and court finding on page 9",
+          "reason": "The participant completes the page 3 question; the court owns the page 9 finding."
+        },
+        {
+          "field": "LEA1",
+          "writtenOccurrences": "none; record-holding agency identity is not held",
+          "leftBlankOccurrences": "participant agency request on page 5 and court directive on page 12",
+          "reason": "The participant completes an applicable page 5 agency line; the court owns the page 12 directive."
+        },
+        {
+          "field": "LEA2",
+          "writtenOccurrences": "none; record-holding agency identity is not held",
+          "leftBlankOccurrences": "participant agency request on page 5 and court directive on page 12",
+          "reason": "The participant completes an applicable page 5 agency line; the court owns the page 12 directive."
+        },
+        {
+          "field": "LEA3",
+          "writtenOccurrences": "none; record-holding agency identity is not held",
+          "leftBlankOccurrences": "participant agency request on page 5 and court directive on page 12",
+          "reason": "The participant completes an applicable page 5 agency line; the court owns the page 12 directive."
+        }
+      ],
       "missingCompanionForms": [],
       "whereTheParticipantGetsThem": {
         "printedOnEveryPageOfTheBundle": "www.indianalegalhelp.org",
@@ -93,11 +124,6 @@
           "why": "The petitioner's driver licence or state identification number, in the petition's paragraph 2. The shared binder matched participant.state on the widget's name and would have printed \"XX\" as a licence number. The platform holds no licence number."
         },
         {
-          "field": "PetitionerAliases",
-          "class": "alias_list_not_held",
-          "why": "The proposed order's finding that the petitioner \"has used the following other names or aliases\". The shared binder would have written the participant's own legal name there, which asserts they have used it as an alias, and the platform holds no alias fact."
-        },
-        {
           "field": "RelatedCriminalCauseNumbers",
           "class": "other_matters_not_held",
           "why": "The RELATED criminal cause numbers in the proposed order's caption — the cause numbers of other cases. The shared binder would have written this matter's own cause number under that heading."
@@ -106,11 +132,6 @@
           "field": "AppellateCauseNumbers",
           "class": "other_matters_not_held",
           "why": "Appellate cause or case numbers in the proposed order. A different number issued by a different court; the shared binder would have written this matter's trial-court cause number there."
-        },
-        {
-          "field": "County",
-          "class": "court_ordered_agency_directive",
-          "why": "The county sheriff's department named in the proposed order's directive to remove criminal history information. It is the court's own order to an agency, and the shared binder would have written matter.county into it."
         },
         {
           "field": "County1",
@@ -574,6 +595,70 @@
           "effectiveLabel": "COUNTY OF"
         },
         {
+          "field": "DD-cap-CourtType",
+          "factId": "matter.court_type",
+          "writeKind": "source_measured_occurrence_overlay",
+          "selectionBasis": null,
+          "page": 1,
+          "rect": {
+            "x": 404.08,
+            "y": 708.03,
+            "width": 105.02,
+            "height": 13.08
+          },
+          "rectBasis": "exact_occurrence_rect_measured_from_pinned_source_widget",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "the type of court, in the Appearance caption"
+        },
+        {
+          "field": "DD-cap-CourtType",
+          "factId": "matter.court_type",
+          "writeKind": "source_measured_occurrence_overlay",
+          "selectionBasis": null,
+          "page": 7,
+          "rect": {
+            "x": 403.57,
+            "y": 679.23,
+            "width": 105.02,
+            "height": 13.08
+          },
+          "rectBasis": "exact_occurrence_rect_measured_from_pinned_source_widget",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "the type of court, in the Appearance caption"
+        },
+        {
+          "field": "DD-cap-CourtType",
+          "factId": "matter.court_type",
+          "writeKind": "source_measured_occurrence_overlay",
+          "selectionBasis": null,
+          "page": 9,
+          "rect": {
+            "x": 404.19,
+            "y": 707.35,
+            "width": 105.02,
+            "height": 13.08
+          },
+          "rectBasis": "exact_occurrence_rect_measured_from_pinned_source_widget",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "the type of court, in the Appearance caption"
+        },
+        {
+          "field": "DD-cap-CourtType",
+          "factId": "matter.court_type",
+          "writeKind": "source_measured_occurrence_overlay",
+          "selectionBasis": null,
+          "page": 3,
+          "rect": {
+            "x": 405.78,
+            "y": 733.65,
+            "width": 105.02,
+            "height": 13.08
+          },
+          "rectBasis": "exact_occurrence_rect_measured_from_pinned_source_widget",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "the type of court, in the Appearance caption"
+        },
+        {
           "field": "Address",
           "factId": "participant.street_address",
           "writeKind": "source_measured_occurrence_overlay",
@@ -636,6 +721,54 @@
           "rectBasis": "exact_occurrence_rect_measured_from_pinned_source_widget",
           "measuredRuleUnderWriteBox": null,
           "effectiveLabel": "Petitioner's current address, on the Appearance"
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "writeKind": "source_measured_occurrence_overlay",
+          "selectionBasis": null,
+          "page": 13,
+          "rect": {
+            "x": 36,
+            "y": 231.24,
+            "width": 126,
+            "height": 12.72
+          },
+          "rectBasis": "exact_occurrence_rect_measured_from_pinned_source_widget",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "b"
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "writeKind": "source_measured_occurrence_overlay",
+          "selectionBasis": null,
+          "page": 13,
+          "rect": {
+            "x": 36,
+            "y": 162.24,
+            "width": 114,
+            "height": 12.72
+          },
+          "rectBasis": "exact_occurrence_rect_measured_from_pinned_source_widget",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "b"
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "writeKind": "source_measured_occurrence_overlay",
+          "selectionBasis": null,
+          "page": 5,
+          "rect": {
+            "x": 145.66,
+            "y": 622.25,
+            "width": 139.07,
+            "height": 11.59
+          },
+          "rectBasis": "exact_occurrence_rect_measured_from_pinned_source_widget",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "b"
         },
         {
           "field": "County1",
@@ -806,6 +939,11 @@
         },
         {
           "field": "cap-PetitionerFullName",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DD-cap-CourtType",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -1088,21 +1226,18 @@
         },
         {
           "field": "LEA1",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
         },
         {
           "field": "LEA2",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
         },
         {
           "field": "LEA3",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
         },
         {
           "field": "Check Box9",
@@ -1165,11 +1300,6 @@
           "field": "PetDLorStateID#",
           "reason": "classified_unwritable_by_role",
           "category": "role"
-        },
-        {
-          "field": "DD-cap-CourtType",
-          "reason": "value_not_among_field_options",
-          "factId": "matter.court"
         }
       ],
       "protectedFields": [
@@ -1179,6 +1309,10 @@
         },
         {
           "field": "cap-PetitionerFullName",
+          "category": "role"
+        },
+        {
+          "field": "DD-cap-CourtType",
           "category": "role"
         },
         {
@@ -1342,6 +1476,18 @@
           "category": "government_identifier"
         },
         {
+          "field": "LEA1",
+          "category": "role"
+        },
+        {
+          "field": "LEA2",
+          "category": "role"
+        },
+        {
+          "field": "LEA3",
+          "category": "role"
+        },
+        {
           "field": "Check Box9",
           "category": "type_guard"
         },
@@ -1420,13 +1566,10 @@
           "page": 1,
           "pdfType": "dropdown",
           "isSelectionControl": false,
-          "decision": "refuse",
-          "factId": null,
+          "decision": "write",
+          "factId": "matter.court_type",
           "buildRoleClass": null,
-          "buildRoleWhy": null,
-          "reason": "The type of court in the Appearance's caption — the second blank in \"IN THE ______ ______ COURT\". The platform holds no court fact for this route, and the blank is a dropdown the shared binder never writes. The participant selects the court the case is filed in.",
-          "refusalClass": null,
-          "requiredBeforeFiling": true
+          "buildRoleWhy": null
         },
         {
           "field": "Email",
@@ -1971,17 +2114,15 @@
           "page": 12,
           "pdfType": "text",
           "isSelectionControl": false,
-          "decision": "refuse",
-          "factId": null,
-          "buildRoleClass": "court_ordered_agency_directive",
-          "buildRoleWhy": "The county sheriff's department named in the proposed order's directive to remove criminal history information. It is the court's own order to an agency, and the shared binder would have written matter.county into it.",
-          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
         },
         {
           "field": "PetFullSSN",
           "fieldId": "PetFullSSN",
-          "effectiveLabel": "Petitioner's full Social Security Number, on the Confidential Information Form",
+          "effectiveLabel": "Full Social Security Number on the Confidential Information Form",
           "harvestedLabel": "PETITIONERS FULL SOCIAL SECURITY NUMBER",
           "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
           "page": 8,
@@ -2186,7 +2327,7 @@
         {
           "field": "PetitionerAliases",
           "fieldId": "PetitionerAliases",
-          "effectiveLabel": "other names or aliases the Petitioner has used, in the proposed order's findings",
+          "effectiveLabel": "Other names or aliases used (petition page 3)",
           "harvestedLabel": "1. Petitioners full name is _______________________________",
           "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
           "page": 9,
@@ -2194,10 +2335,11 @@
           "isSelectionControl": false,
           "decision": "refuse",
           "factId": null,
-          "buildRoleClass": "alias_list_not_held",
-          "buildRoleWhy": "The proposed order's finding that the petitioner \"has used the following other names or aliases\". The shared binder would have written the participant's own legal name there, which asserts they have used it as an alias, and the platform holds no alias fact.",
-          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "On petition page 3, list every other name or alias used, or state none as the form permits. The same source field also reaches the proposed order's page 9 finding, which remains court-owned and blank.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
         },
         {
           "field": "PetDOB",
@@ -2233,7 +2375,7 @@
         {
           "field": "LEA1",
           "fieldId": "LEA1",
-          "effectiveLabel": "b",
+          "effectiveLabel": "Additional record-holding agency 1 on petition page 5",
           "harvestedLabel": "b",
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "page": 12,
@@ -2243,13 +2385,14 @@
           "factId": null,
           "buildRoleClass": null,
           "buildRoleWhy": null,
-          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "reason": "On petition page 5, identify each applicable agency that holds records the requested order should address. Do not invent an agency. The same source field also reaches the proposed order on page 12, which remains court-owned and blank.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
         },
         {
           "field": "LEA2",
           "fieldId": "LEA2",
-          "effectiveLabel": "d",
+          "effectiveLabel": "Additional record-holding agency 2 on petition page 5",
           "harvestedLabel": "d",
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "page": 12,
@@ -2259,13 +2402,14 @@
           "factId": null,
           "buildRoleClass": null,
           "buildRoleWhy": null,
-          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "reason": "On petition page 5, identify each applicable agency that holds records the requested order should address. Do not invent an agency. The same source field also reaches the proposed order on page 12, which remains court-owned and blank.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
         },
         {
           "field": "LEA3",
           "fieldId": "LEA3",
-          "effectiveLabel": "d",
+          "effectiveLabel": "Additional record-holding agency 3 on petition page 5",
           "harvestedLabel": "d",
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "page": 12,
@@ -2275,8 +2419,9 @@
           "factId": null,
           "buildRoleClass": null,
           "buildRoleWhy": null,
-          "reason": "Part of the proposed order below its caption: its findings about the petitioner, its decree, its directions to the Indiana State Police, the county sheriff, the prosecutor, the clerk and the listed law-enforcement agencies, and its proof of notice. The order is the court's instrument and this packet writes nothing in it.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "reason": "On petition page 5, identify each applicable agency that holds records the requested order should address. Do not invent an agency. The same source field also reaches the proposed order on page 12, which remains court-owned and blank.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
         },
         {
           "field": "Check Box9",
@@ -5332,7 +5477,7 @@
         {
           "field": "PetFullSSN",
           "fieldId": "PetFullSSN",
-          "effectiveLabel": "DOB",
+          "effectiveLabel": "Full Social Security Number on Exhibit A",
           "harvestedLabel": "DOB",
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "page": 4,
@@ -5342,7 +5487,7 @@
           "factId": null,
           "buildRoleClass": "insert_widget_shared_with_the_proposed_order",
           "buildRoleWhy": "This insert combines the participant's FACTS pages, the court's FINDINGS page and Exhibit A. The selected route and held fixture facts do not safely settle this field for its printed role, so it remains blank for hand completion; court findings are never prefilled. The Coalition for Court Access publishes these pages for the petitioner to complete.",
-          "reason": "The petitioner's full Social Security Number in Exhibit A's identification block. The platform holds no Social Security Number. This insert combines the participant's FACTS pages, the court's FINDINGS page and Exhibit A. The selected route and held fixture facts do not safely settle this field for its printed role, so it remains blank for hand completion; court findings are never prefilled. The Coalition for Court Access publishes these pages for the petitioner to complete.",
+          "reason": "The participant supplies the full Social Security Number only in Exhibit A's protected identification block; the platform does not hold it.",
           "refusalClass": null,
           "requiredBeforeFiling": true
         },

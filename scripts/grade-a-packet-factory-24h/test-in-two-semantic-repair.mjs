@@ -49,12 +49,31 @@ for (const [familyId, leaf, trackId] of families) {
     equal(pdf.getForm().getFields().length, 0);
     equal(pdf.getPageCount(), artifact.documentId.includes("INSERT") && artifact.fixture === "boundary" ? 12
       : artifact.documentId.includes("INSERT") ? 4 : 15);
+    if (artifact.documentId.includes("BUNDLE")) {
+      const court = artifact.occurrenceWrites.filter((row) => row.field === "DD-cap-CourtType");
+      const county = artifact.occurrenceWrites.filter((row) => row.field === "County");
+      deepEqual(court.map((row) => row.localSourcePage).sort((a, b) => a - b), [1, 3, 7, 9]);
+      ok(court.every((row) => row.value === (artifact.fixture === "canonical" ? "SUPERIOR" : "CIRCUIT")));
+      deepEqual(county.map((row) => row.localSourcePage).sort((a, b) => a - b), [5, 13, 13]);
+      ok(county.every((row) => row.value === (artifact.fixture === "canonical" ? "Marion" : "Saint Joseph")));
+      ok(!county.some((row) => row.localSourcePage === 12 || row.localSourcePage === 14));
+    }
   }
   equal(actual.artifacts.find((a) => a.documentId.includes("INSERT") && a.fixture === "boundary").insertSetCount, 3);
   ok(map.documents.every((doc) => doc.writeBoxes
     .filter((row) => row.writeKind === "source_measured_occurrence_overlay")
     .every((row) => row.rectBasis === "exact_occurrence_rect_measured_from_pinned_source_widget")));
   const insert = map.documents.find((doc) => doc.documentId.includes("INSERT"));
+  const packet = map.documents.find((doc) => doc.documentId.includes("BUNDLE"));
+  equal(packet.fields.find((row) => row.field === "DD-cap-CourtType")?.decision, "write");
+  equal(packet.fields.find((row) => row.field === "DD-cap-CourtType")?.factId, "matter.court_type");
+  equal(packet.fields.find((row) => row.field === "County")?.decision, "write");
+  for (const field of ["PetitionerAliases", "LEA1", "LEA2", "LEA3"]) {
+    equal(packet.fields.find((row) => row.field === field)?.requiredBeforeFiling, true);
+    equal(packet.partialFills.find((row) => row.field === field)?.writtenOccurrences.startsWith("none"), true);
+  }
+  ok(packet.partialFills.find((row) => row.field === "County")?.leftBlankOccurrences.includes("page 12"));
+  ok(packet.partialFills.find((row) => row.field === "County")?.leftBlankOccurrences.includes("page 14"));
   for (const field of ["Check Box16", "Check Box18", "Check Box20", "Check Box22", "Check Box24", "Check Box27", "Check Box28", "Check Box30"]) {
     equal(insert.fields.find((row) => row.field === field)?.decision, "refuse");
   }
@@ -65,6 +84,18 @@ for (const [familyId, leaf, trackId] of families) {
   ok(guide.includes("does not delete or destroy"));
   ok(guide.includes("Expunged pursuant to I.C. § 35-38-9-1"));
   ok(guide.includes("NOT expunged"));
+  ok(guide.includes("county where the charges were filed"));
+  ok(guide.includes("county of arrest if no charges were filed"));
+  ok(guide.includes("no filing fee"));
+  ok(guide.includes("no fee-waiver application is needed"));
+  ok(guide.includes("petition page 3, list every other name or alias used"));
+  ok(guide.includes("petition page 5, identify each applicable"));
+  ok(!/Check Box\d+|PetFullSSN|data\/record-clearing|selfHelpStopConditions/.test(guide));
+  if (familyId === "in_arrest_no_charges-set") ok(/court sets a hearing/i.test(guide));
+  else {
+    ok(guide.includes("agrees **in writing**"));
+    ok(guide.includes("Silence is not agreement"));
+  }
   assertIndianaSection1Fixture({
     "fixture.synthetic": true, "participant.state": "IN", "matter.court": "Marion Superior Court",
     "matter.charges": [{ arrest_date: "2023-07-01", arrest_city: "Indianapolis", disposition: trackId === "in_arrest_no_charges"

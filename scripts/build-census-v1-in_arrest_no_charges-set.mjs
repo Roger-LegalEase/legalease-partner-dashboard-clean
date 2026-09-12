@@ -1223,6 +1223,7 @@ function actualWritesArtifacts(documents) {
  */
 const SELF_HELP_TAIL = `- **the prosecutor objects or files a notice in opposition;**
 - **a victim submits a statement in opposition;**
+- **the court sets a hearing;**
 - the person has convictions in more than one county and the 365-day window is already partly consumed;
 - a conviction is not yet eligible and the person wants to file now, which is the Chastain trap;
 - the person has already filed a Sections 2 through 5 petition;

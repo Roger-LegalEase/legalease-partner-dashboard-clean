@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "commandsPassed": 7,
+  "commandsFailed": 0,
+  "commands": [
+    {
+      "id": "semantic",
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-two-semantic-repair.mjs",
+      "result": "PASS",
+      "assertions": 186,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/semantic.log",
+      "logSha256": "9b8a8442181493aca5258cb02c5abefda90570dd1ccbd4e4fed7c82a07d95252"
+    },
+    {
+      "id": "route",
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-route-selections.mjs",
+      "result": "PASS",
+      "assertions": 41,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/route.log",
+      "logSha256": "a49d73fe72d7ef21b8ecd5c4a3f8ff3fb28e88bf9c65477459f77b4cac38c201"
+    },
+    {
+      "id": "appearance",
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-preservation.mjs",
+      "result": "PASS",
+      "assertions": null,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/appearance.log",
+      "logSha256": "2884a9c2ea0eb3b776be08f428fdbd279a36457a31b8911c0f904774c601a090"
+    },
+    {
+      "id": "byte",
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-byte-proof.mjs",
+      "result": "PASS",
+      "assertions": 512,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/byte.log",
+      "logSha256": "e769b7a5217851b90e95ad90b2c1313d8470be2a7ad56feb1c2dc4fac12473f3"
+    },
+    {
+      "id": "settled",
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-settled-selection-byte-proof.mjs",
+      "result": "PASS",
+      "assertions": 782,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/settled.log",
+      "logSha256": "49c451131f54c7db85c82a76e69f1445cde3fe45d024f3702d529e4e3b1777da"
+    },
+    {
+      "id": "completeness_arrest",
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
+      "result": "PASS",
+      "assertions": 9,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/completeness_arrest.log",
+      "logSha256": "88d5ace1f95cffa2b63f38014719bee64a719d6efc494561ef495bfb2348e948"
+    },
+    {
+      "id": "completeness_section",
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
+      "result": "PASS",
+      "assertions": 9,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/completeness_section.log",
+      "logSha256": "ab5d04ce3b0f5ae574c206a6d062d597be86e07e7f10277b41b795ce49d71786"
+    }
+  ],
+  "measured": {
+    "followupKnownWrites": 28,
+    "allExactPositionedReadback": true,
+    "allNineCountersZeroBothFamilies": true,
+    "previousOccurrenceWritesPreserved": true,
+    "sourceChoiceWidgetsChecked": 512,
+    "settledSelectionAssertions": 782,
+    "negativeControls": 47
+  },
+  "visualReview": "PENDING_INDEPENDENT_CURRENT_BYTE_RASTER"
+}

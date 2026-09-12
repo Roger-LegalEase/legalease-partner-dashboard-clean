@@ -19,7 +19,8 @@ const participantPages = Object.freeze({ packet: new Set([1, 2, 3, 5, 6, 7, 8, 9
 const forbiddenInsertPages = new Set([3]);
 
 const PACKET_OCCURRENCE_FIELDS = Object.freeze([
-  "cap-PetitionerFullName", "cap-COUNTY", "Address", "PetDOB",
+  "cap-PetitionerFullName", "cap-COUNTY", "DD-cap-CourtType", "Address", "PetDOB",
+  "County", "PetitionerAliases", "LEA1", "LEA2", "LEA3",
   "County1", "County2", "County3", "County4", "County5", "County6",
   "RelatedCriminalCauseNumbers"
 ]);
@@ -164,6 +165,13 @@ const addRelatedCauses = (anchors, census, facts) => {
   });
 };
 
+const courtType = (court) => {
+  const value = String(court ?? "").trim();
+  if (/\bSuperior Court$/i.test(value)) return "SUPERIOR";
+  if (/\bCircuit Court$/i.test(value)) return "CIRCUIT";
+  assert.fail(`held Indiana court does not identify a supported circuit/superior type: ${value}`);
+};
+
 export function indianaSection1OccurrencePlan({ docKey, census, facts, trackId }) {
   assert.equal(census.fields.length, docKey === "packet" ? 68 : 77, "Indiana source field inventory drifted");
   const anchors = [];
@@ -172,7 +180,15 @@ export function indianaSection1OccurrencePlan({ docKey, census, facts, trackId }
       "participant.full_legal_name", facts["participant.full_legal_name"], { fontSize: 10 });
     add(anchors, census, "cap-COUNTY", participantPages.packet,
       "matter.county", facts["matter.county"], { fontSize: 10 });
+    add(anchors, census, "DD-cap-CourtType", new Set([1, 3, 7, 9]),
+      "matter.court_type", courtType(facts["matter.court"]), { fontSize: 9, actor: "NEUTRAL_COURT_IDENTITY" });
     addAddress(anchors, census, facts);
+    // One source field spans four different actors. Only the petition's county
+    // sheriff request (p5) and the local prosecutor/sheriff recipient captions
+    // (p13) are the held matter county. The judicial decree (p12) and a
+    // conditional transfer to another county's clerk (p14) stay untouched.
+    add(anchors, census, "County", new Set([5, 13]),
+      "matter.county", facts["matter.county"], { fontSize: 9, actor: "NEUTRAL_LOCAL_COUNTY_IDENTITY" });
     for (let i = 1; i <= 6; i++) add(anchors, census, `County${i}`, participantPages.packet,
       "matter.county", facts["matter.county"], { fontSize: 9, actor: "NEUTRAL_SERVICE_RECIPIENT_IDENTITY" });
     add(anchors, census, "PetDOB", new Set([3, 9]), "participant.date_of_birth",
@@ -313,11 +329,50 @@ const setPolicy = (doc, names, policy) => {
 
 export function applyIndianaSection1CompletenessPolicy(doc, trackId) {
   if (doc.key === "packet") {
+    // These names span participant, neutral and court occurrences. Their actor
+    // boundary is defined below and by the exact occurrence plan, so the old
+    // whole-field court-owned refusal must not survive in the production map.
+    const occurrenceClassified = new Set(["County", "PetitionerAliases", "LEA1", "LEA2", "LEA3"]);
+    doc.unwritable = doc.unwritable.filter(({ field }) => !occurrenceClassified.has(field));
     setPolicy(doc, ["Fax"], {
       requiredBeforeFiling: false, refusalClass: null,
       completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT",
       reason: "Optional participant-authored fax number; leave blank when the participant has no fax number."
     });
+    setPolicy(doc, ["PetFullSSN"], {
+      effectiveLabel: "Full Social Security Number on the Confidential Information Form"
+    });
+    setPolicy(doc, ["PetitionerAliases"], {
+      requiredBeforeFiling: true, refusalClass: null,
+      effectiveLabel: "Other names or aliases used (petition page 3)",
+      reason: "On petition page 3, list every other name or alias used, or state none as the form permits. The same source field also reaches the proposed order's page 9 finding, which remains court-owned and blank."
+    });
+    for (const [field, label] of [["LEA1", "Additional record-holding agency 1 on petition page 5"],
+      ["LEA2", "Additional record-holding agency 2 on petition page 5"],
+      ["LEA3", "Additional record-holding agency 3 on petition page 5"]]) {
+      setPolicy(doc, [field], {
+        requiredBeforeFiling: true, refusalClass: null, effectiveLabel: label,
+        reason: "On petition page 5, identify each applicable agency that holds records the requested order should address. Do not invent an agency. The same source field also reaches the proposed order on page 12, which remains court-owned and blank."
+      });
+    }
+    doc.partialFills = [
+      ...(doc.partialFills ?? []),
+      {
+        field: "County", writtenOccurrences: "petition page 5 and local prosecutor/sheriff captions on page 13",
+        leftBlankOccurrences: "court decree on page 12 and conditional other-county clerk on page 14",
+        reason: "The shared field has different printed actors. Only the exact local-county occurrences are neutral held facts."
+      },
+      {
+        field: "PetitionerAliases", writtenOccurrences: "none; alias history is not held",
+        leftBlankOccurrences: "participant alias question on page 3 and court finding on page 9",
+        reason: "The participant completes the page 3 question; the court owns the page 9 finding."
+      },
+      ...["LEA1", "LEA2", "LEA3"].map((field) => ({
+        field, writtenOccurrences: "none; record-holding agency identity is not held",
+        leftBlankOccurrences: "participant agency request on page 5 and court directive on page 12",
+        reason: "The participant completes an applicable page 5 agency line; the court owns the page 12 directive."
+      }))
+    ];
     return;
   }
   const offRoute = (names, condition) => setPolicy(doc, names, {
@@ -342,6 +397,11 @@ export function applyIndianaSection1CompletenessPolicy(doc, trackId) {
   setPolicy(doc, ["AddressesSinceArrest"], {
     requiredBeforeFiling: true, refusalClass: null, effectiveLabel: "Addresses since arrest",
     reason: "The source requires the participant's address history since the arrest; the current address alone is not the full answer."
+  });
+  setPolicy(doc, ["PetFullSSN"], {
+    requiredBeforeFiling: true, refusalClass: null,
+    effectiveLabel: "Full Social Security Number on Exhibit A",
+    reason: "The participant supplies the full Social Security Number only in Exhibit A's protected identification block; the platform does not hold it."
   });
   if (trackId === "in_arrest_no_charges") {
     conditional(["AssignedCaseNumber"], "Assigned prosecutor-declination number if one exists",

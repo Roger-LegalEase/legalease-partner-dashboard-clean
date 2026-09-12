@@ -12,8 +12,10 @@ const source = path.join(root,
   "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/"
   + "IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf");
 const families = [
-  { id: "in-arrest-no-charges-set", expected: ["Check Box19", "Check Box25"] },
-  { id: "in-section1-petition-set", expected: ["Check Box17", "Check Box19", "Check Box25"] }
+  { id: "in-arrest-no-charges-set", expected: ["Check Box19", "Check Box25"], guideLabels: [
+    "all charges were not filed or were dismissed before trial", "at least one year has passed"] },
+  { id: "in-section1-petition-set", expected: ["Check Box17", "Check Box19", "Check Box25"], guideLabels: [
+    "charges were filed as an adult", "all charges were not filed or were dismissed before trial", "at least one year has passed"] }
 ];
 const participantUnknown = ["Check Box15", "Check Box17", "Check Box21", "Check Box23", "Check Box26", "Check Box29"];
 const courtOwned = ["Check Box16", "Check Box18", "Check Box20", "Check Box22", "Check Box24", "Check Box27", "Check Box28", "Check Box30"];
@@ -102,7 +104,9 @@ for (const family of families) {
   for (const row of mapped) ok(row.selectionBasis, `${family.id}/${row.field}: selection basis absent`);
 
   const guide = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
-  for (const field of family.expected) ok(guide.includes(`\`${field}\``), `${family.id}/${field}: guide omits premark`);
+  for (const label of family.guideLabels) ok(guide.includes(`“${label}”`), `${family.id}/${label}: guide omits plain-language premark`);
+  for (const field of family.expected) equal(guide.includes(field), false,
+    `${family.id}/${field}: internal source field ID leaked into participant guide`);
   equal(guide.includes("Every blank on all four insert pages is yours to fill"), false);
   equal(guide.includes("writes nothing at all on the four insert pages"), false);
 
