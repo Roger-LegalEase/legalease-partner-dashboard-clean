@@ -413,6 +413,7 @@ const INPUTS = {
   utRemoveLinkSelector: "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
   recoveredSourceWave1: "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
   recoveredKnownResidual: "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
+  sdCurrentSourceAdoption: "data/rcap-grade-a/packet-factory-24h/fix112/sd-current-source-adoption-20260912.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
   ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
   legalHoldReclassification: "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
@@ -978,6 +979,8 @@ for (const evidencePath of sourceReconciliationDoc?.acquisitionEvidencePaths ?? 
 // same evidence reader. This is custody recovery, not a fabricated workflow receipt.
 walkAcquisitionEvidence(IN.recoveredSourceWave1, INPUTS.recoveredSourceWave1);
 walkAcquisitionEvidence(IN.recoveredKnownResidual, INPUTS.recoveredKnownResidual);
+// Keep shared determination bytes pinned by proven families unchanged.
+walkAcquisitionEvidence(IN.sdCurrentSourceAdoption, INPUTS.sdCurrentSourceAdoption);
 
 /**
  * Can a builder actually open every byte this family needs?

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "59a5503aa15b94a7ff2d827b8c2e21bacc59b6a1",
+  "generatedAtCommit": "18bf986f5dc411e3988358000d134da772b3dd29",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3392,7 +3392,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-11T18:27:03.691Z"
@@ -11196,6 +11196,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "wv_acc_treatment_job_readiness-set",
+      "itemId": null,
+      "familyId": "wv_acc_treatment_job_readiness-set",
+      "familyIds": [
+        "wv_acc_treatment_job_readiness-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_acc_treatment_job_readiness-set",
       "familyId": "wv_acc_treatment_job_readiness-set",
       "itemId": null,
       "familyIds": [
@@ -15712,24 +15727,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wv_acc_treatment_job_readiness-set",
-      "itemId": null,
-      "familyId": "wv_acc_treatment_job_readiness-set",
-      "familyIds": [
-        "wv_acc_treatment_job_readiness-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "ff4bd549ab88df397860f726fc54caae50db523a4107c9cfbb9246e131f970e1",
+  "claimsDigest": "a0e6a9f4efa132ad52fe08caf6f5a22d34994bdf410c4ce08d707a3a68492ce5",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71487,6 +71487,14 @@
       "lane": "FIX05",
       "withdrawnAt": "2026-09-12T00:00:04Z",
       "reason": "lane retired: FIX05 is not in the current dispatch, so no worker can ever assert this grant — claim.mjs answers GRANTED_ELSEWHERE to every lane that exists. The subject is still dispatched and is re-dealt to a lane that does exist."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-12T13:59:57Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
 }

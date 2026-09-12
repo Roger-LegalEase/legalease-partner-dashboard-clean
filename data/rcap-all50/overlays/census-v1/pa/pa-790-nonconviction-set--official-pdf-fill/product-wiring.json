@@ -67,8 +67,9 @@
     ],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": null,
-      "artifactId": null,
+      "workflowRunId": "34695892837",
+      "jobId": "103559652673",
+      "artifactId": "10299200776",
       "boundToCanonicalSha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
       "coversTheWholeFamily": true
     },
@@ -85,6 +86,20 @@
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "This write authored a different acceptance receipt. The superseded receipt is kept as history rather than overwritten; it is not carried forward as though it still applied.",
+        "boundToCanonicalSha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+        "replacedByCanonicalSha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": null,
+          "artifactId": null,
+          "boundToCanonicalSha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   }
 }
