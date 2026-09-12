@@ -6,7 +6,7 @@ LegalEase prefilled only held identity and requestor contact facts. Review every
 
 ## Complete before sending
 
-- **Payment method — include one method** (page 1): undefined
+- **Payment method — include one method** (page 1): Select one payment method printed on the DCI-76 billing form and supply the matching payment details yourself.
 - **Date on the billing request** (page 1): Enter the date of this request on the DCI-76 billing form.
 - **Number of requests on this billing form** (page 1): Enter the number of DCI-77 request forms submitted with this billing form.
 - **Total due on this billing form** (page 1): Calculate and enter the total due at $15.00 for each requested last name.

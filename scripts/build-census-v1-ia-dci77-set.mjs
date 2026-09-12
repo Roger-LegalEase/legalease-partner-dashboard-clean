@@ -302,6 +302,7 @@ function mapFor(census) {
     if (field.name === "Payment") {
       refusals.push({ ...common, refusalClass: "participant_sworn_narrative_or_legal_election", completenessClass: "PARTICIPANT_ELECTION_GENUINE",
         requiredBeforeFiling: true, routeDetermined: false, role: "participant-payment-election", isSelectionControl: true,
+        participantMustSupply: "Select one payment method printed on the DCI-76 billing form and supply the matching payment details yourself.",
         reason: "The participant selects one payment method and supplies the matching payment detail; the builder never fabricates payment." });
       continue;
     }
@@ -716,7 +717,17 @@ function renderedArtifacts(rendered) {
   };
 }
 
+function assertParticipantGuide(map) {
+  const guide = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
+  assert.ok(!/\b(?:undefined|null)\b/.test(guide), "saved participant guide contains an unresolved instruction");
+  for (const row of map.refusals.filter(row => row.requiredBeforeFiling)) {
+    assert.ok(typeof row.participantMustSupply === "string" && row.participantMustSupply.trim(), `missing required completion instruction: ${row.fieldName}`);
+    assert.ok(guide.includes(row.participantMustSupply), `saved guide omitted required instruction: ${row.fieldName}`);
+  }
+}
+
 function focusedSelfTest({ census, map, rendered, sourceReceipt }) {
+  assertParticipantGuide(map);
   const tests = [
     ["exact source SHA and length", sourceReceipt.documents[0].sha256 === SOURCE.sha256 && sourceReceipt.documents[0].byteLength === SOURCE.byteLength],
     ["three source pages", census.pageCount === 3],
@@ -764,6 +775,7 @@ async function verifyCurrent({ sourceBytes, census, map }) {
     assert.equal(doc.getPageCount(), 3);
     assert.equal(doc.getForm().getFields().length, 0);
   }
+  assertParticipantGuide(savedMap);
   const focused = readJson(path.join(OUT_REL, "reports/focused-self-test.json"));
   assert.equal(focused.result, "PASS");
   return { checkedArtifacts: required.length, sourceSha256: SOURCE.sha256, fieldCount: 45, widgetCount: 54, fixtures: 2, pageCount: 3 };
