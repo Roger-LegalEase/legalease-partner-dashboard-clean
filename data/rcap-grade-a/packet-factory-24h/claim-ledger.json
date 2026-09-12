@@ -3346,10 +3346,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF44",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "review_wa completed immutable BLOCKED_LEGAL_INPUT verdict; now reviews NH only."
     },
     {
       "subjectType": "packet-family",
@@ -15760,7 +15761,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "bd9522f6face0925356fdd18ec69cd48848f74aa120bc67b6105ed44e92d5a62",
+  "claimsDigest": "e99bcb4319457c3538adeebcde13fd7113b9a82af52f0b32fcfaea1a6df4fa03",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42955,6 +42956,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-12T19:15:20.140Z",
       "reason": "repair_ut stopped before semantic inspection with no files or verdict; now owns IN final originals."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_family_court-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-12T19:36:40.469Z",
+      "reason": "review_wa completed immutable BLOCKED_LEGAL_INPUT verdict; now reviews NH only."
     }
   ],
   "reissues": [
@@ -65872,6 +65882,17 @@
       "previouslyReleasedAt": "2026-09-12T19:15:20.140Z",
       "transferredAt": "2026-09-12T19:15:20.297Z",
       "reason": "Independent NH reviewer review_wa available after DE verdict; implementer sd_caption PF05."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_family_court-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF44",
+      "previouslyReleasedAt": "2026-09-12T19:36:40.469Z",
+      "transferredAt": "2026-09-12T19:36:40.624Z",
+      "reason": "repair_ut completed IN final acceptance; assign bounded independent DE three-input review, no repair or packet approval."
     }
   ],
   "grants": [
