@@ -1,0 +1,598 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "fl-juvenile-diversion-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_driver_license",
+      "page": 1,
+      "printedContext": "Florida Driver's License No.",
+      "disclosureLabel": "Florida Driver's License No.",
+      "identity": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION field page1_driver_license",
+      "why": "the fixture does not hold this identity fact",
+      "participantMustSupply": "the applicant's Florida driver's-license number, if applicable"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.participant_diversion_program",
+      "page": 1,
+      "printedContext": "Diversion program name and completion date (participant confirmation)",
+      "disclosureLabel": "Diversion program name and completion date (participant confirmation)",
+      "identity": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION field participant_diversion_program",
+      "why": "the printed application has a completion-date field but no separate program-name field",
+      "participantMustSupply": "the program name and completion date exactly as shown on the completion certification"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.participant_offence_and_court",
+      "page": 1,
+      "printedContext": "Offence details and court involved (participant confirmation)",
+      "disclosureLabel": "Offence details and court involved (participant confirmation)",
+      "identity": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION field participant_offence_and_court",
+      "why": "the source application prints charge and agency fields but does not print a separate court field",
+      "participantMustSupply": "the offence, arresting agency, and court involved"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.participant_age_at_offence",
+      "page": 1,
+      "printedContext": "Age at time of the offence (participant confirmation)",
+      "disclosureLabel": "Age at time of the offence (participant confirmation)",
+      "identity": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION field participant_age_at_offence",
+      "why": "the source application does not print an age-at-offence field",
+      "participantMustSupply": "the applicant's age when the arrest occurred"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_place_of_birth",
+      "page": 3,
+      "printedContext": "Fingerprint card place of birth",
+      "disclosureLabel": "Fingerprint card place of birth",
+      "identity": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION field page3_place_of_birth",
+      "why": "the fixture does not hold this identity fact",
+      "participantMustSupply": "the applicant's place of birth"
+    }
+  ],
+  "requiredSupportingItems": [
+    "completed prosecutor certified statement",
+    "certification and proof of diversion program completion",
+    "completed physical fingerprint card",
+    "original supporting documents"
+  ],
+  "protectedBlanks": [
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_alias_last",
+      "label": "Alias last name(s) (optional)",
+      "refusalClass": null,
+      "why": "the official application labels aliases optional and the fixture carries none"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_alias_first",
+      "label": "Alias first name(s) (optional)",
+      "refusalClass": null,
+      "why": "the official application labels aliases optional and the fixture carries none"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_alias_middle",
+      "label": "Alias middle name(s) (optional)",
+      "refusalClass": null,
+      "why": "the official application labels aliases optional and the fixture carries none"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_ssn",
+      "label": "Social Security number (optional)",
+      "refusalClass": null,
+      "why": "the official application marks it optional"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_applicant_signature",
+      "label": "Applicant signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the applicant signs in the presence of a notary public or deputy clerk"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_signature_date",
+      "label": "Date beside applicant signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the applicant supplies the true date when signing"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_parent_signature",
+      "label": "Signature of parent or legal guardian",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the source marks this signature required if the applicant is under 18"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_parent_signature_date",
+      "label": "Date beside parent or legal guardian signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the parent or legal guardian supplies the true date when signing, if required"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_notary_state_county",
+      "label": "Notary state and county",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk completes the acknowledgment"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_notary_date",
+      "label": "Notary acknowledgment date",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk completes the acknowledgment"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_notary_signature",
+      "label": "Notary signature",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk signs"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_notary_commission",
+      "label": "Notary commissioned name or stamp",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk completes it"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_notary_identification",
+      "label": "Notary identification type",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk completes it"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_arrest_date_2",
+      "label": "Charge row 2 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional arrest in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_charge_2",
+      "label": "Charge row 2 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional charge in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_arrest_date_3",
+      "label": "Charge row 3 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional arrest in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_charge_3",
+      "label": "Charge row 3 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional charge in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_arrest_date_4",
+      "label": "Charge row 4 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional arrest in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_charge_4",
+      "label": "Charge row 4 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional charge in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_arrest_date_5",
+      "label": "Charge row 5 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional arrest in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_charge_5",
+      "label": "Charge row 5 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional charge in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_arrest_date_6",
+      "label": "Charge row 6 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional arrest in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_charge_6",
+      "label": "Charge row 6 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional charge in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_arrest_date_7",
+      "label": "Charge row 7 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional arrest in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_charge_7",
+      "label": "Charge row 7 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional charge in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_arrest_date_8",
+      "label": "Charge row 8 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional arrest in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page1_charge_8",
+      "label": "Charge row 8 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "the fixture contains no additional charge in this row"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_state_attorney",
+      "label": "State Attorney or Statewide Prosecutor",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_reviewing_officer",
+      "label": "Reviewing Officer",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_county",
+      "label": "County",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_circuit",
+      "label": "Circuit",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_signature",
+      "label": "Signature of prosecuting authority",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_signature_date",
+      "label": "Date beside prosecuting-authority signature",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_title",
+      "label": "Title of prosecuting authority",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_completion_date",
+      "label": "Diversion Program Completion Date (certifying office)",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_charge_1",
+      "label": "State Attorney row 1 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_statute_1",
+      "label": "State Attorney row 1 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_case_1",
+      "label": "State Attorney row 1 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_action_1",
+      "label": "State Attorney row 1 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_charge_2",
+      "label": "State Attorney row 2 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_statute_2",
+      "label": "State Attorney row 2 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_case_2",
+      "label": "State Attorney row 2 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_action_2",
+      "label": "State Attorney row 2 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_charge_3",
+      "label": "State Attorney row 3 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_statute_3",
+      "label": "State Attorney row 3 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_case_3",
+      "label": "State Attorney row 3 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_action_3",
+      "label": "State Attorney row 3 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_charge_4",
+      "label": "State Attorney row 4 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_statute_4",
+      "label": "State Attorney row 4 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_case_4",
+      "label": "State Attorney row 4 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_action_4",
+      "label": "State Attorney row 4 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_charge_5",
+      "label": "State Attorney row 5 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_statute_5",
+      "label": "State Attorney row 5 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_case_5",
+      "label": "State Attorney row 5 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_action_5",
+      "label": "State Attorney row 5 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_charge_6",
+      "label": "State Attorney row 6 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_statute_6",
+      "label": "State Attorney row 6 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_case_6",
+      "label": "State Attorney row 6 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_action_6",
+      "label": "State Attorney row 6 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_charge_7",
+      "label": "State Attorney row 7 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_statute_7",
+      "label": "State Attorney row 7 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_case_7",
+      "label": "State Attorney row 7 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_action_7",
+      "label": "State Attorney row 7 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_charge_8",
+      "label": "State Attorney row 8 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_statute_8",
+      "label": "State Attorney row 8 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_case_8",
+      "label": "State Attorney row 8 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page2_action_8",
+      "label": "State Attorney row 8 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the State Attorney or Statewide Prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_alias_last",
+      "label": "Fingerprint card alias last name (optional)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_alias_first",
+      "label": "Fingerprint card alias first name (optional)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_alias_middle",
+      "label": "Fingerprint card alias middle name (optional)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_ssn",
+      "label": "Fingerprint card Social Security number (optional)",
+      "refusalClass": null,
+      "why": "the official packet states disclosure is voluntary"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_official_signature",
+      "label": "Signature of official taking fingerprints",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the fingerprint official completes it"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_ori",
+      "label": "ORI or fingerprinting-entity stamp",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the fingerprinting entity completes it"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_person_signature",
+      "label": "Signature of person fingerprinted",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the applicant signs while being fingerprinted"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_person_signature_date",
+      "label": "Date beside signature of person fingerprinted",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the applicant dates the fingerprint card when signing"
+    },
+    {
+      "document": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "field": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION.page3_fingerprint_impressions",
+      "label": "Fingerprint impressions",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the fingerprinting entity takes and completes the impressions"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/participant-instructions.md"
+}
