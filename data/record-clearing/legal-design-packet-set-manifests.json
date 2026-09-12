@@ -7997,7 +7997,7 @@
       "jurisdiction": "DE",
       "trackId": "de_discretionary_superior_court",
       "packetSetId": "de_discretionary_superior_court-set",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "components": [
         {
           "componentId": "de_discretionary_superior_court-primary-filing-1",
@@ -8028,16 +8028,6 @@
           "officialFormId": "CIV_EXP_04_A",
           "officialSourceUrl": null,
           "order": 3
-        },
-        {
-          "componentId": "de_discretionary_superior_court-cover-sheet-4",
-          "role": "cover_sheet",
-          "requirement": "required",
-          "conditionDescription": null,
-          "outputStrategy": "custom_pleading",
-          "officialFormId": null,
-          "officialSourceUrl": null,
-          "order": 4
         }
       ],
       "participantActionRequired": [
@@ -8056,11 +8046,10 @@
         },
         {
           "kind": "obtain_document",
-          "description": "Obtain SBI eligibility letter. The SBI issues the letter after reviewing the certified criminal history.",
+          "description": "Obtain and attach the SBI Cover Letter issued by the State Bureau of Identification after its review of the certified criminal history. The Superior Court filing instructions require this letter with the petition, proposed order, and qualifying certified criminal history.",
           "obtainedFrom": "State Bureau of Identification",
-          "requirement": "conditional",
-          "conditionDescription": "Where the participant first applied on the mandatory path and the SBI directed them to file discretionary.",
-          "requiredBeforeFiling": false
+          "requirement": "required",
+          "requiredBeforeFiling": true
         },
         {
           "kind": "complete_field",
@@ -8070,7 +8059,7 @@
         },
         {
           "kind": "complete_field",
-          "description": "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+          "description": "Manifest-injustice assertion checkbox and explanation — Petition CIV_EXP_02_A, manifest-injustice section. Review the required assertion and mark the checkbox only if the statement is true; complete your own explanation on the ruled lines or attached pages.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -8115,8 +8104,9 @@
       "requiredBeforeFiling": [
         "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. The court shall summarily reject any petition without it.",
         "Check your answer to \"List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+        "Obtain and attach the SBI Cover Letter issued by the State Bureau of Identification after its review of the certified criminal history. The Superior Court filing instructions require this letter with the petition, proposed order, and qualifying certified criminal history.",
         "Notarized signature — Petition CIV_EXP_02_A, signature and jurat.",
-        "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+        "Manifest-injustice assertion checkbox and explanation — Petition CIV_EXP_02_A, manifest-injustice section. Review the required assertion and mark the checkbox only if the statement is true; complete your own explanation on the ruled lines or attached pages.",
         "The petition is sworn and subscribed before a clerk of court or notary.",
         "Required. Filing in person means bringing the petition unsigned and signing in front of the notary at the Prothonotary's office. Filing by mail means notarizing first.",
         "$75 filing fee, per CIV_EXP_07_A. Set by the courts under § 4374(j).",
