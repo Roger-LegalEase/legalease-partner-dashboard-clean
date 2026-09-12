@@ -11,6 +11,7 @@ import {
   applyLegalResolutionSupersessions,
   assessLegalResolutionAtReviewBase,
   loadLegalBlockResolutions,
+  sourcePermissionHoldResolved,
   mergeLegalBlockResolutionRecords
 } from "./legal-block-resolution.mjs";
 
@@ -44,6 +45,15 @@ assert.equal(nh.provenance.ownerAdoption, true);
 for (const key of ["counselApproval", "courtRuling", "packetPass", "productionAuthorization"]) assert.equal(nh.provenance[key], false);
 assert.equal(nh.decisions[0].adoptedRevisions.length, 5);
 assert.equal(assessLegalResolutionAtReviewBase(ROOT, "7abe0badf93e02c1bce940ca6cd86739016b2b57", resolutions.byFamily.get("nh_conviction_streamlined-set")).available, false, "original draft commit is not adopted candidate acceptance");
+
+const permissionFamily = "ks-22-2410-arrest-set";
+const permissionRecord = {disposition:"PRODUCT_PATH_PENDING", permissionHold:"Kansas Judicial Council noncommercial-use and republication restriction", productQuestion:null, unresolvedObligations:[]};
+const permissionResolution = resolutions.byFamily.get(permissionFamily);
+assert.equal(sourcePermissionHoldResolved(permissionFamily,permissionRecord,permissionResolution),true);
+for (const other of [{productQuestion:"unresolved delivery"},{unresolvedObligations:["source absent"]},{permissionHold:"another restriction"}])
+  assert.equal(sourcePermissionHoldResolved(permissionFamily,{...permissionRecord,...other},permissionResolution),false);
+for (const other of [null,{...permissionResolution,familyId:"another-family"},{...permissionResolution,disposition:"LEGAL_HOLD"},{...permissionResolution,evidenceType:"research_draft"},{...permissionResolution,decisionRecord:"unadopted.json"}])
+  assert.equal(sourcePermissionHoldResolved(permissionFamily,permissionRecord,other),false);
 
 const mustRefuse = (name, mutate, match) => {
   const copy = structuredClone(docs);

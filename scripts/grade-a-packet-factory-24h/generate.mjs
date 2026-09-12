@@ -36,6 +36,7 @@ import { orderedReclassificationReadReturned } from "./reclassification-review-o
 import {
   applyLegalResolutionSupersessions,
   assessLegalResolutionAtReviewBase,
+  sourcePermissionHoldResolved,
   mergeLegalBlockResolutionRecords
 } from "./legal-block-resolution.mjs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
@@ -2604,6 +2605,7 @@ for (const f of IN.scoreboard.familiesDetail) {
    * and upstream of build. It must not be mislabeled as another acquisition,
    * and it must not override a later build, repair or verification result. */
   if (sourceReconciliation?.disposition === "PRODUCT_PATH_PENDING"
+    && !sourcePermissionHoldResolved(familyId, sourceReconciliation, currentLegalResolution)
     && ["SOURCE_BLOCKED", "SOURCE_READY"].includes(state)) state = "PRODUCT_PATH_PENDING";
 
   /*

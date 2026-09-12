@@ -220,3 +220,18 @@ export function assessLegalResolutionAtReviewBase(root, verifiedAtBase, resoluti
   return { ...result, recordBindings: bindings, available: true,
     reason: "exact authoritative decision record bytes were available to the independent review" };
 }
+
+/** A named owner release clears only the matching historical permission hold.
+ * It never resolves a separate product question or changes source readiness. */
+export function sourcePermissionHoldResolved(familyId, reconciliation, resolution) {
+  return reconciliation?.disposition === "PRODUCT_PATH_PENDING"
+    && reconciliation.permissionHold === "Kansas Judicial Council noncommercial-use and republication restriction"
+    && reconciliation.productQuestion == null
+    && Array.isArray(reconciliation.unresolvedObligations)
+    && reconciliation.unresolvedObligations.length === 0
+    && resolution?.familyId === familyId
+    && resolution.disposition === "LEGAL_CLEAR"
+    && resolution.supersedesDecisionId === "KS-KJC-COMMERCIAL-REDISTRIBUTION"
+    && resolution.evidenceType === "owner_attestation"
+    && resolution.decisionRecord === "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json";
+}
