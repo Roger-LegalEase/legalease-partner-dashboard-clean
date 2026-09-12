@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "742a2048098697f473ec7978a4309b07f5501686",
+  "generatedAtCommit": "f3609fb6a62ccaa7c68a7c0b02bb934f3590ae1f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1239,6 +1239,21 @@
       "operation": "packet-build",
       "lane": "PF04",
       "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "familyId": "az_certificate_second_chance-set",
+      "itemId": null,
+      "familyIds": [
+        "az_certificate_second_chance-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -3484,7 +3499,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-11T17:56:47.076Z"
@@ -3645,15 +3660,15 @@
     {
       "subjectType": "packet-family",
       "subjectId": "fl-juvenile-diversion-set",
-      "familyId": "fl-juvenile-diversion-set",
       "itemId": null,
+      "familyId": "fl-juvenile-diversion-set",
       "familyIds": [
         "fl-juvenile-diversion-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF21",
-      "laneKind": "packet-build",
+      "operation": "independent-verification",
+      "lane": "VFFL1",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -3667,7 +3682,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF11",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-09T14:02:42.013Z"
@@ -6329,6 +6344,21 @@
         "me-seal-gen-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-gen-set",
+      "familyId": "me-seal-gen-set",
+      "itemId": null,
+      "familyIds": [
+        "me-seal-gen-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -6532,7 +6562,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T13:25:26.304Z"
@@ -7008,7 +7038,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T22:43:23.964Z"
@@ -7053,6 +7083,21 @@
         "nc_145_5_misdemeanor-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_5_misdemeanor-set",
+      "familyId": "nc_145_5_misdemeanor-set",
+      "itemId": null,
+      "familyIds": [
+        "nc_145_5_misdemeanor-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -7085,7 +7130,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T18:26:02.263Z"
@@ -7131,7 +7176,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-07T18:09:39.040Z"
@@ -8235,6 +8280,36 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:59:32.839Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "or_contempt_setaside-set",
+      "itemId": null,
+      "familyId": "or_contempt_setaside-set",
+      "familyIds": [
+        "or_contempt_setaside-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "or_contempt_setaside-set",
+      "familyId": "or_contempt_setaside-set",
+      "itemId": null,
+      "familyIds": [
+        "or_contempt_setaside-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -11311,7 +11386,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-10T11:23:34.779Z"
@@ -15762,36 +15837,21 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "fl-juvenile-diversion-set",
+      "subjectId": "ia-dci77-set",
       "itemId": null,
-      "familyId": "fl-juvenile-diversion-set",
+      "familyId": "ia-dci77-set",
       "familyIds": [
-        "fl-juvenile-diversion-set"
+        "ia-dci77-set"
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VFFL1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "or_contempt_setaside-set",
-      "itemId": null,
-      "familyId": "or_contempt_setaside-set",
-      "familyIds": [
-        "or_contempt_setaside-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VFIA1",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     }
   ],
-  "claimsDigest": "c43770a003baa22c4054dd732208642a04ffbdcf0fda16e7acf0d696b351857c",
+  "claimsDigest": "dc06d7cdd898d53098e348c339653869aa5edaca7c7eb8aeea25a75a2fc13512",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -67003,6 +67063,17 @@
       "grantedBy": "Captain",
       "reason": "Bounded independent identity reconciliation review assigned to review_wa after NH blocked input audit; existing owner instruction permits duplicate retirement while preserving history, no packet self-approval.",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VFIA1",
+      "subjectType": "packet-family",
+      "subjectId": "ia-dci77-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-12T20:58:18.543Z",
+      "grantedBy": "Captain",
+      "reason": "Captain assigns review_fl independent review of complete IA build e8526b27f; implementer sd_caption is distinct.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
   "withdrawals": [
@@ -71772,6 +71843,14 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "withdrawnAt": "2026-09-12T18:42:50Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-juvenile-diversion-set",
+      "operation": "packet-build",
+      "lane": "PF21",
+      "withdrawnAt": "2026-09-12T20:31:26Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
