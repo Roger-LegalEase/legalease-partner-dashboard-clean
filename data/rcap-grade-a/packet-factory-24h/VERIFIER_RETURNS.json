@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 321,
-    "rows": 1412,
+    "returnDirectories": 322,
+    "rows": 1413,
     "independentVerdicts": 310,
-    "failRepairRequired": 8,
-    "passIndependent": 299
+    "failRepairRequired": 7,
+    "passIndependent": 300
   },
   "failRepairRequiredFamilies": [
     "de_discretionary_superior_court-set",
@@ -47,8 +47,7 @@
     "mo-610-140-arrest-set",
     "mo-610-140-conviction-set",
     "rcap-in-custom-pleading",
-    "rcap-or-official-pdf-fill",
-    "wv_acc_treatment_job_readiness-set"
+    "rcap-or-official-pdf-fill"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -40627,6 +40626,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_acc_treatment_job_readiness-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wv_acc_treatment_job_readiness-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3e15411f28864ee2050a31a0abf3fc8968228f1b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-wv-acc-treatment-original-final-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_acc_treatment_job_readiness-set",
       "superseded": false
