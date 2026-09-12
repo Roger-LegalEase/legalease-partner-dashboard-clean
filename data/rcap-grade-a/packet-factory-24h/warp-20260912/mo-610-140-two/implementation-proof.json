@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-mo-610-140-two-build-proof/v1",
+  "preparedOn": "2026-09-12",
+  "authorship": "Implementation-lane evidence only; no independent semantic, visual, raster, legal, commercial or terminal acceptance.",
+  "families": [
+    "mo-610-140-arrest-set",
+    "mo-610-140-conviction-set"
+  ],
+  "actualDefect": "Both queue families had exact governed CR360, CR370, FI-05 and GN10 sources but no executable builders or packet outputs.",
+  "implementation": "One family-scoped host now validates the four exact source hashes, imports route-specific participant facts, fills CR360 and confidential FI-05, preserves CR370 court ownership while writing neutral record/agency references, conditionally renders the exact one-page GN10 source treatment, composes canonical/boundary packets and emits product-wiring/refusal evidence without granting runtime authority.",
+  "sourceBindings": [
+    {
+      "formNumber": "CR360",
+      "sourceId": "official-form:CR360",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
+      "sha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+      "byteLength": 707097,
+      "pages": 2,
+      "mediaType": "application/pdf",
+      "revision": "SJRC (10-24)",
+      "sha256Exact": true
+    },
+    {
+      "formNumber": "CR370",
+      "sourceId": "official-form:CR370",
+      "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
+      "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+      "byteLength": 103658,
+      "pages": 2,
+      "mediaType": "application/pdf",
+      "revision": "SJRC (07-21)",
+      "sha256Exact": true
+    },
+    {
+      "formNumber": "FI-05",
+      "sourceId": "official-form:FI-05",
+      "path": "reference/chat-parallel-2026-09-07/chat7/FI-05.pdf",
+      "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+      "byteLength": 298649,
+      "pages": 4,
+      "mediaType": "application/pdf",
+      "revision": "SJRC (04-23); case types SJRC (07-23)",
+      "sha256Exact": true
+    },
+    {
+      "formNumber": "GN10",
+      "sourceId": "official-form:GN10",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+      "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+      "byteLength": 39193,
+      "pages": 1,
+      "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "revision": "SJRC (07-15)",
+      "sha256Exact": true
+    }
+  ],
+  "routeDistinction": {
+    "arrest": "CR360 remains unaltered and is followed by a section 610.140.7 continuation carrying explicit no-charge and eighteen-month facts; unresolved held release questions remain visible.",
+    "conviction": "CR360 record rows, wait/clean/obligation/pending-charge gates and overflow continuation use explicit conviction facts."
+  },
+  "measured": {
+    "focusedAssertions": 1630,
+    "savedBytePlacements": 491,
+    "sourceChoiceAppearances": 74,
+    "nativeCompleteness": [
+      {
+        "kind": "arrest",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      {
+        "kind": "conviction",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      }
+    ],
+    "packetHashes": [
+      {
+        "kind": "arrest",
+        "canonical": "2c32991b56203e47d446f86bc357b5b8f47476a4cbcdecf5bf57eff540e64a37",
+        "boundary": "aa0829eb1c1779dfaaf5a413940e7e357b50e5e7de4e2a60eab4e1fcbd7a5aff"
+      },
+      {
+        "kind": "conviction",
+        "canonical": "d5563d0ec09f3ce2e3065b8c1c12a904158d7d13a2ae62e998b32f9fb236b586",
+        "boundary": "09dc32f4032115c9514db17f92ca9adc094f068009318f0917f684d0d0d8df3a"
+      }
+    ]
+  },
+  "negativeControls": [
+    "wrong family/schema",
+    "missing full SSN",
+    "missing sex/race source elections",
+    "clerk-assigned case number injection",
+    "judge signature injection",
+    "incomplete prior-expungement branch",
+    "incomplete/invalid fee-waiver branch",
+    "conviction wait/clean/obligation/pending/exclusion/agency gates",
+    "multi-county conviction",
+    "arrest no-charge/eighteen-month/clean-period/eligibility/agency gates",
+    "stronger section 610.122 route"
+  ],
+  "geometry": "Every mapped non-selection value was read from exact saved component bytes inside its declared page rectangle; every source choice appearance was read inside its source control; all rectangles were page-bounded; CR370 neutral overlays clear the court-owned date and judge-signature region.",
+  "independentReview": "PENDING",
+  "raster": "PENDING_CENTRAL"
+}
