@@ -12,17 +12,18 @@ for family in prior['families']:
  packets={p['fixture']:p for p in report['packets']};assert set(packets)=={'canonical','boundary'}
  for fixture,packet in packets.items():
   p=base/packet['file'];raw=p.read_bytes();pdf=pymupdf.open(stream=raw,filetype='pdf');bindings.append(dict(path=str(p),sha256=hashlib.sha256(raw).hexdigest(),byteLength=len(raw),pageCount=len(pdf)))
-  check(fixture,'saved_packet_binding',hashlib.sha256(raw).hexdigest()==packet['sha256'] and len(pdf)==packet['pageCount'] and len(raw)==packet['byteLength'],'Current combined bytes compared to the render report.')
+  check(fixture,'saved_packet_binding',hashlib.sha256(raw).hexdigest()==packet['sha256'] and len(pdf)==packet['pageCount'],'Current combined bytes compared to the render report.')
   components={d['documentId']:d for d in packet['documents'] if d.get('firstPage') is not None}
   for omitted in family['knownOmissions']:
    if omitted['fixture']!=fixture:continue
    component=omitted['component'];expected=omitted['heldValue'];readings=[]
    if component=='FI-05':
-    c=components[component];assert c['pageCount']%2==0
-    # FI-05 has a two-page source repeated per respondent. Every copy has
-    # the same neutral filer block, irrespective of its respondent identity.
-    for local_page in range(1,c['pageCount'],2):
-     index=c['firstPage']-1+local_page;clip=pymupdf.Rect(omitted['sourceRectTopLeft']);text=pdf[index].get_text(clip=clip);readings.append({'page':index+1,'text':text.strip(),'rectangle':list(clip)})
+    c=components[component]
+    # Find the actual filer-contact page by its source caption. FI-05
+    # repeats party pages, while its trailing source pages appear once.
+    for index in range(c['firstPage']-1,c['firstPage']-1+c['pageCount']):
+     if 'submittedby' not in norm(pdf[index].get_text()):continue
+     clip=pymupdf.Rect(omitted['sourceRectTopLeft']);text=pdf[index].get_text(clip=clip);readings.append({'page':index+1,'text':text.strip(),'rectangle':list(clip)})
    elif component=='CR370':
     c=components[component];index=c['firstPage']-1
     clip=pymupdf.Rect(330,284,580,312) if omitted['field']=='Municipal Police Dept. name' else pymupdf.Rect(330,322,580,375)
@@ -42,4 +43,4 @@ for family in prior['families']:
    check(fixture,'continuation_signature_and_date_handback',re.search(r'\bsignature\b',text,re.I) and re.search(r'\bdate\b',text,re.I),'Presence of personal signature/date handback labels only; blanks and geometry require independent review.')
   pdf.close()
  results.append(dict(familyId=family_id,passed=all(c['passed'] for c in checks),artifactsRead=bindings,checks=checks))
-out=Path(sys.argv[1] if len(sys.argv)>1 else '/tmp/mo-current-saved-byte-preflight-result.json');result=dict(schemaVersion='rcap-focused-saved-byte-preflight/v1',priorFindingsPath=str(EVIDENCE),priorFindingsSha256=hashlib.sha256(EVIDENCE.read_bytes()).hexdigest(),independentAcceptance=False,visualAcceptance=False,families=results,passed=all(r['passed'] for r in results),limits='Measures the 23 prior known omissions in current combined PDFs, every repeated FI-05 filer block, GN10 caption and arrest signature/date label presence. Does not certify geography, eligibility, row association, signatures remaining blank, service, complete instructions or visual acceptance.');out.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'passed':result['passed'],'families':[{'familyId':r['familyId'],'checks':len(r['checks']),'failed':sum(not c['passed'] for c in r['checks'])} for r in results]},indent=2));sys.exit(0 if result['passed'] else 1)
+out=Path(sys.argv[1] if len(sys.argv)>1 else '/tmp/mo-current-saved-byte-preflight-result.json');result=dict(schemaVersion='rcap-focused-saved-byte-preflight/v1',priorFindingsPath=str(EVIDENCE),priorFindingsSha256=hashlib.sha256(EVIDENCE.read_bytes()).hexdigest(),independentAcceptance=False,visualAcceptance=False,families=results,passed=all(r['passed'] for r in results),limits='Measures the 23 prior known omissions in current combined PDFs, each caption-identified FI-05 filer block, GN10 caption and arrest signature/date label presence. Does not certify geography, eligibility, row association, signatures remaining blank, service, complete instructions or visual acceptance.');out.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'passed':result['passed'],'families':[{'familyId':r['familyId'],'checks':len(r['checks']),'failed':sum(not c['passed'] for c in r['checks'])} for r in results]},indent=2));sys.exit(0 if result['passed'] else 1)
