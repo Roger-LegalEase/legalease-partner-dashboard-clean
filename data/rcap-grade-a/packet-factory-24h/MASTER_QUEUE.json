@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "467ed4481a7412522f696d4bc7d27cb98dd3bc33",
+  "minimumCaptainSha": "31e32a7cb4a499da78ed58fe67a6f59feeee8113",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "0b5043a165b965286e8466023d37d000b800c155f9ba745a176927ae7428691b",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "231a6d1301b73d2bec784f53b0384b76bc1b7fb68c0033c4fe19af8d1893c28d",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -79,18 +79,18 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 2,
-    "repairRequired": 17,
+    "repairRequired": 15,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 261,
+    "COMPLETE_PACKET_PROVEN": 262,
     "PRODUCT_PATH_PENDING": 9,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 33,
-    "FAIL_REPAIR_REQUIRED": 18,
+    "FAIL_REPAIR_REQUIRED": 16,
     "GUIDANCE_READY": 12,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 2,
+    "BUILT_RASTER_PENDING": 3,
     "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -20656,9 +20656,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20673,8 +20671,8 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_VISIBLE_APPEARANCE",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -20684,11 +20682,9 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 1
+        "visualDefects": 0
       },
-      "failingCounters": [
-        "visualDefects"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [
         "ARTIFACTS",
         "CLIPPING_AND_OVERLAP"
@@ -20709,7 +20705,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
@@ -21582,9 +21578,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -21599,8 +21593,8 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_VISIBLE_APPEARANCE",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -21610,11 +21604,9 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 1
+        "visualDefects": 0
       },
-      "failingCounters": [
-        "visualDefects"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [
         "ARTIFACTS",
         "CLIPPING_AND_OVERLAP"
@@ -21635,7 +21627,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
@@ -25592,10 +25584,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf09",
-        "verifiedAtBase": "a8398d194fcaa07c05e9747cfa4810f8b59522b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-ma-bmc-semantic-fail-20260912.json"
+        "verifiedAtBase": "dad37e7f8cf72b9085cbe99462b486c8cc4a1ece",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-ma-bmc-current-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -25614,7 +25606,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "a8398d194fcaa07c05e9747cfa4810f8b59522b5",
+          "verifiedAtBase": "dad37e7f8cf72b9085cbe99462b486c8cc4a1ece",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -25668,40 +25660,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "Confirmed findings: MA-PREFLIGHT-STALE-VEHICLE-HOLD",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Confirmed findings: MA-PREFLIGHT-STALE-VEHICLE-HOLD, MA-PREFLIGHT-CORI-FALSE-PREREQUISITE",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "Confirmed findings: MA-PREFLIGHT-INTERNAL-ROUTE-KEY",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/semantic-preflight.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
