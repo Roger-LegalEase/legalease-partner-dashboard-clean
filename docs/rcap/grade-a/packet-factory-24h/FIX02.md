@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e5ce4836e6238322126e6eb5f09ca1361b8d6d5b` (or the newer dispatch base)
+**Minimum required ancestor:** `41f15c0a8120ea107e8aad3f07adda98473601fb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'de_discretionary_superior_court-set' \
+  --family 'mo-610-140-arrest-set' \
   --codex-cloud \
-  --minimum-captain-sha e5ce4836e6238322126e6eb5f09ca1361b8d6d5b
+  --minimum-captain-sha 41f15c0a8120ea107e8aad3f07adda98473601fb
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 3 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'de_discretionary_superior_court-set'`
+- Assert only these 4 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'mo-610-140-arrest-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nh_petition_vacated-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-in-custom-pleading'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
@@ -62,9 +63,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 4 families
 
-- `de_discretionary_superior_court-set`
+- `mo-610-140-arrest-set`
+- `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`
 - `nh_petition_vacated-set`
 - `rcap-in-custom-pleading`
 
@@ -79,10 +81,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
-- `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
+- `scripts/build-census-v1-mo-610-140-arrest-set.mjs`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs`
 - `scripts/build-census-v1-nh_petition_vacated-set.mjs`
 - `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
 

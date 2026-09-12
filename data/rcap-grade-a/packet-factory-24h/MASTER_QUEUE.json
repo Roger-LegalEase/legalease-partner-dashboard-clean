@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e5ce4836e6238322126e6eb5f09ca1361b8d6d5b",
+  "minimumCaptainSha": "41f15c0a8120ea107e8aad3f07adda98473601fb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "d569a793775ff35b55765b22e14881ed73db9ae226b44dc50f0f369ed5d12512",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "7311c40fa492faa628b029cdd76d9768951f2bae45b308f75891bde2c2749a79",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -75,23 +75,21 @@
     "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
     "remaining": 345,
-    "sourceReady": 33,
+    "sourceReady": 31,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 1,
-    "repairRequired": 14,
+    "verifyPending": 0,
+    "repairRequired": 17,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 266,
+    "COMPLETE_PACKET_PROVEN": 267,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 33,
-    "BUILT_RASTER_PENDING": 1,
-    "FAIL_REPAIR_REQUIRED": 15,
+    "SOURCE_READY": 31,
+    "FAIL_REPAIR_REQUIRED": 18,
     "HANDOFF_READY": 2,
     "PRODUCT_PATH_PENDING": 6,
-    "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -163,10 +161,10 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 25,
-    "sourceReadyFamilies": 33,
-    "familiesPerBuilder": 1.3,
+    "sourceReadyFamilies": 31,
+    "familiesPerBuilder": 1.2,
     "targetPerBuilder": "15 to 25",
-    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 33 do, so a full roster of 25 builders averages 1.3 families each rather than 15 to 25.",
+    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 31 do, so a full roster of 25 builders averages 1.2 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -7675,10 +7673,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vfcg1",
-        "verifiedAtBase": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-20260911-ca17-preraster.json"
+        "verifiedAtBase": "6c5d8c862ca3fd0664381e359ba2c34fdd5bbb3f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-ca17-current-semantic-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -7697,25 +7695,28 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
+          "verifiedAtBase": "6c5d8c862ca3fd0664381e359ba2c34fdd5bbb3f",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -7727,7 +7728,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state BUILT_RASTER_PENDING; all ordinary gates remain. Binding product rule CA-17B-17D2-OFFENSE-BY-OFFENSE: There is no global either/or participant election between Penal Code 17(b) and 17(d)(2). Determine eligibility offense by offense and request every reduction legally applicable to that offense. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule CA-17B-17D2-OFFENSE-BY-OFFENSE: There is no global either/or participant election between Penal Code 17(b) and 17(d)(2). Determine eligibility offense by offense and request every reduction legally applicable to that offense. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -7744,11 +7745,55 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "CA17-S1 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "CA17-S1; CA17-S2; CA17-S3 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "CA17-S5 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "CA17-S2; CA17-S5 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "CA17-S4 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "CA17-S3 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-17b-reduction-set.mjs",
@@ -21616,15 +21661,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfcg1",
-        "verifiedAtBase": "c37d17e114664a2e8108dbc13cb572e4d000ec47",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-section1-petition-repaired-original-date-fail-20260912.json"
+        "verifiedAtBase": "9e548b138b1357606fd7d8174b85ea56e37a4a58",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-section1-date-followup-current-original-pass-20260912.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -21653,25 +21696,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "All 46 current originals accounted: 12 directly inspected changed originals, 22 exact prior PNG hash matches and 12 same-run matches to independently inspected pages. All 202 known text occurrences swept over full glyph height against actual PNG ink: four DateChargesFiled upper-glyph crossings remain (canonical insert p1; boundary insert p1/p5/p9). The 94 previously recorded intersections are resolved, but this obligation remains FAIL. No other new clipping/overlap finding.",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-final-review/in_section1_petition-set.current-original-review.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-final-review/in_section1_petition-set.current-original-baseline-measurements.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-semantic-review/semantic-preflight.json",
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-semantic-review/current-source-rule-delta.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
@@ -29525,10 +29554,15 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vfmo1",
+        "verifiedAtBase": "a03afb773473e831fca70966bf66bfe8bc231ac0",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-arrest-set-semantic-fail-20260912.json"
+      },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "packet build has not completed",
+        "the current failed obligations have not been repaired",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -29549,11 +29583,83 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "MO-S6 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "MO-S1; MO-S2 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "MO-S1; MO-S5; MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "MO-S4; MO-S5 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "MO-S2; MO-S4 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "MO-S4 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "MO-S8 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-610-140-arrest-set.mjs",
@@ -29692,10 +29798,15 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vfmo1",
+        "verifiedAtBase": "a03afb773473e831fca70966bf66bfe8bc231ac0",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-conviction-set-semantic-fail-20260912.json"
+      },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "packet build has not completed",
+        "the current failed obligations have not been repaired",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -29716,11 +29827,69 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "MO-S6 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "MO-S1; MO-S2; MO-S3 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "MO-S1; MO-S5; MO-S7 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "MO-S4; MO-S5; MO-S7 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "MO-S2; MO-S3; MO-S4 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "MO-S4 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "MO-S7 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "MO-S7 — exact measured findings in the linked record.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-610-140-conviction-set.mjs",
@@ -35443,7 +35612,7 @@
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
+        "nonvisual completeness counters not zero: unclassifiedBlanks"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -35459,21 +35628,21 @@
       "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION: Do not ask the participant to choose a legal route. Collect factual predicates; the rules engine determines the statutory branch from conviction counts/categories, disposition relationships, dates, sentence completion, later convictions and other statutory facts. Participant owns facts and attestations, not legal classification. Fail closed if facts do not establish a branch. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
+      "completenessStatus": "FAIL_MISSING_PREFILLS",
       "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
+        "unclassifiedBlanks": 2,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 1,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": null,
         "protectedWrites": 0,
         "visualDefects": null
       },
       "failingCounters": [
-        "requiredOptionsMissing"
+        "unclassifiedBlanks"
       ],
       "failedObligationNames": [
         "ROUTE_OPTIONS"
@@ -35617,7 +35786,8 @@
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
+        "the current failed obligations have not been repaired",
+        "nonvisual completeness counters not zero: unclassifiedBlanks"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -35633,12 +35803,12 @@
       "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule NJ-INDICTABLE-FACTS-NOT-LEGAL-ELECTION: Collect the missing factual predicates and calculate the legally available branch. No build-owned election and no participant legal diagnosis. Fail closed where facts do not establish a branch. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_MEASURABLE_HERE",
+      "completenessStatus": "FAIL_MISSING_PREFILLS",
       "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
+        "unclassifiedBlanks": 2,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
@@ -35646,7 +35816,9 @@
         "protectedWrites": 0,
         "visualDefects": null
       },
-      "failingCounters": [],
+      "failingCounters": [
+        "unclassifiedBlanks"
+      ],
       "failedObligationNames": [
         "ROUTE_OPTIONS"
       ],
@@ -40348,10 +40520,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf07",
-        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "8834074d3c402bee7a0cc85e858465a39c2a7acb",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-current-semantic-fail-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -40370,25 +40542,28 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+          "verifiedAtBase": "8834074d3c402bee7a0cc85e858465a39c2a7acb",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40397,17 +40572,10 @@
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "rcap-or-official-pdf-fill",
-        "foundBy": [
-          "vf07 (current independent verification)"
-        ],
-        "why": "COMPONENT_SET: legal input unresolved",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule OR-OSP-SEPARATE-AGENCY-STEP: Treat the OSP fingerprint/history process as a separate required agency step, not a court-filing component, and do not universally label it pre-filing. Sequence it through jurisdiction/configuration rules. The court packet remains the current OJD motion/declaration/service materials. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule OR-OSP-SEPARATE-AGENCY-STEP: Treat the OSP fingerprint/history process as a separate required agency step, not a court-filing component, and do not universally label it pre-filing. Sequence it through jurisdiction/configuration rules. The court packet remains the current OJD motion/declaration/service materials. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -40424,11 +40592,83 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "OR-S1 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "OR-S2 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "OR-S1; OR-S2; OR-S3; OR-S4; OR-S5; OR-S8 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "OR-S3; OR-S4 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "OR-S4 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "OR-S6 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "OR-S1 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "OR-S7 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "OR-S5 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "OR-S8 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-or-official-pdf-fill.mjs",
@@ -51734,9 +51974,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 33,
+    "familiesAssignedToBuilders": 31,
     "sourceObligationsAssigned": 0,
-    "actualPromotedAndReleased": 33,
+    "actualPromotedAndReleased": 31,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",

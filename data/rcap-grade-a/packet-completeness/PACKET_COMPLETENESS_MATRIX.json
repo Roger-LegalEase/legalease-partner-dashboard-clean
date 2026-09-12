@@ -18,16 +18,16 @@
   "familiesAudited": 308,
   "byResult": {
     "PASS_COMPLETE": 275,
-    "NOT_MEASURABLE_HERE": 31,
-    "FAIL_ROUTE_SELECTION": 1,
+    "NOT_MEASURABLE_HERE": 30,
+    "FAIL_MISSING_PREFILLS": 2,
     "FAIL_MISSING_REQUIRED_FACTS": 1
   },
   "counterTotals": {
     "knownRequiredFieldsMissing": 0,
     "requiredFactsNotCollected": 1,
-    "unclassifiedBlanks": 3,
+    "unclassifiedBlanks": 7,
     "incompleteRows": 0,
-    "requiredOptionsMissing": 1,
+    "requiredOptionsMissing": 0,
     "requiredComponentsMissing": 0,
     "invisibleWrites": null,
     "protectedWrites": 0,
@@ -1589,16 +1589,16 @@
       "failedCounters": [],
       "totals": {
         "terminalFields": 187,
-        "written": 8,
-        "blank": 179,
+        "written": 33,
+        "blank": 154,
         "blanksByDisposition": {
           "NOT_APPLICABLE_ON_THIS_ROUTE": 28,
           "PROTECTED_FIELD": 62,
           "LATER_COMPLETION": 4,
-          "REQUIRED_BEFORE_FILING": 61,
-          "PARTICIPANT_ELECTION_GENUINE": 24
+          "PARTICIPANT_ELECTION_GENUINE": 24,
+          "REQUIRED_BEFORE_FILING": 36
         },
-        "rowsInspected": 5,
+        "rowsInspected": 0,
         "fieldMapSchema": "writes-and-refusals"
       },
       "outputApprovalStatus": "REQUESTED",
@@ -28689,31 +28689,32 @@
     {
       "familyId": "nj_disorderly_persons-set",
       "directory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
-      "result": "FAIL_ROUTE_SELECTION",
+      "result": "FAIL_MISSING_PREFILLS",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
+        "unclassifiedBlanks": 2,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 1,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": null,
         "protectedWrites": 0,
         "visualDefects": null
       },
       "failedCounters": [
-        "requiredOptionsMissing"
+        "unclassifiedBlanks"
       ],
       "totals": {
         "terminalFields": 179,
-        "written": 18,
-        "blank": 161,
+        "written": 24,
+        "blank": 155,
         "blanksByDisposition": {
           "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
-          "REQUIRED_BEFORE_FILING": 89,
+          "REQUIRED_BEFORE_FILING": 58,
           "PARTICIPANT_ELECTION_GENUINE": 42,
-          "PROTECTED_FIELD": 28
+          "UNCLASSIFIED_BLANK": 2,
+          "PROTECTED_FIELD": 51
         },
         "rowsInspected": 3,
         "fieldMapSchema": "documents-and-decisions"
@@ -28722,14 +28723,20 @@
       "sourceCurrentness": "EXACT",
       "findings": [
         {
-          "counter": "requiredOptionsMissing",
-          "field": "guilty",
-          "document": "NJ-CN-10557",
-          "fixturesWithoutTheElection": [
-            "canonical",
-            "boundary"
-          ],
-          "why": "the map declares this a measured route election and no fixture this route can build makes it -- it is neither written nor drawn on 2 of 2 fixture(s) -- so no packet this route delivers states which statute it proceeds under"
+          "counter": "unclassifiedBlanks",
+          "field": "guiltyOff2",
+          "label": "name of offense(s), continuation line if needed — Form A, item (d), delivered page 19",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "sourceOptional proof is incomplete",
+          "reasonGiven": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "guiltyFinal2",
+          "label": "final sentence, continuation line if needed — Form A, item (d), delivered page 19",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "sourceOptional proof is incomplete",
+          "reasonGiven": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text."
         }
       ],
       "findingsTruncated": 0
@@ -28737,12 +28744,12 @@
     {
       "familyId": "nj_indictable_conviction-set",
       "directory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
-      "result": "NOT_MEASURABLE_HERE",
+      "result": "FAIL_MISSING_PREFILLS",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
+        "unclassifiedBlanks": 2,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
@@ -28750,16 +28757,18 @@
         "protectedWrites": 0,
         "visualDefects": null
       },
-      "failedCounters": [],
+      "failedCounters": [
+        "unclassifiedBlanks"
+      ],
       "totals": {
         "terminalFields": 179,
-        "written": 18,
-        "blank": 161,
+        "written": 25,
+        "blank": 154,
         "blanksByDisposition": {
           "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
-          "REQUIRED_BEFORE_FILING": 62,
+          "REQUIRED_BEFORE_FILING": 54,
           "PARTICIPANT_ELECTION_GENUINE": 42,
-          "LATER_COMPLETION": 1,
+          "UNCLASSIFIED_BLANK": 2,
           "PROTECTED_FIELD": 54
         },
         "rowsInspected": 3,
@@ -28767,7 +28776,24 @@
       },
       "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
       "sourceCurrentness": "EXACT",
-      "findings": [],
+      "findings": [
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "guiltyOff2",
+          "label": "name of offense(s), continuation line if needed — Form A, item (d), delivered page 19",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "sourceOptional proof is incomplete",
+          "reasonGiven": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "guiltyFinal2",
+          "label": "final sentence, continuation line if needed — Form A, item (d), delivered page 19",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "sourceOptional proof is incomplete",
+          "reasonGiven": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text."
+        }
+      ],
       "findingsTruncated": 0
     },
     {

@@ -34,18 +34,18 @@
     }
   ],
   "counts": {
-    "returnDirectories": 304,
-    "rows": 1395,
+    "returnDirectories": 307,
+    "rows": 1398,
     "independentVerdicts": 310,
-    "failRepairRequired": 16,
+    "failRepairRequired": 17,
     "passIndependent": 289
   },
   "failRepairRequiredFamilies": [
+    "ca-17b-reduction-set",
     "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
     "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "de_discretionary_superior_court-set",
     "il-seal-edu-set",
-    "in_section1_petition-set",
     "ky_protective_order_record_expungement-set",
     "mo-610-140-arrest-set",
     "mo-610-140-conviction-set",
@@ -54,6 +54,7 @@
     "nj_indictable_conviction-set",
     "pa_6308_underage-set",
     "rcap-in-custom-pleading",
+    "rcap-or-official-pdf-fill",
     "sd_arrest_expungement-set",
     "tx_nd_automatic_misdemeanor_deferred-set",
     "wv_acc_treatment_job_readiness-set"
@@ -5085,6 +5086,66 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-20260911-ca17-preraster.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfcg1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6c5d8c862ca3fd0664381e359ba2c34fdd5bbb3f",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "CA17-S1 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "CA17-S1; CA17-S2; CA17-S3 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "CA17-S5 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "CA17-S2; CA17-S5 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "CA17-S4 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "CA17-S3 — exact current-byte findings in referenced proof.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/independent-semantic-review/semantic-findings.json"
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-ca17-current-semantic-fail-20260912.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
       "superseded": false
@@ -14391,6 +14452,20 @@
     },
     {
       "familyId": "in_section1_petition-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfcg1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9e548b138b1357606fd7d8174b85ea56e37a4a58",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-section1-date-followup-current-original-pass-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "in_section1_petition-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vfcg1",
       "isIndependentVerification": true,
@@ -14438,7 +14513,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-section1-petition-repaired-original-date-fail-20260912.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ks-21-6614-conviction-set",
@@ -28331,6 +28406,94 @@
     },
     {
       "familyId": "rcap-or-official-pdf-fill",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8834074d3c402bee7a0cc85e858465a39c2a7acb",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "OR-S1 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "OR-S2 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "OR-S1; OR-S2; OR-S3; OR-S4; OR-S5; OR-S8 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "OR-S3; OR-S4 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "OR-S4 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "OR-S6 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "OR-S1 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "OR-S7 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "OR-S5 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "OR-S8 — exact current-byte findings in referenced evidence.",
+          "findingReadFrom": "finding",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/or-current-review/semantic-findings.json"
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-current-semantic-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-or-official-pdf-fill",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-or-official-pdf-fill",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf07",
       "isIndependentVerification": true,
@@ -28355,7 +28518,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-or-official-pdf-fill",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-sc-custom-pleading",
