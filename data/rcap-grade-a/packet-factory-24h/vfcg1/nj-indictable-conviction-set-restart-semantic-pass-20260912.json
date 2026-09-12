@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "rcap-vfcg1-bounded-semantic-review/v1",
+  "lane": "VFCG1",
+  "laneKind": "independent-verification",
+  "worker": "VFCG1",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "familyId": "nj_indictable_conviction-set",
+  "baseSha": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "verifiedAtBase": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "dispatchSha": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "executionState": "VERIFYING",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS",
+  "scope": "Independent bounded semantic recheck of the current NJ repair bytes after the prior six-class failure. No implementation, source, packet, queue, raster or shared-manifest edits were made by this reviewer; no visual pass is claimed.",
+  "claimEvidence": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VFCG1 nj_indictable_conviction-set",
+    "result": "CLAIM_OK",
+    "grantSetId": "c98746f0511e4355",
+    "assertedBeforeFamilyReads": true
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-nj-indictable-conviction-set-fact-derived-semantic-fail-20260912.json",
+    "sha256": "5f2395a450680208e939ab12a2aacd3488e73d8dcb64b30ca732d6c590d701a9",
+    "byteLength": 50107,
+    "priorVerifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+    "priorObservedHead": "5050e4fb8995b886b321a6883f1a45e4174ae375",
+    "priorFailedFindingIds": [
+      "NJ-FD-01",
+      "NJ-FD-02",
+      "NJ-FD-03",
+      "NJ-FD-04",
+      "NJ-FD-05",
+      "NJ-FD-06"
+    ]
+  },
+  "resolvedFindings": [
+    "NJ-FD-01 resolved: Form A item (d), arrest facts, statute and route family now describe the same declared matter; no controlled-substance carryover.",
+    "NJ-FD-02 resolved: conviction, sentence, custody, supervision, payment, pending-charge, prior-relief and route predicates are typed/collected and missing or contradictory facts stop packet/election.",
+    "NJ-FD-03 resolved: original arrest charge, date, statute, municipality and case identifier are collected and written from the declared matter.",
+    "NJ-FD-04 resolved: participant-later fields disclose stage, actor and recipient, including service, post-order and aliased recipient handling; court-owned fields remain protected.",
+    "NJ-FD-05 resolved: conditional arrest, dismissal, diversion, debt, juvenile and continuation rows are complete N/A only when the fixture record makes them inapplicable, with explicit conditions.",
+    "NJ-FD-06 resolved: participant guides contain participant-facing prose only; no internal field IDs, source-stage labels, registry paths, AcroForm or implementation comments."
+  ],
+  "deltaBasis": {
+    "repairReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fixnj2/rows-fixnj2-restart-repair-20260912.json",
+      "sha256": "cb2a0c911a16daba669d7a70f042b78c965cbb47d2e089641686d967fa9215af",
+      "byteLength": 6661,
+      "candidateRepairCommit": "b802d83e5"
+    },
+    "currentHeadRehashed": true,
+    "priorFailureRecheckedAgainstCurrentBytes": true,
+    "unchangedNonvisualEvidenceReusedOnlyAfterCurrentMetadataAndPDFHashesRehashed": true,
+    "visualEvidenceReused": false
+  },
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current route classification binds nj_indictable_conviction-set to NJ-INDICTABLE-FACTS-NOT-LEGAL-ELECTION; no participant or legal election is invented."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Held CN-10557 source matches SHA-256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1,924,831 bytes, 43 pages, and the current source receipts."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current rendered-artifact evidence declares the complete 9-component route set; both exact 43-page fixture PDFs are enrolled."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current output checks bind the declared family offense and statute in guiltyOff1/arrest facts; no controlled-substance carryover, missing mapped write, or wrong expected value remains."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The guide and route map collect typed conviction, arrest, sentence, supervision, payment, court and eligibility facts needed before filing, while unknown or contradictory facts stop."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The 47-assertion route test passes current fact-driven branch selection, invalid/sparse/unknown input stops, and the family-specific authorized selections."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Conditional row mapping is explicit and complete: 65 route-inapplicable rows, 32 participant-later rows, and no partial conditional row reuse."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Signatures, dates, court, prosecutor, clerk, agency, notary, service and post-order fields remain protected or participant-later; current actual-write reports show no protected write."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Both current fixture PDF bytes match the current raster manifest and rendered-artifact metadata by SHA-256, byte length and 43-page count; raster visual acceptance is not claimed."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Both CN-10557 fixtures preserve the 43-page source-derived order and required component delivery sequence."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "finding": "No central Actions raster was inspected by this semantic lane; clipping/overlap and visualDefects remain open.",
+      "visualDefects": null
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current participant guidance directs filing in the Superior Court of the county of conviction and requires local clerk/court practice checks."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current guidance invents no fee, directs the participant to the clerk for the county amount/payment methods, and addresses waiver applicability."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The 22 source-stage tests pass current participant-later service/stage/actor/recipient disclosures and reject forged or missing completion metadata."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current route/output checks preserve fail-closed treatment for missing or unsupported facts and do not represent court-owned acts as participant-completed."
+    }
+  },
+  "obligationCounts": {
+    "PASS": 14,
+    "NOT_MEASURABLE_HERE": 1,
+    "FAIL": 0
+  },
+  "failedObligationNames": [],
+  "unmeasuredObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonVisualZero": true,
+    "allNineCountersZero": false,
+    "measuredHere": true,
+    "visualMeasuredHere": false,
+    "verifierResult": "NOT_MEASURABLE_HERE",
+    "writtenOverTotalFields": "30/180"
+  },
+  "currentCandidateBindings": {
+    "reviewedHead": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+    "candidateRepairCommit": "b802d83e5",
+    "rasterManifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/restart-repair-raster-manifest.json",
+      "sha256": "1fa3e9d0cae2de137d6f43bcadcb57bbeea7c67a2f0f5a4918433b2d96acf9d9",
+      "byteLength": 5580,
+      "packetCommitShaRecorded": null,
+      "currentRasterState": "RASTER_PENDING",
+      "coverage": "two exact current CN-10557 PDFs; central raster required"
+    },
+    "metadata": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "04094e9d4bec8a56d10a0008e314f7cda921b0910d8b386b67b22ab8d83f5145",
+        "byteLength": 12328
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json",
+        "sha256": "9cf56f568efb7871ddc8fb834aa5b5cb063930d3bbe028781d1166c8ed251e69",
+        "byteLength": 291605
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/source-receipt.json",
+        "sha256": "425a3cc8ec8d0450001d310f7372b7da58cc18edb53af596612ebe91c6127497",
+        "byteLength": 1454
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "c23c31c359d4a18e000501266276ab6b17c6c8f2048460f29973f6481dabf4ca",
+        "byteLength": 134874
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "7c483602d0b2da8b78aed6d16d8f7dc514654b8b19161138c7307eb760fbccbf",
+        "byteLength": 7503
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/reports/route-fact-classification.json",
+        "sha256": "98359ae2ffae953d67d33d35452e9ab7eb03ab37bf2e8dc0152437ad6a263da4",
+        "byteLength": 2454
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/field-census.census-v1.json",
+        "sha256": "de25ba5f31488269f8f53bf58900bc9a64ccd0f99067ccf5ce3bb0d9f02e168f",
+        "byteLength": 186400
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/build-findings.json",
+        "sha256": "9d9573ca6f1ee6e253ca35e13cced7ed12623c192ed8de48f3d3a9ea391325a9",
+        "byteLength": 1429
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/approval-request.json",
+        "sha256": "1e8a889e0ac76f2db1f49b36b89d75f862941f23b09f22c70ebf8975792e94b2",
+        "byteLength": 505
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/product-wiring.json",
+        "sha256": "75c80bd572495fd24b4fa228a5764ee17de61099afd81a54d6ccde81be10339",
+        "byteLength": 4603
+      }
+    ],
+    "sourceDocuments": [
+      {
+        "form": "NJ-CN-10557",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "byteLength": 1924831,
+        "pageCount": 43,
+        "acroformFieldCount": 179
+      }
+    ],
+    "fixturePdfs": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+        "sha256": "e067d90c9ce9c7f95439d4bec7b533b8c3964c790f2b9008be86838b4ecf8283",
+        "byteLength": 578663,
+        "pageCount": 43
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+        "sha256": "e159d8846305d52946314ba5e980fb5f844aa84adf9bffb825424af22586ad44",
+        "byteLength": 581081,
+        "pageCount": 43
+      }
+    ],
+    "documentsDigest": "be84688a3c5268737b0c1961149f1dc004f642ecfd034634d15f08d7e99a4f70"
+  },
+  "currentPdfMeasurements": {
+    "fixtures": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+        "sha256": "e067d90c9ce9c7f95439d4bec7b533b8c3964c790f2b9008be86838b4ecf8283",
+        "byteLength": 578663,
+        "pageCount": 43
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+        "sha256": "e159d8846305d52946314ba5e980fb5f844aa84adf9bffb825424af22586ad44",
+        "byteLength": 581081,
+        "pageCount": 43
+      }
+    ],
+    "pageCount": 43,
+    "actualWriteEntriesPerFixture": 27,
+    "renderedArtifactAddedGlyphs": {
+      "canonical": 849,
+      "boundary": 2766
+    },
+    "currentMetadataMatchesManifest": true
+  },
+  "commandsPassed": [
+    {
+      "command": "node scripts/test-nj-cn10557-conviction-route.mjs",
+      "result": "PASS assertions=47"
+    },
+    {
+      "command": "node scripts/test-nj-cn10557-conviction-output.mjs",
+      "result": "PASS assertions=251"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_indictable_conviction-set.mjs --check-nonvisual",
+      "result": "PASS saved-byte/nonvisual check"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node --test scripts/rcap-packet-completeness/nj-participant-later-completion.test.mjs",
+      "result": "PASS 22/22"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
+      "result": "NOT_MEASURABLE_HERE 30/180; all nonvisual counters zero; visualDefects UNMEASURED"
+    }
+  ],
+  "rasterDispatchAuthorized": true,
+  "raster": {
+    "status": "PENDING_CENTRAL_ACTIONS",
+    "newCentralRasterRequired": true,
+    "packetCommitStampRequired": true,
+    "visualDefects": null,
+    "reason": "Dispatch the exact four current PDF hashes above. Only the central Actions raster can measure visual clipping/overlap and raster-dependent counters."
+  },
+  "remainingRequirements": [
+    "Central Actions raster for both canonical and boundary PDFs bound to these exact four SHA-256/byteLength pairs.",
+    "Independent visual clipping/overlap inspection and raster-dependent counter measurement.",
+    "Captain packetCommitSha stamp on the raster manifest before final acceptance."
+  ],
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "runtimeAndCommercialBoundary": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialAuthorityGranted": false,
+    "fulfillmentRecordCreated": false,
+    "note": "This PASS authorizes central raster dispatch only; it grants no visual, legal, runtime, payment, sponsorship, fulfillment or commercial authority."
+  },
+  "independence": {
+    "reviewer": "/root/review_wa",
+    "implementationEdited": false,
+    "sourceEdited": false,
+    "packetBytesEdited": false,
+    "queueEdited": false,
+    "rasterEdited": false,
+    "sharedManifestEdited": false,
+    "claimLedgerEdited": false,
+    "onlyPublication": "this lane-owned nonterminal semantic record"
+  }
+}
