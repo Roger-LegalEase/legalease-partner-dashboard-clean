@@ -166,12 +166,72 @@ const GROUNDING_RECORDS = Object.freeze({
    * conditions this route names. Both records are read and asserted to agree on
    * everything the packet quotes, so the packet cannot print a sentence only one
    * of them holds.
-   */
-  trackRegistry: "data/record-clearing/legal-design-track-registry.json"
+  */
+  trackRegistry: "data/record-clearing/legal-design-track-registry.json",
+  ownerAdoption: "data/rcap-grade-a/legal-decisions/NH_STREAMLINED_OWNER_ADOPTION_2026-09-12.json",
+  adoptionReview: "NH_Streamlined_Adoption_Review_2026-09-12.md",
+  researchDraft: "data/rcap-grade-a/packet-factory-24h/vf44/nh-streamlined-legal-design-research-draft-20260912.json",
+  blockedVerdict: "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-nh-conviction-streamlined-restart-semantic-blocked-20260912.json"
 });
 const MEMO_TRACK_ID = "nh_conviction_streamlined";
 /* The schedule the memo names in its own officialSources list. */
 const FEE_SCHEDULE_TITLE_PREFIX = "Circuit Court Filing Fees";
+const OWNER_ADOPTION_DECISION_ID = "NH-STREAMLINED-BOUNDED-OWNER-ADOPTION-20260912";
+
+/*
+ * The owner adopted a bounded product treatment, not a statutory construction.
+ * These are the participant-facing rules implemented below.  loadOwnerAdoption
+ * binds them to the actual owner record and refuses to build unless that record
+ * names this family, the exact decision and all five revisions.
+ */
+const ADOPTED_PRODUCT_RULES = Object.freeze({
+  noDoc: Object.freeze({
+    scope: "a proven RSA 651:5 III(a)(2) or III(b)(2) case",
+    participant:
+      "For a proven streamlined case, follow the published no-DOC sequence: do not start a routine Department of Corrections referral, questionnaire or investigation charge. The statute's broad paragraph IX wording remains a recorded conflict, so this is a bounded product treatment rather than a statutory exemption or a government-fee waiver. If the court or DOC demands a referral or questionnaire, stop and confirm the requirement; never disregard it.",
+    outsideScope:
+      "This treatment does not apply to standard, pre-2019, vacated, marijuana, class-A, felony or uncertain-highest-offense cases."
+  }),
+  costs: Object.freeze({
+    court:
+      "$125.00 court filing fee per court location, subject to the court's current schedule and filing instructions.",
+    doc:
+      "DOC investigation: no routine charge in the proven streamlined branch; a contrary court or DOC demand is a case-specific confirmation/review branch and any separately assessed fee remains distinct.",
+    statePolice:
+      "After a successful conviction annulment, expect a separate $100 Department of Safety/State Police record-correction charge, subject to any applicable agency waiver or exemption and the agency's actual assessment. The agency is paid directly and sends its own notification/payment instructions.",
+    criminalHistory:
+      "Any criminal-history request charge is a separate agency cost and is not included in the court filing fee or the State Police post-order correction charge.",
+    distinct:
+      "Keep the court filing fee, any contrary DOC investigation fee, the State Police post-order correction fee and any criminal-history request charge as separate cost items; do not count the IX and X(d) descriptions as two correction charges without evidence of two assessments."
+  }),
+  conditionalGrant: Object.freeze({
+    participant:
+      "Treat a conditional or interim order, the notice/objection window, a final entered court annulment order or certificate, and State Police payment or waiver plus record-update confirmation as separate evidenced steps. Twenty days passing by itself does not establish a completed annulment.",
+    receipt:
+      "The form's Date Sent to Prosecutor records sending, not receipt. Do not calculate the objection deadline from filing, sending or the participant's receipt. Prefer a court-specified deadline; otherwise require a verified prosecutor-receipt anchor and the applicable time-computation rules. If receipt is unknown, show the deadline as unconfirmed.",
+    participantSteps:
+      "Retain the order and court notices, monitor correspondence, comply with court requests, obtain legal help for an opposition or disputed eligibility, confirm the final court action, and complete any separately notified State Police payment or waiver step. An ordinary status inquiry or document request does not itself require a lawyer."
+  }),
+  highestOffense: Object.freeze({
+    participant:
+      "Require a documented court-record basis for the highest-offense conclusion. Do not demand a new judicial label for an unambiguous record. If the comparison group, offense classification or relationship between different disposition dates remains uncertain, send this case to individual manual legal review; do not auto-approve, auto-ineligible or freeze the whole family.",
+    wholeRecord:
+      "Apply the target's paragraph III clean-period and subsequent-conviction condition, the applicable III exceptions, paragraph IV's denial restriction, paragraph V exclusions, paragraph VI whole-record timing/bar, paragraph VI-a out-of-state equivalence rule and paragraph VII pending-charge predicate. Do not reduce this to one target completion date or treat every pending matter as the same bar.",
+    manualBranch: "MANUAL_LEGAL_REVIEW_FOR_UNRESOLVED_HIGHEST_OFFENSE"
+  }),
+  waivers: Object.freeze({
+    court:
+      "The NHJB-2311 motion and NHJB-2328 financial statement remain a conditional court-filing-fee pair only where the disposing clerk confirms that their court/channel edition and confidentiality/service treatment fit the filing. NHJB-2311 lists Superior Courts and NHJB-2328 is an e-filing-only edition with a different chooser; an unverified fit is withheld from filing with an explicit reason, while the contracted conditional coverage remains recorded.",
+    statePolice:
+      "A court filing-fee waiver does not waive the State Police correction charge. Any State Police indigency request, affidavit or waiver decision is a separate agency branch; the held court waiver forms are not treated as an agency approval or as a substitute for an agency-compatible request.",
+    branchStatus: "WITHHELD_UNVERIFIED_COURT_CHANNEL_COMPATIBILITY",
+    coverage: "Conditional waiver coverage remains in the packet contract and is not silently removed when the exact court/channel or agency branch is unverified."
+  }),
+  checklistLocators: Object.freeze({
+    costs: "The held Judicial Branch checklist's costs and agency-fee notice are on PDF page 3.",
+    noDoc: "The held Judicial Branch checklist's explicit no-DOC streamlined sequence is on PDF page 4."
+  })
+});
 
 const ROUTE = Object.freeze({
   jurisdiction: "NH",
@@ -216,7 +276,73 @@ function readGroundingRecord(relative) {
     path: relative,
     sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
     byteLength: bytes.length,
-    data: JSON.parse(bytes.toString("utf8"))
+    data: relative.toLowerCase().endsWith(".json") ? JSON.parse(bytes.toString("utf8")) : null,
+    text: bytes.toString("utf8")
+  };
+}
+
+/**
+ * Bind the owner's actual adoption before composing participant copy.  The
+ * adoption resolves the product treatment while deliberately leaving counsel,
+ * court, packet and production acceptance separate.  The original research
+ * draft and blocked semantic row remain history and are hash-bound here.
+ */
+function loadOwnerAdoption() {
+  const adoption = readGroundingRecord(GROUNDING_RECORDS.ownerAdoption);
+  assert.equal(adoption.data.schemaVersion, "rcap-grade-a-legal-block-resolution/v1",
+    `${GROUNDING_RECORDS.ownerAdoption}: unsupported legal-resolution schema`);
+  assert.ok(adoption.data.provenance?.ownerAdoption === true,
+    `${GROUNDING_RECORDS.ownerAdoption}: owner adoption is not recorded`);
+  assert.equal(adoption.data.provenance?.counselApproval, false,
+    `${GROUNDING_RECORDS.ownerAdoption}: counsel approval must remain false for this owner adoption`);
+  assert.equal(adoption.data.provenance?.packetPass, false,
+    `${GROUNDING_RECORDS.ownerAdoption}: packet acceptance may not be claimed by an owner adoption`);
+  assert.equal(adoption.data.provenance?.productionAuthorization, false,
+    `${GROUNDING_RECORDS.ownerAdoption}: production authorization may not be claimed by an owner adoption`);
+  assert.ok(adoption.data.legalClearFamilyIds?.includes(FAMILY_ID),
+    `${GROUNDING_RECORDS.ownerAdoption}: ${FAMILY_ID} is not legally clear under the adopted bounded process`);
+  const decision = (adoption.data.decisions ?? []).find((row) => row.decisionId === OWNER_ADOPTION_DECISION_ID);
+  assert.ok(decision, `${GROUNDING_RECORDS.ownerAdoption}: decision ${OWNER_ADOPTION_DECISION_ID} is absent`);
+  assert.equal(decision.disposition, "LEGAL_CLEAR");
+  assert.deepEqual(decision.familyIds, [FAMILY_ID]);
+  assert.equal(decision.adoptedRevisions?.length, 5,
+    `${GROUNDING_RECORDS.ownerAdoption}: the five adopted revisions are not all recorded`);
+  assert.deepEqual(decision.adoptedRevisions.map((row) => row.number), [1, 2, 3, 4, 5]);
+  for (const phrase of ["no-DOC", "$100 State Police", "sending is not receipt", "manual review", "Court/channel compatibility"]) {
+    assert.ok(decision.bindingProductRule.includes(phrase),
+      `${GROUNDING_RECORDS.ownerAdoption}: binding rule does not carry ${phrase}`);
+  }
+
+  const draft = readGroundingRecord(GROUNDING_RECORDS.researchDraft);
+  assert.equal(draft.sha256, adoption.data.provenance?.draft?.sha256,
+    `${GROUNDING_RECORDS.researchDraft}: draft digest differs from the adopted historical identity`);
+  const review = readGroundingRecord(GROUNDING_RECORDS.adoptionReview);
+  assert.equal(review.sha256, adoption.data.provenance?.adoptionReview?.sha256,
+    `${GROUNDING_RECORDS.adoptionReview}: review digest differs from the adopted historical identity`);
+  const blockedVerdict = readGroundingRecord(GROUNDING_RECORDS.blockedVerdict);
+  assert.equal(blockedVerdict.sha256, adoption.data.provenance?.originalBlockedVerdict?.sha256,
+    `${GROUNDING_RECORDS.blockedVerdict}: blocked semantic history differs from the adopted historical identity`);
+  const memoIdentity = adoption.data.provenance?.governingMemoReconciliation;
+  assert.equal(memoIdentity?.path, GROUNDING_RECORDS.memo,
+    `${GROUNDING_RECORDS.ownerAdoption}: governing memo identity is not bound to ${GROUNDING_RECORDS.memo}`);
+  assert.equal(memoIdentity?.trackId, MEMO_TRACK_ID,
+    `${GROUNDING_RECORDS.ownerAdoption}: governing memo identity names the wrong track`);
+  const memo = readGroundingRecord(GROUNDING_RECORDS.memo);
+  assert.equal(memo.sha256, memoIdentity?.sha256,
+    `${GROUNDING_RECORDS.memo}: historical memo digest differs from the adoption's bound identity`);
+  assert.ok(Array.isArray(memoIdentity?.supersededFieldScopes) && memoIdentity.supersededFieldScopes.length > 0,
+    `${GROUNDING_RECORDS.ownerAdoption}: affected memo field scopes are not recorded`);
+
+  return {
+    record: adoption,
+    decision,
+    draft,
+    review,
+    blockedVerdict,
+    memo,
+    memoIdentity,
+    revisionNumbers: decision.adoptedRevisions.map((row) => row.number),
+    rules: ADOPTED_PRODUCT_RULES
   };
 }
 
@@ -1547,6 +1673,161 @@ function loadPacketSet() {
   return { record: registry, set, steps, components, version: set.version ?? null };
 }
 
+/*
+ * The central packet-set record predates the owner's five adopted revisions.
+ * Keep its original steps in the bound source record, but adapt the participant
+ * copy where the old wording would tell a person to resolve an adopted branch
+ * as though it were still an unanswered question.  Any future shared-record
+ * update that already carries the adopted wording simply passes through here.
+ */
+function effectivePacketSteps(packetSet, adoption) {
+  const replacements = [];
+  const steps = packetSet.steps.map((step) => {
+    let replacement = step;
+    if (/Department of Corrections investigation fee applies/i.test(step)) {
+      replacement = `${adoption.rules.noDoc.participant} ${adoption.rules.costs.statePolice}`;
+    } else if (/Motion for Waiver of Filing Fee,? NHJB-2311/i.test(step)) {
+      replacement = adoption.rules.waivers.court;
+    } else if (/Watching for the court's notice of determination and diarying the prosecutor's twenty days/i.test(step)) {
+      replacement = `${adoption.rules.conditionalGrant.receipt} ${adoption.rules.conditionalGrant.participantSteps}`;
+    }
+    if (replacement !== step) replacements.push({ original: step, replacement });
+    return replacement;
+  });
+  return { steps, replacements, originalSteps: packetSet.steps };
+}
+
+/*
+ * Small, family-local decision functions make the five adopted branches
+ * executable and testable without creating a repository-wide status enum. They
+ * return handling instructions, not an eligibility or court determination.
+ */
+function handleStreamlinedEligibility(input) {
+  const provenScope = input?.post2019 === true
+    && ["violation", "class_b_misdemeanor"].includes(input?.offenseLevel)
+    && input?.highestOffenseDocumented === true
+    && input?.wholeRecordGate === true;
+  if (input?.highestOffenseUncertain === true || input?.crossDateRelationshipUncertain === true) {
+    return {
+      handling: "MANUAL_LEGAL_REVIEW",
+      routineDocReferral: false,
+      confirmationRequired: false,
+      reason: ADOPTED_PRODUCT_RULES.highestOffense.participant
+    };
+  }
+  if (!provenScope) {
+    return {
+      handling: "WITHHOLD_AUTOMATED_STREAMLINED_ROUTE",
+      routineDocReferral: false,
+      confirmationRequired: false,
+      reason: "The streamlined no-DOC treatment applies only after the target and whole-record facts are independently established."
+    };
+  }
+  if (input?.contraryCourtOrDocDemand === true) {
+    return {
+      handling: "CONFIRMATION_REQUIRED",
+      routineDocReferral: false,
+      confirmationRequired: true,
+      reason: "A contrary court or DOC demand is a case-specific confirmation/review branch; the participant is never told to disregard it."
+    };
+  }
+  return {
+    handling: "PUBLISHED_NO_DOC_WORKFLOW",
+    routineDocReferral: false,
+    confirmationRequired: false,
+    reason: ADOPTED_PRODUCT_RULES.noDoc.participant
+  };
+}
+
+function handleConditionalGrant(input) {
+  const receiptKnown = input?.prosecutorReceiptDateKnown === true;
+  const courtDeadlineKnown = input?.courtSpecifiedDeadlineKnown === true;
+  return {
+    deadline: courtDeadlineKnown || receiptKnown ? "ANCHOR_REQUIRED_BEFORE_COMPUTATION" : "UNCONFIRMED",
+    finalCourtRelief: input?.finalEnteredOrderConfirmed === true,
+    agencyImplementation: input?.statePoliceUpdateConfirmed === true,
+    automaticallyFinalAfterTwentyDays: false,
+    reason: ADOPTED_PRODUCT_RULES.conditionalGrant.receipt
+  };
+}
+
+function handleWaiverCompatibility(input) {
+  const courtCompatible = input?.courtWaiverEditionCompatible === true;
+  const agencyDecision = input?.statePoliceAgencyWaiverDecision === true;
+  return {
+    courtWaiverUsable: courtCompatible,
+    statePoliceWaiverGranted: agencyDecision,
+    branch: courtCompatible ? "COURT_WAIVER_COMPATIBILITY_CONFIRMED" : ADOPTED_PRODUCT_RULES.waivers.branchStatus,
+    coverageRetained: true,
+    reason: ADOPTED_PRODUCT_RULES.waivers.court
+  };
+}
+
+function adoptedRuleFocusedTest(adoption) {
+  const proven = handleStreamlinedEligibility({
+    post2019: true, offenseLevel: "violation", highestOffenseDocumented: true,
+    wholeRecordGate: true
+  });
+  const contrary = handleStreamlinedEligibility({
+    post2019: true, offenseLevel: "class_b_misdemeanor", highestOffenseDocumented: true,
+    wholeRecordGate: true, contraryCourtOrDocDemand: true
+  });
+  const uncertainHighest = handleStreamlinedEligibility({
+    post2019: true, offenseLevel: "violation", highestOffenseDocumented: false,
+    highestOffenseUncertain: true, crossDateRelationshipUncertain: true, wholeRecordGate: true
+  });
+  const wholeRecordFailure = handleStreamlinedEligibility({
+    post2019: true, offenseLevel: "class_b_misdemeanor", highestOffenseDocumented: true,
+    wholeRecordGate: false
+  });
+  const sentButNoReceipt = handleConditionalGrant({
+    prosecutorReceiptDateKnown: false, courtSpecifiedDeadlineKnown: false,
+    finalEnteredOrderConfirmed: false, statePoliceUpdateConfirmed: false
+  });
+  const finalCourtOnly = handleConditionalGrant({
+    prosecutorReceiptDateKnown: true, courtSpecifiedDeadlineKnown: false,
+    finalEnteredOrderConfirmed: true, statePoliceUpdateConfirmed: false
+  });
+  const incompatibleWaiver = handleWaiverCompatibility({
+    courtWaiverEditionCompatible: false, statePoliceAgencyWaiverDecision: false
+  });
+  const statePoliceAndDistinctCosts =
+    ADOPTED_PRODUCT_RULES.costs.statePolice.includes("$100")
+    && ADOPTED_PRODUCT_RULES.costs.statePolice.includes("State Police")
+    && ADOPTED_PRODUCT_RULES.costs.distinct.includes("separate cost items")
+    && ADOPTED_PRODUCT_RULES.waivers.statePolice.includes("separate agency branch");
+  const wholeRecordScope =
+    ADOPTED_PRODUCT_RULES.highestOffense.wholeRecord.includes("clean-period")
+    && ADOPTED_PRODUCT_RULES.highestOffense.wholeRecord.includes("VI-a")
+    && ADOPTED_PRODUCT_RULES.highestOffense.wholeRecord.includes("VII");
+  const cases = [
+    { name: "proven streamlined record follows published no-DOC workflow", pass: proven.handling === "PUBLISHED_NO_DOC_WORKFLOW" && proven.routineDocReferral === false },
+    { name: "contrary court or DOC demand requires confirmation", pass: contrary.handling === "CONFIRMATION_REQUIRED" && contrary.confirmationRequired === true },
+    { name: "uncertain highest offense is individual manual review", pass: uncertainHighest.handling === "MANUAL_LEGAL_REVIEW" && uncertainHighest.reason.includes("manual legal review") },
+    { name: "whole-record failure withholds automated route", pass: wholeRecordFailure.handling === "WITHHOLD_AUTOMATED_STREAMLINED_ROUTE" },
+    { name: "sent date without receipt cannot compute deadline", pass: sentButNoReceipt.deadline === "UNCONFIRMED" && sentButNoReceipt.automaticallyFinalAfterTwentyDays === false },
+    { name: "court relief and agency implementation remain distinct", pass: finalCourtOnly.finalCourtRelief === true && finalCourtOnly.agencyImplementation === false },
+    { name: "unverified waiver compatibility is withheld while coverage remains", pass: incompatibleWaiver.courtWaiverUsable === false && incompatibleWaiver.coverageRetained === true },
+    { name: "State Police correction fee and agency waiver remain separate cost branches", pass: statePoliceAndDistinctCosts },
+    { name: "whole-record clean-period, VI-a and VII gates remain explicit", pass: wholeRecordScope },
+    { name: "adoption binds all five revisions", pass: adoption.revisionNumbers.join(",") === "1,2,3,4,5" }
+  ];
+  const failures = cases.filter((test) => !test.pass).map((test) => test.name);
+  assert.deepEqual(failures, [], `NH adopted-rule focused test failed: ${failures.join(", ")}`);
+  return {
+    schemaVersion: "rcap-nh-streamlined-adopted-rule-focused-test/v1",
+    familyId: FAMILY_ID,
+    decisionId: adoption.decision.decisionId,
+    adoptionRecord: adoption.record.path,
+    adoptionRecordSha256: adoption.record.sha256,
+    adoptedRevisionNumbers: adoption.revisionNumbers,
+    result: "PASS",
+    cases,
+    branchExamples: { proven, contrary, uncertainHighest, wholeRecordFailure, sentButNoReceipt, finalCourtOnly, incompatibleWaiver },
+    scope: "handling rules for this streamlined family only; no court, counsel, eligibility or production determination"
+  };
+}
+
 /**
  * Which of the two petitions a conviction date selects, in the record's own
  * words, read out of the packet-set manifest rather than restated here.
@@ -1570,14 +1851,16 @@ function componentNote(fee, role) {
   return notes;
 }
 
-function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE, packetSet, openQuestions) {
+function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE, packetSet, openQuestions, adoption) {
+  assert.ok(adoption?.rules, "NH streamlined participant instructions require the adopted bounded rules");
+  const rules = adoption.rules;
   const out = [];
   out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
   out.push(
     "This packet is the New Hampshire streamlined mandatory packet under RSA 651:5. It contains:", "",
     "- **NHJB-3057-DSe**, _Petition of Eligibility for Annulment of Record Conviction: For offenses resolved 01/01/2019 or later_ — the required petition for a qualifying violation or class B misdemeanor conviction.",
-    "- **NHJB-2311**, _Motion for Waiver of Filing Fee_ — include it only if you cannot pay the $125.00 filing fee.",
-    "- **NHJB-2328**, _Statement of Assets and Liabilities_ — include it with NHJB-2311 when you request the waiver.",
+    "- **NHJB-2311**, _Motion for Waiver of Filing Fee_ — a conditional court-fee companion; use it only after the disposing clerk confirms that this edition fits the court and filing channel.",
+    "- **NHJB-2328**, _Statement of Assets and Liabilities_ — include it with NHJB-2311 only for a compatible court-fee waiver request; it is not proof that the State Police has granted an agency waiver.",
     "- **NHJB-2956**, _Criminal History Record Information Release Authorization_ — use it to obtain your New Hampshire criminal history.",
     "- A process-guidance section for sentence-completion proof, what happens after filing, and the effect and limits of annulment.", "",
     `All four official forms are prepared under ${ROUTE.authority}.`, ""
@@ -1591,6 +1874,8 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
   out.push(
     "This packet does not decide eligibility. The conviction date, offence level, highest-offense determination, sentence-completion date, whole-record history and every sworn certification remain facts for the participant and the court record.", ""
   );
+  out.push("## Bounded streamlined handling", "");
+  out.push(rules.noDoc.participant, "");
 
   out.push("## One petition per charge", "");
   out.push(
@@ -1599,7 +1884,7 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
 
   out.push("## What the record says must be done before this is filed", "");
   out.push(
-    `The committed packet-set manifest names ${packetSet.steps.length} steps before filing. They are printed here verbatim:`, ""
+    `The committed packet-set manifest names ${packetSet.steps.length} steps before filing. The current owner-adopted handling is applied to the affected steps below:`, ""
   );
   for (const step of packetSet.steps) out.push(`- ${step}`);
   out.push("");
@@ -1629,7 +1914,7 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
   out.push("## Where you file, service and notice", "");
   out.push(`**Filing rule.** ${fee.track.rules.filing}`, "");
   out.push(`**Venue.** ${fee.track.geography.venue}`, "");
-  out.push(`**Destination.** ${fee.track.destination.name}. ${fee.sharedFee}`, "");
+  out.push(`**Destination.** ${fee.track.destination.name}. The court reviews the petition and gives notice of its determination to the participant and prosecutor; the prosecutor's objection period is measured from the required receipt anchor described below.`, "");
   out.push(`**Service.** ${SERVICE.service}`, "");
   out.push(`**Notice.** ${SERVICE.notice}`, "");
   out.push(
@@ -1637,19 +1922,15 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
   );
 
   out.push("## Fees and conditional waiver forms", "");
-  out.push(`**Fees.** ${fee.fees}`, "");
+  out.push(`**Court filing fee.** ${rules.costs.court}`, "");
+  out.push(`**Expected post-order agency cost.** ${rules.costs.statePolice}`, "");
+  out.push(`**Other cost treatment.** ${rules.costs.doc} ${rules.costs.criminalHistory} ${rules.costs.distinct}`, "");
   out.push(`The schedule named by the record is ${fee.schedule.title}, at ${fee.schedule.url}, retrieved ${fee.schedule.retrievedOn}.`, "");
   out.push(
-    "If you cannot pay the filing fee, include NHJB-2311 and NHJB-2328 together with the petition. If you can pay, omit both waiver forms. NHJB-2311's court chooser is limited to Superior Courts and NHJB-2328's chooser is a different edition; do not select a court you are not filing in. Ask the clerk how to identify the filing court on the waiver papers when their edition does not list your court.", ""
+    rules.waivers.court, ""
   );
-  out.push(`The record's waiver rule is: “${fee.feeWaiver}”`, "");
-
-  out.push("## Questions the record has not settled", "");
-  out.push(
-    "The committed record carries the following release-blocking questions. This packet preserves them and does not guess an answer:", ""
-  );
-  for (const q of openQuestions.releaseBlockers) out.push(`- ${q.question}`);
-  out.push("");
+  out.push(rules.waivers.statePolice, "");
+  out.push("The court/channel branch is **withheld until compatibility is verified**; the conditional waiver coverage remains recorded and is not silently removed.", "");
 
   out.push("## Criminal history request", "");
   out.push(
@@ -1661,15 +1942,20 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
   out.push(
     "Keep proof that every term and condition of the sentence is complete, including probation or parole, fines, fees, restitution and other conditions. Sentence completion is one of the two grounds on which the prosecutor may object to a streamlined petition. The proof is not filled into the petition by this builder; bring it or keep it available as the record and clerk require.", ""
   );
-  out.push("The whole-record rule also applies. Check every conviction and every sentence term before filing, and stop if the record leaves the highest offense, timing or an exclusion uncertain.", "");
-  for (const exclusion of fee.track.exclusions ?? []) out.push(`- ${exclusion}`);
+  out.push(`**Whole-record and highest-offense handling.** ${rules.highestOffense.wholeRecord}`, "");
+  out.push(`**Highest-offense branch.** ${rules.highestOffense.participant}`, "");
+  out.push(`The route's bounded no-DOC treatment applies only to ${rules.noDoc.scope}. ${rules.noDoc.outsideScope}`, "");
+  for (const exclusion of fee.track.exclusions ?? []) {
+    if (/highest offense|whole record|time requirements under paragraphs III and IV/i.test(exclusion)) continue;
+    out.push(`- ${exclusion}`);
+  }
   out.push("");
 
   out.push(`## ${ROUTE.guidanceComponents.find((g) => g.role === "post_filing_instructions").heading}`, "");
-  out.push(`The committed record says:`, "", `> ${componentNote(fee, "post_filing_instructions")}`, "");
-  out.push(
-    "The record does not settle what a conditional grant requires operationally or whether the Department of Corrections investigation and its $100 fee apply on this route. Ask the clerk after filing and keep the court's notice. Diary the prosecutor's twenty-day objection period from receipt of the court's notice.", ""
-  );
+  out.push("The packet keeps the court notice and objection procedure, with the owner-adopted handling below.", "");
+  out.push(`**Conditional grant and notice.** ${rules.conditionalGrant.participant}`, "");
+  out.push(`**Receipt anchor.** ${rules.conditionalGrant.receipt}`, "");
+  out.push("Do not treat twenty days by itself as a completed annulment. Keep the conditional or interim order, the notice and any objection/disposition, the final entered court order or certificate, and the separate State Police payment, waiver and record-update confirmation as distinct records.", "");
 
   out.push("## Where self-help ends", "");
   out.push(
@@ -1701,7 +1987,9 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
  * participant instructions, and because a clerk-facing summary that fits on one
  * page is a different document from a twenty-section guide.
  */
-function filingInstructions(fee, SERVICE, packetSet) {
+function filingInstructions(fee, SERVICE, packetSet, adoption) {
+  assert.ok(adoption?.rules, "NH streamlined filing instructions require the adopted bounded rules");
+  const rules = adoption.rules;
   const out = [];
   out.push(`# Filing instructions — ${FAMILY_ID}`, "");
   out.push(`**Route.** ${ROUTE.publicLabel}, under ${ROUTE.authority}.`, "");
@@ -1709,9 +1997,10 @@ function filingInstructions(fee, SERVICE, packetSet) {
   out.push("**Documents.**", "");
   for (const d of ROUTE.documents) out.push(`- ${d.formNumber} — ${d.title} (${d.instrumentKind})`);
   out.push("", `**Filing.** ${fee.track.rules.filing}`, `**Venue.** ${fee.track.geography.venue}`, `**Destination.** ${fee.track.destination.name}.`, "");
-  out.push(`**Fees.** ${fee.fees}`, `**Waiver.** ${fee.feeWaiver}`, `**Service.** ${SERVICE.service}`, `**Notice.** ${SERVICE.notice}`, `**Signature.** ${fee.track.rules.participantSignature}`, `**Notarization.** ${fee.track.rules.notarization}`, "");
+  out.push(`**Court fee.** ${rules.costs.court}`, `**Post-order State Police fee.** ${rules.costs.statePolice}`, `**Other costs.** ${rules.costs.doc} ${rules.costs.criminalHistory}`, `**Service.** ${SERVICE.service}`, `**Notice.** ${SERVICE.notice}`, `**Signature.** ${fee.track.rules.participantSignature}`, `**Notarization.** ${fee.track.rules.notarization}`, "");
   out.push("**Before filing, the committed record requires:**", "");
   for (const step of packetSet.steps) out.push(`- ${step}`);
+  out.push("", `**Bounded route handling.** ${rules.noDoc.participant}`, `**Highest-offense and whole-record review.** ${rules.highestOffense.participant} ${rules.highestOffense.wholeRecord}`, `**Conditional notice.** ${rules.conditionalGrant.receipt} ${rules.conditionalGrant.participant}`, `**Waiver compatibility.** ${rules.waivers.court} ${rules.waivers.statePolice}`, "");
   out.push("", "File one NHJB-3057-DSe petition per charge. Leave applicant signatures, judge and clerk sections, court-use fields and any participant-sworn selections for the responsible signer or court.", "");
   out.push(`_Built by ${BUILD_SCRIPT}. This packet is review evidence: it authorizes no fulfillment and opens no commercial route._`);
   return `${out.join("\n")}\n`;
@@ -1771,27 +2060,42 @@ async function selfTest() {
   const service = loadServiceRule(fee.record);
   const stops = loadSelfHelpStops(fee.record);
   const packetSet = loadPacketSet();
+  const adoption = loadOwnerAdoption();
+  const effectiveSteps = effectivePacketSteps(packetSet, adoption);
+  const guidancePacketSet = { ...packetSet, ...effectiveSteps };
+  const adoptedRuleReport = adoptedRuleFocusedTest(adoption);
   const openQuestions = loadOpenQuestions(fee.record);
-  const instructions = participantInstructions([map], required, required, fee, stops, service, packetSet, openQuestions);
-  const filing = filingInstructions(fee, service, packetSet);
+  const instructions = participantInstructions([map], required, required, fee, stops, service, guidancePacketSet, openQuestions, adoption);
+  const filing = filingInstructions(fee, service, guidancePacketSet, adoption);
   assert.ok(instructions.includes(service.service) && instructions.includes(service.notice));
   assert.ok(filing.includes(service.service) && filing.includes(service.notice));
   assert.ok(instructions.includes("## Where you file, service and notice"));
   assert.ok(instructions.includes("Complete NHJB-2956 using the request method printed on that form"));
-  assert.ok(instructions.includes("If you cannot pay the filing fee, include NHJB-2311 and NHJB-2328 together"));
+  assert.ok(instructions.includes("conditional court-fee companion"));
   assert.ok(instructions.includes("where the source permits"));
   assert.ok(!instructions.includes("standard route"));
+  assert.ok(instructions.includes(adoption.rules.noDoc.participant));
+  assert.ok(instructions.includes(adoption.rules.costs.statePolice));
+  assert.ok(instructions.includes(adoption.rules.conditionalGrant.receipt));
+  assert.ok(instructions.includes(adoption.rules.highestOffense.wholeRecord));
+  assert.ok(instructions.includes(adoption.rules.waivers.court));
+  assert.equal(adoptedRuleReport.result, "PASS");
   for (const r of required) assert.ok(instructions.includes(r.disclosureLabel));
 
-  /* Every controlling sentence the packet prints must be the record's own. */
+  /* The affected memo sentences remain bound as historical evidence but may not
+   * be printed after the owner adoption supersedes their unresolved wording. */
   for (const [name, sentence] of [["fees", fee.fees], ["feeWaiver", fee.feeWaiver], ["sharedFee", fee.sharedFee]]) {
-    assert.ok(instructions.includes(sentence), `participant-instructions.md must carry the record's ${name} sentence`);
+    assert.ok(!instructions.includes(sentence), `participant-instructions.md must not print superseded memo ${name} wording`);
   }
-  for (const [name, sentence] of [["fees", fee.fees], ["feeWaiver", fee.feeWaiver], ["filing", fee.track.rules.filing]]) {
+  for (const [name, sentence] of [["fees", fee.fees], ["feeWaiver", fee.feeWaiver]]) {
+    assert.ok(!filing.includes(sentence), `filing-instructions.md must not print superseded memo ${name} wording`);
+  }
+  for (const [name, sentence] of [["filing", fee.track.rules.filing], ["court", adoption.rules.costs.court]]) {
     assert.ok(filing.includes(sentence), `filing-instructions.md must carry the record's ${name} sentence`);
   }
-  /* Every step the committed packet set puts before filing, verbatim. */
-  for (const step of packetSet.steps) {
+  /* Every effective step is carried; affected historical steps are retained in
+   * the source receipt rather than copied into participant guidance. */
+  for (const step of guidancePacketSet.steps) {
     assert.ok(instructions.includes(step), `participant-instructions.md must carry the required-before-filing step: ${step.slice(0, 60)}`);
     assert.ok(filing.includes(step), `filing-instructions.md must carry the required-before-filing step: ${step.slice(0, 60)}`);
   }
@@ -1802,19 +2106,20 @@ async function selfTest() {
   for (const routeKey of ROUTE.routeKeys) {
     assert.ok(instructions.includes(routeKey) && filing.includes(routeKey), `both instruction documents must name ${routeKey}`);
   }
-  /* Every release-blocking open question, verbatim. */
+  /* The old release-blocking questions remain hash-bound history; the owner
+   * adopted bounded branches replace their participant-facing raw wording. */
   for (const q of openQuestions.releaseBlockers) {
-    assert.ok(instructions.includes(q.question), `participant-instructions.md must state the open question: ${q.question.slice(0, 60)}`);
+    assert.ok(!instructions.includes(q.question), `participant-instructions.md must not print superseded open question: ${q.question.slice(0, 60)}`);
   }
   /* Every guidance component the manifest names is a heading the packet prints,
    * and the two that quote the record's own note carry that note verbatim. */
   for (const guidance of ROUTE.guidanceComponents) {
     assert.ok(instructions.includes(`## ${guidance.heading}`), `participant-instructions.md must deliver the ${guidance.role} component`);
   }
-  for (const role of ["post_filing_instructions", "effect_and_limits_disclosure"]) {
-    assert.ok(instructions.includes(componentNote(fee, role)),
-      `participant-instructions.md must carry the record's own note for the ${role} component`);
-  }
+  assert.ok(instructions.includes(componentNote(fee, "effect_and_limits_disclosure")),
+    "participant-instructions.md must carry the record's own effect-and-limits note");
+  assert.ok(!instructions.includes(componentNote(fee, "post_filing_instructions")),
+    "participant-instructions.md must not print the superseded post-filing note verbatim");
   /* A quotation of nothing is a sentence the packet could not find, presented as
    * the record speaking. The sibling marijuana family shipped one; neither does
    * again. */
@@ -1906,6 +2211,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
    * so a manifest that no longer names a component this build renders, or that
    * names a guidance component this build does not print, stops the family. */
   const packetSet = loadPacketSet();
+  const adoption = loadOwnerAdoption();
+  const effectiveSteps = effectivePacketSteps(packetSet, adoption);
+  const guidancePacketSet = { ...packetSet, ...effectiveSteps };
+  const adoptedRuleReport = adoptedRuleFocusedTest(adoption);
 
   /* Bound before anything is composed, for the same reason as the fee and the
    * stop conditions: the packet states who is served in the record's words or
@@ -1942,6 +2251,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
   if (checkOnly) {
     return {
       familyId: FAMILY_ID, status: "CHECK_ONLY",
+      adoption: {
+        decisionId: adoption.decision.decisionId,
+        record: adoption.record.path,
+        recordSha256: adoption.record.sha256,
+        adoptedRevisionNumbers: adoption.revisionNumbers
+      },
+      adoptedRuleFocusedTest: adoptedRuleReport,
       documents: censuses.map(({ source, census }) => ({
         formNumber: source.formNumber, sha256: source.sha256, fields: census.rows.length,
         writes: census.rows.filter((r) => r.policy === "write").length,
@@ -2073,10 +2389,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   const rbf = requiredBeforeFilingItems(maps);
   const unfittableItems = unfittableRequiredItems(maps);
-  const instructionsText = participantInstructions(maps, rbf, unfittableItems, fee, stops, service, packetSet, openQuestions);
+  const instructionsText = participantInstructions(maps, rbf, unfittableItems, fee, stops, service, guidancePacketSet, openQuestions, adoption);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
-  const filingText = filingInstructions(fee, service, packetSet);
+  const filingText = filingInstructions(fee, service, guidancePacketSet, adoption);
   fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filingText);
+  writeJson(`${OUT}/reports/adopted-rule-focused-test.json`, adoptedRuleReport);
 
   writeJson(`${OUT}/source-receipt.json`, {
     schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
@@ -2115,13 +2432,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         path: fee.record.path, sha256: fee.record.sha256, byteLength: fee.record.byteLength,
         trackId: MEMO_TRACK_ID,
-        fieldsQuotedOnParticipantSurfaces: ["rules.fees", "rules.feeWaiver", "destination.detail", "rules.service", "rules.notice"],
+        fieldsQuotedOnParticipantSurfaces: ["rules.filing", "rules.service", "rules.notice", "rules.participantSignature", "rules.notarization"],
+        retainedAsHistoricalSupportingAuthorityFor: ["rules.fees", "rules.feeWaiver", "destination.detail", "unresolvedQuestions"],
+        supersededByOwnerAdoptionFor: adoption.memoIdentity.supersededFieldScopes,
         whyItIsBound:
-          "participant-instructions.md and filing-instructions.md quote this track's fee sentence, its "
-          + "single-fee-per-location rule, its waiver papers, its filing rule, its venue, its exclusions and its "
-          + "waiting-period table verbatim, and quote the post_filing_instructions and effect_and_limits_disclosure "
-          + "component notes as the two guidance components the manifest names. Every one of those sentences is the "
-          + "record's, not this file's, and the build stops if the record stops holding one."
+          "The historical intake memo remains byte-bound and supplies unaffected filing, service, signature and "
+          + "notarization rules. Its affected fee, waiver, conditional-grant, highest-offense and unresolved-question "
+          + "wording is retained for provenance only because the registered owner adoption controls those streamlined "
+          + "fields; participant surfaces use the adopted rules below rather than copying stale open-question text."
       },
       {
         path: stops.record.path, sha256: stops.record.sha256, byteLength: stops.record.byteLength,
@@ -2131,17 +2449,37 @@ export async function runFamily(argv = process.argv.slice(2)) {
           "packetSet.requiredBeforeFiling", "packetSet.components[].conditionDescription"
         ],
         selfHelpStopConditionsCarriedVerbatim: stops.conditions.length,
-        packetSetRequiredBeforeFilingStepsCarriedVerbatim: packetSet.steps.length,
-        releaseBlockingOpenQuestionsCarriedVerbatim: openQuestions.releaseBlockers.length,
+        packetSetRequiredBeforeFilingStepsRead: packetSet.steps.length,
+        packetSetRequiredBeforeFilingStepsPrintedAfterOwnerAdaptation: guidancePacketSet.steps.length,
+        packetSetStepReplacements: effectiveSteps.replacements,
+        releaseBlockingOpenQuestionsRetainedInSourceOnly: openQuestions.releaseBlockers.length,
         packetSetVersion: packetSet.version,
         whyItIsBound:
           "participant-instructions.md prints all " + stops.conditions.length + " of this track's self-help stop "
-          + "conditions word for word under 'Where self-help ends', and both instruction documents print all "
-          + packetSet.steps.length + " of the committed packet set's requiredBeforeFiling steps word for word. The "
-          + "record the sentences come from is bound by SHA-256 here, the build asserts the counts before printing "
-          + "any of them, and the intake memo must agree with the registry on every rule the packet quotes. The "
+          + "conditions word for word under 'Where self-help ends'. Both instruction documents carry the packet-set "
+          + "steps after the registered owner-adoption replacements recorded above. The record the unaffected sentences "
+          + "come from is bound by SHA-256 here, the build asserts the counts before printing any of them, and the intake "
+          + "memo must agree with the registry on every rule the packet quotes. The "
           + "the streamlined route has one required NHJB-3057-DSe petition, and the packet-set manifest supplies the "
           + "required or conditional companion components this build delivers."
+      },
+      {
+        path: adoption.record.path, sha256: adoption.record.sha256, byteLength: adoption.record.byteLength,
+        decisionId: adoption.decision.decisionId, owner: adoption.record.data.provenance.owner,
+        ownerAdoption: true, adoptedRevisionNumbers: adoption.revisionNumbers,
+        controllingForThisFamily: [
+          "bounded no-DOC workflow and contrary referral confirmation", "expected separate $100 State Police correction",
+          "receipt anchor and evidenced finality", "whole-record and bounded manual highest-offense handling",
+          "court/channel waiver compatibility and retained conditional coverage"
+        ],
+        historicalDraft: { path: adoption.draft.path, sha256: adoption.draft.sha256, byteLength: adoption.draft.byteLength },
+        adoptionReview: { path: adoption.review.path, sha256: adoption.review.sha256, byteLength: adoption.review.byteLength },
+        originalBlockedVerdict: { path: adoption.blockedVerdict.path, sha256: adoption.blockedVerdict.sha256, byteLength: adoption.blockedVerdict.byteLength },
+        governingMemoIdentity: { path: adoption.memo.path, sha256: adoption.memo.sha256, byteLength: adoption.memo.byteLength, trackId: MEMO_TRACK_ID },
+        acceptanceState: "owner_adoption_only; counsel, court, packet, independent semantic and production acceptance remain pending",
+        whyItIsBound:
+          "The five owner-adopted revisions control only this streamlined family. The original draft, blocked semantic "
+          + "verdict and historical memo remain hash-bound provenance; no other NH family or shared route is changed."
       }
     ],
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
@@ -2279,16 +2617,29 @@ export async function runFamily(argv = process.argv.slice(2)) {
     routeSelectionNote:
       "The packet states the single streamlined mandatory route on its participant surface and under its route key. "
       + "NHJB-3057-DSe is the required primary petition for the post-2019 violation or class B misdemeanor path. "
-      + "The fee-waiver forms are conditional manifest components and are included together only when the participant "
-      + "requests a waiver. Court choice, hearing request, charge facts, sworn certifications and financial answers "
-      + "remain participant or court determinations and are disclosed by name.",
+      + "The fee-waiver forms are conditional manifest components; their use is withheld until the disposing clerk "
+      + "confirms court/channel compatibility, and any State Police agency waiver is a separate request and decision. "
+      + "Court choice, hearing request, charge facts, sworn certifications and financial answers remain participant or "
+      + "court determinations and are disclosed by name. The owner-adopted no-DOC, receipt/finality, whole-record and "
+      + "manual highest-offense rules are bound in reports/adopted-rule-focused-test.json.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
+    packetSetRequiredBeforeFilingSource: packetSet.steps,
+    packetSetStepReplacements: effectiveSteps.replacements,
+    adoptedRuleDecisionId: adoption.decision.decisionId,
+    adoptedRuleRevisionNumbers: adoption.revisionNumbers,
+    adoptedRuleFocusedTest: `${OUT}/reports/adopted-rule-focused-test.json`,
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
 
   writeJson(`${OUT}/reports/rendered-artifacts.json`, {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID, renderedFresh: true,
     artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
+    adoptedRuleFocusedTest: {
+      path: `${OUT}/reports/adopted-rule-focused-test.json`,
+      decisionId: adoption.decision.decisionId,
+      adoptionRecordSha256: adoption.record.sha256,
+      result: adoptedRuleReport.result
+    },
     rasterState: "BUILT_RASTER_PENDING",
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
     rasterImagesRetained: false,
@@ -2404,12 +2755,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         finding:
           "THE FEE-WAIVER FORMS ARE CONDITIONAL COMPANIONS. NHJB-2311 and NHJB-2328 are delivered as the manifest's "
-          + "conditional components and must be included together when the participant cannot pay the filing fee. "
+          + "conditional components. They are withheld from filing until the disposing clerk confirms the court/channel "
+          + "edition and confidentiality/service fit; any State Police indigency request is a separate agency branch. "
           + "Their source editions carry different court chooser lists, so the participant must follow the disposing "
           + "clerk's instruction rather than selecting an unrelated court.",
         consequence:
-          "The source court controls remain participant elections, and the guide states the conditional include-both "
-          + "rule without inventing a court choice or a replacement form."
+          "The source court controls remain participant elections, the conditional coverage remains in the manifest, and "
+          + "the guide states the compatibility handback without inventing a court choice or an agency approval."
       },
       {
         finding:
@@ -2419,6 +2771,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
         consequence:
           "source-receipt.json records the sibling provenance and actual writes/appearance read-back records prove "
           + "the final bytes carry no refused-field ink."
+      },
+      {
+        finding:
+          "ADOPTED PROCESS RULES ARE FAMILY-SCOPED AND EXECUTABLE. The five owner-adopted revisions are loaded from "
+          + `${GROUNDING_RECORDS.ownerAdoption} and tested through the local decision functions; no rule is exported to `
+          + "another NH family or used as a statutory, counsel, court or production determination.",
+        consequence:
+          "The source receipt binds the owner record, its five revision numbers, the draft, adoption review, blocked "
+          + "verdict and historical memo identities. The independent semantic lane must still accept the corrected bytes."
       },
       {
         finding:
@@ -2432,12 +2793,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding:
-          "THE TRACK RECORD CARRIES THREE RELEASE-BLOCKING OPEN QUESTIONS: the Department of Corrections investigation "
-          + "and $100 fee, the operational meaning of a conditional grant, and how highest offense is determined when "
-          + "charges resolve on different dates.",
+          "THE OWNER ADOPTION BINDS FIVE BOUNDED STREAMLINED RULE REVISIONS. The published no-DOC treatment is limited "
+          + "to proven III(a)(2)/III(b)(2) cases with a contrary-referral confirmation branch; the expected $100 State "
+          + "Police correction and agency waiver remain separate; sending is not receipt and twenty days is not automatic "
+          + "finality; uncertain highest-offense relationships receive individual manual review while whole-record III, "
+          + "VI-a and VII gates remain explicit; and unverified court/channel waiver compatibility is withheld without "
+          + "deleting conditional coverage.",
         consequence:
-          "The participant guide reproduces each question verbatim and gives no invented fee, timing or eligibility "
-          + "answer."
+          "The participant and filing guides use the adopted treatment, while the original draft, blocked verdict and "
+          + "historical memo remain hash-bound provenance. reports/adopted-rule-focused-test.json records the focused "
+          + "branch results and does not claim counsel, court, packet or production acceptance."
       },
       {
         finding:
@@ -2470,10 +2835,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
     mattersForTheReviewersAttention: [
       "NHJB-3057-DSe is the single required primary petition. Confirm the post-2019 streamlined route and one-petition-per-charge instruction are clear.",
       "Confirm the printed NHJB-3057 signature/date rules and FOR COURT USE ONLY sections remain blank for the participant and court.",
-      "Confirm the conditional NHJB-2311 and NHJB-2328 forms are included together only for a fee-waiver request, and that their source court controls remain unselected.",
+      "Confirm the conditional NHJB-2311 and NHJB-2328 forms remain covered but are withheld until the disposing clerk confirms court/channel compatibility, and that their source court controls remain unselected.",
       "Confirm the NHJB-2311 signature placeholder and the three NHJB-2328 zero totals are removed under the digest-proved appearance dispositions recorded in source-receipt.json.",
       "Review reports/caption-evidence.json and the named-fact mappings for NHJB-3057 City/Town and NHJB-2956 split-name and one-line-address fields.",
-      "Review the three release-blocking questions and the thirteen self-help stop conditions reproduced in participant-instructions.md."
+      "Review reports/adopted-rule-focused-test.json and the thirteen self-help stop conditions. Confirm the owner-adopted no-DOC, State Police fee, receipt/finality, whole-record/manual-review and waiver-compatibility branches are handled without claiming legal, packet or production acceptance."
     ]
   });
 
@@ -2486,6 +2851,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
     requiredBeforeFiling: rbf.length,
     participantElections: maps.reduce((n, m) => n + m.selectionControls.length, 0),
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, sha256: a.sha256, byteLength: a.byteLength, pageCount: a.pageCount })),
+    adoptedRuleFocusedTest: {
+      path: `${OUT}/reports/adopted-rule-focused-test.json`,
+      result: adoptedRuleReport.result,
+      decisionId: adoption.decision.decisionId,
+      adoptionRecordSha256: adoption.record.sha256,
+      adoptedRevisionNumbers: adoption.revisionNumbers
+    },
+    historicalGrounding: {
+      memo: { path: adoption.memo.path, sha256: adoption.memo.sha256, byteLength: adoption.memo.byteLength },
+      researchDraft: { path: adoption.draft.path, sha256: adoption.draft.sha256, byteLength: adoption.draft.byteLength },
+      adoptionReview: { path: adoption.review.path, sha256: adoption.review.sha256, byteLength: adoption.review.byteLength },
+      blockedVerdict: { path: adoption.blockedVerdict.path, sha256: adoption.blockedVerdict.sha256, byteLength: adoption.blockedVerdict.byteLength }
+    },
     rasterPages: rasterPages.length, rasterImagesRetained: false,
     rasterState: skipRaster ? "NOT_RASTERED_IN_THIS_RUN" : "BUILT_RASTER_PENDING",
     selfVerified: false,

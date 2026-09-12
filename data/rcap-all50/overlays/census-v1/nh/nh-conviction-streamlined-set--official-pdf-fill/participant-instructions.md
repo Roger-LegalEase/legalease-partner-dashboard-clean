@@ -3,8 +3,8 @@
 This packet is the New Hampshire streamlined mandatory packet under RSA 651:5. It contains:
 
 - **NHJB-3057-DSe**, _Petition of Eligibility for Annulment of Record Conviction: For offenses resolved 01/01/2019 or later_ — the required petition for a qualifying violation or class B misdemeanor conviction.
-- **NHJB-2311**, _Motion for Waiver of Filing Fee_ — include it only if you cannot pay the $125.00 filing fee.
-- **NHJB-2328**, _Statement of Assets and Liabilities_ — include it with NHJB-2311 when you request the waiver.
+- **NHJB-2311**, _Motion for Waiver of Filing Fee_ — a conditional court-fee companion; use it only after the disposing clerk confirms that this edition fits the court and filing channel.
+- **NHJB-2328**, _Statement of Assets and Liabilities_ — include it with NHJB-2311 only for a compatible court-fee waiver request; it is not proof that the State Police has granted an agency waiver.
 - **NHJB-2956**, _Criminal History Record Information Release Authorization_ — use it to obtain your New Hampshire criminal history.
 - A process-guidance section for sentence-completion proof, what happens after filing, and the effect and limits of annulment.
 
@@ -18,13 +18,17 @@ This packet is for the **Petition of Eligibility for Annulment of a Violation or
 
 This packet does not decide eligibility. The conviction date, offence level, highest-offense determination, sentence-completion date, whole-record history and every sworn certification remain facts for the participant and the court record.
 
+## Bounded streamlined handling
+
+For a proven streamlined case, follow the published no-DOC sequence: do not start a routine Department of Corrections referral, questionnaire or investigation charge. The statute's broad paragraph IX wording remains a recorded conflict, so this is a bounded product treatment rather than a statutory exemption or a government-fee waiver. If the court or DOC demands a referral or questionnaire, stop and confirm the requirement; never disregard it.
+
 ## One petition per charge
 
 The required primary filing is NHJB-3057-DSe. The form says **PLEASE COMPLETE A SEPARATE FORM FOR EACH OFFENSE**. If more than one charge is involved, stop and confirm with the disposing courts how many petitions and filing fees are required. This packet renders one petition for the one charge in each fixture.
 
 ## What the record says must be done before this is filed
 
-The committed packet-set manifest names 12 steps before filing. They are printed here verbatim:
+The committed packet-set manifest names 12 steps before filing. The current owner-adopted handling is applied to the affected steps below:
 
 - Check your answer to "List every other conviction you have anywhere, with what it was, where, when, and when you finished that sentence." against New Hampshire criminal history record, and correct the packet if they disagree.
 - Check your answer to "Was the offence a violation, a class B misdemeanor, a class A misdemeanor, or a felony — and if a felony, what class?" against Court records and dispositions for every New Hampshire case, and correct the packet if they disagree.
@@ -33,11 +37,11 @@ The committed packet-set manifest names 12 steps before filing. They are printed
 - Everything in the FOR COURT USE ONLY section — NHJB-3057-DSe, court-use section.
 - Payment of the $125.00 filing fee, or filing NHJB-2311 instead — Presented to the clerk at filing.
 - Filing one petition per charge — Counter or e-filing at the disposing court.
-- Watching for the court's notice of determination and diarying the prosecutor's twenty days — The participant's own diary, prompted by the packet.
+- The form's Date Sent to Prosecutor records sending, not receipt. Do not calculate the objection deadline from filing, sending or the participant's receipt. Prefer a court-specified deadline; otherwise require a verified prosecutor-receipt anchor and the applicable time-computation rules. If receipt is unknown, show the deadline as unconfirmed. Retain the order and court notices, monitor correspondence, comply with court requests, obtain legal help for an opposition or disputed eligibility, confirm the final court action, and complete any separately notified State Police payment or waiver step. An ordinary status inquiry or document request does not itself require a lawyer.
 - Sworn signature on the petition under penalties of law.
 - None identified.
-- $125.00 per court location. Whether the $100 Department of Corrections investigation fee applies on this streamlined route is unresolved and recorded below: paragraph IX is written for a petition timely brought without distinguishing the subparagraph, which suggests it does apply, but the route's structure implies a lighter touch.
-- Motion for Waiver of Filing Fee, NHJB-2311, with the Statement of Assets and Liabilities, NHJB-2328.
+- For a proven streamlined case, follow the published no-DOC sequence: do not start a routine Department of Corrections referral, questionnaire or investigation charge. The statute's broad paragraph IX wording remains a recorded conflict, so this is a bounded product treatment rather than a statutory exemption or a government-fee waiver. If the court or DOC demands a referral or questionnaire, stop and confirm the requirement; never disregard it. After a successful conviction annulment, expect a separate $100 Department of Safety/State Police record-correction charge, subject to any applicable agency waiver or exemption and the agency's actual assessment. The agency is paid directly and sends its own notification/payment instructions.
+- The NHJB-2311 motion and NHJB-2328 financial statement remain a conditional court-filing-fee pair only where the disposing clerk confirms that their court/channel edition and confidentiality/service treatment fit the filing. NHJB-2311 lists Superior Courts and NHJB-2328 is an e-filing-only edition with a different chooser; an unverified fit is withheld from filing with an explicit reason, while the contracted conditional coverage remains recorded.
 
 ## What the platform filled, and what you must supply
 
@@ -161,7 +165,7 @@ Read every certification on NHJB-3057 before selecting it. The boxes are sworn s
 
 **Venue.** The court that disposed of the charge. One petition per charge.
 
-**Destination.** Clerk of the disposing court. The court reviews the petition, determines eligibility, and submits a notice of its determination to the person and to the prosecutor. The prosecutor's twenty-day objection window runs from receipt of that notice. The Judicial Branch checklist notes that for a violation or class B misdemeanor conviction after January 1, 2019 the court reviews the request and may issue an order conditionally granting the petition, with notice to follow.
+**Destination.** Clerk of the disposing court. The court reviews the petition and gives notice of its determination to the participant and prosecutor; the prosecutor's objection period is measured from the required receipt anchor described below.
 
 **Service.** None by the participant. The court gives the notice.
 
@@ -171,21 +175,19 @@ You do not serve the prosecutor yourself on this route. The court provides the n
 
 ## Fees and conditional waiver forms
 
-**Fees.** $125.00 per court location. Whether the $100 Department of Corrections investigation fee applies on this streamlined route is unresolved and recorded below: paragraph IX is written for a petition timely brought without distinguishing the subparagraph, which suggests it does apply, but the route's structure implies a lighter touch.
+**Court filing fee.** $125.00 court filing fee per court location, subject to the court's current schedule and filing instructions.
+
+**Expected post-order agency cost.** After a successful conviction annulment, expect a separate $100 Department of Safety/State Police record-correction charge, subject to any applicable agency waiver or exemption and the agency's actual assessment. The agency is paid directly and sends its own notification/payment instructions.
+
+**Other cost treatment.** DOC investigation: no routine charge in the proven streamlined branch; a contrary court or DOC demand is a case-specific confirmation/review branch and any separately assessed fee remains distinct. Any criminal-history request charge is a separate agency cost and is not included in the court filing fee or the State Police post-order correction charge. Keep the court filing fee, any contrary DOC investigation fee, the State Police post-order correction fee and any criminal-history request charge as separate cost items; do not count the IX and X(d) descriptions as two correction charges without evidence of two assessments.
 
 The schedule named by the record is Circuit Court Filing Fees, New Hampshire Judicial Branch — "Petition to Annul Criminal Record (per court location) $125.00", at https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-06/filing_fees.pdf, retrieved 2026-08-06.
 
-If you cannot pay the filing fee, include NHJB-2311 and NHJB-2328 together with the petition. If you can pay, omit both waiver forms. NHJB-2311's court chooser is limited to Superior Courts and NHJB-2328's chooser is a different edition; do not select a court you are not filing in. Ask the clerk how to identify the filing court on the waiver papers when their edition does not list your court.
+The NHJB-2311 motion and NHJB-2328 financial statement remain a conditional court-filing-fee pair only where the disposing clerk confirms that their court/channel edition and confidentiality/service treatment fit the filing. NHJB-2311 lists Superior Courts and NHJB-2328 is an e-filing-only edition with a different chooser; an unverified fit is withheld from filing with an explicit reason, while the contracted conditional coverage remains recorded.
 
-The record's waiver rule is: “Motion for Waiver of Filing Fee, NHJB-2311, with the Statement of Assets and Liabilities, NHJB-2328.”
+A court filing-fee waiver does not waive the State Police correction charge. Any State Police indigency request, affidavit or waiver decision is a separate agency branch; the held court waiver forms are not treated as an agency approval or as a substitute for an agency-compatible request.
 
-## Questions the record has not settled
-
-The committed record carries the following release-blocking questions. This packet preserves them and does not guess an answer:
-
-- Whether the Department of Corrections investigation and its $100 fee apply to the streamlined route. RSA 651:5, IX was read at gc.nh.gov on 2026-08-06 and is written for a petition timely brought without distinguishing the subparagraph.
-- What a conditional grant means operationally and what the participant must do after receiving one. The Judicial Branch checklist says the court may issue an order conditionally granting the petition with notice to follow, and describes nothing further.
-- How "highest offense of conviction" is determined where charges were resolved on different dates. This is the gate for the whole route.
+The court/channel branch is **withheld until compatibility is verified**; the conditional waiver coverage remains recorded and is not silently removed.
 
 ## Criminal history request
 
@@ -199,27 +201,31 @@ The packet manifest requires this guidance component. The committed record says:
 
 Keep proof that every term and condition of the sentence is complete, including probation or parole, fines, fees, restitution and other conditions. Sentence completion is one of the two grounds on which the prosecutor may object to a streamlined petition. The proof is not filled into the petition by this builder; bring it or keep it available as the record and clerk require.
 
-The whole-record rule also applies. Check every conviction and every sentence term before filing, and stop if the record leaves the highest offense, timing or an exclusion uncertain.
+**Whole-record and highest-offense handling.** Apply the target's paragraph III clean-period and subsequent-conviction condition, the applicable III exceptions, paragraph IV's denial restriction, paragraph V exclusions, paragraph VI whole-record timing/bar, paragraph VI-a out-of-state equivalence rule and paragraph VII pending-charge predicate. Do not reduce this to one target completion date or treat every pending matter as the same bar.
+
+**Highest-offense branch.** Require a documented court-record basis for the highest-offense conclusion. Do not demand a new judicial label for an unambiguous record. If the comparison group, offense classification or relationship between different disposition dates remains uncertain, send this case to individual manual legal review; do not auto-approve, auto-ineligible or freeze the whole family.
+
+The route's bounded no-DOC treatment applies only to a proven RSA 651:5 III(a)(2) or III(b)(2) case. This treatment does not apply to standard, pre-2019, vacated, marijuana, class-A, felony or uncertain-highest-offense cases.
 
 - A violation that is an offense specified under RSA 259:39, or another violation carrying an enhanced penalty for a subsequent conviction. Carved out of the violation row.
 - Sexual assault under RSA 632-A:4 and misdemeanor domestic violence under RSA 631:2-b. Carved out of the class B misdemeanor row.
-- Any offence that was not the highest offense of conviction in its case, which routes to the standard conviction route instead.
 - Convictions dated before January 1, 2019.
 - Any violent crime as defined by RSA 651:5, XIII: capital, first or second degree murder, manslaughter or class A felony negligent homicide under RSA 630; first degree assault under RSA 631:1; aggravated felonious sexual assault or felonious sexual assault under RSA 632-A; kidnapping or criminal restraint under RSA 633; class A felony arson under RSA 634:1; robbery under RSA 636; incest under RSA 639:2, III or endangering the welfare of a child by solicitation under RSA 639:3, III; and any felonious offense involving child sexual abuse images under RSA 649-A. RSA 651:5, V.
 - Any crime of obstruction of justice as defined by RSA 651:5, XIV: tampering with witnesses or informants under RSA 641:5, falsifying evidence under RSA 641:6, or any felonious offense of obstructing governmental operations under RSA 642. RSA 651:5, V.
 - Any offense for which the petitioner was sentenced to an extended term of imprisonment under RSA 651:6. RSA 651:5, V.
-- Any record where annulment of any part is barred under RSA 651:5, V, or where the time requirements under paragraphs III and IV have not been met for all offenses of record. RSA 651:5, VI freezes the whole record on one ineligible entry.
 - Impaired-driving convictions within RSA 265-A:21, which RSA 651:5, III excepts and which run on their own ten-year clock.
 - A further petition within 3 years of a denial. RSA 651:5, IV.
 - Federal, military, tribal and out-of-state records.
 
 ## What happens after you file
 
-The committed record says:
+The packet keeps the court notice and objection procedure, with the owner-adopted handling below.
 
-> What to expect and when: a court notice of its determination goes to the participant and to the prosecutor, and the prosecutor's twenty-day objection window runs from their receipt of it. If no timely objection is made, or the objection is denied, the court shall annul the conviction. The objection may only be that the offence is not eligible or that the sentence terms are not complete. Diary the twenty days. What a conditional grant means operationally, and whether the Department of Corrections investigation and its $100 fee apply on this route, are recorded as open questions rather than stated.
+**Conditional grant and notice.** Treat a conditional or interim order, the notice/objection window, a final entered court annulment order or certificate, and State Police payment or waiver plus record-update confirmation as separate evidenced steps. Twenty days passing by itself does not establish a completed annulment.
 
-The record does not settle what a conditional grant requires operationally or whether the Department of Corrections investigation and its $100 fee apply on this route. Ask the clerk after filing and keep the court's notice. Diary the prosecutor's twenty-day objection period from receipt of the court's notice.
+**Receipt anchor.** The form's Date Sent to Prosecutor records sending, not receipt. Do not calculate the objection deadline from filing, sending or the participant's receipt. Prefer a court-specified deadline; otherwise require a verified prosecutor-receipt anchor and the applicable time-computation rules. If receipt is unknown, show the deadline as unconfirmed.
+
+Do not treat twenty days by itself as a completed annulment. Keep the conditional or interim order, the notice and any objection/disposition, the final entered court order or certificate, and the separate State Police payment, waiver and record-update confirmation as distinct records.
 
 ## Where self-help ends
 
