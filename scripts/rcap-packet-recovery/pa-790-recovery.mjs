@@ -18,9 +18,9 @@ export const PA_790_SERVICE = Object.freeze([
   'The Commonwealth may consent, object or take no action within 60 days after service. Opposition or a scheduled hearing remains a self-help stopping point. Do not infer consent from silence or prefill anyone\'s response.',
 ]);
 const rows = [
-  ['Commonwealth recipient name', 'Commonwealth attorney name:'],
-  ['Commonwealth recipient address', 'Commonwealth attorney service address:'],
-  ['Commonwealth recipient telephone', 'Commonwealth attorney telephone number:'],
+  ['Commonwealth recipient name', 'Name of Commonwealth recipient served:'],
+  ['Commonwealth recipient address', 'Service address of Commonwealth recipient served:'],
+  ['Commonwealth recipient telephone', 'Telephone number of Commonwealth recipient served:'],
   ['Court administrator name', 'Court administrator name:'],
   ['Court administrator address', 'Court administrator service address:'],
   ['Court administrator telephone', 'Court administrator telephone number:'],
@@ -82,7 +82,8 @@ const IFP_DECLARATIONS = Object.fromEntries(IFP_FIELDS.map(field => {
     } : {
       refusalClass: null, blankTreatment: 'REQUIRED_BEFORE_FILING', requiredBeforeFiling: true,
     }),
-    identity: `PA-IFP-CCP field ${field}`, effectiveLabel: field,
+    identity: `PA-IFP-CCP field ${field}`,
+    effectiveLabel: field === 'PA' ? 'CPCMS 2046 field PA (captionless source field)' : field,
     reason: signature ? 'Participant execution; never prefilled.' : election
       ? 'Participant certification election; never inferred or selected by the platform.'
       : 'REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.',

@@ -77,7 +77,8 @@ await test('PA missing, string, or numeric elections refuse instead of coercing'
 });
 await test('PA certificate records both recipients and Rule 576 required particulars',()=>{
  const text=PA_790_CERTIFICATE.renderText(facts);
- for(const field of ['Commonwealth attorney name:','Commonwealth attorney service address:','Commonwealth attorney telephone number:', 'Court administrator name:','Court administrator service address:','Court administrator telephone number:','Manner of service','Date of service','Signature of petitioner after service'])assert.ok(text.includes(field),field);
+ assert.match(text,/on the attorney for the Commonwealth and the court administrator/);
+ for(const field of ['Name of Commonwealth recipient served:','Service address of Commonwealth recipient served:','Telephone number of Commonwealth recipient served:', 'Court administrator name:','Court administrator service address:','Court administrator telephone number:','Manner of service','Date of service','Signature of petitioner after service'])assert.ok(text.includes(field),field);
  assert.ok(PA_790_CERTIFICATE.fields.filter(f=>f.requiredBeforeFiling).every(f=>text.includes(f.effectiveLabel)));
  assert.ok(!PA_790_CERTIFICATE.fields.filter(f=>/service|signature|signed/i.test(f.field)).some(f=>f.decision==='candidate_write'));
 });
@@ -116,7 +117,7 @@ if(!unitOnly){
    if(family==='de'){assert.match(text,/\$72/);assert.match(text,/\$75/);assert.doesNotMatch(text,/a separate \$75 court filing fee/i);}
    if(family==='ma'){assert.match(text,/30 days/);assert.match(text,/no (?:filing )?fee/i);}
    if(family==='va'){assert.match(text,/19\.2-298\.02/);assert.match(text,/three separate facts/);}
-   if(family==='pa'){assert.match(text,/Commonwealth attorney telephone number/);assert.match(text,/Court administrator telephone number/);}
+   if(family==='pa'){assert.match(text,/Telephone number of Commonwealth recipient served/);assert.match(text,/Court administrator telephone number/);}
   }
  });
  await test('VA gate implementation is hash-bound to the rebuilt contract',()=>{
