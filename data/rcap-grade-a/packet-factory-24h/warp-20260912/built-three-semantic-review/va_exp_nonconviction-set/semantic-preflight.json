@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "rcap-independent-semantic-preflight/v1",
+  "familyId": "va_exp_nonconviction-set",
+  "lane": "VF01",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "reviewer": "seven_independent_review, independent Astra xhigh",
+  "verifiedAtBase": "b3f4918c1fd57bbb3d6bfc27802ab370d3a34232",
+  "claimEvidence": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/claim.txt",
+    "sha256": "bf546282394168c1b366d01c40c53f1e3a6402c93e09d699f22717fc08ab4e7b",
+    "byteLength": 278
+  },
+  "reviewPhase": "PRE_RASTER_SEMANTIC_ONLY",
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "rasterDispatchAuthorized": false,
+  "packetPdfsModified": false,
+  "completeContractRead": {
+    "path": "docs/PRODUCT_CONTRACT.md",
+    "sha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+    "byteLength": 64438
+  },
+  "frozenInputs": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/frozen-inputs.json",
+    "sha256": "3a1ae1a78b30962c3951377dca74f47879f256b3a9e4e093b06b1e2c9f74a6d8",
+    "byteLength": 10281
+  },
+  "measurementBindings": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/pdf-semantic-measurements.json",
+      "sha256": "d50230ab0269a185d9490d3926e9763a6128463ae03f065b4ea9b2895e224480",
+      "byteLength": 52968
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/basis-gate-measurements.json",
+      "sha256": "3cc81df4a5626f0a7dd3f41afcc1e88904e05e7b551e7e61ea799c74a75ba723",
+      "byteLength": 10070
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/measure-pdf.py",
+      "sha256": "11d40f2499717d4b191beddf010b51fec9da22f3bdbd891a1213ad5dc5a59e6d",
+      "byteLength": 6110
+    }
+  ],
+  "source": {
+    "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+    "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+    "byteLength": 120875
+  },
+  "bindingDecision": {
+    "id": "VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE",
+    "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+    "disposition": "LEGAL_CLEAR",
+    "notReopened": true
+  },
+  "officialSourceReading": [
+    {
+      "url": "https://law.lis.virginia.gov/vacodeupdates/title19.2/section19.2-298.02/",
+      "readOn": "2026-09-12",
+      "sectionsRead": "CurrentA-D and December1 replacementD",
+      "supports": "CurrentD includes qualifyingoriginalreducedcharge with all-partyagreement. FutureDwording not imported beforeDec1. Alreadycitedofficialpage opened to readexactcondition; no newformhunt."
+    },
+    {
+      "url": "https://law.lis.virginia.gov/vacodeupdates/title19.2/section19.2-392.2/",
+      "readOn": "2026-09-12",
+      "sectionsRead": "CurrentA-M and December1replacement",
+      "supports": "CurrentA no filingfees/costs; C charge/arrest/disposition/identity and postfilingCCREcourtcopy; D21dayresponse; Fjudicial/presumptionterms. IdentitytheftB fingerprint branch not applied to thisAroute."
+    }
+  ],
+  "findings": [
+    {
+      "id": "VA-SEMANTIC-REDUCED-ORIGINAL-CHARGE-BRANCH",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "finding": "The current subsection D agreement model only admits a disposition value of dismissed. It has no original-charge-reduction representation/normalization, though the current binding decision and CC-1473 expressly include a qualifying original charge that was reduced. The checklist and guidance likewise explain only deferred dismissals. The missing path must distinguish the original target charge from any alternative conviction, without relabeling the historical outcome as a dismissal.",
+      "implementationLocations": [
+        "scripts/rcap-packet-recovery/va-nonconviction-basis.mjs:65",
+        "scripts/rcap-packet-recovery/va-nonconviction-basis.mjs:69",
+        "scripts/build-census-v1-va_exp_nonconviction-set.mjs:543"
+      ],
+      "participantLocations": [
+        "participant-instructions.md:53-61,78,127-128,149",
+        "canonical.pdf and boundary.pdf pages5,7-9"
+      ],
+      "sourceRequirement": {
+        "pinnedCC1473Page": 1,
+        "shortExactSourcePhrase": "an original charge that was reduced",
+        "bindingDecisionId": "VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE",
+        "currentStatute": "19.2-298.02(D), version effective until December1,2026"
+      },
+      "counterexampleEvidence": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/basis-gate-measurements.json",
+        "sha256": "3cc81df4a5626f0a7dd3f41afcc1e88904e05e7b551e7e61ea799c74a75ba723",
+        "byteLength": 10070
+      },
+      "counterexampleInterpretation": "This is proof that the required semantic branch is absent, not a requirement to accept an arbitrary new enum or to expunge the alternative conviction. The repair must define and validate the target-original-charge and reduction facts, establish the separate all-party agreement from a real reference, then continue all existing checks. Unknown, contradictory or disputed records still stop; no agreement, signature, eligibility, or court finding may be inferred.",
+      "remainingCorrectGuards": "The existing dismissal exception, missing/ambiguous agreement refusal, no-objection distinction, other-statute refusal, opposition stop and December1 transition gate are correct and must remain."
+    },
+    {
+      "id": "VA-SEMANTIC-INTERNAL-PARTICIPANT-COPY",
+      "obligations": [
+        "ARTIFACTS"
+      ],
+      "finding": "Both delivered packets print the complete internal route key on pages3,4,6,9. The standalone participant guide repeats that key and tells participants about a shared field-semantics binding defect and build-findings. Registry/research implementation history also appears in the filing directions. These internal identifiers and engineering explanations are not filing instructions.",
+      "packetLeakCount": 8,
+      "guideExamples": [
+        "Route: obligation:track-only:VA:va_exp_nonconviction",
+        "The shared field semantics binds a field named City to the participant own city; see build-findings (guide line69, exact wording retained in snapshot)."
+      ],
+      "repair": "Remove internal route keys and implementation/history explanations from customer-facing pages and guide while retaining the substantive narrow agreement and hand-completion instructions. Keep internal provenance in reports/maps/history.",
+      "evidence": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/pdf-semantic-measurements.json",
+        "sha256": "d50230ab0269a185d9490d3926e9763a6128463ae03f065b4ea9b2895e224480",
+        "byteLength": 52968
+      }
+    }
+  ],
+  "proofObligationsReviewed": {
+    "ROUTE_IDENTITY": "Current exact nonconviction route, currentCC1473, and the Sept11 additive legal resolution are read. The resolved source/legal entrance is not reopened.",
+    "SOURCE_IDENTITY": "OfficialJuly2026CC1473 source SHA is independently recomputed. Every filing glyph remains at its source position on both delivered forms; only the Clear All Data viewer-button caption is removed. No form acquisition is needed.",
+    "COMPONENT_SET": "Allfive required components are present, pages1-2/3/4/5-6/7-9 in both9-page packets. Both2-page standalone primary filings have identical text, drawing geometry and page size to assembledpages1-2 (4comparisons). They are declared nonqueued intermediates; no extra substantive component is missing.",
+    "KNOWN_PREFILLS": "Allfive held identity/contact facts are present in each fixture: six exact source-box writes per fixture, plus the companion-page repetitions. Every printed-source widget is independently assigned an actor. No matter facts are held in these reference fixtures; current name is not invented as arrest name, nor participantcity as courtvenue.",
+    "REQUIRED_BEFORE_FILING": "All18 existing required handback rows and their conditional explanations were read against source and bothpackets. Record, agreement-document, conditionalCC1416, and postfilingCCRE court-copy steps remain. The original-reduced-charge factual pathway is missing (finding1).",
+    "ROUTE_OPTIONS": "Eight total route-determined pro-se capacity marks are present. Bothbasisboxes remain unselected, as do unknown attachments/unavailable-record/checklist elections. Existinggate11/12cases are correct; the missing original-reduction pathway fails.",
+    "REPEATING_ROWS": "The two final-disposition/court continuation pairs are source-preserved, currently blank with explicit conditional more-dates handback. Referencefixtures hold no charge roster that is dropped.",
+    "PROTECTED_FIELDS": "Every one of82 nonbutton widgetoccurrences is inspected by source actor. The62 nonfilled/nonselected occurrences have no added text or drawing. This includes newclerkcase, clerkcertification/hearing/date and attorney-only fields. The sixknownboxes and fourcapacitymarks exhaust added officialform content; no participant or clerk signature is manufactured.",
+    "ARTIFACTS": "FourPDFhashes are recomputed and pinned; complete22pages were read semantically. Source/primaryintermediate geometry is coherent. Eight internalroutekey copies and guide engineering instructions fail customer-facing artifact treatment.",
+    "PAGE_ORDER": "BothassembledPDFs have9pages in the five-component order, including2-page records checklist and3-page filinginstructions. Bothprimaryfilingintermediates have2pages. No unaccounted PDF pages.",
+    "CLIPPING_AND_OVERLAP": "Not granted: no current central original raster read in this semanticpreflight. Source geometry and extracted full strings do not substitute for final visual acceptance.",
+    "FILING_DESTINATION": "Currentform page2 and packet agree on circuitcourt county/city where chargewasdisposed; unknown courtcaption/address handback is explicit and conditionalCC1416 remains clerk-dependent.",
+    "FEE_AND_WAIVER": "Current19.2-392.2(A) no filingcourtfee/cost rule appears in guide and bothpacketspage7. No fee waiver fabricated; separate participant CCRE-copy fee is distinguished. No fee estimate invented.",
+    "SERVICE": "Currentform page2 and bothpacketspage3 require CommonwealthAttorney service in filinglocality afterfiling, methodperclerk. Currentstatute21day response window retained. Cover/request is expresslynot proofservice, and later noobjection is not earlier subsectionDagreement.",
+    "SELF_HELP_STOP": "The narrow dismissal agreement exception and evidence gate are implemented; this is not a blanketDotson stop. Opposition, contestedhearing, presumption/priorfelony, immigration, juvenile/federal, otherstatute and unknown/disputedagreement boundaries remain. The qualifying reduced-original-charge pathway is nevertheless unnecessarily absent."
+  },
+  "measurementSummary": {
+    "pdfSemanticChecks": {
+      "PASS": 90,
+      "FAIL": 0
+    },
+    "pureGateChecks": {
+      "PASS": 11,
+      "FAIL": 1
+    },
+    "sourceWidgetOccurrences": 82,
+    "knownOfficialFormTextWrites": 12,
+    "proSeCapacityMarks": 8,
+    "correctlyBlankWidgetOccurrences": 62,
+    "assembledPagesRead": 18,
+    "standaloneIntermediatePagesCompared": 4,
+    "all22PagesSemanticallyCovered": true,
+    "centralRasterReviewed": false
+  },
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 1,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 1,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": null,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allZero": false,
+    "measuredHere": false,
+    "countingNotes": "Semantic measurements only: one missing reduced-original-charge input/route branch.82 sourcewidgetoccurrences audited;12 knownfulltext writes,8 routecapacitymarks,62 correctlyblank. No currentraster invisibility/visualcounter claimed. Internalcopy failure is independent of counters."
+  },
+  "historicalFailureDisposition": {
+    "nativeRecord": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "sha256": "52a4c3169cd0e575e1441fae7a104d5f707cb12d5855b87bf59193a17409cbc6",
+      "byteLength": 2109747
+    },
+    "latestHistoricalPointer": "/rows/105",
+    "latestHistoricalVerdict": "BLOCKED_LEGAL_INPUT",
+    "latestHistoricalBase": "b70ec78ef",
+    "oldCanonicalSha256": "95c6fd7f20b2628a5055e4b247ad32dbbf0d33331b4a1d47cbbd65c03ac19e82",
+    "oldBoundarySha256": "334ea36f100a4a377a581040182a5d01a7c534c2cbb2ab51269dcf7d34da6dae",
+    "disposition": "All prior records remain untouched. Sept11 bindingdecision resolves the old unknownlaw entrance; currentmeasurement confirms narrowdismissal treatment. CurrentsemanticFAIL is on differentcurrentbytes and incompleteimplementation, not a reopenedlegal/sourceblock. No historicalvisualPASS is reused as currentacceptance."
+  }
+}
