@@ -329,7 +329,8 @@
       "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/acquisition-summary.json",
       "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/supplement-disposition-summary.json",
       "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json",
-      "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-pcra-source-adoption-20260911.json"
+      "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-pcra-source-adoption-20260911.json",
+      "data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-form283-source-adoption-20260912.json"
     ],
     "sharedExactBindings": [
       {
@@ -1102,8 +1103,17 @@
         "familyId": "de_discretionary_family_court-set",
         "group": "D",
         "disposition": "SOURCE_READY",
-        "relationshipNote": "Form 281 is the parent initiating petition. Form 281E is only its continuation/charge-extension sheet.",
-        "exactNextAction": "Build Form 281 with Form 281E only where charge continuation is required."
+        "relationshipNote": "Form 281 is the initiating petition;281E is conditional charge continuation. Held Form 1021IP pages 2–4 require proposedorderForm 283, held on its page 15.",
+        "exactNextAction": "Build Form 281, conditional 281E, requiredForm 283(source1021IPpage 15), then assembly guidance; obtain independent current-byte acceptance.",
+        "additionalRequiredSourceIds": [
+          "official-form:FORM-283"
+        ],
+        "requiredPacketSourceBindings": [
+          {
+            "sourceId": "official-form:FORM-283",
+            "sha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602"
+          }
+        ]
       },
       {
         "familyId": "de_discretionary_superior_court-set",

@@ -27,15 +27,15 @@ const attestations = LEGAL_BLOCK_SUPERSESSION_PATHS.map((recordPath) => ({ path:
 const baseResolutions = mergeLegalBlockResolutionRecords(docs);
 const resolutions = loadLegalBlockResolutions(ROOT);
 
-assert.equal(baseResolutions.records.length, 2);
-assert.deepEqual(baseResolutions.records.map((row) => [row.legalClearFamilies, row.legalHoldFamilies]), [[29, 6], [1, 0]]);
-assert.equal(baseResolutions.clearFamilyIds.length, 30);
+assert.equal(baseResolutions.records.length, 3);
+assert.deepEqual(baseResolutions.records.map((row) => [row.legalClearFamilies, row.legalHoldFamilies]), [[29, 6], [1, 0], [1, 0]]);
+assert.equal(baseResolutions.clearFamilyIds.length, 31);
 assert.equal(baseResolutions.holdFamilyIds.length, 6);
-assert.equal(resolutions.records.length, 3);
-assert.equal(resolutions.clearFamilyIds.length, 36);
+assert.equal(resolutions.records.length, 4);
+assert.equal(resolutions.clearFamilyIds.length, 37);
 assert.equal(resolutions.holdFamilyIds.length, 0);
-assert.equal(resolutions.byFamily.size, 36);
-assert.equal(new Set([...resolutions.clearFamilyIds, ...resolutions.holdFamilyIds]).size, 36);
+assert.equal(resolutions.byFamily.size, 37);
+assert.equal(new Set([...resolutions.clearFamilyIds, ...resolutions.holdFamilyIds]).size, 37);
 
 const mustRefuse = (name, mutate, match) => {
   const copy = structuredClone(docs);
@@ -59,7 +59,7 @@ mustRefuse("clear and hold overlap", (copy) => {
 }, /clear\/hold lists overlap/);
 
 const exactSupersession = applyLegalResolutionSupersessions(baseResolutions, attestations);
-assert.equal(exactSupersession.clearFamilyIds.length, 36);
+assert.equal(exactSupersession.clearFamilyIds.length, 37);
 assert.equal(exactSupersession.holdFamilyIds.length, 0);
 for (const familyId of baseResolutions.holdFamilyIds) {
   const effective = exactSupersession.byFamily.get(familyId);
@@ -211,7 +211,7 @@ if (process.argv.includes("--generated")) {
   assert.ok(stateDelta.every((family) => inScope.has(family.familyId)));
   assert.equal(active.assignments.length > 0, true);
   assert.equal(Array.isArray(ledger.claims), true);
-  console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 36 legally clear; SC source/product gates preserved`);
+  console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 37 legally clear; SC source/product gates preserved`);
 }
 
-console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1 clear and 6 hold; exact owner-attestation supersession yields 36 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");
+console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1 clear and 6 hold; exact owner-attestation supersession yields 37 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");
