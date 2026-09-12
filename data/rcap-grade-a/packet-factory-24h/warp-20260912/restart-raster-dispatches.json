@@ -21,7 +21,8 @@
       "family_batch": "nj_disorderly_persons-set,nj_indictable_conviction-set",
       "requested_scale": 2.5,
       "dispatchAccepted": true,
-      "receiptStatus": "AWAITING_ORIGINAL_ACTIONS_EVIDENCE"
+      "receiptStatus": "ORIGINAL_RASTER_PASS_AWAITING_INDEPENDENT_FINAL_REVIEW",
+      "custodyPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34690836340/ORIGINAL_EVIDENCE_VERIFIED.json"
     },
     {
       "runId": 34691106933,
@@ -31,7 +32,8 @@
       "family_batch": "nh_petition_vacated-set",
       "requested_scale": 2.5,
       "dispatchAccepted": true,
-      "receiptStatus": "AWAITING_ORIGINAL_ACTIONS_EVIDENCE"
+      "receiptStatus": "RASTER_PASS_CUSTODY_REFUSED_MISSING_WHOLE_FAMILY_COVERAGE",
+      "replacementRunId": 34692244254
     },
     {
       "runId": 34691384078,
@@ -41,7 +43,30 @@
       "family_batch": "pa_6308_underage-set",
       "requested_scale": 2.5,
       "dispatchAccepted": true,
-      "receiptStatus": "AWAITING_ORIGINAL_ACTIONS_EVIDENCE"
+      "receiptStatus": "RASTER_PASS_CUSTODY_REFUSED_MISSING_WHOLE_FAMILY_COVERAGE",
+      "replacementRunId": 34692245137
+    },
+    {
+      "workflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "rasterManifestPath": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nh-vacated-restart/raster-manifest.json",
+      "family_batch": "nh_petition_vacated-set",
+      "requested_scale": 2.5,
+      "runId": 34692244254,
+      "commitSha": "6daaa5ee47e0290385dc03cb55e493deb166cc09",
+      "dispatchAccepted": true,
+      "receiptStatus": "AWAITING_ORIGINAL_ACTIONS_EVIDENCE",
+      "replacesRunId": 34691106933
+    },
+    {
+      "workflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "rasterManifestPath": "data/rcap-grade-a/packet-factory-24h/warp-20260912/pa6308-current/raster-manifest.json",
+      "family_batch": "pa_6308_underage-set",
+      "requested_scale": 2.5,
+      "runId": 34692245137,
+      "commitSha": "6daaa5ee47e0290385dc03cb55e493deb166cc09",
+      "dispatchAccepted": true,
+      "receiptStatus": "AWAITING_ORIGINAL_ACTIONS_EVIDENCE",
+      "replacesRunId": 34691384078
     }
   ],
   "grantsNothing": "Dispatch is not raster acceptance or terminal approval."
