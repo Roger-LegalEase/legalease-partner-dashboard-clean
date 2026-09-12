@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "familyId": "az_set_aside-set",
+  "result": "PASS",
+  "testedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+  "packetPdfsChanged": false,
+  "commands": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 az_set_aside-set",
+      "result": "PASS",
+      "assertions": 1,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/claim-assertion.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-az_set_aside-set.mjs --input-followup-only",
+      "result": "PASS",
+      "assertions": 9,
+      "description": "Map/guidance-only refresh followed by all-nine-zero native completeness."
+    },
+    {
+      "command": "node scripts/test-az-set-aside-input-followup.mjs",
+      "result": "PASS",
+      "assertions": 42,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/focused-input-test.log"
+    },
+    {
+      "command": "node scripts/test-az-r260001-set-aside.mjs",
+      "result": "PASS",
+      "assertions": 41,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/existing-source-fidelity-test.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-az_set_aside-set.mjs --check",
+      "result": "PASS",
+      "assertions": 8,
+      "description": "Two governed source bindings and six exact amendment anchors.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/source-binding-check.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_set_aside-set",
+      "result": "PASS_COMPLETE",
+      "assertions": 9,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/completeness.log"
+    }
+  ],
+  "totals": {
+    "commandsPassed": 6,
+    "commandsFailed": 0,
+    "assertionsPassed": 110,
+    "assertionsFailed": 0
+  },
+  "negativeControls": {
+    "missingAllFour": "PASS: not_provided preserved for canonical 4-count and boundary 5-count fixtures",
+    "unboundCountScope": "PASS: classifier refuses to run without a positive actual conviction count",
+    "malformedAllFour": "PASS: invalid preserved",
+    "certificateNo": "PASS: false accepted as participant answer",
+    "adverseCompletion": "PASS: truthful answer retained and self-help stop set",
+    "judicialControls": "PASS: 14 Form 31(b) controls remain court-owned and no merits/certificate decision is written",
+    "uninventedFormControls": "PASS: all four virtual intake rows are explicitly not AcroForm fields and have null printedLabel"
+  },
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "packets": [
+    {
+      "fixture": "canonical",
+      "pages": 7,
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "61d79cf9576fa0245a2b854c63ad7fc69cdfba3d14863e3e60d2985ea1ad16f4",
+      "byteLength": 243378
+    },
+    {
+      "fixture": "boundary",
+      "pages": 8,
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "79e3774130de798df8161eabbc9555a7d9a5c6bc4bbdeb3cb8b775783a71e114",
+      "byteLength": 244691
+    }
+  ],
+  "generatedArtifacts": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/production-field-map.json",
+      "sha256": "134f3c8bfc04f72d76f1bb6bb49783d1469fc6170eb108d5b11c85d0eef76482",
+      "byteLength": 40920
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "73d53d51e403666edba2c8bc477fe4cc0a2835f39ea43ba1a5883c2f25ad9428",
+      "byteLength": 5956
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/reports/participant-input-status.json",
+      "sha256": "a20a59f5825212df29145229c2278cf40c94dcdb42c0252c04001014bbc81261",
+      "byteLength": 8286
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+      "sha256": "01fd2864ba20a57d27821bc3826293f81ef13b66d8a5acfcefbe03a3fb5a5ac2",
+      "byteLength": 29542
+    }
+  ],
+  "historicalFailPreserved": true,
+  "independentReviewResult": "PENDING_CURRENT_INPUT_MAP_AND_GUIDANCE_REVIEW",
+  "commercialRoutesOpened": 0
+}

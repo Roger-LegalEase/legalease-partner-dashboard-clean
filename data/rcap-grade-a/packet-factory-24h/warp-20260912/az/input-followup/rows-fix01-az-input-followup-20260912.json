@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX01",
+  "laneKind": "repair",
+  "baseSha": "509ce5073da1255758a7196ccb8a1cdf8364f5af",
+  "branch": "claude/legalease-sprint-captain-utucnw",
+  "isIndependentVerification": false,
+  "grantsAsserted": [
+    "CLAIM_OK FIX01 az_set_aside-set (repair, grant set e9583bf3582cf2b7)"
+  ],
+  "rows": [
+    {
+      "itemId": "az_set_aside-set",
+      "familyId": "az_set_aside-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "failedFindingIdsRepaired": [
+        "AZ-CURRENT-SENTENCE-IMPOSED",
+        "AZ-CURRENT-OFFENSE-CLASS",
+        "AZ-CURRENT-COMPLETION-DATE",
+        "AZ-CURRENT-REQUESTED-CERTIFICATE-RELIEF"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-az-current-form-initial-input-fail-20260912.json",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "preserved": true
+      },
+      "actualDefect": "The current map and guide had no collection/status/handback for sentence imposed, offense class for each conviction, completion/discharge status and date, or certificate-of-second-chance request intent. A compliance choice and judgment date did not supply the distinct facts; prior-certificate history and court certificate controls did not ask whether current certificate relief is requested.",
+      "correction": "Added a fixture-count-bound four-input participant collection contract with not_provided/provided/invalid states and validation; exact Form 31(a) Section I, Section II, Section V, or labeled continuation destinations; truthful blocking and self-help status; and a participant certificate election kept separate from every court finding and grant/deny control. No participant answer or judicial choice was invented.",
+      "packetBytesChanged": false,
+      "artifacts": {
+        "packets": [
+          {
+            "fixture": "canonical",
+            "pages": 7,
+            "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "61d79cf9576fa0245a2b854c63ad7fc69cdfba3d14863e3e60d2985ea1ad16f4",
+            "byteLength": 243378
+          },
+          {
+            "fixture": "boundary",
+            "pages": 8,
+            "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "79e3774130de798df8161eabbc9555a7d9a5c6bc4bbdeb3cb8b775783a71e114",
+            "byteLength": 244691
+          }
+        ],
+        "mapSha256": "134f3c8bfc04f72d76f1bb6bb49783d1469fc6170eb108d5b11c85d0eef76482",
+        "guideSha256": "73d53d51e403666edba2c8bc477fe4cc0a2835f39ea43ba1a5883c2f25ad9428",
+        "inputStatusSha256": "a20a59f5825212df29145229c2278cf40c94dcdb42c0252c04001014bbc81261"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/completeness.log: PASS_COMPLETE and all nine zero; visualDefects 0 transfers only by exact PDF-byte identity from central run 34663873573 and its independent 15-page review.",
+      "rasterState": "RASTER_PASS_CURRENT_PACKET_BYTES_UNCHANGED",
+      "rasterRunId": "34663873573",
+      "rasterReuseEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/packet-byte-reuse.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/current-input-handling-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/input-followup/focused-check-results.json",
+      "independentVerification": "PENDING_CURRENT_INPUT_MAP_AND_GUIDANCE_REVIEW",
+      "grantsNothing": "This implementation return preserves the historical FAIL and opens no route; independent review must accept the changed input contract and guidance."
+    }
+  ]
+}

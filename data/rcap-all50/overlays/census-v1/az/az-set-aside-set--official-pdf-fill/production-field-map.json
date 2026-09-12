@@ -322,6 +322,95 @@
   ],
   "refusals": [
     {
+      "field": "31a.required.sentenceImposed",
+      "fieldName": "31a.required.sentenceImposed",
+      "document": "R-26-0001-Form-31(a)",
+      "page": 3,
+      "printedLabel": null,
+      "effectiveLabel": "What sentence did the court impose?",
+      "kind": "text",
+      "reason": "The participant must supply or confirm this case-specific answer before filing; the platform does not hold it.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "participantMustSupply": true,
+      "routeDetermined": false,
+      "factId": "case.sentence_imposed",
+      "inputKey": "sentenceImposed",
+      "participantQuestion": "What sentence did the court impose?",
+      "formDestination": "Form 31(a) Section V, item 1 (Other Information for the Court), or a clearly labeled attached continuation if the answer does not fit.",
+      "participantAuthored": true,
+      "builderMayInfer": false,
+      "virtualParticipantInput": true,
+      "notAnAcroFormField": true
+    },
+    {
+      "field": "31a.required.offenseClasses",
+      "fieldName": "31a.required.offenseClasses",
+      "document": "R-26-0001-Form-31(a)",
+      "page": 1,
+      "printedLabel": null,
+      "effectiveLabel": "What is the class of each conviction listed in Section I?",
+      "kind": "text",
+      "reason": "The participant must supply or confirm this case-specific answer before filing; the platform does not hold it.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "participantMustSupply": true,
+      "routeDetermined": false,
+      "factId": "case.offense_classes",
+      "inputKey": "offenseClasses",
+      "participantQuestion": "What is the class of each conviction listed in Section I?",
+      "formDestination": "Add the class beside its matching conviction in Form 31(a) Section I; use the Section I count continuation immediately after Form 31(a) when needed.",
+      "participantAuthored": true,
+      "builderMayInfer": false,
+      "virtualParticipantInput": true,
+      "notAnAcroFormField": true
+    },
+    {
+      "field": "31a.required.conditionsFulfilled",
+      "fieldName": "31a.required.conditionsFulfilled",
+      "document": "R-26-0001-Form-31(a)",
+      "page": 3,
+      "printedLabel": null,
+      "effectiveLabel": "Have all probation or sentence conditions been fulfilled, have you been discharged, and on what date?",
+      "kind": "text",
+      "reason": "The participant must supply or confirm this case-specific answer before filing; the platform does not hold it.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "participantMustSupply": true,
+      "routeDetermined": false,
+      "factId": "case.conditions_fulfilled_and_discharge",
+      "inputKey": "conditionsFulfilled",
+      "participantQuestion": "Have all probation or sentence conditions been fulfilled, have you been discharged, and on what date?",
+      "formDestination": "Answer the printed Form 31(a) Section II compliance choices and put the completion/discharge date in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation.",
+      "participantAuthored": true,
+      "builderMayInfer": false,
+      "virtualParticipantInput": true,
+      "notAnAcroFormField": true
+    },
+    {
+      "field": "31a.required.certificateRequested",
+      "fieldName": "31a.required.certificateRequested",
+      "document": "R-26-0001-Form-31(a)",
+      "page": 3,
+      "printedLabel": null,
+      "effectiveLabel": "Do you request a certificate of second chance with this application? [ ] Yes [ ] No",
+      "kind": "selection_control",
+      "isSelectionControl": true,
+      "reason": "This is a genuine case-specific participant election; the set-aside route does not determine the answer.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "requiredBeforeFiling": false,
+      "routeDetermined": false,
+      "factId": "participant.certificate_of_second_chance_requested",
+      "inputKey": "certificateRequested",
+      "participantQuestion": "Do you request a certificate of second chance with this application?",
+      "formDestination": "State Yes or No in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation. Do not mark any Form 31(b) certificate finding or grant/deny box.",
+      "participantAuthored": true,
+      "builderMayInfer": false,
+      "collectionRequiredBeforePacketReady": true,
+      "virtualParticipantInput": true,
+      "notAnAcroFormField": true
+    },
+    {
       "field": "31a.applicant_is",
       "fieldName": "31a.applicant_is",
       "document": "R-26-0001-Form-31(a)",
@@ -884,5 +973,59 @@
       "routeDetermined": false
     }
   ],
-  "requiredBeforeFiling": []
+  "participantInputRequirements": [
+    {
+      "key": "sentenceImposed",
+      "factId": "case.sentence_imposed",
+      "question": "What sentence did the court impose?",
+      "formDestination": "Form 31(a) Section V, item 1 (Other Information for the Court), or a clearly labeled attached continuation if the answer does not fit.",
+      "required": true,
+      "participantAuthored": true,
+      "builderMayInfer": false
+    },
+    {
+      "key": "offenseClasses",
+      "factId": "case.offense_classes",
+      "question": "What is the class of each conviction listed in Section I?",
+      "formDestination": "Add the class beside its matching conviction in Form 31(a) Section I; use the Section I count continuation immediately after Form 31(a) when needed.",
+      "required": true,
+      "participantAuthored": true,
+      "builderMayInfer": false
+    },
+    {
+      "key": "conditionsFulfilled",
+      "factId": "case.conditions_fulfilled_and_discharge",
+      "question": "Have all probation or sentence conditions been fulfilled, have you been discharged, and on what date?",
+      "formDestination": "Answer the printed Form 31(a) Section II compliance choices and put the completion/discharge date in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation.",
+      "required": true,
+      "participantAuthored": true,
+      "builderMayInfer": false
+    },
+    {
+      "key": "certificateRequested",
+      "factId": "participant.certificate_of_second_chance_requested",
+      "question": "Do you request a certificate of second chance with this application?",
+      "formDestination": "State Yes or No in Form 31(a) Section V, item 1, or on a clearly labeled attached continuation. Do not mark any Form 31(b) certificate finding or grant/deny box.",
+      "required": true,
+      "participantAuthored": true,
+      "builderMayInfer": false
+    }
+  ],
+  "requiredBeforeFiling": [
+    {
+      "field": "31a.required.sentenceImposed",
+      "document": "R-26-0001-Form-31(a)",
+      "label": "What sentence did the court impose?"
+    },
+    {
+      "field": "31a.required.offenseClasses",
+      "document": "R-26-0001-Form-31(a)",
+      "label": "What is the class of each conviction listed in Section I?"
+    },
+    {
+      "field": "31a.required.conditionsFulfilled",
+      "document": "R-26-0001-Form-31(a)",
+      "label": "Have all probation or sentence conditions been fulfilled, have you been discharged, and on what date?"
+    }
+  ]
 }
