@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-native-raster-repair-test-results/v1",
+  "preparedOn": "2026-09-12",
+  "passing": [
+    {
+      "command": "node scripts/raster/reuse-original-page-evidence.test.mjs",
+      "result": "PASS",
+      "tests": 20
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/ri-nonconviction-raster-order.test.mjs",
+      "result": "PASS",
+      "tests": 10
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-native-selectable-raster-documents.mjs",
+      "result": "PASS",
+      "checks": 1
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-packet-recovery/test-full-set-raster-admission.py",
+      "result": "PASS",
+      "controls": 11
+    },
+    {
+      "command": "RCAP_PIKEPDF_PYTHON=<pikepdf-python> node scripts/raster/test-unlock-encrypted-pdf-livecycle.mjs",
+      "result": "PASS",
+      "sourcePages": 4,
+      "pixelEqualityChecks": 4,
+      "negativeControls": 1
+    },
+    {
+      "command": "node --check scripts/rcap-raster-batch.mjs && node --check scripts/raster/test-unlock-encrypted-pdf-livecycle.mjs",
+      "result": "PASS",
+      "checks": 2
+    }
+  ],
+  "preExistingFailuresUntouched": [
+    {
+      "command": "node --test scripts/grade-a-packet-factory-24h/verify-raster-declared-enrolment.test.mjs",
+      "result": "FAIL",
+      "testsPassed": 9,
+      "testsFailed": 1,
+      "failure": "il-seal-edu-set, in_arrest_no_charges-set, and in_section1_petition-set dropped out of the current live raster matrix",
+      "relationship": "The suite does not import or execute scripts/rcap-raster-batch.mjs or scripts/raster/unlock-encrypted-pdf.py; this is current shared queue state outside the CA repair."
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-independent-pass-raster-state.mjs",
+      "result": "FAIL",
+      "checksFailed": 2,
+      "failure": "completed repair state branch absent; expected BUILT_RASTER_PENDING but read null",
+      "relationship": "The suite does not import or execute the changed raster helper or native batch; this is current shared state outside the CA repair."
+    }
+  ],
+  "notRunBecausePriorCommandFailed": [
+    "node scripts/grade-a-packet-factory-24h/test-ingest-raster-receipt.mjs"
+  ],
+  "additionalStateTestsPassingBeforeTheIndependentStateFailure": [
+    "node scripts/grade-a-packet-factory-24h/test-ga-raster-documents.mjs",
+    "node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs",
+    "node scripts/grade-a-packet-factory-24h/test-recovery-raster-selection.mjs"
+  ]
+}
