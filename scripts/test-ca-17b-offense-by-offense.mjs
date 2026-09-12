@@ -45,6 +45,13 @@ ok(evaluateCa17OffenseInputs([
 ok(evaluateCa17OffenseInputs(Array.from({ length: 6 }, () => ({
   code: "Penal", section: "TEST", offenseType: "felony", eligible17b: true, eligible17d2: false,
 }))).issues.some((issue) => issue.code === "OFFENSE_ROW_CAPACITY_EXCEEDED"));
+ok(evaluateCa17OffenseInputs([
+  { code: "Penal", section: "TEST", offenseType: "banana", eligible17b: true, eligible17d2: false },
+]).issues.some((issue) => issue.code === "OFFENSE_TYPE_INVALID"));
+const sparse = [];
+sparse[2] = { code: "Penal", section: "TEST", offenseType: "felony", eligible17b: true, eligible17d2: false };
+ok(evaluateCa17OffenseInputs(sparse).issues.some((issue) => issue.code === "OFFENSE_ROW_MISSING"));
+equal(evaluateCa17OffenseInputs(sparse).status, "NEEDS_PARTICIPANT_INPUT_OR_HANDOFF");
 ok(ca17ParticipantInputStatus().productionRule.missingInputTreatment.includes("do not infer"));
 
 if (fs.existsSync(path.join(out, "production-field-map.json"))) {
@@ -57,21 +64,38 @@ if (fs.existsSync(path.join(out, "production-field-map.json"))) {
   const receipt = read("source-receipt.json");
   equal(Object.keys(map.explicitMappingsByVariant).join("|"), CA17_VARIANT_ID);
   equal(map.writes.filter((row) => row.factId?.startsWith("matter.offenses.")).length, 25);
+  equal(map.writes.filter((row) => !row.factId?.startsWith("matter.offenses.")).length, 33);
   equal(map.refusals.filter((row) => /ConvTable/.test(row.fieldName)).length, 0);
   equal(status.familyId, "ca-17b-reduction-set");
   equal(rendered.artifacts.length, 6);
+  equal(rendered.centralRasterRequired, true);
+  equal(rendered.everyPageRastered, false);
+  equal(rendered.rasters.length, 0);
   const primary = actual.artifacts.filter((row) => row.formNumber === "CR-180");
   equal(primary.length, 2);
   for (const artifact of primary) {
-    equal(artifact.finalizerWritten.length, 33);
-    equal(artifact.writtenProof.length, 33);
+    equal(artifact.finalizerWritten.length, 41);
+    equal(artifact.writtenProof.length, 41);
     equal(artifact.fieldObservations.filter((row) => row.factId?.startsWith("matter.offenses.")).length, 25);
     equal(artifact.exactBindingProof.protectedFieldsWithFixtureValues.length, 0);
   }
-  ok(guide.includes("There is no overall choice between Penal Code section 17(b) and section 17(d)(2)."));
+  ok(guide.includes("There is no single either-or choice between those sections."));
   ok(!guide.includes("obligation:track-only:CA:ca-17b-reduction"));
   ok(!guide.includes("pc-17b-felony-to-misdemeanor"));
   ok(!guide.includes("Values this packet holds and did not print"));
+  ok(!guide.includes("Page1[0]"));
+  ok(!guide.includes("production-field-map.json"));
+  ok(!guide.includes("deterministic review fixture"));
+  ok(guide.includes("adult server"));
+  ok(guide.includes("15 days' notice"));
+  ok(guide.includes("does not identify the event from which those 15 days are counted"));
+  ok(guide.includes("Complete only that method's section"));
+  const companion = actual.artifacts.filter((row) => row.formNumber !== "CR-180");
+  equal(companion.length, 4);
+  equal(companion.filter((row) => row.formNumber === "CR-181")
+    .every((row) => row.finalizerWritten.length === 12), true);
+  equal(companion.filter((row) => row.formNumber === "CR-106")
+    .every((row) => row.finalizerWritten.length === 5), true);
   ok(receipt.sources.length === 3 && receipt.sources.every((row) => row.sha256Exact && row.byteLengthExact));
 }
 

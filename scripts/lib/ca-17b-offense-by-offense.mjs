@@ -12,6 +12,7 @@ export const CA17_DECISION_PATH =
 const REQUIRED_KEYS = Object.freeze([
   "code", "section", "offenseType", "eligible17b", "eligible17d2",
 ]);
+const OFFENSE_TYPES = new Set(["felony", "misdemeanor", "infraction"]);
 
 function fieldName(row, stem) {
   return `CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row${row}[0].${stem}${row}[0]`;
@@ -70,7 +71,12 @@ export function evaluateCa17OffenseInputs(offenses) {
   const issues = [];
   if (rows.length === 0) issues.push({ code: "OFFENSE_ROWS_MISSING", row: null });
   if (rows.length > 5) issues.push({ code: "OFFENSE_ROW_CAPACITY_EXCEEDED", row: null, count: rows.length });
-  rows.slice(0, 5).forEach((row, index) => {
+  for (let index = 0; index < Math.min(rows.length, 5); index += 1) {
+    if (!Object.hasOwn(rows, index)) {
+      issues.push({ code: "OFFENSE_ROW_MISSING", row: index + 1 });
+      continue;
+    }
+    const row = rows[index];
     for (const key of REQUIRED_KEYS) {
       const value = row?.[key];
       const present = key.startsWith("eligible")
@@ -78,9 +84,15 @@ export function evaluateCa17OffenseInputs(offenses) {
         : typeof value === "string" && value.trim().length > 0;
       if (!present) issues.push({ code: "OFFENSE_INPUT_MISSING", row: index + 1, key });
     }
-  });
+    if (typeof row?.offenseType === "string" && row.offenseType.trim().length > 0
+      && !OFFENSE_TYPES.has(row.offenseType.trim().toLowerCase())) {
+      issues.push({ code: "OFFENSE_TYPE_INVALID", row: index + 1,
+        value: row.offenseType, allowed: [...OFFENSE_TYPES] });
+    }
+  }
   if (rows.length > 0 && rows.length <= 5
-    && rows.every((row) => row?.eligible17b !== true && row?.eligible17d2 !== true)) {
+    && Array.from({ length: rows.length }, (_, index) => rows[index])
+      .every((row) => row?.eligible17b !== true && row?.eligible17d2 !== true)) {
     issues.push({ code: "NO_APPLICABLE_REDUCTION_REQUEST", row: null });
   }
   return {

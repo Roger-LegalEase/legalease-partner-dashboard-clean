@@ -9721,10 +9721,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "disposition": "WRITE",
+          "factId": "participant.full_legal_name",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -9787,10 +9791,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "disposition": "WRITE",
+          "factId": "participant.street_address",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -9820,10 +9828,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "disposition": "WRITE",
+          "factId": "participant.city",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -9851,10 +9863,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "disposition": "WRITE",
+          "factId": "participant.state",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -9884,10 +9900,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "disposition": "WRITE",
+          "factId": "participant.zip",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -9917,10 +9937,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "disposition": "WRITE",
+          "factId": "participant.phone",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -9983,10 +10007,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "disposition": "WRITE",
+          "factId": "participant.email",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -10064,7 +10092,8 @@
           "documentRole": "primary_filing",
           "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
           "fieldType": "/Tx",
-          "effectiveLabel": "STREET ADDRESS:",
+          "effectiveLabel": "Court street address",
+          "effectiveLabelBasis": "printed CR-180 caption measured against the exact widget rectangle",
           "flags": [
             "doNotScroll"
           ],
@@ -10087,9 +10116,13 @@
             }
           ],
           "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
+          "factId": "filing.court_street_address",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: the filing court location is not held; obtain it from the Superior Court in the county of conviction before filing. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
+          "conditionDescription": "Complete the filing-court address shown on the petition; use a separate mailing address only when that court publishes one."
         },
         {
           "formNumber": "CR-180",
@@ -10097,7 +10130,8 @@
           "documentRole": "primary_filing",
           "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtMailingAdd[0]",
           "fieldType": "/Tx",
-          "effectiveLabel": "MAILING ADDRESS:",
+          "effectiveLabel": "Court mailing address",
+          "effectiveLabelBasis": "printed CR-180 caption measured against the exact widget rectangle",
           "flags": [
             "doNotScroll"
           ],
@@ -10120,9 +10154,13 @@
             }
           ],
           "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
+          "factId": "filing.court_mailing_address",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: the filing court location is not held; obtain it from the Superior Court in the county of conviction before filing. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtMailingAdd[0]",
+          "conditionDescription": "Complete the filing-court address shown on the petition; use a separate mailing address only when that court publishes one."
         },
         {
           "formNumber": "CR-180",
@@ -10130,7 +10168,8 @@
           "documentRole": "primary_filing",
           "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCityZip[0]",
           "fieldType": "/Tx",
-          "effectiveLabel": "CITY AND ZIP CODE:",
+          "effectiveLabel": "Court city and ZIP code",
+          "effectiveLabelBasis": "printed CR-180 caption measured against the exact widget rectangle",
           "flags": [
             "doNotScroll"
           ],
@@ -10153,9 +10192,13 @@
             }
           ],
           "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
+          "factId": "filing.court_city_and_zip",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: the filing court location is not held; obtain it from the Superior Court in the county of conviction before filing. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCityZip[0]",
+          "conditionDescription": "Complete the filing-court address shown on the petition; use a separate mailing address only when that court publishes one."
         },
         {
           "formNumber": "CR-180",
@@ -10336,7 +10379,8 @@
           "documentRole": "primary_filing",
           "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
           "fieldType": "/Tx",
-          "effectiveLabel": "(date):",
+          "effectiveLabel": "Conviction date",
+          "effectiveLabelBasis": "printed CR-180 caption measured against the exact widget rectangle",
           "flags": [
             "doNotScroll"
           ],
@@ -11463,11 +11507,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "OPTIONAL_PARTICIPANT_CONTENT",
+          "reason": "Optional participant-authored explanation for the selected dismissal basis; complete it only if that basis applies and the participant wishes to provide an interests-of-justice explanation. The platform does not invent it.",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "CR-180[0].Page1[0].LI2[0].li2c[0].TextField6[0]"
+          "conditionDescription": "Used only with the matching CR-180 dismissal basis printed immediately above this narrative."
         },
         {
           "formNumber": "CR-180",
@@ -11752,11 +11796,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "OPTIONAL_PARTICIPANT_CONTENT",
+          "reason": "Optional participant-authored explanation for the selected dismissal basis; complete it only if that basis applies and the participant wishes to provide an interests-of-justice explanation. The platform does not invent it.",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "CR-180[0].Page2[0].LI3[0].li3b[0].TextField6[0]"
+          "conditionDescription": "Used only with the matching CR-180 dismissal basis printed immediately above this narrative."
         },
         {
           "formNumber": "CR-180",
@@ -11834,11 +11878,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "OPTIONAL_PARTICIPANT_CONTENT",
+          "reason": "Optional participant-authored explanation for the selected dismissal basis; complete it only if that basis applies and the participant wishes to provide an interests-of-justice explanation. The platform does not invent it.",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "CR-180[0].Page2[0].LI4[0].li4[0].TextField6[0]"
+          "conditionDescription": "Used only with the matching CR-180 dismissal basis printed immediately above this narrative."
         },
         {
           "formNumber": "CR-180",
@@ -12051,11 +12095,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "OPTIONAL_PARTICIPANT_CONTENT",
+          "reason": "Optional participant-authored explanation for the selected dismissal basis; complete it only if that basis applies and the participant wishes to provide an interests-of-justice explanation. The platform does not invent it.",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "CR-180[0].Page2[0].LI5[0].li5c[0].T66[0]"
+          "conditionDescription": "Used only with the matching CR-180 dismissal basis printed immediately above this narrative."
         },
         {
           "formNumber": "CR-180",
@@ -12207,11 +12251,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
+          "blankTreatment": "OPTIONAL_PARTICIPANT_CONTENT",
+          "reason": "Optional participant-authored explanation for the selected dismissal basis; complete it only if that basis applies and the participant wishes to provide an interests-of-justice explanation. The platform does not invent it.",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "CR-180[0].Page3[0].LI6[0].li6[0].T66[0]"
+          "conditionDescription": "Used only with the matching CR-180 dismissal basis printed immediately above this narrative."
         },
         {
           "formNumber": "CR-180",
@@ -12287,12 +12331,13 @@
             }
           ],
           "disposition": "REFUSE",
-          "factId": null,
+          "factId": "dismissal.deferred_entry_dismissal_date",
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: no exact source-supported date fact is held for this terminal field; surface it to the participant and do not guess. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: the dismissal date is supplied only when the participant uses the deferred-entry-of-judgment branch and must come from the participant's court record. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-180[0].Page3[0].LI7[0].DateField1[0]"
+          "identity": "CR-180[0].Page3[0].LI7[0].DateField1[0]",
+          "conditionDescription": "Required only if CR-180 item 7, the former Penal Code section 1000.3 deferred-entry branch, applies."
         },
         {
           "formNumber": "CR-180",
@@ -12536,11 +12581,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "Signature or signature-date field; never prefilled before the participant signs.",
-          "refusalClass": "signature_or_date_participant_completion"
+          "disposition": "WRITE",
+          "factId": "participant.full_legal_name",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-180",
@@ -12717,7 +12765,7 @@
       "documentId": "CA-CR-181-ORDER-FOR-DISMISSAL",
       "role": "proposed_order",
       "pinnedOfficialSha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
-      "evidenceMode": "exact_official_unchanged_copy",
+      "evidenceMode": "finalized_source_derived_companion",
       "pageCount": 2,
       "terminalFieldCount": 58,
       "acroForm": {
@@ -15015,11 +15063,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.full_legal_name",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15083,11 +15134,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.street_address",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15117,11 +15171,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.city",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15149,11 +15206,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.state",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15183,11 +15243,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.zip",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15217,11 +15280,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.phone",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15285,11 +15351,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.email",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15353,11 +15422,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15489,11 +15561,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.full_legal_name",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -15523,11 +15598,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "matter.case_number",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -16429,11 +16507,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "participant.full_legal_name",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -16463,11 +16544,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court.",
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+          "disposition": "WRITE",
+          "factId": "matter.case_number",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-181",
@@ -17287,7 +17371,7 @@
       "documentId": "CA-CR-106-PROOF-OF-SERVICE-CRIMINAL-RECORD-CLEARING",
       "role": "proof_of_service",
       "pinnedOfficialSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
-      "evidenceMode": "exact_official_unchanged_copy",
+      "evidenceMode": "finalized_source_derived_companion",
       "pageCount": 2,
       "terminalFieldCount": 48,
       "acroForm": {
@@ -19000,13 +19084,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].RightCaption[0].CourtInfo[0]"
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-106",
@@ -19036,13 +19121,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].RightCaption[0].CaseNumber[0]"
+          "disposition": "WRITE",
+          "factId": "matter.case_number",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-106",
@@ -19164,8 +19250,12 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: the source labels these as the adult server's home or business address, despite the internal PDF name; supply them only for the server who will actually complete CR-106. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-106[0].Page1[0].#area[2].AppellantLawyerMailingZip[0]",
+          "conditionDescription": "Complete after selecting whether the adult server uses a home or business address, and before that server signs the proof after service."
         },
         {
           "formNumber": "CR-106",
@@ -19197,8 +19287,12 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: the source labels these as the adult server's home or business address, despite the internal PDF name; supply them only for the server who will actually complete CR-106. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-106[0].Page1[0].#area[2].AppellantLawyerMailingAddress[0]",
+          "conditionDescription": "Complete after selecting whether the adult server uses a home or business address, and before that server signs the proof after service."
         },
         {
           "formNumber": "CR-106",
@@ -19230,8 +19324,12 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: the source labels these as the adult server's home or business address, despite the internal PDF name; supply them only for the server who will actually complete CR-106. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-106[0].Page1[0].#area[2].AppellantLawyerMailingCity[0]",
+          "conditionDescription": "Complete after selecting whether the adult server uses a home or business address, and before that server signs the proof after service."
         },
         {
           "formNumber": "CR-106",
@@ -19263,8 +19361,12 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "blankTreatment": null,
-          "reason": "Attorney-only field; never populated with participant data."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: the source labels these as the adult server's home or business address, despite the internal PDF name; supply them only for the server who will actually complete CR-106. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-106[0].Page1[0].#area[2].AppellantLawyerMailingState[0]",
+          "conditionDescription": "Complete after selecting whether the adult server uses a home or business address, and before that server signs the proof after service."
         },
         {
           "formNumber": "CR-106",
@@ -19294,13 +19396,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].RightCaption[0].TCCaseName_ft[0]"
+          "disposition": "WRITE",
+          "factId": "participant.full_legal_name",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-106",
@@ -19331,13 +19434,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].TextField6[0]"
+          "disposition": "WRITE",
+          "factId": "knownDeliveredDocumentName",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-106",
@@ -19370,10 +19474,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].FillText59[0]"
+          "identity": "CR-106[0].Page1[0].FillText59[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19406,10 +19511,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].SrvMailingAddress1[0]"
+          "identity": "CR-106[0].Page1[0].SrvMailingAddress1[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19442,10 +19548,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].#area[7].SrvMailingState1[0]"
+          "identity": "CR-106[0].Page1[0].#area[7].SrvMailingState1[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19478,10 +19585,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].#area[7].SrvMailingZip1[0]"
+          "identity": "CR-106[0].Page1[0].#area[7].SrvMailingZip1[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19514,10 +19622,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].#area[7].SrvMailingCity1[0]"
+          "identity": "CR-106[0].Page1[0].#area[7].SrvMailingCity1[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19550,10 +19659,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].FillText181[0]"
+          "identity": "CR-106[0].Page1[0].FillText181[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19586,10 +19696,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].#area[8].SrvMailingZip2[0]"
+          "identity": "CR-106[0].Page1[0].#area[8].SrvMailingZip2[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19622,10 +19733,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].#area[8].SrvMailingState2[0]"
+          "identity": "CR-106[0].Page1[0].#area[8].SrvMailingState2[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19658,10 +19770,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].#area[8].SrvMailingAddress2[0]"
+          "identity": "CR-106[0].Page1[0].#area[8].SrvMailingAddress2[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19694,10 +19807,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].#area[8].SrvMailingCity2[0]"
+          "identity": "CR-106[0].Page1[0].#area[8].SrvMailingCity2[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19775,10 +19889,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].FillText72[0]"
+          "identity": "CR-106[0].Page1[0].FillText72[0]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19811,10 +19926,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].FillText72[1]"
+          "identity": "CR-106[0].Page1[0].FillText72[1]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19847,10 +19963,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page1[0].FillText72[2]"
+          "identity": "CR-106[0].Page1[0].FillText72[2]",
+          "conditionDescription": "Complete this field only for service by mail and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -19970,13 +20087,14 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].PxCaption[0].CaseNumber[0]"
+          "disposition": "WRITE",
+          "factId": "matter.case_number",
+          "appliesToVariants": [
+            "pc-17b-17d2-offense-by-offense"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-106",
@@ -20009,10 +20127,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].FillText39[0]"
+          "identity": "CR-106[0].Page2[0].FillText39[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20045,10 +20164,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].#area[1].SrvMailingAddress3[0]"
+          "identity": "CR-106[0].Page2[0].#area[1].SrvMailingAddress3[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20081,10 +20201,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].#area[1].SrvMailingCity3[0]"
+          "identity": "CR-106[0].Page2[0].#area[1].SrvMailingCity3[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20117,10 +20238,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].#area[1].SrvMailingState3[0]"
+          "identity": "CR-106[0].Page2[0].#area[1].SrvMailingState3[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20153,10 +20275,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].#area[1].SrvMailingZip3[0]"
+          "identity": "CR-106[0].Page2[0].#area[1].SrvMailingZip3[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20189,10 +20312,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].FillText72[0]"
+          "identity": "CR-106[0].Page2[0].FillText72[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20258,10 +20382,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].FillText39[1]"
+          "identity": "CR-106[0].Page2[0].FillText39[1]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20294,10 +20419,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].#area[2].SrvMailingAddress4[0]"
+          "identity": "CR-106[0].Page2[0].#area[2].SrvMailingAddress4[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20330,10 +20456,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].#area[2].SrvMailingState4[0]"
+          "identity": "CR-106[0].Page2[0].#area[2].SrvMailingState4[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20366,10 +20493,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].#area[2].SrvMailingZip4[0]"
+          "identity": "CR-106[0].Page2[0].#area[2].SrvMailingZip4[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20402,10 +20530,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].#area[2].SrvMailingCity4[0]"
+          "identity": "CR-106[0].Page2[0].#area[2].SrvMailingCity4[0]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",
@@ -20438,10 +20567,11 @@
           "disposition": "REFUSE",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them. The participant completes it, and the platform does not guess.",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "CR-106[0].Page2[0].FillText72[1]"
+          "identity": "CR-106[0].Page2[0].FillText72[1]",
+          "conditionDescription": "Complete this field only for personal delivery and only for an actual recipient served."
         },
         {
           "formNumber": "CR-106",

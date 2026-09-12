@@ -202,6 +202,10 @@ const FAMILIES = Object.freeze({
     routeKeys: ["obligation:track-only:CA:ca-17b-reduction"],
     formNumbers: ["CR-180", "CR-181", "CR-106"],
     offenseByOffenseReductionInputs: true,
+    useCa17SemanticLabels: true,
+    // Current packet bytes are reviewed through the governed central raster
+    // manifest. Do not publish builder-local PNGs as current review evidence.
+    centralRasterOnly: true,
     /*
      * FIX14, CLIPPING_AND_OVERLAP on all four delivered CR-180s.
      *
@@ -266,6 +270,10 @@ const FAMILIES = Object.freeze({
      * byte-unaffected -- proved by rebuilding ca-1203-41-set beside it.
      */
     suppressSynthesizedAppearances: true,
+    minimumHorizontalScalePercent: 88,
+    standardFontFallbackByField: Object.freeze({
+      "CR-106[0].Page1[0].RightCaption[0].TCCaseName_ft[0]": "Times-Roman",
+    }),
   },
   "ca-851-91-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-409",
@@ -563,20 +571,69 @@ const CA_PRIMARY_WRITES = Object.freeze({
   }),
 });
 
-function caPrimaryMappingsForFamily(familyId, config) {
-  const base = CA_PRIMARY_WRITES[config.primaryForm];
-  assert.ok(base, `${config.primaryForm}: no bounded primary mapping`);
+/*
+ * Neutral, source-labelled CA17 fields outside the conviction table.  These
+ * names are exact terminal identities from the three held Judicial Council
+ * forms.  The blocks are mixed actor blocks: the printed "ATTORNEY OR PARTY
+ * WITHOUT ATTORNEY" contact cells and the proposed-order captions are neutral,
+ * while bar/firm, signatures, judicial findings and service acts remain
+ * protected below.  Keeping this as a family/form allowlist prevents the
+ * correction from changing any sibling CR-180 route.
+ */
+const CA17_NEUTRAL_WRITES = Object.freeze({
+  "CR-180": Object.freeze({
+    "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Name[0]": "participant.full_legal_name",
+    "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Street[0]": "participant.street_address",
+    "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].City[0]": "participant.city",
+    "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].State[0]": "participant.state",
+    "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Zip[0]": "participant.zip",
+    "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Phone[0]": "participant.phone",
+    "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Email[0]": "participant.email",
+    "CR-180[0].Page3[0].SigName[0]": "participant.full_legal_name",
+  }),
+  "CR-181": Object.freeze({
+    "CR-181[0].Page1[0].Caption[0].AttyPartyInfo[0].Name[0]": "participant.full_legal_name",
+    "CR-181[0].Page1[0].Caption[0].AttyPartyInfo[0].Street[0]": "participant.street_address",
+    "CR-181[0].Page1[0].Caption[0].AttyPartyInfo[0].City[0]": "participant.city",
+    "CR-181[0].Page1[0].Caption[0].AttyPartyInfo[0].State[0]": "participant.state",
+    "CR-181[0].Page1[0].Caption[0].AttyPartyInfo[0].Zip[0]": "participant.zip",
+    "CR-181[0].Page1[0].Caption[0].AttyPartyInfo[0].Phone[0]": "participant.phone",
+    "CR-181[0].Page1[0].Caption[0].AttyPartyInfo[0].Email[0]": "participant.email",
+    "CR-181[0].Page1[0].Caption[0].CourtInfo[0].CrtCounty[0]": "matter.county",
+    "CR-181[0].Page1[0].Caption[0].TitlePartyName[0].Party1[0]": "participant.full_legal_name",
+    "CR-181[0].Page1[0].Caption[0].HeaderSub[0].CaseNumber[0].CaseNumber2[0]": "matter.case_number",
+    "CR-181[0].Page2[0].P2Header[0].Party1[0]": "participant.full_legal_name",
+    "CR-181[0].Page2[0].P2Header[0].CaseNumber2[0]": "matter.case_number",
+  }),
+  "CR-106": Object.freeze({
+    "CR-106[0].Page1[0].RightCaption[0].CourtInfo[0]": "matter.county",
+    "CR-106[0].Page1[0].RightCaption[0].CaseNumber[0]": "matter.case_number",
+    "CR-106[0].Page1[0].RightCaption[0].TCCaseName_ft[0]": "participant.full_legal_name",
+    "CR-106[0].Page1[0].TextField6[0]": "knownDeliveredDocumentName",
+    "CR-106[0].Page2[0].PxCaption[0].CaseNumber[0]": "matter.case_number",
+  }),
+});
+
+function caMappingsForFamilyForm(familyId, config, formNumber) {
+  const base = formNumber === config.primaryForm ? CA_PRIMARY_WRITES[config.primaryForm] : {};
+  if (formNumber === config.primaryForm) assert.ok(base, `${config.primaryForm}: no bounded primary mapping`);
   if (familyId !== CA17_FAMILY_ID) return base;
   assert.equal(config.offenseByOffenseReductionInputs, true,
     `${familyId}: offense-row mappings require the family-scoped input contract`);
   assertCa17BindingDecision(rootDir);
-  return Object.freeze({ ...base, ...CA17_OFFENSE_FIELD_MAPPINGS });
+  return Object.freeze({
+    ...base,
+    ...(formNumber === config.primaryForm ? CA17_OFFENSE_FIELD_MAPPINGS : {}),
+    ...(CA17_NEUTRAL_WRITES[formNumber] ?? {}),
+  });
 }
 
 function caFactsForPacket(familyId, fixture, variant) {
   const base = fixture === "canonical" ? CANONICAL : BOUNDARY;
   const offenseFacts = familyId === CA17_FAMILY_ID ? ca17FixtureFacts(fixture).facts : {};
-  return { ...base, ...offenseFacts, ...variant.controlFacts };
+  const familyFacts = familyId === CA17_FAMILY_ID
+    ? { knownDeliveredDocumentName: "Petition for Dismissal (CR-180)" } : {};
+  return { ...base, ...familyFacts, ...offenseFacts, ...variant.controlFacts };
 }
 
 // Exact semantic aliases for source labels whose wording does not match the
@@ -584,6 +641,12 @@ function caFactsForPacket(familyId, fixture, variant) {
 // name; the source tooltip is retained separately in the census and field map,
 // and no label regex can add another field.
 const CA_EXACT_SEMANTIC_LABELS = Object.freeze({
+  "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]":
+    "Court street address",
+  "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtMailingAdd[0]":
+    "Court mailing address",
+  "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCityZip[0]":
+    "Court city and ZIP code",
   "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]":
     "Conviction date",
   "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedStreet[0]":
@@ -621,13 +684,15 @@ const CA_CR106_MEASURED_LABELS = Object.freeze({
 });
 
 function caEffectiveLabel(config, formNumber, field) {
+  const ca17Label = config.useCa17SemanticLabels === true
+    ? CA_EXACT_SEMANTIC_LABELS[field.name] ?? null : null;
   const measuredCr106Label = config.useMeasuredCr106Labels === true && formNumber === "CR-106"
     ? CA_CR106_MEASURED_LABELS[field.name] ?? null : null;
   const measuredMc031Label = config.useMeasuredMc031Labels === true && formNumber === "MC-031"
     ? CA_MC031_MEASURED_LABELS[field.name] ?? null : null;
   return {
-    effectiveLabel: measuredCr106Label ?? measuredMc031Label ?? field.tooltip ?? field.shortName ?? null,
-    ...(measuredCr106Label || measuredMc031Label
+    effectiveLabel: ca17Label ?? measuredCr106Label ?? measuredMc031Label ?? field.tooltip ?? field.shortName ?? null,
+    ...(ca17Label || measuredCr106Label || measuredMc031Label
       ? { effectiveLabelBasis: `printed ${formNumber} caption measured against the exact widget rectangle` }
       : {}),
   };
@@ -1266,11 +1331,14 @@ function caPacketComponentPlan(familyId, config) {
         documents: config.formNumbers.map((formNumber, packetIndex) => {
           const source = CA_FORMS[formNumber];
           const primary = formNumber === config.primaryForm;
+          const filled = Object.keys(caMappingsForFamilyForm(familyId, config, formNumber)).length > 0;
           return {
             packetIndex: packetIndex + 1, formNumber,
             documentId: source.documentId, role: source.role,
-            evidenceMode: primary ? "finalized_source_derived_primary" : "exact_official_unchanged_copy",
-            file: `${out}/fixtures/${packetId}/${formNumber.toLowerCase()}-${primary ? "filled" : "unchanged-official"}.pdf`,
+            evidenceMode: filled
+              ? (primary ? "finalized_source_derived_primary" : "finalized_source_derived_companion")
+              : "exact_official_unchanged_copy",
+            file: `${out}/fixtures/${packetId}/${formNumber.toLowerCase()}-${filled ? "filled" : "unchanged-official"}.pdf`,
           };
         }),
       });
@@ -1413,7 +1481,7 @@ function caBridgeRequest(familyId, config, resolved, mode) {
       formNumber: source.formNumber,
       sourcePath,
       sha256: source.sha256,
-      derivedPath: source.formNumber === config.primaryForm
+      derivedPath: source.formNumber === config.primaryForm || familyId === CA17_FAMILY_ID
         ? abs(`${out}/derived-sources/${source.formNumber.toLowerCase()}-pikepdf-unlocked.pdf`)
         : null,
     })),
@@ -1511,7 +1579,9 @@ function caFinalizerCensus(formCensus) {
  * ca-1203-42-set (committed field maps at the pre-repair HEAD), extended to
  * the sibling CA families that share the same four-form packet shape.
  */
-function caRefusalDisposition(source, field, { measuredMc031Labels = false } = {}) {
+function caRefusalDisposition(source, field, {
+  familyId = null, formNumber = null, measuredMc031Labels = false,
+} = {}) {
   const subject = `${field.name} ${field.tooltip ?? ""}`;
   const pushButton = field.fieldType === "/Btn" && field.flags?.includes("pushButton") === true;
   const markControl = field.fieldType === "/Btn" && !pushButton;
@@ -1522,6 +1592,35 @@ function caRefusalDisposition(source, field, { measuredMc031Labels = false } = {
     routeDetermined: false,
     identity: field.name,
   });
+
+  if (familyId === CA17_FAMILY_ID && formNumber === "CR-180") {
+    if (/\.CourtInfo\[0\]\.(?:CrtStreet|CrtMailingAdd|CrtCityZip)\[0\]$/.test(field.name)) {
+      const factId = field.name.endsWith("CrtStreet[0]") ? "filing.court_street_address"
+        : field.name.endsWith("CrtMailingAdd[0]") ? "filing.court_mailing_address"
+          : "filing.court_city_and_zip";
+      return {
+        ...requiredBeforeFiling("the filing court location is not held; obtain it from the Superior Court in the county of conviction before filing."),
+        factId,
+        conditionDescription: "Complete the filing-court address shown on the petition; use a separate mailing address only when that court publishes one.",
+      };
+    }
+    if (/\.(?:TextField6|T66)\[0\]$/.test(field.name)) {
+      return {
+        reason: "Optional participant-authored explanation for the selected dismissal basis; complete it only if that basis applies and the participant wishes to provide an interests-of-justice explanation. The platform does not invent it.",
+        blankTreatment: "OPTIONAL_PARTICIPANT_CONTENT",
+        requiredBeforeFiling: false,
+        routeDetermined: false,
+        conditionDescription: "Used only with the matching CR-180 dismissal basis printed immediately above this narrative.",
+      };
+    }
+    if (/\.LI7\[0\]\.DateField1\[0\]$/.test(field.name)) {
+      return {
+        ...requiredBeforeFiling("the dismissal date is supplied only when the participant uses the deferred-entry-of-judgment branch and must come from the participant's court record."),
+        factId: "dismissal.deferred_entry_dismissal_date",
+        conditionDescription: "Required only if CR-180 item 7, the former Penal Code section 1000.3 deferred-entry branch, applies.",
+      };
+    }
+  }
 
   if (measuredMc031Labels && ["NoticeHeader1", "NoticeFooter1"].includes(field.name)) {
     assert.equal(field.rawFf, 4097, `${field.name}: MC-031 viewer-notice flags changed`);
@@ -1573,13 +1672,28 @@ function caRefusalDisposition(source, field, { measuredMc031Labels = false } = {
       // wording classifies it as later completion.
       return { reason: "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them." };
     }
+    if (familyId === CA17_FAMILY_ID && formNumber === "CR-106"
+      && /AppellantLawyerMailing(?:Address|City|State|Zip)/.test(field.name)) {
+      return {
+        ...requiredBeforeFiling("the source labels these as the adult server's home or business address, despite the internal PDF name; supply them only for the server who will actually complete CR-106."),
+        conditionDescription: "Complete after selecting whether the adult server uses a home or business address, and before that server signs the proof after service.",
+      };
+    }
     if (/attorney|atty(?![a-z])|lawyer|\bbar\b|bar number|\bfirm\b/i.test(subject)) {
       // The caption's attorney block is not the participant's to complete;
       // declaring it required-before-filing would hand a lawyer-only field to
       // the participant.
       return { reason: "Attorney-only field; never populated with participant data." };
     }
-    return requiredBeforeFiling("Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them.");
+    const disposition = requiredBeforeFiling("Proof-of-service fields describe service that has not occurred; the adult server completes them from the actual service event, and the packet builder never guesses them.");
+    if (familyId === CA17_FAMILY_ID && formNumber === "CR-106") {
+      const personal = /Page2\[0\]|SrvMailing(?:Address|City|State|Zip)[34]\[0\]|FillText39/.test(field.name);
+      const mail = /Page1\[0\]|SrvMailing(?:Address|City|State|Zip)[12]\[0\]|FillText(?:59|181)/.test(field.name);
+      if (personal || mail) disposition.conditionDescription = personal
+        ? "Complete this field only for personal delivery and only for an actual recipient served."
+        : "Complete this field only for service by mail and only for an actual recipient served.";
+    }
+    return disposition;
   }
   if (source.role === "supporting_declaration") {
     if (markControl) {
@@ -1677,7 +1791,7 @@ function caMapAndCensus(familyId, config, bridge) {
   const writes = [];
   const selections = [];
   const refusals = [];
-  const primaryMappings = caPrimaryMappingsForFamily(familyId, config);
+  const primaryMappings = caMappingsForFamilyForm(familyId, config, config.primaryForm);
   const variants = routeControlForFamily(familyId);
   assert.deepEqual([...new Set(variants.map((variant) => variant.routeKey))].sort(),
     [...config.routeKeys].sort(), `${familyId}: route variants do not cover the configured routes`);
@@ -1714,9 +1828,10 @@ function caMapAndCensus(familyId, config, bridge) {
     const source = CA_FORMS[formNumber];
     const form = bridge.forms[formNumber];
     assert.ok(form, `${formNumber}: pikepdf census missing`);
+    const formMappings = caMappingsForFamilyForm(familyId, config, formNumber);
     const mappedNames = new Set();
     const fieldRows = form.fields.map((field) => {
-      const baseFactId = formNumber === config.primaryForm ? primaryMappings[field.name] ?? null : null;
+      const baseFactId = formMappings[field.name] ?? null;
       const textControl = formNumber === config.primaryForm ? textControls.get(field.name) ?? null : null;
       const selectionControl = formNumber === config.primaryForm ? selectionControls.get(field.name) ?? null : null;
       const participantElection = formNumber === config.primaryForm
@@ -1780,6 +1895,7 @@ function caMapAndCensus(familyId, config, bridge) {
         return row;
       }
       const disposition = caRefusalDisposition(source, field, {
+        familyId, formNumber,
         measuredMc031Labels: config.useMeasuredMc031Labels === true && formNumber === "MC-031",
       });
       /*
@@ -1807,18 +1923,21 @@ function caMapAndCensus(familyId, config, bridge) {
       refusals.push(row);
       return row;
     });
-    if (formNumber === config.primaryForm) {
+    {
       assert.deepEqual([...mappedNames].sort(), [...new Set([
-        ...Object.keys(primaryMappings), ...textControls.keys(), ...selectionControls.keys(),
-        ...participantElectionControls.keys(),
+        ...Object.keys(formMappings),
+        ...(formNumber === config.primaryForm ? [...textControls.keys(), ...selectionControls.keys(),
+          ...participantElectionControls.keys()] : []),
       ])].sort(),
         `${formNumber}: one or more bounded mapping names drifted`);
     }
     documents.push({
       formNumber, documentId: source.documentId, role: source.role,
       pinnedOfficialSha256: source.sha256,
-      evidenceMode: formNumber === config.primaryForm
-        ? "finalized_source_derived_primary" : "exact_official_unchanged_copy",
+      evidenceMode: Object.keys(formMappings).length > 0
+        ? (formNumber === config.primaryForm
+          ? "finalized_source_derived_primary" : "finalized_source_derived_companion")
+        : "exact_official_unchanged_copy",
       pageCount: form.pageCount, terminalFieldCount: form.terminalFieldCount,
       acroForm: form.acroForm, pages: form.pages, fields: form.fields,
       dispositions: fieldRows,
@@ -1835,7 +1954,9 @@ function caMapAndCensus(familyId, config, bridge) {
       measurementSurface: "exact official encrypted binaries",
       derivativesUsedForMeasurement: false,
       explicitMappingsByVariant: Object.fromEntries(variants.map((variant) => [variant.variantId, {
-        ...primaryMappings, ...variant.textControls,
+        ...Object.fromEntries(config.formNumbers.flatMap((formNumber) =>
+          Object.entries(caMappingsForFamilyForm(familyId, config, formNumber)))),
+        ...variant.textControls,
       }])),
       statutorySelectionsByVariant: Object.fromEntries(variants.map((variant) => [variant.variantId,
         variant.selections.map((selection) => ({ ...selection }))])),
@@ -2678,7 +2799,70 @@ function caRegistryStopConditionSection(config, guidance) {
     + `${boundary}${meetsTheElection}\n\n`;
 }
 
+function ca17ParticipantInstructions() {
+  const manifest = readJson(PACKET_SET_MANIFESTS).packetSets
+    .find((row) => row.packetSetId === CA17_FAMILY_ID);
+  const track = readJson(TRACK_REGISTRY).tracks
+    .find((row) => row.trackId === "ca-17b-reduction");
+  assert.ok(manifest && track, "CA17 participant guidance records are absent");
+  assert.equal(manifest.components.map((row) => row.officialFormId).join(","), "CR-180,CR-181,CR-106");
+  assert.match(track.rules.notice, /15 days' notice/i);
+  assert.deepEqual(track.selfHelpStopConditions, [
+    "Whether the offense is a wobbler, or is listed in PC 19.8(a), is unclear from the record.",
+    "The prosecutor objects or appears in opposition.",
+    "The court sets a contested hearing.",
+    "The participant is not a United States citizen.",
+  ]);
+  assert.deepEqual(track.postGenerationHandoffs,
+    ["A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."]);
+  return `# Filing instructions — California offense-by-offense reduction request
+
+This packet contains CR-180 (Petition for Dismissal), CR-181 (Order for Dismissal), and CR-106 (Proof of Service—Criminal Record Clearing). It asks for every reduction that is legally applicable to each offense under Penal Code section 17(b) or 17(d)(2). There is no single either-or choice between those sections.
+
+## Check the information already entered
+
+The packet enters your name, contact information, county, case number, conviction date, and the five complete synthetic offense rows used for this review fixture. In production, each offense row must come from the participant's own court record: code, section, felony/misdemeanor/infraction classification, and a separate yes-or-no answer for each reduction column. Check every row against the court docket. If a row is incomplete, if the classification is unclear, or if either eligibility answer is unknown, stop and get help; do not guess and do not file a partly completed row.
+
+## Complete CR-180
+
+- Obtain the filing court's street address, mailing address if the court uses a different one, and city and ZIP from the Superior Court in the county of conviction.
+- On the form these are the **Court street address**, **Court mailing address**, and **Court city and ZIP code** blanks (printed as STREET ADDRESS, MAILING ADDRESS, and CITY AND ZIP CODE).
+- Select only the dismissal basis that actually applies to the case. The interests-of-justice explanations are optional and belong only to the matching selected basis. The human-trafficking explanation belongs only to that printed branch. The former section 1000.3 dismissal date and related choices belong only to the deferred-entry-of-judgment branch.
+- Read item 8 and confirm that the requested reductions match every completed offense row.
+- The petitioner signs and dates CR-180 after reviewing the complete petition. The typed name is already entered; the signature and signature date remain blank for signing.
+
+## CR-181 is for the court
+
+The neutral caption information is entered so the order can be matched to the case. Do not select grant or denial choices, add findings, enter an order date, or sign for the judge. The court completes those parts.
+
+## Serve the prosecuting attorney and complete CR-106
+
+CR-106 covers proof of service by mail or personal delivery. For electronic service, use POS-050/EFS-050 instead. The person who serves must be at least 18 and not a party to the case.
+
+- Choose the service method actually used. Complete only that method's section and only the recipient rows for people or agencies actually served.
+- The adult server supplies their own home or business address and completes the recipient names, recipient addresses, service date, place, and time from the actual service event. LegalEase does not substitute the petitioner's address for an unknown server.
+- Serve first. The adult server then types or prints their name, signs, and dates CR-106. The petitioner must not sign the server's declaration unless the petitioner is legally permitted to serve and actually did so.
+
+For mail, the printed blanks include **Name of agency served (and person, if applicable):**, **(date):**, **from (city):**, and **(state):**. For personal delivery, they include **Name of person and agency served:** and **Date when you gave the document or form to this person:**. Complete only the applicable method and the actual recipient rows. If the deferred-entry branch applies on CR-180, also enter the **date criminal charges were dismissed under Penal Code section 1000.3:** from the court record.
+
+The held route rule says the prosecuting attorney must receive 15 days' notice, but it does not identify the event from which those 15 days are counted. Ask the clerk of the Superior Court in the county of conviction for the applicable timing anchor, permitted service method, and local filing sequence before service. Do not treat this packet as stating “15 days before filing.”
+
+## Filing, fee, and copies
+
+File CR-180 with CR-181 and the completed proof of service in the Superior Court of the county of conviction. The filing fee is county-specific and no amount is stated here. Ask the clerk for the amount and accepted payment methods. If you cannot pay, ask whether California fee-waiver form FW-001 applies. Keep a complete copy of everything filed and served.
+
+## Stop and get legal help if
+
+${track.selfHelpStopConditions.map((condition) => `- ${condition}`).join("\n")}
+
+${track.postGenerationHandoffs[0]}
+
+These papers do not decide whether any offense qualifies and do not represent you at an opposed or contested hearing.
+`;
+}
+
 function caParticipantInstructions(familyId, config, fieldMap) {
+  if (familyId === CA17_FAMILY_ID) return ca17ParticipantInstructions();
   const guidance = CA_PARTICIPANT_GUIDANCE[familyId];
   assert.ok(guidance, `${familyId}: no participant guidance is configured`);
   const companionNames = config.formNumbers
@@ -4337,7 +4521,7 @@ function fitCaExactMappedValue({ font, text, rect, multiline = false,
 }
 
 async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, facts, report,
-  minimumHorizontalScalePercent = null }) {
+  minimumHorizontalScalePercent = null, standardFontFallbackByField = {} }) {
   const alreadyWritten = new Set(report.written.map((row) => row.field));
   const duplicateLosers = new Set(report.refused
     .filter((row) => row.reason === "duplicate_widget_for_one_slot")
@@ -4348,6 +4532,11 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
 
   const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   const font = await pdf.embedFont(StandardFonts.Helvetica);
+  const fallbackFonts = new Map();
+  const fallbackFont = async (fontName) => {
+    if (!fallbackFonts.has(fontName)) fallbackFonts.set(fontName, await pdf.embedFont(fontName));
+    return fallbackFonts.get(fontName);
+  };
   const written = [];
   const refused = [];
   for (const [fieldName, factId] of pending) {
@@ -4362,19 +4551,28 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
       refused.push({ field: fieldName, factId, reason: "no_value_for_exact_mapping" });
       continue;
     }
-    const fittedWidgets = field.widgets.map((widget, widgetIndex) => {
-      assert.ok(Number.isInteger(widget.pageIndex), `${fieldName}: widget page is unresolved`);
-      const [x0, y0, x1, y1] = widget.rect;
-      const rect = { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };
-      return {
-        widget, widgetIndex, rect,
-        fit: fitCaExactMappedValue({
-          font, text: String(value), rect,
-          multiline: field.flags?.includes("multiline") === true,
-          minimumHorizontalScalePercent,
-        }),
-      };
-    });
+    const fitWith = (candidateFont) => field.widgets.map((widget, widgetIndex) => {
+        assert.ok(Number.isInteger(widget.pageIndex), `${fieldName}: widget page is unresolved`);
+        const [x0, y0, x1, y1] = widget.rect;
+        const rect = { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };
+        return {
+          widget, widgetIndex, rect,
+          fit: fitCaExactMappedValue({
+            font: candidateFont, text: String(value), rect,
+            multiline: field.flags?.includes("multiline") === true,
+            minimumHorizontalScalePercent,
+          }),
+        };
+      });
+    let fieldFont = font;
+    let fallbackName = null;
+    let fittedWidgets = fitWith(fieldFont);
+    if (fittedWidgets.some(({ fit }) => fit.outcome === "refused")
+      && standardFontFallbackByField[fieldName]) {
+      fallbackName = standardFontFallbackByField[fieldName];
+      fieldFont = await fallbackFont(fallbackName);
+      fittedWidgets = fitWith(fieldFont);
+    }
     const failed = fittedWidgets.find(({ fit }) => fit.outcome === "refused");
     if (failed) {
       refused.push({ field: fieldName, factId, reason: failed.fit.reason,
@@ -4421,7 +4619,7 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
       const stream = pdf.context.stream(content, {
         Type: "XObject", Subtype: "Form",
         BBox: [0, 0, n(rect.width), n(rect.height)],
-        Resources: { Font: { F0: font.ref } },
+        Resources: { Font: { F0: fieldFont.ref } },
       });
       const key = page.node.newXObject("ExactFactOverlay", pdf.context.register(stream));
       page.pushOperators(pushGraphicsState(), translate(n(rect.x), n(rect.y)),
@@ -4436,6 +4634,8 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
         renderedAs: "form_xobject_appearance", xObject: key.toString() });
     }
     written.push({ field: fieldName, factId, value: String(value),
+      standardFontFallbackUsed: fallbackName !== null,
+      ...(fallbackName ? { standardFontFallback: fallbackName } : {}),
       kind: "exact_measured_fact_overlay", widgets: widgetWrites });
   }
 
@@ -4464,7 +4664,8 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
   };
 }
 
-function caScopedFinalizerOptions(config) {
+function caScopedFinalizerOptions(config, formCensus = null) {
+  const names = formCensus ? new Set(formCensus.fields.map((field) => field.name)) : null;
   return {
     detachNestedControlFields: config.detachNestedControlFields === true,
     // FIX120. Family-scoped like the flag above: a family that does not ask for
@@ -4472,12 +4673,15 @@ function caScopedFinalizerOptions(config) {
     // not move.
     suppressSynthesizedAppearances: config.suppressSynthesizedAppearances === true,
     minimumHorizontalScalePercent: config.minimumHorizontalScalePercent ?? null,
+    standardFontFallbackByField: Object.fromEntries(Object.entries(
+      config.standardFontFallbackByField ?? {}).filter(([fieldName]) => !names || names.has(fieldName))),
   };
 }
 
 function caExactOverlayPolicy(officialOptions) {
   return {
     minimumHorizontalScalePercent: officialOptions.minimumHorizontalScalePercent ?? null,
+    standardFontFallbackByField: officialOptions.standardFontFallbackByField ?? {},
   };
 }
 
@@ -4739,8 +4943,10 @@ async function verifyCaArtifact({ familyId, formNumber, formCensus, fieldMap,
   const formState = pdfFormState(pdf);
   assert.equal(formState.xfaPresent, false, `${fixture}: finished PDF still contains XFA`);
   assert.equal(formState.acroFormPresent, false, `${fixture}: finished PDF still contains an AcroForm`);
-  assert.ok(pdfLibWarnings.some((message) => message.includes("Removing XFA form data")),
-    `${fixture}: the required pdf-lib XFA-removal behavior was not observed and recorded`);
+  if (formCensus.acroForm?.isHybridXfa) {
+    assert.ok(pdfLibWarnings.some((message) => message.includes("Removing XFA form data")),
+      `${fixture}: the required pdf-lib XFA-removal behavior was not observed and recorded`);
+  }
   return {
     familyId, fixture, variantId: variant.variantId, routeKey: variant.routeKey,
     formNumber, outputFile,
@@ -4883,10 +5089,12 @@ async function buildCa(familyId, config) {
     resetOwnedCaOutput(familyId);
     const bridge = runPikepdfBridge(caBridgeRequest(familyId, config, resolved, "create"));
     const derivatives = normalizeDerivativeRecords(bridge.derivatives);
-    assert.equal(derivatives.length, 1, `${familyId}: expected exactly one primary-form derivative`);
-    const [derivative] = derivatives;
-    assert.equal(derivative.formNumber, config.primaryForm);
-    enhancedFidelityContract(derivative);
+    const expectedDerivativeForms = familyId === CA17_FAMILY_ID
+      ? config.formNumbers : [config.primaryForm];
+    assert.deepEqual(derivatives.map((row) => row.formNumber).sort(), [...expectedDerivativeForms].sort(),
+      `${familyId}: source-derived form set drifted`);
+    for (const derivative of derivatives) enhancedFidelityContract(derivative);
+    const derivativeByForm = new Map(derivatives.map((row) => [row.formNumber, row]));
 
     const receipt = sourceReceipt(familyId, resolved);
     receipt.derivedRepairs = derivatives;
@@ -4917,9 +5125,11 @@ async function buildCa(familyId, config) {
     }
     writeText(`${out}/participant-instructions.md`, caParticipantInstructions(familyId, config, fieldMap));
 
-    const derivedBytes = fs.readFileSync(abs(derivative.derivedPath));
-    assert.equal(sha256(derivedBytes), derivative.derivedSha256);
-    assert.equal(derivedBytes.length, derivative.derivedByteLength);
+    for (const derivative of derivatives) {
+      const derivedBytes = fs.readFileSync(abs(derivative.derivedPath));
+      assert.equal(sha256(derivedBytes), derivative.derivedSha256);
+      assert.equal(derivedBytes.length, derivative.derivedByteLength);
+    }
     const packets = caPacketComponentPlan(familyId, config);
     const resolvedByForm = new Map(resolved.map((row) => [row.source.formNumber, row]));
     const artifacts = [];
@@ -4935,9 +5145,16 @@ async function buildCa(familyId, config) {
         const sourceRow = resolvedByForm.get(document.formNumber);
         assert.ok(formCensus && sourceRow, `${packet.packetId}/${document.formNumber}: source evidence absent`);
         let proof;
-        if (document.formNumber === config.primaryForm) {
+        const formMappings = caMappingsForFamilyForm(familyId, config, document.formNumber);
+        if (Object.keys(formMappings).length > 0) {
+          const derivative = derivativeByForm.get(document.formNumber);
+          assert.ok(derivative, `${packet.packetId}/${document.formNumber}: mapped component lacks a source-derived transport`);
+          const derivedBytes = fs.readFileSync(abs(derivative.derivedPath));
           const finalizerCensus = caFinalizerCensus(formCensus);
-          const combinedMappings = fieldMap.explicitMappingsByVariant[variant.variantId];
+          const namesOnForm = new Set(formCensus.fields.map((field) => field.name));
+          const combinedMappings = Object.fromEntries(Object.entries(
+            fieldMap.explicitMappingsByVariant[variant.variantId])
+            .filter(([fieldName]) => namesOnForm.has(fieldName)));
           const routeTextNames = new Set(Object.keys(variant.textControls));
           const explicitMappings = Object.fromEntries(Object.entries(combinedMappings)
             .filter(([fieldName]) => !routeTextNames.has(fieldName)));
@@ -4952,9 +5169,9 @@ async function buildCa(familyId, config) {
               census: finalizerCensus, facts, explicitMappings, unwritableFields,
               captionOnly: false, documentAcceptsFill: true,
               documentTextLines: [], maxFontSize: 9, minFontSize: 6,
-              title: CA_FORMS[config.primaryForm].documentId,
+              title: CA_FORMS[document.formNumber].documentId,
               // Per-family, and only where the family's config asks for it.
-              ...caScopedFinalizerOptions(config),
+              ...caScopedFinalizerOptions(config, formCensus),
               /*
                * What this family's classified fields' appearances MEAN.
                *
@@ -4973,7 +5190,7 @@ async function buildCa(familyId, config) {
           fs.mkdirSync(path.dirname(abs(document.file)), { recursive: true });
           fs.writeFileSync(abs(document.file), result.bytes);
           proof = await verifyCaArtifact({
-            familyId, formNumber: config.primaryForm, formCensus, fieldMap,
+            familyId, formNumber: document.formNumber, formCensus, fieldMap,
             outputFile: document.file, outputBytes: result.bytes,
             report: result.report, facts, fixture: packet.fixture, variant,
             routeTextReport: result.routeTextReport,
@@ -5011,15 +5228,17 @@ async function buildCa(familyId, config) {
       packetEvidence.push({ ...packet, documents: packetDocuments });
     }
 
-    const raster = await rasterizeCaArtifacts(familyId, artifacts);
+    const raster = config.centralRasterOnly
+      ? { identity: null, dpi: null, rasters: [] }
+      : await rasterizeCaArtifacts(familyId, artifacts);
     writeJson(`${out}/reports/packet-evidence.json`, {
       schemaVersion: "rcap-ca-packet-evidence/v1", familyId,
       canonicalAndBoundaryPerVariant: true, packets: packetEvidence,
     });
     writeJson(`${out}/reports/actual-writes.json`, {
       schemaVersion: "rcap-actual-writes-from-output-bytes/v1", familyId,
-      method: "Every primary text value is re-read from its exact flattened widget rectangle and matched to that field's fact. Exact statutory selections are re-read as two diagonal line segments inside the exact measured official widget rectangle. Every companion is byte-identical to its exact SHA-bound official source.",
-      protectedFieldRule: "Every refused primary text/signature field must have no added appearance text or participant fixture value; every unselected button must lack an added X. Service, order, and declaration components are unchanged exact bytes.",
+      method: "Every mapped text value on every packet component is re-read from its exact flattened widget rectangle and matched to that field's fact. Exact statutory selections are re-read as two diagonal line segments inside the exact measured official widget rectangle.",
+      protectedFieldRule: "Every refused text/signature field must have no added appearance text or participant fixture value; every unselected button must lack an added X. Service, order, declaration, court, and prosecutor controls remain blank unless an exact neutral participant mapping authorizes the occurrence.",
       xfaHandling: "The source-derived primary transport preserves the exact XFA digest. pdf-lib logs XFA removal before the shared finalizer flattens the form; finished primary PDFs contain neither XFA nor an AcroForm.",
       artifacts: actualReports,
     });
@@ -5030,9 +5249,11 @@ async function buildCa(familyId, config) {
         fixture: packet.fixture, variantId: packet.variantId, routeKey: packet.routeKey,
         documents: packet.documents.map((document) => document.file) })),
       artifacts, rasterTool: raster.identity,
-      rasterEngine: raster.identity.engine, rasterEngineVersion: raster.identity.version,
+      rasterEngine: raster.identity?.engine ?? null, rasterEngineVersion: raster.identity?.version ?? null,
       rasterDpi: raster.dpi,
-      everyPageRastered: raster.rasters.length === artifacts.reduce((sum, artifact) => sum + artifact.pageCount, 0),
+      everyPageRastered: !config.centralRasterOnly
+        && raster.rasters.length === artifacts.reduce((sum, artifact) => sum + artifact.pageCount, 0),
+      centralRasterRequired: config.centralRasterOnly === true,
       rasters: raster.rasters,
     });
     /*
@@ -5095,7 +5316,7 @@ async function buildCa(familyId, config) {
         config.offenseByOffenseReductionInputs
           ? `Confirm every complete ${config.primaryForm} offense row carries its independently supplied 17(b) and 17(d)(2) answers and that no global either/or election was introduced.`
           : `Confirm the exact ${config.primaryForm} statutory-control alternatives recorded for every evidence variant.`,
-        "Confirm every configured petition/order/proof/service/attachment component is present and that unchanged companions remain exact official bytes.",
+        "Confirm every configured petition/order/proof/service/attachment component is present and every mapped source-derived component preserves the official source outside authorized participant writes.",
         "Confirm no service, signature/date, declaration, court-owned, prosecutor, clerk, agency, or unverified factual-alternative field was completed.",
       ],
     };
@@ -5108,7 +5329,9 @@ async function buildCa(familyId, config) {
         config.offenseByOffenseReductionInputs
           ? "Only safe identity/case-caption facts and complete participant-supplied offense-row inputs were written. Each 17(b) and 17(d)(2) answer is independent; no global alternative is inferred or selected."
           : "Only safe identity/case-caption facts and the exact named statutory controls were written. Fact-dependent subchoices remain blank; 851.91 and Prop 64 alternatives are separate review fixtures, not inferred runtime choices.",
-        "Every primary write/selection was proved at its exact measured field from output bytes. Every companion is an unchanged exact official copy, and every page was freshly rastered by version-identified Poppler pdftoppm at 72 dpi.",
+        config.centralRasterOnly
+          ? "Every mapped write/selection was proved at its exact measured field from output bytes. Mapped companions preserve the source outside authorized participant writes; current-byte visual review awaits the governed central raster manifest."
+          : "Every primary write/selection was proved at its exact measured field from output bytes. Every unchanged companion remains an exact official copy, and every page was freshly rastered by version-identified Poppler pdftoppm at 72 dpi.",
       ],
       stillRequired: ["Output-level legal approval.", "Independent human visual review.",
         config.offenseByOffenseReductionInputs
@@ -5415,20 +5638,23 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   const resolvedByForm = new Map(resolved.map((row) => [row.source.formNumber, row]));
   const receipt = readJson(`${out}/source-receipt.json`);
   checkReceipt(familyId, receipt, resolved);
-  assert.equal(receipt.derivedRepairs.length, 1);
-  const derivedRecord = receipt.derivedRepairs[0];
-  assert.equal(derivedRecord.formNumber, config.primaryForm);
-  const derivedBytes = fs.readFileSync(abs(derivedRecord.derivedPath));
-  assert.equal(sha256(derivedBytes), derivedRecord.derivedSha256);
-  assert.equal(derivedBytes.length, derivedRecord.derivedByteLength);
-  enhancedFidelityContract(derivedRecord);
+  const expectedDerivativeForms = familyId === CA17_FAMILY_ID
+    ? config.formNumbers : [config.primaryForm];
+  assert.deepEqual(receipt.derivedRepairs.map((row) => row.formNumber).sort(),
+    [...expectedDerivativeForms].sort());
+  for (const derivedRecord of receipt.derivedRepairs) {
+    const derivedBytes = fs.readFileSync(abs(derivedRecord.derivedPath));
+    assert.equal(sha256(derivedBytes), derivedRecord.derivedSha256);
+    assert.equal(derivedBytes.length, derivedRecord.derivedByteLength);
+    enhancedFidelityContract(derivedRecord);
+  }
 
   const verifyRequest = readOnlyVerifyRequest(familyId, config, resolved);
   const bridge = runPikepdfBridge(verifyRequest);
   const liveDerivatives = normalizeDerivativeRecords(bridge.derivatives);
   assert.deepEqual(liveDerivatives, receipt.derivedRepairs,
     `${familyId}: derivative provenance/fidelity changed`);
-  enhancedFidelityContract(liveDerivatives[0]);
+  for (const record of liveDerivatives) enhancedFidelityContract(record);
 
   const censusRecord = readJson(`${out}/field-census.census-v1.json`);
   assert.equal(censusRecord.status, "FIRST_HAND_EXACT_OFFICIAL_CENSUS");
@@ -5466,6 +5692,7 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   ]);
   for (const write of fieldMap.writes) {
     assert.ok(s1BoundWriteFacts.has(write.factId)
+      || write.factId === "knownDeliveredDocumentName"
       || write.factId.startsWith("route.")
       || (familyId === CA17_FAMILY_ID
         && Object.values(CA17_OFFENSE_FIELD_MAPPINGS).includes(write.factId)),
@@ -5478,7 +5705,9 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
     const protectedSubject = write.factId === "matter.citing_or_arresting_agency"
       ? /signature|sigdate|service|mailing certificate|attorney|atty|lawyer|prosecutor|clerk/i
       : /signature|sigdate|service|mailing certificate|attorney|atty|lawyer|prosecutor|clerk|agency/i;
-    assert.equal(protectedSubject.test(subject), false,
+    const exactCa17Neutral = familyId === CA17_FAMILY_ID
+      && Object.hasOwn(CA17_NEUTRAL_WRITES[write.formNumber] ?? {}, write.fieldName);
+    assert.equal(protectedSubject.test(subject) && !exactCa17Neutral, false,
       `${write.fieldName}: protected field is writable`);
   }
   if (config.participantMarksStatutoryElections) {
@@ -5494,7 +5723,7 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
 
   const fidelity = readJson(`${out}/reports/source-fidelity.json`);
   assert.deepEqual(fidelity.derivedRepairs, receipt.derivedRepairs);
-  enhancedFidelityContract(fidelity.derivedRepairs[0]);
+  for (const record of fidelity.derivedRepairs) enhancedFidelityContract(record);
   const plannedPackets = caPacketComponentPlan(familyId, config);
   const packetEvidence = readJson(`${out}/reports/packet-evidence.json`);
   assert.equal(packetEvidence.canonicalAndBoundaryPerVariant, true);
@@ -5511,11 +5740,22 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   const expectedArtifactCount = plannedPackets.length * config.formNumbers.length;
   assert.equal(actual.artifacts.length, expectedArtifactCount);
   assert.equal(rendered.artifacts.length, expectedArtifactCount);
-  assert.equal(rendered.everyPageRastered, true);
-  assertPortableRasterIdentity(rendered.rasterTool, `${familyId} rendered-artifacts`);
-  assert.equal(rendered.rasterEngine, rendered.rasterTool.engine);
-  assert.equal(rendered.rasterEngineVersion, rendered.rasterTool.version);
-  assert.equal(rendered.rasterDpi, RASTER_DPI);
+  if (config.centralRasterOnly) {
+    assert.equal(rendered.everyPageRastered, false);
+    assert.equal(rendered.centralRasterRequired, true);
+    assert.equal(rendered.rasterTool, null);
+    assert.equal(rendered.rasterEngine, null);
+    assert.equal(rendered.rasterEngineVersion, null);
+    assert.equal(rendered.rasterDpi, null);
+    assert.deepEqual(rendered.rasters, []);
+  } else {
+    assert.equal(rendered.everyPageRastered, true);
+    assert.equal(rendered.centralRasterRequired ?? false, false);
+    assertPortableRasterIdentity(rendered.rasterTool, `${familyId} rendered-artifacts`);
+    assert.equal(rendered.rasterEngine, rendered.rasterTool.engine);
+    assert.equal(rendered.rasterEngineVersion, rendered.rasterTool.version);
+    assert.equal(rendered.rasterDpi, RASTER_DPI);
+  }
 
   for (const packet of plannedPackets) {
     const variant = routeControlForFamily(familyId, packet.variantId);
@@ -5536,9 +5776,9 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
       assert.equal(sha256(bytes), artifact.sha256);
       assert.equal(bytes.length, artifact.byteLength);
       let freshProof;
-      if (document.formNumber === config.primaryForm) {
+      if (Object.keys(caMappingsForFamilyForm(familyId, config, document.formNumber)).length > 0) {
         freshProof = await verifyCaArtifact({
-          familyId, formNumber: config.primaryForm, formCensus, fieldMap,
+          familyId, formNumber: document.formNumber, formCensus, fieldMap,
           outputFile: artifact.file, outputBytes: bytes,
           report: { written: recordedProof.finalizerWritten, refused: recordedProof.finalizerRefused },
           facts, fixture: packet.fixture, variant,
@@ -5551,7 +5791,7 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
           source: sourceRow.source, sourceBytes: sourceRow.bytes, formCensus, fieldMap });
       }
       freshProof = bindCaProofToPacket(freshProof, packet, document);
-      if (document.formNumber === config.primaryForm
+      if (Object.keys(caMappingsForFamilyForm(familyId, config, document.formNumber)).length > 0
         && measuredRouteTextControlsForVariant(formCensus, variant).length === 0) {
         if (!Object.hasOwn(recordedProof, "routeTextReport")) delete freshProof.routeTextReport;
         if (!Object.hasOwn(recordedProof, "statutoryTextControlProof")) {
@@ -5560,20 +5800,22 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
       }
       assert.deepEqual(freshProof, recordedProof,
         `${packet.packetId}/${document.formNumber}: output-byte proof drifted`);
-      const rasterRows = rendered.rasters.filter((row) =>
-        row.packetId === packet.packetId && row.formNumber === document.formNumber);
-      const liveRaster = await recomputeRasterEvidence({
-        pdfFile: artifact.file, rasterRows,
-        pageGeometry: formCensus.pages,
-        label: `${familyId}/${packet.packetId}/${document.formNumber}`,
-        rasterIdentity: rendered.rasterTool,
-      });
-      assert.equal(liveRaster.pdfSha256, artifact.sha256);
-      assert.equal(liveRaster.pageCount, artifact.pageCount);
+      if (!config.centralRasterOnly) {
+        const rasterRows = rendered.rasters.filter((row) =>
+          row.packetId === packet.packetId && row.formNumber === document.formNumber);
+        const liveRaster = await recomputeRasterEvidence({
+          pdfFile: artifact.file, rasterRows,
+          pageGeometry: formCensus.pages,
+          label: `${familyId}/${packet.packetId}/${document.formNumber}`,
+          rasterIdentity: rendered.rasterTool,
+        });
+        assert.equal(liveRaster.pdfSha256, artifact.sha256);
+        assert.equal(liveRaster.pageCount, artifact.pageCount);
+      }
     }
   }
   const expectedRasterCount = rendered.artifacts.reduce((sum, artifact) => sum + artifact.pageCount, 0);
-  assert.equal(rendered.rasters.length, expectedRasterCount);
+  assert.equal(rendered.rasters.length, config.centralRasterOnly ? 0 : expectedRasterCount);
 
   for (const fixture of ["canonical", "boundary"]) {
     const primary = rendered.artifacts.filter((artifact) => artifact.fixture === fixture
