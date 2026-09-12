@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "56a75af9d8224b56ec2b5ccd12b33acf78ef11ed",
+  "minimumCaptainSha": "59a5503aa15b94a7ff2d827b8c2e21bacc59b6a1",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "08ba8b2c510f7f9d5065dbc4d1d0ac64461af41e0840ddfad019924ea7e03d4a",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "02be33802f5c7a0bc81690bce79f737368fe3e76f702e6d9afbf5a716b1ce7a2",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -72,9 +72,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 1,
+    "activeFamiliesExcluded": 0,
     "guidanceOnly": 0,
-    "remaining": 345,
+    "remaining": 346,
     "sourceReady": 31,
     "sourceBlocked": 0,
     "legalBlocked": 0,
@@ -83,12 +83,12 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 274,
+    "COMPLETE_PACKET_PROVEN": 275,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 31,
     "HANDOFF_READY": 2,
-    "FAIL_REPAIR_REQUIRED": 11,
+    "FAIL_REPAIR_REQUIRED": 10,
     "PRODUCT_PATH_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -111,9 +111,7 @@
       "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
-    "families": [
-      "pa_790_nonconviction-set"
-    ],
+    "families": [],
     "staleRosterFamilies": [
       {
         "familyId": "sd_arrest_expungement-set",
@@ -38137,10 +38135,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "b70ec78ef",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verifiedAtBase": "9462f4254b0b85ad9d6a5c8c76642ec7d34eb580",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-pa790-original-final-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -38159,62 +38157,59 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "b70ec78ef",
+          "verifiedAtBase": "9462f4254b0b85ad9d6a5c8c76642ec7d34eb580",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: requiredFactsNotCollected, unclassifiedBlanks"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": {
-        "superseded": false,
-        "reason": "the current independent read is BLOCKED_LEGAL_INPUT, which does not answer the blocked obligation",
+        "superseded": true,
         "wave2ReturnCommit": "6777009977e7bbfad88b04fab48be952d53425f4",
         "wave2DecisiveObligation": "fee and waiver treatment",
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
-        "wave2SendToLawrence": false
+        "wave2SendToLawrence": false,
+        "supersededBy": {
+          "lane": "vf01",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "verifiedAtBase": "9462f4254b0b85ad9d6a5c8c76642ec7d34eb580"
+        },
+        "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
+        "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
       },
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "pa_790_nonconviction-set",
-        "foundBy": [
-          "vf01 (current independent verification)"
-        ],
-        "why": "FEE_AND_WAIVER: The packet's treatment is complete against the record and invents nothing: it prints the record's own words for the fee ('County filing fees vary and are not established by statute.', 'No confirmed statewide schedule exists.'), states the waiver route in full ('In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.') with the manifest's two conditions, names no figure and sends the participant to the clerk. What is blocked is not the packet's wording but the input behind it: the committed track record carries ONE releaseBlocker, impact release_blocker, affectedElement participant_instructions, on the county filing-fee schedule (reported range roughly $132 to $215, no statewide schedule established), and MASTER_QUEUE records this family legalInputStatus OPEN_LEGAL_INPUT, legalInputBasis LEGAL_APPROVAL_VERDICT, with an unsuperseded wave2LegalBlock whose decisive obligation is 'fee and waiver treatment' and whose class is MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT. A reader cannot clear a legal-approval input by measuring bytes, so this obligation is recorded blocked rather than passed, and the family cannot be a complete independent pass while it stands.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule PA-RULE-790-FEE-WAIVER: Do not hardcode a statewide filing-fee dollar amount. Court filing charges may vary locally. Expose the statewide waiver path authorized through Rule 790 / Pa.R.J.A. 1990. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule PA-RULE-790-FEE-WAIVER: Do not hardcode a statewide filing-fee dollar amount. Court filing charges may vary locally. Expose the statewide waiver path authorized through Rule 790 / Pa.R.J.A. 1990. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
+      "completenessStatus": "NOT_MEASURABLE_HERE",
       "allNineCountersZero": false,
       "counters": {
         "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 1,
-        "unclassifiedBlanks": 3,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
@@ -38222,17 +38217,14 @@
         "protectedWrites": 0,
         "visualDefects": null
       },
-      "failingCounters": [
-        "requiredFactsNotCollected",
-        "unclassifiedBlanks"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX112",
-      "activeOwnerLane": "rapid-repair",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_790_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -38243,8 +38235,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "pa_9122_1_limited_access-set",
