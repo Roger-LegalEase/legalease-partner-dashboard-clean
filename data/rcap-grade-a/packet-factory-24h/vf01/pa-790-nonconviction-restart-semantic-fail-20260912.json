@@ -1,0 +1,871 @@
+{
+  "schemaVersion": "rcap-vf01-bounded-semantic-review/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "familyId": "pa_790_nonconviction-set",
+  "executionState": "VERIFYING",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "FAIL_PRE_RASTER_SEMANTIC",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "reviewedHead": "06c39b220e6352ed976c731d77b098ce5e0577b8",
+  "verifiedAtBase": "06c39b220e6352ed976c731d77b098ce5e0577b8",
+  "packetCommitSha": "b9e13b264bed1668273e236dae7f16e4c155d8ec",
+  "packetCommitExists": true,
+  "scope": "Bounded independent semantic recheck of the repaired PA790 candidate against exact current bytes, held source receipt, participant guide, field map, current legal resolution, deterministic branch assemblies and the native packet-completeness contract. No implementation, source, PDF, queue, shared manifest or ledger edits were made by this reviewer.",
+  "claimEvidence": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 pa_790_nonconviction-set",
+    "result": "CLAIM_OK VF01 pa_790_nonconviction-set (independent-verification, grant set 6f199439f76c8de2)",
+    "assertedBeforeFamilyReads": true,
+    "grantSet": "6f199439f76c8de2"
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+    "sha256": "52a4c3169cd0e575e1441fae7a104d5f707cb12d5855b87bf59193a17409cbc6",
+    "byteLength": 2109747,
+    "relevantRows": [
+      {
+        "rowIndex": 99,
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+        "failedObligationNames": null,
+        "blockingDefectIds": null,
+        "legalInputStatus": null
+      },
+      {
+        "rowIndex": 104,
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "b70ec78ef",
+        "failedObligationNames": [],
+        "blockingDefectIds": null,
+        "legalInputStatus": null
+      }
+    ],
+    "preservedDefectGroups": [
+      "KNOWN_PREFILLS: full address/agency/date repair and no partial composite write",
+      "REQUIRED_BEFORE_FILING: affiant/source handback and Text15 composite disclosure repair",
+      "CLIPPING_AND_OVERLAP: prior checkbox/underline defects repaired in current candidate; current visual gate remains unmeasured",
+      "ARTIFACTS: prior source/XObject evidence normalization retained in current saved-byte proof",
+      "FEE_AND_WAIVER: historical BLOCKED_LEGAL_INPUT is superseded by current PA-RULE-790-FEE-WAIVER LEGAL_CLEAR"
+    ]
+  },
+  "currentCandidateBindings": {
+    "packetCommit": "b9e13b264bed1668273e236dae7f16e4c155d8ec",
+    "builder": {
+      "path": "scripts/build-census-v1-pa_790_nonconviction-set.mjs",
+      "sha256": "6f7d2abdc38920f0be0b1b3403f96e24f1d34ec52ade010983c4f3895487fef2",
+      "byteLength": 152
+    },
+    "recoveryModule": {
+      "path": "scripts/rcap-packet-recovery/pa-790-recovery.mjs",
+      "sha256": "5075900f83df8ba14b6214c455f8ef5cc0c2e38f6bc2e2c63fc9fcc5cc7d1985",
+      "byteLength": 17573
+    },
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/source-receipt.json",
+      "sha256": "70f6762e043ba42a3d0a7c41f2f793830c13e95e0bf0fc9ed12bbaf64a9c2c14",
+      "byteLength": 3484
+    },
+    "sourceDocuments": [
+      {
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+        "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+        "byteLength": 87647,
+        "form": "PA-RCRIM-P-790-PETITION",
+        "officialTitle": "Pennsylvania Rule of Criminal Procedure 790 Petition",
+        "revision": "REV-2009-03",
+        "pageCount": 1,
+        "acroFieldCount": 76,
+        "receiptSha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+        "receiptByteLength": 87647,
+        "receiptMatchesCurrent": true
+      },
+      {
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+        "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+        "byteLength": 151853,
+        "form": "PA-RCRIM-P-790-ORDER",
+        "officialTitle": "Pennsylvania Rule of Criminal Procedure 790 Blank Expungement Order",
+        "revision": "REV-2021-07",
+        "pageCount": 2,
+        "acroFieldCount": 29,
+        "receiptSha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+        "receiptByteLength": 151853,
+        "receiptMatchesCurrent": true
+      },
+      {
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-CCP__court-of-common-pleas-motion-to-proceed-in-forma-pauperis__REV-UNKNOWN__EN.pdf",
+        "sha256": "b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca",
+        "byteLength": 760989,
+        "form": "PA-IFP-CCP",
+        "officialTitle": "Pennsylvania Court of Common Pleas Motion to Proceed In Forma Pauperis",
+        "revision": "REV-UNKNOWN",
+        "pageCount": 2,
+        "acroFieldCount": 68,
+        "receiptSha256": "b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca",
+        "receiptByteLength": 760989,
+        "receiptMatchesCurrent": true
+      }
+    ],
+    "fixturePdfs": [
+      {
+        "name": "certificate-of-service-canonical.pdf",
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+        "sha256": "9fe5b47f937c53eedcb5df19e59c403b39e624714c1df326f8284dfe291f0a6a",
+        "byteLength": 3216,
+        "pageCount": 1,
+        "manifestSha256": "9fe5b47f937c53eedcb5df19e59c403b39e624714c1df326f8284dfe291f0a6a",
+        "manifestByteLength": 3216,
+        "manifestPageCount": 1,
+        "matchesManifest": true
+      },
+      {
+        "name": "ifp-ccp-canonical.pdf",
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/ifp-ccp-canonical.pdf",
+        "sha256": "95a9b7a3dda88efbe07503fdc65b97f5687846dbd21cf84aef7b844429f5443b",
+        "byteLength": 784936,
+        "pageCount": 2,
+        "manifestSha256": "95a9b7a3dda88efbe07503fdc65b97f5687846dbd21cf84aef7b844429f5443b",
+        "manifestByteLength": 784936,
+        "manifestPageCount": 2,
+        "matchesManifest": true
+      },
+      {
+        "name": "rule-790-order-canonical.pdf",
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-canonical.pdf",
+        "sha256": "14fa38d851f55e56045dd3f9742a42ac6717b9fca43fb7a2dfc761a1b00c0ece",
+        "byteLength": 196481,
+        "pageCount": 2,
+        "manifestSha256": "14fa38d851f55e56045dd3f9742a42ac6717b9fca43fb7a2dfc761a1b00c0ece",
+        "manifestByteLength": 196481,
+        "manifestPageCount": 2,
+        "matchesManifest": true
+      },
+      {
+        "name": "rule-790-petition-canonical.pdf",
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-canonical.pdf",
+        "sha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+        "byteLength": 121077,
+        "pageCount": 1,
+        "manifestSha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+        "manifestByteLength": 121077,
+        "manifestPageCount": 1,
+        "matchesManifest": true
+      },
+      {
+        "name": "certificate-of-service-boundary.pdf",
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+        "sha256": "917dcec48bef05c4fbf9cc7148be6542c5ddfaee775eb07ea39211d7d004936e",
+        "byteLength": 3281,
+        "pageCount": 1,
+        "manifestSha256": "917dcec48bef05c4fbf9cc7148be6542c5ddfaee775eb07ea39211d7d004936e",
+        "manifestByteLength": 3281,
+        "manifestPageCount": 1,
+        "matchesManifest": true
+      },
+      {
+        "name": "ifp-ccp-boundary.pdf",
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/ifp-ccp-boundary.pdf",
+        "sha256": "f337425b4ff076d8acef9e519c0e9d8c0425b29b3a0aa911ee37176a294fc54a",
+        "byteLength": 783924,
+        "pageCount": 2,
+        "manifestSha256": "f337425b4ff076d8acef9e519c0e9d8c0425b29b3a0aa911ee37176a294fc54a",
+        "manifestByteLength": 783924,
+        "manifestPageCount": 2,
+        "matchesManifest": true
+      },
+      {
+        "name": "rule-790-order-boundary.pdf",
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-boundary.pdf",
+        "sha256": "83761180e489e5e03454a2b15bde69beaadc238b01290c783b5caaefc660125b",
+        "byteLength": 195814,
+        "pageCount": 2,
+        "manifestSha256": "83761180e489e5e03454a2b15bde69beaadc238b01290c783b5caaefc660125b",
+        "manifestByteLength": 195814,
+        "manifestPageCount": 2,
+        "matchesManifest": true
+      },
+      {
+        "name": "rule-790-petition-boundary.pdf",
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-boundary.pdf",
+        "sha256": "d9b5a76cf574430ed1d4d286a4fedaa355c3c20bb438fe916609ffa86d40e7cc",
+        "byteLength": 120415,
+        "pageCount": 1,
+        "manifestSha256": "d9b5a76cf574430ed1d4d286a4fedaa355c3c20bb438fe916609ffa86d40e7cc",
+        "manifestByteLength": 120415,
+        "manifestPageCount": 1,
+        "matchesManifest": true
+      }
+    ],
+    "metadata": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/source-receipt.json",
+        "sha256": "70f6762e043ba42a3d0a7c41f2f793830c13e95e0bf0fc9ed12bbaf64a9c2c14",
+        "byteLength": 3484
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/production-field-map.json",
+        "sha256": "aaa9e08431d1f9c3072618868c7d741791599577f7b2322a3ac41e69efd9df48",
+        "byteLength": 163347
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "45d04b07ffffd379dec24ba777b1652d3b89fc4d775f471170a6175502a7cac5",
+        "byteLength": 29040
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/conditional-components.json",
+        "sha256": "d98196f8ef98df1657422d759339ea5318c73d5c6d3d5ea6a46ebf7b24b1b045",
+        "byteLength": 34316
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "7e889edf88a364a3d13996a48c3f972d27f229b2f7f6ccfa054250d1d2fbb2a2",
+        "byteLength": 105697
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "8dbc725c3427dad4608ba9bc6e0675416123a168a13f9a2159296aa6baa12e7d",
+        "byteLength": 8913
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/build-findings.json",
+        "sha256": "c46def57b818797e40f2ef8b50f7f96e138a5ffb56efab6d3fd490c04ceb5c7f",
+        "byteLength": 2053
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/product-wiring.json",
+        "sha256": "ef50ac2a772df2bdc36b586b115112e9e88730e10baf05d974c0df84c16394ab",
+        "byteLength": 4397
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/field-census.census-v1.json",
+        "sha256": "81795c5e995076d5a30c31952123d921282bc6422dc6481d773a7fb2c3f05563",
+        "byteLength": 141064
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/approval-request.json",
+        "sha256": "6d3b268ced4259507e7c11913de3f765fb10a1d38c2b3ad7e973aa9feaeab77e",
+        "byteLength": 534
+      }
+    ],
+    "legalResolution": {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "byteLength": 22372,
+      "decisionId": "PA-RULE-790-FEE-WAIVER",
+      "disposition": "LEGAL_CLEAR",
+      "legalInputStatus": "SETTLED"
+    },
+    "rasterManifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/pa790-raster-manifest-20260912.json",
+      "sha256": "447ace02c5c50103cb6d306d8b0ed70cd6fc517d108604de91f4b48c5054ed3b",
+      "byteLength": 8387,
+      "worktreeOnly": false,
+      "familyBatch": "pa_790_nonconviction-set",
+      "documentsDigest": "aa391ca89d739a4e8dd294ac8d1b738e6404852e4938e110f22fafc4f1146a2a",
+      "coverage": {
+        "complete": true,
+        "basis": "Every current PA790 fixture PDF emitted by the builder is enrolled by exact path, SHA-256, byte length and parsed page count; all eight declared PDFs are queued.",
+        "documents": [
+          "certificate-of-service-canonical.pdf",
+          "ifp-ccp-canonical.pdf",
+          "rule-790-order-canonical.pdf",
+          "rule-790-petition-canonical.pdf",
+          "certificate-of-service-boundary.pdf",
+          "ifp-ccp-boundary.pdf",
+          "rule-790-order-boundary.pdf",
+          "rule-790-petition-boundary.pdf"
+        ],
+        "rastered": [
+          "certificate-of-service-canonical.pdf",
+          "ifp-ccp-canonical.pdf",
+          "rule-790-order-canonical.pdf",
+          "rule-790-petition-canonical.pdf",
+          "certificate-of-service-boundary.pdf",
+          "ifp-ccp-boundary.pdf",
+          "rule-790-order-boundary.pdf",
+          "rule-790-petition-boundary.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": []
+      }
+    },
+    "documentsDigest": "aa391ca89d739a4e8dd294ac8d1b738e6404852e4938e110f22fafc4f1146a2a"
+  },
+  "branchCoverage": {
+    "sourceRecord": {
+      "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/conditional-components.json",
+      "sha256": "d98196f8ef98df1657422d759339ea5318c73d5c6d3d5ea6a46ebf7b24b1b045",
+      "byteLength": 34316,
+      "schemaVersion": "rcap-pa790-conditional-components/v1"
+    },
+    "branchesEnumerated": 8,
+    "distinctElectionCombos": 4,
+    "componentFixturesEnumerated": 8,
+    "componentPages": 12,
+    "assembledBranchPagesWithDuplication": 32,
+    "mandatoryComponents": [
+      "rule-790-petition",
+      "certificate-of-service"
+    ],
+    "conditionalComponents": [
+      "rule-790-order (optional)",
+      "ifp-ccp (requestFeeWaiver=true)"
+    ],
+    "referenceFixturesOnly": true,
+    "allBranchesUseOnlyListedComponentHashes": true,
+    "branchAssemblies": [
+      {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/canonical-no-ifp-no-order.pdf",
+        "branch": "branches/canonical-no-ifp-no-order.pdf",
+        "fixture": "canonical",
+        "elections": {
+          "requestFeeWaiver": false,
+          "includeProposedOrder": false
+        },
+        "sha256": "ec1d9b0c15d3ea6e71f1082596f1977aeb8554152c27a65142822943d8e09124",
+        "byteLength": 123632,
+        "pageCount": 2,
+        "recordedSha256": "ec1d9b0c15d3ea6e71f1082596f1977aeb8554152c27a65142822943d8e09124",
+        "recordedPageCount": 2,
+        "matchesConditionalRecord": true,
+        "components": [
+          {
+            "component": "rule-790-petition",
+            "file": "fixtures/rule-790-petition-canonical.pdf",
+            "sha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+            "pageCount": 1
+          },
+          {
+            "component": "certificate-of-service",
+            "file": "fixtures/certificate-of-service-canonical.pdf",
+            "sha256": "9fe5b47f937c53eedcb5df19e59c403b39e624714c1df326f8284dfe291f0a6a",
+            "pageCount": 1
+          }
+        ]
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/canonical-no-ifp-optional-order.pdf",
+        "branch": "branches/canonical-no-ifp-optional-order.pdf",
+        "fixture": "canonical",
+        "elections": {
+          "requestFeeWaiver": false,
+          "includeProposedOrder": true
+        },
+        "sha256": "dea77c6085ddfa3376b2782d116dd7c421ce6ef02c48c90464e8a00719771518",
+        "byteLength": 319490,
+        "pageCount": 4,
+        "recordedSha256": "dea77c6085ddfa3376b2782d116dd7c421ce6ef02c48c90464e8a00719771518",
+        "recordedPageCount": 4,
+        "matchesConditionalRecord": true,
+        "components": [
+          {
+            "component": "rule-790-petition",
+            "file": "fixtures/rule-790-petition-canonical.pdf",
+            "sha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+            "pageCount": 1
+          },
+          {
+            "component": "certificate-of-service",
+            "file": "fixtures/certificate-of-service-canonical.pdf",
+            "sha256": "9fe5b47f937c53eedcb5df19e59c403b39e624714c1df326f8284dfe291f0a6a",
+            "pageCount": 1
+          },
+          {
+            "component": "rule-790-order",
+            "file": "fixtures/rule-790-order-canonical.pdf",
+            "sha256": "14fa38d851f55e56045dd3f9742a42ac6717b9fca43fb7a2dfc761a1b00c0ece",
+            "pageCount": 2
+          }
+        ]
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/canonical-ifp-no-order.pdf",
+        "branch": "branches/canonical-ifp-no-order.pdf",
+        "fixture": "canonical",
+        "elections": {
+          "requestFeeWaiver": true,
+          "includeProposedOrder": false
+        },
+        "sha256": "89a1f49223c09f54b36b5b47e44ee0e5fa01d7f9850510c1de621b623d5dc9e1",
+        "byteLength": 908321,
+        "pageCount": 4,
+        "recordedSha256": "89a1f49223c09f54b36b5b47e44ee0e5fa01d7f9850510c1de621b623d5dc9e1",
+        "recordedPageCount": 4,
+        "matchesConditionalRecord": true,
+        "components": [
+          {
+            "component": "rule-790-petition",
+            "file": "fixtures/rule-790-petition-canonical.pdf",
+            "sha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+            "pageCount": 1
+          },
+          {
+            "component": "certificate-of-service",
+            "file": "fixtures/certificate-of-service-canonical.pdf",
+            "sha256": "9fe5b47f937c53eedcb5df19e59c403b39e624714c1df326f8284dfe291f0a6a",
+            "pageCount": 1
+          },
+          {
+            "component": "ifp-ccp",
+            "file": "fixtures/ifp-ccp-canonical.pdf",
+            "sha256": "95a9b7a3dda88efbe07503fdc65b97f5687846dbd21cf84aef7b844429f5443b",
+            "pageCount": 2
+          }
+        ]
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/canonical-ifp-optional-order.pdf",
+        "branch": "branches/canonical-ifp-optional-order.pdf",
+        "fixture": "canonical",
+        "elections": {
+          "requestFeeWaiver": true,
+          "includeProposedOrder": true
+        },
+        "sha256": "c34be9fc252e6a568ea9ef5d85d5e2316ad7514d98bf91ad97b6e6496572c639",
+        "byteLength": 1104180,
+        "pageCount": 6,
+        "recordedSha256": "c34be9fc252e6a568ea9ef5d85d5e2316ad7514d98bf91ad97b6e6496572c639",
+        "recordedPageCount": 6,
+        "matchesConditionalRecord": true,
+        "components": [
+          {
+            "component": "rule-790-petition",
+            "file": "fixtures/rule-790-petition-canonical.pdf",
+            "sha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470",
+            "pageCount": 1
+          },
+          {
+            "component": "certificate-of-service",
+            "file": "fixtures/certificate-of-service-canonical.pdf",
+            "sha256": "9fe5b47f937c53eedcb5df19e59c403b39e624714c1df326f8284dfe291f0a6a",
+            "pageCount": 1
+          },
+          {
+            "component": "rule-790-order",
+            "file": "fixtures/rule-790-order-canonical.pdf",
+            "sha256": "14fa38d851f55e56045dd3f9742a42ac6717b9fca43fb7a2dfc761a1b00c0ece",
+            "pageCount": 2
+          },
+          {
+            "component": "ifp-ccp",
+            "file": "fixtures/ifp-ccp-canonical.pdf",
+            "sha256": "95a9b7a3dda88efbe07503fdc65b97f5687846dbd21cf84aef7b844429f5443b",
+            "pageCount": 2
+          }
+        ]
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/boundary-no-ifp-no-order.pdf",
+        "branch": "branches/boundary-no-ifp-no-order.pdf",
+        "fixture": "boundary",
+        "elections": {
+          "requestFeeWaiver": false,
+          "includeProposedOrder": false
+        },
+        "sha256": "9f16b0cfb6cb742cfddb7fcc44a7ae2ba49cc4c643a0e7dc1a88dfff47ec5550",
+        "byteLength": 123039,
+        "pageCount": 2,
+        "recordedSha256": "9f16b0cfb6cb742cfddb7fcc44a7ae2ba49cc4c643a0e7dc1a88dfff47ec5550",
+        "recordedPageCount": 2,
+        "matchesConditionalRecord": true,
+        "components": [
+          {
+            "component": "rule-790-petition",
+            "file": "fixtures/rule-790-petition-boundary.pdf",
+            "sha256": "d9b5a76cf574430ed1d4d286a4fedaa355c3c20bb438fe916609ffa86d40e7cc",
+            "pageCount": 1
+          },
+          {
+            "component": "certificate-of-service",
+            "file": "fixtures/certificate-of-service-boundary.pdf",
+            "sha256": "917dcec48bef05c4fbf9cc7148be6542c5ddfaee775eb07ea39211d7d004936e",
+            "pageCount": 1
+          }
+        ]
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/boundary-no-ifp-optional-order.pdf",
+        "branch": "branches/boundary-no-ifp-optional-order.pdf",
+        "fixture": "boundary",
+        "elections": {
+          "requestFeeWaiver": false,
+          "includeProposedOrder": true
+        },
+        "sha256": "bbc8e930e93ce4b2abef0b7738fe9d2af502ec3814e691fab96486a5b1e45fbc",
+        "byteLength": 318228,
+        "pageCount": 4,
+        "recordedSha256": "bbc8e930e93ce4b2abef0b7738fe9d2af502ec3814e691fab96486a5b1e45fbc",
+        "recordedPageCount": 4,
+        "matchesConditionalRecord": true,
+        "components": [
+          {
+            "component": "rule-790-petition",
+            "file": "fixtures/rule-790-petition-boundary.pdf",
+            "sha256": "d9b5a76cf574430ed1d4d286a4fedaa355c3c20bb438fe916609ffa86d40e7cc",
+            "pageCount": 1
+          },
+          {
+            "component": "certificate-of-service",
+            "file": "fixtures/certificate-of-service-boundary.pdf",
+            "sha256": "917dcec48bef05c4fbf9cc7148be6542c5ddfaee775eb07ea39211d7d004936e",
+            "pageCount": 1
+          },
+          {
+            "component": "rule-790-order",
+            "file": "fixtures/rule-790-order-boundary.pdf",
+            "sha256": "83761180e489e5e03454a2b15bde69beaadc238b01290c783b5caaefc660125b",
+            "pageCount": 2
+          }
+        ]
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/boundary-ifp-no-order.pdf",
+        "branch": "branches/boundary-ifp-no-order.pdf",
+        "fixture": "boundary",
+        "elections": {
+          "requestFeeWaiver": true,
+          "includeProposedOrder": false
+        },
+        "sha256": "65aaecba94dca2feafc7868d463ff7e47cdeb91f35d5833d604dc3bb627352b3",
+        "byteLength": 906716,
+        "pageCount": 4,
+        "recordedSha256": "65aaecba94dca2feafc7868d463ff7e47cdeb91f35d5833d604dc3bb627352b3",
+        "recordedPageCount": 4,
+        "matchesConditionalRecord": true,
+        "components": [
+          {
+            "component": "rule-790-petition",
+            "file": "fixtures/rule-790-petition-boundary.pdf",
+            "sha256": "d9b5a76cf574430ed1d4d286a4fedaa355c3c20bb438fe916609ffa86d40e7cc",
+            "pageCount": 1
+          },
+          {
+            "component": "certificate-of-service",
+            "file": "fixtures/certificate-of-service-boundary.pdf",
+            "sha256": "917dcec48bef05c4fbf9cc7148be6542c5ddfaee775eb07ea39211d7d004936e",
+            "pageCount": 1
+          },
+          {
+            "component": "ifp-ccp",
+            "file": "fixtures/ifp-ccp-boundary.pdf",
+            "sha256": "f337425b4ff076d8acef9e519c0e9d8c0425b29b3a0aa911ee37176a294fc54a",
+            "pageCount": 2
+          }
+        ]
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/boundary-ifp-optional-order.pdf",
+        "branch": "branches/boundary-ifp-optional-order.pdf",
+        "fixture": "boundary",
+        "elections": {
+          "requestFeeWaiver": true,
+          "includeProposedOrder": true
+        },
+        "sha256": "5fb8f2153a5bc6a4343421a5214fc15db0e11771092ea3946f8a26ac31492ff6",
+        "byteLength": 1101906,
+        "pageCount": 6,
+        "recordedSha256": "5fb8f2153a5bc6a4343421a5214fc15db0e11771092ea3946f8a26ac31492ff6",
+        "recordedPageCount": 6,
+        "matchesConditionalRecord": true,
+        "components": [
+          {
+            "component": "rule-790-petition",
+            "file": "fixtures/rule-790-petition-boundary.pdf",
+            "sha256": "d9b5a76cf574430ed1d4d286a4fedaa355c3c20bb438fe916609ffa86d40e7cc",
+            "pageCount": 1
+          },
+          {
+            "component": "certificate-of-service",
+            "file": "fixtures/certificate-of-service-boundary.pdf",
+            "sha256": "917dcec48bef05c4fbf9cc7148be6542c5ddfaee775eb07ea39211d7d004936e",
+            "pageCount": 1
+          },
+          {
+            "component": "rule-790-order",
+            "file": "fixtures/rule-790-order-boundary.pdf",
+            "sha256": "83761180e489e5e03454a2b15bde69beaadc238b01290c783b5caaefc660125b",
+            "pageCount": 2
+          },
+          {
+            "component": "ifp-ccp",
+            "file": "fixtures/ifp-ccp-boundary.pdf",
+            "sha256": "f337425b4ff076d8acef9e519c0e9d8c0425b29b3a0aa911ee37176a294fc54a",
+            "pageCount": 2
+          }
+        ]
+      }
+    ],
+    "rasterManifestEnrolledFixtureCount": 8,
+    "rasterManifestCoverageComplete": true,
+    "additionalBranchEnrollmentRequired": false,
+    "additionalBranchEnrollmentBasis": "The central job renders every current component fixture PDF named by the manifest. The eight assembled branch PDFs are deterministic reference fixtures only; each branch reuses the same exact petition, certificate, optional-order and conditional-IFP component bytes, and the native builder check verifies all eight assembly outputs. A separate branch raster gate would be required only if assembled branch PDFs become actual participant-delivery artifacts."
+  },
+  "automatedAudit": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
+    "detailCommand": "node --input-type=module -e \"import { auditFamily } from './scripts/rcap-packet-completeness/verify-packet-completeness.mjs'; console.log(JSON.stringify(auditFamily('data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill','pa_790_nonconviction-set'),null,2))\"",
+    "exitCode": 1,
+    "result": "FAIL_MISSING_REQUIRED_FACTS",
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 1,
+      "unclassifiedBlanks": 3,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": null,
+      "protectedWrites": 0,
+      "visualDefects": null
+    },
+    "totals": {
+      "terminalFields": 185,
+      "written": 27,
+      "blank": 158,
+      "blanksByDisposition": {
+        "REQUIRED_BEFORE_FILING": 128,
+        "PROTECTED_FIELD": 18,
+        "PARTICIPANT_ELECTION_GENUINE": 9,
+        "UNCLASSIFIED_BLANK": 3
+      },
+      "rowsInspected": 5,
+      "fieldMapSchema": "documents-and-decisions"
+    },
+    "findings": [
+      {
+        "counter": "unclassifiedBlanks",
+        "field": "Commonwealth recipient name",
+        "label": "Commonwealth attorney name:",
+        "disposition": "UNCLASSIFIED_BLANK",
+        "basis": "declared required-before-filing on a ATTORNEY_BLOCK field, which is not the participant's to complete",
+        "reasonGiven": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
+      },
+      {
+        "counter": "unclassifiedBlanks",
+        "field": "Commonwealth recipient address",
+        "label": "Commonwealth attorney service address:",
+        "disposition": "UNCLASSIFIED_BLANK",
+        "basis": "declared required-before-filing on a ATTORNEY_BLOCK field, which is not the participant's to complete",
+        "reasonGiven": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
+      },
+      {
+        "counter": "unclassifiedBlanks",
+        "field": "Commonwealth recipient telephone",
+        "label": "Commonwealth attorney telephone number:",
+        "disposition": "UNCLASSIFIED_BLANK",
+        "basis": "declared required-before-filing on a ATTORNEY_BLOCK field, which is not the participant's to complete",
+        "reasonGiven": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
+      },
+      {
+        "counter": "requiredFactsNotCollected",
+        "field": "PA",
+        "label": "PA",
+        "factId": null,
+        "why": "classified required-before-filing and not named in participant-instructions.md, so the participant is never asked for it"
+      }
+    ]
+  },
+  "blockingFindings": [
+    {
+      "findingId": "PA-VF01-COMPLETE-01",
+      "counter": "unclassifiedBlanks",
+      "fields": [
+        "Commonwealth recipient name",
+        "Commonwealth recipient address",
+        "Commonwealth recipient telephone"
+      ],
+      "labels": [
+        "Commonwealth attorney name:",
+        "Commonwealth attorney service address:",
+        "Commonwealth attorney telephone number:"
+      ],
+      "mapDeclaration": {
+        "blankTreatment": "REQUIRED_BEFORE_FILING",
+        "requiredBeforeFiling": true,
+        "completesAfterService": true,
+        "refusalClass": null,
+        "sourceStage": null
+      },
+      "automatedClassification": "ATTORNEY_BLOCK",
+      "assessment": "Classifier false positive about semantic ownership: these are participant-entered performed-service facts, not the participant's attorney-representation facts. The current typed map has no accepted participant stage/owner declaration, so the contract still treats this as an actual unresolved semantic gate failure.",
+      "guideEvidence": {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/participant-instructions.md",
+        "lines": [
+          167,
+          168,
+          169,
+          223,
+          262
+        ],
+        "statement": "Each recipient field is named and the participant is told to complete it only after actual service."
+      },
+      "requiredRepair": "Use a truthful contract-supported participant service-stage representation or a source-faithful caption/classification that keeps the participant handoff explicit; do not label the fields attorney-only."
+    },
+    {
+      "findingId": "PA-VF01-COMPLETE-02",
+      "counter": "requiredFactsNotCollected",
+      "field": "PA",
+      "label": "PA",
+      "mapDeclaration": {
+        "blankTreatment": "REQUIRED_BEFORE_FILING",
+        "requiredBeforeFiling": true,
+        "factId": null
+      },
+      "automatedClassification": "required-before-filing disclosure lookup rejects identifiers shorter than three characters",
+      "assessment": "Reader false positive: participant-instructions.md contains the exact PA row at line 143 as a captionless source field. There is no underlying participant disclosure omission, but the current native audit still fails until the short identity is made readable to the contract without changing the form meaning.",
+      "guideEvidence": {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/participant-instructions.md",
+        "line": 143,
+        "statement": "`PA` is explicitly listed in the IFP participant completion table."
+      },
+      "requiredRepair": "Correct the reader/typed disclosure binding for a two-character field or add a truthful longer semantic label while retaining the source field identity."
+    }
+  ],
+  "acceptedNonvisualGates": [
+    {
+      "obligation": "ROUTE_IDENTITY",
+      "result": "PASS",
+      "finding": "Rule 790 non-conviction route remains bound to the PA legal-design track."
+    },
+    {
+      "obligation": "SOURCE_IDENTITY",
+      "result": "PASS",
+      "finding": "Three held source documents match receipt paths, SHA-256, byte length and page count."
+    },
+    {
+      "obligation": "COMPONENT_SET",
+      "result": "PASS",
+      "finding": "Required petition/certificate and conditional order/IFP components are represented; all eight component fixtures are enrolled."
+    },
+    {
+      "obligation": "KNOWN_PREFILLS",
+      "result": "PASS",
+      "finding": "Current actual-write proof retains the accepted identity, case, agency, date and address overlays; no held fact is silently substituted."
+    },
+    {
+      "obligation": "ROUTE_OPTIONS",
+      "result": "PASS",
+      "finding": "Optional proposed order and participant-selected IFP branch are explicit; no route election is fabricated."
+    },
+    {
+      "obligation": "REPEATING_ROWS",
+      "result": "PASS",
+      "finding": "Text15 is withheld as a whole charge-plus-disposition composite; no partial charge-only row is printed."
+    },
+    {
+      "obligation": "PROTECTED_FIELDS",
+      "result": "PASS",
+      "finding": "Court findings, signatures, service execution and other protected fields remain blank."
+    },
+    {
+      "obligation": "ARTIFACTS",
+      "result": "PASS_NONVISUAL",
+      "finding": "Current saved bytes and metadata pass the native nonvisual builder check; visual acceptance is not claimed."
+    },
+    {
+      "obligation": "PAGE_ORDER",
+      "result": "PASS",
+      "finding": "All eight branch fixtures pass deterministic assembly; component order is petition, certificate, optional order, conditional IFP."
+    },
+    {
+      "obligation": "FILING_DESTINATION",
+      "result": "PASS",
+      "finding": "Guide preserves clerk/judicial-district filing destination and local-procedure handoff."
+    },
+    {
+      "obligation": "FEE_AND_WAIVER",
+      "result": "PASS",
+      "finding": "Current legal decision is LEGAL_CLEAR; guide does not invent a county fee and exposes the conditional statewide IFP form."
+    },
+    {
+      "obligation": "SERVICE",
+      "result": "PASS_SUBSTANTIVE_GUIDANCE",
+      "finding": "Guide accurately requires concurrent service and completion of service facts after the actual event; typed field classification remains a separate blocker below."
+    },
+    {
+      "obligation": "SELF_HELP_STOP",
+      "result": "PASS",
+      "finding": "Guide preserves mixed-conviction, objection, unpaid-cost, limited-access, immigration and federal/military/tribal/out-of-state stops."
+    }
+  ],
+  "obligationCounts": {
+    "PASS": 13,
+    "FAIL": 1,
+    "NOT_MEASURABLE_HERE": 1
+  },
+  "failedObligationNames": [
+    "REQUIRED_BEFORE_FILING"
+  ],
+  "unmeasuredObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 1,
+    "unclassifiedBlanks": 3,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": null,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonvisualZero": false,
+    "allNineZero": false,
+    "measuredHere": true,
+    "visualMeasuredHere": false,
+    "verifierResult": "FAIL_MISSING_REQUIRED_FACTS"
+  },
+  "commandsPassed": [
+    {
+      "command": "env MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/build-census-v1-pa_790_nonconviction-set.mjs --check-nonvisual",
+      "result": "PASS: 8 PDFs; saved-byte proof checked; no raster replay or visual acceptance",
+      "temporaryLog": "/tmp/pa790-check-nonvisual-20260912.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/chat1/test-pa-790-optional-order.mjs",
+      "result": "PASS: 1 positive validation, 11 negative controls rejected; no remaining issue"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
+      "result": "FAIL_MISSING_REQUIRED_FACTS: requiredFactsNotCollected=1, unclassifiedBlanks=3; exact findings recorded above",
+      "temporaryLog": "/tmp/pa790-completeness-cli-20260912.log"
+    }
+  ],
+  "rasterDispatchAuthorized": false,
+  "raster": {
+    "status": "BLOCKED_BY_SEMANTIC_FAILURE",
+    "newCentralRasterRequired": true,
+    "currentRasterState": "RASTER_PENDING",
+    "manifestPath": "data/rcap-grade-a/packet-factory-24h/fix112/pa790-raster-manifest-20260912.json",
+    "visualDefects": null,
+    "runId": null,
+    "artifactId": null
+  },
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "runtimeAndCommercialBoundary": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialAuthorityGranted": false,
+    "fulfillmentRecordCreated": false
+  },
+  "independence": {
+    "implementationEdited": false,
+    "sourceEdited": false,
+    "packetBytesEdited": false,
+    "rasterEdited": false,
+    "queueEdited": false,
+    "sharedManifestEdited": false,
+    "claimLedgerEdited": false,
+    "onlyPublication": "this lane-owned nonterminal semantic failure record"
+  }
+}
