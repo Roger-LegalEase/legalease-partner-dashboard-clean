@@ -4,6 +4,12 @@
 
 Sealing, under the educational-credential waiver of the waiting period, 20 ILCS 2630/5.2(c)(3)(E). This packet asks the court to SEAL. It does not ask the court to expunge anything: Request item 1, "I am requesting to expunge records", is answered No, and item 12, "Seal Records", is answered Yes. The record states the waiver this way: Records eligible under (c)(2)(C), (D), (E) or (F) may be sealed upon termination of the last sentence with no waiting period where, during the sentence or mandatory supervised release, the petitioner earned a high school diploma, associate's degree, career certificate, vocational technical certification or bachelor's degree, or passed the high-school-level Test of General Educational Development.
 
+## Forms included in this packet
+
+This packet includes the EXP-AD Request, EXP-AD Case List, EXP-AD Order Granting, and the required EXP-AD Order Denying. The Denying Order is included alongside the Granting Order; it is not an election of the expected outcome, and the judge completes its denial choices, reasons, signature and entry date.
+
+These fixtures explicitly request a fee waiver, so they also include the FW-CIV-APPLICATION and the official three-page FW-CIV-ORDER. Include both fee-waiver forms together only if you request a fee waiver; otherwise omit both.
+
 ## The Section 22 ground this packet ticked
 
 Request page 5 prints: "In Sections 15 - 24, check all of the boxes that apply". This packet ticks exactly one of them, item 22, and it ticks nothing else in Sections 15 to 24. Item 22 reads:
@@ -155,6 +161,7 @@ This packet is delivered flattened, because AOIC requires a flattened PDF for e-
 - Complete 104 - Type on FW-CIV-APPLICATION page 3
 - Complete 105 - Amount from Other on FW-CIV-APPLICATION page 3
 - Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3
+- Complete 3 - Defendant/Respondent on FW-CIV-ORDER page 1
 
 ### The boxes only you can tick
 

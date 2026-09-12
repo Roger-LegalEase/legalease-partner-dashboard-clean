@@ -13,7 +13,9 @@
       "byteLength": 1015247,
       "componentKinds": [
         "primary_filing"
-      ]
+      ],
+      "requirement": "required",
+      "conditionDescription": null
     },
     {
       "documentId": "EXP-AD Case List",
@@ -25,7 +27,9 @@
       "byteLength": 744328,
       "componentKinds": [
         "attachment"
-      ]
+      ],
+      "requirement": "required",
+      "conditionDescription": null
     },
     {
       "documentId": "EXP-AD Order Granting",
@@ -37,7 +41,23 @@
       "byteLength": 823679,
       "componentKinds": [
         "proposed_order"
-      ]
+      ],
+      "requirement": "required",
+      "conditionDescription": null
+    },
+    {
+      "documentId": "EXP-AD Order Denying",
+      "formNumber": "EXP-AD Order Denying",
+      "sourceId": "official-form:EXP-AD Order Denying",
+      "path": "LegalEase Illinois/EXP-AD Order Denying.pdf",
+      "sha256": "2d3039fa873801bc58bf425a2c73f489951bb82de33b11af031e8bf62df3ffa8",
+      "sha256Exact": true,
+      "byteLength": 782948,
+      "componentKinds": [
+        "proposed_order"
+      ],
+      "requirement": "required",
+      "conditionDescription": null
     },
     {
       "documentId": "FW-CIV-APPLICATION",
@@ -49,7 +69,23 @@
       "byteLength": 1051549,
       "componentKinds": [
         "fee_waiver"
-      ]
+      ],
+      "requirement": "conditional",
+      "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data."
+    },
+    {
+      "documentId": "FW-CIV-ORDER",
+      "formNumber": "FW-CIV-ORDER",
+      "sourceId": "official-form:FW-CIV-ORDER",
+      "path": "reference/source-recovery/2026-09-12-il-edu/FW-CIV-Order.pdf",
+      "sha256": "ee52f695e0ed75279875ae6bfb61c1398f8f67dadf322cea9f550c1cea6c38aa",
+      "sha256Exact": true,
+      "byteLength": 858260,
+      "componentKinds": [
+        "proposed_order"
+      ],
+      "requirement": "conditional",
+      "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data."
     }
   ]
 }

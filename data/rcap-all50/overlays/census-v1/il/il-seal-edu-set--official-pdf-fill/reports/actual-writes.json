@@ -4,6 +4,8 @@
   "documents": [
     {
       "documentId": "EXP-AD Request",
+      "requirement": "required",
+      "conditionDescription": null,
       "actualWrites": [
         {
           "fieldId": "EXP-AD Request:1 - County",
@@ -203,6 +205,8 @@
     },
     {
       "documentId": "EXP-AD Case List",
+      "requirement": "required",
+      "conditionDescription": null,
       "actualWrites": [
         {
           "fieldId": "EXP-AD Case List:1 - County",
@@ -277,6 +281,8 @@
     },
     {
       "documentId": "EXP-AD Order Granting",
+      "requirement": "required",
+      "conditionDescription": null,
       "actualWrites": [
         {
           "fieldId": "EXP-AD Order Granting:1 - County",
@@ -390,7 +396,115 @@
       ]
     },
     {
+      "documentId": "EXP-AD Order Denying",
+      "requirement": "required",
+      "conditionDescription": null,
+      "actualWrites": [
+        {
+          "fieldId": "EXP-AD Order Denying:1 - County",
+          "fieldName": "1 - County",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "1 - County",
+          "factId": "matter.filing_county",
+          "drawnText": "Cook"
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:2 - Your name",
+          "fieldName": "2 - Your name",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "2 - Your name",
+          "factId": "participant.full_legal_name",
+          "drawnText": "Jordan Avery Reyes",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:3 - Other name",
+          "fieldName": "3 - Other name",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "3 - Other name",
+          "factId": "participant.other_names",
+          "drawnText": "None",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:4 - Date of birth",
+          "fieldName": "4 - Date of birth",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "4 - Date of birth",
+          "factId": "participant.date_of_birth",
+          "drawnText": "06/14/1988",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:5 - Race",
+          "fieldName": "5 - Race",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "5 - Race",
+          "factId": "participant.race",
+          "drawnText": "Hispanic",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:6 - Gender",
+          "fieldName": "6 - Gender",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "6 - Gender",
+          "factId": "participant.gender",
+          "drawnText": "Nonbinary",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:3 - Address",
+          "fieldName": "3 - Address",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "3 - Address",
+          "factId": "participant.street_address",
+          "drawnText": "412 West Madison Street, Chicago, IL 60606",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:3 - Telephone",
+          "fieldName": "3 - Telephone",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "3 - Telephone",
+          "factId": "participant.phone",
+          "drawnText": "312-555-0142",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:3 - Name",
+          "fieldName": "3 - Name",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "3 - Name",
+          "factId": "participant.full_legal_name",
+          "drawnText": "Jordan Avery Reyes",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "EXP-AD Order Denying:3 - Email",
+          "fieldName": "3 - Email",
+          "documentId": "EXP-AD Order Denying",
+          "page": 1,
+          "effectiveLabel": "3 - Email",
+          "factId": "participant.email",
+          "drawnText": "jordan.reyes@example.org",
+          "fontSize": 8
+        }
+      ]
+    },
+    {
       "documentId": "FW-CIV-APPLICATION",
+      "requirement": "conditional",
+      "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.",
       "actualWrites": [
         {
           "fieldId": "FW-CIV-APPLICATION:1 - County",
@@ -472,39 +586,75 @@
           "fontSize": 8
         }
       ]
+    },
+    {
+      "documentId": "FW-CIV-ORDER",
+      "requirement": "conditional",
+      "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.",
+      "actualWrites": [
+        {
+          "fieldId": "FW-CIV-ORDER:1 - County",
+          "fieldName": "1 - County",
+          "documentId": "FW-CIV-ORDER",
+          "page": 1,
+          "effectiveLabel": "1 - County",
+          "factId": "matter.filing_county",
+          "drawnText": "Cook"
+        },
+        {
+          "fieldId": "FW-CIV-ORDER:2 - Plaintiff/Petitioner or In RE",
+          "fieldName": "2 - Plaintiff/Petitioner or In RE",
+          "documentId": "FW-CIV-ORDER",
+          "page": 1,
+          "effectiveLabel": "2 - Plaintiff/Petitioner or In RE",
+          "factId": "participant.full_legal_name",
+          "drawnText": "Jordan Avery Reyes",
+          "fontSize": 8
+        },
+        {
+          "fieldId": "FW-CIV-ORDER:5 - Your Name",
+          "fieldName": "5 - Your Name",
+          "documentId": "FW-CIV-ORDER",
+          "page": 1,
+          "effectiveLabel": "5 - Your Name",
+          "factId": "participant.full_legal_name",
+          "drawnText": "Jordan Avery Reyes",
+          "fontSize": 8
+        }
+      ]
     }
   ],
   "artifacts": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 45,
-      "addedGlyphsReadFromOutputBytes": 607,
-      "flattenedShowTextGlyphsReadFromOutputBytes": 607,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 45,
+      "valuesReportedByFinalizer": 58,
+      "addedGlyphsReadFromOutputBytes": 796,
+      "flattenedShowTextGlyphsReadFromOutputBytes": 796,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 58,
       "flattenedWidgetAppearancesDefinition": "Flattened widget Form XObjects in the delivered bytes that draw at least one non-whitespace glyph. The total number of flattened widget Form XObjects, blank ones included, is published separately as flattenedWidgetFormXObjectsInDeliveredBytes.",
-      "flattenedWidgetFormXObjectsInDeliveredBytes": 443,
-      "officialWidgetsDeclaredByTheFourPinnedForms": 443,
+      "flattenedWidgetFormXObjectsInDeliveredBytes": 514,
+      "officialWidgetsDeclaredByPinnedForms": 514,
       "flattenedAppearancesPaintingWithoutDrawingAGlyph": 0,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
       "readFromOutputBytesNote": "FIX166: the first two ARE read from the saved bytes now, because the FIX118 repair reopens them anyway. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays null, not zero: this builder performs no geometry pass over the delivered glyph boxes, and counting it is an independent reader's job. A counter nobody measured is null, never 0.",
       "minimumFontSize": 8,
-      "danglingAnnotationReferencesPruned": 146,
+      "danglingAnnotationReferencesPruned": 175,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 45,
-      "addedGlyphsReadFromOutputBytes": 1251,
-      "flattenedShowTextGlyphsReadFromOutputBytes": 1251,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 45,
+      "valuesReportedByFinalizer": 58,
+      "addedGlyphsReadFromOutputBytes": 1646,
+      "flattenedShowTextGlyphsReadFromOutputBytes": 1646,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 58,
       "flattenedWidgetAppearancesDefinition": "Flattened widget Form XObjects in the delivered bytes that draw at least one non-whitespace glyph. The total number of flattened widget Form XObjects, blank ones included, is published separately as flattenedWidgetFormXObjectsInDeliveredBytes.",
-      "flattenedWidgetFormXObjectsInDeliveredBytes": 443,
-      "officialWidgetsDeclaredByTheFourPinnedForms": 443,
+      "flattenedWidgetFormXObjectsInDeliveredBytes": 514,
+      "officialWidgetsDeclaredByPinnedForms": 514,
       "flattenedAppearancesPaintingWithoutDrawingAGlyph": 0,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
       "readFromOutputBytesNote": "FIX166: the first two ARE read from the saved bytes now, because the FIX118 repair reopens them anyway. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays null, not zero: this builder performs no geometry pass over the delivered glyph boxes, and counting it is an independent reader's job. A counter nobody measured is null, never 0.",
       "minimumFontSize": 6,
-      "danglingAnnotationReferencesPruned": 146,
+      "danglingAnnotationReferencesPruned": 175,
       "refusedFieldsWithInk": []
     }
   ]

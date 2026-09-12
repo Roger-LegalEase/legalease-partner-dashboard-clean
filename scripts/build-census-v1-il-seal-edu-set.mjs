@@ -161,11 +161,14 @@ const { PDFDict, PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFRef, PDFText
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
+const FEE_WAIVER_CONDITION = "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.";
 const SOURCES = [
-  { documentId: "EXP-AD Request", sourceId: "official-form:EXP-AD Request", path: "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf", sha256: "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853", componentKinds: ["primary_filing"] },
-  { documentId: "EXP-AD Case List", sourceId: "official-form:EXP-AD Case List", path: "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf", sha256: "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c", componentKinds: ["attachment"] },
-  { documentId: "EXP-AD Order Granting", sourceId: "official-form:EXP-AD Order Granting", path: "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf", sha256: "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305", componentKinds: ["proposed_order"] },
-  { documentId: "FW-CIV-APPLICATION", sourceId: "official-form:FW-CIV-APPLICATION", path: "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf", sha256: "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5", componentKinds: ["fee_waiver"] }
+  { documentId: "EXP-AD Request", sourceId: "official-form:EXP-AD Request", path: "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf", sha256: "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853", componentKinds: ["primary_filing"], requirement: "required", conditionDescription: null },
+  { documentId: "EXP-AD Case List", sourceId: "official-form:EXP-AD Case List", path: "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf", sha256: "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c", componentKinds: ["attachment"], requirement: "required", conditionDescription: null },
+  { documentId: "EXP-AD Order Granting", sourceId: "official-form:EXP-AD Order Granting", path: "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf", sha256: "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305", componentKinds: ["proposed_order"], requirement: "required", conditionDescription: null },
+  { documentId: "EXP-AD Order Denying", sourceId: "official-form:EXP-AD Order Denying", path: "LegalEase Illinois/EXP-AD Order Denying.pdf", sha256: "2d3039fa873801bc58bf425a2c73f489951bb82de33b11af031e8bf62df3ffa8", componentKinds: ["proposed_order"], requirement: "required", conditionDescription: null },
+  { documentId: "FW-CIV-APPLICATION", sourceId: "official-form:FW-CIV-APPLICATION", path: "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf", sha256: "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5", componentKinds: ["fee_waiver"], requirement: "conditional", conditionDescription: FEE_WAIVER_CONDITION },
+  { documentId: "FW-CIV-ORDER", sourceId: "official-form:FW-CIV-ORDER", path: "reference/source-recovery/2026-09-12-il-edu/FW-CIV-Order.pdf", sha256: "ee52f695e0ed75279875ae6bfb61c1398f8f67dadf322cea9f550c1cea6c38aa", componentKinds: ["proposed_order"], requirement: "conditional", conditionDescription: FEE_WAIVER_CONDITION }
 ];
 
 /*
@@ -191,17 +194,33 @@ const ROUTE_OUTCOME = { abbreviation: "FC", meaning: "Felony Conviction", why: "
 const NOT_MEASURED_BY_THIS_BUILDER = { knownRequiredFieldsMissing: null, requiredFactsNotCollected: null, unclassifiedBlanks: null, incompleteRows: null, requiredOptionsMissing: null, requiredComponentsMissing: null, invisibleWrites: null, protectedWrites: null, visualDefects: null };
 
 const FIXTURES = {
-  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Possession of a controlled substance", arrestDate: "03/12/2021", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
-  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line", arrestDate: "11/29/2023", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
+  // The fee-waiver branch is explicit fixture intent. It is never inferred from
+  // sponsorship, an email address, financial values or any other held fact.
+  canonical: { requestsFeeWaiver: true, full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Possession of a controlled substance", arrestDate: "03/12/2021", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
+  boundary: { requestsFeeWaiver: true, full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line", arrestDate: "11/29/2023", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
 };
+
+function sourcesForFixture(sources, fixture) {
+  const includeFeeWaiver = fixture.requestsFeeWaiver === true;
+  const selected = sources.filter((source) => source.requirement !== "conditional" || includeFeeWaiver);
+  if (!includeFeeWaiver) {
+    assert.ok(!selected.some((source) => source.documentId === "FW-CIV-APPLICATION" || source.documentId === "FW-CIV-ORDER"),
+      "a fixture without explicit fee-waiver request intent must omit both conditional fee-waiver documents");
+  }
+  return selected;
+}
 
 function resolveSources() {
   const index = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-all50/local-source-corpus-index.json"), "utf8"));
   const resolver = makeCorpusEntryResolver(index, { repoRoot: ROOT, masterLibraryRoot: process.env.MASTER_LIBRARY_SOURCE_DIR });
   return SOURCES.map((source) => {
     const entry = index.entries.find((candidate) => candidate.path === source.path);
-    assert.ok(entry, `missing committed index entry: ${source.path}`);
-    const absolute = resolver.resolve(entry);
+    const absolute = entry
+      ? resolver.resolve(entry)
+      : source.path.startsWith("reference/")
+        ? path.join(ROOT, source.path)
+        : null;
+    assert.ok(entry || source.path.startsWith("reference/"), `missing committed index entry: ${source.path}`);
     assert.ok(absolute && fs.existsSync(absolute), `source custody is not mounted: ${source.path}`);
     const bytes = fs.readFileSync(absolute);
     assert.equal(sha256(bytes), source.sha256, `source hash drift: ${source.path}`);
@@ -464,6 +483,12 @@ function selectionControlRefusal(documentId, name, page) {
 
 function knownValue(documentId, name, page, fixture) {
   const key = name.toLowerCase();
+  if (documentId === "EXP-AD Order Denying") {
+    if (name === "3 - Name") return [fixture.full, "participant.full_legal_name"];
+    if (name === "3 - Address") return [fixture.street, "participant.street_address"];
+    if (name === "3 - Telephone") return [fixture.phone, "participant.phone"];
+    if (name === "3 - Email") return [fixture.email, "participant.email"];
+  }
   if (documentId === "EXP-AD Order Granting" && name === "3 - Name") return [fixture.full, "participant.full_legal_name"];
   if (documentId === "EXP-AD Order Granting" && name === "3 - Address") return [fixture.street, "participant.street_address"];
   if (documentId === "EXP-AD Order Granting" && name === "3 - Telephone") return [fixture.phone, "participant.phone"];
@@ -498,9 +523,23 @@ function knownValue(documentId, name, page, fixture) {
  * reason and the role are carried per field now, so a court field reads as the
  * court's and a signature reads as a signature.
  */
+const DENY_ALLOWED_FIELDS = new Set([
+  "1 - County", "2 - Your name", "3 - Other name", "4 - Date of birth", "5 - Race", "6 - Gender", "7 - Case Number",
+  "3 - Name", "3 - Address", "3 - Telephone", "3 - Email", "3 - Attorney Number"
+]);
+const FEE_ORDER_ALLOWED_FIELDS = new Set([
+  "1 - County", "2 - Plaintiff/Petitioner or In RE", "3 - Defendant/Respondent", "4 - Case Number", "5 - Your Name"
+]);
+
 function protectedField(documentId, name) {
   if (clerkCaseNumber(name)) {
     return { role: "court", refusalClass: "court_prosecutor_clerk_or_agency_owned", reason: "The form reserves this case number for the Circuit Clerk" };
+  }
+  if (documentId === "EXP-AD Order Denying" && !DENY_ALLOWED_FIELDS.has(name)) {
+    return { role: "court", refusalClass: "court_prosecutor_clerk_or_agency_owned", reason: "The official Denying Order says the judge completes all denial choices, case decisions, reasons, signature and entry date; this field remains blank" };
+  }
+  if (documentId === "FW-CIV-ORDER" && !FEE_ORDER_ALLOWED_FIELDS.has(name)) {
+    return { role: "court", refusalClass: "court_prosecutor_clerk_or_agency_owned", reason: "The official FW-CIV Order says not to fill any further blank; the judge completes this field" };
   }
   if (documentId === "EXP-AD Order Granting" && ORDER_COURT_OWNED.has(name)) {
     return { role: "court", refusalClass: "court_prosecutor_clerk_or_agency_owned", reason: "The proposed Order reserves this for the judge: page 2 says \"Do not check the boxes below. The judge will check the correct boxes.\"" };
@@ -639,7 +678,8 @@ function optionalUnusedSlot(documentId, name, page) {
  * an unticked box flattens an empty stream. This writes no participant fact and
  * adds no ink. It removes ink the source never authored.
  */
-const OFFICIAL_CHECKBOX_WIDGETS_PER_PACKET = 94;
+const OFFICIAL_CHECKBOX_WIDGETS_WITHOUT_FEE_WAIVER = 94;
+const OFFICIAL_CHECKBOX_WIDGETS_WITH_FEE_WAIVER = 125;
 function preserveOfficialCheckBoxAppearances(document, form) {
   let installed = 0;
   for (const field of form.getFields()) {
@@ -866,15 +906,19 @@ async function buildPacket(sources, fixtureName, fixture) {
   packet.setModificationDate(FIXED_DATE);
   const bytes = Buffer.from(await packet.save({ useObjectStreams: false, addDefaultPage: false, objectsPerTick: Infinity }));
   const reopened = await PDFDocument.load(bytes);
-  assert.equal(reopened.getPageCount(), 13);
+  const expectedPageCount = filled.reduce((total, item) => total + item.document.getPageCount(), 0);
+  assert.equal(reopened.getPageCount(), expectedPageCount);
   assert.equal(reopened.getForm().getFields().length, 0, "flattened packet must carry no live fields");
   // FIX118, ported by FIX166. Both halves checked on the bytes that ship, not on
-  // the intention: every check-box widget the four official forms declare
+  // the intention: every check-box widget the selected official forms declare
   // received the /Off appearance they omit, and the delivered packet contains no
   // flattened appearance that paints without drawing a glyph. That second count
   // was 91 per fixture before this repair, on every one of the thirteen pages.
   const emptyOffAppearances = filled.reduce((total, item) => total + item.emptyOffAppearances, 0);
-  assert.equal(emptyOffAppearances, OFFICIAL_CHECKBOX_WIDGETS_PER_PACKET,
+  const expectedCheckboxWidgets = fixture.requestsFeeWaiver
+    ? OFFICIAL_CHECKBOX_WIDGETS_WITH_FEE_WAIVER
+    : OFFICIAL_CHECKBOX_WIDGETS_WITHOUT_FEE_WAIVER;
+  assert.equal(emptyOffAppearances, expectedCheckboxWidgets,
     `every official check-box widget must carry an /Off appearance before flatten: ${emptyOffAppearances}`);
   const strayInk = inkWithoutGlyphs(reopened);
   assert.equal(strayInk, 0, `flattened widget appearances must draw no ink of their own: ${strayInk}`);
@@ -885,17 +929,24 @@ async function buildPacket(sources, fixtureName, fixture) {
   assert.equal(delivered.formXObjects, officialWidgets,
     `the delivered bytes must carry one flattened Form XObject per official widget: ${delivered.formXObjects} for ${officialWidgets}`);
   delivered.officialWidgets = officialWidgets;
-  return { bytes, pageCount: 13, emptyOffAppearances, inkWithoutGlyphs: strayInk, delivered, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals), danglingAnnotsPruned: filled.reduce((sum, item) => sum + item.danglingAnnotsPruned, 0) };
+  return { bytes, pageCount: expectedPageCount, emptyOffAppearances, inkWithoutGlyphs: strayInk, delivered, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals), danglingAnnotsPruned: filled.reduce((sum, item) => sum + item.danglingAnnotsPruned, 0) };
 }
 
 async function build() {
   const track = controllingRecord();
   const sources = resolveSources();
+  const noFeeWaiverSources = sourcesForFixture(sources, { requestsFeeWaiver: false });
+  assert.equal(noFeeWaiverSources.length, 4, "the no-fee-waiver branch must retain only the four non-conditional forms");
+  assert.ok(!noFeeWaiverSources.some((source) => source.documentId === "FW-CIV-APPLICATION" || source.documentId === "FW-CIV-ORDER"),
+    "the no-fee-waiver branch must omit both conditional fee-waiver documents");
   const worklist = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"), "utf8"));
   const family = worklist.packetFamilies.find((entry) => entry.worklistGroupId === FAMILY_ID);
   assert.ok(family, `family absent from worklist: ${FAMILY_ID}`);
   const packets = {};
-  for (const [fixtureName, fixture] of Object.entries(FIXTURES)) packets[fixtureName] = await buildPacket(sources, fixtureName, fixture);
+  for (const [fixtureName, fixture] of Object.entries(FIXTURES)) {
+    assert.equal(fixture.requestsFeeWaiver, true, `${fixtureName} must declare the fee-waiver branch explicitly`);
+    packets[fixtureName] = await buildPacket(sourcesForFixture(sources, fixture), fixtureName, fixture);
+  }
   const routeSummary = `Sealing, under the educational-credential waiver of the waiting period, 20 ILCS 2630/5.2(c)(3)(E). This packet asks the court to SEAL. It does not ask the court to expunge anything: Request item 1, "I am requesting to expunge records", is answered No, and item 12, "Seal Records", is answered Yes. The record states the waiver this way: ${EDUCATION_WAIVER_MECHANISM}`;
   const fieldMap = { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals };
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
@@ -933,6 +984,12 @@ async function build() {
 ## Route selected
 
 ${routeSummary}
+
+## Forms included in this packet
+
+This packet includes the EXP-AD Request, EXP-AD Case List, EXP-AD Order Granting, and the required EXP-AD Order Denying. The Denying Order is included alongside the Granting Order; it is not an election of the expected outcome, and the judge completes its denial choices, reasons, signature and entry date.
+
+These fixtures explicitly request a fee waiver, so they also include the FW-CIV-APPLICATION and the official three-page FW-CIV-ORDER. Include both fee-waiver forms together only if you request a fee waiver; otherwise omit both.
 
 ## The Section 22 ground this packet ticked
 
@@ -1034,16 +1091,16 @@ Two of those this packet cannot help with at all: an Illinois court cannot reach
   // of the delivered paper: the packet had already made that election.
 
   writeJson(path.join(OUT, "production-field-map.json"), fieldMap);
-  writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
-  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedShowTextGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: packet.delivered.appearances, flattenedWidgetAppearancesDefinition: "Flattened widget Form XObjects in the delivered bytes that draw at least one non-whitespace glyph. The total number of flattened widget Form XObjects, blank ones included, is published separately as flattenedWidgetFormXObjectsInDeliveredBytes.", flattenedWidgetFormXObjectsInDeliveredBytes: packet.delivered.formXObjects, officialWidgetsDeclaredByTheFourPinnedForms: packet.delivered.officialWidgets, flattenedAppearancesPaintingWithoutDrawingAGlyph: packet.inkWithoutGlyphs, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, readFromOutputBytesNote: "FIX166: the first two ARE read from the saved bytes now, because the FIX118 repair reopens them anyway. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays null, not zero: this builder performs no geometry pass over the delivered glyph boxes, and counting it is an independent reader\u0027s job. A counter nobody measured is null, never 0.", minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), danglingAnnotationReferencesPruned: packet.danglingAnnotsPruned, refusedFieldsWithInk: [] })) });
+  writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds, requirement, conditionDescription }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds, requirement, conditionDescription })) });
+  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, requirement: source.requirement, conditionDescription: source.conditionDescription, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedShowTextGlyphsReadFromOutputBytes: packet.delivered.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: packet.delivered.appearances, flattenedWidgetAppearancesDefinition: "Flattened widget Form XObjects in the delivered bytes that draw at least one non-whitespace glyph. The total number of flattened widget Form XObjects, blank ones included, is published separately as flattenedWidgetFormXObjectsInDeliveredBytes.", flattenedWidgetFormXObjectsInDeliveredBytes: packet.delivered.formXObjects, officialWidgetsDeclaredByPinnedForms: packet.delivered.officialWidgets, flattenedAppearancesPaintingWithoutDrawingAGlyph: packet.inkWithoutGlyphs, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null, readFromOutputBytesNote: "FIX166: the first two ARE read from the saved bytes now, because the FIX118 repair reopens them anyway. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays null, not zero: this builder performs no geometry pass over the delivered glyph boxes, and counting it is an independent reader\u0027s job. A counter nobody measured is null, never 0.", minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), danglingAnnotationReferencesPruned: packet.danglingAnnotsPruned, refusedFieldsWithInk: [] })) });
   const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
-  writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
-  writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
+  writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds, requirement: source.requirement, conditionDescription: source.conditionDescription })) })) });
+  writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId, requirement: source.requirement, conditionDescription: source.conditionDescription }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
 
   fs.writeFileSync(path.join(OUT, "participant-instructions.md"), participantInstructions);
   // FIX166, FEE_AND_WAIVER. The filing sheet quotes the record too, rather than
   // paraphrasing a fee schedule beside it.
-  fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
+  fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Forms.** The packet carries the required EXP-AD Request, EXP-AD Case List, EXP-AD Order Granting, and EXP-AD Order Denying. When you request a fee waiver, it also carries the FW-CIV-APPLICATION and the official three-page FW-CIV-ORDER; include those two forms together. If you do not request a fee waiver, omit both.\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed orders, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. All nine are null because this file measures none of them; they used to ship as eight zeros and one null, which reported a clean measurement nobody had taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   /* FIX173: the last write has happened, so read the delivered packet back
    * and assert it before this build may report success. */
@@ -1103,8 +1160,34 @@ function assertDeliveredPacket() {
     "the proposed Order half this route does not use must remain wholly blank");
   assert.equal(writes.filter((row) => row.documentId === "EXP-AD Order Granting" && row.fieldName === ACTIVE_ORDER_CELL).length, 1,
     "the proposed Order must carry the case number in the sealing half");
+  const denialWrites = writes.filter((row) => row.documentId === "EXP-AD Order Denying");
+  assert.ok(denialWrites.length > 0, "the required Denying Order must be present in the actual-write report");
+  assert.ok(denialWrites.some((row) => row.fieldName === "3 - Name" && row.factId === "participant.full_legal_name"),
+    "the Denying Order recipient block must carry the held participant name");
+  assert.ok(denialWrites.some((row) => row.fieldName === "3 - Address" && row.factId === "participant.street_address"),
+    "the Denying Order recipient block must carry the held participant address");
+  assert.ok(denialWrites.some((row) => row.fieldName === "3 - Telephone" && row.factId === "participant.phone"),
+    "the Denying Order recipient block must carry the held participant telephone");
+  assert.ok(denialWrites.some((row) => row.fieldName === "3 - Email" && row.factId === "participant.email"),
+    "the Denying Order recipient block must carry the held participant email");
+  assert.equal(denialWrites.some((row) => row.fieldName === "3 - Attorney Number"), false,
+    "the Denying Order attorney number must remain blank");
+  assert.equal(denialWrites.some((row) => row.fieldName === "7 - Case Number"), false,
+    "the Denying Order clerk case number must remain blank");
+  assert.equal(denialWrites.some((row) => !DENY_ALLOWED_FIELDS.has(row.fieldName)), false,
+    "the Denying Order judge-owned fields must remain blank");
+  const feeOrderWrites = writes.filter((row) => row.documentId === "FW-CIV-ORDER");
+  assert.ok(feeOrderWrites.length > 0, "an explicit fee-waiver request must include the official FW-CIV Order");
+  assert.equal(feeOrderWrites.some((row) => row.fieldName === "4 - Case Number"), false,
+    "every FW-CIV Order case-number widget must remain blank for the clerk");
+  assert.equal(feeOrderWrites.some((row) => !FEE_ORDER_ALLOWED_FIELDS.has(row.fieldName)), false,
+    "the FW-CIV Order judge-owned fields must remain blank");
   assert.equal(writes.filter((row) => row.documentId === "EXP-AD Case List" && /^arrest([2-9]|[1-6]\d|70)$/.test(row.fieldName)).length, 0,
     "unused Case List row slots must remain wholly blank");
+  const reportedDocuments = new Set(report.documents.map((document) => document.documentId));
+  for (const documentId of SOURCES.map((source) => source.documentId)) {
+    assert.ok(reportedDocuments.has(documentId), `actual-write report must carry component ${documentId}`);
+  }
   const selected = requestWrites.filter((row) => row.isSelectionControl).map((row) => row.fieldName);
   assert.ok(selected.includes("12 - Seal Records"), "the sealing branch must be selected");
   assert.ok(selected.includes("Page 1 - Request to Expunge Records"), "item 1 must be answered on a sealing route, not left blank");
@@ -1128,6 +1211,9 @@ function assertGuidance(fieldMap, instructions) {
     "an interior AcroForm name is not a caption a participant can find on the page");
   assert.ok(instructions.includes(PRINTED_LEGEND), "the guide must print the sealing Outcome legend so the participant can check the cell against it");
   for (const phrase of ["ISP statewide transcript", "Compare the transcript against every certified disposition", "expunge-or-seal election", "educational credential", "hearing date"]) assert.ok(instructions.includes(phrase), `required guidance must include: ${phrase}`);
+  for (const phrase of ["EXP-AD Order Denying", "FW-CIV-APPLICATION", "FW-CIV-ORDER", "explicitly request a fee waiver", "omit both"]) {
+    assert.ok(instructions.includes(phrase), `component guidance must include: ${phrase}`);
+  }
 
   /*
    * FIX166. The guidance asserts are read from the controlling record instead of
