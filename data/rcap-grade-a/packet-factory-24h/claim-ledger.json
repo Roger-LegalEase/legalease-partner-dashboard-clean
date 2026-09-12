@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "7b62d1f44ad96c01da6332c0c56be41732670e35",
+  "generatedAtCommit": "ab73b3f201fa1e938d230d1f18909a31d9a5b632",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5811,18 +5811,17 @@
     {
       "subjectType": "packet-family",
       "subjectId": "ma-bmc-multi-set",
-      "itemId": null,
       "familyId": "ma-bmc-multi-set",
+      "itemId": null,
       "familyIds": [
         "ma-bmc-multi-set"
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX116",
+      "lane": "FIXMA1",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T11:23:25.969Z",
-      "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7533,6 +7532,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "nh_petition_vacated-set",
+      "itemId": null,
+      "familyId": "nh_petition_vacated-set",
+      "familyIds": [
+        "nh_petition_vacated-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_vacated-set",
       "familyId": "nh_petition_vacated-set",
       "itemId": null,
       "familyIds": [
@@ -7651,7 +7665,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.470Z"
@@ -7682,7 +7696,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T22:47:35.962Z"
@@ -8226,7 +8240,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-07T07:42:02.829Z"
@@ -9319,7 +9333,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T18:42:33.619Z"
@@ -15566,24 +15580,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nh_petition_vacated-set",
-      "itemId": null,
-      "familyId": "nh_petition_vacated-set",
-      "familyIds": [
-        "nh_petition_vacated-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "e03cafc3532809042effc62c105a84c5ca297844d36472aa7e8983286f67bb3d",
+  "claimsDigest": "e5b80a0a5491189266f77397cd20443351280efbbc34bfc947c3a55572f23431",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -64214,6 +64213,17 @@
       "previouslyReleasedAt": "2026-09-11T10:18:49.043Z",
       "transferredAt": "2026-09-12T01:36:21.140Z",
       "reason": "Captain assigns one bounded worker to demonstrated shared IN insert-assembly/choice-preservation defect; historical returns preserved. warp-20260912/in-two/claim-handoff.json"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIXMA1",
+      "previouslyReleasedAt": "2026-09-10T11:23:25.969Z",
+      "transferredAt": "2026-09-12T03:29:54.823Z",
+      "reason": "Sole bounded implementation worker assigned native VF09 current-byte preflight failures; predecessor released, no extant competing worktree/process; preserve historical returns and approved custom source treatment."
     }
   ],
   "grants": [
