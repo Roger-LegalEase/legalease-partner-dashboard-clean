@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-native-verifier-returns/v1",
+  "preparedOn": "2026-09-12",
+  "laneId": "FIXNH1",
+  "status": "BLOCKED_SOURCE",
+  "rows": [
+    {
+      "itemId": "nh_petition_vacated-set",
+      "familyId": "nh_petition_vacated-set",
+      "status": "BLOCKED_SOURCE",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "claim": {
+        "grantSetId": "80999a995c5abab5",
+        "workerId": "FIXNH1"
+      },
+      "assignedObligations": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "ARTIFACTS",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-nh-vacated-semantic-fail-20260912.json",
+        "sha256": "8c9879283b203378de8f9cdb1fb647a012e953960eba2caeec8ef1d8a499d777",
+        "preserved": true
+      },
+      "actualBlocker": "The governing decision requires official NHJB-2886-DFPe, but repository custody contains only obsolete NHJB-2311 and the official NH judiciary endpoint returns HTTP 403 HTML instead of the required PDF bytes. No authoritative binary exists to hash, bind, assemble, map or test.",
+      "sourceDependency": {
+        "sourceId": "official-form:NHJB-2886-DFPe",
+        "formNumber": "NHJB-2886-DFPe",
+        "title": "Motion to Waive Filing Fees",
+        "authoritativeBinaryRequired": true,
+        "authoritativeBinaryAcquired": false,
+        "sha256": null,
+        "revisionShownByOfficialSearchIndex": "01/01/2018",
+        "officialUrl": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-05/nhjb-2886-dfpe-motiontowaivefilingfee.pdf",
+        "huntEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nh-vacated-source-blocker/source-hunt.json"
+      },
+      "packetBytesChanged": false,
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "436ed4d5ddff113fbed55aa7b58370745a31a38ce9083e49a84f00372ed9e376",
+          "changed": false
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "f53a1a29120ce9bea9c0c5d049846898909bdb29e36358a659021f9ccb1b56c2",
+          "changed": false
+        }
+      ],
+      "countersAfter": null,
+      "countersAfterBasis": "No repaired packet was built. The frozen independent failure remains authoritative: 50 known/partial omissions, one missing component and one missing option among its measured lower bounds.",
+      "rasterState": null,
+      "rasterManifest": null,
+      "independentVerification": "NOT_REQUESTED_NO_CURRENT_CANDIDATE",
+      "remainingAction": "Obtain authoritative NHJB-2886-DFPe bytes through governed source custody, then execute all eight implementation repairs and current-byte gates together.",
+      "grantsNothing": "No substitute form was used, no historical evidence changed, no route opened and no terminal or visual status is claimed."
+    }
+  ]
+}
