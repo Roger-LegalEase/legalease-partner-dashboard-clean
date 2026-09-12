@@ -15,25 +15,23 @@ It contains the Rhode Island Superior Court's own published form — Superior Co
 
 | Component | What it is |
 | --- | --- |
-| `ri_first_offender_felony-primary-filing-1` | the state's own motion, affidavit and filing instructions, as published, with your name and date of birth written into both captions and every case fact left for you |
-| `ri_first_offender_felony-proposed-order-2` | the proposed order the court's own instruction 7 tells you to bring to the hearing. Rhode Island publishes no template for it, so it is composed here; it says on its face that it is not an official Rhode Island form, and every line that is the court's is blank |
-| `ri_first_offender_felony-notice-package-3` | who must be notified, when, in what order, and why the certification line on the motion is completed only after notice has actually been given |
-| `ri_first_offender_felony-filing-instructions-4` | where it goes, which Part of the affidavit is yours, what the record says about cost, what to get first, and where self-help ends |
-| `ri_first_offender_felony-certified-copy-delivery-checklist-5` | the three certified copies the clerk prepares after a grant, and the two you must deliver yourself |
+| Superior Court Motion, Affidavit and Instructions to Expunge or Seal Record - Felony | the state's own motion, affidavit and filing instructions, as published, with your name and date of birth written into both captions and every case fact left for you |
+| Order for Expungement or Sealing of Record (proposed, prepared by the moving party) | the proposed order the court's own instruction 7 tells you to bring to the hearing. Rhode Island publishes no template for it, so it is composed here; it says on its face that it is not an official Rhode Island form, and every line that is the court's is blank |
+| Notice to the Office of the Attorney General and the charging police | who must be notified, when, in what order, and why the certification line on the motion is completed only after notice has actually been given |
+| Filing instructions | where it goes, which Part of the affidavit is yours, what the record says about cost, what to get first, and where self-help ends |
+| Certified copies of the order - what to deliver, and to whom | the three certified copies the clerk prepares after a grant, and the two you must deliver yourself |
 
 ## The Part of the affidavit that is yours
 
-Page 1 of the court's form, instruction 4, tells you to identify the Part of the affidavit that applies to your motion. For this route it is **Part Two: Single Conviction**, which applies where page 1 of this form says Part Two is for a person convicted of a single FELONY offence who has not previously been convicted of, or placed on probation for, a felony or a misdemeanor - while the fourth box of Part Two itself reads MISDEMEANOR. The two texts disagree and this packet resolves nothing; see the discrepancy note in the participant instructions.
+Page 1 of the court's form, instruction 4, tells you to identify the Part of the affidavit that applies to your motion. For this route it is **Part Two: Single Conviction**, which applies where page 1 of Superior-55 directs a person seeking to expunge a single felony conviction as a first offender to Part Two; instruction 5 requires the participant to check only each printed statement that is true, and the affidavit must be executed before the authorized notary or clerk.
 
-Instruction 5 then tells you to put a check mark in the box for each statement in that Part that is **true**. Read them one by one. Mark a statement only if it is true of your case. If one of them is not true, do not mark it and do not file until you have advice: an unmarked box is a gap a court can ask you about, and a marked box that is not true is a false statement under oath.
+Instruction 5 tells you to put a check mark beside each statement in Part Two that is **true**. Read each statement and mark only what is true. The fourth statement keeps the court's printed misdemeanor wording and is addressed below; leave it unmarked if that wording is not true. If any other required Part Two statement is not true, stop and get case-specific advice before filing. Never mark an untrue sworn statement.
 
-The boxes in the other Parts of the same affidavit belong to other statutory branches. They are recorded in this packet's field map as outside this route, and you leave them alone.
+The boxes in the other Parts of the same affidavit belong to other statutory branches. Leave them alone.
 
 ## Read this before you swear to anything
 
-PART TWO OF THIS FORM DISAGREES WITH THE FORM'S OWN INSTRUCTION PAGE, AND YOU MUST NOT SWEAR PAST IT. Page 1 of Superior-55 says: "Part Two: If you were convicted of a single FELONY offense and have not been previously convicted of or placed on probation for a felony or a misdemeanor." The fourth box of Part Two, on page 3 of the same form, reads: "That I was convicted of a single MISDEMEANOR offense, and I have not been previously convicted of or placed on probation for a felony or a misdemeanor." Those two texts cannot both describe your case. The rest of Part Two carries the TEN-year period, which is the felony period, and Rhode Island publishes a separate Superior Court misdemeanor form, so the box reads like a drafting error carried over from the District Court form. LegalEase does not decide that and has marked nothing. Do not mark a box that says something untrue of your case: ask the clerk of the Superior Court division you are filing in, or a lawyer, which text that court applies, before you swear to this affidavit. WHAT WOULD SETTLE IT IS NOT IN THIS PACKET. No corrected affidavit wording, no attachment and no court-approved handling for a felony filer is written here, because none is established by any source this build holds: that comes from a correction by the Rhode Island Judiciary, which publishes this form, or from a qualified legal determination for your case. Nothing in this packet permits you to swear to a statement that is not true of your case.
-
-ONE MORE NUMBER THAT DOES NOT AGREE WITH ITSELF. The committed record's exclusion list for this route carries the sentence "Any felony or misdemeanor arrest or conviction during the five-year lookback", while the same record's waiting-period entry for this route says TEN years from completion of sentence and a TEN-year clean lookback - and the Part Two boxes on the court's own form say ten years in both places. The exclusion sentence reads like a copy from the misdemeanor route. Ten years is what the form asks you to swear to. Do not rely on five.
+PART TWO IS THE PART FOR THIS ROUTE. Page 1 of Superior-55 says: "Part Two: If you were convicted of a single FELONY offense and have not been previously convicted of or placed on probation for a felony or a misdemeanor." This single-felony first-offender packet therefore uses Part Two. The fourth printed statement in Part Two still says "single MISDEMEANOR offense." That source wording is preserved and no box is selected for you. Follow instruction 5: check only each statement that is true of your case, do not check the fourth statement if its printed misdemeanor wording is not true, and execute the affidavit before the authorized notary or clerk. If you cannot truthfully make a required statement, stop and get case-specific advice before filing. Do not alter the court's wording or swear to an untrue statement.
 
 ## Documents you must obtain first
 
@@ -48,32 +46,34 @@ ONE MORE NUMBER THAT DOES NOT AGREE WITH ITSELF. The committed record's exclusio
 
 **A clear report is not proof that there is nothing to find.** The state check reports what Rhode Island holds; it does not establish that no relevant arrest, charge or disposition exists anywhere. You still need the docket from the court that heard your case, and the sworn statements in the affidavit are still yours to check against both records.
 
-**Where those requirements come from.** That Attorney General page was read on 2026-09-07 in the independent review recorded at `data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json`. This build did not fetch it — riag.ri.gov is refused by this container's egress proxy — so read the page yourself before you go: a cost or a procedure can change and this packet would not know. The request is yours to make and any signature or release on it is yours; LegalEase never requests, receives or holds your criminal history.
+**Check the current official instructions.** The Attorney General publishes these requirements at <https://riag.ri.gov/i-want/get-background-check>. Read that page before you go because a cost or procedure can change. The request is yours to make and any signature or release on it is yours; LegalEase never requests, receives or holds your criminal history.
 
 ## What it costs to file, and what is not established
 
-The Rhode Island **Superior Court** says on its own expungement FAQ that there is no expungement filing fee. That is the Superior Court's answer, read there on 2026-09-07 in the independent review named above; this build did not fetch the page, because courts.ri.gov is refused by this container's egress proxy. A no-fee filing does not cancel any fine, cost, restitution or assessment already ordered in your case.
+The Rhode Island **Superior Court** says on its own expungement FAQ, <https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx>, that there is no expungement filing fee. A no-fee filing does not cancel any fine, cost, restitution or assessment already ordered in your case.
+
+## Waiting period and exclusions
+
+- Single felony conviction, first offender: 10 years from completion of sentence, including completion of probation
+- Lookback free of any felony or misdemeanor arrest or conviction: 10 years
+- Any conviction for a crime of violence as statutorily defined: murder, manslaughter, first-degree arson, kidnapping with intent to extort, robbery, larceny from the person, first- and second-degree sexual assault, first- and second-degree child molestation, assault with intent to murder, assault with intent to rob, assault with intent to commit first-degree sexual assault, burglary, and entering a dwelling with intent to commit murder, robbery, sexual assault or larceny.
+- Any person previously convicted of, or placed on probation for, a felony or misdemeanor; prior probation alone defeats first-offender status.
+- Any felony or misdemeanor arrest or conviction during the ten-year lookback. An arrest alone, without conviction, defeats eligibility.
+- Any pending criminal proceeding.
+- Court-imposed or court-related financial obligations that are unpaid and not waived or reduced by court order.
+- Federal, out-of-state, military and tribal records.
 
 ## The items you must supply
 
-Each is a blank on the document named beside it. Fill every one that belongs to the document you are filing, from the record itself, never from memory.
+Each is a blank on the document named beside it. Fill every required item from the record itself, never from memory. In a repeating charge table, complete every cell of each row you actually use and leave the remaining rows wholly blank.
 
-### `ri_first_offender_felony-primary-filing-1` — Superior Court Motion, Affidavit and Instructions to Expunge or Seal Record - Felony
+### Superior Court Motion, Affidavit and Instructions to Expunge or Seal Record - Felony
 
 | The blank on the document | What to write |
 | --- | --- |
 | Row 1 of the charge table - the count number | the count number for this row, copied from the court's own docket |
-| Row 2 of the charge table - the count number | the count number for this row, copied from the court's own docket |
-| Row 3 of the charge table - the count number | the count number for this row, copied from the court's own docket |
-| Row 4 of the charge table - the count number | the count number for this row, copied from the court's own docket |
 | Row 1 of the charge table - the charge | the charge for this row, written exactly as the court's own docket writes it |
-| Row 2 of the charge table - the charge | the charge for this row, written exactly as the court's own docket writes it |
-| Row 3 of the charge table - the charge | the charge for this row, written exactly as the court's own docket writes it |
-| Row 4 of the charge table - the charge | the charge for this row, written exactly as the court's own docket writes it |
 | Row 1 of the charge table - how that count ended | how that count ended, written exactly as the court's own docket writes it |
-| Row 2 of the charge table - how that count ended | how that count ended, written exactly as the court's own docket writes it |
-| Row 3 of the charge table - how that count ended | how that count ended, written exactly as the court's own docket writes it |
-| Row 4 of the charge table - how that count ended | how that count ended, written exactly as the court's own docket writes it |
 | Bureau of Criminal Identification number, in the caption of the motion | your BCI number, copied from the Rhode Island criminal history record you obtain from the Department of Attorney General's Bureau of Criminal Identification |
 | Bureau of Criminal Identification number, in the caption of the affidavit | your BCI number, the same one you wrote on the motion |
 | Case number of the case the motion asks to expunge, in the caption of the motion | the case number exactly as the court's own docket writes it |
@@ -81,16 +81,13 @@ Each is a blank on the document named beside it. Fill every one that belongs to 
 | Date on which notice of this motion was given, on the certification line | the date on which you actually gave notice - fill it in after you have given notice, never before |
 | Name of the police that originally brought this charge, on the certification line | the name of the police force that brought the charge, copied from the court's own docket |
 
-### `ri_first_offender_felony-proposed-order-2` — Order for Expungement or Sealing of Record (proposed, prepared by the moving party)
+### Order for Expungement or Sealing of Record (proposed, prepared by the moving party)
 
 | The blank on the document | What to write |
 | --- | --- |
 | Bureau of Criminal Identification number in the caption of the proposed order | your BCI number, the same one you wrote on the motion |
 | Case number in the caption of the proposed order | the case number, the same one you wrote on the motion |
 | Line 1 of the counts, charges and dispositions the proposed order covers | the count, the charge and how it ended, copied from Boxes 1, 2 and 3 of your motion |
-| Line 2 of the counts, charges and dispositions the proposed order covers | the count, the charge and how it ended, copied from Boxes 1, 2 and 3 of your motion |
-| Line 3 of the counts, charges and dispositions the proposed order covers | the count, the charge and how it ended, copied from Boxes 1, 2 and 3 of your motion |
-| Line 4 of the counts, charges and dispositions the proposed order covers | the count, the charge and how it ended, copied from Boxes 1, 2 and 3 of your motion |
 | County and judicial complex of the proposed order caption | the judicial complex where your case is heard, the same one you marked on the motion |
 
 ## The boxes you mark yourself
@@ -115,7 +112,7 @@ None of these is marked for you, and none of them is a choice this route makes.
 ## What you do, in order
 
 1. **Get your Rhode Island BCI criminal history record** from the Department of Attorney General's Bureau of Criminal Identification — the state check, requested for an expungement, on the terms set out above — and **get the docket and judgment** from the clerk of the court that handled the case. Every blank in the table above comes off one of those two records.
-2. **Fill in the motion**: the case number, the BCI number, the judicial complex, and every count, charge and disposition you are asking the court to expunge.
+2. **Fill in the motion**: the case number, the BCI number, the judicial complex, and every count, charge and disposition you are asking the court to expunge. Complete every cell of each row you use, leave unused additional rows wholly blank, and copy the same used rows to the proposed order.
 3. **Fill in the affidavit's Part Two: Single Conviction** — the boxes that are true of your case — and leave the other Parts alone.
 4. **Sign the affidavit in front of a notary public or a clerk.** It is sworn, and the signature must be witnessed in person. Do not sign it in advance and do not date it in advance; the notary completes the whole certificate at the foot of it.
 5. **File the motion, the affidavit and the proposed order** with the clerk of the court where the case was heard.
@@ -136,7 +133,7 @@ None of these is marked for you, and none of them is a choice this route makes.
 
 ## When to stop and get help instead
 
-The committed track registry for this route records these as the points where self-help ends, in its own words. If any of them describes your case, stop here and get advice before you file:
+If any of these describes your case, stop here and get advice before you file:
 
 - Any crime of violence, which bars conviction expungement outright.
 - Any prior conviction or prior probation, which defeats first-offender status.
@@ -152,5 +149,3 @@ The committed track registry for this route records these as the points where se
 ## What this packet is not
 
 It is Rhode Island's own motion and affidavit, a proposed order composed for the hearing because the state publishes none, and instructions. It is not legal advice, it is not filed for you, and it does not decide whether you are eligible. Expungement under Chapter 12-1.3 does not resolve immigration consequences and does not reach federal, out-of-state, military or tribal records.
-
-_Route: obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-1-bci-and-docket · obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-2-court-motion-and-affidavit · obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies_

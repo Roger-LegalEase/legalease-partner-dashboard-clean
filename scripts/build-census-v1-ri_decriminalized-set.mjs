@@ -225,6 +225,8 @@ const {
 } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const LEGAL_BLOCKED_RESOLUTION =
+  "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json";
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 
@@ -938,6 +940,7 @@ const ORDER_COURT_BLOCK_NOTICE =
  */
 const INTERNAL_RECORD_REFERENCE_PREFIX = "INTERNAL RECORD REFERENCE, not part of any filing";
 function machineRouteTrailer(route, surface) {
+  if (route.omitMachineRouteTrailerFromParticipantArtifacts === true) return [];
   if (route.machineRouteTrailerIsInternalRecordText !== true) {
     return [`Route: ${route.routeKeys.join(" ; ")}`];
   }
@@ -1207,10 +1210,12 @@ function feeSection(route) {
         + "If your case is in the District Court or the Family Court, ask that court's clerk to confirm that it "
         + "applies to your filing before you go. No dollar figure appears on the court's motion form, and none "
         + "is printed here.", "");
-      L.push("That FAQ answer was read again on 2026-09-07, in the independent review recorded at "
-        + "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json. This build did not "
-        + "fetch the page: courts.ri.gov is refused by this container's egress proxy, so no bytes of it are held "
-        + "here and the answer reaches this packet through committed records rather than through a fetch.", "");
+      if (route.omitEngineeringHistoryFromParticipantArtifacts !== true) {
+        L.push("That FAQ answer was read again on 2026-09-07, in the independent review recorded at "
+          + "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json. This build did not "
+          + "fetch the page: courts.ri.gov is refused by this container's egress proxy, so no bytes of it are held "
+          + "here and the answer reaches this packet through committed records rather than through a fetch.", "");
+      }
       if (DISTRICT_COURT_CHARGE_NOT_ESTABLISHED.has(route.trackId)) {
         L.push("WHAT IS NOT ESTABLISHED, AND YOU SHOULD NOT ASSUME IT. Your case is in the DISTRICT COURT, and "
           + "no District Court filing-fee schedule is held by this repository. The Superior Court's no-fee "
@@ -1232,9 +1237,13 @@ function feeSection(route) {
     }
     L.push("A SEPARATE MONEY QUESTION, WHICH IS NOT THE FILING FEE. Court-imposed and court-related fines, fees, "
       + "costs, assessments and charges on the underlying case must be satisfied in full - the affidavit asks you "
-      + "to swear to that. The committed record adds that those obligations may be waived or reduced by court "
-      + "order, and that a waiver or reduction satisfies the eligibility condition. If you cannot pay them, that "
-      + "is a question to raise with the court rather than a reason to swear that they are paid.", "");
+      + "to swear to that. "
+      + (route.omitEngineeringHistoryFromParticipantArtifacts === true
+        ? "A court order may waive or reduce those obligations, and the resulting court-ordered balance controls. "
+        : "The committed record adds that those obligations may be waived or reduced by court order, and that a "
+          + "waiver or reduction satisfies the eligibility condition. ")
+      + "If you cannot pay them, that is a question to raise with the court rather than a reason to swear that "
+      + "they are paid.", "");
   }
   return L;
 }
@@ -1246,7 +1255,11 @@ function filingInstructionsBody(route, facts) {
   L.push("FILING INSTRUCTIONS", route.legalName, "");
   L.push(`Prepared for: ${name}`, "");
   L.push("WHAT IS IN THIS PACKET.", "");
-  for (const c of route.components) L.push(`- ${c.id}: ${c.blurb}`);
+  for (const c of route.components) {
+    L.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+      ? `- ${c.title}: ${c.blurb}`
+      : `- ${c.id}: ${c.blurb}`);
+  }
   L.push("");
   L.push(`THE ROUTE. ${t.publicName}. ${route.legalName}. Authority: ${t.authority.join("; ")}.`, "");
   L.push(t.mechanism, "");
@@ -1263,8 +1276,13 @@ function filingInstructionsBody(route, facts) {
     + "case is pending against you, and your own character. LegalEase holds no Rhode Island criminal history "
     + "record and no court docket for anyone, and it will not swear for you. Read each statement in your Part, "
     + "and mark it only if it is true of your case.", "");
-  L.push("If a statement in your Part is not true of your case, do not mark it and do not file until you have "
-    + "advice. An unmarked box is a gap; a marked box that is not true is a false statement under oath.", "");
+  L.push(route.bindingDecision
+    ? "Do not mark any statement that is not true. The fourth Part Two statement keeps the court's printed "
+      + "misdemeanor wording and is addressed below; do not treat that source wording as an unresolved choice "
+      + "of affidavit Part. If any other statement required for Part Two is not true, stop and get case-specific "
+      + "advice before filing. A marked box that is not true is a false statement under oath."
+    : "If a statement in your Part is not true of your case, do not mark it and do not file until you have "
+      + "advice. An unmarked box is a gap; a marked box that is not true is a false statement under oath.", "");
   L.push("WHERE IT IS SWORN. " + (t.rules.notarization ?? "") + " " + (t.rules.participantSignature ?? ""), "");
   L.push("The whole notarial certificate at the foot of the affidavit - the state, the county, the day, the "
     + "month, the year, the name of the person who appeared, the identification relied on, the notary's "
@@ -1275,14 +1293,21 @@ function filingInstructionsBody(route, facts) {
   for (const d of t.documents) L.push(`- ${d.name}. From: ${d.from}. ${d.how}`);
   L.push("");
   if (BCI_EXPUNGEMENT_PURPOSE_TRACKS.has(route.trackId)) {
-    L.push("WHERE THE BCI INSTRUCTIONS ABOVE COME FROM, AND WHAT WAS NOT CHECKED HERE. The acquisition "
-      + "requirements and the $5 state-check cost are the Rhode Island Department of Attorney General's own, "
-      + "published at https://riag.ri.gov/i-want/get-background-check. That page was read on 2026-09-07 in the "
-      + "independent review recorded at "
-      + "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json. THIS BUILD DID NOT "
-      + "FETCH IT: riag.ri.gov is refused by this container's egress proxy, so no bytes of that page are held "
-      + "here. Read the page yourself before you go, because a cost or a procedure can change and this packet "
-      + "would not know.", "");
+    if (route.omitEngineeringHistoryFromParticipantArtifacts === true) {
+      L.push("CURRENT BCI INSTRUCTIONS. The acquisition requirements and the $5 state-check cost are published "
+        + "by the Rhode Island Department of Attorney General at "
+        + "https://riag.ri.gov/i-want/get-background-check. Read that official page before you go because a cost "
+        + "or procedure can change.", "");
+    } else {
+      L.push("WHERE THE BCI INSTRUCTIONS ABOVE COME FROM, AND WHAT WAS NOT CHECKED HERE. The acquisition "
+        + "requirements and the $5 state-check cost are the Rhode Island Department of Attorney General's own, "
+        + "published at https://riag.ri.gov/i-want/get-background-check. That page was read on 2026-09-07 in the "
+        + "independent review recorded at "
+        + "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json. THIS BUILD DID NOT "
+        + "FETCH IT: riag.ri.gov is refused by this container's egress proxy, so no bytes of that page are held "
+        + "here. Read the page yourself before you go, because a cost or a procedure can change and this packet "
+        + "would not know.", "");
+    }
     L.push("THE $5 IS NOT A COURT FEE, AND IT IS NOT A COURT OBLIGATION. It is what the state charges for the "
       + "criminal records check itself. It is separate from anything the court charges to file this motion, and "
       + "separate again from the fines, costs, restitution and assessments ordered in your case.", "");
@@ -1293,7 +1318,9 @@ function filingInstructionsBody(route, facts) {
     L.push("EVERY SIGNATURE AND RELEASE ON THAT REQUEST IS YOURS. LegalEase does not request, receive, hold or "
       + "authenticate your criminal history, and it does not sign a release for you.", "");
   }
-  L.push("THE WAITING PERIOD AND THE LOOKBACK, AS THE COMMITTED RECORD STATES THEM.", "");
+  L.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+    ? "THE WAITING PERIOD AND THE LOOKBACK FOR THIS ROUTE."
+    : "THE WAITING PERIOD AND THE LOOKBACK, AS THE COMMITTED RECORD STATES THEM.", "");
   for (const w of t.waits) L.push(`- ${w}`);
   L.push("");
   L.push("THE HEARING, AND THE PAGE YOU MUST NOT LEAVE AT HOME.", "");
@@ -1308,11 +1335,15 @@ function filingInstructionsBody(route, facts) {
       ?? "A DISAGREEMENT ON THE COURT'S OWN FORM. READ THIS BEFORE YOU SWEAR TO ANYTHING.", "");
     for (const d of route.discrepancies) L.push(d, "");
   }
-  L.push("WHO IS EXCLUDED FROM THIS ROUTE, IN THE COMMITTED RECORD'S OWN WORDS.", "");
+  L.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+    ? "WHO IS EXCLUDED FROM THIS ROUTE."
+    : "WHO IS EXCLUDED FROM THIS ROUTE, IN THE COMMITTED RECORD'S OWN WORDS.", "");
   for (const e of t.exclusions) L.push(`- ${e}`);
   L.push("");
   L.push("WHEN TO STOP AND GET HELP INSTEAD.", "");
-  L.push("The committed track registry records these as the points where self-help ends, in its own words:", "");
+  L.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+    ? "These are the points where self-help ends:"
+    : "The committed track registry records these as the points where self-help ends, in its own words:", "");
   for (const s of t.stops) L.push(`- ${s}`);
   L.push("");
   if (route.singleGuidanceComponent) {
@@ -1333,9 +1364,13 @@ function noticePackageBody(route, facts) {
   L.push(`Prepared for: ${name}`, "");
   L.push("This page is guidance. It is not a filing and there is nothing here to hand to a clerk.", "");
   L.push(...noticeSection(route));
-  L.push("WHAT THE COMMITTED RECORD SAYS ABOUT SERVICE.", "");
+  L.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+    ? "SERVICE."
+    : "WHAT THE COMMITTED RECORD SAYS ABOUT SERVICE.", "");
   L.push(route.track.rules.service ?? "", "");
-  L.push("WHAT THE COMMITTED RECORD SAYS ABOUT THE HEARING.", "");
+  L.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+    ? "THE HEARING."
+    : "WHAT THE COMMITTED RECORD SAYS ABOUT THE HEARING.", "");
   L.push(route.track.rules.notice ?? "", "");
   L.push("Two of the findings in that sentence - good moral character, and rehabilitation to the court's "
     + "satisfaction - are the court's to make. They are not facts LegalEase can supply and nothing in this "
@@ -1639,33 +1674,28 @@ const FAMILIES = {
       "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies"
     ],
     routeSelectionId: "ri_first_offender_felony-set-superior-court-part-two",
+    bindingDecisionId: "RI-FIRST-OFFENDER-SUPERIOR-55-PART-TWO",
+    omitMachineRouteTrailerFromParticipantArtifacts: true,
+    omitEngineeringHistoryFromParticipantArtifacts: true,
+    conditionUnusedChargeRows: true,
+    partAppliesWhenOverride: "page 1 of Superior-55 directs a person seeking to expunge a single felony "
+      + "conviction as a first offender to Part Two; instruction 5 requires the participant to check only each "
+      + "printed statement that is true, and the affidavit must be executed before the authorized notary or clerk",
     statute: "R.I. Gen. Laws Sec. 12-1.3-2, Sec. 12-1.3-1 and Sec. 12-1.3-3",
     routeName: "asking the Rhode Island Superior Court that convicted you to expunge a single felony conviction, "
       + "as a first offender",
     convictionExpungementWhy: CONVICTION_ROUTE_RELIEF,
     notAConvictionBranchWhy: NOT_A_NONCONVICTION_ROUTE,
     discrepancies: [
-      "PART TWO OF THIS FORM DISAGREES WITH THE FORM'S OWN INSTRUCTION PAGE, AND YOU MUST NOT SWEAR PAST IT. "
-      + "Page 1 of Superior-55 says: \"Part Two: If you were convicted of a single FELONY offense and have not "
-      + "been previously convicted of or placed on probation for a felony or a misdemeanor.\" The fourth box of "
-      + "Part Two, on page 3 of the same form, reads: \"That I was convicted of a single MISDEMEANOR offense, and "
-      + "I have not been previously convicted of or placed on probation for a felony or a misdemeanor.\" Those "
-      + "two texts cannot both describe your case. The rest of Part Two carries the TEN-year period, which is the "
-      + "felony period, and Rhode Island publishes a separate Superior Court misdemeanor form, so the box reads "
-      + "like a drafting error carried over from the District Court form. LegalEase does not decide that and has "
-      + "marked nothing. Do not mark a box that says something untrue of your case: ask the clerk of the "
-      + "Superior Court division you are filing in, or a lawyer, which text that court applies, before you swear "
-      + "to this affidavit. WHAT WOULD SETTLE IT IS NOT IN THIS PACKET. No corrected affidavit wording, no "
-      + "attachment and no court-approved handling for a felony filer is written here, because none is "
-      + "established by any source this build holds: that comes from a correction by the Rhode Island Judiciary, "
-      + "which publishes this form, or from a qualified legal determination for your case. Nothing in this "
-      + "packet permits you to swear to a statement that is not true of your case.",
-      "ONE MORE NUMBER THAT DOES NOT AGREE WITH ITSELF. The committed record's exclusion list for this route "
-      + "carries the sentence \"Any felony or misdemeanor arrest or conviction during the five-year lookback\", "
-      + "while the same record's waiting-period entry for this route says TEN years from completion of sentence "
-      + "and a TEN-year clean lookback - and the Part Two boxes on the court's own form say ten years in both "
-      + "places. The exclusion sentence reads like a copy from the misdemeanor route. Ten years is what the form "
-      + "asks you to swear to. Do not rely on five."
+      "PART TWO IS THE PART FOR THIS ROUTE. Page 1 of Superior-55 says: \"Part Two: If you were convicted "
+      + "of a single FELONY offense and have not been previously convicted of or placed on probation for a "
+      + "felony or a misdemeanor.\" This single-felony first-offender packet therefore uses Part Two. The "
+      + "fourth printed statement in Part Two still says "
+      + "\"single MISDEMEANOR offense.\" That source wording is preserved and no box is selected for you. "
+      + "Follow instruction 5: check only each statement that is true of your case, do not check the fourth "
+      + "statement if its printed misdemeanor wording is not true, and execute the affidavit before the "
+      + "authorized notary or clerk. If you cannot truthfully make a required statement, stop and get "
+      + "case-specific advice before filing. Do not alter the court's wording or swear to an untrue statement."
     ]
   },
   "ri_deferred_sentence-set": {
@@ -2413,6 +2443,32 @@ function composedWritesFor(component) {
     fact: "participant.full_legal_name" }];
 }
 
+function additionalChargeRowNumber(fieldName) {
+  const official = String(fieldName).match(/^(?:1 Counts|2 Charges|3 Dispositions) ([1-4])$/);
+  if (official) return Number(official[1]);
+  const order = String(fieldName).match(/^order_charge_line_([1-4])$/);
+  return order ? Number(order[1]) : null;
+}
+
+function optionalUnusedChargeRow(route, fieldName) {
+  const rowNumber = additionalChargeRowNumber(fieldName);
+  return route.conditionUnusedChargeRows === true && rowNumber !== null && rowNumber > 1
+    ? rowNumber
+    : null;
+}
+
+function repeatingChargeRowGroup(route, documentId, documentRole) {
+  if (route.conditionUnusedChargeRows !== true
+    || !["primary_filing", "proposed_order"].includes(documentRole)) return [];
+  return [{
+    groupId: `${documentId}.charge_rows`,
+    minimumUsedRows: 1,
+    maximumRowsPrinted: 4,
+    completionRule: "Complete every cell of each row actually used; leave every unused additional row wholly blank.",
+    sourceOfRowCount: "the participant's court docket; the platform does not invent charges or a row count"
+  }];
+}
+
 function composedBlanksFor(route, component) {
   if (component.role !== "proposed_order") return { blanks: [], courtBlanks: [] };
   const variant = ORDER_VARIANTS[route.orderVariant];
@@ -2473,15 +2529,21 @@ function composedMapFor(route, component) {
     .map((w) => ({ ...base(w.id, w.label), factId: w.fact, kind: "composed_text" }));
   const { blanks, courtBlanks } = composedBlanksFor(route, component);
   const canonicalRefusals = [
-    ...blanks.map((r) => ({
+    ...blanks.map((r) => {
+      const optionalRow = optionalUnusedChargeRow(route, r.id);
+      return ({
       ...base(r.id, r.label),
-      reason: `the participant supplies this before filing: ${r.what}`,
+      reason: optionalRow
+        ? `Optional participant-authored additional-record slot; the platform does not invent it. Row ${optionalRow} is completed only when the participant's docket has a charge for that row.`
+        : `the participant supplies this before filing: ${r.what}`,
       category: null, completenessClass: null, class: null,
-      disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
-      requiredBeforeFiling: true, routeDetermined: false, factAvailable: false,
+      disposition: optionalRow ? "OPTIONAL_PARTICIPANT_CONTENT" : "REQUIRED_BEFORE_FILING",
+      completenessDisposition: optionalRow ? "OPTIONAL_PARTICIPANT_CONTENT" : "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: !optionalRow, routeDetermined: false, factAvailable: false,
+      ...(optionalRow ? { conditionDescription: `Complete row ${optionalRow} only if the docket has that many charge rows.` } : {}),
       identity: `${component.id} field ${r.id}`, factId: null,
       why: r.why, participantMustSupply: r.what
-    })),
+    }); }),
     ...courtBlanks.map((r) => ({
       ...base(r.id, r.label),
       reason: "court, clerk, prosecutor, agency, or hearing field; the court completes it",
@@ -2501,6 +2563,9 @@ function composedMapFor(route, component) {
     structuralClass: "composed_document",
     composedFrom: route.composedFrom,
     explicitMappings: {}, roleRefusals: [], selectionControls: [],
+    ...(route.conditionUnusedChargeRows === true && component.role === "proposed_order"
+      ? { repeatingRowGroups: repeatingChargeRowGroup(route, component.id, component.role) }
+      : {}),
     canonicalWrites, canonicalRefusals,
     boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
   };
@@ -2622,12 +2687,17 @@ function officialMapFor(route, component, census, written) {
       });
       continue;
     }
+    const optionalRow = optionalUnusedChargeRow(route, r.name);
     canonicalRefusals.push({
       ...b,
-      reason: `the participant supplies this before filing: ${r.what}`,
+      reason: optionalRow
+        ? `Optional participant-authored additional-record slot; the platform does not invent it. Row ${optionalRow} is completed only when the participant's docket has a charge for that row.`
+        : `the participant supplies this before filing: ${r.what}`,
       category: null, completenessClass: null, class: null,
-      disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
-      requiredBeforeFiling: true, routeDetermined: false, factAvailable: false,
+      disposition: optionalRow ? "OPTIONAL_PARTICIPANT_CONTENT" : "REQUIRED_BEFORE_FILING",
+      completenessDisposition: optionalRow ? "OPTIONAL_PARTICIPANT_CONTENT" : "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: !optionalRow, routeDetermined: false, factAvailable: false,
+      ...(optionalRow ? { conditionDescription: `Complete row ${optionalRow} only if the docket has that many charge rows.` } : {}),
       identity: `${component.id} field ${r.name}`, factId: null,
       why: r.why, participantMustSupply: r.what
     });
@@ -2644,6 +2714,9 @@ function officialMapFor(route, component, census, written) {
     structuralClass: "official_acroform",
     composedFrom: route.composedFrom,
     explicitMappings: {}, roleRefusals: [], selectionControls,
+    ...(route.conditionUnusedChargeRows === true && component.role === "primary_filing"
+      ? { repeatingRowGroups: repeatingChargeRowGroup(route, component.id, component.role) }
+      : {}),
     canonicalWrites, canonicalRefusals,
     boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
   };
@@ -2790,19 +2863,28 @@ function participantInstructions(route, maps, rbf, elections) {
   out.push("| Component | What it is |", "| --- | --- |");
   for (const c of route.components) {
     const cond = c.requirement === "conditional" ? ` **Conditional:** ${c.conditionDescription}` : "";
-    out.push(`| \`${c.id}\` | ${c.blurb}${cond} |`);
+    out.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+      ? `| ${c.title} | ${c.blurb}${cond} |`
+      : `| \`${c.id}\` | ${c.blurb}${cond} |`);
   }
   out.push("");
   out.push("## The Part of the affidavit that is yours", "");
   out.push("Page 1 of the court's form, instruction 4, tells you to identify the Part of the affidavit that "
     + `applies to your motion. For this route it is **${route.partPrintedName}**, which applies where `
     + `${route.partAppliesWhen}.`, "");
-  out.push("Instruction 5 then tells you to put a check mark in the box for each statement in that Part that is "
-    + "**true**. Read them one by one. Mark a statement only if it is true of your case. If one of them is not "
-    + "true, do not mark it and do not file until you have advice: an unmarked box is a gap a court can ask you "
-    + "about, and a marked box that is not true is a false statement under oath.", "");
-  out.push("The boxes in the other Parts of the same affidavit belong to other statutory branches. They are "
-    + "recorded in this packet's field map as outside this route, and you leave them alone.", "");
+  out.push(route.bindingDecision
+    ? "Instruction 5 tells you to put a check mark beside each statement in Part Two that is **true**. Read each "
+      + "statement and mark only what is true. The fourth statement keeps the court's printed misdemeanor wording "
+      + "and is addressed below; leave it unmarked if that wording is not true. If any other required Part Two "
+      + "statement is not true, stop and get case-specific advice before filing. Never mark an untrue sworn statement."
+    : "Instruction 5 then tells you to put a check mark in the box for each statement in that Part that is "
+      + "**true**. Read them one by one. Mark a statement only if it is true of your case. If one of them is not "
+      + "true, do not mark it and do not file until you have advice: an unmarked box is a gap a court can ask you "
+      + "about, and a marked box that is not true is a false statement under oath.", "");
+  out.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+    ? "The boxes in the other Parts of the same affidavit belong to other statutory branches. Leave them alone."
+    : "The boxes in the other Parts of the same affidavit belong to other statutory branches. They are "
+      + "recorded in this packet's field map as outside this route, and you leave them alone.", "");
   if (route.discrepancies.length) {
     out.push("## Read this before you swear to anything", "");
     for (const d of route.discrepancies) out.push(d, "");
@@ -2823,21 +2905,33 @@ function participantInstructions(route, maps, rbf, elections) {
       + "Island holds; it does not establish that no relevant arrest, charge or disposition exists anywhere. "
       + "You still need the docket from the court that heard your case, and the sworn statements in the "
       + "affidavit are still yours to check against both records.", "");
-    out.push("**Where those requirements come from.** That Attorney General page was read on 2026-09-07 in the "
-      + "independent review recorded at "
-      + "`data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json`. This build did not "
-      + "fetch it — riag.ri.gov is refused by this container's egress proxy — so read the page yourself before "
-      + "you go: a cost or a procedure can change and this packet would not know. The request is yours to make "
-      + "and any signature or release on it is yours; LegalEase never requests, receives or holds your criminal "
-      + "history.", "");
+    if (route.omitEngineeringHistoryFromParticipantArtifacts === true) {
+      out.push("**Check the current official instructions.** The Attorney General publishes these requirements "
+        + "at <https://riag.ri.gov/i-want/get-background-check>. Read that page before you go because a cost or "
+        + "procedure can change. The request is yours to make and any signature or release on it is yours; "
+        + "LegalEase never requests, receives or holds your criminal history.", "");
+    } else {
+      out.push("**Where those requirements come from.** That Attorney General page was read on 2026-09-07 in the "
+        + "independent review recorded at "
+        + "`data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json`. This build did not "
+        + "fetch it — riag.ri.gov is refused by this container's egress proxy — so read the page yourself before "
+        + "you go: a cost or a procedure can change and this packet would not know. The request is yours to make "
+        + "and any signature or release on it is yours; LegalEase never requests, receives or holds your criminal "
+        + "history.", "");
+    }
   }
   if (FEE_ANSWER_CARRIED_TRACKS.has(route.trackId)) {
     out.push("## What it costs to file, and what is not established", "");
-    out.push("The Rhode Island **Superior Court** says on its own expungement FAQ that there is no expungement "
-      + "filing fee. That is the Superior Court's answer, read there on 2026-09-07 in the independent review "
-      + "named above; this build did not fetch the page, because courts.ri.gov is refused by this container's "
-      + "egress proxy. A no-fee filing does not cancel any fine, cost, restitution or assessment already "
-      + "ordered in your case.", "");
+    out.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+      ? "The Rhode Island **Superior Court** says on its own expungement FAQ, "
+        + "<https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx>, that there is no expungement filing "
+        + "fee. A no-fee filing does not cancel any fine, cost, restitution or assessment already ordered in "
+        + "your case."
+      : "The Rhode Island **Superior Court** says on its own expungement FAQ that there is no expungement "
+        + "filing fee. That is the Superior Court's answer, read there on 2026-09-07 in the independent review "
+        + "named above; this build did not fetch the page, because courts.ri.gov is refused by this container's "
+        + "egress proxy. A no-fee filing does not cancel any fine, cost, restitution or assessment already "
+        + "ordered in your case.", "");
     if (DISTRICT_COURT_CHARGE_NOT_ESTABLISHED.has(route.trackId)) {
       out.push("**Your case is in the District Court, and what the District Court charges for this motion is "
         + "not established here.** No District Court fee schedule is held by this repository, and the Superior "
@@ -2848,12 +2942,24 @@ function participantInstructions(route, maps, rbf, elections) {
         + "are filing** what this motion costs, if anything, before you go.", "");
     }
   }
+  if (route.bindingDecision) {
+    out.push("## Waiting period and exclusions", "");
+    for (const wait of t.waits) out.push(`- ${wait}`);
+    for (const exclusion of t.exclusions) out.push(`- ${exclusion}`);
+    out.push("");
+  }
   if (rbf.length > 0) {
     out.push("## The items you must supply", "");
-    out.push("Each is a blank on the document named beside it. Fill every one that belongs to the document you "
-      + "are filing, from the record itself, never from memory.", "");
+    out.push(route.conditionUnusedChargeRows === true
+      ? "Each is a blank on the document named beside it. Fill every required item from the record itself, "
+        + "never from memory. In a repeating charge table, complete every cell of each row you actually use and "
+        + "leave the remaining rows wholly blank."
+      : "Each is a blank on the document named beside it. Fill every one that belongs to the document you "
+        + "are filing, from the record itself, never from memory.", "");
     for (const [doc, items] of byDoc) {
-      out.push(`### \`${doc}\` — ${titleOf.get(doc) ?? doc}`, "");
+      out.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+        ? `### ${titleOf.get(doc) ?? "Packet document"}`
+        : `### \`${doc}\` — ${titleOf.get(doc) ?? doc}`, "");
       out.push("| The blank on the document | What to write |", "| --- | --- |");
       for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
       out.push("");
@@ -2875,7 +2981,11 @@ function participantInstructions(route, maps, rbf, elections) {
     + "and **get the docket and judgment** from the clerk of the court that "
     + "handled the case. Every blank in the table above comes off one of those two records.");
   out.push("2. **Fill in the motion**: the case number, the BCI number, the judicial complex, and every count, "
-    + "charge and disposition you are asking the court to expunge.");
+    + "charge and disposition you are asking the court to expunge."
+    + (route.conditionUnusedChargeRows === true
+      ? " Complete every cell of each row you use, leave unused additional rows wholly blank, and copy the same "
+        + "used rows to the proposed order."
+      : ""));
   out.push(`3. **Fill in the affidavit's ${route.partPrintedName}** — the boxes that are true of your case — and `
     + "leave the other Parts alone.");
   out.push("4. **Sign the affidavit in front of a notary public or a clerk.** It is sworn, and the signature "
@@ -2913,8 +3023,10 @@ function participantInstructions(route, maps, rbf, elections) {
     + "or denied, the relief marked, any further terms, the signature, the date of entry and the certification. "
     + "That block is the court's, and a packet that pre-writes a finding writes the court's words for it.", "");
   out.push("## When to stop and get help instead", "");
-  out.push("The committed track registry for this route records these as the points where self-help ends, in its "
-    + "own words. If any of them describes your case, stop here and get advice before you file:", "");
+  out.push(route.omitEngineeringHistoryFromParticipantArtifacts === true
+    ? "If any of these describes your case, stop here and get advice before you file:"
+    : "The committed track registry for this route records these as the points where self-help ends, in its "
+      + "own words. If any of them describes your case, stop here and get advice before you file:", "");
   for (const s of t.stops) out.push(`- ${s}`);
   out.push("");
   out.push("## What this packet is not", "");
@@ -2922,8 +3034,12 @@ function participantInstructions(route, maps, rbf, elections) {
     + "state publishes none, and instructions. It is not legal advice, it is not filed for you, and it does not "
     + "decide whether you are eligible. Expungement under Chapter 12-1.3 does not resolve immigration "
     + "consequences and does not reach federal, out-of-state, military or tribal records.", "");
-  out.push(`_Route: ${route.routeKeys.join(" · ")}_`);
-  return `${out.join("\n")}\n`;
+  if (route.omitMachineRouteTrailerFromParticipantArtifacts !== true) {
+    out.push(`_Route: ${route.routeKeys.join(" · ")}_`);
+  }
+  return route.omitMachineRouteTrailerFromParticipantArtifacts === true
+    ? `${out.join("\n").trimEnd()}\n`
+    : `${out.join("\n")}\n`;
 }
 
 /* ---- the route, assembled from the family table and the committed record ---- */
@@ -2942,7 +3058,29 @@ function routeOf(familyId) {
   const cfg = FAMILIES[familyId];
   assert.ok(cfg, `${familyId}: not one of the five Rhode Island families this host builds`);
   const form = FORMS[cfg.form];
-  const track = trackRecord(cfg.trackId);
+  let track = trackRecord(cfg.trackId);
+  let bindingDecision = null;
+  if (cfg.bindingDecisionId) {
+    const decisions = JSON.parse(fs.readFileSync(path.join(ROOT, LEGAL_BLOCKED_RESOLUTION), "utf8"));
+    bindingDecision = (decisions.decisions ?? []).find((row) => row.decisionId === cfg.bindingDecisionId);
+    assert.ok(bindingDecision, `${familyId}: binding decision ${cfg.bindingDecisionId} is missing`);
+    assert.equal(bindingDecision.disposition, "LEGAL_CLEAR");
+    assert.ok(bindingDecision.familyIds.includes(familyId));
+    assert.equal(bindingDecision.bindingProductRule,
+      "For a single-felony first-offender route use Superior-55 Part Two. The participant must truthfully "
+      + "satisfy/check the required statements and execute the affidavit before the authorized notary or clerk.");
+
+    const staleFiveYear = "Any felony or misdemeanor arrest or conviction during the five-year lookback. "
+      + "An arrest alone, without conviction, defeats eligibility.";
+    const correctedTenYear = "Any felony or misdemeanor arrest or conviction during the ten-year lookback. "
+      + "An arrest alone, without conviction, defeats eligibility.";
+    assert.equal(track.exclusions.filter((row) => row === staleFiveYear).length, 1,
+      `${familyId}: the governed ten-year correction no longer has exactly one stale registry sentence to supersede`);
+    track = Object.freeze({
+      ...track,
+      exclusions: Object.freeze(track.exclusions.map((row) => row === staleFiveYear ? correctedTenYear : row))
+    });
+  }
   const part = PARTS[cfg.form].find((p) => p.id === cfg.partId);
   assert.ok(part, `${familyId}: no affidavit Part ${cfg.partId} on ${cfg.form}`);
   const components = [
@@ -2954,11 +3092,11 @@ function routeOf(familyId) {
     `${familyId}: the ${cfg.orderVariant} proposed order variant does not list this family`);
   return {
     ...cfg,
-    familyId, jurisdiction: "RI", form, track, components,
+    familyId, jurisdiction: "RI", form, track, components, bindingDecision,
     legalName: track.legalName,
     courtShort: form.courtShort,
     partPrintedName: part.printedName,
-    partAppliesWhen: part.appliesWhen,
+    partAppliesWhen: cfg.partAppliesWhenOverride ?? part.appliesWhen,
     primaryRouteKey: cfg.routeKeys.length > 1 ? cfg.routeKeys[1] : cfg.routeKeys[0],
     outDir: `data/rcap-all50/overlays/census-v1/ri/${familyId.replaceAll("_", "-")}--official-pdf-fill`,
     buildScript: `scripts/build-census-v1-${familyId}.mjs`,
@@ -3218,6 +3356,11 @@ function finishFamily({ route, resolved, census, index, maps, artifacts, writePr
         recordId: "OWN-RI-PROPOSED-ORDER-2026-09-05",
         read: "the approval to compose the proposed order, the list of what stays blank on it, and the "
           + "requirement that it never be presented as an official Rhode Island form" },
+      ...(route.bindingDecision ? [{
+        record: LEGAL_BLOCKED_RESOLUTION,
+        recordId: route.bindingDecision.decisionId,
+        read: route.bindingDecision.bindingProductRule
+      }] : []),
       { record: "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
         read: "the route keys, the destination and the component set this family owes" },
       ...(BCI_EXPUNGEMENT_PURPOSE_TRACKS.has(route.trackId) ? [{
@@ -3328,8 +3471,10 @@ function finishFamily({ route, resolved, census, index, maps, artifacts, writePr
             + "fee schedule and no clerk response is held, and the Superior Court's no-fee answer does not "
             + "establish it (independent review finding RI-B-07, which this build does not close)"]
         : []),
-      "whether the Part Two wording on Superior-55 that reads 'misdemeanor' where page 1 of the same form reads "
-        + "'felony' is a drafting error, which is a question of Rhode Island practice this build does not answer",
+      ...(route.bindingDecision ? [] : [
+        "whether the Part Two wording on Superior-55 that reads 'misdemeanor' where page 1 of the same form reads "
+          + "'felony' is a drafting error, which is a question of Rhode Island practice this build does not answer"
+      ]),
       "whether the participant is eligible on this route"
     ]
   });
@@ -3666,7 +3811,9 @@ function counselQuestions(route) {
       + "Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials, and "
       + "instructs that no price be quoted until it is confirmed.");
   }
-  for (const d of route.discrepancies) q.push(`Resolve, or confirm the packet's handling of, this: ${d}`);
+  if (!route.bindingDecision) {
+    for (const d of route.discrepancies) q.push(`Resolve, or confirm the packet's handling of, this: ${d}`);
+  }
   return q;
 }
 
