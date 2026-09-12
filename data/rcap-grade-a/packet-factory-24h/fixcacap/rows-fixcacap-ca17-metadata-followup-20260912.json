@@ -49,8 +49,8 @@
         },
         {
           "path": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
-          "sha256": "1a9bfab231aca55a12f735e39a1df464a1a57e12a574ca45db3683cc463e89f2",
-          "byteLength": 354830
+          "sha256": "5b9d709d850a3974673d225ec55ec425dc5afb2fd9ee3c3c0017019b6b4f7203",
+          "byteLength": 355872
         },
         {
           "path": "scripts/lib/ca-17b-offense-by-offense.mjs",
@@ -93,6 +93,11 @@
           "result": "PASS_COMPLETE",
           "written": "58/187",
           "nineImplementationCountersZero": true
+        },
+        {
+          "command": "node scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs --self-test",
+          "result": "SELF_TEST_OK",
+          "detail": "Updates explicit measured label/mapping counts to current CA implementation, calls current mapping function, and tests acceptance at89 percent/refusal at87 percent against existing88 percent floor. All production code, metadata and PDF bytes unchanged by this test-only delta."
         }
       ],
       "metadataRefresh": "Existing caMapAndCensus and caParticipantInstructions executed on unchanged recorded official-field census; read-only native --check independently re-read sources and matched metadata. No PDF rebuild or raster performed.",

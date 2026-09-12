@@ -6118,6 +6118,17 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
     "the production family config must forward the CA-851 scale policy into finalization");
   assert.equal(caExactOverlayPolicy({ minimumHorizontalScalePercent: 85 }).minimumHorizontalScalePercent, 85,
     "finalization must forward the CA-851 scale policy into the exact-mapped overlay");
+  const ca17Minimum = FAMILIES[CA17_FAMILY_ID].minimumHorizontalScalePercent;
+  assert.equal(ca17Minimum, 88);
+  const ca17Width = ca851FitFont.widthOfTextAtSize(BOUNDARY["participant.full_legal_name"], MIN_READABLE_FONT_SIZE);
+  for (const [ratio, expected] of [[0.89, "horizontally_scaled"], [0.87, "refused"]]) {
+    const fit = fitCaExactMappedValue({
+      font: ca851FitFont, text: BOUNDARY["participant.full_legal_name"],
+      rect: { x: 0, y: 0, width: ca17Width * ratio + HORIZONTAL_PADDING, height: 14 },
+      minimumHorizontalScalePercent: ca17Minimum,
+    });
+    assert.equal(fit.outcome, expected, "CA17 fitting must refuse below its explicit 88-percent floor");
+  }
   const caUnion = new Set(Object.values(FAMILIES).filter((family) => family.jurisdiction === "ca")
     .flatMap((family) => family.formNumbers));
   assert.deepEqual([...caUnion].sort(), Object.keys(CA_FORMS).sort());
@@ -6131,6 +6142,9 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
     .reduce((count, mappings) => count + Object.keys(mappings).length, 0), 25);
   assert.deepEqual(Object.keys(CA_EXACT_SEMANTIC_LABELS).sort(), [
     "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+    "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCityZip[0]",
+    "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtMailingAdd[0]",
+    "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
     "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedStreet[0]",
     "CR-409[0].Page1[0].LI3[0].li3a[0].T186[0]",
     "CR-409[0].Page1[0].LI3[0].li3c[0].T186[0]",
@@ -6153,7 +6167,7 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
   assert.deepEqual(Object.entries(FAMILIES)
     .filter(([, family]) => family.minimumHorizontalScalePercent != null)
     .map(([familyId, family]) => [familyId, family.minimumHorizontalScalePercent]),
-  [["ca-851-91-set", 85]]);
+  [["ca-17b-reduction-set", 88], ["ca-851-91-set", 85]]);
   assert.deepEqual(Object.entries(FAMILIES)
     .filter(([, family]) => family.detachNestedControlFields === true)
     .map(([familyId]) => familyId).filter((familyId) => familyId.startsWith("ca-1203-")).sort(),
@@ -6221,9 +6235,11 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
   }
   assert.equal(CA_ROUTE_VARIANTS[CA17_FAMILY_ID].length, 1);
   assert.equal(CA_ROUTE_VARIANTS[CA17_FAMILY_ID][0].variantId, CA17_VARIANT_ID);
-  assert.equal(Object.keys(caPrimaryMappingsForFamily(CA17_FAMILY_ID,
-    FAMILIES[CA17_FAMILY_ID])).length,
-  Object.keys(CA_PRIMARY_WRITES["CR-180"]).length + 25);
+  for (const [formNumber, count] of [["CR-180", 41], ["CR-181", 12], ["CR-106", 5]]) {
+    assert.equal(Object.keys(caMappingsForFamilyForm(CA17_FAMILY_ID,
+      FAMILIES[CA17_FAMILY_ID], formNumber)).length, count,
+    `${formNumber}: CA17 measured neutral/offense mapping count changed`);
+  }
   assert.notEqual(CA_ROUTE_VARIANTS["ca-851-91-set"][0].selections[0].fieldName,
     CA_ROUTE_VARIANTS["ca-851-91-set"][1].selections[0].fieldName);
   assert.notDeepEqual(CA_ROUTE_VARIANTS["ca-prop64-set"][0].selections,
