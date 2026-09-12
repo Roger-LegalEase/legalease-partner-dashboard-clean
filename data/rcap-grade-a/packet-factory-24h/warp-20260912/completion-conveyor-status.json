@@ -1,26 +1,28 @@
 {
   "schemaVersion": "rcap-completion-conveyor-status/v1",
-  "terminalCheckpoint": 271,
+  "terminalCheckpoint": 275,
   "denominator": 346,
   "implementation": {
-    "lane": "FIXKS1",
+    "lane": "FIXIN1",
+    "families": [
+      "in_arrest_no_charges-set",
+      "in_section1_petition-set"
+    ],
+    "nextGate": "Measure current route semantics; source-appearance loss already repaired at b724e9353, preserve rather than repeat that repair. Freeze before independent preflight."
+  },
+  "independentReview": {
+    "lane": "VF67",
     "families": [
       "ks-21-6614-conviction-set",
       "ks-21-6614-diversion-set",
       "ks-21-6614-prostitution-coercion-set",
       "ks-21-6614-specialty-court-set"
     ],
-    "nextGate": "independent semantic preflight before any new raster"
-  },
-  "independentReview": {
-    "lane": "VF02",
-    "families": [
-      "al-diversion-set",
-      "al-misd-conviction-set",
-      "al-misd-dwop-set",
-      "al-pardoned-felony-set"
-    ],
-    "nextGate": "final acceptance against current original raster pages"
+    "nextGate": "semantic preflight only, before new central raster",
+    "packetManifest": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/raster-manifest.json",
+    "manifestSha256": "f7ac359d131d66b79ec1bad89d7ab5eae1b01946a2f8d761e9abc931f11137d4",
+    "pdfs": 8,
+    "pages": 160
   },
   "reviewNext": {
     "lane": "VF01",
@@ -58,5 +60,6 @@
     "protectedInventoryHashVerification": "PASS"
   },
   "nationalGeneration": "Once per completed closure checkpoint; no regeneration during changing worker bytes",
-  "dispatchPolicy": "Immutable packet+manifest commit only after independent semantic preflight PASS; final acceptance remains separate"
+  "dispatchPolicy": "Immutable packet+manifest commit only after independent semantic preflight PASS; final acceptance remains separate",
+  "latestClosure": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/closure-checkpoint/result.json"
 }
