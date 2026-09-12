@@ -34,6 +34,91 @@ const INSERT_OCCURRENCE_FIELDS = Object.freeze([
   "Date of Dismissal", "ChargeDisposition-Ct1"
 ]);
 
+// The source widgets do not all place their visible answer rule at the bottom
+// of the widget rectangle.  Drawing at rect.y therefore put ordinary capital
+// letters through the source rule in 171 of the 340 independently swept
+// current placements.  These are the exact source occurrences whose rule sits
+// inside the old text band.  Each rule coordinate was measured from the pinned
+// source/current-byte 240 dpi paper calibration and is keyed back to the source
+// widget geometry, rather than to a participant value or a generated page.
+//
+// A clean underline below the glyphs is intentionally absent from this table.
+// The two source identities above and the exact geometry match below prevent a
+// profile from silently migrating to another revision or another occurrence.
+export const IN_SECTION1_BASELINE_EVIDENCE_SHA256 =
+  "ade49f9bb19a044fb105b60baf1070c9a053b9b164d238e8d7b01ea87525f16c";
+export const IN_SECTION1_BASELINE_ABOVE_RULE = 2;
+const SOURCE_RULE_BASELINES = Object.freeze([
+  ["inserts", "ArrestDate", 1, 457.56, 727.93, 122.67, 12.99, 729.9],
+  ["inserts", "ArrestDate", 4, 105.61, 304.58, 182.63, 15.34, 306.3],
+  ["inserts", "CauseNumber", 1, 106.18, 576.05, 174.33, 15.06, 577.2],
+  ["inserts", "County", 1, 221.88, 634.74, 146.05, 15.63, 636.3],
+  ["inserts", "County", 1, 249.77, 726.87, 146.05, 15.63, 729.9],
+  ["inserts", "County", 1, 405.28, 176.63, 146.05, 15.63, 180.0],
+  ["inserts", "DD-ArrestOrSummons", 1, 139.03, 727.56, 93.26, 14.71, 729.6],
+  ["inserts", "DD-ChargeLevel-Ct1", 4, 294.66, 265.07, 48.83, 11.68, 266.1],
+  ["inserts", "DD-CountNumber", 1, 468.05, 750.21, 24.89, 13.55, 751.8],
+  ["inserts", "DD-HowChargesFiled", 1, 342.14, 590.15, 198.16, 16.83, 593.7],
+  ["inserts", "DD-Misd/Felony-Ct1", 1, 449.56, 537.93, 117.66, 12.27, 538.2],
+  ["inserts", "DD-Misd/Felony-Ct1", 4, 355.26, 264.18, 78.54, 11.68, 265.2],
+  ["inserts", "PetDOB", 4, 81.98, 606.41, 154.86, 11.94, 607.5],
+  ["packet", "County", 5, 145.66, 622.25, 139.07, 11.59, 624.3],
+  ["packet", "County3", 6, 358.04, 691.58, 137.88, 12.96, 693.3],
+  ["packet", "County4", 6, 120.36, 587.97, 150.97, 12.96, 589.8],
+  ["packet", "DD-cap-CourtType", 1, 404.08, 708.03, 105.02, 13.08, 709.2],
+  ["packet", "DD-cap-CourtType", 3, 405.78, 733.65, 105.02, 13.08, 735.0],
+  ["packet", "DD-cap-CourtType", 7, 403.57, 679.23, 105.02, 13.08, 680.4],
+  ["packet", "DD-cap-CourtType", 9, 404.19, 707.35, 105.02, 13.08, 708.6],
+  ["packet", "cap-COUNTY", 3, 106.6, 705.7, 108, 13.08, 707.1],
+  ["packet", "cap-COUNTY", 3, 294.42, 733.08, 108, 13.08, 734.7],
+  ["packet", "cap-COUNTY", 7, 293.4, 679.45, 108, 13.08, 680.1],
+  ["packet", "cap-COUNTY", 9, 107.11, 679.28, 108, 13.08, 680.1],
+  ["packet", "cap-COUNTY", 9, 292.95, 706.94, 108, 13.08, 707.7],
+  ["packet", "cap-PetitionerFullName", 1, 168, 526.93, 196.99, 14.79, 528.3],
+  ["packet", "cap-PetitionerFullName", 3, 37.85, 585.63, 208.95, 11.94, 587.1],
+  ["packet", "cap-PetitionerFullName", 3, 191, 350.51, 248.8, 14.22, 352.5],
+  ["packet", "cap-PetitionerFullName", 3, 200.39, 475.19, 232.29, 13.08, 476.7],
+  ["packet", "cap-PetitionerFullName", 5, 326.49, 143.28, 238.55, 13.08, 143.4],
+  ["packet", "cap-PetitionerFullName", 7, 36.22, 569.05, 209.52, 12.51, 569.7],
+  ["packet", "cap-PetitionerFullName", 7, 332.89, 463.38, 187.88, 13.08, 464.7],
+  ["packet", "cap-PetitionerFullName", 7, 406.39, 449.66, 161.12, 13.08, 450.9],
+  ["packet", "cap-PetitionerFullName", 8, 196.94, 615.84, 342.16, 18.77, 615.9],
+  ["packet", "cap-PetitionerFullName", 9, 35.86, 586.49, 210.65, 17.07, 587.7],
+  ["packet", "cap-PetitionerFullName", 9, 124.73, 493.35, 182.19, 13.08, 493.5],
+  ["packet", "cap-PetitionerFullName", 13, 51.47, 300.17, 210.65, 13.08, 301.2],
+]);
+
+const near = (a, b) => Math.abs(a - b) <= 0.02;
+
+export function indianaSection1RuleSafePlacement(docKey, entry) {
+  const box = entry.sourceRect;
+  const profile = SOURCE_RULE_BASELINES.find(([document, fieldName, page, x, y, width, height]) =>
+    document === docKey && fieldName === entry.sourceField && page === entry.page
+    && near(x, box.x) && near(y, box.y) && near(width, box.width) && near(height, box.height));
+  if (!profile) {
+    return {
+      sourceRect: box, writeBox: box, baselineY: box.y, baselineLift: 0,
+      sourceRuleY: null, disposition: "clean_source_baseline_unchanged"
+    };
+  }
+  const sourceRuleY = profile[7];
+  const baselineY = Number((sourceRuleY + IN_SECTION1_BASELINE_ABOVE_RULE).toFixed(2));
+  assert.ok(baselineY > box.y, `${entry.sourceField}: a colliding baseline must move above its source rule`);
+  assert.ok(baselineY < box.y + box.height,
+    `${entry.sourceField}: rule-safe baseline must remain inside the exact source widget rectangle`);
+  return {
+    sourceRect: box,
+    // The finalizer draws at writeBox.y.  Width and fit height remain the exact
+    // source widget's so this correction moves only the baseline; it does not
+    // shrink, truncate, wrap or otherwise reinterpret the held value.
+    writeBox: { ...box, y: baselineY },
+    baselineY,
+    baselineLift: Number((baselineY - box.y).toFixed(2)),
+    sourceRuleY,
+    disposition: "baseline_moved_above_measured_source_rule"
+  };
+}
+
 export function indianaSection1OccurrenceManagedFields(docKey) {
   assert.ok(docKey === "packet" || docKey === "inserts", `unsupported Indiana document ${docKey}`);
   return [...(docKey === "packet" ? PACKET_OCCURRENCE_FIELDS : INSERT_OCCURRENCE_FIELDS)];
@@ -244,13 +329,15 @@ export async function applyIndianaSection1OccurrencePlan({ bytes, docKey, census
   const anchors = plan.map((entry, index) => {
     const key = `overlay.${index}`;
     overlayFacts[key] = entry.value;
+    const placement = indianaSection1RuleSafePlacement(docKey, entry);
     return {
       label: `Full legal name held value ${index}`,
       page: entry.page,
-      writeBox: entry.sourceRect,
+      writeBox: placement.writeBox,
       factId: key,
       fontSize: entry.fontSize,
-      standardFontFallback: StandardFonts.TimesRoman
+      standardFontFallback: StandardFonts.TimesRoman,
+      occurrencePlacement: placement
     };
   });
   const rendered = await finalizeFlatOverlay({
@@ -269,6 +356,11 @@ export async function applyIndianaSection1OccurrencePlan({ bytes, docKey, census
     documentKey: docKey, field: entry.sourceField, sourceWidgetIndex: entry.sourceWidgetIndex, page: entry.page,
     rect: entry.sourceRect, factId: entry.factId, value: entry.value, actor: entry.actor,
     fontSize: rendered.report.written[index].fontSize, font: rendered.report.written[index].font,
+    baselineY: anchors[index].occurrencePlacement.baselineY,
+    baselineLift: anchors[index].occurrencePlacement.baselineLift,
+    sourceRuleY: anchors[index].occurrencePlacement.sourceRuleY,
+    baselineDisposition: anchors[index].occurrencePlacement.disposition,
+    baselineEvidenceSha256: IN_SECTION1_BASELINE_EVIDENCE_SHA256,
     sourceSha256: officialSourceSha256, intermediateSha256: sourceHash
   }));
   return { bytes: rendered.bytes, occurrenceWrites, overlayReport: rendered.report };
@@ -312,14 +404,25 @@ export async function verifyIndianaOccurrenceWritesFromBytes({ bytes, docKey, oc
   const duplicated = rows.filter((row) => row.exactPositionedTextRuns !== 1);
   const protectedPageWrites = rows.filter((row) =>
     docKey === "inserts" && ((row.page - 1) % 4) + 1 === 3);
+  const unsafeRuleBaselines = rows.filter((row) => row.sourceRuleY !== null
+    && !(row.baselineY >= row.sourceRuleY + IN_SECTION1_BASELINE_ABOVE_RULE - 0.01));
+  const baselinesOutsideSourceRect = rows.filter((row) =>
+    row.baselineY < row.rect.y - 0.01 || row.baselineY >= row.rect.y + row.rect.height);
   assert.deepEqual(missing, [], "every occurrence write must read back at its exact source rectangle");
   assert.deepEqual(duplicated, [], "each occurrence write must appear exactly once at its source rectangle");
   assert.deepEqual(protectedPageWrites, [], "the occurrence path may not write an insert FINDINGS page");
+  assert.deepEqual(unsafeRuleBaselines, [], "each measured crossing must place its baseline above the source rule");
+  assert.deepEqual(baselinesOutsideSourceRect, [], "each repaired baseline must remain in its exact source rectangle");
   return {
     derivedFromSavedBytes: true,
     documentSha256: crypto.createHash("sha256").update(bytes).digest("hex"),
     pageCount: pdf.getPageCount(), expectedWrites: rows.length, exactWritesRead: rows.length,
-    missingWrites: 0, duplicateWrites: 0, protectedPageWrites: 0, rows
+    missingWrites: 0, duplicateWrites: 0, protectedPageWrites: 0,
+    unsafeRuleBaselines: 0, baselinesOutsideSourceRect: 0,
+    sourceRuleSafeWrites: rows.filter((row) => row.sourceRuleY !== null).length,
+    cleanBaselinesPreserved: rows.filter((row) => row.sourceRuleY === null).length,
+    baselineEvidenceSha256: IN_SECTION1_BASELINE_EVIDENCE_SHA256,
+    rows
   };
 }
 
