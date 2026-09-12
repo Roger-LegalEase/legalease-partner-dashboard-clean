@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-packet-set-manifest/v1",
+  "packetSetId": "de_discretionary_family_court-set",
+  "familyId": "de_discretionary_family_court-set",
+  "jurisdiction": "DE",
+  "routeKeys": [
+    "obligation:track-only:DE:de_discretionary_family_court"
+  ],
+  "componentList": [
+    {
+      "componentId": "de_discretionary_family_court-primary-filing-1",
+      "role": "primary_filing",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "FORM-281",
+      "officialSourceUrl": null,
+      "order": 1
+    },
+    {
+      "componentId": "de_discretionary_family_court-continuation-2",
+      "role": "continuation",
+      "requirement": "conditional",
+      "conditionDescription": "When charges exceed the table on the petition.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "FORM-281E",
+      "officialSourceUrl": null,
+      "order": 2
+    },
+    {
+      "componentId": "de_discretionary_family_court-cover-sheet-3",
+      "role": "cover_sheet",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "custom_pleading",
+      "officialFormId": null,
+      "officialSourceUrl": null,
+      "order": 3
+    }
+  ],
+  "conditionalComponents": [
+    {
+      "componentId": "de_discretionary_family_court-continuation-2",
+      "role": "continuation",
+      "requirement": "conditional",
+      "conditionDescription": "When charges exceed the table on the petition.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "FORM-281E",
+      "officialSourceUrl": null,
+      "order": 2
+    }
+  ],
+  "deliveredComponents": [
+    "de_discretionary_family_court-primary-filing-1",
+    "de_discretionary_family_court-continuation-2",
+    "de_discretionary_family_court-cover-sheet-3"
+  ],
+  "noAdditionalComponentInvented": true,
+  "sourceHashes": {
+    "FORM-281": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+    "FORM-281E": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33"
+  }
+}
