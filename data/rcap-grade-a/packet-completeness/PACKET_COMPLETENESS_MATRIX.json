@@ -15,15 +15,16 @@
     "FAIL_COMPONENT_SET",
     "FAIL_CURRENTNESS"
   ],
-  "familiesAudited": 308,
+  "familiesAudited": 311,
   "byResult": {
-    "PASS_COMPLETE": 274,
-    "NOT_MEASURABLE_HERE": 34
+    "PASS_COMPLETE": 276,
+    "NOT_MEASURABLE_HERE": 34,
+    "FAIL_MISSING_REQUIRED_FACTS": 1
   },
   "counterTotals": {
-    "knownRequiredFieldsMissing": 0,
+    "knownRequiredFieldsMissing": 1,
     "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
+    "unclassifiedBlanks": 4,
     "incompleteRows": 0,
     "requiredOptionsMissing": 0,
     "requiredComponentsMissing": 0,
@@ -3109,6 +3110,87 @@
       "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
       "sourceCurrentness": "EXACT",
       "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "de_discretionary_family_court-set",
+      "directory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill",
+      "result": "FAIL_MISSING_REQUIRED_FACTS",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 4,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks"
+      ],
+      "totals": {
+        "terminalFields": 31,
+        "written": 7,
+        "blank": 24,
+        "blanksByDisposition": {
+          "PROTECTED_FIELD": 3,
+          "PARTICIPANT_ELECTION_GENUINE": 4,
+          "REQUIRED_BEFORE_FILING": 11,
+          "UNCLASSIFIED_BLANK": 4,
+          "KNOWN_FACT_NOT_WRITTEN": 1,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 1
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "writes-and-refusals"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_REVIEW",
+      "sourceCurrentness": "EXACT",
+      "findings": [
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "POBoxNumber",
+          "label": "P.O. Box Number (optional)",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer.",
+          "reasonGiven": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "EmailAddress",
+          "label": "Email Address (optional)",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "a required known fact with no approved reason for being blank",
+          "reasonGiven": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "InterpreterNeededYes",
+          "label": "Interpreter needed? — Yes",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer.",
+          "reasonGiven": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "InterpreterNeededNo",
+          "label": "Interpreter needed? — No",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer.",
+          "reasonGiven": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "Language",
+          "label": "Language (if an interpreter is needed)",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer.",
+          "reasonGiven": "No value supplied in these fixtures; optional contact/representation or participant interpreter election. A supplied value is rendered without inferring an answer."
+        }
+      ],
       "findingsTruncated": 0
     },
     {
@@ -27700,6 +27782,76 @@
         "fieldMapSchema": "maps-with-canonical-and-boundary"
       },
       "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "mo-610-140-arrest-set",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 932,
+        "written": 230,
+        "blank": 702,
+        "blanksByDisposition": {
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 664,
+          "PROTECTED_FIELD": 35,
+          "PARTICIPANT_ELECTION_GENUINE": 2,
+          "REQUIRED_BEFORE_FILING": 1
+        },
+        "rowsInspected": 20,
+        "fieldMapSchema": "writes-and-refusals"
+      },
+      "outputApprovalStatus": "BUILT_CANDIDATE_REVIEW_PENDING",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "mo-610-140-conviction-set",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 928,
+        "written": 279,
+        "blank": 649,
+        "blanksByDisposition": {
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 613,
+          "PROTECTED_FIELD": 33,
+          "PARTICIPANT_ELECTION_GENUINE": 2,
+          "REQUIRED_BEFORE_FILING": 1
+        },
+        "rowsInspected": 20,
+        "fieldMapSchema": "writes-and-refusals"
+      },
+      "outputApprovalStatus": "BUILT_CANDIDATE_REVIEW_PENDING",
       "sourceCurrentness": "EXACT",
       "findings": [],
       "findingsTruncated": 0

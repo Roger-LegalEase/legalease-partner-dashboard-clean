@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b579fb9c77f360744576ed8ad816c16a2e331520",
+  "minimumCaptainSha": "089c072562956350d2b7e6667847f3dd0e7afb3f",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "03ec6c7f8ffb142c44ce2193945fe43b3dd30cd467b3378575ce4b7c2e8a2c27",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "db4ab3d1aa22a04e187acc67c5270c754198bce458740451e69dadc9750b0353",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -80,17 +80,18 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 4,
+    "repairRequired": 2,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 281,
+    "COMPLETE_PACKET_PROVEN": 282,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 31,
     "HANDOFF_READY": 2,
     "PRODUCT_PATH_PENDING": 6,
-    "FAIL_REPAIR_REQUIRED": 4,
+    "FAIL_REPAIR_REQUIRED": 2,
+    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -13973,9 +13974,8 @@
       "selectedIndependentVerdict": null,
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "packet build has not completed",
-        "no completeness audit"
+        "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -13990,11 +13990,24 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
-      "failingCounters": [],
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
+      "allNineCountersZero": false,
+      "counters": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 4,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failingCounters": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks"
+      ],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
@@ -14003,7 +14016,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_discretionary_family_court-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill",
       "ownedPaths": [
@@ -29409,16 +29422,13 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfmo1",
-        "verifiedAtBase": "a03afb773473e831fca70966bf66bfe8bc231ac0",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-arrest-set-semantic-fail-20260912.json"
+        "verifiedAtBase": "03f5a2f8785c57344581d7b1c777109fdc6cb6a9",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-arrest-set-original-final-20260912.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -29433,87 +29443,25 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_AUDITED",
-      "allNineCountersZero": null,
-      "counters": null,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "COMPONENT_SET",
-        "FILING_DESTINATION",
-        "KNOWN_PREFILLS",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP",
-        "SERVICE",
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "MO-S6 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "MO-S8 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "MO-S1; MO-S2 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "MO-S1; MO-S5; MO-S8 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "MO-S4; MO-S5 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "MO-S2; MO-S4 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "MO-S8 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "MO-S4 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "MO-S8 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "MO-S8 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-610-140-arrest-set.mjs",
@@ -29653,16 +29601,13 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfmo1",
-        "verifiedAtBase": "a03afb773473e831fca70966bf66bfe8bc231ac0",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-conviction-set-semantic-fail-20260912.json"
+        "verifiedAtBase": "2682f7d032ff64d47459f277bbe496956b97fe1c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-conviction-original-final-20260912.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -29677,73 +29622,25 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_AUDITED",
-      "allNineCountersZero": null,
-      "counters": null,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FILING_DESTINATION",
-        "KNOWN_PREFILLS",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS",
-        "SELF_HELP_STOP",
-        "SERVICE",
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "MO-S6 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "MO-S1; MO-S2; MO-S3 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "MO-S1; MO-S5; MO-S7 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "MO-S4; MO-S5; MO-S7 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "MO-S2; MO-S3; MO-S4 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "MO-S4 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "MO-S7 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "MO-S7 — exact measured findings in the linked record.",
-          "findingReadFrom": "finding",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-610-140-conviction-set.mjs",

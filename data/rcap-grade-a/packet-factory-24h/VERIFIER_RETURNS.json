@@ -34,16 +34,14 @@
     }
   ],
   "counts": {
-    "returnDirectories": 325,
-    "rows": 1416,
+    "returnDirectories": 327,
+    "rows": 1418,
     "independentVerdicts": 310,
-    "failRepairRequired": 4,
-    "passIndependent": 303
+    "failRepairRequired": 2,
+    "passIndependent": 305
   },
   "failRepairRequiredFamilies": [
     "ky_protective_order_record_expungement-set",
-    "mo-610-140-arrest-set",
-    "mo-610-140-conviction-set",
     "rcap-in-custom-pleading"
   ],
   "refusedAtTheClaimGate": {
@@ -17906,6 +17904,20 @@
     },
     {
       "familyId": "mo-610-140-arrest-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmo1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "03f5a2f8785c57344581d7b1c777109fdc6cb6a9",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-arrest-set-original-final-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-140-arrest-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mo-610-140-arrest-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vfmo1",
       "isIndependentVerification": true,
@@ -17990,7 +18002,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-arrest-set-semantic-fail-20260912.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-140-arrest-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "mo-610-140-conviction-set",
@@ -18062,6 +18074,20 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-610-140-conviction-set-semantic-fail-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-140-conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mo-610-140-conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmo1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2682f7d032ff64d47459f277bbe496956b97fe1c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo1/rows-vfmo1-mo-conviction-original-final-20260912.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-140-conviction-set",
       "superseded": false

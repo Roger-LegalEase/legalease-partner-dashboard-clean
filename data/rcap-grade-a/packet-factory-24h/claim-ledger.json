@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b579fb9c77f360744576ed8ad816c16a2e331520",
+  "generatedAtCommit": "089c072562956350d2b7e6667847f3dd0e7afb3f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6676,21 +6676,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "mo-610-140-arrest-set",
-      "familyId": "mo-610-140-arrest-set",
-      "itemId": null,
-      "familyIds": [
-        "mo-610-140-arrest-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX02",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "mo-610-140-conviction-set",
       "itemId": null,
       "familyId": "mo-610-140-conviction-set",
@@ -6719,21 +6704,6 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-12T07:30:54.179Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mo-610-140-conviction-set",
-      "familyId": "mo-610-140-conviction-set",
-      "itemId": null,
-      "familyIds": [
-        "mo-610-140-conviction-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX03",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15774,7 +15744,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "aaf678242815cf10757ceb7557c9cd153c06511740d29cb1083196307826833f",
+  "claimsDigest": "0463e957a5dc4d6018c773d0cd0084fa9bb78659f479420988c10ba5c06cb61d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71666,6 +71636,22 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "withdrawnAt": "2026-09-12T17:39:30Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-conviction-set",
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "withdrawnAt": "2026-09-12T18:38:11Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-arrest-set",
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "withdrawnAt": "2026-09-12T18:42:50Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
