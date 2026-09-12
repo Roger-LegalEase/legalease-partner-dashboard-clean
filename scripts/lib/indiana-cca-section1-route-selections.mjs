@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 export const INDIANA_SECTION1_PARTICIPANT_SELECTIONS = Object.freeze({
+  CHARGES_FILED: "Check Box17",
   NO_CHARGES_DISPOSITION: "Check Box19",
   AT_LEAST_ONE_YEAR: "Check Box25"
 });
@@ -40,6 +41,17 @@ export function settledIndianaSection1ParticipantSelections({ trackId, dispositi
         + "branch says all charges were either not filed or dismissed before trial; this route establishes the "
         + "first alternative. The separate prosecutor-declined branch remains unanswered."
     };
+  } else {
+    assert.equal(facts?.["matter.disposition"], "all_charges_dismissed_before_trial",
+      "the general Section 1 fixture must expressly establish its selected disposition branch");
+    selected[INDIANA_SECTION1_PARTICIPANT_SELECTIONS.CHARGES_FILED] = {
+      checked: true,
+      basis: "The synthetic verification fixture expressly records that criminal charges were filed as an adult."
+    };
+    selected[INDIANA_SECTION1_PARTICIPANT_SELECTIONS.NO_CHARGES_DISPOSITION] = {
+      checked: true,
+      basis: "The synthetic verification fixture expressly records that every charge was dismissed before trial."
+    };
   }
 
   const filing = isoDate(facts?.["deterministic.filing_date"], "deterministic.filing_date");
@@ -57,4 +69,3 @@ export function settledIndianaSection1ParticipantSelections({ trackId, dispositi
   }
   return selected;
 }
-

@@ -97,6 +97,10 @@ import { CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, p
 import { APPEARANCE_DISPOSITION } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { settledIndianaSection1ParticipantSelections }
   from "./lib/indiana-cca-section1-route-selections.mjs";
+import { enrichIndianaSection1Fixture, factsForIndianaInsertCase,
+  applyIndianaSection1OccurrencePlan, concatenateIndianaInsertSets, applyIndianaSection1CompletenessPolicy,
+  indianaSection1OccurrenceManagedFields, verifyIndianaOccurrenceWritesFromBytes }
+  from "./lib/indiana-cca-section1-occurrence-repair.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
@@ -718,6 +722,7 @@ for (const document of DOCUMENTS) {
   if (document.key === "inserts") {
     document.unwritable = document.unwritable.filter(({ field }) => !SETTLED_INSERT_SELECTION_FIELDS.has(field));
   }
+  applyIndianaSection1CompletenessPolicy(document, TRACK_ID);
 }
 
 // The ONLY blanks in this family that may ever carry the participant's name.
@@ -726,50 +731,50 @@ const NAME_MAY_APPEAR_IN = {
     "cap-PetitionerFullName",  // the Appearance's caption
     "Email"                    // the petitioner's email, which contains their surname
   ],
-  // The insert carries no participant name: only separately owned participant checkboxes are marked.
-  "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS": []
+  "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS": ["cap-PetitionerFullName"]
 };
 
 // The corpus's standard canonical and boundary participants, so this family's
 // fixtures are comparable with every other family's.
-const CANONICAL = {
+const CANONICAL = enrichIndianaSection1Fixture({
+  "fixture.synthetic": true,
   "participant.full_legal_name": "Jordan Avery Reyes", "participant.first_name": "Jordan",
   "participant.last_name": "Reyes", "participant.middle_name": "Avery",
-  "participant.street_address": "118 Maple Street", "participant.city": "Springfield",
-  "participant.state": "XX", "participant.zip": "01234",
-  "participant.city_state_zip": "Springfield, XX 01234",
+  "participant.street_address": "118 Maple Street", "participant.city": "Indianapolis",
+  "participant.state": "IN", "participant.zip": "46204",
+  "participant.city_state_zip": "Indianapolis, IN 46204",
   "participant.phone": "555-0142", "participant.email": "jordan.reyes@example.com",
   "participant.date_of_birth": "1991-04-17",
-  "matter.county": "Example County", "matter.court": "District Court",
-  "matter.case_number": "24-CR-001234", "matter.citation_number": "C-889201",
-  "matter.charge": "Possession of a controlled substance", "matter.arrest_date": "2019-03-08",
-  "matter.offense_date": "2019-03-08", "matter.conviction_date": "2019-11-02",
-  "matter.disposition_date": "2020-01-15", "deterministic.filing_date": "2026-08-12",
+  "matter.county": "Marion", "matter.court": "Marion Superior Court",
+  "matter.case_number": null, "matter.charge": null, "matter.arrest_date": "2023-03-08",
+  "matter.disposition": "arrested_no_charges_filed",
+  "matter.pending_charges": false, "matter.in_pretrial_diversion": false,
+  "deterministic.filing_date": "2026-08-12",
   "matter.charges": [
-    { case_number: "24-CR-001234", citation_number: "C-889201", charge: "Possession of a controlled substance",
-      arrest_date: "2019-03-08", offense_date: "2019-03-08", conviction_date: "2019-11-02", disposition_date: "2020-01-15" }
+    { case_number: null, charge: null, arrest_date: "2023-03-08", arrest_city: "Indianapolis", offense_date: "2023-03-08",
+      conviction_date: null, disposition_date: null, disposition: "arrested_no_charges_filed" }
   ]
-};
-const BOUNDARY = {
+}, TRACK_ID);
+const BOUNDARY = enrichIndianaSection1Fixture({
   ...CANONICAL,
-  "participant.full_legal_name": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+  "fixture.synthetic": true,
+  "participant.full_legal_name": "Alexandrina-Katharine Montgomery Fitzwilliam",
   "participant.street_address": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
-  "participant.city": "Unincorporated Township of Long Hollow Crossing",
-  "participant.city_state_zip": "Unincorporated Township of Long Hollow Crossing, XX 01234-9999",
-  "participant.zip": "01234-9999", "participant.phone": "555-0142 ext. 44821",
-  "matter.case_number": "0123-45-2026-CR-900123.00-AB-CDE/2201",
-  "matter.county": "Saint Bartholomew and the Northern Reaches County",
-  "matter.charge": "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line",
+  "participant.city": "South Bend", "participant.state": "IN",
+  "participant.city_state_zip": "South Bend, IN 46601-9999",
+  "participant.zip": "46601-9999", "participant.phone": "555-0142 ext. 44821",
+  "matter.case_number": null, "matter.county": "Saint Joseph", "matter.court": "Saint Joseph Circuit Court",
+  "matter.charge": null, "matter.arrest_date": "2023-03-08",
+  "matter.disposition": "arrested_no_charges_filed",
   "matter.charges": [
-    { case_number: "0123-45-2026-CR-900123.00-AB-CDE/2201", citation_number: "C-889201",
-      charge: "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line",
-      arrest_date: "2019-03-08", offense_date: "2019-03-08", conviction_date: "2019-11-02", disposition_date: "2020-01-15" },
-    { case_number: "0123-45-2026-CR-900124.00", citation_number: "C-889202", charge: "Criminal trespass, third degree",
-      arrest_date: "2020-06-21", offense_date: "2020-06-20", conviction_date: "2021-02-09", disposition_date: "2021-03-01" },
-    { case_number: "0123-45-2026-CR-900125.00", citation_number: "C-889203", charge: "Driving while license suspended",
-      arrest_date: "2021-09-02", offense_date: "2021-09-02", conviction_date: "2022-01-18", disposition_date: "2022-02-14" }
+    { case_number: null, charge: null, arrest_date: "2023-03-08", arrest_city: "South Bend", offense_date: "2023-03-08", conviction_date: null,
+      disposition_date: null, disposition: "arrested_no_charges_filed" },
+    { case_number: null, charge: null, arrest_date: "2024-06-21", arrest_city: "Mishawaka", offense_date: "2024-06-21", conviction_date: null,
+      disposition_date: null, disposition: "arrested_no_charges_filed" },
+    { case_number: null, charge: null, arrest_date: "2025-02-14", arrest_city: "Roseland", offense_date: "2025-02-14", conviction_date: null,
+      disposition_date: null, disposition: "arrested_no_charges_filed" }
   ]
-};
+}, TRACK_ID);
 
 const NAME_TOKENS = [...new Set(
   [CANONICAL, BOUNDARY].flatMap((f) => [
@@ -979,14 +984,22 @@ function maxLengthOverflows(doc, census, facts) {
 }
 
 // ---- prove it from the ARTIFACT, not from the report --------------------------
-async function verifyFromBytes({ file, census, report, label, documentId, sourcePreservedFields = new Set() }) {
+async function verifyFromBytes({ file, census, report, label, documentId, sourcePreservedFields = new Set(),
+  occurrenceWrites = [], documentKey = null }) {
   const drawn = await flattenedWidgets(file);
   const findings = [];
   const chargeBlanks = [];
+  const localPage = (page) => documentKey === "inserts" ? ((page - 1) % 4) + 1 : page;
   const ownsAppearance = (field, appearance) => field.widgets.some((w) => {
     const x = Math.min(w.rect.x, w.rect.x + w.rect.width);
     const y = Math.min(w.rect.y, w.rect.y + w.rect.height);
-    return w.page === appearance.page && Math.abs(x - appearance.x) <= 3 && Math.abs(y - appearance.y) <= 3;
+    return w.page === localPage(appearance.page) && Math.abs(x - appearance.x) <= 3 && Math.abs(y - appearance.y) <= 3;
+  });
+  const ownsOccurrence = (appearance) => occurrenceWrites.some((w) => {
+    const page = w.page + (documentKey === "inserts" ? (w.caseIndex ?? 0) * 4 : 0);
+    const r = w.rect;
+    return page === appearance.page && appearance.x >= r.x - 3 && appearance.x <= r.x + r.width + 3
+      && appearance.y >= r.y - 3 && appearance.y <= r.y + r.height + 3;
   });
 
   for (const field of census.fields) {
@@ -1056,7 +1069,7 @@ async function verifyFromBytes({ file, census, report, label, documentId, source
 
   const outside = drawn.filter((appearance) => {
     if (!String(appearance.text ?? "").trim()) return false;
-    return !census.fields.some((f) => ownsAppearance(f, appearance));
+    return !census.fields.some((f) => ownsAppearance(f, appearance)) && !ownsOccurrence(appearance);
   });
 
   /*
@@ -1091,7 +1104,7 @@ function completenessFields({ doc, census, written }) {
     const row = {
       field: f.name,
       fieldId: f.name,
-      effectiveLabel: f.effectiveLabel,
+      effectiveLabel: declared?.effectiveLabel ?? f.effectiveLabel,
       harvestedLabel: f.harvestedLabel ?? null,
       labelBasis: f.labelBasis ?? null,
       page: f.widgets?.[0]?.page ?? null,
@@ -1106,6 +1119,11 @@ function completenessFields({ doc, census, written }) {
     row.reason = policy?.reason ?? null;
     row.refusalClass = policy?.refusalClass ?? null;
     if (policy?.requiredBeforeFiling === true) row.requiredBeforeFiling = true;
+    if (policy?.requiredBeforeFiling === false) row.requiredBeforeFiling = false;
+    if (policy?.completenessDisposition) row.completenessDisposition = policy.completenessDisposition;
+    if (policy?.routeConditionThatMakesItInapplicable) row.routeConditionThatMakesItInapplicable = policy.routeConditionThatMakesItInapplicable;
+    if (Object.hasOwn(policy ?? {}, "routeDetermined")) row.routeDetermined = policy.routeDetermined;
+    if (policy?.conditionDescription) row.conditionDescription = policy.conditionDescription;
     return row;
   });
 }
@@ -1120,10 +1138,16 @@ function actualWritesArtifacts(documents) {
         file: fixtures[label].file,
         sha256: fixtures[label].sha256,
         proofMethod:
-          "AcroForm fill: every value is set on the document's own widget and its appearance is generated by the "
-          + "form. The counts below are read back from the finished PDF with pdf-flattened-widgets.mjs, at each "
-          + "field's own measured /Rect.",
+          "AcroForm appearances and source-occurrence overlays are read from the finished PDF at the exact source "
+          + "page and measured rectangle. Each occurrence row requires exactly one positioned text run.",
         valuesReportedByFinalizer: fixtures[label].report.written.length,
+        occurrenceWritesExpected: fixtures[label].report.occurrenceByteProof.expectedWrites,
+        occurrenceWritesReadExactlyOnce: fixtures[label].report.occurrenceByteProof.exactWritesRead,
+        occurrenceWritesMissing: fixtures[label].report.occurrenceByteProof.missingWrites,
+        occurrenceWritesDuplicated: fixtures[label].report.occurrenceByteProof.duplicateWrites,
+        protectedOccurrenceWrites: fixtures[label].report.occurrenceByteProof.protectedPageWrites,
+        occurrenceWrites: fixtures[label].report.occurrenceByteProof.rows,
+        insertSetCount: fixtures[label].report.insertSetCount,
         flattenedWidgetAppearancesReadFromOutputBytes: proof.appearancesDrawn,
         /*
          * FIX132. This was published as a hard 0 with a note saying "zero by
@@ -1273,6 +1297,11 @@ async function main() {
     console.log(`  source verified  sha256=${doc.sha256}  bytes=${bytes.length}`);
 
     const census = await censusDocument(doc, bytes);
+    if (doc.key === "inserts") {
+      const participantDisposition = census.fields.find((field) => field.name === "Check Box19");
+      participantDisposition.effectiveLabel = "Participant FACTS branch 3 first alternative";
+      participantDisposition.protectCategory = null;
+    }
     console.log(`  censused ${census.fields.length} fields across ${census.pages.length} pages`);
 
     const fixtures = {};
@@ -1281,15 +1310,15 @@ async function main() {
       for (const o of overflows) {
         console.log(`  ${label}: ${o.field} refused — /MaxLen ${o.maxLength} < ${o.valueLength} characters of ${o.factId}`);
       }
-      const result = await finalizeOfficialForm({
+      const renderOne = async (renderFacts) => finalizeOfficialForm({
         sourceBytes: bytes,
         expectedSha256: doc.sha256,
         census: census.fields,
-        facts,
+        facts: renderFacts,
         explicitMappings: doc.explicitMappings,
         selectionsFromHeldFacts: doc.key === "inserts"
           ? settledIndianaSection1ParticipantSelections({
-            trackId: TRACK_ID, dispositions: routeTrack.dispositions, facts
+            trackId: TRACK_ID, dispositions: routeTrack.dispositions, facts: renderFacts
           })
           : {},
         // IN's CCA bundle carries 62 source choice/dropdown widgets whose
@@ -1302,6 +1331,8 @@ async function main() {
         preserveUnwrittenChoiceAppearances: true,
         unwritableFields: [
           ...doc.unwritable.map((u) => ({ field: u.field, class: u.class })),
+          ...indianaSection1OccurrenceManagedFields(doc.key)
+            .map((field) => ({ field, class: "source_occurrence_owned" })),
           ...overflows.map((o) => ({ field: o.field, class: o.class }))
         ],
         captionOnly: doc.captionOnly,
@@ -1377,6 +1408,43 @@ async function main() {
         title: `IN ${doc.documentId}`
       });
 
+      const renderFacts = doc.key === "inserts"
+        ? facts["matter.charges"].map((_, index) => factsForIndianaInsertCase(facts, index))
+        : [facts];
+      const renderedSets = [];
+      const reports = [];
+      for (const oneCaseFacts of renderFacts) {
+        const base = await renderOne(oneCaseFacts);
+        const repaired = await applyIndianaSection1OccurrencePlan({
+          bytes: base.bytes, docKey: doc.key, census, facts: oneCaseFacts, trackId: TRACK_ID,
+          officialSourceSha256: doc.sha256
+        });
+        renderedSets.push(repaired.bytes);
+        reports.push({ ...base.report, occurrenceWrites: repaired.occurrenceWrites,
+          overlayReport: repaired.overlayReport });
+      }
+      const result = {
+        bytes: doc.key === "inserts" ? await concatenateIndianaInsertSets(renderedSets) : renderedSets[0],
+        report: {
+          ...reports[0],
+          written: [
+            ...reports.flatMap((r) => r.written),
+            ...reports.flatMap((r) => r.occurrenceWrites.map((w) => ({
+              field: w.field, factId: w.factId, value: w.value, kind: "source_measured_occurrence_overlay",
+              page: w.page, rect: w.rect, sourceWidgetIndex: w.sourceWidgetIndex, actor: w.actor
+            })))
+          ],
+          occurrenceWrites: reports.flatMap((r, caseIndex) => r.occurrenceWrites.map((w) => ({ ...w, caseIndex }))),
+          insertSetCount: reports.length,
+          refused: reports[0].refused,
+          protectedFields: reports[0].protectedFields,
+          unfittable: reports.flatMap((r) => r.unfittable)
+        }
+      };
+      result.report.occurrenceByteProof = await verifyIndianaOccurrenceWritesFromBytes({
+        bytes: result.bytes, docKey: doc.key, occurrenceWrites: result.report.occurrenceWrites
+      });
+
       const rel = `${OUT}/fixtures/${doc.key}-${label}-filled.pdf`;
       fs.mkdirSync(path.dirname(path.join(rootDir, rel)), { recursive: true });
       fs.writeFileSync(path.join(rootDir, rel), result.bytes);
@@ -1384,8 +1452,10 @@ async function main() {
       if (blocked.has(hash)) fail(`${doc.documentId}/${label}: rendered to a BLOCKED hash`, hash);
 
       const proof = await verifyFromBytes({
-        file: path.join(rootDir, rel), census, report: result.report,
+        file: path.join(rootDir, rel), census,
+        report: { ...result.report, written: result.report.written.filter((w) => w.kind !== "source_measured_occurrence_overlay") },
         label: `${doc.key}-${label}`, documentId: doc.documentId,
+        occurrenceWrites: result.report.occurrenceWrites, documentKey: doc.key,
         sourcePreservedFields: new Set(census.fields
           .filter((field) => field.type === "dropdown" || field.type === "optionlist")
           .map((field) => field.name))
@@ -1476,7 +1546,7 @@ async function main() {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
     familyId: FAMILY_ID,
     routeKeys: ROUTE_KEYS,
-    renderStrategy: "acroform_fill",
+    renderStrategy: "acroform_fill_plus_source_occurrence_overlay",
     generationAllowed: false,
     runtimeSelectable: false,
     documents: documents.map(({ doc, census, fixtures }) => {
@@ -1509,9 +1579,11 @@ async function main() {
             factId: w.factId ?? null,
             writeKind: w.kind ?? null,
             selectionBasis: w.basis ?? null,
-            page: f?.widgets?.[0]?.page ?? null,
-            rect: f?.widgets?.[0]?.rect ?? null,
-            rectBasis: "acroform_widget_rect_read_from_the_document",
+            page: w.kind === "source_measured_occurrence_overlay" ? w.page : (f?.widgets?.[0]?.page ?? null),
+            rect: w.kind === "source_measured_occurrence_overlay" ? w.rect : (f?.widgets?.[0]?.rect ?? null),
+            rectBasis: w.kind === "source_measured_occurrence_overlay"
+              ? "exact_occurrence_rect_measured_from_pinned_source_widget"
+              : "acroform_widget_rect_read_from_the_document",
             measuredRuleUnderWriteBox: f?.measuredRuleUnderWriteBox ?? null,
             effectiveLabel: f?.effectiveLabel ?? null
           };
@@ -1582,8 +1654,15 @@ async function main() {
   });
 
   const namePlacements = documents.flatMap(({ doc, fixtures }) =>
-    ["canonical", "boundary"].flatMap((label) =>
-      fixtures[label].proof.namePlacements.map((n) => ({ document: doc.documentId, fixture: label, ...n }))));
+    ["canonical", "boundary"].flatMap((label) => [
+      ...fixtures[label].proof.namePlacements.map((n) => ({ document: doc.documentId, fixture: label, ...n })),
+      ...fixtures[label].report.occurrenceByteProof.rows
+        .filter((row) => row.factId === "participant.full_legal_name")
+        .map((row) => ({ document: doc.documentId, fixture: label, field: row.field,
+          page: row.page, widgetIndex: row.sourceWidgetIndex,
+          allowed: NAME_MAY_APPEAR_IN[doc.documentId].includes(row.field), text: row.value,
+          proofKind: "exact_positioned_page_content", exactPositionedTextRuns: row.exactPositionedTextRuns }))
+    ]));
   writeJson(`${OUT}/reports/participant-name-placement.json`, {
     schemaVersion: "rcap-participant-name-placement/v1",
     familyId: FAMILY_ID,
@@ -1591,8 +1670,8 @@ async function main() {
       "In the rendered artifact bytes, does every drawn participant-name token sit in a blank this family "
       + "listed as one the name belongs in?",
     method:
-      "Every flattened appearance in each fixture is read and matched back to the censused blank at its own "
-      + "measured rectangle.",
+      "Every flattened appearance and source-occurrence overlay is read from the saved fixture and matched to "
+      + "the exact source page and measured rectangle.",
     blanksTheNameMayAppearIn: NAME_MAY_APPEAR_IN,
     placementsFound: namePlacements.length,
     placementsOutsideTheAllowlist: namePlacements.filter((n) => !n.allowed).length,

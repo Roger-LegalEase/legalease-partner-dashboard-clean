@@ -105,6 +105,26 @@ async function checkCoverage(result, sourceRows, delivered) {
   }
   return byField;
 }
+async function sourceSizedDeliveries(delivered, source) {
+  const [output, sourcePdf] = await Promise.all([
+    PDFDocument.load(fs.readFileSync(delivered), { ignoreEncryption: true, updateMetadata: false }),
+    PDFDocument.load(fs.readFileSync(source), { ignoreEncryption: true, updateMetadata: false })
+  ]);
+  const sourcePages = sourcePdf.getPageCount();
+  assert.equal(output.getPageCount() % sourcePages, 0, `${delivered}: output is not a whole number of source sets`);
+  if (output.getPageCount() === sourcePages) return [{ path: delivered, setIndex: 0, temporary: false }];
+  const slices = [];
+  for (let setIndex = 0; setIndex < output.getPageCount() / sourcePages; setIndex++) {
+    const one = await PDFDocument.create();
+    const indices = Array.from({ length: sourcePages }, (_, i) => setIndex * sourcePages + i);
+    const pages = await one.copyPages(output, indices);
+    pages.forEach((page) => one.addPage(page));
+    const target = path.join(os.tmpdir(), `in2-choice-set-${process.pid}-${setIndex}-${Math.random()}.pdf`);
+    fs.writeFileSync(target, await one.save({ useObjectStreams: false, updateMetadata: false }));
+    slices.push({ path: target, setIndex, temporary: true });
+  }
+  return slices;
+}
 async function mutateOneOutputAppearance(delivered, appearance) {
   const pdf = await PDFDocument.load(fs.readFileSync(delivered), { ignoreEncryption: true, updateMetadata: false });
   const page = pdf.getPages()[appearance.page - 1];
@@ -137,15 +157,22 @@ for (const family of families) {
     for (const fixture of ['canonical', 'boundary']) {
       const delivered = path.join(out, 'fixtures', index === 0
         ? `packet-${fixture}-filled.pdf` : `inserts-${fixture}-filled.pdf`);
-      const result = runClassifier(delivered, source);
-      await checkCoverage(result, sourceRows, delivered);
-      proof.push({ family, documentId: doc.documentId, fixture, sourceChoiceWidgets: choiceWidgets,
-        sourceChoiceFields: sourceRows.length,
-        sourceDropdownFields: sourceRows.filter((row) => row.fieldType === 'PDFDropdown').length,
-        sourceOptionListFields: sourceRows.filter((row) => row.fieldType === 'PDFOptionList').length,
-        flattenedAppearances: result.summary.flattenedAppearances,
-        placementMismatches: result.summary.appearancesNotPlacedAtTheirOwnSourceWidget,
-        exactSourceAppearanceStreamHashesMatched: choiceWidgets });
+      const slices = await sourceSizedDeliveries(delivered, source);
+      try {
+        for (const slice of slices) {
+          const result = runClassifier(slice.path, source);
+          await checkCoverage(result, sourceRows, slice.path);
+          proof.push({ family, documentId: doc.documentId, fixture, sourceSetIndex: slice.setIndex,
+            sourceChoiceWidgets: choiceWidgets, sourceChoiceFields: sourceRows.length,
+            sourceDropdownFields: sourceRows.filter((row) => row.fieldType === 'PDFDropdown').length,
+            sourceOptionListFields: sourceRows.filter((row) => row.fieldType === 'PDFOptionList').length,
+            flattenedAppearances: result.summary.flattenedAppearances,
+            placementMismatches: result.summary.appearancesNotPlacedAtTheirOwnSourceWidget,
+            exactSourceAppearanceStreamHashesMatched: choiceWidgets });
+        }
+      } finally {
+        for (const slice of slices) if (slice.temporary) fs.rmSync(slice.path, { force: true });
+      }
     }
   }
 
@@ -177,7 +204,7 @@ for (const family of families) {
     negativeControls.push({ family, control: 'one-source-appearance-stream-mutated', result: 'REJECTED' });
   } finally { fs.rmSync(mutatedPath, { force: true }); }
 }
-assert.equal(proof.length, 8);
+assert.equal(proof.length, 12);
 assert.equal(negativeControls.length, 4);
 console.log(JSON.stringify({ result: 'PASS', families,
   choiceFieldClassesExercised: ['PDFDropdown', 'PDFOptionList'],

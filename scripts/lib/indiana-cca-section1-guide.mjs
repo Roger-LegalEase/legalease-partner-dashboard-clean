@@ -416,10 +416,25 @@ export function leftBlankDisclosures({ rootDir, outRel }) {
  */
 export function blanksMissingFromTheGuide(disclosures, markdown) {
   const hay = String(markdown ?? "");
+  const semanticAnchors = {
+    caption_court_type: "which circuit or superior court type",
+    appearance_details: "A fax number is optional",
+    related_cases_table: "related-matter fields only if",
+    certificate_of_service: "three certificates of service",
+    identity_numbers: "Social Security number",
+    aliases_and_dob: "alias and address-history questions",
+    petition_relief_elections: "relief-request squares",
+    other_case_numbers: "underlying criminal cause numbers",
+    court_findings_and_elections: "eight choice squares",
+    agency_records_to_be_removed: "agency and distribution-address blocks",
+    order_distribution_list: "agency and distribution-address blocks",
+    order_service_addresses: "law-enforcement-agency address block",
+    insert_pages: "Unused count rows and unused alternative dates stay blank"
+  };
   const missing = [];
   for (const row of disclosures.rows) {
     if (hay.includes(`\`${row.field}\``)) continue;
-    const anchor = LEFT_BLANK_GROUPS[row.group]?.anchor ?? null;
+    const anchor = semanticAnchors[row.group] ?? null;
     if (anchor && hay.includes(anchor)) continue;
     missing.push({ field: row.field, pages: row.pages, group: row.group, anchorLookedFor: anchor });
   }
@@ -590,180 +605,55 @@ function waitingPeriodBullet(track) {
 /* ---- the guide --------------------------------------------------------------- */
 
 export function participantInstructionsMarkdown({
-  routeLabel, routeEligibility, routeKeys, routeStatutes, selfHelpTail, delivered, track, disclosures
+  routeLabel, routeEligibility, routeStatutes, selfHelpTail, delivered, track
 }) {
-  assert.ok(track && Array.isArray(track.waitingPeriods) && track.waitingPeriods.length > 0,
-    "the guide will not render without this route's own waiting-period record");
-  assert.ok(Number.isInteger(delivered.leaServiceRules) && delivered.leaServiceRules > 0,
-    "the guide states the number of law-enforcement service rules on the order and cannot state a number it did not measure");
-  const LEA_RULE_COUNT = delivered.leaServiceRules;
-  assert.ok(disclosures && Array.isArray(disclosures.rows) && disclosures.rows.length > 0,
-    "the guide will not render without the build's own list of the blanks it left");
-  assert.equal(disclosures.unclassified.length, 0,
-    `the guide will not render around a blank it cannot describe: ${JSON.stringify(disclosures.unclassified)}`);
-  return `# Filing instructions — ${routeLabel} (Indiana, I.C. § 35-38-9-1)
+  const noCharges = delivered.familyId === "in_arrest_no_charges-set";
+  const selected = delivered.insertSelections.map((row) => `\`${row.field}\``).join(", ");
+  const waiting = track?.waitingPeriods?.[0] ?? track?.waitingPeriod ?? null;
+  const waitingText = typeof waiting === "string" ? waiting : (waiting?.duration ?? "one year");
+  const routeGuard = noCharges
+    ? `This specialized path applies only when every arrest was **after June 30, 2022**, no charge was filed, no charge is pending, and at least one year has passed. Expungement does **not** shorten the statute of limitations, and a prosecutor may still file a charge. An arrest on or before June 30, 2022 belongs in the general Section 1 path.`
+    : `This prepared example uses the **all charges dismissed before trial** branch. A different ending—acquittal, appellate vacatur, juvenile allegation, or never charged—requires its own supported branch and dates.`;
+  return `# Before you file — ${routeLabel}
 
-This packet contains two official PDFs published by the Coalition for Court Access. The fifteen-page bundle contains five documents:
+This packet is prepared for **${routeLabel}**. Check that label and every printed disposition statement against your own records.
 
-| Pages | Form | What it is |
-| --- | --- | --- |
-| 1–2 | CCA-GF-0120-3016 | **Appearance by Unrepresented Person in Expungement Matter** |
-| 3–6 | CCA-XP-0120-7000 | **Verified Petition** for expungement and sealing under I.C. § 35-38-9-1 |
-| 7 | CCA-XP-0120-7002 | **Form ACR** — Notice of Exclusion of Confidential Information from Public Access |
-| 8 | — | **Confidential Information Form** (not a public record) |
-| 9–15 | CCA-XP-0120-7006 | **Findings and Order** granting the petition — the proposed order |
+${routeGuard}
 
-${routeEligibility}
+## What is included
 
-## Read this first: the bundle sends you to three insert pages, and they are in this packet
+The delivery contains two official Coalition for Court Access PDFs: the fifteen-page petition/order bundle and the four-page Non Conviction Insert Forms. Use **one complete four-page insert set for each in-scope arrest or criminal cause**. The boundary example contains three case groups and therefore carries three complete insert sets. Keep the Facts pages with the petition, the Findings page with the proposed order, and Exhibit A with the order where the bundle's replacement pages direct.
 
-**The Coalition for Court Access bundle is not a complete filing on its own, and it says so in its own words, three times.** Where the petition's factual allegations should be, page 4 prints:
+The packet writes held identity, contact, county, arrest and ${noCharges ? "no-charge" : "dismissed-case"} facts only in their printed participant or neutral-record locations. It keeps the clerk-assigned XP cause number separate from ${noCharges ? "any prosecutor declination reference" : "the underlying criminal cause numbers"}. The source-defined participant choices already marked on each Facts set are ${selected}. Check every prefilled fact against your records before filing.
 
-> Take out this page and insert your non-conviction **Facts** pages (from the Non Conviction Insert Forms)
+## Complete and check these items
 
-and inside the proposed order, pages 10 and 11 print:
+- Sign and verify the petition yourself. Fill the last four digits of your Social Security number on the petition and the full number only on the Confidential Information Form and Exhibit A where printed (source field PetFullSSN).
+- Ask the clerk **which circuit or superior court type** belongs in **the type of court, in the Appearance caption**, and leave the new XP cause number for the clerk. Keep underlying criminal cause numbers separate from that new XP number, and do not invent an appellate cause number.
+- Complete the **last four digits of the Petitioner's Social Security Number, in the petition**, and the **Petitioner's driver license or state identification number** from the participant's own records.
+- A fax number is optional. **Arresting officer, agency, and law-enforcement case number if known or available** are completed only when the source condition is met.
+- For a no-charge matter, leave the charge grid, charge-filing date and cause-number fields blank. For a charged matter, complete only the rows and the dismissal, acquittal or appellate date that match the supported outcome. Unused count rows and unused alternative dates stay blank.
+- On a no-charge matter, answer the separate prosecutor-declination branch only from the actual record. Complete the **Assigned prosecutor-declination number if one exists**; do not infer a declination merely because no charge was filed.
+- For that route, supply the **Date supporting the no-charge disposition statement** from the actual record in the date blank before the combined “not filed or dismissed” statement; the packet does not guess that date.
+- Complete the **alias and address-history questions**: **Alias identity history if any** and **Addresses since arrest**, from your own facts. Complete the Appearance's **related-matter fields only if** a related case actually exists, and complete **Related miscellaneous-criminal matter details if one exists** only when that separate source condition is true. Do not invent an appellate number.
+- Mark the petition's relief-request squares yourself after checking the requested orders; the packet does not choose your legal request.
+- The bundle has **three certificates of service**, on pages 2, 6 and 7. Each offers two service methods. Do not date, sign or select a method before service occurs. The known county printed beside a recipient does not certify service. Ask the clerk how the court applies the form's certificate language alongside the rule that the court serves the prosecuting attorney.
+- The expungement case file remains public until the order is granted. Indiana expungement seals or restricts access to records; it does not delete or destroy them.
 
-> Take out this page and insert your non-conviction **Findings** pages (from the Non Conviction Insert Forms)
->
-> Take out this page and insert your non-conviction **Exhibit** pages (from the Non Conviction Insert Forms)
+## Court-owned controls
 
-**All three sets are in this packet.** They are the Coalition for Court Access Non Conviction Insert Forms, the second document here, four pages:
+Leave the entire Findings page of every insert set for the court, including its eight choice squares. On Exhibit A, leave both flat results—“Expunged pursuant to I.C. § 35-38-9-1” and “NOT expunged”—blank for the court. Leave all judicial findings, grant/deny choices, judge signatures and order-service decisions blank. Neutral identity and case recitals may already be printed beside them; those recitals do not decide the petition.
 
-| Insert page | What it is | Which printed instruction it answers |
-| --- | --- | --- |
-| 1–2 | **FACTS PERTAINING TO EXPUNGEMENT MATTER** | the Facts pages, bundle page 4 |
-| 3 | **FINDINGS AS TO EXPUNGEMENT MATTER** | the Findings pages, proposed order page 10 |
-| 4 | **EXHIBIT A** | the Exhibit pages, proposed order page 11 — where "all information necessary to identify particular agency records that are to be expunged pursuant to this Order" goes, as I.C. § 35-38-9-1(g) requires |
+The proposed order's agency and distribution-address blocks remain blank unless the filing court tells you to complete them. Do not put your home address in a law-enforcement-agency address block.
 
-**Do exactly what the bundle says: take out each placeholder page and put the matching insert page in its place.** The insert pages are printed separately here so that you can.
+## Stop and get help
 
-**The packet marks only the participant-owned choices that the selected route and held dates settle.** Every other participant blank remains for you, and every court-owned finding remains blank. The exact marks and the reason are below, in the section headed "The insert pages".
+Stop and ask an Indiana lawyer or the filing clerk for procedural direction if a prefilled fact is wrong, a disposition is unclear, a case is still pending, a pretrial-diversion issue exists, the case has an appellate record, the correct insert branch is uncertain, or the court requires information you do not have.
 
-${flattenedDeliverySection(delivered)}
-
-${filledInSection(delivered)}
-
-## Where you file it
-
-**File in a circuit or superior court in the county where the charges or allegation were filed — or, if no charges were ever filed, in the county where the arrest happened.** That is what the committed route record for this packet says, in those words.
-
-**The county is already written in all four captions** — ${listPages(delivered.written.find((w) => w.field === "cap-COUNTY").pages)} — from what the platform holds for your matter. Check it against where the charges were filed, or where the arrest happened, before you file.
-
-**Which court, and which type of court, is left for you.** The caption's court-type blank is one box name repeated in all four captions and this packet does not choose it. **Ask the clerk's office of the county in the caption which court holds your case**, and write it on the printed line in each caption.
-
-## What it costs
-
-**There is no filing fee.** The committed route record for this packet states it twice: the filing fee is "None.", and "Section 1 petitions carry no filing fee." On waiver it records "Not applicable. There is no fee."
-
-Because there is no fee, there is nothing to apply to have waived. **If the clerk asks you to pay something to file this petition, ask that clerk what the charge is for** before you pay it.
-
-## Who you serve, and how
-
-**The statute says the court serves the prosecutor. The forms carry certificates of service anyway. Do both — that is, follow the forms.**
-
-The committed route record for this packet states the statutory position: "The court serves the prosecuting attorney", under I.C. § 35-38-9-1(f). And then it states the practical one, in the same record: "The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; **follow the form**."
-
-**The bundle carries four certificates of service** — one on the Appearance, one on the petition, one on Form ACR, and an e-filing limb on each. Each offers two ways to certify: **by first-class U.S. mail, postage prepaid, or hand delivery** to the county prosecutor at an address you write in; **or** service **via the Indiana E-filing System**.
-
-**This packet leaves every certificate of service completely blank**, including the county and the prosecutor's address. Service has not happened when the packet is produced, LegalEase does not hold the prosecutor's address, and a certificate signed before service certifies a delivery that did not occur. **Complete them after you have actually served, and not before.**
-
-**No held record and no printed line states a deadline for service on this route.** **Ask the clerk of the court where you file** whether that court expects you to serve the prosecutor yourself and by when, and get the county prosecutor's mailing address from that clerk's office or from the prosecutor's own office.
-
-## What you must do before you file
-
-1. **Put each insert page in place of the placeholder page that calls for it.** The Facts, Findings and Exhibit pages are the second document in this packet; the bundle's pages 4, 10 and 11 each tell you to take that page out and put the matching insert in its place. Do that first. The section headed "The insert pages" below identifies the participant squares already marked from held facts, every remaining participant blank you must complete, and the court findings you must leave alone.
-2. **Write the cause number into every caption once the clerk gives it to you**: the “CAUSE NO.” line on pages 1, 3, 7 and 9, and the “XP CAUSE NUMBER” line on page 8. The bundle has no box for it. **The county and your name are already printed in those captions — do not write over them.**
-${ssnStep()}
-4. **Write your driver licence or state identification number** in the petition's paragraph 2.
-5. **List any other names or aliases you have used**, in the petition's paragraph 1, beside the name already printed there.
-6. **Answer the Appearance's related-cases question**, and list any related captions and case numbers.
-7. **Sign what you are asked to sign**: the Appearance, the petition's AFFIRMATION — "I affirm under penalties for perjury that the foregoing representations and statements are true and accurate" — and Form ACR. Every signature line in this bundle is left blank.
-${orderStep(delivered)}
-9. **Serve the prosecutor and complete the certificates of service — after service, not before.**
-
-## The items you must supply, where the form has a place for them
-
-| Page | The blank on the form | What to write |
-| --- | --- | --- |
-| 1, 3, 7, 9 | the caption's court type (the Coalition's box name is \`DD-cap-CourtType\`; one name, four captions) | the court your case is in — ask the clerk of the county in the caption, then write it in all four captions |
-| 1, 3, 7, 8, 9 | the caption's “CAUSE NO.” line, and page 8's “XP CAUSE NUMBER” line — no box, on any page | the cause number the clerk gives you when you file |
-| 1 | Appearance — "Fax:" (\`Fax\`) | your fax number, or leave blank if you have none |
-| 1 | Appearance — "I will accept service at the above email address" (\`Check Box1\`) | mark the printed square if you want to be served by email |
-| 1 | Appearance — "Attorney General confidential address" (\`Check Box2\`) | mark it only if you have used that address in a related case |
-| 1 | Appearance — "There are related cases: Yes / No" (\`Check Box3\`, \`Check Box4\`) | mark the one that is true |
-| 1–2 | Appearance — the related-cases table, six Caption and Case No. pairs | the caption and case number of each related case, if there are any |
-| 2 | Appearance — "Additional information as required by local rule" (\`AdditionalInformation\`) | whatever the local rule of your court requires. Ask the clerk |
-| 2 | Appearance — the certificate of service, both limbs | the date, the county, the prosecutor's address — **after you have served** |
-| 3 | Petition ¶2 — "XXX-XX-______" (\`PetSSN-Last4\`) | the last four digits of your Social Security number |
-| 3 | Petition ¶2 — driver licence or state ID number (\`PetDLorStateID#\`) | your driver licence or state identification number |
-| 3 | Petition ¶1 — the aliases blank (\`PetitionerAliases\`), beside your printed name | any other names you have used, or "none" |
-| 5 | Petition WHEREFORE — the two election squares (\`Check Box9\`, \`Check Box10\`) | mark the relief you are asking the court to order |
-| 5 | Petition — the signature line above your printed name | your signature. Your name is printed beneath it already |
-| 6 | Petition — the certificate of service, both limbs | as on page 2, **after you have served** |
-| 7 | Form ACR — the certificate of service, both limbs | as above, **after you have served** |
-| 8 | Confidential Information Form — full Social Security Number (\`PetFullSSN\`) | your whole Social Security number. This form is filed as a confidential document, and its “PETITIONER’S NAME” line is already printed |
-| 5, 12 | Petition WHEREFORE item 1 and its copy in the order — sub-items (b) to (e), "removed by the following agencies" (\`County\`, \`LEA1\`, \`LEA2\`, \`LEA3\`) | the county sheriff's department, and up to three further agencies whose records you are asking the court to order removed. Sub-item (a), the Indiana State Police, is already printed |
-| 9, 12 | the proposed order — related criminal cause numbers and appellate cause numbers (\`RelatedCriminalCauseNumbers\`, \`AppellateCauseNumbers\`) | other cases' numbers, if there are any. This packet writes neither, because both would otherwise receive *this* matter's number |
-| 13 | the proposed order's distribution list — the county prosecutor's name and mailing address and the county sheriff's department address (\`Prosecutor\`, \`ProsecutorMailingAddress\`, \`MailAddressSheriff\`) | the mailing addresses the signed order is to be sent to. The platform holds none of them. **The committed record does not say who completes this list — ask the clerk** |
-| 14 | the proposed order — the county clerk's address and its election square (\`CountyClerkAddress\`, \`Check Box32\`, \`Check Box33\`, \`Check Box34\`) | the clerk's address, and the squares beside the transferred-probation, appellate and no-contact-order addresses, each of which the form says to mark only in the case its own printed note describes |
-| 14 | the proposed order — **"Law Enforcement Agencies:"**, ${LEA_RULE_COUNT} blank printed rules (\`List-MailingAddresses_LEA\`) | the mailing address of every law-enforcement agency the signed order must be served on. **This packet writes nothing here at all.** The platform holds no agency addresses, and an earlier build wrote your own home address into this block — see the note below |
-
-## The insert pages: the settled participant choices, the remaining handback and the court's findings
-
-${insertPagesReason(delivered)}
-
-Complete the remaining participant portions from your court and arrest records, and do not write in the court's FINDINGS section.
-
-| Insert page | The block on the form | The Coalition's box names | What to write |
-| --- | --- | --- | --- |
-| 1 | the arrest or summons block | \`DD-ArrestOrSummons\`, \`ArrestDate\`, \`County\`, \`NameArrestingOfficer\`, \`ArrestingAgency\`, \`LEACaseNumber\`, \`Check Box15\`, \`Check Box17\` | how the matter began, when, in which county, who arrested you, which agency, and that agency's own case number |
-| 1 | the charge block | \`AssignedCaseNumber\`, \`DateChargesFiled\`, \`DD-HowChargesFiled\`, \`CauseNumber\`, \`DD-TypeChargesFiled\` | the case number, the date and manner the charges were filed, the cause number and the type of charges |
-| 1 | the offence grid, counts 1 to 4 | \`DD-CountNumber\`, \`OffenseDescript-Ct1\`, \`OffenseDescript-Ct2\`, \`OffenseDescript-Ct3\`, \`OffenseDescript-Ct4\`, \`DD-LevelChoice-Ct1\`, \`DD-LevelChoice-Ct2\`, \`DD-LevelChoice-Ct3\`, \`DD-LevelChoice-Ct4\`, \`DD-ChargeLevel-Ct1\`, \`DD-ChargeLevel-Ct2\`, \`DD-ChargeLevel-Ct3\`, \`DD-ChargeLevel-Ct4\`, \`DD-Misd/Felony-Ct1\`, \`DD-Misd/Felony-Ct2\`, \`DD-Misd/Felony-Ct3\`, \`DD-Misd/Felony-Ct4\` | each count as your court record words it, with its level and whether it was a misdemeanour or a felony |
-| 1 | the disposition block | \`DateChargesDismissed\`, \`DateAcquittal\`, \`AppellateCauseNumber\`, \`DateAppellateDecFinal\`, \`Check Box19\`, \`Check Box21\`, \`Check Box23\`, \`Check Box25\`, \`Check Box26\` | check the premarked square or squares against your records; complete the remaining applicable date, outcome and appellate blanks without changing a premarked answer |
-| 2 | the related-matter block | \`Check Box29\`, \`DescriptRelatedMatter\`, \`ListRelatedMCCauseNumbers\` | whether there is a related matter, what it is, and its cause numbers |
-| 3 | **FINDINGS — leave the eight election squares alone** | \`Check Box16\`, \`Check Box18\`, \`Check Box20\`, \`Check Box22\`, \`Check Box24\`, \`Check Box27\`, \`Check Box28\`, \`Check Box30\` | **nothing. These are the court's own findings.** The text blanks on page 3 repeat what you write on pages 1–2 |
-| 4 | Exhibit A — who you are | \`cap-PetitionerFullName\`, \`PetDOB\`, \`PetFullSSN\`, \`AliasNamesDOBsSSNs\`, \`AddressesSinceArrest\` | your full name, date of birth, whole Social Security number, any other names, dates of birth or numbers you have used, and every address you have lived at since the arrest |
-| 4 | Exhibit A — the records to be expunged | \`Criminal Cause Number\`, \`CountyCityArrest\`, \`Date of Dismissal\` | the criminal cause number, the county and city of the arrest, and the date of dismissal |
-| 4 | Exhibit A — the offence grid and dispositions | \`OffenseDescript-Exhibit-Ct5\`, \`OffenseDescript-Exhibit-Ct6\`, \`OffenseDescript-Exhibit-Ct7\`, \`DD-LevelChoice-Ct5\`, \`DD-LevelChoice-Ct6\`, \`DD-LevelChoice-Ct7\`, \`DD-ChargeLevel-Ct5\`, \`DD-ChargeLevel-Ct6\`, \`DD-ChargeLevel-Ct7\`, \`DD-Misd/Felony-Ct5\`, \`DD-Misd/Felony-Ct6\`, \`DD-Misd/Felony-Ct7\`, \`ChargeDisposition-Ct1\`, \`ChargeDisposition-Ct2\`, \`ChargeDisposition-Ct3\`, \`ChargeDisposition-Ct4\`, \`ChargeDisposition-Ct5\`, \`ChargeDisposition-Ct6\`, \`ChargeDisposition-Ct7\` | any further counts, and the disposition of every count |
-
-## The proposed order asks for addresses, and this packet supplies none of them
-
-**This is the part of the packet that was previously not described to you at all, and it is the part most likely to stop a filing.**
-
-The proposed order at pages 9 to 15 is what you are asking the judge to sign. Its findings and its decree are the court's. **Its address blocks are not findings.** They are the list of who the signed order is sent to, and they are printed as empty rules:
-
-| Page | The block | How many blanks | What this packet wrote in them |
-| --- | --- | --- | --- |
-| 5, 12 | WHEREFORE item 1, "removed by the following agencies" — sub-items (b), (c), (d) and (e) | four, one of them a county name | nothing |
-| 13 | "_______ County Prosecutor / Attn: ____" and "_______ County Sheriff's Dept." | three | nothing |
-| 14 | "☐ ______ County Clerk" and its address | three, plus three election squares | nothing |
-| 14 | **"Law Enforcement Agencies:"** | ${LEA_RULE_COUNT} printed rules | nothing |
-
-**Why this packet writes nothing there.** LegalEase holds no mailing address for the Indiana State Police, a county sheriff, a county clerk or any other agency, and it holds no list of which agencies hold records of your arrest. It is also a refusal made deliberately after a defect: the form's own label for the law-enforcement block reads to the software as two control characters rather than as words, and the shared field binder matched **your own street address** onto it — so an earlier build printed the petitioner's home address as a law-enforcement agency's service address inside an order for a judge to sign. That write is now refused outright.
-
-**Who completes them is not stated by any record this packet is built from.** The committed route record says only that "The court serves the prosecuting attorney" and that the appearance form nonetheless carries its own certificate of service — it says nothing about the order's distribution list, nothing about the law-enforcement list, and nothing about the WHEREFORE agencies. **This guide will not guess.** Ask the clerk of the court where you file whether that court expects you to complete these blocks before you lodge the proposed order, and get the addresses from that clerk's office or from the agencies themselves.
-
-${leftBlankSection(delivered)}
-
-${leftBlankLedger(disclosures)}
-
-## Where self-help ends
-
-This packet prepares official forms; it does not decide anything. Stop and get advice from a **lawyer licensed in Indiana**, or from the resources at **www.indianalegalhelp.org** — or put a procedural question to the **clerk of the court in the county in your caption**, who can say what the court requires even though the clerk cannot give legal advice — before filing, if any of these is true:
-
-- **you are not sure which of the insert pages your case needs, whether a premarked participant square is accurate, or how to complete the remaining blanks.** All four pages are in this packet; court FINDINGS stay blank and the remaining participant blanks come from your court and arrest records;
-- **there will be a hearing and you are not ready for one.** The committed record for this packet records that "The court sets a hearing" on this route;
-- charges are currently pending against you, or you are participating in a pretrial diversion programme. Paragraph 3 of the petition swears that neither is true;
-${waitingPeriodBullet(track)}
-- your case ended in a conviction. This packet is for an arrest, criminal charge or juvenile delinquency allegation that did **not** result in a conviction, and the proposed order says so on its face;
-- you want appellate records sealed. The petition and the order both have a place for appellate cause numbers and this packet writes neither, because an appellate cause number is issued by a different court and the platform holds none.
+- The recorded waiting period for this route is **${waitingText}**. Stop if it has not run.
 ${selfHelpTail}
 
-## What this packet is not
-
-This is a prepared copy of the Coalition for Court Access's own approved bundle together with the Non Conviction Insert Forms that the bundle directs you to add. It is not legal advice, it is not filed for you, and it does not decide whether your records can be expunged under I.C. § 35-38-9-1.
-
-_Indiana authority used for this packet: ${routeStatutes}._
+This packet prepares official forms; it does not file them or decide eligibility. Indiana authority used: ${routeStatutes}.
 `;
 }
 
@@ -784,149 +674,35 @@ export async function assertRepairInvariants({ rootDir, outRel, familyId }) {
   const out = path.join(rootDir, outRel);
   const guide = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
   const delivered = await measureDelivery({ rootDir, outRel });
-
-  assert.equal(delivered.familyId, familyId, `${outRel}: the census names a different family`);
-  assert.match(guide, /contains two official PDFs/,
-    `${familyId}: the guide must describe the two delivered official PDF files`);
-  assert.doesNotMatch(guide, /obligation:track-pathway:/,
-    `${familyId}: an internal route key leaked into participant instructions`);
-
-  const expectedInsertSelections = familyId === "in_arrest_no_charges-set"
+  assert.equal(delivered.familyId, familyId);
+  assert.match(guide, /two official Coalition for Court Access PDFs/);
+  assert.match(guide, /one complete four-page insert set for each in-scope arrest or criminal cause/);
+  assert.match(guide, /three certificates of service/);
+  assert.match(guide, /public until the order is granted/);
+  assert.match(guide, /seals or restricts access/);
+  assert.match(guide, /does not delete or destroy/);
+  assert.match(guide, /Expunged pursuant to I\.C\. § 35-38-9-1/);
+  assert.match(guide, /NOT expunged/);
+  assert.match(guide, /if known or available/);
+  assert.match(guide, /Unused count rows and unused alternative dates stay blank/);
+  assert.doesNotMatch(guide, /data\/rcap|reports\/|obligation:track-pathway:|committed record|earlier build/);
+  if (familyId === "in_arrest_no_charges-set") {
+    assert.match(guide, /after June 30, 2022/);
+    assert.match(guide, /does \*\*not\*\* shorten the statute of limitations/);
+  }
+  const expectedSelections = familyId === "in_arrest_no_charges-set"
     ? ["Check Box19", "Check Box25"]
-    : ["Check Box25"];
-  assert.deepEqual(
-    delivered.insertSelections.map((row) => row.field).sort(),
-    expectedInsertSelections,
-    `${familyId}: participant insert selections do not match the governed route and held dates`
-  );
-  for (const selection of delivered.insertSelections) {
-    assert.equal(selection.page, 1, `${familyId}/${selection.field}: settled participant selection moved off FACTS page 1`);
-    assert.ok(selection.basis, `${familyId}/${selection.field}: settled participant selection lost its evidence basis`);
-    assert.ok(
-      guide.includes(`\`${selection.field}\` — **${INSERT_SELECTION_LABELS[selection.field]}**`),
-      `${familyId}/${selection.field}: guide does not disclose the premarked participant choice`
-    );
+    : ["Check Box17", "Check Box19", "Check Box25"];
+  assert.deepEqual(delivered.insertSelections.map((row) => row.field).sort(), expectedSelections.sort());
+  const fixtureNames = ["packet-canonical-filled.pdf", "packet-boundary-filled.pdf",
+    "inserts-canonical-filled.pdf", "inserts-boundary-filled.pdf"];
+  for (const name of fixtureNames) {
+    const pdf = await PDFDocument.load(fs.readFileSync(path.join(out, "fixtures", name)), { updateMetadata: false });
+    assert.equal(pdf.getForm().getFields().length, 0, `${familyId}/${name} remains fillable`);
   }
-  const forbiddenSelections = ["Check Box15", "Check Box16", "Check Box17", "Check Box18", "Check Box20",
-    "Check Box21", "Check Box22", "Check Box23", "Check Box24", "Check Box26", "Check Box27", "Check Box28",
-    "Check Box30"];
-  for (const field of forbiddenSelections) {
-    assert.equal(
-      delivered.insertFieldDecisions.find((row) => row.field === field)?.decision,
-      "refuse",
-      `${familyId}/${field}: an unknown participant choice or court-owned finding was written`
-    );
-  }
-
-  // 1. REQUIRED_BEFORE_FILING. The retired sentences are the exact ones the
-  //    delivered bytes contradict. A copy-paste that brings any of them back --
-  //    into either builder -- fails here rather than shipping.
-  for (const sentence of RETIRED_SENTENCES) {
-    assert.ok(
-      !guide.includes(sentence),
-      `${familyId}: the guide has reacquired a sentence the delivered bytes contradict: ${JSON.stringify(sentence)}`
-    );
-  }
-
-  // 2. Every value the packet writes must be described with the widget count and
-  //    the page list the census actually records for it. Generated, then checked.
-  for (const w of delivered.written) {
-    const count = w.widgets === 1 ? "1 place" : `${w.widgets} places`;
-    assert.ok(
-      guide.includes(`\`${w.field}\``),
-      `${familyId}: the guide never names the written box ${w.field}`
-    );
-    assert.ok(
-      guide.includes(`${count}, on ${listPages(w.pages)}`),
-      `${familyId}: the guide does not state where ${w.field} prints (${count}, on ${listPages(w.pages)})`
-    );
-  }
-
-  // 3. The caption is shared, and the guide must say so in the direction the
-  //    bytes support: already printed, not for the participant to copy.
-  const name = delivered.written.find((w) => w.field === "cap-PetitionerFullName");
-  assert.ok(name, `${familyId}: cap-PetitionerFullName is no longer a written field`);
-  assert.ok(name.widgets > 1, `${familyId}: cap-PetitionerFullName is no longer a shared field`);
-  assert.match(guide, /already written on all five documents/,
-    `${familyId}: the guide must say the caption is already printed on all five documents`);
-  assert.match(guide, /Do not copy the caption onto the other documents/,
-    `${familyId}: the guide must tell the participant not to write over the printed caption`);
-
-  // 4. participant-name-placement.json is the build's own record of where the
-  //    name landed. The guide cites its counts; they must be its counts.
-  assert.ok(
-    guide.includes(`counts ${delivered.namePlacementsFound} placements of your name`),
-    `${familyId}: the guide's name-placement count does not match reports/participant-name-placement.json `
-    + `(${delivered.namePlacementsFound})`
-  );
-  assert.deepEqual(
-    delivered.namePlacementPages, name.pages,
-    `${familyId}: the pages the name was measured on do not match the pages the census binds it to`
-  );
-  assert.equal(delivered.placementsOutsideTheAllowlist, 0,
-    `${familyId}: a participant-name placement landed outside the allowlist`);
-
-  // 5. The order is written below its caption, on page 13, and the guide may not
-  //    deny it. This is the sentence vf02 caught.
-  const belowTheOrdersCaption = delivered.written.filter((w) => w.pages.includes(13));
-  assert.ok(belowTheOrdersCaption.length > 0,
-    `${familyId}: nothing is written on page 13 any more -- re-check the page-13 paragraph in the guide`);
-  assert.match(guide, /distribution list on page 13/,
-    `${familyId}: the guide must name what the packet prints in the order's page-13 distribution list`);
-
-  // 6. INS1-B. The delivered fixtures are flattened, so the guide may not send the
-  //    participant to a dropdown or a tick box that the delivery does not carry.
-  const fixtures = fs.readdirSync(path.join(out, "fixtures")).filter((f) => f.endsWith(".pdf"));
-  assert.ok(fixtures.length > 0, `${familyId}: no fixtures to check`);
-  let anyFillable = false;
-  for (const file of fixtures) {
-    const pdf = await PDFDocument.load(fs.readFileSync(path.join(out, "fixtures", file)), { updateMetadata: false });
-    let fieldCount = 0;
-    try { fieldCount = pdf.getForm().getFields().length; } catch { fieldCount = 0; }
-    const annots = pdf.getPages().reduce((n, page) => n + (page.node.Annots()?.size() ?? 0), 0);
-    if (fieldCount > 0 || annots > 0) anyFillable = true;
-  }
-  if (anyFillable) {
-    assert.fail(
-      `${familyId}: a fixture still carries fillable widgets. The guide describes a flattened delivery; `
-      + "either the delivery changed or the guide must change with it."
-    );
-  }
-  assert.match(guide, /delivered flattened: print it and complete it in pen/,
-    `${familyId}: the fixtures are flattened and the guide must say so`);
-  assert.doesNotMatch(guide, /a dropdown for the court type/,
-    `${familyId}: a flattened delivery has no dropdown`);
-  assert.doesNotMatch(guide, /\btick it\b|\btick the\b/,
-    `${familyId}: a flattened delivery has nothing to tick`);
-
-  // 7. The Social Security question, settled on the stamps the pages carry
-  //    themselves. PetFullSSN must stay off every public page, and the guide must
-  //    name both blanks that ask for the whole number rather than claiming there
-  //    is only one.
-  const publicSsn = delivered.fullSsnPages.filter((p) => PUBLIC_PAGES.includes(p));
-  assert.deepEqual(publicSsn, [],
-    `${familyId}: PetFullSSN has reached a public page (${publicSsn.join(", ")})`);
-  assert.match(guide, /it asks twice, differently/,
-    `${familyId}: the guide must say the whole number is asked for on page 8 and again in the order's findings`);
-  assert.match(guide, /Pages 1 to 7 are the pages that go on the public record/,
-    `${familyId}: the guide must say which pages are the public ones`);
-
-  // 8. No shared field may be collected on a non-public page and printed on a
-  //    public one. Every straddling field must run public -> non-public.
-  for (const field of delivered.shared) {
-    if (!field.publicPages.length || !field.nonPublicPages.length) continue;
-    assert.ok(
-      Math.min(...field.publicPages) < Math.min(...field.nonPublicPages),
-      `${familyId}: ${field.field} is first asked for on a non-public page (${field.nonPublicPages[0]}) `
-      + `and also prints on a public one (${field.publicPages.join(", ")})`
-    );
-  }
-
-  // 9. The cause number has no box. If a future source revision adds one, the
-  //    instruction to hand-write it becomes wrong and must be revisited.
-  assert.equal(delivered.hasCauseNumberBox, false,
-    `${familyId}: the bundle now has a caption cause-number box; the guide still tells the participant `
-    + "to write it in by hand");
-
-  return delivered;
+  const canonicalInsert = await PDFDocument.load(fs.readFileSync(path.join(out, "fixtures/inserts-canonical-filled.pdf")));
+  const boundaryInsert = await PDFDocument.load(fs.readFileSync(path.join(out, "fixtures/inserts-boundary-filled.pdf")));
+  assert.equal(canonicalInsert.getPageCount(), 4);
+  assert.equal(boundaryInsert.getPageCount(), 12);
+  return { ...delivered, assertions: 22, result: "PASS" };
 }

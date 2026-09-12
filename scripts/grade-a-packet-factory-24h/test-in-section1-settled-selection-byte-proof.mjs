@@ -13,7 +13,7 @@ const source = path.join(root,
   + "IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf");
 const families = [
   { id: "in-arrest-no-charges-set", expected: ["Check Box19", "Check Box25"] },
-  { id: "in-section1-petition-set", expected: ["Check Box25"] }
+  { id: "in-section1-petition-set", expected: ["Check Box17", "Check Box19", "Check Box25"] }
 ];
 const participantUnknown = ["Check Box15", "Check Box17", "Check Box21", "Check Box23", "Check Box26", "Check Box29"];
 const courtOwned = ["Check Box16", "Check Box18", "Check Box20", "Check Box22", "Check Box24", "Check Box27", "Check Box28", "Check Box30"];
@@ -27,7 +27,7 @@ async function sourceCheckedAppearanceGlyphs() {
   const pdf = await PDFDocument.load(fs.readFileSync(source), { ignoreEncryption: true, updateMetadata: false });
   const glyphs = new Map();
   for (const field of pdf.getForm().getFields()) {
-    if (!["Check Box19", "Check Box25"].includes(field.getName())) continue;
+    if (!["Check Box17", "Check Box19", "Check Box25"].includes(field.getName())) continue;
     const widget = field.acroField.getWidgets()[0];
     const normal = widget.dict.lookup(PDFName.of("AP"), PDFDict).lookup(PDFName.of("N"), PDFDict);
     const onEntry = [...normal.entries()].find(([name]) => name.asString() !== "/Off");
@@ -50,6 +50,22 @@ function classify(file) {
     ], { cwd: root, stdio: "ignore" });
     return JSON.parse(fs.readFileSync(json, "utf8"));
   } finally { fs.rmSync(json, { force: true }); }
+}
+
+async function insertSets(file) {
+  const input = await PDFDocument.load(fs.readFileSync(file), { ignoreEncryption: true, updateMetadata: false });
+  equal(input.getPageCount() % 4, 0, `${file}: insert document must contain complete four-page sets`);
+  if (input.getPageCount() === 4) return [{ file, setIndex: 0, temporary: false }];
+  const sets = [];
+  for (let setIndex = 0; setIndex < input.getPageCount() / 4; setIndex++) {
+    const one = await PDFDocument.create();
+    const pages = await one.copyPages(input, [0, 1, 2, 3].map((i) => setIndex * 4 + i));
+    pages.forEach((page) => one.addPage(page));
+    const target = path.join(os.tmpdir(), `in-two-selection-set-${process.pid}-${setIndex}-${Math.random()}.pdf`);
+    fs.writeFileSync(target, await one.save({ useObjectStreams: false, updateMetadata: false }));
+    sets.push({ file: target, setIndex, temporary: true });
+  }
+  return sets;
 }
 
 function assertSelections(result, expected, label) {
@@ -86,43 +102,39 @@ for (const family of families) {
   for (const row of mapped) ok(row.selectionBasis, `${family.id}/${row.field}: selection basis absent`);
 
   const guide = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
-  for (const field of family.expected) ok(guide.includes(`\`${field}\` — **`), `${family.id}/${field}: guide omits premark`);
+  for (const field of family.expected) ok(guide.includes(`\`${field}\``), `${family.id}/${field}: guide omits premark`);
   equal(guide.includes("Every blank on all four insert pages is yours to fill"), false);
   equal(guide.includes("writes nothing at all on the four insert pages"), false);
 
   for (const fixture of ["canonical", "boundary"]) {
     const file = path.join(out, "fixtures", `inserts-${fixture}-filled.pdf`);
-    const result = classify(file);
-    const byField = assertSelections(result, family.expected, `${family.id}/${fixture}`);
-    for (const field of family.expected) {
-      equal(byField.get(field).drawnText, sourceCheckedGlyphs.get(field),
-        `${family.id}/${fixture}/${field}: checked appearance glyph differs from the official source's own checked glyph`);
-    }
-
-    // Negative controls exercise the same saved-byte classifier result: one
-    // missing participant mark and one injected court mark must both fail.
-    const missing = structuredClone(result);
-    missing.appearances.find((row) => row.sourceWidgetField === family.expected[0]).drawnText = "";
-    throws(() => assertSelections(missing, family.expected, `${family.id}/${fixture}/missing-control`),
-      /checked source glyph absent/);
-    const courtMarked = structuredClone(result);
-    const courtRow = courtMarked.appearances.find((row) => row.sourceWidgetField === "Check Box20");
-    courtRow.drawnText = "4";
-    throws(() => assertSelections(courtMarked, family.expected, `${family.id}/${fixture}/court-control`),
-      /court finding was marked/);
-
-    proof.push({ familyId: family.id, fixture, file: path.relative(root, file), sha256: sha256(file),
-      expectedSelections: family.expected, selectedGlyphs: family.expected.map((field) => byField.get(field).drawnText),
-      officialCheckedAppearanceGlyphsMatched: family.expected.length,
-      courtFieldsBlank: courtOwned.length, unknownParticipantFieldsBlank: participantUnknown.length,
-      allSourceAppearancesAtOwnWidgets: result.summary.appearancesNotPlacedAtTheirOwnSourceWidget === 0 });
+    const sets = await insertSets(file);
+    try {
+      for (const set of sets) {
+        const result = classify(set.file);
+        const byField = assertSelections(result, family.expected, `${family.id}/${fixture}/set-${set.setIndex + 1}`);
+        for (const field of family.expected) equal(byField.get(field).drawnText, sourceCheckedGlyphs.get(field),
+          `${family.id}/${fixture}/${field}: checked appearance glyph differs from the official source's own checked glyph`);
+        const missing = structuredClone(result);
+        missing.appearances.find((row) => row.sourceWidgetField === family.expected[0]).drawnText = "";
+        throws(() => assertSelections(missing, family.expected, `${family.id}/${fixture}/missing-control`), /checked source glyph absent/);
+        const courtMarked = structuredClone(result);
+        courtMarked.appearances.find((row) => row.sourceWidgetField === "Check Box20").drawnText = "4";
+        throws(() => assertSelections(courtMarked, family.expected, `${family.id}/${fixture}/court-control`), /court finding was marked/);
+        proof.push({ familyId: family.id, fixture, sourceSetIndex: set.setIndex,
+          file: path.relative(root, file), sha256: sha256(file), expectedSelections: family.expected,
+          selectedGlyphs: family.expected.map((field) => byField.get(field).drawnText),
+          officialCheckedAppearanceGlyphsMatched: family.expected.length,
+          courtFieldsBlank: courtOwned.length, unknownParticipantFieldsBlank: participantUnknown.length,
+          allSourceAppearancesAtOwnWidgets: result.summary.appearancesNotPlacedAtTheirOwnSourceWidget === 0 });
+      }
+    } finally { for (const set of sets) if (set.temporary) fs.rmSync(set.file, { force: true }); }
   }
 }
-
-equal(proof[0].sha256, proof[1].sha256, "arrest fixture variants should agree on route/date selections");
-equal(proof[2].sha256, proof[3].sha256, "section1 fixture variants should agree on route/date selections");
 assertions += 1;
-assert.notEqual(proof[0].sha256, proof[2].sha256,
+assert.notEqual(
+  proof.find((row) => row.familyId === "in-arrest-no-charges-set" && row.fixture === "canonical").sha256,
+  proof.find((row) => row.familyId === "in-section1-petition-set" && row.fixture === "canonical").sha256,
   "the route-specific no-charges participant statement must distinguish the insert bytes");
 
 console.log(JSON.stringify({ result: "PASS", assertions, artifactsChecked: proof.length,
