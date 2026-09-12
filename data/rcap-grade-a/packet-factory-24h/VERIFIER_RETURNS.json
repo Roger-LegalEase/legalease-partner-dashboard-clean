@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 329,
-    "rows": 1420,
-    "independentVerdicts": 311,
+    "returnDirectories": 332,
+    "rows": 1423,
+    "independentVerdicts": 313,
     "failRepairRequired": 1,
-    "passIndependent": 306
+    "passIndependent": 307
   },
   "failRepairRequiredFamilies": [
     "ky_protective_order_record_expungement-set"
@@ -11020,6 +11020,36 @@
       "superseded": true
     },
     {
+      "familyId": "fl-juvenile-diversion-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vffl1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4c421f1ca80c3cb66f70ba6c68bd61105189d393",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vffl1/rows-vffl1-fl-juvenile-diversion-original-final-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-juvenile-diversion-set",
+      "superseded": false
+    },
+    {
+      "familyId": "fl-juvenile-diversion-set",
+      "verdict": "PASS",
+      "lane": "vffl1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vffl1/rows-vffl1-fl-juvenile-diversion-semantic-pass-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-juvenile-diversion-set",
+      "superseded": true
+    },
+    {
       "familyId": "fl-self-defense-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf01",
@@ -20911,6 +20941,51 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909b-nh.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_conviction_standard-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_conviction_streamlined-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "cd60bf62a2186c46b6e245ade48c744ff189bae9",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "ROUTE_OPTIONS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The controlling NH record leaves unresolved how the highest offense of conviction is determined when charges resolve on different dates and leaves RSA 651:5, VI whole-record eligibility analysis undetermined. The packet leaves route-critical participant/court choices blank and discloses the stop; it does not invent an eligibility branch.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/record-clearing/legal-design-track-registry.json",
+            "data/record-clearing/legal-design-intake/NH.memo.json",
+            "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/participant-instructions.md"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The packet correctly discloses the $125 filing fee and conditional NHJB-2311/NHJB-2328 pair, but the controlling NH record leaves unresolved whether the Department of Corrections investigation and $100 fee apply to this streamlined route. The legal question prevents acceptance and raster authorization.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/record-clearing/legal-design-track-registry.json",
+            "data/record-clearing/legal-design-intake/NH.memo.json",
+            "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/filing-instructions.md"
+          ]
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "FEE_AND_WAIVER",
+        "ROUTE_OPTIONS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-nh-conviction-streamlined-restart-semantic-blocked-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_conviction_streamlined-set",
       "superseded": false
     },
     {

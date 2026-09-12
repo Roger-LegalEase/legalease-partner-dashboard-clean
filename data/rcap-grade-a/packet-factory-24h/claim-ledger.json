@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "f3609fb6a62ccaa7c68a7c0b02bb934f3590ae1f",
+  "generatedAtCommit": "9e5c9cb2fc76ad652896a58f67a79ddd2fcdc566",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1239,21 +1239,6 @@
       "operation": "packet-build",
       "lane": "PF04",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "az_certificate_second_chance-set",
-      "familyId": "az_certificate_second_chance-set",
-      "itemId": null,
-      "familyIds": [
-        "az_certificate_second_chance-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -4205,6 +4190,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "ia-dci77-set",
+      "itemId": null,
+      "familyId": "ia-dci77-set",
+      "familyIds": [
+        "ia-dci77-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFIA1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ia-dci77-set",
       "familyId": "ia-dci77-set",
       "itemId": null,
       "familyIds": [
@@ -6344,21 +6344,6 @@
         "me-seal-gen-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "me-seal-gen-set",
-      "familyId": "me-seal-gen-set",
-      "itemId": null,
-      "familyIds": [
-        "me-seal-gen-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -7073,21 +7058,6 @@
       "released": true,
       "releasedAt": "2026-09-05T21:33:04.304Z",
       "releaseReason": "FIX66 wrote the applicant's street address onto AOC-CV-226's own street line on delivered page 4, the fact the packet already writes on AOC-CR-297, after proving the widget rect sits on its own printed caption at 300 dpi; central raster on canonical c66b5e42.. and boundary e0bd1765.. and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix66/rows.json (Replayed by Captain from FIX66 commit 25944b30a.)"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nc_145_5_misdemeanor-set",
-      "familyId": "nc_145_5_misdemeanor-set",
-      "itemId": null,
-      "familyIds": [
-        "nc_145_5_misdemeanor-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15834,24 +15804,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ia-dci77-set",
-      "itemId": null,
-      "familyId": "ia-dci77-set",
-      "familyIds": [
-        "ia-dci77-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFIA1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "dc06d7cdd898d53098e348c339653869aa5edaca7c7eb8aeea25a75a2fc13512",
+  "claimsDigest": "a5edeecc8612ca2a4c5c6f40e46311e27d277f484d4bba88646489798a8862b6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71851,6 +71806,30 @@
       "operation": "packet-build",
       "lane": "PF21",
       "withdrawnAt": "2026-09-12T20:31:26Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-12T21:02:56Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-gen-set",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "withdrawnAt": "2026-09-12T21:02:56Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_5_misdemeanor-set",
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "withdrawnAt": "2026-09-12T21:02:56Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
