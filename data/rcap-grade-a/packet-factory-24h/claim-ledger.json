@@ -9543,10 +9543,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIXTXAUTO",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Stale owner: no live FIX04 process/session or extant worker worktree; preserved worker7696632a0 code and both fixtures are byte-identical to Captain via9716ed557. Current VF02 four-class semantic failure remains. Queue bounded followup after active NJ2 completes."
     },
     {
       "subjectType": "packet-family",
@@ -15713,7 +15714,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "1def091e63d4494c9e82d6434ccc8a87707f72b46e377f507099d5a4301f1944",
+  "claimsDigest": "5cba49b33802ec9a0fc523e79b96522e16115b44a6160fd84053bd89f2951acf",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42863,6 +42864,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-12T09:37:59.818Z",
       "reason": "Four metadata/guidance defects repaired without any PDF change; focused75/75, native read-only CHECK_OK, completeness58/187 all nine implementation counters zero; independent semantic recheck required."
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-12T09:40:17.663Z",
+      "reason": "Stale owner: no live FIX04 process/session or extant worker worktree; preserved worker7696632a0 code and both fixtures are byte-identical to Captain via9716ed557. Current VF02 four-class semantic failure remains. Queue bounded followup after active NJ2 completes."
     }
   ],
   "reissues": [
@@ -65575,6 +65585,17 @@
       "previouslyReleasedAt": "2026-09-12T09:22:15.213Z",
       "transferredAt": "2026-09-12T09:29:55.427Z",
       "reason": "Completed Sol implementation fe632a3ae is preserved. Captain takes only the small four-class metadata/guidance correction from independent return d62c6d07, retaining all six PDF bytes; Sol continues NJ2. Independent VFCG1 will recheck."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIXTXAUTO",
+      "previouslyReleasedAt": "2026-09-12T09:40:17.663Z",
+      "transferredAt": "2026-09-12T09:40:17.924Z",
+      "reason": "One bounded future assignment to the same implementation worker after NJ2 freezes: repair all TX072-VF02-01/02/03/04 findings. No new implementation worker and no independent-verification ownership change; preserve historical source and raster evidence."
     }
   ],
   "grants": [
