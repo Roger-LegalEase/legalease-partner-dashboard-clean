@@ -30,6 +30,14 @@ async function flatSource() {
   return doc.save({ useObjectStreams: false, updateMetadata: false });
 }
 
+async function narrativeSource() {
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([612, 792]);
+  const field = doc.getForm().createTextField("Address 1");
+  field.addToPage(page, { x: 50, y: 700, width: 180, height: 12, borderWidth: 0 });
+  return doc.save({ useObjectStreams: false, updateMetadata: false });
+}
+
 function digest(bytes) {
   return crypto.createHash("sha256").update(bytes).digest("hex");
 }
@@ -73,6 +81,55 @@ const canonical = await finalizeOfficialForm({
 assert.equal(canonical.report.standardFontFallbacks.length, 0, "an opted-in field that fits Helvetica must retain Helvetica");
 assert.equal(canonical.report.written[0].font, "Helvetica");
 
+const longStreet = "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407";
+const narrativeBytes = await narrativeSource();
+const narrativeCensus = [{
+  name: "Address 1", type: "text", effectiveLabel: "Submitted by — Address 1",
+  regionHeading: "Signature of Defendant/Defendant's Attorney",
+  widgets: [{ page: 1, rect: { x: 50, y: 700, width: 180, height: 12 } }],
+  multiline: false, maxLength: null
+}];
+const narrativeRefused = await finalizeOfficialForm({
+  sourceBytes: narrativeBytes, expectedSha256: digest(narrativeBytes), census: narrativeCensus,
+  facts: { "participant.street_address": longStreet }, minFontSize: 6, maxFontSize: 10,
+  narrativeAcrossFields: [{ factId: "participant.street_address", fields: ["Address 1"] }]
+});
+assert.equal(narrativeRefused.report.written.length, 0, "a narrative field still refuses the measured Helvetica overflow by default");
+assert.equal(narrativeRefused.report.unfittable.length, 1);
+assert.equal(narrativeRefused.report.standardFontFallbacks.length, 0);
+
+const narrativeRepaired = await finalizeOfficialForm({
+  sourceBytes: narrativeBytes, expectedSha256: digest(narrativeBytes), census: narrativeCensus,
+  facts: { "participant.street_address": longStreet }, minFontSize: 6, maxFontSize: 10,
+  narrativeAcrossFields: [{
+    factId: "participant.street_address", fields: ["Address 1"],
+    standardFontFallback: STANDARD_FONT_FALLBACK.TIMES_ROMAN
+  }],
+  standardFontFallbackByField: { "Address 1": STANDARD_FONT_FALLBACK.TIMES_ROMAN }
+});
+assert.equal(narrativeRepaired.report.unfittable.length, 0);
+assert.equal(narrativeRepaired.report.written.length, 1);
+assert.equal(narrativeRepaired.report.written[0].fontSize, 6);
+assert.equal(narrativeRepaired.report.written[0].font, STANDARD_FONT_FALLBACK.TIMES_ROMAN);
+assert.equal(narrativeRepaired.report.standardFontFallbacks.length, 1);
+const narrativeDoc = await PDFDocument.load(narrativeRepaired.bytes, { ignoreEncryption: true });
+const narrativeText = extractTextItems(narrativeDoc.getPage(0)).map((item) => item.text).join("");
+assert.ok(narrativeText.includes(longStreet), "the narrative fallback appearance must read back the complete exact street address");
+
+const protectedNarrative = await finalizeOfficialForm({
+  sourceBytes: narrativeBytes, expectedSha256: digest(narrativeBytes),
+  census: [{ ...narrativeCensus[0], effectiveLabel: "Judge Signature" }],
+  facts: { "participant.street_address": longStreet }, minFontSize: 6, maxFontSize: 10,
+  narrativeAcrossFields: [{
+    factId: "participant.street_address", fields: ["Address 1"],
+    standardFontFallback: STANDARD_FONT_FALLBACK.TIMES_ROMAN
+  }],
+  standardFontFallbackByField: { "Address 1": STANDARD_FONT_FALLBACK.TIMES_ROMAN }
+});
+assert.equal(protectedNarrative.report.written.length, 0, "a narrative fallback must never bypass the protected-caption gate");
+assert.equal(protectedNarrative.report.standardFontFallbacks.length, 0);
+assert.ok(protectedNarrative.report.refused.some((row) => row.reason === "protected_category"));
+
 await assert.rejects(
   () => finalizeOfficialForm({
     sourceBytes: source, expectedSha256: digest(source), census,
@@ -97,4 +154,4 @@ assert.equal(protectedResult.report.written.length, 0, "a fallback must never by
 assert.equal(protectedResult.report.standardFontFallbacks.length, 0);
 assert.ok(protectedResult.report.refused.some((row) => row.reason === "protected_category"));
 
-console.log("PASS standard-font fit fallback: 13 assertions");
+console.log("PASS standard-font fit fallback: 25 assertions");

@@ -174,8 +174,8 @@ function policyRow(source, field) {
     rectBasis: "measured_widget_rectangle_of_the_exact_official_binary",
     widgets: field.widgets.map((w) => ({ widgetIndex: w.widgetIndex, page: w.page, rect: w.rect }))
   };
-  if (decision.kind === "write") return { ...common, decision: "write", factId: decision.factId, why: decision.why };
-  if (decision.kind === "narrative") return { ...common, decision: "write", viaNarrativeChannel: true, factId: decision.factId, why: decision.why };
+  if (decision.kind === "write") return { ...common, decision: "write", factId: decision.factId, why: decision.why, ...(decision.standardFontFallback ? { standardFontFallback: decision.standardFontFallback } : {}) };
+  if (decision.kind === "narrative") return { ...common, decision: "write", viaNarrativeChannel: true, factId: decision.factId, why: decision.why, ...(decision.standardFontFallback ? { standardFontFallback: decision.standardFontFallback } : {}) };
   if (decision.kind === "select") return { ...common, decision: "select", isSelectionControl: true, routeDetermined: true, basis: decision.basis, why: decision.basis };
   const row = { ...common, decision: "refuse", factId: null, reason: decision.reason, why: decision.reason, isSelectionControl: decision.selectionControl === true };
   switch (decision.kind) {
@@ -270,7 +270,12 @@ async function renderDocument(source, census, facts) {
     explicitMappings: Object.fromEntries([...writes, ...narratives].map((r) => [r.field, r.factId])),
     unwritableFields: unwritable,
     selectionsFromHeldFacts: selections,
-    narrativeAcrossFields: narratives.map((r) => ({ factId: r.factId, fields: [r.field] })),
+    narrativeAcrossFields: narratives.map((r) => ({
+      factId: r.factId,
+      fields: [r.field],
+      ...(r.standardFontFallback ? { standardFontFallback: r.standardFontFallback } : {})
+    })),
+    standardFontFallbackByField: Object.fromEntries(rows.filter((r) => r.standardFontFallback).map((r) => [r.field, r.standardFontFallback])),
     captionOnly: source.captionOnly === true,
     documentAcceptsFill: true,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),

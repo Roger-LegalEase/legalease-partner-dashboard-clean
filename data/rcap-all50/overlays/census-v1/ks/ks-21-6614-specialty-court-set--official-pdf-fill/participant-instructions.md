@@ -177,6 +177,7 @@ These blanks are not yours to complete before filing. The court or the clerk sup
 - Participant signature and date; all court, prosecutor and clerk fields; hearing details before the court supplies them.
 - Option A and all waiting-period controls, which do not apply to this specialty-court petition.
 - All fee-waiver choices, financial account, signature and date, which only the participant supplies.
+- **The “Signature of Defendant/Defendant’s Attorney” line in each proposed order’s Submitted by block.** The platform never signs it. Follow the court’s instructions on whether and when you or your attorney should sign and lodge each proposed order.
 
 ## What this packet does not tell you
 

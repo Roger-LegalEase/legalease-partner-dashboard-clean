@@ -204,6 +204,7 @@ These blanks are not yours to complete before filing. The court or the clerk sup
 - The whole Certificate of Service and Mailing at the foot of the Notice of Hearing. Its signature line reads "(Clerk of the Court) (Deputy Clerk)" and the clerk performs the service.
 - Every finding, the ruling and the judge's signature on both proposed orders, and paragraph 8 of the denial order, which is the court's own reason.
 - Race, ethnicity and the Social Security number on both cover sheets. The committed legal-design record leaves them for you pending a data-protection review, and the Criminal Cover Sheet's own footer says the Social Security number is not mandatory.
+- **The “Signature of Defendant/Defendant’s Attorney” line in each proposed order’s Submitted by block.** The platform never signs it. Follow the court’s instructions on whether and when you or your attorney should sign and lodge each proposed order.
 
 ## What this packet does not tell you
 

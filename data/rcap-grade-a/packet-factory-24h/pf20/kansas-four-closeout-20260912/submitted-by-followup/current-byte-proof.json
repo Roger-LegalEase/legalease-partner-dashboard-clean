@@ -1,0 +1,2680 @@
+{
+  "schemaVersion": "rcap-kansas-submitted-by-current-byte-proof/v1",
+  "preparedOn": "2026-09-12",
+  "status": "IMPLEMENTATION_COMPLETE_PRE_RASTER_SEMANTIC_REVIEW_PENDING",
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/final-review/additional-submitted-by-findings.json",
+    "sha256": "21ee36a5512f0e88f2ca46139a0b20c39479e05a88ed8cc5a383db67a589c8f6",
+    "status": "FAIL_REPAIR_REQUIRED",
+    "missingKnownOccurrences": 80,
+    "preserved": true,
+    "supersessionRule": "This implementation proof does not erase the historical finding; only independent review against the exact current manifest may supersede it."
+  },
+  "actorRule": {
+    "sourceBasis": "Both pinned orders print a Submitted by block with Signature of Defendant/Defendant’s Attorney, separate from the prosecutor Approved by block and the judge signature.",
+    "heldNeutralFields": [
+      "NamePrint",
+      "Address 1",
+      "City State Zip",
+      "Telephone",
+      "Email Address"
+    ],
+    "unknownParticipantFields": [
+      "Address 2",
+      "Fax Number",
+      "Supreme Court Number"
+    ],
+    "participantSignatureTreatment": "The platform does not sign. The guide directs the participant to follow the court’s instructions on whether and when the participant or attorney should sign and lodge each proposed order.",
+    "courtAndProsecutorTreatment": "Judge controls and the separate prosecutor Approved by fields remain protected and blank."
+  },
+  "measuredTotals": {
+    "knownNeutralWritesExpected": 80,
+    "knownNeutralWritesFoundExactInSavedBytes": 80,
+    "unknownSubmittedByFieldsExpectedBlank": 48,
+    "unknownSubmittedByFieldsMeasuredBlank": 48,
+    "approvedByFieldsExpectedProtected": 128,
+    "approvedByFieldsMeasuredBlank": 128,
+    "boundaryAddressFallbackOccurrences": 8,
+    "boundaryAddressFallbackFont": "Times-Roman",
+    "boundaryAddressFallbackSize": 6,
+    "minimumAllowedFontSize": 6
+  },
+  "fitEdge": {
+    "reason": "The exact 66-character boundary street is 186.396 points in Helvetica at 6pt and cannot fit the 180-point source widget after padding; Times-Roman is 171.858 points at the same 6pt floor.",
+    "behavior": "Fallback is exact-field opt-in for the two source-proven Address 1 controls. It does not split into unknown Address 2, truncate, reduce the minimum size, or bypass actor protections."
+  },
+  "families": [
+    {
+      "familyId": "ks-21-6614-conviction-set",
+      "guide": {
+        "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "91683cc8b8f9f9bc851332c2b150a2d0a96711cf13695bcaa1134578a4b80947",
+        "signatureHandback": "- **The “Signature of Defendant/Defendant’s Attorney” line in each proposed order’s Submitted by block.** The platform never signs it. Follow the court’s instructions on whether and when you or your attorney should sign and lodge each proposed order."
+      },
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "artifact": {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "e546bdfa7a3783ce450f1b1ef6b961946387b14fc3a2f90dcacc5731b0b84adb",
+            "byteLength": 673233,
+            "pageCount": 20,
+            "pageCountBasis": "parsed from the exact repaired PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 20,
+              "sourceSha256": "e546bdfa7a3783ce450f1b1ef6b961946387b14fc3a2f90dcacc5731b0b84adb"
+            }
+          },
+          "documents": [
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 138.48,
+                    "y": 480.84,
+                    "width": 168.00000000000003,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "Jordan Avery Reyes",
+                  "drawnText": "Jordan Avery Reyes",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 439.32,
+                    "width": 180.00000000000003,
+                    "height": 19.560000000000002
+                  },
+                  "expected": "412 Magnolia Avenue",
+                  "drawnText": "412 Magnolia Avenue",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 148.8,
+                    "y": 398.04,
+                    "width": 156,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "Topeka, KS 66603",
+                  "drawnText": "Topeka, KS 66603",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 126,
+                    "y": 377.16,
+                    "width": 180,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "785-555-0142",
+                  "drawnText": "785-555-0142",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 153.36,
+                    "y": 335.88,
+                    "width": 144,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "jordan.reyes@example.org",
+                  "drawnText": "jordan.reyes@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 14,
+                "exactText": "412 Magnolia Avenue",
+                "baseFont": "Helvetica",
+                "fontSize": 10,
+                "width": 96.72,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Helvetica",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": false
+              }
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "sourceSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 138.24,
+                    "y": 205.32,
+                    "width": 168.12,
+                    "height": 19.319999999999993
+                  },
+                  "expected": "Jordan Avery Reyes",
+                  "drawnText": "Jordan Avery Reyes",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 184.68,
+                    "width": 180.12000000000003,
+                    "height": 19.19999999999999
+                  },
+                  "expected": "412 Magnolia Avenue",
+                  "drawnText": "412 Magnolia Avenue",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 148.56,
+                    "y": 143.28,
+                    "width": 156.12,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "Topeka, KS 66603",
+                  "drawnText": "Topeka, KS 66603",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 125.88,
+                    "y": 122.52,
+                    "width": 180.12,
+                    "height": 19.320000000000007
+                  },
+                  "expected": "785-555-0142",
+                  "drawnText": "785-555-0142",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 161.4,
+                    "y": 81.12,
+                    "width": 143.87999999999997,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "jordan.reyes@example.org",
+                  "drawnText": "jordan.reyes@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 16,
+                "exactText": "412 Magnolia Avenue",
+                "baseFont": "Helvetica",
+                "fontSize": 10,
+                "width": 96.72,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Helvetica",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": false
+              }
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "artifact": {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "3bc6c62ba0d183cda4ef05e9dfb17f87e1d70a68a157b81dc03c8811a4851324",
+            "byteLength": 674302,
+            "pageCount": 20,
+            "pageCountBasis": "parsed from the exact repaired PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 20,
+              "sourceSha256": "3bc6c62ba0d183cda4ef05e9dfb17f87e1d70a68a157b81dc03c8811a4851324"
+            }
+          },
+          "documents": [
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 138.48,
+                    "y": 480.84,
+                    "width": 168.00000000000003,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "Alexandria Catherine Montgomery-Washington",
+                  "drawnText": "Alexandria Catherine Montgomery-Washington",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 439.32,
+                    "width": 180.00000000000003,
+                    "height": 19.560000000000002
+                  },
+                  "expected": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "drawnText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 148.8,
+                    "y": 398.04,
+                    "width": 156,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "Kansas City, KS 66101-4417",
+                  "drawnText": "Kansas City, KS 66101-4417",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 126,
+                    "y": 377.16,
+                    "width": 180,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "913-555-0199",
+                  "drawnText": "913-555-0199",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 153.36,
+                    "y": 335.88,
+                    "width": 144,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "alexandria.montgomery.washington@example.org",
+                  "drawnText": "alexandria.montgomery.washington@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 14,
+                "exactText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                "baseFont": "Times-Roman",
+                "fontSize": 6,
+                "width": 172.49,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Times-Roman",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": true
+              }
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "sourceSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 138.24,
+                    "y": 205.32,
+                    "width": 168.12,
+                    "height": 19.319999999999993
+                  },
+                  "expected": "Alexandria Catherine Montgomery-Washington",
+                  "drawnText": "Alexandria Catherine Montgomery-Washington",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 184.68,
+                    "width": 180.12000000000003,
+                    "height": 19.19999999999999
+                  },
+                  "expected": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "drawnText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 148.56,
+                    "y": 143.28,
+                    "width": 156.12,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "Kansas City, KS 66101-4417",
+                  "drawnText": "Kansas City, KS 66101-4417",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 125.88,
+                    "y": 122.52,
+                    "width": 180.12,
+                    "height": 19.320000000000007
+                  },
+                  "expected": "913-555-0199",
+                  "drawnText": "913-555-0199",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 161.4,
+                    "y": 81.12,
+                    "width": 143.87999999999997,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "alexandria.montgomery.washington@example.org",
+                  "drawnText": "alexandria.montgomery.washington@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 16,
+                "exactText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                "baseFont": "Times-Roman",
+                "fontSize": 6,
+                "width": 172.49,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Times-Roman",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "familyId": "ks-21-6614-diversion-set",
+      "guide": {
+        "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "423f8c0155f68604e334de813e9bd185550b681b83d46cbaa57a0a29c5712d01",
+        "signatureHandback": "- **The “Signature of Defendant/Defendant’s Attorney” line in each proposed order’s Submitted by block.** The platform never signs it. Follow the court’s instructions on whether and when you or your attorney should sign and lodge each proposed order."
+      },
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "artifact": {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "4985daae9ca05a4ebd82ac15c05b4bd0f61f2883279de41dea763cfc49f0ecc9",
+            "byteLength": 673855,
+            "pageCount": 20,
+            "pageCountBasis": "parsed from the exact repaired PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 20,
+              "sourceSha256": "4985daae9ca05a4ebd82ac15c05b4bd0f61f2883279de41dea763cfc49f0ecc9"
+            }
+          },
+          "documents": [
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 138.48,
+                    "y": 480.84,
+                    "width": 168.00000000000003,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "Jordan Avery Reyes",
+                  "drawnText": "Jordan Avery Reyes",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 439.32,
+                    "width": 180.00000000000003,
+                    "height": 19.560000000000002
+                  },
+                  "expected": "412 Magnolia Avenue",
+                  "drawnText": "412 Magnolia Avenue",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 148.8,
+                    "y": 398.04,
+                    "width": 156,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "Topeka, KS 66603",
+                  "drawnText": "Topeka, KS 66603",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 126,
+                    "y": 377.16,
+                    "width": 180,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "785-555-0142",
+                  "drawnText": "785-555-0142",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 153.36,
+                    "y": 335.88,
+                    "width": 144,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "jordan.reyes@example.org",
+                  "drawnText": "jordan.reyes@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 14,
+                "exactText": "412 Magnolia Avenue",
+                "baseFont": "Helvetica",
+                "fontSize": 10,
+                "width": 96.72,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Helvetica",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": false
+              }
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "sourceSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 138.24,
+                    "y": 205.32,
+                    "width": 168.12,
+                    "height": 19.319999999999993
+                  },
+                  "expected": "Jordan Avery Reyes",
+                  "drawnText": "Jordan Avery Reyes",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 184.68,
+                    "width": 180.12000000000003,
+                    "height": 19.19999999999999
+                  },
+                  "expected": "412 Magnolia Avenue",
+                  "drawnText": "412 Magnolia Avenue",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 148.56,
+                    "y": 143.28,
+                    "width": 156.12,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "Topeka, KS 66603",
+                  "drawnText": "Topeka, KS 66603",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 125.88,
+                    "y": 122.52,
+                    "width": 180.12,
+                    "height": 19.320000000000007
+                  },
+                  "expected": "785-555-0142",
+                  "drawnText": "785-555-0142",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 161.4,
+                    "y": 81.12,
+                    "width": 143.87999999999997,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "jordan.reyes@example.org",
+                  "drawnText": "jordan.reyes@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 16,
+                "exactText": "412 Magnolia Avenue",
+                "baseFont": "Helvetica",
+                "fontSize": 10,
+                "width": 96.72,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Helvetica",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": false
+              }
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "artifact": {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "e703bb7cfda795a9adf05f363bfd7a897d646aa6fc8544f5f522914def8f8f2c",
+            "byteLength": 674922,
+            "pageCount": 20,
+            "pageCountBasis": "parsed from the exact repaired PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 20,
+              "sourceSha256": "e703bb7cfda795a9adf05f363bfd7a897d646aa6fc8544f5f522914def8f8f2c"
+            }
+          },
+          "documents": [
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 138.48,
+                    "y": 480.84,
+                    "width": 168.00000000000003,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "Alexandria Catherine Montgomery-Washington",
+                  "drawnText": "Alexandria Catherine Montgomery-Washington",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 439.32,
+                    "width": 180.00000000000003,
+                    "height": 19.560000000000002
+                  },
+                  "expected": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "drawnText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 148.8,
+                    "y": 398.04,
+                    "width": 156,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "Kansas City, KS 66101-4417",
+                  "drawnText": "Kansas City, KS 66101-4417",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 126,
+                    "y": 377.16,
+                    "width": 180,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "913-555-0199",
+                  "drawnText": "913-555-0199",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 153.36,
+                    "y": 335.88,
+                    "width": 144,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "alexandria.montgomery.washington@example.org",
+                  "drawnText": "alexandria.montgomery.washington@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 14,
+                "exactText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                "baseFont": "Times-Roman",
+                "fontSize": 6,
+                "width": 172.49,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Times-Roman",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": true
+              }
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "sourceSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 138.24,
+                    "y": 205.32,
+                    "width": 168.12,
+                    "height": 19.319999999999993
+                  },
+                  "expected": "Alexandria Catherine Montgomery-Washington",
+                  "drawnText": "Alexandria Catherine Montgomery-Washington",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 184.68,
+                    "width": 180.12000000000003,
+                    "height": 19.19999999999999
+                  },
+                  "expected": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "drawnText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 148.56,
+                    "y": 143.28,
+                    "width": 156.12,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "Kansas City, KS 66101-4417",
+                  "drawnText": "Kansas City, KS 66101-4417",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 125.88,
+                    "y": 122.52,
+                    "width": 180.12,
+                    "height": 19.320000000000007
+                  },
+                  "expected": "913-555-0199",
+                  "drawnText": "913-555-0199",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 161.4,
+                    "y": 81.12,
+                    "width": 143.87999999999997,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "alexandria.montgomery.washington@example.org",
+                  "drawnText": "alexandria.montgomery.washington@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 16,
+                "exactText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                "baseFont": "Times-Roman",
+                "fontSize": 6,
+                "width": 172.49,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Times-Roman",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "guide": {
+        "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "bce3b80cc30926c45c58368f5bc92b4327c8ed636659ea84c32d4bc13ce8b4cb",
+        "signatureHandback": "- **The “Signature of Defendant/Defendant’s Attorney” line in each proposed order’s Submitted by block.** The platform never signs it. Follow the court’s instructions on whether and when you or your attorney should sign and lodge each proposed order."
+      },
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "artifact": {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "94ecee6cfbd2875b4f89d361a7b900e89b56e6ba96eff6b04b3292d81e7e8528",
+            "byteLength": 674963,
+            "pageCount": 20,
+            "pageCountBasis": "parsed from the exact repaired PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 20,
+              "sourceSha256": "94ecee6cfbd2875b4f89d361a7b900e89b56e6ba96eff6b04b3292d81e7e8528"
+            }
+          },
+          "documents": [
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 138.48,
+                    "y": 480.84,
+                    "width": 168.00000000000003,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "Jordan Avery Reyes",
+                  "drawnText": "Jordan Avery Reyes",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 439.32,
+                    "width": 180.00000000000003,
+                    "height": 19.560000000000002
+                  },
+                  "expected": "412 Magnolia Avenue",
+                  "drawnText": "412 Magnolia Avenue",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 148.8,
+                    "y": 398.04,
+                    "width": 156,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "Topeka, KS 66603",
+                  "drawnText": "Topeka, KS 66603",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 126,
+                    "y": 377.16,
+                    "width": 180,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "785-555-0142",
+                  "drawnText": "785-555-0142",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 153.36,
+                    "y": 335.88,
+                    "width": 144,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "jordan.reyes@example.org",
+                  "drawnText": "jordan.reyes@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 14,
+                "exactText": "412 Magnolia Avenue",
+                "baseFont": "Helvetica",
+                "fontSize": 10,
+                "width": 96.72,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Helvetica",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": false
+              }
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "sourceSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 138.24,
+                    "y": 205.32,
+                    "width": 168.12,
+                    "height": 19.319999999999993
+                  },
+                  "expected": "Jordan Avery Reyes",
+                  "drawnText": "Jordan Avery Reyes",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 184.68,
+                    "width": 180.12000000000003,
+                    "height": 19.19999999999999
+                  },
+                  "expected": "412 Magnolia Avenue",
+                  "drawnText": "412 Magnolia Avenue",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 148.56,
+                    "y": 143.28,
+                    "width": 156.12,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "Topeka, KS 66603",
+                  "drawnText": "Topeka, KS 66603",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 125.88,
+                    "y": 122.52,
+                    "width": 180.12,
+                    "height": 19.320000000000007
+                  },
+                  "expected": "785-555-0142",
+                  "drawnText": "785-555-0142",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 161.4,
+                    "y": 81.12,
+                    "width": 143.87999999999997,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "jordan.reyes@example.org",
+                  "drawnText": "jordan.reyes@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 16,
+                "exactText": "412 Magnolia Avenue",
+                "baseFont": "Helvetica",
+                "fontSize": 10,
+                "width": 96.72,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Helvetica",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": false
+              }
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "artifact": {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "5c2cb0b4cb5dc953308d8d437250b30aa7891e5699b09a5077191f230f028db0",
+            "byteLength": 676027,
+            "pageCount": 20,
+            "pageCountBasis": "parsed from the exact repaired PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 20,
+              "sourceSha256": "5c2cb0b4cb5dc953308d8d437250b30aa7891e5699b09a5077191f230f028db0"
+            }
+          },
+          "documents": [
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 138.48,
+                    "y": 480.84,
+                    "width": 168.00000000000003,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "Alexandria Catherine Montgomery-Washington",
+                  "drawnText": "Alexandria Catherine Montgomery-Washington",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 439.32,
+                    "width": 180.00000000000003,
+                    "height": 19.560000000000002
+                  },
+                  "expected": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "drawnText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 148.8,
+                    "y": 398.04,
+                    "width": 156,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "Kansas City, KS 66101-4417",
+                  "drawnText": "Kansas City, KS 66101-4417",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 126,
+                    "y": 377.16,
+                    "width": 180,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "913-555-0199",
+                  "drawnText": "913-555-0199",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 153.36,
+                    "y": 335.88,
+                    "width": 144,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "alexandria.montgomery.washington@example.org",
+                  "drawnText": "alexandria.montgomery.washington@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 14,
+                "exactText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                "baseFont": "Times-Roman",
+                "fontSize": 6,
+                "width": 172.49,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Times-Roman",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": true
+              }
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "sourceSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 138.24,
+                    "y": 205.32,
+                    "width": 168.12,
+                    "height": 19.319999999999993
+                  },
+                  "expected": "Alexandria Catherine Montgomery-Washington",
+                  "drawnText": "Alexandria Catherine Montgomery-Washington",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 184.68,
+                    "width": 180.12000000000003,
+                    "height": 19.19999999999999
+                  },
+                  "expected": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "drawnText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 148.56,
+                    "y": 143.28,
+                    "width": 156.12,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "Kansas City, KS 66101-4417",
+                  "drawnText": "Kansas City, KS 66101-4417",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 125.88,
+                    "y": 122.52,
+                    "width": 180.12,
+                    "height": 19.320000000000007
+                  },
+                  "expected": "913-555-0199",
+                  "drawnText": "913-555-0199",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 161.4,
+                    "y": 81.12,
+                    "width": 143.87999999999997,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "alexandria.montgomery.washington@example.org",
+                  "drawnText": "alexandria.montgomery.washington@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 16,
+                "exactText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                "baseFont": "Times-Roman",
+                "fontSize": 6,
+                "width": 172.49,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Times-Roman",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "familyId": "ks-21-6614-specialty-court-set",
+      "guide": {
+        "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "65e347fcc6fe5ce3fbe4545ecb97c30c2e4908b9963169348fafb3742b75428e",
+        "signatureHandback": "- **The “Signature of Defendant/Defendant’s Attorney” line in each proposed order’s Submitted by block.** The platform never signs it. Follow the court’s instructions on whether and when you or your attorney should sign and lodge each proposed order."
+      },
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "artifact": {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "8f060388b2fa7efdd7ab062bb30b3055da0af631e91e47d815135c53d62d8de2",
+            "byteLength": 674315,
+            "pageCount": 20,
+            "pageCountBasis": "parsed from the exact repaired PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 20,
+              "sourceSha256": "8f060388b2fa7efdd7ab062bb30b3055da0af631e91e47d815135c53d62d8de2"
+            }
+          },
+          "documents": [
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 138.48,
+                    "y": 480.84,
+                    "width": 168.00000000000003,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "Jordan Avery Reyes",
+                  "drawnText": "Jordan Avery Reyes",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 439.32,
+                    "width": 180.00000000000003,
+                    "height": 19.560000000000002
+                  },
+                  "expected": "412 Magnolia Avenue",
+                  "drawnText": "412 Magnolia Avenue",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 148.8,
+                    "y": 398.04,
+                    "width": 156,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "Topeka, KS 66603",
+                  "drawnText": "Topeka, KS 66603",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 126,
+                    "y": 377.16,
+                    "width": 180,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "785-555-0142",
+                  "drawnText": "785-555-0142",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 153.36,
+                    "y": 335.88,
+                    "width": 144,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "jordan.reyes@example.org",
+                  "drawnText": "jordan.reyes@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 14,
+                "exactText": "412 Magnolia Avenue",
+                "baseFont": "Helvetica",
+                "fontSize": 10,
+                "width": 96.72,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Helvetica",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": false
+              }
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "sourceSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 138.24,
+                    "y": 205.32,
+                    "width": 168.12,
+                    "height": 19.319999999999993
+                  },
+                  "expected": "Jordan Avery Reyes",
+                  "drawnText": "Jordan Avery Reyes",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 184.68,
+                    "width": 180.12000000000003,
+                    "height": 19.19999999999999
+                  },
+                  "expected": "412 Magnolia Avenue",
+                  "drawnText": "412 Magnolia Avenue",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 148.56,
+                    "y": 143.28,
+                    "width": 156.12,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "Topeka, KS 66603",
+                  "drawnText": "Topeka, KS 66603",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 125.88,
+                    "y": 122.52,
+                    "width": 180.12,
+                    "height": 19.320000000000007
+                  },
+                  "expected": "785-555-0142",
+                  "drawnText": "785-555-0142",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 161.4,
+                    "y": 81.12,
+                    "width": 143.87999999999997,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "jordan.reyes@example.org",
+                  "drawnText": "jordan.reyes@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 16,
+                "exactText": "412 Magnolia Avenue",
+                "baseFont": "Helvetica",
+                "fontSize": 10,
+                "width": 96.72,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Helvetica",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": false
+              }
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "artifact": {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "4d028f3ac6df1166b82d4f7c747b3fa97cc62b41e5d8ae73e6f20948c262f955",
+            "byteLength": 675447,
+            "pageCount": 20,
+            "pageCountBasis": "parsed from the exact repaired PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 20,
+              "sourceSha256": "4d028f3ac6df1166b82d4f7c747b3fa97cc62b41e5d8ae73e6f20948c262f955"
+            }
+          },
+          "documents": [
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 138.48,
+                    "y": 480.84,
+                    "width": 168.00000000000003,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "Alexandria Catherine Montgomery-Washington",
+                  "drawnText": "Alexandria Catherine Montgomery-Washington",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 439.32,
+                    "width": 180.00000000000003,
+                    "height": 19.560000000000002
+                  },
+                  "expected": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "drawnText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 148.8,
+                    "y": 398.04,
+                    "width": 156,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "Kansas City, KS 66101-4417",
+                  "drawnText": "Kansas City, KS 66101-4417",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 126,
+                    "y": 377.16,
+                    "width": 180,
+                    "height": 19.799999999999955
+                  },
+                  "expected": "913-555-0199",
+                  "drawnText": "913-555-0199",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 5,
+                  "sourceRect": {
+                    "x": 153.36,
+                    "y": 335.88,
+                    "width": 144,
+                    "height": 19.80000000000001
+                  },
+                  "expected": "alexandria.montgomery.washington@example.org",
+                  "drawnText": "alexandria.montgomery.washington@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 14,
+                "exactText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                "baseFont": "Times-Roman",
+                "fontSize": 6,
+                "width": 172.49,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Times-Roman",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": true
+              }
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "sourceSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "submittedByNeutralWrites": [
+                {
+                  "field": "NamePrint",
+                  "factId": "participant.full_legal_name",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 138.24,
+                    "y": 205.32,
+                    "width": 168.12,
+                    "height": 19.319999999999993
+                  },
+                  "expected": "Alexandria Catherine Montgomery-Washington",
+                  "drawnText": "Alexandria Catherine Montgomery-Washington",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Address 1",
+                  "factId": "participant.street_address",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 123.6,
+                    "y": 184.68,
+                    "width": 180.12000000000003,
+                    "height": 19.19999999999999
+                  },
+                  "expected": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "drawnText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "City State Zip",
+                  "factId": "participant.city_state_zip",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 148.56,
+                    "y": 143.28,
+                    "width": 156.12,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "Kansas City, KS 66101-4417",
+                  "drawnText": "Kansas City, KS 66101-4417",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Telephone",
+                  "factId": "participant.phone",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 125.88,
+                    "y": 122.52,
+                    "width": 180.12,
+                    "height": 19.320000000000007
+                  },
+                  "expected": "913-555-0199",
+                  "drawnText": "913-555-0199",
+                  "foundInOutputBytes": true
+                },
+                {
+                  "field": "Email Address",
+                  "factId": "participant.email",
+                  "sourcePage": 2,
+                  "sourceRect": {
+                    "x": 161.4,
+                    "y": 81.12,
+                    "width": 143.87999999999997,
+                    "height": 20.039999999999992
+                  },
+                  "expected": "alexandria.montgomery.washington@example.org",
+                  "drawnText": "alexandria.montgomery.washington@example.org",
+                  "foundInOutputBytes": true
+                }
+              ],
+              "unknownParticipantFieldsLeftBlank": [
+                {
+                  "field": "Supreme Court Number",
+                  "classification": "refuse",
+                  "reason": "The Supreme Court registration number belongs to an attorney; this packet is prepared for a self-represented participant and holds no attorney fact.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Address 2",
+                  "classification": "refuse",
+                  "reason": "No separate second-line address fact is held; the complete structured street address, including any apartment, is written in Address 1.",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                },
+                {
+                  "field": "Fax Number",
+                  "classification": "refuse",
+                  "reason": "optional participant-authored content, and the platform does not invent it: the source offers a Submitted by fax number and this packet holds no participant fax number",
+                  "addedInkAppearances": 0,
+                  "drawnText": ""
+                }
+              ],
+              "approvedByProsecutorFieldsProtected": [
+                {
+                  "field": "NamePrint_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Supreme Court Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 1_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Address 2_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "City State Zip_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Telephone_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Fax Number_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                },
+                {
+                  "field": "Email Address_2",
+                  "category": "court_prosecutor_clerk_or_agency_owned",
+                  "addedInkAppearances": 0
+                }
+              ],
+              "streetFit": {
+                "packetPage": 16,
+                "exactText": "1188 Southwest Martin Luther King Junior Boulevard, Apartment 1407",
+                "baseFont": "Times-Roman",
+                "fontSize": 6,
+                "width": 172.49,
+                "metricsExact": true,
+                "metricsSource": "afm:@pdf-lib/standard-fonts:Times-Roman",
+                "minimumPermittedFontSize": 6,
+                "usedFallback": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rasterManifest": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/submitted-by-followup/raster-manifest.json",
+    "sha256": "8cb1434f0b78ebcb5b1f6a9d1f9b5c242929777544c37a6655b9ce64abc090c2",
+    "documents": 8,
+    "pages": 160
+  },
+  "independentReview": "PENDING_PRE_RASTER_SEMANTIC_REVIEW",
+  "raster": "NOT_RUN"
+}

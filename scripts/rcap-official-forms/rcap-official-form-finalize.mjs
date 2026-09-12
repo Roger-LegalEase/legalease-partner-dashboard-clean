@@ -843,7 +843,8 @@ export async function finalizeOfficialForm({
    * without truncating it at the first line, so the statement stayed blank on
    * every such form.
    *
-   *   narrativeAcrossFields: [{ factId, fields: ["explain1", ... ] }]
+   *   narrativeAcrossFields: [{ factId, fields: ["explain1", ... ],
+   *     standardFontFallback: STANDARD_FONT_FALLBACK.TIMES_ROMAN }]
    *
    * THE PLATFORM'S WORDS ARE NEVER THE PARTICIPANT'S. The caller names a fact
    * id and nothing else; this module resolves it and lays out the string it
@@ -854,7 +855,11 @@ export async function finalizeOfficialForm({
    * an application sworn under penalty of perjury.
    *
    * A statement that will not fit the lines the form printed is REFUSED whole,
-   * never truncated: half a sworn statement reads as the whole of one.
+   * never truncated: half a sworn statement reads as the whole of one. A
+   * caller may opt the named lines into the same standard-font fallback used
+   * by an ordinary field. The primary and fallback measurements use the same
+   * rectangles, floor and exact held value; this changes neither the role gate
+   * nor the minimum readable size.
    *
    * Opt-in; an empty list is byte-neutral.
    */
@@ -1548,10 +1553,28 @@ export async function finalizeOfficialForm({
       Number.isFinite(narrative?.maxFontSize) ? narrative.maxFontSize : (maxFontSize ?? DEFAULT_MAX_FONT_SIZE),
       Math.max(minFontSize, shortest - 2)
     );
-    let laidOut = null;
-    for (let size = ceiling; size >= minFontSize; size -= 0.5) {
-      const lines = wrapToWidth(helvetica, value, size, usable);
-      if (lines.length <= names.length) { laidOut = { size, lines }; break; }
+    const requestedBySpec = narrative?.standardFontFallback === undefined
+      ? null
+      : validateStandardFontFallback(narrative.standardFontFallback, `narrative ${JSON.stringify(factId)}`);
+    const requestedByFields = [...new Set(names.map((name) => fallbackRequests.get(name)).filter(Boolean))];
+    if (requestedByFields.length > 1 || (requestedBySpec && requestedByFields.some((name) => name !== requestedBySpec))) {
+      refuseAll("narrative_lines_have_conflicting_standard_font_fallbacks");
+      continue;
+    }
+    const requestedFallback = requestedBySpec ?? requestedByFields[0] ?? null;
+    const layoutWith = (font) => {
+      for (let size = ceiling; size >= minFontSize; size -= 0.5) {
+        const lines = wrapToWidth(font, value, size, usable);
+        if (lines.length <= names.length) return { size, lines };
+      }
+      return null;
+    };
+    const primaryLayout = layoutWith(helvetica);
+    let selectedFont = helvetica;
+    let laidOut = primaryLayout;
+    if (!laidOut && requestedFallback) {
+      selectedFont = await fallbackFont(requestedFallback);
+      laidOut = layoutWith(selectedFont);
     }
     if (!laidOut) {
       /* Never truncated. The form printed a fixed number of lines and the
@@ -1560,7 +1583,9 @@ export async function finalizeOfficialForm({
       report.unfittable.push({
         factId, fields: names, reason: "narrative_exceeds_the_printed_lines_at_minimum_font",
         linesAvailable: names.length, minFontSize,
-        linesNeededAtMin: wrapToWidth(helvetica, value, minFontSize, usable).length
+        linesNeededAtMin: wrapToWidth(selectedFont, value, minFontSize, usable).length,
+        primaryLinesNeededAtMin: wrapToWidth(helvetica, value, minFontSize, usable).length,
+        ...(requestedFallback ? { attemptedStandardFontFallback: requestedFallback } : {})
       });
       refuseAll("narrative_exceeds_the_printed_lines_at_minimum_font", { category: "unfittable" });
       continue;
@@ -1579,21 +1604,39 @@ export async function finalizeOfficialForm({
         continue;
       }
       applyFitToTextField(handle, { outcome: "fit", fontSize: laidOut.size, lines: [line] });
+      if (selectedFont !== helvetica) fallbackAppearanceFields.set(name, { handle, font: selectedFont });
       alreadyWritten.add(name);
       report.written.push({
         field: name, factId, kind: "text_narrative_line",
         narrativeLine: i + 1, narrativeLines: laidOut.lines.length,
-        fontSize: laidOut.size, outcome: "fit", lines: 1
+        fontSize: laidOut.size, outcome: "fit", lines: 1,
+        font: selectedFont !== helvetica ? requestedFallback : StandardFonts.Helvetica,
+        standardFontFallbackUsed: selectedFont !== helvetica
       });
       report.expectedValues.push(line);
       written.push({ field: name, line: i + 1, text: line.trimEnd() });
     }
     report.narrativesWritten.push({
       factId, fields: names, fontSize: laidOut.size,
+      font: selectedFont !== helvetica ? requestedFallback : StandardFonts.Helvetica,
+      standardFontFallbackUsed: selectedFont !== helvetica,
       linesUsed: laidOut.lines.length, linesAvailable: names.length,
       linesLeftForTheParticipant: names.slice(laidOut.lines.length),
       written
     });
+    if (selectedFont !== helvetica) {
+      for (const name of written.map((row) => row.field)) {
+        report.standardFontFallbacks.push({
+          field: name, factId,
+          primaryFont: StandardFonts.Helvetica,
+          fallbackFont: requestedFallback,
+          primaryOutcome: "refused",
+          primaryRequiredLinesAtMin: wrapToWidth(helvetica, value, minFontSize, usable).length,
+          fallbackOutcome: "fit",
+          fallbackFontSize: laidOut.size
+        });
+      }
+    }
   }
 
   /*
