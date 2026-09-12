@@ -6,7 +6,7 @@
   "documents": [
     {
       "formNumber": "UJS-232",
-      "sourceSha256": "308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737",
+      "sourceSha256": "c76ac268d736a525fa2af7da552fd60ed08802a00ce4bdbbf08f8bd4829548f7",
       "documentPolicy": {
         "mode": "participant",
         "captionOnly": false,
@@ -21,7 +21,7 @@
           "height": 792
         }
       ],
-      "fieldCount": 59,
+      "fieldCount": 60,
       "selectionControlCount": 2,
       "fields": [
         {
@@ -481,6 +481,7 @@
             "participant.phone"
           ],
           "descriptorsByLabel": [
+            "participant.full_mailing_address",
             "participant.city_state_zip",
             "participant.city",
             "participant.zip",
@@ -648,8 +649,8 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": "Driver’s Lice",
-          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "effectiveLabel": "Home Work Cell",
+          "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": null,
           "regionBasis": "widget_sits_above_the_first_printed_heading",
           "protectCategory": "government_identifier",
@@ -936,6 +937,7 @@
             "participant.phone"
           ],
           "descriptorsByLabel": [
+            "participant.full_mailing_address",
             "participant.city_state_zip",
             "participant.city",
             "participant.zip",
@@ -1379,6 +1381,7 @@
             "participant.full_legal_name"
           ],
           "descriptorsByLabel": [
+            "participant.full_mailing_address",
             "participant.city_state_zip",
             "participant.city",
             "participant.zip",
@@ -1413,6 +1416,7 @@
             "participant.full_legal_name"
           ],
           "descriptorsByLabel": [
+            "participant.full_mailing_address",
             "participant.city_state_zip",
             "participant.city",
             "participant.zip",
@@ -1457,7 +1461,7 @@
               "rect": {
                 "x": 35.16,
                 "y": 164.52,
-                "width": 119.28,
+                "width": 96.24,
                 "height": 22.2
               },
               "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
@@ -1484,10 +1488,10 @@
             {
               "page": 1,
               "rect": {
-                "x": 161.28,
-                "y": 164.52,
-                "width": 98.04,
-                "height": 22.2
+                "x": 137.19,
+                "y": 164,
+                "width": 78.14,
+                "height": 22.72
               },
               "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
             }
@@ -1508,15 +1512,44 @@
           "descriptorsByLabel": []
         },
         {
+          "name": "date of death",
+          "type": "text",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 222.02,
+                "y": 164.68,
+                "width": 82.45,
+                "height": 22
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "maxLength": null,
+          "multiline": false,
+          "sourceSelection": null,
+          "effectiveLabel": "Social Security No.       Date of Birth",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "INFORMATION FOR DEFENDANT/RESPONDENT/MINOR/DECEDENT/PERSON IN NEED OF PROTECTION",
+          "regionBasis": "printed_in_full_capitals",
+          "protectCategory": "government_identifier",
+          "captionDescribesChargeValue": false,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.date_of_birth"
+          ]
+        },
+        {
           "name": "Drivers License No - defendant",
           "type": "text",
           "widgets": [
             {
               "page": 1,
               "rect": {
-                "x": 267.24,
-                "y": 164.52,
-                "width": 115.8,
+                "x": 308.91,
+                "y": 164.84,
+                "width": 96.95,
                 "height": 22.2
               },
               "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
@@ -1525,7 +1558,7 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": "Work",
+          "effectiveLabel": "Social Security No.       Date of Birth    Date of Death",
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "INFORMATION FOR DEFENDANT/RESPONDENT/MINOR/DECEDENT/PERSON IN NEED OF PROTECTION",
           "regionBasis": "printed_in_full_capitals",
@@ -1534,7 +1567,9 @@
           "descriptorsByName": [
             "participant.full_legal_name"
           ],
-          "descriptorsByLabel": []
+          "descriptorsByLabel": [
+            "participant.date_of_birth"
+          ]
         },
         {
           "name": "State defendant's license",
@@ -1543,10 +1578,10 @@
             {
               "page": 1,
               "rect": {
-                "x": 400.8,
-                "y": 164.52,
-                "width": 64.68,
-                "height": 22.2
+                "x": 413.54,
+                "y": 164.32,
+                "width": 53.68,
+                "height": 22.72
               },
               "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
             }
@@ -1554,7 +1589,7 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": "Driver’s Lice",
+          "effectiveLabel": null,
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "INFORMATION FOR DEFENDANT/RESPONDENT/MINOR/DECEDENT/PERSON IN NEED OF PROTECTION",
           "regionBasis": "printed_in_full_capitals",
@@ -1575,7 +1610,7 @@
               "rect": {
                 "x": 471.72,
                 "y": 164.52,
-                "width": 116.4,
+                "width": 116.92,
                 "height": 22.2
               },
               "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
@@ -1584,7 +1619,7 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": null,
+          "effectiveLabel": "State",
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "INFORMATION FOR DEFENDANT/RESPONDENT/MINOR/DECEDENT/PERSON IN NEED OF PROTECTION",
           "regionBasis": "printed_in_full_capitals",
@@ -1593,7 +1628,9 @@
           "descriptorsByName": [
             "participant.full_legal_name"
           ],
-          "descriptorsByLabel": []
+          "descriptorsByLabel": [
+            "participant.state"
+          ]
         },
         {
           "name": "attorney last name - defendnat",
@@ -1643,7 +1680,7 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": "Social Security No. Date of Birth Driver’s Lice nse N Staote",
+          "effectiveLabel": "Social Security No. Date of Birth Date of Death Driver’s Lic",
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "INFORMATION FOR DEFENDANT/RESPONDENT/MINOR/DECEDENT/PERSON IN NEED OF PROTECTION",
           "regionBasis": "printed_in_full_capitals",
@@ -1675,7 +1712,7 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": "Social Security No. Date of Birth Driver’s Lice nse N Staote",
+          "effectiveLabel": "Social Security No. Date of Birth Date of Death Driver’s Lic",
           "labelBasis": "printed_directly_above_in_the_same_column",
           "regionHeading": "INFORMATION FOR DEFENDANT/RESPONDENT/MINOR/DECEDENT/PERSON IN NEED OF PROTECTION",
           "regionBasis": "printed_in_full_capitals",
@@ -1851,6 +1888,7 @@
             "participant.phone"
           ],
           "descriptorsByLabel": [
+            "participant.full_mailing_address",
             "participant.city_state_zip",
             "participant.city",
             "participant.zip",
@@ -4798,7 +4836,7 @@
           "multiline": false,
           "sourceSelection": null,
           "effectiveLabel": null,
-          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": "STATEMENT OF MAILING",
           "regionBasis": "printed_in_full_capitals",
           "protectCategory": null,
@@ -4824,7 +4862,7 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": "true and correct.   S   diga y",
+          "effectiveLabel": "(Date)",
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "STATEMENT OF MAILING",
           "regionBasis": "printed_in_full_capitals",
@@ -4851,7 +4889,7 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": null,
+          "effectiveLabel": "(Month)",
           "labelBasis": "printed_to_the_left_in_the_same_cell",
           "regionHeading": "STATEMENT OF MAILING",
           "regionBasis": "printed_in_full_capitals",
@@ -4878,8 +4916,8 @@
           "maxLength": null,
           "multiline": false,
           "sourceSelection": null,
-          "effectiveLabel": "true and correct. S diga yned of on the , at",
-          "labelBasis": "printed_directly_above_in_the_same_column",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
           "regionHeading": "STATEMENT OF MAILING",
           "regionBasis": "printed_in_full_capitals",
           "protectCategory": null,
@@ -5094,14 +5132,14 @@
     },
     {
       "formNumber": "UJS-394",
-      "sourceSha256": "d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f",
+      "sourceSha256": "5cbdcdf213532a92fa2a740d64e24bc607f9c14f53af848b77ac4993275dc448",
       "documentPolicy": {
         "mode": "caption_only",
         "captionOnly": true,
         "documentAcceptsFill": true,
         "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
       },
-      "structuralClass": "flat_pdf",
+      "structuralClass": "acroform",
       "pageGeometry": [
         {
           "page": 1,
@@ -5109,649 +5147,189 @@
           "height": 792
         }
       ],
-      "fieldCount": 16,
-      "selectionControlCount": 2,
+      "fieldCount": 5,
+      "selectionControlCount": 0,
       "fields": [
         {
-          "blankId": "p1-y716.80-x123.00",
-          "page": 1,
-          "construction": "underscore_glyph_run",
-          "measured": {
-            "x0": 123,
-            "x1": 230.88,
-            "baselineY": 716.8,
-            "width": 107.88,
-            "glyphs": 18,
-            "pathKey": null
-          },
-          "geometryBasis": "glyph positions and font widths from CTM-tracked text operators",
-          "caption": "COUNTY OF",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": "COUNTY OF __________________ JUDICIAL CIRCUIT",
-          "regionIsDocumentTitle": false,
-          "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [
-            "matter.county"
+          "name": "Name of Applicant for Expungement",
+          "type": "text",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 64.44,
+                "y": 633.48,
+                "width": 195.72,
+                "height": 20.76
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
           ],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y700.80-x51.72",
-          "page": 1,
-          "construction": "content_stream_rule",
-          "measured": {
-            "x0": 51.72,
-            "x1": 321,
-            "baselineY": 700.8,
-            "width": 269.28,
-            "glyphs": null,
-            "pathKey": "page_content#5"
-          },
-          "geometryBasis": "horizontal path geometry from shared CTM-tracked content-stream walker",
-          "caption": "COUNTY OF JUDICIAL CIRCUIT",
-          "captionBasis": "nearest_overlapping_printed_line",
-          "regionHeading": "COUNTY OF __________________ JUDICIAL CIRCUIT",
-          "regionIsDocumentTitle": false,
+          "maxLength": null,
+          "multiline": false,
+          "sourceSelection": null,
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": "IN THE M OFAT TTEHRE EXPU NGEM ENT",
+          "regionBasis": "printed_in_full_capitals",
           "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [
-            "matter.county",
-            "matter.court"
-          ],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y700.80-x321.48",
-          "page": 1,
-          "construction": "content_stream_rule",
-          "measured": {
-            "x0": 321.48,
-            "x1": 563.76,
-            "baselineY": 700.8,
-            "width": 242.28,
-            "glyphs": null,
-            "pathKey": "page_content#7"
-          },
-          "geometryBasis": "horizontal path geometry from shared CTM-tracked content-stream walker",
-          "caption": "COUNTY OF JUDICIAL CIRCUIT",
-          "captionBasis": "nearest_overlapping_printed_line",
-          "regionHeading": "COUNTY OF __________________ JUDICIAL CIRCUIT",
-          "regionIsDocumentTitle": false,
-          "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [
-            "matter.county",
-            "matter.court"
-          ],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y672.96-x388.56",
-          "page": 1,
-          "construction": "content_stream_rule",
-          "measured": {
-            "x0": 388.56,
-            "x1": 534,
-            "baselineY": 672.96,
-            "width": 145.44,
-            "glyphs": null,
-            "pathKey": "page_content#0"
-          },
-          "geometryBasis": "horizontal path geometry from shared CTM-tracked content-stream walker",
-          "caption": "IN THE MATTER OF THE EXPUNGEMENT OF Case No",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": "COUNTY OF __________________ JUDICIAL CIRCUIT",
-          "regionIsDocumentTitle": false,
-          "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [
-            "matter.case_number"
-          ],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y650.88-x377.40",
-          "page": 1,
-          "construction": "content_stream_rule",
-          "measured": {
-            "x0": 377.4,
-            "x1": 534,
-            "baselineY": 650.88,
-            "width": 156.6,
-            "glyphs": null,
-            "pathKey": "page_content#1"
-          },
-          "geometryBasis": "horizontal path geometry from shared CTM-tracked content-stream walker",
-          "caption": "CRI No",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
-          "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y571.08-x51.24",
-          "page": 1,
-          "construction": "content_stream_rule",
-          "measured": {
-            "x0": 51.24,
-            "x1": 321,
-            "baselineY": 571.08,
-            "width": 269.76,
-            "glyphs": null,
-            "pathKey": "page_content#12"
-          },
-          "geometryBasis": "horizontal path geometry from shared CTM-tracked content-stream walker",
-          "caption": "The above-entitled matter came before this Court on the Petitioner’s Motion for",
-          "captionBasis": "nearest_overlapping_printed_line",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
-          "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [
+          "captionDescribesChargeValue": false,
+          "descriptorsByName": [
             "participant.full_legal_name"
           ],
-          "captionDescribesChargeValue": false
+          "descriptorsByLabel": []
         },
         {
-          "blankId": "p1-y571.08-x320.76",
-          "page": 1,
-          "construction": "content_stream_rule",
-          "measured": {
-            "x0": 320.76,
-            "x1": 563.76,
-            "baselineY": 571.08,
-            "width": 243,
-            "glyphs": null,
-            "pathKey": "page_content#14"
-          },
-          "geometryBasis": "horizontal path geometry from shared CTM-tracked content-stream walker",
-          "caption": "Granted Denied",
-          "captionBasis": "nearest_overlapping_printed_line",
-          "regionHeading": "EXPUNGEMENT",
-          "regionIsDocumentTitle": false,
+          "name": "COUNTY Name",
+          "type": "text",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 125.16,
+                "y": 717.24,
+                "width": 116.64,
+                "height": 19.21
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "maxLength": null,
+          "multiline": false,
+          "sourceSelection": null,
+          "effectiveLabel": "STATE OF S",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "STATE OF SOUTH DAKOTA IN CIRCUIT COURT",
+          "regionBasis": "printed_in_full_capitals; this is the document's title, which names the form rather than an area of it",
           "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
+          "captionDescribesChargeValue": false,
+          "descriptorsByName": [
+            "matter.county"
+          ],
+          "descriptorsByLabel": [
+            "participant.state"
+          ]
         },
         {
-          "blankId": "p1-y528.60-x512.16",
-          "page": 1,
-          "construction": "underscore_glyph_run",
-          "measured": {
-            "x0": 512.16,
-            "x1": 548.16,
-            "baselineY": 528.6,
-            "width": 36,
-            "glyphs": 6,
-            "pathKey": null
-          },
-          "geometryBasis": "glyph positions and font widths from CTM-tracked text operators",
-          "caption": ", 20",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
+          "name": "JUDICIAL CIRCUIT number",
+          "type": "text",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 356.16,
+                "y": 717.24,
+                "width": 88.32,
+                "height": 18.18
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "maxLength": null,
+          "multiline": false,
+          "sourceSelection": null,
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "STATE OF SOUTH DAKOTA IN CIRCUIT COURT",
+          "regionBasis": "printed_in_full_capitals; this is the document's title, which names the form rather than an area of it",
           "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
+          "captionDescribesChargeValue": false,
+          "descriptorsByName": [
+            "matter.court"
+          ],
+          "descriptorsByLabel": []
         },
         {
-          "blankId": "p1-y526.68-x179.76",
-          "page": 1,
-          "construction": "content_stream_rule",
-          "measured": {
-            "x0": 179.76,
-            "x1": 236.28,
-            "baselineY": 526.68,
-            "width": 56.52,
-            "glyphs": null,
-            "pathKey": "page_content#18"
-          },
-          "geometryBasis": "horizontal path geometry from shared CTM-tracked content-stream walker",
-          "caption": "Expungement on the",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
+          "name": "case number",
+          "type": "text",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 360.48,
+                "y": 681.28,
+                "width": 147.84,
+                "height": 20.76
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "maxLength": null,
+          "multiline": false,
+          "sourceSelection": null,
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN THE M OFAT TTEHRE EXPU NGEM ENT",
+          "regionBasis": "printed_in_full_capitals",
           "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
+          "captionDescribesChargeValue": false,
+          "descriptorsByName": [
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": []
         },
         {
-          "blankId": "p1-y526.68-x273.96",
-          "page": 1,
-          "construction": "content_stream_rule",
-          "measured": {
-            "x0": 273.96,
-            "x1": 490.92,
-            "baselineY": 526.68,
-            "width": 216.96,
-            "glyphs": null,
-            "pathKey": "page_content#19"
-          },
-          "geometryBasis": "horizontal path geometry from shared CTM-tracked content-stream walker",
-          "caption": "day of",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
+          "name": "criminal case number",
+          "type": "text",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 348.96,
+                "y": 658.2,
+                "width": 162.6,
+                "height": 20.76
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "maxLength": null,
+          "multiline": false,
+          "sourceSelection": null,
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN THE M OFAT TTEHRE EXPU NGEM ENT",
+          "regionBasis": "printed_in_full_capitals",
           "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y220.80-x156.00",
-          "page": 1,
-          "construction": "underscore_glyph_run",
-          "measured": {
-            "x0": 156,
-            "x1": 192,
-            "baselineY": 220.8,
-            "width": 36,
-            "glyphs": 6,
-            "pathKey": null
-          },
-          "geometryBasis": "glyph positions and font widths from CTM-tracked text operators",
-          "caption": "Dated this",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
-          "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y220.80-x236.52",
-          "page": 1,
-          "construction": "underscore_glyph_run",
-          "measured": {
-            "x0": 236.52,
-            "x1": 344.4,
-            "baselineY": 220.8,
-            "width": 107.88,
-            "glyphs": 18,
-            "pathKey": null
-          },
-          "geometryBasis": "glyph positions and font widths from CTM-tracked text operators",
-          "caption": "day of",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
-          "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y220.80-x364.32",
-          "page": 1,
-          "construction": "underscore_glyph_run",
-          "measured": {
-            "x0": 364.32,
-            "x1": 400.32,
-            "baselineY": 220.8,
-            "width": 36,
-            "glyphs": 6,
-            "pathKey": null
-          },
-          "geometryBasis": "glyph positions and font widths from CTM-tracked text operators",
-          "caption": ", 20",
-          "captionBasis": "same_line_before_measured_blank",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
-          "protectCategory": null,
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "blankId": "p1-y127.30-x57.96",
-          "page": 1,
-          "construction": "underscore_glyph_run",
-          "measured": {
-            "x0": 57.96,
-            "x1": 231.96,
-            "baselineY": 127.3,
-            "width": 174,
-            "glyphs": 29,
-            "pathKey": null
-          },
-          "geometryBasis": "glyph positions and font widths from CTM-tracked text operators",
-          "caption": "Clerk of Court",
-          "captionBasis": "nearest_overlapping_printed_line",
-          "regionHeading": null,
-          "regionIsDocumentTitle": false,
-          "protectCategory": "clerk",
-          "regionProtectCategory": null,
-          "descriptorsByCaption": [],
-          "captionDescribesChargeValue": false
-        },
-        {
-          "selectionId": "p1-decoded_page_stream_stroked_re_box-x453.3-y578.53",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "decoded_page_stream_stroked_re_box",
-          "measured": {
-            "x0": 453.3,
-            "y0": 578.53,
-            "x1": 479.55,
-            "y1": 599.53,
-            "width": 26.25,
-            "height": 21
-          },
-          "label": "Granted Denied",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-decoded_page_stream_stroked_re_box-x356.1-y578.48",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "decoded_page_stream_stroked_re_box",
-          "measured": {
-            "x0": 356.1,
-            "y0": 578.48,
-            "x1": 382.35,
-            "y1": 599.48,
-            "width": 26.25,
-            "height": 21
-          },
-          "label": "Granted Denied",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "captionDescribesChargeValue": false,
+          "descriptorsByName": [
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": []
         }
       ],
-      "selectionControls": [
-        {
-          "selectionId": "p1-decoded_page_stream_stroked_re_box-x453.3-y578.53",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "decoded_page_stream_stroked_re_box",
-          "measured": {
-            "x0": 453.3,
-            "y0": 578.53,
-            "x1": 479.55,
-            "y1": 599.53,
-            "width": 26.25,
-            "height": 21
-          },
-          "label": "Granted Denied",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-decoded_page_stream_stroked_re_box-x356.1-y578.48",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "decoded_page_stream_stroked_re_box",
-          "measured": {
-            "x0": 356.1,
-            "y0": 578.48,
-            "x1": 382.35,
-            "y1": 599.48,
-            "width": 26.25,
-            "height": 21
-          },
-          "label": "Granted Denied",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        }
-      ],
+      "selectionControls": [],
       "geometryEvidence": [
         {
           "page": 1,
-          "geometrySource": "recursive_content_and_Form_XObject_streams_with_CTM_tracking",
-          "horizontalRules": [
+          "count": 2,
+          "rectangles": [
             {
-              "x": 51.72,
-              "y": 700.8,
-              "width": 269.28,
-              "height": 0.48,
-              "endX": 321,
-              "topY": 701.28,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#5",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 321.48,
-              "y": 700.8,
-              "width": 242.28,
-              "height": 0.48,
-              "endX": 563.76,
-              "topY": 701.28,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#7",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 388.56,
-              "y": 672.96,
-              "width": 145.44,
-              "height": 0.6,
-              "endX": 534,
-              "topY": 673.56,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#0",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 377.4,
-              "y": 650.88,
-              "width": 156.6,
-              "height": 0.6,
-              "endX": 534,
-              "topY": 651.48,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#1",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 56.95,
-              "y": 630.86,
-              "width": 213.7,
-              "height": 0,
-              "endX": 270.65,
-              "topY": 630.86,
-              "operator": "l",
-              "paintedBy": "S",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#21",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 51.24,
-              "y": 571.08,
-              "width": 269.76,
-              "height": 0.48,
-              "endX": 321,
-              "topY": 571.56,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#12",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 320.76,
-              "y": 571.08,
-              "width": 243,
-              "height": 0.48,
-              "endX": 563.76,
-              "topY": 571.56,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#14",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 179.76,
-              "y": 526.68,
-              "width": 56.52,
-              "height": 0.72,
-              "endX": 236.28,
-              "topY": 527.4,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#18",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 273.96,
-              "y": 526.68,
-              "width": 216.96,
-              "height": 0.72,
-              "endX": 490.92,
-              "topY": 527.4,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#19",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 348.95,
-              "y": 168.35,
-              "width": 204,
-              "height": 0,
-              "endX": 552.95,
-              "topY": 168.35,
-              "operator": "l",
-              "paintedBy": "S",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#22",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 74.64,
-              "y": 95.88,
-              "width": 156,
-              "height": 0.72,
-              "endX": 230.64,
-              "topY": 96.6,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#20",
-              "geometrySource": "content_stream"
-            }
-          ],
-          "verticalDividers": [
-            {
-              "x": 50.76,
-              "y": 571.56,
-              "width": 0.48,
-              "height": 129.24,
-              "endX": 51.24,
-              "topY": 700.8,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#9",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 304.3,
-              "y": 572,
-              "width": 0,
-              "height": 129.4,
-              "endX": 304.3,
-              "topY": 701.4,
-              "operator": "l",
-              "paintedBy": "S",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#25",
-              "geometrySource": "content_stream"
-            },
-            {
-              "x": 563.76,
-              "y": 571.56,
-              "width": 0.48,
-              "height": 129.24,
-              "endX": 564.24,
-              "topY": 700.8,
-              "operator": "re",
-              "paintedBy": "f",
-              "sourceStream": "page_content",
-              "pathKey": "page_content#15",
-              "geometrySource": "content_stream"
-            }
-          ],
-          "strokedRectangles": [
-            {
-              "x0": 356.1,
-              "y0": 578.48,
-              "x1": 382.35,
-              "y1": 599.48,
-              "width": 26.25,
-              "height": 21,
-              "lineWidth": 1,
+              "x0": 338.5,
+              "y0": 585.18,
+              "x1": 356.15,
+              "y1": 600.18,
+              "width": 17.65,
+              "height": 15,
+              "lineWidth": 0.75,
               "construction": "re",
-              "squareness": 0.8
+              "squareness": 0.85
             },
             {
-              "x0": 453.3,
-              "y0": 578.53,
-              "x1": 479.55,
-              "y1": 599.53,
-              "width": 26.25,
-              "height": 21,
-              "lineWidth": 1,
+              "x0": 432.35,
+              "y0": 585.93,
+              "x1": 450,
+              "y1": 600.93,
+              "width": 17.65,
+              "height": 15,
+              "lineWidth": 0.75,
               "construction": "re",
-              "squareness": 0.8
-            }
-          ],
-          "recursivePaintedRectangles": [
-            {
-              "pathKey": "page_content#23",
-              "x0": 356.1,
-              "y0": 578.48,
-              "x1": 382.35,
-              "y1": 599.48,
-              "width": 26.25,
-              "height": 21,
-              "squareness": 0.8,
-              "construction": "re",
-              "paintedBy": "S",
-              "sourceStream": "page_content"
-            },
-            {
-              "pathKey": "page_content#24",
-              "x0": 453.3,
-              "y0": 578.53,
-              "x1": 479.55,
-              "y1": 599.53,
-              "width": 26.25,
-              "height": 21,
-              "squareness": 0.8,
-              "construction": "re",
-              "paintedBy": "S",
-              "sourceStream": "page_content"
+              "squareness": 0.85
             }
           ]
         }
       ],
-      "censusBasis": "underscore glyphs, rules, checkbox glyphs, recursive Form-XObject paths, and pinned-source raster-measured controls read first hand from exact bytes"
+      "censusBasis": "widget /Rect geometry and printed-label/page-region context read first hand from pinned bytes"
     },
     {
       "formNumber": "UJS-395",

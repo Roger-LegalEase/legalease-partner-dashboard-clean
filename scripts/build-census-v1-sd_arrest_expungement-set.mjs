@@ -17,6 +17,12 @@ import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
+import {
+  GOVERNANCE_KEYS,
+  preserveGovernanceState,
+  writeWiringChecked
+} from "./rcap-packet-completeness/governance-preservation.mjs";
+
 const require = createRequire(import.meta.url);
 const cliArgs = process.argv.slice(2);
 const fix13LightweightRun = cliArgs.includes("--instruction-repair-only") || cliArgs.includes("--assert-fix13");
@@ -123,6 +129,15 @@ const TEXT_FIELDS = Object.freeze({
     "home phone - plaintiff": "participant.phone",
     "Date of Birth  - plaintiff": "participant.date_of_birth",
   },
+  /* FIX112. UJS-394 is AcroForm in the current Rev. 07/2026 binary. Bind its
+   * three participant/caption fields from the current widgets; judicial
+   * circuit remains an explicit required-before-filing fact. */
+  "UJS-394": {
+    "Name of Applicant for Expungement": "participant.full_legal_name",
+    "COUNTY Name": "matter.county",
+    "case number": "matter.case_number",
+    "criminal case number": "matter.case_number",
+  },
   "UJS-391": {
     "enter your date of birth": "participant.date_of_birth",
     "insert the date of your arrest or date you received your ticket": "matter.arrest_date",
@@ -195,14 +210,9 @@ const SELECTIONS = Object.freeze({
   },
 });
 
-const MANUAL_ANCHORS = Object.freeze({
-  "UJS-394": [
-    { field: "p1-y716.80-x123.00", sourcePage: 1, box: { x: 124.5, y: 718.8, width: 104.4, height: 12 }, factId: "matter.county" },
-    { field: "p1-y672.96-x388.56", sourcePage: 1, box: { x: 390.06, y: 674.96, width: 141.94, height: 12 }, factId: "matter.case_number" },
-    { field: "p1-y650.88-x377.40", sourcePage: 1, box: { x: 378.9, y: 652.88, width: 153.1, height: 12 }, factId: "matter.case_number" },
-    { field: "manual-applicant-name", sourcePage: 1, box: { x: 58.45, y: 632.86, width: 210.2, height: 12 }, factId: "participant.full_legal_name" },
-  ],
-});
+/* UJS-394's current binary carries its caption positions as AcroForm widgets;
+ * no manual coordinate anchors remain after the source refresh. */
+const MANUAL_ANCHORS = Object.freeze({});
 
 const REQUIRED_BEFORE_FILING = Object.freeze({
   "ne-setaside-custodial-set": [
@@ -683,9 +693,32 @@ function updateSourceReceipt(receipt) {
   const corpus = process.env.MASTER_LIBRARY_SOURCE_DIR;
   assert.ok(corpus && fs.existsSync(corpus), "MASTER_LIBRARY_SOURCE_DIR is required for completeness repair");
   for (const document of receipt.documents) {
-    const source = fs.readFileSync(path.join(corpus, document.pathInArchive));
+    const recovery = document.sourceRecovery ?? null;
+    const sourcePath = recovery
+      ? path.resolve(rootDir, document.pathInArchive)
+      : path.join(corpus, document.pathInArchive);
+    assert.ok(fs.existsSync(sourcePath), `${document.formNumber}: bound source is absent at ${sourcePath}`);
+    const source = fs.readFileSync(sourcePath);
     assert.equal(sha256(source), document.sha256,
-      `${document.formNumber}: pinned source hash changed during completeness repair`);
+      `${document.formNumber}: bound source hash changed during completeness repair`);
+    assert.equal(source.length, document.byteLength,
+      `${document.formNumber}: bound source byte length changed during completeness repair`);
+    if (recovery) {
+      const recoveryReceiptPath = path.resolve(rootDir, recovery.receiptPath);
+      assert.ok(fs.existsSync(recoveryReceiptPath),
+        `${document.formNumber}: source recovery receipt is absent at ${recoveryReceiptPath}`);
+      const recoveryReceipt = readJson(recovery.receiptPath);
+      assert.equal(recoveryReceipt.formNumber, document.formNumber,
+        `${document.formNumber}: source recovery receipt names a different form`);
+      assert.equal(recoveryReceipt.sha256, document.sha256,
+        `${document.formNumber}: source recovery receipt hash differs from the bound source`);
+      assert.equal(recoveryReceipt.observedByteLength, document.byteLength,
+        `${document.formNumber}: source recovery receipt length differs from the bound source`);
+      assert.equal(recoveryReceipt.acquisitionRunId, recovery.acquisitionRunId,
+        `${document.formNumber}: source recovery run identity drifted`);
+      assert.equal(recoveryReceipt.artifactName, recovery.artifactName,
+        `${document.formNumber}: source recovery artifact name drifted`);
+    }
   }
   return {
     ...receipt,
@@ -694,9 +727,59 @@ function updateSourceReceipt(receipt) {
       dispatchCommit: DISPATCH_COMMIT,
       captainBaseSha: BASE_SHA,
       everySourceHashRecomputed: true,
-      sourceBinaryCommitted: false,
+      sourceBinaryCommitted: true,
+      currentSourceRecoveryEvidence: receipt.documents
+        .filter((document) => document.sourceRecovery)
+        .map((document) => ({
+          formNumber: document.formNumber,
+          path: document.pathInArchive,
+          receiptPath: document.sourceRecovery.receiptPath,
+          sha256: document.sha256,
+          byteLength: document.byteLength,
+          acquisitionRunId: document.sourceRecovery.acquisitionRunId,
+          artifactName: document.sourceRecovery.artifactName,
+          artifactId: document.sourceRecovery.artifactId,
+        })),
     },
   };
+}
+
+function preserveCurrentSourceGovernance(familyId, receipt, canonicalSha256) {
+  assert.equal(familyId, "sd_arrest_expungement-set",
+    "current source governance is family-local to South Dakota");
+  const rel = `${FAMILY_DIRS[familyId]}/product-wiring.json`;
+  const product = readJson(rel);
+  const binding = product.binding;
+  assert.ok(binding && typeof binding === "object",
+    `${familyId}: current product wiring lost its Captain-owned binding during source repair`);
+  for (const key of ["paymentEligible", "sponsorshipEligible", "whyPaymentIsClosed", "maintenanceRelationship"]) {
+    assert.ok(Object.hasOwn(binding, key), `${familyId}: governance key ${key} was dropped during source repair`);
+  }
+  assert.equal(binding.paymentEligible, false, `${familyId}: payment governance changed during source repair`);
+  assert.equal(binding.sponsorshipEligible, false, `${familyId}: sponsorship governance changed during source repair`);
+  assert.equal(typeof binding.whyPaymentIsClosed, "string", `${familyId}: payment closure explanation disappeared`);
+  assert.equal(typeof binding.maintenanceRelationship, "object", `${familyId}: maintenance governance disappeared`);
+  assert.ok(Array.isArray(binding.sourceVersion), `${familyId}: sourceVersion governance is not an array`);
+  const bySourceId = new Map(receipt.documents.flatMap((document) =>
+    (document.sourceIds ?? []).map((sourceId) => [sourceId, document])));
+  binding.sourceVersion = binding.sourceVersion.map((version) => {
+    const document = bySourceId.get(version.sourceId);
+    assert.ok(document, `${familyId}: sourceVersion names an unbound source ${version.sourceId}`);
+    return { ...version, sha256: document.sha256 };
+  });
+  /* The wrapper has now finished the final canonical PDF. Remove the
+   * non-authored governance keys from the candidate and let the native helper
+   * compare the committed receipt against this exact final digest. A changed
+   * digest is recorded under acceptanceReceiptWithdrawn with both digests and
+   * the complete prior receipt. */
+  const committedOrder = Object.keys(binding);
+  for (const key of GOVERNANCE_KEYS) delete binding[key];
+  preserveGovernanceState(fs, path.resolve(rootDir, rel), product, { canonicalSha256 });
+  const restored = {};
+  for (const key of committedOrder) if (key in binding) restored[key] = binding[key];
+  for (const key of Object.keys(binding)) if (!(key in restored)) restored[key] = binding[key];
+  product.binding = restored;
+  writeWiringChecked(fs, path.resolve(rootDir, rel), product);
 }
 
 function participantInstructions(familyId) {
@@ -849,7 +932,8 @@ async function repairFamily(familyId) {
 
   const repairedMap = rebuildFieldMap(familyId, census, baseMap, fixtureResults);
   writeJson(`${dir}/production-field-map.json`, repairedMap);
-  writeJson(`${dir}/source-receipt.json`, updateSourceReceipt(receipt));
+  const repairedReceipt = updateSourceReceipt(receipt);
+  writeJson(`${dir}/source-receipt.json`, repairedReceipt);
   fs.writeFileSync(path.join(rootDir, `${dir}/participant-instructions.md`), participantInstructions(familyId));
 
   const artifactEvidence = [];
@@ -865,7 +949,16 @@ async function repairFamily(familyId) {
     artifact.rasterEngineDiscoveryMode = process.env.RCAP_PDFTOPPM ? "RCAP_PDFTOPPM" : "PATH";
     artifact.rasterEngineVersion = pages[0].engineVersion;
     artifact.rasterDpi = RASTER_DPI;
-    artifact.rasterPages = pages;
+    /* Local rasters are scratch measurements only. Keep them out of the
+     * committed report so stale repository PNGs cannot be mistaken for proof
+     * over these repaired fixture bytes; the central original-raster workflow
+     * owns the visual gate and its manifest enrolls both PDFs by hash. */
+    artifact.rasterPages = [];
+    artifact.rasterEvidenceDeferred = {
+      status: "CENTRAL_RASTER_ACCEPTANCE_PENDING",
+      scratchPageCount: pages.length,
+      reason: "Local raster pages are scratch evidence; central original raster acceptance must render the exact committed fixture bytes.",
+    };
     artifactEvidence.push({
       fixture,
       finalPdfSha256: artifact.sha256,
@@ -881,10 +974,16 @@ async function repairFamily(familyId) {
   }
   rendered.schemaVersion = "rcap-rendered-artifacts/v1-completeness-repair";
   rendered.completenessRepair = { assignmentId: ASSIGNMENT_ID, dispatchCommit: DISPATCH_COMMIT };
-  rendered.everyPageRastered = rendered.artifacts.every((artifact) => artifact.rasterPages.length === artifact.pageCount);
+  rendered.everyPageRastered = false;
+  rendered.rasterEvidenceDeferred = true;
   rendered.byteDerivedHashes = true;
   rendered.renderedFresh = true;
   writeJson(`${dir}/reports/rendered-artifacts.json`, rendered);
+  preserveCurrentSourceGovernance(
+    familyId,
+    repairedReceipt,
+    rendered.artifacts.find((artifact) => artifact.fixture === "canonical")?.sha256 ?? null
+  );
 
   writeJson(`${dir}/reports/actual-writes.json`, {
     schemaVersion: "rcap-actual-writes-byte-proof/v2-completeness-repair",

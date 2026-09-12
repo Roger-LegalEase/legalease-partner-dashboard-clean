@@ -47,6 +47,10 @@ import {
 // restated. A disposition this builder writes and a disposition the packet
 // completeness audit reads are then the same set by construction.
 import { REFUSAL_CLASSES } from "./rcap-packet-completeness/completeness-contract.mjs";
+import {
+  GOVERNANCE_KEYS,
+  preserveGovernanceState
+} from "./rcap-packet-completeness/governance-preservation.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const rootDir = path.resolve(path.dirname(thisFile), "..");
@@ -85,6 +89,45 @@ const STALE_BLOCK = "data/rcap-grade-a/stale-artifact-block.json";
 const FIXED_DATE = new Date("2026-01-01T00:00:00Z");
 const POPPLER_PDFTOPPM = process.env.RCAP_PDFTOPPM || "pdftoppm";
 const RASTER_DPI = 72;
+
+/*
+ * The court refreshed two South Dakota binaries without changing the visible
+ * UJS-232 footer. Those binaries were acquired and hash-verified by the
+ * source-acquisition runs recorded in reference/source-recovery. Keep this
+ * replacement in the SD family configuration only: the other families on
+ * this shared host continue to resolve their own custody rows and corpus
+ * bytes exactly as before.
+ */
+const SD_CURRENT_SOURCE_OVERRIDES = Object.freeze({
+  "official-form:UJS-232": Object.freeze({
+    path: "reference/source-recovery/2026-09-12-sd-current/SD-UJS-232.pdf",
+    receiptPath: "reference/source-recovery/2026-09-12-sd-current/SD-UJS-232.receipt.json",
+    formNumber: "UJS-232",
+    revision: "REV-2020-12",
+    sha256: "c76ac268d736a525fa2af7da552fd60ed08802a00ce4bdbbf08f8bd4829548f7",
+    byteLength: 177827,
+    pageCount: 1,
+    acroFieldCount: 60,
+    structuralClassObserved: "acroform",
+    acquisitionRunId: "34693276437",
+    artifactName: "rcap-source-sd-ujs-232",
+    artifactId: 10298531079,
+  }),
+  "official-form:UJS-394": Object.freeze({
+    path: "reference/source-recovery/2026-09-12-sd-current/SD-UJS-394.pdf",
+    receiptPath: "reference/source-recovery/2026-09-12-sd-current/SD-UJS-394.receipt.json",
+    formNumber: "UJS-394",
+    revision: "REV-2026-07",
+    sha256: "5cbdcdf213532a92fa2a740d64e24bc607f9c14f53af848b77ac4993275dc448",
+    byteLength: 188446,
+    pageCount: 1,
+    acroFieldCount: 5,
+    structuralClassObserved: "acroform",
+    acquisitionRunId: "34693277294",
+    artifactName: "rcap-source-sd-ujs-394",
+    artifactId: 10298361572,
+  }),
+});
 
 function popplerEvidenceFromProbe({ configuredByEnvironment, stdout, stderr }) {
   const combined = `${stderr ?? ""}\n${stdout ?? ""}`;
@@ -631,7 +674,17 @@ const FAMILY_CONFIGS = {
     routeKeys: ["obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"],
     selectionId: "sd-stage-2-ujs-232-391-through-395",
     sourceIds: ["official-form:UJS-232", "official-form:UJS-391", "official-form:UJS-392", "official-form:UJS-393", "official-form:UJS-394", "official-form:UJS-395"],
-    chargeLabel: "Arrest record sought to be expunged"
+    chargeLabel: "Arrest record sought to be expunged",
+    /* FIX112. Current UJS-232 and UJS-394 binaries are family-local source
+     * replacements; every other source remains bound to the held corpus. */
+    sourceOverrides: SD_CURRENT_SOURCE_OVERRIDES,
+    /* Preserve the Captain-owned governance binding while this source refresh
+     * invalidates the old raster receipt. */
+    carryProductBinding: true,
+    /* The SD wrapper changes the final fixture bytes after CENTRAL assembles
+     * its six-document packet. Defer the native receipt comparison until that
+     * wrapper has measured the final canonical PDF. */
+    deferGovernancePreservation: true
   },
   "ut_pet_acquittal-set": {
     state: "ut", action: "BUILD", outputVehicle: "official-pdf-fill",
@@ -914,6 +967,14 @@ function resolveSources(familyId, config) {
   const relationships = custodyRows.flatMap((row) => row.documentSources ?? []);
   const index = readJson(CORPUS_INDEX);
   const root = corpusRoot();
+  const sourceOverrides = config.sourceOverrides ?? {};
+  if (Object.keys(sourceOverrides).length) {
+    assert.equal(familyId, "sd_arrest_expungement-set",
+      "source overrides are reserved for the family-local SD current-source repair");
+    assert.deepEqual(Object.keys(sourceOverrides).sort(), [
+      "official-form:UJS-232", "official-form:UJS-394"
+    ], "SD source repair must replace exactly UJS-232 and UJS-394");
+  }
   const selected = [];
   for (const sourceId of config.sourceIds) {
     const relation = relationships.find((item) => item.sourceId === sourceId);
@@ -922,14 +983,50 @@ function resolveSources(familyId, config) {
     const held = relation.heldAs;
     const indexEntry = (index.entries ?? []).find((entry) => entry.path === held.path);
     if (!indexEntry) throw new Error(`${familyId}/${sourceId}: SOURCE_ABSENT_FROM_INDEX at ${held.path}`);
-    if (indexEntry.sha256 !== held.sha256) throw new Error(`${familyId}/${sourceId}: SOURCE_MISMATCH_AGAINST_INDEX`);
-    const abs = path.join(root, held.path);
+    const override = sourceOverrides[sourceId] ?? null;
+    if (override) {
+      assert.equal(override.formNumber, held.formNumber,
+        `${familyId}/${sourceId}: family-local source replacement changed the form identity`);
+      assert.match(override.sha256 ?? "", /^[a-f0-9]{64}$/,
+        `${familyId}/${sourceId}: family-local source replacement needs a full SHA-256`);
+      assert.equal(Number.isInteger(override.byteLength), true,
+        `${familyId}/${sourceId}: family-local source replacement needs byte length`);
+    } else if (indexEntry.sha256 !== held.sha256) {
+      throw new Error(`${familyId}/${sourceId}: SOURCE_MISMATCH_AGAINST_INDEX`);
+    }
+    const effectivePath = override?.path ?? held.path;
+    const abs = override
+      ? (path.isAbsolute(effectivePath) ? effectivePath : path.resolve(rootDir, effectivePath))
+      : path.join(root, effectivePath);
     if (!fs.existsSync(abs)) throw new Error(`${familyId}/${sourceId}: SOURCE_ABSENT_FROM_DISK at ${abs}`);
     const bytes = fs.readFileSync(abs);
     const digest = sha256(bytes);
-    if (digest !== held.sha256) throw new Error(`${familyId}/${sourceId}: SOURCE_MISMATCH_ON_DISK expected ${held.sha256}, read ${digest}`);
-    if (bytes.length !== indexEntry.byteLength) throw new Error(`${familyId}/${sourceId}: SOURCE_BYTE_LENGTH_DISAGREES_WITH_INDEX`);
-    selected.push({ sourceId, relationship: relation, ...held, indexEntry, bytes });
+    const expectedSha256 = override?.sha256 ?? held.sha256;
+    if (digest !== expectedSha256) {
+      throw new Error(`${familyId}/${sourceId}: SOURCE_MISMATCH_ON_DISK expected ${expectedSha256}, read ${digest}`);
+    }
+    const expectedByteLength = override?.byteLength ?? indexEntry.byteLength;
+    if (bytes.length !== expectedByteLength) {
+      throw new Error(`${familyId}/${sourceId}: SOURCE_BYTE_LENGTH_DISAGREES_WITH_BOUND_SOURCE`);
+    }
+    const effectiveIndexEntry = override ? {
+      ...indexEntry,
+      path: effectivePath,
+      sha256: expectedSha256,
+      byteLength: expectedByteLength,
+      pageCount: override.pageCount ?? indexEntry.pageCount,
+      acroFieldCount: override.acroFieldCount ?? indexEntry.acroFieldCount,
+      structuralClassObserved: override.structuralClassObserved ?? indexEntry.structuralClassObserved,
+    } : indexEntry;
+    selected.push({
+      sourceId,
+      relationship: relation,
+      ...held,
+      ...(override ? { path: effectivePath, revision: override.revision ?? held.revision, sourceOverride: override } : {}),
+      sha256: expectedSha256,
+      indexEntry: effectiveIndexEntry,
+      bytes,
+    });
   }
   const unique = [];
   for (const source of selected) {
@@ -941,6 +1038,18 @@ function resolveSources(familyId, config) {
 }
 
 function sourceReceipt(familyId, config, resolved) {
+  const currentSourceRecoveryEvidence = resolved.sources
+    .filter((source) => source.sourceOverride)
+    .map((source) => ({
+      formNumber: source.formNumber,
+      path: source.path,
+      receiptPath: source.sourceOverride.receiptPath,
+      sha256: source.sha256,
+      byteLength: source.bytes.length,
+      acquisitionRunId: source.sourceOverride.acquisitionRunId,
+      artifactName: source.sourceOverride.artifactName,
+      artifactId: source.sourceOverride.artifactId,
+    }));
   return {
     schemaVersion: "rcap-family-source-receipt/v1",
     familyId,
@@ -963,8 +1072,29 @@ function sourceReceipt(familyId, config, resolved) {
       acroFieldCount: source.indexEntry.acroFieldCount,
       structuralClassObserved: source.indexEntry.structuralClassObserved,
       exactHashVerified: true,
-      corpusIndexAgrees: true
+      corpusIndexAgrees: true,
+      ...(source.sourceOverride ? {
+        sourceBinding: "family-local-current-source-recovery",
+        sourceRecovery: {
+          receiptPath: source.sourceOverride.receiptPath,
+          sha256: source.sourceOverride.sha256,
+          byteLength: source.sourceOverride.byteLength,
+          acquisitionRunId: source.sourceOverride.acquisitionRunId,
+          artifactName: source.sourceOverride.artifactName,
+          artifactId: source.sourceOverride.artifactId,
+        },
+      } : {})
     })),
+    ...(currentSourceRecoveryEvidence.length ? {
+      completenessRepair: {
+        assignmentId: "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR",
+        dispatchCommit: "40ccc028a2af8eac94743cdb32237e3af56a6642",
+        captainBaseSha: "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+        everySourceHashRecomputed: true,
+        sourceBinaryCommitted: true,
+        currentSourceRecoveryEvidence,
+      },
+    } : {}),
     generationAllowed: false,
     runtimeSelectable: false,
     commercialRoutesOpened: 0
@@ -3325,8 +3455,9 @@ async function freshRasterEvidence(file, dpi) {
  * bytes this build just wrote:
  *
  *   - an acceptance receipt bound to a canonical digest this build did not
- *     produce is set to null, with the superseded digest named, because a
- *     receipt that names a file the tree no longer carries is worse than none;
+ *     produce is withdrawn under acceptanceReceiptWithdrawn, with both
+ *     digests and the receipt itself retained, because a receipt that names a
+ *     file the tree no longer carries is worse than none;
  *   - `packetComponents` becomes the componentIds this build actually
  *     delivers, so the record and the packet name the same components.
  *
@@ -3335,7 +3466,8 @@ async function freshRasterEvidence(file, dpi) {
  */
 function carriedProductBinding(familyId, config, canonicalSha256) {
   if (config.carryProductBinding !== true) return null;
-  const existing = readJson(`${outputRoot(familyId, config)}/product-wiring.json`)?.binding ?? null;
+  const wiringPath = `${outputRoot(familyId, config)}/product-wiring.json`;
+  const existing = readJson(wiringPath)?.binding ?? null;
   if (!existing) return null;
   const binding = JSON.parse(JSON.stringify(existing));
   const delivered = (config.componentDisposition ?? [])
@@ -3343,22 +3475,19 @@ function carriedProductBinding(familyId, config, canonicalSha256) {
     .map((row) => `component:${row.componentId}`)
     .sort();
   if (delivered.length) binding.packetComponents = delivered;
-  const receipt = binding.acceptanceReceipt ?? null;
-  if (receipt && canonicalSha256 && receipt.boundToCanonicalSha256 !== canonicalSha256) {
-    binding.acceptanceReceipt = null;
-    binding.whyTheAcceptanceReceiptIsNull =
-      `The receipt was bound to canonical ${receipt.boundToCanonicalSha256}`
-      + ` (workflow run ${receipt.workflowRunId ?? "unknown"}), and this build wrote ${canonicalSha256}.`
-      + " A central raster of the new bytes is owed; nothing here is that receipt.";
-  }
-  // A later rebuild must not retain the WIP digest as "this build wrote".
-  // Preserve the superseded receipt identity while refreshing only this
-  // builder-authored current-artifact clause. The receipt remains null.
-  if (!binding.acceptanceReceipt && canonicalSha256 && typeof binding.whyTheAcceptanceReceiptIsNull === "string") {
-    binding.whyTheAcceptanceReceiptIsNull = binding.whyTheAcceptanceReceiptIsNull
-      .replace(/this build wrote [a-f0-9]{64}/, `this build wrote ${canonicalSha256}`);
-  }
-  return binding;
+  if (config.deferGovernancePreservation === true) return binding;
+  /* The binding came from the committed file, but those six keys are still
+   * control-plane state. Let the repository-native preservation helper compare
+   * the old receipt with the exact canonical bytes and append a withdrawal
+   * record when the source refresh moved them. */
+  const candidate = { binding };
+  const committedOrder = Object.keys(binding);
+  for (const key of GOVERNANCE_KEYS) delete candidate.binding[key];
+  preserveGovernanceState(fs, wiringPath, candidate, { canonicalSha256 });
+  const restored = {};
+  for (const key of committedOrder) if (key in candidate.binding) restored[key] = candidate.binding[key];
+  for (const key of Object.keys(candidate.binding)) if (!(key in restored)) restored[key] = candidate.binding[key];
+  return restored;
 }
 
 function commonClosedProductRecord(familyId, config, canonicalSha256 = null) {
