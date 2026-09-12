@@ -227,8 +227,8 @@ export function sourcePermissionHoldResolved(familyId, reconciliation, resolutio
   return reconciliation?.disposition === "PRODUCT_PATH_PENDING"
     && reconciliation.permissionHold === "Kansas Judicial Council noncommercial-use and republication restriction"
     && reconciliation.productQuestion == null
-    && Array.isArray(reconciliation.unresolvedObligations)
-    && reconciliation.unresolvedObligations.length === 0
+    && (reconciliation.unresolvedObligations === undefined
+      || (Array.isArray(reconciliation.unresolvedObligations) && reconciliation.unresolvedObligations.length === 0))
     && resolution?.familyId === familyId
     && resolution.disposition === "LEGAL_CLEAR"
     && resolution.supersedesDecisionId === "KS-KJC-COMMERCIAL-REDISTRIBUTION"

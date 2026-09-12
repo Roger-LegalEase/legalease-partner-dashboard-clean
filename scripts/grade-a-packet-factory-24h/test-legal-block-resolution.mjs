@@ -50,6 +50,8 @@ const permissionFamily = "ks-22-2410-arrest-set";
 const permissionRecord = {disposition:"PRODUCT_PATH_PENDING", permissionHold:"Kansas Judicial Council noncommercial-use and republication restriction", productQuestion:null, unresolvedObligations:[]};
 const permissionResolution = resolutions.byFamily.get(permissionFamily);
 assert.equal(sourcePermissionHoldResolved(permissionFamily,permissionRecord,permissionResolution),true);
+const nativePermissionRecord = read("data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json").reconciliation42.families.find(r => r.familyId === permissionFamily);
+assert.equal(sourcePermissionHoldResolved(permissionFamily,nativePermissionRecord,permissionResolution),true);
 for (const other of [{productQuestion:"unresolved delivery"},{unresolvedObligations:["source absent"]},{permissionHold:"another restriction"}])
   assert.equal(sourcePermissionHoldResolved(permissionFamily,{...permissionRecord,...other},permissionResolution),false);
 for (const other of [null,{...permissionResolution,familyId:"another-family"},{...permissionResolution,disposition:"LEGAL_HOLD"},{...permissionResolution,evidenceType:"research_draft"},{...permissionResolution,decisionRecord:"unadopted.json"}])
