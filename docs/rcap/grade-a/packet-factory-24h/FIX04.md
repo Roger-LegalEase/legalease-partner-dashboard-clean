@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5e93d2aab1e64a3ad7f5651b83802703846b4e3c` (or the newer dispatch base)
+**Minimum required ancestor:** `56a75af9d8224b56ec2b5ccd12b33acf78ef11ed` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'pa_790_nonconviction-set' \
+  --family 'rcap-in-custom-pleading' \
   --codex-cloud \
-  --minimum-captain-sha 5e93d2aab1e64a3ad7f5651b83802703846b4e3c
+  --minimum-captain-sha 56a75af9d8224b56ec2b5ccd12b33acf78ef11ed
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 2 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'pa_790_nonconviction-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'wv_acc_treatment_job_readiness-set'`
+- Assert only these 1 exact family before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-in-custom-pleading'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -61,10 +60,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 1 family
 
-- `pa_790_nonconviction-set` — failing: requiredFactsNotCollected, unclassifiedBlanks
-- `wv_acc_treatment_job_readiness-set`
+- `rcap-in-custom-pleading`
 
 ## What you receive
 
@@ -77,10 +75,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/**`
-- `scripts/build-census-v1-pa_790_nonconviction-set.mjs`
-- `scripts/build-census-v1-wv_acc_treatment_job_readiness-set.mjs`
+- `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
+- `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
 
 ## Never write here
 
