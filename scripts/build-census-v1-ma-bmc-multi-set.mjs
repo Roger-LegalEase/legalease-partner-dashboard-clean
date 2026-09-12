@@ -70,8 +70,8 @@
  * factors — belongs to records and judgments the platform does not hold, so
  * each is a labelled dotted blank, declared REQUIRED_BEFORE_FILING and
  * disclosed by its printed label in participant-instructions.md, with the
- * participant's own CORI from DCJIS and the division clerks named as the
- * checkable authorities. The good-cause narrative is participant-authored
+ * participant's own CORI, certified dockets and division clerks named as
+ * recommended ways to check the facts. The good-cause narrative is participant-authored
  * against the Pon factors, as the memo's manual-completion record directs. No
  * signature and no signature date is ever written. The review identified no
  * fee and no waiver; that is stated as what the review identified, not as
@@ -135,6 +135,8 @@ const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 /* ---- the codified records this build is grounded on ---------------------------- */
 const MEMO_PATH = "data/record-clearing/legal-design-intake/MA.memo.json";
 const MANIFEST_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
+const LEGAL_DECISION_PATH = "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json";
+const LEGAL_DECISION_ID = "MA-BMC-CONSOLIDATED-THREE-PLUS-RECORDS";
 
 /*
  * DIGEST BINDING FOR A ZERO-BINARY COMPOSITION, added 2026-09-09.
@@ -188,8 +190,22 @@ function resolveCodifiedGrounds() {
       }
     }
   } catch (e) { failures.push({ record: MANIFEST_PATH, why: String(e.message ?? e) }); }
+  try {
+    const record = JSON.parse(fs.readFileSync(path.join(ROOT, LEGAL_DECISION_PATH), "utf8"));
+    const decision = (record.decisions ?? []).find((d) => d.decisionId === LEGAL_DECISION_ID) ?? null;
+    if (!decision) failures.push({ record: LEGAL_DECISION_PATH, why: `no decision ${LEGAL_DECISION_ID}` });
+    else {
+      if (decision.disposition !== "LEGAL_CLEAR") {
+        failures.push({ record: LEGAL_DECISION_PATH, why: `${LEGAL_DECISION_ID} is ${decision.disposition}, not LEGAL_CLEAR` });
+      }
+      if (!(decision.familyIds ?? []).includes(FAMILY_ID)) {
+        failures.push({ record: LEGAL_DECISION_PATH, why: `${LEGAL_DECISION_ID} does not apply to ${FAMILY_ID}` });
+      }
+    }
+  } catch (e) { failures.push({ record: LEGAL_DECISION_PATH, why: String(e.message ?? e) }); }
   const compositionSources = failures.length > 0 ? [] : [digestOf(MEMO_PATH), digestOf(MANIFEST_PATH)];
-  return { failures, compositionSources };
+  const legalDecision = failures.length > 0 ? null : { ...digestOf(LEGAL_DECISION_PATH), decisionId: LEGAL_DECISION_ID };
+  return { failures, compositionSources, legalDecision };
 }
 
 /* ---- fixtures --------------------------------------------------------------- */
@@ -232,7 +248,7 @@ export function composedBody(componentId, facts) {
     L.push(`IN THE MATTER OF THE PETITION OF ${name.toUpperCase()} TO SEAL MULTIPLE CRIMINAL RECORDS`, "");
     L.push("CONSOLIDATED PETITION TO SEAL MULTIPLE CRIMINAL RECORDS UNDER G.L. c. 276, Sec. 100C AND BMC AMENDED STANDING ORDER No. 1-09", "");
     L.push(`1. The petitioner, ${name}, petitions under G.L. c. 276, Sec. 100C and Boston Municipal Court Department Amended Standing Order No. 1-09 to seal the criminal records listed below, each of which is a Boston Municipal Court Department record that ended in a dismissal or a nolle prosequi.`, "");
-    L.push("2. The records to be sealed - every one listed with its BMC division, its docket number, and how it ended, copied from the petitioner's own CORI and court paperwork (three or more records from two or more divisions are required; continue on an attached sheet if needed):", "");
+    L.push("2. The records to be sealed - every one listed with its BMC division, its docket number, and how it ended, copied accurately from reliable court records (your own CORI and certified court dockets are recommended ways to check the facts; three or more records from two or more divisions are required; continue on an attached sheet if needed):", "");
     L.push("Record 1 - division, docket number, disposition:");
     L.push(DOTS(), "");
     L.push("Record 2 - division, docket number, disposition:");
@@ -259,25 +275,11 @@ export function composedBody(componentId, facts) {
   } else {
     L.push(`For: ${name}`, "");
     L.push("WORDS FIRST. In Massachusetts, SEALING and EXPUNGEMENT are different remedies and are never interchangeable: sealing does not destroy the record; expungement does. This packet is about sealing only.", "");
-    L.push("THE THRESHOLD. This consolidated route exists only for THREE OR MORE criminal records from TWO OR MORE divisions of the Boston Municipal Court Department, and only for BMC records - it does not reach District Court, Juvenile Court or Superior Court records. Below the threshold, or for non-BMC records, the ordinary judicial sealing route applies, with the statewide form filed once per case. Count your qualifying records against your own CORI before anything is filed.", "");
+    L.push("THE THRESHOLD. This consolidated route exists only for THREE OR MORE criminal records from TWO OR MORE divisions of the Boston Municipal Court Department, and only for BMC records - it does not reach District Court, Juvenile Court or Superior Court records. Below the threshold, or for non-BMC records, the ordinary judicial sealing route applies, with the statewide form filed once per case. Count the qualifying records from reliable court records before anything is filed.", "");
     L.push("WHAT QUALIFIES. Only dismissal or nolle prosequi records fall within this consolidated procedure under the second paragraph of Sec. 100C. No waiting period applies. A not-guilty finding or a finding of no probable cause requires the appropriate separate Sec. 100C process; this consolidation limit does not decide whether that record can be sealed.", "");
     L.push("THE VENUE RULE. The Standing Order keys venue to residence: file in the BMC division in whose territorial jurisdiction you live. If you no longer live in BMC territory, file in the division your most recent eligible record is from. The instructions on the petition's caption line follow this rule.", "");
-    /*
-     * OWNER CORRECTION Q3 OF 2026-09-02, CARRIED INTO THE DELIVERED PAGE.
-     *
-     * The Q3 correction named the located statewide per-case form, TC0057, so
-     * that a participant and a clerk are talking about the same document. It
-     * reached participant-instructions.md and it did NOT reach this composed
-     * page, which is the copy the participant actually holds inside the packet.
-     * The two said different things until now; this is the same sentence the
-     * guide already carries.
-     *
-     * What deliberately does NOT change: the last clause. Whether the BMC
-     * publishes a form for the consolidated procedure is still open on the
-     * governing record, and this page keeps saying so rather than resolving it.
-     */
-    L.push("SUPPLEMENTS, NOT REPLACES. In the BMC, the consolidated petition supplements rather than replaces the statewide per-case sealing form, which is Trial Court form TC0057 (2/24), Petition to Seal Criminal Records for Nolle Prosequi or Dismissal - the per-case form for a dismissal or a nolle prosequi, which prints \"Use a separate form for each case\" on its own face and is not included in this packet. Ask the clerk of the venue division whether that division wants TC0057 filed alongside this petition and how many, and whether the division uses any form of its own for the consolidated procedure - whether the BMC publishes one is an open question this packet does not decide. Ask before you file; do not assume this petition alone is the whole filing.", "");
-    L.push("YOUR CORI FIRST. Request your own CORI from the Massachusetts Department of Criminal Justice Information Services before completing the petition. Every record you list - division, docket number, disposition - is copied from it and from your court paperwork, never from memory. This packet never collects, inspects or authenticates your CORI.", "");
+    L.push("THE CONSOLIDATED FILING. This packet implements the consolidated BMC branch for three or more qualifying records from two or more BMC divisions. The custom petition is drafted against the Standing Order's required contents. For a record outside those predicates, use the ordinary per-case route instead.", "");
+    L.push("RECORDS TO CHECK. Your own CORI and certified court dockets are recommended sources for checking each division, docket number and disposition. They are not universal filing attachments. You must still provide accurate case facts from reliable court records; this packet never collects, inspects or authenticates those records.", "");
     L.push("THE GOOD-CAUSE NARRATIVE. Commonwealth v. Pon sets the standard, and the narrative is yours to write. Answer, in your own words, on the petition's dotted lines:");
     L.push("- What specific problems have these records caused you - in work, housing, licensing or elsewhere?");
     L.push("- What have you done since the cases ended?", "");
@@ -289,8 +291,22 @@ export function composedBody(componentId, facts) {
     L.push("- the judge requests additional information about the listed cases;");
     L.push("- a hearing is set.");
   }
-  L.push("", `Route: ${ROUTE.routeKey}`);
   return L.join("\n");
+}
+
+export function assertCurrentParticipantCopy(text, location = "participant copy") {
+  const forbidden = [
+    ROUTE.routeKey,
+    "filing-vehicle question is still unresolved",
+    "whether the BMC publishes one is an open question",
+    "Ask before you file; do not assume this petition alone is the whole filing",
+    "Documents you must obtain before filing",
+    "Get your own CORI",
+    "Request your own CORI"
+  ];
+  for (const phrase of forbidden) {
+    assert.ok(!text.includes(phrase), `${location}: stale or internal participant phrase remains: ${phrase}`);
+  }
 }
 
 function sanitizePdfText(text) {
@@ -380,7 +396,7 @@ function composedMap(componentId) {
         "the division the Standing Order's venue rule identifies - where you live if you live in BMC territory, otherwise the division your most recent eligible record is from; the clerk of that division can confirm it",
         "venue turns on where the participant lives and where their records sit, neither of which the platform holds"),
       rbf("record_1", "Record 1 - division, docket number and disposition, in paragraph 2 of the petition",
-        "the first record's BMC division, docket number, and how the case ended, copied from your own CORI and court paperwork",
+        "the first record's BMC division, docket number, and how the case ended, copied from reliable court records",
         "no case fact is held for records the platform has not seen"),
       rbf("record_2", "Record 2 - division, docket number and disposition, in paragraph 2 of the petition",
         "the second record's BMC division, docket number, and how the case ended, from the same records",
@@ -409,7 +425,9 @@ function composedMap(componentId) {
     composedFrom:
       "the legal-design intake record (data/record-clearing/legal-design-intake/MA.memo.json, track "
       + "ma-bmc-multi, reviewed as of 2026-07-30) and the packet-set manifest "
-      + "(data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ma-bmc-multi-set)",
+      + "(data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ma-bmc-multi-set), with "
+      + "LEGAL_BLOCKED_RESOLUTION_2026-09-11.json decision MA-BMC-CONSOLIDATED-THREE-PLUS-RECORDS controlling "
+      + "the current consolidated-branch implementation",
     explicitMappings: {}, roleRefusals: [], selectionControls: [],
     canonicalWrites: writes, canonicalRefusals: refusals,
     boundaryWrites: writes, boundaryRefusals: refusals
@@ -564,8 +582,8 @@ export function participantInstructions(maps, rbf) {
   const out = [];
   out.push(`# What you must do before you file — ${ROUTE.routeName}`, "");
   out.push(`This packet is prepared for **${ROUTE.legalName}**.`, "");
-  out.push("In Massachusetts, **sealing** and **expungement** are different remedies and are never interchangeable — sealing does not destroy the record; expungement does. This packet is about sealing only. The Boston Municipal Court Department permits a single consolidated petition to seal **three or more** criminal records from **two or more** BMC divisions, under Amended Standing Order No. 1-09 and the Commonwealth v. Pon standard. No BMC form for the consolidated petition exists in the sources this packet is built from, so the petition in this packet is a composed pleading drafted against the Standing Order's required contents — and in the BMC it **supplements rather than replaces** the statewide per-case sealing form, which is Trial Court form **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal***.", "");
-  out.push("The filing-vehicle question is still unresolved: this composed petition has not been confirmed as the complete accepted BMC filing. Obtain that confirmation before filing. The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact belongs to records the platform has not seen — your own CORI from DCJIS and your court paperwork — so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.", "");
+  out.push("In Massachusetts, **sealing** and **expungement** are different remedies and are never interchangeable — sealing does not destroy the record; expungement does. This packet is about sealing only. The Boston Municipal Court Department permits a single consolidated petition to seal **three or more** criminal records from **two or more** BMC divisions, under Amended Standing Order No. 1-09 and the Commonwealth v. Pon standard. This packet implements that approved custom consolidated branch and is drafted against the Standing Order's required contents.", "");
+  out.push("The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact belongs to records the platform has not seen, so every one is a labelled dotted blank listed below. Fill those blanks accurately from reliable court records. Your own CORI and certified court dockets are recommended sources for checking the facts, but neither is a universal filing attachment and this packet never collects, inspects or authenticates them.", "");
 
   out.push("## Use this packet only if", "");
   out.push("You are sealing **three or more** BMC records from **two or more** BMC divisions, each of which ended in a dismissal or a nolle prosequi (no waiting period applies). Below that threshold, or for any record outside the Boston Municipal Court Department, the ordinary judicial sealing route applies with one statewide form per case.", "");
@@ -573,13 +591,18 @@ export function participantInstructions(maps, rbf) {
   out.push("## What is in this packet", "");
   out.push("| Component | What it is |", "| --- | --- |");
   out.push("| `primary_filing` | the composed consolidated petition under § 100C and Standing Order 1-09 |");
-  out.push("| `instructions` | the threshold, the venue rule, the supplements-not-replaces posture against form TC0057, and what follows filing |");
+  out.push("| `instructions` | the threshold, the venue rule, reliable-record guidance, and what follows filing |");
   out.push("");
 
-  out.push("## Documents you must obtain before filing", "");
+  out.push("## Records recommended for checking your case facts", "");
   out.push("| Document | Where you get it |", "| --- | --- |");
-  out.push("| Your own CORI — every record you list is copied from it and your court paperwork; this packet never collects, inspects or authenticates it | Massachusetts Department of Criminal Justice Information Services |");
+  out.push("| Your own CORI | Massachusetts Department of Criminal Justice Information Services |");
+  out.push("| Certified court dockets or other reliable case records | The clerk for the court where each case was filed |");
+  out.push("These records are recommended ways to verify the division, docket number and disposition. They are not universal attachments to this filing.");
   out.push("");
+
+  out.push("## Fees", "");
+  out.push("There is no filing fee to request sealing, so no filing-fee waiver application is needed for this request. This does not promise that obtaining records or other third-party services is free.", "");
 
   out.push("## The items you must supply", "");
   out.push("Each is printed on its page as a labelled dotted blank. Fill every one before you file.", "");
@@ -591,14 +614,13 @@ export function participantInstructions(maps, rbf) {
   }
 
   out.push("## What you do, in order", "");
-  out.push("1. **Get your own CORI** from DCJIS and count your qualifying BMC records against it.");
+  out.push("1. **Gather reliable case records** and count your qualifying BMC records. Your own CORI and certified court dockets are recommended ways to check the facts, but neither is a universal filing attachment.");
   out.push("2. **Check the threshold**: three or more records, two or more BMC divisions, every one a qualifying disposition. If not met, stop — the ordinary route with one form per case is yours.");
   out.push("3. **Work out the venue division**: where you live if you live in BMC territory; otherwise the division of your most recent eligible record. The clerk of that division can confirm it.");
-  out.push("4. **Fill in every dotted blank**, listing each record's division, docket number and disposition from your CORI and court paperwork.");
+  out.push("4. **Fill in every dotted blank**, listing each record's division, docket number and disposition accurately from reliable court records.");
   out.push("5. **Write the good-cause narrative in your own words**, against the Pon-standard questions on the instructions page: what specific problems the records have caused you, and what you have done since the cases ended.");
   out.push("6. **Sign and date the petition yourself.**");
-  out.push("7. **Ask the clerk of the venue division** whether that division wants **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal*** — the statewide per-case form for a nolle prosequi or a dismissal, which prints \"Use a separate form for each case\" on its own face — filed alongside this consolidated petition, and how many. The Standing Order exists so that one petition can do the work of several separate filings, but the controlling review records the consolidated petition as **supplementing rather than replacing** TC0057, and it does not settle which of the two the division wants in the file. **Ask before you file; do not assume this petition alone is the whole filing.** Ask at the same time whether the division uses any form of its own for the consolidated procedure, but do not treat form-identity confirmation as a fee question: there is no filing fee to request sealing and no filing-fee waiver is needed.");
-  out.push("8. **File in the venue division and arrange timely notice.** Send a copy of this petition to the Suffolk County District Attorney at least **30 days before the final hearing**, unless that office waives the full notice period. Keep proof of what you sent and when. Court notice does not replace your separate obligation. Follow the hearing notice; a separate preliminary hearing is discretionary and the court may proceed to a single final hearing. Seek legal help for a hearing or a request for additional information without missing the notice deadline.");
+  out.push("7. **File in the venue division and arrange timely notice.** Send a copy of this petition to the Suffolk County District Attorney at least **30 days before the final hearing**, unless that office waives the full notice period. Keep proof of what you sent and when. Court notice does not replace your separate obligation. Follow the hearing notice; a separate preliminary hearing is discretionary and the court may proceed to a single final hearing. Seek legal help for a hearing or a request for additional information without missing the notice deadline.");
   out.push("");
 
   out.push("## Things the platform deliberately left blank", "");
@@ -612,9 +634,8 @@ export function participantInstructions(maps, rbf) {
   out.push("- a hearing is set.", "");
 
   out.push("## What this packet is not", "");
-  out.push("This is a prepared consolidated pleading with its instructions. It is not an official BMC form: no BMC form for this procedure exists in the sources this packet is built from, and the statewide form for these dispositions — TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal* — is a different document this packet does not include. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal any record. Sealing does not destroy the record; expungement does, and this packet is not an expungement.", "");
-  out.push(`_Route: ${ROUTE.routeKey}_`);
-  return `${out.join("\n")}\n`;
+  out.push("This is a prepared custom consolidated pleading with its instructions. It is not an official court-issued template. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal any record. Sealing does not destroy the record; expungement does, and this packet is not an expungement.", "");
+  return `${out.join("\n").trimEnd()}\n`;
 }
 
 /* ---- the entry point ----------------------------------------------------------------------- */
@@ -622,7 +643,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
 
-  const { failures, compositionSources } = resolveCodifiedGrounds();
+  const { failures, compositionSources, legalDecision } = resolveCodifiedGrounds();
   if (failures.length > 0) {
     return {
       familyId: FAMILY_ID, status: "BLOCKED_LEGAL_INPUT", failedGrounds: failures,
@@ -635,7 +656,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     const maps = COMPONENTS.map((c) => composedMap(c));
     return {
       familyId: FAMILY_ID, status: "CHECK_ONLY",
-      boundSources: 0, codifiedGroundsVerified: [MEMO_PATH, MANIFEST_PATH],
+      boundSources: 0, codifiedGroundsVerified: [MEMO_PATH, MANIFEST_PATH, LEGAL_DECISION_PATH],
+      legalDecisionVerified: legalDecision,
       components: COMPONENTS,
       writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
       blanks: maps.reduce((n, m) => n + m.canonicalRefusals.length, 0)
@@ -661,6 +683,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
     for (const componentId of COMPONENTS) {
       const body = composedBody(componentId, facts);
+      assertCurrentParticipantCopy(body, `${fixtureName}/${componentId}`);
+      if (componentId === "instructions") {
+        assert.match(body, /CORI and certified court dockets are recommended sources/);
+        assert.match(body, /They are not universal filing attachments/);
+      }
       assert.ok(body.includes(facts["participant.full_legal_name"]) || body.includes(facts["participant.full_legal_name"].toUpperCase()),
         `${componentId}: the composed page must carry the participant's name`);
       const composedBytes = await renderComposedPdf(body, COMPOSED_TITLES[componentId]);
@@ -728,6 +755,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   const rbf = requiredBeforeFilingItems(maps);
   const instructionsText = participantInstructions(maps, rbf);
+  assertCurrentParticipantCopy(instructionsText, "participant-instructions.md");
+  assert.match(instructionsText, /CORI and certified court dockets are recommended/);
+  assert.match(instructionsText, /neither is a universal filing attachment/);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -737,33 +767,24 @@ export async function runFamily(argv = process.argv.slice(2)) {
     bindingMethod:
       "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus "
       + "CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is "
-      + "grounded on two committed records, verified present and un-drifted before anything is composed and "
+      + "grounded on two committed composition records, verified present and un-drifted before anything is composed and "
       + "bound below by exact SHA-256 and byte length so a reader can recompute them: the "
-      + "legal-design intake track (including its localFormOverride flag) and the packet-set manifest.",
+      + "legal-design intake track (including its localFormOverride flag) and the packet-set manifest. The additive "
+      + "LEGAL_CLEAR decision that authorizes this exact consolidated branch is separately pinned by hash and decision ID.",
     routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId,
     statutoryAuthority: ROUTE.statute, legalName: ROUTE.legalName,
     allSourcesExact: true,
     formIdentityNote:
-      "FORM STATUS RESOLVED, owner correction Q3 of 2026-09-02. No BMC form for the consolidated multi-record "
-      + "petition exists in any source this repository holds: the Master Library's STATES/MA carries two PDFs "
-      + "(the Probation Service §§ 100F/100G/100H expungement petition and TC0021) and no BMC form; the partial "
-      + "Nationwide custody's Massachusetts folder carries six PDFs and no BMC form; the official-source registry "
-      + "carries one Massachusetts entry, TC0021. The statewide per-case form IS located and is named here: "
-      + "TC0057 (2/24), Petition to Seal Criminal Records for Nolle Prosequi or Dismissal, footer 'Standardized "
-      + "(Multi - BMC, DC, JC, SC) - Criminal', held in the Nationwide custody at sha256 "
-      + "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0. The controlling review treats TC0057 "
-      + "as mandatory and records that in BMC a consolidated petition supplements rather than replaces it, so "
-      + "this composed petition is retained as that supplement and the packet names TC0057 to the participant. "
-      + "BMC Amended Standing Order No. 1-09 prescribes the consolidated procedure's contents; "
-      + "the adopted Batch 2 resolution directs "
-      + "that where no current BMC form is published, a counsel-approved custom consolidated petition may be "
-      + "used, only for qualifying BMC records, and that the consolidated petition supplements rather than "
-      + "replaces the statewide per-case form. The composed petition is drafted against the Standing Order's "
-      + "required contents and the Pon standard. No form was substituted and none was invented.",
+      "The additive LEGAL_CLEAR decision MA-BMC-CONSOLIDATED-THREE-PLUS-RECORDS directs implementation of the "
+      + "amended BMC Standing Order 1-09 consolidated branch for three or more qualifying records from two or more "
+      + "BMC divisions, with ordinary docket/division treatment outside those predicates. This build retains the "
+      + "existing custom consolidated pleading authorized by the repository's adopted legal-design resolution and "
+      + "drafted against the Standing Order's required contents and Pon standard. Historical form-identity questions "
+      + "remain preserved in their original records; they do not create a participant filing hold in this current branch.",
     codifiedGrounds: [
       {
         record: MEMO_PATH,
-        what: "track ma-bmc-multi: the Standing Order procedure, the three-record two-division threshold, the venue rule, the counsel limitations, the open form question",
+        what: "track ma-bmc-multi: the Standing Order procedure, the three-record two-division threshold, the venue rule and counsel limitations",
         sha256: compositionSources[0].sha256,
         byteLength: compositionSources[0].byteLength
       },
@@ -774,18 +795,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
         byteLength: compositionSources[1].byteLength
       }
     ],
+    additiveLegalDecision: legalDecision,
     compositionSources,
     compositionSourceBindingNote:
       "Each record this zero-binary composition is grounded on is bound here by exact SHA-256 and byte length, "
       + "computed from the file on disk on this build, in the same shape the sibling family vt_seal_under_25-set "
       + "carries under the same owner decision. A reader can recompute both and detect drift. This binds the "
-      + "records the packet was composed FROM; it decides nothing about which petition controls this filing, "
-      + "which the track registry still holds open.",
+      + "records the packet was composed FROM. The separately pinned additive LEGAL_CLEAR decision controls the "
+      + "current branch where older records retain a historical form-identity question.",
     documents: [],
     composedComponentsAuthoredByThisBuild: COMPONENTS,
     sourceBinaryCommitted: false, commercialRoutesOpened: 0,
     whatThisReceiptDoesNotEstablish: [
-      "that TC0057 is or is not additionally required in the file alongside this consolidated petition — the controlling review says the consolidated petition supplements rather than replaces it and does not say how the division wants both presented, so the packet sends the participant to the venue division's clerk with the form named",
       "that any output is approved for participant delivery",
       "that any record qualifies for sealing under G.L. c. 276, § 100C"
     ]
@@ -798,7 +819,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     implementationStrategy: "custom_pleading",
     officialForm: null,
     boundReferenceForm: null,
-    boundReferenceRole: "none — no binary source is bound; the build is grounded on the committed legal-design record and packet-set manifest alone",
+    boundReferenceRole: "none — no binary source is bound; the build is grounded on the committed legal-design record, packet-set manifest and additive LEGAL_CLEAR decision",
     componentSet: COMPONENTS,
     componentConditions: {},
     dispositionVocabulary: [SIGNATURE, COURT_OWNED],
@@ -888,37 +909,23 @@ export async function runFamily(argv = process.argv.slice(2)) {
     findings: [
       {
         finding:
-          "OWNER CORRECTION Q3, 2026-09-02. The BMC consolidated multi-record procedure is a local implementation "
-          + "of the ordinary § 100C judicial-sealing remedy under Amended Standing Order No. 1-09, available only "
-          + "for three or more records from two or more BMC divisions. Whether a mandatory official form governs "
-          + "the filing is now RESOLVED rather than open. No BMC consolidated form exists in the Master Library "
-          + "(two Massachusetts PDFs, neither a BMC form), the partial Nationwide custody (six Massachusetts PDFs, "
-          + "none a BMC form) or the official-source registry (one Massachusetts entry, TC0021). The mandatory "
-          + "statewide per-case form IS located: TC0057 (2/24), held in the Nationwide custody at sha256 "
-          + "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0, which the controlling review "
-          + "directs be treated as mandatory and which the same review says a BMC consolidated petition "
-          + "supplements rather than replaces.",
+          "The additive LEGAL_CLEAR decision MA-BMC-CONSOLIDATED-THREE-PLUS-RECORDS implements the amended BMC "
+          + "Standing Order 1-09 consolidated branch for three or more qualifying records from two or more BMC "
+          + "divisions, with ordinary docket/division treatment outside those predicates.",
         consequence:
           "The petition is a composed pleading drafted against the Standing Order's required contents and the "
           + "Pon standard, with the threshold printed on its own face, and the packet exists as a local variant "
           + "that never double-counts the underlying relief. Below the threshold the instructions route to the "
-          + "ordinary per-case route rather than adapting this instrument. Under the owner's decision the "
-          + "composed instrument is RETAINED rather than withdrawn, because the located mandatory form does not "
-          + "govern the consolidated procedure and the Standing Order authorises the supplement; the packet now "
-          + "names TC0057 by number and tells the participant to ask the venue division's clerk whether it is "
-          + "wanted in the file alongside this petition, instead of leaving the participant to discover a form "
-          + "the record already identifies."
+          + "ordinary per-case route rather than adapting this instrument. The older vehicle question is retained "
+          + "as history and no longer appears as a participant filing hold."
       },
       {
         finding:
-          "The adopted Batch 2 resolution directs that the consolidated petition supplements rather than "
-          + "replaces the statewide per-case form in the BMC, and that a counsel-approved custom consolidated "
-          + "petition may be used only for qualifying BMC records.",
+          "The adopted Batch 2 resolution permits a counsel-approved custom consolidated petition only for "
+          + "qualifying BMC records, and the current additive decision implements that exact branch.",
         consequence:
-          "The supplements-not-replaces statement is printed on the petition's face and byte-proven on every "
-          + "build; the instructions direct the participant to ask the venue division's clerk how the statewide "
-          + "form is presented alongside it, and the counsel-approval posture travels into review — nothing here "
-          + "asserts approval."
+          "The threshold is printed on the petition's face and byte-proven on every build; no stale vehicle "
+          + "confirmation question is passed to the participant."
       },
       {
         finding:
@@ -954,14 +961,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
     buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     counselQuestionsRaised: [
-      "FORM STATUS, RESOLVED FACTUALLY AND NOT LEGALLY. No BMC consolidated form exists in any source this repository holds (Master Library, partial Nationwide custody, official-source registry — each searched and each named in build-findings.json). The statewide per-case form is located and named: TC0057 (2/24), sha256 f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0. What remains for counsel is narrower than the original release blocker: the controlling review says the consolidated petition SUPPLEMENTS rather than replaces TC0057, and does not say whether a BMC division expects TC0057 forms in the file alongside the consolidated petition. The packet names TC0057 and sends the participant to the venue division's clerk. Confirm that is the right handling, or direct that TC0057 be built into this family.",
-      "The Batch 2 resolution permits 'a counsel-approved custom consolidated petition'. This composed petition is the candidate for that approval; nothing here asserts it. Approve, amend or reject the instrument.",
+      "The Batch 2 resolution permits a counsel-approved custom consolidated petition and the additive LEGAL_CLEAR decision implements this exact branch. Confirm the output-specific pleading remains acceptable; this build does not award its own counsel approval.",
       "The petition's paragraph 2 lists records in a three-plus-continuation layout. Confirm the layout satisfies the Standing Order's required contents.",
       "Current official court instructions establish no filing fee. This build carries that correction, while accepted-instrument and output-specific legal approval remain unresolved."
     ],
     mattersForTheReviewersAttention: [
-      "source-receipt.json — no binary source is bound because no published BMC form was established; confirm the codified-grounds posture is legible to reviewers.",
-      "The sealing-versus-expungement rule and the supplements-not-replaces statement are byte-proven on every build; confirm the placement.",
+      "source-receipt.json — no binary source is bound; the current additive LEGAL_CLEAR decision and the codified grounds are hash-bound for review.",
+      "The sealing-versus-expungement rule and consolidated-branch threshold are byte-proven on every build; confirm the placement.",
       "Every case fact is required-before-filing; confirm the disclosure table in participant-instructions.md is complete against the dotted blanks on the paper."
     ]
   });
@@ -979,7 +985,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     directory: OUT,
     implementationStrategy: "custom_pleading",
     boundSources: 0,
-    codifiedGrounds: [MEMO_PATH, MANIFEST_PATH],
+    codifiedGrounds: [MEMO_PATH, MANIFEST_PATH, LEGAL_DECISION_PATH],
     components: COMPONENTS,
     documents: COMPONENTS,
     writes: maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0),
