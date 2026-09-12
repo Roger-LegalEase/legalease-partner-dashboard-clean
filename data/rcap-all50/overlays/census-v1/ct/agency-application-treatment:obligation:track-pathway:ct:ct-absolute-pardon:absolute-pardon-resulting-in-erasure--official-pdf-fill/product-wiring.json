@@ -38,14 +38,7 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34305519100",
-      "jobId": 102321966409,
-      "artifactId": null,
-      "boundToCanonicalSha256": "26cfafce62253c6788aa135761fc7f8bc72888b3daf15c225172ff28505a765e",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "PRODUCT_PATH_PENDING",
       "lane": "vf05",
@@ -59,7 +52,22 @@
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "26cfafce62253c6788aa135761fc7f8bc72888b3daf15c225172ff28505a765e",
+        "replacedByCanonicalSha256": "7875f369eccda528c4cab60c0ef70947344a46c20eb6c6c82983832fe4c56144",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34305519100",
+          "jobId": 102321966409,
+          "artifactId": null,
+          "boundToCanonicalSha256": "26cfafce62253c6788aa135761fc7f8bc72888b3daf15c225172ff28505a765e",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -72,7 +80,7 @@
         "order": 1,
         "documentId": "agency_preparation_guide",
         "file": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "26cfafce62253c6788aa135761fc7f8bc72888b3daf15c225172ff28505a765e",
+        "sha256": "7875f369eccda528c4cab60c0ef70947344a46c20eb6c6c82983832fe4c56144",
         "requirement": "required"
       }
     ]

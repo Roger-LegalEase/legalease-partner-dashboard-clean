@@ -54,18 +54,11 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34297296663",
-      "jobId": "102297334378",
-      "artifactId": null,
-      "boundToCanonicalSha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
-      "verdict": "BLOCKED_LEGAL_INPUT",
-      "lane": "vf03",
-      "verifiedAtBase": "0cc3c9b5c"
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "verifiedAtBase": "fc6a572064d2db64d8c5e07953f8ca0ebaa91806"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -75,7 +68,22 @@
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+        "replacedByCanonicalSha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34297296663",
+          "jobId": "102297334378",
+          "artifactId": null,
+          "boundToCanonicalSha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -88,7 +96,7 @@
         "order": 1,
         "documentId": "ri_first_offender_felony-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+        "sha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
         "requirement": "required"
       },
       {
@@ -97,7 +105,7 @@
         "order": 2,
         "documentId": "ri_first_offender_felony-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+        "sha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
         "requirement": "required"
       },
       {
@@ -106,7 +114,7 @@
         "order": 3,
         "documentId": "ri_first_offender_felony-notice-package-3",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+        "sha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
         "requirement": "required"
       },
       {
@@ -115,7 +123,7 @@
         "order": 4,
         "documentId": "ri_first_offender_felony-filing-instructions-4",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+        "sha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
         "requirement": "required"
       },
       {
@@ -124,7 +132,7 @@
         "order": 5,
         "documentId": "ri_first_offender_felony-certified-copy-delivery-checklist-5",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "ab6ce9f2ea5c242655cd177664fb384e18287945a4ac488354b801abc510d0f3",
+        "sha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
         "requirement": "required"
       }
     ]

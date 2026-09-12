@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 288,
-    "rows": 1380,
+    "returnDirectories": 289,
+    "rows": 1381,
     "independentVerdicts": 308,
-    "failRepairRequired": 18,
-    "passIndependent": 281
+    "failRepairRequired": 17,
+    "passIndependent": 282
   },
   "failRepairRequiredFamilies": [
     "ca-17b-reduction-set",
@@ -57,7 +57,6 @@
     "ri_first_offender_felony-set",
     "sd_arrest_expungement-set",
     "tx_nd_automatic_misdemeanor_deferred-set",
-    "va_exp_nonconviction-set",
     "wv_acc_treatment_job_readiness-set"
   ],
   "refusedAtTheClaimGate": {
@@ -34857,6 +34856,20 @@
     },
     {
       "familyId": "va_exp_nonconviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "331f5878b0c69ba448f4dfbe37eaed6369a0a133",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-va-nonconviction-current-original-pass-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
@@ -34907,7 +34920,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-va-nonconviction-semantic-fail-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "va_exp_nonconviction-set",

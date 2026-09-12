@@ -38,14 +38,7 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33923497915",
-      "jobId": "101187692821",
-      "artifactId": "9956058261",
-      "boundToCanonicalSha256": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "PRODUCT_PATH_PENDING",
       "lane": "vf20",
@@ -59,7 +52,22 @@
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
+        "replacedByCanonicalSha256": "f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33923497915",
+          "jobId": "101187692821",
+          "artifactId": "9956058261",
+          "boundToCanonicalSha256": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -72,7 +80,7 @@
         "order": 1,
         "documentId": "agency_preparation_guide",
         "file": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
+        "sha256": "f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c",
         "requirement": "required"
       }
     ]
