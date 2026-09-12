@@ -51,29 +51,56 @@
     "outsideControlMarks": 0,
     "treatment": "each original widget is flattened from its own source-authored /AP/N state at its original /Rect"
   },
-  "requiredBeforeFilingCount": 98,
-  "requiredBeforeFiling": [
-    {
-      "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-      "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-      "fieldName": "Mailing  Dirección Postal",
-      "effectiveLabel": "Mailing  Dirección Postal",
-      "printedLabel": "Mailing  Dirección Postal",
-      "page": 2,
-      "rect": {
-        "x": 269.52,
-        "y": 448.92,
-        "width": 246.96,
-        "height": 18.72
-      },
-      "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Mailing  Dirección Postal",
-      "reason": "the participant supplies this before submission: complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-      "why": "complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "completenessDisposition": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false
+  "courtTypeNativeAppearancePolicy": {
+    "parentField": "Choice 1",
+    "selectedState": "Choice3",
+    "selectedLabel": "County Court at Law",
+    "radioStructureEdited": false,
+    "synthesizedMarks": 0,
+    "outsideControlMarks": 0,
+    "treatment": "the held court selects the source-authored County Court at Law appearance at its original /Rect"
+  },
+  "derivedFactLineage": {
+    "matter.court_number": {
+      "derivedFrom": [
+        "matter.court_name"
+      ],
+      "method": "take the trailing No. number from the held court name"
     },
+    "matter.court_type": {
+      "derivedFrom": [
+        "matter.court_name"
+      ],
+      "method": "map the held court name's Court at Law wording to the printed County Court at Law option"
+    },
+    "participant.complete_address": {
+      "derivedFrom": [
+        "participant.street_address",
+        "participant.city_state_zip"
+      ],
+      "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+    },
+    "participant.date_of_birth_month": {
+      "derivedFrom": [
+        "participant.date_of_birth"
+      ],
+      "method": "split the held ISO date's month component"
+    },
+    "participant.date_of_birth_day": {
+      "derivedFrom": [
+        "participant.date_of_birth"
+      ],
+      "method": "split the held ISO date's day component"
+    },
+    "participant.date_of_birth_year": {
+      "derivedFrom": [
+        "participant.date_of_birth"
+      ],
+      "method": "split the held ISO date's year component"
+    }
+  },
+  "requiredBeforeFilingCount": 94,
+  "requiredBeforeFiling": [
     {
       "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
       "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -1190,48 +1217,6 @@
     {
       "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
       "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-      "fieldName": "Cause Number / Número de Caso",
-      "effectiveLabel": "Cause number on the Statement caption",
-      "printedLabel": "Cause number on the Statement caption",
-      "page": 1,
-      "rect": {
-        "x": 329.16,
-        "y": 497.64,
-        "width": 186.96,
-        "height": 21.369
-      },
-      "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Cause Number / Número de Caso",
-      "reason": "the participant supplies this before submission: copy the caption information from the recovery matter before submission",
-      "why": "copy the caption information from the recovery matter before submission",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "completenessDisposition": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false
-    },
-    {
-      "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-      "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-      "fieldName": "Court Number / Número del Tribunal",
-      "effectiveLabel": "Court number on the Statement caption",
-      "printedLabel": "Court number on the Statement caption",
-      "page": 1,
-      "rect": {
-        "x": 75.96,
-        "y": 208.56,
-        "width": 292.08,
-        "height": 25.573
-      },
-      "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Court Number / Número del Tribunal",
-      "reason": "the participant supplies this before submission: copy the caption information from the recovery matter before submission",
-      "why": "copy the caption information from the recovery matter before submission",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "completenessDisposition": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false
-    },
-    {
-      "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-      "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
       "fieldName": "County / Condado",
       "effectiveLabel": "County on the Statement caption",
       "printedLabel": "County on the Statement caption",
@@ -2043,27 +2028,6 @@
       "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Fill Blank 1",
       "reason": "the participant supplies this before submission: copy the caption information from the recovery matter before submission",
       "why": "copy the caption information from the recovery matter before submission",
-      "disposition": "REQUIRED_BEFORE_FILING",
-      "completenessDisposition": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false
-    },
-    {
-      "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-      "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-      "fieldName": "Year / Año",
-      "effectiveLabel": "Year / Año",
-      "printedLabel": "Year / Año",
-      "page": 11,
-      "rect": {
-        "x": 193.402,
-        "y": 495.612,
-        "width": 50.146,
-        "height": 19.898
-      },
-      "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year / Año",
-      "reason": "the participant supplies this before submission: complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-      "why": "complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
       "disposition": "REQUIRED_BEFORE_FILING",
       "completenessDisposition": "REQUIRED_BEFORE_FILING",
       "requiredBeforeFiling": true,
@@ -3209,14 +3173,14 @@
           "routeDetermined": false
         },
         {
-          "selectionId": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Choice 1",
-          "field": "Choice 1",
-          "disposition": "participant_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "reason": "this sworn answer depends on the participant's own circumstances",
+          "selectionId": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Choice 1.courtType",
+          "field": "County Court at Law court-type option",
+          "disposition": "selected_from_explicit_held_court_fact",
           "page": 1,
           "requiredBeforeFiling": false,
-          "routeDetermined": false
+          "routeDetermined": true,
+          "factId": "matter.court_type",
+          "selectedState": "Choice3"
         },
         {
           "selectionId": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Group12",
@@ -3249,6 +3213,31 @@
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Mailing  Dirección Postal",
+          "effectiveLabel": "Mailing  Dirección Postal",
+          "printedLabel": "Mailing  Dirección Postal",
+          "page": 2,
+          "rect": {
+            "x": 269.52,
+            "y": 448.92,
+            "width": 246.96,
+            "height": 18.72
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Mailing  Dirección Postal",
+          "factId": "participant.complete_address",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.street_address",
+              "participant.city_state_zip"
+            ],
+            "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+          },
+          "fontSize": 8
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "fieldName": "My phone number  Mi número telefónico",
           "effectiveLabel": "My phone number  Mi número telefónico",
           "printedLabel": "My phone number  Mi número telefónico",
@@ -3311,8 +3300,40 @@
             "height": 24.72
           },
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My address is  Mi domicilio es",
-          "factId": "participant.street_address",
-          "kind": "acroform_text"
+          "factId": "participant.complete_address",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.street_address",
+              "participant.city_state_zip"
+            ],
+            "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+          },
+          "fontSize": 8
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Court Number / Número del Tribunal",
+          "effectiveLabel": "Court Number / Número del Tribunal",
+          "printedLabel": "Court Number / Número del Tribunal",
+          "page": 1,
+          "rect": {
+            "x": 75.96,
+            "y": 208.56,
+            "width": 292.08,
+            "height": 25.573
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Court Number / Número del Tribunal",
+          "factId": "matter.court_number",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "matter.court_name"
+            ],
+            "method": "take the trailing No. number from the held court name"
+          },
+          "fontSize": 8
         },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -3347,6 +3368,73 @@
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My address is / Mi dirección es",
           "factId": "participant.street_address",
           "kind": "acroform_text"
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Choice 1",
+          "effectiveLabel": "County Court at Law court-type option",
+          "printedLabel": "Court type on the Statement caption",
+          "page": 1,
+          "rect": {
+            "x": 391.01,
+            "y": 157.017,
+            "width": 18,
+            "height": 18
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Choice 1.courtType",
+          "factId": "matter.court_type",
+          "kind": "native_acroform_appearance",
+          "selectedState": "Choice3",
+          "routeDetermined": true
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Day / Día",
+          "effectiveLabel": "Day / Día",
+          "printedLabel": "Day / Día",
+          "page": 11,
+          "rect": {
+            "x": 134.541,
+            "y": 495.51,
+            "width": 49.094,
+            "height": 19.898
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Day / Día",
+          "factId": "participant.date_of_birth_day",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's day component"
+          },
+          "fontSize": 8
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Year / Año",
+          "effectiveLabel": "Year / Año",
+          "printedLabel": "Year / Año",
+          "page": 11,
+          "rect": {
+            "x": 193.402,
+            "y": 495.612,
+            "width": 50.146,
+            "height": 19.898
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year / Año",
+          "factId": "participant.date_of_birth_year",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's year component"
+          },
+          "fontSize": 8
         },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -3417,30 +3505,42 @@
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My date of birth / Mi fecha de nacimiento es",
           "factId": "participant.date_of_birth",
           "kind": "acroform_text"
-        }
-      ],
-      "canonicalRefusals": [
+        },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Mailing  Dirección Postal",
-          "effectiveLabel": "Mailing  Dirección Postal",
-          "printedLabel": "Mailing  Dirección Postal",
-          "page": 2,
+          "fieldName": "Month / Mes",
+          "effectiveLabel": "Month box of the date of birth on the Statement declaration",
+          "printedLabel": "Month box of the date of birth on the Statement declaration",
+          "page": 11,
           "rect": {
-            "x": 269.52,
-            "y": 448.92,
-            "width": 246.96,
-            "height": 18.72
+            "x": 79.7302,
+            "y": 495.561,
+            "width": 49.0948,
+            "height": 19.898
           },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Mailing  Dirección Postal",
-          "reason": "the participant supplies this before submission: complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-          "why": "complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false
-        },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Month / Mes",
+          "factId": "participant.date_of_birth_month",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's month component"
+          },
+          "fontSize": 8,
+          "widgetScope": {
+            "writtenWidgetIndexes": [
+              0
+            ],
+            "preservedWidgetIndexes": [
+              1
+            ],
+            "treatment": "DOB widget only; notary subscription date widget remains blank"
+          }
+        }
+      ],
+      "canonicalRefusals": [
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -4882,33 +4982,11 @@
             "height": 21.369
           },
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Cause Number / Número de Caso",
-          "reason": "the participant supplies this before submission: copy the caption information from the recovery matter before submission",
-          "why": "copy the caption information from the recovery matter before submission",
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Court Number / Número del Tribunal",
-          "effectiveLabel": "Court number on the Statement caption",
-          "printedLabel": "Court number on the Statement caption",
-          "page": 1,
-          "rect": {
-            "x": 75.96,
-            "y": 208.56,
-            "width": 292.08,
-            "height": 25.573
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Court Number / Número del Tribunal",
-          "reason": "the participant supplies this before submission: copy the caption information from the recovery matter before submission",
-          "why": "copy the caption information from the recovery matter before submission",
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false
+          "reason": "the form says the Clerk's office will fill in the Cause Number when this form is filed",
+          "why": "the form says the Clerk's office will fill in the Cause Number when this form is filed",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false
         },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -5774,27 +5852,6 @@
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Choice 1",
-          "effectiveLabel": "Choice 1",
-          "printedLabel": "Choice 1",
-          "page": 1,
-          "rect": {
-            "x": 391.009,
-            "y": 219.02,
-            "width": 18,
-            "height": 18
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Choice 1",
-          "reason": "this sworn answer depends on the participant's own circumstances",
-          "why": "this sworn answer depends on the participant's own circumstances",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "fieldName": "Signature12",
           "effectiveLabel": "Signature12",
           "printedLabel": "Signature12",
@@ -5831,47 +5888,6 @@
           "category": "signature_or_date_participant_completion",
           "completenessClass": "signature_or_date_participant_completion",
           "requiredBeforeFiling": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Day / Día",
-          "effectiveLabel": "Day / Día",
-          "printedLabel": "Day / Día",
-          "page": 11,
-          "rect": {
-            "x": 134.541,
-            "y": 495.51,
-            "width": 49.094,
-            "height": 19.898
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Day / Día",
-          "reason": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
-          "why": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
-          "category": "signature_or_date_participant_completion",
-          "completenessClass": "signature_or_date_participant_completion",
-          "requiredBeforeFiling": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Year / Año",
-          "effectiveLabel": "Year / Año",
-          "printedLabel": "Year / Año",
-          "page": 11,
-          "rect": {
-            "x": 193.402,
-            "y": 495.612,
-            "width": 50.146,
-            "height": 19.898
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year / Año",
-          "reason": "the participant supplies this before submission: complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-          "why": "complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false
         },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -5970,26 +5986,6 @@
             "height": 20.598
           },
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year",
-          "reason": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
-          "why": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
-          "category": "signature_or_date_participant_completion",
-          "completenessClass": "signature_or_date_participant_completion",
-          "requiredBeforeFiling": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Month / Mes",
-          "effectiveLabel": "Month / Mes",
-          "printedLabel": "Month / Mes",
-          "page": 11,
-          "rect": {
-            "x": 79.7302,
-            "y": 495.561,
-            "width": 49.0948,
-            "height": 19.898
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Month / Mes",
           "reason": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
           "why": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
           "category": "signature_or_date_participant_completion",
@@ -6001,6 +5997,31 @@
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Mailing  Dirección Postal",
+          "effectiveLabel": "Mailing  Dirección Postal",
+          "printedLabel": "Mailing  Dirección Postal",
+          "page": 2,
+          "rect": {
+            "x": 269.52,
+            "y": 448.92,
+            "width": 246.96,
+            "height": 18.72
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Mailing  Dirección Postal",
+          "factId": "participant.complete_address",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.street_address",
+              "participant.city_state_zip"
+            ],
+            "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+          },
+          "fontSize": 8
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "fieldName": "My phone number  Mi número telefónico",
           "effectiveLabel": "My phone number  Mi número telefónico",
           "printedLabel": "My phone number  Mi número telefónico",
@@ -6063,8 +6084,40 @@
             "height": 24.72
           },
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My address is  Mi domicilio es",
-          "factId": "participant.street_address",
-          "kind": "acroform_text"
+          "factId": "participant.complete_address",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.street_address",
+              "participant.city_state_zip"
+            ],
+            "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+          },
+          "fontSize": 8
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Court Number / Número del Tribunal",
+          "effectiveLabel": "Court Number / Número del Tribunal",
+          "printedLabel": "Court Number / Número del Tribunal",
+          "page": 1,
+          "rect": {
+            "x": 75.96,
+            "y": 208.56,
+            "width": 292.08,
+            "height": 25.573
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Court Number / Número del Tribunal",
+          "factId": "matter.court_number",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "matter.court_name"
+            ],
+            "method": "take the trailing No. number from the held court name"
+          },
+          "fontSize": 8
         },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -6099,6 +6152,73 @@
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My address is / Mi dirección es",
           "factId": "participant.street_address",
           "kind": "acroform_text"
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Choice 1",
+          "effectiveLabel": "County Court at Law court-type option",
+          "printedLabel": "Court type on the Statement caption",
+          "page": 1,
+          "rect": {
+            "x": 391.01,
+            "y": 157.017,
+            "width": 18,
+            "height": 18
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Choice 1.courtType",
+          "factId": "matter.court_type",
+          "kind": "native_acroform_appearance",
+          "selectedState": "Choice3",
+          "routeDetermined": true
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Day / Día",
+          "effectiveLabel": "Day / Día",
+          "printedLabel": "Day / Día",
+          "page": 11,
+          "rect": {
+            "x": 134.541,
+            "y": 495.51,
+            "width": 49.094,
+            "height": 19.898
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Day / Día",
+          "factId": "participant.date_of_birth_day",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's day component"
+          },
+          "fontSize": 8
+        },
+        {
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "fieldName": "Year / Año",
+          "effectiveLabel": "Year / Año",
+          "printedLabel": "Year / Año",
+          "page": 11,
+          "rect": {
+            "x": 193.402,
+            "y": 495.612,
+            "width": 50.146,
+            "height": 19.898
+          },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year / Año",
+          "factId": "participant.date_of_birth_year",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's year component"
+          },
+          "fontSize": 8
         },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -6169,30 +6289,42 @@
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My date of birth / Mi fecha de nacimiento es",
           "factId": "participant.date_of_birth",
           "kind": "acroform_text"
-        }
-      ],
-      "boundaryRefusals": [
+        },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Mailing  Dirección Postal",
-          "effectiveLabel": "Mailing  Dirección Postal",
-          "printedLabel": "Mailing  Dirección Postal",
-          "page": 2,
+          "fieldName": "Month / Mes",
+          "effectiveLabel": "Month box of the date of birth on the Statement declaration",
+          "printedLabel": "Month box of the date of birth on the Statement declaration",
+          "page": 11,
           "rect": {
-            "x": 269.52,
-            "y": 448.92,
-            "width": 246.96,
-            "height": 18.72
+            "x": 79.7302,
+            "y": 495.561,
+            "width": 49.0948,
+            "height": 19.898
           },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Mailing  Dirección Postal",
-          "reason": "the participant supplies this before submission: complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-          "why": "complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false
-        },
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Month / Mes",
+          "factId": "participant.date_of_birth_month",
+          "kind": "flattened_text_overlay",
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's month component"
+          },
+          "fontSize": 8,
+          "widgetScope": {
+            "writtenWidgetIndexes": [
+              0
+            ],
+            "preservedWidgetIndexes": [
+              1
+            ],
+            "treatment": "DOB widget only; notary subscription date widget remains blank"
+          }
+        }
+      ],
+      "boundaryRefusals": [
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -7634,33 +7766,11 @@
             "height": 21.369
           },
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Cause Number / Número de Caso",
-          "reason": "the participant supplies this before submission: copy the caption information from the recovery matter before submission",
-          "why": "copy the caption information from the recovery matter before submission",
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Court Number / Número del Tribunal",
-          "effectiveLabel": "Court number on the Statement caption",
-          "printedLabel": "Court number on the Statement caption",
-          "page": 1,
-          "rect": {
-            "x": 75.96,
-            "y": 208.56,
-            "width": 292.08,
-            "height": 25.573
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Court Number / Número del Tribunal",
-          "reason": "the participant supplies this before submission: copy the caption information from the recovery matter before submission",
-          "why": "copy the caption information from the recovery matter before submission",
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false
+          "reason": "the form says the Clerk's office will fill in the Cause Number when this form is filed",
+          "why": "the form says the Clerk's office will fill in the Cause Number when this form is filed",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false
         },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -8526,27 +8636,6 @@
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Choice 1",
-          "effectiveLabel": "Choice 1",
-          "printedLabel": "Choice 1",
-          "page": 1,
-          "rect": {
-            "x": 391.009,
-            "y": 219.02,
-            "width": 18,
-            "height": 18
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Choice 1",
-          "reason": "this sworn answer depends on the participant's own circumstances",
-          "why": "this sworn answer depends on the participant's own circumstances",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "fieldName": "Signature12",
           "effectiveLabel": "Signature12",
           "printedLabel": "Signature12",
@@ -8583,47 +8672,6 @@
           "category": "signature_or_date_participant_completion",
           "completenessClass": "signature_or_date_participant_completion",
           "requiredBeforeFiling": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Day / Día",
-          "effectiveLabel": "Day / Día",
-          "printedLabel": "Day / Día",
-          "page": 11,
-          "rect": {
-            "x": 134.541,
-            "y": 495.51,
-            "width": 49.094,
-            "height": 19.898
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Day / Día",
-          "reason": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
-          "why": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
-          "category": "signature_or_date_participant_completion",
-          "completenessClass": "signature_or_date_participant_completion",
-          "requiredBeforeFiling": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Year / Año",
-          "effectiveLabel": "Year / Año",
-          "printedLabel": "Year / Año",
-          "page": 11,
-          "rect": {
-            "x": 193.402,
-            "y": 495.612,
-            "width": 50.146,
-            "height": 19.898
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year / Año",
-          "reason": "the participant supplies this before submission: complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-          "why": "complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records",
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false
         },
         {
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
@@ -8722,26 +8770,6 @@
             "height": 20.598
           },
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year",
-          "reason": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
-          "why": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
-          "category": "signature_or_date_participant_completion",
-          "completenessClass": "signature_or_date_participant_completion",
-          "requiredBeforeFiling": false
-        },
-        {
-          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "formNumber": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "fieldName": "Month / Mes",
-          "effectiveLabel": "Month / Mes",
-          "printedLabel": "Month / Mes",
-          "page": 11,
-          "rect": {
-            "x": 79.7302,
-            "y": 495.561,
-            "width": 49.0948,
-            "height": 19.898
-          },
-          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Month / Mes",
           "reason": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
           "why": "signature, declaration date, date-of-birth repetition, or notary field completed at signing",
           "category": "signature_or_date_participant_completion",

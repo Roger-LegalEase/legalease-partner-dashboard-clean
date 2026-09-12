@@ -9,6 +9,7 @@ import {
   FAMILY_ID, OUT_REL, FIXTURES, assertSourceIdentity,
   assertAppearanceMatches, refusedInkFinding, nativeGroup10Derivative, verifyBuiltOutputs, runFamily
 } from "../build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs";
+import { flattenedWidgets, drawnAt } from "../rcap-official-forms/pdf-flattened-widgets.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const require = createRequire(import.meta.url);
@@ -110,10 +111,39 @@ assert.deepEqual(map.group10NativeAppearancePolicy,
 const actual = JSON.parse(fs.readFileSync(path.join(ROOT, OUT_REL, "reports/actual-writes.json")));
 for (const fixture of actual.documents) {
   assert.deepEqual(fixture.nativeGroup10Selections.map((r) => r.state), ["Choice2", "Choice3"]);
+  assert.deepEqual(fixture.nativeCourtTypeSelections.map((r) => r.state), ["Choice3"],
+    "the held court must select the source-authored County Court at Law option");
   assert.deepEqual(fixture.protectedSourceDefaultsCleared.map((r) => [r.field, r.cleared]).sort(), [
     ["Amount Cantidad 15", "0"], ["Today", "12/15/2022"], ["Value / Valor 11", "0"]
   ]);
   assert.equal(fixture.refusedFieldsWithInk.length, 0);
+}
+
+const exactCivilRects = {
+  cause: { x: 329.16, y: 497.64, width: 186.96, height: 21.369 },
+  courtNumber: { x: 75.96, y: 208.56, width: 292.08, height: 25.573 },
+  mailing: { x: 269.52, y: 448.92, width: 246.96, height: 18.72 },
+  declarationAddress: { x: 77.64, y: 431.56, width: 373.8, height: 24.72 },
+  dobMonth: { x: 79.7302, y: 495.561, width: 49.0948, height: 19.898 },
+  dobDay: { x: 134.541, y: 495.51, width: 49.094, height: 19.898 },
+  dobYear: { x: 193.402, y: 495.612, width: 50.146, height: 19.898 },
+  notaryMonth: { x: 135.241, y: 265.173, width: 180.833, height: 19.898 }
+};
+const civilFacts = {
+  canonical: { courtNumber: "2", mailing: "418 Cedar Lane, Austin, Texas 78701", declarationAddress: "418 Cedar Lane, Austin, Texas 78701", month: "04", day: "16", year: "1993" },
+  boundary: { courtNumber: "15", mailing: "901 West Twenty-Third Street, Apartment 14, El Paso, Texas 79901", declarationAddress: "901 West Twenty-Third Street, Apartment 14, El Paso, Texas 79901", month: "02", day: "29", year: "1992" }
+};
+for (const [fixture, expected] of Object.entries(civilFacts)) {
+  const widgets = await flattenedWidgets(path.join(ROOT, OUT_REL, `fixtures/${fixture}.pdf`));
+  const textAt = (page, rect) => drawnAt(widgets, { page, rect }).map((r) => r.text).join("").trim();
+  assert.equal(textAt(11, exactCivilRects.courtNumber), expected.courtNumber, `${fixture}: held court number must be in the civil caption`);
+  assert.equal(textAt(12, exactCivilRects.mailing), expected.mailing, `${fixture}: mailing address must include held locality`);
+  assert.equal(textAt(21, exactCivilRects.declarationAddress), expected.declarationAddress, `${fixture}: declaration address must include held locality`);
+  assert.equal(textAt(21, exactCivilRects.dobMonth), expected.month, `${fixture}: declaration DOB month must be written`);
+  assert.equal(textAt(21, exactCivilRects.dobDay), expected.day, `${fixture}: declaration DOB day must be written`);
+  assert.equal(textAt(21, exactCivilRects.dobYear), expected.year, `${fixture}: declaration DOB year must be written`);
+  assert.equal(textAt(22, exactCivilRects.notaryMonth), "", `${fixture}: notary subscription date must remain blank`);
+  assert.equal(textAt(11, exactCivilRects.cause), "", `${fixture}: clerk-owned civil Cause Number must remain blank`);
 }
 
 const packet = await PDFDocument.load(fs.readFileSync(canonicalPath), { updateMetadata: false });

@@ -6,13 +6,18 @@ This is not a petition. Use the OCA model letter only when the record establishe
 
 The $28 amount is payable to the clerk before the court issues the order; the OCA instructions say it is not a filing fee. The Statement of Inability appears only because the packet facts explicitly say the participant cannot afford that cost. Complete its financial and household answers from your own records.
 
+The Statement caption is prefilled with the held court number and the County Court at Law court-type selection. Verify those entries against the court named in the recovery letter before signing.
+
+The Statement declaration's three date-of-birth boxes are prefilled from the date already printed on page 2. Leave the separate notary subscription date blank for the notary and do not enter the date you sign in that notary field.
+
+The Statement's mailing and declaration address blanks carry the complete held street, city, state, and ZIP. Correct them before signing only if the held record has changed; do not add an unsupported country.
+
 Review the two separate selections on the Statement: legal-aid representation and ability to pay court costs. Each selection comes from the participant's supplied answer; correct either one before signing if it is not true.
 
 The proposed order remains entirely for the court. Ask the clerk whether that court expects it with the recovery letter; do not sign, date, or mark findings on it.
 
 ## Complete these blanks before submission
 
-- **Mailing  Dirección Postal** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **Name Nombre — row 1** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **Age Edad — row 1** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **Relationship to me Parentesco Conmigo — row 1** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
@@ -66,8 +71,6 @@ The proposed order remains entirely for the court. Ask the clerk whether that co
 - **8 Are there debts or other facts explaining your financial situation Hay deudas u otros factores que expliquen su situación económica My debts include list debt and amount owed Mis duedas incluyen indique deuda y la cantidad que debe — row 4** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **8 Are there debts or other facts explaining your financial situation Hay deudas u otros factores que expliquen su situación económica My debts include list debt and amount owed Mis duedas incluyen indique deuda y la cantidad que debe — row 5** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **County state** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
-- **Cause number on the Statement caption** — copy the caption information from the recovery matter before submission
-- **Court number on the Statement caption** — copy the caption information from the recovery matter before submission
 - **County on the Statement caption** — copy the caption information from the recovery matter before submission
 - **Unemployed Since (date)** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **He estado desempleado desde (indique fecha)** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
@@ -107,7 +110,6 @@ The proposed order remains entirely for the court. Ask the clerk whether that co
 - **My debts include / Mis duedas incluyen 1** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **Right party block on the Statement caption** — copy the caption information from the recovery matter before submission
 - **Left party block on the Statement caption** — copy the caption information from the recovery matter before submission
-- **Year / Año** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **Amount Cantidad 2** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 - **Amount Cantidad 1** — complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records
 

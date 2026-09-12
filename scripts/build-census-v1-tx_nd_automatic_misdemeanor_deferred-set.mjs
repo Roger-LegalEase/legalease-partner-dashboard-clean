@@ -16,6 +16,8 @@ import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { PASS_COUNTERS, BLANK_DISPOSITIONS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+import { preserveGovernanceState, writeWiringChecked }
+  from "./rcap-packet-completeness/governance-preservation.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -92,6 +94,45 @@ export const FIXTURES = Object.freeze({
     "matter.attach_discharge_order": "have not" })
 });
 
+// These values are derived from facts already held for the matter. They are
+// recorded here so the field map can show the lineage instead of treating a
+// court-number, address-composition or date component as a new intake fact.
+const DERIVED_FACT_LINEAGE = Object.freeze({
+  "matter.court_number": Object.freeze({
+    derivedFrom: ["matter.court_name"],
+    method: "take the trailing No. number from the held court name"
+  }),
+  "matter.court_type": Object.freeze({
+    derivedFrom: ["matter.court_name"],
+    method: "map the held court name's Court at Law wording to the printed County Court at Law option"
+  }),
+  "participant.complete_address": Object.freeze({
+    derivedFrom: ["participant.street_address", "participant.city_state_zip"],
+    method: "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+  }),
+  "participant.date_of_birth_month": Object.freeze({
+    derivedFrom: ["participant.date_of_birth"],
+    method: "split the held ISO date's month component"
+  }),
+  "participant.date_of_birth_day": Object.freeze({
+    derivedFrom: ["participant.date_of_birth"],
+    method: "split the held ISO date's day component"
+  }),
+  "participant.date_of_birth_year": Object.freeze({
+    derivedFrom: ["participant.date_of_birth"],
+    method: "split the held ISO date's year component"
+  })
+});
+
+const STATEMENT_CUSTOM_WRITE_NAMES = new Set([
+  "Mailing  Dirección Postal",
+  "My address is  Mi domicilio es",
+  "Court Number / Número del Tribunal",
+  "Month / Mes",
+  "Day / Día",
+  "Year / Año"
+]);
+
 const LETTER_SPEC = Object.freeze({
   Signature: ["protect", null, "Participant signature on the recovery letter"],
   "Printed Name": ["write", "participant.full_legal_name", "Participant's printed name at item (18)"],
@@ -167,6 +208,32 @@ function pikepdfUnlock(source) {
   assert.equal(sha256(bytes), "8197d7bba301f97bbaef5e1434975fc3aeb1650faae66ad007d57e9aeb4bb240", "pikepdf derivative drift");
   return { bytes, sha256: sha256(bytes), byteLength: bytes.length, wasEncrypted: status === "ENCRYPTED" };
 }
+function completeParticipantAddress(facts) {
+  const street = String(facts["participant.street_address"] ?? "").trim();
+  const locality = String(facts["participant.city_state_zip"] ?? "").trim();
+  assert.ok(street && locality, "participant address needs held street and city/state/ZIP");
+  const normalize = (value) => value.toLowerCase().replace(/[\s,]+$/g, "").replace(/\s+/g, " ");
+  return normalize(street).endsWith(normalize(locality)) ? street : `${street}, ${locality}`;
+}
+function heldCourtDetails(facts) {
+  const courtName = String(facts["matter.court_name"] ?? "").trim();
+  const number = /\bNo\.\s*(\d+)\s*$/i.exec(courtName)?.[1] ?? null;
+  assert.ok(number, "held court name must end with its No. number before deriving the caption number");
+  assert.match(courtName, /court\s+at\s+law/i, "held court name must support the printed County Court at Law option");
+  return { number, type: "County Court at Law" };
+}
+function derivedFacts(facts) {
+  const [year, month, day] = String(facts["participant.date_of_birth"]).split("-");
+  assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(String(facts["participant.date_of_birth"])), "DOB must be ISO before deriving its boxes");
+  const court = heldCourtDetails(facts);
+  return { ...facts,
+    "matter.court_number": court.number,
+    "matter.court_type": court.type,
+    "participant.complete_address": completeParticipantAddress(facts),
+    "participant.date_of_birth_month": month,
+    "participant.date_of_birth_day": day,
+    "participant.date_of_birth_year": year };
+}
 function pageOfWidget(doc, widget) {
   for (const [i, page] of doc.getPages().entries()) {
     const annots = page.node.Annots();
@@ -195,17 +262,25 @@ function statementPolicy(name, kind) {
     "My full legal name is / Mi nombre legal completo es": "participant.full_legal_name",
     "My address is / Mi dirección es": "participant.street_address",
     "My name is  Mi nombre es": "participant.full_legal_name",
-    "My address is  Mi domicilio es": "participant.street_address",
+    "My address is  Mi domicilio es": "participant.complete_address",
+    "Mailing  Dirección Postal": "participant.complete_address",
     "Your printed name": "participant.full_legal_name",
-    "My date of birth / Mi fecha de nacimiento es": "participant.date_of_birth"
+    "My date of birth / Mi fecha de nacimiento es": "participant.date_of_birth",
+    "Court Number / Número del Tribunal": "matter.court_number",
+    "Day / Día": "participant.date_of_birth_day",
+    "Year / Año": "participant.date_of_birth_year"
   };
   if (facts[name]) return { policy: "write", fact: facts[name], label: participantLabel };
+  if (name === "Choice 1") return { policy: "native_court_type_write", fact: "matter.court_type", label: "Court type on the Statement caption" };
   if (name === "Group10") return { policy: "native_two_question_write", label: "Two independent source questions sharing Group10" };
-  if (/^Signature/.test(name) || ["Today", "Year", "Month / Mes", "Day / Día"].includes(name))
+  if (name === "Cause Number / Número de Caso")
+    return { policy: "protect", refusalClass: COURT_OWNED, label: "Cause number on the Statement caption",
+      why: "the form says the Clerk's office will fill in the Cause Number when this form is filed" };
+  if (name === "Month / Mes")
+    return { policy: "write", fact: "participant.date_of_birth_month", label: "Month box of the date of birth on the Statement declaration" };
+  if (/^Signature/.test(name) || ["Today", "Year"].includes(name))
     return { policy: "protect", refusalClass: SIGNATURE, label: participantLabel, why: "signature, declaration date, date-of-birth repetition, or notary field completed at signing" };
   const captionLabels = {
-    "Cause Number / Número de Caso": "Cause number on the Statement caption",
-    "Court Number / Número del Tribunal": "Court number on the Statement caption",
     "County / Condado": "County on the Statement caption",
     "Fill Blank 1": "Left party block on the Statement caption",
     "Fill Blank 2": "Right party block on the Statement caption"
@@ -323,6 +398,124 @@ export async function nativeGroup10Derivative(sourceBytes, facts) {
   const bytes = Buffer.from(await doc.save({ useObjectStreams: false, updateMetadata: false }));
   return { bytes, appearances: rows, derivativeSha256: sha256(bytes) };
 }
+function courtTypeChoiceFor(facts) {
+  const court = heldCourtDetails(facts);
+  assert.equal(facts["matter.court_type"] ?? court.type, court.type, "derived court type must match the held court name");
+  return { index: 2, state: "Choice3", label: court.type, number: court.number };
+}
+
+/** Flatten the source-authored court-type option while leaving every other option unmarked. */
+export async function nativeCourtTypeDerivative(sourceBytes, facts) {
+  validateFixture(facts);
+  const choice = courtTypeChoiceFor(facts);
+  const doc = await PDFDocument.load(sourceBytes, { updateMetadata: false }), form = doc.getForm();
+  const group = form.getRadioGroup("Choice 1"), widgets = group.acroField.getWidgets();
+  assert.equal(widgets.length, 5, "the Statement court-type group must carry five source options");
+  const rows = [];
+  for (const [index, widget] of widgets.entries()) {
+    const pageNumber = pageOfWidget(doc, widget), page = doc.getPages()[pageNumber - 1], rect = widget.getRectangle();
+    const normal = widget.getNormalAppearance(); assert.ok(normal instanceof PDFDict);
+    const state = index === choice.index ? choice.state : "Off", ref = normal.get(PDFName.of(state)), stream = doc.context.lookup(ref);
+    assert.ok(stream instanceof PDFRawStream, `missing native court-type /AP/N/${state} for widget ${index}`);
+    if (index === choice.index) {
+      const key = page.node.newXObject("NativeCourtTypeWidget", ref);
+      page.pushOperators(pushGraphicsState(), translate(rect.x, rect.y), drawObject(key), popGraphicsState());
+    }
+    rows.push({ widgetIndex: index, option: index === choice.index ? choice.label : null, selected: index === choice.index,
+      state, page: pageNumber, rect: { x: +rect.x.toFixed(4), y: +rect.y.toFixed(4), width: +rect.width.toFixed(4), height: +rect.height.toFixed(4) },
+      sourceAppearanceSha256: sha256(Buffer.from(stream.contents)) });
+  }
+  for (const widget of widgets) {
+    const page = doc.getPages()[pageOfWidget(doc, widget) - 1], widgetRef = doc.context.getObjectRef(widget.dict);
+    assert.ok(widgetRef, "court-type widget must be an indirect annotation");
+    page.node.removeAnnot(widgetRef);
+  }
+  form.removeField(group); stampDeterministic(doc);
+  const bytes = Buffer.from(await doc.save({ useObjectStreams: false, updateMetadata: false }));
+  return { bytes, appearances: rows, selectedOption: choice.label, selectedState: choice.state, derivativeSha256: sha256(bytes) };
+}
+
+function existingHelveticaRef(doc) {
+  for (const page of doc.getPages()) {
+    const pageResources = page.node.Resources();
+    const pageFonts = pageResources?.lookup(PDFName.of("Font"));
+    const pageHelvetica = pageFonts instanceof PDFDict ? pageFonts.get(PDFName.of("Helvetica")) : null;
+    if (pageHelvetica) return pageHelvetica;
+    const xObjects = pageResources?.lookup(PDFName.of("XObject"));
+    if (!(xObjects instanceof PDFDict)) continue;
+    for (const key of xObjects.keys()) {
+      const object = xObjects.lookup(key);
+      if (!(object instanceof PDFRawStream)) continue;
+      const resources = object.dict.lookup(PDFName.of("Resources"));
+      const fonts = resources?.lookup(PDFName.of("Font"));
+      const helvetica = fonts instanceof PDFDict ? fonts.get(PDFName.of("Helvetica")) : null;
+      if (helvetica) return helvetica;
+    }
+  }
+  return null;
+}
+
+function asciiHex(value) {
+  const text = String(value);
+  assert.ok(/^[\x20-\x7e]*$/.test(text), "TX derived statement writes must be printable ASCII");
+  return Buffer.from(text, "latin1").toString("hex").toUpperCase();
+}
+
+/**
+ * Write the six source fields whose held values are intentionally derived but
+ * cannot bind through the shared semantic registry. The source fields remain
+ * blank and are flattened by the ordinary finalizer; these XObjects are then
+ * placed at the same measured rectangles, using the finalizer's Helvetica
+ * resource and the same FlatWidget proof vocabulary.
+ */
+async function appendDerivedStatementWrites(bytes, census, facts) {
+  const doc = await PDFDocument.load(bytes, { updateMetadata: false });
+  const fontRef = existingHelveticaRef(doc);
+  assert.ok(fontRef, "finalized Statement must expose the existing Helvetica resource for derived writes");
+  const overlays = [];
+  for (const fieldName of STATEMENT_CUSTOM_WRITE_NAMES) {
+    const row = census.rows.find((candidate) => candidate.name === fieldName);
+    assert.ok(row, `derived Statement write is absent from the source census: ${fieldName}`);
+    const widget = fieldName === "Month / Mes"
+      ? row.widgets.find((candidate) => candidate.page === 11)
+      : row.widgets[0];
+    assert.ok(widget, `${fieldName}: derived Statement write has no measured participant widget`);
+    const value = facts[row.fact];
+    assert.ok(value !== undefined && value !== null && String(value).trim() !== "", `${fieldName}: no held value for ${row.fact}`);
+    overlays.push({ field: fieldName, factId: row.fact, page: widget.page, rect: widget.rect, value: String(value) });
+  }
+  const customWrites = [];
+  for (const overlay of overlays) {
+    const page = doc.getPages()[overlay.page - 1];
+    assert.ok(page, `${overlay.field}: measured page is absent from the derived Statement`);
+    const { x, y, width, height } = overlay.rect;
+    // The longest held address is 241.44pt at 8pt Helvetica in its 246.96pt
+    // mailing box. Keep one point of inset on each side and fail closed if a
+    // future fixture exceeds this exact source geometry.
+    const fontSize = 8;
+    const estimatedWidth = String(overlay.value).length * fontSize * 0.47;
+    assert.ok(estimatedWidth + 2 <= width, `${overlay.field}: held value does not fit its measured source box at the readable size`);
+    const baseline = Math.max(1, (height - fontSize) / 2);
+    const body = [
+      "q", "BT", "0 g", `/Helvetica ${fontSize} Tf`,
+      `1 0 0 1 1 ${baseline.toFixed(3)} Tm`, `<${asciiHex(overlay.value)}> Tj`,
+      "ET", "Q", ""
+    ].join("\n");
+    const resources = doc.context.obj({ Font: doc.context.obj({ Helvetica: fontRef }) });
+    const appearance = doc.context.flateStream(body, {
+      Type: "XObject", Subtype: "Form", FormType: 1,
+      BBox: doc.context.obj([0, 0, width, height]),
+      Matrix: doc.context.obj([1, 0, 0, 1, 0, 0]), Resources: resources
+    });
+    const ref = doc.context.register(appearance);
+    const key = page.node.newXObject("FlatWidget", ref);
+    page.pushOperators(pushGraphicsState(), translate(x, y), drawObject(key), popGraphicsState());
+    customWrites.push({ ...overlay, kind: "flattened_text_overlay", fontSize, appearance: key.decodeText(), derivedFrom: DERIVED_FACT_LINEAGE[overlay.factId] ?? null });
+  }
+  stampDeterministic(doc);
+  const output = Buffer.from(await doc.save({ useObjectStreams: false, updateMetadata: false }));
+  return { bytes: output, customWrites };
+}
 function finalizerCensus(census, omit = new Set()) {
   return census.rows.filter((r) => !omit.has(r.name)).map((r) => ({ name: r.name, type: r.type,
     effectiveLabel: r.label, regionHeading: r.label, widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })) }));
@@ -353,15 +546,34 @@ async function renderLetter(source, derivative, census, facts) {
     activeContentScan: active, outputSha256: sha256(bytes), outputBytes: bytes.length } };
 }
 async function renderStatement(source, census, facts) {
-  const native = await nativeGroup10Derivative(source.bytes, facts), writable = census.rows.filter((r) => r.policy === "write");
-  const result = await finalizeOfficialForm({ sourceBytes: native.bytes, expectedSha256: native.derivativeSha256,
-    census: finalizerCensus(census, new Set(["Group10"])), facts,
+  const group10 = await nativeGroup10Derivative(source.bytes, facts);
+  const courtType = await nativeCourtTypeDerivative(group10.bytes, facts);
+  const writable = census.rows.filter((r) => r.policy === "write" && !STATEMENT_CUSTOM_WRITE_NAMES.has(r.name));
+  const omitted = new Set(["Group10", "Choice 1", ...STATEMENT_CUSTOM_WRITE_NAMES]);
+  const result = await finalizeOfficialForm({ sourceBytes: courtType.bytes, expectedSha256: courtType.derivativeSha256,
+    census: finalizerCensus(census, omitted), facts,
     explicitMappings: Object.fromEntries(writable.map((r) => [r.name, r.fact])),
-    unwritableFields: census.rows.filter((r) => r.name !== "Group10" && r.policy !== "write").map((r) => ({ field: r.name })),
+    unwritableFields: census.rows.filter((r) => !omitted.has(r.name) && r.policy !== "write").map((r) => ({ field: r.name })),
     documentTextLines: [], title: source.title,
     printedDateOrderByField: { "My date of birth / Mi fecha de nacimiento es": "month_day_year" },
     clearSourceCarriedTextValues: ["Today", "Value / Valor 11", "Amount Cantidad 15"], preserveUnwrittenSelectionBackgrounds: true });
-  result.report.nativeGroup10 = native.appearances;
+  const derived = await appendDerivedStatementWrites(result.bytes, census, facts);
+  result.bytes = derived.bytes;
+  const finalizerWrittenCount = result.report.written.length;
+  result.report.written.push(...derived.customWrites.map((r) => ({ field: r.field, factId: r.factId, value: r.value,
+    kind: r.kind, fontSize: r.fontSize, derivedFrom: r.derivedFrom })));
+  result.report.customWrites = derived.customWrites;
+  result.report.finalizerWrittenCount = finalizerWrittenCount;
+  result.report.sharedWidgetScopedWrite = { field: "Month / Mes", writtenWidgetPage: 11, writtenWidgetIndex: 0,
+    preservedWidgetPage: 12, preservedWidgetIndex: 1, preservedPlacementCount: 0,
+    treatment: "DOB widget only; notary subscription date widget remains blank" };
+  result.report.nativeGroup10 = group10.appearances;
+  result.report.nativeCourtType = courtType.appearances;
+  result.report.outputSha256 = sha256(result.bytes);
+  result.report.outputBytes = result.bytes.length;
+  result.report.activeContentScan = scanBytesForActiveContent(result.bytes);
+  assert.ok(result.report.activeContentScan.inspectable && result.report.activeContentScan.hits.length === 0,
+    "statement derivative retains active content after shared-widget scoping");
   return result;
 }
 async function combine(rendered, fixture) {
@@ -386,12 +598,22 @@ function mapsFrom(censuses, reports) {
         documentPolicy: { mode: "court_owned", documentAcceptsFill: false, conditional: true }, selectionControls: [],
         canonicalWrites: [], canonicalRefusals: [refusal], boundaryWrites: [], boundaryRefusals: [refusal] }); continue;
     }
-    const census = censuses.get(id), written = new Set((reports.get(id)?.written ?? []).map((r) => r.field));
+    const census = censuses.get(id), report = reports.get(id), written = new Set((report?.written ?? []).map((r) => r.field));
+    const customWritten = new Map((report?.customWrites ?? []).map((r) => [r.field, r]));
     const canonicalWrites = [], canonicalRefusals = [], selectionControls = [];
     for (const row of census.rows) {
       const base = { document: id, formNumber: id, fieldName: row.name, effectiveLabel: row.label, printedLabel: row.label,
         page: row.page, rect: row.widgets[0]?.rect ?? null };
-      if (row.name === "Group10") {
+      if (row.name === "Choice 1") {
+        const selectedWidget = row.widgets[2];
+        assert.ok(selectedWidget, "Choice 1 must expose the measured County Court at Law widget");
+        const w = { ...base, field: `${id}.Choice 1.courtType`, fieldName: "Choice 1", effectiveLabel: "County Court at Law court-type option",
+          page: selectedWidget.page, rect: selectedWidget.rect, factId: "matter.court_type", kind: "native_acroform_appearance",
+          selectedState: "Choice3", routeDetermined: true };
+        canonicalWrites.push(w); selectionControls.push({ selectionId: w.field, field: w.effectiveLabel,
+          disposition: "selected_from_explicit_held_court_fact", page: selectedWidget.page, requiredBeforeFiling: false, routeDetermined: true,
+          factId: w.factId, selectedState: w.selectedState });
+      } else if (row.name === "Group10") {
         for (const [suffix, q] of Object.entries(GROUP10)) {
           const label = suffix === "legalAid" ? "Are you represented by Legal Aid?" : "Ability to pay court costs";
           const w = { ...base, field: `${id}.Group10.${suffix}`, fieldName: `Group10.${suffix}`, effectiveLabel: label,
@@ -400,7 +622,11 @@ function mapsFrom(censuses, reports) {
             disposition: "selected_from_explicit_participant_fact", page: q.page, requiredBeforeFiling: false, routeDetermined: false });
         }
       } else if (row.policy === "write" && written.has(row.name)) {
-        canonicalWrites.push({ ...base, field: `${id}.${row.name}`, factId: row.fact, kind: row.isSelectionControl ? "acroform_selection" : "acroform_text" });
+        const custom = customWritten.get(row.name);
+        canonicalWrites.push({ ...base, field: `${id}.${row.name}`, factId: row.fact, kind: row.isSelectionControl ? "acroform_selection" : "acroform_text",
+          ...(custom ? { kind: "flattened_text_overlay", derivedFrom: custom.derivedFrom, fontSize: custom.fontSize } : {}),
+          ...(row.name === "Month / Mes" ? { widgetScope: { writtenWidgetIndexes: [0], preservedWidgetIndexes: [1],
+            treatment: "DOB widget only; notary subscription date widget remains blank" } } : {}) });
       } else if (row.policy === "protect") {
         canonicalRefusals.push({ ...base, field: `${id}.${row.name}`, reason: row.why, why: row.why,
           category: row.refusalClass, completenessClass: row.refusalClass, requiredBeforeFiling: false });
@@ -427,6 +653,9 @@ function participantInstructions(maps) {
     "First obtain your Texas DPS criminal history and the court's discharge-and-dismissal record. Confirm that the discharge and dismissal was on or after September 1, 2017, that at least 180 days of deferred supervision were served, that the misdemeanor and your history satisfy the exclusions, and whether the order already issued. If the DPS record shows the matter is already sealed, there is nothing to submit.", "",
     "This is not a petition. Use the OCA model letter only when the record establishes eligibility and the court did not issue the automatic order. Submit it through the clerk of the court that placed you on deferred adjudication. No prosecutor has a role on this automatic route.", "",
     "The $28 amount is payable to the clerk before the court issues the order; the OCA instructions say it is not a filing fee. The Statement of Inability appears only because the packet facts explicitly say the participant cannot afford that cost. Complete its financial and household answers from your own records.", "",
+    "The Statement caption is prefilled with the held court number and the County Court at Law court-type selection. Verify those entries against the court named in the recovery letter before signing.", "",
+    "The Statement declaration's three date-of-birth boxes are prefilled from the date already printed on page 2. Leave the separate notary subscription date blank for the notary and do not enter the date you sign in that notary field.", "",
+    "The Statement's mailing and declaration address blanks carry the complete held street, city, state, and ZIP. Correct them before signing only if the held record has changed; do not add an unsupported country.", "",
     "Review the two separate selections on the Statement: legal-aid representation and ability to pay court costs. Each selection comes from the participant's supplied answer; correct either one before signing if it is not true.", "",
     "The proposed order remains entirely for the court. Ask the clerk whether that court expects it with the recovery letter; do not sign, date, or mark findings on it.", "", "## Complete these blanks before submission", ""
   ];
@@ -464,7 +693,7 @@ function pageAppearancePlacements(doc) {
       try { bytes = zlib.inflateSync(bytes); } catch {}
       source += bytes.toString("latin1");
     }
-    const placement = /q((?:\s*-?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ cm)+)\s*\/((?:FlatWidget|NativeWidget)-\d+)\s+Do/g;
+    const placement = /q((?:\s*-?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ -?[\d.]+ cm)+)\s*\/((?:FlatWidget|NativeWidget|NativeCourtTypeWidget)-\d+)\s+Do/g;
     let match;
     while ((match = placement.exec(source))) {
       let x = 0, y = 0;
@@ -486,7 +715,7 @@ async function provePacket(file, maps, reports, manifest, censuses, facts) {
   const packetBytes = fs.readFileSync(path.join(ROOT, file));
   const widgets = await flattenedWidgets(path.join(ROOT, file)), writes = [];
   const packetDoc = await PDFDocument.load(packetBytes, { updateMetadata: false });
-  const placements = pageAppearancePlacements(packetDoc), native = placements.filter((r) => r.name.startsWith("NativeWidget"));
+  const placements = pageAppearancePlacements(packetDoc), native = placements.filter((r) => r.name.startsWith("NativeWidget") || r.name.startsWith("NativeCourtTypeWidget"));
   for (const map of maps) for (const row of map.canonicalWrites) {
     if (row.kind === "native_acroform_appearance") continue;
     const packetPage = manifest.find((p) => p.component === map.documentId && p.sourcePage === row.page)?.packetPage;
@@ -516,6 +745,7 @@ async function provePacket(file, maps, reports, manifest, censuses, facts) {
     writes.push({ field: row.field, document: map.documentId, factId: row.factId, page: packetPage,
       expected: String(expected), drawnText: hit.map((r) => r.text).join(""), appearancePlacements: hit.length,
       expectedAppearanceSha256, observedAppearanceSha256, foundInOutputBytes: true,
+      ...(row.derivedFrom ? { derivedFrom: row.derivedFrom } : {}),
       proof: row.kind === "acroform_selection" ? "flattened XObject contains the exact source-authored checked-mark content at the original rectangle"
         : "flattened widget text equals the held value at the original source rectangle" });
   }
@@ -530,14 +760,33 @@ async function provePacket(file, maps, reports, manifest, censuses, facts) {
       expectedState: row.state, rect: row.rect, sourceAppearanceSha256: row.sourceAppearanceSha256,
       foundInOutputBytes: true, proof: "source /AP/N stream flattened at its original widget /Rect" });
   }
-  const allNative = reports.get(STATEMENT).nativeGroup10;
-  assert.equal(native.length, 4, "assembled packet must carry exactly the four original Group10 appearances");
-  for (const row of allNative) {
+  for (const row of reports.get(STATEMENT).nativeCourtType.filter((r) => r.selected)) {
     const packetPage = manifest.find((p) => p.component === STATEMENT && p.sourcePage === row.page).packetPage;
     assert.ok(native.some((n) => n.page === packetPage && Math.abs(n.x - row.rect.x) < 0.01
       && Math.abs(n.y - row.rect.y) < 0.01 && n.sha256 === row.sourceAppearanceSha256),
-    `Group10 widget ${row.widgetIndex} moved or ceased to use its source /AP`);
+    "source-authored County Court at Law appearance is missing from assembled bytes");
+    writes.push({ field: `${STATEMENT}.Choice 1.courtType`, document: STATEMENT, factId: "matter.court_type",
+      page: packetPage, expectedState: row.state, rect: row.rect, sourceAppearanceSha256: row.sourceAppearanceSha256,
+      foundInOutputBytes: true, proof: "source /AP/N/Choice3 stream flattened at its original widget /Rect" });
   }
+  const allNative = [...reports.get(STATEMENT).nativeGroup10, ...reports.get(STATEMENT).nativeCourtType];
+  assert.equal(native.length, 5, "assembled packet must carry four Group10 appearances and one court-type appearance");
+  for (const row of allNative) {
+    const packetPage = manifest.find((p) => p.component === STATEMENT && p.sourcePage === row.page).packetPage;
+    const matches = native.filter((n) => n.page === packetPage && Math.abs(n.x - row.rect.x) < 0.01
+      && Math.abs(n.y - row.rect.y) < 0.01 && n.sha256 === row.sourceAppearanceSha256);
+    const expectedPlacements = row.question ? 1 : (row.selected ? 1 : 0);
+    assert.equal(matches.length, expectedPlacements,
+      `${row.question ?? "court-type"} widget ${row.widgetIndex} selected-state placement drift`);
+  }
+  const courtNumber = maps.find((m) => m.documentId === STATEMENT).canonicalWrites.find((r) => r.fieldName === "Court Number / Número del Tribunal");
+  assert.ok(courtNumber && courtNumber.factId === "matter.court_number", "held court number must be a mapped participant-completable write");
+  const cause = maps.find((m) => m.documentId === STATEMENT).canonicalRefusals.find((r) => r.fieldName === "Cause Number / Número de Caso");
+  assert.ok(cause && cause.category === COURT_OWNED && cause.requiredBeforeFiling === false, "clerk-owned Cause Number must remain a protected blank");
+  const month = censuses.get(STATEMENT).rows.find((r) => r.name === "Month / Mes");
+  const notaryPage = manifest.find((p) => p.component === STATEMENT && p.sourcePage === 12).packetPage;
+  const notaryInk = drawnAt(widgets, { page: notaryPage, rect: month.widgets.find((w) => w.page === 12).rect }).map((r) => r.text).join("").trim();
+  assert.equal(notaryInk, "", "notary Month / Mes widget received the participant DOB");
   for (const fieldName of ["Today", "Value / Valor 11", "Amount Cantidad 15"]) {
     const row = maps.find((m) => m.documentId === STATEMENT).canonicalRefusals.find((r) => r.fieldName === fieldName);
     const packetPage = manifest.find((p) => p.component === STATEMENT && p.sourcePage === row.page).packetPage;
@@ -546,7 +795,7 @@ async function provePacket(file, maps, reports, manifest, censuses, facts) {
   }
   const refusedFieldsWithInk = []; let refusedWidgetsMeasured = 0;
   for (const [componentId, census] of censuses) for (const row of census.rows) {
-    if (row.policy === "write" || row.name === "Group10") continue;
+    if (row.policy === "write" || row.name === "Group10" || row.name === "Choice 1") continue;
     for (const widget of row.widgets) {
       refusedWidgetsMeasured += 1;
       const packetPage = manifest.find((p) => p.component === componentId && p.sourcePage === widget.page)?.packetPage;
@@ -693,7 +942,7 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
   fs.mkdirSync(path.join(ROOT, OUT_REL, "reports"), { recursive: true });
   const artifacts = [], proofs = []; let maps = null;
   for (const fixture of ["canonical", "boundary"]) {
-    const facts = factsByFixture[fixture], reports = new Map(), rendered = [];
+    const facts = derivedFacts(factsByFixture[fixture]), reports = new Map(), rendered = [];
     for (const source of resolved) {
       if (source.componentId === LETTER) {
         const r = await renderLetter(source, letterDerivative, censuses.get(LETTER), facts); reports.set(LETTER, r.report); rendered.push({ source, bytes: Buffer.from(r.bytes) });
@@ -706,8 +955,11 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
     fs.writeFileSync(path.join(ROOT, file), packet.bytes);
     const proof = await provePacket(file, maps, reports, packet.pageManifest, censuses, facts);
     assert.equal(proof.actualWrites.length, maps.reduce((n, m) => n + m.canonicalWrites.length, 0));
-    proofs.push({ fixture, valuesReportedByFinalizer: [...reports.values()].reduce((n, r) => n + r.written.length, 0),
+    proofs.push({ fixture, valuesReportedByFinalizer: [...reports.values()].reduce((n, r) => n + (r.finalizerWrittenCount ?? r.written.length), 0),
+      valuesReportedByRenderer: [...reports.values()].reduce((n, r) => n + r.written.length, 0),
       nativeGroup10Selections: reports.get(STATEMENT).nativeGroup10.filter((r) => r.selected),
+      nativeCourtTypeSelections: reports.get(STATEMENT).nativeCourtType.filter((r) => r.selected),
+      sharedWidgetScopedWrite: reports.get(STATEMENT).sharedWidgetScopedWrite,
       protectedSourceDefaultsCleared: reports.get(STATEMENT).sourceCarriedValuesCleared, ...proof });
     artifacts.push({ fixture, file, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount,
       documents: COMPONENTS, components: COMPONENTS, pageManifest: packet.pageManifest });
@@ -740,6 +992,10 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
     componentSet: COMPONENTS, componentConditions: conditions, dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION], routeSelectionsMade: [],
     group10NativeAppearancePolicy: { parentField: "Group10", radioStructureEdited: false, synthesizedMarks: 0, outsideControlMarks: 0,
       treatment: "each original widget is flattened from its own source-authored /AP/N state at its original /Rect" },
+    courtTypeNativeAppearancePolicy: { parentField: "Choice 1", selectedState: "Choice3", selectedLabel: "County Court at Law",
+      radioStructureEdited: false, synthesizedMarks: 0, outsideControlMarks: 0,
+      treatment: "the held court selects the source-authored County Court at Law appearance at its original /Rect" },
+    derivedFactLineage: DERIVED_FACT_LINEAGE,
     requiredBeforeFilingCount: requiredBeforeFiling.length, requiredBeforeFiling, maps,
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0 });
   writeJson(`${OUT_REL}/reports/rendered-artifacts.json`, { schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID,
@@ -752,7 +1008,9 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
   writeJson(`${OUT_REL}/reports/actual-writes.json`, { schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: FAMILY_ID,
     derivedFromArtifactBytes: true, nativeAppearanceProof: true, documents: proofs,
     artifacts: proofs.map((p) => ({ fixture: p.fixture, valuesReportedByFinalizer: p.valuesReportedByFinalizer,
+      valuesReportedByRenderer: p.valuesReportedByRenderer,
       nativeGroup10Selections: p.nativeGroup10Selections.length, flattenedWidgetAppearancesReadFromOutputBytes: p.actualWrites.length,
+      nativeCourtTypeSelections: p.nativeCourtTypeSelections.length, sharedWidgetScopedWrite: p.sharedWidgetScopedWrite,
       refusedWidgetsMeasured: p.refusedWidgetsMeasured, nativeAppearancesMeasured: p.nativeAppearancesMeasured,
       refusedFieldsWithInk: p.refusedFieldsWithInk })), blockingFindings: [] });
   writeJson(`${OUT_REL}/reports/blanks-left-for-the-participant.json`, { schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
@@ -766,7 +1024,8 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
       refusedWidgetsMeasuredFromFinalBytes: proofs.reduce((n, p) => n + p.refusedWidgetsMeasured, 0),
       rasterState: "RASTER_PENDING", visualDefectsCountsOnlyStructurallyDetectedInk: true },
     note: "Derived from the exhaustive source census, three-component page manifest, and actual-write proofs. No visual acceptance is claimed." });
-  writeJson(`${OUT_REL}/product-wiring.json`, { schemaVersion: "rcap-census-v1-product-wiring/v1", family: FAMILY_ID, routeKey: ROUTE_KEYS[1], routeKeys: ROUTE_KEYS,
+  const wiringPath = path.join(ROOT, OUT_REL, "product-wiring.json");
+  const productWiring = { schemaVersion: "rcap-census-v1-product-wiring/v1", family: FAMILY_ID, routeKey: ROUTE_KEYS[1], routeKeys: ROUTE_KEYS,
     workType: "PRODUCT_WIRING_REQUIRED", status: "DECLARED_NOT_INSTALLED", authorityCreated: "none",
     currentState: { serviceDisposition: "missing_from_compiled_runtime", generationAllowed: false },
     binding: { family: FAMILY_ID, jurisdiction: "TX", routeKeys: ROUTE_KEYS, deliveryType: "official_pdf_fill",
@@ -774,7 +1033,10 @@ export async function runFamily(argv = process.argv.slice(2), options = {}) {
       packetComponents: COMPONENTS.map((id) => `component:${id}`), fieldMap: `${OUT_REL}/production-field-map.json`,
       instructions: `${OUT_REL}/participant-instructions.md`, renderedArtifacts: `${OUT_REL}/reports/rendered-artifacts.json`,
       sourceReceipt: `${OUT_REL}/source-receipt.json`, acceptanceReceipt: null, paymentEligible: false, sponsorshipEligible: false },
-    generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0 });
+    generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0 };
+  preserveGovernanceState(fs, wiringPath, productWiring, { canonicalSha256: artifacts.map((a) => a.sha256),
+    log: (line) => console.error(line) });
+  writeWiringChecked(fs, wiringPath, productWiring);
   writeJson(`${OUT_REL}/build-status.json`, { schemaVersion: "rcap-family-build-status/v1", familyId: FAMILY_ID, buildStatus: "state_built",
     reviewStatus: "qa_review_pending", builtBy: BUILD_SCRIPT, renderedArtifacts: 2, rasterPages: 0, rasterState: "BUILT_RASTER_PENDING",
     independentVerificationStatus: "PENDING", selfVerified: false, generationAllowed: false, runtimeSelectable: false,

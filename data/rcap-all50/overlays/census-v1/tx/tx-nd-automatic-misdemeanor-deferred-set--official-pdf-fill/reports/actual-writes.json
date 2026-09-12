@@ -6,7 +6,8 @@
   "documents": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 31,
+      "valuesReportedByFinalizer": 30,
+      "valuesReportedByRenderer": 36,
       "nativeGroup10Selections": [
         {
           "widgetIndex": 1,
@@ -39,6 +40,31 @@
           "sourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2"
         }
       ],
+      "nativeCourtTypeSelections": [
+        {
+          "widgetIndex": 2,
+          "option": "County Court at Law",
+          "selected": true,
+          "state": "Choice3",
+          "page": 1,
+          "rect": {
+            "x": 391.01,
+            "y": 157.017,
+            "width": 18,
+            "height": 18
+          },
+          "sourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2"
+        }
+      ],
+      "sharedWidgetScopedWrite": {
+        "field": "Month / Mes",
+        "writtenWidgetPage": 11,
+        "writtenWidgetIndex": 0,
+        "preservedWidgetPage": 12,
+        "preservedWidgetIndex": 1,
+        "preservedPlacementCount": 0,
+        "treatment": "DOB widget only; notary subscription date widget remains blank"
+      },
       "protectedSourceDefaultsCleared": [
         {
           "field": "Value / Valor 11",
@@ -354,6 +380,26 @@
           "proof": "flattened XObject contains the exact source-authored checked-mark content at the original rectangle"
         },
         {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Mailing  Dirección Postal",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "participant.complete_address",
+          "page": 12,
+          "expected": "418 Cedar Lane, Austin, Texas 78701",
+          "drawnText": "418 Cedar Lane, Austin, Texas 78701",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.street_address",
+              "participant.city_state_zip"
+            ],
+            "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+          },
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My phone number  Mi número telefónico",
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "factId": "participant.phone",
@@ -395,14 +441,40 @@
         {
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My address is  Mi domicilio es",
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "factId": "participant.street_address",
+          "factId": "participant.complete_address",
           "page": 21,
           "expected": "418 Cedar Lane, Austin, Texas 78701",
           "drawnText": "418 Cedar Lane, Austin, Texas 78701",
-          "appearancePlacements": 1,
+          "appearancePlacements": 2,
           "expectedAppearanceSha256": null,
           "observedAppearanceSha256": null,
           "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.street_address",
+              "participant.city_state_zip"
+            ],
+            "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+          },
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Court Number / Número del Tribunal",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "matter.court_number",
+          "page": 11,
+          "expected": "2",
+          "drawnText": "2",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "matter.court_name"
+            ],
+            "method": "take the trailing No. number from the held court name"
+          },
           "proof": "flattened widget text equals the held value at the original source rectangle"
         },
         {
@@ -432,6 +504,44 @@
           "proof": "flattened widget text equals the held value at the original source rectangle"
         },
         {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Day / Día",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "participant.date_of_birth_day",
+          "page": 21,
+          "expected": "16",
+          "drawnText": "16",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's day component"
+          },
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year / Año",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "participant.date_of_birth_year",
+          "page": 21,
+          "expected": "1993",
+          "drawnText": "1993",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's year component"
+          },
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Your printed name",
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "factId": "participant.full_legal_name",
@@ -455,6 +565,25 @@
           "expectedAppearanceSha256": null,
           "observedAppearanceSha256": null,
           "foundInOutputBytes": true,
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Month / Mes",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "participant.date_of_birth_month",
+          "page": 21,
+          "expected": "04",
+          "drawnText": "04",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's month component"
+          },
           "proof": "flattened widget text equals the held value at the original source rectangle"
         },
         {
@@ -488,15 +617,32 @@
           "sourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2",
           "foundInOutputBytes": true,
           "proof": "source /AP/N stream flattened at its original widget /Rect"
+        },
+        {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Choice 1.courtType",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "matter.court_type",
+          "page": 11,
+          "expectedState": "Choice3",
+          "rect": {
+            "x": 391.01,
+            "y": 157.017,
+            "width": 18,
+            "height": 18
+          },
+          "sourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2",
+          "foundInOutputBytes": true,
+          "proof": "source /AP/N/Choice3 stream flattened at its original widget /Rect"
         }
       ],
       "refusedFieldsWithInk": [],
-      "refusedWidgetsMeasured": 131,
-      "nativeAppearancesMeasured": 4
+      "refusedWidgetsMeasured": 120,
+      "nativeAppearancesMeasured": 5
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 31,
+      "valuesReportedByFinalizer": 30,
+      "valuesReportedByRenderer": 36,
       "nativeGroup10Selections": [
         {
           "widgetIndex": 1,
@@ -529,6 +675,31 @@
           "sourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2"
         }
       ],
+      "nativeCourtTypeSelections": [
+        {
+          "widgetIndex": 2,
+          "option": "County Court at Law",
+          "selected": true,
+          "state": "Choice3",
+          "page": 1,
+          "rect": {
+            "x": 391.01,
+            "y": 157.017,
+            "width": 18,
+            "height": 18
+          },
+          "sourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2"
+        }
+      ],
+      "sharedWidgetScopedWrite": {
+        "field": "Month / Mes",
+        "writtenWidgetPage": 11,
+        "writtenWidgetIndex": 0,
+        "preservedWidgetPage": 12,
+        "preservedWidgetIndex": 1,
+        "preservedPlacementCount": 0,
+        "treatment": "DOB widget only; notary subscription date widget remains blank"
+      },
       "protectedSourceDefaultsCleared": [
         {
           "field": "Value / Valor 11",
@@ -844,6 +1015,26 @@
           "proof": "flattened XObject contains the exact source-authored checked-mark content at the original rectangle"
         },
         {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Mailing  Dirección Postal",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "participant.complete_address",
+          "page": 12,
+          "expected": "901 West Twenty-Third Street, Apartment 14, El Paso, Texas 79901",
+          "drawnText": "901 West Twenty-Third Street, Apartment 14, El Paso, Texas 79901",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.street_address",
+              "participant.city_state_zip"
+            ],
+            "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+          },
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My phone number  Mi número telefónico",
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "factId": "participant.phone",
@@ -885,14 +1076,40 @@
         {
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.My address is  Mi domicilio es",
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
-          "factId": "participant.street_address",
+          "factId": "participant.complete_address",
           "page": 21,
-          "expected": "901 West Twenty-Third Street, Apartment 14",
-          "drawnText": "901 West Twenty-Third Street, Apartment 14",
-          "appearancePlacements": 1,
+          "expected": "901 West Twenty-Third Street, Apartment 14, El Paso, Texas 79901",
+          "drawnText": "901 West Twenty-Third Street, Apartment 14, El Paso, Texas 79901",
+          "appearancePlacements": 2,
           "expectedAppearanceSha256": null,
           "observedAppearanceSha256": null,
           "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.street_address",
+              "participant.city_state_zip"
+            ],
+            "method": "retain locality already present in the held street value; otherwise append the held city/state/ZIP"
+          },
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Court Number / Número del Tribunal",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "matter.court_number",
+          "page": 11,
+          "expected": "15",
+          "drawnText": "15",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "matter.court_name"
+            ],
+            "method": "take the trailing No. number from the held court name"
+          },
           "proof": "flattened widget text equals the held value at the original source rectangle"
         },
         {
@@ -922,6 +1139,44 @@
           "proof": "flattened widget text equals the held value at the original source rectangle"
         },
         {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Day / Día",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "participant.date_of_birth_day",
+          "page": 21,
+          "expected": "29",
+          "drawnText": "29",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's day component"
+          },
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Year / Año",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "participant.date_of_birth_year",
+          "page": 21,
+          "expected": "1992",
+          "drawnText": "1992",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's year component"
+          },
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
           "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Your printed name",
           "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
           "factId": "participant.full_legal_name",
@@ -945,6 +1200,25 @@
           "expectedAppearanceSha256": null,
           "observedAppearanceSha256": null,
           "foundInOutputBytes": true,
+          "proof": "flattened widget text equals the held value at the original source rectangle"
+        },
+        {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Month / Mes",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "participant.date_of_birth_month",
+          "page": 21,
+          "expected": "02",
+          "drawnText": "02",
+          "appearancePlacements": 2,
+          "expectedAppearanceSha256": null,
+          "observedAppearanceSha256": null,
+          "foundInOutputBytes": true,
+          "derivedFrom": {
+            "derivedFrom": [
+              "participant.date_of_birth"
+            ],
+            "method": "split the held ISO date's month component"
+          },
           "proof": "flattened widget text equals the held value at the original source rectangle"
         },
         {
@@ -978,30 +1252,68 @@
           "sourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2",
           "foundInOutputBytes": true,
           "proof": "source /AP/N stream flattened at its original widget /Rect"
+        },
+        {
+          "field": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4.Choice 1.courtType",
+          "document": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+          "factId": "matter.court_type",
+          "page": 11,
+          "expectedState": "Choice3",
+          "rect": {
+            "x": 391.01,
+            "y": 157.017,
+            "width": 18,
+            "height": 18
+          },
+          "sourceAppearanceSha256": "8fb2179f6b6737896affa3122247a048a635c55bab3b1e24e1a69093e7d885f2",
+          "foundInOutputBytes": true,
+          "proof": "source /AP/N/Choice3 stream flattened at its original widget /Rect"
         }
       ],
       "refusedFieldsWithInk": [],
-      "refusedWidgetsMeasured": 131,
-      "nativeAppearancesMeasured": 4
+      "refusedWidgetsMeasured": 120,
+      "nativeAppearancesMeasured": 5
     }
   ],
   "artifacts": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 31,
+      "valuesReportedByFinalizer": 30,
+      "valuesReportedByRenderer": 36,
       "nativeGroup10Selections": 2,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 33,
-      "refusedWidgetsMeasured": 131,
-      "nativeAppearancesMeasured": 4,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 39,
+      "nativeCourtTypeSelections": 1,
+      "sharedWidgetScopedWrite": {
+        "field": "Month / Mes",
+        "writtenWidgetPage": 11,
+        "writtenWidgetIndex": 0,
+        "preservedWidgetPage": 12,
+        "preservedWidgetIndex": 1,
+        "preservedPlacementCount": 0,
+        "treatment": "DOB widget only; notary subscription date widget remains blank"
+      },
+      "refusedWidgetsMeasured": 120,
+      "nativeAppearancesMeasured": 5,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 31,
+      "valuesReportedByFinalizer": 30,
+      "valuesReportedByRenderer": 36,
       "nativeGroup10Selections": 2,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 33,
-      "refusedWidgetsMeasured": 131,
-      "nativeAppearancesMeasured": 4,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 39,
+      "nativeCourtTypeSelections": 1,
+      "sharedWidgetScopedWrite": {
+        "field": "Month / Mes",
+        "writtenWidgetPage": 11,
+        "writtenWidgetIndex": 0,
+        "preservedWidgetPage": 12,
+        "preservedWidgetIndex": 1,
+        "preservedPlacementCount": 0,
+        "treatment": "DOB widget only; notary subscription date widget remains blank"
+      },
+      "refusedWidgetsMeasured": 120,
+      "nativeAppearancesMeasured": 5,
       "refusedFieldsWithInk": []
     }
   ],

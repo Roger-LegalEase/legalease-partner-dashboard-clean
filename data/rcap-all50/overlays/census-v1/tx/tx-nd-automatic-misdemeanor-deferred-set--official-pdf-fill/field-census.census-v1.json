@@ -744,9 +744,9 @@
           "page": 2,
           "sourceValue": null,
           "isSelectionControl": false,
-          "policy": "supply",
-          "label": "Mailing  Dirección Postal",
-          "what": "complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records"
+          "policy": "write",
+          "fact": "participant.complete_address",
+          "label": "Mailing  Dirección Postal"
         },
         {
           "name": "My phone number  Mi número telefónico",
@@ -2691,7 +2691,7 @@
           "sourceValue": null,
           "isSelectionControl": false,
           "policy": "write",
-          "fact": "participant.street_address",
+          "fact": "participant.complete_address",
           "label": "My address is  Mi domicilio es"
         },
         {
@@ -2769,9 +2769,10 @@
           "page": 1,
           "sourceValue": null,
           "isSelectionControl": false,
-          "policy": "supply",
+          "policy": "protect",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
           "label": "Cause number on the Statement caption",
-          "what": "copy the caption information from the recovery matter before submission"
+          "why": "the form says the Clerk's office will fill in the Cause Number when this form is filed"
         },
         {
           "name": "Court Number / Número del Tribunal",
@@ -2795,9 +2796,9 @@
           "page": 1,
           "sourceValue": null,
           "isSelectionControl": false,
-          "policy": "supply",
-          "label": "Court number on the Statement caption",
-          "what": "copy the caption information from the recovery matter before submission"
+          "policy": "write",
+          "fact": "matter.court_number",
+          "label": "Court Number / Número del Tribunal"
         },
         {
           "name": "County / Condado",
@@ -4049,10 +4050,9 @@
           "page": 1,
           "sourceValue": null,
           "isSelectionControl": true,
-          "policy": "election",
-          "refusalClass": "participant_sworn_narrative_or_legal_election",
-          "label": "Choice 1",
-          "why": "this sworn answer depends on the participant's own circumstances"
+          "policy": "native_court_type_write",
+          "fact": "matter.court_type",
+          "label": "Court type on the Statement caption"
         },
         {
           "name": "Signature12",
@@ -4130,10 +4130,9 @@
           "page": 11,
           "sourceValue": null,
           "isSelectionControl": false,
-          "policy": "protect",
-          "refusalClass": "signature_or_date_participant_completion",
-          "label": "Day / Día",
-          "why": "signature, declaration date, date-of-birth repetition, or notary field completed at signing"
+          "policy": "write",
+          "fact": "participant.date_of_birth_day",
+          "label": "Day / Día"
         },
         {
           "name": "Year / Año",
@@ -4157,9 +4156,9 @@
           "page": 11,
           "sourceValue": null,
           "isSelectionControl": false,
-          "policy": "supply",
-          "label": "Year / Año",
-          "what": "complete this financial, household, benefit, employment, property, expense, debt, address, or declaration fact from your own records"
+          "policy": "write",
+          "fact": "participant.date_of_birth_year",
+          "label": "Year / Año"
         },
         {
           "name": "Group12",
@@ -4506,10 +4505,9 @@
           "page": 11,
           "sourceValue": null,
           "isSelectionControl": false,
-          "policy": "protect",
-          "refusalClass": "signature_or_date_participant_completion",
-          "label": "Month / Mes",
-          "why": "signature, declaration date, date-of-birth repetition, or notary field completed at signing"
+          "policy": "write",
+          "fact": "participant.date_of_birth_month",
+          "label": "Month box of the date of birth on the Statement declaration"
         }
       ]
     }
