@@ -304,7 +304,102 @@ const registryAdapter = {
   }
 };
 
-export const ADAPTERS = new Map([[REGISTRY, registryAdapter]]);
+const PACKET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+
+/* Packet manifests bind complete packet-set records and every shared/default
+ * field outside packetSets. Scope comes from explicit receipt identifiers and
+ * route tracks, never from a substring of the family name. Schema extensions
+ * with unknown per-packet dependency semantics refuse until supported. */
+const packetManifestAdapter = {
+  recordPath: PACKET_MANIFESTS,
+  describe: "packet-set manifests (complete scoped packet sets + shared/default metadata)",
+  index(doc, side) {
+    if (!doc || doc.schemaVersion !== 1 || !Array.isArray(doc.packetSets)) {
+      throw new Refusal(`the ${side} packet manifest has an unsupported schema`);
+    }
+    const allowed = new Set(["packetSetId", "trackId", "jurisdiction", "version", "components",
+      "participantActionRequired", "requiredBeforeFiling", "packetSetCompleteness", "factoryV2RouteProductization"]);
+    const byId = new Map();
+    for (const entry of doc.packetSets) {
+      if (!entry || typeof entry.packetSetId !== "string" || !entry.packetSetId
+        || typeof entry.trackId !== "string" || !entry.trackId || !Array.isArray(entry.components)) {
+        throw new Refusal(`the ${side} packet manifest has an unidentifiable packet set`);
+      }
+      if (byId.has(entry.packetSetId)) throw new Refusal(`duplicate packet set ${entry.packetSetId} in ${side} manifest`);
+      const unknown = Object.keys(entry).filter((key) => !allowed.has(key));
+      if (unknown.length) throw new Refusal(`ambiguous packet dependencies in ${entry.packetSetId}: unsupported fields ${unknown.join(", ")}`);
+      byId.set(entry.packetSetId, entry);
+    }
+    return byId;
+  },
+  scopeFrom({ receipt, pin, currentDoc }) {
+    const byId = this.index(currentDoc, "current");
+    const anchors = new Set(); const declarations = [];
+    const add = (id, basis) => {
+      if (!byId.has(id)) throw new Refusal(`${basis} names unavailable packet set ${JSON.stringify(id)}`);
+      anchors.add(id); declarations.push({ basis, packetSetId: id });
+    };
+    if (pin.recordId != null) {
+      const match = /^(?:packet-set-manifest|legal-design-packet-set-manifests):(.+)$/.exec(pin.recordId);
+      if (!match) throw new Refusal(`ambiguous packet-manifest recordId ${JSON.stringify(pin.recordId)}`);
+      for (const id of match[1].split("+")) add(id, "pin.recordId");
+    }
+    if (receipt.packetSetId != null) add(receipt.packetSetId, "receipt.packetSetId");
+    if (typeof receipt.familyId === "string" && byId.has(receipt.familyId)) add(receipt.familyId, "receipt.familyId exact packetSetId");
+    for (const key of receipt.routeKeys ?? []) {
+      const parts = String(key).split(":");
+      if (parts[0] !== "obligation" || !["track-only", "track-pathway"].includes(parts[1]) || !parts[3]) {
+        throw new Refusal(`ambiguous manifest dependency for route ${JSON.stringify(key)}`);
+      }
+      const matches = [...byId.values()].filter((entry) => entry.trackId === parts[3] && entry.jurisdiction === parts[2]);
+      if (!matches.length) throw new Refusal(`route ${JSON.stringify(key)} names no current packet-set track`);
+      if (matches.length > 1) throw new Refusal(`route ${JSON.stringify(key)} has ambiguous packet-set dependencies`);
+      for (const entry of matches) add(entry.packetSetId, `receipt.routeKeys:${key}`);
+    }
+    if (!anchors.size) throw new Refusal("the receipt declares no unambiguous packet-manifest dependency");
+    return { anchorIds: [...anchors].sort(), derivation: { declarations, globalMetadataComparedAsOneAnchor: true } };
+  },
+  anchorsOf(doc, scope, side) {
+    const byId = this.index(doc, side);
+    const { packetSets: _packetSets, ...shared } = doc;
+    const out = new Map([["packetManifestSharedMetadata", shared]]);
+    const identifiers = new Map();
+    const register = (value, id) => {
+      if (typeof value !== "string" || !value) return;
+      if (!identifiers.has(value)) identifiers.set(value, new Set());
+      identifiers.get(value).add(id);
+    };
+    for (const [id, entry] of byId) {
+      register(id, id); register(entry.trackId, id);
+      for (const component of entry.components) register(component.componentId, id);
+    }
+    const pending = new Set(scope.anchorIds);
+    const dependencyKey = (key) => /(?:ref(?:erence)?s?|dependsOn|inheritsFrom|extends|defaultPacketSet(?:Id)?|(?:packetSet|packetFamily|component)Ids?)$/i.test(key);
+    const dependencies = (value, key = "") => {
+      if (value != null && dependencyKey(key) && typeof value !== "string" && !Array.isArray(value)) {
+        throw new Refusal(`ambiguous structured dependency ${key} in ${side} manifest`);
+      }
+      if (typeof value === "string") {
+        const targets = identifiers.get(value);
+        if (targets?.size > 1) throw new Refusal(`ambiguous dependency identifier ${JSON.stringify(value)} in ${side} manifest`);
+        for (const id of targets ?? []) pending.add(id);
+        if (dependencyKey(key) && !identifiers.has(value)) throw new Refusal(`ambiguous or unavailable dependency ${key}=${JSON.stringify(value)} in ${side} manifest`);
+      } else if (Array.isArray(value)) value.forEach((item) => dependencies(item, key));
+      else if (value && typeof value === "object") Object.entries(value).forEach(([k, v]) => dependencies(v, k));
+    };
+    dependencies(shared);
+    for (const id of pending) {
+      if (!byId.has(id)) throw new Refusal(`packet set ${id} is absent from the ${side} manifest`);
+      if (out.has(`packetSet:${id}`)) continue;
+      const entry = byId.get(id);
+      out.set(`packetSet:${id}`, entry);
+      dependencies(entry);
+    }
+    return out;
+  }
+};
+
+export const ADAPTERS = new Map([[REGISTRY, registryAdapter], [PACKET_MANIFESTS, packetManifestAdapter]]);
 
 /* ------------------------------------------------------------------ *
  * The comparison
