@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {ADAPTERS, compareAnchors, planReceipt, composeRefreshedReceipt, readsAsUnmoved, sha256} from './repin-lapsed-source-identities.mjs';
+import {acceptedAcquisitionIdentity, ADAPTERS, compareAnchors, planReceipt, composeRefreshedReceipt, readsAsUnmoved, sha256} from './repin-lapsed-source-identities.mjs';
 const recordPath='data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json';
 const adapter=ADAPTERS.get(recordPath);
 const current=JSON.parse(fs.readFileSync(recordPath));
@@ -31,6 +31,8 @@ test('unavailable or ambiguous evidence is retained as a shared dependency and r
   assert.throws(()=>compare(current,duplicate));
   const ambiguous=structuredClone(current);ambiguous.reconciliation42.families.find(r=>r.familyId===receipt.familyId).dependsOn='another-family';
   assert.throws(()=>compare(current,ambiguous));
+  const sharedDefault=structuredClone(current);sharedDefault.reconciliation42.defaultFamily='another-family';
+  assert.throws(()=>compare(sharedDefault,sharedDefault));
 });
 test('a family cannot exclude its own newly added acquisition evidence',()=>{
   const family='de_discretionary_family_court-set';const a=structuredClone(historical),b=structuredClone(current);
@@ -47,4 +49,18 @@ test('native planner preserves source binaries and doctrine while refreshing act
   const before=structuredClone(receipt),after=JSON.parse(text);
   delete before.committedRecords;delete after.committedRecords;
   assert.deepEqual(after,before);
+});
+
+test('excluded acquisition requires an accepted, complete source identity',()=>{
+  const valid={result:'PASS',sha256:'a'.repeat(64),byteLength:1,heldCorpusPath:'held/source.pdf'};
+  assert.equal(acceptedAcquisitionIdentity(valid),true);
+  for(const change of [{result:'FAIL'},{sha256:'bad'},{byteLength:1.5},{byteLength:0},{heldCorpusPath:''},{heldCorpusPath:null}])
+    assert.equal(acceptedAcquisitionIdentity({...valid,...change}),false);
+});
+test('prior exclusion proof continuity is enforced before another comparison',()=>{
+  const scope=adapter.scopeFrom({receipt,pin,currentDoc:current});
+  const nextPin={...pin,identityRefresh:{anchorScope:structuredClone(scope)}};
+  assert.doesNotThrow(()=>adapter.scopeFrom({receipt,pin:nextPin,currentDoc:current}));
+  nextPin.identityRefresh.anchorScope.derivation.excludedAcquisitionEvidence[0].sha256='0'.repeat(64);
+  assert.throws(()=>adapter.scopeFrom({receipt,pin:nextPin,currentDoc:current}),/prior excluded acquisition evidence changed/);
 });

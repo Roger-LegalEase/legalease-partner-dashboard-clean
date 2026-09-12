@@ -400,6 +400,11 @@ const packetManifestAdapter = {
 };
 
 const SOURCE_DETERMINATIONS = "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json";
+export function acceptedAcquisitionIdentity(evidence) {
+  return ["ACQUIRED_CURRENT_OFFICIAL_BINARY", "OFFICIAL_SOURCE_ALREADY_HELD", "PASS"].includes(evidence?.result)
+    && isDigest(evidence.sha256) && Number.isInteger(evidence.byteLength) && evidence.byteLength > 0
+    && typeof evidence.heldCorpusPath === "string" && evidence.heldCorpusPath.trim().length > 0;
+}
 const sourceDeterminationAdapter = {
   recordPath: SOURCE_DETERMINATIONS,
   describe: "source determinations (whole shared record and exact family reconciliation)",
@@ -408,9 +413,13 @@ const sourceDeterminationAdapter = {
       || doc.reconciliation42?.schemaVersion !== "rcap-source-reconciliation-42/v1"
       || !Array.isArray(doc.determinations) || !Array.isArray(doc.reconciliation42.families)
       || !Array.isArray(doc.reconciliation42.acquisitionEvidencePaths)) throw new Refusal(`unsupported ${side} source determination schema`);
+    const topKeys = new Set(["schemaVersion", "producedBy", "producedOn", "question", "rowsGoverned", "familiesGoverned", "jurisdictions", "rule", "determinations", "reconciliation42", "whatThisDoesNotEstablish"]);
+    const sharedKeys = new Set(["schemaVersion", "recordedOn", "rule", "manualAcquisitionCohortUntouchedCount", "laterSourceBlockersKeptSeparate", "acquisitionEvidencePaths", "sharedExactBindings", "families", "rhodeIslandProposedOrder"]);
+    if (Object.keys(doc).some(k => !topKeys.has(k)) || Object.keys(doc.reconciliation42).some(k => !sharedKeys.has(k))
+      || doc.reconciliation42.acquisitionEvidencePaths.some(p => typeof p !== "string" || !p)) throw new Refusal(`ambiguous ${side} shared source dependencies`);
     const out = new Map();
     for (const row of doc.reconciliation42.families) {
-      if (!row?.familyId || out.has(row.familyId)) throw new Refusal(`ambiguous ${side} source reconciliation family`);
+      if (typeof row?.familyId !== "string" || !row.familyId || out.has(row.familyId)) throw new Refusal(`ambiguous ${side} source reconciliation family`);
       out.set(row.familyId, row);
     }
     return out;
@@ -421,6 +430,15 @@ const sourceDeterminationAdapter = {
     const hits = currentDoc.determinations.filter(row => row.id === match?.[1]);
     if (!match || hits.length !== 1 || !byId.has(receipt.familyId)
       || !hits[0].families?.includes(receipt.familyId)) throw new Refusal("source determination pin does not uniquely bind this family");
+    const priorProofs = pin.identityRefresh?.anchorScope?.derivation?.excludedAcquisitionEvidence ?? [];
+    for (const proof of priorProofs) {
+      let bytes;
+      try { bytes = fs.readFileSync(path.join(ROOT, proof.path)); }
+      catch { throw new Refusal("prior excluded acquisition evidence unavailable"); }
+      if (sha256(bytes) !== proof.sha256 || bytes.length !== proof.byteLength
+        || !bytes.equals(git(["show", `HEAD:${proof.path}`], { encoding: "buffer" })))
+        throw new Refusal("prior excluded acquisition evidence changed");
+    }
     const excludedAcquisitionEvidence = [];
     for (const p of currentDoc.reconciliation42.acquisitionEvidencePaths) {
       // Only a committed, single-item acquisition return can prove an added
@@ -433,7 +451,8 @@ const sourceDeterminationAdapter = {
       } catch { continue; }
       const allowed = new Set(["schemaVersion", "familyId", "itemId", "result", "heldCorpusPath", "sha256", "byteLength", "pageCount", "selectedSourcePages", "sourcePageIdentity", "officialReaderUrl", "currentRemoteBinaryHashMeasured", "independentSourceReview", "packetAcceptanceGranted"]);
       const review = evidence.independentSourceReview;
-      if (evidence.schemaVersion !== "rcap-source-acquisition-return/v1"
+      if (!acceptedAcquisitionIdentity(evidence)
+        || evidence.schemaVersion !== "rcap-source-acquisition-return/v1"
         || typeof evidence.familyId !== "string" || !evidence.familyId || evidence.familyId.includes("::") || evidence.familyId === receipt.familyId
         || typeof evidence.itemId !== "string" || !evidence.itemId.startsWith(`${evidence.familyId}::official-form:`)
         || Object.keys(evidence).some(k => !allowed.has(k))
