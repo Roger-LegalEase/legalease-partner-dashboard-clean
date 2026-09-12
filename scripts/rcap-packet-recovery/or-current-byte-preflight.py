@@ -19,11 +19,16 @@ def glyphs(page):
  return Counter((c['c'],tuple(round(x,1) for x in c['bbox'])) for b in page.get_text('rawdict')['blocks'] if b['type']==0 for line in b['lines'] for span in line['spans'] for c in span['chars'] if not c['c'].isspace())
 checks=[];bindings=[]
 def check(fixture,name,passed,detail): checks.append(dict(fixture=fixture,check=name,passed=bool(passed),detail=detail))
+expected_fixtures={'canonical--arrest-no-charges','boundary--arrest-no-charges','canonical--dismissed-charge','boundary--dismissed-charge'}
+assert len(report['artifacts'])==4 and {a['fixture'] for a in report['artifacts']}==expected_fixtures,'All four route/role assemblies are mandatory'
 for artifact in report['artifacts']:
  fixture=artifact['fixture']; p=Path(artifact['file']); raw=p.read_bytes(); h=hashlib.sha256(raw).hexdigest(); pdf=pymupdf.open(stream=raw,filetype='pdf')
  bindings.append(dict(path=str(p),sha256=h,byteLength=len(raw),pageCount=len(pdf)))
  check(fixture,'saved_artifact_binding',h==artifact['sha256'] and len(raw)==artifact['byteLength'] and len(pdf)==artifact['pageCount'],'Report compared against actual saved PDF bytes.')
  pages=artifact['pageManifest']; text='\n'.join(page.get_text() for page in pdf)
+ source_page_keys=[(e.get('sourceSha256'),e.get('sourcePage')) for e in pages if e.get('sourceSha256') in sources]
+ expected_source_pages={(h,i+1) for h,d in sources.items() for i in range(len(d))}
+ check(fixture,'complete_official_source_page_coverage',len(source_page_keys)==len(expected_source_pages) and set(source_page_keys)==expected_source_pages,'Every exact held OJD and OSP source page occurs once in the delivered assembly.')
  for entry in pages:
   source=sources.get(entry.get('sourceSha256'))
   if source is None:continue
