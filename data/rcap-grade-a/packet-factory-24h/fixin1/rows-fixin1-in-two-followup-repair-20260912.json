@@ -1,0 +1,217 @@
+{
+  "schemaVersion": "rcap-native-verifier-returns/v1",
+  "preparedOn": "2026-09-12",
+  "laneId": "FIXIN1",
+  "rows": [
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "familyId": "in_arrest_no_charges-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "claim": {
+        "grantSetId": "2eb23c444f11f9d9",
+        "workerId": "FIXIN1"
+      },
+      "obligationsRepaired": [
+        "ARTIFACTS",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-two-current-semantic-fail-20260912.json",
+        "sha256": "092b75cd4cc46988b17a264be3a17005a996bf39ea2bebc5ac194a76e421aaaf",
+        "preserved": true
+      },
+      "actualDefect": "Current packet bytes omitted all four held court-type caption values and three held local-county occurrences per fixture; participant guidance omitted filing/no-fee rules, exposed internal field identifiers, and misclassified shared alias/agency occurrences plus one route-specific stop or exception.",
+      "correction": "Exact pinned-source occurrence overlays now derive SUPERIOR/CIRCUIT from the held court and write county only on petition page 5 and local recipient captions on page 13. Court decree page 12 and conditional other-county page 14 remain blank. Shared alias/agency participant occurrences are explicitly handed back, and plain guidance restores filing, no-fee, hearing/early-written-agreement rules without internal IDs.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "packet-canonical-filled.pdf",
+          "packet-boundary-filled.pdf"
+        ],
+        "unchanged": [
+          "inserts-canonical-filled.pdf",
+          "inserts-boundary-filled.pdf"
+        ]
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "packet-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+            "sha256": "d908ed75c158fffaadb7b46d780b55c8c5f4414906d7e590ca31ceb3d193616d",
+            "byteLength": 256841,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "d908ed75c158fffaadb7b46d780b55c8c5f4414906d7e590ca31ceb3d193616d"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "packet-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+            "sha256": "1bde3cae2e2355bb8f76138d20e0b0fa5d41f5becf4b8abd3f52fe228b8f2d2f",
+            "byteLength": 257371,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "1bde3cae2e2355bb8f76138d20e0b0fa5d41f5becf4b8abd3f52fe228b8f2d2f"
+            }
+          },
+          {
+            "role": "canonical",
+            "name": "inserts-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+            "sha256": "b85720880ff7793a4b5ba733073c0d561870c1d6a469729258b172fc8621eaf0",
+            "byteLength": 198858,
+            "changed": false
+          },
+          {
+            "role": "boundary",
+            "name": "inserts-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+            "sha256": "012bf1ed14151fc5c1245cf3ad38eab47562c96d4b0ab11410cec19bbaa94e6d",
+            "byteLength": 596158,
+            "changed": false
+          }
+        ],
+        "documentsDigest": "d06b36e507d650f56d31825dcd732b746f4aa59326ecb0a177547940924e1d77"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "Both current packet-completeness audits pass with all nine measured counters zero except visualDefects remains null pending independent raster review; 28 new exact positioned writes read back once from saved bytes.",
+      "rasterState": "BUILT_RASTER_PENDING_INDEPENDENT_PRE_RASTER_REVIEW",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/current-byte-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/focused-check-results.json",
+      "sourceBindingEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/source-binding-preflight.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "grantsNothing": "Historical FAIL is preserved. This implementation return opens no route and does not grant visual or independent acceptance."
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "familyId": "in_section1_petition-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "claim": {
+        "grantSetId": "2eb23c444f11f9d9",
+        "workerId": "FIXIN1"
+      },
+      "obligationsRepaired": [
+        "ARTIFACTS",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-two-current-semantic-fail-20260912.json",
+        "sha256": "092b75cd4cc46988b17a264be3a17005a996bf39ea2bebc5ac194a76e421aaaf",
+        "preserved": true
+      },
+      "actualDefect": "Current packet bytes omitted all four held court-type caption values and three held local-county occurrences per fixture; participant guidance omitted filing/no-fee rules, exposed internal field identifiers, and misclassified shared alias/agency occurrences plus one route-specific stop or exception.",
+      "correction": "Exact pinned-source occurrence overlays now derive SUPERIOR/CIRCUIT from the held court and write county only on petition page 5 and local recipient captions on page 13. Court decree page 12 and conditional other-county page 14 remain blank. Shared alias/agency participant occurrences are explicitly handed back, and plain guidance restores filing, no-fee, hearing/early-written-agreement rules without internal IDs.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "packet-canonical-filled.pdf",
+          "packet-boundary-filled.pdf"
+        ],
+        "unchanged": [
+          "inserts-canonical-filled.pdf",
+          "inserts-boundary-filled.pdf"
+        ]
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "packet-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+            "sha256": "d76d2fde879ed2add2e59ed25c5022c2b2506879d330eb46a456a05b2a58adc6",
+            "byteLength": 256981,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "d76d2fde879ed2add2e59ed25c5022c2b2506879d330eb46a456a05b2a58adc6"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "packet-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+            "sha256": "267124bbb94e5ca6ad08fcef54a61d8221cfc4311b23f27898d53440fe2d24b8",
+            "byteLength": 257698,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "267124bbb94e5ca6ad08fcef54a61d8221cfc4311b23f27898d53440fe2d24b8"
+            }
+          },
+          {
+            "role": "canonical",
+            "name": "inserts-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+            "sha256": "4dea5df56b107359f07a3a361f3208f624b4e2e5dce43de1d22353e1e0f52f7b",
+            "byteLength": 199726,
+            "changed": false
+          },
+          {
+            "role": "boundary",
+            "name": "inserts-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+            "sha256": "9d2893798d6c02898bc5d5b775541106e0987989e196e280d54566ba044166a4",
+            "byteLength": 598906,
+            "changed": false
+          }
+        ],
+        "documentsDigest": "c485e11b72c3d5c56c8d6d7969b0a8de83e14e090ee5bddd3b5145ffa86f0359"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "Both current packet-completeness audits pass with all nine measured counters zero except visualDefects remains null pending independent raster review; 28 new exact positioned writes read back once from saved bytes.",
+      "rasterState": "BUILT_RASTER_PENDING_INDEPENDENT_PRE_RASTER_REVIEW",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/current-byte-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/focused-check-results.json",
+      "sourceBindingEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/source-binding-preflight.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "grantsNothing": "Historical FAIL is preserved. This implementation return opens no route and does not grant visual or independent acceptance."
+    }
+  ]
+}
