@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5e93d2aab1e64a3ad7f5651b83802703846b4e3c` (or the newer dispatch base)
+**Minimum required ancestor:** `e4cc291ae52f642d397493005dee8e452455b3c8` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'nh_petition_vacated-set' \
+  --family 'rcap-or-official-pdf-fill' \
   --codex-cloud \
-  --minimum-captain-sha 5e93d2aab1e64a3ad7f5651b83802703846b4e3c
+  --minimum-captain-sha e4cc291ae52f642d397493005dee8e452455b3c8
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 4 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'nh_petition_vacated-set'`
+- Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'rcap-or-official-pdf-fill'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'de_discretionary_superior_court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'rcap-in-custom-pleading'`
@@ -63,9 +62,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 3 families
 
-- `nh_petition_vacated-set`
 - `rcap-or-official-pdf-fill`
 - `de_discretionary_superior_court-set`
 - `rcap-in-custom-pleading`
@@ -81,11 +79,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
-- `data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
-- `scripts/build-census-v1-nh_petition_vacated-set.mjs`
 - `scripts/build-census-v1-rcap-or-official-pdf-fill.mjs`
 - `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
 - `scripts/build-census-v1-rcap-in-custom-pleading.mjs`

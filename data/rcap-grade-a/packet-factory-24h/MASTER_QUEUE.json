@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "5e93d2aab1e64a3ad7f5651b83802703846b4e3c",
+  "minimumCaptainSha": "e4cc291ae52f642d397493005dee8e452455b3c8",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -79,15 +79,15 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 12,
+    "repairRequired": 11,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 272,
+    "COMPLETE_PACKET_PROVEN": 273,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 31,
-    "FAIL_REPAIR_REQUIRED": 13,
+    "FAIL_REPAIR_REQUIRED": 12,
     "HANDOFF_READY": 2,
     "PRODUCT_PATH_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1,
@@ -34996,10 +34996,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf03",
-        "verifiedAtBase": "353bd91959e26d356c2c94f47f0947004c59eac5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-nh-vacated-semantic-fail-20260912.json"
+        "verifiedAtBase": "5e93d2aab1e64a3ad7f5651b83802703846b4e3c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-nh_petition_vacated-set-original-final-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -35018,7 +35018,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "353bd91959e26d356c2c94f47f0947004c59eac5",
+          "verifiedAtBase": "5e93d2aab1e64a3ad7f5651b83802703846b4e3c",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -35037,9 +35037,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35051,7 +35049,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL: NHJB-2328 is the confidential Statement of Assets and Liabilities, not the fee-waiver motion. Use NHJB-2886-DFPe Motion to Waive Filing Fees with NHJB-2328 attached as required; preserve confidentiality and follow the motion's own service certification/form rules. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL: NHJB-2328 is the confidential Statement of Assets and Liabilities, not the fee-waiver motion. Use NHJB-2886-DFPe Motion to Waive Filing Fees with NHJB-2328 attached as required; preserve confidentiality and follow the motion's own service certification/form rules. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -35068,85 +35066,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "COMPONENT_SET",
-        "FEE_AND_WAIVER",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS",
-        "SERVICE",
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Confirmed findings: NH-PREFLIGHT-KNOWN-FACT-OMISSIONS, NH-PREFLIGHT-DOB-FORMAT",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Confirmed findings: NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE, NH-PREFLIGHT-KNOWN-FACT-OMISSIONS, NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH, NH-PREFLIGHT-OPTIONAL-AS-MANDATORY",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "Confirmed findings: NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "Confirmed findings: NH-PREFLIGHT-INTERNAL-METADATA-COPY",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "Confirmed findings: NH-PREFLIGHT-WRONG-WAIVER-MOTION, NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
-          ]
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "Confirmed findings: NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE, NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH",
-          "findingReadFrom": "finding",
-          "evidence": [
-            "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json"
-          ]
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_vacated-set.mjs",
