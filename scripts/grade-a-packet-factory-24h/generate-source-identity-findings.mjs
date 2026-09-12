@@ -51,9 +51,7 @@ const ksTruncated = corpusEntries.filter((e) => /^KS-/.test(String(e.formNumber 
 const master = read(MASTER);
 const historicalDeterminations = read(CAPTAIN_DETERMINATIONS);
 const sourceUserAdoption = loadUserSourceAdoption(ROOT);
-const reconciliation42 = applyUserSourceDeterminations(ROOT, historicalDeterminations, {
-  adoption: sourceUserAdoption,
-}).reconciliation42;
+const reconciliation42 = applyUserSourceDeterminations(ROOT, historicalDeterminations).reconciliation42;
 const historicalFamilyIds = new Set((historicalDeterminations.reconciliation42?.families ?? []).map((row) => row.familyId));
 const historicalReconciliation = (reconciliation42.families ?? []).filter((row) => historicalFamilyIds.has(row.familyId));
 const adoptedFamilyIds = new Set(sourceUserAdoption.familyDeterminations.map((row) => row.familyId));

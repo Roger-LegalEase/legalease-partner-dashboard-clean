@@ -48,9 +48,7 @@ if (!reg || !unblock || !verification || !master || !historicalCaptainDeterminat
   process.exit(1);
 }
 const sourceUserAdoption = loadUserSourceAdoption(ROOT);
-const captainDeterminations = applyUserSourceDeterminations(ROOT, historicalCaptainDeterminations, {
-  adoption: sourceUserAdoption,
-});
+const captainDeterminations = applyUserSourceDeterminations(ROOT, historicalCaptainDeterminations);
 const records = reg.records ?? [];
 const tasks = unblock.tasks ?? [];
 

@@ -19,7 +19,6 @@
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import {
   applyUserSourceDeterminations,
-  loadUserSourceAdoption,
   USER_SOURCE_ADOPTION_PATH,
 } from "./user-source-adoption.mjs";
 import { assessPacketSourceAdoption } from "./packet-source-adoption.mjs";
@@ -875,10 +874,7 @@ for (const e of IN.corpusIndex.entries ?? []) {
  * so every regeneration discarded the completed work and recreated the same
  * generic source blocks. Consume both here, where source readiness is decided.
  */
-const sourceUserAdoption = loadUserSourceAdoption(ROOT);
-const effectiveSourceDeterminations = applyUserSourceDeterminations(ROOT, IN.sourceDeterminations, {
-  adoption: sourceUserAdoption,
-});
+const effectiveSourceDeterminations = applyUserSourceDeterminations(ROOT, IN.sourceDeterminations);
 const sourceReconciliationDoc = effectiveSourceDeterminations.reconciliation42 ?? null;
 const sourceReconciliationByFamily = new Map((sourceReconciliationDoc?.families ?? [])
   .map((r) => [r.familyId, r]));
