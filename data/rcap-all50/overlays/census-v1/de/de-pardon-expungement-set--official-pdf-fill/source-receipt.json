@@ -28,49 +28,75 @@
       ],
       "recordId": "packet-set-manifest:de_pardon_expungement-set",
       "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
-      "byteLength": 3710466,
+      "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+      "byteLength": 3711575,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed packet-set manifest for this exact packet set. Its components list settles that this family has three components and which two are official forms; its participantActionRequired entries settle the pardon prerequisite, the certified-history prerequisite, the notarization position, the fee position, the fee-waiver position and the service position; and its requiredBeforeFiling list is read from these bytes at build time and printed verbatim into participant-instructions.md",
       "anchorStatementsVerified": 5,
       "identityRefresh": {
         "refreshedOn": "2026-09-12",
         "was": {
-          "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
-          "byteLength": 3708358
+          "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+          "byteLength": 3710466
         },
-        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (il-seal-edu-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
-        "anchorsCompared": 2,
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+        "anchorsCompared": 5,
         "anchorDetail": [
-          "recordGlobalMetadata: identical",
-          "packetSet:de_pardon_expungement-set: identical"
+          "packetManifestSharedMetadata: identical",
+          "packetSet:dc_innocence_expungement-set: identical",
+          "packetSet:de_pardon_expungement-set: identical",
+          "packetSet:il-prostitution-j-vacate-set: identical",
+          "packetSet:ms-misd-addl-set: identical"
         ],
-        "anchorsIdentical": 2,
+        "anchorsIdentical": 5,
         "identicalAnchorSha256": {
-          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
-          "packetSet:de_pardon_expungement-set": "6e7b8889fe7fc9dab1f3db38ea02d6e2f6e07263c9f8f5ec10b5900c774026a2"
+          "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+          "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+          "packetSet:de_pardon_expungement-set": "fe0e0d0f180b63a98eb7a9e04630b3fa9b0fb4c2efda839d0c9884775ca069a1",
+          "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+          "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
         },
-        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
         "anchorScope": {
           "anchorIds": [
             "de_pardon_expungement-set"
           ],
-          "basis": "packet-set-manifest:de_pardon_expungement-set"
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "de_pardon_expungement-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "de_pardon_expungement-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375",
+                "packetSetId": "de_pardon_expungement-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
         },
         "entriesThatMovedInThisRecord": [
-          "il-seal-edu-set"
+          "de_discretionary_family_court-set"
         ],
         "recoveredFrom": {
-          "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
-          "commit": "caf3a021cd4188792781382197659f4e04c15e6a"
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "7eac21e1e2634a0cbc04afaf459f4fe2be96e64b",
+          "commit": "fded60e657631cdee0c146396e446482f4d66384",
+          "commitsWithThisPath": 66,
+          "distinctBlobs": 59,
+          "blobsHashed": 2
         },
         "previousIdentityRefresh": {
           "refreshedOn": "2026-09-12",
           "was": {
-            "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-            "byteLength": 3708050
+            "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
+            "byteLength": 3708358
           },
-          "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_superior_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+          "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (il-seal-edu-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
           "anchorsCompared": 2,
           "anchorDetail": [
             "recordGlobalMetadata: identical",
@@ -89,20 +115,19 @@
             "basis": "packet-set-manifest:de_pardon_expungement-set"
           },
           "entriesThatMovedInThisRecord": [
-            "de_discretionary_superior_court-set"
+            "il-seal-edu-set"
           ],
           "recoveredFrom": {
             "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
-            "commit": "cb9030a2d8b700300897c399ef02c4dccc5c8d88"
+            "commit": "caf3a021cd4188792781382197659f4e04c15e6a"
           },
           "previousIdentityRefresh": {
-            "refreshedOn": "2026-09-10",
+            "refreshedOn": "2026-09-12",
             "was": {
-              "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
-              "byteLength": 3694688
+              "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+              "byteLength": 3708050
             },
-            "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for de_pardon_expungement-set and the record's global authority fields were recovered from the blob carrying the previous pin (1784eec3da534eca557d2f6bae86204a9114cb9f) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
-            "recoveredFromCommit": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+            "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_superior_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
             "anchorsCompared": 2,
             "anchorDetail": [
               "recordGlobalMetadata: identical",
@@ -114,7 +139,41 @@
               "packetSet:de_pardon_expungement-set": "6e7b8889fe7fc9dab1f3db38ea02d6e2f6e07263c9f8f5ec10b5900c774026a2"
             },
             "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
-            "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+            "anchorScope": {
+              "anchorIds": [
+                "de_pardon_expungement-set"
+              ],
+              "basis": "packet-set-manifest:de_pardon_expungement-set"
+            },
+            "entriesThatMovedInThisRecord": [
+              "de_discretionary_superior_court-set"
+            ],
+            "recoveredFrom": {
+              "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+              "commit": "cb9030a2d8b700300897c399ef02c4dccc5c8d88"
+            },
+            "previousIdentityRefresh": {
+              "refreshedOn": "2026-09-10",
+              "was": {
+                "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+                "byteLength": 3694688
+              },
+              "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for de_pardon_expungement-set and the record's global authority fields were recovered from the blob carrying the previous pin (1784eec3da534eca557d2f6bae86204a9114cb9f) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+              "recoveredFromCommit": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+              "anchorsCompared": 2,
+              "anchorDetail": [
+                "recordGlobalMetadata: identical",
+                "packetSet:de_pardon_expungement-set: identical"
+              ],
+              "anchorsIdentical": 2,
+              "identicalAnchorSha256": {
+                "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                "packetSet:de_pardon_expungement-set": "6e7b8889fe7fc9dab1f3db38ea02d6e2f6e07263c9f8f5ec10b5900c774026a2"
+              },
+              "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+              "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+            },
+            "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
           },
           "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
         },
