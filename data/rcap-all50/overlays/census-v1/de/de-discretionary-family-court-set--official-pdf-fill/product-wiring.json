@@ -37,16 +37,51 @@
     }
   ],
   "binding": {
-    "paymentEligible": false,
-    "sponsorshipEligible": false,
-    "approvedForLive": false,
-    "commercialRoutesOpened": 0,
-    "maintenanceRelationship": "Source-bound internal review candidate; central raster and independent semantic review remain required.",
+    "family": "de_discretionary_family_court-set",
+    "jurisdiction": "DE",
+    "routeKeys": [
+      "obligation:track-only:DE:de_discretionary_family_court"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "continuation",
+      "cover_sheet",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:de_discretionary_family_court-continuation-2",
+      "component:de_discretionary_family_court-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:FORM-281",
+        "sha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:FORM-281E",
+        "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf02",
       "verifiedAtBase": "2dfce7292b8678cb485a24efff9b14b1cb0a6d41"
     },
-    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one."
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-de_discretionary_family_court-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }
