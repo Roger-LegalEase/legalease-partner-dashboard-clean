@@ -1,0 +1,2671 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ar-act346-set",
+  "routeKeys": [
+    "obligation:unit:AR:ar-act346:ar-act346-stage-1",
+    "obligation:unit:AR:ar-act346:ar-act346-stage-2"
+  ],
+  "renderStrategy": "acroform_fill",
+  "compositionMode": "sequential",
+  "componentSet": [
+    {
+      "componentId": "ar-act346-process-guidance-1",
+      "kind": "participant_instruction",
+      "stage": 1,
+      "filed": false
+    },
+    {
+      "componentId": "ar-act346-primary-filing-2",
+      "kind": "official_form_dependency",
+      "stage": 2,
+      "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "filed": true
+    },
+    {
+      "componentId": "ar-act346-proposed-order-3",
+      "kind": "official_form_dependency",
+      "stage": 2,
+      "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "filed": true
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {
+        "1": "matter.charge",
+        "COUNTY": "matter.county",
+        "Case No": "matter.case_number",
+        "First Middle and Last name": "participant.full_legal_name",
+        "WHEREFORE the Defendant": "participant.full_legal_name",
+        "Defendant Address  Street 1": "participant.street_address",
+        "City": "participant.city",
+        "State": "participant.state",
+        "Zip code": "participant.zip",
+        "DOB": "participant.date_of_birth"
+      },
+      "printedLabelCorrections": {
+        "COUNTY": {
+          "printedLabel": "COURT OF county, ARKANSAS",
+          "readFrom": "page 1, the second blank in the printed caption IN THE ______________ COURT OF ________________, ARKANSAS",
+          "measuredEvidence": "the widget is the blank after the printed OF and before the comma preceding ARKANSAS",
+          "why": "The widget name COUNTY agrees with the measured caption county blank; the court-type blank remains unsourced and blank."
+        }
+      },
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "COURT OF",
+          "class": "participant_confirmation_required",
+          "why": "Write the court that handled the case after confirming it with the filing clerk; this route holds no court-type fact."
+        },
+        {
+          "field": "DIVISION",
+          "class": "participant_confirmation_required",
+          "why": "Optional participant-authored content; the platform does not invent the filing court's division."
+        },
+        {
+          "field": "2",
+          "class": "participant_confirmation_required",
+          "why": "Optional participant-authored content; the platform does not invent a second charge line."
+        },
+        {
+          "field": "felony  misdemeanor in violation of ACA",
+          "class": "participant_confirmation_required",
+          "why": "Copy the offense class and A.C.A. section from the ACIC record and court paperwork before filing."
+        },
+        {
+          "field": "years but not less than",
+          "class": "participant_confirmation_required",
+          "why": "Write the probation term from the Act 346 placement/probation order; the platform does not hold that term."
+        },
+        {
+          "field": "but not more than 350000",
+          "class": "participant_confirmation_required",
+          "why": "Optional participant-authored content; the platform does not invent a fine amount."
+        },
+        {
+          "field": "Defendants Signature",
+          "class": "signature_or_date_participant_completion",
+          "why": "The participant signs the petition after confirming every statement."
+        },
+        {
+          "field": "Date",
+          "class": "signature_or_date_participant_completion",
+          "why": "The participant dates the petition when signing it."
+        },
+        {
+          "field": "I",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The Certificate of Service is a court, clerk, prosecutor, agency, or hearing field completed only after actual service."
+        },
+        {
+          "field": "Defendant or Defendants Attorney",
+          "class": "signature_or_date_participant_completion",
+          "why": "The participant or attorney signs the Certificate of Service only after service has happened."
+        },
+        {
+          "field": "Defendant Address  Street 2",
+          "class": "participant_confirmation_required",
+          "why": "Optional participant-authored content; the platform does not invent a second street line."
+        },
+        {
+          "field": "DAY",
+          "class": "participant_confirmation_required",
+          "why": "Copy the arrest-date day from the ACIC record or court paperwork before filing."
+        },
+        {
+          "field": "MONTH",
+          "class": "participant_confirmation_required",
+          "why": "Copy the arrest-date month from the ACIC record or court paperwork before filing."
+        },
+        {
+          "field": "YEAR",
+          "class": "participant_confirmation_required",
+          "why": "Copy the arrest-date year from the ACIC record or court paperwork before filing."
+        },
+        {
+          "field": "Check Box1",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "why": "The participant marks the felony choice only when it matches the ACIC record and court paperwork."
+        },
+        {
+          "field": "Check Box2",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "why": "The participant marks the misdemeanor choice only when it matches the ACIC record and court paperwork."
+        },
+        {
+          "field": "OFFENSE",
+          "class": "participant_confirmation_required",
+          "why": "Write the offense of the guilty or nolo contendere plea from the judgment; the platform writes only the charged-offense line and does not recreate the plea election."
+        },
+        {
+          "field": "ACA CODE",
+          "class": "participant_confirmation_required",
+          "why": "Write the A.C.A. section for the plea offense from the judgment or ACIC record."
+        },
+        {
+          "field": "Check Box3",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "why": "Mark this pending-felony choice only when it is true today; the platform does not determine the participant's current record."
+        },
+        {
+          "field": "Check Box4",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "why": "Mark this pending-felony choice only when it is true today; the platform does not determine the participant's current record."
+        },
+        {
+          "field": "CHARGES 1",
+          "class": "participant_confirmation_required",
+          "why": "Optional participant-authored content; the platform does not invent a pending-charge court, case, or status."
+        },
+        {
+          "field": "CHARGES 2",
+          "class": "participant_confirmation_required",
+          "why": "Optional participant-authored content; the platform does not invent a pending-charge continuation."
+        },
+        {
+          "field": "SID",
+          "class": "participant_confirmation_required",
+          "why": "Copy the State Identification number from the participant's ACIC history or arrest paperwork; the platform does not hold it."
+        },
+        {
+          "field": "COUNTY OF",
+          "class": "participant_confirmation_required",
+          "why": "Optional participant-authored content; the platform does not invent the verification venue."
+        },
+        {
+          "field": "Comes the Petitioner",
+          "class": "participant_confirmation_required",
+          "why": "The verification's sworn name is completed with the participant's confirmed legal name when the verification is executed; the notarial section is left untouched."
+        },
+        {
+          "field": "Petitioner",
+          "class": "signature_or_date_participant_completion",
+          "why": "The participant signs the verification before the notary if the filing court requires that execution."
+        },
+        {
+          "field": "DAY 2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed."
+        },
+        {
+          "field": "MONTH 2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed."
+        },
+        {
+          "field": "YEAR 2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed."
+        },
+        {
+          "field": "Notary Public",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The notary completes this name line when the verification is executed; the platform does not invent a notary."
+        },
+        {
+          "field": "My Commissionexpires",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The notary completes the commission expiration line; the platform does not invent it."
+        },
+        {
+          "field": "Race",
+          "class": "participant_confirmation_required",
+          "why": "The participant supplies the race entry required by the form's identification block; the platform does not hold it."
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The arrest tracking number is assigned by ACIC or the arresting agency; the platform does not invent it."
+        },
+        {
+          "field": "Sex",
+          "class": "participant_confirmation_required",
+          "why": "The participant supplies the sex entry required by the form's identification block; the platform does not hold it."
+        },
+        {
+          "field": "undefined_2",
+          "class": "participant_confirmation_required",
+          "why": "Write the A.C.A. section for the charged offense from the ACIC record or court paperwork."
+        },
+        {
+          "field": "FBI No if known",
+          "class": "participant_confirmation_required",
+          "why": "Optional participant-authored content; the platform does not invent an FBI number."
+        },
+        {
+          "field": "DAY3",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed."
+        },
+        {
+          "field": "MONTH 3",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed."
+        },
+        {
+          "field": "YEAR 3",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed."
+        },
+        {
+          "field": "Date_3",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The Certificate of Service is a court, clerk, prosecutor, agency, or hearing field dated only after actual service."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 279.96,
+            "y": 593.28,
+            "width": 116.76,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case No"
+        },
+        {
+          "field": "First Middle and Last name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 544.92,
+            "width": 225.84,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "1",
+          "factId": "matter.charges[0].charge",
+          "page": 1,
+          "rect": {
+            "x": 108.96,
+            "y": 284.64,
+            "width": 412.56,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "______________, _____, and charged with the offense(s) of"
+        },
+        {
+          "field": "WHEREFORE the Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 3,
+          "rect": {
+            "x": 302.64,
+            "y": 432.12,
+            "width": 233.52,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "WHEREFORE, the Defendant,"
+        },
+        {
+          "field": "Defendant Address  Street 1",
+          "factId": "participant.street_address",
+          "page": 5,
+          "rect": {
+            "x": 249.36,
+            "y": 182.76,
+            "width": 264.72,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "City",
+          "factId": "participant.city",
+          "page": 5,
+          "rect": {
+            "x": 104.64,
+            "y": 149.16,
+            "width": 194.64,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "State",
+          "factId": "participant.state",
+          "page": 5,
+          "rect": {
+            "x": 335.88,
+            "y": 149.16,
+            "width": 77.76,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "Zip code",
+          "factId": "participant.zip",
+          "page": 5,
+          "rect": {
+            "x": 471.24,
+            "y": 149.16,
+            "width": 62.28,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "COUNTY",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 321.96,
+            "y": 705.96,
+            "width": 124.56,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "COURT OF county, ARKANSAS"
+        },
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "page": 3,
+          "rect": {
+            "x": 110.28,
+            "y": 109.92,
+            "width": 93.36,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "DOB"
+        }
+      ],
+      "refused": [
+        {
+          "field": "COURT OF",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DIVISION",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "felony  misdemeanor in violation of ACA",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "years but not less than",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "but not more than 350000",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendants Signature",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "I",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendant or Defendants Attorney",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendant Address  Street 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DAY",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "MONTH",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "YEAR",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "OFFENSE",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ACA CODE",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box4",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "CHARGES 1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "CHARGES 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "SID",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "COUNTY OF",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Comes the Petitioner",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Petitioner",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DAY 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "MONTH 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "YEAR 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Notary Public",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "My Commissionexpires",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Race",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Sex",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "undefined_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DAY3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "MONTH 3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "YEAR 3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date_3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "COURT OF",
+          "category": "role"
+        },
+        {
+          "field": "DIVISION",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "category": "role"
+        },
+        {
+          "field": "felony  misdemeanor in violation of ACA",
+          "category": "role"
+        },
+        {
+          "field": "years but not less than",
+          "category": "role"
+        },
+        {
+          "field": "but not more than 350000",
+          "category": "role"
+        },
+        {
+          "field": "Defendants Signature",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "I",
+          "category": "role"
+        },
+        {
+          "field": "Defendant or Defendants Attorney",
+          "category": "role"
+        },
+        {
+          "field": "Defendant Address  Street 2",
+          "category": "role"
+        },
+        {
+          "field": "DAY",
+          "category": "role"
+        },
+        {
+          "field": "MONTH",
+          "category": "role"
+        },
+        {
+          "field": "YEAR",
+          "category": "role"
+        },
+        {
+          "field": "Check Box1",
+          "category": "role"
+        },
+        {
+          "field": "Check Box2",
+          "category": "role"
+        },
+        {
+          "field": "OFFENSE",
+          "category": "role"
+        },
+        {
+          "field": "ACA CODE",
+          "category": "role"
+        },
+        {
+          "field": "Check Box3",
+          "category": "role"
+        },
+        {
+          "field": "Check Box4",
+          "category": "role"
+        },
+        {
+          "field": "CHARGES 1",
+          "category": "role"
+        },
+        {
+          "field": "CHARGES 2",
+          "category": "role"
+        },
+        {
+          "field": "SID",
+          "category": "role"
+        },
+        {
+          "field": "COUNTY OF",
+          "category": "role"
+        },
+        {
+          "field": "Comes the Petitioner",
+          "category": "role"
+        },
+        {
+          "field": "Petitioner",
+          "category": "role"
+        },
+        {
+          "field": "DAY 2",
+          "category": "role"
+        },
+        {
+          "field": "MONTH 2",
+          "category": "role"
+        },
+        {
+          "field": "YEAR 2",
+          "category": "role"
+        },
+        {
+          "field": "Notary Public",
+          "category": "role"
+        },
+        {
+          "field": "My Commissionexpires",
+          "category": "role"
+        },
+        {
+          "field": "Race",
+          "category": "role"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "category": "role"
+        },
+        {
+          "field": "Sex",
+          "category": "role"
+        },
+        {
+          "field": "undefined_2",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "category": "role"
+        },
+        {
+          "field": "DAY3",
+          "category": "role"
+        },
+        {
+          "field": "MONTH 3",
+          "category": "role"
+        },
+        {
+          "field": "YEAR 3",
+          "category": "role"
+        },
+        {
+          "field": "Date_3",
+          "category": "role"
+        }
+      ],
+      "fields": [
+        {
+          "field": "COURT OF",
+          "fieldId": "COURT OF",
+          "effectiveLabel": "IN THE",
+          "harvestedLabel": "IN THE",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Write the court that handled the case after confirming it with the filing clerk; this route holds no court-type fact.",
+          "reason": "Write the court that handled the case after confirming it with the filing clerk; this route holds no court-type fact.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "DIVISION",
+          "fieldId": "DIVISION",
+          "effectiveLabel": "IN THE ________",
+          "harvestedLabel": "IN THE ________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Optional participant-authored content; the platform does not invent the filing court's division.",
+          "reason": "Optional participant-authored content; the platform does not invent the filing court's division.",
+          "refusalClass": null
+        },
+        {
+          "field": "Case No",
+          "fieldId": "Case No",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.case_number",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "First Middle and Last name",
+          "fieldId": "First Middle and Last name",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "1",
+          "fieldId": "1",
+          "effectiveLabel": "______________, _____, and charged with the offense(s) of",
+          "harvestedLabel": "______________, _____, and charged with the offense(s) of",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.charges[0].charge",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "2",
+          "fieldId": "2",
+          "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Optional participant-authored content; the platform does not invent a second charge line.",
+          "reason": "Optional participant-authored content; the platform does not invent a second charge line.",
+          "refusalClass": null
+        },
+        {
+          "field": "felony  misdemeanor in violation of ACA",
+          "fieldId": "felony  misdemeanor in violation of ACA",
+          "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Copy the offense class and A.C.A. section from the ACIC record and court paperwork before filing.",
+          "reason": "Copy the offense class and A.C.A. section from the ACIC record and court paperwork before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "years but not less than",
+          "fieldId": "years but not less than",
+          "effectiveLabel": "Defendant on probation for a period of",
+          "harvestedLabel": "Defendant on probation for a period of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Write the probation term from the Act 346 placement/probation order; the platform does not hold that term.",
+          "reason": "Write the probation term from the Act 346 placement/probation order; the platform does not hold that term.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "but not more than 350000",
+          "fieldId": "but not more than 350000",
+          "effectiveLabel": "a fine of",
+          "harvestedLabel": "a fine of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Optional participant-authored content; the platform does not invent a fine amount.",
+          "reason": "Optional participant-authored content; the platform does not invent a fine amount.",
+          "refusalClass": null
+        },
+        {
+          "field": "WHEREFORE the Defendant",
+          "fieldId": "WHEREFORE the Defendant",
+          "effectiveLabel": "WHEREFORE, the Defendant,",
+          "harvestedLabel": "WHEREFORE, the Defendant,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Defendants Signature",
+          "fieldId": "Defendants Signature",
+          "effectiveLabel": "Defendants Signature",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 3,
+          "pdfType": "other",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "signature_or_date_participant_completion",
+          "buildRoleWhy": "The participant signs the petition after confirming every statement.",
+          "reason": "The participant signs the petition after confirming every statement.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date",
+          "fieldId": "Date",
+          "effectiveLabel": "Date",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "signature_or_date_participant_completion",
+          "buildRoleWhy": "The participant dates the petition when signing it.",
+          "reason": "The participant dates the petition when signing it.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "I",
+          "fieldId": "I",
+          "effectiveLabel": "I,",
+          "harvestedLabel": "I,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The Certificate of Service is a court, clerk, prosecutor, agency, or hearing field completed only after actual service.",
+          "reason": "The Certificate of Service is a court, clerk, prosecutor, agency, or hearing field completed only after actual service.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Defendant or Defendants Attorney",
+          "fieldId": "Defendant or Defendants Attorney",
+          "effectiveLabel": "Defendant or Defendants Attorney",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "signature_or_date_participant_completion",
+          "buildRoleWhy": "The participant or attorney signs the Certificate of Service only after service has happened.",
+          "reason": "The participant or attorney signs the Certificate of Service only after service has happened.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Defendant Address  Street 1",
+          "fieldId": "Defendant Address  Street 1",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.street_address",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Defendant Address  Street 2",
+          "fieldId": "Defendant Address  Street 2",
+          "effectiveLabel": "Defendant Address, Street continuation",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Optional participant-authored content; the platform does not invent a second street line.",
+          "reason": "Optional participant-authored content; the platform does not invent a second street line.",
+          "refusalClass": null
+        },
+        {
+          "field": "City",
+          "fieldId": "City",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.city",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "State",
+          "fieldId": "State",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.state",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Zip code",
+          "fieldId": "Zip code",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.zip",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "COUNTY",
+          "fieldId": "COUNTY",
+          "effectiveLabel": "COURT OF county, ARKANSAS",
+          "harvestedLabel": "_______ DI",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "DAY",
+          "fieldId": "DAY",
+          "effectiveLabel": "The defendant was arrested on the",
+          "harvestedLabel": "The defendant was arrested on the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Copy the arrest-date day from the ACIC record or court paperwork before filing.",
+          "reason": "Copy the arrest-date day from the ACIC record or court paperwork before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "MONTH",
+          "fieldId": "MONTH",
+          "effectiveLabel": "1",
+          "harvestedLabel": "1",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Copy the arrest-date month from the ACIC record or court paperwork before filing.",
+          "reason": "Copy the arrest-date month from the ACIC record or court paperwork before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "YEAR",
+          "fieldId": "YEAR",
+          "effectiveLabel": "______________,",
+          "harvestedLabel": "______________,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Copy the arrest-date year from the ACIC record or court paperwork before filing.",
+          "reason": "Copy the arrest-date year from the ACIC record or court paperwork before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Check Box1",
+          "fieldId": "Check Box1",
+          "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_sworn_narrative_or_legal_election",
+          "buildRoleWhy": "The participant marks the felony choice only when it matches the ACIC record and court paperwork.",
+          "reason": "The participant marks the felony choice only when it matches the ACIC record and court paperwork.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box2",
+          "fieldId": "Check Box2",
+          "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_sworn_narrative_or_legal_election",
+          "buildRoleWhy": "The participant marks the misdemeanor choice only when it matches the ACIC record and court paperwork.",
+          "reason": "The participant marks the misdemeanor choice only when it matches the ACIC record and court paperwork.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "OFFENSE",
+          "fieldId": "OFFENSE",
+          "effectiveLabel": "offense(s) of",
+          "harvestedLabel": "offense(s) of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Write the offense of the guilty or nolo contendere plea from the judgment; the platform writes only the charged-offense line and does not recreate the plea election.",
+          "reason": "Write the offense of the guilty or nolo contendere plea from the judgment; the platform writes only the charged-offense line and does not recreate the plea election.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "ACA CODE",
+          "fieldId": "ACA CODE",
+          "effectiveLabel": "of",
+          "harvestedLabel": "of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Write the A.C.A. section for the plea offense from the judgment or ACIC record.",
+          "reason": "Write the A.C.A. section for the plea offense from the judgment or ACIC record.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Check Box3",
+          "fieldId": "Check Box3",
+          "effectiveLabel": "12",
+          "harvestedLabel": "12",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_sworn_narrative_or_legal_election",
+          "buildRoleWhy": "Mark this pending-felony choice only when it is true today; the platform does not determine the participant's current record.",
+          "reason": "Mark this pending-felony choice only when it is true today; the platform does not determine the participant's current record.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box4",
+          "fieldId": "Check Box4",
+          "effectiveLabel": "federal court; or",
+          "harvestedLabel": "federal court; or",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 3,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_sworn_narrative_or_legal_election",
+          "buildRoleWhy": "Mark this pending-felony choice only when it is true today; the platform does not determine the participant's current record.",
+          "reason": "Mark this pending-felony choice only when it is true today; the platform does not determine the participant's current record.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "CHARGES 1",
+          "fieldId": "CHARGES 1",
+          "effectiveLabel": "follows",
+          "harvestedLabel": "follows",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Optional participant-authored content; the platform does not invent a pending-charge court, case, or status.",
+          "reason": "Optional participant-authored content; the platform does not invent a pending-charge court, case, or status.",
+          "refusalClass": null
+        },
+        {
+          "field": "CHARGES 2",
+          "fieldId": "CHARGES 2",
+          "effectiveLabel": "follows: ___________________________________________",
+          "harvestedLabel": "follows: ___________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Optional participant-authored content; the platform does not invent a pending-charge continuation.",
+          "reason": "Optional participant-authored content; the platform does not invent a pending-charge continuation.",
+          "refusalClass": null
+        },
+        {
+          "field": "SID",
+          "fieldId": "SID",
+          "effectiveLabel": "SID",
+          "harvestedLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Copy the State Identification number from the participant's ACIC history or arrest paperwork; the platform does not hold it.",
+          "reason": "Copy the State Identification number from the participant's ACIC history or arrest paperwork; the platform does not hold it.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "COUNTY OF",
+          "fieldId": "COUNTY OF",
+          "effectiveLabel": "COUNTY OF",
+          "harvestedLabel": "COUNTY OF",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Optional participant-authored content; the platform does not invent the verification venue.",
+          "reason": "Optional participant-authored content; the platform does not invent the verification venue.",
+          "refusalClass": null
+        },
+        {
+          "field": "Comes the Petitioner",
+          "fieldId": "Comes the Petitioner",
+          "effectiveLabel": "verification petitioner name",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "The verification's sworn name is completed with the participant's confirmed legal name when the verification is executed; the notarial section is left untouched.",
+          "reason": "The verification's sworn name is completed with the participant's confirmed legal name when the verification is executed; the notarial section is left untouched.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Petitioner",
+          "fieldId": "Petitioner",
+          "effectiveLabel": "Petitioner",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "signature_or_date_participant_completion",
+          "buildRoleWhy": "The participant signs the verification before the notary if the filing court requires that execution.",
+          "reason": "The participant signs the verification before the notary if the filing court requires that execution.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "DAY 2",
+          "fieldId": "DAY 2",
+          "effectiveLabel": "§___________________, on the",
+          "harvestedLabel": "§___________________, on the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "reason": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "MONTH 2",
+          "fieldId": "MONTH 2",
+          "effectiveLabel": "§___________________, on the ________ day of",
+          "harvestedLabel": "§___________________, on the ________ day of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "reason": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "YEAR 2",
+          "fieldId": "YEAR 2",
+          "effectiveLabel": "§___________________, on the ________ day of _________,",
+          "harvestedLabel": "§___________________, on the ________ day of _________,",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "reason": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Notary Public",
+          "fieldId": "Notary Public",
+          "effectiveLabel": "Notary Public",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The notary completes this name line when the verification is executed; the platform does not invent a notary.",
+          "reason": "The notary completes this name line when the verification is executed; the platform does not invent a notary.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "My Commissionexpires",
+          "fieldId": "My Commissionexpires",
+          "effectiveLabel": "My Commissionexpires",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The notary completes the commission expiration line; the platform does not invent it.",
+          "reason": "The notary completes the commission expiration line; the platform does not invent it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Race",
+          "fieldId": "Race",
+          "effectiveLabel": "Race",
+          "harvestedLabel": "Race",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "The participant supplies the race entry required by the form's identification block; the platform does not hold it.",
+          "reason": "The participant supplies the race entry required by the form's identification block; the platform does not hold it.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "fieldId": "Arrest Tracking Number",
+          "effectiveLabel": "Arrest Tracking Number",
+          "harvestedLabel": "Arrest Tracking Number",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The arrest tracking number is assigned by ACIC or the arresting agency; the platform does not invent it.",
+          "reason": "The arrest tracking number is assigned by ACIC or the arresting agency; the platform does not invent it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Sex",
+          "fieldId": "Sex",
+          "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "The participant supplies the sex entry required by the form's identification block; the platform does not hold it.",
+          "reason": "The participant supplies the sex entry required by the form's identification block; the platform does not hold it.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "undefined_2",
+          "fieldId": "undefined_2",
+          "effectiveLabel": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "harvestedLabel": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Write the A.C.A. section for the charged offense from the ACIC record or court paperwork.",
+          "reason": "Write the A.C.A. section for the charged offense from the ACIC record or court paperwork.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "DOB",
+          "fieldId": "DOB",
+          "effectiveLabel": "DOB",
+          "harvestedLabel": "DOB",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.date_of_birth",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "FBI No if known",
+          "fieldId": "FBI No if known",
+          "effectiveLabel": "FBI No. (if know",
+          "harvestedLabel": "FBI No. (if know",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_confirmation_required",
+          "buildRoleWhy": "Optional participant-authored content; the platform does not invent an FBI number.",
+          "reason": "Optional participant-authored content; the platform does not invent an FBI number.",
+          "refusalClass": null
+        },
+        {
+          "field": "DAY3",
+          "fieldId": "DAY3",
+          "effectiveLabel": "DAY3",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "reason": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "MONTH 3",
+          "fieldId": "MONTH 3",
+          "effectiveLabel": "MONTH 3",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "reason": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "YEAR 3",
+          "fieldId": "YEAR 3",
+          "effectiveLabel": "YEAR 3",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "reason": "The notary or filing official completes this court, clerk, prosecutor, agency, or hearing field when the verification is executed.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Date_3",
+          "fieldId": "Date_3",
+          "effectiveLabel": "Certificate of Service date",
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The Certificate of Service is a court, clerk, prosecutor, agency, or hearing field dated only after actual service.",
+          "reason": "The Certificate of Service is a court, clerk, prosecutor, agency, or hearing field dated only after actual service.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        }
+      ]
+    },
+    {
+      "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "documentRole": "PROPOSED_ORDER",
+      "ownership": "court_issued_order",
+      "captionOnly": true,
+      "explicitMappings": {
+        "County": "matter.county",
+        "Case No": "matter.case_number",
+        "First Middle and Last name": "participant.full_legal_name"
+      },
+      "printedLabelCorrections": {
+        "County": {
+          "printedLabel": "COURT OF county, ARKANSAS",
+          "readFrom": "page 1, the second blank in the printed caption IN THE ______________ COURT OF ________________, ARKANSAS",
+          "measuredEvidence": "the widget is the blank after the printed OF and before the comma preceding ARKANSAS",
+          "why": "The order caption must carry the same held county as the petition; the court-type and division blanks are left for the filing court."
+        }
+      },
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "COURT OF",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "Write the same court name confirmed by the filing clerk on the matching petition and proposed order."
+        },
+        {
+          "field": "DIVISION",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court or filing clerk confirms the caption; this court, clerk, prosecutor, agency, or hearing field stays blank until then."
+        },
+        {
+          "field": "1",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes this court, clerk, prosecutor, agency, or hearing recital field."
+        },
+        {
+          "field": "2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes this court, clerk, prosecutor, agency, or hearing recital field."
+        },
+        {
+          "field": "Defendant",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The proposed order's page-3 grant decree is completed by the court; the packet leaves this party-name field blank."
+        },
+        {
+          "field": "Judge",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The judge signs the proposed order; this packet leaves the line blank."
+        },
+        {
+          "field": "Date",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court dates its own order; this packet leaves the line blank."
+        },
+        {
+          "field": "Race",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court or agency identification block is not a packet prefill area."
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "ACIC or the arresting agency supplies this identifier."
+        },
+        {
+          "field": "Sex",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court or agency identification block is not a packet prefill area."
+        },
+        {
+          "field": "DOB",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court or agency identification block is not a packet prefill area."
+        },
+        {
+          "field": "FBI No if known",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court or agency identification block is not a packet prefill area."
+        },
+        {
+          "field": "Day",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes this arrest-date component in its recital."
+        },
+        {
+          "field": "Month",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes this arrest-date component in its recital."
+        },
+        {
+          "field": "Year",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes this arrest-date component in its recital."
+        },
+        {
+          "field": "Class Letter",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes the offense class in its recital."
+        },
+        {
+          "field": "ACA Code",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes the statute in its recital."
+        },
+        {
+          "field": "Offense",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes the offense recital."
+        },
+        {
+          "field": "ACA Code 2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes the plea offense statute in its recital."
+        },
+        {
+          "field": "Day 2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes the plea-date component in its recital."
+        },
+        {
+          "field": "Month 2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes the plea-date component in its recital."
+        },
+        {
+          "field": "Year 2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes the plea-date component in its recital."
+        },
+        {
+          "field": "Probation Years",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes the probation term in its findings."
+        },
+        {
+          "field": "Fine",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes any fine amount in its findings."
+        },
+        {
+          "field": "Check Box53",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court makes this finding; the packet does not select it."
+        },
+        {
+          "field": "Check Box54",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court makes this finding; the packet does not select it."
+        },
+        {
+          "field": "Check Box55",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court makes this finding; the packet does not select it."
+        },
+        {
+          "field": "Check Box56",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court makes this finding; the packet does not select it."
+        },
+        {
+          "field": "Charges 1",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes any pending-charge recital."
+        },
+        {
+          "field": "Charges 2",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court completes any pending-charge continuation."
+        },
+        {
+          "field": "SID",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court or agency identification block is not a packet prefill area."
+        },
+        {
+          "field": "Check Box57",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court makes this rehabilitation finding."
+        },
+        {
+          "field": "Check Box58",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "why": "The court makes this rehabilitation finding."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 279.96,
+            "y": 593.28,
+            "width": 116.76,
+            "height": 16.8
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case No"
+        },
+        {
+          "field": "First Middle and Last name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 544.92,
+            "width": 225.84,
+            "height": 16.8
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 320.04,
+            "y": 705.96,
+            "width": 124.56,
+            "height": 16.8
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "COURT OF county, ARKANSAS"
+        }
+      ],
+      "refused": [
+        {
+          "field": "COURT OF",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DIVISION",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Judge",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Race",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Sex",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DOB",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Day",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Month",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Year",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Class Letter",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ACA Code",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Offense",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ACA Code 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Day 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Month 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Year 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Probation Years",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Fine",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box53",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box54",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box55",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box56",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Charges 1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Charges 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "SID",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box57",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box58",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "COURT OF",
+          "category": "role"
+        },
+        {
+          "field": "DIVISION",
+          "category": "role"
+        },
+        {
+          "field": "1",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "category": "role"
+        },
+        {
+          "field": "Defendant",
+          "category": "role"
+        },
+        {
+          "field": "Judge",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "Race",
+          "category": "role"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "category": "role"
+        },
+        {
+          "field": "Sex",
+          "category": "role"
+        },
+        {
+          "field": "DOB",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "category": "role"
+        },
+        {
+          "field": "Day",
+          "category": "role"
+        },
+        {
+          "field": "Month",
+          "category": "role"
+        },
+        {
+          "field": "Year",
+          "category": "role"
+        },
+        {
+          "field": "Class Letter",
+          "category": "role"
+        },
+        {
+          "field": "ACA Code",
+          "category": "role"
+        },
+        {
+          "field": "Offense",
+          "category": "role"
+        },
+        {
+          "field": "ACA Code 2",
+          "category": "role"
+        },
+        {
+          "field": "Day 2",
+          "category": "role"
+        },
+        {
+          "field": "Month 2",
+          "category": "role"
+        },
+        {
+          "field": "Year 2",
+          "category": "role"
+        },
+        {
+          "field": "Probation Years",
+          "category": "role"
+        },
+        {
+          "field": "Fine",
+          "category": "role"
+        },
+        {
+          "field": "Check Box53",
+          "category": "role"
+        },
+        {
+          "field": "Check Box54",
+          "category": "role"
+        },
+        {
+          "field": "Check Box55",
+          "category": "role"
+        },
+        {
+          "field": "Check Box56",
+          "category": "role"
+        },
+        {
+          "field": "Charges 1",
+          "category": "role"
+        },
+        {
+          "field": "Charges 2",
+          "category": "role"
+        },
+        {
+          "field": "SID",
+          "category": "role"
+        },
+        {
+          "field": "Check Box57",
+          "category": "role"
+        },
+        {
+          "field": "Check Box58",
+          "category": "role"
+        }
+      ],
+      "fields": [
+        {
+          "field": "COURT OF",
+          "fieldId": "COURT OF",
+          "effectiveLabel": "IN THE",
+          "harvestedLabel": "IN THE",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "Write the same court name confirmed by the filing clerk on the matching petition and proposed order.",
+          "reason": "Write the same court name confirmed by the filing clerk on the matching petition and proposed order.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "DIVISION",
+          "fieldId": "DIVISION",
+          "effectiveLabel": "IN THE _________",
+          "harvestedLabel": "IN THE _________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court or filing clerk confirms the caption; this court, clerk, prosecutor, agency, or hearing field stays blank until then.",
+          "reason": "The court or filing clerk confirms the caption; this court, clerk, prosecutor, agency, or hearing field stays blank until then.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Case No",
+          "fieldId": "Case No",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.case_number",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "First Middle and Last name",
+          "fieldId": "First Middle and Last name",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "1",
+          "fieldId": "1",
+          "effectiveLabel": "______________, _____, and charged with the offense(s) of",
+          "harvestedLabel": "______________, _____, and charged with the offense(s) of",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes this court, clerk, prosecutor, agency, or hearing recital field.",
+          "reason": "The court completes this court, clerk, prosecutor, agency, or hearing recital field.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "2",
+          "fieldId": "2",
+          "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes this court, clerk, prosecutor, agency, or hearing recital field.",
+          "reason": "The court completes this court, clerk, prosecutor, agency, or hearing recital field.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Defendant",
+          "fieldId": "Defendant",
+          "effectiveLabel": "IT IS, T",
+          "harvestedLabel": "IT IS, T",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The proposed order's page-3 grant decree is completed by the court; the packet leaves this party-name field blank.",
+          "reason": "The proposed order's page-3 grant decree is completed by the court; the packet leaves this party-name field blank.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Judge",
+          "fieldId": "Judge",
+          "effectiveLabel": "those agencies shall comply with the requirements of A.C.A. ",
+          "harvestedLabel": "those agencies shall comply with the requirements of A.C.A. ",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The judge signs the proposed order; this packet leaves the line blank.",
+          "reason": "The judge signs the proposed order; this packet leaves the line blank.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Date",
+          "fieldId": "Date",
+          "effectiveLabel": "Judge",
+          "harvestedLabel": "Judge",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court dates its own order; this packet leaves the line blank.",
+          "reason": "The court dates its own order; this packet leaves the line blank.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Race",
+          "fieldId": "Race",
+          "effectiveLabel": "Race",
+          "harvestedLabel": "Race",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court or agency identification block is not a packet prefill area.",
+          "reason": "The court or agency identification block is not a packet prefill area.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "fieldId": "Arrest Tracking Number",
+          "effectiveLabel": "Arrest Tracking Number",
+          "harvestedLabel": "Arrest Tracking Number",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "ACIC or the arresting agency supplies this identifier.",
+          "reason": "ACIC or the arresting agency supplies this identifier.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Sex",
+          "fieldId": "Sex",
+          "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court or agency identification block is not a packet prefill area.",
+          "reason": "The court or agency identification block is not a packet prefill area.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "DOB",
+          "fieldId": "DOB",
+          "effectiveLabel": "DOB",
+          "harvestedLabel": "DOB",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court or agency identification block is not a packet prefill area.",
+          "reason": "The court or agency identification block is not a packet prefill area.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "FBI No if known",
+          "fieldId": "FBI No if known",
+          "effectiveLabel": "FBI No. (if know",
+          "harvestedLabel": "FBI No. (if know",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court or agency identification block is not a packet prefill area.",
+          "reason": "The court or agency identification block is not a packet prefill area.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "County",
+          "fieldId": "County",
+          "effectiveLabel": "COURT OF county, ARKANSAS",
+          "harvestedLabel": "_______ DI",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Day",
+          "fieldId": "Day",
+          "effectiveLabel": "1.The defendant was arrested on t",
+          "harvestedLabel": "1.The defendant was arrested on t",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes this arrest-date component in its recital.",
+          "reason": "The court completes this arrest-date component in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Month",
+          "fieldId": "Month",
+          "effectiveLabel": "1",
+          "harvestedLabel": "1",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes this arrest-date component in its recital.",
+          "reason": "The court completes this arrest-date component in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Year",
+          "fieldId": "Year",
+          "effectiveLabel": "______________,",
+          "harvestedLabel": "______________,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes this arrest-date component in its recital.",
+          "reason": "The court completes this arrest-date component in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Class Letter",
+          "fieldId": "Class Letter",
+          "effectiveLabel": "____________________________________________________",
+          "harvestedLabel": "____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes the offense class in its recital.",
+          "reason": "The court completes the offense class in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "ACA Code",
+          "fieldId": "ACA Code",
+          "effectiveLabel": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "harvestedLabel": "A Class _____ [_] felony [_] misdemeanor in violation of A.C",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes the statute in its recital.",
+          "reason": "The court completes the statute in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Offense",
+          "fieldId": "Offense",
+          "effectiveLabel": "offense(s) of",
+          "harvestedLabel": "offense(s) of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes the offense recital.",
+          "reason": "The court completes the offense recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "ACA Code 2",
+          "fieldId": "ACA Code 2",
+          "effectiveLabel": "A.C.A. §",
+          "harvestedLabel": "A.C.A. §",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes the plea offense statute in its recital.",
+          "reason": "The court completes the plea offense statute in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Day 2",
+          "fieldId": "Day 2",
+          "effectiveLabel": "A.C.A. § ___________________, on the",
+          "harvestedLabel": "A.C.A. § ___________________, on the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes the plea-date component in its recital.",
+          "reason": "The court completes the plea-date component in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Month 2",
+          "fieldId": "Month 2",
+          "effectiveLabel": "A.C.A. § ___________________, on the ________ day of",
+          "harvestedLabel": "A.C.A. § ___________________, on the ________ day of",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes the plea-date component in its recital.",
+          "reason": "The court completes the plea-date component in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Year 2",
+          "fieldId": "Year 2",
+          "effectiveLabel": "_________,",
+          "harvestedLabel": "_________,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes the plea-date component in its recital.",
+          "reason": "The court completes the plea-date component in its recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Probation Years",
+          "fieldId": "Probation Years",
+          "effectiveLabel": "Defendant on probation for a period of",
+          "harvestedLabel": "Defendant on probation for a period of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes the probation term in its findings.",
+          "reason": "The court completes the probation term in its findings.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Fine",
+          "fieldId": "Fine",
+          "effectiveLabel": "a fine of",
+          "harvestedLabel": "a fine of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes any fine amount in its findings.",
+          "reason": "The court completes any fine amount in its findings.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box53",
+          "fieldId": "Check Box53",
+          "effectiveLabel": "The defendant",
+          "harvestedLabel": "The defendant",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court makes this finding; the packet does not select it.",
+          "reason": "The court makes this finding; the packet does not select it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box54",
+          "fieldId": "Check Box54",
+          "effectiveLabel": "The defendant [_] HAS",
+          "harvestedLabel": "The defendant [_] HAS",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court makes this finding; the packet does not select it.",
+          "reason": "The court makes this finding; the packet does not select it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box55",
+          "fieldId": "Check Box55",
+          "effectiveLabel": "f",
+          "harvestedLabel": "f",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court makes this finding; the packet does not select it.",
+          "reason": "The court makes this finding; the packet does not select it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box56",
+          "fieldId": "Check Box56",
+          "effectiveLabel": "f",
+          "harvestedLabel": "f",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court makes this finding; the packet does not select it.",
+          "reason": "The court makes this finding; the packet does not select it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Charges 1",
+          "fieldId": "Charges 1",
+          "effectiveLabel": "follows",
+          "harvestedLabel": "follows",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes any pending-charge recital.",
+          "reason": "The court completes any pending-charge recital.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Charges 2",
+          "fieldId": "Charges 2",
+          "effectiveLabel": "follows: ___________________________________________",
+          "harvestedLabel": "follows: ___________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court completes any pending-charge continuation.",
+          "reason": "The court completes any pending-charge continuation.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "SID",
+          "fieldId": "SID",
+          "effectiveLabel": "SID",
+          "harvestedLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court or agency identification block is not a packet prefill area.",
+          "reason": "The court or agency identification block is not a packet prefill area.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box57",
+          "fieldId": "Check Box57",
+          "effectiveLabel": "____________________________________________________",
+          "harvestedLabel": "____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court makes this rehabilitation finding.",
+          "reason": "The court makes this rehabilitation finding.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box58",
+          "fieldId": "Check Box58",
+          "effectiveLabel": "____________________________________________________",
+          "harvestedLabel": "____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_prosecutor_clerk_or_agency_owned",
+          "buildRoleWhy": "The court makes this rehabilitation finding.",
+          "reason": "The court makes this rehabilitation finding.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        }
+      ]
+    }
+  ]
+}
