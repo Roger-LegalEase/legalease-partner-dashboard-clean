@@ -10,6 +10,7 @@
  * It opens nothing: the explicit non-grants travel on every record.
  */
 import fs from "node:fs";
+import { requireMasterLibraryEnvironment } from "../lib/corpus-index-paths.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -29,6 +30,7 @@ import { carryForwardGovernance } from "../rcap-packet-completeness/governance-p
 import { registeredRouteBindings } from "./route-review-registration.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+requireMasterLibraryEnvironment({ repoRoot: ROOT });
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const master = read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
 

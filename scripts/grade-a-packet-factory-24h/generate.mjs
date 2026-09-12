@@ -23,6 +23,7 @@ import {
 } from "./user-source-adoption.mjs";
 import { assessPacketSourceAdoption } from "./packet-source-adoption.mjs";
 import fs from "node:fs";
+import { requireMasterLibraryEnvironment } from "../lib/corpus-index-paths.mjs";
 import { suspendedTerminalState } from "./terminal-claim-suspension.mjs";
 import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC, GA_GUIDANCE, GA_PETITION } from "./treatment-reconciliation.mjs";
 import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
@@ -56,6 +57,7 @@ import {
 } from "./post-repair-reread.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+requireMasterLibraryEnvironment({ repoRoot: ROOT });
 process.chdir(ROOT);
 const CHECK = process.argv.includes("--check");
 

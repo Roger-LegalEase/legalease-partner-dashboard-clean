@@ -29,6 +29,37 @@ import path from "node:path";
 export const MASTER_LIBRARY_CUSTODY = "master_library";
 export const MASTER_LIBRARY_RELATIVE = "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
 
+/** Validate the bootstrap's Master Library binding before an audit writes reports.
+ * This checks the mount, not source fidelity: each audit still verifies its own
+ * required binaries. It never supplies the separate operational Nationwide root.
+ */
+export function requireMasterLibraryEnvironment({ repoRoot, env = process.env } = {}) {
+  const supplied = env.MASTER_LIBRARY_SOURCE_DIR || env.RCAP_BUNDLE_EXTRACT;
+  const refuse = (reason) => { throw new Error(`CORPUS_ENVIRONMENT_REFUSED: ${reason}`); };
+  if (!supplied) refuse("source the packet-factory bootstrap environment or supply MASTER_LIBRARY_SOURCE_DIR before auditing");
+  if (!path.isAbsolute(supplied)) refuse("Master Library root must be absolute");
+  if (!fs.existsSync(supplied) || !fs.statSync(supplied).isDirectory()) refuse("Master Library root is unavailable");
+  const resolved = fs.realpathSync(supplied);
+  const operational = [env.OFFICIAL_FORMS_SOURCE_DIR, repoRoot && path.join(repoRoot, "private/Nationwide Record Clearing")].filter(Boolean);
+  for (const candidate of operational) {
+    if (path.resolve(candidate) === path.resolve(supplied)
+        || (fs.existsSync(candidate) && fs.realpathSync(candidate) === resolved)) {
+      refuse("Master Library and operational Nationwide must be separate custodies");
+    }
+  }
+  if (!fs.existsSync(path.join(resolved, "STATES")) || !fs.statSync(path.join(resolved, "STATES")).isDirectory()) {
+    refuse("Master Library STATES directory is unavailable; no operational-corpus substitution is permitted");
+  }
+  if (!fs.readdirSync(path.join(resolved, "STATES")).length) refuse("Master Library STATES directory is empty");
+  if (env.MASTER_LIBRARY_SOURCE_DIR && env.RCAP_BUNDLE_EXTRACT
+      && (!path.isAbsolute(env.RCAP_BUNDLE_EXTRACT) || !fs.existsSync(env.RCAP_BUNDLE_EXTRACT)
+        || fs.realpathSync(env.RCAP_BUNDLE_EXTRACT) !== resolved)) {
+    refuse("bootstrap Master Library bindings disagree");
+  }
+  env.MASTER_LIBRARY_SOURCE_DIR = resolved;
+  return resolved;
+}
+
 /**
  * @param {object} index         the parsed corpus index
  * @param {object} options

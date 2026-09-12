@@ -36,12 +36,14 @@ import { retainCa17RasterIdentity } from "../rcap-packet-recovery/ca17-raster-id
 import { resolveMiMoRasterEnrollment } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
 import { resolveIaForm1RasterEnrollment } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
 import fs from "node:fs";
+import { requireMasterLibraryEnvironment } from "../lib/corpus-index-paths.mjs";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+requireMasterLibraryEnvironment({ repoRoot: ROOT });
 const CHECK = process.argv.includes("--check");
 const DIR = "data/rcap-grade-a/packet-factory-24h";
 const PROMPTS = "docs/rcap/grade-a/packet-factory-24h/raster";

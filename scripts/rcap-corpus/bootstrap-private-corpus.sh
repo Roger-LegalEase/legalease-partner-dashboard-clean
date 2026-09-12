@@ -367,6 +367,7 @@ cat > private/source-corpus-environment.txt <<ENVEOF
 #   archive   $ARCHIVE_SHA256  (VERIFIED)
 #   verified  $JURISDICTIONS jurisdictions / $FILES files / $PDFS PDFs
 export RCAP_BUNDLE_EXTRACT="\$PWD/$INSTALL_ROOT"
+export MASTER_LIBRARY_SOURCE_DIR="\$PWD/$INSTALL_ROOT"
 
 # --- D source packs: a second custody of official binaries (27 states)
 #   release   $D_RELEASE_TAG in $D_RELEASE_REPO

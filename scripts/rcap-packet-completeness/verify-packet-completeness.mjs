@@ -12,6 +12,8 @@
 // partial credit and no "mostly complete": a filing with a blank offence code is
 // not 97 percent filable, it is unfilable.
 import fs from "node:fs";
+import os from "node:os";
+import { requireMasterLibraryEnvironment } from "../lib/corpus-index-paths.mjs";
 import { isKyNativeCandidate, auditKyNativeCandidate, KY_NATIVE_FAMILY, KY_NATIVE_DIRECTORY } from "./ky-native-candidate.mjs";
 import { auditMdNativeCandidate, MD_NATIVE_FAMILY, MD_NATIVE_DIRECTORY } from "./md-favorable-native-candidate.mjs";
 import { auditMdConditionalCandidate, MD_CONDITIONAL_DIRECTORIES } from "./md-conditional-native-candidates.mjs";
@@ -26,6 +28,7 @@ import { hasDeclaredMoPacketSet } from "./mo-declared-packet-discovery.mjs";
 import { verifyParticipantLaterCompletionSourceStage } from "./nj-participant-later-completion.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+requireMasterLibraryEnvironment({ repoRoot: ROOT });
 const ARGS = process.argv.slice(2);
 const WRITE = ARGS.includes("--write");
 const MUTATIONS = ARGS.includes("--mutations");
@@ -56,7 +59,11 @@ if (ARGS.includes("--family") && !ONLY) {
   console.error("UNRECOGNISED_ARGUMENT: --family was given no family id.");
   process.exit(2);
 }
-const OUT = "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json";
+// A focused measurement never replaces or reuses rows of the national matrix.
+// Integration still performs a full audit, including changed shared dependencies.
+const OUT = ONLY
+  ? path.join(os.tmpdir(), "rcap-packet-completeness", `${ONLY}.json`)
+  : "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json";
 const OVERLAYS = "data/rcap-all50/overlays/census-v1";
 
 const readIf = (rel) => { const p = path.join(ROOT, rel); return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")) : null; };
@@ -884,10 +891,12 @@ const doc = {
   familiesAudited: results.length,
   byResult,
   counterTotals: totals,
+  ...(ONLY ? { auditScope: { kind: "family-only", familyId: ONLY, nationalMatrixUpdated: false,
+    reusedResults: 0, integrationRequiresFullAudit: true } } : {}),
   results
 };
 
-const outPath = path.join(ROOT, OUT);
+const outPath = path.isAbsolute(OUT) ? OUT : path.join(ROOT, OUT);
 for (const r of results) {
   const mark = r.result === "PASS_COMPLETE" ? "ok  " : "FAIL";
   console.log(`  ${mark} ${r.familyId.padEnd(46)} ${r.result.padEnd(28)} ${r.totals.written}/${r.totals.terminalFields} written`);

@@ -32,6 +32,7 @@
  */
 import { execFileSync, spawnSync } from "node:child_process";
 import fs from "node:fs";
+import { requireMasterLibraryEnvironment } from "../lib/corpus-index-paths.mjs";
 import path from "node:path";
 import { rasterCustodyIntegrationSteps } from "./raster-custody-integration.mjs";
 
@@ -39,12 +40,7 @@ const ROOT = process.cwd();
 const QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const TERMINAL = new Set(["COMPLETE_PACKET_PROVEN", "GUIDANCE_READY", "HANDOFF_READY", "OUT_OF_SCOPE"]);
 
-const LIBRARY = process.env.MASTER_LIBRARY_SOURCE_DIR;
-if (!LIBRARY) {
-  console.error("REFUSED: MASTER_LIBRARY_SOURCE_DIR is unset. Every generator below reads it, and a run without it");
-  console.error("         produces a queue that silently describes a corpus this checkout does not have.");
-  process.exit(2);
-}
+const LIBRARY = requireMasterLibraryEnvironment({ repoRoot: ROOT });
 
 /* The chain, in the only order that works, with why each step is where it is. */
 const CHAIN = [
