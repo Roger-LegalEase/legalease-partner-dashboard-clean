@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "70adddf0d6d6b967eb43d1b894e3b67217edf000",
+  "generatedAtCommit": "ecd3298c868343b98c79af90b88a372c6538ac30",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3351,6 +3351,21 @@
       "released": false,
       "releasedAt": null,
       "releaseReason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_discretionary_superior_court-set",
+      "itemId": null,
+      "familyId": "de_discretionary_superior_court-set",
+      "familyIds": [
+        "de_discretionary_superior_court-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15727,24 +15742,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "de_discretionary_superior_court-set",
-      "itemId": null,
-      "familyId": "de_discretionary_superior_court-set",
-      "familyIds": [
-        "de_discretionary_superior_court-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "5daace658ba2ed911a9b18c4376d049228353b773ab68a3a3448a477d8fbe6d2",
+  "claimsDigest": "ba820f756448b5af6fb28b7e9239c5bbbf3d05a3dfcbbd603ebd85361e4af37b",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",

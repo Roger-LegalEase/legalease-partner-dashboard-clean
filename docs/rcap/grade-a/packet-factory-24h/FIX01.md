@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `70adddf0d6d6b967eb43d1b894e3b67217edf000` (or the newer dispatch base)
+**Minimum required ancestor:** `ecd3298c868343b98c79af90b88a372c6538ac30` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'rcap-or-official-pdf-fill' \
   --codex-cloud \
-  --minimum-captain-sha 70adddf0d6d6b967eb43d1b894e3b67217edf000
+  --minimum-captain-sha ecd3298c868343b98c79af90b88a372c6538ac30
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -40,7 +40,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 - Assert only these 2 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'rcap-or-official-pdf-fill'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'de_discretionary_superior_court-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ky_protective_order_record_expungement-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -64,7 +64,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 2 families
 
 - `rcap-or-official-pdf-fill`
-- `de_discretionary_superior_court-set`
+- `ky_protective_order_record_expungement-set`
 
 ## What you receive
 
@@ -78,9 +78,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/**`
 - `scripts/build-census-v1-rcap-or-official-pdf-fill.mjs`
-- `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
+- `scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs`
 
 ## Never write here
 
