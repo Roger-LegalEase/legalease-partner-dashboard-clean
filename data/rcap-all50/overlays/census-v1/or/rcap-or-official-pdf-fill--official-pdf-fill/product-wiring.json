@@ -58,14 +58,7 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34407406641",
-      "jobId": "102654459261",
-      "artifactId": "10126245318",
-      "boundToCanonicalSha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
@@ -79,7 +72,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
+        "replacedByCanonicalSha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046,f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34407406641",
+          "jobId": "102654459261",
+          "artifactId": "10126245318",
+          "boundToCanonicalSha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -99,18 +107,31 @@
             "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
             "fixture": "canonical--arrest-no-charges",
             "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
-            "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-            "pagesInThatPacket": []
+            "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+            "pagesInThatPacket": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
           },
           {
             "routeKey": "obligation:track-only:OR:or_dismissed_charge",
             "fixture": "canonical--dismissed-charge",
             "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
-            "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
-            "pagesInThatPacket": []
+            "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+            "pagesInThatPacket": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
           }
         ],
-        "whyThereIsNoSingleDigest": "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
+        "whyThereIsNoSingleDigest": "Each route carries this component in its own court packet.",
+        "deliveryRole": "court_packet_component"
       },
       {
         "componentId": "rcap-or-official-pdf-fill-component-2",
@@ -118,8 +139,16 @@
         "order": 2,
         "documentId": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_arrest_no_charges",
         "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
-        "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-        "requirement": "required"
+        "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+        "requirement": "required",
+        "deliveryRole": "court_packet_component",
+        "pagesInThatPacket": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
       },
       {
         "componentId": "rcap-or-official-pdf-fill-component-3",
@@ -134,18 +163,31 @@
             "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
             "fixture": "canonical--arrest-no-charges",
             "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
-            "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-            "pagesInThatPacket": []
+            "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+            "pagesInThatPacket": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
           },
           {
             "routeKey": "obligation:track-only:OR:or_dismissed_charge",
             "fixture": "canonical--dismissed-charge",
             "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
-            "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
-            "pagesInThatPacket": []
+            "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+            "pagesInThatPacket": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
           }
         ],
-        "whyThereIsNoSingleDigest": "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
+        "whyThereIsNoSingleDigest": "Each route carries this component in its own court packet.",
+        "deliveryRole": "court_packet_component"
       },
       {
         "componentId": "rcap-or-official-pdf-fill-component-4",
@@ -159,19 +201,26 @@
           {
             "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
             "fixture": "canonical--arrest-no-charges",
-            "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
-            "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-            "pagesInThatPacket": []
+            "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+            "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+            "pagesInThatPacket": [
+              1,
+              2
+            ]
           },
           {
             "routeKey": "obligation:track-only:OR:or_dismissed_charge",
             "fixture": "canonical--dismissed-charge",
-            "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
-            "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
-            "pagesInThatPacket": []
+            "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--criminal-history-request.pdf",
+            "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+            "pagesInThatPacket": [
+              1,
+              2
+            ]
           }
         ],
-        "whyThereIsNoSingleDigest": "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
+        "whyThereIsNoSingleDigest": "Each route carries this component in its own separately addressed OSP handoff; it is not a court-filing component.",
+        "deliveryRole": "separate_agency_handoff"
       },
       {
         "componentId": "rcap-or-official-pdf-fill-component-5",
@@ -185,25 +234,26 @@
           {
             "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
             "fixture": "canonical--arrest-no-charges",
-            "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
-            "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
+            "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+            "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
             "pagesInThatPacket": [
-              6,
-              7
+              1,
+              2
             ]
           },
           {
             "routeKey": "obligation:track-only:OR:or_dismissed_charge",
             "fixture": "canonical--dismissed-charge",
-            "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
-            "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
+            "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--criminal-history-request.pdf",
+            "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
             "pagesInThatPacket": [
-              6,
-              7
+              1,
+              2
             ]
           }
         ],
-        "whyThereIsNoSingleDigest": "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
+        "whyThereIsNoSingleDigest": "Each route carries this component in its own separately addressed OSP handoff; it is not a court-filing component.",
+        "deliveryRole": "separate_agency_handoff"
       },
       {
         "componentId": "rcap-or-official-pdf-fill-component-6",
@@ -218,18 +268,25 @@
             "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
             "fixture": "canonical--arrest-no-charges",
             "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
-            "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-            "pagesInThatPacket": []
+            "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+            "pagesInThatPacket": [
+              6,
+              7
+            ]
           },
           {
             "routeKey": "obligation:track-only:OR:or_dismissed_charge",
             "fixture": "canonical--dismissed-charge",
             "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
-            "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
-            "pagesInThatPacket": []
+            "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+            "pagesInThatPacket": [
+              6,
+              7
+            ]
           }
         ],
-        "whyThereIsNoSingleDigest": "This family assembles its whole packet into one fixture and renders that fixture once per route, so this component has no bytes of its own to pin. A route installs the assembled packet whose routeKey it matches; the digests are on those packets, and the pages above say where this component sits inside each."
+        "whyThereIsNoSingleDigest": "Each route carries this component in its own court packet.",
+        "deliveryRole": "court_packet_component"
       },
       {
         "componentId": "rcap-or-official-pdf-fill-component-7",
@@ -237,8 +294,13 @@
         "order": 7,
         "documentId": "filing_instructions:or_arrest_no_charges",
         "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
-        "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
-        "requirement": "required"
+        "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+        "requirement": "required",
+        "deliveryRole": "court_packet_component",
+        "pagesInThatPacket": [
+          6,
+          7
+        ]
       },
       {
         "componentId": "rcap-or-official-pdf-fill-component-8",
@@ -246,8 +308,16 @@
         "order": 8,
         "documentId": "OR-OJD-ADULT-SET-ASIDE-PACKET:or_dismissed_charge",
         "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
-        "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
-        "requirement": "required"
+        "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+        "requirement": "required",
+        "deliveryRole": "court_packet_component",
+        "pagesInThatPacket": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
       },
       {
         "componentId": "rcap-or-official-pdf-fill-component-9",
@@ -255,8 +325,13 @@
         "order": 9,
         "documentId": "filing_instructions:or_dismissed_charge",
         "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
-        "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
-        "requirement": "required"
+        "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+        "requirement": "required",
+        "deliveryRole": "court_packet_component",
+        "pagesInThatPacket": [
+          6,
+          7
+        ]
       }
     ]
   }
