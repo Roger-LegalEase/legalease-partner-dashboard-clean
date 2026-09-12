@@ -34,15 +34,14 @@
     }
   ],
   "counts": {
-    "returnDirectories": 327,
-    "rows": 1418,
-    "independentVerdicts": 310,
-    "failRepairRequired": 2,
-    "passIndependent": 305
+    "returnDirectories": 329,
+    "rows": 1420,
+    "independentVerdicts": 311,
+    "failRepairRequired": 1,
+    "passIndependent": 306
   },
   "failRepairRequiredFamilies": [
-    "ky_protective_order_record_expungement-set",
-    "rcap-in-custom-pleading"
+    "ky_protective_order_record_expungement-set"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -10381,6 +10380,42 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_yra_set_aside-set",
       "superseded": true
+    },
+    {
+      "familyId": "de_discretionary_family_court-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2dfce7292b8678cb485a24efff9b14b1cb0a6d41",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-de-family-court-semantic-blocked-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_discretionary_family_court-set",
+      "superseded": false
     },
     {
       "familyId": "de_discretionary_superior_court-set",
@@ -26573,6 +26608,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-in-custom-pleading",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-in-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "98898a8158d6bd73e75bb302a61c46ac46178a39",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-in-custom-pleading-original-final-20260912.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-in-custom-pleading",
       "superseded": false
     },
