@@ -1,0 +1,592 @@
+{
+  "schemaVersion": "rcap-focused-saved-byte-preflight/v1",
+  "priorFindingsPath": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json",
+  "priorFindingsSha256": "67c903de9be7e2309c5f901c9160419bbcc0c0667c886009dfaefcd538b1199b",
+  "independentAcceptance": false,
+  "visualAcceptance": false,
+  "families": [
+    {
+      "familyId": "mo-610-140-arrest-set",
+      "passed": true,
+      "artifactsRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.packet.pdf",
+          "sha256": "f07fd49e8770119addd24e852e443b354e90ca5a8b029cad6145226377585b3b",
+          "byteLength": 801016,
+          "pageCount": 13
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.packet.pdf",
+          "sha256": "233c9a0ba97f120c9c2dfdec828506c7d185ae1f795dbc11e68d0bdf1917a5eb",
+          "byteLength": 810709,
+          "pageCount": 14
+        }
+      ],
+      "checks": [
+        {
+          "fixture": "canonical",
+          "check": "saved_packet_binding",
+          "passed": true,
+          "detail": "Current combined bytes compared to the render report."
+        },
+        {
+          "fixture": "canonical",
+          "check": "known_omission:Submitted by",
+          "passed": true,
+          "detail": {
+            "expected": "Jordan Lee Example",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "Jordan Lee Example",
+                "rectangle": [
+                  102.4800033569336,
+                  624.3599853515625,
+                  310.67999267578125,
+                  641.0399780273438
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "canonical",
+          "check": "known_omission:Phone",
+          "passed": true,
+          "detail": {
+            "expected": "816-555-0142",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "816-555-0142",
+                "rectangle": [
+                  73.68000030517578,
+                  676.7999877929688,
+                  312.8399963378906,
+                  693.47998046875
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "canonical",
+          "check": "known_omission:Email Address_4",
+          "passed": true,
+          "detail": {
+            "expected": "jordan.example@example.test",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "jordan.example@example.test",
+                "rectangle": [
+                  385.67999267578125,
+                  676.7999877929688,
+                  564.9600219726562,
+                  693.47998046875
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "canonical",
+          "check": "known_omission:Municipal Police Dept. name",
+          "passed": true,
+          "detail": {
+            "expected": "Kansas City",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 10,
+                "text": "County Sheriff s Dept. \n      Municipal Police Dept. \nJackson\nKansas City Police Department",
+                "rectangle": [
+                  330.0,
+                  284.0,
+                  580.0,
+                  312.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "canonical",
+          "check": "continuation_signature_and_date_handback",
+          "passed": true,
+          "detail": "Presence of personal signature/date handback labels only; blanks and geometry require independent review."
+        },
+        {
+          "fixture": "boundary",
+          "check": "saved_packet_binding",
+          "passed": true,
+          "detail": "Current combined bytes compared to the render report."
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Submitted by",
+          "passed": true,
+          "detail": {
+            "expected": "Jordan Alexandria Example",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "Jordan Alexandria Example",
+                "rectangle": [
+                  102.4800033569336,
+                  624.3599853515625,
+                  310.67999267578125,
+                  641.0399780273438
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Phone",
+          "passed": true,
+          "detail": {
+            "expected": "816-555-0199",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "816-555-0199",
+                "rectangle": [
+                  73.68000030517578,
+                  676.7999877929688,
+                  312.8399963378906,
+                  693.47998046875
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Email Address_4",
+          "passed": true,
+          "detail": {
+            "expected": "alexandria.montgomery.example@example.test",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "alexandria.montgomery.example@example.test",
+                "rectangle": [
+                  385.67999267578125,
+                  676.7999877929688,
+                  564.9600219726562,
+                  693.47998046875
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Municipal Police Dept. name",
+          "passed": true,
+          "detail": {
+            "expected": "Kansas City",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 10,
+                "text": "County Sheriff s Dept. \n      Municipal Police Dept. \nJackson\nKansas City Police Department",
+                "rectangle": [
+                  330.0,
+                  284.0,
+                  580.0,
+                  312.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Other agency name/address",
+          "passed": true,
+          "detail": {
+            "expected": "Synthetic Municipal Records Unit",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 10,
+                "text": "(\ng\ny)\n      \n      \n      \nSynthetic Municipal Records Unit, 100 Records Plaza",
+                "rectangle": [
+                  330.0,
+                  322.0,
+                  580.0,
+                  375.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "GN10_date_file_stamp_caption",
+          "passed": true,
+          "detail": "Preserve the held one-page source caption; no invented second order page."
+        },
+        {
+          "fixture": "boundary",
+          "check": "continuation_signature_and_date_handback",
+          "passed": true,
+          "detail": "Presence of personal signature/date handback labels only; blanks and geometry require independent review."
+        }
+      ]
+    },
+    {
+      "familyId": "mo-610-140-conviction-set",
+      "passed": true,
+      "artifactsRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/canonical.packet.pdf",
+          "sha256": "63fbcb28a5f03b4a6aedc4ffedbdf820964e80f1f43e5fe39de7496895682cde",
+          "byteLength": 801348,
+          "pageCount": 12
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/boundary.packet.pdf",
+          "sha256": "81794ac34c1f2620ba21e3ff5ce30c16c854ab0a425f65daad843e9d7c9719dc",
+          "byteLength": 820360,
+          "pageCount": 14
+        }
+      ],
+      "checks": [
+        {
+          "fixture": "canonical",
+          "check": "saved_packet_binding",
+          "passed": true,
+          "detail": "Current combined bytes compared to the render report."
+        },
+        {
+          "fixture": "canonical",
+          "check": "known_omission:Submitted by",
+          "passed": true,
+          "detail": {
+            "expected": "Jordan Lee Example",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 6,
+                "text": "Jordan Lee Example",
+                "rectangle": [
+                  102.4800033569336,
+                  624.3599853515625,
+                  310.67999267578125,
+                  641.0399780273438
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "canonical",
+          "check": "known_omission:Phone",
+          "passed": true,
+          "detail": {
+            "expected": "816-555-0142",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 6,
+                "text": "816-555-0142",
+                "rectangle": [
+                  73.68000030517578,
+                  676.7999877929688,
+                  312.8399963378906,
+                  693.47998046875
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "canonical",
+          "check": "known_omission:Email Address_4",
+          "passed": true,
+          "detail": {
+            "expected": "jordan.example@example.test",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 6,
+                "text": "jordan.example@example.test",
+                "rectangle": [
+                  385.67999267578125,
+                  676.7999877929688,
+                  564.9600219726562,
+                  693.47998046875
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "canonical",
+          "check": "known_omission:Municipal Police Dept. name",
+          "passed": true,
+          "detail": {
+            "expected": "Kansas City",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 9,
+                "text": "County Sheriff s Dept. \n      Municipal Police Dept. \nJackson\nKansas City Police Department",
+                "rectangle": [
+                  330.0,
+                  284.0,
+                  580.0,
+                  312.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "saved_packet_binding",
+          "passed": true,
+          "detail": "Current combined bytes compared to the render report."
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Submitted by",
+          "passed": true,
+          "detail": {
+            "expected": "Jordan Alexandria Example",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "Jordan Alexandria Example",
+                "rectangle": [
+                  102.4800033569336,
+                  624.3599853515625,
+                  310.67999267578125,
+                  641.0399780273438
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Phone",
+          "passed": true,
+          "detail": {
+            "expected": "816-555-0199",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "816-555-0199",
+                "rectangle": [
+                  73.68000030517578,
+                  676.7999877929688,
+                  312.8399963378906,
+                  693.47998046875
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Email Address_4",
+          "passed": true,
+          "detail": {
+            "expected": "alexandria.montgomery.example@example.test",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 7,
+                "text": "alexandria.montgomery.example@example.test",
+                "rectangle": [
+                  385.67999267578125,
+                  676.7999877929688,
+                  564.9600219726562,
+                  693.47998046875
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Municipal Police Dept. name",
+          "passed": true,
+          "detail": {
+            "expected": "Kansas City",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 10,
+                "text": "County Sheriff s Dept. \n      Municipal Police Dept. \nJackson\nKansas City Police Department",
+                "rectangle": [
+                  330.0,
+                  284.0,
+                  580.0,
+                  312.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:Other agency name/address",
+          "passed": true,
+          "detail": {
+            "expected": "Synthetic Municipal Records Unit",
+            "caseNumber": null,
+            "readings": [
+              {
+                "page": 10,
+                "text": "(\ng\ny)\n      \n      \n      \nSynthetic Municipal Records Unit, 100 Records Plaza",
+                "rectangle": [
+                  330.0,
+                  322.0,
+                  580.0,
+                  375.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:OCN for each criminal case:7",
+          "passed": true,
+          "detail": {
+            "expected": "SYNTH-OCN-206",
+            "caseNumber": "SYNTH-16CR-000206",
+            "readings": [
+              {
+                "page": 10,
+                "valueFound": false
+              },
+              {
+                "page": 11,
+                "valueFound": false
+              },
+              {
+                "page": 3,
+                "valueFound": true
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:OCN for each criminal case:8",
+          "passed": true,
+          "detail": {
+            "expected": "SYNTH-OCN-207",
+            "caseNumber": "SYNTH-16CR-000207",
+            "readings": [
+              {
+                "page": 10,
+                "valueFound": false
+              },
+              {
+                "page": 11,
+                "valueFound": false
+              },
+              {
+                "page": 3,
+                "valueFound": true
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:OCN for each criminal case:9",
+          "passed": true,
+          "detail": {
+            "expected": "SYNTH-OCN-208",
+            "caseNumber": "SYNTH-16CR-000208",
+            "readings": [
+              {
+                "page": 10,
+                "valueFound": false
+              },
+              {
+                "page": 11,
+                "valueFound": false
+              },
+              {
+                "page": 3,
+                "valueFound": true
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:OCN for each criminal case:10",
+          "passed": true,
+          "detail": {
+            "expected": "SYNTH-OCN-209",
+            "caseNumber": "SYNTH-16CR-000209",
+            "readings": [
+              {
+                "page": 10,
+                "valueFound": false
+              },
+              {
+                "page": 11,
+                "valueFound": false
+              },
+              {
+                "page": 3,
+                "valueFound": true
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "known_omission:OCN for each criminal case:11",
+          "passed": true,
+          "detail": {
+            "expected": "SYNTH-OCN-210",
+            "caseNumber": "SYNTH-16CR-000210",
+            "readings": [
+              {
+                "page": 10,
+                "valueFound": false
+              },
+              {
+                "page": 11,
+                "valueFound": false
+              },
+              {
+                "page": 3,
+                "valueFound": true
+              }
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "check": "GN10_date_file_stamp_caption",
+          "passed": true,
+          "detail": "Preserve the held one-page source caption; no invented second order page."
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "limits": "Measures the 23 prior known omissions in current combined PDFs, each caption-identified FI-05 filer block, GN10 caption and arrest signature/date label presence. Does not certify geography, eligibility, row association, signatures remaining blank, service, complete instructions or visual acceptance."
+}
