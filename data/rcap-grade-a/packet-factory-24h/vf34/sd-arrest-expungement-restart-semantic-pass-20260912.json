@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "rcap-vf34-bounded-semantic-review/v2",
+  "familyId": "sd_arrest_expungement-set",
+  "lane": "VF34",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS_PRE_RASTER_SEMANTIC",
+  "reviewedAtBase": "3ddfd62f4a3674042b64ca2330967eeab2d9db4d",
+  "packetCommitSha": "4f5022da8c9ba6fb3c2cd92643da70cdab96b516",
+  "sourcePinFixCommitSha": "1f8df5e0820004b51bfee52cbdd660169cbe78d0",
+  "scope": "Bounded independent recheck of the prior 18 civil/case-number caption failure and the repaired current source pins. Current packet bytes are exact; visual measurement remains open.",
+  "claimEvidence": {
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF34 sd_arrest_expungement-set",
+    "result": "CLAIM_OK",
+    "grantId": "11a6e6b5a25c0148",
+    "assertedBeforeFamilyReads": true
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf34/sd-arrest-expungement-restart-semantic-fail-20260912.json",
+    "sha256": "fd98e9c1cf4ad77d25ef6dfab1e270882e3e4f2eb37291eee4bb1eeb9a93ab19",
+    "byteLength": 11463,
+    "findingId": "SD-CIVIL-CRIMINAL-CAPTION-SEPARATION",
+    "affectedWrites": 18
+  },
+  "resolvedFindings": [
+    {
+      "findingId": "SD-CIVIL-CRIMINAL-CAPTION-SEPARATION",
+      "status": "RESOLVED",
+      "affectedWrites": 18,
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fix112-sd-civil-captions-20260912.json",
+      "evidenceSha256": "1786ebf32f91d9e5277a49aa6b462f3d25ef5a41f9773f3d47a1ab75c1394a4f",
+      "details": "UJS-232 case type and 16 clerk-owned civil Case No placements are refused; eight supported criminal identifier/CRI writes remain."
+    },
+    {
+      "findingId": "SD-SOURCE-VERSION-PIN-DRIFT",
+      "status": "RESOLVED",
+      "affectedSources": 2,
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix112/sd-current-source-adoption-20260912.json",
+      "evidenceSha256": "7fbe35ef20bee23665a264b75dd34ed582207dfec5c00daa92c919d90ac20261",
+      "details": "Product-wiring sourceVersion now matches all six current source-receipt hashes."
+    }
+  ],
+  "sourcePinRecheck": {
+    "path": "/tmp/sd-vf34-source-pin-recheck.json",
+    "sha256": "6e256015e59f311b3dd2336fbe4afe05ad487c8c11f5f7aa646d803143653f30",
+    "byteLength": 4184,
+    "result": "PASS",
+    "matched": 6,
+    "total": 6,
+    "recoveredSourceBindings": [
+      "official-form:UJS-232",
+      "official-form:UJS-394"
+    ]
+  },
+  "obligations": {
+    "ROUTE_IDENTITY": "PASS",
+    "SOURCE_IDENTITY": "PASS",
+    "COMPONENT_SET": "PASS",
+    "KNOWN_PREFILLS": "PASS_BOUNDED_REPAIR",
+    "REQUIRED_BEFORE_FILING": "PASS_BOUNDED_REPAIR",
+    "ROUTE_OPTIONS": "PASS_BOUNDED_REPAIR",
+    "REPEATING_ROWS": "PASS",
+    "PROTECTED_FIELDS": "PASS_NONVISUAL",
+    "ARTIFACTS": "PASS_NONVISUAL",
+    "PAGE_ORDER": "PASS_NONVISUAL",
+    "CLIPPING_AND_OVERLAP": "NOT_MEASURABLE_HERE",
+    "FILING_DESTINATION": "PASS",
+    "FEE_AND_WAIVER": "PASS",
+    "SERVICE": "PASS",
+    "SELF_HELP_STOP": "PASS"
+  },
+  "obligationCounts": {
+    "pass": 14,
+    "fail": 0,
+    "notMeasurable": 1,
+    "failedObligationNames": [],
+    "unmeasuredObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ]
+  },
+  "nonvisualCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonvisualZero": true,
+    "visualMeasuredHere": false
+  },
+  "currentCandidateBindings": {
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/source-receipt.json",
+      "sha256": "2d52e06449ffe5e185cdfda96003f6454e135fabed40aace591a35c08b94c0c0",
+      "byteLength": 6032
+    },
+    "productWiring": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/product-wiring.json",
+      "sha256": "6f3134a5f6e521975eac5430aabe5dc83c42ba5687745d82b7456d5424e41cfb",
+      "byteLength": 5366
+    },
+    "fieldMap": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+      "sha256": "16c3405922d1004f3c957600030a965bed8a92ed851bf2b9403616dc9b1eac74",
+      "byteLength": 255531
+    },
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "cbb3b983f0dbb11775a44a23f8f5bbe873a68b37386387f1a48eb296aec209a2",
+      "byteLength": 8444
+    },
+    "actualWrites": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/actual-writes.json",
+      "sha256": "1880873c111e3d00a8b58f461caecd1f01a93ba6bc7b5860aad047e7a4bc215c",
+      "byteLength": 68112
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "83f740714c78af73c58a712d2868415e10b2a12a34b978953c19a4699efbd65a",
+      "byteLength": 8189
+    },
+    "buildFindings": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/build-findings.json",
+      "sha256": "8e720be078e57708148f45198b31bb75f8e2dd3f3262fe43ef63e92ccc6ca69e",
+      "byteLength": 958
+    },
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/sd-current-raster-manifest-20260912.json",
+      "sha256": "59a2abc485e6a11da0021386a7365a73f85806dae586d07f535d2dbec2922b78",
+      "byteLength": 3089
+    },
+    "manifestPacketCommitSha": "4f5022da8c9ba6fb3c2cd92643da70cdab96b516",
+    "manifestDocumentsDigest": "2d0b647b8b1225c80d8b7b13c9dc2ba72da8b0b76a5196ff80eb9781214f1c9f",
+    "fixtures": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65",
+        "byteLength": 552108,
+        "pageCount": 14
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8",
+        "byteLength": 553419,
+        "pageCount": 14
+      }
+    ]
+  },
+  "rasterDispatchAuthorized": true,
+  "rasterEvidence": {
+    "status": "RASTER_PASS_CUSTODY_RECEIVED",
+    "workflowRunId": "34697291661",
+    "custodyRecord": "data/rcap-grade-a/packet-factory-24h/raster-runs/34697291661/ORIGINAL_EVIDENCE_VERIFIED.json",
+    "originalPagesExpected": 28,
+    "visualDefects": null,
+    "visualMeasuredHere": false
+  },
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "commandsActuallyPassed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF34 sd_arrest_expungement-set (CLAIM_OK)",
+    "bounded source-pin recheck: 6/6 sourceVersion SHA-256 entries matched source-receipt; canonical/boundary fixture hashes and lengths unchanged",
+    "prior independent Poppler rectangle check: /tmp/sd-caption-independent-byte-check.json PASS (18 former civil write boxes blank; criminal identifier absent)"
+  ],
+  "unfinishedGates": [
+    "independent visual review of all 28 original raster pages",
+    "measure CLIPPING_AND_OVERLAP/invisible visual defects from original pages",
+    "native terminal integration"
+  ],
+  "independence": {
+    "packetRepairAuthor": "/root/sd_caption",
+    "sourcePinFixAuthor": "/root",
+    "implementationEditsByReviewer": false,
+    "sourceEditsByReviewer": false,
+    "sharedManifestOrLedgerEditsByReviewer": false
+  }
+}
