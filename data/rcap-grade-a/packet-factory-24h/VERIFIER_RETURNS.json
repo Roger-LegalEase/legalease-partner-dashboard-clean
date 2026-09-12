@@ -34,16 +34,15 @@
     }
   ],
   "counts": {
-    "returnDirectories": 307,
-    "rows": 1398,
+    "returnDirectories": 312,
+    "rows": 1403,
     "independentVerdicts": 310,
-    "failRepairRequired": 17,
-    "passIndependent": 289
+    "failRepairRequired": 16,
+    "passIndependent": 290
   },
   "failRepairRequiredFamilies": [
     "ca-17b-reduction-set",
     "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
-    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "de_discretionary_superior_court-set",
     "il-seal-edu-set",
     "ky_protective_order_record_expungement-set",
@@ -5148,6 +5147,45 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-ca17-current-semantic-fail-20260912.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfcg1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fe632a3aed5b02183ed6e9cb44e69d8c628bbfae",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "CA17-FOLLOWUP-01/02/03: missing cross-form court-address handback, wrong conditional trafficking-evidence obligation, and incorrect service sequence.",
+          "findingReadFrom": "finding",
+          "evidence": "confirmedFindings/currentMeasurements/evidenceBindings in this native return"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "CA17-FOLLOWUP-04: residual reviewer/production prose in participant guide. Exact manifest/PDF identities, source custody, lack of local-raster acceptance, and removal of prior internal field IDs otherwise agree.",
+          "findingReadFrom": "finding",
+          "evidence": "confirmedFindings/currentMeasurements/evidenceBindings in this native return"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "CA17-FOLLOWUP-03: unsupported nonparty restriction and unconditional proof-at-initial-filing sequence. Correct mail/personal/electronic distinctions and server-own-data treatment are preserved.",
+          "findingReadFrom": "finding",
+          "evidence": "confirmedFindings/currentMeasurements/evidenceBindings in this native return"
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-ca17-semantic-followup-fail-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
       "superseded": false
     },
     {
@@ -8006,6 +8044,83 @@
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "8f0913509a5ce71cfc56de59c62a91ed1674fe73",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-il-mistaken-identity-current-original-pass-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "21e91aa21171fe2be26606b321a991fb9d756e32",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "IL-MI-01: required verified petition has no verification clause. The other two required components are participant-obtained identity-theft report and mismatched-identifier evidence, truthfully handed back rather than fabricated.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "IL-MI-01/02: missing certification plus three unconditional inapplicable fact requirements. Caption, identity report/mismatched identifiers, arrest circuit and personal signature/date handback are present.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "IL-MI-02: facts of the separate prostitution/conviction branch are required in the mistaken-identity petition without applicability handling. No fabricated selection is acceptable.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "IL-MI-03/05: participant-facing internal IDs/prose and fabricated geometry-zero reporting. Current PDF hash/length inventory itself agrees; historic local raster with null workflow is not central acceptance.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs"
+          ]
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "IL-MI-04: unsupported categorical inability-to-pay filing bar, despite recorded uncertainty about fee and waiver.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-il-mistaken-identity-current-semantic-fail-20260912.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf07",
       "isIndependentVerification": true,
@@ -8025,7 +8140,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
@@ -22294,6 +22409,104 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf64",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "NJ-FD-01; NJ-FD-03",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "NJ-FD-02; NJ-FD-03; NJ-FD-04; NJ-FD-05",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "NJ-FD-01; NJ-FD-02",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "NJ-FD-03; NJ-FD-05",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "NJ-FD-04",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "NJ-FD-06",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "NJ-FD-04",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "NJ-FD-02",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-nj-disorderly-persons-set-fact-derived-semantic-fail-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
       "superseded": false
     },
     {
@@ -22486,7 +22699,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nj_indictable_conviction-set",
@@ -22529,6 +22742,104 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
       "superseded": true
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfcg1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "NJ-FD-01; NJ-FD-03",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "NJ-FD-02; NJ-FD-03; NJ-FD-04; NJ-FD-05",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "NJ-FD-01; NJ-FD-02",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "NJ-FD-03; NJ-FD-05",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "NJ-FD-04",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "NJ-FD-06",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "NJ-FD-04",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "NJ-FD-02",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-nj-indictable-conviction-set-fact-derived-semantic-fail-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
+      "superseded": false
     },
     {
       "familyId": "nj_ordinance-set",

@@ -19,15 +19,14 @@
   "byResult": {
     "PASS_COMPLETE": 275,
     "NOT_MEASURABLE_HERE": 30,
-    "FAIL_MISSING_PREFILLS": 2,
-    "FAIL_MISSING_REQUIRED_FACTS": 1
+    "FAIL_MISSING_REQUIRED_FACTS": 3
   },
   "counterTotals": {
-    "knownRequiredFieldsMissing": 0,
+    "knownRequiredFieldsMissing": 86,
     "requiredFactsNotCollected": 1,
-    "unclassifiedBlanks": 7,
+    "unclassifiedBlanks": 57,
     "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
+    "requiredOptionsMissing": 4,
     "requiredComponentsMissing": 0,
     "invisibleWrites": null,
     "protectedWrites": 0,
@@ -1589,14 +1588,15 @@
       "failedCounters": [],
       "totals": {
         "terminalFields": 187,
-        "written": 33,
-        "blank": 154,
+        "written": 58,
+        "blank": 129,
         "blanksByDisposition": {
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 28,
-          "PROTECTED_FIELD": 62,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 17,
+          "REQUIRED_BEFORE_FILING": 37,
+          "PROTECTED_FIELD": 43,
           "LATER_COMPLETION": 4,
           "PARTICIPANT_ELECTION_GENUINE": 24,
-          "REQUIRED_BEFORE_FILING": 36
+          "OPTIONAL_PARTICIPANT_CONTENT": 4
         },
         "rowsInspected": 0,
         "fieldMapSchema": "writes-and-refusals"
@@ -2243,11 +2243,11 @@
       },
       "failedCounters": [],
       "totals": {
-        "terminalFields": 16,
+        "terminalFields": 13,
         "written": 6,
-        "blank": 10,
+        "blank": 7,
         "blanksByDisposition": {
-          "REQUIRED_BEFORE_FILING": 7,
+          "REQUIRED_BEFORE_FILING": 4,
           "PROTECTED_FIELD": 3
         },
         "rowsInspected": 0,
@@ -24713,7 +24713,7 @@
       "sourceCurrentness": "EXACT",
       "staticCounterScope": "Counters cover all exact prepared fixture source fields, and a counter no prepared fixture could measure is published as null rather than summed as zero. All diagnostics are separately measured, with original raw counters/findings preserved and selection refused even when their raw static result is PASS_COMPLETE. requiredComponentsMissing compares this family's field map and source receipt against the render only; the packet-set manifest is reconciled separately in componentSetReconciliation and is measured by no counter in this contract.",
       "reviewedInputFilesMatched": 201,
-      "bindingSha256": "de0d8aac786c81594bfe38511b72a29f4aac68eb30384043406624ca6b954abe",
+      "bindingSha256": "0c9c6f25d2d440d2242a6860dff10f5437753e2328d4a65f49f924e4c7791d74",
       "runtimeIntakeCounters": null,
       "runtimeInstalled": false,
       "centralRasterAdmission": false,
@@ -27177,7 +27177,7 @@
       "sourceCurrentness": "EXACT",
       "staticCounterScope": "Counters cover all exact prepared fixture source fields, and a counter no prepared fixture could measure is published as null rather than summed as zero. All diagnostics are separately measured, with original raw counters/findings preserved and selection refused even when their raw static result is PASS_COMPLETE. requiredComponentsMissing compares this family's field map and source receipt against the render only; the packet-set manifest is reconciled separately in componentSetReconciliation and is measured by no counter in this contract.",
       "reviewedInputFilesMatched": 201,
-      "bindingSha256": "de0d8aac786c81594bfe38511b72a29f4aac68eb30384043406624ca6b954abe",
+      "bindingSha256": "0c9c6f25d2d440d2242a6860dff10f5437753e2328d4a65f49f924e4c7791d74",
       "runtimeIntakeCounters": null,
       "runtimeInstalled": false,
       "centralRasterAdmission": false,
@@ -28689,54 +28689,620 @@
     {
       "familyId": "nj_disorderly_persons-set",
       "directory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
-      "result": "FAIL_MISSING_PREFILLS",
+      "result": "FAIL_MISSING_REQUIRED_FACTS",
       "auditable": true,
       "counters": {
-        "knownRequiredFieldsMissing": 0,
+        "knownRequiredFieldsMissing": 43,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 2,
+        "unclassifiedBlanks": 27,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
+        "requiredOptionsMissing": 2,
         "requiredComponentsMissing": 0,
-        "invisibleWrites": null,
+        "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": null
       },
       "failedCounters": [
-        "unclassifiedBlanks"
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks",
+        "requiredOptionsMissing"
       ],
       "totals": {
-        "terminalFields": 179,
-        "written": 24,
-        "blank": 155,
+        "terminalFields": 180,
+        "written": 29,
+        "blank": 151,
         "blanksByDisposition": {
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
-          "REQUIRED_BEFORE_FILING": 58,
-          "PARTICIPANT_ELECTION_GENUINE": 42,
-          "UNCLASSIFIED_BLANK": 2,
-          "PROTECTED_FIELD": 51
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 7,
+          "KNOWN_FACT_NOT_WRITTEN": 43,
+          "PARTICIPANT_ELECTION_GENUINE": 34,
+          "ROUTE_OPTION_NOT_SELECTED": 2,
+          "OPTIONAL_PARTICIPANT_CONTENT": 2,
+          "PROTECTED_FIELD": 26,
+          "REQUIRED_BEFORE_FILING": 9,
+          "LATER_COMPLETION": 1,
+          "UNCLASSIFIED_BLANK": 27
         },
-        "rowsInspected": 3,
+        "rowsInspected": 2,
         "fieldMapSchema": "documents-and-decisions"
       },
       "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
       "sourceCurrentness": "EXACT",
       "findings": [
         {
-          "counter": "unclassifiedBlanks",
-          "field": "guiltyOff2",
-          "label": "name of offense(s), continuation line if needed — Form A, item (d), delivered page 19",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "sourceOptional proof is incomplete",
-          "reasonGiven": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text."
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrestOff2",
+          "label": "“and was charged with (name of offense(s))”, the second line — Petition for Expungement (Form A), paragraph 1, page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrestOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissOff1",
+          "label": "the charge(s) of (name of offense(s)), first line — Form A, item (a), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional dismissOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissOff2",
+          "label": "the charge(s) of (name of offense(s)), continuation line — Form A, item (a), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional dismissOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "requiredOptionsMissing",
+          "field": "dismissPlea",
+          "label": "Was the dismissal a result of a plea bargain? Yes or No — Form A, item (a), page 18",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a ROUTE_ELECTION field",
+          "reasonGiven": "This conditional dismissPlea occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "acquitOff1",
+          "label": "I was acquitted of (name of offense(s)), first line — Form A, item (b), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional acquitOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "acquitOff2",
+          "label": "I was acquitted of (name of offense(s)), continuation line — Form A, item (b), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional acquitOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "acquitCrt",
+          "label": "in the (name of Court) Court — Form A, item (b), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional acquitCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissPtiOff1",
+          "label": "the charge(s) of (name of offense(s)), first line — Form A, item (c), page 19",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional dismissPtiOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissPtiOff2",
+          "label": "the charge(s) of (name of offense(s)), continuation line — Form A, item (c), page 19",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional dismissPtiOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissCrt",
+          "label": "name of Court that dismissed the charge — Form A, items (a) and (c), pages 18-19",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional dismissCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "oweDocket",
+          "label": "“Original indictment/accusation/summons/warrant/complaint/FO or FJ docket number” — Petition for Expungement (Form A), paragraph e, pages 19 and 21",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional oweDocket occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contOffense1",
+          "label": "“and was charged with (name of offense(s))” — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contOffense1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contOffense2",
+          "label": "“and was charged with (name of offense(s))”, the second line — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contOffense2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contStatute",
+          "label": "“in violation of N.J.S.A. (statute(s))” — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contStatute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contOrigNums",
+          "label": "“as set forth in the (original indictment/accusation/summons/warrant/complaint/docket number (include FJ and FO docket number(s) in Family Part matters))” — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional contOrigNums occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissOff1",
+          "label": "the charge(s) of (name of offense(s)), first line — Form A Addendum, item (a), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contDismissOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDsmissOff2",
+          "label": "“the charge(s) of (name of offense(s))”, the second line of item a — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contDsmissOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissCrt",
+          "label": "name of Court that dismissed the charge — Form A Addendum, item (a), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional contDismissCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "requiredOptionsMissing",
+          "field": "contDismissPlea",
+          "label": "Was the dismissal a result of a plea bargain? Yes or No — Form A Addendum, item (a), page 20",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a ROUTE_ELECTION field",
+          "reasonGiven": "This conditional contDismissPlea occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contAcquitOff1",
+          "label": "I was acquitted of (name of offense(s)), first line — Form A Addendum, item (b), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contAcquitOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contAcquitOff2",
+          "label": "I was acquitted of (name of offense(s)), continuation line — Form A Addendum, item (b), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contAcquitOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contAcquitCrt",
+          "label": "in the (name of Court) Court — Form A Addendum, item (b), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional contAcquitCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissPtiOff1",
+          "label": "the charge(s) of (name of offense(s)), first line — Form A Addendum, item (c), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contDismissPtiOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissPtiOff2",
+          "label": "the charge(s) of (name of offense(s)), continuation line — Form A Addendum, item (c), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contDismissPtiOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissPtiCrt",
+          "label": "name of Court that dismissed the charge after diversion — Form A Addendum, item (c), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional contDismissPtiCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyOff1",
+          "label": "pled or was found guilty or adjudicated delinquent of the charge(s), first line — Form A Addendum, item (d), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contGuiltyOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyOff2",
+          "label": "name of offense(s), continuation line — Form A Addendum, item (d), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contGuiltyOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyStatute",
+          "label": "in violation of N.J.S.A. (statute(s)) — Form A Addendum, item (d), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contGuiltyStatute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyCrt",
+          "label": "by the (name of Court) Court — Form A Addendum, item (d), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional contGuiltyCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyProbDt",
+          "label": "date probation was completed — Form A Addendum, item (d), page 21",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a DISPOSITION_FACT field",
+          "reasonGiven": "This conditional contGuiltyProbDt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest2Statute",
+          "label": "“(statute)”, arrest row (2) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrest2Statute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest2CaseNum",
+          "label": "“under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (2) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional arrest2CaseNum occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest3Statute",
+          "label": "(statute), arrest row (3) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrest3Statute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest3CaseNum",
+          "label": "“under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (3) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional arrest3CaseNum occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest4Statute",
+          "label": "(statute), arrest row (4) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrest4Statute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest4CaseNum",
+          "label": "“under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (4) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional arrest4CaseNum occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest5Statute",
+          "label": "(statute), arrest row (5) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrest5Statute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest5CaseNum",
+          "label": "“under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (5) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional arrest5CaseNum occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "fjDocketNums",
+          "label": "“(6) If applicable, including the following Family Part docket numbers in which I am a co-delinquent (FJ docket numbers)” — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional fjDocketNums occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
         },
         {
           "counter": "unclassifiedBlanks",
-          "field": "guiltyFinal2",
-          "label": "final sentence, continuation line if needed — Form A, item (d), delivered page 19",
+          "field": "CoverLtrEDt",
+          "label": "date Form E is mailed — Cover Letter – Notice of Hearing, page 37",
           "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "sourceOptional proof is incomplete",
-          "reasonGiven": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text."
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: enter the actual mailing date when Form E and the filed package are sent; this event occurs only after the signed Order for Hearing returns."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "SheriffLoc",
+          "label": "___ County Sheriff — Form E address section, page 37",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "SheriffAddrStr",
+          "label": "address under County Sheriff — Form E, page 37",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "SheriffAddr2",
+          "label": "city, state, zip code under County Sheriff — Form E, page 37",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "CoverLtrEHearDt",
+          "label": "Expungement Hearing (date) — Cover Letter – Notice of Hearing (Form E), page 38",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the hearing date from the signed Order for Hearing when preparing Form E after filed copies return."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "CoverLtrEHearTime",
+          "label": "Expungement Hearing (time) — Cover Letter – Notice of Hearing (Form E), page 38",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the hearing time from the signed Order for Hearing when preparing Form E after filed copies return."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "expungDocketNum",
+          "label": "Expungement Docket Number — Proof of Notice (Form F), page 40",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the clerk-assigned number onto Form F when proof of the completed mailing is required; never invent it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "mailPetition",
+          "label": "date the filed Petition, Order for Hearing and proposed Final Order were mailed — Proof of Notice (Form F), page 40",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: copy the actual mailing date from the certified-mail receipt or electronic confirmation, and complete Form F only if the clerk requires proof before the hearing."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "sigNoticeDt",
+          "label": "“(date)” beside “(your signature)” — Proof of Notice (Form F), page 40",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: sigNoticeDt is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "CoverLtrGDt",
+          "label": "date Form G is mailed — Cover Letter – Notice Expungement Granted, page 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: enter the actual mailing date when Form G and the signed filed Expungement Order are sent to each applicable agency."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProsCntyName",
+          "label": "county name under Prosecutor — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProsAddrStr",
+          "label": "address under Prosecutor — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProsAddr2",
+          "label": "“(city, state, zip code)” under “Prosecutor,” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: ProsAddr2 is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "PoliceAddrStr",
+          "label": "address under Chief of Police — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "PoliceAddr2",
+          "label": "city, state, zip code under Chief of Police — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProbCntyName",
+          "label": "“___ County Probation”, Original County — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: ProbCntyName is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProbAddrStr",
+          "label": "“(address)” under “County Probation, Original County” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: ProbAddrStr is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProbAddr2",
+          "label": "“(city, state, zip code)” under “County Probation, Original County” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: ProbAddr2 is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "SuperintendentAddrStr",
+          "label": "address under Superintendent (juveniles only) — Forms E and G, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional SuperintendentAddrStr occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "SuperintendentAddr2",
+          "label": "city, state, zip code under Superintendent (juveniles only) — Forms E and G, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional SuperintendentAddr2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "MuniCrtsAddrStr",
+          "label": "“(address)” under “Municipal Court Administrator” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: MuniCrtsAddrStr is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "MuniCrtsAddr2",
+          "label": "“(city, state, zip code)” under “Municipal Court Administrator” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: MuniCrtsAddr2 is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "WardenAddrStr",
+          "label": "name/address of jail or prison under Warden — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "WardenAddr2",
+          "label": "city, state, zip code under Warden — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "Prob2CntyName",
+          "label": "“___ County Probation”, Transfer County, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a DISPOSITION_FACT field",
+          "reasonGiven": "This conditional Prob2CntyName occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "Prob2AddrStr",
+          "label": "“(address)” under “County Probation, Transfer County”, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional Prob2AddrStr occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "Prob2Addr2",
+          "label": "“(city, state, zip code)” under “County Probation, Transfer County”, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional Prob2Addr2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "IdbCnty",
+          "label": "“___ County Identification Bureau,” — Cover Letter – Notice Expungement Granted (Form G), page 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: IdbCnty is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "IdbAddrStr",
+          "label": "“(address)” under “County Identification Bureau” — Cover Letter – Notice Expungement Granted (Form G), page 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: IdbAddrStr is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "FamDivAddrStr",
+          "label": "“(address)” under “County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional FamDivAddrStr occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "FamDivAddr2",
+          "label": "(city, state, zip code) under County Identification Bureau and under County Family Division — Cover Letter – Notice Expungement Granted (Form G), page 42; the pinned form reuses one field for both recipient blocks",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion is missing its exact source-field and stage disclosure",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: after the signed order, enter the city/state/ZIP separately for each applicable County Identification Bureau and County Family Division recipient. The source aliases those two occurrences, so do not type one digital field value into both; print and complete each applicable recipient line from the actual agency address."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ExpungeDocketNum",
+          "label": "Expungement Docket Number — Cover Letter – Notice of Hearing (Form E), page 38, and Cover Letter – Notice Expungement Granted (Form G), page 43",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the clerk-assigned number from the filed petition/order copies onto Form E and later from the signed Expungement Order onto Form G; never invent it before the court assigns it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "AdminMuniCts",
+          "label": "“The administrator(s) of the ___ Municipal Court(s)” — Expungement Order (Form C - Continued), page 31",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: AdminMuniCts is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
         }
       ],
       "findingsTruncated": 0
@@ -28744,54 +29310,620 @@
     {
       "familyId": "nj_indictable_conviction-set",
       "directory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
-      "result": "FAIL_MISSING_PREFILLS",
+      "result": "FAIL_MISSING_REQUIRED_FACTS",
       "auditable": true,
       "counters": {
-        "knownRequiredFieldsMissing": 0,
+        "knownRequiredFieldsMissing": 43,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 2,
+        "unclassifiedBlanks": 27,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
+        "requiredOptionsMissing": 2,
         "requiredComponentsMissing": 0,
-        "invisibleWrites": null,
+        "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": null
       },
       "failedCounters": [
-        "unclassifiedBlanks"
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks",
+        "requiredOptionsMissing"
       ],
       "totals": {
-        "terminalFields": 179,
-        "written": 25,
-        "blank": 154,
+        "terminalFields": 180,
+        "written": 30,
+        "blank": 150,
         "blanksByDisposition": {
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
-          "REQUIRED_BEFORE_FILING": 54,
-          "PARTICIPANT_ELECTION_GENUINE": 42,
-          "UNCLASSIFIED_BLANK": 2,
-          "PROTECTED_FIELD": 54
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 6,
+          "KNOWN_FACT_NOT_WRITTEN": 43,
+          "PARTICIPANT_ELECTION_GENUINE": 34,
+          "ROUTE_OPTION_NOT_SELECTED": 2,
+          "OPTIONAL_PARTICIPANT_CONTENT": 2,
+          "PROTECTED_FIELD": 26,
+          "REQUIRED_BEFORE_FILING": 9,
+          "LATER_COMPLETION": 1,
+          "UNCLASSIFIED_BLANK": 27
         },
-        "rowsInspected": 3,
+        "rowsInspected": 2,
         "fieldMapSchema": "documents-and-decisions"
       },
       "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
       "sourceCurrentness": "EXACT",
       "findings": [
         {
-          "counter": "unclassifiedBlanks",
-          "field": "guiltyOff2",
-          "label": "name of offense(s), continuation line if needed — Form A, item (d), delivered page 19",
-          "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "sourceOptional proof is incomplete",
-          "reasonGiven": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text."
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrestOff2",
+          "label": "“and was charged with (name of offense(s))”, the second line — Petition for Expungement (Form A), paragraph 1, page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrestOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissOff1",
+          "label": "the charge(s) of (name of offense(s)), first line — Form A, item (a), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional dismissOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissOff2",
+          "label": "the charge(s) of (name of offense(s)), continuation line — Form A, item (a), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional dismissOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "requiredOptionsMissing",
+          "field": "dismissPlea",
+          "label": "Was the dismissal a result of a plea bargain? Yes or No — Form A, item (a), page 18",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a ROUTE_ELECTION field",
+          "reasonGiven": "This conditional dismissPlea occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "acquitOff1",
+          "label": "I was acquitted of (name of offense(s)), first line — Form A, item (b), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional acquitOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "acquitOff2",
+          "label": "I was acquitted of (name of offense(s)), continuation line — Form A, item (b), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional acquitOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "acquitCrt",
+          "label": "in the (name of Court) Court — Form A, item (b), page 18",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional acquitCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissPtiOff1",
+          "label": "the charge(s) of (name of offense(s)), first line — Form A, item (c), page 19",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional dismissPtiOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissPtiOff2",
+          "label": "the charge(s) of (name of offense(s)), continuation line — Form A, item (c), page 19",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional dismissPtiOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "dismissCrt",
+          "label": "name of Court that dismissed the charge — Form A, items (a) and (c), pages 18-19",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional dismissCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "oweDocket",
+          "label": "“Original indictment/accusation/summons/warrant/complaint/FO or FJ docket number” — Petition for Expungement (Form A), paragraph e, pages 19 and 21",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional oweDocket occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contOffense1",
+          "label": "“and was charged with (name of offense(s))” — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contOffense1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contOffense2",
+          "label": "“and was charged with (name of offense(s))”, the second line — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contOffense2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contStatute",
+          "label": "“in violation of N.J.S.A. (statute(s))” — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contStatute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contOrigNums",
+          "label": "“as set forth in the (original indictment/accusation/summons/warrant/complaint/docket number (include FJ and FO docket number(s) in Family Part matters))” — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional contOrigNums occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissOff1",
+          "label": "the charge(s) of (name of offense(s)), first line — Form A Addendum, item (a), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contDismissOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDsmissOff2",
+          "label": "“the charge(s) of (name of offense(s))”, the second line of item a — Form A – Addendum Page, page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contDsmissOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissCrt",
+          "label": "name of Court that dismissed the charge — Form A Addendum, item (a), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional contDismissCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "requiredOptionsMissing",
+          "field": "contDismissPlea",
+          "label": "Was the dismissal a result of a plea bargain? Yes or No — Form A Addendum, item (a), page 20",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a ROUTE_ELECTION field",
+          "reasonGiven": "This conditional contDismissPlea occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contAcquitOff1",
+          "label": "I was acquitted of (name of offense(s)), first line — Form A Addendum, item (b), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contAcquitOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contAcquitOff2",
+          "label": "I was acquitted of (name of offense(s)), continuation line — Form A Addendum, item (b), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contAcquitOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contAcquitCrt",
+          "label": "in the (name of Court) Court — Form A Addendum, item (b), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional contAcquitCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissPtiOff1",
+          "label": "the charge(s) of (name of offense(s)), first line — Form A Addendum, item (c), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contDismissPtiOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissPtiOff2",
+          "label": "the charge(s) of (name of offense(s)), continuation line — Form A Addendum, item (c), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contDismissPtiOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contDismissPtiCrt",
+          "label": "name of Court that dismissed the charge after diversion — Form A Addendum, item (c), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional contDismissPtiCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyOff1",
+          "label": "pled or was found guilty or adjudicated delinquent of the charge(s), first line — Form A Addendum, item (d), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contGuiltyOff1 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyOff2",
+          "label": "name of offense(s), continuation line — Form A Addendum, item (d), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contGuiltyOff2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyStatute",
+          "label": "in violation of N.J.S.A. (statute(s)) — Form A Addendum, item (d), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional contGuiltyStatute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyCrt",
+          "label": "by the (name of Court) Court — Form A Addendum, item (d), page 20",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a COURT_IDENTITY field",
+          "reasonGiven": "This conditional contGuiltyCrt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "contGuiltyProbDt",
+          "label": "date probation was completed — Form A Addendum, item (d), page 21",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a DISPOSITION_FACT field",
+          "reasonGiven": "This conditional contGuiltyProbDt occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest2Statute",
+          "label": "“(statute)”, arrest row (2) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrest2Statute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest2CaseNum",
+          "label": "“under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (2) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional arrest2CaseNum occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest3Statute",
+          "label": "(statute), arrest row (3) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrest3Statute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest3CaseNum",
+          "label": "“under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (3) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional arrest3CaseNum occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest4Statute",
+          "label": "(statute), arrest row (4) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrest4Statute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest4CaseNum",
+          "label": "“under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (4) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional arrest4CaseNum occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest5Statute",
+          "label": "(statute), arrest row (5) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a OFFENSE_ROW_CELL field",
+          "reasonGiven": "This conditional arrest5Statute occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "arrest5CaseNum",
+          "label": "“under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)”, arrest row (5) — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional arrest5CaseNum occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "fjDocketNums",
+          "label": "“(6) If applicable, including the following Family Part docket numbers in which I am a co-delinquent (FJ docket numbers)” — Expungement Order (Form C - Continued), page 31",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a MATTER_IDENTIFIER field",
+          "reasonGiven": "This conditional fjDocketNums occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
         },
         {
           "counter": "unclassifiedBlanks",
-          "field": "guiltyFinal2",
-          "label": "final sentence, continuation line if needed — Form A, item (d), delivered page 19",
+          "field": "CoverLtrEDt",
+          "label": "date Form E is mailed — Cover Letter – Notice of Hearing, page 37",
           "disposition": "UNCLASSIFIED_BLANK",
-          "basis": "sourceOptional proof is incomplete",
-          "reasonGiven": "Optional participant-authored continuation line. Complete it from the court record only when the first line needs more space; the platform does not invent continuation text."
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: enter the actual mailing date when Form E and the filed package are sent; this event occurs only after the signed Order for Hearing returns."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "SheriffLoc",
+          "label": "___ County Sheriff — Form E address section, page 37",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "SheriffAddrStr",
+          "label": "address under County Sheriff — Form E, page 37",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "SheriffAddr2",
+          "label": "city, state, zip code under County Sheriff — Form E, page 37",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "CoverLtrEHearDt",
+          "label": "Expungement Hearing (date) — Cover Letter – Notice of Hearing (Form E), page 38",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the hearing date from the signed Order for Hearing when preparing Form E after filed copies return."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "CoverLtrEHearTime",
+          "label": "Expungement Hearing (time) — Cover Letter – Notice of Hearing (Form E), page 38",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the hearing time from the signed Order for Hearing when preparing Form E after filed copies return."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "expungDocketNum",
+          "label": "Expungement Docket Number — Proof of Notice (Form F), page 40",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the clerk-assigned number onto Form F when proof of the completed mailing is required; never invent it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "mailPetition",
+          "label": "date the filed Petition, Order for Hearing and proposed Final Order were mailed — Proof of Notice (Form F), page 40",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: copy the actual mailing date from the certified-mail receipt or electronic confirmation, and complete Form F only if the clerk requires proof before the hearing."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "sigNoticeDt",
+          "label": "“(date)” beside “(your signature)” — Proof of Notice (Form F), page 40",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: sigNoticeDt is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "CoverLtrGDt",
+          "label": "date Form G is mailed — Cover Letter – Notice Expungement Granted, page 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: enter the actual mailing date when Form G and the signed filed Expungement Order are sent to each applicable agency."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProsCntyName",
+          "label": "county name under Prosecutor — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProsAddrStr",
+          "label": "address under Prosecutor — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProsAddr2",
+          "label": "“(city, state, zip code)” under “Prosecutor,” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: ProsAddr2 is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "PoliceAddrStr",
+          "label": "address under Chief of Police — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "PoliceAddr2",
+          "label": "city, state, zip code under Chief of Police — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProbCntyName",
+          "label": "“___ County Probation”, Original County — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: ProbCntyName is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProbAddrStr",
+          "label": "“(address)” under “County Probation, Original County” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: ProbAddrStr is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ProbAddr2",
+          "label": "“(city, state, zip code)” under “County Probation, Original County” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: ProbAddr2 is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "SuperintendentAddrStr",
+          "label": "address under Superintendent (juveniles only) — Forms E and G, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional SuperintendentAddrStr occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "SuperintendentAddr2",
+          "label": "city, state, zip code under Superintendent (juveniles only) — Forms E and G, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional SuperintendentAddr2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "MuniCrtsAddrStr",
+          "label": "“(address)” under “Municipal Court Administrator” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: MuniCrtsAddrStr is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "MuniCrtsAddr2",
+          "label": "“(city, state, zip code)” under “Municipal Court Administrator” — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: MuniCrtsAddr2 is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "WardenAddrStr",
+          "label": "name/address of jail or prison under Warden — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "WardenAddr2",
+          "label": "city, state, zip code under Warden — Forms E and G, pages 37 and 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the named official is a recipient, while CN-10557 directs the participant to supply the applicable county, town, institution or address. Complete it only for an agency involved in this case; if relevance or the address is unknown, verify it from the SBI/court record and the agency before using the form."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "Prob2CntyName",
+          "label": "“___ County Probation”, Transfer County, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a DISPOSITION_FACT field",
+          "reasonGiven": "This conditional Prob2CntyName occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "Prob2AddrStr",
+          "label": "“(address)” under “County Probation, Transfer County”, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional Prob2AddrStr occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "Prob2Addr2",
+          "label": "“(city, state, zip code)” under “County Probation, Transfer County”, used in transfer cases only — the Form E and Form G cover letters, pages 37 and 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional Prob2Addr2 occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "IdbCnty",
+          "label": "“___ County Identification Bureau,” — Cover Letter – Notice Expungement Granted (Form G), page 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: IdbCnty is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "IdbAddrStr",
+          "label": "“(address)” under “County Identification Bureau” — Cover Letter – Notice Expungement Granted (Form G), page 42",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: IdbAddrStr is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
+        },
+        {
+          "counter": "knownRequiredFieldsMissing",
+          "field": "FamDivAddrStr",
+          "label": "“(address)” under “County Family Division” — Cover Letter – Notice Expungement Granted (Form G), page 42",
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "refusal class participant_sworn_narrative_or_legal_election does not excuse a PARTICIPANT_CONTACT field",
+          "reasonGiven": "This conditional FamDivAddrStr occurrence is inactive because the complete synthetic fixture contains one conviction matter and no additional arrest, disposition, debt, juvenile, or continuation record. It must be activated as a whole from verified records when applicable; the route alone does not answer it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "FamDivAddr2",
+          "label": "(city, state, zip code) under County Identification Bureau and under County Family Division — Cover Letter – Notice Expungement Granted (Form G), page 42; the pinned form reuses one field for both recipient blocks",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion is missing its exact source-field and stage disclosure",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: after the signed order, enter the city/state/ZIP separately for each applicable County Identification Bureau and County Family Division recipient. The source aliases those two occurrences, so do not type one digital field value into both; print and complete each applicable recipient line from the actual agency address."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "ExpungeDocketNum",
+          "label": "Expungement Docket Number — Cover Letter – Notice of Hearing (Form E), page 38, and Cover Letter – Notice Expungement Granted (Form G), page 43",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "participant later-completion has no closed source-stage opt-in for this family",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: the participant copies the clerk-assigned number from the filed petition/order copies onto Form E and later from the signed Expungement Order onto Form G; never invent it before the court assigns it."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "AdminMuniCts",
+          "label": "“The administrator(s) of the ___ Municipal Court(s)” — Expungement Order (Form C - Continued), page 31",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "PARTICIPANT_LATER_COMPLETION: AdminMuniCts is completed by the participant only for an applicable recipient after the initial petition is filed, using the actual agency address or court-returned information. It is not an initial-filing prerequisite and is never invented."
         }
       ],
       "findingsTruncated": 0

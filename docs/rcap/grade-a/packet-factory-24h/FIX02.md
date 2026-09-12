@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `41f15c0a8120ea107e8aad3f07adda98473601fb` (or the newer dispatch base)
+**Minimum required ancestor:** `c11817e26f7a9fee9439b8a7841e925a361ff524` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'mo-610-140-arrest-set' \
   --codex-cloud \
-  --minimum-captain-sha 41f15c0a8120ea107e8aad3f07adda98473601fb
+  --minimum-captain-sha c11817e26f7a9fee9439b8a7841e925a361ff524
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -40,9 +40,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 - Assert only these 4 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'mo-610-140-arrest-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nh_petition_vacated-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-in-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'de_discretionary_superior_court-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nj_disorderly_persons-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'sd_arrest_expungement-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -66,9 +66,9 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 4 families
 
 - `mo-610-140-arrest-set`
-- `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`
-- `nh_petition_vacated-set`
-- `rcap-in-custom-pleading`
+- `de_discretionary_superior_court-set`
+- `nj_disorderly_persons-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing
+- `sd_arrest_expungement-set`
 
 ## What you receive
 
@@ -82,13 +82,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `scripts/build-census-v1-mo-610-140-arrest-set.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs`
-- `scripts/build-census-v1-nh_petition_vacated-set.mjs`
-- `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
+- `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
+- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
+- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 
 ## Never write here
 
