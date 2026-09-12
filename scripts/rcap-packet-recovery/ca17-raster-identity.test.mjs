@@ -48,3 +48,21 @@ test('PA retains its exact original six-document order and refuses changed membe
     assert.equal(retainCa17RasterIdentity(changed, original, verdict), changed);
   }
 });
+
+test('OR preserves all eight court and separate-agency outputs only at exact current identities', () => {
+  const original = read('fix112/or-current-raster-manifest-20260912.json').rows[0];
+  const verdict = read('raster-runs/34707426827/rcap-or-official-pdf-fill.verdict.json');
+  assert.equal(original.documents.length, 8);
+  const current = structuredClone(original);
+  current.documents.reverse();
+  const retained = retainCa17RasterIdentity(current, original, verdict);
+  assert.equal(retained.documentsDigest, verdict.documentsDigest);
+  assert.deepEqual(retained.documents.map(d => d.path), original.documents.map(d => d.path));
+  assert.equal(retainCa17RasterIdentity(current, original, { ...verdict, workflowRunId: '34407406641' }), current);
+  for (const mutate of [r => r.documents.splice(1, 1),
+    r => r.documents[0].sha256 = '0'.repeat(64), r => r.documents[0].pageCount++,
+    r => r.documents.push({ ...r.documents[0], path: 'extra-agency.pdf' })]) {
+    const changed = structuredClone(current); mutate(changed);
+    assert.equal(retainCa17RasterIdentity(changed, original, verdict), changed);
+  }
+});

@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 const ORIGINAL_RUNS = {
   'ca-17b-reduction-set': '34690713553',
   'pa_6308_underage-set': '34692245137',
+  'rcap-or-official-pdf-fill': '34707426827',
 };
 const digest = documents => crypto.createHash('sha256')
   .update(JSON.stringify(documents.map(d => [d.role, d.path, d.sha256 ?? d.pinned]))).digest('hex');

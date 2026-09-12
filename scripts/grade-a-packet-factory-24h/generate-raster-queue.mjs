@@ -557,7 +557,12 @@ const declaredCompleteOutputs = (dir, root) => {
   if (doc) {
     const seen = new Set();
     for (const container of ["artifacts", "pdfs", "packets"]) {
-      for (const row of Array.isArray(doc[container]) ? doc[container] : []) {
+      const outputs = Array.isArray(doc[container]) ? doc[container] : [];
+      // A separately delivered agency handoff is a complete output, even when
+      // its declaration is nested beside its associated court packet.
+      for (const row of outputs.flatMap(output => output.agencyHandoff?.deliveryRole === "separate_agency_handoff"
+        ? [output, { ...output.agencyHandoff, fixture: output.fixture }]
+        : [output])) {
         const role = declaredRoleOf(row);
         if (!role || typeof row?.file !== "string") continue;
         const abs = resolveDeclared(dir, row.file);
@@ -911,6 +916,11 @@ for (const f of master.families) {
     rows[rows.length - 1] = retainCa17RasterIdentity(rows.at(-1),
       read(`${DIR}/warp-20260912/ca17-offense-by-offense/raster-manifest.json`)?.rows?.[0],
       read(`${DIR}/raster-runs/34690713553/ca-17b-reduction-set.verdict.json`));
+  }
+  if (f.familyId === "rcap-or-official-pdf-fill") {
+    rows[rows.length - 1] = retainCa17RasterIdentity(rows.at(-1),
+      read(`${DIR}/fix112/or-current-raster-manifest-20260912.json`)?.rows?.[0],
+      read(`${DIR}/raster-runs/34707426827/rcap-or-official-pdf-fill.verdict.json`));
   }
   if (f.familyId === "pa_6308_underage-set") {
     rows[rows.length - 1] = retainCa17RasterIdentity(rows.at(-1),
