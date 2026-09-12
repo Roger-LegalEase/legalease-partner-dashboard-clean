@@ -34,13 +34,14 @@
     }
   ],
   "counts": {
-    "returnDirectories": 332,
-    "rows": 1423,
-    "independentVerdicts": 313,
-    "failRepairRequired": 1,
-    "passIndependent": 307
+    "returnDirectories": 335,
+    "rows": 1426,
+    "independentVerdicts": 314,
+    "failRepairRequired": 2,
+    "passIndependent": 308
   },
   "failRepairRequiredFamilies": [
+    "ia-dci77-set",
     "ky_protective_order_record_expungement-set"
   ],
   "refusedAtTheClaimGate": {
@@ -10415,7 +10416,37 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-de-family-court-semantic-blocked-20260912.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_discretionary_family_court-set",
+      "superseded": true
+    },
+    {
+      "familyId": "de_discretionary_family_court-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aa5d867eb50747d0a30f7c3d3c64973842434df3",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-de-family-court-original-final-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_discretionary_family_court-set",
       "superseded": false
+    },
+    {
+      "familyId": "de_discretionary_family_court-set",
+      "verdict": "PASS",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f3609fb6a62ccaa7c68a7c0b02bb934f3590ae1f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-de-family-court-semantic-pass-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_discretionary_family_court-set",
+      "superseded": true
     },
     {
       "familyId": "de_discretionary_superior_court-set",
@@ -11736,6 +11767,58 @@
       "supersedesEvidencePath": null,
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-901c2-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ia-dci77-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfia1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The participant guide leaves the required payment-method instruction unresolved at participant-instructions.md line 9: \"Payment method — include one method (page 1): undefined\". Later text names some payment details, but the literal unresolved placeholder means this required before-filing instruction is not acceptable for an independent PASS. Repair the guide, rerun the bounded semantic preflight and obtain a new independent verdict.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+              "byteLength": 3921,
+              "line": 9,
+              "match": "Payment method — include one method (page 1): undefined"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+              "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
+              "byteLength": 123001,
+              "locator": "refusals[field=Payment]"
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+              "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+              "byteLength": 1076864,
+              "pageCount": 3,
+              "locator": "DCI-76 payment checklist"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+              "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+              "byteLength": 1098,
+              "locator": "steps 2-6"
+            }
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfia1/rows-vfia1-ia-dci77-semantic-fail-20260912.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-dci77-set",
       "superseded": false
     },
     {

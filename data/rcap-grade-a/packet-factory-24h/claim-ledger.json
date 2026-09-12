@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9e5c9cb2fc76ad652896a58f67a79ddd2fcdc566",
+  "generatedAtCommit": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4211,9 +4211,9 @@
         "ia-dci77-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF15",
-      "laneKind": "packet-build",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -15806,7 +15806,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "a5edeecc8612ca2a4c5c6f40e46311e27d277f484d4bba88646489798a8862b6",
+  "claimsDigest": "fbd9433e7f93381db5f521317ca54747c15a1053e48c4f94e87ea8243fcfff72",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71830,6 +71830,14 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "withdrawnAt": "2026-09-12T21:02:56Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ia-dci77-set",
+      "operation": "packet-build",
+      "lane": "PF15",
+      "withdrawnAt": "2026-09-12T21:12:00Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

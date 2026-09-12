@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9e5c9cb2fc76ad652896a58f67a79ddd2fcdc566",
+  "minimumCaptainSha": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "09935b2d2099f1282c6aee1a911580308b3d5b5e5db10a4beae8c496dde0ea65",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "7ff12ad939c26676481df778cb1de8ada1ce5518ec68de24b529020d70d26bcc",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -76,22 +76,22 @@
     "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
     "remaining": 345,
-    "sourceReady": 29,
+    "sourceReady": 30,
     "sourceBlocked": 0,
-    "legalBlocked": 2,
+    "legalBlocked": 1,
     "verifyPending": 0,
-    "repairRequired": 1,
+    "repairRequired": 2,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 285,
+    "COMPLETE_PACKET_PROVEN": 286,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 29,
+    "SOURCE_READY": 30,
     "HANDOFF_READY": 2,
-    "LEGAL_BLOCKED": 2,
-    "PRODUCT_PATH_PENDING": 5,
-    "FAIL_REPAIR_REQUIRED": 1,
+    "FAIL_REPAIR_REQUIRED": 2,
+    "LEGAL_BLOCKED": 1,
+    "PRODUCT_PATH_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -159,11 +159,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 25,
-    "sourceReadyFamilies": 29,
+    "sourceReadyFamilies": 30,
     "familiesPerBuilder": 1.2,
     "targetPerBuilder": "15 to 25",
-    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 29 do, so a full roster of 25 builders averages 1.2 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 0 source obligations across 2 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 30 do, so a full roster of 25 builders averages 1.2 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 0 source obligations across 1 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -13989,10 +13989,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf02",
-        "verifiedAtBase": "2dfce7292b8678cb485a24efff9b14b1cb0a6d41",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-de-family-court-semantic-blocked-20260912.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf44",
+        "verifiedAtBase": "aa5d867eb50747d0a30f7c3d3c64973842434df3",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-de-family-court-original-final-20260912.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
@@ -14016,25 +14016,16 @@
         "mismatches": [],
         "reason": "The family source receipt binds every required adopted packet source by SHA-256."
       },
-      "rasterEnrolmentRefusal": [
-        "an open legal input"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "de_discretionary_family_court-set",
-        "foundBy": [
-          "vf02 (current independent verification)"
-        ],
-        "why": "COMPONENT_SET: legal input unresolved | FEE_AND_WAIVER: legal input unresolved",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-de-family-court-semantic-blocked-20260912.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -14058,7 +14049,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_discretionary_family_court-set.mjs",
@@ -18034,12 +18025,15 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vfia1",
+        "verifiedAtBase": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfia1/rows-vfia1-ia-dci77-semantic-fail-20260912.json"
+      },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -18055,15 +18049,61 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_AUDITED",
-      "allNineCountersZero": null,
-      "counters": null,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The participant guide leaves the required payment-method instruction unresolved at participant-instructions.md line 9: \"Payment method — include one method (page 1): undefined\". Later text names some payment details, but the literal unresolved placeholder means this required before-filing instruction is not acceptable for an independent PASS. Repair the guide, rerun the bounded semantic preflight and obtain a new independent verdict.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+              "byteLength": 3921,
+              "line": 9,
+              "match": "Payment method — include one method (page 1): undefined"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+              "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
+              "byteLength": 123001,
+              "locator": "refusals[field=Payment]"
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+              "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+              "byteLength": 1076864,
+              "pageCount": 3,
+              "locator": "DCI-76 payment checklist"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+              "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+              "byteLength": 1098,
+              "locator": "steps 2-6"
+            }
+          ]
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-dci77-set.mjs",
@@ -22887,7 +22927,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state PRODUCT_PATH_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state SOURCE_READY; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
@@ -22898,7 +22938,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "PRODUCT_PATH_PENDING",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-22-2410-arrest-set.mjs",
@@ -23069,7 +23109,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state PRODUCT_PATH_PENDING; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state SOURCE_READY; all ordinary gates remain. Binding product rule KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE: Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement. Decision record: data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
@@ -23080,7 +23120,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "PRODUCT_PATH_PENDING",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs",
@@ -51573,9 +51613,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 29,
+    "familiesAssignedToBuilders": 30,
     "sourceObligationsAssigned": 0,
-    "actualPromotedAndReleased": 29,
+    "actualPromotedAndReleased": 30,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
