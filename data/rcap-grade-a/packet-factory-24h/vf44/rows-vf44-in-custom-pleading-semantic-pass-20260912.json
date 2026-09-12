@@ -1,0 +1,431 @@
+{
+  "baseSha": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
+  "claimEvidence": {
+    "assertedBeforeFamilyReads": true,
+    "command": "existing active VF44 claim for rcap-in-custom-pleading (read-only confirmation)",
+    "result": "CLAIM_HELD",
+    "source": "active VF44 claim supplied by captain and matching claim-ledger row; no claim mutation"
+  },
+  "commandsPassed": [
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-in-custom-pleading",
+      "result": "PASS_COMPLETE; 8/43 written; all nine builder counters 0; no raster verdict issued"
+    },
+    {
+      "command": "node --check scripts/build-census-v1-rcap-in-custom-pleading.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "pdfinfo + pdftotext -layout on both current fixtures",
+      "result": "PASS; canonical and boundary each 15 pages; route/page/title and protected-handback text audited"
+    },
+    {
+      "command": "saved scripts/rcap-packet-recovery/in-protected-box-preflight.py result",
+      "result": "PASS; 16/16 known unselected widget regions; finalAcceptance false"
+    },
+    {
+      "command": "temporary /tmp/in-vf44-focused-audit.json",
+      "result": "PASS; all current-byte, source, route, component, disclosure and hash checks true; raster intentionally unmeasured"
+    }
+  ],
+  "currentCandidateBindings": {
+    "documentsDigest": "b3fd66ee69f8bdd67716a621db80d39875188a21c3a232d56dd8d225c02919e6",
+    "fixturePdfs": [
+      {
+        "byteLength": 244630,
+        "pageCount": 15,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "role": "canonical",
+        "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e"
+      },
+      {
+        "byteLength": 245172,
+        "pageCount": 15,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "role": "boundary",
+        "sha256": "e953492c5bab14c786b503a9a5fd8e594640f6f7b01b567a559fcb45b2b9761b"
+      }
+    ],
+    "focusedAudit": {
+      "byteLength": 20696,
+      "path": "/tmp/in-vf44-focused-audit.json",
+      "sha256": "19377843859ef0fc4c140d9cbd620f4bee30ce7c89494e45713431e4de377b01"
+    },
+    "focusedRepairPreflight": {
+      "byteLength": 7239,
+      "controlsChecked": 16,
+      "finalAcceptance": false,
+      "passed": true,
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/in-current-protected-box-preflight-20260912.json",
+      "sha256": "375074df2f6437236c2412d21ee011bca11bc48ae7a2fa7f700cd5b88b55ba94"
+    },
+    "historicalFailure": {
+      "byteLength": 102172,
+      "findingIds": [
+        "IN-COMPONENT-SET-10-MISSING",
+        "IN-SYNTHESIZED-WIDGET-BORDERS-8",
+        "IN-PROTECTED-SERVICE-CHECKBOX-INK-4",
+        "IN-COLLATERAL-SELF-HELP-STOP-MISSING"
+      ],
+      "path": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json",
+      "priorFailedObligations": [
+        "COMPONENT_SET",
+        "CLIPPING_AND_OVERLAP",
+        "PROTECTED_FIELDS",
+        "SELF_HELP_STOP"
+      ],
+      "priorVerdict": "FAIL_REPAIR_REQUIRED",
+      "sha256": "8ab618bcec00a264c760fbc200f4cd398ec96c767b6f735a07c0c7b608cc9713",
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8"
+    },
+    "metadata": [
+      {
+        "byteLength": 24503,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/participant-instructions.md",
+        "sha256": "bdcb4611e027ec6be6a480bd480f0696bb6213a990aa10f37f4ce5df06af869d"
+      },
+      {
+        "byteLength": 15069,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/filing-instructions.md",
+        "sha256": "fc8bf0f359fd48a35efd46f194f9b5efc6d781ac188fdc137d641b1b42a0e1b2"
+      },
+      {
+        "byteLength": 11918,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/product-wiring.json",
+        "sha256": "9ce7481fa4df791a581da8b0499e8186a1115b57316a754d002f2225ac31836d"
+      },
+      {
+        "byteLength": 233322,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/production-field-map.json",
+        "sha256": "b07e3002adf55fd56aa25305afa927cb43522135ee149831b4c351ebb90ec681"
+      },
+      {
+        "byteLength": 59427,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/field-census.census-v1.json",
+        "sha256": "f13283bf0660266de078b23d2331e742bb792192482a348f5c97ba42986455e1"
+      },
+      {
+        "byteLength": 21503,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/source-receipt.json",
+        "sha256": "19f4fc95b7a7fee25b78982479a41b93eda0ccf3962a73ea4231c81aff8bfc6e"
+      },
+      {
+        "byteLength": 5894,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/build-findings.json",
+        "sha256": "2456cc563e1f533d0954af3210f6d4f8a7f1cf796b0b3f4a3a097595d78cd170"
+      },
+      {
+        "byteLength": 744,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/build-status.json",
+        "sha256": "48fb5aef0ee07b69fb63646c1fa3ccf605910a0c1ba640031b02112f3f392a52"
+      },
+      {
+        "byteLength": 1380,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/approval-request.json",
+        "sha256": "eec988cfc09ad06040226b7e6ab361ccec5e3c4aa4938caf65af769e4c364726"
+      },
+      {
+        "byteLength": 20947,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/actual-writes.json",
+        "sha256": "d169d0b624a2cbd275b76a30669eb0e1242941e01187c9762d3be3ea315994d1"
+      },
+      {
+        "byteLength": 25464,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "sha256": "dab9effaf48fd956e28060fdee67d9b2f7b59ae3cbc74a5f980a9b3805fe0a28"
+      },
+      {
+        "byteLength": 23703,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/caption-evidence.json",
+        "sha256": "a506653ce418e538e908b86c37f5933f9cc0f6a84a1c9eee00389b3a7f75829a"
+      },
+      {
+        "byteLength": 1258,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/completeness-counters.json",
+        "sha256": "59baf6882f857a0288b13ab5144648c816df83d9769709b71bd7b0b96239175d"
+      },
+      {
+        "byteLength": 29441,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+        "sha256": "8211b310436ef11815ee69367f2b3b2502b51f34ce50508ec3eb257c70c7245d"
+      },
+      {
+        "byteLength": 3399,
+        "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/independent-visual-review.json",
+        "sha256": "4457af39f2778527c41d4cda7d0949e3b78acd4e5611fff796eb90380e247702"
+      },
+      {
+        "byteLength": 16781025,
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0"
+      },
+      {
+        "byteLength": 3710466,
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585"
+      },
+      {
+        "byteLength": 121618,
+        "path": "scripts/build-census-v1-rcap-in-custom-pleading.mjs",
+        "sha256": "a8081d65150d03dfd0335b8272a2f05891badb365d48f550b5f22d7fe09e3d3d"
+      }
+    ],
+    "observedHead": "9780649db7621204c616e1922524834c85a77a76",
+    "packetBytesUnchangedAtObservedHead": true,
+    "packetCommit": {
+      "role": "repair commit recorded by frozen manifest",
+      "sha256": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad"
+    },
+    "rasterFreezeCommit": "3eaa0adcb94d77a4ff05055a7f62a25af7bb0b23",
+    "rasterManifest": {
+      "byteLength": 3121,
+      "coverageComplete": true,
+      "currentRasterState": "RASTER_PENDING",
+      "familyId": "rcap-in-custom-pleading",
+      "packetCommitSha": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/in-current-raster-manifest-20260912.json",
+      "requestedScale": 2.5,
+      "sha256": "1695a55c8e756b6d08af4efa89f7f015883680084b911313b16aa128a569dff8"
+    },
+    "reviewedHead": "909caa63ad7d9e685e98435d0f7085bca20b5b5b",
+    "sourceDocuments": [
+      {
+        "byteLength": 2946894,
+        "declaredByteLength": 2946894,
+        "declaredSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "pageCount": 15,
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+        "role": "official_source_bundle",
+        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "sourceIds": [
+          "official-form:CCA-GF-0120-3016",
+          "official-form:CCA-XP-0120-7002 Form ACR",
+          "official-form:Confidential Information Form"
+        ]
+      }
+    ],
+    "sourceReceipt": {
+      "byteLength": 21503,
+      "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/source-receipt.json",
+      "sha256": "19f4fc95b7a7fee25b78982479a41b93eda0ccf3962a73ea4231c81aff8bfc6e"
+    }
+  },
+  "deltaBasis": {
+    "focusedAudit": {
+      "byteLength": 20696,
+      "path": "/tmp/in-vf44-focused-audit.json",
+      "sha256": "19377843859ef0fc4c140d9cbd620f4bee30ce7c89494e45713431e4de377b01"
+    },
+    "focusedTestRechecked": true,
+    "priorSemanticFailureRecheckedAgainstCurrentBytes": true,
+    "rasterFreezeCommit": "3eaa0adcb94d77a4ff05055a7f62a25af7bb0b23",
+    "repairCommit": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
+    "visualEvidenceReused": false
+  },
+  "dispatchSha": "9780649db7621204c616e1922524834c85a77a76",
+  "evidenceRead": [
+    "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/caption-evidence.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/filing-instructions.md",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/approval-request.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+    "data/rcap-grade-a/packet-factory-24h/fix112/in-current-raster-manifest-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/fix112/in-current-protected-box-preflight-20260912.json",
+    "/tmp/in-vf44-focused-audit.json"
+  ],
+  "executionState": "VERIFYING",
+  "failedObligationNames": [],
+  "familyId": "rcap-in-custom-pleading",
+  "finalAcceptance": false,
+  "historicalFailure": {
+    "byteLength": 102172,
+    "findingIds": [
+      "IN-COMPONENT-SET-10-MISSING",
+      "IN-SYNTHESIZED-WIDGET-BORDERS-8",
+      "IN-PROTECTED-SERVICE-CHECKBOX-INK-4",
+      "IN-COLLATERAL-SELF-HELP-STOP-MISSING"
+    ],
+    "path": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json",
+    "priorFailedObligations": [
+      "COMPONENT_SET",
+      "CLIPPING_AND_OVERLAP",
+      "PROTECTED_FIELDS",
+      "SELF_HELP_STOP"
+    ],
+    "priorVerdict": "FAIL_REPAIR_REQUIRED",
+    "sha256": "8ab618bcec00a264c760fbc200f4cd398ec96c767b6f735a07c0c7b608cc9713",
+    "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8"
+  },
+  "independence": {
+    "claimLedgerEdited": false,
+    "implementationEdited": false,
+    "onlyPublication": "temporary sibling-specific VF44 semantic record in /tmp; no shared repository file was written by this reviewer",
+    "packetBytesEdited": false,
+    "queueEdited": false,
+    "rasterEdited": false,
+    "sharedManifestEdited": false,
+    "sourceEdited": false
+  },
+  "lane": "VF44",
+  "laneKind": "independent-verification",
+  "nineCounters": {
+    "allNineZero": false,
+    "allNonVisualZero": true,
+    "focusedCoverage": "16/16 previously defective unselected widget regions; whole-packet raster deferred",
+    "incompleteRows": 0,
+    "invisibleWrites": 0,
+    "knownAppearancesVerified": 16,
+    "knownRequiredFieldsMissing": 0,
+    "measuredHere": true,
+    "protectedWrites": 0,
+    "requiredComponentsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "requiredOptionsMissing": 0,
+    "unclassifiedBlanks": 0,
+    "verifierResult": "NOT_MEASURABLE_HERE",
+    "visualDefects": null,
+    "visualMeasuredHere": false
+  },
+  "obligationCounts": {
+    "FAIL": 0,
+    "NOT_MEASURABLE_HERE": 1,
+    "PASS": 14
+  },
+  "observedHead": "9780649db7621204c616e1922524834c85a77a76",
+  "proofObligations": {
+    "ARTIFACTS": {
+      "finding": "The current canonical fixture is d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e (244,630 bytes, 15 pages) and the boundary fixture is e953492c5bab14c786b503a9a5fd8e594640f6f7b01b567a559fcb45b2b9761b (245,172 bytes, 15 pages). Both hashes and byte lengths match rendered-artifacts.json and the frozen raster manifest. The focused packet-completeness verifier returns PASS_COMPLETE with all nine builder counters at zero. This obligation does not issue a raster verdict.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "finding": "Whole-packet clipping, overlap and visual-defect measurement is intentionally deferred to Central Actions raster. The saved 16-control source-pixel preflight covers only the previously defective unselected widgets and explicitly sets finalAcceptance false; it is not a whole-packet raster acceptance.",
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "visualDefects": null
+    },
+    "COMPONENT_SET": {
+      "finding": "Each current fixture has the exact 13-component set: ten composed route components (serious-felony primary/order/consent/instructions, collateral primary/order/attachment, supplemental primary/order/attachment) plus the three official supporting forms. The three packet-set manifests require those route triplets; rendered-artifacts.json reports the same 13 IDs and its two 15-page manifests place every ID. There are no missing required components and no unassigned component pages.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "FEE_AND_WAIVER": {
+      "finding": "The serious-felony guide carries the civil filing-fee rule and the indigency reduction/waiver under I.C. 35-38-9-8(d); the collateral route states no fee and fee waiver not applicable; the supplemental route states that no fee was identified and that fee and waiver remain unresolved, directing the participant to confirm with the clerk rather than inventing an amount. The delivered route pages and guides preserve those three different treatments.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "FILING_DESTINATION": {
+      "finding": "The delivered route text preserves the three record destinations: the serious-felony petition goes to a circuit or superior court in the county of conviction as case type XP; the collateral request goes to a circuit or superior court in the county of the collateral action under its cause number where possible; and the supplemental petition goes to the court that granted the original expungement. These destinations match the current track records and their corresponding page authorities.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "KNOWN_PREFILLS": {
+      "finding": "reports/actual-writes.json was read against both delivered PDFs: 13 widget placements per fixture, representing five held values (county, full name, email, phone and address), all matchesExpected true, with no unfittable values. Boundary values include the long hyphenated name, long email and multi-line address; the report records them as fit. The report records 38 flattened widget appearances, 198 added glyphs in canonical and 410 in boundary, and zero glyphs outside measured write boxes.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "PAGE_ORDER": {
+      "finding": "Both manifests and current text agree on the same complete order: packet pages 1-2 CCA-GF, page 3 Form ACR, page 4 Confidential Information Form; pages 5-7 serious-felony petition/order/consent; pages 8-10 collateral request/order/certified-order handoff; pages 11-13 supplemental petition/order/certified-order handoff; pages 14-15 serious-felony instructions. Every page is assigned once in each 15-page fixture.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "PROTECTED_FIELDS": {
+      "finding": "The current actual-write list contains only participant name/contact/address and county values. It contains no court, clerk, judge, prosecutor, signature, service-certificate or SSN write; refusedFieldsWithInk is [] for both fixtures, and blanks-left-for-the-participant.json has no protected blank carrying a value. The custom proposed orders retain [Court or clerk completes] and signature handbacks; the consent and certified-order pages are explicit handoffs. The saved repair preflight compares both fixtures with the pinned source for all eight previously defective unselected controls per fixture: 16/16 controls pass with zero added dark pixels.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "REPEATING_ROWS": {
+      "finding": "The Appearance\u2019s related-case table is six rows by two cells (caption and cause number), all twelve cells blank in both fixtures. The field census maps the row fields to the printed rows across the page break, participant instructions disclose all of them, and completeness-counters.json reports incompleteRows 0. No partial row is delivered.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "finding": "The 23 required-before-filing blanks are enumerated and disclosed in participant-instructions.md, with everyRequiredBeforeFilingItemIsDisclosed true. The serious-felony route hands back the original written prosecutor consent; the collateral and supplemental routes hand back a certified original expungement order. Cause numbers, route facts, signatures and the full SSN remain participant-supplied, and the current guides state what to obtain and where it belongs. The route records\u2019 required inputs are therefore surfaced without being fabricated.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "ROUTE_IDENTITY": {
+      "finding": "The current source receipt and product binding carry exactly these three route keys: obligation:track-only:IN:in_collateral_action; obligation:track-only:IN:in_supplemental_order; and obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged. The current PDF text identifies the three corresponding route documents and authorities on pages 5-13, while participant-instructions.md and filing-instructions.md carry the same route-specific headings and the route footer. No route is represented by another route\u2019s pleading.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "ROUTE_OPTIONS": {
+      "finding": "All ten current participant-election fields are classified and disclosed as participant choices: court type, email-service choice, Attorney General confidential-address choice, related-case Yes/No, and the two service alternatives on each official form. None appears in actual-writes.json; the current extraction shows each selection open, and the court-type placeholder underscores are explicitly suppressed. No route-controlled election is silently selected or omitted.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "SELF_HELP_STOP": {
+      "finding": "The current guides carry every controlling stop condition: serious felony 13/13, collateral action 14/14, supplemental order 13/13. The repaired collateral-specific condition appears on the collateral request page and proposed-order page as well as in both guides: \u201cThe court finds the collateral action does not relate to the expunged matter.\u201d The serious-felony consent requirement is also prominent before filing. No prior stop condition is dropped.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "SERVICE": {
+      "finding": "The serious-felony route states Trial Rules service under I.C. 35-38-9-8(e), the prosecutor\u2019s 30-day response and victim notice; the collateral route states court notification and local-practice confirmation; and the supplemental route states ordinary Trial Rules service and local-practice confirmation. Both official certificates of service remain unticked and their dates, county names and prosecutor addresses remain participant-supplied after service.",
+      "measured": true,
+      "result": "PASS"
+    },
+    "SOURCE_IDENTITY": {
+      "finding": "source-receipt.json binds one Indiana Coalition for Court Access 15-page, 68-field bundle at SHA-256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5; the source file was rehashed at 2,946,894 bytes and matches. The four retained page selections are proven from their own printed markers: CCA-GF pages 1-2, Form ACR bundle page 7 and Confidential Information Form bundle page 8. The source identity and page-selection proofs are current.",
+      "measured": true,
+      "result": "PASS"
+    }
+  },
+  "raster": {
+    "boundaryByteLength": 245172,
+    "boundaryPdfSha256": "e953492c5bab14c786b503a9a5fd8e594640f6f7b01b567a559fcb45b2b9761b",
+    "canonicalByteLength": 244630,
+    "canonicalPdfSha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+    "manifestPath": "data/rcap-grade-a/packet-factory-24h/fix112/in-current-raster-manifest-20260912.json",
+    "newCentralRasterRequired": true,
+    "packetCommitStampRequired": true,
+    "reason": "Dispatch Central Actions against these exact current 15-page PDF hashes and byte lengths; this semantic PASS grants raster dispatch only.",
+    "requestedScale": 2.5,
+    "status": "PENDING_CENTRAL_ACTIONS",
+    "visualDefects": null
+  },
+  "rasterDispatchAuthorized": true,
+  "remainingRequirements": [
+    "Central Actions raster for both exact 15-page PDF hashes/byte lengths at requested scale 2.5.",
+    "Independent original-page visual clipping/overlap acceptance and raster-dependent visual counter measurement.",
+    "Captain packetCommitSha stamp and final integration after raster and independent visual acceptance."
+  ],
+  "resolvedFindings": [
+    "IN-COMPONENT-SET-10-MISSING resolved: all ten custom route components are present alongside the three required/conditional official forms in both current 15-page fixtures.",
+    "IN-SYNTHESIZED-WIDGET-BORDERS-8 resolved for the eight known unselected controls per fixture: saved 200dpi source-pixel preflight is 16/16 with zero added dark pixels.",
+    "IN-PROTECTED-SERVICE-CHECKBOX-INK-4 resolved: both service alternatives on the Appearance and both on Form ACR are uninked, with no refused field carrying ink in actual-writes.json.",
+    "IN-COLLATERAL-SELF-HELP-STOP-MISSING resolved: the unique collateral-action stop is present in the current collateral request/order text and both participant guides."
+  ],
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "reviewer": "/root/repair_ut",
+  "runtimeAndCommercialBoundary": {
+    "commercialAuthorityGranted": false,
+    "fulfillmentRecordCreated": false,
+    "generationAllowed": false,
+    "note": "This PASS authorizes Central Actions raster dispatch only. It grants no visual, legal, runtime, payment, sponsorship, fulfillment or commercial authority.",
+    "runtimeSelectable": false
+  },
+  "schemaVersion": "rcap-vf44-bounded-semantic-review/v1",
+  "scope": "Independent bounded VF44 semantic recheck of the repaired Indiana three-route candidate against current exact PDF bytes, route records, source custody, component/page manifests, current guides and saved focused repair preflight. The 14 substantive semantic obligations pass; whole-packet clipping/overlap remains unmeasured until Central Actions raster. No implementation, source, packet, raster, queue, shared-manifest or claim-ledger edits were made by this reviewer.",
+  "sessionIdentity": "/root/repair_ut",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "terminalPromotionAuthorized": false,
+  "unmeasuredObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "verdict": "PASS",
+  "verifiedAtBase": "909caa63ad7d9e685e98435d0f7085bca20b5b5b",
+  "worker": "VF44"
+}
