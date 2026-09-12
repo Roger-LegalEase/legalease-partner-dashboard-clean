@@ -227,6 +227,36 @@ function builderFor(familyDir, familyId) {
 
 /* ---- the run ---------------------------------------------------------------- */
 
+/** Recognize the existing renderer's recorded same-binary registry lookup.
+ * Missing, ambiguous or changed provenance is not a disposition. Other gates
+ * still verify source bytes, writes and the delivered original pages. */
+export function recordedAppearanceDisposition({familyId, item, receipt, registryFamilies, readReceipt}) {
+  try {
+    if (receipt?.familyId !== familyId || !/^[0-9a-f]{64}$/.test(item.sourceSha256 ?? "")) return null;
+    const proofs = (receipt.appearanceDispositionProvenance ?? []).filter(p => p.formNumber === item.componentId);
+    const own = (receipt.documents ?? []).filter(d => d.formNumber === item.componentId);
+    if (proofs.length !== 1 || own.length !== 1) return null;
+    const proof = proofs[0];
+    if (proof.sha256 !== item.sourceSha256 || own[0].sha256 !== proof.sha256
+      || proof.registryPath !== "data/rcap-all50/shared/field-appearance-semantics.json"
+      || typeof proof.digestProvedBy !== "string"
+      || !proof.digestProvedBy.startsWith("data/rcap-all50/overlays/census-v1/")
+      || proof.digestProvedBy.split("/").includes("..")) return null;
+    const sibling = readReceipt(proof.digestProvedBy);
+    if (typeof sibling?.familyId !== "string" || proof.registryEntry !== `${sibling.familyId}:${item.componentId}`) return null;
+    const sources = (sibling.documents ?? []).filter(d => d.formNumber === item.componentId);
+    if (sources.length !== 1 || sources[0].sha256 !== proof.sha256
+      || !Number.isInteger(own[0].byteLength) || own[0].byteLength <= 0
+      || sources[0].byteLength !== own[0].byteLength) return null;
+    const classified = registryFamilies[proof.registryEntry]?.fields?.[item.field];
+    if (classified?.disposition !== "render_participant_value_only_when_written"
+      || proof.fields?.[item.field] !== classified.disposition
+      || String(classified.sourceAppearanceWhenUnwritten) !== String(item.value)) return null;
+    return {registryEntry: proof.registryEntry, sourceSha256: proof.sha256,
+      digestProvedBy: proof.digestProvedBy, disposition: classified.disposition};
+  } catch { return null; }
+}
+
 function run() {
   const files = censusFiles(CENSUS_ROOT);
   if (files.length === 0) {
@@ -258,7 +288,7 @@ function run() {
         const sv = sourceValueOf(row);
         if (!sv) continue;
         keySpellingsSeen.add(sv.key);
-        carried.push({ componentId: doc.documentId, field: row.field, value: sv.value, policy: row.policy ?? null, page: row.page ?? null });
+        carried.push({ sourceSha256: doc.sourceSha256, componentId: doc.documentId, field: row.field, value: sv.value, policy: row.policy ?? null, page: row.page ?? null });
       }
     }
     if (carried.length === 0) continue;
@@ -283,6 +313,8 @@ function run() {
       continue;
     }
 
+    let receipt = null;
+    try { receipt = JSON.parse(fs.readFileSync(path.join(familyDir, "source-receipt.json"), "utf8")); } catch {}
     for (const item of carried) {
       const registryKey = `${familyId}:${item.componentId}`;
       const entry = registryFamilies[registryKey];
@@ -292,6 +324,12 @@ function run() {
 
       if (classified) {
         dispositioned.push({ ...item, familyId, by: "appearance-registry", disposition: classified.disposition ?? "(no disposition recorded)" });
+        continue;
+      }
+      const recorded = recordedAppearanceDisposition({familyId, item, receipt, registryFamilies,
+        readReceipt: p => JSON.parse(fs.readFileSync(path.join(ROOT, p), "utf8"))});
+      if (recorded) {
+        dispositioned.push({...item, familyId, by: "digest-bound-sibling-appearance-registry", ...recorded});
         continue;
       }
       if (namedInClear) {
@@ -345,6 +383,7 @@ function run() {
   };
 }
 
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
 let result;
 try {
   result = run();
@@ -410,3 +449,5 @@ if (asJson) {
 }
 
 process.exit(result.findings.length === 0 ? 0 : 1);
+
+}
