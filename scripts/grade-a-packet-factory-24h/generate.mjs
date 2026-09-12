@@ -1818,7 +1818,7 @@ function laneReturnDocuments(root, dirMatches) {
  * union, so a later completed build answers an earlier stop whichever file
  * each arrived in.
  */
-const laneReturnFiles = laneReturnDocuments(OUT_DIR, (name) => /^pf\d+$/i.test(name));
+const laneReturnFiles = laneReturnDocuments(OUT_DIR, (name) => /^pf[a-z0-9]+$/i.test(name));
 for (const { evidencePath, doc } of laneReturnFiles) {
   for (const row of doc.rows ?? []) {
     const familyId = row.itemId ?? row.familyId;

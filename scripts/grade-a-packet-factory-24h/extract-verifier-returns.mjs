@@ -36,7 +36,7 @@ const RETURNS = "data/rcap-grade-a/codex-cloud";
  * the codex-cloud directory, so every factory-lane verdict — including the
  * first genuine PASS_COMPLETE_INDEPENDENT rows this sprint produced — was
  * invisible to the generator and the families sat in VERIFY_PENDING forever.
- * Only vf<NN> directories are read here: builder and repair lanes are not
+ * Only alphanumeric vf-prefixed directories are read here: builder and repair lanes are not
  * verdict sources, and vf-src-a is source verification, not packet
  * verification.
  */
@@ -203,7 +203,7 @@ const sweep = [
      * rather than quietly dropped from the sweep. */
     return found.length ? found : [s];
   }),
-  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf\d+$/.test(n)).flatMap((s) => {
+  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf[a-z0-9]+$/i.test(n)).flatMap((s) => {
     const found = returnFilesIn(s.base, s.name);
     return found.length ? found : [s];
   }),

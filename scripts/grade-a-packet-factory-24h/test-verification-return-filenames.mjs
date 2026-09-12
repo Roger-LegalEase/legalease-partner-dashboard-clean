@@ -33,7 +33,7 @@ const nonCanonicalReturns = () => {
   const found = [];
   const base = path.join(ROOT, DIR);
   for (const entry of fs.readdirSync(base, { withFileTypes: true })) {
-    if (!entry.isDirectory() || !/^vf\d+$/.test(entry.name)) continue;
+    if (!entry.isDirectory() || !/^vf[a-z0-9]+$/i.test(entry.name)) continue;
     for (const file of fs.readdirSync(path.join(base, entry.name))) {
       if (!file.endsWith(".json") || file === "rows.json") continue;
       const doc = readJson(path.join(base, entry.name, file));
@@ -65,7 +65,7 @@ check("every such return reaches VERIFIER_RETURNS.json", () => {
   const missing = [];
   for (const { lane, file, rows } of nonCanonicalReturns()) {
     for (const row of rows) {
-      const family = row.itemId ?? row.familyId;
+      const family = row.familyId ?? row.itemId;
       // A row the extractor deliberately REFUSED is accounted for: it was read
       // and rejected, which is the opposite of invisible.
       if (known.has(`${lane}::${family}`) || refused.includes(family)) continue;
@@ -88,7 +88,7 @@ check("a return under a distinct name can supersede an older one for the same fa
   let checked = 0;
   for (const { rows } of nonCanonicalReturns()) {
     for (const row of rows) {
-      const family = row.itemId ?? row.familyId;
+      const family = row.familyId ?? row.itemId;
       const all = byFamily.get(family);
       if (!all || all.length < 2) continue;
       assert.ok(all.some((r) => r.superseded !== true),
