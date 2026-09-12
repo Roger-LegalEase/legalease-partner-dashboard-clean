@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c11817e26f7a9fee9439b8a7841e925a361ff524` (or the newer dispatch base)
+**Minimum required ancestor:** `d18f718fb3c95a5104cd74a8f93da7cecf2366a9` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'rcap-or-official-pdf-fill' \
+  --family 'nh_petition_vacated-set' \
   --codex-cloud \
-  --minimum-captain-sha c11817e26f7a9fee9439b8a7841e925a361ff524
+  --minimum-captain-sha d18f718fb3c95a5104cd74a8f93da7cecf2366a9
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 4 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'rcap-or-official-pdf-fill'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ca-17b-reduction-set'`
+- Assert only these 5 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'nh_petition_vacated-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'rcap-in-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'rcap-or-official-pdf-fill'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'de_discretionary_superior_court-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'nj_indictable_conviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'tx_nd_automatic_misdemeanor_deferred-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,12 +64,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 5 families
 
-- `rcap-or-official-pdf-fill`
-- `ca-17b-reduction-set`
 - `nh_petition_vacated-set`
-- `rcap-in-custom-pleading`
+- `rcap-or-official-pdf-fill`
+- `de_discretionary_superior_court-set`
+- `nj_indictable_conviction-set`
+- `tx_nd_automatic_misdemeanor_deferred-set`
 
 ## What you receive
 
@@ -81,14 +83,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
-- `data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**`
-- `scripts/build-census-v1-rcap-or-official-pdf-fill.mjs`
-- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
+- `data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/**`
 - `scripts/build-census-v1-nh_petition_vacated-set.mjs`
-- `scripts/build-census-v1-rcap-in-custom-pleading.mjs`
+- `scripts/build-census-v1-rcap-or-official-pdf-fill.mjs`
+- `scripts/build-census-v1-de_discretionary_superior_court-set.mjs`
+- `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
+- `scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs`
 
 ## Never write here
 

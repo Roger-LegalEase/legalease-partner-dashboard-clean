@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "c11817e26f7a9fee9439b8a7841e925a361ff524",
+  "minimumCaptainSha": "d18f718fb3c95a5104cd74a8f93da7cecf2366a9",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "e97a41fa084ac2767cb1476c31d2b20382c507a9b6680662d9cae298290c86d4",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "5244184ee9e69e30b379ca35d7e5d747647aff303a270c742f91658444428a3f",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -79,15 +79,15 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 16,
+    "repairRequired": 15,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 268,
+    "COMPLETE_PACKET_PROVEN": 269,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 31,
-    "FAIL_REPAIR_REQUIRED": 17,
+    "FAIL_REPAIR_REQUIRED": 16,
     "HANDOFF_READY": 2,
     "PRODUCT_PATH_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1,
@@ -7673,10 +7673,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfcg1",
-        "verifiedAtBase": "fe632a3aed5b02183ed6e9cb44e69d8c628bbfae",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-ca17-semantic-followup-fail-20260912.json"
+        "verifiedAtBase": "8c593f33f9c42a25a0f7917faf4e1dbb7f9f1173",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-ca17-restart-final-20260912.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -7695,7 +7695,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "fe632a3aed5b02183ed6e9cb44e69d8c628bbfae",
+          "verifiedAtBase": "8c593f33f9c42a25a0f7917faf4e1dbb7f9f1173",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -7714,9 +7714,7 @@
         "historicalLegalEntrancesRemainEvidenceOnly": true,
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -7728,7 +7726,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule CA-17B-17D2-OFFENSE-BY-OFFENSE: There is no global either/or participant election between Penal Code 17(b) and 17(d)(2). Determine eligibility offense by offense and request every reduction legally applicable to that offense. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule CA-17B-17D2-OFFENSE-BY-OFFENSE: There is no global either/or participant election between Penal Code 17(b) and 17(d)(2). Determine eligibility offense by offense and request every reduction legally applicable to that offense. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -7745,34 +7743,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "CA17-FOLLOWUP-01/02/03: missing cross-form court-address handback, wrong conditional trafficking-evidence obligation, and incorrect service sequence.",
-          "findingReadFrom": "finding",
-          "evidence": "confirmedFindings/currentMeasurements/evidenceBindings in this native return"
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "CA17-FOLLOWUP-04: residual reviewer/production prose in participant guide. Exact manifest/PDF identities, source custody, lack of local-raster acceptance, and removal of prior internal field IDs otherwise agree.",
-          "findingReadFrom": "finding",
-          "evidence": "confirmedFindings/currentMeasurements/evidenceBindings in this native return"
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "CA17-FOLLOWUP-03: unsupported nonparty restriction and unconditional proof-at-initial-filing sequence. Correct mail/personal/electronic distinctions and server-own-data treatment are preserved.",
-          "findingReadFrom": "finding",
-          "evidence": "confirmedFindings/currentMeasurements/evidenceBindings in this native return"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-17b-reduction-set.mjs",
@@ -35571,8 +35546,7 @@
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing"
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -35588,24 +35562,20 @@
       "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION: Do not ask the participant to choose a legal route. Collect factual predicates; the rules engine determines the statutory branch from conviction counts/categories, disposition relationships, dates, sentence completion, later convictions and other statutory facts. Participant owns facts and attestations, not legal classification. Fail closed if facts do not establish a branch. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
+      "completenessStatus": "NOT_MEASURABLE_HERE",
       "allNineCountersZero": false,
       "counters": {
-        "knownRequiredFieldsMissing": 43,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 27,
+        "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 2,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": null
       },
-      "failingCounters": [
-        "knownRequiredFieldsMissing",
-        "unclassifiedBlanks",
-        "requiredOptionsMissing"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [
         "ARTIFACTS",
         "KNOWN_PREFILLS",
@@ -35822,8 +35792,7 @@
         "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
       },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing"
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -35839,24 +35808,20 @@
       "nextExecutableAction": "Continue from the current nonlegal state FAIL_REPAIR_REQUIRED; all ordinary gates remain. Binding product rule NJ-INDICTABLE-FACTS-NOT-LEGAL-ELECTION: Collect the missing factual predicates and calculate the legally available branch. No build-owned election and no participant legal diagnosis. Fail closed where facts do not establish a branch. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
+      "completenessStatus": "NOT_MEASURABLE_HERE",
       "allNineCountersZero": false,
       "counters": {
-        "knownRequiredFieldsMissing": 43,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 27,
+        "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 2,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": null
       },
-      "failingCounters": [
-        "knownRequiredFieldsMissing",
-        "unclassifiedBlanks",
-        "requiredOptionsMissing"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [
         "ARTIFACTS",
         "KNOWN_PREFILLS",
