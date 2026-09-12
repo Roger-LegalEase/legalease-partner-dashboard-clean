@@ -28,15 +28,15 @@ const attestations = LEGAL_BLOCK_SUPERSESSION_PATHS.map((recordPath) => ({ path:
 const baseResolutions = mergeLegalBlockResolutionRecords(docs);
 const resolutions = loadLegalBlockResolutions(ROOT);
 
-assert.equal(baseResolutions.records.length, 4);
-assert.deepEqual(baseResolutions.records.map((row) => [row.legalClearFamilies, row.legalHoldFamilies]), [[29, 6], [1, 0], [1, 0], [1, 0]]);
-assert.equal(baseResolutions.clearFamilyIds.length, 32);
+assert.equal(baseResolutions.records.length, 5);
+assert.deepEqual(baseResolutions.records.map((row) => [row.legalClearFamilies, row.legalHoldFamilies]), [[29, 6], [1, 0], [1, 0], [1, 0], [1, 0]]);
+assert.equal(baseResolutions.clearFamilyIds.length, 33);
 assert.equal(baseResolutions.holdFamilyIds.length, 6);
-assert.equal(resolutions.records.length, 5);
-assert.equal(resolutions.clearFamilyIds.length, 38);
+assert.equal(resolutions.records.length, 6);
+assert.equal(resolutions.clearFamilyIds.length, 39);
 assert.equal(resolutions.holdFamilyIds.length, 0);
-assert.equal(resolutions.byFamily.size, 38);
-assert.equal(new Set([...resolutions.clearFamilyIds, ...resolutions.holdFamilyIds]).size, 38);
+assert.equal(resolutions.byFamily.size, 39);
+assert.equal(new Set([...resolutions.clearFamilyIds, ...resolutions.holdFamilyIds]).size, 39);
 
 const nh = docs.find(r => r.path.endsWith("NH_STREAMLINED_OWNER_ADOPTION_2026-09-12.json")).document;
 assert.deepEqual(nh.legalClearFamilyIds, ["nh_conviction_streamlined-set"]);
@@ -45,6 +45,20 @@ assert.equal(nh.provenance.ownerAdoption, true);
 for (const key of ["counselApproval", "courtRuling", "packetPass", "productionAuthorization"]) assert.equal(nh.provenance[key], false);
 assert.equal(nh.decisions[0].adoptedRevisions.length, 5);
 assert.equal(assessLegalResolutionAtReviewBase(ROOT, "7abe0badf93e02c1bce940ca6cd86739016b2b57", resolutions.byFamily.get("nh_conviction_streamlined-set")).available, false, "original draft commit is not adopted candidate acceptance");
+
+const kyService = docs.find(r => r.path.endsWith("KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json")).document;
+assert.deepEqual(kyService.legalClearFamilyIds, ["ky_protective_order_record_expungement-set"]);
+assert.equal(kyService.provenance.owner, "Roger Roman");
+assert.equal(kyService.provenance.ownerAdoption, true);
+for (const key of ["counselApproval", "courtRuling", "packetPass", "terminalPromotion", "productionAuthorization"]) assert.equal(kyService.provenance[key], false);
+const kyScope = kyService.provenance.governingMemoReconciliation;
+assert.equal(kyScope.trackId, "ky_protective_order_record_expungement");
+assert.deepEqual(kyScope.effectiveFieldReplacements.map(r => r.field), ["components[role=service_instructions].notes", "manualCompletionItems[1].whereInPacket"]);
+assert.deepEqual(kyScope.requiredComponentPreserved, {role:"service_instructions", requirement:"required", outputStrategy:"process_guidance"});
+assert.match(kyService.decisions[0].bindingProductRule, /CR 5\.03 where applicable/);
+assert.match(kyService.decisions[0].bindingProductRule, /No proof obligation is waived/);
+assert.equal(read(kyService.provenance.draft.path).status, "RESEARCH_DRAFT_NOT_ADOPTED");
+assert.equal(assessLegalResolutionAtReviewBase(ROOT, kyService.provenance.draftCommit, resolutions.byFamily.get("ky_protective_order_record_expungement-set")).available, false, "original research draft commit is not owner adoption or packet acceptance");
 
 const permissionFamily = "ks-22-2410-arrest-set";
 const permissionRecord = {disposition:"PRODUCT_PATH_PENDING", permissionHold:"Kansas Judicial Council noncommercial-use and republication restriction", productQuestion:null, unresolvedObligations:[]};
@@ -79,7 +93,7 @@ mustRefuse("clear and hold overlap", (copy) => {
 }, /clear\/hold lists overlap/);
 
 const exactSupersession = applyLegalResolutionSupersessions(baseResolutions, attestations);
-assert.equal(exactSupersession.clearFamilyIds.length, 38);
+assert.equal(exactSupersession.clearFamilyIds.length, 39);
 assert.equal(exactSupersession.holdFamilyIds.length, 0);
 for (const familyId of baseResolutions.holdFamilyIds) {
   const effective = exactSupersession.byFamily.get(familyId);
@@ -231,7 +245,7 @@ if (process.argv.includes("--generated")) {
   assert.ok(stateDelta.every((family) => inScope.has(family.familyId)));
   assert.equal(active.assignments.length > 0, true);
   assert.equal(Array.isArray(ledger.claims), true);
-  console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 38 legally clear; SC source/product gates preserved`);
+  console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 39 legally clear; SC source/product gates preserved`);
 }
 
-console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 38 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");
+console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 39 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");
