@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "packetCommitSha": "8598a3917eb74087b06dcc0ec34824bb3f557946",
+  "packetCommitShaStatus": "Exact repaired packet commit; independent semantic acceptance is required before dispatch.",
+  "rows": [
+    {
+      "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "c73a6d87cb5b68f054d50a141b47583e60a14fc144eff09b2eb6d67fb0da21ba",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "47c7eb02473f98699455fd889f736ce3d50e5106ecef86103f5e4232aa72bd22",
+      "expectedPages": 12,
+      "fixtureSelection": {
+        "canonical": "native canonical.pdf fixture, matched by exact name",
+        "boundary": "native boundary.pdf fixture, matched by exact name"
+      },
+      "coverage": {
+        "complete": true,
+        "basis": "the family declares one canonical and one boundary assembled packet; both native fixtures are queued and covered",
+        "documents": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "whatCompleteMeansHere": "every declared canonical PDF is rendered; the boundary PDF is also queued and rendered for independent visual comparison"
+      },
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "c73a6d87cb5b68f054d50a141b47583e60a14fc144eff09b2eb6d67fb0da21ba",
+          "byteLength": 182565,
+          "pageCount": 12,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib 1.17.1",
+            "pageCount": 12,
+            "sourceSha256": "c73a6d87cb5b68f054d50a141b47583e60a14fc144eff09b2eb6d67fb0da21ba"
+          }
+        },
+        {
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "47c7eb02473f98699455fd889f736ce3d50e5106ecef86103f5e4232aa72bd22",
+          "byteLength": 185271,
+          "pageCount": 12,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib 1.17.1",
+            "pageCount": 12,
+            "sourceSha256": "47c7eb02473f98699455fd889f736ce3d50e5106ecef86103f5e4232aa72bd22"
+          }
+        }
+      ],
+      "documentsDigest": "351e8bd91063278ec88da86b94e443eb9cb65a4f7e7f479caf2b00e8bb49b597",
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS04",
+      "builderAssignment": "scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs"
+    }
+  ]
+}
