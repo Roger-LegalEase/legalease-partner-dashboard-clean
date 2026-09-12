@@ -6,7 +6,8 @@ import path from "node:path";
 
 import {
   IN_SECTION1_BASELINE_ABOVE_RULE,
-  IN_SECTION1_BASELINE_EVIDENCE_SHA256
+  IN_SECTION1_BASELINE_EVIDENCE_SHA256,
+  IN_SECTION1_DATE_FULL_GLYPH_EVIDENCE_SHA256
 } from "../lib/indiana-cca-section1-occurrence-repair.mjs";
 
 const root = path.resolve(new URL("../..", import.meta.url).pathname);
@@ -16,6 +17,13 @@ const evidenceBytes = fs.readFileSync(evidencePath);
 assert.equal(crypto.createHash("sha256").update(evidenceBytes).digest("hex"),
   IN_SECTION1_BASELINE_EVIDENCE_SHA256, "the baseline profile must remain bound to the frozen complete sweep");
 const evidence = JSON.parse(evidenceBytes);
+const dateEvidencePath = path.join(root,
+  "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/independent-final-review/in_section1_petition-set.current-original-baseline-measurements.json");
+const dateEvidenceBytes = fs.readFileSync(dateEvidencePath);
+assert.equal(crypto.createHash("sha256").update(dateEvidenceBytes).digest("hex"),
+  IN_SECTION1_DATE_FULL_GLYPH_EVIDENCE_SHA256,
+  "the DateChargesFiled profile must remain bound to the frozen whole-glyph sweep");
+const dateEvidence = JSON.parse(dateEvidenceBytes);
 
 const families = new Map([
   ["in_arrest_no_charges-set", "in-arrest-no-charges-set--official-pdf-fill"],
@@ -82,11 +90,54 @@ for (const family of evidence.families) {
 
 assert.equal(placementsSwept, 340, "the complete frozen known-text inventory must be swept");
 assert.equal(oldCrossings, 171, "the historical defect census must stay exact");
-assert.equal(sourceRuleSafePlacements, 180,
-  "all uses of the 37 source-rule profiles, including value-specific negative rows, must be checked");
-assert.equal(usedProfileKeys.size, 37, "every exact source-rule profile must be exercised");
-assert.equal(cleanBaselinesPreserved, 160, "ordinary clean source baselines must remain unmoved");
+assert.equal(sourceRuleSafePlacements, 184,
+  "all uses of the 38 source-rule profiles, including the four full-glyph date repairs, must be checked");
+assert.equal(usedProfileKeys.size, 38, "every exact source-rule profile must be exercised");
+assert.equal(cleanBaselinesPreserved, 156, "ordinary clean source baselines must remain unmoved");
 assertions += 5;
+
+// The original detector looked only four points above the text baseline.  The
+// follow-up evidence examines the complete numeric glyph height and proves all
+// eight digits in each date had ink on both sides of the source rule.  Verify
+// each exact occurrence now starts above that rule, remains inside the widget,
+// and reads back as the complete date rather than a clipped or shortened value.
+const sectionLeaf = families.get("in_section1_petition-set");
+const sectionWrites = JSON.parse(fs.readFileSync(path.join(root,
+  `data/rcap-all50/overlays/census-v1/in/${sectionLeaf}/reports/actual-writes.json`)));
+const dateRows = dateEvidence.family.rows.filter((row) => row.field === "DateChargesFiled");
+assert.equal(dateRows.length, 4, "the frozen full-glyph failure has exactly four date occurrences");
+assert.match(dateEvidence.method, /full glyph bounding-box height/,
+  "the follow-up detector must cover the whole glyph rather than the old four-point window");
+assertions += 2;
+for (const measured of dateRows) {
+  assert.match(measured.value, /^\d{2}\/\d{2}\/\d{4}$/,
+    "the full-glyph control applies to a complete numeric filing date");
+  const crossedDigits = measured.ruleCandidates.flatMap((rule) => rule.nonDescenderLettersWithInkOnBothSides);
+  assert.equal(crossedDigits.length, 8, "all eight numeric glyphs must be represented by the measured collision");
+  assert.ok(crossedDigits.every((glyph) => /^\d$/.test(glyph.char)
+    && glyph.inkAboveRule >= 4 && glyph.inkBelowRule >= 4),
+  "the failure control must demonstrate actual numeric ink on both sides of the rule");
+  const artifact = sectionWrites.artifacts.find((row) => row.fixture === measured.fixture
+    && path.resolve(root, row.file) === path.resolve(root, measured.pdfPath));
+  assert.ok(artifact, `missing current saved-byte proof for ${measured.pdfPath}`);
+  const matches = artifact.occurrenceWrites.filter((row) => row.field === measured.field
+    && row.page === measured.page && row.value === measured.value && rectMatches(row.rect, measured.sourceRect));
+  assert.equal(matches.length, 1, "each demonstrated date collision must map to one exact current write");
+  const [current] = matches;
+  const [rule] = measured.ruleCandidates;
+  const measuredSourceRuleY = Number((measured.sourceRect.y
+    + (rule.textBaselinePixelY - Math.max(...rule.ruleRowsPixels))
+      / measured.pixelTransform.pxPerPt).toFixed(2));
+  assert.ok(close(current.sourceRuleY, measuredSourceRuleY),
+    "the production profile must use the whole-glyph sweep's measured source rule");
+  assert.ok(current.baselineY >= measuredSourceRuleY + IN_SECTION1_BASELINE_ABOVE_RULE - 0.01,
+    "the complete numeric glyph must begin above the source rule");
+  assert.equal(current.exactPositionedTextRuns, 1, "the complete date must read back exactly once from saved bytes");
+  assert.equal(current.readback[0].text, measured.value, "the repair may not truncate the date");
+  assert.equal(current.fullGlyphEvidenceSha256, IN_SECTION1_DATE_FULL_GLYPH_EVIDENCE_SHA256,
+    "the repaired occurrence must carry the frozen whole-glyph evidence binding");
+  assertions += 10;
+}
 
 // Frozen negative controls distinguish a legitimate clean underline from the
 // old collision.  The address and no-charges disposition stay at the source

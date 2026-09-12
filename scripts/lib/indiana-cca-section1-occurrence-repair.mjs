@@ -47,6 +47,13 @@ const INSERT_OCCURRENCE_FIELDS = Object.freeze([
 // profile from silently migrating to another revision or another occurrence.
 export const IN_SECTION1_BASELINE_EVIDENCE_SHA256 =
   "ade49f9bb19a044fb105b60baf1070c9a053b9b164d238e8d7b01ea87525f16c";
+// Follow-up review swept the whole rendered glyph height.  That wider check
+// found the numeric DateChargesFiled value crossing a rule 4.73 points above
+// the widget's lower edge; the earlier four-point search window could not see
+// it.  Keep this second evidence binding separate so the original 340-row
+// sweep remains immutable history.
+export const IN_SECTION1_DATE_FULL_GLYPH_EVIDENCE_SHA256 =
+  "09e9bc701521ed31c9026a34f484678f05158ff42320e379909bfd96875f2422";
 export const IN_SECTION1_BASELINE_ABOVE_RULE = 2;
 const SOURCE_RULE_BASELINES = Object.freeze([
   ["inserts", "ArrestDate", 1, 457.56, 727.93, 122.67, 12.99, 729.9],
@@ -55,6 +62,7 @@ const SOURCE_RULE_BASELINES = Object.freeze([
   ["inserts", "County", 1, 221.88, 634.74, 146.05, 15.63, 636.3],
   ["inserts", "County", 1, 249.77, 726.87, 146.05, 15.63, 729.9],
   ["inserts", "County", 1, 405.28, 176.63, 146.05, 15.63, 180.0],
+  ["inserts", "DateChargesFiled", 1, 85.5, 588.97, 178.68, 17.33, 593.7],
   ["inserts", "DD-ArrestOrSummons", 1, 139.03, 727.56, 93.26, 14.71, 729.6],
   ["inserts", "DD-ChargeLevel-Ct1", 4, 294.66, 265.07, 48.83, 11.68, 266.1],
   ["inserts", "DD-CountNumber", 1, 468.05, 750.21, 24.89, 13.55, 751.8],
@@ -361,6 +369,8 @@ export async function applyIndianaSection1OccurrencePlan({ bytes, docKey, census
     sourceRuleY: anchors[index].occurrencePlacement.sourceRuleY,
     baselineDisposition: anchors[index].occurrencePlacement.disposition,
     baselineEvidenceSha256: IN_SECTION1_BASELINE_EVIDENCE_SHA256,
+    ...(entry.sourceField === "DateChargesFiled"
+      ? { fullGlyphEvidenceSha256: IN_SECTION1_DATE_FULL_GLYPH_EVIDENCE_SHA256 } : {}),
     sourceSha256: officialSourceSha256, intermediateSha256: sourceHash
   }));
   return { bytes: rendered.bytes, occurrenceWrites, overlayReport: rendered.report };

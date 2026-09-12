@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-native-verifier-returns/v1",
+  "preparedOn": "2026-09-12",
+  "laneId": "FIXIN1",
+  "rows": [
+    {
+      "itemId": "in_section1_petition-set",
+      "familyId": "in_section1_petition-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "claim": {
+        "grantSetId": "9ea0535e6e066bb4",
+        "workerId": "FIXIN1"
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-in-section1-petition-repaired-original-date-fail-20260912.json",
+        "sha256": "87e72bbf2e4c24bd3d21c6959f736ce5ae48542dd91c3988235728d9c9299691",
+        "preserved": true,
+        "failedObligation": "CLIPPING_AND_OVERLAP",
+        "demonstratedCrossings": 4,
+        "rasterRunId": "34679709830"
+      },
+      "actualDefect": "DateChargesFiled used the source widget bottom as the text baseline although its printed answer rule is 4.73 points above that bottom. The earlier detector searched only four points above the baseline and missed the upper-numeric-glyph collision.",
+      "correction": "One exact source-identity/field/page/rectangle profile now writes the full date at 595.70, two points above the measured 593.70 source rule. The write remains inside the unchanged 17.33-point widget; no other occurrence profile or value changes.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "inserts-canonical-filled.pdf",
+          "inserts-boundary-filled.pdf"
+        ],
+        "unchanged": [
+          "packet-canonical-filled.pdf",
+          "packet-boundary-filled.pdf"
+        ]
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "inserts-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+            "sha256": "173ef045668f2c0cd23db61f7e5541649cb992584db0ba0c6b74f100ab0a760b",
+            "byteLength": 199721,
+            "pageCount": 4,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 4,
+              "sourceSha256": "173ef045668f2c0cd23db61f7e5541649cb992584db0ba0c6b74f100ab0a760b"
+            }
+          },
+          {
+            "role": "canonical",
+            "name": "packet-canonical-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+            "sha256": "aa068fe4f207ed436f00cd5f48249f03a40c029511b172f9f9bd98788c17548d",
+            "byteLength": 256963,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "aa068fe4f207ed436f00cd5f48249f03a40c029511b172f9f9bd98788c17548d"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "inserts-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+            "sha256": "647da714faab917acc8bc5ad108703a13481809fba4b1a0a2ae6798c7d1b00bc",
+            "byteLength": 598891,
+            "pageCount": 12,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 12,
+              "sourceSha256": "647da714faab917acc8bc5ad108703a13481809fba4b1a0a2ae6798c7d1b00bc"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "packet-boundary-filled.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+            "sha256": "1868a512b603aceac5ba3536b34a1162b3fb42d522140afaef1a4f53f15360d7",
+            "byteLength": 257676,
+            "pageCount": 15,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 15,
+              "sourceSha256": "1868a512b603aceac5ba3536b34a1162b3fb42d522140afaef1a4f53f15360d7"
+            }
+          }
+        ],
+        "documentsDigest": "7a379be308758a12e6e40be1760e7b74557aae1a8d61871309a8bd586a423bc9"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "The native completeness audit passes all nine implementation counters. visualDefects remains null in this repair return pending fresh exact-byte central raster and independent review; the focused whole-glyph geometry check covers the four demonstrated occurrences.",
+      "rasterState": "BUILT_RASTER_PENDING_INDEPENDENT_PRE_RASTER_REVIEW",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/date-charges-filed-followup/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/date-charges-filed-followup/implementation-proof.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_REVIEW",
+      "terminal": false,
+      "remainingBlocker": "Fresh exact-byte raster and independent review of the two changed insert PDFs.",
+      "grantsNothing": "Historical FAIL is preserved. This implementation return opens no route and grants no visual or independent acceptance."
+    }
+  ]
+}
