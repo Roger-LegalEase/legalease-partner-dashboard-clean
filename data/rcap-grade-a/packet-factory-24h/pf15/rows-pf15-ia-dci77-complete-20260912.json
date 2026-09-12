@@ -1,0 +1,803 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF15",
+  "laneKind": "packet-build",
+  "baseSha": "d3378a23b432afc908e82d76500189f86f8027b8",
+  "headShaAtReturn": "d3378a23b432afc908e82d76500189f86f8027b8",
+  "isIndependentVerification": false,
+  "writtenAlongsideRatherThanOver": "data/rcap-grade-a/packet-factory-24h/pf15/rows.json and earlier PF15 return/checkpoint material remain untouched; this is the IA-only scoped return.",
+  "rows": [
+    {
+      "itemId": "ia-dci77-set",
+      "familyId": "ia-dci77-set",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "sd_caption"
+      ],
+      "buildCommit": null,
+      "implementationCommit": null,
+      "completion": "Built the Iowa DCI-77 supporting-action packet from the exact held three-page combined DCI-76/DCI-77 official PDF. The packet preserves source page order (DCI-76 billing page 1, DCI-77 request page 2, official instructions page 3), maps all 45 AcroForm fields and 54 widgets, writes only held participant identity/contact facts, and leaves payment, release signature, delivery/notarization elections, agency result fields and other protected controls for their proper owner. The participant guides explain the current $15-per-last-name process, one billing form for multiple requests, separate DCI-77 requests per last name, accepted submission modes, the foreign-only notarization condition, and the 30-day downstream filing window. LegalEase does not submit, receive, inspect, authenticate or store the returned criminal-history record.",
+      "jurisdiction": "IA",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:IA:ia-dci77"
+      ],
+      "buildScript": "scripts/build-census-v1-ia-dci77-set.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill",
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+        "sourceReceiptSha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+        "custodyRead": "reference_source_recovery_exact_held",
+        "allSourcesExact": true,
+        "combinedBinary": true,
+        "sourceIds": [
+          "official-form:DCI-76 Criminal History Record Check Billing Form",
+          "official-form:DCI-77 Criminal History Record Check Request Form"
+        ],
+        "sourceSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+        "sourceByteLength": 1076864,
+        "sourcePageCount": 3,
+        "fieldCount": 45,
+        "widgetCount": 54,
+        "resolvedPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+        "documents": [
+          {
+            "sourceIds": [
+              "official-form:DCI-76 Criminal History Record Check Billing Form",
+              "official-form:DCI-77 Criminal History Record Check Request Form"
+            ],
+            "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
+            "documentId": "DCI-77 Criminal History Record Check Request Form",
+            "combinedBinary": true,
+            "formNumbers": [
+              "DCI-76 Criminal History Record Check Billing Form",
+              "DCI-77 Criminal History Record Check Request Form"
+            ],
+            "title": "Iowa Division of Criminal Investigation Criminal History Record Check Billing and Request Forms",
+            "pathInArchive": "private/Nationwide Record Clearing/LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+            "recoveryPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+            "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+            "byteLength": 1076864,
+            "pageCount": 3,
+            "fieldCount": 45,
+            "acroFieldCount": 45,
+            "widgetCount": 54,
+            "selectedSourcePages": [
+              1,
+              2,
+              3
+            ],
+            "componentIds": [
+              "ia-dci77-primary-filing-1",
+              "ia-dci77-attachment-2",
+              "ia-dci77-instructions-3"
+            ],
+            "pageLineage": [
+              {
+                "componentId": "ia-dci77-attachment-2",
+                "role": "attachment",
+                "officialFormId": "DCI-76 Criminal History Record Check Billing Form",
+                "sourcePage": 1,
+                "outputPage": 1,
+                "sourceFieldPage": 1,
+                "sourcePageContent": {
+                  "page": 1,
+                  "sha256": "0b7a4000859c79a8a20bb148391252de4758693f8aab5d87cd62f2119e474ec8",
+                  "byteLength": 5279,
+                  "width": 612,
+                  "height": 792
+                }
+              },
+              {
+                "componentId": "ia-dci77-primary-filing-1",
+                "role": "primary_filing",
+                "officialFormId": "DCI-77 Criminal History Record Check Request Form",
+                "sourcePage": 2,
+                "outputPage": 2,
+                "sourceFieldPage": 2,
+                "sourcePageContent": {
+                  "page": 2,
+                  "sha256": "e00a9e2a5882d15013929897d8623b2551bedec6aaf3988bbc658ac9e668f04d",
+                  "byteLength": 5709,
+                  "width": 612,
+                  "height": 792
+                }
+              },
+              {
+                "componentId": "ia-dci77-instructions-3",
+                "role": "instructions",
+                "officialFormId": null,
+                "sourcePage": 3,
+                "outputPage": 3,
+                "sourcePageContent": {
+                  "page": 3,
+                  "sha256": "de2620fca053290caba65713498917b7aa183211094111aa1d15212ff6480642",
+                  "byteLength": 3197,
+                  "width": 612,
+                  "height": 792
+                }
+              }
+            ]
+          }
+        ],
+        "pageLineage": [
+          {
+            "componentId": "ia-dci77-attachment-2",
+            "role": "attachment",
+            "officialFormId": "DCI-76 Criminal History Record Check Billing Form",
+            "sourcePage": 1,
+            "outputPage": 1,
+            "sourceFieldPage": 1,
+            "sourcePageContent": {
+              "page": 1,
+              "sha256": "0b7a4000859c79a8a20bb148391252de4758693f8aab5d87cd62f2119e474ec8",
+              "byteLength": 5279,
+              "width": 612,
+              "height": 792
+            }
+          },
+          {
+            "componentId": "ia-dci77-primary-filing-1",
+            "role": "primary_filing",
+            "officialFormId": "DCI-77 Criminal History Record Check Request Form",
+            "sourcePage": 2,
+            "outputPage": 2,
+            "sourceFieldPage": 2,
+            "sourcePageContent": {
+              "page": 2,
+              "sha256": "e00a9e2a5882d15013929897d8623b2551bedec6aaf3988bbc658ac9e668f04d",
+              "byteLength": 5709,
+              "width": 612,
+              "height": 792
+            }
+          },
+          {
+            "componentId": "ia-dci77-instructions-3",
+            "role": "instructions",
+            "officialFormId": null,
+            "sourcePage": 3,
+            "outputPage": 3,
+            "sourcePageContent": {
+              "page": 3,
+              "sha256": "de2620fca053290caba65713498917b7aa183211094111aa1d15212ff6480642",
+              "byteLength": 3197,
+              "width": 612,
+              "height": 792
+            }
+          }
+        ]
+      },
+      "components": [
+        {
+          "componentId": "ia-dci77-primary-filing-1",
+          "componentType": "primary_filing",
+          "required": true,
+          "officialFormId": "DCI-77 Criminal History Record Check Request Form",
+          "sourceIds": [
+            "official-form:DCI-77 Criminal History Record Check Request Form"
+          ],
+          "sourceSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+          "sourcePages": [
+            2
+          ],
+          "outputPages": [
+            2
+          ],
+          "order": 1
+        },
+        {
+          "componentId": "ia-dci77-attachment-2",
+          "componentType": "attachment",
+          "required": true,
+          "officialFormId": "DCI-76 Criminal History Record Check Billing Form",
+          "sourceIds": [
+            "official-form:DCI-76 Criminal History Record Check Billing Form"
+          ],
+          "sourceSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+          "sourcePages": [
+            1
+          ],
+          "outputPages": [
+            1
+          ],
+          "order": 2
+        },
+        {
+          "componentId": "ia-dci77-instructions-3",
+          "componentType": "instructions",
+          "required": true,
+          "officialFormId": null,
+          "sourceIds": [
+            "official-form:DCI-76 Criminal History Record Check Billing Form",
+            "official-form:DCI-77 Criminal History Record Check Request Form"
+          ],
+          "sourceSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+          "sourcePages": [
+            3
+          ],
+          "outputPages": [
+            3
+          ],
+          "order": 3
+        }
+      ],
+      "routeContract": {
+        "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/route-contract.json",
+        "routeType": "supporting_action",
+        "legalRelief": false,
+        "supportingActionOnly": true,
+        "commercialRoutesOpened": 0,
+        "returnedRecordHandledByLegalEase": false
+      },
+      "fieldCoverage": {
+        "censusPath": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/field-census.census-v1.json",
+        "mapPath": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+        "fieldCount": 45,
+        "widgetCount": 54,
+        "mappedWrites": 16,
+        "mappedRefusals": 29,
+        "participantHeldWritesPerFixture": 16,
+        "protectedFieldsUntouched": [
+          "Signature2",
+          "DCI_USE_DATE",
+          "DCI_USE_Criminal_Record",
+          "DCI_USE_DCI#",
+          "DCI_USE_Processed_By"
+        ],
+        "participantPaymentAndResultControlsUntouched": [
+          "Payment",
+          "Results",
+          "Results_Notorized",
+          "Credit_Card_Number",
+          "Expiration_Date",
+          "Cardholder_Name",
+          "CSV_Code",
+          "Check_Number",
+          "Money_Order_Number",
+          "Number_Requests",
+          "Total_Due"
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7",
+          "byteLength": 1110263,
+          "pageCount": 3,
+          "fixture": "canonical",
+          "role": "canonical_fixture"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1",
+          "byteLength": 1110492,
+          "pageCount": 3,
+          "fixture": "boundary",
+          "role": "boundary_fixture"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+          "sha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+          "byteLength": 5207
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/field-census.census-v1.json",
+          "sha256": "06e16ee14e28b6e452b9037e3f1eaf08ecfbc42cc7d68b993aeb21961fa29013",
+          "byteLength": 63864
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+          "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
+          "byteLength": 123001
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/packet-set-manifest.json",
+          "sha256": "70bc31dc8908c8052b52ba68f60d38c194400951271b367282686719a438f09a",
+          "byteLength": 2652
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/route-contract.json",
+          "sha256": "c2f7458371ff4d4d7fc89fe01118842dc96c6c666587d990f0fa9e93ba0c7cd2",
+          "byteLength": 489
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+          "byteLength": 3921
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+          "byteLength": 1098
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "c5b855ecc79571a877fc342e1dc044e9279c0ae482469d5efb227adce4e0302f",
+          "byteLength": 48249
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "a6ed5154ac98ef4d9da286bd85b353815c0324e4631d47213e1c3c7fafbfb612",
+          "byteLength": 44019
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "3f51a02ec437f5a0791dcbff7528f092374a6acf0a7914589ba5f444e4903a5e",
+          "byteLength": 646
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/focused-self-test.json",
+          "sha256": "11e5f3ff1a5933167e0c1db15444e3b055c93450b3f01ab2c4c4e3bd2fde7c81",
+          "byteLength": 852
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/independent-visual-review.json",
+          "sha256": "0bdd78f33d66adbac64224d04d9dd2be6c5d472cdd818aaa9f2ae2b4fc4d6050",
+          "byteLength": 233
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "ec918f82b2658abd2d0995511d81031cafec64a0372e76c04fa309fca3b27c77",
+          "byteLength": 10553
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/build-findings.json",
+          "sha256": "1099b8b50566b65db7aaf8e0c57fd3aed8daf0995096bde6b42ea9dd042411e3",
+          "byteLength": 1392
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/build-status.json",
+          "sha256": "361f66ca5548b652c426bdc983da6bcab9710ba2617b91eb06a912b1705deb10",
+          "byteLength": 706
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/approval-request.json",
+          "sha256": "96deec15b4adf94e6aa163a62f9d9034582ca18e686c2bd0ae80c4d4d21e85ee",
+          "byteLength": 2583
+        }
+      ],
+      "checks": {
+        "claimAssertion": {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF15 ia-dci77-set",
+          "result": "CLAIM_OK PF15 ia-dci77-set (packet-build, grant set 54cc4c687e7c517f)"
+        },
+        "syntax": {
+          "command": "node --check scripts/build-census-v1-ia-dci77-set.mjs",
+          "result": "PASS"
+        },
+        "builderBuild": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" RCAP_PIKEPDF_PYTHON=/tmp/rcap-tx072-python/bin/python node scripts/build-census-v1-ia-dci77-set.mjs --no-raster",
+          "result": "PASS; canonical and boundary saved from exact source; 2 packets, 3 pages, 45 fields, 54 widgets; all nine builder counters zero."
+        },
+        "builderCheck": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/build-census-v1-ia-dci77-set.mjs --check",
+          "result": "CHECK_PASS; 13 artifacts, exact source SHA/length, 2 fixtures, 3 pages, 45 fields and 54 widgets."
+        },
+        "nativeCompleteness": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" RCAP_PIKEPDF_PYTHON=/tmp/rcap-tx072-python/bin/python node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-dci77-set",
+          "result": "PASS_COMPLETE; 16/45 participant fields written and all nine counters zero.",
+          "exitCode": 0,
+          "counters": {
+            "knownRequiredFieldsMissing": 0,
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "incompleteRows": 0,
+            "requiredOptionsMissing": 0,
+            "requiredComponentsMissing": 0,
+            "invisibleWrites": 0,
+            "protectedWrites": 0,
+            "visualDefects": 0
+          }
+        },
+        "focusedSelfTest": {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/focused-self-test.json",
+          "sha256": "11e5f3ff1a5933167e0c1db15444e3b055c93450b3f01ab2c4c4e3bd2fde7c81",
+          "result": "PASS",
+          "tests": [
+            {
+              "name": "exact source SHA and length",
+              "pass": true
+            },
+            {
+              "name": "three source pages",
+              "pass": true
+            },
+            {
+              "name": "45 fields",
+              "pass": true
+            },
+            {
+              "name": "54 widgets",
+              "pass": true
+            },
+            {
+              "name": "DCI-76 and DCI-77 identities",
+              "pass": true
+            },
+            {
+              "name": "one combined source binary",
+              "pass": true
+            },
+            {
+              "name": "required page lineage",
+              "pass": true
+            },
+            {
+              "name": "canonical and boundary saved",
+              "pass": true
+            },
+            {
+              "name": "no payment/result/signature writes",
+              "pass": true
+            },
+            {
+              "name": "all mapped source fields",
+              "pass": true
+            }
+          ]
+        },
+        "savedByteProof": {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "c5b855ecc79571a877fc342e1dc044e9279c0ae482469d5efb227adce4e0302f",
+          "derivedFromArtifactBytes": true,
+          "documentsReadBack": 2,
+          "summary": [
+            {
+              "fixture": "canonical",
+              "outputSha256": "7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7",
+              "byteLength": 1110263,
+              "pageCount": 3,
+              "finalizerWritten": 16,
+              "actualWriteCount": 16,
+              "actualFields": [
+                "Name_Business_Individual",
+                "Mailing_Address",
+                "Phone_Number",
+                "Email_Address",
+                "Last_Name_1",
+                "Email_Address2",
+                "Phone_Number2",
+                "Mailing_Address2",
+                "Name_Business_Individual2",
+                "Last_Name2",
+                "First_Name2",
+                "Middle_Name2",
+                "Date_of_Birth2",
+                "Fax_Number",
+                "Fax_Number2",
+                "Gender"
+              ],
+              "directPageContentWrites": [
+                {
+                  "field": "Gender",
+                  "factId": "participant.gender",
+                  "value": "F",
+                  "drawnText": "F",
+                  "page": 2,
+                  "rect": {
+                    "x": 213.181,
+                    "y": 437.741,
+                    "width": 92.395,
+                    "height": 23.943
+                  },
+                  "x": 215.181,
+                  "y": 444.7125,
+                  "fontSize": 10,
+                  "visibleInArtifactBytes": true,
+                  "placement": "measured_page_content_overlay"
+                }
+              ],
+              "addedGlyphsReadFromOutputBytes": 248,
+              "flattenedWidgetAppearancesReadFromOutputBytes": 54,
+              "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+              "refusedFieldsWithInk": [],
+              "sourceCarriedValuesCleared": [
+                {
+                  "field": "Number_Requests",
+                  "cleared": "0"
+                },
+                {
+                  "field": "Total_Due",
+                  "cleared": "0"
+                }
+              ],
+              "allWritesReadFromOutputBytes": true,
+              "allOriginalSourcePagesPresent": true
+            },
+            {
+              "fixture": "boundary",
+              "outputSha256": "91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1",
+              "byteLength": 1110492,
+              "pageCount": 3,
+              "finalizerWritten": 16,
+              "actualWriteCount": 16,
+              "actualFields": [
+                "Name_Business_Individual",
+                "Mailing_Address",
+                "Phone_Number",
+                "Email_Address",
+                "Last_Name_1",
+                "Email_Address2",
+                "Phone_Number2",
+                "Mailing_Address2",
+                "Name_Business_Individual2",
+                "Last_Name2",
+                "First_Name2",
+                "Middle_Name2",
+                "Date_of_Birth2",
+                "Fax_Number",
+                "Fax_Number2",
+                "Gender"
+              ],
+              "directPageContentWrites": [
+                {
+                  "field": "Gender",
+                  "factId": "participant.gender",
+                  "value": "Other",
+                  "drawnText": "Other",
+                  "page": 2,
+                  "rect": {
+                    "x": 213.181,
+                    "y": 437.741,
+                    "width": 92.395,
+                    "height": 23.943
+                  },
+                  "x": 215.181,
+                  "y": 444.7125,
+                  "fontSize": 10,
+                  "visibleInArtifactBytes": true,
+                  "placement": "measured_page_content_overlay"
+                }
+              ],
+              "addedGlyphsReadFromOutputBytes": 434,
+              "flattenedWidgetAppearancesReadFromOutputBytes": 54,
+              "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+              "refusedFieldsWithInk": [],
+              "sourceCarriedValuesCleared": [
+                {
+                  "field": "Number_Requests",
+                  "cleared": "0"
+                },
+                {
+                  "field": "Total_Due",
+                  "cleared": "0"
+                }
+              ],
+              "allWritesReadFromOutputBytes": true,
+              "allOriginalSourcePagesPresent": true
+            }
+          ],
+          "protectedRefusalInk": 0,
+          "unexplainedGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+          "sha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+          "exactSingleBinary": true,
+          "exactSourceIds": [
+            "official-form:DCI-76 Criminal History Record Check Billing Form",
+            "official-form:DCI-77 Criminal History Record Check Request Form"
+          ],
+          "sourceSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+          "sourceByteLength": 1076864,
+          "sourcePageCount": 3,
+          "pageLineage": [
+            {
+              "componentId": "ia-dci77-attachment-2",
+              "role": "attachment",
+              "officialFormId": "DCI-76 Criminal History Record Check Billing Form",
+              "sourcePage": 1,
+              "outputPage": 1,
+              "sourceFieldPage": 1,
+              "sourcePageContent": {
+                "page": 1,
+                "sha256": "0b7a4000859c79a8a20bb148391252de4758693f8aab5d87cd62f2119e474ec8",
+                "byteLength": 5279,
+                "width": 612,
+                "height": 792
+              }
+            },
+            {
+              "componentId": "ia-dci77-primary-filing-1",
+              "role": "primary_filing",
+              "officialFormId": "DCI-77 Criminal History Record Check Request Form",
+              "sourcePage": 2,
+              "outputPage": 2,
+              "sourceFieldPage": 2,
+              "sourcePageContent": {
+                "page": 2,
+                "sha256": "e00a9e2a5882d15013929897d8623b2551bedec6aaf3988bbc658ac9e668f04d",
+                "byteLength": 5709,
+                "width": 612,
+                "height": 792
+              }
+            },
+            {
+              "componentId": "ia-dci77-instructions-3",
+              "role": "instructions",
+              "officialFormId": null,
+              "sourcePage": 3,
+              "outputPage": 3,
+              "sourcePageContent": {
+                "page": 3,
+                "sha256": "de2620fca053290caba65713498917b7aa183211094111aa1d15212ff6480642",
+                "byteLength": 3197,
+                "width": 612,
+                "height": 792
+              }
+            }
+          ]
+        },
+        "guidance": {
+          "participant": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+          "filing": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+          "participantSha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+          "filingSha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+          "result": "PASS; required billing/signature/payment/submission/record-ownership handoffs disclosed."
+        },
+        "raster": {
+          "result": "NOT RUN; no PNG/JPG generated or retained by this lane.",
+          "visualMeasured": false,
+          "rasterState": "BUILT_RASTER_PENDING"
+        },
+        "independentReview": "PENDING_INDEPENDENT_REVIEW; this return makes no independent semantic or visual claim.",
+        "globalWrite": "No --write global family audit or shared manifest/ledger/queue mutation was run."
+      },
+      "actualWriteSummary": [
+        {
+          "fixture": "canonical",
+          "outputSha256": "7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7",
+          "byteLength": 1110263,
+          "pageCount": 3,
+          "finalizerWritten": 16,
+          "actualWriteCount": 16,
+          "actualFields": [
+            "Name_Business_Individual",
+            "Mailing_Address",
+            "Phone_Number",
+            "Email_Address",
+            "Last_Name_1",
+            "Email_Address2",
+            "Phone_Number2",
+            "Mailing_Address2",
+            "Name_Business_Individual2",
+            "Last_Name2",
+            "First_Name2",
+            "Middle_Name2",
+            "Date_of_Birth2",
+            "Fax_Number",
+            "Fax_Number2",
+            "Gender"
+          ],
+          "directPageContentWrites": [
+            {
+              "field": "Gender",
+              "factId": "participant.gender",
+              "value": "F",
+              "drawnText": "F",
+              "page": 2,
+              "rect": {
+                "x": 213.181,
+                "y": 437.741,
+                "width": 92.395,
+                "height": 23.943
+              },
+              "x": 215.181,
+              "y": 444.7125,
+              "fontSize": 10,
+              "visibleInArtifactBytes": true,
+              "placement": "measured_page_content_overlay"
+            }
+          ],
+          "addedGlyphsReadFromOutputBytes": 248,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 54,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": [],
+          "sourceCarriedValuesCleared": [
+            {
+              "field": "Number_Requests",
+              "cleared": "0"
+            },
+            {
+              "field": "Total_Due",
+              "cleared": "0"
+            }
+          ],
+          "allWritesReadFromOutputBytes": true,
+          "allOriginalSourcePagesPresent": true
+        },
+        {
+          "fixture": "boundary",
+          "outputSha256": "91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1",
+          "byteLength": 1110492,
+          "pageCount": 3,
+          "finalizerWritten": 16,
+          "actualWriteCount": 16,
+          "actualFields": [
+            "Name_Business_Individual",
+            "Mailing_Address",
+            "Phone_Number",
+            "Email_Address",
+            "Last_Name_1",
+            "Email_Address2",
+            "Phone_Number2",
+            "Mailing_Address2",
+            "Name_Business_Individual2",
+            "Last_Name2",
+            "First_Name2",
+            "Middle_Name2",
+            "Date_of_Birth2",
+            "Fax_Number",
+            "Fax_Number2",
+            "Gender"
+          ],
+          "directPageContentWrites": [
+            {
+              "field": "Gender",
+              "factId": "participant.gender",
+              "value": "Other",
+              "drawnText": "Other",
+              "page": 2,
+              "rect": {
+                "x": 213.181,
+                "y": 437.741,
+                "width": 92.395,
+                "height": 23.943
+              },
+              "x": 215.181,
+              "y": 444.7125,
+              "fontSize": 10,
+              "visibleInArtifactBytes": true,
+              "placement": "measured_page_content_overlay"
+            }
+          ],
+          "addedGlyphsReadFromOutputBytes": 434,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 54,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": [],
+          "sourceCarriedValuesCleared": [
+            {
+              "field": "Number_Requests",
+              "cleared": "0"
+            },
+            {
+              "field": "Total_Due",
+              "cleared": "0"
+            }
+          ],
+          "allWritesReadFromOutputBytes": true,
+          "allOriginalSourcePagesPresent": true
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "allNineCountersZero": true,
+      "counterBasis": "Native verify-packet-completeness.mjs plus saved-byte actual-writes proof; visual quality remains unmeasured pending raster review.",
+      "nativeCompletenessResult": "PASS_COMPLETE",
+      "visualReview": {
+        "measured": false,
+        "result": null,
+        "independentPass": null,
+        "status": "PENDING",
+        "evidence": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/independent-visual-review.json"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 0,
+      "independentVerification": "PENDING_INDEPENDENT_REVIEW",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "sharedArtifactsWritten": false
+    }
+  ]
+}
