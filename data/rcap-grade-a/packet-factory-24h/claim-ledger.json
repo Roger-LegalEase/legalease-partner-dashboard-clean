@@ -1685,8 +1685,8 @@
       "operation": "independent-verification",
       "lane": "VFCG1",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-12T09:29:55.169Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Full follow-up semantic FAIL d62c6d07d9c503be18b2fa9f39b988ce4688b0f54cbad415af326963e92736f9: all116 overlays correct; four narrow metadata/guidance classes remain, no raster authorized."
     },
     {
@@ -1701,9 +1701,9 @@
       "operation": "rapid-repair",
       "lane": "FIXCACAP",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Complete bounded semantic repair committed fe632a3ae: six current PDFs, focused 56/56 and native completeness pass. Independent VFCG1 pre-raster review must accept current candidate before dispatch."
+      "released": true,
+      "releasedAt": "2026-09-12T09:37:59.818Z",
+      "releaseReason": "Four metadata/guidance defects repaired without any PDF change; focused75/75, native read-only CHECK_OK, completeness58/187 all nine implementation counters zero; independent semantic recheck required."
     },
     {
       "subjectType": "packet-family",
@@ -15713,7 +15713,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "96a6b85fb481c6e6dae71a421cb4c86fcc68fc03a3c00ce9a8b0b76db60b251e",
+  "claimsDigest": "1def091e63d4494c9e82d6434ccc8a87707f72b46e377f507099d5a4301f1944",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42854,6 +42854,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-12T09:29:55.169Z",
       "reason": "Full follow-up semantic FAIL d62c6d07d9c503be18b2fa9f39b988ce4688b0f54cbad415af326963e92736f9: all116 overlays correct; four narrow metadata/guidance classes remain, no raster authorized."
+    },
+    {
+      "lane": "FIXCACAP",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-12T09:37:59.818Z",
+      "reason": "Four metadata/guidance defects repaired without any PDF change; focused75/75, native read-only CHECK_OK, completeness58/187 all nine implementation counters zero; independent semantic recheck required."
     }
   ],
   "reissues": [
@@ -53542,6 +53551,16 @@
       "previouslyReleasedAt": "2026-09-12T08:19:33.087Z",
       "reissuedAt": "2026-09-12T09:22:15.505Z",
       "reason": "Independent semantic recheck of full repair fe632a3ae, exact current six PDFs and previous 50-omission/type/actor/guidance failure inventory; no builder self-review or terminal acceptance before central raster."
+    },
+    {
+      "lane": "VFCG1",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-12T09:29:55.169Z",
+      "reissuedAt": "2026-09-12T09:38:00.069Z",
+      "reason": "Recheck the four current metadata/guidance findings on unchanged six PDFs after FIXCACAP followup; reuse116 immutable known overlays, do not grant final acceptance before central originals."
     }
   ],
   "transfers": [
