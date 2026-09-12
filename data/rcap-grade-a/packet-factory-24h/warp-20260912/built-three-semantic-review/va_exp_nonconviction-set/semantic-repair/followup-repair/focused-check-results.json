@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "commandsRun": 5,
+  "commandsPassed": 5,
+  "commandsFailed": 0,
+  "checks": [
+    {
+      "name": "build",
+      "command": "node scripts/build-census-v1-va_exp_nonconviction-set.mjs --no-raster",
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/build.log",
+      "sha256": "40e811b6ebdfae2742eb526468313d2094aaf4de323be7ff0a24f2616d946af6"
+    },
+    {
+      "name": "focused-test",
+      "command": "node scripts/grade-a-packet-factory-24h/test-va-nonconviction-semantic-repair.mjs",
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/focused-test.log",
+      "sha256": "306d4d6a54600c680fbc377fda0097db2bf067cb7f348da814939349d5f0db8d"
+    },
+    {
+      "name": "recovery-unit",
+      "command": "node scripts/rcap-packet-recovery/test-recovery.mjs --unit",
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/recovery-unit.log",
+      "sha256": "df7d13737e5d3adf6f545365464346f0b7c3b10c830793e914806e0263ba38d6"
+    },
+    {
+      "name": "completeness",
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/completeness.log",
+      "sha256": "6897830b144a5f186491de4f6fbb43a0f86f90fa49d9e68c64e977f84dcc9d0d"
+    },
+    {
+      "name": "raster-plan-preflight",
+      "command": "node scripts/rcap-raster-plan.mjs --manifest data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/raster-manifest.json --families va_exp_nonconviction-set",
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/followup-repair/raster-plan-preflight.log",
+      "sha256": "81f52329b6c67a173c415fabb18dd9f401df38d14e07cf94b0bd2b6b564bd96d"
+    }
+  ],
+  "measurements": {
+    "basisGateCases": 27,
+    "priorBypassesClosed": 5,
+    "focusedAssertions": 65,
+    "focusedNegativeControls": 15,
+    "recoveryRegressionTests": 31,
+    "packetCompletenessNineCountersAllZero": true,
+    "packetPdfsChanged": false
+  },
+  "independentReview": "PENDING_CURRENT_BYTE_PRE_RASTER_REVIEW"
+}

@@ -82,26 +82,26 @@ Do not apply this exception to a different first-offender statute such as 18.2-2
 | 1 | Date(s) of final disposition — continuation line | more disposition dates, if the charges were disposed of on more than one date |
 | 1 | Court disposing of the charge(s) — continuation line | more disposing courts, if more than one court disposed of the charges |
 
-### ccre_forwarding_request — Request to the Central Criminal Records Exchange to Forward a Criminal History Record
+### Request to the Central Criminal Records Exchange to Forward a Criminal History Record
 
 | Page | The blank on the document | What to write |
 | --- | --- | --- |
 | 1 | Circuit Court named on this page | the circuit court's city or county, copied from the petition's caption once you have written it there |
 
-### commonwealth_service_and_stipulation_request — Copy for the Attorney for the Commonwealth, and Request for the Commonwealth's Position
+### Copy for the Attorney for the Commonwealth, and Request for the Commonwealth's Position
 
 | Page | The blank on the document | What to write |
 | --- | --- | --- |
 | 1 | Circuit Court named on this page | the circuit court's city or county, copied from the petition's caption once you have written it there |
 | 1 | Name and mailing address of the Attorney for the Commonwealth | the name and mailing address of the Attorney for the Commonwealth for the county or city where you file — the circuit court clerk can give it to you |
 
-### filing_instructions — Filing Instructions
+### Filing Instructions
 
 | Page | The blank on the document | What to write |
 | --- | --- | --- |
 | 1 | Circuit Court named on this page | the circuit court's city or county, copied from the petition's caption once you have written it there |
 
-### records_checklist — Records Checklist for this Petition
+### Records Checklist for this Petition
 
 | Page | The blank on the document | What to write |
 | --- | --- | --- |

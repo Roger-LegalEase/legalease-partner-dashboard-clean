@@ -37,9 +37,10 @@ export function vaBasisInputStatus(record) {
   const source = record && typeof record === 'object' && !Array.isArray(record) ? record : {};
   const reduced = source.disposition === 'reduced';
   const subsectionD = source.deferredStatute === '19.2-298.02';
+  const identifiedDeferredDisposition = source.deferredStatute !== undefined && source.deferredStatute !== null;
   return Object.freeze(VA_BASIS_INPUTS.map((input) => {
     const required = input.required === true
-      || (input.fact === 'deferredStatute' && ['dismissed', 'reduced'].includes(source.disposition))
+      || (input.fact === 'deferredStatute' && (reduced || identifiedDeferredDisposition))
       || (input.fact === 'targetIsOriginalReducedCharge' && reduced)
       || (input.fact === 'subsectionDAgreement' && subsectionD)
       || (input.fact === 'agreementEvidence' && subsectionD);
@@ -92,6 +93,14 @@ export function evaluateVaNonconvictionBasis(record, { asOf } = {}) {
   }
   if (!['acquitted', 'nolle_prosequi', 'dismissed', 'reduced'].includes(record.disposition)) {
     return result('RECORD_REVIEW_REQUIRED', 'An exact supported non-conviction disposition is required.');
+  }
+  // A reduced charge is never an ordinary nonconviction basis. It may continue
+  // only through the exact subsection-D original-charge exception below.
+  if (record.disposition === 'reduced' && record.deferredStatute !== '19.2-298.02') {
+    if (record.deferredStatute != null) {
+      return result('OTHER_ROUTE_REVIEW', 'A reduced-charge record outside Virginia Code 19.2-298.02(D) requires its own route and legal review.');
+    }
+    return result('RECORD_REVIEW_REQUIRED', 'A reduced-charge case must identify Virginia Code 19.2-298.02(D), establish that the petition targets the original reduced charge rather than a separate conviction, and document the separate all-party agreement.');
   }
   if (record.deferredStatute === '19.2-298.02') {
     if (!['dismissed', 'reduced'].includes(record.disposition)) {

@@ -1345,8 +1345,8 @@ export function participantInstructions(maps, rbf, routeSelections) {
 
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
-    const title = doc === "CC-1473" ? FORM_TITLE : (COMPOSED_TITLES[doc] ?? doc);
-    out.push(`### ${doc} — ${title}`, "");
+    const title = doc === "CC-1473" ? `CC-1473 — ${FORM_TITLE}` : (COMPOSED_TITLES[doc] ?? doc);
+    out.push(`### ${title}`, "");
     out.push("| Page | The blank on the document | What to write |", "| --- | --- | --- |");
     for (const i of items) out.push(`| ${i.page} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
     out.push("");

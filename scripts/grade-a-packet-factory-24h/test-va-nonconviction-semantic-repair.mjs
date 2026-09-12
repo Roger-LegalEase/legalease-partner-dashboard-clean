@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import {
   VA_BASIS_POLICY,
+  assertVaBasisPreparation,
   evaluateVaNonconvictionBasis,
   vaBasisInputStatus,
 } from '../rcap-packet-recovery/va-nonconviction-basis.mjs';
@@ -37,6 +38,11 @@ equal(accepted.automaticallySelectsBox, false, 'the evaluator does not select th
 equal(accepted.grantsFilingOrCommercialAuthority, false, 'the evaluator grants no filing or commercial authority');
 
 for (const [name, record, expected] of [
+  ['reduced with absent statute', { disposition: 'reduced', admittedFactsOrFinding: false }, 'RECORD_REVIEW_REQUIRED'],
+  ['reduced with null statute', { disposition: 'reduced', deferredStatute: null, admittedFactsOrFinding: false }, 'RECORD_REVIEW_REQUIRED'],
+  ['reduced missing statute and false original target', { disposition: 'reduced', targetIsOriginalReducedCharge: false, admittedFactsOrFinding: false }, 'RECORD_REVIEW_REQUIRED'],
+  ['reduced missing statute and alternative conviction target', { disposition: 'reduced', targetIsAlternativeConviction: true, admittedFactsOrFinding: false }, 'RECORD_REVIEW_REQUIRED'],
+  ['reduced missing statute and unknown admission screen', { disposition: 'reduced' }, 'RECORD_REVIEW_REQUIRED'],
   ['missing target identity', { ...agreement, targetIsOriginalReducedCharge: undefined }, 'RECORD_REVIEW_REQUIRED'],
   ['explicit alternative-conviction target', { ...agreement, targetIsAlternativeConviction: true }, 'RECORD_REVIEW_REQUIRED'],
   ['missing agreement', { ...agreement, subsectionDAgreement: 'absent' }, 'RECORD_REVIEW_REQUIRED'],
@@ -46,6 +52,17 @@ for (const [name, record, expected] of [
   ['opposition', { ...agreement, prosecutionResponse: 'objection' }, 'SELF_HELP_STOP'],
   ['future version', { ...agreement, basisVersion: '2026-12-01' }, 'FUTURE_LAW_NOT_ENABLED'],
 ]) equal(evaluateVaNonconvictionBasis(record, asOf).status, expected, name);
+
+for (const record of [
+  { disposition: 'reduced', admittedFactsOrFinding: false },
+  { disposition: 'reduced', deferredStatute: null, targetIsAlternativeConviction: true, admittedFactsOrFinding: false },
+]) assert.throws(() => assertVaBasisPreparation({ [VA_BASIS_POLICY.factKey]: record }, asOf),
+  /VA_BASIS_STOP:RECORD_REVIEW_REQUIRED/);
+
+const ordinaryDismissalStatus = vaBasisInputStatus({ disposition: 'dismissed', admittedFactsOrFinding: false });
+const ordinaryStatute = ordinaryDismissalStatus.find((entry) => entry.fact === 'deferredStatute');
+check(ordinaryStatute?.required === false && ordinaryStatute.status === 'CONDITIONAL_NOT_TRIGGERED',
+  'ordinary nondeferred dismissal does not ask the participant to invent a deferred statute');
 
 const missingStatus = vaBasisInputStatus({ disposition: 'reduced', deferredStatute: '19.2-298.02' });
 for (const fact of ['targetIsOriginalReducedCharge', 'subsectionDAgreement', 'agreementEvidence']) {
@@ -82,6 +99,9 @@ for (const internal of ['obligation:track-only', 'shared field semantics', 'buil
 check(guide.includes('original charge that was reduced'), 'participant guide explains the reduced-original-charge route');
 check(guide.includes('Do not use this petition to ask for expungement of a separate conviction'), 'participant guide protects the separate conviction');
 check(guide.includes('separate all-party agreement'), 'participant guide explains the agreement evidence gate');
+for (const internal of ['ccre_forwarding_request', 'commonwealth_service_and_stipulation_request', 'filing_instructions', 'records_checklist']) {
+  check(!guide.includes(`### ${internal}`), `participant heading omits internal component id ${internal}`);
+}
 
 const checkOnly = await runFamily(['--check', '--no-raster']);
 equal(checkOnly.status, 'CHECK_ONLY', 'builder source and decision bindings pass before rendering');
@@ -100,4 +120,4 @@ if (!process.argv.includes('--unit')) {
   }
 }
 
-console.log(JSON.stringify({ result: 'PASS', familyId: 'va_exp_nonconviction-set', assertions, negativeControls: 8, sourceAndActorProtectionsPreserved: true }));
+console.log(JSON.stringify({ result: 'PASS', familyId: 'va_exp_nonconviction-set', assertions, negativeControls: 15, sourceAndActorProtectionsPreserved: true }));
