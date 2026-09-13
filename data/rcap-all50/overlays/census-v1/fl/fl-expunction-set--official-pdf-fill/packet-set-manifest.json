@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "fl-expunction-set",
+  "jurisdiction": "FL",
+  "trackId": "fl-expunction",
+  "packetSetId": "fl-expunction-set",
+  "packetSetVersion": "1.0.0",
+  "routeKeys": [
+    "obligation:track-only:FL:fl-expunction"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "statute": "Fla. Stat. Sec. 943.0585; Fla. R. Crim. P. 3.989",
+  "exactNextActionFollowed": "Build the expunction rendering of FDLE40-021 and the Rule 3.989 composed pleadings.",
+  "components": [
+    {
+      "componentId": "fl-expunction-primary-filing-1",
+      "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "title": "FDLE Application for Certificate of Eligibility",
+      "role": "primary_filing",
+      "requirement": "required",
+      "order": 1,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "treatment": "retained_official_form_overlaid",
+      "generated": true
+    },
+    {
+      "componentId": "fl-expunction-primary-filing-2",
+      "documentId": "FL-RULE-3.989-PETITION",
+      "title": "Petition to Expunge or Seal",
+      "role": "primary_filing",
+      "requirement": "required",
+      "order": 2,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "FL-RULE-3.989-PETITION",
+      "treatment": "composed_from_authority",
+      "generated": true
+    },
+    {
+      "componentId": "fl-expunction-affidavit-3",
+      "documentId": "FL-RULE-3.989-SWORN-STATEMENT",
+      "title": "Sworn Statement in Support of Petition",
+      "role": "affidavit",
+      "requirement": "required",
+      "order": 3,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "FL-RULE-3.989-SWORN-STATEMENT",
+      "treatment": "composed_from_authority",
+      "generated": true
+    },
+    {
+      "componentId": "fl-expunction-proposed-order-4",
+      "documentId": "FL-RULE-3.989-ORDER",
+      "title": "Order to Expunge",
+      "role": "proposed_order",
+      "requirement": "required",
+      "order": 4,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "FL-RULE-3.989-ORDER",
+      "treatment": "composed_from_authority",
+      "generated": true
+    },
+    {
+      "componentId": "fl-expunction-certificate-of-service-5",
+      "documentId": "fl-expunction-certificate-of-service-5",
+      "title": "Certificate of Service",
+      "role": "certificate_of_service",
+      "requirement": "required",
+      "order": 5,
+      "outputStrategy": "custom_pleading",
+      "officialFormId": null,
+      "treatment": "composed_from_packet_set",
+      "generated": true
+    }
+  ],
+  "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/source-receipt.json",
+  "renderedArtifacts": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/participant-instructions.md",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}
