@@ -10,7 +10,7 @@ Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
 Latest verified remote before this note: 4726c2bf4bada1d4e0db4597bc56f87d2003cc60.
 Current HEAD advances through the commit containing this note.
-**Verified terminal checkpoint:314/346.**
+**Verified terminal checkpoint:315/346.**
 Full native integration with Utah original run34744433174 completed at base
 b3149e4eebca45bc24c894aeba8de004611178e9.
 Utah integration preserved312 prior terminals. WV integration then preserved all313
@@ -360,3 +360,10 @@ Only2 implementation slots: PF05UTjuvenile and existingKSworkerOHfour-trackrepai
 OH officialrulesbooknewacquisition private/source-acquisition-20260913/oh-96c1/
 OH-SUPR-Superintendence-2026-08-06.pdf SHA3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05,11986292bytes.
 Not pre-restartrestoration; do not publishrawprivatecustody. No ownerquestionneeded.
+
+## Finish-mode closure — Kansas arrest315
+
+Kansas arrest final native integration passed all steps;314 prior terminals and24 protected dirty files preserved.
+Final return: vfks1/rows-vfks1-ks-22-2410-arrest-original-final-20260913.json.
+Closure: restart-recovery-20260913/ks-arrest-final-closure-20260913.json.
+Original run34747882153 custody unchanged. Registration and AR final reviews remain pending.
