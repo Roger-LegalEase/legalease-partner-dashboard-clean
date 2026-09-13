@@ -225,3 +225,11 @@ repair assigned ut_preflight_repair, independent review destination resume_vfar1
 No chain run yet; no raster dispatch yet. All24 baseline dirty hashes reconfirmed.
 Next: review scoped self-test fix, run native chain, freeze eligible AR+UT rows,
 then current-byte raster and distinct original-page final acceptance.
+
+WA SUD subsection(2)/(6) applicability resolved by current official statute,
+independently reviewed PASS. Author71bee3b5bd4d2637537471bc3f384dedeba25f71;
+review pf24/wa-sud-subsection-2-6-authority-review-20260913.json
+SHA256e8c72d0de66a7f44d1e8445271433a66febfb268abe9d500ad2142bbd6657d3c.
+Subsection(2)(a)-(i) bars do not govern standalone(6); all separate(6)conditions
+remain. This supersedes the earlier unresolved-question entry only; no registry,
+packet, counsel or terminal approval. Next WA build consumes both exact returns.
