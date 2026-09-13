@@ -233,3 +233,19 @@ PF05 prepares its existing exact task relocation; oldcheckout remains paused.
 Do not retire it until destination sources, changes and runtime are verified.
 Captain remains sole integration/shared writer. PF20 is accounting for all
 remaining nonterminal next gates; its return will populate this note.
+
+## Live handoff
+
+HEAD before live-handoff record:3c1bef26523ab9d60971c4d0e25fc86e1f651a18.
+Worker SSH verified: rcap-finish-worker-77jr7gx76jq3rg65, codespace1000,
+/workspaces/legalease-partner-dashboard-clean initially8d6ebafee; available
+10400591872bytes on /workspaces,116620419072 on separate /tmp. Creation's
+--status SSH error was transient; supported gh codespace ssh succeeded.
+PF05 is relocating exact task with source/runtime verification; oldcheckout
+not yet retired. PF05 owns destination setup and bounded repair; VFUT1 remains
+independent acceptance destination.
+KY adopted-service current-byte raster dispatched as34737617513 from frozen
+3c1bef26523ab9d60971c4d0e25fc86e1f651a18, inputs and2PDF byteproof under
+raster-runs/34737617513. Existing olderreceipt hashes differ; this is not a
+repeat of accepted currentbytes. NextKY: await allrequiredjobs, consumeoriginal
+evidence, thenVF24 independent finalacceptance. No adoption request needed.
