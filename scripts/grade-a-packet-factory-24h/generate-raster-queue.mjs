@@ -41,6 +41,7 @@ import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
+import { selectRasterDispatchIdentity } from "./raster-dispatch-identity.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 requireMasterLibraryEnvironment({ repoRoot: ROOT });
@@ -1202,7 +1203,8 @@ const promptFor = (lane) => {
   return p.join("\n");
 };
 
-const EMIT = makeEmitter({ root: ROOT, check: CHECK, label: "raster queue" });
+const EMIT = makeEmitter({ root: ROOT, check: CHECK, label: "raster queue",
+  selectDispatchIdentity: selectRasterDispatchIdentity });
 EMIT.emit(OUT, `${JSON.stringify(rasterStableObject(doc), null, 2)}\n`);
 for (const l of LANES) EMIT.emit(`${PROMPTS}/${l}_PACKET_RASTER_EVIDENCE.md`, promptFor(l));
 EMIT.sweep(PROMPTS, (n) => n.endsWith(".md"));

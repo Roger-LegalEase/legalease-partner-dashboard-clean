@@ -1,45 +1,47 @@
 # CAPTAIN_RESTART — SOLE FINISH CAPTAIN
 
-## Latest preservation checkpoint — 2026-09-13
+## Current native closure checkpoint — 2026-09-13
 
-Accepted MASTER_QUEUE remains 321/346 pending completed native integration.
-The authorized bounded old-Captain recovery recovered all four exact original
-review histories and the exact 179445-byte Delaware CIV_EXP_02_A petition.
-All 31 exported Git objects, historical family/legal reads and parent ancestry
-verified. No replacement reviews were created or consumed. The earlier missing
-history finding remains historical; the recovery/review prohibition was superseded
-only for these four preservation blockers and this completed recovery window.
-Recovery Codespace is verified Shutdown. Existing worker resumed, with corpus
-and required dependencies verified. Its saved assignments remain unchanged.
-Usable pack and restoration verification:
+**323/346 terminal.** Exact family-set comparison passes: all original321 plus
+`ia-12346-set` and `ia-901c3-set`, with no loss or replacement family.
+Native generator convergence passes all60 generated files; raster convergence
+passes all5 outputs. Scoped CLI/pin-identity defects independently reviewed,7+21 tests PASS. Original320 active
+terminal raster rows retain identical document hashes and exact receipts.
+All four original review histories recovered from the single authorized old-Captain
+window; all31 scoped Git objects, historical reads and ancestry verified. Exact
+DE CIV_EXP_02_A petition restored privately on Captain and worker. No new reviews
+replaced historical approval. Recovery Codespace verified Shutdown; existing worker
+resumed with dependencies and saved assignments preserved. No automatic build replay.
+Durable restoration pack/receipts:
 `data/rcap-grade-a/packet-factory-24h/preservation-reconciliation-20260913/recovered-old-captain/`.
-Restore the scoped pack with `git index-pack --stdin < review-histories.pack`
-after restoring the previously recorded durable base objects. Private petition
-bytes remain solely in private governed custody; no raw source is committed.
-Native integration is in progress; do not claim 323 before exact-family checks.
-Cause table, exact family sets, wiring verification and object receipts:
-`data/rcap-grade-a/packet-factory-24h/preservation-reconciliation-20260913/`.
-Eight authentic required commit objects and4615 trees restored from worker, SHA identities
-verified. Durable882796-byte required-history-objects.pack permits exact restoration
-with `git index-pack --stdin < <pack-path>`; no source blobs in that pack.
-Full remote history fetched with blob filtering; Captain free6.6GiB.
-Use GIT_NO_LAZY_FETCH=1 during blocked historical checks to avoid futile repeated fetches.
-KY/TX missing native wiring regenerated and route/components/original acceptance/non-grants
-verified. FL stale whole-manifest pin refreshed by existing native mechanism after all5
-relevant anchors compared identical. Accepted PDFs unchanged; no raster repeated.
-Additive preservation review drafts were NOT consumed as replacement approval and are
-retained privately under private/packet-factory-24h/transfers/preservation-reconciliation-20260913/.
+The earlier recovery/review prohibition was superseded only for these four blockers;
+that recovery is complete. Do not repeat exhausted history searches.
 
-Iowa original run34765630915 fully succeeded. Native receipts admitted for IA12346
-6fixtures24pages and IA901c3 8fixtures49pages; all other raster rows preserved exactly.
-Distinct original-page final reviews BOTH PASS_COMPLETE_INDEPENDENT,15/15:
-vfiafinal1/rows-vfiafinal1-ia-12346-original-final-20260913.json and
-vfiafinal2/rows-vfiafinal2-ia-901c3-original-final-20260913.json.
-No diagnostic/nonfiling class changed. Original packet commit remains67c72bae5addcc2084ffbd2ba79294af56232b9b.
-Fresh preview selects both final returns at VERIFIED_PASS. No authoritative terminal
-closure yet: shared preservation gate is being rerun with restored authentic history.
-Existing integration supports receipt batches, not a bypass around unrelated terminal losses.
-Old recovery machine remains stopped; worker resumes existing assignments, no duplicate worker.
+Iowa integrated from original run34765630915 and existing independent final PASS:
+IA12346 six fixtures/24pages; IA901c3 eight fixtures/49pages. All14 classifications
+remain diagnostic/non-filing. No repeat dispatch, raster, build or review occurred.
+Frozen packet remains67c72bae5addcc2084ffbd2ba79294af56232b9b.
+
+Worker ran the exact current six-builder self-test scope:330 assertions PASS.
+The newly exposed WA self-test and six-family sourceOptional dependencies were
+restored from exact recorded Drive custody. Current audit293 PASS_COMPLETE and
+34 NOT_MEASURABLE_HERE; no FAIL_MISSING_PREFILLS. No missing source was waived.
+Nine obsolete generated prompts archived byte-for-byte outside the native dispatch
+sweep; claims and existingworker assignments unchanged. No manual terminal flags.
+
+Next executable gate is WA SUD's existing custom candidate6632fd3b9471791d3748e895fdb00a54c7448c8d.
+Its semantic PASS remains intact. Proof-bound mapping correction independently
+reviewed PASS with19 tests now selects custom output, preserves the historical
+owner record/old overlay, and waives no raster or final obligation.
+Frozen two-fixture/20page manifest: `pf05/wa-sud-frozen-raster-manifest-20260913.json`.
+Dispatch then consume this gate, obtain distinct original-page final review, and
+integrate only with complete current evidence. Do not rebuild the unchanged PDFs.
+Captain free6.6GiB; keep≥3GiB. Heavy builds remain on
+`rcap-finish-worker-77jr7gx76jq3rg65`. All gh commands unset GH_TOKEN/GITHUB_TOKEN.
+
+The sections below are historical handoffs, not a current assignment roster.
+Consult current MASTER_QUEUE and current returns before resuming any listed task;
+in particular AR veterans is already COMPLETE_PACKET_PROVEN and must not rebuild.
 
 ## Authoritative current handoff — new Captain, 2026-09-13
 
@@ -270,7 +272,7 @@ Earlier VFAR1 B/C write replaced already-dirty TRUTH4_FINDINGS sections/timestam
 no original pre-write snapshot exists. Do not claim those original contents saved.
 Current truth file remains dirty/uncommitted; further scopedchecks use --no-write.
 
-## Remaining families (34, each once)
+## Historical remaining-family snapshot (superseded by current MASTER_QUEUE)
 
 | Family | Actual next gate | Owner | Blocker |
 | --- | --- | --- | --- |

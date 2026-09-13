@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "03304d23430ee17c9c088e0afd11b695a476680a",
+  "minimumCaptainSha": "d5105155564431c3202b1ddf6f8941628e38a601",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "6182e07992cb27424069d64d398a38d99c1fd6aaedacd756cafa25ee38368969",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "9d2e4d8bbb6ebc126e425b4ea34f06b3e6d790de47f213f766a7e31adba91945",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -84,20 +84,19 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 299,
+    "COMPLETE_PACKET_PROVEN": 301,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 19,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 2,
-    "PRODUCT_PATH_PENDING": 2,
+    "PRODUCT_PATH_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
-    "VERIFYING": 1
+    "VERIFYING": 2
   },
   "bySourceStatus": {
-    "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 84,
+    "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 85,
     "GUIDANCE_AUTHORITY_BOUND": 5,
-    "SOURCE_BOUND_BY_HELD_BYTES": 250,
+    "SOURCE_BOUND_BY_HELD_BYTES": 249,
     "SOURCE_IDENTITY_UNRESOLVED": 4,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3
   },
@@ -17472,10 +17471,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vfks1",
-        "verifiedAtBase": "44cd0e723df88dcc0bcd3c02907bf1425aa91941",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfks1/rows-vfks1-ia-12346-set-semantic-native-20260913.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfiafinal1",
+        "verifiedAtBase": "6277ad331a1f06467faa1526ea7c756e48713276",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfiafinal1/rows-vfiafinal1-ia-12346-original-final-20260913.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -17511,7 +17510,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-12346-set.mjs",
@@ -18013,7 +18012,12 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfiafinal2",
+        "verifiedAtBase": "6277ad331a1f06467faa1526ea7c756e48713276",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfiafinal2/rows-vfiafinal2-ia-901c3-original-final-20260913.json"
+      },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -18048,7 +18052,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ia-901c3-set.mjs",
@@ -48843,7 +48847,6 @@
         "wa_vac_cannabis-set",
         "wa_vac_domestic_violence-set",
         "wa_vac_misdemeanor_ordinary-set",
-        "wa_vac_substance_use_disorder-set",
         "wa_vac_survivor_felony-set",
         "wa_vac_survivor_misdemeanor-set",
         "wa_vac_treaty_fishing-set"
@@ -49705,6 +49708,39 @@
     {
       "familyId": "wa_vac_substance_use_disorder-set",
       "treatmentReconciliation": null,
+      "customVehicleMapping": {
+        "semanticReview": "data/rcap-grade-a/packet-factory-24h/vfwasud1/rows-vfwasud1-wa-sud-repair-semantic-pass-20260913.json",
+        "semanticReviewSha256": "2763787f73e340e1443e4fc8c2c6f420daf7d7d776a3bdbbcca4e327854de4c7",
+        "candidateCommit": "6632fd3b9471791d3748e895fdb00a54c7448c8d",
+        "reviewBase": "e818d1d3d9cb32f6c51c8a0d9b07928fb2e40762",
+        "selectedReviewBase": "e818d1d3d9cb32f6c51c8a0d9b07928fb2e40762",
+        "documents": [
+          {
+            "fixture": "canonical",
+            "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "e1bde8bedab7892ac6b6e280043a1b92373182f7b3f53d76435368d0e3655a37",
+            "byteLength": 23496,
+            "pageCount": 10
+          },
+          {
+            "fixture": "boundary",
+            "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "d9b1ef68487d86ebe3bb053d4068e903e93e57058718b2629920eecf5fde1aa6",
+            "byteLength": 23758,
+            "pageCount": 10
+          }
+        ],
+        "historicalMapping": {
+          "familyId": "wa_vac_substance_use_disorder-set",
+          "stateOverride": "PRODUCT_PATH_PENDING",
+          "executionOwner": "CAPTAIN",
+          "nextExecutableAction": "Map RCW 9.96.060(6) to the correct vehicle without selecting the unrelated DUI option, keep generation fail-closed, and treat the local fee as a clerk lookup.",
+          "ownerDecision": "This is route-to-vehicle mapping plus an operational fee lookup."
+        },
+        "mappingOnly": true,
+        "finalAcceptance": false,
+        "grantsCommercialAuthority": false
+      },
       "reviewedTreatmentGuidance": null,
       "worklistGroupId": "wa_vac_substance_use_disorder-set",
       "jurisdiction": "WA",
@@ -49712,83 +49748,69 @@
         "obligation:track-only:WA:wa_vac_substance_use_disorder"
       ],
       "routeCount": 1,
-      "implementationStrategy": "official_pdf_fill",
+      "implementationStrategy": "custom_pleading",
       "packetComponents": [
-        "component:wa_vac_substance_use_disorder-primary-filing-1",
-        "component:wa_vac_substance_use_disorder-proposed-order-2"
+        "component:wa-96060-6-declaration-2",
+        "component:wa-96060-6-filing-instructions-5",
+        "component:wa-96060-6-notice-order-3",
+        "component:wa-96060-6-petition-1",
+        "component:wa-96060-6-program-evidence-4"
       ],
       "instrumentKinds": [
-        "filing_instructions",
-        "primary_filing",
-        "program_documentation_request",
-        "proposed_order",
-        "records_checklist"
+        "RCW 9.96.060(6) petition/declaration, notice/order, program evidence and filing instructions"
       ],
-      "officialFormFamily": "CrRLJ-09.0100+CrRLJ-09.0200",
-      "forms": [
-        "CrRLJ-09.0100",
-        "CrRLJ-09.0200"
-      ],
+      "officialFormFamily": "NONE",
+      "forms": [],
       "sourceIds": [
         "official-form:CrRLJ-09.0100",
-        "official-form:CrRLJ-09.0200"
+        "official-form:CrRLJ-09.0200",
+        "official-authority:RCW-9.96.060-6"
       ],
-      "sourceHashes": [
-        {
-          "sourceId": "official-form:CrRLJ-09.0100",
-          "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
-          "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
-          "tier": "exact_form_number"
-        },
-        {
-          "sourceId": "official-form:CrRLJ-09.0200",
-          "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
-          "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
-          "tier": "exact_form_number"
-        }
-      ],
-      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceHashes": [],
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
       "sourceBound": true,
       "sourceReadiness": {
         "ready": true,
         "reasons": [],
-        "boundSources": [
-          {
-            "sourceId": "official-form:CrRLJ-09.0100",
-            "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
-            "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
-            "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
-          },
-          {
-            "sourceId": "official-form:CrRLJ-09.0200",
-            "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
-            "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
-            "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
-          }
-        ],
-        "boundGuidanceAuthorityRecords": [],
-        "boundAuthorities": [],
-        "boundAuthorityCount": 0,
-        "supersededSourceIds": [],
-        "namedOfficialForms": 2,
-        "effectiveOfficialSourceIds": [
+        "satisfiedByRelationship": [
           "official-form:CrRLJ-09.0100",
           "official-form:CrRLJ-09.0200"
         ],
-        "boundCount": 2,
+        "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
+        "boundSources": [],
+        "boundGuidanceAuthorityRecords": [],
+        "boundAuthorities": [
+          {
+            "sourceId": "official-authority:RCW-9.96.060-6",
+            "title": "RCW 9.96.060(6)",
+            "issuingAuthority": "Washington State Legislature",
+            "officialUrl": "https://app.leg.wa.gov/RCW/default.aspx?cite=9.96.060"
+          }
+        ],
+        "boundAuthorityCount": 1,
+        "supersededSourceIds": [],
+        "namedOfficialForms": 0,
+        "effectiveOfficialSourceIds": [],
+        "boundCount": 0,
         "custodyClass": "SOURCE_ALREADY_HELD",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "directAttachment": true
       },
-      "sourceReconciliation": null,
+      "sourceReconciliation": {
+        "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
+        "exactResidual": null,
+        "permissionHold": null,
+        "productQuestion": null,
+        "sourceReplacements": null,
+        "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
+      },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf06",
-        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "verdict": "PASS",
+        "lane": "vfwasud1",
+        "verifiedAtBase": "e818d1d3d9cb32f6c51c8a0d9b07928fb2e40762",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud1/rows-vfwasud1-wa-sud-repair-semantic-pass-20260913.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -49807,18 +49829,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+          "verifiedAtBase": "e818d1d3d9cb32f6c51c8a0d9b07928fb2e40762",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -49833,7 +49856,7 @@
       "legalInputBasis": null,
       "wave2LegalBlock": {
         "superseded": false,
-        "reason": "the current independent read is BLOCKED_LEGAL_INPUT, which does not answer the blocked obligation",
+        "reason": "the current independent read is PASS, which does not answer the blocked obligation",
         "wave2ReturnCommit": "b39918e73206a17f240289932873c847c3122cdc",
         "wave2DecisiveObligation": "fee and waiver treatment",
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
@@ -49841,24 +49864,19 @@
       },
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "wa_vac_substance_use_disorder-set",
-        "foundBy": [
-          "vf06 (current independent verification)"
-        ],
-        "why": "ROUTE_OPTIONS: This is a blocked obligation and it is not scored. The family's own route-options-block.json records it, and the reasoning holds on re-reading: the form carries no election for RCW 9.96.060(6), and its only printed occurrence of \"substance use disorder\" sits inside section 5's RCW 46.61.5055 DUI deferred-prosecution list — a phrase that matches this route's words while answering a different section's question. The packet marks no checkbox, which is the right refusal rather than a missing mark. requiredOptionsMissing=0 is consistent with that: there is no election to be missing, which is the whole problem. | FEE_AND_WAIVER: This is the second blocked obligation and it is not scored. Recorded for whoever discharges the block: neither CrRLJ 09.0100 nor CrRLJ 09.0300 states a filing fee, the packet does not invent one, and it directs the participant to the clerk of the sentencing court with three specific questions — whether a fee applies, the amount, and whether a waiver is available and how to apply. The open input is the current fee schedule for a named court, which the wave-2 record itself describes as an operational fact to look up rather than a question for counsel.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": {
         "familyId": "wa_vac_substance_use_disorder-set",
-        "stateOverride": "PRODUCT_PATH_PENDING",
+        "stateOverride": null,
         "executionOwner": "CAPTAIN",
-        "nextExecutableAction": "Map RCW 9.96.060(6) to the correct vehicle without selecting the unrelated DUI option, keep generation fail-closed, and treat the local fee as a clerk lookup.",
-        "ownerDecision": "This is route-to-vehicle mapping plus an operational fee lookup."
+        "nextExecutableAction": "Raster the exact two reviewed custom packets (20 pages), then obtain independent final visual review.",
+        "ownerDecision": "This is route-to-vehicle mapping plus an operational fee lookup.",
+        "historicalStateOverride": "PRODUCT_PATH_PENDING",
+        "historicalNextExecutableAction": "Map RCW 9.96.060(6) to the correct vehicle without selecting the unrelated DUI option, keep generation fail-closed, and treat the local fee as a clerk lookup."
       },
       "executionOwner": "CAPTAIN",
-      "nextExecutableAction": "Map RCW 9.96.060(6) to the correct vehicle without selecting the unrelated DUI option, keep generation fail-closed, and treat the local fee as a clerk lookup. Binding product rule WA-SUD-VACATUR-CUSTOM-96060-6: Do not force RCW 9.96.060(6) into the general AOC petition's residual category. Generate a route-specific petition/declaration under RCW 9.96.060(6), plus appropriate notice/order handling, using the required program proof or assessment/status documentation. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
-      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "nextExecutableAction": "Raster the exact two reviewed custom packets (20 pages), then obtain independent final visual review. Binding product rule WA-SUD-VACATUR-CUSTOM-96060-6: Do not force RCW 9.96.060(6) into the general AOC petition's residual category. Generate a route-specific petition/declaration under RCW 9.96.060(6), plus appropriate notice/order handling, using the required program proof or assessment/status documentation. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
       "allNineCountersZero": true,
@@ -49878,15 +49896,15 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "PRODUCT_PATH_PENDING",
+      "state": "VERIFYING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
       "buildScriptExists": true,
-      "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
-      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading",
       "ownedPaths": [
-        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/**",
         "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs"
       ],
       "prohibitedPaths": [],

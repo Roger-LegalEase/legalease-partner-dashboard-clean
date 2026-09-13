@@ -16,6 +16,7 @@
  * source, which is far fewer than the roster would hold. That is what the source
  * conveyor is for, and it is reported rather than smoothed.
  */
+import { assessWaSudCustomMapping } from "./wa-sud-custom-mapping.mjs";
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import {
   applyUserSourceDeterminations,
@@ -2114,7 +2115,7 @@ for (const f of IN.scoreboard.familiesDetail) {
     ? routesByFamily.get(familyId)
     : (worklistRowById.get(f.worklistGroupId)?.routes ?? []);
   const custody = custodyByGroup.get(f.worklistGroupId) ?? null;
-  const comp = completenessByFamily.get(familyId) ?? null;
+  let comp = completenessByFamily.get(familyId) ?? null;
   const cont = continuationByFamily.get(familyId) ?? null;
   const verdict = verdictByFamily.get(familyId) ?? null;
   const independentReturn = independentReturnByFamily.get(familyId) ?? null;
@@ -2138,10 +2139,22 @@ for (const f of IN.scoreboard.familiesDetail) {
     familyId, routes, implementationStrategy: strategy, sourceReconciliation, treatment,
     legalResolution: currentLegalResolution
   }));
+  const waSudMapping = assessWaSudCustomMapping(ROOT, {
+    familyId, routes, treatment, legalResolution: currentLegalResolution, independentReturn,
+    executionReclassification: ownerExecutionReclassifications.get(familyId) ?? null
+  });
+  if (waSudMapping) {
+    routes = waSudMapping.routes;
+    strategy = waSudMapping.implementationStrategy;
+    sourceReconciliation = waSudMapping.sourceReconciliation;
+    comp = waSudMapping.completeness;
+  }
   const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
   const directory = treatment?.directory ?? comp?.directory
     ?? overlayDirs.find((d) => path.basename(d).startsWith(`${slugOf(familyId)}--`))
     ?? dirGuess;
+  if (waSudMapping && directory !== waSudMapping.directory)
+    throw new Error("WA SUD mapping did not select its authenticated custom output directory");
   const buildScript = `${SCRIPTS}/build-census-v1-${familyId}.mjs`;
   const buildScriptExists = fs.existsSync(path.join(ROOT, buildScript));
   const artifactPresent = fs.existsSync(path.join(ROOT, `${directory}/${familyId === WA_AUTOMATIC ? "guidance-manifest.json" : "reports/rendered-artifacts.json"}`));
@@ -2244,7 +2257,8 @@ for (const f of IN.scoreboard.familiesDetail) {
         decisionRecord: LEGAL_HOLD_RECLASSIFICATION
       }
     : wave2LegalMeasured;
-  const executionReclassification = ownerExecutionReclassifications.get(familyId) ?? null;
+  const executionReclassification = waSudMapping?.executionReclassification
+    ?? ownerExecutionReclassifications.get(familyId) ?? null;
   const ownerCorrection = ownerCorrectionsRequired.get(familyId) ?? null;
   const ownerCorrectionAwaitsReread = Boolean(ownerCorrection)
     && holdReclassification?.disposition === "POST_REPAIR_REREAD_REQUIRED";
@@ -2668,6 +2682,7 @@ for (const f of IN.scoreboard.familiesDetail) {
   families.push({
     familyId,
     treatmentReconciliation: treatment,
+    ...(waSudMapping ? { customVehicleMapping: waSudMapping.evidence } : {}),
     reviewedTreatmentGuidance,
     worklistGroupId: f.worklistGroupId,
     jurisdiction: (f.jurisdictions ?? []).join("/"),

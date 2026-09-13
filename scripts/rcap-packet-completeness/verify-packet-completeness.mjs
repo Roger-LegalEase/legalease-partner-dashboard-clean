@@ -29,7 +29,10 @@ import { verifyParticipantLaterCompletionSourceStage } from "./nj-participant-la
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 requireMasterLibraryEnvironment({ repoRoot: ROOT });
-const ARGS = process.argv.slice(2);
+// Imported audit helpers must not parse the calling generator's CLI flags.
+// Keep strict argument rejection when this verifier itself is executed.
+const ARGS = path.resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)
+  ? process.argv.slice(2) : [];
 const WRITE = ARGS.includes("--write");
 const MUTATIONS = ARGS.includes("--mutations");
 const ONLY = ARGS.includes("--family") ? ARGS[ARGS.indexOf("--family") + 1] : null;

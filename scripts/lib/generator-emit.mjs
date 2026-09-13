@@ -63,17 +63,38 @@ const SHA40 = /\b[0-9a-f]{40}\b/g;
 const PIN_FIELD = /"(?:minimumCaptainSha|dispatchPin|packetCommitSha|generatedAtCommit|captainSha|baseSha|pinnedCommit)"\s*:\s*"([0-9a-f]{40})"/g;
 const ISO_MS = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 
-export function makeEmitter({ root, check, label, volatilePin = true }) {
+export function makeEmitter({ root, check, label, volatilePin = true, selectDispatchIdentity = null }) {
   const emitted = new Set();
   const drift = [];
   let written = 0;
 
   const committedPins = new Set();
   const normalize = (t) => (volatilePin ? t.replace(SHA40, "<dispatch-pin>").replace(ISO_MS, "<generated-at>") : t);
+  // Opt-in structured generators may distinguish current dispatch fields from
+  // identically named historical receipt fields. Other emitters keep their
+  // existing behavior. A selector must supply both the pins and the exact
+  // comparison text, so excluding history from pin collection cannot mask it.
+  const identity = (rel, text) => {
+    const selected = volatilePin && selectDispatchIdentity?.(rel, text);
+    if (selected == null || selected === false) return null;
+    if (!Array.isArray(selected.pins) || selected.pins.length === 0
+      || selected.pins.some(pin => typeof pin !== "string" || !/^[0-9a-f]{40}$/.test(pin))
+      || typeof selected.normalizedContent !== "string") {
+      throw new Error("dispatch identity selector returned invalid pins or comparison content");
+    }
+    return selected;
+  };
 
   const emit = (rel, content) => {
     const abs = path.join(root, rel);
     emitted.add(path.resolve(abs));
+    let generatedIdentity;
+    try { generatedIdentity = identity(rel, content); }
+    catch (error) {
+      if (!check) throw error;
+      drift.push(`${rel}: generated dispatch identity refused: ${error.message}`);
+      return;
+    }
     if (!check) {
       fs.mkdirSync(path.dirname(abs), { recursive: true });
       fs.writeFileSync(abs, content);
@@ -82,9 +103,17 @@ export function makeEmitter({ root, check, label, volatilePin = true }) {
     }
     if (!fs.existsSync(abs)) { drift.push(`${rel}: the generator produces it and the checkout does not carry it`); return; }
     const committed = fs.readFileSync(abs, "utf8");
-    if (volatilePin) for (const m of committed.matchAll(PIN_FIELD)) committedPins.add(m[1]);
-    const a = normalize(committed);
-    const b = normalize(content);
+    let committedIdentity;
+    try { committedIdentity = identity(rel, committed); }
+    catch (error) { drift.push(`${rel}: committed dispatch identity refused: ${error.message}`); return; }
+    if (Boolean(committedIdentity) !== Boolean(generatedIdentity)) {
+      drift.push(`${rel}: dispatch identity selector changed scope between committed and generated content`);
+      return;
+    }
+    if (committedIdentity) for (const pin of committedIdentity.pins) committedPins.add(pin);
+    else if (volatilePin) for (const m of committed.matchAll(PIN_FIELD)) committedPins.add(m[1]);
+    const a = committedIdentity?.normalizedContent ?? normalize(committed);
+    const b = generatedIdentity?.normalizedContent ?? normalize(content);
     if (a === b) return;
     const c = crypto.createHash("sha256").update(a).digest("hex").slice(0, 12);
     const g = crypto.createHash("sha256").update(b).digest("hex").slice(0, 12);
