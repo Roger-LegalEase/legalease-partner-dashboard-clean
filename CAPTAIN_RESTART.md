@@ -34,7 +34,8 @@ Its semantic PASS remains intact. Proof-bound mapping correction independently
 reviewed PASS with19 tests now selects custom output, preserves the historical
 owner record/old overlay, and waives no raster or final obligation.
 Frozen two-fixture/20page manifest: `pf05/wa-sud-frozen-raster-manifest-20260913.json`.
-Dispatch then consume this gate, obtain distinct original-page final review, and
+Dispatch accepted: run34770011177, frozen commitfc78ab3ac5e3ab94c332117fc40ef7a5edc65c6a.
+Consume this exact gate (no redispatch), obtain distinct original-page final review, and
 integrate only with complete current evidence. Do not rebuild the unchanged PDFs.
 Captain free6.6GiB; keep≥3GiB. Heavy builds remain on
 `rcap-finish-worker-77jr7gx76jq3rg65`. All gh commands unset GH_TOKEN/GITHUB_TOKEN.
