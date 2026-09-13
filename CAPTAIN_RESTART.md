@@ -35,8 +35,16 @@ reviewed PASS with19 tests now selects custom output, preserves the historical
 owner record/old overlay, and waives no raster or final obligation.
 Frozen two-fixture/20page manifest: `pf05/wa-sud-frozen-raster-manifest-20260913.json`.
 Dispatch accepted: run34770011177, frozen commitfc78ab3ac5e3ab94c332117fc40ef7a5edc65c6a.
-Consume this exact gate (no redispatch), obtain distinct original-page final review, and
-integrate only with complete current evidence. Do not rebuild the unchanged PDFs.
+Run completed RASTER_FAIL: page6 in both fixtures contains a two-word overflow
+("judicial decision."); shared controls passed and all20 original page hashes verified.
+Original failure preserved in raster-runs/34770011177; no PASS receipt or closure.
+Distinct diagnostic review assigned to resolver_review and bounded family-only
+pagination repair assigned to the existing PF05 worker via ia_reader_review.
+Preserve semantic acceptance and adopted treatment; require genuine current-byte
+binding and complete evidence after repair. Do not redispatch the failed frozen bytes.
+NC source-only prerequisite restored on the existing worker: all499 files/329 PDFs,
+498 governance checksums PASS; existing23 files preserved. NC code/tests remain
+saved; worktree privacy-symlink and pre-existing dirty-file gates need resolution.
 Captain free6.6GiB; keep≥3GiB. Heavy builds remain on
 `rcap-finish-worker-77jr7gx76jq3rg65`. All gh commands unset GH_TOKEN/GITHUB_TOKEN.
 
