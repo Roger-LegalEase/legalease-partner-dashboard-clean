@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3f138d83773dcf2f431ccc59a304561c6bda40bf",
+  "minimumCaptainSha": "b1a3348d8efe739bd9af68a038a63fd12748b723",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -76,22 +76,23 @@
     "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
     "remaining": 345,
-    "sourceReady": 19,
+    "sourceReady": 18,
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 0,
+    "repairRequired": 1,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 301,
+    "COMPLETE_PACKET_PROVEN": 302,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 19,
+    "SOURCE_READY": 18,
     "HANDOFF_READY": 2,
+    "FAIL_REPAIR_REQUIRED": 1,
     "PRODUCT_PATH_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
-    "VERIFYING": 2
+    "VERIFYING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 85,
@@ -157,10 +158,10 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 25,
-    "sourceReadyFamilies": 19,
-    "familiesPerBuilder": 0.8,
+    "sourceReadyFamilies": 18,
+    "familiesPerBuilder": 0.7,
     "targetPerBuilder": "15 to 25",
-    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 19 do, so a full roster of 25 builders averages 0.8 families each rather than 15 to 25.",
+    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 18 do, so a full roster of 25 builders averages 0.7 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -32554,10 +32555,14 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vfnc1",
+        "verifiedAtBase": "42937fbeda1175d09fbf97b97daf222a6de26e7d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnc1/rows-vfnc1-nc-auto146-semantic-changes-required-20260913.json"
+      },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "packet build has not completed",
         "no completeness audit"
       ],
@@ -32574,20 +32579,44 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two separately required route inputs are absent from fixture planning, validation, field mapping and rendered request: followupChargeDescription and followupWhereSeen. Case number and the generic current-record assertion do not supply the charge description or identify where the participant saw it. Instructions refer to checking a where-seen answer that is not represented.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfnc1/nc-auto146-independent-semantic-evidence-20260913.json",
+            "sha256": "674fed12961216ffac1eee00108b4723a652a4244fcd34eb7b9649c57e64ab1b",
+            "byteLength": 66663
+          }
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The legal-effect component and participant instructions omit four distinct adopted stop situations: refusal/nonresponse within the holder published period; job/licence/housing harm and possible claim deadlines; immigration concerns and preserving underlying records; federal/out-of-state holders. Generic disputed-legal-basis wording does not cover these.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfnc1/nc-auto146-independent-semantic-evidence-20260913.json",
+            "sha256": "674fed12961216ffac1eee00108b4723a652a4244fcd34eb7b9649c57e64ab1b",
+            "byteLength": 66663
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_auto_146_a4_agency_followup-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/nc/nc-auto-146-a4-agency-followup-set--custom-pleading",
       "ownedPaths": [
@@ -49714,7 +49743,7 @@
         "candidateCommit": "5bb6b054dafd901e46fdb9eae36173fd7183ed44",
         "reviewBase": "5bb6b054dafd901e46fdb9eae36173fd7183ed44",
         "layoutSuccessor": "data/rcap-grade-a/packet-factory-24h/vfwasud2/wa-sud-layout-successor-certificate-20260913.json",
-        "selectedReviewBase": "5bb6b054dafd901e46fdb9eae36173fd7183ed44",
+        "selectedReviewBase": "ee69bb0742971d910d56a5657cba50083d406b7c",
         "documents": [
           {
             "fixture": "canonical",
@@ -49808,10 +49837,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vfwasud2",
-        "verifiedAtBase": "5bb6b054dafd901e46fdb9eae36173fd7183ed44",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud2/rows-vfwasud2-wa-sud-layout-successor-semantic-20260913.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfwasud3",
+        "verifiedAtBase": "ee69bb0742971d910d56a5657cba50083d406b7c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud3/rows-vfwasud3-wa-sud-original-final-20260913.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -49830,7 +49859,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "5bb6b054dafd901e46fdb9eae36173fd7183ed44",
+          "verifiedAtBase": "ee69bb0742971d910d56a5657cba50083d406b7c",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -49856,12 +49885,18 @@
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": {
-        "superseded": false,
-        "reason": "the current independent read is PASS, which does not answer the blocked obligation",
+        "superseded": true,
         "wave2ReturnCommit": "b39918e73206a17f240289932873c847c3122cdc",
         "wave2DecisiveObligation": "fee and waiver treatment",
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
-        "wave2SendToLawrence": false
+        "wave2SendToLawrence": false,
+        "supersededBy": {
+          "lane": "vfwasud3",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "verifiedAtBase": "ee69bb0742971d910d56a5657cba50083d406b7c"
+        },
+        "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
+        "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
       },
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
@@ -49897,7 +49932,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFYING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
@@ -51855,9 +51890,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 19,
+    "familiesAssignedToBuilders": 18,
     "sourceObligationsAssigned": 0,
-    "actualPromotedAndReleased": 19,
+    "actualPromotedAndReleased": 18,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",

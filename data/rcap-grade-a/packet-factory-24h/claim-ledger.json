@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "3f138d83773dcf2f431ccc59a304561c6bda40bf",
+  "generatedAtCommit": "b1a3348d8efe739bd9af68a038a63fd12748b723",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7131,9 +7131,9 @@
         "nc_auto_146_a4_agency_followup-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF05",
-      "laneKind": "packet-build",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -15731,7 +15731,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "63452929c403b13584321ef31576144b19f9c75946c4940c9fcde881b1155fc1",
+  "claimsDigest": "8b710cf4b17b36f04add1b486992cc55d4f95f21fcb0584a3f6d7016e98f40a0",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71965,6 +71965,14 @@
       "operation": "packet-build",
       "lane": "PF23",
       "withdrawnAt": "2026-09-13T13:28:53Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_auto_146_a4_agency_followup-set",
+      "operation": "packet-build",
+      "lane": "PF05",
+      "withdrawnAt": "2026-09-13T18:02:32Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

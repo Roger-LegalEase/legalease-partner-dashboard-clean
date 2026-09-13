@@ -34,13 +34,15 @@
     }
   ],
   "counts": {
-    "returnDirectories": 374,
-    "rows": 1465,
-    "independentVerdicts": 326,
-    "failRepairRequired": 0,
+    "returnDirectories": 376,
+    "rows": 1467,
+    "independentVerdicts": 327,
+    "failRepairRequired": 1,
     "passIndependent": 324
   },
-  "failRepairRequiredFamilies": [],
+  "failRepairRequiredFamilies": [
+    "nc_auto_146_a4_agency_followup-set"
+  ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
@@ -20478,6 +20480,46 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
       "superseded": true
+    },
+    {
+      "familyId": "nc_auto_146_a4_agency_followup-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfnc1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "42937fbeda1175d09fbf97b97daf222a6de26e7d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two separately required route inputs are absent from fixture planning, validation, field mapping and rendered request: followupChargeDescription and followupWhereSeen. Case number and the generic current-record assertion do not supply the charge description or identify where the participant saw it. Instructions refer to checking a where-seen answer that is not represented.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfnc1/nc-auto146-independent-semantic-evidence-20260913.json",
+            "sha256": "674fed12961216ffac1eee00108b4723a652a4244fcd34eb7b9649c57e64ab1b",
+            "byteLength": 66663
+          }
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The legal-effect component and participant instructions omit four distinct adopted stop situations: refusal/nonresponse within the holder published period; job/licence/housing harm and possible claim deadlines; immigration concerns and preserving underlying records; federal/out-of-state holders. Generic disputed-legal-basis wording does not cover these.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfnc1/nc-auto146-independent-semantic-evidence-20260913.json",
+            "sha256": "674fed12961216ffac1eee00108b4723a652a4244fcd34eb7b9649c57e64ab1b",
+            "byteLength": 66663
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnc1/rows-vfnc1-nc-auto146-semantic-changes-required-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_auto_146_a4_agency_followup-set",
+      "superseded": false
     },
     {
       "familyId": "nd-deferred-imposition-records-set",
@@ -41042,7 +41084,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud2/rows-vfwasud2-wa-sud-layout-successor-semantic-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -41066,6 +41108,20 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
       "superseded": true
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfwasud3",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ee69bb0742971d910d56a5657cba50083d406b7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud3/rows-vfwasud3-wa-sud-original-final-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_survivor_felony-set",

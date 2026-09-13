@@ -2,51 +2,40 @@
 
 ## Current native closure checkpoint — 2026-09-13
 
-**323/346 terminal.** Exact family-set comparison passes: all original321 plus
-`ia-12346-set` and `ia-901c3-set`, with no loss or replacement family.
-Native generator convergence passes all60 generated files; raster convergence
-passes all5 outputs. Scoped CLI/pin-identity defects independently reviewed,7+21 tests PASS. Original320 active
-terminal raster rows retain identical document hashes and exact receipts.
-All four original review histories recovered from the single authorized old-Captain
-window; all31 scoped Git objects, historical reads and ancestry verified. Exact
-DE CIV_EXP_02_A petition restored privately on Captain and worker. No new reviews
-replaced historical approval. Recovery Codespace verified Shutdown; existing worker
-resumed with dependencies and saved assignments preserved. No automatic build replay.
-Durable restoration pack/receipts:
-`data/rcap-grade-a/packet-factory-24h/preservation-reconciliation-20260913/recovered-old-captain/`.
-The earlier recovery/review prohibition was superseded only for these four blockers;
-that recovery is complete. Do not repeat exhausted history searches.
+**324/346 terminal.** All323 accepted families at dac2698a60 retain their exact
+family identities and dispositions; only WA SUD is newly terminal. All322 prior
+terminal raster rows retain identical document hashes and receipts. Native master
+convergence60 files PASS; raster convergence5 files PASS.
+Closure receipt: pf05/wa-sud-final-closure-20260913.json.
 
-Iowa integrated from original run34765630915 and existing independent final PASS:
-IA12346 six fixtures/24pages; IA901c3 eight fixtures/49pages. All14 classifications
-remain diagnostic/non-filing. No repeat dispatch, raster, build or review occurred.
-Frozen packet remains67c72bae5addcc2084ffbd2ba79294af56232b9b.
+WA SUD family-only notice leading repair5bb6b054da preserves every word, field,
+protected control and all unaffected pages. Both PDFs are9pages. Independent
+layout successor and mapping review PASS;36 mapping tests and savedPDF check PASS.
+Corrected frozen commit666204b598c9d22d8693aaa367a05f9eda1977fb; run34772300822
+fully succeeded. Original ZIP/log/PDF/all18PNG bindings verified; distinct final
+review vfwasud3 is PASS_COMPLETE_INDEPENDENT,15/15 obligations and9counterszero.
+Native integration complete. No further WA or Iowa build/review/raster is needed.
+Original failed WA run34770011177 remains history; never redispatch those bytes.
 
-Worker ran the exact current six-builder self-test scope:330 assertions PASS.
-The newly exposed WA self-test and six-family sourceOptional dependencies were
-restored from exact recorded Drive custody. Current audit293 PASS_COMPLETE and
-34 NOT_MEASURABLE_HERE; no FAIL_MISSING_PREFILLS. No missing source was waived.
-Nine obsolete generated prompts archived byte-for-byte outside the native dispatch
-sweep; claims and existingworker assignments unchanged. No manual terminal flags.
+NC auto146 existing PF05 assignment now executes in the existing former UT
+checkout on the same worker. Required native preflight passed with real ignored
+private directory and narrow verified MasterLibrary mount; optional missing
+custodies explicitly unmounted/unmeasured. No further499file restoration needed.
+First complete candidate0ef58a9790 had two independent semantic findings:
+missing charge-description/where-seen facts, and four adopted self-help stops.
+Native vfnc1 failure preserved. Existing worker completed ONE bounded repair at
+21a3cd424d120f061f139df9fc74687fea757037,25 tests PASS, native24/107 writes and
+9counterszero,3+6pages. Transfer: private/transfers/pf05-nc-semantic-repair-20260913/.
+Next: Captain imports this exact repair and freezes it; resolver_review continues
+its already-prepared independent repair review. Do not repeat completed diagnosis
+or rebuild. Fresh visual evidence remains required after semantic PASS.
 
-Next executable gate is WA SUD's existing custom candidate6632fd3b9471791d3748e895fdb00a54c7448c8d.
-Its semantic PASS remains intact. Proof-bound mapping correction independently
-reviewed PASS with19 tests now selects custom output, preserves the historical
-owner record/old overlay, and waives no raster or final obligation.
-Frozen two-fixture/20page manifest: `pf05/wa-sud-frozen-raster-manifest-20260913.json`.
-Dispatch accepted: run34770011177, frozen commitfc78ab3ac5e3ab94c332117fc40ef7a5edc65c6a.
-Run completed RASTER_FAIL: page6 in both fixtures contains a two-word overflow
-("judicial decision."); shared controls passed and all20 original page hashes verified.
-Original failure preserved in raster-runs/34770011177; no PASS receipt or closure.
-Distinct diagnostic review assigned to resolver_review and bounded family-only
-pagination repair assigned to the existing PF05 worker via ia_reader_review.
-Preserve semantic acceptance and adopted treatment; require genuine current-byte
-binding and complete evidence after repair. Do not redispatch the failed frozen bytes.
-NC source-only prerequisite restored on the existing worker: all499 files/329 PDFs,
-498 governance checksums PASS; existing23 files preserved. NC code/tests remain
-saved; worktree privacy-symlink and pre-existing dirty-file gates need resolution.
-Captain free6.6GiB; keep≥3GiB. Heavy builds remain on
-`rcap-finish-worker-77jr7gx76jq3rg65`. All gh commands unset GH_TOKEN/GITHUB_TOKEN.
+Recovery CLOSED: all4 original histories and exact DE petition restored earlier;
+old recovery Codespace remains stopped. Iowa2families are accepted from original
+run34765630915. No authentication/recovery/source hunt repeats.
+Current Captain alone writes integration outputs; heavy builds remain on existing
+rcap-finish-worker-77jr7gx76jq3rg65. Captain free6.7GiB; maintain at least3GiB.
+All gh commands unset GH_TOKEN and GITHUB_TOKEN; use stored Captain login.
 
 The sections below are historical handoffs, not a current assignment roster.
 Consult current MASTER_QUEUE and current returns before resuming any listed task;
