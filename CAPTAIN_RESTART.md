@@ -416,3 +416,7 @@ Terminal remains 319/346; all 319 prior terminal families and 24 protected dirty
 ## Finish-mode Texas raster dispatch — 2026-09-13
 
 Terminal319/346 remains preserved. KY original raster34758780152 passed all6pages; original custody committed9a95d5df1, finalindependentreview assignedVFKY1. TX DWI semanticPASS committed9ed523f61; 48current-bytepages frozen7b8d8b29bd1fe2bb7e453335d8695d628a62a3e5, dispatchedonce as34759422113. Systemic governed-source prerequisite repair occupies existingPF20worker; IA12346 remains secondimplementation slot. CA initialpatch has independentCHANGES_REQUIRED;2codefiles remain applieduncommitted, excludedfromraster/integrationcommits. OwnerNONE.
+
+## Current finish-mode closure checkpoint: 320/346 — Kentucky felony after pardon
+
+Kentucky original final PASS committed9cd7c3f0f; native integration completed with original custody34758780152. All319 prior terminal families preserved; only Kentucky felony-after-pardon newly terminal. All24 protected dirtyfiles and original custody unchanged. TX DWI original raster34759422113 is next to consume, then independentfinalreview. IA12346 candidate d66948d74 is in native semanticreview. Implementation slots: systemic governed-source resolver correction and IA901c3. Owner decision NONE; no commercial or production authority opened.

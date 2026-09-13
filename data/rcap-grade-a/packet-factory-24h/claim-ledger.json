@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9ed523f61ede4458fc0ca2b216a320355829b080",
+  "generatedAtCommit": "9cd7c3f0f394616a166dea4343b997df23e6ee75",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4079,21 +4079,6 @@
       "released": true,
       "releasedAt": "2026-09-09T20:14:29.706Z",
       "releaseReason": "FIX05/FIX01 return integrated; the released grant is what lets the post-repair transition read as causal."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ia-12346-set",
-      "familyId": "ia-12346-set",
-      "itemId": null,
-      "familyIds": [
-        "ia-12346-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF23",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15746,7 +15731,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "f7195e2dcafe4eecbb5499c38b155d329f133b8876b70f8baf1fe61c416be3b5",
+  "claimsDigest": "488f148fd7f3566c45b1a91f2420579ee7c2bcae413ec84a7478d9ade5d43a07",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71961,6 +71946,14 @@
       "operation": "packet-build",
       "lane": "PF22",
       "withdrawnAt": "2026-09-13T13:01:59Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ia-12346-set",
+      "operation": "packet-build",
+      "lane": "PF23",
+      "withdrawnAt": "2026-09-13T13:28:53Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
