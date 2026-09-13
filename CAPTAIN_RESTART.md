@@ -9,7 +9,7 @@ under `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/`.
 ## Current checkpoint
 
 - Worktree: `/workspaces/legalease-partner-dashboard-clean`; user `codespace`.
-- Captain HEAD observed at this update: `7c57ca5584b8a754279097ff42cde98d862536da`.
+- Captain HEAD observed at this update: `d72e2883820ba4a7ac7345d1b3ba90e3cc097011`.
 - Current MASTER_QUEUE counted once after recovery: **310/346 terminal**.
   No new closure yet. NH remains COMPLETE_PACKET_PROVEN.
 - KY adoption `3f16e3a55499f790d2b316a42171d473634c935d` remains adopted.
@@ -85,3 +85,20 @@ raster runs plus NH34712867106 were already checked successful; do not redispatc
 Priority: integrate current final PASS; consume completed original raster; dispatch
 semantically accepted frozen candidate; finish active repairs; only then next
 bounded source-ready build. Do not wait for siblings that are not ready.
+
+## Disk capacity hold — 2026-09-13
+
+DISK_CAPACITY_BLOCKED. Approximately 200 MiB remains on /dev/loop4; /tmp is a
+separate filesystem. Two scoped package-cache cleanup groups were executed;
+5 GiB cannot be reclaimed from measured disposable data. Exact before/after,
+removed scopes and one successful deleted-open-file check are in
+`data/rcap-grade-a/packet-factory-24h/disk-cleanup-20260913.json`.
+No protected files or processes were removed. No further housekeeping loop.
+
+Pause new disk-heavy builds/downloads; hosted AR run34732930032 and independent
+read-only review may continue. UT worker was told to stop at a safe boundary.
+Kansas exact-artifact recovery is paused: its four verified source artifacts
+contain only not_acquired receipt JSON, no PDFs. Its persisted report is
+`private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json`.
+When storage is increased or adequate capacity otherwise safely restored,
+consume completed AR original evidence and final review before more build work.
