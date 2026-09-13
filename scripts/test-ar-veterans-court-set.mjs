@@ -58,9 +58,9 @@ assert.ok(map.documents.find((d) => d.documentId === "AR-ACIC-ORDER-VETERANS-COU
 assert.equal(map.refusals.length, 81);
 assert.equal(new Set(map.refusals.map((r) => `${r.documentId}|${r.blankId}`)).size, 81);
 assert.ok(map.refusals.every((r) => r.documentId && r.blankId && r.effectiveLabel && r.reason && Object.hasOwn(r, "completenessDisposition")));
-assert.equal(map.refusals.filter((r) => r.completenessDisposition === "REQUIRED_BEFORE_FILING").length, 22);
+assert.equal(map.refusals.filter((r) => r.completenessDisposition === "REQUIRED_BEFORE_FILING").length, 23);
 assert.equal(map.refusals.filter((r) => r.completenessDisposition === "PARTICIPANT_ELECTION_GENUINE").length, 2);
-assert.equal(map.refusals.filter((r) => r.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE").length, 1);
+assert.equal(map.refusals.filter((r) => r.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE").length, 0);
 assert.equal(map.refusals.filter((r) => r.completenessDisposition === "PROTECTED_FIELD").length, 56);
 assert.deepEqual(receipt.documents.map((r) => [r.documentId, r.sha256, r.byteLength]), DOCUMENTS.map((d) => [d.documentId, d.sha256, d.byteLength]));
 assert.match(guides, /Act 691 of 2025/);
