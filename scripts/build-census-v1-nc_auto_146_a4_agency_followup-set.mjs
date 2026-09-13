@@ -24,7 +24,7 @@ const REGISTRY='data/record-clearing/legal-design-track-registry.json';
 const CUSTODY='data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json';
 const PRIOR='data/rcap-grade-a/packet-factory-24h/pf05/rows-pf05-nc-auto146-agency-followup-20260913.json';
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
-const bind=(root,p)=>{const b=fs.readFileSync(path.join(root,p));return {path:p,sha256:sha(b),byteLength:b.length};};
+const bind=(root,p)=>{const b=fs.readFileSync(path.join(root,p));return {path:p,pathInRepository:p,sha256:sha(b),byteLength:b.length};};
 
 export function validateBuildInputs({route,worklist,manifest,sourceBytes,prior}) {
  assert.equal(route.routeKey,ROUTE);assert.equal(route.trackId,'nc_auto_146_a4_agency_followup');
