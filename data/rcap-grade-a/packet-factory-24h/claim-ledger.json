@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "f97b2acbfce93ffeaf44629075f6c4d6fe74eda5",
+  "generatedAtCommit": "119f53ff5446fe7d829f442e7d205da420ef89a5",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4560,15 +4560,15 @@
     {
       "subjectType": "packet-family",
       "subjectId": "il-prb-cert-set",
-      "familyId": "il-prb-cert-set",
       "itemId": null,
+      "familyId": "il-prb-cert-set",
       "familyIds": [
         "il-prb-cert-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF16",
-      "laneKind": "packet-build",
+      "operation": "independent-verification",
+      "lane": "VFILFINAL2",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -6927,15 +6927,15 @@
     {
       "subjectType": "packet-family",
       "subjectId": "mt_mmrta_completed-set",
-      "familyId": "mt_mmrta_completed-set",
       "itemId": null,
+      "familyId": "mt_mmrta_completed-set",
       "familyIds": [
         "mt_mmrta_completed-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF16",
-      "laneKind": "packet-build",
+      "operation": "independent-verification",
+      "lane": "VFMTBFINAL3",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -10921,8 +10921,8 @@
       "operation": "rapid-repair",
       "lane": "FIX13",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T22:51:28.645Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15731,39 +15731,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mt_mmrta_completed-set",
-      "itemId": null,
-      "familyId": "mt_mmrta_completed-set",
-      "familyIds": [
-        "mt_mmrta_completed-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFMTB1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "il-prb-cert-set",
-      "itemId": null,
-      "familyId": "il-prb-cert-set",
-      "familyIds": [
-        "il-prb-cert-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFILNEXT1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "3608ecddc950254807187bdf0be5097c75bc6ffdbf35feca256080a8982a4a1d",
+  "claimsDigest": "8e7d6151b3e02a1a204d788f452575806f223c5864777798d0b92ea202cf7445",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43012,6 +42982,30 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-13T22:11:13.750Z",
       "reason": "Bounded OH continuation returned exact named-font input blocker with coherent eight-fixture/four-branch facts and source-bound mechanics; author reassigned PF16 MT completed, no unfinished packet mutation."
+    },
+    {
+      "lane": "VFMTB1",
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_completed-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-13T22:56:02.970Z"
+    },
+    {
+      "lane": "VFILNEXT1",
+      "subjectType": "packet-family",
+      "subjectId": "il-prb-cert-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-13T23:08:13.977Z"
+    },
+    {
+      "lane": "VFMTB2",
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_completed-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-13T23:11:20.653Z"
     }
   ],
   "reissues": [
@@ -53880,6 +53874,16 @@
       "previouslyReleasedAt": "2026-09-09T14:02:42.013Z",
       "reissuedAt": "2026-09-13T11:36:07.950Z",
       "reason": "Captain finish-mode next SOURCE_READY assignment to existing worker slot after OH CA and NC blockers; only fl-sealing-set in this slot, distinct from PF05 fl-expunction-set."
+    },
+    {
+      "lane": "FIX13",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T22:51:28.645Z",
+      "reissuedAt": "2026-09-13T23:10:04.156Z",
+      "reason": "Current settled custom petition/order authority enables bounded candidate repair; /root/ut_original_acceptance assigned second build slot in existing PF04 worktree"
     }
   ],
   "transfers": [
@@ -66004,6 +66008,39 @@
       "previouslyReleasedAt": "2026-09-10T21:26:54.041Z",
       "transferredAt": "2026-09-13T21:56:22.063Z",
       "reason": "Captain resumes bounded adopted four-branch delivery repair after previous PF26 released STOPPED return; assigned current live author session nd_repair_independent_review."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_completed-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VFMTB1",
+      "toLane": "VFMTB2",
+      "previouslyReleasedAt": "2026-09-13T22:56:02.970Z",
+      "transferredAt": "2026-09-13T22:56:10.615Z",
+      "reason": "Distinct /root/mt_deferred_final_review reviews Form B concurrently with Utah original review"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-prb-cert-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VFILNEXT1",
+      "toLane": "VFILFINAL2",
+      "previouslyReleasedAt": "2026-09-13T23:08:13.977Z",
+      "transferredAt": "2026-09-13T23:08:14.161Z",
+      "reason": "Semantic PASS returned; distinct original-page reviewer /root/mt_form_b_independent_review assigned run 34788694911"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_completed-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VFMTB2",
+      "toLane": "VFMTBFINAL3",
+      "previouslyReleasedAt": "2026-09-13T23:11:20.653Z",
+      "transferredAt": "2026-09-13T23:11:20.878Z",
+      "reason": "Semantic PASS complete; distinct Form B original-page reviewer /root/mt_serving_build authored only serving/Form A"
     }
   ],
   "grants": [
@@ -72171,6 +72208,22 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "withdrawnAt": "2026-09-13T21:19:13Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-prb-cert-set",
+      "operation": "packet-build",
+      "lane": "PF16",
+      "withdrawnAt": "2026-09-13T23:04:02Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_completed-set",
+      "operation": "packet-build",
+      "lane": "PF16",
+      "withdrawnAt": "2026-09-13T23:04:02Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

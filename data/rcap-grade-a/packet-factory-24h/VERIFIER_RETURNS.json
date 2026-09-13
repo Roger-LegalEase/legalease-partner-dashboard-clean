@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 392,
-    "rows": 1481,
-    "independentVerdicts": 332,
+    "returnDirectories": 396,
+    "rows": 1485,
+    "independentVerdicts": 334,
     "failRepairRequired": 0,
-    "passIndependent": 330
+    "passIndependent": 332
   },
   "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
@@ -12965,6 +12965,51 @@
       "superseded": true
     },
     {
+      "familyId": "il-prb-cert-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfilnext1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e6c339670f6fb6d0627957b2b89190eb1e019290",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: military-boundary page 3 combined prior PRB certificate/Executive Clemency answer contains April 2020 denial and PRB docket but omits held October 2021 Executive Clemency denial. The combined yes/no also incorrectly uses previousPrb alone, so a clemency-only participant would be answered No. All 252 declared writes otherwise independently read back on their saved pages; full names retained.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfilnext1/il-independent-saved-measurements.json",
+            "sha256": "fac98987bda59061532d19414e839151447fad158cd6bd92921201ac37617e95",
+            "byteLength": 13450
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfilnext1/rows-vfilnext1-il-prb-semantic-fail-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-prb-cert-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-prb-cert-set",
+      "verdict": "PASS",
+      "lane": "vfilnext1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "73eb02e2796e27b517970518fd8d8346dd504172",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfilnext1/rows-vfilnext1-il-prb-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-prb-cert-set",
+      "superseded": false
+    },
+    {
       "familyId": "il-prostitution-j-vacate-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf01",
@@ -19757,6 +19802,22 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtmisfinal1/rows-vfmtmisfinal1-mt-misdemeanor-original-final-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_misdemeanor_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mt_mmrta_completed-set",
+      "verdict": "PASS",
+      "lane": "vfmtb2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "48a504a048b579997bbac93bc00e86787d1bc90b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtb2/rows-vfmtb2-mt-form-b-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_mmrta_completed-set",
       "superseded": false
     },
     {
@@ -36728,6 +36789,20 @@
     },
     {
       "familyId": "ut_pet_remove_link-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfutnext1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "48a504a048b579997bbac93bc00e86787d1bc90b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfutnext1/rows-vfutnext1-ut-remove-link-original-final-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_remove_link-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ut_pet_remove_link-set",
       "verdict": "PASS",
       "lane": "vfutnext1",
       "isIndependentVerification": true,
@@ -36740,7 +36815,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfutnext1/rows-vfutnext1-ut-remove-link-semantic-pass-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_remove_link-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ut_pet_special_certificate-set",

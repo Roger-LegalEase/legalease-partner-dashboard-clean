@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "il-prb-cert-set",
+  "routeKey": "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+  "routeKeys": [
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "il-prb-cert-set",
+    "jurisdiction": "IL",
+    "routeKeys": [
+      "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+      "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+      "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+      "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+      "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Certificate of Expungement for Military application (official_pdf_fill)",
+      "Certificate of Sealing application, § 5.2(e-5) (official_pdf_fill)",
+      "Circuit court petition with the issued certificate attached (official_pdf_fill)",
+      "Non-military certificate of eligibility for expungement, § 5.2(e-6) (output treatment not recorded)",
+      "Prisoner Review Board certificate application stage (official_pdf_fill)"
+    ],
+    "packetComponents": [
+      "component:il-prb-cert-attachment-2",
+      "component:il-prb-cert-attachment-4",
+      "component:il-prb-cert-primary-filing-1",
+      "component:il-prb-cert-primary-filing-3",
+      "component:il-prb-cert-primary-filing-5"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:PRB Certificate of Expungement for Military Application",
+        "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+        "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:PRB Certificate of Sealing Application",
+        "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
+        "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:EXP-AD Request",
+        "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "PASS",
+      "lane": "vfilnext1",
+      "verifiedAtBase": "73eb02e2796e27b517970518fd8d8346dd504172"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-il-prb-cert-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "il-prb-cert-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "il-prb-cert-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "e4a8bcff0157b944eea6af8d9f9c32ced0fb26143789e15fe32a2a8fa9073e7a",
+        "requirement": "required"
+      },
+      {
+        "componentId": "il-prb-cert-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "military-canonical",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/military-canonical.pdf",
+        "sha256": "a2e9cc56453556e534e14180d5b3f571a6ae19416c5c3b7733a75c687b97eb92",
+        "requirement": "required"
+      },
+      {
+        "componentId": "il-prb-cert-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "court-canonical",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/court-canonical.pdf",
+        "sha256": "567884e37b55fbf0bf45e92341a8233c3a228e7baecaf380181aea68e9d9e7f6",
+        "requirement": "required"
+      },
+      {
+        "componentId": "il-prb-cert-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "court-military-canonical",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/court-military-canonical.pdf",
+        "sha256": "9c83eb23471e3863c01196e40877c00c970b18fd34cfd7792ebe17c8c5ec85a4",
+        "requirement": "required"
+      }
+    ]
+  }
+}
