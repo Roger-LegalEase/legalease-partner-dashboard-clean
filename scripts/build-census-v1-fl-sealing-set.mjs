@@ -458,6 +458,7 @@ function maps() {
     writeRow(ORDER_ID, "charge", "Charge", 1, "matter.charge")
   ];
   const orderRefusals = [
+    protectedRow(ORDER_ID, "additional_arrest_data", "Additional arrest data, if any", 1, COURT_OWNED, "the Court must articulate any intention to seal more than one directly related arrest; the participant does not complete this judicial scope decision"),
     {
       ...protectedRow(ORDER_ID, "grant_selection", "[ ] Judge selects GRANTED", 1, COURT_OWNED, "the judge decides the petition"),
       kind: "selection_control", isSelectionControl: true
@@ -470,6 +471,8 @@ function maps() {
     protectedRow(ORDER_ID, "order_date", "Date of judicial order", 1, COURT_OWNED, "the judge or clerk enters the order date")
   ];
   const serviceRefusals = [
+    {...optionalRow(SERVICE_ID, "additional_required_recipients", "Additional required recipients, if any", 1, "Complete only if the filing clerk confirms additional required recipients beyond recipient 1; leave blank if none. The adopted record specifies no blanket recipient count."), condition: "Additional recipients are required by the applicable service instructions", participantMustSupply: "the additional clerk-confirmed recipients only when applicable"},
+    rbfRow(SERVICE_ID, "server_printed_name", "Printed name of server", 1, "the printed name of the person who actually serves the papers", "the actual server is not established by participant identity; this is a printed name, not a signature"),
     rbfRow(SERVICE_ID, "recipient_1", "Certificate of service recipient 1", 1,
       "the required recipients confirmed with the filing clerk",
       "the adopted sealing record requires service but specifies neither recipient names nor count"),
@@ -1000,7 +1003,7 @@ function participantInstructions(items, service, requirements) {
     "## Certificate of service", "",
     "The controlling Florida records require this: " + service.sentence,
     "The packet provides recipient slots for the actual required recipients; the adopted sealing record does not specify a recipient count. Confirm the recipient names and accepted method with the filing clerk before serving. Complete the certificate only after service actually occurs.", "",
-    "## Protected fields", "",
+    "## Completion of the remaining composed blanks\n\nThe judge completes Additional arrest data, if any, only when articulating the scope of a directly related arrest. Complete Additional required recipients, if any, only if the filing clerk confirms additional recipients beyond recipient 1; leave that region blank if none. The person who actually serves the papers supplies the Printed name of server; do not assume that person is the participant.\n\n## Protected fields", "",
     "Do not pre-sign or pre-date the FDLE application, sworn statement, petition, or certificate of service. The notary or other authorized oath-taker completes the sworn acknowledgment. The fingerprinting official completes the official signature, ORI/stamp, and impressions. The Expunction Applications Only written certified statement is not required for sealing and remains untouched. The judge completes the order decision, order date, and judicial signature.", "",
     "Route: " + ROUTE_KEY, ""
   );
@@ -1453,5 +1456,5 @@ export {
   SOURCE_PLACEMENTS, SOURCE_WRITE_BOXES, assertGuidanceRequirements, assertHeldNameParts,
   assertOfficialOverlayPlacements, assertPlacementItems, assertSourceOutputMeasurement,
   certifiedStatementName, courtStageRequirements, inspectCurrentBuild, joinedLegalName,
-  maps, measureSourceOutputDifference, participantInstructions, run, sourceBytes
+  maps, countCompleteness, requiredBeforeFiling, serviceRequirement, measureSourceOutputDifference, participantInstructions, run, sourceBytes
 };

@@ -25,6 +25,7 @@ Stop and get legal help: Anything the participant wants to argue rather than ass
 | Fingerprint card place of birth | the participant's place of birth |
 | FDLE Certificate of Eligibility number | the number printed on the fresh FDLE Certificate of Eligibility |
 | FDLE Certificate of Eligibility issue date | the issue date printed on the fresh FDLE Certificate of Eligibility |
+| Printed name of server | the printed name of the person who actually serves the papers |
 | Certificate of service recipient 1 | the required recipients confirmed with the filing clerk |
 | Method of service | the service method accepted by the filing clerk |
 
@@ -36,6 +37,10 @@ The petition's declaration is not the separate Rule 3.989 sworn statement. Compl
 
 The controlling Florida records require this: Certificate of service at Stage 2.
 The packet provides recipient slots for the actual required recipients; the adopted sealing record does not specify a recipient count. Confirm the recipient names and accepted method with the filing clerk before serving. Complete the certificate only after service actually occurs.
+
+## Completion of the remaining composed blanks
+
+The judge completes Additional arrest data, if any, only when articulating the scope of a directly related arrest. Complete Additional required recipients, if any, only if the filing clerk confirms additional recipients beyond recipient 1; leave that region blank if none. The person who actually serves the papers supplies the Printed name of server; do not assume that person is the participant.
 
 ## Protected fields
 
