@@ -97,12 +97,16 @@ Receipt pf05/relocation-retirement-receipt-20260913.json;2993635328bytes recover
 
 Other active assignments: PF04 builds AR veterans in second isolated worktree on
 existing finish-worker at /workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/
-pf04-ar-veterans-adopted-20260913; directory existence/size measured, exact source/runtime
-provision receipt pending from author. PF20 resumes Kansas arrest then registration-relief builds on the existing worker.
+pf04-ar-veterans-adopted-20260913; native checkout, exact two-source transfer, private/dependency links and runtime
+verified in pf04/ar-veterans-worker-provision-20260913.json. No ACIC reacquisition. PF20 resumes Kansas arrest then registration-relief builds on the existing worker.
 Provision target: /workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/
-pf20-ks-arrest-registration-resume-20260913; provisioning verification return pending.
+pf20-ks-arrest-registration-resume-20260913; provisioning verified at dc16ef93e5ffdf2a02bf2db17c0996f92d443e01, normal remote
+branch push verified; receipt pf20/ks-worker-provision-20260913.json. Kansas is
+paused before packet implementation while PF05 repairs its four instruction failures.
+One abandoned bundle writer is reported blocked on its original SSH pipe; exact
+process/scratch receipt requested. Do not kill or truncate it.
 Budget boundary: worker7435063296bytes free before KS checkout; AR checkout2925892KiB.
-Only AR and KS are active implementation slots; PF05 checkout is protected for review.
+Only AR and PF05 are active implementation slots; Kansas remains ready and paused.
 UT juvenile resolver fixed/reviewed/committed7bc17e7dd: family source1/1binds; full
 Captain preflight still fails preserved dirtyworktree and5absent sampled inputs.
 Exact missing paths/hashes: pf20/ut-juvenile-current-preflight-20260913.json.
