@@ -324,14 +324,16 @@
       "familyId": "mt_mmrta_completed-set",
       "jurisdiction": "MT",
       "queueState": "SOURCE_READY",
-      "owner": "PF16",
-      "actualNextGate": "Build the completed-record packet from exact Form B and all three identified supporting inputs, with every source and format stated in the return.",
-      "exactBlocker": "No missing source bytes are established. The current records identify DOCX inputs rather than PDF overlays; preserve that format strategy and do not silently convert or omit a component.",
+      "owner": "PF16 \u2014 next implementation slot",
+      "actualNextGate": "Next free implementation slot consumes pf16/mt-mmrta-completed-exact-source-readiness-20260913.json and builds complete candidate using the existing converter/font configuration.",
+      "exactBlocker": "No source absence remains: original Form B, proposed order, service certificate and already-verified DOJ DOCX confirmed on existing worker at exact governed hashes. Awaiting implementation slot; reuse existing converter.",
       "evidence": [
         "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
-        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "data/rcap-grade-a/packet-factory-24h/pf16/mt-mmrta-completed-exact-source-readiness-20260913.json"
       ],
-      "retrievalChannelsAlreadyFailed": []
+      "retrievalChannelsAlreadyFailed": [],
+      "priorSourceBlockerRetained": "No missing source bytes are established. The current records identify DOCX inputs rather than PDF overlays; preserve that format strategy and do not silently convert or omit a component."
     },
     {
       "familyId": "mt_mmrta_serving-set",
@@ -745,17 +747,19 @@
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
       "jurisdiction": "OH",
       "queueState": "PRODUCT_PATH_PENDING",
-      "owner": "CAPTAIN",
-      "actualNextGate": "Captain/PF08: bind record-derived destination court and current filing mechanics for all four adopted remedy branches. Exact admitted96-C1 is located on physicalpage475 of held Rules container, for .32 sealing only. Apply existing independently reviewed original-pleading distinction for other branches; no blanket local-form mandate.",
-      "exactBlocker": "Court/branch delivery bindings remain incomplete. Rules-container custody and exact96-C1 location are resolved; no repeat acquisition. Do not relabel96-C1 as expungement or waive any actual mandatory court-specific input.",
+      "owner": "Exact named-font input owner; PF08 resumes preserved correction after input",
+      "actualNextGate": "Supply exact Times New Roman or Arial font asset with complete required glyph coverage to existing renderer; then PF08 consumes coherent eight-fixture/four-branch repair and bound Franklin filing mechanics, fully builds and returns for independent acceptance.",
+      "exactBlocker": "Verified Times New Roman or Arial font bytes with required fixture glyph coverage unavailable in existing working runtime. Source Times New Roman font extracted from exact local order lacks required ASCII glyphs; no substitute-font compliance claim is permissible.",
       "evidence": [
         "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
         "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
         "data/rcap-grade-a/packet-factory-24h/pf08/oh-96c1-bound-page-identity-20260913.json",
         "data/rcap-grade-a/packet-factory-24h/pf08/oh-source-only-integration-20260913.json",
-        "data/rcap-grade-a/packet-factory-24h/pf08/oh-clean-tracks-delivery-mapping-independent-review-20260913.json"
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-clean-tracks-delivery-mapping-independent-review-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-continuation-20260913/oh-author-actionable-handoff.json"
       ],
-      "retrievalChannelsAlreadyFailed": []
+      "retrievalChannelsAlreadyFailed": [],
+      "priorDeliveryBlockerRetained": "Court/branch delivery bindings remain incomplete. Rules-container custody and exact96-C1 location are resolved; no repeat acquisition. Do not relabel96-C1 as expungement or waive any actual mandatory court-specific input."
     },
     {
       "familyId": "rcap-sc-custom-pleading",
@@ -801,15 +805,22 @@
       "familyId": "ut_pet_remove_link-set",
       "jurisdiction": "UT",
       "queueState": "SOURCE_READY",
-      "owner": "PF01",
-      "actualNextGate": "Implement the clerk/court-confirmed judgeOrCommissioner selector and builder, then exercise both exact branches and the fail-closed ambiguous case.",
-      "exactBlocker": "No source bytes are missing under the current UT disposition. The family has no builder/artifacts yet and must use Judge = 1501CR + 1502CR + 1110GE or Commissioner = 1501CR-C + 1502CR + 1111GE; otherwise STOP configuration_ambiguous / clerk-confirmation-required.",
+      "owner": "PF01 / live author mt_deferred_final_review; VFUTNEXT1 independent packet review",
+      "actualNextGate": "Complete saved judge/commissioner4fixture54pagecandidate, native author return, semantic review then freeze/raster; all5source bridge fixed at6f574d9932.",
+      "exactBlocker": "No current source binding blocker. Existing native family source check5/5; implementation in progress.",
       "evidence": [
         "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
         "data/rcap-grade-a/packet-factory-24h/pf01/rows-pf01-20260911-ut-remove-link.json",
-        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/pf01/ut-custody-bridge-20260913/handoff.json"
       ],
-      "retrievalChannelsAlreadyFailed": []
+      "retrievalChannelsAlreadyFailed": [],
+      "priorContinuationGate": {
+        "queueState": "SOURCE_READY",
+        "owner": "PF01",
+        "actualNextGate": "Implement the clerk/court-confirmed judgeOrCommissioner selector and builder, then exercise both exact branches and the fail-closed ambiguous case.",
+        "exactBlocker": "No source bytes are missing under the current UT disposition. The family has no builder/artifacts yet and must use Judge = 1501CR + 1502CR + 1110GE or Commissioner = 1501CR-C + 1502CR + 1111GE; otherwise STOP configuration_ambiguous / clerk-confirmation-required."
+      }
     },
     {
       "familyId": "wa_blake_vacatur_and_lfo_refund-set",
@@ -1084,5 +1095,30 @@
       "mt_misdemeanor_expungement-set",
       "nd-prohibit-remote-public-access-set"
     ]
+  },
+  "currentCheckpoint": {
+    "commit": "f58fbd6d08",
+    "terminal": 329,
+    "denominator": 346,
+    "nonterminalFamilyIds": [
+      "ca-diversion-seal-set",
+      "composed-treatment:nc_146_dismissal_petition",
+      "il-prb-cert-set",
+      "mo-575-120-identity-theft-correction-set",
+      "mo-610-122-arrest-expungement-set",
+      "mt_mmrta_completed-set",
+      "mt_mmrta_serving-set",
+      "nc_145_8a_youthful-set",
+      "ne-trafficking-setaside-and-seal-set",
+      "or_contempt_setaside-set",
+      "rcap-mo-custom-pleading",
+      "rcap-oh-custom-pleading-clean-tracks",
+      "rcap-sc-custom-pleading",
+      "ut_pet_remove_link-set",
+      "wa_blake_vacatur_and_lfo_refund-set",
+      "wa_vac_homicide_victim_prostitution-set",
+      "wv_nc_diversion_deferred-set"
+    ],
+    "historicalFamilyEntriesRetained": true
   }
 }
