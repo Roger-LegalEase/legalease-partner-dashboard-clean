@@ -8,10 +8,13 @@ This note records locations; it is not a backup of referenced bytes.
 
 Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
-Latest completed and pushed checkpoint before this note: 0ca03b60a.
-Full commit identity is available through git rev-parse 0ca03b60a; note commit follows.
+Latest verified remote before this note: bccce268a0b9f56043cf663d2c232fb29d45d1a9.
 Current HEAD advances through the commit containing this note.
-**312/346 terminal** after full native KY integration; all prior311 preserved.
+**Last preserved checkpoint:312/346. Current generated queue:300/346.**
+The pre-raster chain exited0 but withdrew12 prior terminals on shared WV record
+identity drift. This is an unresolved preservation regression, not accepted closure.
+Eleven native anchor comparisons refreshed5/5 each; one compiled-profile comparison
+remains pending. Required restoration and native reconciliation are active.
 Act346 and NH remain closed. No production/commercial authority changed.
 Evidence: restart-recovery-20260913/ky-final-closure.json and ky-final-integration.log.
 All paths abbreviated below are under data/rcap-grade-a/packet-factory-24h/.
@@ -233,3 +236,43 @@ SHA256e8c72d0de66a7f44d1e8445271433a66febfb268abe9d500ad2142bbd6657d3c.
 Subsection(2)(a)-(i) bars do not govern standalone(6); all separate(6)conditions
 remain. This supersedes the earlier unresolved-question entry only; no registry,
 packet, counsel or terminal approval. Next WA build consumes both exact returns.
+
+## Active raster and preservation gate — 2026-09-13T07:07Z
+
+UT raster run34744433174 IN_PROGRESS, frozencommit
+bccce268a0b9f56043cf663d2c232fb29d45d1a9. Dispatch once only; no artifacts consumed.
+Manifest pf05/ut-cannabis-frozen-raster-manifest-20260913.json;
+byte preflight and dispatch inputs pf05/ut-cannabis-dispatch-*-20260913.json.
+Both12-pagePDFs unchanged; digest0664939d2e2d6dd32ee4fbd53c97d03beca7d343e02991a44c0baf9ff1e5095e.
+Native chain and prechain312-family set persisted in
+restart-recovery-20260913/ar-ut-wv-pre-raster-chain*.
+
+Eleven identity refreshes applied through existing native tool, not manually:
+restart-recovery-20260913/wv-shared-manifest-preservation-{plan,applied}-20260913.json.
+Independent review act346_order_review pending. Separate WV compiled-profile adapter
+repair assigned resume_vfar1; Captain reviews before any receipt mutation.
+AR native completeness found unclassifiedBlanks despite semanticPASS: originalPF04
+author owns bounded classification repair in existingARworkercheckout.
+WV stale PF13 lane legal hold remains despite adoptedtwo-branch direction and
+semanticPASS; existinghelper repair assignedut_preflight_repair.
+KS arrest semanticPASS committed3e8dc24a6; build completion return not yet recognized
+by native raster enrollment. Originalauthor owns additive native return repair,
+then resumes registration-relief build in existingKSworkercheckout.
+WV candidate and return transferred21files exactly; remotePF05branch
+05ac5b45cf85ea4f62a7392ec6bba1581b4a8141, bundle retained privately,
+expectedSHA4633a76fb019cdc650d36008051d427df3562d52aff48fb77dc6f40936ce4e53/143325bytes.
+WV independent semanticPASS1f76fdc2d75d4de81251912c5115d0e0500bfc50.
+
+Prior-terminal preservation cases (additional to remaining-family table):
+- ar-nonconviction-seal-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- az_certificate_second_chance-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement | native identity comparison/reconciliation | Captain | src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json
+- de_discretionary_superior_court-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- de_pardon_expungement-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- me-seal-gen-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- mn_petition_609a02_subd3-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- nc_145_5_felony-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- nc_145_5_misdemeanor-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- nc_146_acquittal_petition-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- nc_146_dismissal_petition-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+- wv_conv_nonviolent_felony-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
