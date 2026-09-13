@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-native-return/v1",
+  "lane": "PF20",
+  "laneKind": "implementation-repair",
+  "status": "CODE_REPAIR_READY_FOR_INDEPENDENT_REVIEW",
+  "recordedAt": "2026-09-13T13:34:57Z",
+  "worker": {
+    "codespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "worktree": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+    "branch": "pf20-ks-22-2410-arrest-20260912b",
+    "baseHead": "7c59b4bb8253cd2dc15c612d26083b0121b5b758",
+    "candidateHead": "7c07710612eaefef58f50a044fb78b114dbb0ee4"
+  },
+  "scope": {
+    "resolverClass": "SOURCE_RECOVERY_WAVE1 governed adoption",
+    "families": [
+      "ca-diversion-seal-set",
+      "fl-sealing-set",
+      "ia-12346-set",
+      "ia-901c3-set",
+      "il-prb-cert-set",
+      "nd-prohibit-remote-public-access-set",
+      "ut_pet_remove_link-set"
+    ],
+    "expectedSourceBodies": 15,
+    "implementationFiles": [
+      "scripts/verify-packet-build-environment.mjs",
+      "scripts/verify-family-source-resolution.test.mjs"
+    ],
+    "nativeReturnPath": "data/rcap-grade-a/packet-factory-24h/pf20/ca-checker-repair-followup-return-20260913.json"
+  },
+  "governedAdmission": {
+    "adoptionRecord": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+    "adoptionRecordSha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+    "inputManifest": "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json",
+    "inputManifestSha256": "60de802c3e193b4d205018fe960f197e972cae2eba1f6f935d680b38da3ce844",
+    "rule": "Exact uploaded bodies adopted into governed reference custody; existing hashes remain unchanged; no legal or terminal approval.",
+    "queueAuthorityUsed": false,
+    "custodyRepinsMade": false
+  },
+  "repair": {
+    "behavior": [
+      "Requires the fixed tracked input-manifest path and compares its actual bytes to the adoption digest.",
+      "Requires each expected family/source binding, recovery source identity, item identity, status, exact path, SHA-256, byte length and filename.",
+      "Rejects missing or wrong bytes, wrong family/source identity, duplicate acquired receipts, and extra contradictory family-bound source records.",
+      "Rejects stale custody rows that declare heldAs bytes conflicting with the governed path, digest or length; historical unresolved rows without heldAs remain bridgeable.",
+      "Keeps the resolver scoped to the seven recorded SOURCE_RECOVERY_WAVE1 families and never consults MASTER_QUEUE."
+    ],
+    "expectedIdentityShape": {
+      "exactBytesFamilies": [
+        "ca-diversion-seal-set",
+        "fl-sealing-set",
+        "ia-12346-set",
+        "ia-901c3-set",
+        "il-prb-cert-set",
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "identityMatchNoPriorHashPinFamilies": [
+        "ut_pet_remove_link-set"
+      ]
+    }
+  },
+  "validation": {
+    "syntax": "node --check passed for both implementation files",
+    "focusedCommand": "node --test --test-name-pattern=\"governed|hermetic|CA\" scripts/verify-family-source-resolution.test.mjs",
+    "focusedResult": "8 passed, 0 failed",
+    "resolverClassResult": "All seven families resolved through the governed helper; familySources returned expected IDs with no unresolvable custody conflicts.",
+    "diffCheck": "git diff --check passed",
+    "fullSuite": {
+      "result": "16 passed, 2 failed",
+      "knownFailures": [
+        "pool-held source test cannot bind in this worker's intentionally partial corpus",
+        "same repair test cannot bind in this worker's intentionally partial corpus"
+      ],
+      "scope": "pre-existing worker-environment failures outside this resolver repair; no Kansas negative assertion remains"
+    }
+  },
+  "return": {
+    "patchPath": "private/packet-factory-24h/transfers/pf20-ca-checker-repair-followup-20260913/ca-checker-repair-followup.patch",
+    "patchSha256": "46612db20f429641ee1d3db19e27eb68d4cb7a6a31272e4493d1ae2b6e213532",
+    "patchByteLength": 32402,
+    "patchFiles": [
+      "scripts/verify-packet-build-environment.mjs",
+      "scripts/verify-family-source-resolution.test.mjs"
+    ],
+    "patchBase": "7c59b4bb8253cd2dc15c612d26083b0121b5b758",
+    "patchCandidate": "7c07710612eaefef58f50a044fb78b114dbb0ee4"
+  },
+  "outOfScope": [
+    "No CA packet build was run pending independent code review.",
+    "No source search, URL retry, queue edit, source-custody edit, shared manifest edit, claim-ledger commit, or closed-family work was performed.",
+    "The pre-existing uncommitted claim-ledger.json was preserved."
+  ],
+  "nextGate": "Captain independent code review of the exact patch, then rerun only the seven recorded same-resolver-class prerequisite checks."
+}
