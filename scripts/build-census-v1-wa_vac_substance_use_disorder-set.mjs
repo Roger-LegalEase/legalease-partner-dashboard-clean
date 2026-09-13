@@ -1,3 +1,11 @@
 #!/usr/bin/env node
-import { buildWaFamily } from "./build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs";
-console.log(JSON.stringify(await buildWaFamily("wa_vac_substance_use_disorder-set", process.argv.slice(2))));
+import { runFamily } from "./build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs";
+
+runFamily(process.argv.slice(2))
+  .then((result) => {
+    console.log(JSON.stringify(result, null, 2));
+  })
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
