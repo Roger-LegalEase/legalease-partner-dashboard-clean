@@ -93,9 +93,12 @@ Do not duplicate these assignments. Review and integration retain priority.
 
 ## Remaining local blockers and preservation
 
-AR veterans Q1–Q8 remain NOT_ADOPTED, including unresolved service/fee authority.
-Decision packet vf44/ar-veterans-owner-decision-handoff-20260913.json;
-repeated Kansas response does not answer or adopt AR decisions. Ask once only.
+AR veterans owner product direction is now ADOPTED with ten revisions, including
+resolved current-law, service and $0 sealing-petition fee treatment. Record:
+data/rcap-grade-a/legal-decisions/AR_VETERANS_OWNER_PRODUCT_ADOPTION_2026-09-13.json.
+Original draft remains historical; owner direction controls. No counsel/packet/raster
+PASS or production grant. Implement supported pre-adjudication branch and required
+conditional cross-court treatment; unsupported post-adjudication instrument uses handoff.
 KY historical manual/2010rules missing with403: expected identities in
 restart-recovery-20260913/ky-dependency-restoration.json; accepted freshness limits,
 not reopened adoption or required current PDF dependency.
@@ -110,7 +113,7 @@ Current truth file remains dirty/uncommitted; further scopedchecks use --no-writ
 
 | Family | Actual next gate | Owner | Blocker |
 | --- | --- | --- | --- |
-| ar-veterans-court-set | Resolve the VF44 owner/counsel adoption questions; after an adopted current-law/form strategy, PF04 may build and return the complete candidate. | OWNER+COUNSEL, then PF04 | The durable VF44 legal-design draft is NOT_ADOPTED. It leaves current citation treatment after Act 691, pre/post-adjudication scope, cross-court branch, criminal-history/appropriateness finding, service, fee/waiver, and stage-1 eligibility treatment unresolved. No build or raster authorization was granted. |
+| ar-veterans-court-set | Implement adopted ten-part owner direction, saved-byte/component/branch checks, then independent semantics | PF04 implementation; independent VF44 destination | Product-design questions resolved by actual owner direction2026-09-13. Post-adjudication instrument gap is participant-specific handoff. Ordinary acceptance gates remain. |
 | ca-diversion-seal-set | Build the San Diego County-scoped packet from the exact CRM-307 binding, then return it for independent review. | PF06 | None in the current source return beyond the PF06 build and ordinary completeness, raster, and independent-review gates. |
 | census-pending-family:UT:path-m-juvenile-expungement | Finish three preflight review corrections, independent delta review, then bounded build | ut_preflight_repair; act346_order_review; PF01 | Exact 1174XX source already held/admitted. Resolver needs containment/conflict guards and hermetic negative test. |
 | composed-treatment:nc_146_dismissal_petition | Build from the exact bound AOC-CR-287, instructions, and AOC-CV-226 inputs, preserving the composed treatment, then return for review. | PF12 | None in the current queue/source binding beyond the PF12 build and ordinary acceptance gates. |
