@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `03304d23430ee17c9c088e0afd11b695a476680a`
+**Minimum required ancestor:** `73f87b0bd6af22285d16e7060c13204b3de880b1`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -259,16 +259,30 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ia-12346-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.pdf` — `9a058658022ea3ae36eac169faa4315d9d90514bbe46960ab50d46ab4a508197`
-- boundary `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.pdf` — `92795d893671fde33bd6d05c89c0474f6ee1f7f9d95a97c4f81d91c2ef328afe`
-- expected pages 4 · requested scale 2.5
+- **6 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.pdf` — `9a058658022ea3ae36eac169faa4315d9d90514bbe46960ab50d46ab4a508197` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/later-conviction.pdf` — `aa4567bb6dbb9f8e94552b33cba3c5dc5a5d3524e623955032d97b48121e3728` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/local-ordinance.pdf` — `9dde2189fe457e7777db5504f920659cfbd6753cd13b7aee2438267864ba4021` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/missing-contact.pdf` — `9de9271521a0c36c37c6505c86ec1818348acb7687f4bdc033227e52cdc1038a` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/permitted-traffic.pdf` — `747ac8d67d5091068b44ec8759917fe28d1d5e01d3057feed659b3cae3aa5192` · 4 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.pdf` — `92795d893671fde33bd6d05c89c0474f6ee1f7f9d95a97c4f81d91c2ef328afe` · 4 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.pdf` and `data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 24 across all documents · requested scale 2.5
 - built by (no builder lane recorded)
 
 ### ia-901c3-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.pdf` — `88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f`
-- boundary `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.pdf` — `b6f8ab5d7d6d4f258aeadf773c2f9b106b0d6f7f4a9ec7a059cc56d591c7e59f`
-- expected pages 6 · requested scale 2.5
+- **8 documents**, and the receipt must cover every one of them:
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.pdf` — `88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/additional-aliases.pdf` — `4b23f143b8083db032c013387ee4604a67e6a62b4975732ca47d0a18a1a04c6c` · 7 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/exact-eight-years.pdf` — `163ea3289b2f1093db54be226d1c8e245bb853f30742fbb07a72a5669a29191d` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-requested.pdf` — `225b0bcbd7b42ba52b26399704b76f7327ba07d4f3d055cd780e1bdb64dc8a06` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-stale.pdf` — `774df6ce3778f2b9bdf059e56a6e1f3af1945fdafdb47f9ad025ef95bc5e7780` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/missing-identifiers.pdf` — `d80a5f92f5605712e29d945f0fdd54ef1f6b1eb942c3e3fa6fe551a78e6dc44f` · 6 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/release-missing.pdf` — `557b8c32de00217b807cf3c215a7da322866211379f33ff3c0eca320bb9e3a39` · 6 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.pdf` — `b6f8ab5d7d6d4f258aeadf773c2f9b106b0d6f7f4a9ec7a059cc56d591c7e59f` · 6 page(s)
+- the row pins `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.pdf` and `data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
+- expected pages 49 across all documents · requested scale 2.5
 - built by (no builder lane recorded)
 
 ### id_isp_expungement-set

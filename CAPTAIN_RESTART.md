@@ -1,4 +1,75 @@
-# CAPTAIN_RESTART — RECONSTRUCTED_AFTER_RESTART
+# CAPTAIN_RESTART — SOLE FINISH CAPTAIN
+
+## Authoritative current handoff — new Captain, 2026-09-13
+
+This worktree is the sole control plane. Initial remote truth was exactly
+`3e4199508c7907c25b9a24cb59d875a4d7a00d2c`; ancestry verified before switching
+from clean main. Verified terminal set remains **321/346**. All 320 prior
+terminal raster document sets represented in RASTER_QUEUE have unchanged
+ordered document digests; no tracked artifact under a terminal family changed.
+Evidence: `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/new-captain-preservation-20260913.json`.
+Captain last measured 8.9 GiB free on /workspaces, above the 3 GiB floor.
+No full workspace import, accepted packet rebuild, accepted reraster, cleanup
+loop, route change, production change, or second Captain occurred.
+
+Existing worker remains `rcap-finish-worker-77jr7gx76jq3rg65`. Heavy execution
+stays there. Root checkout carries PF05 WA SUD repairs; existing PF20 worktree
+carries the governed-source resolver work. Preserve their dirty claim ledgers
+and code; worker ancestry lacks d66948d7463fa8a8df38981d611ebfe04139ea3e, so
+avoid broad fetch, reset, or cleanup there. Worker /tmp had 98 GiB free.
+
+Iowa reader correction independently PASS and committed `73f87b0bd`.
+Both semantic PASS returns are recognized by the native extractor. Frozen
+manifest is `pf05/ia-both-frozen-raster-manifest-20260913.json`, at immutable
+commit `67c72bae5addcc2084ffbd2ba79294af56232b9b`: IA12346 6 fixtures/24 pages,
+IA901C3 8 fixtures/49 pages, total 14/73. Prepared workflow ref, scale and
+inputs are in `pf05/ia-both-dispatch-inputs-20260913.json`; current/committed
+PDF byte proof is `pf05/ia-both-dispatch-byte-proof-20260913.json`.
+**NO NEW IOWA RUN WAS CREATED.** Initial dispatch was HTTP403 Resource not
+accessible by integration. User then directed stored authentication only:
+`env -u GH_TOKEN -u GITHUB_TOKEN gh ...`. Under Unix user codespace, home
+/home/codespace, effective /home/codespace/.config/gh, that directory and
+hosts.yml are absent and gh reports no logged-in hosts. Stored-auth recent-run
+lookup could not execute; no further dispatch was attempted. Exact observation:
+`pf05/ia-both-stored-auth-check-20260913.json`. When access is available, check
+recent runs once for this frozen batch, consume any existing accepted dispatch,
+or submit the already-prepared inputs unchanged. No rebuild/new semantics.
+A dispatch grants no raster PASS or terminal closure.
+
+Governed resolver previous findings plus valid-preloaded-custody namespace
+failure independently repaired/PASS, committed `45f7ddc9c`. CA exact CRM307
+source-only binding now passes, but the governed San Diego sealing order is
+still absent: `pf20/rows-pf20-ca-diversion-order-prerequisite-20260913.json`.
+NC AOC-G-260 exact bytes are held, but its historical indexed custody requires
+a further bounded resolver correction; PF20 owns that continuation. No NC
+packet build or claim transfer has occurred.
+
+WA SUD original worker candidate d94f8b4b0 imported and independently refused
+in `vfwasud1/rows-vfwasud1-wa-sud-semantic-independent-20260913.json`.
+Five findings repaired on the existing worker. Latest candidate
+`6632fd3b9471791d3748e895fdb00a54c7448c8d`, current author return
+`pf05/rows-pf05-wa-sud-referral-repair-complete-20260913.json` committed40cfc377e.
+Two changed, unaccepted PDFs total20pages; author nine counters zero; independent
+re-review pending. Preserve old official overlay; candidate is custom-pleading.
+Do not raster from an author return.
+
+Provisioned only 17 initial held files (~8MB) from worker and nine exact adopted
+files from existing Drive custody. No complete-corpus assertion. Local env:
+`source private/source-corpus-environment.txt`; existing pdf-lib retained,
+Poppler installed for native PDF inspection. Native master generation still
+refuses three unique adopted bodies absent from current Captain/worker and
+checked Drive: JDF613 sha0745d99f..., JDF492 sha6b7e427a..., and AZ R260001 final
+order shaf41e4780... . Exact paths/hashes/lengths in
+`restart-recovery-20260913/new-captain-adopted-source-restoration-20260913.json`.
+Old Captain fictional-bassoon-p7jj9gq67jpgfr9r7 remains stopped: starting it for
+only these named read-only recovery files was HTTP403. User was asked to make
+it reachable; no old workspace was accessed. Do not reacquire or substitute
+other bytes. Shared native generation cannot be claimed successful until these
+required adopted bodies are restored and checks pass.
+
+Below are historical handoffs. Their counts, active assignments, host paths,
+authentication assumptions and current-status labels are superseded above.
+
 
 No pre-restart checkpoint was located. /workspaces/.legalease-restart was checked
 once and absent. Recovery is finished; do not restart recovery or source hunts.
