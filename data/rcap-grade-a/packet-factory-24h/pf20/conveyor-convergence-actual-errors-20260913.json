@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-convergence-failure-evidence/v1",
+  "originalWorkflow": {
+    "runId": 34759440517,
+    "jobId": 103729512918,
+    "commit": "bfc5d09f0c2afe1d79210d60ebf84535e40b738a",
+    "originalLogPath": "private/packet-factory-24h/transfers/conveyor-convergence-34759440517/READY_TO_RUN-original.log",
+    "originalLogSha256": "47c66a902175cc9e31bfe05be87202106dd5006bfc6b0465f90abd470088c45e",
+    "failedStep": "Generator convergence",
+    "nodeVersion": "v22.23.2",
+    "firstCommand": "node scripts/grade-a-packet-factory-24h/generate.mjs --check",
+    "exitCode": 1,
+    "exactError": "CORPUS_ENVIRONMENT_REFUSED: source the packet-factory bootstrap environment or supply MASTER_LIBRARY_SOURCE_DIR before auditing",
+    "remainingCommandsStatus": "NOT_RUN",
+    "originalConvergenceOutput": [
+      "READY_TO_RUN\tGenerator convergence\t\ufeff2026-09-13T13:19:02.6907999Z ##[group]Run node scripts/grade-a-packet-factory-24h/generate.mjs --check",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.6909293Z ^[[36;1mnode scripts/grade-a-packet-factory-24h/generate.mjs --check^[[0m",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.6910299Z ^[[36;1mnode scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs --check^[[0m",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.6911450Z ^[[36;1mnode scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs --check^[[0m",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.6949928Z shell: /usr/bin/bash -e {0}",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.6950195Z ##[endgroup]",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8574069Z file:///home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/lib/corpus-index-paths.mjs:38",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8575331Z   const refuse = (reason) => { throw new Error(`CORPUS_ENVIRONMENT_REFUSED: ${reason}`); };",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8576122Z                                      ^",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8576418Z ",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8577546Z Error: CORPUS_ENVIRONMENT_REFUSED: source the packet-factory bootstrap environment or supply MASTER_LIBRARY_SOURCE_DIR before auditing",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8580668Z     at refuse (file:///home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/lib/corpus-index-paths.mjs:38:38)",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8584158Z     at requireMasterLibraryEnvironment (file:///home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/lib/corpus-index-paths.mjs:39:18)",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8586790Z     at file:///home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/generate.mjs:60:1",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8588497Z     at ModuleJob.run (node:internal/modules/esm/module_job:343:25)",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8589526Z     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8590676Z     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8591306Z ",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8591492Z Node.js v22.23.2",
+      "READY_TO_RUN\tGenerator convergence\t2026-09-13T13:19:02.8630487Z ##[error]Process completed with exit code 1."
+    ]
+  },
+  "currentCaptainCheck": {
+    "head": "caf688ff85878ce1f8895b43081424a627cde19f",
+    "nodeVersion": "v22.23.2",
+    "environment": "existing private/source-corpus-environment.txt sourced; no environment values recorded",
+    "commands": [
+      {
+        "command": [
+          "node",
+          "scripts/grade-a-packet-factory-24h/generate.mjs",
+          "--check"
+        ],
+        "status": "FAIL",
+        "exitCode": 1,
+        "output": "private/packet-factory-24h/transfers/conveyor-convergence-34759440517/current-captain-node22/generate.log"
+      },
+      {
+        "command": [
+          "node",
+          "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
+          "--check"
+        ],
+        "status": "NOT_RUN",
+        "reason": "Earlier convergence command failed"
+      },
+      {
+        "command": [
+          "node",
+          "scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs",
+          "--check"
+        ],
+        "status": "NOT_RUN",
+        "reason": "Earlier convergence command failed"
+      }
+    ]
+  },
+  "currentCaptainOutput": "GENERATOR DIVERGENCE \u2014 packet factory 24h: 9 file(s) are not this generator's output.\n  docs/rcap/grade-a/packet-factory-24h/FIX05.md: present in the checkout and produced by no generator\n  docs/rcap/grade-a/packet-factory-24h/FIX06.md: present in the checkout and produced by no generator\n  docs/rcap/grade-a/packet-factory-24h/FIX07.md: present in the checkout and produced by no generator\n  docs/rcap/grade-a/packet-factory-24h/FIX08.md: present in the checkout and produced by no generator\n  docs/rcap/grade-a/packet-factory-24h/PF26.md: present in the checkout and produced by no generator\n  docs/rcap/grade-a/packet-factory-24h/VF09.md: present in the checkout and produced by no generator\n  docs/rcap/grade-a/packet-factory-24h/VF10.md: present in the checkout and produced by no generator\n  docs/rcap/grade-a/packet-factory-24h/VF11.md: present in the checkout and produced by no generator\n  docs/rcap/grade-a/packet-factory-24h/VF12.md: present in the checkout and produced by no generator\nRegenerate and commit the result. A hand-edited generated file is a claim no generator makes.\n",
+  "interpretation": "The original workflow failed before convergence comparison because its corpus environment was absent. With the established real corpus environment, current Captain under the same Node22 runtime reaches a distinct nine-orphan-generated-lane-document divergence. No later command or downstream workflow check is claimed PASS.",
+  "changesMade": [],
+  "repairOwner": "existing PF20 worker after active bounded resolver correction",
+  "productionTouched": false
+}
