@@ -9,7 +9,7 @@ under `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/`.
 ## Current checkpoint
 
 - Worktree: `/workspaces/legalease-partner-dashboard-clean`; user `codespace`.
-- Captain HEAD observed at this update: `d72e2883820ba4a7ac7345d1b3ba90e3cc097011`.
+- Captain HEAD before resize-preparation commit: `4748adf94892a58185bdc268b176121bc36edde9`.
 - Current MASTER_QUEUE counted once after recovery: **310/346 terminal**.
   No new closure yet. NH remains COMPLETE_PACKET_PROVEN.
 - KY adoption `3f16e3a55499f790d2b316a42171d473634c935d` remains adopted.
@@ -39,8 +39,8 @@ No required source or review evidence is stored solely in `/tmp`.
    Consumed `vfar1/rows-vfar1-ar-act346-semantic-pass-20260913.json` at commit
    `7c57ca558`: 14 semantic obligations PASS, clipping/overlap unmeasured.
    All frozen current/pinned hashes pass existing dispatch-byte verifier.
-   **Raster run34732930032 pending**; canary and plan passed, family was queued at
-   last check. Inputs: `raster-runs/34732930032/dispatch-inputs.json`.
+   **Raster run34732930032 completed successfully**; original evidence is not yet
+   consumed or independently visually accepted. Inputs: `raster-runs/34732930032/dispatch-inputs.json`.
    On success retain original archive/log in that persisted run directory and use
    existing `codex-captain-20260910/consume-original-raster.py`, then independent
    original-page final review and required integration chain. Never consume early.
@@ -48,17 +48,18 @@ No required source or review evidence is stored solely in `/tmp`.
    `pf08/rows-pf08-ky-adopted-service-repair-20260913.json` committed at7c57ca558.
    Both saved PDF hashes unchanged; service guides changed. Adoption test,
    saved-output readback, native completeness and B/C checks passed.
-   `resume_vfar1` now performs the existing VF24 independent review assignment;
-   it did not author KY. Do not reraster unchanged PDFs merely for restart.
+   VF24 completed `vf24/rows-vf24-ky-adopted-service-semantic-pass-20260913.json`:14
+   semantic obligations PASS, visual obligation unmeasured. Historical raster
+   receipt hashes differ from current PDFs and were not reused. Reviewer did not
+   author KY. Determine the valid current-byte raster gate after resize.
 3. **Kansas arrest/registration relief**: consumed
    `pf20/ks-custody-resume-20260913.json`. Latest saved worker return041959548 is
    STOPPED/BLOCKED_SOURCE, no candidate. Four exact files absent; expected paths,
    hashes, lengths and recorded URLs are in that handoff. `resume_ks_custody`
-   attempts only exact recorded custody/URLs, no new source hunt. Parent owns
+   is paused; four retrieved artifacts contain only not_acquired receipts. Parent owns
    source-binding integration. Owner KJC permission attestation stays adopted.
 4. **UT cannabis**: PF05 and VFUT1 claims unchanged. Latest saved script return
-   ea1eb64da is the flat typed-underscore caption refusal. `resume_pf05_ut` resumes
-   it in persisted isolated worktree
+   ea1eb64da is the flat typed-underscore caption refusal. `resume_pf05_ut` is paused, with no changes or new candidate, in persisted worktree
    `private/worker-worktrees/pf05-ut-cannabis-resume-20260913`, same-named branch,
    base7f50087dc; existing provisioner links private/node_modules. Owned UT family
    paths only; parent merges, VFUT1 independently reviews. No duplicate build.
@@ -102,3 +103,31 @@ contain only not_acquired receipt JSON, no PDFs. Its persisted report is
 `private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json`.
 When storage is increased or adequate capacity otherwise safely restored,
 consume completed AR original evidence and final review before more build work.
+
+## Storage resize preparation — local writers paused
+
+Checkpoint `4748adf94892a58185bdc268b176121bc36edde9` was verified to contain this
+note and `data/rcap-grade-a/packet-factory-24h/disk-cleanup-20260913.json`.
+The normal Captain branch push must include this checkpoint and this preparation
+commit. Exact file hashes, active paths and recovery identifiers are in
+`data/rcap-grade-a/packet-factory-24h/storage-resize-preparation-20260913.json`.
+
+PF05's completed agent return is **PAUSED_AT_SAFE_BOUNDARY, not PASS**. Its clean
+worktree HEAD is `7f50087dcb66ba2fd4a2ee6b164d128b37b41d43`; no new build exists.
+Durable return: `data/rcap-grade-a/packet-factory-24h/pf05/resume-pf05-ut-paused-20260913.json`.
+Next PF05 gate is the bounded repair, then VFUT1 independent review.
+
+AR artifact10309667574, `rcap-raster-ar-act346-set-34732930032`, is published:
+SHA256 `ddda7eb58baf9d059bda59e9a1ae64de1aba159885002d5a056ff5665c1b85fb`,
+7059621 bytes, expires2026-09-27T02:32:20Z. Download identifier:
+`repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/10309667574/zip`.
+It has NOT been downloaded for this preparation. Required next action after
+resize: consume Act346 run34732930032 and complete independent acceptance.
+
+Known active /tmp paths were checked only: reproducible PDF dependencies exist;
+current AR artifact scratch, historical AR post-build helpers and two KY historical
+PDFs are absent. No missing file is represented as preserved. Worker private and
+node_modules symlinks resolve as recorded in the preparation receipt.
+The verified corpus and persisted worker paths above remain actual local files;
+this note is NOT their backup. No entire corpus or historical archive was copied.
+No cleanup, builds, automatic resize, or automatic restart during preparation.
