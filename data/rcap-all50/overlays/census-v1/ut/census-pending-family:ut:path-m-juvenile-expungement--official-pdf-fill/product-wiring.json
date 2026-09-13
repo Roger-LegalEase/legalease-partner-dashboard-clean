@@ -20,11 +20,9 @@
     ],
     "deliveryType": "official_pdf_fill",
     "instrumentKinds": [
-      "Utah 1174XX juvenile expungement petition"
+      "Utah Juvenile Expungement Petition"
     ],
-    "packetComponents": [
-      "1174XX"
-    ],
+    "packetComponents": [],
     "fieldMap": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/participant-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/reports/rendered-artifacts.json",
@@ -37,18 +35,19 @@
       }
     ],
     "acceptanceReceipt": null,
-    "lastIndependentVerification": null,
+    "lastIndependentVerification": {
+      "verdict": "PASS",
+      "lane": "vfut1",
+      "verifiedAtBase": "13a80e4f0ed27f3e9dc5f8e2f779d8c89298f09e"
+    },
     "paymentEligible": false,
     "sponsorshipEligible": false,
-    "whyPaymentIsClosed": "This candidate remains disabled until central raster acceptance and independent legal, visual and completeness review.",
-    "maintenanceRelationship": "PF05 candidate; Captain integration owns any later route reconciliation.",
-    "acceptanceReceiptWithdrawn": [],
-    "centralReconciliationRequired": {
-      "routeKey": "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:ordinary_petition_branch",
-      "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
-      "sourceAdmission": "data/rcap-grade-a/packet-factory-24h/pf20/ut-juvenile-source-return-20260913.json",
-      "sharedRegistryEditsMadeHere": false,
-      "preserveLaunchGraphClosed": true
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-census-pending-family:UT:path-m-juvenile-expungement.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
     }
   }
 }

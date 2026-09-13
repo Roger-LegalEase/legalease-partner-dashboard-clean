@@ -10,7 +10,7 @@ Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
 Latest verified remote before this note: 4726c2bf4bada1d4e0db4597bc56f87d2003cc60.
 Current HEAD advances through the commit containing this note.
-**Verified terminal checkpoint:316/346.**
+**Verified terminal checkpoint:317/346.**
 Full native integration with Utah original run34744433174 completed at base
 b3149e4eebca45bc24c894aeba8de004611178e9.
 Utah integration preserved312 prior terminals. WV integration then preserved all313
@@ -372,3 +372,12 @@ AR veterans closed316 via original run34748768620; all315 prior terminals preser
 Closure: restart-recovery-20260913/ar-veterans-final-closure-20260913.json.
 Kansas registration finalPASS recorded14a72272e; native integration next.
 OH blocked on existing remedy-matching source/mapping inputs; same slot advances CA diversion seal.
+
+## Finish-mode current checkpoint317
+
+KS registration current-receipt finalVFKS4 and full native chain passed; all316 prior terminals preserved.
+Closure: restart-recovery-20260913/ks-registration-final-closure-20260913.json. Original26pages unchanged.
+UT juvenile exact candidate imported13a80e4f0, semanticPASS c7ba985c5, four pages frozen
+in pf05/ut-juvenile-frozen-raster-manifest-20260913.json; dispatch next.
+Only implementation slots: PF05 Florida expunction, existing worker Iowa12346.
+OH, CA diversion, NC composed dismissal, FL sealing exact prerequisite blockers are isolated in native returns.
