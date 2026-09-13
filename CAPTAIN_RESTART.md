@@ -1,5 +1,13 @@
 # CAPTAIN_RESTART — SOLE FINISH CAPTAIN
 
+LATEST: Terminal329/346. ND remote-access, MT deferred and MT misdemeanor all COMPLETE_PACKET_PROVEN.
+ND full saved render32+32pages, both full surname fields preserved/visible, independent semantic and all64original-page final PASS; run34783681975.
+MT deferred3x8pages final PASS/run34782464548; MT misdemeanor9+11+9pages final PASS/run34783921430.
+All3 closed with native60/5/wiring convergence, exact original326 terminal dispositions retained; no production/commercial authority changes.
+Latest closure pf24/nd-final-closure-20260913.json. No active raster watchers or pending reviews for these3candidates.
+Remaining-family record preserves the other17 corrective assignments; earlier continuation notes below are historical and superseded for these3families.
+
+
 Latest integrated closure: MT misdemeanor COMPLETE_PACKET_PROVEN, terminal328/346. All29 original pages accepted by VFMTMISFINAL1; prior327 terminal dispositions and326 terminal raster document/receipt bindings preserved. Native60/5/wiring checks PASS. See pf16/mt-misdemeanor-final-closure-20260913.json. ND64-page RASTER_PASS final review ongoing; consume next.
 
 ## Active original-page gates
