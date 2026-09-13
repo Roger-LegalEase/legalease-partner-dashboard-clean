@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "bc3b9dcbc36f7189d84a58b47e051db0f01c7a0a",
+  "minimumCaptainSha": "1c58063c769dca92c05bd6dfdc385f55b3d7dde4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "347a931f700d88ea432b9725e903568c6d288b7da769102dcfb457f8300e319e",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "c3ac4b466365b9f10337327b25778ccc8eb0ec78754df8b9fa85c1804c622108",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -76,7 +76,7 @@
     "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
     "remaining": 345,
-    "sourceReady": 16,
+    "sourceReady": 15,
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
@@ -87,8 +87,9 @@
     "COMPLETE_PACKET_PROVEN": 304,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 16,
+    "SOURCE_READY": 15,
     "HANDOFF_READY": 2,
+    "BUILT_RASTER_PENDING": 1,
     "FAIL_REPAIR_REQUIRED": 1,
     "PRODUCT_PATH_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
@@ -158,10 +159,10 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 25,
-    "sourceReadyFamilies": 16,
+    "sourceReadyFamilies": 15,
     "familiesPerBuilder": 0.6,
     "targetPerBuilder": "15 to 25",
-    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 16 do, so a full roster of 25 builders averages 0.6 families each rather than 15 to 25.",
+    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 15 do, so a full roster of 25 builders averages 0.6 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -30914,13 +30915,14 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS",
+        "lane": "vfmt2",
+        "verifiedAtBase": "1c58063c769dca92c05bd6dfdc385f55b3d7dde4",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmt2/rows-vfmt2-mt-deferred-repair-semantic-pass-20260913.json"
+      },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -30934,20 +30936,30 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mt_deferred_dismissal-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading",
       "ownedPaths": [
@@ -33034,11 +33046,16 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vfnd1",
+        "verifiedAtBase": "16fe76088ab185620c723ad2083d49f646697f8e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnd1/rows-vfnd1-nd-remote-semantic-changes-required-20260913.json"
+      },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
-        "status": "PACKET_SOURCE_RECEIPT_MISSING_OR_INVALID",
-        "ready": false,
+        "status": "PACKET_SOURCE_ADOPTION_CURRENT",
+        "ready": true,
         "receiptPath": "data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/source-receipt.json",
         "requiredBindings": [
           {
@@ -33078,11 +33095,67 @@
             "sha256": "757f503033b35ef6ef2d1d44318248d40d2398850b960f0c06a3ca2d8a0c2b23"
           }
         ],
-        "observedBindings": [],
-        "reason": "Packet source adoption refused: data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/source-receipt.json is missing or invalid (ENOENT: no such file or directory, open '/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/source-receipt.json')."
+        "observedBindings": [
+          {
+            "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+            "sha256": [
+              "60a50d5f3c2c96a4cc804fba3c35ab3fa19d3e1c7d438917867130408e1ffe2d"
+            ]
+          },
+          {
+            "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
+            "sha256": [
+              "ad05e9e15182e04408119a84a5c2fc557324400c2f33e02037b8886c64195fb3"
+            ]
+          },
+          {
+            "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+            "sha256": [
+              "0bc80466174c034c79ac60487d079088ee91f86c07eb8ee1bea7213fd6c02e0a"
+            ]
+          },
+          {
+            "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+            "sha256": [
+              "4e8d129f8ef27e9b78ddd3c8968bd93add41a71586f2e91149f0ac1d1be1d250"
+            ]
+          },
+          {
+            "sourceId": "official-form:ND-DECLARATION-SUPPORT-REMOTE-ACCESS",
+            "sha256": [
+              "5ab4d45d05b56f52832bf5c741aa8825a624ac9e49f9744ed68960a253881db4"
+            ]
+          },
+          {
+            "sourceId": "official-authority:ND-REMOTE-ACCESS-PACKET-INSTRUCTIONS",
+            "sha256": [
+              "8ac6b578144b134c3c2db3b4ef5f0f656131d5ed0d22413006e0c9072d786fab"
+            ]
+          },
+          {
+            "sourceId": "official-form:ND-NOTICE-MOTION-REMOTE-ACCESS",
+            "sha256": [
+              "f180368ef62486d916e06b9f2529d9ac9da33cd22444f5cb88d2283fd2b1a5b3"
+            ]
+          },
+          {
+            "sourceId": "official-form:ND-CONFIDENTIAL-INFORMATION-CRIMINAL",
+            "sha256": [
+              "21f101bb267fbdd3f2b1a9d563eb2f0807f51a414e9af8ac91e8575a238b0d37"
+            ]
+          },
+          {
+            "sourceId": "official-form:ND-DECLARATION-OFFICE-SERVICE-REMOTE-ACCESS",
+            "sha256": [
+              "757f503033b35ef6ef2d1d44318248d40d2398850b960f0c06a3ca2d8a0c2b23"
+            ]
+          }
+        ],
+        "mismatches": [],
+        "reason": "The family source receipt binds every required adopted packet source by SHA-256."
       },
       "rasterEnrolmentRefusal": [
-        "Packet source adoption refused: data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/source-receipt.json is missing or invalid (ENOENT: no such file or directory, open '/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/source-receipt.json')."
+        "the current failed obligations have not been repaired"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -33097,20 +33170,43 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
-      "allNineCountersZero": null,
-      "counters": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Two independently viewed exact-boundary diagnostic pages confirm clipped known surname: Findings page23 Defendant and CIF page26 full name. Full-packet original raster remains unperformed.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfnd1/nd-remote-independent-semantic-evidence-20260913.json",
+            "sha256": "cdd723edae04cf1c37a9249ab672263841a14c50eb7d424ee8e7d2e654ac2a6d",
+            "byteLength": 165557
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-prohibit-remote-public-access-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill",
       "ownedPaths": [
@@ -51966,9 +52062,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 16,
+    "familiesAssignedToBuilders": 15,
     "sourceObligationsAssigned": 0,
-    "actualPromotedAndReleased": 16,
+    "actualPromotedAndReleased": 15,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",

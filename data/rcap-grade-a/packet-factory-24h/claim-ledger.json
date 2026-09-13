@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "bc3b9dcbc36f7189d84a58b47e051db0f01c7a0a",
+  "generatedAtCommit": "1c58063c769dca92c05bd6dfdc385f55b3d7dde4",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6892,21 +6892,6 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T01:19:16.058Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mt_deferred_dismissal-set",
-      "familyId": "mt_deferred_dismissal-set",
-      "itemId": null,
-      "familyIds": [
-        "mt_deferred_dismissal-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF04",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15716,7 +15701,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "823ec02d52c18f9d65f04d83ff1c7d8df5e9b82ea4261c8b0e31dcbaa2463ff6",
+  "claimsDigest": "1ac687c4064511959f67993c28621ab20c35aa1ef56b6ee51839b77de05a4b34",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71974,6 +71959,14 @@
       "operation": "packet-build",
       "lane": "PF24",
       "withdrawnAt": "2026-09-13T19:50:35Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mt_deferred_dismissal-set",
+      "operation": "packet-build",
+      "lane": "PF04",
+      "withdrawnAt": "2026-09-13T20:53:29Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

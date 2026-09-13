@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "b2b116487cb07d3ceb3fe44d223faa56732ccd43c0b98c70d309bbfc69ac852f",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "7352688df07d1181b2f584bb00909f1b785c570e330e855856088946daa098ac",
+      "coverage": {
+        "basis": "Every canonical assembled diagnostic and explicitly declared conditional packet is included; the central renderer separately measures all declared boundary outputs.",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf",
+          "verdict-justice.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "conditionalPacketBranch": "canonical",
+          "filingReady": false,
+          "name": "canonical.pdf",
+          "pageCount": 8,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 8,
+            "sourceSha256": "7352688df07d1181b2f584bb00909f1b785c570e330e855856088946daa098ac",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+          "role": "canonical",
+          "selectionKind": "diagnostic",
+          "sha256": "7352688df07d1181b2f584bb00909f1b785c570e330e855856088946daa098ac"
+        },
+        {
+          "conditionalPacketBranch": "boundary",
+          "filingReady": false,
+          "name": "boundary.pdf",
+          "pageCount": 8,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 8,
+            "sourceSha256": "b2b116487cb07d3ceb3fe44d223faa56732ccd43c0b98c70d309bbfc69ac852f",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+          "role": "boundary",
+          "selectionKind": "diagnostic",
+          "sha256": "b2b116487cb07d3ceb3fe44d223faa56732ccd43c0b98c70d309bbfc69ac852f"
+        },
+        {
+          "conditionalPacketBranch": "verdict-justice",
+          "filingReady": false,
+          "name": "verdict-justice.pdf",
+          "pageCount": 8,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 8,
+            "sourceSha256": "158ba02a7934cdf9c9cf74748f108d1d86461ab77e3c59e69472d9c93c0a871b",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading/fixtures/verdict-justice.pdf",
+          "role": "boundary",
+          "selectionKind": "diagnostic",
+          "sha256": "158ba02a7934cdf9c9cf74748f108d1d86461ab77e3c59e69472d9c93c0a871b"
+        }
+      ],
+      "documentsDigest": "7b0f0167d294ed833b08088724b71c00c137919337868230afcf1c5f15798fca",
+      "expectedPages": 8,
+      "familyId": "mt_deferred_dismissal-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS02",
+      "packetCommitSha": "1c58063c769dca92c05bd6dfdc385f55b3d7dde4",
+      "requestedScale": 2.5
+    }
+  ]
+}

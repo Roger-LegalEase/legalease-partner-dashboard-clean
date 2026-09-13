@@ -82,6 +82,26 @@ const iaWholePacketDocuments = ({ report, fixtures, root, expectedFixtures }) =>
 };
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
+  // The deferred candidate includes a complete verdict/justice-court fixture.
+  // Preserve its reviewed report and enroll all three saved packets.
+  if (report?.familyId === 'mt_deferred_dismissal-set') {
+    const names = ['boundary', 'canonical', 'verdict-justice'];
+    assert.deepEqual(report.artifacts.map(d => d.fixture).sort(), names);
+    assert.deepEqual(fs.readdirSync(fixtures).filter(n => n.endsWith('.pdf')).sort(), names.map(n => `${n}.pdf`));
+    return report.artifacts.map(d => {
+      const file = path.resolve(fixtures, `${d.fixture}.pdf`);
+      assert.equal(path.resolve(root, d.file), file);
+      assert.ok(!fs.lstatSync(file).isSymbolicLink());
+      const bytes = fs.readFileSync(file);
+      assert.equal(bytes.length, d.byteLength);
+      assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), d.sha256);
+      assert.equal(pdfInfoPageCount(file), d.pageCount);
+      assert.equal(d.completeFamily, true);
+      return { role: d.fixture === 'canonical' ? 'canonical' : 'boundary',
+        name: `${d.fixture}.pdf`, declaredPageCount: d.pageCount,
+        branch: d.fixture, selectionKind: 'diagnostic', filingReady: false };
+    });
+  }
   if (['md_10110_conviction-set', 'md_cannabis_petition-set'].includes(report?.familyId)) return mdConditionalRasterDocuments({report, fixtures, root});
   const iaFixtureContract = iaWholePacketFixtureContract(report?.familyId);
   if (iaFixtureContract) return iaWholePacketDocuments({ report, fixtures, root, expectedFixtures: iaFixtureContract });

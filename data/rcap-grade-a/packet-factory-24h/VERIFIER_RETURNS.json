@@ -34,13 +34,15 @@
     }
   ],
   "counts": {
-    "returnDirectories": 382,
-    "rows": 1472,
-    "independentVerdicts": 328,
-    "failRepairRequired": 0,
-    "passIndependent": 326
+    "returnDirectories": 385,
+    "rows": 1475,
+    "independentVerdicts": 330,
+    "failRepairRequired": 1,
+    "passIndependent": 327
   },
-  "failRepairRequiredFamilies": [],
+  "failRepairRequiredFamilies": [
+    "nd-prohibit-remote-public-access-set"
+  ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
@@ -19660,6 +19662,62 @@
       "superseded": false
     },
     {
+      "familyId": "mt_deferred_dismissal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfmt1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "16fe76088ab185620c723ad2083d49f646697f8e",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "Two committedRecords pins are authentic old worker whole-file hashes, not current review-base hashes: legal-design-packet-set-manifests.json and packet-family-build-worklist.json. One full MT packetSet and both MT worklist unit rows are independently exactly equal. Current-base source binding requires a bounded two-entry SHA/length metadata correction with this original proof retained; no generic exemption or PDF rebuild is required for this finding. Original DOCX46068155 identity and full derivative content independently match; failure concerns exactly the two current-base metadata pins.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfmt1/mt-deferred-independent-semantic-evidence-20260913.json",
+            "sha256": "7b9a54cd45d89f80dd2b9ad690421b783ba55ca3dd5eef9168caed30a179cae8",
+            "byteLength": 71938
+          }
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The adopted packet_instruction explaining that §44-5-103 agencies retain access to the entire sealed record, including law enforcement, military and Border Patrol, is absent from all three saved participant instruction sections and participant-instructions.md. Sealing/confidentiality alone does not deliver that adopted limitation. All seven named adopted stop conditions themselves are present in all saved PDFs and implemented fail-closed; this obligation fails only the omitted adopted legal-effect limitation.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfmt1/mt-deferred-independent-semantic-evidence-20260913.json",
+            "sha256": "7b9a54cd45d89f80dd2b9ad690421b783ba55ca3dd5eef9168caed30a179cae8",
+            "byteLength": 71938
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmt1/rows-vfmt1-mt-deferred-semantic-changes-required-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_deferred_dismissal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mt_deferred_dismissal-set",
+      "verdict": "PASS",
+      "lane": "vfmt2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1c58063c769dca92c05bd6dfdc385f55b3d7dde4",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmt2/rows-vfmt2-mt-deferred-repair-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_deferred_dismissal-set",
+      "superseded": false
+    },
+    {
       "familyId": "name mailed to",
       "verdict": null,
       "lane": "sd-arrest-expungement-disclosure-repair",
@@ -20792,6 +20850,33 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf30/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-nonconviction-close-petition-set",
       "superseded": true
+    },
+    {
+      "familyId": "nd-prohibit-remote-public-access-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfnd1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "16fe76088ab185620c723ad2083d49f646697f8e",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Two independently viewed exact-boundary diagnostic pages confirm clipped known surname: Findings page23 Defendant and CIF page26 full name. Full-packet original raster remains unperformed.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfnd1/nd-remote-independent-semantic-evidence-20260913.json",
+            "sha256": "cdd723edae04cf1c37a9249ab672263841a14c50eb7d424ee8e7d2e654ac2a6d",
+            "byteLength": 165557
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnd1/rows-vfnd1-nd-remote-semantic-changes-required-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-prohibit-remote-public-access-set",
+      "superseded": false
     },
     {
       "familyId": "nd-regular-pardon-set",

@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 340,
+  "scriptsScanned": 343,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -431,6 +431,24 @@
         "build-census-v1-ky_void_seal_controlled_substance-set.mjs"
       ],
       "importedBy": []
+    },
+    {
+      "script": "build-census-v1-nd-prohibit-remote-public-access-set.mjs",
+      "imports": [
+        "build-census-v1-nd-remote-native-metadata.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nd-remote-native-metadata.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-nd-remote-native-metadata.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-nd-prohibit-remote-public-access-set.mjs"
+      ]
     },
     {
       "script": "build-census-v1-ne-setaside-custodial-set.mjs",
