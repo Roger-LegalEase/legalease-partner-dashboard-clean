@@ -5,8 +5,50 @@
   "runtimeSelectable": false,
   "commercialRoutesOpened": 0,
   "binding": {
+    "family": "fl-expunction-set",
+    "jurisdiction": "FL",
+    "routeKeys": [
+      "obligation:track-only:FL:fl-expunction"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "affidavit",
+      "certificate_of_service",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:fl-expunction-affidavit-3",
+      "component:fl-expunction-primary-filing-1",
+      "component:fl-expunction-primary-filing-2",
+      "component:fl-expunction-proposed-order-4"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+        "tier": "exact_content_hash"
+      }
+    ],
     "acceptanceReceipt": null,
-    "acceptanceReceiptWithdrawn": []
+    "lastIndependentVerification": {
+      "verdict": "PASS",
+      "lane": "vf44",
+      "verifiedAtBase": "7051ed028d2554cb641b8e3c5020031ca9bfc89a"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-fl-expunction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   },
   "proposedRepresentation": {
     "components": [

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "3a9ef08889a3ef63f4e8bfb5c3366b9e126234cd",
+  "generatedAtCommit": "14730fa5a87c8deb93bfb7a67d867e2627c7d119",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1795,6 +1795,21 @@
       "released": false,
       "releasedAt": null,
       "releaseReason": "Complete declaration repair integrated as 1bd270e12; raster and independent acceptance remain pending"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "itemId": null,
+      "familyIds": [
+        "census-pending-family:UT:path-m-juvenile-expungement"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3610,21 +3625,6 @@
       "released": true,
       "releasedAt": "2026-09-11T21:15:47.802Z",
       "releaseReason": "Complete six-field geometry repair9a4299efc integrated; focused author15 tests and integrated production check passed; current raster/review remain required"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "fl-expunction-set",
-      "familyId": "fl-expunction-set",
-      "itemId": null,
-      "familyIds": [
-        "fl-expunction-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF19",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15791,7 +15791,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "4cb248e7618fd712374547d12206546b935e580943b067948ed5c1843b0249ba",
+  "claimsDigest": "d1583ab78fdc86cdd7a43b0fea13c613229b7def2105d03fca9004aea4623ed3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71974,6 +71974,14 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-13T11:40:05Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-expunction-set",
+      "operation": "packet-build",
+      "lane": "PF19",
+      "withdrawnAt": "2026-09-13T12:05:00Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
