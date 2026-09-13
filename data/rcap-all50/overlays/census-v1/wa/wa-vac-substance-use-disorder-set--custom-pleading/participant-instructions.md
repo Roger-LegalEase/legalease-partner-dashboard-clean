@@ -8,7 +8,7 @@ The court decides eligibility. The participant must copy exact conviction facts 
 
 For the assessment path, the assessment must be from one of these statutory programs: a recovery navigator program under RCW 71.24.115, an arrest and jail alternative program under RCW 36.28A.450, or a law enforcement assisted diversion program under RCW 71.24.589. Obtain a written status update establishing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. If the qualifying program identity cannot be verified, stop and obtain legal help.
 
-RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases, violence, weapons or enhancements, DUI, and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route.
+RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases; violence or domestic violence; protection, no-contact, antiharassment or civil-restraint orders; weapons or enhancements; DUI, physical-control or reduced-driving offenses; and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route.
 
 ## What is in this packet
 
@@ -36,7 +36,7 @@ Each of these is carried here in the words of the committed record it comes from
 
 - **The adopted WA-SUD decision** — Use a route-specific petition and declaration under RCW 9.96.060(6), with notice/order handling and the required program proof or assessment/status documentation.
 - **The route record** — The route covers a Washington drug conviction after treatment or a recovery programme and lists the qualifying statutory categories and program authorities.
-- **Subsection (2)/(6) authority** — RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases, violence, weapons or enhancements, DUI, and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route.
+- **Subsection (2)/(6) authority** — RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases; violence or domestic violence; protection, no-contact, antiharassment or civil-restraint orders; weapons or enhancements; DUI, physical-control or reduced-driving offenses; and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route.
 
 ## Records to obtain before filing
 
@@ -129,7 +129,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 - neither qualifying completion proof nor the assessment plus written six-month status update is available;
 - the program provider, assessment, completion, or six-month status cannot be verified;
 - filing, service, safety, immigration, sealing, or related-case consequences require advice beyond these instructions.
-- violence, weapons or enhancements, DUI, or pending/new cases raise questions about separate consequences or other routes; these are referral triggers, not automatic subsection (6) bars;
+- violence or domestic violence; protection, no-contact, antiharassment or civil-restraint orders; weapons or enhancements; DUI, physical-control or reduced-driving offenses; or pending/new cases raise questions about separate consequences or other routes; these are referral triggers, not automatic subsection (6) bars;
 - you need advice about firearm rights; this packet does not restore them or decide firearm eligibility;
 - the assessment cannot be tied to one of the three statutory programs or either the six-month compliance requirement or recovery progress is not documented;
 
