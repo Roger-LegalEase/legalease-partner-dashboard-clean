@@ -18,8 +18,12 @@ carries the governed-source resolver work. Preserve their dirty claim ledgers
 and code; worker ancestry lacks d66948d7463fa8a8df38981d611ebfe04139ea3e, so
 avoid broad fetch, reset, or cleanup there. Worker /tmp had 98 GiB free.
 Per latest user direction, all relevant gh commands must unset GH_TOKEN and
-GITHUB_TOKEN. Do not fall back to the Codespace token or retry the missing
-stored login; worker SSH work also waits for the requested authentication context.
+GITHUB_TOKEN. Stored Roger-LegalEase login now works under Unix codespace and
+/home/codespace/.config/gh; browser-approved codespace scope confirmed.
+Recovery worker pause/resume is complete; required persistent dependencies
+and corpus environment verified. Preserved temporary artifacts and resume
+instructions are in worker private/packet-factory-24h/transfers/recovery-worker-pause-20260913/.
+Worker now has 2.3 GiB free; avoid expanding its persistent corpus further.
 
 Iowa reader correction independently PASS and committed `73f87b0bd`.
 Both semantic PASS returns are recognized by the native extractor. Frozen
@@ -28,16 +32,13 @@ commit `67c72bae5addcc2084ffbd2ba79294af56232b9b`: IA12346 6 fixtures/24 pages,
 IA901C3 8 fixtures/49 pages, total 14/73. Prepared workflow ref, scale and
 inputs are in `pf05/ia-both-dispatch-inputs-20260913.json`; current/committed
 PDF byte proof is `pf05/ia-both-dispatch-byte-proof-20260913.json`.
-**NO NEW IOWA RUN WAS CREATED.** Initial dispatch was HTTP403 Resource not
-accessible by integration. User then directed stored authentication only:
-`env -u GH_TOKEN -u GITHUB_TOKEN gh ...`. Under Unix user codespace, home
-/home/codespace, effective /home/codespace/.config/gh, that directory and
-hosts.yml are absent and gh reports no logged-in hosts. Stored-auth recent-run
-lookup could not execute; no further dispatch was attempted. Exact observation:
-`pf05/ia-both-stored-auth-check-20260913.json`. When access is available, check
-recent runs once for this frozen batch, consume any existing accepted dispatch,
-or submit the already-prepared inputs unchanged. No rebuild/new semantics.
-A dispatch grants no raster PASS or terminal closure.
+Iowa dispatch accepted using stored authentication: run **34765630915**.
+Prior-run lookup checked once; no duplicate existed. Prepared JSON dispatched
+unchanged: frozen packet commit remains 67c72bae5addcc2084ffbd2ba79294af56232b9b,
+workflow ref claude/legalease-sprint-captain-utucnw, scale 2.5, both families.
+Workflow head is 70758161d0200fde572bd5d00a94576fa6d0fa5f (distinct from packet pin).
+Bindings: `pf05/ia-both-accepted-dispatch-20260913.json`.
+Consume this exact run; do not redispatch. Dispatch is not raster PASS or closure.
 
 Governed resolver previous findings plus valid-preloaded-custody namespace
 failure independently repaired/PASS, committed `45f7ddc9c`. CA exact CRM307
@@ -68,16 +69,18 @@ raster and distinct original-page final review once access is restored.
 Provisioned only 17 initial held files (~8MB) from worker and nine exact adopted
 files from existing Drive custody. No complete-corpus assertion. Local env:
 `source private/source-corpus-environment.txt`; existing pdf-lib retained,
-Poppler installed for native PDF inspection. Native master generation still
-refuses three unique adopted bodies absent from current Captain/worker and
-checked Drive: JDF613 sha0745d99f..., JDF492 sha6b7e427a..., and AZ R260001 final
-order shaf41e4780... . Exact paths/hashes/lengths in
-`restart-recovery-20260913/new-captain-adopted-source-restoration-20260913.json`.
-Old Captain fictional-bassoon-p7jj9gq67jpgfr9r7 remains stopped: starting it for
-only these named read-only recovery files was HTTP403. User was asked to make
-it reachable; no old workspace was accessed. Do not reacquire or substitute
-other bytes. Shared native generation cannot be claimed successful until these
-required adopted bodies are restored and checks pass.
+Poppler installed for native PDF inspection. Three-file recovery is complete:
+JDF-613, JDF-492 and AZ R260001-FinalRulesOrder.PDF all matched pre-existing
+SHA-256 and byte lengths at their recorded paths and were streamed into private
+Captain staging and restored only to missing governed destinations.
+Old Captain fictional-bassoon-p7jj9gq67jpgfr9r7 is API-verified Shutdown.
+Worker was safely paused for the slot and resumed, dependencies verified.
+Receipt: `restart-recovery-20260913/three-file-recovery-receipt-20260913.json`.
+Native adoption loader now PASS. Native generate.mjs --check reaches 25
+existing generated-file divergences; no missing-source adoption refusal.
+Next integrate current reviewed returns and generated bookkeeping while preserving
+all 321 terminals, then consume original Iowa run 34765630915. No packet rebuild
+or accepted reraster is authorized by source restoration itself.
 
 Below are historical handoffs. Their counts, active assignments, host paths,
 authentication assumptions and current-status labels are superseded above.
