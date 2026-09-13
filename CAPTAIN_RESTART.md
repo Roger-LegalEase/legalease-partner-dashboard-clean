@@ -10,7 +10,7 @@ Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
 Latest verified remote before this note: 4726c2bf4bada1d4e0db4597bc56f87d2003cc60.
 Current HEAD advances through the commit containing this note.
-**Verified terminal checkpoint:318/346.**
+**Verified terminal checkpoint:319/346.**
 Full native integration with Utah original run34744433174 completed at base
 b3149e4eebca45bc24c894aeba8de004611178e9.
 Utah integration preserved312 prior terminals. WV integration then preserved all313
@@ -393,3 +393,8 @@ Activeimplementation: PF05KYfelony-after-pardon, existingworkerMTcompleted marij
 UT juvenile closed318 through original run34755241448;317 prior terminals and24 dirty files preserved.
 Closure: restart-recovery-20260913/ut-juvenile-final-closure-20260913.json.
 FL raster34756193839 active. Current implementation slots: KYfelony-pardon and NCyouthful.
+
+FL expunction closed319 via original run34756193839;318 prior terminals and24dirty files preserved.
+Closure: restart-recovery-20260913/fl-expunction-final-closure-20260913.json.
+KYfelony-pardon candidate3245b7cf3 at semanticreviewks_registration_final; no raster yet.
+Implementation slots: PF05TXdwi nondisclosure; existingworker WVdiversion after bounded pdftotext repair.
