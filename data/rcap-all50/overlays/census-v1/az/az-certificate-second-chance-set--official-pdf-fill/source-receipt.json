@@ -28,18 +28,18 @@
       ],
       "recordId": "packet-set-manifest:az_certificate_second_chance-set",
       "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
-      "byteLength": 3711575,
+      "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+      "byteLength": 3711585,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed packet-set manifest for this exact packet set. It settles the components, the filing destination, and the fee, waiver, service and notarisation positions -- each of which, on this route, is a statement that the source review did not establish one. Its requiredBeforeFiling list is read from these bytes at build time and printed verbatim into participant-instructions.md",
       "anchorStatementsVerified": 7,
       "identityRefresh": {
-        "refreshedOn": "2026-09-12",
+        "refreshedOn": "2026-09-13",
         "was": {
-          "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
-          "byteLength": 3710466
+          "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+          "byteLength": 3711575
         },
-        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+        "why": "The record was rewritten around this receipt's anchors. 2 named entries moved between the blob carrying the previous pin and the bytes on disk (wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
         "anchorsCompared": 5,
         "anchorDetail": [
           "packetManifestSharedMetadata: identical",
@@ -80,54 +80,81 @@
           }
         },
         "entriesThatMovedInThisRecord": [
-          "de_discretionary_family_court-set"
+          "wv_nc_acquittal_dismissal-set",
+          "wv_nc_diversion_deferred-set"
         ],
         "recoveredFrom": {
           "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
-          "blobId": "7eac21e1e2634a0cbc04afaf459f4fe2be96e64b",
-          "commit": "fded60e657631cdee0c146396e446482f4d66384",
-          "commitsWithThisPath": 66,
-          "distinctBlobs": 59,
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
           "blobsHashed": 2
         },
         "previousIdentityRefresh": {
           "refreshedOn": "2026-09-12",
           "was": {
-            "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
-            "byteLength": 3708358
+            "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+            "byteLength": 3710466
           },
-          "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (il-seal-edu-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
-          "anchorsCompared": 2,
+          "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+          "anchorsCompared": 5,
           "anchorDetail": [
-            "recordGlobalMetadata: identical",
-            "packetSet:az_certificate_second_chance-set: identical"
+            "packetManifestSharedMetadata: identical",
+            "packetSet:az_certificate_second_chance-set: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
           ],
-          "anchorsIdentical": 2,
+          "anchorsIdentical": 5,
           "identicalAnchorSha256": {
-            "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
-            "packetSet:az_certificate_second_chance-set": "f9719ab91826dc4739753a634b19a5e5bf19f15503c0257220a199a2aad7521e"
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:az_certificate_second_chance-set": "8f6e8f250912295f39e14b23b97f4a16af0b0f088f7a685374f3120a1806dbf1",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
           },
-          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
           "anchorScope": {
             "anchorIds": [
               "az_certificate_second_chance-set"
             ],
-            "basis": "packet-set-manifest:az_certificate_second_chance-set"
+            "derivation": {
+              "declarations": [
+                {
+                  "basis": "pin.recordId",
+                  "packetSetId": "az_certificate_second_chance-set"
+                },
+                {
+                  "basis": "receipt.familyId exact packetSetId",
+                  "packetSetId": "az_certificate_second_chance-set"
+                },
+                {
+                  "basis": "receipt.routeKeys:obligation:track-only:AZ:az_certificate_second_chance",
+                  "packetSetId": "az_certificate_second_chance-set"
+                }
+              ],
+              "globalMetadataComparedAsOneAnchor": true
+            }
           },
           "entriesThatMovedInThisRecord": [
-            "il-seal-edu-set"
+            "de_discretionary_family_court-set"
           ],
           "recoveredFrom": {
-            "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
-            "commit": "caf3a021cd4188792781382197659f4e04c15e6a"
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "7eac21e1e2634a0cbc04afaf459f4fe2be96e64b",
+            "commit": "fded60e657631cdee0c146396e446482f4d66384",
+            "commitsWithThisPath": 66,
+            "distinctBlobs": 59,
+            "blobsHashed": 2
           },
           "previousIdentityRefresh": {
             "refreshedOn": "2026-09-12",
             "was": {
-              "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-              "byteLength": 3708050
+              "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
+              "byteLength": 3708358
             },
-            "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_superior_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+            "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (il-seal-edu-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
             "anchorsCompared": 2,
             "anchorDetail": [
               "recordGlobalMetadata: identical",
@@ -146,20 +173,19 @@
               "basis": "packet-set-manifest:az_certificate_second_chance-set"
             },
             "entriesThatMovedInThisRecord": [
-              "de_discretionary_superior_court-set"
+              "il-seal-edu-set"
             ],
             "recoveredFrom": {
               "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
-              "commit": "cb9030a2d8b700300897c399ef02c4dccc5c8d88"
+              "commit": "caf3a021cd4188792781382197659f4e04c15e6a"
             },
             "previousIdentityRefresh": {
-              "refreshedOn": "2026-09-10",
+              "refreshedOn": "2026-09-12",
               "was": {
-                "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
-                "byteLength": 3694688
+                "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+                "byteLength": 3708050
               },
-              "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for az_certificate_second_chance-set and the record's global authority fields were recovered from the blob carrying the previous pin (1784eec3da534eca557d2f6bae86204a9114cb9f) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
-              "recoveredFromCommit": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+              "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_superior_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
               "anchorsCompared": 2,
               "anchorDetail": [
                 "recordGlobalMetadata: identical",
@@ -171,7 +197,41 @@
                 "packetSet:az_certificate_second_chance-set": "f9719ab91826dc4739753a634b19a5e5bf19f15503c0257220a199a2aad7521e"
               },
               "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
-              "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+              "anchorScope": {
+                "anchorIds": [
+                  "az_certificate_second_chance-set"
+                ],
+                "basis": "packet-set-manifest:az_certificate_second_chance-set"
+              },
+              "entriesThatMovedInThisRecord": [
+                "de_discretionary_superior_court-set"
+              ],
+              "recoveredFrom": {
+                "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+                "commit": "cb9030a2d8b700300897c399ef02c4dccc5c8d88"
+              },
+              "previousIdentityRefresh": {
+                "refreshedOn": "2026-09-10",
+                "was": {
+                  "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+                  "byteLength": 3694688
+                },
+                "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for az_certificate_second_chance-set and the record's global authority fields were recovered from the blob carrying the previous pin (1784eec3da534eca557d2f6bae86204a9114cb9f) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+                "recoveredFromCommit": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+                "anchorsCompared": 2,
+                "anchorDetail": [
+                  "recordGlobalMetadata: identical",
+                  "packetSet:az_certificate_second_chance-set: identical"
+                ],
+                "anchorsIdentical": 2,
+                "identicalAnchorSha256": {
+                  "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                  "packetSet:az_certificate_second_chance-set": "f9719ab91826dc4739753a634b19a5e5bf19f15503c0257220a199a2aad7521e"
+                },
+                "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+                "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+              },
+              "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
             },
             "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
           },
