@@ -93,12 +93,27 @@ const UT_JUVENILE_ADMISSION = Object.freeze({
   result: "OFFICIAL_SOURCE_ALREADY_HELD"
 });
 
-/* These are the seven families whose current source-ready returns share the
+/* These are the eight families whose current source-ready returns share the
  * governed SOURCE_RECOVERY_WAVE1 resolver class. The expectations are the
  * already-recorded source identities and byte pins; they are deliberately
  * limited to this resolver class and never read MASTER_QUEUE. */
 const WAVE1_INPUT_MANIFEST = "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json";
 const GOVERNED_SOURCE_RECOVERY_EXPECTATIONS = Object.freeze([
+  {
+    "familyId": "nc_auto_146_a4_agency_followup-set",
+    "historicalIndexedPath": "LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+    "historicalCustody": "src05_worker_materialization_2026_09_02",
+    "historicalCustodyRoot": "private/source-imports/src05-worker-materialization-2026-09-02",
+    "historicalRestoredPath": "private/source-imports/src05-worker-materialization-2026-09-02/LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+    "recoverySourceId": "NC-AOC-G-260",
+    "sourceId": "official-form:AOC-G-260",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-G-260__cf998cecefea.pdf",
+    "sha256": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+    "byteLength": 290429,
+    "file": "CODEX-CS1-SRC4__AOC-G-260__cf998cecefea.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "nc_auto_146_a4_agency_followup-set::official-form:AOC-G-260"
+  },
   {
     "familyId": "ca-diversion-seal-set",
     "recoverySourceId": "CA-SDSC-CRM-307",
@@ -522,7 +537,7 @@ function resolveCommittedKnownResidualBinding(family, admission, env = ROOT) {
 }
 
 /**
- * Resolve the recorded SOURCE_RECOVERY_WAVE1 bodies for the seven families
+ * Resolve the recorded SOURCE_RECOVERY_WAVE1 bodies for the eight families
  * that share this resolver class. The wave and its tracked input manifest are
  * governed evidence; a queue row cannot create a binding. Each expected source
  * must match its recorded identity, family binding, byte pin and held body.
@@ -707,6 +722,38 @@ function committedSourceRecoveryWave1Binding(family, env = ROOT) {
   return bindings?.length === 1 ? bindings[0] : null;
 }
 
+
+/* NC's committed custody predates the wave and names one explicitly restored
+ * indexed path. Normalize only that exact identity, with corroborating index
+ * and admission restoration evidence; no namespace prefix is inferred. */
+function normalizeNcHistoricalCustody(source, family, env = ROOT) {
+  const expectation = governedSourceRecoveryExpectations(family).find(e => e.historicalIndexedPath);
+  if (!expectation || source?.sourceId !== expectation.sourceId
+    || source?.sourceObligationId !== undefined && source.sourceObligationId !== expectation.sourceId
+    || source?.resolved !== true
+    || source?.heldAs?.path !== expectation.historicalIndexedPath
+    || source.heldAs.sha256 !== expectation.sha256
+    || source.heldAs.byteLength !== undefined && source.heldAs.byteLength !== expectation.byteLength
+    || source.byteLength !== undefined && source.byteLength !== expectation.byteLength) return source;
+  const index = readJson(CORPUS_INDEX, env);
+  const custodies = index?.custodies?.filter(c => c.id === expectation.historicalCustody) ?? [];
+  if (custodies.length !== 1 || custodies[0].root !== expectation.historicalCustodyRoot
+    || custodies[0].pathsRelativeTo !== "custodyRoot") return source;
+  const entries = index?.entries?.filter(e => e.path === expectation.historicalIndexedPath) ?? [];
+  if (entries.length !== 1 || entries[0].custody !== expectation.historicalCustody
+    || entries[0].sha256 !== expectation.sha256 || entries[0].byteLength !== expectation.byteLength
+    || entries[0].formNumber !== "AOC-G-260") return source;
+  const admission = readJson(SOURCE_RECOVERY_WAVE1, env);
+  const admitted = resolveCommittedSourceRecoveryWave1Bindings(family, admission, env);
+  const evidence = admission?.sources?.filter(s => s.sourceId === expectation.recoverySourceId) ?? [];
+  if (!admitted || evidence.length !== 1
+    || !Array.isArray(evidence[0].restoredIndexedCustodyPaths)
+    || evidence[0].restoredIndexedCustodyPaths.length !== 1
+    || evidence[0].restoredIndexedCustodyPaths[0] !== expectation.historicalRestoredPath) return source;
+  return {...source, heldAs: {...source.heldAs, path: expectation.heldCorpusPath,
+    sha256: expectation.sha256, byteLength: expectation.byteLength}};
+}
+
 function familySources(family, env = ROOT) {
   const custody = readJson(CUSTODY, env);
   const matchingRows = Array.isArray(custody?.rows)
@@ -720,7 +767,7 @@ function familySources(family, env = ROOT) {
     const expectedBySourceId = new Map(recoveryExpectations.map((expectation) => [expectation.sourceId, expectation]));
     const allowedSourceIds = recoveryExpectations.length ? governedFamilySourceIds(family, env) : null;
     const allRowSources = recoveryExpectations.length
-      ? matchingRows.flatMap((candidate) => candidate.documentSources ?? [])
+      ? matchingRows.flatMap((candidate) => candidate.documentSources ?? []).map(source => normalizeNcHistoricalCustody(source, family, env))
       : row.documentSources || [];
 
     /* A duplicate family row is safe only when its custody and source
@@ -738,7 +785,7 @@ function familySources(family, env = ROOT) {
       }
     }
 
-    /* The stricter identity checks belong only to the seven governed wave
+    /* The stricter identity checks belong only to the eight governed wave
      * families. All other custody families retain their existing resolver;
      * this repair must not change unrelated source classifications. */
     if (recoveryExpectations.length) {

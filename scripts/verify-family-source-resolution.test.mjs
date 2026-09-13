@@ -304,6 +304,7 @@ test("the CA wave refuses a binding for another family", () => {
 });
 
 const GOVERNED_WAVE_FAMILIES = {
+  "nc_auto_146_a4_agency_followup-set": ["official-form:AOC-G-260"],
   "ca-diversion-seal-set": ["official-form:SDSC-CRM-307"],
   "fl-sealing-set": ["official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"],
   "ia-12346-set": ["official-form:Rule 2.86 Form 3"],
@@ -523,4 +524,93 @@ test("the recovery pool is the custody this repair exists for", () => {
   assert.equal(pool.filter((e) => e.formNumber).length, 0, "no pool entry declares a form number");
   const others = idx.entries.filter((e) => e.custody !== "nationwide_recovery_pool_2026_09_02");
   assert.ok(others.filter((e) => e.formNumber).length / others.length > 0.9, "every other custody declares them");
+});
+
+const NC_FAMILY = "nc_auto_146_a4_agency_followup-set";
+const NC_SOURCE = "official-form:AOC-G-260";
+const NC_PATH = "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-G-260__cf998cecefea.pdf";
+const NC_SHA = "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817";
+const NC_LENGTH = 290429;
+function makeNcAdmissionFixture() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "nc-wave-preflight-"));
+  for (const file of [NC_PATH, CA_WAVE, "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json"]) {
+    fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
+    fs.copyFileSync(path.join(ROOT, file), path.join(root, file));
+  }
+  writeJson(root, CUSTODY, { rows: [{
+    worklistGroupId: NC_FAMILY, custodyClass: "SOURCE_ALREADY_HELD",
+    documentSources: [{sourceId: NC_SOURCE, resolved: true,
+      heldAs: {path: NC_PATH, sha256: NC_SHA, byteLength: NC_LENGTH}}]
+  }] });
+  return root;
+}
+test("NC governed exact resolved and duplicate custody bind in repository namespace", () => {
+  for (const duplicate of [false, true]) {
+    const root = makeNcAdmissionFixture();
+    try {
+      const custody = JSON.parse(fs.readFileSync(path.join(root, CUSTODY)));
+      if (duplicate) custody.rows.push(structuredClone(custody.rows[0]));
+      writeJson(root, CUSTODY, custody);
+      const resolved = familySources(NC_FAMILY, root);
+      assert.deepEqual(resolved.unresolvable, []);
+      assert.equal(resolved.sources.length, 1);
+      assert.equal(resolved.sources[0].pathRoot, "repositoryRoot");
+      assert.equal(resolved.sources[0].byteLength, NC_LENGTH);
+      assert.equal(resolved.sources[0].sha256, NC_SHA);
+      assert.equal(runAll(root, {family: NC_FAMILY}).find(r => r.id === "family_sources_bind").ok, true);
+    } finally {fs.rmSync(root, {recursive: true, force: true});}
+  }
+});
+test("NC governed missing or wrong bodies, aliases and adoption contradictions refuse", () => {
+  const cases = [
+    ["missing body", (root) => fs.unlinkSync(path.join(root, NC_PATH))],
+    ["wrong body", (root) => {const b=fs.readFileSync(path.join(root, NC_PATH));b[100]^=1;fs.writeFileSync(path.join(root, NC_PATH),b);}],
+    ["recovery alias", (_root,custody) => {custody.rows[0].documentSources[0].sourceId="NC-AOC-G-260";}],
+    ["unknown alias", (_root,custody) => {custody.rows[0].documentSources[0].sourceId="WRONG-SOURCE";}],
+    ["obligation alias", (_root,custody) => {custody.rows[0].documentSources[0].sourceObligationId="WRONG-SOURCE";}],
+    ["bad manifest", (_root,_custody,admission) => {admission.inputManifestSha256="0".repeat(64);}],
+    ["wrong adoption family", (_root,_custody,admission) => {admission.sources.find(s=>s.sourceId==="NC-AOC-G-260").familyBindings[0].familyId="WRONG-FAMILY";}],
+    ["duplicate admission", (_root,_custody,admission) => {admission.sources.push(structuredClone(admission.sources.find(s=>s.sourceId==="NC-AOC-G-260")));}],
+    ["contradictory custody", (_root,custody) => {const duplicate=structuredClone(custody.rows[0]);duplicate.documentSources[0].heldAs.sha256="0".repeat(64);custody.rows.push(duplicate);}]
+  ];
+  for (const [label,mutate] of cases) {
+    const root=makeNcAdmissionFixture();
+    try {
+      const custody=JSON.parse(fs.readFileSync(path.join(root,CUSTODY)));
+      const admission=JSON.parse(fs.readFileSync(path.join(root,CA_WAVE)));
+      mutate(root,custody,admission);
+      writeJson(root,CUSTODY,custody);writeJson(root,CA_WAVE,admission);
+      assert.ok(familySources(NC_FAMILY,root).unresolvable.length>0,label);
+      assert.equal(runAll(root,{family:NC_FAMILY}).find(r=>r.id==="family_sources_bind").ok,false,label);
+    } finally {fs.rmSync(root,{recursive:true,force:true});}
+  }
+});
+
+test("NC governed historical indexed custody requires exact restoration and index evidence", () => {
+  for (const variation of ["valid","missing-index","wrong-index-hash","duplicate-index","wrong-restoration","wrong-custody-length","wrong-custody-root","wrong-index-length"]) {
+    const root=makeNcAdmissionFixture();
+    try {
+      const custody=JSON.parse(fs.readFileSync(path.join(root,CUSTODY)));
+      custody.rows[0].documentSources[0].heldAs={path:"LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",sha256:NC_SHA};
+      const entry={path:"LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",custody:"src05_worker_materialization_2026_09_02",sha256:NC_SHA,byteLength:NC_LENGTH,formNumber:"AOC-G-260"};
+      let entries=[entry];
+      if(variation==="missing-index")entries=[];
+      if(variation==="wrong-index-hash")entry.sha256="0".repeat(64);
+      if(variation==="duplicate-index")entries.push(structuredClone(entry));
+      if(variation==="wrong-custody-length")custody.rows[0].documentSources[0].heldAs.byteLength=1;
+      if(variation==="wrong-restoration"){
+        const admission=JSON.parse(fs.readFileSync(path.join(root,CA_WAVE)));
+        admission.sources.find(s=>s.sourceId==="NC-AOC-G-260").restoredIndexedCustodyPaths=["WRONG"];
+        writeJson(root,CA_WAVE,admission);
+      }
+      if(variation==="wrong-index-length")entry.byteLength=1;
+      const custodies=[{id:"src05_worker_materialization_2026_09_02",root:variation==="wrong-custody-root"?"WRONG":"private/source-imports/src05-worker-materialization-2026-09-02",pathsRelativeTo:"custodyRoot"}];
+      writeJson(root,CUSTODY,custody);writeJson(root,CORPUS_INDEX,{entries,custodies});
+      const resolved=familySources(NC_FAMILY,root);
+      const gate=runAll(root,{family:NC_FAMILY}).find(r=>r.id==="family_sources_bind");
+      assert.equal(gate.ok,variation==="valid",variation);
+      if(variation==="valid"){assert.equal(resolved.sources.length,1);assert.equal(resolved.sources[0].pathRoot,"repositoryRoot");}
+      else assert.ok(resolved.unresolvable.length>0,variation);
+    } finally {fs.rmSync(root,{recursive:true,force:true});}
+  }
 });

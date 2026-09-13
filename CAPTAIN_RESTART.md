@@ -43,9 +43,13 @@ Governed resolver previous findings plus valid-preloaded-custody namespace
 failure independently repaired/PASS, committed `45f7ddc9c`. CA exact CRM307
 source-only binding now passes, but the governed San Diego sealing order is
 still absent: `pf20/rows-pf20-ca-diversion-order-prerequisite-20260913.json`.
-NC AOC-G-260 exact bytes are held, but its historical indexed custody requires
-a further bounded resolver correction; PF20 owns that continuation. No NC
-packet build or claim transfer has occurred.
+NC AOC-G-260 exact bytes now pass the actual native source-only gate after
+a further bounded correction. Exact worker code was reconstructed locally from
+captured mutations and independently hash-matched/reviewed after authentication
+became unavailable. Evidence: `pf20/nc-governed-resolver-independent-review-20260913.json`.
+Three focused NC suites and nine additional independent probes pass. The old
+PF05 NC claim remains unreleased/prior return STOPPED; no NC packet build or
+claim transfer occurred. Source-only PASS is not a full environment preflight.
 
 WA SUD original worker candidate d94f8b4b0 imported and independently refused
 in `vfwasud1/rows-vfwasud1-wa-sud-semantic-independent-20260913.json`.
