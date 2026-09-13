@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "7ffd8a75dcda508672733d78ac9aeb74402e9f1951e9e1c8adb8e8cd882a97f8",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 10,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 10,
+            "sourceSha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 10,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 10,
+            "sourceSha256": "7ffd8a75dcda508672733d78ac9aeb74402e9f1951e9e1c8adb8e8cd882a97f8",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "7ffd8a75dcda508672733d78ac9aeb74402e9f1951e9e1c8adb8e8cd882a97f8"
+        }
+      ],
+      "documentsDigest": "7fd7f35474ad4af17e91572226c42f8b23bb68346ac4a7520ab820d3eabcd21f",
+      "expectedPages": 10,
+      "familyId": "fl-sealing-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "3e39c4e75ff34d1c78adc1d75c1bb7d6fabb16c9",
+      "requestedScale": 2.5
+    }
+  ]
+}

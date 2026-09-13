@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 379,
-    "rows": 1469,
-    "independentVerdicts": 327,
+    "returnDirectories": 381,
+    "rows": 1471,
+    "independentVerdicts": 328,
     "failRepairRequired": 0,
-    "passIndependent": 325
+    "passIndependent": 326
   },
   "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
@@ -11213,6 +11213,51 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-juvenile-diversion-set",
       "superseded": true
+    },
+    {
+      "familyId": "fl-sealing-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vffl1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e880ae7fadde5a4886b485ace5fcbdf5b0429371",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Three printed composed-document blanks lack an explicit native classification or grouped-region binding: page 9 additional arrest data; page 10 additional required recipients; page 10 printed name of server. They are not covered by the four order refusal rows or four service refusal rows. Thus the reported zero unclassifiedBlanks does not cover the actual PDF.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vffl1/fl-sealing-independent-semantic-evidence-20260913.json",
+            "sha256": "3bf906926fc3f0e3e5f5eea1c3674b7560cabe6f133f019f325cf188189a7aa0",
+            "byteLength": 137276
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vffl1/rows-vffl1-fl-sealing-semantic-changes-required-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-sealing-set",
+      "superseded": true
+    },
+    {
+      "familyId": "fl-sealing-set",
+      "verdict": "PASS",
+      "lane": "vffl2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9f770fd368187157f1d00311cf9913ec459cf89c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vffl2/rows-vffl2-fl-sealing-repair-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-sealing-set",
+      "superseded": false
     },
     {
       "familyId": "fl-self-defense-set",
