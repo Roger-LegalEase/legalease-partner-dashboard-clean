@@ -37,6 +37,41 @@ first class mail per the distribution list; otherwise the clerk does.” The for
 prints that distribution list beneath the notification-of-hearing block: Court file, Petitioner,
 Respondent. Those words are read out of the delivered page, not recalled.
 
+## Service instructions and proof
+
+After the clerk completes the hearing notice, you may serve copies by first-class mail according
+to the form's Copies to distribution list: Court file, Petitioner, Respondent. If you have not
+already served the copies, the clerk serves them. Confirm with the clerk which service path has
+actually been completed; do not treat a planned mailing as completed service.
+
+Keep the applicable proof of service, including CR 5.03 where applicable. For papers served under
+CR 5.01 and CR 5.02, CR 5.03 requires proof of the time and manner of service before court or
+party action. Its proof pathways include a certificate by a member of the bar, an affidavit by the
+person who served the papers, or other proof satisfactory to the court. A certificate or affidavit
+identifies the people served by name. Confirm with the clerk which proof is required for the
+actual server and method; this packet does not supply a completed proof document or require an
+affidavit in every case.
+
+If you served the notice, any service documentation must describe your actual service. If the
+clerk served it, obtain or confirm the clerk's service record; the participant must not certify
+the clerk's actions. Do not sign for a mailing or other act you did not perform. No proof
+obligation is waived.
+
+The AOC-275.18 notification-of-expungement-hearing section and printed Copies to list are
+notice/distribution controls, not proof of completed service. Leave the hearing date, time, court
+selection and clerk signature for the clerk. If electronic service applies, the proof also states
+the electronic notification address and that service was electronic; this guidance does not
+authorize electronic service or change any recipient or method requirement.
+
+Complete these manual steps only when the stated act or record exists:
+
+- **Signature** — where: “AOC-275.18, movant signature block” Why: “The clerk verifies the
+movant's signature before filing.”
+- **Service of the notice by first class mail** — where: “AOC-275.18
+notification-of-expungement-hearing section and printed Copies to distribution list
+(notice/distribution controls, not proof of completed service)” Why: “The Clerks' Manual permits
+the movant to serve, and the clerk serves only if the movant has not.”
+
 No rule in the record's rules node states a filing deadline or a service deadline. That is decided
 here by testing every one of its 7 rules for deadline language rather than by asserting silence,
 so this packet states no deadline. It is not a statement that no deadline exists anywhere in
@@ -55,31 +90,4 @@ You sign and date the motion on the printed lines beneath the three numbered sta
 your address and telephone number on the three rules below your signature. The committed record's
 signature rule reads, in full: “The movant signs the motion and the clerk verifies the signature.”
 Its notarization rule reads, in full: “none required on the face of the form.”
-
-## What this packet does not contain
-
-The controlling record declares components for this route. This packet delivers the motion itself
-and the guidance you are reading. It does not deliver everything the record's component notes
-describe, and the difference is set out here rather than left for you to discover at the counter.
-
-**No certificate of service.** The record's `components[2]` (`service_instructions`, `required`)
-says of this packet: “The Clerks' Manual directs that if the movant has not already served copies
-of the notice per the distribution list by first class mail, the clerk does. The packet tells the
-movant how to serve and provides the certificate.”
-
-This packet does not provide the certificate of service. No held source carries one. This family
-binds exactly one binary — AOC-275.18 Rev. 1-16, one page — and its extracted page text contains
-the word "certificate" nowhere; what it prints instead is the clerk's own distribution list
-(Copies to, Court file, Petitioner, Respondent) inside the NOTIFICATION OF EXPUNGEMENT HEARING
-block. Authoring one here would require three things this platform does not hold and this record
-does not supply: the petitioner's name and address, which is the third person this packet
-deliberately leaves blank throughout; the hearing date, which the record says the clerk sets after
-filing ("The clerk completes the notification-of-hearing section on the form and creates the
-scheduled event."); and the date of mailing, which is after both. A certificate reciting facts
-nobody holds is a fabricated service record on a sworn filing, so this build refuses it and
-discloses the refusal instead.
-
-Ask the Office of the Circuit Court Clerk what proof of service that court wants and whether the
-clerk's own distribution of the notice is sufficient, since the record says the clerk serves where
-you have not. Do not sign anything describing service you have not performed.
 

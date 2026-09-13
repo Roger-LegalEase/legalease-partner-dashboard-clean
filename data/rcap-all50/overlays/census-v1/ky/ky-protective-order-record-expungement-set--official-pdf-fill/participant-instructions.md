@@ -9,6 +9,41 @@ no court has decided anything.
 
 - **AOC-275.18 (Rev. 1-16, Doc. Code EXPG)** — Motion for Expungement of Emergency/Temporary Order of Protection. 1 page.
 
+## Service instructions and proof
+
+After the clerk completes the hearing notice, you may serve copies by first-class mail according
+to the form's Copies to distribution list: Court file, Petitioner, Respondent. If you have not
+already served the copies, the clerk serves them. Confirm with the clerk which service path has
+actually been completed; do not treat a planned mailing as completed service.
+
+Keep the applicable proof of service, including CR 5.03 where applicable. For papers served under
+CR 5.01 and CR 5.02, CR 5.03 requires proof of the time and manner of service before court or
+party action. Its proof pathways include a certificate by a member of the bar, an affidavit by the
+person who served the papers, or other proof satisfactory to the court. A certificate or affidavit
+identifies the people served by name. Confirm with the clerk which proof is required for the
+actual server and method; this packet does not supply a completed proof document or require an
+affidavit in every case.
+
+If you served the notice, any service documentation must describe your actual service. If the
+clerk served it, obtain or confirm the clerk's service record; the participant must not certify
+the clerk's actions. Do not sign for a mailing or other act you did not perform. No proof
+obligation is waived.
+
+The AOC-275.18 notification-of-expungement-hearing section and printed Copies to list are
+notice/distribution controls, not proof of completed service. Leave the hearing date, time, court
+selection and clerk signature for the clerk. If electronic service applies, the proof also states
+the electronic notification address and that service was electronic; this guidance does not
+authorize electronic service or change any recipient or method requirement.
+
+Complete these manual steps only when the stated act or record exists:
+
+- **Signature** — where: “AOC-275.18, movant signature block” Why: “The clerk verifies the
+movant's signature before filing.”
+- **Service of the notice by first class mail** — where: “AOC-275.18
+notification-of-expungement-hearing section and printed Copies to distribution list
+(notice/distribution controls, not proof of completed service)” Why: “The Clerks' Manual permits
+the movant to serve, and the clerk serves only if the movant has not.”
+
 ## Which side of the caption you are on
 
 AOC-275.18 captions two parties, PETITIONER and RESPONDENT, and this packet holds one person. The

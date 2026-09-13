@@ -273,6 +273,158 @@ function fail(message, detail = null) {
  */
 const RECORD_PATH = "data/record-clearing/legal-design-intake/KY.memo.json";
 const RECORD_TRACK_ID = "ky_protective_order_record_expungement";
+const OWNER_ADOPTION_PATH =
+  "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json";
+const OWNER_ADOPTION_DECISION_ID = "KY-PROTECTIVE-ORDER-SERVICE-PROOF-OWNER-ADOPTION-20260912";
+
+function readBoundJson(relative) {
+  const abs = absFor(relative);
+  if (!fs.existsSync(abs)) fail("a required bound JSON record is not present", relative);
+  const bytes = fs.readFileSync(abs);
+  let data;
+  try {
+    data = JSON.parse(bytes.toString("utf8"));
+  } catch (error) {
+    fail("a required bound JSON record is not valid JSON", `${relative}: ${error.message}`);
+  }
+  return Object.freeze({
+    path: relative,
+    sha256: sha256(bytes),
+    byteLength: bytes.length,
+    data
+  });
+}
+
+/*
+ * The owner adoption is an effective, family-scoped overlay on the historical
+ * KY memo. The raw memo remains byte-bound history: only the two exact fields
+ * recorded by the owner-resolution record may change in the in-memory track.
+ * Every other memo field is left at its committed value, and a mismatch in the
+ * recorded `before` value stops the build rather than applying a stale overlay.
+ */
+function loadOwnerAdoption({ memoBytes, memo, track }) {
+  const adoption = readBoundJson(OWNER_ADOPTION_PATH);
+  const data = adoption.data;
+  const provenance = data.provenance ?? {};
+  if (data.schemaVersion !== "rcap-grade-a-legal-block-resolution/v1") {
+    fail("the KY owner adoption has an unsupported legal-resolution schema", OWNER_ADOPTION_PATH);
+  }
+  if (provenance.ownerAdoption !== true) {
+    fail("the KY owner adoption is not recorded as an owner adoption", OWNER_ADOPTION_PATH);
+  }
+  for (const key of ["counselApproval", "courtRuling", "packetPass", "terminalPromotion",
+    "productionAuthorization"]) {
+    if (provenance[key] !== false) {
+      fail(`the KY owner adoption may not claim ${key}`, OWNER_ADOPTION_PATH);
+    }
+  }
+  if (data.scope !== `${FAMILY_ID} only: remove the unconditional generated-certificate promise while preserving all applicable service and proof coverage`) {
+    fail("the KY owner adoption scope is broader than this family", OWNER_ADOPTION_PATH);
+  }
+  if (JSON.stringify(data.legalClearFamilyIds) !== JSON.stringify([FAMILY_ID])
+    || (data.legalHoldFamilyIds ?? []).length !== 0) {
+    fail("the KY owner adoption family scope is not exactly this family", OWNER_ADOPTION_PATH);
+  }
+  const decision = (data.decisions ?? []).find((row) => row.decisionId === OWNER_ADOPTION_DECISION_ID);
+  if (!decision) fail("the KY owner adoption decision is absent", OWNER_ADOPTION_DECISION_ID);
+  if (decision.disposition !== "LEGAL_CLEAR"
+    || JSON.stringify(decision.familyIds) !== JSON.stringify([FAMILY_ID])) {
+    fail("the KY owner adoption decision has the wrong family or disposition", OWNER_ADOPTION_DECISION_ID);
+  }
+  if (!Array.isArray(decision.adoptedRevisions)
+    || JSON.stringify(decision.adoptedRevisions.map((row) => row.number)) !== JSON.stringify([1, 2, 3, 4, 5])) {
+    fail("the KY owner adoption must carry all five adopted revisions", OWNER_ADOPTION_DECISION_ID);
+  }
+  for (const phrase of [
+    "CR 5.03 where applicable", "No proof obligation is waived",
+    "participant must not certify the clerk's actions", "universal affidavit",
+    "actual movant service", "actual clerk service"
+  ]) {
+    if (!String(decision.bindingProductRule ?? "").includes(phrase)) {
+      fail(`the KY owner adoption binding rule omits ${JSON.stringify(phrase)}`, OWNER_ADOPTION_DECISION_ID);
+    }
+  }
+
+  const reconciliation = provenance.governingMemoReconciliation ?? {};
+  if (reconciliation.path !== RECORD_PATH || reconciliation.trackId !== RECORD_TRACK_ID) {
+    fail("the KY owner adoption is not bound to this governing memo track", OWNER_ADOPTION_PATH);
+  }
+  if (sha256(memoBytes) !== reconciliation.sha256) {
+    fail("the KY owner adoption's historical memo SHA-256 does not match the bytes read", RECORD_PATH);
+  }
+  if (reconciliation.byteLength != null && memoBytes.length !== reconciliation.byteLength) {
+    fail("the KY owner adoption's historical memo byte length does not match the bytes read", RECORD_PATH);
+  }
+  const replacements = reconciliation.effectiveFieldReplacements;
+  if (!Array.isArray(replacements) || replacements.length !== 2) {
+    fail("the KY owner adoption must contain exactly two effective memo field replacements", OWNER_ADOPTION_PATH);
+  }
+  const expectedFields = [
+    "components[role=service_instructions].notes",
+    "manualCompletionItems[1].whereInPacket"
+  ];
+  if (JSON.stringify(replacements.map((row) => row.field)) !== JSON.stringify(expectedFields)) {
+    fail("the KY owner adoption changed the scoped field set", OWNER_ADOPTION_PATH);
+  }
+  const expectedComponent = (track.components ?? []).find((row) => row.role === "service_instructions");
+  if (!expectedComponent) fail("the governing memo has no service_instructions component", RECORD_PATH);
+  const componentReplacement = replacements[0];
+  if (componentReplacement.before !== expectedComponent.notes) {
+    fail("the KY owner adoption component replacement is stale against the governing memo", RECORD_PATH);
+  }
+  const expectedManual = track.manualCompletionItems?.[1];
+  if (!expectedManual) fail("the governing memo has no manualCompletionItems[1] service step", RECORD_PATH);
+  const manualReplacement = replacements[1];
+  if (manualReplacement.before !== expectedManual.whereInPacket) {
+    fail("the KY owner adoption manual-step replacement is stale against the governing memo", RECORD_PATH);
+  }
+  const replacementText = String(componentReplacement.after ?? "");
+  const manualText = String(manualReplacement.after ?? "");
+  for (const [name, text, phrases] of [
+    ["component replacement", replacementText, [
+      "CR 5.03 where applicable", "notification section", "Copies to list",
+      "neither is a certificate", "proof of completed service", "universal affidavit",
+      "actual acts by the actual server", "participant must not certify the clerk's actions",
+      "No proof obligation is waived"
+    ]],
+    ["manual-step replacement", manualText, [
+      "AOC-275.18", "notification-of-expungement-hearing", "Copies to",
+      "not proof of completed service"
+    ]]
+  ]) {
+    if (!text.trim()) fail(`the KY owner adoption ${name} is empty`, OWNER_ADOPTION_PATH);
+    for (const phrase of phrases) {
+      if (!text.toLowerCase().includes(phrase.toLowerCase())) {
+        fail(`the KY owner adoption ${name} omits ${JSON.stringify(phrase)}`, OWNER_ADOPTION_PATH);
+      }
+    }
+  }
+  const requiredComponent = reconciliation.requiredComponentPreserved;
+  if (JSON.stringify(requiredComponent) !== JSON.stringify({
+    role: "service_instructions", requirement: "required", outputStrategy: "process_guidance"
+  })) {
+    fail("the KY owner adoption does not preserve the required service component", OWNER_ADOPTION_PATH);
+  }
+  if (reconciliation.unmodifiedServiceRule !== track.rules?.service
+    || reconciliation.unmodifiedNoticeRule !== track.rules?.notice) {
+    fail("the KY owner adoption does not preserve the current service and notice rules", RECORD_PATH);
+  }
+
+  const effectiveTrack = JSON.parse(JSON.stringify(track));
+  const effectiveComponent = effectiveTrack.components.find((row) => row.role === "service_instructions");
+  effectiveComponent.notes = componentReplacement.after;
+  effectiveTrack.manualCompletionItems[1].whereInPacket = manualReplacement.after;
+
+  return Object.freeze({
+    record: adoption,
+    decision,
+    memo: Object.freeze({ path: RECORD_PATH, sha256: sha256(memoBytes), byteLength: memoBytes.length,
+      trackId: RECORD_TRACK_ID }),
+    memoIdentity: reconciliation,
+    effectiveFieldReplacements: replacements,
+    effectiveTrack
+  });
+}
 
 function loadControllingRecord() {
   const abs = absFor(RECORD_PATH);
@@ -281,8 +433,10 @@ function loadControllingRecord() {
   }
   const bytes = fs.readFileSync(abs);
   const memo = JSON.parse(bytes.toString("utf8"));
-  const track = (memo.tracks ?? []).find((row) => row.trackId === RECORD_TRACK_ID) ?? null;
-  if (!track) fail("the controlling record no longer carries this route's relief track", RECORD_TRACK_ID);
+  const historicalTrack = (memo.tracks ?? []).find((row) => row.trackId === RECORD_TRACK_ID) ?? null;
+  if (!historicalTrack) fail("the controlling record no longer carries this route's relief track", RECORD_TRACK_ID);
+  const adoption = loadOwnerAdoption({ memoBytes: bytes, memo, track: historicalTrack });
+  const track = adoption.effectiveTrack;
 
   /*
    * THE PARTY ROLE, DERIVED. Five readings, each from a different node. The
@@ -387,6 +541,14 @@ function loadControllingRecord() {
       item: String(row.item ?? ""), whereInPacket: String(row.whereInPacket ?? ""),
       why: String(row.why ?? "")
     })),
+    ownerAdoption: Object.freeze({
+      path: adoption.record.path, sha256: adoption.record.sha256, byteLength: adoption.record.byteLength,
+      decisionId: adoption.decision.decisionId, owner: adoption.record.data.provenance?.owner ?? null,
+      adoptedRevisionNumbers: adoption.decision.adoptedRevisions.map((row) => row.number),
+      governingMemoPath: adoption.memo.path, governingMemoSha256: adoption.memo.sha256,
+      effectiveFieldReplacements: adoption.effectiveFieldReplacements,
+      acceptanceState: "owner_adoption_only; counsel, court, packet, independent semantic, raster and production acceptance remain pending"
+    }),
     fees: String(track.rules?.fees ?? ""),
     feeWaiver: String(track.rules?.feeWaiver ?? ""),
     filing: String(track.rules?.filing ?? ""),
@@ -793,6 +955,7 @@ function renderParticipantInstructions({ supplyRows, electionRows, writtenRows }
   lines.push("## What is in the packet");
   lines.push("");
   lines.push(`- **${SOURCE.formNumber} (${SOURCE.revision}, Doc. Code ${SOURCE.docCode})** — ${SOURCE.title}. 1 page.`);
+  lines.push(...renderServiceGuidance());
   lines.push("");
   lines.push("## Which side of the caption you are on");
   lines.push("");
@@ -893,6 +1056,57 @@ function renderParticipantInstructions({ supplyRows, electionRows, writtenRows }
 const PRINTED_DISTRIBUTION_LIST = Object.freeze(["Copies to", "Court file", "Petitioner", "Respondent"]);
 
 /*
+ * The service-instructions component is process guidance, so its effective
+ * content must reach the participant-facing documents even though no separate
+ * service instrument is generated. These lines are read from the effective
+ * owner-adopted record and include every manual-completion item, including the
+ * exact AOC-275.18 location and the distinction between intended distribution
+ * and proof of an act that actually occurred.
+ */
+function renderServiceGuidance() {
+  const components = RECORD.components.filter((row) => row.role === "service_instructions");
+  if (components.length !== 1 || components[0].requirement !== "required"
+    || components[0].outputStrategy !== "process_guidance") {
+    fail("the effective record must carry exactly one required service-instructions guidance component");
+  }
+  const lines = ["", "## Service instructions and proof", ""];
+  lines.push(...wrap(
+    "After the clerk completes the hearing notice, you may serve copies by first-class mail according "
+    + "to the form's Copies to distribution list: Court file, Petitioner, Respondent. If you have not "
+    + "already served the copies, the clerk serves them. Confirm with the clerk which service path "
+    + "has actually been completed; do not treat a planned mailing as completed service."));
+  lines.push("");
+  lines.push(...wrap(
+    "Keep the applicable proof of service, including CR 5.03 where applicable. For papers served "
+    + "under CR 5.01 and CR 5.02, CR 5.03 requires proof of the time and manner of service before "
+    + "court or party action. Its proof pathways include a certificate by a member of the bar, "
+    + "an affidavit by the person who served the papers, or other proof satisfactory to the court. "
+    + "A certificate or affidavit identifies the people served by name. Confirm with the clerk "
+    + "which proof is required for the actual server and method; this packet does not supply a "
+    + "completed proof document or require an affidavit in every case."));
+  lines.push("");
+  lines.push(...wrap(
+    "If you served the notice, any service documentation must describe your actual service. "
+    + "If the clerk served it, obtain or confirm the clerk's service record; the participant must "
+    + "not certify the clerk's actions. Do not sign for a mailing or other act you did not perform. "
+    + "No proof obligation is waived."));
+  lines.push("");
+  lines.push(...wrap(
+    "The AOC-275.18 notification-of-expungement-hearing section and printed Copies to list are "
+    + "notice/distribution controls, not proof of completed service. Leave the hearing date, time, "
+    + "court selection and clerk signature for the clerk. If electronic service applies, the proof "
+    + "also states the electronic notification address and that service was electronic; this "
+    + "guidance does not authorize electronic service or change any recipient or method requirement."));
+  lines.push("");
+  lines.push("Complete these manual steps only when the stated act or record exists:");
+  lines.push("");
+  for (const item of RECORD.manualCompletionItems) {
+    lines.push(...wrap(`- **${item.item}** — where: “${item.whereInPacket}” Why: “${item.why}”`));
+  }
+  return lines;
+}
+
+/*
  * Vocabulary that would make a rule a DEADLINE. The guide's claim that the
  * record states no filing or service deadline used to be a typed literal — a
  * negative about the record asserted by a document that had not read it, which
@@ -923,6 +1137,26 @@ const DEADLINE_VOCABULARY =
  * guide and into the lane's counters. It is NOT closed by authoring the
  * missing instrument: see whyNotDelivered below, which is measured.
  */
+/*
+ * A certificate mention is not itself a generated-certificate promise. The
+ * effective owner-adopted note necessarily mentions certificates and proof
+ * branches while expressly withholding an unconditional generated instrument.
+ * Only an affirmative packet/component action is a promise this audit can
+ * score; negative or conditional proof language stays guidance.
+ */
+function componentPromisesGeneratedCertificate(notes) {
+  const text = String(notes);
+  return text.split(/[.!?]+/).some((clause) => {
+    const certificateAt = clause.search(/\bcertificate\b/i);
+    if (certificateAt < 0) return false;
+    const beforeCertificate = clause.slice(0, certificateAt);
+    if (/\b(?:no|not|never|neither|without|does\s+not|doesn't|unconditionally)\b/i.test(beforeCertificate)) {
+      return false;
+    }
+    return /\b(?:packet|component|family|legalease|this\s+build)\b[^;]{0,120}\b(?:provides?|generates?|authors?|delivers?|includes?|supplies?|ships?|produces?)\b[^;]{0,80}\bcertificate\b/i.test(clause);
+  });
+}
+
 function auditDeclaredComponents({ printedText }) {
   const boundHere = new Map([[SOURCE.instrumentKind, SOURCE]]);
   const lower = String(printedText).toLowerCase();
@@ -936,7 +1170,7 @@ function auditDeclaredComponents({ printedText }) {
      * grows a second promised instrument is caught the same way.
      */
     const promisedInstruments = [];
-    if (/\bcertificate\b/i.test(component.notes)) {
+    if (componentPromisesGeneratedCertificate(component.notes)) {
       /*
        * Measured, not assumed: AOC-275.18 is the only binary bound to this
        * family, and its extracted page text carries no certificate at all —
@@ -1065,6 +1299,7 @@ function renderFilingInstructions({ printedText, componentAudit }) {
     + `footer prints that distribution list beneath the notification-of-hearing block: `
     + `${PRINTED_DISTRIBUTION_LIST.slice(1).join(", ")}. Those words are read out of the delivered page, not `
     + "recalled."));
+  lines.push(...renderServiceGuidance());
   lines.push("");
   if (deadlineBearingRules.length === 0) {
     lines.push(...wrap(
@@ -1200,6 +1435,9 @@ async function build({ check = false } = {}) {
   if (check) {
     return { familyId: FAMILY_ID, wrote: false, blocking, shippedCountyDefault,
       canonicalTooLongToFit: canonicalAudit.tooLongToFit, boundaryTooLongToFit: boundaryAudit.tooLongToFit,
+      ownerAdoption: { path: RECORD.ownerAdoption.path, sha256: RECORD.ownerAdoption.sha256,
+        byteLength: RECORD.ownerAdoption.byteLength, decisionId: RECORD.ownerAdoption.decisionId,
+        adoptedRevisionNumbers: RECORD.ownerAdoption.adoptedRevisionNumbers },
       requiredComponentsNotDelivered: requiredComponentsNotDelivered.map((row) => ({
         index: row.index, role: row.role,
         promised: row.promisedInstrumentsNotDelivered.map((p) => p.instrument) })) };
@@ -1320,6 +1558,19 @@ async function build({ check = false } = {}) {
     bindingMethod: "committed corpus-index path + index SHA-256 + on-disk SHA-256 + byte length + page count",
     routeKey: ROUTE_KEY, routeSelectionId: ROUTE_SELECTION_ID,
     statutoryAuthority: "KRS 403.745; KRS 456.070",
+    governingLegalRecord: {
+      historicalMemo: { path: RECORD.path, sha256: RECORD.sha256, byteLength: RECORD.byteLength,
+        trackId: RECORD.trackId },
+      ownerAdoption: {
+        path: RECORD.ownerAdoption.path, sha256: RECORD.ownerAdoption.sha256,
+        byteLength: RECORD.ownerAdoption.byteLength, decisionId: RECORD.ownerAdoption.decisionId,
+        owner: RECORD.ownerAdoption.owner, adoptedRevisionNumbers: RECORD.ownerAdoption.adoptedRevisionNumbers,
+        effectiveFieldReplacements: RECORD.ownerAdoption.effectiveFieldReplacements
+      },
+      acceptanceState: RECORD.ownerAdoption.acceptanceState,
+      whyBound: "The raw KY memo remains historical source authority; this exact owner adoption is the only "
+        + "family-scoped effective overlay used for the service component and manual-step wording."
+    },
     documents: [{
       sourceIds: [SOURCE.sourceId], documentId: SOURCE.formNumber, formNumber: SOURCE.formNumber,
       revision: SOURCE.revision, docCode: SOURCE.docCode, title: SOURCE.title,
@@ -1463,6 +1714,19 @@ async function build({ check = false } = {}) {
       countsToward: "counters.requiredComponentsMissing"
     })));
 
+  const componentObservation = requiredComponentsNotDelivered.length > 0
+    ? `The effective record declares ${componentAudit.length} components. `
+      + `${requiredComponentsNotDelivered.length} required component(s) promise an instrument this build `
+      + "does not deliver, and the gap is published in build-findings.json, in the wiring and in the "
+      + "participant's own guide instead of being left to a reader of the build report. It is NOT closed "
+      + "here: no held source carries the promised instrument, so authoring one would be inventing a sworn "
+      + "service record."
+    : "The effective owner adoption removes the unsupported unconditional generated-certificate promise while "
+      + "preserving the required service_instructions component. The participant-facing guides quote the "
+      + "applicable movant and clerk service paths, CR 5.03 proof branches where applicable, actual-server "
+      + "requirements and the AOC-275.18 notice/distribution location; they do not treat the form's notification "
+      + "section or Copies to list as proof of completed service, impose a universal affidavit, or waive proof.";
+
   writeJson(`${OUT}/build-findings.json`, {
     schemaVersion: "rcap-build-findings/v1", familyId: FAMILY_ID,
     blocking: [], findingCount: componentFindings.length,
@@ -1479,6 +1743,13 @@ async function build({ check = false } = {}) {
     controllingLegalRecord: {
       path: RECORD.path, sha256: RECORD.sha256, byteLength: RECORD.byteLength, trackId: RECORD.trackId,
       memoVersion: RECORD.memoVersion, reviewedAsOf: RECORD.reviewedAsOf,
+      effectiveOwnerAdoption: {
+        path: RECORD.ownerAdoption.path, sha256: RECORD.ownerAdoption.sha256,
+        byteLength: RECORD.ownerAdoption.byteLength, decisionId: RECORD.ownerAdoption.decisionId,
+        owner: RECORD.ownerAdoption.owner, adoptedRevisionNumbers: RECORD.ownerAdoption.adoptedRevisionNumbers,
+        effectiveFieldReplacements: RECORD.ownerAdoption.effectiveFieldReplacements,
+        acceptanceState: RECORD.ownerAdoption.acceptanceState
+      },
       readAtBuildTime: true,
       whatItDecidedHere: [
         `the participant is the ${RECORD.participantParty} and the ${RECORD.otherParty} is a third person`,
@@ -1546,14 +1817,7 @@ async function build({ check = false } = {}) {
         + "clipping, and the boundary movant line is delivered BLANK and disclosed under "
         + "valuesTooLongForTheWidgetTheFormDraws. A disclosed blank line is a gap; a silently shortened legal "
         + "name on a sworn filing is a misstatement, and this build takes the gap.",
-      `The record declares ${componentAudit.length} components. `
-        + `${requiredComponentsNotDelivered.length} required component(s) promise an instrument this build `
-        + "does not deliver, and the gap is published in build-findings.json, in the wiring and in the "
-        + "participant's own guide instead of being left to a reader of the build report. It is NOT closed "
-        + "here: no held source carries a certificate of service, AOC-275.18's extracted page text contains "
-        + "the word nowhere, and the facts one needs — the other party's name and address, the hearing date "
-        + "the clerk sets after filing, and the date of mailing — are none of them held. Authoring one would "
-        + "be inventing a service record on a sworn filing."
+      componentObservation
     ],
     countyChooserShippedDefault: shippedCountyDefault
   });
@@ -1632,11 +1896,20 @@ async function build({ check = false } = {}) {
           + "family does own — now advertises only what it delivers. The court order for this motion is the "
           + "clerk's own notification block printed on the face of AOC-275.18 and the record scopes it "
           + "\"Reference only. The court enters the order.\"; the service_instructions component is "
-          + "delivered as guidance and is short one instrument, recorded above and in the participant's "
-          + "own guide rather than silently treated as delivered."
+          + "delivered as process guidance in both participant-facing instruction documents. It does not "
+          + "promise a generated service-proof instrument, and the applicable actual-service proof paths are "
+          + "quoted from the effective owner-adopted component note rather than silently treated as delivered."
       },
       controllingLegalRecord: {
-        path: RECORD.path, sha256: RECORD.sha256, trackId: RECORD.trackId, tier: "exact_content_hash"
+        path: RECORD.path, sha256: RECORD.sha256, byteLength: RECORD.byteLength, trackId: RECORD.trackId,
+        tier: "exact_content_hash",
+        effectiveOwnerAdoption: {
+          path: RECORD.ownerAdoption.path, sha256: RECORD.ownerAdoption.sha256,
+          byteLength: RECORD.ownerAdoption.byteLength, decisionId: RECORD.ownerAdoption.decisionId,
+          adoptedRevisionNumbers: RECORD.ownerAdoption.adoptedRevisionNumbers,
+          effectiveFieldReplacements: RECORD.ownerAdoption.effectiveFieldReplacements,
+          acceptanceState: RECORD.ownerAdoption.acceptanceState
+        }
       }
     }
   };
@@ -1651,6 +1924,12 @@ async function build({ check = false } = {}) {
     schemaVersion: "rcap-output-approval-request/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY],
     status: "REQUESTED", grantedBy: null, exactSourceReviewComplete: true,
     independentVisualReviewRequired: true, outputLegalApprovalRequired: true,
+    ownerAdoption: {
+      path: RECORD.ownerAdoption.path, sha256: RECORD.ownerAdoption.sha256,
+      byteLength: RECORD.ownerAdoption.byteLength, decisionId: RECORD.ownerAdoption.decisionId,
+      adoptedRevisionNumbers: RECORD.ownerAdoption.adoptedRevisionNumbers,
+      acceptanceState: RECORD.ownerAdoption.acceptanceState
+    },
     ownerDeterminationsResolved: [{
       question: "On this route, is the participant the PETITIONER or the RESPONDENT in the protective-order "
         + "case whose record is being expunged?",
@@ -1675,6 +1954,9 @@ async function build({ check = false } = {}) {
 
   return {
     familyId: FAMILY_ID, wrote: true, directory: OUT,
+    ownerAdoption: { path: RECORD.ownerAdoption.path, sha256: RECORD.ownerAdoption.sha256,
+      byteLength: RECORD.ownerAdoption.byteLength, decisionId: RECORD.ownerAdoption.decisionId,
+      adoptedRevisionNumbers: RECORD.ownerAdoption.adoptedRevisionNumbers },
     canonical: { sha256: sha256(canonical.bytes), byteLength: canonical.bytes.length, pageCount: 1 },
     boundary: { sha256: sha256(boundary.bytes), byteLength: boundary.bytes.length, pageCount: 1 },
     source: { formNumber: SOURCE.formNumber, sha256: source.sha256, byteLength: source.byteLength,
@@ -1707,4 +1989,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile))
     .catch((error) => { console.error(error); process.exit(1); });
 }
 
-export { build, FAMILY_ID, OUT, BUILD_SCRIPT };
+export {
+  build, FAMILY_ID, OUT, BUILD_SCRIPT, RECORD_PATH, OWNER_ADOPTION_PATH,
+  loadControllingRecord, loadOwnerAdoption, componentPromisesGeneratedCertificate, renderServiceGuidance
+};

@@ -23,15 +23,33 @@
     ],
     "deliveryType": "official_pdf_fill",
     "instrumentKinds": [
-      "court_order",
-      "primary_filing",
-      "service_instructions"
+      "primary_filing"
     ],
+    "instrumentKindsDeclaredByTheRecordButNotDeliveredHere": [
+      {
+        "role": "court_order",
+        "requirement": "conditional",
+        "outputStrategy": "process_guidance",
+        "deliveredHere": "process guidance only, rendered into filing-instructions.md from the controlling record's own rules node; no instrument is produced for this component",
+        "conditionDescription": "Reference only. The court enters the order.",
+        "promisedInstrumentsNotDelivered": []
+      },
+      {
+        "role": "service_instructions",
+        "requirement": "required",
+        "outputStrategy": "process_guidance",
+        "deliveredHere": "process guidance only, rendered into filing-instructions.md from the controlling record's own rules node; no instrument is produced for this component",
+        "conditionDescription": null,
+        "promisedInstrumentsNotDelivered": []
+      }
+    ],
+    "declaredComponentsNotDeliveredInFull": [],
     "packetComponents": [
       "component:ky_protective_order_record_expungement-primary-filing-1"
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md",
+    "filingInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [
@@ -41,7 +59,46 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": null,
+    "declaredInstrumentKindsWithoutAComponent": {
+      "kinds": [
+        "court_order",
+        "service_instructions"
+      ],
+      "note": "MASTER_QUEUE.json still lists three instrument kinds for this family beside one packet component. That list is not authored here: generate.mjs derives it from routes[].participantFacingInstrument in the route-obligation candidate census, which is a shared Captain input this lane does not own and did not edit. This manifest — the one this family does own — now advertises only what it delivers. The court order for this motion is the clerk's own notification block printed on the face of AOC-275.18 and the record scopes it \"Reference only. The court enters the order.\"; the service_instructions component is delivered as process guidance in both participant-facing instruction documents. It does not promise a generated service-proof instrument, and the applicable actual-service proof paths are quoted from the effective owner-adopted component note rather than silently treated as delivered."
+    },
+    "controllingLegalRecord": {
+      "path": "data/record-clearing/legal-design-intake/KY.memo.json",
+      "sha256": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+      "byteLength": 202583,
+      "trackId": "ky_protective_order_record_expungement",
+      "tier": "exact_content_hash",
+      "effectiveOwnerAdoption": {
+        "path": "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json",
+        "sha256": "90f323a73cf091f74a3913e54a3600573be709ecfd4ab6ba55ccb2b4df1b2a9d",
+        "byteLength": 10387,
+        "decisionId": "KY-PROTECTIVE-ORDER-SERVICE-PROOF-OWNER-ADOPTION-20260912",
+        "adoptedRevisionNumbers": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "effectiveFieldReplacements": [
+          {
+            "field": "components[role=service_instructions].notes",
+            "before": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.",
+            "after": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The required service-instructions component explains both service pathways and every applicable notice, recipient, timing, and proof-of-service obligation, including CR 5.03 where applicable. AOC-275.18's notification section and Copies to list identify notice/distribution controls; neither is a certificate or proof of completed service. The packet does not unconditionally promise a generated certificate or impose a universal affidavit. Applicable service documentation must describe actual acts by the actual server; the participant must not certify the clerk's actions. No proof obligation is waived."
+          },
+          {
+            "field": "manualCompletionItems[1].whereInPacket",
+            "before": "Notice distribution list",
+            "after": "AOC-275.18 notification-of-expungement-hearing section and printed Copies to distribution list (notice/distribution controls, not proof of completed service)"
+          }
+        ],
+        "acceptanceState": "owner_adoption_only; counsel, court, packet, independent semantic, raster and production acceptance remain pending"
+      }
+    },
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf24",
