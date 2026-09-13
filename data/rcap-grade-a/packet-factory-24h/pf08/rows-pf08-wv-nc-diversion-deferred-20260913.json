@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF08",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "9fa7c57d67cf2abe0d4518b857354562ea95502a",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF08 'wv_nc_diversion_deferred-set'",
+    "result": "CLAIM_OK PF08 wv_nc_diversion_deferred-set (packet-build, grant set a6ef9ebd94267c7e)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "captainLedgerGeneratedAtCommit": "46f58905a130a3168c34851d4ea387802117767c"
+  },
+  "itemId": "wv_nc_diversion_deferred-set",
+  "status": "STOPPED",
+  "stopClass": "SOURCE_NOT_READABLE_HERE",
+  "jurisdiction": "WV",
+  "routeKeys": [
+    "obligation:track-pathway:WV:wv_nc_diversion_deferred:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "SCA-C903",
+  "requiredComponents": [
+    "component:wv_nc_diversion_deferred-certificate-of-service-3",
+    "component:wv_nc_diversion_deferred-primary-filing-1"
+  ],
+  "buildScript": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
+  "buildScriptExists": true,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 1,
+    "familyGate": {
+      "result": "PASS",
+      "detail": "1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index)",
+      "boundSourceCount": 1,
+      "completeQueueSourceBind": true,
+      "resolverTier": "census_form_number_against_committed_index"
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:SCA-C903",
+        "declaredPath": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "statusAtWorker": "BOUND_EXACT",
+        "byteLength": 23275
+      }
+    ],
+    "custodyRecord": {
+      "row": "none; family resolves through worklist/index fallback",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'wv_nc_diversion_deferred-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "PASS: 1/1 source(s) bind by exact SHA-256",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: below immutable minimum: 13 of 499 files, 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled"
+    ],
+    "treatment": "The source gate passed; the existing family builder was run. Aggregate partial-corpus checks were not repaired or used as the family finding."
+  },
+  "builderExecution": {
+    "command": "node scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
+    "result": "STOPPED",
+    "stopClass": "SOURCE_NOT_READABLE_HERE",
+    "sourceBoundExactly": {
+      "sourceId": "official-form:SCA-C903",
+      "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "byteLength": 23275
+    },
+    "why": "The bound SCA-C903 binary is AES-256 encrypted with an empty user password and the builder's printed-text reader could not run because pdftotext is unavailable in the worker (spawnSync pdftotext ENOENT)."
+  },
+  "blocker": {
+    "exactClass": "SOURCE_NOT_READABLE_HERE",
+    "statement": "The exact SCA-C903 source binds and the existing builder ran, but no packet can be built because the builder's required pdftotext executable is unavailable in the worker; the overlay remains untouched.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Run the existing WV builder in a worker with pdftotext available, then preserve its document-level refusal and continue only after the builder emits its native return.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF08, the lane recorded in Captain's current claim ledger.",
+    "The exact source gate passed; the existing builder was executed once and produced SOURCE_NOT_READABLE_HERE.",
+    "No overlay, source bytes, shared resolver, custody record, closed WV output, or active KY pardon work was modified.",
+    "The worker claim ledger remains intentionally uncommitted."
+  ]
+}
