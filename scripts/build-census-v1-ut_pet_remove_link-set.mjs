@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -80,8 +81,8 @@ function census(form) {
     caption(71,509,569,314,509,546);add('commissionerDomestic',1,314,583,219,null,'NOT_APPLICABLE');
     c('hearingRequestedHeading',1,316,488,null,null,'MANUAL_EVENT');
     add('motionName',1,180,630,217,'motionShortName');add('motionFiledDate',1,146,655,100,null,'MANUAL_EVENT');
-    // The opposition choices are printed across a page break; do not move them.
-    c('oppositionNotFiled',1,101,725,null,null,'MANUAL_EVENT');c('oppositionFiled',1,199,725,null,null,'MANUAL_EVENT');add('oppositionDate',2,286,153,170,null,'MANUAL_EVENT');
+    // Both opposition controls are on page 2 beside the continuation labels.
+    c('oppositionNotFiled',2,101,153,null,null,'MANUAL_EVENT');c('oppositionFiled',2,199,153,null,null,'MANUAL_EVENT');add('oppositionDate',2,286,153,170,null,'MANUAL_EVENT');
     for(const [id,y]of [['reply',185],['stipulation',233]]){c(id+'NotFiled',2,101,y,null,null,'MANUAL_EVENT');c(id+'Filed',2,199,y,null,null,'MANUAL_EVENT');add(id+'Date',2,286,y,170,null,'MANUAL_EVENT');}
     c('hearingYes',2,101,278,null,null,'MANUAL_EVENT');c('hearingNo',2,254,278,null,null,'MANUAL_EVENT');
     add('signedAt',2,102,403,289,null,'MANUAL_EVENT');add('signature',2,332,441,218,null,'SIGNATURE_PROTECTED');add('signatureDate',2,59,444,186,null,'SIGNATURE_PROTECTED');add('printedName',2,332,463,218,'name');
@@ -155,7 +156,8 @@ async function main() {
     for(const form of gate.forms){const src=documents.find(d=>d.formNumber===form);const offset=doc.getPageCount();for(const p of await doc.copyPages(sourceDocs.get(form),sourceDocs.get(form).getPageIndices()))doc.addPage(p);
       for(let p=1;p<=src.pageCount;p++)pageManifest.push({packetPage:offset+p,formNumber:form,sourcePage:p,sourceSha256:src.sha256,classification:form==='1502CR'?'PROPOSED_ORDER':'OFFICIAL_FORM'});
       for(const field of src.fields){if(!['AUTO_FILL','AUTO_SELECT'].includes(field.disposition))continue;let text=field.selectionId?(f[field.key]===field.value?'X':''):f[field.key];if(!text)continue;const p=doc.getPage(offset+field.page-1);let size=field.selectionId?7:10;
-        while(font.widthOfTextAtSize(text,size)>field.width&&size>8)size-=0.25;assert.ok(font.widthOfTextAtSize(text,size)<=field.width,`${f.fixture}/${form}/${field.blankId}: full value does not fit`);
+        const fitWidth=field.width-(field.key==='address'?2:0);
+        while(font.widthOfTextAtSize(text,size)>fitWidth&&size>8)size-=0.25;assert.ok(font.widthOfTextAtSize(text,size)<=fitWidth,`${f.fixture}/${form}/${field.blankId}: full value does not fit`);
         const y=p.getHeight()-field.baseline;assert.ok(field.x>=0&&field.x+field.width<=p.getWidth()&&y>0&&y+size<p.getHeight());
         p.drawText(text,{x:field.x,y,size,font,color:rgb(0,0,0)});writes.push({fixture:f.fixture,formNumber:form,blankId:field.blankId,packetPage:offset+field.page,sourcePage:field.page,text,x:field.x,y,width:font.widthOfTextAtSize(text,size),boxWidth:field.width,fontSize:size,isSelection:!!field.selectionId,participantFact:field.key});
       }
@@ -176,13 +178,45 @@ async function main() {
   write(`${OUT}/packet-set-manifest.json`,{schemaVersion:'rcap-packet-set-manifest/v2',familyId:FAMILY_ID,components:track.packetSet.components,selector:{requiredFact:'judgeOrCommissioner',factSources:['clerk-confirmed','court-confirmed'],judge:['1501CR','1502CR','1110GE'],commissioner:['1501CR-C','1502CR','1111GE'],otherwise:'configuration_ambiguous; no filing packet'},externalRequiredDocuments:track.participantFilingRequirements,sourcePagesPreserved:true,instructionsLast:true});
   write(`${OUT}/field-census.census-v1.json`,{schemaVersion:'rcap-field-census/v1',familyId:FAMILY_ID,censusBasis:'first_hand_inspection_of_each_exact_hash_bound_source',documents:documents.map(d=>({...d,fieldCount:d.fields.length,selectionControlCount:d.fields.filter(f=>f.selectionId).length}))});
   write(`${OUT}/production-field-map.json`,{schemaVersion:'rcap-official-form-field-map/v1-census-v1',familyId:FAMILY_ID,maps:documents.map(d=>({formNumber:d.formNumber,sourceSha256:d.sha256,fields:d.fields,canonicalWrites:allWrites.filter(w=>w.fixture==='canonical'&&w.formNumber===d.formNumber),boundaryWrites:allWrites.filter(w=>w.fixture==='boundary'&&w.formNumber===d.formNumber)}))});
+  // Native completeness reads explicit terminal writes/refusals. Preserve the
+  // complete source census, including sources selected only by commissioner.
+  const nativeMap=read(`${OUT}/production-field-map.json`);nativeMap.writes=[];nativeMap.refusals=[];
+  for(const d of documents)for(const f of d.fields){
+    const evidence=allWrites.filter(w=>w.formNumber===d.formNumber&&w.blankId===f.blankId);
+    const r={...f,fieldId:f.blankId,field:f.blankId,formNumber:d.formNumber,printedLabel:f.location??f.blankId,sourceSha256:d.sha256,sourcePage:f.page,isSelectionControl:!!f.selectionId};
+    if(evidence.length){
+      r.effectiveLabel=f.blankId==='judge'?'Assigned adjudicator identification in case caption':f.blankId;
+      r.printedLabel=f.blankId==='judge'?'Judge':r.printedLabel;r.captionOnly=f.blankId==='judge';r.factId=f.key;r.outputEvidence=evidence;nativeMap.writes.push(r);continue;
+    }
+    r.effectiveLabel=f.location??f.blankId;r.reason='';
+    if(f.disposition==='COURT_PROTECTED'||f.disposition==='COURT_SCHEDULE_REQUIRED'){
+      r.refusalClass='court_prosecutor_clerk_or_agency_owned';r.reason=f.disposition==='COURT_PROTECTED'?'The proposed order findings, outcome and judicial execution belong to the deciding court.':'The hearing schedule is issued by the court; the participant must copy the actual court-confirmed schedule before using the notice.';
+    }else if(['SIGNATURE_PROTECTED','SERVICE_ACT_PROTECTED'].includes(f.disposition)){
+      r.refusalClass='signature_or_date_participant_completion';r.reason=f.disposition==='SERVICE_ACT_PROTECTED'?'This field is part of the actual server\'s signed Certificate of Service. No filing or service has happened in this preparation fixture; the server completes the certification after the event.':'The participant personally supplies the signature and date when signing.';
+    }else if(['ACTOR_PROTECTED','OUTSIDE_ROUTE','NOT_APPLICABLE'].includes(f.disposition)){
+      r.completenessDisposition='NOT_APPLICABLE_ON_THIS_ROUTE';r.routeConditionThatMakesItInapplicable=f.disposition==='ACTOR_PROTECTED'?'The participant is self-represented and no attorney or licensed paralegal practitioner is acting in this case.':f.disposition==='OUTSIDE_ROUTE'?'This is the criminal defendant search-link motion, not the civil-denial branch or plaintiff role.':'The Commissioner (domestic cases) field concerns domestic cases; this packet concerns a dismissed criminal case.';r.reason=r.routeConditionThatMakesItInapplicable;
+    }else if(f.disposition==='MANUAL_EVENT'){
+      r.completenessDisposition='REQUIRED_BEFORE_FILING';r.requiredBeforeFiling=true;r.factAvailable=false;r.routeDetermined=false;r.determinedByTheCaseNotTheRoute=true;r.whyTheRouteCannotDetermineIt='The actual signing place, later docket filing, or hearing request is a case-specific event, not implied by the search-link remedy or deciding-officer branch.';
+      r.effectiveLabel=f.blankId==='signedAt'?'actual city and state or country where you sign':f.blankId==='motionFiledDate'?'filed-on date':f.blankId.startsWith('hearing')?'hearing-request choices':'opposition/reply/stipulation dates and filing choices';r.reason='Supply this actual event fact before signing and filing the affected motion or later request; the packet does not hold or fabricate it.';
+    }else throw Error('Unclassified terminal '+d.formNumber+'/'+f.blankId);
+    nativeMap.refusals.push(r);
+  }
+  assert.equal(nativeMap.writes.length+nativeMap.refusals.length,documents.reduce((n,d)=>n+d.fields.length,0));
+  write(`${OUT}/production-field-map.json`,nativeMap);
+  write(`${OUT}/participant-instructions.md`,FIXTURES.map(f=>instructionPages(f,selectRemoveLinkForms(f).forms).map(([h,...p])=>'# '+h+'\n\n'+p.join('\n\n')).join('\n\n')).join('\n\n'));
+  write(`${OUT}/approval-request.json`,{schemaVersion:'rcap-output-approval-request/v1',familyId:FAMILY_ID,status:'HELD_UNVERIFIED',routeKeys:['obligation:track-only:UT:ut_pet_remove_link'],rasterState:'UNVERIFIED_NO_RASTER',grantsNothing:true,reason:'Complete exact-source diagnostic saved packets; independent semantic and original-page raster acceptance pending.'});
   write(`${OUT}/reports/rendered-artifacts.json`,{schemaVersion:'rcap-rendered-artifacts/v1',familyId:FAMILY_ID,renderedFresh:true,artifacts,pdfs:artifacts.map(a=>({...a,role:'conditional_assembled_packet',baseFixture:a.fixture.endsWith('boundary')?'boundary':'canonical',branch:a.fixture.startsWith('commissioner-')?'commissioner':'judge'}))});
   write(`${OUT}/reports/actual-writes.json`,{schemaVersion:'rcap-actual-writes/v1',familyId:FAMILY_ID,writes:allWrites,proofMethod:'pdf-lib measured write geometry plus reopened saved PDF page and pdftotext value checks; original-page visual review pending'});
   write(`${OUT}/reports/manual-blank-inventory.json`,{familyId:FAMILY_ID,rows:documents.flatMap(d=>d.fields.filter(f=>!['AUTO_FILL','AUTO_SELECT'].includes(f.disposition)).map(f=>({formNumber:d.formNumber,...f}))),participantCompletionInstructions:`${OUT}/instructions/`});
   write(`${OUT}/reports/saved-page-checks.json`,{familyId:FAMILY_ID,checks:savedChecks,refusals,finalRasterAcceptance:'PENDING'});
   write(`${OUT}/build-status.json`,{schemaVersion:'rcap-family-build-status/v1',familyId:FAMILY_ID,status:'BUILT_REVIEW_PENDING',independentVerificationStatus:'PENDING',renderedArtifacts:artifacts.length,builtDocuments:5,rasterState:'UNVERIFIED_NO_RASTER',generationAllowed:false,runtimeSelectable:false,commercialRoutesOpened:0});
   write(`${OUT}/build-findings.json`,{familyId:FAMILY_ID,blocking:[],findingCount:0,observations:['Original official pages and all court/service controls preserved.','The required 1110GE Request to Submit for Decision title and 1111GEJ printed footer are unchanged.','No district-based branch guess; absent confirmed deciding-officer fact refuses packet.','No source acquisition, runtime installation, shared queue or custody writes.','Author saved-output checks only; independent semantic and original-page raster gates remain.']});
+  const measurement=spawnSync('python3',[`${OWN}/measure-native-output.py`],{encoding:'utf8'});assert.equal(measurement.status,0,measurement.stderr||measurement.stdout);
+  const native=spawnSync('node',['scripts/rcap-packet-completeness/verify-packet-completeness.mjs','--family',FAMILY_ID,'--write'],{encoding:'utf8'});assert.equal(native.status,0,native.stderr||native.stdout);
+  const nativeProof=JSON.parse(fs.readFileSync(path.join(os.tmpdir(),'rcap-packet-completeness',FAMILY_ID+'.json'),'utf8'));assert.equal(nativeProof.results[0].result,'PASS_COMPLETE');
+  write(`${OWN}/native-completeness.json`,nativeProof);write(`${OWN}/native-completeness.log`,native.stdout);
   write(`${OWN}/author-handoff.json`,{schemaVersion:'rcap-packet-build-return/v1',lane:'PF01',laneKind:'packet-build',workerId:'/root/mt_deferred_final_review',isIndependentVerification:false,status:'COMPLETED_AUTHOR_BUILD_PENDING_INDEPENDENT_REVIEW',claim:{command:'node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF01 ut_pet_remove_link-set',result:claim.stdout.trim()},rows:[{itemId:FAMILY_ID,familyId:FAMILY_ID,status:'COMPLETED',jurisdiction:'UT',routeKeys:['obligation:track-only:UT:ut_pet_remove_link'],implementationStrategy:'official_pdf_fill',buildScript:'scripts/build-census-v1-ut_pet_remove_link-set.mjs',overlayDirectory:OUT,artifacts,savedPageChecks:`${OUT}/reports/saved-page-checks.json`,sourceReceipt:`${OUT}/source-receipt.json`,fieldCensus:`${OUT}/field-census.census-v1.json`,productionFieldMap:`${OUT}/production-field-map.json`,actualWrites:`${OUT}/reports/actual-writes.json`,manualBlankInventory:`${OUT}/reports/manual-blank-inventory.json`,fixtureCount:artifacts.length,totalPages:artifacts.reduce((n,a)=>n+a.pageCount,0),sourcePdfCount:5,ambiguousStopCases:refusals.length,rasterState:'UNVERIFIED_NO_RASTER',independentVerificationStatus:'PENDING'}]});
+  const handoff=read(`${OWN}/author-handoff.json`);handoff.nativeCompleteness={result:nativeProof.results[0].result,counters:nativeProof.results[0].counters,path:`${OWN}/native-completeness.json`,actualSavedMeasurement:JSON.parse(measurement.stdout),scope:'this family only; no global matrix mutation'};write(`${OWN}/author-handoff.json`,handoff);
   console.log(JSON.stringify({familyId:FAMILY_ID,status:'COMPLETE_SAVED_RENDER',fixtures:artifacts.length,totalPages:artifacts.reduce((n,a)=>n+a.pageCount,0),handoff:`${OWN}/author-handoff.json`}));
 }
 if(path.resolve(process.argv[1]||'')===fileURLToPath(import.meta.url))await main();
