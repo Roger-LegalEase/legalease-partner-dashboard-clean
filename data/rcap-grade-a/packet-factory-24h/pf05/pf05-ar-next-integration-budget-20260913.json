@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "rcap-pf05-ar-next-integration-budget/v1",
+  "assignment": "PF05_AR_NEXT_INTEGRATION_BUDGET_20260913",
+  "status": "MEASURED_READ_ONLY_FIT",
+  "measuredAt": "2026-09-13T06:13:10Z",
+  "captainHeadAtMeasurement": "784fb8d4b3cbce3087d00c2e009bd9724034ebe2",
+  "scope": "Capacity assessment for the existing Captain native integration chain; no chain, builder self-test, packet build, regeneration, or packet-PDF raster was run.",
+  "filesystem": {
+    "mount": "/workspaces",
+    "device": "/dev/loop4",
+    "dfBlockSize": 1,
+    "totalBytes": 33636024320,
+    "usedBytes": 28933943296,
+    "availableBytes": 2963148800,
+    "capacityPercent": 91
+  },
+  "pdftoppm": {
+    "path": "/usr/bin/pdftoppm",
+    "version": "24.02.0",
+    "probe": "pdftoppm -v",
+    "packetPdfRerasterized": false
+  },
+  "inputs": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/integration-write-budget.json",
+      "bytes": 6667,
+      "sha256": "207e89fb997b2afecb96ded37404c4c91dd7131c7a91ac208a939d67d11fce14",
+      "meaning": "Recorded pre-PF05 integration budget and dirty-preservation baseline."
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf05/rows-pf05-ut-cannabis-resume-complete-20260913.json",
+      "bytes": 15202,
+      "sha256": "bc2538392a7c72630e6057b84df6a7c67bd7b68bb3c8e68270cf141fd683b705",
+      "meaning": "Completed PF05 candidate return; its recorded state remains BUILT_RASTER_PENDING and is not a terminal verdict."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/reports/focused-self-test.json",
+      "bytes": 649,
+      "sha256": "e2c3c6b26edf8705d1a635c898e8154c2a821379b01459b5a82027698f3ec755",
+      "meaning": "Existing AR focused-test report; it records no packet PASS or production authority."
+    }
+  ],
+  "flagGatedSelfTests": {
+    "chainGate": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+    "discoveryMethod": "Reads build-census-v1-*.mjs source and selects process.argv.includes(\"--self-test\") builders with assertions.",
+    "currentDiscoveredBuilderCount": 5,
+    "currentDiscoveredAssertionCount": 257,
+    "currentDiscoveredBuilders": [
+      { "builder": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs", "assertions": 90 },
+      { "builder": "build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs", "assertions": 22 },
+      { "builder": "build-census-v1-ca-1203-4-set.mjs", "assertions": 102 },
+      { "builder": "build-census-v1-mi_setaside_trafficking-set.mjs", "assertions": 26 },
+      { "builder": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs", "assertions": 17 }
+    ],
+    "currentFiveWritePosture": "Static inspection found assertions/read-only self-test bodies; the gate restores only newly dirtied overlay paths and removes newly untracked paths if a builder writes one.",
+    "pf05SelfTest": {
+      "script": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+      "dispatch": "runFamilyById(\"ut_pet_cannabis-set\", argv); argv.includes(\"--self-test\")",
+      "syntheticRaster": "One synthetic 72x72 PDF is written below os.tmpdir, freshRasterEvidence invokes Poppler to create temporary PNG output and font-cache data, and finally removes the temporary stage.",
+      "persistentRepositoryWrites": 0,
+      "includedInRecordedSelfTestAndLogsAllowance": true,
+      "chainDiscoveryCaveat": "The current discovery regex recognizes process.argv.includes but not PF05's argv-parameter form, so PF05 is not among the five dynamically discovered builders. This is a gate-scope observation, not a capacity waiver."
+    }
+  },
+  "arFocusedTest": {
+    "script": "scripts/test-ar-veterans-court-set.mjs",
+    "chainStep": false,
+    "write": "Writes only reports/focused-self-test.json after its assertions; the existing report is 649 bytes and is retained.",
+    "conservativeOverwriteAllowanceBytes": 4096,
+    "packetPdfWrites": 0,
+    "packetPdfRerasterized": false
+  },
+  "integrationWriteScopes": [
+    { "step": "identity-refresh annotations survive rebuild", "mode": "read-only" },
+    { "step": "gate coverage matches its verdicts", "mode": "read-only" },
+    { "step": "governance state survives", "mode": "read-only" },
+    { "step": "builder self-tests actually run", "mode": "temporary self-test output plus bounded restoration; PF05 synthetic raster is disposable" },
+    { "step": "extract verifier returns", "mode": "writes VERIFIER_RETURNS.json" },
+    { "step": "completeness audit", "mode": "writes PACKET_COMPLETENESS_MATRIX.json with --write" },
+    { "step": "product wiring", "mode": "writes changed per-family product-wiring.json records" },
+    { "step": "generate (first pass)", "mode": "writes generated queue/assignment/graph/checkpoint/claim records and owned prompts" },
+    { "step": "raster queue", "mode": "writes RASTER_QUEUE.json and four owned raster prompts" },
+    { "step": "generate (second pass)", "mode": "writes the same generated state and prompt scopes after raster admission" }
+  ],
+  "budget": {
+    "sourceReceipt": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/integration-write-budget.json",
+    "recordedBytes": {
+      "existingIntegrationOutputs": 18029028,
+      "replacementAndGrowthAllowance": 36058056,
+      "gitWriteAllowance": 36058056,
+      "dirtyPreservation": 3382657,
+      "selfTestAndLogs": 2097152,
+      "workingReserve": 100663296,
+      "historicalAvailableAfterPreservation": 186826752
+    },
+    "incrementalBytes": {
+      "pf05SyntheticRaster": 0,
+      "pf05SyntheticRasterAccounting": "Included within selfTestAndLogs; temporary PDF, PNG and font-cache data are removed before the self-test returns.",
+      "arFocusedReportAllowance": 4096
+    },
+    "conservativeReservedBytes": 196292341,
+    "calculation": "18029028 + 36058056 + 36058056 + 3382657 + 2097152 + 100663296 + 4096",
+    "availableBytesAtMeasurement": 2963148800,
+    "headroomAfterReservedBudgetBytes": 2766856459,
+    "fit": "PASS",
+    "interpretation": "This is a conservative reservation using the committed pre-PF05 category limits plus a rounded AR report overwrite allowance; it is not a claim about the eventual byte delta or gate result."
+  },
+  "preservation": {
+    "recordedDirtyPreservationBytes": 3382657,
+    "uniqueRequiredEvidenceMoved": false,
+    "scratchPolicy": "Only reproducible self-test scratch is temporary under os.tmpdir; no required evidence is stored solely there.",
+    "otherLiveWorkTouched": false
+  },
+  "limits": [
+    "The five-builder discovery result and PF05 parameter-gated caveat were obtained by static/source inspection; no self-test was executed for this budget task.",
+    "Capacity fit does not satisfy semantic, source, raster, independent-review, or integration admission gates.",
+    "The recorded dirty-preservation figure is the existing receipt baseline; this bounded measurement did not enumerate or relocate unrelated live dirty work."
+  ],
+  "nextGate": "With other local writers paused and this reserve available, Captain may proceed to the existing native integration gate after resolving the PF05 self-test discovery scope; preserve the completed PF05 return and independent review evidence."
+}
