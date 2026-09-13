@@ -82,13 +82,17 @@ const iaWholePacketDocuments = ({ report, fixtures, root, expectedFixtures }) =>
 };
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
-  // Each Montana candidate declares three complete diagnostic packets.
+  // Montana candidates declare route-specific complete diagnostic packets.
   // Preserve the route's own report and enroll its exact saved fixture set.
-  if (['mt_deferred_dismissal-set', 'mt_misdemeanor_expungement-set'].includes(report?.familyId)) {
-    const names = report.familyId === 'mt_deferred_dismissal-set'
-      ? ['boundary', 'canonical', 'verdict-justice'] : ['boundary', 'canonical', 'military'];
+  const mtFixtureContracts = {
+    'mt_deferred_dismissal-set': ['boundary', 'canonical', 'verdict-justice'],
+    'mt_misdemeanor_expungement-set': ['boundary', 'canonical', 'military'],
+    'mt_mmrta_completed-set': ['boundary', 'boundary-separate-conviction', 'canonical', 'city-redesignation', 'expungement-order'],
+  };
+  if (mtFixtureContracts[report?.familyId]) {
+    const names = mtFixtureContracts[report.familyId];
     assert.deepEqual(report.artifacts.map(d => d.fixture).sort(), names);
-    assert.deepEqual(fs.readdirSync(fixtures).filter(n => n.endsWith('.pdf')).sort(), names.map(n => `${n}.pdf`));
+    assert.deepEqual(fs.readdirSync(fixtures).filter(n => n.endsWith('.pdf')).sort(), names.map(n => `${n}.pdf`).sort());
     return report.artifacts.map(d => {
       const file = path.resolve(fixtures, `${d.fixture}.pdf`);
       assert.equal(path.resolve(root, d.file), file);
