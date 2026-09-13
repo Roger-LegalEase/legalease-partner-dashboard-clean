@@ -145,7 +145,7 @@ export function validateFacts(f){for(const k of ['name','county','district','cas
 export function stopReasons(f){return [f.hasConviction&&'conviction',f.municipalCourt&&'municipal_court',f.expectsSealing&&'wrong_remedy',f.strongerRouteAvailable&&'prefer_nonconviction_close',f.contestedBalancing&&'contested_balancing'].filter(Boolean)}
 export function plan(d,fixture){
  const fields=d.fields,byName=new Map(fields.map(f=>[f.name,f]));const mapped={},narratives=[],selections={},meaning={};
- const bind=(name,fact,label)=>{assert(byName.has(name),d.sourceId+':'+name);narratives.push({fields:[name],factId:fact,...(fact==='prosecutor'?{allowProtectedCategories:['prosecutor','attorney']}: {})});meaning[name]=label};
+ const bind=(name,fact,label)=>{assert(byName.has(name),d.sourceId+':'+name);narratives.push({fields:[name],factId:fact,...(((d.sourceId===FINDINGS&&name==='Defendant')||(d.sourceId===CIF&&name==='undefined'))?{maxFontSize:8,alignWidgetFontSizeToFit:true}:{}),...(fact==='prosecutor'?{allowProtectedCategories:['prosecutor','attorney']}: {})});meaning[name]=label};
  const narrative=(names,fact,label)=>{for(const name of names){assert(byName.has(name),name);meaning[name]=label}narratives.push({fields:names,factId:fact})};
  const choice=(name,label)=>{assert(byName.has(name),name);selections[name]={checked:true,basis:'Synthetic held '+fixture.disposition+' disposition / participant privacy-harm election'};meaning[name]=label};
  for(const [n,f,l] of [['County Of','county','County of criminal case'],['Judicial District','district','Judicial district of criminal case'],['Criminal Case No','caseNumber','Criminal case number'],['Defendant','name','Defendant name']])if(byName.has(n))bind(n,f,l);
@@ -200,7 +200,16 @@ async function main(){
 
  const adoptionPath=process.env.ND_SOURCE_ADOPTION_PATH??ADOPTION;const a=JSON.parse(fs.readFileSync(path.join(ROOT,adoptionPath)));const sources=a.sources.filter(s=>s.familyIds.includes(FAMILY));assert.equal(sources.length,9);const docs=[];
  for(const id of ORDER){const s=sources.find(s=>s.sourceId===id);assert(s,id);const bytes=fs.readFileSync(path.join(ROOT,s.heldCorpusPath));assert.equal(sha(bytes),s.sha256);assert.equal(bytes.length,s.byteLength);const census=await censusDocument({},bytes);docs.push({...census,sourceId:id,source:s,bytes,documentId:id.split(':')[1]});}
- const artifacts=[],results=[];assert(!fs.existsSync(path.join(ROOT,OUT,'fixtures','canonical.pdf')),'Existing candidate must be preserved before rebuilding');fs.mkdirSync(path.join(ROOT,OUT,'fixtures'),{recursive:true});
+ const artifacts=[],results=[];
+ if(fs.existsSync(path.join(ROOT,OUT,'fixtures','canonical.pdf'))){
+  assert(process.argv.includes('--replace-committed-candidate'),'Existing candidate must be preserved before rebuilding');
+  // A bounded repair may replace only byte-exact committed artifacts. Their authentic
+  // prior bytes remain in Git; dirty or untracked work already fails native preflight.
+  const tracked=execFileSync('git',['ls-files','--',OUT],{cwd:ROOT,encoding:'utf8'}).trim().split('\n').filter(Boolean);
+  assert(tracked.includes(OUT+'/fixtures/canonical.pdf'),'Existing candidate is not committed');
+  for(const rel of tracked){const prior=execFileSync('git',['show','HEAD:'+rel],{cwd:ROOT,maxBuffer:32*1024*1024});assert.equal(sha(fs.readFileSync(path.join(ROOT,rel))),sha(prior),'Unpreserved candidate difference: '+rel);}
+ }
+ fs.mkdirSync(path.join(ROOT,OUT,'fixtures'),{recursive:true});
  for(const [label,fixture] of Object.entries(FIXTURES)){
   validateFacts(fixture);assert.equal(stopReasons(fixture).length,0);const facts={...fixture,fullAddress:fixture.street+', '+fixture.cityStateZip,contact:fixture.phone+' / '+fixture.email};const packet=await PDFDocument.create();
   for(const d of docs){const p=plan(d,fixture);const r=await finalizeOfficialForm({sourceBytes:d.bytes,expectedSha256:d.source.sha256,census:p.census,facts,unwritableFields:p.unwritable,composedFieldValues:p.mapped,narrativeAcrossFields:p.narratives,selectionsFromHeldFacts:p.selections,documentTextLines:d.documentTextLines,suppressSynthesizedAppearances:true,minFontSize:8,maxFontSize:10,title:d.documentId});

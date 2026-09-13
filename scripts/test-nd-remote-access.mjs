@@ -9,3 +9,17 @@ test('triggered conditional fee waiver cannot be omitted',()=>assert.throws(()=>
 
 test('other-harm election requires participant words',()=>assert.throws(()=>validateFacts({...FIXTURES.canonical,harmsSelected:['other'],otherHarms:''})));
 test('no invented harm election when intake omitted',()=>assert.throws(()=>validateFacts({...FIXTURES.canonical,harmsSelected:undefined})));
+
+// These two original source widgets clipped the full surname despite text extraction retaining it.
+test('only the two demonstrated narrow name fields receive a readable eight-point ceiling',async()=>{
+ const fs=await import('node:fs');
+ const census=JSON.parse(fs.readFileSync(new URL('../data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/field-census.census-v1.json',import.meta.url),'utf8'));
+ for(const fixture of Object.values(FIXTURES)){
+  const limited=[];
+  for(const d of census.documents.filter(d=>d.fields.length)){
+   const p=plan({sourceId:'official-form:'+d.documentId,fields:d.fields},fixture);
+   for(const n of p.narratives)if(n.maxFontSize!==undefined){assert.equal(n.maxFontSize,8);assert.equal(n.factId,'name');limited.push(d.documentId+'::'+n.fields.join(','));}
+  }
+  assert.deepEqual(limited,['ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS::Defendant',...(fixture.protectedInformation?['ND-CONFIDENTIAL-INFORMATION-CRIMINAL::undefined']:[])]);
+ }
+});

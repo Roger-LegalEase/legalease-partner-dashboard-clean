@@ -1636,6 +1636,11 @@ export async function finalizeOfficialForm({
         continue;
       }
       applyFitToTextField(handle, { outcome: "fit", fontSize: laidOut.size, lines: [line] });
+      // Exact narrative opt-in: a widget-owned /DA otherwise overrides the fitted field size.
+      if (narrative.alignWidgetFontSizeToFit === true) {
+        const aligned = alignWidgetDefaultAppearanceSizes(handle, laidOut.size);
+        if (aligned.length) report.widgetFontSizeAligned.push({ field: name, fontSize: laidOut.size, widgets: aligned, channel: "narrative" });
+      }
       if (selectedFont !== helvetica) fallbackAppearanceFields.set(name, { handle, font: selectedFont });
       alreadyWritten.add(name);
       report.written.push({
