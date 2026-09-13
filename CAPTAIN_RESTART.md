@@ -8,7 +8,7 @@ This note records locations; it is not a backup of referenced bytes.
 
 Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
-Latest verified remote before this note: bccce268a0b9f56043cf663d2c232fb29d45d1a9.
+Latest verified remote before this note: 31e8c327f56f3bc23625c37c5cc985a4347f8c0a.
 Current HEAD advances through the commit containing this note.
 **Last preserved checkpoint:312/346. Current generated queue:300/346.**
 The pre-raster chain exited0 but withdrew12 prior terminals on shared WV record
@@ -276,3 +276,24 @@ Prior-terminal preservation cases (additional to remaining-family table):
 - nc_146_acquittal_petition-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
 - nc_146_dismissal_petition-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
 - wv_conv_nonviolent_felony-set | native identity comparison/reconciliation | Captain | data/record-clearing/legal-design-packet-set-manifests.json
+
+## Latest completed handoff — 2026-09-13 Utah final review
+
+Actual HEAD before this note: 3f2f66984 (resolve full SHA through Git).
+UT run34744433174 original archive, job log and all24 verified PNGs are committed
+and published through31e8c327f. Final VFUT1 return now committed bfd01303a:
+vfut1/rows-vfut1-ut-cannabis-original-final-20260913.json,
+SHA256 edf5ac83212c217b2ac65ad599652352a931eeeaabe7fd56c0afc8170e7c2e9c.
+15/15 PASS; no reraster or repeat original-page review. Next gate is native
+integration with raster-runs/34744433174/ORIGINAL_EVIDENCE_VERIFIED.json.
+Captain available2807164928bytes; measured chain allowance196292341 plus
+536870912 reserve fits. All24 protected dirty originals and durable backups
+reverified; receipt restart-recovery-20260913/ut-final-integration-budget-20260913.json.
+Before integration finish independent review/application of the one compiled-WV
+source identity comparison; eleven other preservation refreshes already committed.
+Actual generated queue remains300; last accepted checkpoint312.
+AR repair preserved in existing worker at9e4bc176ce5a8fd49483764753dcb4f3f632700f,
+repair66d4623bf4c61601c70b3e5e9d38f18b454c02cb, awaiting transfer and VF44 re-review.
+WV current loader/mapping admission review: resume_vfar1; compiled-profile
+adapter independent review: act346_order_review; KS native completion return
+then registration implementation: resume_ks_custody. No new owner decision needed.
