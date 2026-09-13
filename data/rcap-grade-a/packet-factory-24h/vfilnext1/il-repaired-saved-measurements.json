@@ -1,6 +1,6 @@
 {
   "familyId": "il-prb-cert-set",
-  "candidateCommit": "e6c339670f",
+  "candidateCommit": "73eb02e2796e27b517970518fd8d8346dd504172",
   "candidateBindings": [
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/approval-request.json",
@@ -14,8 +14,8 @@
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/field-census.census-v1.json",
-      "sha256": "f04fbea87a3fad2f909c2abc31498144e3134457173dc286c630dc449d5f291b",
-      "byteLength": 259880
+      "sha256": "20477dc62817e8a1529a03e97cafd53f61dc11b9e586606ea8bbc2404127ab16",
+      "byteLength": 259937
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/boundary.json",
@@ -84,8 +84,8 @@
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/military-boundary.pdf",
-      "sha256": "b7e2ff36ce87a22b0ffb10f92a4231045c8a25ea50e8c105d092aa3c4a17c7ac",
-      "byteLength": 302091
+      "sha256": "85c1070313c31d9ad186d863816facda21efeb9fff1493aed7dbf7e0eeb4456d",
+      "byteLength": 302119
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/military-canonical.json",
@@ -149,13 +149,13 @@
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/production-field-map.json",
-      "sha256": "b4904ff059fb96fb473edd938dc59fa359e5f94cae4c106039861681b990b2ec",
-      "byteLength": 1194666
+      "sha256": "87145e41c13770736c6f8f620eacd166e28f24ee037f710e15ebb32bdb3548f1",
+      "byteLength": 1194407
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/actual-writes.json",
-      "sha256": "125830963aed648bec2fa63f25b59f4781555d05de74bcb30f677ed32946935f",
-      "byteLength": 149991
+      "sha256": "8d9a99036a5dd3ec6a625a6d30e0524fc023df1caad65341ea4efda7b2148873",
+      "byteLength": 150048
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/manual-blank-inventory.json",
@@ -164,12 +164,12 @@
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/rendered-artifacts.json",
-      "sha256": "e71bedde9a5a7c6800d764cfa76fa6b18a0e4145b3459255db21a39dac115816",
+      "sha256": "6f4978ff5d14a1f7ce7f4080af4cfe1ebf0c66af4dbc5f7e673f6105759bfb76",
       "byteLength": 47166
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/saved-page-measurements.json",
-      "sha256": "756643a233f3d021e897afd2745dc9868679d415f8691410dfd604a0319be9fa",
+      "sha256": "aeaa6c8806d31f1e671f0fb29b0890752030ee55c96ca66184ce4053c58942a1",
       "byteLength": 16889
     },
     {
@@ -179,8 +179,8 @@
     },
     {
       "path": "scripts/build-census-v1-il-prb-cert-set.mjs",
-      "sha256": "8b2063e3cb80b4e240a121a8789acebd8354e26e836cd39e9e085ce2d8115eff",
-      "byteLength": 44396
+      "sha256": "3a638f2c40bc92e223c7a4582f80ee25993fb666e80e99a17bd7cf59ce358a00",
+      "byteLength": 44594
     }
   ],
   "savedMeasurements": [
@@ -243,9 +243,9 @@
     },
     {
       "fixture": "military-boundary",
-      "sha256": "b7e2ff36ce87a22b0ffb10f92a4231045c8a25ea50e8c105d092aa3c4a17c7ac",
+      "sha256": "85c1070313c31d9ad186d863816facda21efeb9fff1493aed7dbf7e0eeb4456d",
       "pages": 11,
-      "words": 2756,
+      "words": 2762,
       "outsidePage": [],
       "writeCount": 41,
       "missingWriteReadback": [],
@@ -340,12 +340,23 @@
   "totalPages": 84,
   "totalWriteReadbacks": 252,
   "finding": {
-    "fixture": "military-boundary",
-    "page": 3,
-    "sourcePage": 1,
-    "source": "PRB-MILITARY-APP",
-    "expectedHeldPriorClemency": "October 2021 - denied",
-    "savedCombinedPriorPetitionAnswer": "April 2020 - denied; 2020-EXAMPLE-41",
-    "omittedPriorClemency": true
-  }
+    "priorFinding": "IL-PRB-COMBINED-PRIOR-PETITION-OMISSION",
+    "result": "RESOLVED",
+    "savedAnswer": "PRB: April 2020 - denied; Clemency: October 2021 - denied",
+    "knownDocket": "2020-EXAMPLE-41",
+    "changedPdfPages": [
+      3
+    ]
+  },
+  "changedCandidatePaths": [
+    "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/military-boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/reports/saved-page-measurements.json",
+    "scripts/build-census-v1-il-prb-cert-set.mjs"
+  ],
+  "retainedPdfBindings": 7,
+  "unchangedPagesInChangedPdf": 10
 }
