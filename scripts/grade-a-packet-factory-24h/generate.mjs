@@ -413,6 +413,7 @@ const INPUTS = {
   wave2Repairs: `${LC}/WAVE_2_REPAIR_ASSIGNMENTS.json`,
   corpusIndex: "data/rcap-all50/local-source-corpus-index.json",
   sourceDeterminations: "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+  waHomicideCustomStrategy: "data/rcap-grade-a/source-wave-integration/WA_HOMICIDE_CUSTOM_SOURCE_STRATEGY_2026-09-13.json",
   utRemoveLinkSelector: "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
   recoveredSourceWave1: "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
   recoveredKnownResidual: "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
@@ -878,6 +879,23 @@ const effectiveSourceDeterminations = applyUserSourceDeterminations(ROOT, IN.sou
 const sourceReconciliationDoc = effectiveSourceDeterminations.reconciliation42 ?? null;
 const sourceReconciliationByFamily = new Map((sourceReconciliationDoc?.families ?? [])
   .map((r) => [r.familyId, r]));
+// Keep shared determination bytes pinned by prior reviews intact. This scoped
+// strategy implements the existing legal decision and creates no acceptance.
+const waHomicideStrategy = IN.waHomicideCustomStrategy;
+if (waHomicideStrategy) {
+  const familyId = "wa_vac_homicide_victim_prostitution-set";
+  const decision = legalBlockResolutions.byFamily.get(familyId);
+  if (waHomicideStrategy.familyId !== familyId
+    || waHomicideStrategy.reconciliation?.familyId !== familyId
+    || waHomicideStrategy.reconciliation?.implementationStrategyOverride !== "custom_pleading"
+    || decision?.disposition !== "LEGAL_CLEAR"
+    || decision.decisionId !== "WA-HOMICIDE-VICTIM-FAMILY-MEMBER-96060-7"
+    || waHomicideStrategy.decisionId !== decision.decisionId
+    || waHomicideStrategy.decisionRecord !== decision.decisionRecord
+    || waHomicideStrategy.decisionRecordSha256 !== sha(decision.decisionRecord))
+    throw new Error("WA custom source strategy does not match its adopted legal decision");
+  sourceReconciliationByFamily.set(familyId, waHomicideStrategy.reconciliation);
+}
 // This additive owner decision changes only Utah's selector hold. Preserve the
 // shared determination bytes already bound to unrelated independent reviews.
 const utSelector = IN.utRemoveLinkSelector;
