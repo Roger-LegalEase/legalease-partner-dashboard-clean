@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `4d583570c300b9fc5b1fa82f1e31d80c543c3d0d`
+**Minimum required ancestor:** `8d6ebafee152296fd76865585555af1c12bd8b88`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -56,10 +56,10 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 ### ar-act346-set
 
 - **4 documents**, and the receipt must cover every one of them:
-  - canonical `data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf` — `cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32` · 3 page(s)
   - canonical `data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf` — `75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76` · 5 page(s)
-  - boundary `data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf` — `36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871` · 3 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf` — `cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32` · 3 page(s)
   - boundary `data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf` — `59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8` · 5 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf` — `36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871` · 3 page(s)
 - the row pins `data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf` and `data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
 - expected pages 16 across all documents · requested scale 2.5
 - built by (no builder lane recorded)

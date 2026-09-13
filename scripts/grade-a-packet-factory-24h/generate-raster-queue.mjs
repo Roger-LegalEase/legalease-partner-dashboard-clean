@@ -31,7 +31,7 @@
  */
 import crypto from "node:crypto";
 import { conditionalPacketDocuments } from "./conditional-raster-documents.mjs";
-import { retainRiNonconvictionRasterOrder } from "../rcap-packet-recovery/ri-nonconviction-raster-order.mjs";
+import { retainRiNonconvictionRasterOrder, retainAct346RasterOrder } from "../rcap-packet-recovery/ri-nonconviction-raster-order.mjs";
 import { retainCa17RasterIdentity } from "../rcap-packet-recovery/ca17-raster-identity.mjs";
 import { resolveMiMoRasterEnrollment } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
 import { resolveIaForm1RasterEnrollment } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
@@ -852,6 +852,12 @@ for (const f of master.families) {
       if (f.familyId === "ri_nonconviction_sealing-set") {
         documents = retainRiNonconvictionRasterOrder(f.familyId, documents,
           read(`${DIR}/raster-runs/34602562081/ri_nonconviction_sealing-set.verdict.json`));
+      }
+      if (f.familyId === "ar-act346-set") {
+        documents = retainAct346RasterOrder(f.familyId, documents,
+          read(`${DIR}/raster-runs/34732930032/ar-act346-set.verdict.json`),
+          read(`${DIR}/fix112/ar-act346-current-raster-manifest-20260912.json`)?.rows?.find(r => r.familyId === f.familyId),
+          read(`${DIR}/raster-runs/34732930032/ORIGINAL_EVIDENCE_VERIFIED.json`));
       }
       const unreadable = documents.filter((d) => d.pageCount === null).map((d) => d.name);
       if (unreadable.length) {

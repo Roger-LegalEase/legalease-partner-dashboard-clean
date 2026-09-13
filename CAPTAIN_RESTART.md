@@ -10,7 +10,7 @@ under `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/`.
 
 - Worktree: `/workspaces/legalease-partner-dashboard-clean`; user `codespace`.
 - Captain HEAD before this acceptance handoff: `253ece8b351f247f77c74c668121048b7e0fb58d`; verified remote Captain tip contains checkpoint `4748adf94892a58185bdc268b176121bc36edde9`.
-- Current MASTER_QUEUE counted once after recovery: **310/346 terminal**.
+- Current MASTER_QUEUE counted once after recovery: **311/346 terminal**.
   No new closure yet. NH remains COMPLETE_PACKET_PROVEN.
 - KY adoption `3f16e3a55499f790d2b316a42171d473634c935d` remains adopted.
   Earlier drafts remain unadopted. No production or commercial authority changed.
@@ -214,3 +214,22 @@ admitted. Current queue310/346; AR and KY now BUILT_RASTER_PENDING, no new
 terminal. AR independent finalPASS remains accepted.
 Next: resolve exact admission identity mismatch. No redispatch34732930032,
 reraster, repeated visual review, cleanup or disk-heavy builds.
+
+## Act 346 closed; worker capacity provisioning — 2026-09-13
+
+Act346 admission ordering repair complete. Independent code review PASS,
+26focused tests /37combined focused-admission tests PASS. Original fourPDFs,
+frozen manifest, original verdict/custody, final visualPASS and ingester are
+hash-unchanged. Exact original digest e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a
+passed the unchanged native admission gate. Full integration exited0.
+New closure ar-act346-set COMPLETE_PACKET_PROVEN;311/346 terminal, all prior
+310preserved. Evidence: restart-recovery-20260913/act346-order-closure.json and
+act346-order-integration.log. All24pre-existing dirty files remain unchanged.
+
+First worker creation failed running-slot quota. Roger authorized stopping
+jubilant-guide-vp66wg75pq643jg9; gh reported it already stopped. Exactlyone
+RCAP-Finish-Worker now exists: rcap-finish-worker-77jr7gx76jq3rg65, provisioning.
+PF05 prepares its existing exact task relocation; oldcheckout remains paused.
+Do not retire it until destination sources, changes and runtime are verified.
+Captain remains sole integration/shared writer. PF20 is accounting for all
+remaining nonterminal next gates; its return will populate this note.
