@@ -1,0 +1,47 @@
+{
+  "tool": "repin-lapsed-source-identities",
+  "ranAt": "2026-09-13T11:31:12.780Z",
+  "applied": false,
+  "summary": {
+    "REFUSED": 1
+  },
+  "families": [
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill",
+      "receiptPath": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/source-receipt.json",
+      "unmeasurablePins": [],
+      "outcome": "REFUSED",
+      "why": "data/record-clearing/legal-design-packet-set-manifests.json: ambiguous packet-manifest recordId \"legal-design-packet-set-manifest:ks-22-4908-registration-relief-set\"",
+      "records": [
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "pinned": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+          "now": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+          "resolvedFrom": "working tree (repository root)",
+          "recordId": "legal-design-packet-set-manifest:ks-22-4908-registration-relief-set",
+          "adapter": "packet-set manifests (complete scoped packet sets + shared/default metadata)",
+          "recovery": {
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+            "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+            "commitsWithThisPath": 67,
+            "distinctBlobs": 60,
+            "blobsHashed": 2
+          },
+          "outcome": "REFUSED",
+          "why": "ambiguous packet-manifest recordId \"legal-design-packet-set-manifest:ks-22-4908-registration-relief-set\""
+        }
+      ],
+      "queueSummaryDisagreesWithMeasurement": {
+        "queueSaid": [
+          "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "data/record-clearing/legal-design-packet-set-manifests.json"
+        ],
+        "measured": [
+          "data/record-clearing/legal-design-packet-set-manifests.json"
+        ]
+      }
+    }
+  ]
+}
