@@ -82,10 +82,11 @@ const iaWholePacketDocuments = ({ report, fixtures, root, expectedFixtures }) =>
 };
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
-  // The deferred candidate includes a complete verdict/justice-court fixture.
-  // Preserve its reviewed report and enroll all three saved packets.
-  if (report?.familyId === 'mt_deferred_dismissal-set') {
-    const names = ['boundary', 'canonical', 'verdict-justice'];
+  // Each Montana candidate declares three complete diagnostic packets.
+  // Preserve the route's own report and enroll its exact saved fixture set.
+  if (['mt_deferred_dismissal-set', 'mt_misdemeanor_expungement-set'].includes(report?.familyId)) {
+    const names = report.familyId === 'mt_deferred_dismissal-set'
+      ? ['boundary', 'canonical', 'verdict-justice'] : ['boundary', 'canonical', 'military'];
     assert.deepEqual(report.artifacts.map(d => d.fixture).sort(), names);
     assert.deepEqual(fs.readdirSync(fixtures).filter(n => n.endsWith('.pdf')).sort(), names.map(n => `${n}.pdf`));
     return report.artifacts.map(d => {

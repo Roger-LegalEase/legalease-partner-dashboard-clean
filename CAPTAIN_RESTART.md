@@ -1,5 +1,46 @@
 # CAPTAIN_RESTART — SOLE FINISH CAPTAIN
 
+## Current completed candidates — 2026-09-13 continuation
+
+Terminal remains326/346; no new terminal closure claimed. All326prior terminal
+identities/dispositions and325prior terminal raster documents/receipts checked exact.
+MT deferred VFMT2 repaired semantic PASS consumed. All3fixtures/24pages frozen
+atf5fd19f25fe58f535748003371f8607fce705f4c and dispatched ONCE as34782464548.
+One watcher: private/transfers/mt-deferred-enrollment-20260913/run-watch.log.
+Native enrollment includes verdict-justice; reviewed packet/report bytes unchanged.
+Next gate: original artifact/log/PNG custody, distinct original-page acceptance,
+then native integration. Do not redispatch or rerun the converter.
+
+ND worker correctionb6561fb67 is included in newer04bd7622f. Full saved-output
+build initially reproduced old clipped bytes because widget-owned11pt appearances
+overrode the8pt fit. Prepared per-narrative alignment, explicitly opted into ONLY
+the two affected name fields, fixes the cause. Worker code1132cf1f5, saved-output
+commitf90de8173f6016f14b8166866a02926d88dc4854. Captain importfc4a70613.
+Both32page PDFs now pass saved byte/source/page/write checks and native76/249
+complete audit. All64pages compared; only3name placements changed. Full Reyes
+surname glyph bounds fit both original fields; no facts, instructions, original
+fields or protected controls removed. Local diagnostic raster refused unavailable
+Chromium; no fallback or installation. Complete current handoff:
+pf24/nd-complete-render-repair-handoff-20260913.json plus
+pf24/nd-all64-page-repair-dependency-proof-20260913.json.
+Current independent acceptance remains required; original VFND1 fail preserved.
+
+MT misdemeanor existing authorfl_final_review completed underPF16 at
+d764a0ef3ce91298485ece42604eedfee0419792. Captain claimPF16 asserted successfully;
+20exact candidate bindings imported at753a94c60. Threefixtures9+11+9pages,
+native260/337complete audit PASS. Route-specific instructions retain fingerprint/
+investigative exclusions, DOJ/local-record distinction, prosecution victim notice
+and participant distribution. Deferred eligibility/warnings were not substituted.
+Native returnpf16/rows-pf16-mt-misdemeanor-native-complete-20260913.json.
+Next gate: distinct route-specific semantic review, then all29original raster pages.
+
+Existing reviewer continuation attempted; collaboration returned
+"live agent path /root/ia_reader_review not found". Only/root is accessible.
+No agents restarted. User exception request for replacement independent reviewers
+is pending; elapsed time is not authorization. Captain does not invent acceptance.
+Unrelated OH identity/handoff changes remain preserved outside active commits.
+
+
 ## Current native closure checkpoint — 2026-09-13
 
 **326/346 terminal. Native convergence and exact preservation PASS.** All325
