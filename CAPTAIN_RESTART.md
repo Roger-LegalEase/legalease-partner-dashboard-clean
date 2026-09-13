@@ -45,7 +45,10 @@ unaccepted author stub to all adopted components. Enrollment preserves all325
 terminal dispositions and all324 prior terminal raster documents/receipts.
 Frozen manifest: pf01/fl-sealing-frozen-raster-manifest-20260913.json.
 Accepted run34776394081 binds frozen eb57eb18241cd90e5532e4a029b0938774a6c453,
-2fixtures/20pages at scale2.5. Do not redispatch. Final original-page review remains required.
+2fixtures/20pages at scale2.5. Run fully succeeded; original ZIP, job log, all20PNGs
+and current/frozen PDFs verified. Native receipt ingested RASTER_PASS; only FL row
+changed. See pf01/fl-sealing-final-review-handoff-20260913.json. Do not redispatch.
+Final original-page review remains required; no new terminal closure claimed.
 Both existing agents currently report usage limits. Do not fabricate independent
 final acceptance or restart/retry agents without changed availability.
 
