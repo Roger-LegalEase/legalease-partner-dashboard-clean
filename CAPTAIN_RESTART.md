@@ -398,3 +398,13 @@ FL expunction closed319 via original run34756193839;318 prior terminals and24dir
 Closure: restart-recovery-20260913/fl-expunction-final-closure-20260913.json.
 KYfelony-pardon candidate3245b7cf3 at semanticreviewks_registration_final; no raster yet.
 Implementation slots: PF05TXdwi nondisclosure; existingworker WVdiversion after bounded pdftotext repair.
+
+## Current finish-mode active work after319
+
+Verified pushed closureb4cb75909: ARveterans, KSarrest, KSregistration, UTjuvenile, FLexpunction added since314.
+No active raster. KYfelony-pardon semantic review: ks_registration_final.
+Implementation slots exactly2: PF05TXDWI nondisclosure; existingPF20worker CAdiversion prerequisite checker repair.
+CArepair only recognizes already-governed exact held CRM307; no newacquisition, no sharedcustodyJSON rewrite.
+Independentcode review required before dependentCAbuild.
+WVdiversion pdftotext restored24.02.0; builder now substantively blocks on staleform/missing deferred-adjudication supplement.
+AllinitialSOURCE_READY prerequisite checks performed once exceptactiveTX; individual missing-source/resolver blockers preserved in native returns.
