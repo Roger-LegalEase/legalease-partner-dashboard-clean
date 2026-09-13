@@ -17,6 +17,9 @@ stays there. Root checkout carries PF05 WA SUD repairs; existing PF20 worktree
 carries the governed-source resolver work. Preserve their dirty claim ledgers
 and code; worker ancestry lacks d66948d7463fa8a8df38981d611ebfe04139ea3e, so
 avoid broad fetch, reset, or cleanup there. Worker /tmp had 98 GiB free.
+Per latest user direction, all relevant gh commands must unset GH_TOKEN and
+GITHUB_TOKEN. Do not fall back to the Codespace token or retry the missing
+stored login; worker SSH work also waits for the requested authentication context.
 
 Iowa reader correction independently PASS and committed `73f87b0bd`.
 Both semantic PASS returns are recognized by the native extractor. Frozen
@@ -49,9 +52,14 @@ in `vfwasud1/rows-vfwasud1-wa-sud-semantic-independent-20260913.json`.
 Five findings repaired on the existing worker. Latest candidate
 `6632fd3b9471791d3748e895fdb00a54c7448c8d`, current author return
 `pf05/rows-pf05-wa-sud-referral-repair-complete-20260913.json` committed40cfc377e.
-Two changed, unaccepted PDFs total20pages; author nine counters zero; independent
-re-review pending. Preserve old official overlay; candidate is custom-pleading.
-Do not raster from an author return.
+Two changed, unaccepted PDFs total20pages; author nine counters zero. Independent
+pre-raster semantics now PASS in
+`vfwasud1/rows-vfwasud1-wa-sud-repair-semantic-pass-20260913.json` (commitd91fd6213):
+14 obligations PASS, clipping unmeasured. Preserve old official overlay; only
+custom canonical e1bde8bedab7892ac6b6e280043a1b92373182f7b3f53d76435368d0e3655a37
+and boundary d9b1ef68487d86ebe3bb053d4068e903e93e57058718b2629920eecf5fde1aa6
+are covered by this semantic return. Next is native enrollment/freeze, then
+raster and distinct original-page final review once access is restored.
 
 Provisioned only 17 initial held files (~8MB) from worker and nine exact adopted
 files from existing Drive custody. No complete-corpus assertion. Local env:
