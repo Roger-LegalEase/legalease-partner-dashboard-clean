@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "reviewer": "Captain (distinct from resume_vfar1 adapter author)",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "reviewedHead": "15b246819b6f8bc2cf9e62b9ea24c62b0e5df13b",
+  "helperSha256": "1256fbf87367544803ab6d8dd96e67ab69f145fb1067af5d53526278d9f70de0",
+  "finding": {
+    "id": "OWN_ROUTE_FORM_DEPENDENCY_FILTERED_OUT",
+    "cause": "wvPacketGeneratorStable filters SCA-C903 from formCandidates of every pathway, though the approved unrelated transition names only first-offense-drug-possession-conditional-discharge-relief.",
+    "measuredProbe": "Clone current profile; append the exact current SCA-C903 formInventory object to packetGenerator.pathways[sex-trafficking-victim-vacatur-and-expungement].formCandidates (originally empty); run native adapter scopeFrom and compareAnchors against recovered old profile.",
+    "actual": {
+      "differing": [],
+      "anchorsCompared": 5,
+      "anchorsIdentical": 5
+    },
+    "expected": "Own-route added dependency must refuse or yield a differing anchor.",
+    "requiredRepair": "Filter only the exact independently governed unrelated first-offense pathway transition; compare every other packet pathway including the selected route without that exclusion, and add own-route/other-pathway addition negative tests."
+  },
+  "sourceReceiptMutated": false,
+  "acceptanceGranted": false
+}

@@ -34,10 +34,9 @@ import { normalizeDeclaredDeGuidanceBuildInputs, declaredDeGuidanceSourceReadine
 import { normalizeDeclaredUtPcraBuildInputs, UT_PCRA_FAMILY } from "./ut-pcra-declared-delivery.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
 import {
-  applyLegalResolutionSupersessions,
   assessLegalResolutionAtReviewBase,
+  loadLegalBlockResolutions,
   sourcePermissionHoldResolved,
-  mergeLegalBlockResolutionRecords
 } from "./legal-block-resolution.mjs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
 import path from "node:path";
@@ -431,17 +430,13 @@ const IN = Object.fromEntries(Object.entries(INPUTS).map(([k, p]) => [k, read(p)
  * schemas, duplicate decisions, duplicate/conflicting family decisions, or a
  * summary list that differs from the decisions it purports to summarize.
  */
-const baseLegalBlockResolutions = mergeLegalBlockResolutionRecords([
-  { path: INPUTS.legalBlockResolution, document: IN.legalBlockResolution,
-    bytes: fs.readFileSync(path.join(ROOT, INPUTS.legalBlockResolution)) },
-  { path: INPUTS.kyCompanionChargesResolution, document: IN.kyCompanionChargesResolution,
-    bytes: fs.readFileSync(path.join(ROOT, INPUTS.kyCompanionChargesResolution)) },
-]);
-const legalBlockResolutions = applyLegalResolutionSupersessions(baseLegalBlockResolutions, [{
-  path: INPUTS.kjcPermissionAttestation,
-  document: IN.kjcPermissionAttestation,
-  bytes: fs.readFileSync(path.join(ROOT, INPUTS.kjcPermissionAttestation)),
-}]);
+/* Keep the factory on the same complete, validated legal-resolution binding
+ * used by verify.mjs. The former local list stopped at the two original
+ * resolutions, so later adopted records were visible to the schema test and
+ * verifier but never reached familyIndex here; a stale lane hold then looked
+ * current even after the owner had answered it. The shared loader preserves
+ * the exact record bytes, additive ordering and KJC supersession rules. */
+const legalBlockResolutions = loadLegalBlockResolutions(ROOT);
 
 /* An identity established by reading the document is exact in the only sense
  * this set cares about: the custody row names one path and one SHA-256, and

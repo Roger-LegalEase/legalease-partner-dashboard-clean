@@ -19,6 +19,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const MASTER = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const ACTIVE = "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json";
 const LEDGER = "data/rcap-grade-a/packet-factory-24h/claim-ledger.json";
+const GENERATOR = "scripts/grade-a-packet-factory-24h/generate.mjs";
 const read = (relative) => JSON.parse(fs.readFileSync(path.join(ROOT, relative), "utf8"));
 const originalAtHead = (relative) => JSON.parse(execFileSync("git", ["show", `HEAD:${relative}`], {
   cwd: ROOT, maxBuffer: 1 << 27
@@ -94,6 +95,15 @@ assert.equal(arDraft.familyId, "ar-veterans-court-set");
 assert.equal(assessLegalResolutionAtReviewBase(ROOT, arDraft.reviewedAtBase, arResolution).available, false,
   "the additive AR owner record was unavailable at the historical draft review base");
 
+/* The factory must consume this same complete, validated path set. A previous
+ * local two-record merge left later owner adoptions visible to this test and
+ * verify.mjs while generate.mjs projected currentLegalResolution as null. */
+const generatorSource = fs.readFileSync(path.join(ROOT, GENERATOR), "utf8");
+assert.match(generatorSource, /const legalBlockResolutions = loadLegalBlockResolutions\(ROOT\);/,
+  "the packet-factory generator must load every registered legal resolution");
+assert.doesNotMatch(generatorSource, /const baseLegalBlockResolutions = mergeLegalBlockResolutionRecords\(\[/,
+  "the packet-factory generator must not keep a stale local legal-resolution list");
+
 const wvAcquittal = docs.find(r => r.path.endsWith("WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json")).document;
 const wvResolution = resolutions.byFamily.get("wv_nc_acquittal_dismissal-set");
 assert.deepEqual(wvAcquittal.legalClearFamilyIds, ["wv_nc_acquittal_dismissal-set"]);
@@ -123,6 +133,8 @@ assert.match(historicalFinding, /Status:\*\* open, for Roger/);
 assert.match(historicalFinding, /Grants nothing/);
 assert.equal(wvResolution.familyId, "wv_nc_acquittal_dismissal-set");
 assert.equal(wvResolution.disposition, "LEGAL_CLEAR");
+assert.equal(resolutions.byFamily.has("wv_nc_diversion_deferred-set"), false,
+  "the adopted acquittal/dismissal scope must not clear the separate diversion/deferred family");
 
 const permissionFamily = "ks-22-2410-arrest-set";
 const permissionRecord = {disposition:"PRODUCT_PATH_PENDING", permissionHold:"Kansas Judicial Council noncommercial-use and republication restriction", productQuestion:null, unresolvedObligations:[]};
