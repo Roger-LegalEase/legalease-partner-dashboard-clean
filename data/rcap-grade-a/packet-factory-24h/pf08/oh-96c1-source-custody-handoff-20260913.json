@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "rcap-oh-96c1-source-custody-handoff/v1",
+  "status": "NEW_ACQUISITION_CUSTODY_VERIFIED_CAPTAIN_ADOPTION_PENDING",
+  "recordedAt": "2026-09-13",
+  "owner": "/root/resume_ks_custody",
+  "repositoryHeadAtReview": "f80057e54b3e791043bd00e648c99f77a74744d0",
+  "scope": "Bounded custody handoff for the statewide Ohio Form 96-C1 baseline and the three already-reviewed current Ohio statute source bindings. No packet build, route adoption, queue write, shared-index write, or new legal research was performed.",
+  "mapping": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf08/oh-clean-tracks-delivery-mapping-20260913.json",
+    "sha256": "c02f4da3804a62e758dea6cdf50dffb7ee54de7e917363713807e0201f5b872a",
+    "requiredTrack": "oh_2953_32_sealing",
+    "requiredInput": "Current Supreme Court of Ohio Rules of Superintendence container holding Appendix D Form 96-C1, Application to Seal Record of Conviction Pursuant to R.C. 2953.32."
+  },
+  "existingCustodyInspection": {
+    "performedOnce": true,
+    "sourceIndex": {
+      "path": "data/rcap-all50/local-source-corpus-index.json",
+      "sha256": "cf1af3035ef444f822846372668df4653814dbd68c96b8525fa75908d3d2495c",
+      "result": "No Form 96-C1 or OH-SUPR-APPENDIX-D-FORM-96-C1 entry. The only Ohio Master Library entry is the BCI post-order companion; the indexed recovery-pool Ohio PDFs are different files and were not substituted.",
+      "onlyOhioMasterLibraryEntryRelevantToFamily": {
+        "path": "STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+        "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+        "byteLength": 235789,
+        "role": "POST_ORDER_COMPANION",
+        "notForm96C1": true
+      }
+    },
+    "recordedBinding": {
+      "registryPath": "data/record-clearing/legal-design-track-registry.json",
+      "registrySha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-C1",
+      "revision": "2026-08-06",
+      "expectedContainerSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05",
+      "recordedSourceCustodyStatus": "SOURCE_INGEST_REQUIRED"
+    }
+  },
+  "newAcquisition": {
+    "classification": "NEW_ACQUISITION_AFTER_CUSTODY_ABSENCE",
+    "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-C1",
+    "publisher": "Supreme Court of Ohio",
+    "recordedOfficialUrl": "https://www.supremecourt.ohio.gov/docs/LegalResources/Rules/superintendence/Superintendence.pdf",
+    "downloadUrl": "https://www.supremecourt.ohio.gov/docs/LegalResources/rules/superintendence/Superintendence.pdf",
+    "editionOrRevision": "2026-08-06 registry revision; PDF contains July 1, 2026 Rule 11.17 restructuring commentary",
+    "custodyPath": "private/source-acquisition-20260913/oh-96c1/OH-SUPR-Superintendence-2026-08-06.pdf",
+    "byteLength": 11986292,
+    "sha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05",
+    "expectedHashComparison": "ACTUAL_EQUALS_RECORDED_EXPECTED_CONTAINER_HASH",
+    "custodyMeaning": "The bytes were newly downloaded after the current source index showed no Form 96-C1 custody. This is not a claim that a pre-restart temporary file survived and is not a restored temporary dependency.",
+    "preservation": {
+      "unalteredOriginalRetained": true,
+      "existingEditionOverwritten": false,
+      "masterLibrarySubstituted": false,
+      "bciSubstituted": false,
+      "obsolete96F1Or96D1Substituted": false,
+      "privateSourcePublished": false
+    },
+    "pdfVerification": {
+      "title": "Rules of Superintendence for the Courts of Ohio",
+      "pages": 536,
+      "pdfVersion": "1.6",
+      "ruleTextVerified": {
+        "page": 359,
+        "rule": "Rule 11.17",
+        "finding": "The container states that Forms 96-A1 through 96-G3 are standard forms, shall be accepted for filing by courts, and substantially similar local forms may also be accepted. The commentary states former Rule 96 was renumbered Rule 11.17 on July 1, 2026."
+      },
+      "formIdentity": {
+        "form": "96-C1",
+        "title": "Application to Seal Record of Conviction Pursuant to R.C. 2953.32",
+        "effectiveDateShownByOfficialPublisher": "October 1, 2020",
+        "publisherSearchEvidence": "The official Supreme Court URL's indexed content identifies Form 96-C1 and its title. The local PDF text extraction directly verified the containing Rule 11.17 and the recorded container hash; no separate form URL was found on the official forms index.",
+        "formBytesAreHeldAs": "The unaltered official Rules container, because the registry records that URL/container as the source binding."
+      }
+    }
+  },
+  "currentStatuteBindings": [
+    {
+      "sourceId": "official-statute:OH-RC-2953.32",
+      "authority": "Ohio Revised Code § 2953.32",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-2953.32",
+      "recordedRevision": "2025-09-30",
+      "expectedSha256": "21e6c7fb60eb473551942a6b1ad5ed814cb98d08289ca76bc73697a82556ecb5",
+      "localByteCustody": "NOT_FOUND_IN_TARGETED_OH_SOURCE_INDEX_OR_CUSTODY",
+      "currentOfficialPageStatus": "Previously bounded official-page verification exists; no statute bytes were downloaded in this custody gate.",
+      "requiredFor": ["oh_2953_32_sealing", "oh_2953_32_expungement"]
+    },
+    {
+      "sourceId": "official-statute:OH-RC-2953.33",
+      "authority": "Ohio Revised Code § 2953.33 (formerly R.C. § 2953.52)",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-2953.33",
+      "recordedRevision": "2023-10-03",
+      "expectedSha256": "33649aa5159bf343c74e152972f3f18b2803ca0b500529dd8886db6b0c1165d2",
+      "localByteCustody": "NOT_FOUND_IN_TARGETED_OH_SOURCE_INDEX_OR_CUSTODY",
+      "currentOfficialPageStatus": "Previously bounded official-page verification exists; no statute bytes were downloaded in this custody gate.",
+      "requiredFor": ["oh_2953_33_nonconviction"]
+    },
+    {
+      "sourceId": "official-statute:OH-RC-2953.35",
+      "authority": "Ohio Revised Code § 2953.35 (formerly R.C. § 2953.37)",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-2953.35",
+      "recordedRevision": "2023-04-04",
+      "expectedSha256": "0f321aa7959cb5e6d4d628e51237d7d22716ba9a470a0b80ad22e322ec771b63",
+      "localByteCustody": "NOT_FOUND_IN_TARGETED_OH_SOURCE_INDEX_OR_CUSTODY",
+      "currentOfficialPageStatus": "Previously bounded official-page verification exists; no statute bytes were downloaded in this custody gate.",
+      "requiredFor": ["oh_2953_35_firearm"]
+    }
+  ],
+  "remainingInputs": [
+    {
+      "input": "Captain's source-admission decision for the newly acquired Rules container",
+      "status": "PENDING_CAPTAIN_ADOPTION",
+      "condition": "Verify the retained path/hash and add the source admission through the existing authority workflow; this handoff does not mutate shared custody."
+    },
+    {
+      "input": "Record-derived destination court caption and current filing mechanics",
+      "status": "MISSING_BY_FAMILY_SOURCE_RECEIPT",
+      "condition": "Bind the exact sentencing/handling court from participant and certified records before retrieving court-specific mechanics. No broad county hunt."
+    },
+    {
+      "input": "Local bytes for the three recorded statute bindings",
+      "status": "NOT_HELD",
+      "condition": "The expected hashes and official URLs are recorded above; acquire only through a separately authorized bounded source-custody action if Captain later requires byte custody."
+    }
+  ],
+  "nextActionForCaptain": "Admit the newly acquired, hash-verified Rules container through the existing source-custody workflow, then bind Form 96-C1 only to the .32 sealing route. Keep .32 expungement, .33, and .35 separate; do not relabel 96-C1, use BCI as a primary, or infer a local-form mandate. No packet build is released by this handoff.",
+  "noMutations": [
+    "No shared source index, queue, registry, route, packet, legal decision, or adoption record was changed.",
+    "No Master Library or Nationwide operational binding was changed or substituted.",
+    "No statute bytes were downloaded; no broad legal research or county-form hunt was performed.",
+    "This handoff JSON is intentionally uncommitted for Captain integration."
+  ],
+  "integrity": {
+    "sourceBytesNewlyAcquired": true,
+    "sourceBytesRestoredFromPreRestartCustody": false,
+    "sourceBytesUnaltered": true,
+    "actualHashVerified": true,
+    "actualLengthVerified": true,
+    "expectedHashWasUsedForComparison": true,
+    "sharedFilesWritten": false,
+    "queueEdited": false,
+    "buildPerformed": false,
+    "routeAdopted": false,
+    "ownerDecisionMade": false,
+    "independentReviewCompleted": false
+  }
+}

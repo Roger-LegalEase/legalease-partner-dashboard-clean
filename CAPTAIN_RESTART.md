@@ -8,15 +8,18 @@ This note records locations; it is not a backup of referenced bytes.
 
 Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
-Latest verified remote before this note: 31e8c327f56f3bc23625c37c5cc985a4347f8c0a.
+Latest verified remote before this note: 4726c2bf4bada1d4e0db4597bc56f87d2003cc60.
 Current HEAD advances through the commit containing this note.
-**Verified terminal checkpoint:313/346.**
+**Verified terminal checkpoint:314/346.**
 Full native integration with Utah original run34744433174 completed at base
 b3149e4eebca45bc24c894aeba8de004611178e9.
-All312 prior terminals preserved; sole new closure ut_pet_cannabis-set.
+Utah integration preserved312 prior terminals. WV integration then preserved all313
+prior terminals; latest closure wv_nc_acquittal_dismissal-set.
 All12 source-identity regressions reconciled through native proof-bound refresh.
 Closure evidence: restart-recovery-20260913/ut-final-closure-20260913.json
-and ut-final-integration-20260913.log. All24 protected dirty files/backups verified.
+and ut-final-integration-20260913.log. Latest WV proof:
+restart-recovery-20260913/wv-final-closure-20260913.json and wv-final-integration-20260913.log.
+All24 protected dirty files/backups verified.
 Act346 and NH remain closed. No production/commercial authority changed.
 Evidence: restart-recovery-20260913/ky-final-closure.json and ky-final-integration.log.
 All paths abbreviated below are under data/rcap-grade-a/packet-factory-24h/.
@@ -175,7 +178,6 @@ Current truth file remains dirty/uncommitted; further scopedchecks use --no-writ
 | wa_blake_vacatur_and_lfo_refund-set | Build from exact BLAKE-001, BLAKE-002, and BLAKE-005 bindings, resolving their packet component selection as mapping, then return for independent review. | CAPTAIN / PF24 | None in current source custody. The bounded mapping question is whether BLAKE-002 is the courts-limited-jurisdiction alternative or a separate refund component; resolve it in the build return without new source acquisition. |
 | wa_vac_homicide_victim_prostitution-set | Resolve the current route-specific component and prefill question under RCW 9.96.060(7), update the held route-specific candidate if required, and send the corrected current bytes through independent review. | CAPTAIN / bounded VF34 resolution, then independent review | VF34 is BLOCKED_LEGAL_INPUT on COMPONENT_SET, KNOWN_PREFILLS, and ROUTE_OPTIONS: the existing CrRLJ set does not establish a distinct family-member pleading, applicant/victim field placement, or a valid printed-ground election. The adopted WA decision requires the route-specific petition/order and forbids forcing it into the ordinary residual box. |
 | wa_vac_substance_use_disorder-set | Map RCW 9.96.060(6) to a route-specific petition/declaration and notice/order vehicle, retain the clerk lookup for local fee/waiver, repair the recorded self-help stop text, and then return it to independent review. | CAPTAIN | VF06 records live ROUTE_OPTIONS and FEE_AND_WAIVER blocks: CrRLJ 09.0100 has no RCW 9.96.060(6) election and no held fee schedule establishes the local amount or waiver procedure. VF06 also measured SELF_HELP_STOP as failed for the registry's immigration, pending-charge, DV/protection-order, DUI, weapon/enhancement, and firearm-rights conditions. |
-| wv_nc_acquittal_dismissal-set | Native semantic-return recognition, freeze current four-PDF candidate, raster and independent original-page review | Captain; VFAR1 return reconciliation | Mapping completed41ddea6e0 after independent binding PASS. Native state BUILT_RASTER_PENDING. No owner question. |
 | wv_nc_diversion_deferred-set | Build from the exact SCA-C903 binding with the diversion/deferred route branch and return the complete candidate for independent review. | PF08 | None in the current source reconciliation beyond the PF08 build and ordinary acceptance gates. |
 
 WV two-branch owner direction ADOPTED2026-09-13 in
@@ -339,3 +341,18 @@ One next implementation slot assigned resume_pf05_ut on existingworkerPF05:
 census-pending-family:UT:path-m-juvenile-expungement, exactheld128760byte2p
 reference source and resolver7bc17e7. Preserve prior frozenUT/WV outputs.
 Revieweract346_order_review is distinct. No additional implementation slots started.
+
+## Latest closure and next actions — WV314
+
+WV full native chain completed at base d000129af; all313 prior terminals preserved.
+Original receipt df24db629fcacf5d012a75efceaed03826eeabc2cdaa28af1b3e238263860c81
+unchanged. Wiring changed only lastIndependentVerification metadata; exact diff
+is in wv-final-closure-20260913.json. No commercial/production authority.
+KS arrest14pages original review act346_order_review; registration26pages original
+review pf04_ar_veterans_build. Originalregistrationcustody in raster-runs/34748021265/.
+AR18pages current semanticPASS now frozen in pf04/ar-veterans-frozen-raster-manifest-20260913.json.
+Next Captain action: dispatch that frozen candidate, then integrate ready final returns.
+Only2 implementation slots: PF05UTjuvenile and existingKSworkerOHfour-trackrepair.
+OH officialrulesbooknewacquisition private/source-acquisition-20260913/oh-96c1/
+OH-SUPR-Superintendence-2026-08-06.pdf SHA3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05,11986292bytes.
+Not pre-restartrestoration; do not publishrawprivatecustody. No ownerquestionneeded.

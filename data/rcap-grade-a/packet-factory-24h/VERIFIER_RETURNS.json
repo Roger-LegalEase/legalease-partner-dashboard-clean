@@ -34,15 +34,13 @@
     }
   ],
   "counts": {
-    "returnDirectories": 352,
-    "rows": 1443,
+    "returnDirectories": 354,
+    "rows": 1445,
     "independentVerdicts": 320,
-    "failRepairRequired": 1,
-    "passIndependent": 316
+    "failRepairRequired": 0,
+    "passIndependent": 317
   },
-  "failRepairRequiredFamilies": [
-    "ar-veterans-court-set"
-  ],
+  "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
@@ -3597,6 +3595,22 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-completeness-repair-semantic-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-veterans-court-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ar-veterans-court-set",
+      "verdict": "PASS",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c5fc92acad0c4e6c3e46811b17af67f1caf4d412",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-ar-veterans-instruction-integrity-semantic-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-veterans-court-set",
       "superseded": false
@@ -42077,6 +42091,20 @@
     },
     {
       "familyId": "wv_nc_acquittal_dismissal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfar1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f80057e54b3e791043bd00e648c99f77a74744d0",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfar1/rows-vfar1-wv-two-branch-original-final-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_nc_acquittal_dismissal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wv_nc_acquittal_dismissal-set",
       "verdict": "PASS",
       "lane": "vfar1",
       "isIndependentVerification": true,
@@ -42089,7 +42117,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfar1/rows-vfar1-wv-two-branch-semantic-native-recheck-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_nc_acquittal_dismissal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wy_fel_1502-set",
