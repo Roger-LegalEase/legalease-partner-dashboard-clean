@@ -2,11 +2,11 @@
 
 ## Current native closure checkpoint — 2026-09-13
 
-**325/346 terminal. Native convergence and preservation PASS.** All324
-accepted families at083c28085 retain exact identities and dispositions; only NC
-agency follow-up is newly terminal. All323 prior terminal raster rows retain
-identical documents and receipts. Read pf05/nc-auto146-final-closure-20260913.json
-for the completed checks and closure evidence.
+**326/346 terminal. Native convergence and exact preservation PASS.** All325
+previous accepted family identities/dispositions remain exact; only FL sealing
+is newly terminal. All324 prior terminal raster rows retain exact documents and
+receipts. Read pf01/fl-sealing-final-closure-20260913.json for completed integration.
+NC closure remains pf05/nc-auto146-final-closure-20260913.json.
 WA closure receipt remains pf05/wa-sud-final-closure-20260913.json.
 
 WA SUD family-only notice leading repair5bb6b054da preserves every word, field,
@@ -48,9 +48,11 @@ Accepted run34776394081 binds frozen eb57eb18241cd90e5532e4a029b0938774a6c453,
 2fixtures/20pages at scale2.5. Run fully succeeded; original ZIP, job log, all20PNGs
 and current/frozen PDFs verified. Native receipt ingested RASTER_PASS; only FL row
 changed. See pf01/fl-sealing-final-review-handoff-20260913.json. Do not redispatch.
-Final original-page review remains required; no new terminal closure claimed.
-Both existing agents currently report usage limits. Do not fabricate independent
-final acceptance or restart/retry agents without changed availability.
+Distinct vfflfinal1 PASS_COMPLETE_INDEPENDENT,15/15obligations and9counterszero.
+Native integration COMPLETE_PACKET_PROVEN. No further FL build/review/raster.
+User confirmed usage reset; successful reviewer/author execution is observed.
+Existing author continues ND on the existing worker checkout; independent reviewers
+continue pinned work. Standard mode; no billing or model changes.
 
 Next PF24 ND remote-access: original four source bindings remain intact. Five
 additional inputs are now acquired and hash/length verified on Captain and the
@@ -58,10 +60,11 @@ existing worker: criminal Declaration3pages, Notice1page, Confidential Form2page
 Office Service2pages and Instructions13pages. Bodies remain private under
 private/source-acquisition-20260913/nd-remote-declaration/ on both machines.
 The existing pf20/remaining-family-handoff-20260913.json ND row records exact
-bindings, custody and component requirements. Native source admission and complete
-candidate remain unfinished; not an active build. No general AR41 form substitution.
-Both existing agents remain errored on usage limits; Captain did not restart them,
-change mode/billing, or fabricate final acceptance. Existing assignments preserved.
+bindings, custody and component requirements. Native source admission independently PASS at1ffeb87d7: nine exact inputs,31source
+pages/222fields. All996priorindexentries preserved. Existing ia_reader_review owns
+ND implementation in the same worker checkout; initial Captain draft preserved
+privately, author completes saved-byte checks/nativehandoff. No general AR41
+substitution and no ND candidate acceptance yet. Assignments preserved.
 NE PF01 source/environment readiness passed; exact remaining stage-one input is
 court/county-specific notice/service procedure, not missing CC6:12 bytes. Private
 vfne-prerequisite-20260913 records the bounded review. OH96C1 container custody is
