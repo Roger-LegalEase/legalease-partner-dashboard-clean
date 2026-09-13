@@ -8,8 +8,8 @@ This note records locations; it is not a backup of referenced bytes.
 
 Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
-Latest completed local checkpoint before this note: 3693021b7 (PF05 repair return).
-Last verified remote before this handoff: f8c625c3717a3909f6fb6e64fa04c0e2cee4cbba; normal push follows.
+Latest completed and pushed checkpoint before this note: 0ca03b60a.
+Full commit identity is available through git rev-parse 0ca03b60a; note commit follows.
 Current HEAD advances through the commit containing this note.
 **312/346 terminal** after full native KY integration; all prior311 preserved.
 Act346 and NH remain closed. No production/commercial authority changed.
@@ -206,3 +206,22 @@ WA read-only next-gates return: pf24/wa-two-route-next-gates-20260913.json,
 SHA25684f8f695ebe3baa155eb6c2b828c6733257d3e9185541ae1e1a321d128ebab11.
 It preserves unresolved subsection(2)/(6) applicability and local filing procedure;
 existing custom-vehicle decisions remain adopted. No new terminal from these handoffs.
+
+## Accepted handoff update
+
+WV source/layout correction independently PASS, committed9ad720a34 and pushed.
+Review pf08/wv-source-layout-correction-review-20260913.json
+SHA256a848bf55620fd9b31cbd1a8685d7ba4bcacec571b5be6fe28036db78e009829a.
+PF05 repair independently PASS_PRE_RASTER_SEMANTIC (14 PASS, clipping unmeasured),
+return vfut1/rows-vfut1-ut-cannabis-instruction-repair-semantic-pass-20260913.json
+SHA256d4b3e3a286b42ad9dc10fbcb1430acf9efa4c12aa945c365cbc8cddecdad9175.
+AR also PASS_PRE_RASTER_SEMANTIC, return committed784fb8d4b.
+Both ready for current-byte raster after required integration preparation.
+Budget pf05/pf05-ar-next-integration-budget-20260913.json confirms196292341bytes
+reserved against2963083264bytes available; pdftoppm24.02.0 at/usr/bin/pdftoppm.
+Discovered exact prerequisite defect: existing self-test scope misses PF05's
+argv=process.argv.slice(2) -> runSelfTests dispatch. Bounded existing-helper/test
+repair assigned ut_preflight_repair, independent review destination resume_vfar1.
+No chain run yet; no raster dispatch yet. All24 baseline dirty hashes reconfirmed.
+Next: review scoped self-test fix, run native chain, freeze eligible AR+UT rows,
+then current-byte raster and distinct original-page final acceptance.
