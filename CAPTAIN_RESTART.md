@@ -9,7 +9,7 @@ under `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/`.
 ## Current checkpoint
 
 - Worktree: `/workspaces/legalease-partner-dashboard-clean`; user `codespace`.
-- Latest completed checkpoint before this update: `6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a`; current HEAD advances through the commits containing this note. Historical checkpoints below are comparison evidence.
+- Latest completed checkpoint before this update: `6805f544e3697a53e19a8905de599a1e08283954`; current HEAD advances through the commits containing this note. Historical checkpoints below are comparison evidence.
 - Current MASTER_QUEUE counted once after recovery: **312/346 terminal** after the full KY integration chain.
   New closure: ky_protective_order_record_expungement-set. NH remains COMPLETE_PACKET_PROVEN.
 - KY adoption `3f16e3a55499f790d2b316a42171d473634c935d` remains adopted.
@@ -343,3 +343,20 @@ uncollected7,unclassified6. Claims sd_caption/PF05 and review_wa/VFUT1 preserved
 KY full integration completed, every stage exit 0, original run34737617513 admitted unchanged.
 312/346 terminal; all prior311 preserved. Evidence: restart-recovery-20260913/ky-final-closure.json
 and ky-final-integration.log. No acceptance redone.
+
+## Kansas exact custody recovered
+
+Single four-hash batch search completed on glorious-robot-qv7769gxv76r24xp7;
+all four expected PDFs found and copied immediately to durable private custody.
+Captain independently verified all eight retained copies against four expected
+SHA-256s and lengths, then restored only the four missing original governed paths.
+Receipts: pf20/ks-historical-recovery-return-20260913.json and
+pf20/ks-historical-captain-restoration-20260913.json. Exact original remote paths,
+local object/receipt paths, hashes and lengths are recorded there.
+Private raw objects remain under private/source-acquisition-20260913/ks-historical-recovery/
+and private/Nationwide Record Clearing/LegalEase Kansas/source-gated/. This partial
+Nationwide restoration does not establish a complete operational corpus binding.
+No Kansas source remains missing among the four targets. No further search.
+Historical Codespace stopped; existing finish-worker is being resumed for PF05.
+PF20 now owns read-only saved-work/build handoff for both recovered Kansas families.
+AR veterans Q1–Q8 remain unadopted; repeated Kansas response is not AR adoption.
