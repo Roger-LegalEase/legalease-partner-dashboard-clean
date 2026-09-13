@@ -1,5 +1,11 @@
 # CAPTAIN_RESTART — SOLE FINISH CAPTAIN
 
+## Active original-page gates
+
+ND raster34783681975 at0db583223bb7283266fed3da318bacde99c48bd3:64 pages; reviewer VFNDFINAL2 /root/mt_deferred_final_review.
+MT misdemeanor raster34783921430 at3bd5e99f0d63938dcdaf739deca3c546d5327a48:29 pages; reviewer VFMTMISFINAL1 /root/nd_repair_independent_review.
+Both semantic PASS; retain existing single watchers. Terminal remains327/346.
+
 ## Latest terminal closure — MT deferred327/346
 
 MT deferred is COMPLETE_PACKET_PROVEN after VFMTFINAL2 distinct original-page

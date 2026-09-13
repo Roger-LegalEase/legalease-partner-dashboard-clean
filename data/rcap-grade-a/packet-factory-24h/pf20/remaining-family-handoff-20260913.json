@@ -280,28 +280,44 @@
     {
       "familyId": "mt_deferred_dismissal-set",
       "jurisdiction": "MT",
-      "queueState": "SOURCE_READY",
-      "owner": "PF04",
-      "actualNextGate": "Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components.",
-      "exactBlocker": "No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used.",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "owner": "CAPTAIN \u2014 integrated",
+      "actualNextGate": "Current candidate complete and independently accepted; no more build, semantic review or raster. No commercial authority inferred.",
+      "exactBlocker": "None for packet-factory closure; original24page run34782464548 and VFMTFINAL2 accepted at c8381f44e6.",
       "evidence": [
         "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
-        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "data/rcap-grade-a/packet-factory-24h/pf04/mt-deferred-final-closure-20260913.json"
       ],
-      "retrievalChannelsAlreadyFailed": []
+      "retrievalChannelsAlreadyFailed": [],
+      "priorContinuationGate": {
+        "queueState": "SOURCE_READY",
+        "owner": "PF04",
+        "actualNextGate": "Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components.",
+        "exactBlocker": "No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used."
+      }
     },
     {
       "familyId": "mt_misdemeanor_expungement-set",
       "jurisdiction": "MT",
-      "queueState": "SOURCE_READY",
-      "owner": "PF16",
-      "actualNextGate": "Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components.",
-      "exactBlocker": "No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used.",
+      "queueState": "BUILT_RASTER_PENDING",
+      "owner": "CAPTAIN / VFMTMISFINAL1",
+      "actualNextGate": "Consume original29page run34783921430, verify exact original custody and all3fixtures, then independent original-page acceptance and integrate.",
+      "exactBlocker": "Existing author deliverable and VFMTMIS1 semantic PASS complete; current remaining gate is original raster/final review. No converter setup or source hunt required.",
       "evidence": [
         "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
-        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "data/rcap-grade-a/packet-factory-24h/pf16/mt-misdemeanor-complete-admission-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/vfmtmis1/rows-vfmtmis1-mt-misdemeanor-semantic-pass-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf16/mt-misdemeanor-raster-run-20260913.json"
       ],
-      "retrievalChannelsAlreadyFailed": []
+      "retrievalChannelsAlreadyFailed": [],
+      "priorContinuationGate": {
+        "queueState": "SOURCE_READY",
+        "owner": "PF16",
+        "actualNextGate": "Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components.",
+        "exactBlocker": "No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used."
+      }
     },
     {
       "familyId": "mt_mmrta_completed-set",
@@ -357,13 +373,16 @@
     {
       "familyId": "nd-prohibit-remote-public-access-set",
       "jurisdiction": "ND",
-      "queueState": "SOURCE_READY",
-      "owner": "Captain: source admission and component binding; existing PF24 implementation slot: complete candidate; distinct reviewer: independent acceptance",
-      "actualNextGate": "Captain implements the family-only builder in the existing worker checkout from the nine exact native-adopted inputs; author checks saved bytes and instructions before independent handoff.",
-      "exactBlocker": "No source bytes remain missing for the nine bound documents. Complete candidate implementation is now the executable gate. Existing independent reviewer remains unavailable on usage limit.",
+      "queueState": "BUILT_RASTER_PENDING",
+      "owner": "CAPTAIN / VFNDFINAL2",
+      "actualNextGate": "Consume original64page run34783681975, verify archive/log/PNG/current-PDF custody, then distinct VFNDFINAL2 original-page acceptance and integrate.",
+      "exactBlocker": "Full saved-output repair and VFND2 semantic PASS complete. Current remaining gate is original raster/final review; do not repeat old clipping repair or source recovery.",
       "evidence": [
         "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
-        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/pf24/nd-complete-render-repair-handoff-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/vfnd2/rows-vfnd2-nd-repair-semantic-pass-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf24/nd-repaired-raster-run-20260913.json"
       ],
       "retrievalChannelsAlreadyFailed": [],
       "updatedAt": "2026-09-13T19:20:04.299154+00:00",
@@ -673,6 +692,12 @@
           "File original completed documents and proof of service; retain confidential handling and the conditional fee-waiver instruction."
         ],
         "independentAcceptanceClaimed": false
+      },
+      "priorContinuationGate": {
+        "queueState": "SOURCE_READY",
+        "owner": "Captain: source admission and component binding; existing PF24 implementation slot: complete candidate; distinct reviewer: independent acceptance",
+        "actualNextGate": "Captain implements the family-only builder in the existing worker checkout from the nine exact native-adopted inputs; author checks saved bytes and instructions before independent handoff.",
+        "exactBlocker": "No source bytes remain missing for the nine bound documents. Complete candidate implementation is now the executable gate. Existing independent reviewer remains unavailable on usage limit."
       }
     },
     {
@@ -719,11 +744,14 @@
       "jurisdiction": "OH",
       "queueState": "PRODUCT_PATH_PENDING",
       "owner": "CAPTAIN",
-      "actualNextGate": "Bind statewide composed routes versus local-court application routes, split delivery types where required, and route the exact missing local application, caption, and filing instructions to source work before a live filing component set is claimed.",
-      "exactBlocker": "Current VF32 independent review is BLOCKED_LEGAL_INPUT on COMPONENT_SET: the drafts and BCI companion exist, but local-court application/caption/instructions and route-family binding are unresolved. The packet is rendered and complete by counters, which does not discharge this product-path gate.",
+      "actualNextGate": "Captain/PF08: bind record-derived destination court and current filing mechanics for all four adopted remedy branches. Exact admitted96-C1 is located on physicalpage475 of held Rules container, for .32 sealing only. Apply existing independently reviewed original-pleading distinction for other branches; no blanket local-form mandate.",
+      "exactBlocker": "Court/branch delivery bindings remain incomplete. Rules-container custody and exact96-C1 location are resolved; no repeat acquisition. Do not relabel96-C1 as expungement or waive any actual mandatory court-specific input.",
       "evidence": [
         "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
-        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-96c1-bound-page-identity-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-source-only-integration-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-clean-tracks-delivery-mapping-independent-review-20260913.json"
       ],
       "retrievalChannelsAlreadyFailed": []
     },
@@ -1041,5 +1069,13 @@
     "No packet generation, raster dispatch, claim release, queue edit, shared manifest edit, or source metadata write was performed.",
     "No Master Library bytes were substituted for operational Nationwide custody.",
     "This file is the only scoped handoff write and is intentionally left uncommitted for Captain integration."
-  ]
+  ],
+  "latestCandidateContinuation": {
+    "terminal": 327,
+    "denominator": 346,
+    "newClosure": "mt_deferred_dismissal-set",
+    "ndRasterRun": 34783681975,
+    "mtMisdemeanorRasterRun": 34783921430,
+    "earlierCheckpointPreservedAsHistory": true
+  }
 }
