@@ -175,7 +175,9 @@ function policyRow(source, field) {
     widgets: field.widgets.map((w) => ({ widgetIndex: w.widgetIndex, page: w.page, rect: w.rect }))
   };
   if (decision.kind === "write") return { ...common, decision: "write", factId: decision.factId, why: decision.why, ...(decision.standardFontFallback ? { standardFontFallback: decision.standardFontFallback } : {}) };
-  if (decision.kind === "narrative") return { ...common, decision: "write", viaNarrativeChannel: true, factId: decision.factId, why: decision.why, ...(decision.standardFontFallback ? { standardFontFallback: decision.standardFontFallback } : {}) };
+  if (decision.kind === "narrative") return { ...common, decision: "write", viaNarrativeChannel: true, factId: decision.factId, why: decision.why,
+    ...(decision.allowProtectedCategories?.length ? { allowProtectedCategories: [...decision.allowProtectedCategories] } : {}),
+    ...(decision.standardFontFallback ? { standardFontFallback: decision.standardFontFallback } : {}) };
   if (decision.kind === "select") return { ...common, decision: "select", isSelectionControl: true, routeDetermined: true, basis: decision.basis, why: decision.basis };
   const row = { ...common, decision: "refuse", factId: null, reason: decision.reason, why: decision.reason, isSelectionControl: decision.selectionControl === true };
   switch (decision.kind) {
@@ -268,11 +270,13 @@ async function renderDocument(source, census, facts) {
     census: census.fields,
     facts,
     explicitMappings: Object.fromEntries([...writes, ...narratives].map((r) => [r.field, r.factId])),
+    printedDateOrderByField: SPEC.printedDateOrderByField ?? {},
     unwritableFields: unwritable,
     selectionsFromHeldFacts: selections,
     narrativeAcrossFields: narratives.map((r) => ({
       factId: r.factId,
       fields: [r.field],
+      ...(r.allowProtectedCategories?.length ? { allowProtectedCategories: [...r.allowProtectedCategories] } : {}),
       ...(r.standardFontFallback ? { standardFontFallback: r.standardFontFallback } : {})
     })),
     standardFontFallbackByField: Object.fromEntries(rows.filter((r) => r.standardFontFallback).map((r) => [r.field, r.standardFontFallback])),
@@ -519,7 +523,8 @@ async function actualWriteProof(fixtures) {
               });
               continue;
             }
-            const expected = sanitizePdfText(String(doc.facts[row.factId]));
+            const renderedWrite = doc.report.written.find((w) => w.field === row.field) ?? null;
+            const expected = sanitizePdfText(String(renderedWrite?.printedValue ?? doc.facts[row.factId]));
             assert.equal(drawnText, expected,
               `${fixtureName} ${doc.documentId}/${row.field}: the flattened appearance in the saved bytes is not the value this build bound`);
             glyphs += drawnText.replace(/\s+/g, "").length;
@@ -811,8 +816,11 @@ async function runFamily(argv = process.argv.slice(2)) {
       `${fixtureName}: this family is the K.S.A. 21-6614(a)(1) CONVICTION route and states that election on the petition; a fixture whose held disposition is not a conviction would have the packet swear to the wrong one`);
     if (!ROUTE_FACTS.specialtyCourt) assert.equal(facts["answers.felony_in_past_two_years"], false,
       `${fixtureName}: Option A of the Judicial Council petition asserts no felony conviction in the past two years and no pending felony proceeding; the packet may not select Option A over a held answer that contradicts it`);
-    assert.equal(facts["answers.currently_required_to_register"], false,
-      `${fixtureName}: K.S.A. 21-6614(f) freezes every case in the record while offender registration is required, so a packet may not be built over a held answer that registration applies`);
+    const expectedRegistration = SPEC.routeGuards?.currentlyRequiredToRegister ?? false;
+    assert.equal(facts["answers.currently_required_to_register"], expectedRegistration,
+      expectedRegistration
+        ? `${fixtureName}: this family is the K.S.A. 22-4908 registration-relief route and requires a held fact that registration currently applies`
+        : `${fixtureName}: K.S.A. 21-6614(f) freezes every case in the record while offender registration is required, so a packet may not be built over a held answer that registration applies`);
     assert.equal(facts["answers.specialty_court_completion"], ROUTE_FACTS.specialtyCourt === true,
       `${fixtureName}: Option B is the K.S.A. 21-6614(a)(3) specialty-court lane and a different track; this family must not be built for a record that belongs to it`);
   }
