@@ -91,3 +91,24 @@ independent original-page review; unmeasured visual obligations remain unaccepte
 
 KY saved dirty implementation remains preserved pending its separate review and
 required source recovery. No live/commercial authority is granted by this recovery.
+
+## Recovery continuation: task dependency restored
+
+VFAR1 verified the sources/candidate bindings and asserted its existing claim,
+but its completeness-script load exposed the vanished `node_modules` target:
+`/tmp/rcap-dependencies-after-ci-20260912/node_modules`. No review verdict was
+issued from that failed load. Its saved inspection work was retained.
+
+Restored only `pdf-lib@1.17.1`, `@pdf-lib/standard-fonts@1.0.0`,
+`@pdf-lib/upng@1.0.1`, `pako@1.0.11`, and pdf-lib's nested `tslib@1.14.1`
+from `package-lock.json` resolved URLs. Every tarball matched the lockfile's
+EXPECTED SHA-512 SRI before extraction; every extracted file matched its verified
+archive bytes. The lockfile has no expected archive length or SHA-256; observed
+values are explicitly labeled, not represented as prior expectations. Existing
+symlink, package.json and package-lock.json were preserved; no broad install,
+lifecycle scripts, or bootstrap ran. `PDFDocument` import now succeeds.
+
+Evidence: `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/pdf-lib-restoration.json`.
+VFAR1 resumed the blocked completeness check from its saved work. Wait for its
+actual bounded return before advancing any gate. Other absent dependencies are
+not presumed needed and have not been broadly restored.
