@@ -1,5 +1,7 @@
 # CAPTAIN_RESTART — SOLE FINISH CAPTAIN
 
+Latest integrated closure: MT misdemeanor COMPLETE_PACKET_PROVEN, terminal328/346. All29 original pages accepted by VFMTMISFINAL1; prior327 terminal dispositions and326 terminal raster document/receipt bindings preserved. Native60/5/wiring checks PASS. See pf16/mt-misdemeanor-final-closure-20260913.json. ND64-page RASTER_PASS final review ongoing; consume next.
+
 ## Active original-page gates
 
 ND raster34783681975 at0db583223bb7283266fed3da318bacde99c48bd3:64 pages; reviewer VFNDFINAL2 /root/mt_deferred_final_review.

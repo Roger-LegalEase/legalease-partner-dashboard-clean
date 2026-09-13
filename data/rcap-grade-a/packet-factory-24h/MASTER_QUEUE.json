@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3bd5e99f0d63938dcdaf739deca3c546d5327a48",
+  "minimumCaptainSha": "245a991bc77928436efe52353b92408c85791045",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -79,17 +79,17 @@
     "sourceReady": 14,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 0,
+    "verifyPending": 1,
     "repairRequired": 0,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 305,
+    "COMPLETE_PACKET_PROVEN": 306,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 14,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 2,
+    "VERIFY_PENDING": 1,
     "PRODUCT_PATH_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -31033,10 +31033,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vfmtmis1",
-        "verifiedAtBase": "ff9715e9e149283b343283eacc72464a2389cbe0",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtmis1/rows-vfmtmis1-mt-misdemeanor-semantic-pass-20260913.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfmtmisfinal1",
+        "verifiedAtBase": "3bd5e99f0d63938dcdaf739deca3c546d5327a48",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtmisfinal1/rows-vfmtmisfinal1-mt-misdemeanor-original-final-20260913.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -31072,7 +31072,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mt_misdemeanor_expungement-set.mjs",
@@ -33197,7 +33197,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-prohibit-remote-public-access-set.mjs",
