@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "rcap-ut-juvenile-preflight-code-review-final/v1",
+  "reviewedAt": "2026-09-13T05:13:18Z",
+  "reviewer": "/root/act346_order_review",
+  "independentOfAuthor": true,
+  "priorReview": "data/rcap-grade-a/packet-factory-24h/pf20/ut-juvenile-preflight-code-review-20260913.json",
+  "deltaReturn": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf20/ut-juvenile-preflight-repair-delta-20260913.json",
+    "sha256": "f90f9b7d49ab6626370e510f9063a074efd773df5ddd4ae82b2ee05a849a0e81",
+    "workspaceHeadAtReturn": "28a9f219ae2592d3f3699053a0828dad38d47319",
+    "priorReviewBaseHead": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a"
+  },
+  "reviewBaseHead": "28a9f219ae2592d3f3699053a0828dad38d47319",
+  "reviewTargets": [
+    "scripts/verify-packet-build-environment.mjs",
+    "scripts/verify-family-source-resolution.test.mjs"
+  ],
+  "targetBytes": {
+    "scripts/verify-packet-build-environment.mjs": {
+      "sha256": "9247a7f9acbcaa710adeca0807e663264e9efc29ecb22d277378d728db595e44",
+      "byteLength": 94911
+    },
+    "scripts/verify-family-source-resolution.test.mjs": {
+      "sha256": "5acdaacf4125fab834c55585714b7ea8aecda597e77c92db06dcff82a42741e5",
+      "byteLength": 13878
+    }
+  },
+  "scope": {
+    "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+    "sourceId": "official-form:1174XX",
+    "admission": "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
+    "expectedPath": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+    "expectedSha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+    "expectedByteLength": 128760,
+    "packetOrBuildReview": false
+  },
+  "verdict": "PASS",
+  "findingClosure": [
+    {
+      "priorFinding": "UT-PREFLIGHT-CODE-01",
+      "result": "FIXED_AND_VERIFIED",
+      "currentProof": "The helper realpath-resolves env and rejects an admitted body unless its realpath equals or descends from the real repository root; the Master Library realpath remains excluded.",
+      "test": "repository parent symlink cannot move the admitted body outside the checkout",
+      "resultObserved": "PASS"
+    },
+    {
+      "priorFinding": "UT-PREFLIGHT-CODE-02",
+      "result": "FIXED_AND_VERIFIED",
+      "currentProof": "For the scoped UT family, a custody row carrying the raw source ID, obligation ID, or source-obligation field is compared against the committed admission's resolved state, exact path, SHA-256, and byte length; any conflict is returned in unresolvable and blocks family_sources_bind.",
+      "test": "conflicting 1174XX custody row cannot inherit the committed admission",
+      "resultObserved": "PASS"
+    },
+    {
+      "priorFinding": "UT-PREFLIGHT-TEST-01",
+      "result": "FIXED_AND_VERIFIED",
+      "currentProof": "The identity-versus-held-bytes case now creates a temporary indexed family with a committed-looking identity and no body, then runs the actual family_sources_bind check. It no longer depends on which private MO bytes happen to be mounted.",
+      "test": "resolving an identity is not the same as holding the bytes",
+      "resultObserved": "PASS"
+    }
+  ],
+  "admissionAndScopeReview": {
+    "result": "PASS",
+    "details": [
+      "The bridge is exact-family scoped to census-pending-family:UT:path-m-juvenile-expungement.",
+      "The committed rcap-source-recovery-adoption/v1 record is required and its source ID, obligation ID, family, item, result, path, SHA-256, and byte length are checked against constants.",
+      "The actual repository-relative body is measured at 128760 bytes and hashes to b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458.",
+      "MASTER_QUEUE pins remain a lead and are not used as the UT admission.",
+      "Missing, corrupt, mutated identity/path/hash/length, parent-symlink, conflicting-row, and unrelated-family refusals remain asserted.",
+      "No Master Library substitution or official source adoption is introduced."
+    ]
+  },
+  "verification": {
+    "focusedTestFile": {
+      "command": "node --test scripts/verify-family-source-resolution.test.mjs",
+      "result": "PASS",
+      "tests": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "syntax": {
+      "command": "node --check scripts/verify-packet-build-environment.mjs && node --check scripts/verify-family-source-resolution.test.mjs",
+      "result": "PASS"
+    },
+    "whitespace": {
+      "command": "git diff --check -- scripts/verify-packet-build-environment.mjs scripts/verify-family-source-resolution.test.mjs",
+      "result": "PASS"
+    },
+    "sourceBody": {
+      "path": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+      "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+      "byteLength": 128760,
+      "result": "PASS"
+    }
+  },
+  "nonActions": [
+    "No packet or build was reviewed.",
+    "No source acquisition, queue edit, custody edit, corpus edit, official PDF edit, dependency operation, commit, or shared writer action was performed."
+  ],
+  "nextGate": {
+    "gate": "CAPTAIN_SCOPED_UT_ROW_PREFLIGHT",
+    "command": "node scripts/verify-packet-build-environment.mjs --family census-pending-family:UT:path-m-juvenile-expungement --codex-cloud --minimum-captain-sha 28a9f219ae2592d3f3699053a0828dad38d47319",
+    "requiredResult": "family_sources_bind reports 1/1 source(s) bind by exact SHA-256 (custody_reconciliation), with the normal applicable environment checks passing after Captain integrates the reviewed files.",
+    "afterGate": "Captain may proceed to the existing PF01 family handoff; this review grants no packet, raster, terminal, or production authority."
+  }
+}

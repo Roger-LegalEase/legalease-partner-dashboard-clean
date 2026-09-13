@@ -74,6 +74,22 @@ const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-fam
 const QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const STALE_BLOCK = "data/rcap-grade-a/stale-artifact-block.json";
 const BOOTSTRAP = "scripts/rcap-corpus/bootstrap-private-corpus.sh";
+const KNOWN_RESIDUAL_SOURCE_RECOVERY =
+  "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json";
+
+/* One already-admitted source needs a custody-row bridge. Keep this repair
+ * deliberately explicit: it consumes a committed acquisition admission, never
+ * a generated queue pin, and it cannot become a general source resolver. */
+const UT_JUVENILE_ADMISSION = Object.freeze({
+  familyId: "census-pending-family:UT:path-m-juvenile-expungement",
+  sourceId: "1174XX",
+  sourceObligationId: "official-form:1174XX",
+  itemId: "census-pending-family:UT:path-m-juvenile-expungement::official-form:1174XX",
+  heldCorpusPath: "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+  sha256: "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+  byteLength: 128760,
+  result: "OFFICIAL_SOURCE_ALREADY_HELD"
+});
 
 const EXPECT_JURISDICTIONS = 51;
 const EXPECT_FILES = 499;
@@ -136,12 +152,13 @@ const ASSIGNMENT_FILE = flag("--assignment");
 const PROMPT_FILE = flag("--prompt");
 const ASSIGNMENT_ID = flag("--assignment-id");
 const SOURCE_OBLIGATION = flag("--source-obligation");
+const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 /* Source conveyor lanes are not packet builders. Their executable gate binds
  * an exact lane and (for the row gate) an exact obligation without pretending
  * that an obligation id is a packet-family id. Keep this before the 14 packet
  * checks so an ACQ lane is never required to mount private packet bytes. */
-if (ASSIGNMENT_ID || SOURCE_OBLIGATION) {
+if (IS_MAIN && (ASSIGNMENT_ID || SOURCE_OBLIGATION)) {
   const gitSource = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { return null; } };
   const activePath = "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json";
   const failures = [];
@@ -266,19 +283,115 @@ function queuePin(family, sourceId, env = ROOT) {
   return /^[0-9a-f]{64}$/.test(digest) ? digest : null;
 }
 
+/**
+ * Verify the one committed acquisition admission that predates the current
+ * custody-row reconciliation. The admission is an identity record, so every
+ * identity field and the expected byte pin are checked before its path is used.
+ * The path is repository-relative by contract: an absolute path, traversal,
+ * symlink, Master Library path, missing body, wrong length, or wrong digest is
+ * refused.
+ */
+function resolveCommittedKnownResidualBinding(family, admission, env = ROOT) {
+  if (family !== UT_JUVENILE_ADMISSION.familyId
+    || admission?.schemaVersion !== "rcap-source-recovery-adoption/v1") return null;
+  const source = (admission.sources ?? []).find((candidate) =>
+    candidate?.sourceId === UT_JUVENILE_ADMISSION.sourceId
+    && candidate?.sourceObligationId === UT_JUVENILE_ADMISSION.sourceObligationId
+    && Array.isArray(candidate?.familyIds)
+    && candidate.familyIds.includes(UT_JUVENILE_ADMISSION.familyId)
+    && Array.isArray(candidate?.itemIds)
+    && candidate.itemIds.includes(UT_JUVENILE_ADMISSION.itemId));
+  if (!source
+    || source.result !== UT_JUVENILE_ADMISSION.result
+    || source.heldCorpusPath !== UT_JUVENILE_ADMISSION.heldCorpusPath
+    || source.sha256 !== UT_JUVENILE_ADMISSION.sha256
+    || source.byteLength !== UT_JUVENILE_ADMISSION.byteLength) return null;
+
+  const relative = source.heldCorpusPath;
+  if (typeof relative !== "string" || !relative || path.isAbsolute(relative)
+    || relative.includes("\\") || relative.split("/").includes("..")) return null;
+  const repoRoot = path.resolve(env);
+  const candidate = path.resolve(repoRoot, relative);
+  if (candidate !== repoRoot && !candidate.startsWith(`${repoRoot}${path.sep}`)) return null;
+  let repositoryReal;
+  try { repositoryReal = fs.realpathSync(repoRoot); } catch { return null; }
+  let stat;
+  let real;
+  try {
+    /* lstat rejects a symlinked body; the reference custody must be real bytes. */
+    stat = fs.lstatSync(candidate);
+    if (!stat.isFile() || stat.size !== UT_JUVENILE_ADMISSION.byteLength) return null;
+    real = fs.realpathSync(candidate);
+  } catch { return null; }
+  if (real !== repositoryReal && !real.startsWith(`${repositoryReal}${path.sep}`)) return null;
+  const master = path.resolve(repoRoot, MASTER_LIBRARY_RELATIVE);
+  if (fs.existsSync(master)) {
+    let masterReal;
+    try { masterReal = fs.realpathSync(master); } catch { masterReal = master; }
+    if (real === masterReal || real.startsWith(`${masterReal}${path.sep}`)) return null;
+  }
+  let observed;
+  try { observed = sha256(candidate); } catch { return null; }
+  if (observed !== UT_JUVENILE_ADMISSION.sha256) return null;
+  return {
+    sourceId: UT_JUVENILE_ADMISSION.sourceObligationId,
+    path: UT_JUVENILE_ADMISSION.heldCorpusPath,
+    sha256: UT_JUVENILE_ADMISSION.sha256,
+    byteLength: UT_JUVENILE_ADMISSION.byteLength,
+    tier: "exact_content_hash",
+    resolvedBy: "committed_known_residual_acquisition_admission"
+  };
+}
+
+function committedKnownResidualBinding(family, env = ROOT) {
+  return resolveCommittedKnownResidualBinding(family, readJson(KNOWN_RESIDUAL_SOURCE_RECOVERY, env), env);
+}
+
 function familySources(family, env = ROOT) {
   const custody = readJson(CUSTODY, env);
   const row = custody?.rows?.find((r) => r.worklistGroupId === family);
   if (row) {
+    const sources = (row.documentSources || [])
+      .filter((s) => s.resolved && s.heldAs?.sha256)
+      .map((s) => ({ sourceId: s.sourceId, path: s.heldAs.path, sha256: s.heldAs.sha256 }));
+    const unresolvable = [];
+    if (family === UT_JUVENILE_ADMISSION.familyId) {
+      const utRowSources = (row.documentSources || []).filter((source) =>
+        source?.sourceId === UT_JUVENILE_ADMISSION.sourceId
+        || source?.sourceId === UT_JUVENILE_ADMISSION.sourceObligationId
+        || source?.sourceObligationId === UT_JUVENILE_ADMISSION.sourceObligationId);
+      const conflicting = utRowSources.filter((source) => {
+        const held = source?.heldAs;
+        const declaredLength = held?.byteLength ?? source?.byteLength;
+        return source?.resolved !== true
+          || held?.path !== UT_JUVENILE_ADMISSION.heldCorpusPath
+          || held?.sha256 !== UT_JUVENILE_ADMISSION.sha256
+          || declaredLength !== UT_JUVENILE_ADMISSION.byteLength;
+      });
+      if (conflicting.length) {
+        unresolvable.push({
+          sourceId: UT_JUVENILE_ADMISSION.sourceObligationId,
+          indexMatches: 0,
+          why: "the existing custody row binds official-form:1174XX to a path, SHA-256, or byte length different from the committed admission"
+        });
+      }
+    }
+    /* The current queue is already generated from this admission. The
+     * preflight must read the committed admission directly because the queue
+     * is a lead, while the custody row can retain its historical zero-source
+     * shape. Do not replace a conflicting row binding; it must still fail. */
+    const admitted = committedKnownResidualBinding(family, env);
+    if (admitted && !sources.some((source) => source.sourceId === admitted.sourceId)
+      && unresolvable.length === 0) {
+      sources.push({ sourceId: admitted.sourceId, path: admitted.path, sha256: admitted.sha256, byteLength: admitted.byteLength, pathRoot: "repositoryRoot" });
+    }
     return {
       tier: "custody_reconciliation",
       from: CUSTODY,
       custodyClass: row.custodyClass,
       commissionAcquisition: row.commissionAcquisition,
-      sources: (row.documentSources || [])
-        .filter((s) => s.resolved && s.heldAs?.sha256)
-        .map((s) => ({ sourceId: s.sourceId, path: s.heldAs.path, sha256: s.heldAs.sha256 })),
-      unresolvable: []
+      sources,
+      unresolvable
     };
   }
 
@@ -911,13 +1024,14 @@ check(
   "family_sources_bind",
   "Every source this family names is present and hashes to its pinned digest",
   "Family-level is the level that matters. A corpus can be complete in aggregate and still not carry the two binaries this worker was dispatched to measure.",
-  (env) => {
-    if (!FAMILY) return { ok: true, skipped: true, detail: "no --family given; check not applicable" };
-    const resolved = familySources(FAMILY, env);
-    if (!resolved) return { ok: false, family: FAMILY, detail: `${FAMILY} is not resolvable from ${CUSTODY} or ${WORKLIST}; the Captain must resolve its sources before dispatch` };
+  (env, opts = {}) => {
+    const family = Object.hasOwn(opts, "family") ? opts.family : FAMILY;
+    if (!family) return { ok: true, skipped: true, detail: "no --family given; check not applicable" };
+    const resolved = familySources(family, env);
+    if (!resolved) return { ok: false, family, detail: `${family} is not resolvable from ${CUSTODY} or ${WORKLIST}; the Captain must resolve its sources before dispatch` };
     if (resolved.unresolvable.length) {
       return {
-        ok: false, family: FAMILY, tier: resolved.tier, unresolvable: resolved.unresolvable,
+        ok: false, family, tier: resolved.tier, unresolvable: resolved.unresolvable,
         detail: `${resolved.unresolvable.length} source(s) do not resolve to exactly one committed index entry: ${resolved.unresolvable.map((u) => u.sourceId).join(", ")}`
       };
     }
@@ -930,16 +1044,16 @@ check(
        * Same rule as factory check F13: zero sources is the correct count for
        * that strategy, not a missing binding. */
       const queue = readJson("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json", env);
-      const queueRow = queue?.families?.find((f) => f.familyId === FAMILY || f.worklistGroupId === FAMILY);
+      const queueRow = queue?.families?.find((f) => f.familyId === family || f.worklistGroupId === family);
       if (queueRow?.sourceStatus === "CUSTOM_PLEADING_FROM_CODIFIED_TEXT") {
         return {
-          ok: true, family: FAMILY, custodyClass: resolved.custodyClass, sources: 0,
-          detail: `${FAMILY} is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT): it binds committed legal records by hash inside its builder, not document bytes here`
+          ok: true, family, custodyClass: resolved.custodyClass, sources: 0,
+          detail: `${family} is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT): it binds committed legal records by hash inside its builder, not document bytes here`
         };
       }
       return {
-        ok: false, family: FAMILY, custodyClass: resolved.custodyClass, sources: 0,
-        detail: `${FAMILY} names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.`
+        ok: false, family, custodyClass: resolved.custodyClass, sources: 0,
+        detail: `${family} names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.`
       };
     }
     /*
@@ -993,11 +1107,18 @@ check(
 
     const results = resolved.sources.map((s) => {
       const entry = entryByPath.get(s.path);
-      const p = (entry && corpusPaths.resolve(entry)) ?? path.join(root, s.path);
+      /* A committed acquisition admission can hold a repository-relative body
+       * without an index entry. Its namespace is explicit; never join it to
+       * the separate Master Library root. Indexed sources retain the existing
+       * custody resolver and its ambiguity/refusal behavior. */
+      const p = s.pathRoot === "repositoryRoot"
+        ? path.join(env, s.path)
+        : (entry && corpusPaths.resolve(entry)) ?? path.join(root, s.path);
       if (fs.existsSync(p)) {
         const observed = sha256(p);
-        if (observed === s.sha256) return { ...s, present: true, observed, bound: true, resolvedBy: "declared path" };
-        return { ...s, present: true, observed, bound: false, resolvedBy: "declared path" };
+        const resolvedBy = s.pathRoot === "repositoryRoot" ? "declared repository-relative path" : "declared path";
+        if (observed === s.sha256) return { ...s, present: true, observed, bound: true, resolvedBy };
+        return { ...s, present: true, observed, bound: false, resolvedBy };
       }
       const held = digestIndex().get(s.sha256);
       if (!held) return { ...s, present: false, observed: null, bound: false, resolvedBy: null };
@@ -1010,16 +1131,19 @@ check(
       };
     });
     const ok = results.every((r) => r.bound);
+    const declaredPathResolutions = new Set(["declared path", "declared repository-relative path"]);
+    const contentHashResolutions = results.filter((r) => r.bound && !declaredPathResolutions.has(r.resolvedBy));
     return {
-      ok, family: FAMILY, tier: resolved.tier, custodyClass: resolved.custodyClass, commissionAcquisition: resolved.commissionAcquisition,
+      ok, family, tier: resolved.tier, custodyClass: resolved.custodyClass, commissionAcquisition: resolved.commissionAcquisition,
       sources: results.map((r) => ({
         sourceId: r.sourceId, present: r.present, bound: r.bound, pinned: r.sha256, observed: r.observed,
         resolvedBy: r.resolvedBy ?? null,
+        ...(r.pathRoot ? { pathRoot: r.pathRoot } : {}),
         ...(r.heldAt ? { heldAt: r.heldAt, heldInCustody: r.heldInCustody, declaredPathIsUnreachableHere: r.declaredPathIsUnreachableHere } : {})
       })),
-      boundByContentHashRatherThanDeclaredPath: results.filter((r) => r.bound && r.resolvedBy !== "declared path").length,
+      boundByContentHashRatherThanDeclaredPath: contentHashResolutions.length,
       detail: ok
-        ? `${results.length}/${results.length} source(s) bind by exact SHA-256 (${resolved.tier})${results.some((r) => r.resolvedBy !== "declared path") ? `; ${results.filter((r) => r.resolvedBy !== "declared path").length} found by content hash because the declared path is in a custody that is not mounted here` : ""}`
+        ? `${results.length}/${results.length} source(s) bind by exact SHA-256 (${resolved.tier})${contentHashResolutions.length ? `; ${contentHashResolutions.length} found by content hash because the declared path is in a custody that is not mounted here` : ""}`
         : `${results.filter((r) => !r.bound).length} of ${results.length} source(s) do not bind`
     };
   }
@@ -1434,6 +1558,7 @@ function cloudScenarios() {
   return findings;
 }
 
+if (IS_MAIN) {
 const results = runAll();
 const proof = PROVE ? prove() : null;
 const cloudProof = PROVE && CLOUD ? cloudScenarios() : null;
@@ -1512,3 +1637,6 @@ if (cloudProof) console.log(`cloud scenarios: ${cloudProof.length}, ${cloudGates
 if (REPORT) console.log(`Wrote ${REPORT}`);
 
 process.exit(failed.length === 0 && vacuous.length === 0 && cloudGatesThatDoNotHold.length === 0 ? 0 : 1);
+}
+
+export { familySources, resolveCommittedKnownResidualBinding, runAll };
