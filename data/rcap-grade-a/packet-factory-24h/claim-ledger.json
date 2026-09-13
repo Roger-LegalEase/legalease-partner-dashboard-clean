@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b1a3348d8efe739bd9af68a038a63fd12748b723",
+  "generatedAtCommit": "471596d9fc1f1f56646c5ce005406e656ea51275",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7121,21 +7121,6 @@
       "released": true,
       "releasedAt": "2026-09-10T11:23:28.318Z",
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nc_auto_146_a4_agency_followup-set",
-      "familyId": "nc_auto_146_a4_agency_followup-set",
-      "itemId": null,
-      "familyIds": [
-        "nc_auto_146_a4_agency_followup-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX01",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15731,7 +15716,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "8b710cf4b17b36f04add1b486992cc55d4f95f21fcb0584a3f6d7016e98f40a0",
+  "claimsDigest": "6a5dd1350c2d9a9de57f6e5e978314e1798e39f44d757be515489cd6ce648b9e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -71973,6 +71958,14 @@
       "operation": "packet-build",
       "lane": "PF05",
       "withdrawnAt": "2026-09-13T18:02:32Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_auto_146_a4_agency_followup-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "withdrawnAt": "2026-09-13T18:09:00Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

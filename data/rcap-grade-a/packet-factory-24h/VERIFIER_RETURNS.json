@@ -34,15 +34,13 @@
     }
   ],
   "counts": {
-    "returnDirectories": 376,
-    "rows": 1467,
+    "returnDirectories": 377,
+    "rows": 1468,
     "independentVerdicts": 327,
-    "failRepairRequired": 1,
-    "passIndependent": 324
+    "failRepairRequired": 0,
+    "passIndependent": 325
   },
-  "failRepairRequiredFamilies": [
-    "nc_auto_146_a4_agency_followup-set"
-  ],
+  "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
@@ -20517,6 +20515,22 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnc1/rows-vfnc1-nc-auto146-semantic-changes-required-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_auto_146_a4_agency_followup-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_auto_146_a4_agency_followup-set",
+      "verdict": "PASS",
+      "lane": "vfnc2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "dc0f3d70050045a34674712648d7df7bc4490220",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnc2/rows-vfnc2-nc-auto146-repair-semantic-pass-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_auto_146_a4_agency_followup-set",
       "superseded": false
