@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "rcap-ks-recovered-build-handoff/v1",
+  "recordedAt": "2026-09-13T05:19:23Z",
+  "purpose": "Read-only PF20 handoff for the two Kansas families after exact historical source recovery; identify the next executable build boundary without rebuilding or changing shared custody.",
+  "lane": "PF20",
+  "observedRepository": {
+    "head": "7bc17e7dd3e2b470bd797ddd91d5b9c3643191dc",
+    "branch": "claude/legalease-sprint-captain-utucnw",
+    "currentHeadIsNextIsolatedWorkerBase": true,
+    "dirtyFilesAndUntrackedWorkPreserved": true,
+    "noWorktreeCreated": true
+  },
+  "savedWorkerState": {
+    "savedReturn": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/rows.json",
+    "savedReturnCommit": "041959548e42ecd687692ceb5cb1c0ace826da24",
+    "savedSourceManifest": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/SOURCE_REACQUISITION_MANIFEST.json",
+    "savedSourceManifestCommit": "22618ff592a9b6ac354624eb12511686cb83458b",
+    "savedBranches": [
+      {
+        "branch": "pf20-ks-22-2410-arrest-20260912",
+        "head": "50424aa3c0d792a4d0d3e98d8fe7daf405bc2acd",
+        "worktree": "/tmp/pf20-ks-22-2410-arrest-20260912",
+        "worktreeStatus": "prunable; gitdir points to missing location; branch pointer retained and not pruned",
+        "savedScope": "unrelated IA DCI77 reviewer return; no Kansas build candidate"
+      },
+      {
+        "branch": "pf20-ks-22-2410-arrest-20260912b",
+        "head": "84aa0003d1d06e2c7f58d4ac94945f63d56b96fc",
+        "worktree": "/tmp/pf20-ks-22-2410-arrest-20260912b",
+        "worktreeStatus": "prunable; gitdir points to missing location; branch pointer retained and not pruned",
+        "savedScope": "unrelated NH reviewer return; no Kansas build candidate"
+      }
+    ]
+  },
+  "sourceRecovery": {
+    "captainRestorationReceipt": "data/rcap-grade-a/packet-factory-24h/pf20/ks-historical-captain-restoration-20260913.json",
+    "historicalSourceReturn": "data/rcap-grade-a/packet-factory-24h/pf20/ks-historical-recovery-return-20260913.json",
+    "restoredObjectCount": 4,
+    "allRestoredExpectedHashesAndLengthsVerified": true,
+    "remainingExpectedSourceBodiesMissing": 0,
+    "operationalNationwideBinding": false,
+    "recoveryPoolRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+    "recoveryPoolIsPartial": true,
+    "note": "The four restored governed files are exact bytes, but the partial Nationwide directory is not a complete operational Nationwide corpus and the restored entries are not yet in the committed local source index."
+  },
+  "nativeResolutionSnapshot": {
+    "indexPath": "data/rcap-all50/local-source-corpus-index.json",
+    "indexSha256": "0a16b09bdb248a51686948d248a4f0b1698e64a7876e9e7deddad6e1cbb85426",
+    "resolvedExactCount": 2,
+    "requiredExactCount": 6,
+    "resolvedSourceIds": [
+      "official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025",
+      "official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022"
+    ],
+    "physicallyRestoredButUnindexedSourceIds": [
+      "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+      "official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022"
+    ],
+    "resolverControl": "scripts/rcap-official-forms/kansas-statutory-builder.mjs resolves only an exact path/custody index entry and then verifies bytes; physical presence alone cannot pass its source preflight.",
+    "requiredCaptainIntegration": "Add the four restored exact PDFs through the existing source-index/admission convention with exact path, source identity, SHA-256 and byte length; preserve the partial-custody declaration and do not bind the Master Library as Nationwide."
+  },
+  "adoptedLegalDecision": {
+    "disposition": "LEGAL_CLEAR",
+    "decisionId": "KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE",
+    "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+    "historicalSupersededRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "evidenceType": "owner_attestation",
+    "owner": "Roger Roman",
+    "status": "adopted; do not reopen or request re-adoption",
+    "scopeLimit": "Waives only the KJC commercial-reuse hold; source, implementation, field, completeness, raster, independent-review and acceptance gates remain."
+  },
+  "families": [
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "routeKeys": [
+        "obligation:track-only:KS:ks-22-2410-arrest"
+      ],
+      "packetComponents": [
+        "component:ks-22-2410-arrest-cover-sheet-1",
+        "component:ks-22-2410-arrest-cover-sheet-3",
+        "component:ks-22-2410-arrest-primary-filing-2"
+      ],
+      "instrumentKinds": [
+        "cover_sheet",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "forms": [
+        "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+        "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+        "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013"
+      ],
+      "sources": [
+        {
+          "sourceId": "official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025",
+          "officialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult",
+          "recordedPath": "private/Nationwide Record Clearing/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+          "nativeIndexPath": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "actualPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+          "expectedSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+          "expectedByteLength": 126589,
+          "observedSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+          "observedByteLength": 126589,
+          "physicalBytesVerified": true,
+          "indexEntryExact": true,
+          "nativeResolverResolves": true,
+          "custodyIsCompleteOperationalNationwide": false,
+          "pdfMeasurement": {
+            "pages": 1,
+            "acroFormPresent": true,
+            "acroFieldCount": 36,
+            "structuralClass": "acroform"
+          }
+        },
+        {
+          "sourceId": "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+          "manifestSourceId": "ksjc-order-expungement-arrest-record-cover-sheet-12-2016",
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1620/638968300953030000",
+          "recordedPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+          "nativeIndexPath": "LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+          "custody": "restored_governed_path_not_yet_indexed",
+          "actualPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+          "expectedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+          "expectedByteLength": 55112,
+          "observedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+          "observedByteLength": 55112,
+          "physicalBytesVerified": true,
+          "indexEntryExact": false,
+          "nativeResolverResolves": false,
+          "custodyIsCompleteOperationalNationwide": false,
+          "pdfMeasurement": {
+            "pages": 1,
+            "acroFormPresent": false,
+            "acroFieldCount": 0,
+            "structuralClass": "flat_pdf"
+          }
+        },
+        {
+          "sourceId": "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+          "manifestSourceId": "ksjc-petition-expungement-arrest-record-02-2013",
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1628/638968301226600000",
+          "recordedPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+          "nativeIndexPath": "LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+          "custody": "restored_governed_path_not_yet_indexed",
+          "actualPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+          "expectedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+          "expectedByteLength": 51084,
+          "observedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+          "observedByteLength": 51084,
+          "physicalBytesVerified": true,
+          "indexEntryExact": false,
+          "nativeResolverResolves": false,
+          "custodyIsCompleteOperationalNationwide": false,
+          "pdfMeasurement": {
+            "pages": 3,
+            "acroFormPresent": false,
+            "acroFieldCount": 0,
+            "structuralClass": "flat_pdf"
+          }
+        }
+      ],
+      "queueSnapshot": {
+        "currentQueueState": "SOURCE_READY",
+        "savedWorkerReturnState": "STOPPED/BLOCKED_SOURCE",
+        "artifactStatus": "NOT_RENDERED",
+        "completenessStatus": "NOT_BUILT",
+        "queueEvidence": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "savedReturn": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/rows.json",
+        "historicalBlocker": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/source-access-blockers.json",
+        "interpretation": "The generated queue says SOURCE_READY from held-byte history; current native resolver measurements below govern execution."
+      },
+      "implementation": {
+        "existingNativeSupport": [
+          "scripts/rcap-official-forms/kansas-statutory-builder.mjs",
+          "scripts/rcap-official-forms/kansas-shared-policy.mjs",
+          "scripts/rcap-official-forms/kansas-byte-measurement.mjs",
+          "scripts/lib/corpus-index-paths.mjs"
+        ],
+        "referenceBuilders": [
+          "scripts/build-census-v1-ks-21-6614-conviction-set.mjs",
+          "scripts/build-census-v1-ks-21-6614-diversion-set.mjs"
+        ],
+        "implementationRequirements": [
+          "Author family-specific SPEC, fixtures, route facts, document declarations, labels and field policy from the exact PDFs and participant instructions before build handoff.",
+          "The arrest order and arrest petition are measured flat PDFs (no AcroForm fields); their component maps require measured overlay/text anchors, not an assumed AcroForm fill.",
+          "Use createKansasBuilder source and record preflight, shared owner-attestation policy, Kansas byte measurements, native completeness checks and the existing output schemas."
+        ],
+        "buildScript": "scripts/build-census-v1-ks-22-2410-arrest-set.mjs",
+        "buildScriptPresentAtObservedHead": false,
+        "outputDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill",
+        "outputDirectoryPresentAtObservedHead": false,
+        "ownedPaths": [
+          "scripts/build-census-v1-ks-22-2410-arrest-set.mjs",
+          "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/**"
+        ],
+        "exclusiveScript": true
+      }
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "routeKeys": [
+        "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+        "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-registration-relief-petition"
+      ],
+      "packetComponents": [
+        "component:ks-22-4908-registration-relief-cover-sheet-2",
+        "component:ks-22-4908-registration-relief-primary-filing-1",
+        "component:ks-22-4908-registration-relief-primary-filing-3"
+      ],
+      "instrumentKinds": [
+        "Companion or combined expungement petition under K.S.A. 21-6614 (official_pdf_fill)",
+        "Verified petition for relief from offender registration (official_pdf_fill)"
+      ],
+      "forms": [
+        "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+        "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+        "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022"
+      ],
+      "sources": [
+        {
+          "sourceId": "official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+          "manifestSourceId": "ksjc-order-relief-from-offender-registration-cover-sheet-06-2022",
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1462/638624730892300000",
+          "recordedPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+          "nativeIndexPath": "LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+          "custody": "restored_governed_path_not_yet_indexed",
+          "actualPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+          "expectedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+          "expectedByteLength": 217564,
+          "observedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+          "observedByteLength": 217564,
+          "physicalBytesVerified": true,
+          "indexEntryExact": false,
+          "nativeResolverResolves": false,
+          "custodyIsCompleteOperationalNationwide": false,
+          "pdfMeasurement": {
+            "pages": 1,
+            "acroFormPresent": true,
+            "acroFieldCount": 20,
+            "structuralClass": "acroform"
+          }
+        },
+        {
+          "sourceId": "official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "officialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+          "recordedPath": "private/Nationwide Record Clearing/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+          "nativeIndexPath": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "actualPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+          "expectedSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "expectedByteLength": 234581,
+          "observedSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "observedByteLength": 234581,
+          "physicalBytesVerified": true,
+          "indexEntryExact": true,
+          "nativeResolverResolves": true,
+          "custodyIsCompleteOperationalNationwide": false,
+          "pdfMeasurement": {
+            "pages": 6,
+            "acroFormPresent": true,
+            "acroFieldCount": 35,
+            "structuralClass": "acroform"
+          }
+        },
+        {
+          "sourceId": "official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+          "manifestSourceId": "ksjc-petition-relief-from-offender-registration-06-2022",
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1474/638624730904830000",
+          "recordedPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+          "nativeIndexPath": "LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+          "custody": "restored_governed_path_not_yet_indexed",
+          "actualPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+          "expectedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+          "expectedByteLength": 401878,
+          "observedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+          "observedByteLength": 401878,
+          "physicalBytesVerified": true,
+          "indexEntryExact": false,
+          "nativeResolverResolves": false,
+          "custodyIsCompleteOperationalNationwide": false,
+          "pdfMeasurement": {
+            "pages": 4,
+            "acroFormPresent": true,
+            "acroFieldCount": 27,
+            "structuralClass": "acroform"
+          }
+        }
+      ],
+      "queueSnapshot": {
+        "currentQueueState": "SOURCE_READY",
+        "savedWorkerReturnState": "STOPPED/BLOCKED_SOURCE",
+        "artifactStatus": "NOT_RENDERED",
+        "completenessStatus": "NOT_BUILT",
+        "queueEvidence": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "savedReturn": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/rows.json",
+        "historicalBlocker": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/source-access-blockers.json",
+        "interpretation": "The generated queue says SOURCE_READY from held-byte history; current native resolver measurements below govern execution."
+      },
+      "implementation": {
+        "existingNativeSupport": [
+          "scripts/rcap-official-forms/kansas-statutory-builder.mjs",
+          "scripts/rcap-official-forms/kansas-shared-policy.mjs",
+          "scripts/rcap-official-forms/kansas-byte-measurement.mjs",
+          "scripts/lib/corpus-index-paths.mjs"
+        ],
+        "referenceBuilders": [
+          "scripts/build-census-v1-ks-21-6614-conviction-set.mjs",
+          "scripts/build-census-v1-ks-21-6614-diversion-set.mjs"
+        ],
+        "implementationRequirements": [
+          "Author family-specific SPEC, fixtures, route facts, document declarations, labels and field policy from the exact PDFs and participant instructions before build handoff.",
+          "The arrest order and arrest petition are measured flat PDFs (no AcroForm fields); their component maps require measured overlay/text anchors, not an assumed AcroForm fill.",
+          "Use createKansasBuilder source and record preflight, shared owner-attestation policy, Kansas byte measurements, native completeness checks and the existing output schemas."
+        ],
+        "buildScript": "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs",
+        "buildScriptPresentAtObservedHead": false,
+        "outputDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill",
+        "outputDirectoryPresentAtObservedHead": false,
+        "ownedPaths": [
+          "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs",
+          "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/**"
+        ],
+        "exclusiveScript": true
+      }
+    }
+  ],
+  "candidateAssessment": {
+    "existingCandidateAdvance": false,
+    "rebuildRequired": true,
+    "reason": "Neither target build script nor target overlay directory exists at the observed HEAD; saved rows record no overlay touch, no build, no completeness measurement and no candidate. The retained branches contain return evidence only and must remain preserved.",
+    "terminalEffect": 0
+  },
+  "nextExecutableAction": {
+    "gate": "CAPTAIN_SOURCE_ADMISSION_THEN_BOUNDED_NATIVE_BUILD",
+    "precondition": "Captain first integrates the four physically restored exact PDFs into the existing native source index/admission mechanism and independently rechecks expected SHA-256 and byte length. Until that shared admission exists, the target commands must not be run.",
+    "workerBase": "7bc17e7dd3e2b470bd797ddd91d5b9c3643191dc",
+    "workerScope": [
+      "scripts/build-census-v1-ks-22-2410-arrest-set.mjs",
+      "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs",
+      "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/**",
+      "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/**"
+    ],
+    "commandsAfterAdmissionAndImplementation": [
+      "node scripts/build-census-v1-ks-22-2410-arrest-set.mjs --no-raster",
+      "node scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs --no-raster"
+    ],
+    "handoffAfterBuild": "Return both complete current-byte candidates with saved PDFs, participant instructions, field/policy/completeness findings and native receipts to an independent reviewer. Dispatch raster only after the required semantic acceptance gate."
+  },
+  "controls": {
+    "sourceCustodyWritesByThisAgent": false,
+    "sharedIndexWritesByThisAgent": false,
+    "sharedQueueWritesByThisAgent": false,
+    "codeEditsByThisAgent": false,
+    "worktreeCreated": false,
+    "newSourceHunt": false,
+    "newLegalResearch": false,
+    "destructiveCleanup": false,
+    "sourceSubstitution": false
+  },
+  "evidence": [
+    "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/SOURCE_REACQUISITION_MANIFEST.json",
+    "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/source-access-blockers.json",
+    "data/rcap-grade-a/packet-factory-24h/pf20/ks-historical-captain-restoration-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf20/ks-historical-recovery-return-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+    "scripts/rcap-official-forms/kansas-statutory-builder.mjs",
+    "scripts/rcap-official-forms/kansas-shared-policy.mjs",
+    "scripts/rcap-official-forms/kansas-byte-measurement.mjs"
+  ]
+}
