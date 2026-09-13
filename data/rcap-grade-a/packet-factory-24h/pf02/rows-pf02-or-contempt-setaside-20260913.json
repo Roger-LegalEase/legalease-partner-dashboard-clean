@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF02",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "fbe953fc3502b5bd0687628ed1e06904c1c0b285",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 'or_contempt_setaside-set'",
+    "result": "CLAIM_OK PF02 or_contempt_setaside-set (packet-build, grant set a6ef9ebd94267c7e)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "captainLedgerGeneratedAtCommit": "46f58905a130a3168c34851d4ea387802117767c"
+  },
+  "itemId": "or_contempt_setaside-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "OR",
+  "routeKeys": [
+    "obligation:track-pathway:OR:or_contempt_setaside:set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "OR-OJD-ADULT-SET-ASIDE-PACKET+OR-OSP-SET-ASIDE-CCH",
+  "requiredComponents": [
+    "component:or_contempt_setaside-primary-filing-1",
+    "component:or_contempt_setaside-proposed-order-2",
+    "component:or_contempt_setaside-record-gathering-instructions-5"
+  ],
+  "buildScript": "scripts/build-census-v1-or_contempt_setaside-set.mjs",
+  "buildScriptExists": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/or/or-contempt-setaside-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 2,
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "2 of 2 source(s) do not bind",
+      "boundSourceCount": 0,
+      "completeQueueSourceBind": false,
+      "resolverTier": "census_form_number_against_committed_index"
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+        "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPath": "NOT_FOUND; no alternate search performed"
+      },
+      {
+        "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+        "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+        "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPath": "NOT_FOUND; no alternate search performed"
+      }
+    ],
+    "custodyRecord": {
+      "row": "none; family resolves through worklist/index fallback",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'or_contempt_setaside-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: 2 of 2 source(s) do not bind",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: below immutable minimum: 13 of 499 files, 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the two exact OR source bytes and absent exclusive builder are the bounded blockers."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "The two queue-pinned OR sources are declared SOURCE_BOUND_BY_HELD_BYTES but are absent at their governed worker paths and at the checked Captain paths; the exclusive OR builder is also absent.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Provide the exact OR-OJD-ADULT-SET-ASIDE-PACKET and OR-OSP-SET-ASIDE-CCH bytes at their governed paths and materialize the exclusive OR builder, then rerun the existing prerequisite once and build.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF02, the lane recorded in Captain's current claim ledger.",
+    "No source bytes were transferred because neither exact OR byte was present at the checked Captain paths.",
+    "The worker claim ledger remains intentionally uncommitted.",
+    "Shared manifests, source custody, resolver logic, closed families, and the active KY pardon slot were not modified."
+  ]
+}
