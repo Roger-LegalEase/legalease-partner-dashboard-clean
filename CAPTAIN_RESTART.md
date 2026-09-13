@@ -9,9 +9,9 @@ under `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/`.
 ## Current checkpoint
 
 - Worktree: `/workspaces/legalease-partner-dashboard-clean`; user `codespace`.
-- Captain HEAD before this acceptance handoff: `253ece8b351f247f77c74c668121048b7e0fb58d`; verified remote Captain tip contains checkpoint `4748adf94892a58185bdc268b176121bc36edde9`.
-- Current MASTER_QUEUE counted once after recovery: **311/346 terminal**.
-  No new closure yet. NH remains COMPLETE_PACKET_PROVEN.
+- Latest completed checkpoint before this update: `6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a`; current HEAD advances through the commits containing this note. Historical checkpoints below are comparison evidence.
+- Current MASTER_QUEUE counted once after recovery: **312/346 terminal** after the full KY integration chain.
+  New closure: ky_protective_order_record_expungement-set. NH remains COMPLETE_PACKET_PROVEN.
 - KY adoption `3f16e3a55499f790d2b316a42171d473634c935d` remains adopted.
   Earlier drafts remain unadopted. No production or commercial authority changed.
 - Local commits, branch pointers and missing old `/tmp` worktree registrations
@@ -268,7 +268,6 @@ Full gate/blocker evidence: `data/rcap-grade-a/packet-factory-24h/pf20/remaining
 | ks-22-2410-arrest-set | Materialize or expose the two exact arrest-record PDFs through recorded custody, verify each expected SHA-256 and byte length, then resume the bounded PF20 build. | SOURCE CUSTODY OWNER, then PF20 | The saved PF20 return and recovery report prove no build candidate and no exact current PDF bodies. The adopted KJC owner attestation resolves the commercial permission question, but does not waive source custody. |
 | ks-22-4908-registration-relief-set | Materialize or expose the two exact registration-relief PDFs through recorded custody, verify each expected SHA-256 and byte length, then resume the bounded PF20 build. | SOURCE CUSTODY OWNER, then PF20 | The saved PF20 return and recovery report prove no build candidate and no exact current PDF bodies. The adopted KJC owner attestation resolves the commercial permission question, but does not waive source custody. |
 | ky_felony_expungement_after_pardon-set | Build the AOC-496.3 route, carrying full pardon as an eligibility branch and attaching the pardon as required; do not create a separate pardon instrument. | PF03 | None in the adopted legal resolution beyond the PF03 build and ordinary acceptance gates. The stale route-election hold is retired by the current KY-FULL-PARDON-AOC-496-3 rule. |
-| ky_protective_order_record_expungement-set | Integrate final PASS after verified PF05 relocation/retirement restores write budget | CAPTAIN: central raster acceptance, then independent review/integration | Original run34737617513 consumed RASTER_PASS; VF24 final15/15PASS. |
 | mo-575-120-identity-theft-correction-set | Build with the shared exact FI-05 source and the bound CR300, CR310, and GN10 component strategy; return all required participant and filing instructions. | PF10 | None in the current queue source binding beyond the PF10 build. Historical CR310 locator and GN10 DOCX format caveats must be preserved in the build return; no fresh source hunt or silent conversion is authorized. |
 | mo-610-122-arrest-expungement-set | Build with the shared exact FI-05 source and the already-bound route forms; return the complete candidate for independent review. | PF09 | None in the current queue source binding beyond the PF09 build. Historical source-format/locator caveats do not authorize a new hunt or silent conversion. |
 | mt_deferred_dismissal-set | Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components. | PF04 | No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used. |
@@ -314,3 +313,33 @@ Nextcapacitygate: consume PF05 destination source/runtime verification, detach
 only obsolete oldworktree links, git worktree remove exactoldpath withoutforce.
 Then nativeintegration with raster-runs/34737617513/ORIGINAL_EVIDENCE_VERIFIED.json.
 No source/raster/visualredo needed.
+
+## PF05 relocation verified; local checkout retired
+
+Finish-worker rcap-finish-worker-77jr7gx76jq3rg65 has nativeworktree
+/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf05-ut-cannabis-resume-20260913
+on branchpf05-ut-cannabis-resume-20260913 at7f50087dcb66ba2fd4a2ee6b164d128b37b41d43.
+Remote uncommitted repair script and generated PF05 output are preserved there.
+5sourcePDF expectedhashes/lengths and1642dependencyfiles independentlyverified
+against Captain's lockfile-verified archives; PDFDocument andsharp load.
+Source/runtime/manifest detail: pf05/relocation-manifest-pf05-ut-cannabis-20260913.json
+and pf05/relocation-captain-verification-20260913.json. Originalmanifest retained;
+its standard-fonts SRI transcription error is recorded separately against the
+correct committedlockfile integrity; actualdestinationpackagebytes pass.
+
+The oldlocalmanifest was preserved in Captain's durablepf05directory andverified
+against the destinationcopy. Only oldprivate/node_modules symlinks detached,
+never targets. Exact oldworktree removed by Git withoutforce; branch/history
+retained. Receipt: pf05/relocation-retirement-receipt-20260913.json.
+Actualfreebytes110600192 ->3104235520; recovered2993635328bytes.
+
+Finish-worker is temporarily STOPPED at verifiedsafecheckpoint, noexternalwriter,
+to free the secondrunningCodespace slot for the user-authorized singlebatch
+Kansas4-hash search across historicalCodespaces. PF20 owns that finite search
+and immediateexactmatchcustodycopies. Nevercreateanotherworker. Resume existing
+finish-worker/PF05repair after historicalsearch frees its slot.
+PF05 remainingnativefailure: FAIL_MISSING_REQUIRED_FACTS,11/399writes,missing2,
+uncollected7,unclassified6. Claims sd_caption/PF05 and review_wa/VFUT1 preserved.
+KY full integration completed, every stage exit 0, original run34737617513 admitted unchanged.
+312/346 terminal; all prior311 preserved. Evidence: restart-recovery-20260913/ky-final-closure.json
+and ky-final-integration.log. No acceptance redone.
