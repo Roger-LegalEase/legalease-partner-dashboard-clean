@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "ffe4a3fbf4f5ff9545dd6991d3b617dc9d69c0e25e01b632af3c08238e7f02b3",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "ffe4a3fbf4f5ff9545dd6991d3b617dc9d69c0e25e01b632af3c08238e7f02b3",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "ffe4a3fbf4f5ff9545dd6991d3b617dc9d69c0e25e01b632af3c08238e7f02b3"
+        }
+      ],
+      "documentsDigest": "c2c5a39c70c2c9803ca0edfaf9a2255d54f4662fc45deb8e32e30a1ec5b1bc65",
+      "expectedPages": 9,
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS01",
+      "packetCommitSha": "5bb6b054dafd901e46fdb9eae36173fd7183ed44",
+      "requestedScale": 2.5,
+      "supersededReceipts": [
+        {
+          "admittedBy": "Captain, by fail-closed receipt ingestion that rejects stale bytes, failed jobs, and incomplete coverage",
+          "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33850403312; canary artifact 9928346970 has ZIP SHA-256 sha256:9167f715023ed7055d6321f7774125257f4eeabad80278f835ebe8668e59954a.",
+          "coverageBasis": "the family ships 2 canonical document(s) with no assembled packet, and the row renders all of them",
+          "coverageReconciledFromTheRow": {
+            "wasClaimed": {
+              "coversTheWholeFamily": true,
+              "documentsCovered": [
+                "crrlj-09-0100-canonical-filled.pdf",
+                "crrlj-09-0200-canonical-filled.pdf"
+              ],
+              "documentsNotCovered": [],
+              "whatThisGateDidNotRender": [
+                "crrlj-09-0100-boundary-filled.pdf",
+                "crrlj-09-0200-boundary-filled.pdf"
+              ]
+            },
+            "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
+          },
+          "coversTheWholeFamily": true,
+          "documentsCovered": [
+            "crrlj-09-0100-canonical-filled.pdf",
+            "crrlj-09-0200-canonical-filled.pdf",
+            "crrlj-09-0100-boundary-filled.pdf",
+            "crrlj-09-0200-boundary-filled.pdf"
+          ],
+          "documentsMeasured": 4,
+          "documentsNotCovered": [],
+          "everyCanonicalDocumentRendered": true,
+          "jobConclusion": "success",
+          "jobId": "100953975778",
+          "pagesMeasured": 22,
+          "pinVerification": "The workflow guard proved checkout commit b61e502996185ac1e23da4d0ae3f6b5b0a092a16; Captain rehashed every declared PDF from the current worktree and matched every queue and receipt pin.",
+          "problemsFound": 0,
+          "receiptArtifact": {
+            "expiresAt": "2026-09-18T08:08:12Z",
+            "id": "9928668736",
+            "name": "rcap-raster-wa_vac_substance_use_disorder-set-33850403312",
+            "sizeInBytes": 12902521,
+            "zipSha256": "sha256:b19315882bd8591acd3c36a9913f7d9f54d7fd689d6b884810f8f028c7582458"
+          },
+          "receiptArtifactInspection": "Captain downloaded the artifact, matched its ZIP SHA-256 to the Actions API digest, extracted its exact verdict JSON, and validated run, commit, complete document coverage, page count, document-set digest, and every queued/local PDF hash before admission.",
+          "renderedCommitSha": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+          "supersededAt": "2026-09-13T16:45:19Z",
+          "supersededBecause": "the row now renders a different set of documents",
+          "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+          "verdict": "RASTER_PASS",
+          "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on.",
+          "whatThisGateDidNotRender": [],
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33850403312"
+        }
+      ]
+    }
+  ]
+}
