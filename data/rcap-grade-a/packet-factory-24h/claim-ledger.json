@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "119f53ff5446fe7d829f442e7d205da420ef89a5",
+  "generatedAtCommit": "fa493a9c92af630f4db0c3780dc89ab99bb29529",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3422,7 +3422,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-11T18:27:03.691Z"
@@ -6942,15 +6942,15 @@
     {
       "subjectType": "packet-family",
       "subjectId": "mt_mmrta_serving-set",
-      "familyId": "mt_mmrta_serving-set",
       "itemId": null,
+      "familyId": "mt_mmrta_serving-set",
       "familyIds": [
         "mt_mmrta_serving-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF15",
-      "laneKind": "packet-build",
+      "operation": "independent-verification",
+      "lane": "VFMTAFINAL1",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -10904,7 +10904,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF34",
+      "lane": "VFWACUSTOMFINAL1",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
@@ -15731,24 +15731,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mt_mmrta_serving-set",
-      "itemId": null,
-      "familyId": "mt_mmrta_serving-set",
-      "familyIds": [
-        "mt_mmrta_serving-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFMTASEM1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "fcd141814479f132305a01211b5d91e704a3eddaec30e0b0a536ecb616a892bb",
+  "claimsDigest": "95f40ad7263229dab3f36c35e30e9ceab086436ab227b1e9f765cc037c7836e9",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43021,6 +43006,30 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-13T23:11:20.653Z"
+    },
+    {
+      "lane": "VFMTASEM1",
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_serving-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-13T23:22:25.853Z"
+    },
+    {
+      "lane": "VF34",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-13T23:25:43.362Z"
+    },
+    {
+      "lane": "VFWACUSTOM1",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-13T23:33:07.469Z"
     }
   ],
   "reissues": [
@@ -66056,6 +66065,39 @@
       "previouslyReleasedAt": "2026-09-13T23:11:20.653Z",
       "transferredAt": "2026-09-13T23:11:20.878Z",
       "reason": "Semantic PASS complete; distinct Form B original-page reviewer /root/mt_serving_build authored only serving/Form A"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_serving-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VFMTASEM1",
+      "toLane": "VFMTAFINAL1",
+      "previouslyReleasedAt": "2026-09-13T23:22:25.853Z",
+      "transferredAt": "2026-09-13T23:22:26.099Z",
+      "reason": "Repaired semantic PASS complete; root session prepares distinct original-page acceptance, authored neither serving candidate nor semantic return"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF34",
+      "toLane": "VFWACUSTOM1",
+      "previouslyReleasedAt": "2026-09-13T23:25:43.362Z",
+      "transferredAt": "2026-09-13T23:25:43.562Z",
+      "reason": "Complete settled-authority FIX13 custom candidate imported; replace unavailable historical reviewer with /root/mt_form_b_independent_review, IL original priority retained"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VFWACUSTOM1",
+      "toLane": "VFWACUSTOMFINAL1",
+      "previouslyReleasedAt": "2026-09-13T23:33:07.469Z",
+      "transferredAt": "2026-09-13T23:33:07.655Z",
+      "reason": "Complete semantic PASS frozen; distinct final original-page reviewer /root/mt_serving_build assigned, neither WA author nor semantic reviewer"
     }
   ],
   "grants": [
@@ -72250,6 +72292,22 @@
       "operation": "packet-build",
       "lane": "PF16",
       "withdrawnAt": "2026-09-13T23:04:02Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_serving-set",
+      "operation": "packet-build",
+      "lane": "PF15",
+      "withdrawnAt": "2026-09-13T23:21:07Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-13T23:37:37Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

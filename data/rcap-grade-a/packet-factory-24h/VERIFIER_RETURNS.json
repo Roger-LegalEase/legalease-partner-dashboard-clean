@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 396,
-    "rows": 1485,
-    "independentVerdicts": 334,
+    "returnDirectories": 400,
+    "rows": 1489,
+    "independentVerdicts": 335,
     "failRepairRequired": 0,
-    "passIndependent": 332
+    "passIndependent": 334
   },
   "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
@@ -19818,6 +19818,65 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtb2/rows-vfmtb2-mt-form-b-semantic-pass-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_mmrta_completed-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mt_mmrta_completed-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmtbfinal3",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b786fca78a196b2a978f294f1e3a03931f657915",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtbfinal3/rows-vfmtbfinal3-mt-form-b-original-final-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_mmrta_completed-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mt_mmrta_serving-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfmtasem1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "68ab6c00ae279f4cd3a5bbca99efee444cd490ad",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "FAIL: every saved currently-serving Form A packet incorrectly tells the participant REVIEW FORM B in its first instruction page. This contradicts its currently-serving Form A route and directs review of a different form. Correct the single builder instruction heading to REVIEW FORM A and refresh affected output/evidence with unchanged sources. Actual Form A primary source, currently-serving recital, resentencing elections and public-safety warnings otherwise match the adopted track.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfmtasem1/saved-byte-measurements.json",
+            "sha256": "c521b9a377b61219b7eae16a4291793570cfbd604c5e2058cfdb2d214d2c3005",
+            "byteLength": 26130
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtasem1/rows-vfmtasem1-mt-form-a-semantic-fail-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_mmrta_serving-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mt_mmrta_serving-set",
+      "verdict": "PASS",
+      "lane": "vfmtasem1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f6c359c787625767757e6e9aab1274118cc2c158",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtasem1/rows-vfmtasem1-mt-form-a-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_mmrta_serving-set",
       "superseded": false
     },
     {
@@ -41102,6 +41161,22 @@
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf34/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "verdict": "PASS",
+      "lane": "vfwacustom1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "095812f37cbe207304bcb47a0a983519a345f3c9",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwacustom1/rows-vfwacustom1-wa-homicide-custom-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
       "superseded": false
     },
