@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ks-22-2410-arrest-set",
+  "worklistGroupId": "ks-22-2410-arrest-set",
+  "jurisdiction": "KS",
+  "routeKey": "obligation:track-only:KS:ks-22-2410-arrest",
+  "routeLabel": "Expungement of a Kansas arrest record under K.S.A. 22-2410",
+  "implementationStrategy": "official_pdf_fill",
+  "perDocumentStrategies": "The cover sheet is an AcroForm; the 2013 petition and 2016 KBI cover sheet are flat and use measured printed rules/underscore runs.",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "sourceIndex": {
+    "path": "data/rcap-all50/local-source-corpus-index.json",
+    "sha256": "512a489ab79705c4b607bd09c5197e9e8beb2a22180ee0848e4673ab5fe3aca0",
+    "operationalNationwideCompletenessClaim": false,
+    "masterLibrarySubstitution": false
+  },
+  "allSourcesExact": true,
+  "documents": [
+    {
+      "componentId": "ks-22-2410-arrest-cover-sheet-1",
+      "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+      "officialFormId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+      "documentRole": "cover_sheet",
+      "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult",
+      "pathInCustody": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+      "byteLength": 126589,
+      "pages": 1,
+      "acroFieldCount": 36,
+      "strategy": "acroform_fill",
+      "matchedBy": "exact path, custody, SHA-256 and byte length"
+    },
+    {
+      "componentId": "ks-22-2410-arrest-primary-filing-2",
+      "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "officialFormId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "documentRole": "primary_filing",
+      "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+      "pathInCustody": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+      "custody": "ks_historical_recovery_20260913",
+      "custodyRoot": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated",
+      "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+      "byteLength": 51084,
+      "pages": 3,
+      "acroFieldCount": 0,
+      "strategy": "measured_flat_overlay",
+      "matchedBy": "exact path, custody, SHA-256 and byte length"
+    },
+    {
+      "componentId": "ks-22-2410-arrest-cover-sheet-3",
+      "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "officialFormId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "documentRole": "cover_sheet",
+      "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+      "pathInCustody": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+      "custody": "ks_historical_recovery_20260913",
+      "custodyRoot": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated",
+      "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+      "byteLength": 55112,
+      "pages": 1,
+      "acroFieldCount": 0,
+      "strategy": "measured_flat_overlay",
+      "matchedBy": "exact path, custody, SHA-256 and byte length"
+    }
+  ],
+  "records": [
+    {
+      "recordId": "ks-arrest-legal-design-track-registry",
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "anchorsVerified": 4
+    },
+    {
+      "recordId": "ks-arrest-master-queue",
+      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "sha256": "e8c1acb7e4d0b3510834be83b888f25496e6de06a4d80e2dfa73fb874be3e243",
+      "byteLength": 2385628,
+      "anchorsVerified": 3
+    },
+    {
+      "recordId": "owner-kjc-permission-attestation",
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+      "sha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+      "byteLength": 1927,
+      "anchorsVerified": 3
+    },
+    {
+      "recordId": "ks-source-acquisition-receipt",
+      "path": "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json",
+      "sha256": "2825c6af0f25168a0a3e0e31700ee167490f5bc27d1b18a84ea3218792d78551",
+      "byteLength": 37102,
+      "anchorsVerified": 3
+    }
+  ],
+  "legalResolution": {
+    "disposition": "LEGAL_CLEAR",
+    "decisionId": "KS-KJC-COMMERCIAL-REDISTRIBUTION:OWNER_ATTESTATION_RELEASE",
+    "bindingProductRule": "Treat the Kansas Judicial Council permission issue as resolved on the basis of the owner's attestation. Do not retain LEGAL_BLOCKED for KJC commercial redistribution/republication. Continue to use current official KJC source bytes and preserve source attribution/current-edition controls. This attestation does not waive any independent source, implementation, field-map, completeness, raster, review, or acceptance requirement.",
+    "authority": "Kansas Judicial Council legal-forms copyright/noncommercial-use restriction cited in the supplied disposition.",
+    "liftCondition": null,
+    "producedOn": "2026-09-11",
+    "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+    "decisionRecords": [
+      "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
+    ],
+    "supersedesDecisionId": "KS-KJC-COMMERCIAL-REDISTRIBUTION",
+    "supersededDecisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "evidenceType": "owner_attestation",
+    "documentaryPermissionStoredInRepository": false,
+    "owner": "Roger Roman",
+    "independentReviewSawExactDecisionRecord": {
+      "verifiedAtBase": null,
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+      "decisionRecords": [
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
+      ],
+      "available": false,
+      "reason": "independent verdict declares no commit-shaped verifiedAtBase"
+    },
+    "historicalLegalEntrancesRemainEvidenceOnly": true,
+    "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
+  },
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "independent completeness, raster or visual acceptance",
+    "production approval or runtime selection",
+    "that the partial Kansas custody is a complete operational Nationwide corpus"
+  ]
+}
