@@ -3,6 +3,7 @@ import test from "node:test";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { buildersWithAFlagGatedSelfTest } from "./verify-builder-self-tests-run.mjs";
 
 /*
@@ -150,6 +151,37 @@ if (process.argv.includes("--self-test")) selfTest();
   const scope = scopeOf(root);
   assert.deepEqual(scope.map((row) => row.builder), ["build-census-v1-const-form-set.mjs"]);
   assert.equal(scope[0].assertions, 1);
+});
+
+test("the actual PF05 direct-entry selfTest is discovered by the existing helper", () => {
+  const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+  const scope = buildersWithAFlagGatedSelfTest(path.join(repositoryRoot, "scripts"));
+  assert.deepEqual(scope.find((row) => row.builder === "build-census-v1-ut_pet_cannabis-set.mjs"), {
+    builder: "build-census-v1-ut_pet_cannabis-set.mjs",
+    assertions: 73,
+  });
+});
+
+test("PF05 keeps the runSelfTests API alias and direct CLI dispatch wiring", async () => {
+  const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+  const builderPath = path.join(repositoryRoot, "scripts", "build-census-v1-ut_pet_cannabis-set.mjs");
+  const source = fs.readFileSync(builderPath, "utf8");
+  assert.match(source, /export \{ selfTest as runSelfTests \};/);
+  assert.match(source, /if \(process\.argv\.includes\("--self-test"\)\) await selfTest\(\);/);
+  assert.match(source, /else await runFamilyById\("ut_pet_cannabis-set"\);/);
+  assert.match(source, /if \(argv\.includes\("--self-test"\)\) return selfTest\(\);/);
+  assert.doesNotMatch(source, /if \(argv\.includes\("--self-test"\)\) return runSelfTests\(\);/);
+  const module = await import(pathToFileURL(builderPath).href);
+  assert.equal(module.runSelfTests, module.selfTest);
+  assert.equal(typeof module.runFamilyById, "function");
+  const instructionsPath = path.join(
+    repositoryRoot,
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+  );
+  const before = fs.readFileSync(instructionsPath);
+  await module.runFamilyById("ut_pet_cannabis-set", ["--instructions-only"]);
+  assert.deepEqual(fs.readFileSync(instructionsPath), before,
+    "programmatic family dispatch must preserve the frozen participant instructions");
 });
 
 test("a flag-gated selfTest holding no assertions is not counted as a dormant guard", () => {

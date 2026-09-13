@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "rcap-packet-self-test-dispatch-repair/v1",
+  "assignmentId": "PF05_SELF_TEST_DISPATCH_REPAIR_20260913",
+  "lane": "PF05",
+  "laneKind": "packet-build",
+  "baseSha": "0e247f95a291162b5dd87abdf508536de38f3c33",
+  "headShaAtReturn": "3d882c00b604c81ea3ac9ef6770eb730fa8a72f4",
+  "headShaAtReturnIs": "Captain HEAD observed after unrelated remote worker-transfer commits; this scoped builder/test return remains uncommitted for independent review.",
+  "status": "COMPLETED_SCOPED_REPAIR",
+  "isIndependentVerification": false,
+  "reviewDestination": "/root/resume_vfar1",
+  "scope": "Repair PF05's test dispatch only so the existing source-based helper discovers its assertion-bearing selfTest. Preserve runFamilyById's argv API and the runSelfTests named export alias; do not change packet assembly, source bindings, instructions, or PDF bytes.",
+  "changedPaths": [
+    "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+    "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+    "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-dispatch-repair-return-20260913.json"
+  ],
+  "preservedRejectedEvidence": {
+    "receipt": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-rejected-evidence-20260913.json",
+    "patch": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-rejected-diff-20260913.patch",
+    "authorReturn": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-repair-return-20260913.json",
+    "independentReview": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-independent-review-20260913.json",
+    "adoption": "UNADOPTED; prior helper/test patch remains preserved only as rejected evidence."
+  },
+  "builderRepair": {
+    "path": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+    "beforeSha256": "a3c93aabbb979a45fc410cd46d628d07467d982ba3b828bf177cbbfd95713d25",
+    "beforeBytes": 166621,
+    "afterSha256": "3096a461618ea62e6f9413e79a57535e8e40812ecd845219c30229cb127bb6fd",
+    "afterBytes": 166878,
+    "changedLines": [
+      "export async function runSelfTests() -> export async function selfTest()",
+      "export { selfTest as runSelfTests }; preserves the named API alias",
+      "direct entry now runs selfTest() only for process.argv.includes(\"--self-test\"), otherwise awaits runFamilyById(\"ut_pet_cannabis-set\")"
+    ],
+    "unchangedApiDispatch": "runFamilyById(familyId, argv = process.argv.slice(2)) remains the programmatic API; its --self-test branch now calls the local selfTest() binding, while the runSelfTests export alias remains available.",
+    "sourceLines": {
+      "selfTest": 2938,
+      "alias": 3206,
+      "runFamilyById": 3208,
+      "apiSelfTestBranch": 3211,
+      "directEntry": [
+        3218,
+        3219,
+        3220
+      ]
+    }
+  },
+  "existingDiscovery": {
+    "helperPath": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+    "helperSha256": "f7ea191286c88d365e5ee30859705981dedd71689bd54d184d6d7f66cb668a66",
+    "helperMatchesHEAD": true,
+    "scope": {
+      "builders": 6,
+      "assertions": 330,
+      "pf05": {
+        "builder": "build-census-v1-ut_pet_cannabis-set.mjs",
+        "assertions": 73
+      }
+    },
+    "priorFiveUnchanged": true
+  },
+  "tests": {
+    "command": "node --test scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+    "result": "PASS",
+    "passed": 11,
+    "failed": 0,
+    "coverage": [
+      "actual PF05 direct-entry selfTest is discovered with 73 assertions",
+      "runSelfTests export aliases selfTest at runtime",
+      "programmatic runFamilyById(..., [\"--instructions-only\"]) dispatches through the existing facility and preserves the frozen participant instructions",
+      "runFamilyById argv self-test API branch calls the local selfTest binding and has no stale local runSelfTests call",
+      "direct CLI flag and non-flag entry wiring are verified statically without running the full self-test"
+    ],
+    "syntax": {
+      "command": "node --check scripts/build-census-v1-ut_pet_cannabis-set.mjs && node --check scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs && node --check scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "result": "PASS"
+    },
+    "nativeDiscoveryCommand": "buildersWithAFlagGatedSelfTest(\"./scripts\")",
+    "nativeDiscoveryResult": "PASS: 6 builders / 330 assertions; PF05=73",
+    "fullSelfTestOrChain": "NOT RUN: no standalone PF05 self-test, build, integration chain, regeneration, raster, or visual review was performed.",
+    "focusedTestPath": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+    "focusedTestSha256": "99cad3ee36cec1cd4973a8aef12049bfe2cb1afe031a60598586378c246bd0d4",
+    "focusedTestBytes": 8652
+  },
+  "dependencyComparison": {
+    "packageLock": {
+      "path": "package-lock.json",
+      "sha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+      "unchangedFromRecordedPF05Runtime": true,
+      "beforeSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+      "afterSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7"
+    },
+    "node": "v24.20.0",
+    "nodeModulesTarget": "/tmp/rcap-dependencies-after-ci-20260912/node_modules",
+    "targetVerified": true,
+    "pdfLibRestorationReceipt": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/pdf-lib-restoration.json",
+    "relocationVerification": "data/rcap-grade-a/packet-factory-24h/pf05/relocation-captain-verification-20260913.json",
+    "requiredPackagesVerifiedPreviously": 1642,
+    "dependencyMutationThisTask": "NONE: no install, package restore, symlink replacement, or lockfile change.",
+    "nodeModulesRealPath": "/tmp/rcap-dependencies-after-ci-20260912/node_modules",
+    "resolvedPackages": {
+      "pdf-lib": {
+        "version": "1.17.1",
+        "resolved": "/tmp/rcap-dependencies-after-ci-20260912/node_modules/pdf-lib/cjs/index.js"
+      },
+      "sharp": {
+        "version": "0.34.5",
+        "resolved": "/tmp/rcap-dependencies-after-ci-20260912/node_modules/sharp/lib/index.js"
+      }
+    },
+    "comparisonResult": "UNCHANGED: programmatic dispatch test used the existing dependency target; no dependency bytes or links were modified."
+  },
+  "artifactPreservation": {
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+      "sha256": "4cef50b7fa2679d54cb8605c264af54f581a483c70f0a850ce7248f1e4913f48",
+      "bytes": 3314
+    },
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "906108c5f1f8da06ef74c67b9dd6a533bb788ad9d1417dde9a5762b2c5aba2b5",
+      "bytes": 12302
+    },
+    "canonicalPdf": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+      "bytes": 703209
+    },
+    "boundaryPdf": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+      "bytes": 703617
+    },
+    "instructionRepairBeforeProof": "data/rcap-grade-a/packet-factory-24h/pf05/ut-cannabis-instruction-repair-pdf-before-20260913.json",
+    "pdfBytesChanged": false,
+    "sourceAndInstructionsChanged": false
+  },
+  "independence": {
+    "implementer": "PF05 / current child lane",
+    "reviewer": "/root/resume_vfar1",
+    "sharedQueueOrCaptainFilesChanged": false,
+    "requiredNextGate": "Independent review of the small PF05 builder/test diff and this return before Captain integrates the test-dispatch repair."
+  },
+  "legalAndProduction": {
+    "legalDecisionChanged": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "packetPassGranted": false
+  }
+}

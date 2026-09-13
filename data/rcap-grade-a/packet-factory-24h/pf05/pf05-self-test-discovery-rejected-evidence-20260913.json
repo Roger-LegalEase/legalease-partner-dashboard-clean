@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-packet-self-test-discovery-rejected-evidence/v1",
+  "assignmentId": "PF05_SELF_TEST_DISCOVERY_REPAIR_20260913_REJECTED",
+  "status": "UNADOPTED_REJECTED_REPAIR_PRESERVED",
+  "recordedAt": "2026-09-13T06:42:30Z",
+  "baseCommit": "0e247f95a291162b5dd87abdf508536de38f3c33",
+  "preservation": "The failed helper/test patch and both returns are retained as unadopted evidence. Only those two helper/test files are restored to the exact committed bytes before the narrower PF05 builder repair.",
+  "rejectedPatch": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-rejected-diff-20260913.patch",
+    "sha256": "e57d23de7ac692bdf92c62a40e268d0575896d39021091d9e3816875e2adfa70",
+    "bytes": 11730,
+    "changedPaths": [
+      "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+      "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs"
+    ],
+    "reviewStatus": "FAIL_REPAIR_REQUIRED",
+    "reviewFindings": [
+      "prior direct block statement form was dropped",
+      "prior nested or parenthesized direct call forms were dropped",
+      "regular-expression literals were not masked"
+    ]
+  },
+  "returns": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-repair-return-20260913.json",
+      "sha256": "3ebf248f49394c20f6a023dcc6512231aac243c535e2ca83dcd0f7959426b36b",
+      "bytes": 10056,
+      "recordedStatus": "COMPLETED",
+      "adoption": "UNADOPTED_AFTER_INDEPENDENT_REVIEW_FAIL"
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-independent-review-20260913.json",
+      "sha256": "bd2c442b13117c9860fee7dec8f51f51acd4b71a9ded9bbbcb7f798f102b95fe",
+      "bytes": 12994,
+      "recordedStatus": "FAIL_REPAIR_REQUIRED",
+      "adoption": "RETAINED_AS_REVIEW_EVIDENCE"
+    }
+  ],
+  "restoredCommittedBytes": {
+    "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs": {
+      "sha256": "f7ea191286c88d365e5ee30859705981dedd71689bd54d184d6d7f66cb668a66",
+      "source": "HEAD:scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs"
+    },
+    "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs": {
+      "sha256": "ec5b4e0461ed039e52ef22193251560c983cc0b72d5f982af1dd7e47a0a319b5",
+      "source": "HEAD:scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs"
+    }
+  },
+  "nextRepair": "Use the existing helper convention by exposing PF05's assertion-bearing function as selfTest and dispatching it from an explicit direct process.argv --self-test branch; retain runSelfTests as an export alias and retain runFamilyById(argv) API dispatch."
+}

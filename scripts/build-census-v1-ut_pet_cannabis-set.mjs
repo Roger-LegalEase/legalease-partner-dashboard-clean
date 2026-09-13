@@ -2935,7 +2935,7 @@ export async function checkFamily(familyId) {
   console.log(`${familyId}: --check OK (${rendered.artifacts.reduce((count, artifact) => count + artifact.rasterPages.length, 0)} raster pages)`);
 }
 
-export async function runSelfTests() {
+export async function selfTest() {
   assert.equal(typeof assertFailClosedEvidence, "function",
     "the checker must expose a recursive fail-closed evidence assertion");
   assert.equal(typeof popplerEvidenceFromProbe, "function",
@@ -3201,10 +3201,14 @@ export async function runSelfTests() {
   console.log(`CENTRAL self-test OK (${Object.keys(FAMILY_CONFIGS).length} families)`);
 }
 
+/* Keep the named API used by runFamilyById and existing callers while exposing
+ * the direct-entry selfTest shape consumed by the packet self-test checker. */
+export { selfTest as runSelfTests };
+
 export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   const config = FAMILY_CONFIGS[familyId];
   if (!config) throw new Error(`unknown CENTRAL family: ${familyId}`);
-  if (argv.includes("--self-test")) return runSelfTests();
+  if (argv.includes("--self-test")) return selfTest();
   if (argv.includes("--instructions-only")) return writeParticipantInstructionsOnly(familyId);
   if (argv.includes("--check")) return checkFamily(familyId);
   if (argv.some((arg) => arg.startsWith("--"))) throw new Error(`${familyId}: unsupported option ${argv.find((arg) => arg.startsWith("--"))}`);
@@ -3212,5 +3216,6 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 }
 
 if (path.resolve(process.argv[1] ?? "") === path.resolve(thisFile)) {
-  await runFamilyById("ut_pet_cannabis-set");
+  if (process.argv.includes("--self-test")) await selfTest();
+  else await runFamilyById("ut_pet_cannabis-set");
 }
