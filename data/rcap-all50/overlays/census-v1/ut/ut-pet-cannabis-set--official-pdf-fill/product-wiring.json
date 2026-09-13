@@ -13,5 +13,69 @@
   "opensCommercialRoute": false,
   "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill",
   "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill",
-  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane."
+  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+  "binding": {
+    "family": "ut_pet_cannabis-set",
+    "jurisdiction": "UT",
+    "routeKeys": [
+      "obligation:track-pathway:UT:ut_pet_cannabis:path-j-cannabis-possession-petition-without-a-bci-certificate"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Utah Cannabis-Possession Expungement Petition"
+    ],
+    "packetComponents": [
+      "component:ut_pet_cannabis-acceptance-of-service-4",
+      "component:ut_pet_cannabis-civil-cover-sheet-1",
+      "component:ut_pet_cannabis-consent-and-waiver-of-hearing-5",
+      "component:ut_pet_cannabis-petition-2",
+      "component:ut_pet_cannabis-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:1003EX",
+        "sha256": "a8432deaa902e26c18a215d20fcc0f90eaedd5a62c28d0cec79f3f65d17c4352",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:1044XX",
+        "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:1146XX",
+        "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:1148XX",
+        "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:1023EX",
+        "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfut1",
+      "verifiedAtBase": "bccce268a0b9f56043cf663d2c232fb29d45d1a9"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

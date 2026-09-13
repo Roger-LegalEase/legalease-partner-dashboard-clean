@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ks-22-4908-registration-relief-set",
+  "routeKey": "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+  "routeKeys": [
+    "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+    "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-registration-relief-petition"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ks-22-4908-registration-relief-set",
+    "jurisdiction": "KS",
+    "routeKeys": [
+      "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+      "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-registration-relief-petition"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Companion or combined expungement petition under K.S.A. 21-6614 (official_pdf_fill)",
+      "Verified petition for relief from offender registration (official_pdf_fill)"
+    ],
+    "packetComponents": [
+      "component:ks-22-4908-registration-relief-cover-sheet-2",
+      "component:ks-22-4908-registration-relief-primary-filing-1",
+      "component:ks-22-4908-registration-relief-primary-filing-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+        "sha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+        "sha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+        "sha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ks-22-4908-registration-relief-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ks-22-4908-registration-relief-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "assembled_packet",
+        "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+        "requirement": "required"
+      }
+    ]
+  }
+}

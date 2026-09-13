@@ -10,11 +10,13 @@ Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
 Latest verified remote before this note: 31e8c327f56f3bc23625c37c5cc985a4347f8c0a.
 Current HEAD advances through the commit containing this note.
-**Last preserved checkpoint:312/346. Current generated queue:300/346.**
-The pre-raster chain exited0 but withdrew12 prior terminals on shared WV record
-identity drift. This is an unresolved preservation regression, not accepted closure.
-Eleven native anchor comparisons refreshed5/5 each; one compiled-profile comparison
-remains pending. Required restoration and native reconciliation are active.
+**Verified terminal checkpoint:313/346.**
+Full native integration with Utah original run34744433174 completed at base
+b3149e4eebca45bc24c894aeba8de004611178e9.
+All312 prior terminals preserved; sole new closure ut_pet_cannabis-set.
+All12 source-identity regressions reconciled through native proof-bound refresh.
+Closure evidence: restart-recovery-20260913/ut-final-closure-20260913.json
+and ut-final-integration-20260913.log. All24 protected dirty files/backups verified.
 Act346 and NH remain closed. No production/commercial authority changed.
 Evidence: restart-recovery-20260913/ky-final-closure.json and ky-final-integration.log.
 All paths abbreviated below are under data/rcap-grade-a/packet-factory-24h/.
@@ -142,7 +144,7 @@ Current truth file remains dirty/uncommitted; further scopedchecks use --no-writ
 
 | Family | Actual next gate | Owner | Blocker |
 | --- | --- | --- | --- |
-| ar-veterans-court-set | Transfer completed native refusal-classification repair; independent semantic re-review | PF04 author complete; VF44 independent review | Worker9e4bc176; all four PDFs unchanged, native PASS_COMPLETE. Transfer bundle recorded; no raster dispatch yet. |
+| ar-veterans-court-set | Normalize saved instructions and reconcile exact return hashes, then independent re-review | PF04 author; ut_preflight_repair reviewer | Native FAIL_REPAIR_REQUIRED: literal newline escapes in instructions and stale map/instruction hashes. Four PDFs preserved. |
 | ca-diversion-seal-set | Build the San Diego County-scoped packet from the exact CRM-307 binding, then return it for independent review. | PF06 | None in the current source return beyond the PF06 build and ordinary completeness, raster, and independent-review gates. |
 | census-pending-family:UT:path-m-juvenile-expungement | Complete build in suitable isolated environment using reviewed resolver | PF01 next slot | Exact source binds; Captain global preflight fails preserved dirty work and5missing sampled corpus inputs, recorded individually. |
 | composed-treatment:nc_146_dismissal_petition | Build from the exact bound AOC-CR-287, instructions, and AOC-CV-226 inputs, preserving the composed treatment, then return for review. | PF12 | None in the current queue/source binding beyond the PF12 build and ordinary acceptance gates. |
@@ -169,12 +171,11 @@ Current truth file remains dirty/uncommitted; further scopedchecks use --no-writ
 | rcap-oh-custom-pleading-clean-tracks | Bind statewide composed routes versus local-court application routes, split delivery types where required, and route the exact missing local application, caption, and filing instructions to source work before a live filing component set is claimed. | CAPTAIN | Current VF32 independent review is BLOCKED_LEGAL_INPUT on COMPONENT_SET: the drafts and BCI companion exist, but local-court application/caption/instructions and route-family binding are unresolved. The packet is rendered and complete by counters, which does not discharge this product-path gate. |
 | rcap-sc-custom-pleading | Keep the custom replacement closed and bind the mandatory SCCA-223A1 official delivery type or preserve the family as nonterminal; then run the required downstream gates for the corrected route. | CAPTAIN / owner delivery gate | Adopted owner decision OWN-DT-2026-09-02-SC-223A1 refuses replacing the mandatory SCCA-223A1 GS order with this custom pleading and keeps checkout disabled. The adopted SC fee treatment remains separate ($250 solicitor, $25 SLED when applicable, $35 clerk when applicable); the SCCA223C custody issue is tracked separately and is not a legal waiver. |
 | tx_nd_dwi_conviction-set | Build from the three separately bound Texas components and return the complete candidate for independent review. | PF22 | None in the current source reconciliation beyond the PF22 build and ordinary acceptance gates. |
-| ut_pet_cannabis-set | Native integration with original run34744433174 custody | Captain; VFUT1 final review complete | 15/15 independent final PASS. Preserve original PDFs/PNGs; closure awaits native admission and prior-terminal preservation. |
 | ut_pet_remove_link-set | Implement the clerk/court-confirmed judgeOrCommissioner selector and builder, then exercise both exact branches and the fail-closed ambiguous case. | PF01 | No source bytes are missing under the current UT disposition. The family has no builder/artifacts yet and must use Judge = 1501CR + 1502CR + 1110GE or Commissioner = 1501CR-C + 1502CR + 1111GE; otherwise STOP configuration_ambiguous / clerk-confirmation-required. |
 | wa_blake_vacatur_and_lfo_refund-set | Build from exact BLAKE-001, BLAKE-002, and BLAKE-005 bindings, resolving their packet component selection as mapping, then return for independent review. | CAPTAIN / PF24 | None in current source custody. The bounded mapping question is whether BLAKE-002 is the courts-limited-jurisdiction alternative or a separate refund component; resolve it in the build return without new source acquisition. |
 | wa_vac_homicide_victim_prostitution-set | Resolve the current route-specific component and prefill question under RCW 9.96.060(7), update the held route-specific candidate if required, and send the corrected current bytes through independent review. | CAPTAIN / bounded VF34 resolution, then independent review | VF34 is BLOCKED_LEGAL_INPUT on COMPONENT_SET, KNOWN_PREFILLS, and ROUTE_OPTIONS: the existing CrRLJ set does not establish a distinct family-member pleading, applicant/victim field placement, or a valid printed-ground election. The adopted WA decision requires the route-specific petition/order and forbids forcing it into the ordinary residual box. |
 | wa_vac_substance_use_disorder-set | Map RCW 9.96.060(6) to a route-specific petition/declaration and notice/order vehicle, retain the clerk lookup for local fee/waiver, repair the recorded self-help stop text, and then return it to independent review. | CAPTAIN | VF06 records live ROUTE_OPTIONS and FEE_AND_WAIVER blocks: CrRLJ 09.0100 has no RCW 9.96.060(6) election and no held fee schedule establishes the local amount or waiver procedure. VF06 also measured SELF_HELP_STOP as failed for the registry's immigration, pending-charge, DV/protection-order, DUI, weapon/enhancement, and firearm-rights conditions. |
-| wv_nc_acquittal_dismissal-set | Complete native owner-mapping admission, freeze four fixtures, raster then original-page review | Captain; resume_vfar1 independent mapping review | Both adopted branches built and independent semantic PASS. Generator adoption loader and generated binding metadata under review; no renewed owner question. |
+| wv_nc_acquittal_dismissal-set | Native semantic-return recognition, freeze current four-PDF candidate, raster and independent original-page review | Captain; VFAR1 return reconciliation | Mapping completed41ddea6e0 after independent binding PASS. Native state BUILT_RASTER_PENDING. No owner question. |
 | wv_nc_diversion_deferred-set | Build from the exact SCA-C903 binding with the diversion/deferred route branch and return the complete candidate for independent review. | PF08 | None in the current source reconciliation beyond the PF08 build and ordinary acceptance gates. |
 
 WV two-branch owner direction ADOPTED2026-09-13 in
@@ -289,11 +290,31 @@ integration with raster-runs/34744433174/ORIGINAL_EVIDENCE_VERIFIED.json.
 Captain available2807164928bytes; measured chain allowance196292341 plus
 536870912 reserve fits. All24 protected dirty originals and durable backups
 reverified; receipt restart-recovery-20260913/ut-final-integration-budget-20260913.json.
-Before integration finish independent review/application of the one compiled-WV
-source identity comparison; eleven other preservation refreshes already committed.
+The final compiled-WV source identity adapter independently passed and native apply
+refreshed5/5; applied receipt review PASS and committed88a25fe02. All twelve
+preservation refreshes are committed.
 Actual generated queue remains300; last accepted checkpoint312.
 AR repair preserved in existing worker at9e4bc176ce5a8fd49483764753dcb4f3f632700f,
 repair66d4623bf4c61601c70b3e5e9d38f18b454c02cb, awaiting transfer and VF44 re-review.
 WV current loader/mapping admission review: resume_vfar1; compiled-profile
 adapter independent review: act346_order_review; KS native completion return
 then registration implementation: resume_ks_custody. No new owner decision needed.
+
+Current admission handoff: Kansas arrest native return committedfd5da8a40;
+registration candidate imported e4c9fa57b from worker77d2003fa. AR repair imported
+779ebce22 from worker9e4bc176; worker branch now normal-pushed and verified.
+AR semantic re-review: ut_preflight_repair. KS registration semantic/shared-helper
+review: pf04_ar_veterans_build. WV component-binding repair: resume_pf05_ut;
+independent review7887a9dc found missing acquittal component in generated binding.
+Loader fix independently passed and committeda2874e207; owner mapping hold remains
+unmodified until component repair is independently accepted.
+
+## Current next gates after Utah closure
+
+WV mapping41ddea6e0 completed; two KS and WV are BUILT_RASTER_PENDING.
+Native selectedIndependentVerdict is null for these three despite semantic returns.
+Review owners are checking existing extraction/recognition and will provide native
+additive returns before dispatch; no semantic gate is waived. AR repair stays local.
+Current Captain HEAD before this note: b3149e4eebca45bc24c894aeba8de004611178e9.
+No reraster of Utah, Act346, KY or NH. Next raster is only newly frozen KS/WV
+current-byte candidates after native semantic recognition.

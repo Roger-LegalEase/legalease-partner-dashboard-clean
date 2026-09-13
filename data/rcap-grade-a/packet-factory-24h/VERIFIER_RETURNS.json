@@ -34,13 +34,15 @@
     }
   ],
   "counts": {
-    "returnDirectories": 344,
-    "rows": 1435,
-    "independentVerdicts": 315,
-    "failRepairRequired": 0,
-    "passIndependent": 312
+    "returnDirectories": 349,
+    "rows": 1440,
+    "independentVerdicts": 317,
+    "failRepairRequired": 1,
+    "passIndependent": 313
   },
-  "failRepairRequiredFamilies": [],
+  "failRepairRequiredFamilies": [
+    "ar-veterans-court-set"
+  ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
@@ -77,6 +79,7 @@
     "rows": [
       "vf31/ar-cs-possession-seal-set",
       "vf31/ar-cs-possession-seal-set",
+      "vf44/ar-veterans-court-set",
       "vf66/il-seal-edu-set"
     ]
   },
@@ -3580,6 +3583,38 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-20260911-ar-pardon-preraster.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-pardon-seal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ar-veterans-court-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b64d413ac75b53551b8a6896010996a4ecabe4c5",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-completeness-repair-semantic-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-veterans-court-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-veterans-court-set",
+      "verdict": "PASS",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "56c4843d43fd97de2c42210c42d45ccd8197e26d",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-ar-veterans-semantic-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-veterans-court-set",
       "superseded": true
     },
     {
@@ -33987,6 +34022,114 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf31/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_cannabis-set",
+      "verdict": "PASS",
+      "lane": "vfut1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "20b88f6b8d29b74bad167d8e0f869ef36dc23f59",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfut1/rows-vfut1-ut-cannabis-instruction-repair-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_cannabis-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_cannabis-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfut1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "bccce268a0b9f56043cf663d2c232fb29d45d1a9",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfut1/rows-vfut1-ut-cannabis-original-final-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_cannabis-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ut_pet_cannabis-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfut1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "255d9252a659cb0e1d618cc4d61189edf324e846",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The production map correctly surfaces 30 blank PDF fields, and the guide names those fields. It does not surface the committed packet-set's additional required participant actions as actionable before-filing items: obtain and attach medical records or a clinician letter, obtain charging/police/laboratory evidence of form and amount, obtain a certified judgment, verify the three statutory showings, and confirm the conviction date. The final source note merely mentions evidence and the heading claims 30 required fields, so the participant-facing count and instructions understate what the repository declares required before filing.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            {
+              "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+              "productionFieldMap": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/production-field-map.json",
+              "declaredFieldCount": 30,
+              "registrySource": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "registryFact": "The keyed ut_pet_cannabis packet set declares six document/confirmation actions and the three statutory showings as requiredBeforeFiling."
+            }
+          ]
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The guide says only: 'File this packet in the Utah district court for the case shown on the judgment.' The committed ut_pet_cannabis venue and destination establish the court that decided the conviction, district or justice court, plus fallback when that court no longer exists and no-charge/traffic destinations. The current sentence excludes justice-court convictions and gives the wrong or incomplete destination for the held fallback cases.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            {
+              "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+              "trackRegistry": "data/record-clearing/legal-design-track-registry.json",
+              "trackRegistrySha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "declaredVenue": "The court that decided the criminal case, district or justice court; if it no longer exists, the court that would have jurisdiction today; if charges were never filed, district court in the arrest county, or for traffic, the citation court."
+            }
+          ]
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The guide correctly says the ordinary petitioner does not complete 1146XX or 1148XX and must not sign a prosecutor response. It does not state the operative service/notice path or timing held by the route: the court sends the filing to the prosecutor; the prosecutor has 35 days, the victim 60 days, the court waits 60 days, a participant may reply within 14 days, and AP&P may be ordered to respond and serve the parties with another 14-day reply period. 'Follow the court clerk current filing-copy instructions' leaves these required actors and deadlines undisclosed.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            {
+              "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+              "trackRegistry": "data/record-clearing/legal-design-track-registry.json",
+              "declaredNoticeRule": "Court sends filing to prosecutor; prosecutor 35 days; victim 60 days; court waits 60 days; participant reply 14 days; AP&P response may be ordered and served with a 14-day reply."
+            }
+          ]
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The guide includes several useful stops, including non-citizens, hearings/objections, special certificates, public-interest disputes, conviction-count questions, protective orders, appellate records, medical evidence, cannabis form/amount evidence and non-possession offenses. It omits repository-established exclusions for an unfinished case, unpaid fines/fees/restitution/interest, a pending non-traffic criminal case, and current incarceration/probation/parole. A participant meeting one of those conditions is not told to stop.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            {
+              "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+              "trackRegistry": "data/record-clearing/legal-design-track-registry.json",
+              "declaredExclusions": [
+                "unfinished case",
+                "unpaid fines, fees, restitution or interest",
+                "pending criminal case other than traffic",
+                "current incarceration, probation or parole"
+              ]
+            }
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfut1/rows-vfut1-ut-cannabis-semantic-native-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_cannabis-set",
       "superseded": true
     },
     {
