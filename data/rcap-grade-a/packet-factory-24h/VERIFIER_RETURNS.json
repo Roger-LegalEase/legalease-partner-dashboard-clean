@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 366,
-    "rows": 1457,
-    "independentVerdicts": 324,
+    "returnDirectories": 368,
+    "rows": 1459,
+    "independentVerdicts": 325,
     "failRepairRequired": 0,
-    "passIndependent": 321
+    "passIndependent": 322
   },
   "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
@@ -11808,6 +11808,22 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_nonconviction_expungement-set",
       "superseded": true
+    },
+    {
+      "familyId": "ia-12346-set",
+      "verdict": "PASS",
+      "lane": "vfks1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "44cd0e723df88dcc0bcd3c02907bf1425aa91941",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfks1/rows-vfks1-ia-12346-set-semantic-native-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12346-set",
+      "superseded": false
     },
     {
       "familyId": "ia-12347-set",
@@ -33004,6 +33020,20 @@
     },
     {
       "familyId": "tx_nd_dwi_conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf44",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "44cd0e723df88dcc0bcd3c02907bf1425aa91941",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-tx-nd-dwi-conviction-original-final-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "tx_nd_dwi_conviction-set",
       "verdict": "PASS",
       "lane": "vf44",
       "isIndependentVerification": true,
@@ -33016,7 +33046,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-tx-nd-dwi-conviction-semantic-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "tx_nd_dwi_deferred-set",
