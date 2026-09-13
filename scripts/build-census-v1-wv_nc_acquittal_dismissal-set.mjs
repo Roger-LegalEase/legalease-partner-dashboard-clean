@@ -634,8 +634,19 @@ function acquittalMaps() {
       "the date printed on the certified acquittal order"),
     rbfRow(p, "sixty_day_clock", "At least 60 days since the actual acquittal order", 2,
       "the participant checks the statutory clock against the certified order date"),
-    rbfRow(p, "prior_felony", "Prior felony conviction: participant's required answer", 3,
+    rbfRow(p, "prior_felony", "Prior felony conviction: participant's required answer", 2,
       "the participant checks all jurisdictions; a prior felony stops this route"),
+    ...Array.from({ length: 8 }, (_, index) => {
+      const number = index + 1;
+      return [
+        rbfRow(p, "charge_" + number + "_actual",
+          "Charge " + number + " — actual charge and statute", 2,
+          "the actual charge and statute from the certified case record"),
+        rbfRow(p, "charge_" + number + "_disposition",
+          "Charge " + number + " — disposition shown by the certified order", 2,
+          "the disposition for this charge shown by the certified order")
+      ];
+    }).flat(),
     rbfRow(p, "pending_related", "Related current charge or proceeding: participant's required answer", 3,
       "the participant confirms that no related charge or proceeding is pending"),
     rbfRow(p, "statutory_exclusions", "Statutory exclusions and offense category: participant's required answer", 3,
@@ -644,15 +655,15 @@ function acquittalMaps() {
       "Other charges arising from the same transaction or occurrence", 3,
       "every related charge must be listed; do not silently omit an additional charge"),
     rbfRow(p, "requested_relief_scope",
-      "Records and matters for which expungement and sealing are requested", 4,
+      "Records and matters for which expungement and sealing are requested", 3,
       "the participant confirms the requested scope against the certified record"),
-    protectedRow(p, "hearing_date", "Hearing date set by the court", 4,
+    protectedRow(p, "hearing_date", "Hearing date set by the court", 3,
       "only the court sets a hearing date"),
-    protectedRow(p, "judge_signature", "Judge signature and court order entry", 4,
+    protectedRow(p, "judge_signature", "Judge signature and court order entry", 3,
       "only the court completes its order and signature", COURT_CLASS),
-    protectedRow(p, "petitioner_signature", "Signature of petitioner", 4,
+    protectedRow(p, "petitioner_signature", "Signature of petitioner", 3,
       "the participant signs the civil petition personally"),
-    protectedRow(p, "signature_date", "Date petitioner signs", 4,
+    protectedRow(p, "signature_date", "Date petitioner signs", 3,
       "the participant dates the petition when signing")
   ];
   return [{

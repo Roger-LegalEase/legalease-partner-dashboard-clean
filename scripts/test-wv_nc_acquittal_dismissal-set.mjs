@@ -53,6 +53,10 @@ assert.deepEqual(acquittalMap.canonicalWrites.map((row) => row.factId), [
 ]);
 assert.equal(acquittalMap.officialSource, null);
 assert.ok(acquittalMap.explicitMappings.sourceBoundary.includes("SCA-C903 is excluded"));
+const scheduleRows = acquittalMap.canonicalRefusals.filter((row) => /\.charge_[1-8]_(actual|disposition)$/.test(row.field));
+assert.equal(scheduleRows.length, 16);
+assert.ok(scheduleRows.every((row) => row.page === 2));
+assert.equal(new Set(scheduleRows.map((row) => row.field.replace(/_(actual|disposition)$/, ""))).size, 8);
 const allRows = map.maps.flatMap((row) => row.canonicalRefusals);
 assert.ok(allRows.some((row) => row.field.endsWith("judge_signature")));
 assert.ok(allRows.some((row) => row.field.endsWith("hearing_date")));

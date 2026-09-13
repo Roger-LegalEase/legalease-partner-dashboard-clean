@@ -46,6 +46,22 @@ The packet does not invent case-specific facts or court-owned entries. Fill each
 - **Date of the actual acquittal order** — the date printed on the certified acquittal order.
 - **At least 60 days since the actual acquittal order** — the participant checks the statutory clock against the certified order date.
 - **Prior felony conviction: participant's required answer** — the participant checks all jurisdictions; a prior felony stops this route.
+- **Charge 1 — actual charge and statute** — the actual charge and statute from the certified case record.
+- **Charge 1 — disposition shown by the certified order** — the disposition for this charge shown by the certified order.
+- **Charge 2 — actual charge and statute** — the actual charge and statute from the certified case record.
+- **Charge 2 — disposition shown by the certified order** — the disposition for this charge shown by the certified order.
+- **Charge 3 — actual charge and statute** — the actual charge and statute from the certified case record.
+- **Charge 3 — disposition shown by the certified order** — the disposition for this charge shown by the certified order.
+- **Charge 4 — actual charge and statute** — the actual charge and statute from the certified case record.
+- **Charge 4 — disposition shown by the certified order** — the disposition for this charge shown by the certified order.
+- **Charge 5 — actual charge and statute** — the actual charge and statute from the certified case record.
+- **Charge 5 — disposition shown by the certified order** — the disposition for this charge shown by the certified order.
+- **Charge 6 — actual charge and statute** — the actual charge and statute from the certified case record.
+- **Charge 6 — disposition shown by the certified order** — the disposition for this charge shown by the certified order.
+- **Charge 7 — actual charge and statute** — the actual charge and statute from the certified case record.
+- **Charge 7 — disposition shown by the certified order** — the disposition for this charge shown by the certified order.
+- **Charge 8 — actual charge and statute** — the actual charge and statute from the certified case record.
+- **Charge 8 — disposition shown by the certified order** — the disposition for this charge shown by the certified order.
 - **Related current charge or proceeding: participant's required answer** — the participant confirms that no related charge or proceeding is pending.
 - **Statutory exclusions and offense category: participant's required answer** — the participant checks the certified record for exclusions before signing.
 - **Other charges arising from the same transaction or occurrence** — every related charge must be listed; do not silently omit an additional charge.
