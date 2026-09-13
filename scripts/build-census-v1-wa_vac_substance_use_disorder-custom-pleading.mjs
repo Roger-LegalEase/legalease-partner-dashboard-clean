@@ -1,28 +1,6 @@
 #!/usr/bin/env node
-/**
- * FABLE-PC composed-treatment builder — Wyoming human-trafficking victim
- * vacatur motion, Wyo. Stat. § 6-2-708(c).
- *
- * THE CLASSIFICATION, READ FROM THE COMMITTED RECORDS
- *
- * A COMPOSED TREATMENT that IS a court filing, addressed to the court the
- * compiled profile names: the court that entered the conviction, at any time
- * after it.
- *
- * THE RULE THAT SHAPED THE PAGE. Wyoming's compiled pathway carries an
- * express trauma rule — ask only what is necessary, and route to review
- * without requiring graphic details. So the nexus item in this packet is
- * printed in the committed contract's own four-word form and nothing more,
- * no page invites graphic narrative, and the rule is quoted to the participant
- * so that the bounded status and causal-connection fields read as deliberate.
- *
- * Two things the record establishes and a participant would otherwise get
- * wrong: official documentation creates a presumption but is NOT required,
- * and no waiting table from any other Wyoming route may be imported here.
- *
- * A built family is a built family. It is not verified, not approved, not
- * sellable, and this builder issues no verdict on its own packets.
- */
+/** Washington RCW 9.96.060(6) custom petition and program-evidence packet.
+ * Build output remains pending independent semantics and central raster review. */
 const SPEC = {
   "familyId": "wa_vac_substance_use_disorder-set",
   "worklistGroupId": "wa_vac_substance_use_disorder-set",
@@ -79,6 +57,23 @@ const SPEC = {
         "WA-SUD-VACATUR-CUSTOM-96060-6",
         "Do not force RCW 9.96.060(6) into the general AOC petition's residual category. Generate a route-specific petition/declaration under RCW 9.96.060(6), plus appropriate notice/order handling, using the required program proof or assessment/status documentation.",
         "RCW 9.96.060(6), Washington State Legislature."
+      ]
+    },
+    {
+      "recordId": "pf24:wa-sud-subsection-2-6-authority-handoff-20260913.json",
+      "path": "data/rcap-grade-a/packet-factory-24h/pf24/wa-sud-subsection-2-6-authority-handoff-20260913.json",
+      "role": "reviewed subsection (6) evidence-path conditions and subsection (2) exception",
+      "mustContain": [
+        "RESOLVED_BY_CURRENT_OFFICIAL_STATUTE_NO_PACKET_MUTATION"
+      ]
+    },
+    {
+      "recordId": "pf24:wa-sud-subsection-2-6-authority-review-20260913.json",
+      "path": "data/rcap-grade-a/packet-factory-24h/pf24/wa-sud-subsection-2-6-authority-review-20260913.json",
+      "role": "reviewed subsection (6) evidence-path conditions and subsection (2) exception",
+      "mustContain": [
+        "\"barImportFromSubsection2\": false",
+        "\"progressTowardRecoveryGoalsRequired\": true"
       ]
     }
   ],
@@ -143,7 +138,7 @@ const SPEC = {
         "",
         "E. PROGRAM EVIDENCE",
         "",
-        "Attach one evidence path: (1) qualifying program completion proof; OR (2) a qualifying program assessment plus a written status update showing at least six months of substantial compliance or progress toward recovery goals.",
+        "Attach one evidence path: (1) substance use disorder program completion proof; OR (2) a qualifying program assessment plus a written status update showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals.",
         "",
         "Evidence path selected and documents attached:",
         "{{DOTS}}",
@@ -154,7 +149,11 @@ const SPEC = {
         "",
         "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
         "",
-        "The petitioner signs and dates this page personally. This build never signs or dates for the petitioner."
+        "The petitioner signs and dates this page personally. This build never signs or dates for the petitioner.",
+        "",
+        "For the assessment path, the assessment must be from one of these statutory programs: a recovery navigator program under RCW 71.24.115, an arrest and jail alternative program under RCW 36.28A.450, or a law enforcement assisted diversion program under RCW 71.24.589. Obtain a written status update establishing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. If the qualifying program identity cannot be verified, stop and obtain legal help.",
+        "",
+        "RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases, violence, weapons or enhancements, DUI, and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route."
       ],
       "writes": [
         {
@@ -299,7 +298,7 @@ const SPEC = {
         "2. EVIDENCE PATH",
         "",
         "Write one path and attach the matching records:",
-        "Path 1 — qualifying program completion proof: {{DOTS}}",
+        "Path 1 — substance use disorder program completion proof: {{DOTS}}",
         "OR",
         "Path 2 — qualifying program assessment plus written status update: {{DOTS}}",
         "",
@@ -307,7 +306,7 @@ const SPEC = {
         "{{DOTS}}",
         "Completion or assessment date:",
         "{{DOTS}}",
-        "For Path 2, written status showing at least six months of substantial compliance or progress toward recovery goals:",
+        "For Path 2, written status showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals:",
         "{{DOTS}}",
         "Documents attached and the facts each document supports:",
         "{{DOTS}}",
@@ -320,13 +319,16 @@ const SPEC = {
         "{{DOTS}}",
         "I ask the sentencing court to decide whether the statutory route is satisfied from the record and attachments.",
         "",
-        "PERSONAL-KNOWLEDGE ATTESTATION",
+        "DECLARATION UNDER PENALTY OF PERJURY",
         "",
-        "I have reviewed this declaration and state that the facts I wrote are true to the best of my personal knowledge.",
+        "I declare under penalty of perjury under the laws of the state of Washington that the foregoing is true and correct.",
         "",
+        "SIGNED AT (city and state): {{DOTS:48}}",
         "DATE {{DOTS:30}}   SIGNATURE OF DECLARANT {{DOTS:36}}",
         "",
-        "PRINTED NAME: {{participant.full_legal_name}}"
+        "PRINTED NAME: {{participant.full_legal_name}}",
+        "",
+        "For the assessment path, the assessment must be from one of these statutory programs: a recovery navigator program under RCW 71.24.115, an arrest and jail alternative program under RCW 36.28A.450, or a law enforcement assisted diversion program under RCW 71.24.589. Obtain a written status update establishing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. If the qualifying program identity cannot be verified, stop and obtain legal help."
       ],
       "writes": [
         {
@@ -400,8 +402,8 @@ const SPEC = {
         {
           "kind": "rbf",
           "id": "six_month_status",
-          "label": "Six-month substantial-compliance or progress status",
-          "supply": "For the assessment path, the written status showing at least six months of substantial compliance or progress toward recovery goals",
+          "label": "Six-month substantial-compliance and recovery-progress status",
+          "supply": "For the assessment path, the written status showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals",
           "why": "the adopted product rule requires this status for the assessment path"
         },
         {
@@ -436,6 +438,12 @@ const SPEC = {
           "id": "declaration_signature_date",
           "label": "Date beside the declaration signature",
           "why": "a date written before signing would be false"
+        },
+        {
+          "kind": "protected",
+          "id": "declaration_execution_place",
+          "label": "City and state where the participant signs the declaration",
+          "why": "the participant personally supplies the actual place of execution when signing under penalty of perjury"
         }
       ]
     },
@@ -549,6 +557,20 @@ const SPEC = {
           "id": "order_date",
           "label": "Date of the Court order",
           "why": "the Court dates its own order"
+        },
+        {
+          "kind": "rbf",
+          "id": "notice_court_name",
+          "label": "Notice and proposed order sentencing court name",
+          "supply": "The same exact sentencing court name printed on the Petition",
+          "why": "the notice and proposed order must identify the same sentencing court case"
+        },
+        {
+          "kind": "rbf",
+          "id": "notice_cause_number",
+          "label": "Notice and proposed order original criminal cause number",
+          "supply": "The same exact cause number printed on the Petition",
+          "why": "the notice and proposed order must identify the same sentencing court case"
         }
       ]
     },
@@ -569,10 +591,10 @@ const SPEC = {
         "SELECT ONE EVIDENCE PATH",
         "",
         "PATH 1 — COMPLETION PROOF",
-        "Attach a qualifying program completion record, such as a completion certificate, completion letter, discharge record, or equivalent status record from the provider.",
+        "Attach a substance use disorder program completion record, such as a completion certificate, completion letter, discharge record, or equivalent status record from the provider.",
         "",
         "PATH 2 — ASSESSMENT AND STATUS",
-        "Attach a qualifying program assessment plus a written status update showing at least six months of substantial compliance or progress toward recovery goals.",
+        "Attach a qualifying program assessment plus a written status update showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals.",
         "",
         "PROGRAM RECORD DETAILS",
         "",
@@ -580,14 +602,14 @@ const SPEC = {
         "{{DOTS}}",
         "Completion or assessment date:",
         "{{DOTS}}",
-        "For Path 2, the six-month status or progress record:",
+        "For Path 2, the six-month compliance and recovery-progress record:",
         "{{DOTS}}",
         "List each attached record and the fact it supports:",
         "{{DOTS}}",
         "",
-        "POSSIBLE PROGRAM RECORD SOURCES",
+        "REQUIRED ASSESSMENT PROGRAM ALTERNATIVES",
         "",
-        "If the participant’s record identifies one of these program paths, preserve the record’s own name and provider: recovery navigator under RCW 71.24.115; arrest and jail alternative under RCW 36.28A.450; or law enforcement assisted diversion under RCW 71.24.589.",
+        "For the assessment path, the record must identify one of these programs. Preserve its exact name and provider: recovery navigator under RCW 71.24.115; arrest and jail alternative under RCW 36.28A.450; or law enforcement assisted diversion under RCW 71.24.589.",
         "Do not assume a program qualifies from its label alone. Stop when the provider, assessment, completion, or six-month status cannot be verified.",
         "",
         "ATTACHMENT CHECK",
@@ -596,7 +618,9 @@ const SPEC = {
         "[ ] The selected evidence path is identified truthfully.",
         "[ ] Each attached program record is legible and attributable to its provider.",
         "[ ] The assessment path includes written status for at least six months.",
-        "[ ] No document has been altered or completed by this packet."
+        "[ ] No document has been altered or completed by this packet.",
+        "",
+        "For the assessment path, the assessment must be from one of these statutory programs: a recovery navigator program under RCW 71.24.115, an arrest and jail alternative program under RCW 36.28A.450, or a law enforcement assisted diversion program under RCW 71.24.589. Obtain a written status update establishing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. If the qualifying program identity cannot be verified, stop and obtain legal help."
       ],
       "writes": [
         {
@@ -630,8 +654,8 @@ const SPEC = {
         {
           "kind": "rbf",
           "id": "checklist_six_month_status",
-          "label": "Checklist six-month status or progress record",
-          "supply": "For the assessment path, the written status showing at least six months of substantial compliance or progress toward recovery goals",
+          "label": "Checklist six-month compliance and recovery-progress record",
+          "supply": "For the assessment path, the written status showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals",
           "why": "the assessment path requires the six-month status evidence"
         },
         {
@@ -664,7 +688,7 @@ const SPEC = {
         "1. Copy the exact sentencing court, cause number, conviction identity, statute, and date from the court record into every requested blank.",
         "2. Confirm that the exact conviction statute is one of the listed categories: RCW 69.50.4011(1)(b) or (c), RCW 69.50.4013, RCW 69.50.4014, or RCW 69.41.030(2)(b) or (c).",
         "3. Check pending charges, new convictions, other counts, related matters, and any fact that could change the route. Do not guess.",
-        "4. Choose one evidence path: qualifying completion proof; OR qualifying assessment plus written status showing at least six months of substantial compliance or progress toward recovery goals.",
+        "4. Choose one evidence path: qualifying completion proof; OR qualifying assessment plus written status showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals.",
         "5. Attach the exact program records and complete the evidence checklist. The packet never creates, edits, or substitutes program proof.",
         "6. Complete the notice and use the sentencing court’s current procedure for serving the State or prosecutor.",
         "7. Ask the sentencing-court clerk whether a filing fee applies, its amount, and whether a waiver is available. This packet does not invent a fee or waiver rule.",
@@ -679,7 +703,11 @@ const SPEC = {
         "",
         "WHAT THIS PACKET DOES NOT ESTABLISH",
         "",
-        "It does not establish eligibility, create a court order, prove program completion or status, determine a fee, or promise what another record system will display. Only the sentencing court can decide the Petition."
+        "It does not establish eligibility, create a court order, prove program completion or status, determine a fee, or promise what another record system will display. Only the sentencing court can decide the Petition.",
+        "",
+        "For the assessment path, the assessment must be from one of these statutory programs: a recovery navigator program under RCW 71.24.115, an arrest and jail alternative program under RCW 36.28A.450, or a law enforcement assisted diversion program under RCW 71.24.589. Obtain a written status update establishing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. If the qualifying program identity cannot be verified, stop and obtain legal help.",
+        "",
+        "RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases, violence, weapons or enhancements, DUI, and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route."
       ],
       "writes": [
         {
@@ -733,7 +761,7 @@ const SPEC = {
     ],
     [
       "PROGRAM_EVIDENCE",
-      "Attach either qualifying program completion proof, or a qualifying program assessment plus written status showing at least six months of substantial compliance or progress toward recovery goals."
+      "Attach either substance use disorder program completion proof, or a qualifying program assessment plus written status showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals."
     ],
     [
       "SELF_HELP_STOP",
@@ -742,7 +770,9 @@ const SPEC = {
   ],
   "instructionsIntro": [
     "This packet contains a route-specific Petition, participant declaration, notice and proposed order, program evidence checklist, and filing instructions under RCW 9.96.060(6).",
-    "The court decides eligibility. The participant must copy exact conviction facts and attach one of the two adopted evidence paths before filing."
+    "The court decides eligibility. The participant must copy exact conviction facts and attach one of the two adopted evidence paths before filing.",
+    "For the assessment path, the assessment must be from one of these statutory programs: a recovery navigator program under RCW 71.24.115, an arrest and jail alternative program under RCW 36.28A.450, or a law enforcement assisted diversion program under RCW 71.24.589. Obtain a written status update establishing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. If the qualifying program identity cannot be verified, stop and obtain legal help.",
+    "RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases, violence, weapons or enhancements, DUI, and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route."
   ],
   "instrumentChoice": null,
   "recordSays": [
@@ -753,6 +783,10 @@ const SPEC = {
     [
       "The route record",
       "The route covers a Washington drug conviction after treatment or a recovery programme and lists the qualifying statutory categories and program authorities."
+    ],
+    [
+      "Subsection (2)/(6) authority",
+      "RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases, violence, weapons or enhancements, DUI, and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route."
     ]
   ],
   "documentsHeading": "Records to obtain before filing",
@@ -767,7 +801,7 @@ const SPEC = {
     ],
     [
       "Qualifying program assessment and written status update",
-      "Use this alternative path only when the assessment and written status show at least six months of substantial compliance or progress toward recovery goals."
+      "Use this alternative path only when the assessment and written status show at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals."
     ],
     [
       "Current pending/new conviction and related-case information",
@@ -777,10 +811,10 @@ const SPEC = {
   "steps": [
     "**Read the filing and service instructions.** They identify the sentencing court, evidence, service, fee lookup, and stop conditions.",
     "**Copy the exact court record facts.** Enter the sentencing court, cause number, conviction identity, qualifying statute, conviction date, and current pending/new status without inference.",
-    "**Choose one evidence path truthfully.** Attach completion proof, or attach the assessment and written six-month status update showing substantial compliance or progress toward recovery goals.",
+    "**Choose one evidence path truthfully.** Attach completion proof, or attach the assessment and written six-month status update showing substantial compliance with recommended treatment or services and progress toward recovery goals.",
     "**Complete the notice and service details.** Follow the sentencing court’s current procedure for serving the State or prosecutor and keep the actual service record.",
     "**Ask the clerk about filing fees and waiver availability.** The clerk’s current operational answer controls the filing transaction.",
-    "**Sign and date the Petition and declaration personally.** This build leaves every participant signature and date blank.",
+    "**Sign and date the Petition and declaration personally.** Read the declaration under penalty of perjury and supply its actual city, state, date and signature when signing. This build leaves those execution fields blank.",
     "**Stop and get help when any required fact or consequence is uncertain.** The packet does not decide eligibility or create program evidence."
   ],
   "deliberatelyBlank": [
@@ -798,7 +832,10 @@ const SPEC = {
     "pending charges, new convictions, other counts, related matters, or a statutory eligibility fact is uncertain;",
     "neither qualifying completion proof nor the assessment plus written six-month status update is available;",
     "the program provider, assessment, completion, or six-month status cannot be verified;",
-    "filing, service, safety, immigration, sealing, or related-case consequences require advice beyond these instructions."
+    "filing, service, safety, immigration, sealing, or related-case consequences require advice beyond these instructions.",
+    "violence, weapons or enhancements, DUI, or pending/new cases raise questions about separate consequences or other routes; these are referral triggers, not automatic subsection (6) bars;",
+    "you need advice about firearm rights; this packet does not restore them or decide firearm eligibility;",
+    "the assessment cannot be tied to one of the three statutory programs or either the six-month compliance requirement or recovery progress is not documented;"
   ],
   "whatThisIsNot": "This packet is not legal advice, a court order, proof of eligibility, proof of program completion or status, a fee determination, or a promise about another record system.",
   "receiptDoesNotEstablish": [

@@ -6,6 +6,10 @@ This packet contains a route-specific Petition, participant declaration, notice 
 
 The court decides eligibility. The participant must copy exact conviction facts and attach one of the two adopted evidence paths before filing.
 
+For the assessment path, the assessment must be from one of these statutory programs: a recovery navigator program under RCW 71.24.115, an arrest and jail alternative program under RCW 36.28A.450, or a law enforcement assisted diversion program under RCW 71.24.589. Obtain a written status update establishing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. If the qualifying program identity cannot be verified, stop and obtain legal help.
+
+RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases, violence, weapons or enhancements, DUI, and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route.
+
 ## What is in this packet
 
 | Component | What it is |
@@ -23,7 +27,7 @@ The court decides eligibility. The participant must copy exact conviction facts 
 | FILING_DESTINATION | File the route-specific Petition in the sentencing court for the conviction. Copy the exact court and cause number from the court record. |
 | FEE_AND_WAIVER | Ask the sentencing-court clerk whether a filing fee applies, its amount, and whether a waiver is available. This packet does not invent a fee or waiver rule. |
 | SERVICE | Complete the notice and use the sentencing court’s current procedure for serving the State or prosecutor. Record the actual service details. |
-| PROGRAM_EVIDENCE | Attach either qualifying program completion proof, or a qualifying program assessment plus written status showing at least six months of substantial compliance or progress toward recovery goals. |
+| PROGRAM_EVIDENCE | Attach either substance use disorder program completion proof, or a qualifying program assessment plus written status showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. |
 | SELF_HELP_STOP | Stop and get legal help when exact conviction facts, statutory eligibility, evidence, service, safety, immigration, or related-case consequences are uncertain. |
 
 ## What the committed record says you must know
@@ -32,6 +36,7 @@ Each of these is carried here in the words of the committed record it comes from
 
 - **The adopted WA-SUD decision** — Use a route-specific petition and declaration under RCW 9.96.060(6), with notice/order handling and the required program proof or assessment/status documentation.
 - **The route record** — The route covers a Washington drug conviction after treatment or a recovery programme and lists the qualifying statutory categories and program authorities.
+- **Subsection (2)/(6) authority** — RCW 9.96.060(2)(a)-(i) does not itself bar an otherwise qualifying subsection (6) application. Pending or new cases, violence, weapons or enhancements, DUI, and firearm-rights questions still require individualized legal advice about separate consequences or other routes; do not treat them as automatic subsection (6) ineligibility. This packet does not restore firearm rights or decide eligibility under a different route.
 
 ## Records to obtain before filing
 
@@ -39,7 +44,7 @@ Each of these is carried here in the words of the committed record it comes from
 | --- | --- |
 | Exact conviction record | Obtain it from the sentencing court or another official record source; copy the statute, court, cause number, identity, and date exactly. |
 | Qualifying program completion proof | Use only when this is the selected path and the provider record establishes completion. |
-| Qualifying program assessment and written status update | Use this alternative path only when the assessment and written status show at least six months of substantial compliance or progress toward recovery goals. |
+| Qualifying program assessment and written status update | Use this alternative path only when the assessment and written status show at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals. |
 | Current pending/new conviction and related-case information | Check the relevant court records and disclose uncertainty instead of guessing. |
 
 ## The items you must supply
@@ -73,10 +78,17 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Declaration evidence path selection | One truthful selection: completion proof, or assessment plus written six-month status update |
 | Program name and provider | The program name and provider exactly as the supporting record identifies them |
 | Completion or assessment date | The relevant date shown on the supporting program record |
-| Six-month substantial-compliance or progress status | For the assessment path, the written status showing at least six months of substantial compliance or progress toward recovery goals |
+| Six-month substantial-compliance and recovery-progress status | For the assessment path, the written status showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals |
 | Documents attached and facts supported | A truthful list of attached program records and the fact each supports |
 | Declaration pending charges or new convictions status | The current status, including the jurisdictions checked |
 | Declaration other counts and related matters status | Other counts or related matters, copied from the record or marked none only when verified |
+
+### Notice and Proposed Order for RCW 9.96.060(6) Vacatur
+
+| The blank on the document | What to write |
+| --- | --- |
+| Notice and proposed order sentencing court name | The same exact sentencing court name printed on the Petition |
+| Notice and proposed order original criminal cause number | The same exact cause number printed on the Petition |
 
 ### Program Evidence Checklist for RCW 9.96.060(6)
 
@@ -85,17 +97,17 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Checklist evidence path selection | One truthful selection: completion proof, or assessment plus written six-month status update |
 | Checklist program name and provider | The program name and provider shown on the source record |
 | Checklist completion or assessment date | The date shown on the completion or assessment record |
-| Checklist six-month status or progress record | For the assessment path, the written status showing at least six months of substantial compliance or progress toward recovery goals |
+| Checklist six-month compliance and recovery-progress record | For the assessment path, the written status showing at least six months of substantial compliance with recommended treatment or services and progress toward recovery goals |
 | Checklist attached records and supported facts | Each attached program record and the fact it supports |
 
 ## What you do, in order
 
 1. **Read the filing and service instructions.** They identify the sentencing court, evidence, service, fee lookup, and stop conditions.
 2. **Copy the exact court record facts.** Enter the sentencing court, cause number, conviction identity, qualifying statute, conviction date, and current pending/new status without inference.
-3. **Choose one evidence path truthfully.** Attach completion proof, or attach the assessment and written six-month status update showing substantial compliance or progress toward recovery goals.
+3. **Choose one evidence path truthfully.** Attach completion proof, or attach the assessment and written six-month status update showing substantial compliance with recommended treatment or services and progress toward recovery goals.
 4. **Complete the notice and service details.** Follow the sentencing court’s current procedure for serving the State or prosecutor and keep the actual service record.
 5. **Ask the clerk about filing fees and waiver availability.** The clerk’s current operational answer controls the filing transaction.
-6. **Sign and date the Petition and declaration personally.** This build leaves every participant signature and date blank.
+6. **Sign and date the Petition and declaration personally.** Read the declaration under penalty of perjury and supply its actual city, state, date and signature when signing. This build leaves those execution fields blank.
 7. **Stop and get help when any required fact or consequence is uncertain.** The packet does not decide eligibility or create program evidence.
 
 ## What you must complete
@@ -117,6 +129,9 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 - neither qualifying completion proof nor the assessment plus written six-month status update is available;
 - the program provider, assessment, completion, or six-month status cannot be verified;
 - filing, service, safety, immigration, sealing, or related-case consequences require advice beyond these instructions.
+- violence, weapons or enhancements, DUI, or pending/new cases raise questions about separate consequences or other routes; these are referral triggers, not automatic subsection (6) bars;
+- you need advice about firearm rights; this packet does not restore them or decide firearm eligibility;
+- the assessment cannot be tied to one of the three statutory programs or either the six-month compliance requirement or recovery progress is not documented;
 
 ## What this packet is not
 
