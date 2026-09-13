@@ -52,13 +52,16 @@ Final original-page review remains required; no new terminal closure claimed.
 Both existing agents currently report usage limits. Do not fabricate independent
 final acceptance or restart/retry agents without changed availability.
 
-Next PF24 ND remote-access source preflight passed for four held source forms,
-but Brief requires a separate Declaration. The indexed general AR41 declaration
-is a different instrument. Correct criminal remote-access Declaration (Rev Apr2024)
-was acquired once from the official court into private/source-acquisition-20260913/
-nd-remote-declaration/. Verify and admit through the supported source/review path;
-no shared adoption changed and no complete ND candidate exists. Also account for
-required motion notice/service companions. No repeat recovered-source searches.
+Next PF24 ND remote-access: original four source bindings remain intact. Five
+additional inputs are now acquired and hash/length verified on Captain and the
+existing worker: criminal Declaration3pages, Notice1page, Confidential Form2pages,
+Office Service2pages and Instructions13pages. Bodies remain private under
+private/source-acquisition-20260913/nd-remote-declaration/ on both machines.
+The existing pf20/remaining-family-handoff-20260913.json ND row records exact
+bindings, custody and component requirements. Native source admission and complete
+candidate remain unfinished; not an active build. No general AR41 form substitution.
+Both existing agents remain errored on usage limits; Captain did not restart them,
+change mode/billing, or fabricate final acceptance. Existing assignments preserved.
 NE PF01 source/environment readiness passed; exact remaining stage-one input is
 court/county-specific notice/service procedure, not missing CC6:12 bytes. Private
 vfne-prerequisite-20260913 records the bounded review. OH96C1 container custody is
