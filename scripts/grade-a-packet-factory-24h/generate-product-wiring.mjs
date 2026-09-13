@@ -19,6 +19,7 @@ import { bindDeclaredDeGuidance, pdfPageCount, DE_FAMILY } from "./de-guidance-b
 import { bindDeclaredUtPcraDelivery, utPcraEvidenceFromRepository, UT_PCRA_FAMILY } from "./ut-pcra-declared-delivery.mjs";
 import { bindDeclaredNdDelivery, ND_FAMILY } from "./nd-declared-binding.mjs";
 import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
+import { bindDeclaredWvDelivery, WV_FAMILY } from "./wv-nc-acquittal-dismissal-declared-delivery.mjs";
 import { bindDeclaredKyDelivery, KY_FAMILY } from "./ky-declared-delivery.mjs";
 import { bindDeclaredMdFavorableDelivery, MD_FAVORABLE_FAMILY } from "./md-favorable-declared-delivery.mjs";
 import { bindDeclaredMdConditionalDelivery } from "./md-conditional-declared-delivery.mjs";
@@ -371,6 +372,11 @@ const alignFamilyDeclaredDelivery = (record, family) => ["md_10110_conviction-se
       report: read(`${family.directory}/reports/rendered-artifacts.json`),
       hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
       raster: exactRasterFor(family.familyId)
+    })
+  : family.familyId === WV_FAMILY
+  ? bindDeclaredWvDelivery(record, family, {
+      report: read(`${family.directory}/reports/rendered-artifacts.json`),
+      fieldMap: read(`${family.directory}/production-field-map.json`)
     })
   : family.familyId === ND_FAMILY
   ? bindDeclaredNdDelivery(record, family, {
