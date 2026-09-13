@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF04",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "348887d0d521e8a428bad96c70087569d1f44965",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF04 'mt_deferred_dismissal-set'",
+    "result": "CLAIM_OK PF04 mt_deferred_dismissal-set (packet-build, grant set 4cb248e7618fd712)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "8ff9d4d22f490506d6fcb90bec54cc3cf5a9bd40131dd145c9923d7bd8743d57",
+    "captainLedgerGeneratedAtCommit": "3a9ef08889a3ef63f4e8bfb5c3366b9e126234cd"
+  },
+  "itemId": "mt_deferred_dismissal-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "MT",
+  "routeKeys": [
+    "obligation:unit:MT:mt_deferred_dismissal:mt-deferred-criss-submission",
+    "obligation:unit:MT:mt_deferred_dismissal:mt-deferred-sentencing-court-motion"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "officialFormFamily": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+  "requiredComponents": [
+    "component:mt_deferred_dismissal-primary-filing-4"
+  ],
+  "buildScript": "scripts/build-census-v1-mt_deferred_dismissal-set.mjs",
+  "buildScriptExists": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 1,
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "1 of 1 source(s) do not bind",
+      "boundSourceCount": 0,
+      "completeQueueSourceBind": false
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+        "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "queueStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPaths": "NOT_FOUND; no alternate search performed"
+      }
+    ],
+    "custodyRecord": {
+      "row": "none; family resolves through worklist/index fallback",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'mt_deferred_dismissal-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: 1 of 1 source(s) do not bind",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: below immutable minimum: 13 of 499 files, 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the exact missing MT source byte and absent exclusive builder are the bounded blockers."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "The queue declares the exact MT DOCX bound by held bytes, but the worker's mounted Master Library lacks the declared path/hash, so the family gate is 0/1; the exclusive build script is also absent at its exact path. No exact byte was found at the checked Captain-held paths, and no alternate source search was performed.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Provide the exact held MT DOCX at the governed source path and materialize the exclusive MT builder, then rerun the existing prerequisite once and build.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF04, the lane recorded in Captain's current claim ledger.",
+    "No source bytes were transferred because the exact MT byte was not present at the checked Captain-held paths.",
+    "The worker claim ledger remains intentionally uncommitted.",
+    "Shared manifests, source custody, resolver logic, closed families, and the active KY pardon slot were not modified."
+  ]
+}
