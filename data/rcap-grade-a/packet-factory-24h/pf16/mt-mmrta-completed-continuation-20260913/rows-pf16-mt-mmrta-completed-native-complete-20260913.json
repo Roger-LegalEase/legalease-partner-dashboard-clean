@@ -1,0 +1,1788 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "assignmentId": "PF16",
+  "workerId": "nd_repair_independent_review",
+  "lane": "PF16",
+  "laneKind": "packet-build",
+  "engine": "Codex standard inherited model",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "candidateCommit": "13e2df030a47a8830a5d5dc0b69748eccb68cdf4",
+  "headShaAtCandidate": "13e2df030a47a8830a5d5dc0b69748eccb68cdf4",
+  "baseSha": "d764a0ef3ce91298485ece42604eedfee0419792",
+  "headShaAtReturn": "13e2df030a47a8830a5d5dc0b69748eccb68cdf4",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+  "worker": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "familiesAssignedByPrompt": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "familyId": "mt_mmrta_completed-set",
+  "itemId": "mt_mmrta_completed-set",
+  "claim": {
+    "captainClaim": "CLAIM_OK PF16 mt_mmrta_completed-set packet-build grantfc19262464557791",
+    "sharedClaimMutationByThisWorker": false,
+    "existingCleanCheckoutAuthorization": "Captain NEW_TASK instruction after OH handoff"
+  },
+  "nativeBuild": {
+    "status": "COMPLETED",
+    "familyId": "mt_mmrta_completed-set",
+    "implementationStrategy": "official_pdf_fill",
+    "routeKeys": [
+      "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition",
+      "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission"
+    ],
+    "buildScript": "scripts/build-census-v1-mt_mmrta_completed-set.mjs",
+    "componentSet": [
+      {
+        "componentId": "mt_mmrta_completed-primary-filing-1",
+        "role": "primary_filing",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "MT-FORM-B",
+        "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+        "order": 1
+      },
+      {
+        "componentId": "mt_mmrta_completed-certificate-of-service-2",
+        "role": "certificate_of_service",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "MT-MMRTA-CERTIFICATE-OF-SERVICE",
+        "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+        "order": 2
+      },
+      {
+        "componentId": "mt_mmrta_completed-proposed-order-3",
+        "role": "proposed_order",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "MT-MMRTA-PROPOSED-ORDER",
+        "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+        "order": 3
+      },
+      {
+        "componentId": "mt_mmrta_completed-attachment-4",
+        "role": "attachment",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 4
+      },
+      {
+        "componentId": "mt_mmrta_completed-primary-filing-5",
+        "role": "primary_filing",
+        "requirement": "conditional",
+        "conditionDescription": "Unit 2. Generated only where the court grants EXPUNGEMENT; a redesignation outcome has no DOJ deletion stage.",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "officialSourceUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+        "order": 5
+      },
+      {
+        "componentId": "mt_mmrta_completed-instructions-6",
+        "role": "instructions",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 6
+      }
+    ],
+    "requiredInputCount": 14,
+    "conditionalInputCount": 1,
+    "inputKeys": [
+      "fullName",
+      "dateOfBirth",
+      "mailingAddress",
+      "sentencingCourtLevel",
+      "sentencingCounty",
+      "caseNumber",
+      "offenseSelection",
+      "offenseOther",
+      "convictionDate",
+      "countyAttorneyCounty",
+      "hearingRequested",
+      "sentenceComplete",
+      "outcomeElection",
+      "eligibilityNarrative",
+      "multipleConvictions"
+    ],
+    "selfHelpStops": 7,
+    "source": {
+      "schemaVersion": "rcap-family-source-receipt/v1",
+      "familyId": "mt_mmrta_completed-set",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition",
+        "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission"
+      ],
+      "allSourcesExact": true,
+      "documents": [
+        {
+          "sourceId": "official-form:MT-FORM-B",
+          "documentId": "mt_mmrta_completed-primary-filing-1",
+          "custody": "master_library",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+          "sourcePath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+          "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "byteLength": 23685,
+          "assetFormat": "docx",
+          "pageCount": null,
+          "componentOutputStrategy": "official_pdf_fill",
+          "representationStatus": "SOURCE_DERIVED_PRINT_BOUND_ORIGINAL_DOCX_RETAINED",
+          "derivedPrint": {
+            "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/form-b-unfilled.pdf",
+            "sha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7",
+            "exportedPages": 2,
+            "selectedPages": 2,
+            "droppedPages": [],
+            "originalDOCXPreserved": true,
+            "footerNormalization": [
+              {
+                "input": "private/transfers/mt-mmrta-completed-ready-20260913/sources/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+                "inputSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+                "output": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-form-b.docx",
+                "outputSha256": "fd162dcfbaed21a2e4c6026ee316191a2cf9ef4f950ffca53f0a8428702e8238",
+                "changedParts": [
+                  "word/footer1.xml"
+                ],
+                "sourceTextControlsAndBodyXMLUnchanged": true,
+                "change": "Footer right tab stop10800->9360 twips, moving page count from x612.104 overflow to normal right text margin; no text or field removal."
+              },
+              {
+                "input": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-order.docx",
+                "inputSha256": "0f14d255545d373ee3be3ead2a648a6960d01aea3aeb5e403afc8d4f117a6802",
+                "output": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-order-footer.docx",
+                "outputSha256": "9e790de0ab9e0e765d6c6daef0b332c4060bda2526854797e0678e3f220f9a34",
+                "changedParts": [
+                  "word/footer1.xml"
+                ],
+                "sourceTextControlsAndBodyXMLUnchanged": true,
+                "change": "Footer right tab stop10800->9360 twips, moving page count from x612.104 overflow to normal right text margin; no text or field removal."
+              }
+            ],
+            "converter": "/tmp/rcap-mt-office/soffice on existing worker",
+            "fontConfig": "/tmp/rcap-mt-office/fontconfig.conf",
+            "fontConfigSha256": "d560046c88d07bc76412bb6f2bd7ea40f2b5a4f5e02e6e4ea4545f9243eaf224",
+            "substitutionsDeclared": "Existing approved MT conversion configuration; Arial -> Liberation Sans, symbol fallback retained",
+            "layoutNormalizedInput": {
+              "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/normalized-form-b.docx",
+              "sha256": "fd162dcfbaed21a2e4c6026ee316191a2cf9ef4f950ffca53f0a8428702e8238",
+              "notOriginalOfficialSource": true,
+              "originalDOCXHashUnchanged": true
+            }
+          }
+        },
+        {
+          "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+          "documentId": "mt_mmrta_completed-certificate-of-service-2",
+          "custody": "master_library",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+          "sourcePath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+          "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "byteLength": 16815,
+          "assetFormat": "docx",
+          "pageCount": null,
+          "componentOutputStrategy": "official_pdf_fill",
+          "representationStatus": "SOURCE_DERIVED_PRINT_BOUND_ORIGINAL_DOCX_RETAINED",
+          "derivedPrint": {
+            "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/certificate-unfilled.pdf",
+            "sha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3",
+            "exportedPages": 1,
+            "selectedPages": 1,
+            "droppedPages": [],
+            "originalDOCXPreserved": true,
+            "converter": "/tmp/rcap-mt-office/soffice on existing worker",
+            "fontConfig": "/tmp/rcap-mt-office/fontconfig.conf",
+            "fontConfigSha256": "d560046c88d07bc76412bb6f2bd7ea40f2b5a4f5e02e6e4ea4545f9243eaf224",
+            "substitutionsDeclared": "Existing approved MT conversion configuration; Arial -> Liberation Sans, symbol fallback retained"
+          }
+        },
+        {
+          "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
+          "documentId": "mt_mmrta_completed-proposed-order-3",
+          "custody": "master_library",
+          "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+          "sourcePath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+          "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "byteLength": 21143,
+          "assetFormat": "docx",
+          "pageCount": null,
+          "componentOutputStrategy": "official_pdf_fill",
+          "representationStatus": "SOURCE_DERIVED_PRINT_BOUND_ORIGINAL_DOCX_RETAINED",
+          "derivedPrint": {
+            "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/proposed-order-unfilled.pdf",
+            "sha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64",
+            "exportedPages": 2,
+            "selectedPages": 2,
+            "droppedPages": [],
+            "originalDOCXPreserved": true,
+            "footerNormalization": [
+              {
+                "input": "private/transfers/mt-mmrta-completed-ready-20260913/sources/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+                "inputSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+                "output": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-form-b.docx",
+                "outputSha256": "fd162dcfbaed21a2e4c6026ee316191a2cf9ef4f950ffca53f0a8428702e8238",
+                "changedParts": [
+                  "word/footer1.xml"
+                ],
+                "sourceTextControlsAndBodyXMLUnchanged": true,
+                "change": "Footer right tab stop10800->9360 twips, moving page count from x612.104 overflow to normal right text margin; no text or field removal."
+              },
+              {
+                "input": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-order.docx",
+                "inputSha256": "0f14d255545d373ee3be3ead2a648a6960d01aea3aeb5e403afc8d4f117a6802",
+                "output": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-order-footer.docx",
+                "outputSha256": "9e790de0ab9e0e765d6c6daef0b332c4060bda2526854797e0678e3f220f9a34",
+                "changedParts": [
+                  "word/footer1.xml"
+                ],
+                "sourceTextControlsAndBodyXMLUnchanged": true,
+                "change": "Footer right tab stop10800->9360 twips, moving page count from x612.104 overflow to normal right text margin; no text or field removal."
+              }
+            ],
+            "layoutNormalization": {
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "normalizedSha256": "0f14d255545d373ee3be3ead2a648a6960d01aea3aeb5e403afc8d4f117a6802",
+              "originalSourceUnmodified": true,
+              "sourceParagraphsUnchanged": true,
+              "sourceTextUnchanged": true,
+              "fieldAndControlContentUnchanged": true,
+              "onlyChange": "Set exact 2pt line height/zero before-after on two empty spacer paragraphs immediately before judge signature rule. Original blank paragraphs retained.",
+              "zeroBasedBodyParagraphsChanged": [
+                46,
+                47
+              ]
+            },
+            "converter": "/tmp/rcap-mt-office/soffice on existing worker",
+            "fontConfig": "/tmp/rcap-mt-office/fontconfig.conf",
+            "fontConfigSha256": "d560046c88d07bc76412bb6f2bd7ea40f2b5a4f5e02e6e4ea4545f9243eaf224",
+            "substitutionsDeclared": "Existing approved MT conversion configuration; Arial -> Liberation Sans, symbol fallback retained",
+            "layoutNormalizedInput": {
+              "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/normalized-order-footer.docx",
+              "sha256": "9e790de0ab9e0e765d6c6daef0b332c4060bda2526854797e0678e3f220f9a34",
+              "notOriginalOfficialSource": true,
+              "originalDOCXHashUnchanged": true
+            }
+          }
+        },
+        {
+          "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "documentId": "mt_mmrta_completed-primary-filing-5",
+          "custody": "master_library",
+          "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+          "sourcePath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+          "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+          "byteLength": 84539,
+          "assetFormat": "docx",
+          "pageCount": null,
+          "componentOutputStrategy": "official_pdf_fill",
+          "representationStatus": "SOURCE_DERIVED_PRINT_BOUND_ORIGINAL_DOCX_RETAINED",
+          "derivedPrint": {
+            "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/doj-unfilled.pdf",
+            "sha256": "8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc",
+            "exportedPages": 2,
+            "selectedPages": 2,
+            "droppedPages": [],
+            "originalDOCXPreserved": true,
+            "reuse": "Exact accepted 2-page unfilled derivative; source and derivative SHA verified"
+          }
+        }
+      ],
+      "commercialRoutesOpened": 0
+    },
+    "rasterState": "NOT_RUN_PENDING_INDEPENDENT_SEMANTIC_ACCEPTANCE",
+    "rasterPages": 42,
+    "packetsSelfVerified": true,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "focusedCheck": {
+    "result": "PASS_COMPLETE",
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "totals": {
+      "terminalFields": 320,
+      "written": 177,
+      "blank": 143,
+      "blanksByDisposition": {
+        "PROTECTED_FIELD": 47,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 80,
+        "PARTICIPANT_ELECTION_GENUINE": 15,
+        "OPTIONAL_PARTICIPANT_CONTENT": 1
+      },
+      "rowsInspected": 0,
+      "fieldMapSchema": "maps-with-canonical-and-boundary"
+    },
+    "scope": "Native author check only"
+  },
+  "authorChecks": {
+    "fullSavedRender": "PASS",
+    "savedWriteReadback": "177 actual writes verified on own saved pages",
+    "allSevenStopsSavedReadback": "PASS",
+    "fullPageCoverage": "5fixtures,8+8+8+10+8pages=42; separate fullsets for two boundary convictions",
+    "sourceFidelity": "109 nonempty source leaf paragraphs and45checkboxes retained; exact2pageDOJderivative reused unchanged",
+    "sourceStreams": "27 original derivative page instances preserved byte-for-byte as content streams; additions in separate overlay streams",
+    "savedWordGeometry": "All42pages measured; zero words outside612x792page",
+    "layoutRepairs": "Two empty spacer paragraphs normalized before proposed-order signature; FormB/order footer righttab moved to bodymargin; originals untouched, normalizedDOCXinputs distinctly labeled and hashed",
+    "sourceFieldPreservation": "Outcome/narrative/hearing/attachment elections, newCaseNo, alljudicialfindings andexecution blanks preserved",
+    "independentAcceptance": false,
+    "originalRasterAcceptance": "NOT_RUN"
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+      "byteLength": 128690,
+      "pageCount": 8,
+      "components": [
+        "mt_mmrta_completed-primary-filing-1",
+        "mt_mmrta_completed-certificate-of-service-2",
+        "mt_mmrta_completed-proposed-order-3",
+        "mt_mmrta_completed-attachment-4",
+        "mt_mmrta_completed-instructions-6"
+      ],
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 2,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 3,
+          "component": "mt_mmrta_completed-certificate-of-service-2",
+          "sourcePage": 1,
+          "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+        },
+        {
+          "packetPage": 4,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 1,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 5,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 2,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 6,
+          "component": "mt_mmrta_completed-attachment-4"
+        },
+        {
+          "packetPage": 7,
+          "component": "mt_mmrta_completed-instructions-6"
+        },
+        {
+          "packetPage": 8,
+          "component": "mt_mmrta_completed-instructions-6"
+        }
+      ],
+      "syntheticNonfilingFixture": true,
+      "filingReady": false,
+      "completeFamily": true,
+      "conditionalDOJ": {
+        "required": false,
+        "included": false,
+        "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+      }
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "5c12e9b294427331e555c800a0a7b2bb10e1eb2bbb91f49ea991cf839c52b0b9",
+      "byteLength": 128746,
+      "pageCount": 8,
+      "components": [
+        "mt_mmrta_completed-primary-filing-1",
+        "mt_mmrta_completed-certificate-of-service-2",
+        "mt_mmrta_completed-proposed-order-3",
+        "mt_mmrta_completed-attachment-4",
+        "mt_mmrta_completed-instructions-6"
+      ],
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 2,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 3,
+          "component": "mt_mmrta_completed-certificate-of-service-2",
+          "sourcePage": 1,
+          "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+        },
+        {
+          "packetPage": 4,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 1,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 5,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 2,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 6,
+          "component": "mt_mmrta_completed-attachment-4"
+        },
+        {
+          "packetPage": 7,
+          "component": "mt_mmrta_completed-instructions-6"
+        },
+        {
+          "packetPage": 8,
+          "component": "mt_mmrta_completed-instructions-6"
+        }
+      ],
+      "syntheticNonfilingFixture": true,
+      "filingReady": false,
+      "completeFamily": true,
+      "conditionalDOJ": {
+        "required": false,
+        "included": false,
+        "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+      }
+    },
+    {
+      "fixture": "city-redesignation",
+      "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/city-redesignation.pdf",
+      "sha256": "cc819e12abbfa521cfdf0994d42d135bd7498a41bdca9971da32b493942a0c5d",
+      "byteLength": 128489,
+      "pageCount": 8,
+      "components": [
+        "mt_mmrta_completed-primary-filing-1",
+        "mt_mmrta_completed-certificate-of-service-2",
+        "mt_mmrta_completed-proposed-order-3",
+        "mt_mmrta_completed-attachment-4",
+        "mt_mmrta_completed-instructions-6"
+      ],
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 2,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 3,
+          "component": "mt_mmrta_completed-certificate-of-service-2",
+          "sourcePage": 1,
+          "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+        },
+        {
+          "packetPage": 4,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 1,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 5,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 2,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 6,
+          "component": "mt_mmrta_completed-attachment-4"
+        },
+        {
+          "packetPage": 7,
+          "component": "mt_mmrta_completed-instructions-6"
+        },
+        {
+          "packetPage": 8,
+          "component": "mt_mmrta_completed-instructions-6"
+        }
+      ],
+      "syntheticNonfilingFixture": true,
+      "filingReady": false,
+      "completeFamily": true,
+      "conditionalDOJ": {
+        "required": false,
+        "included": false,
+        "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+      }
+    },
+    {
+      "fixture": "expungement-order",
+      "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/expungement-order.pdf",
+      "sha256": "f6cb17fa7e28f57d00e8cb37491d289d1df75b166e9846993fe952a0e4a475da",
+      "byteLength": 198925,
+      "pageCount": 10,
+      "components": [
+        "mt_mmrta_completed-primary-filing-1",
+        "mt_mmrta_completed-certificate-of-service-2",
+        "mt_mmrta_completed-proposed-order-3",
+        "mt_mmrta_completed-attachment-4",
+        "mt_mmrta_completed-primary-filing-5",
+        "mt_mmrta_completed-instructions-6"
+      ],
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 2,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 3,
+          "component": "mt_mmrta_completed-certificate-of-service-2",
+          "sourcePage": 1,
+          "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+        },
+        {
+          "packetPage": 4,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 1,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 5,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 2,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 6,
+          "component": "mt_mmrta_completed-attachment-4"
+        },
+        {
+          "packetPage": 7,
+          "component": "mt_mmrta_completed-primary-filing-5",
+          "sourcePage": 1,
+          "sourceSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+          "derivedPrintSha256": "8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc"
+        },
+        {
+          "packetPage": 8,
+          "component": "mt_mmrta_completed-primary-filing-5",
+          "sourcePage": 2,
+          "sourceSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+          "derivedPrintSha256": "8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc"
+        },
+        {
+          "packetPage": 9,
+          "component": "mt_mmrta_completed-instructions-6"
+        },
+        {
+          "packetPage": 10,
+          "component": "mt_mmrta_completed-instructions-6"
+        }
+      ],
+      "syntheticNonfilingFixture": true,
+      "filingReady": false,
+      "completeFamily": true,
+      "conditionalDOJ": {
+        "required": true,
+        "included": true,
+        "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+      }
+    },
+    {
+      "fixture": "boundary-separate-conviction",
+      "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary-separate-conviction.pdf",
+      "sha256": "1c50ba986038c52f67abfb1455bdcf0ffd73462330f1643f0d1366d94e6c88d4",
+      "byteLength": 128858,
+      "pageCount": 8,
+      "components": [
+        "mt_mmrta_completed-primary-filing-1",
+        "mt_mmrta_completed-certificate-of-service-2",
+        "mt_mmrta_completed-proposed-order-3",
+        "mt_mmrta_completed-attachment-4",
+        "mt_mmrta_completed-instructions-6"
+      ],
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 2,
+          "component": "mt_mmrta_completed-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+        },
+        {
+          "packetPage": 3,
+          "component": "mt_mmrta_completed-certificate-of-service-2",
+          "sourcePage": 1,
+          "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+        },
+        {
+          "packetPage": 4,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 1,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 5,
+          "component": "mt_mmrta_completed-proposed-order-3",
+          "sourcePage": 2,
+          "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+        },
+        {
+          "packetPage": 6,
+          "component": "mt_mmrta_completed-attachment-4"
+        },
+        {
+          "packetPage": 7,
+          "component": "mt_mmrta_completed-instructions-6"
+        },
+        {
+          "packetPage": 8,
+          "component": "mt_mmrta_completed-instructions-6"
+        }
+      ],
+      "syntheticNonfilingFixture": true,
+      "filingReady": false,
+      "completeFamily": true,
+      "conditionalDOJ": {
+        "required": false,
+        "included": false,
+        "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+      }
+    }
+  ],
+  "pagesTotal": 42,
+  "candidateBindings": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/approval-request.json",
+      "sha256": "33c21a260f5474c4f8682e33a443a4a8341631fe2b734abd34fb9ba68074080a",
+      "byteLength": 417
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/build-status.json",
+      "sha256": "80658127a4775df461a51e26db352c0b70bbcd3bd8359684660f1ac0e07dfc81",
+      "byteLength": 235
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/component-set.json",
+      "sha256": "21e4ef3da6bf2d1a96a8cea2cc9d8d585fe5ef4e0af9072fb7cdb08f653f0258",
+      "byteLength": 2584
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary-separate-conviction.pdf",
+      "sha256": "1c50ba986038c52f67abfb1455bdcf0ffd73462330f1643f0d1366d94e6c88d4",
+      "byteLength": 128858
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary-separate-conviction.txt",
+      "sha256": "4fce397a9918d7c93174d2574395c74f4224656b9fb756eac2877cee36231aa4",
+      "byteLength": 19059
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "5c12e9b294427331e555c800a0a7b2bb10e1eb2bbb91f49ea991cf839c52b0b9",
+      "byteLength": 128746
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary.txt",
+      "sha256": "9572c6a18c51481f77e25471cd93398da334977553710fd18aa0f4d10cfc5739",
+      "byteLength": 18999
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+      "byteLength": 128690
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.txt",
+      "sha256": "71018348c16fd6e7660c68ebe75d14f0d36874b100ef6b4f0cb0178aeced9ed5",
+      "byteLength": 18808
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/city-redesignation.pdf",
+      "sha256": "cc819e12abbfa521cfdf0994d42d135bd7498a41bdca9971da32b493942a0c5d",
+      "byteLength": 128489
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/city-redesignation.txt",
+      "sha256": "eaee9371f34cd6331240ca1c3fbc156efbe820e9068456cb1bc62646f538d349",
+      "byteLength": 18779
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/expungement-order.pdf",
+      "sha256": "f6cb17fa7e28f57d00e8cb37491d289d1df75b166e9846993fe952a0e4a475da",
+      "byteLength": 198925
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/expungement-order.txt",
+      "sha256": "366e7dc0e55fb5e19e2e1ad38c10bd48b54ded4d4b6925dc334b885452076011",
+      "byteLength": 22504
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/inputs.json",
+      "sha256": "3dc52f18e5967b8c4cd41a2187fdeab60c768e4ee971ef6ddca3636a7822d869",
+      "byteLength": 13381
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "3b4817098a145e9eff4c469cf678c20840d4f405da88d2d4ca85988b336caae9",
+      "byteLength": 6643
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/production-field-map.json",
+      "sha256": "05cc5771aa0e98690d212d2d88643220df5f72287c9cf2369849de2acc9c562d",
+      "byteLength": 265311
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/actual-writes.json",
+      "sha256": "b4cf2cb4f606db190e10a1b6420d6b6208fbe74625de21874c166a178a015eeb",
+      "byteLength": 127786
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/adopted-track-input-snapshot.json",
+      "sha256": "2e1f212407e68f06f17d7c84beb1c7511808e87c921dd57a2bdc5590cfef2906",
+      "byteLength": 88715
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+      "sha256": "09525f11931b0c805513d45a9543d0af2a51b6217a55c3391ea6c3b0d2eb9ac6",
+      "byteLength": 228448
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/completeness-counters.json",
+      "sha256": "3bf6fab67d0409d539962219d83c605ca9fd5f0ebfc9f9aff9afa8ee9784f16f",
+      "byteLength": 187
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/footer-layout-normalization.json",
+      "sha256": "c977db727b26a34721ba73782411239d8e259ccf385cd0d64aa97cee18481892",
+      "byteLength": 1325
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/order-layout-normalization.json",
+      "sha256": "07429eba9d9b2df3fa2efb7b38a8b060d7b61f1b71d853cea314d59a0997d36e",
+      "byteLength": 555
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "0a4f7b0b7f23a41cce8622e1622bbdd6b1615fce0a8afbb642720975fab8d623",
+      "byteLength": 40060
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/saved-page-geometry-check.json",
+      "sha256": "cdaf7fc3fdfc093cb27050b0e77eb76c92953efe8f796f1fd6708c38e5080582",
+      "byteLength": 109
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/source-fidelity-proof.json",
+      "sha256": "7fc57e194314887230f9f313eb321e4a02cf1dfd5e35aa1fe0c3db618d5c491d",
+      "byteLength": 2092
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/source-stream-preservation-proof.json",
+      "sha256": "a2b52ac45b6465b57210830cb9e5db4141bc9e0bdca7f206311d1c7dd43c238f",
+      "byteLength": 310
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/certificate-unfilled.pdf",
+      "sha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3",
+      "byteLength": 32889
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/doj-unfilled.pdf",
+      "sha256": "8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc",
+      "byteLength": 74987
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/form-b-unfilled.pdf",
+      "sha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7",
+      "byteLength": 52500
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/normalized-form-b.docx",
+      "sha256": "fd162dcfbaed21a2e4c6026ee316191a2cf9ef4f950ffca53f0a8428702e8238",
+      "byteLength": 20401
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/normalized-order-footer.docx",
+      "sha256": "9e790de0ab9e0e765d6c6daef0b332c4060bda2526854797e0678e3f220f9a34",
+      "byteLength": 17793
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/proposed-order-unfilled.pdf",
+      "sha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64",
+      "byteLength": 52908
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-receipt.json",
+      "sha256": "c72f1cb773204688edca26c9a2284972ec54eb5198a1c7a1164dd4f3585ba3d2",
+      "byteLength": 10666
+    },
+    {
+      "path": "scripts/build-census-v1-mt_mmrta_completed-set.mjs",
+      "sha256": "55d7fa69df16dcbce12762ecfa4acf19a53fe8bc3ba02417facb6984efa9fcc4",
+      "byteLength": 32964
+    }
+  ],
+  "isIndependentVerification": false,
+  "grantsNothing": true,
+  "rows": [
+    {
+      "status": "COMPLETED",
+      "familyId": "mt_mmrta_completed-set",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition",
+        "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission"
+      ],
+      "buildScript": "scripts/build-census-v1-mt_mmrta_completed-set.mjs",
+      "componentSet": [
+        {
+          "componentId": "mt_mmrta_completed-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-FORM-B",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 1
+        },
+        {
+          "componentId": "mt_mmrta_completed-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-MMRTA-CERTIFICATE-OF-SERVICE",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 2
+        },
+        {
+          "componentId": "mt_mmrta_completed-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-MMRTA-PROPOSED-ORDER",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 3
+        },
+        {
+          "componentId": "mt_mmrta_completed-attachment-4",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "mt_mmrta_completed-primary-filing-5",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Unit 2. Generated only where the court grants EXPUNGEMENT; a redesignation outcome has no DOJ deletion stage.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "officialSourceUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "order": 5
+        },
+        {
+          "componentId": "mt_mmrta_completed-instructions-6",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "requiredInputCount": 14,
+      "conditionalInputCount": 1,
+      "inputKeys": [
+        "fullName",
+        "dateOfBirth",
+        "mailingAddress",
+        "sentencingCourtLevel",
+        "sentencingCounty",
+        "caseNumber",
+        "offenseSelection",
+        "offenseOther",
+        "convictionDate",
+        "countyAttorneyCounty",
+        "hearingRequested",
+        "sentenceComplete",
+        "outcomeElection",
+        "eligibilityNarrative",
+        "multipleConvictions"
+      ],
+      "selfHelpStops": 7,
+      "source": {
+        "schemaVersion": "rcap-family-source-receipt/v1",
+        "familyId": "mt_mmrta_completed-set",
+        "implementationStrategy": "official_pdf_fill",
+        "routeKeys": [
+          "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition",
+          "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission"
+        ],
+        "allSourcesExact": true,
+        "documents": [
+          {
+            "sourceId": "official-form:MT-FORM-B",
+            "documentId": "mt_mmrta_completed-primary-filing-1",
+            "custody": "master_library",
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+            "sourcePath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+            "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+            "byteLength": 23685,
+            "assetFormat": "docx",
+            "pageCount": null,
+            "componentOutputStrategy": "official_pdf_fill",
+            "representationStatus": "SOURCE_DERIVED_PRINT_BOUND_ORIGINAL_DOCX_RETAINED",
+            "derivedPrint": {
+              "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/form-b-unfilled.pdf",
+              "sha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7",
+              "exportedPages": 2,
+              "selectedPages": 2,
+              "droppedPages": [],
+              "originalDOCXPreserved": true,
+              "footerNormalization": [
+                {
+                  "input": "private/transfers/mt-mmrta-completed-ready-20260913/sources/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+                  "inputSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+                  "output": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-form-b.docx",
+                  "outputSha256": "fd162dcfbaed21a2e4c6026ee316191a2cf9ef4f950ffca53f0a8428702e8238",
+                  "changedParts": [
+                    "word/footer1.xml"
+                  ],
+                  "sourceTextControlsAndBodyXMLUnchanged": true,
+                  "change": "Footer right tab stop10800->9360 twips, moving page count from x612.104 overflow to normal right text margin; no text or field removal."
+                },
+                {
+                  "input": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-order.docx",
+                  "inputSha256": "0f14d255545d373ee3be3ead2a648a6960d01aea3aeb5e403afc8d4f117a6802",
+                  "output": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-order-footer.docx",
+                  "outputSha256": "9e790de0ab9e0e765d6c6daef0b332c4060bda2526854797e0678e3f220f9a34",
+                  "changedParts": [
+                    "word/footer1.xml"
+                  ],
+                  "sourceTextControlsAndBodyXMLUnchanged": true,
+                  "change": "Footer right tab stop10800->9360 twips, moving page count from x612.104 overflow to normal right text margin; no text or field removal."
+                }
+              ],
+              "converter": "/tmp/rcap-mt-office/soffice on existing worker",
+              "fontConfig": "/tmp/rcap-mt-office/fontconfig.conf",
+              "fontConfigSha256": "d560046c88d07bc76412bb6f2bd7ea40f2b5a4f5e02e6e4ea4545f9243eaf224",
+              "substitutionsDeclared": "Existing approved MT conversion configuration; Arial -> Liberation Sans, symbol fallback retained",
+              "layoutNormalizedInput": {
+                "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/normalized-form-b.docx",
+                "sha256": "fd162dcfbaed21a2e4c6026ee316191a2cf9ef4f950ffca53f0a8428702e8238",
+                "notOriginalOfficialSource": true,
+                "originalDOCXHashUnchanged": true
+              }
+            }
+          },
+          {
+            "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+            "documentId": "mt_mmrta_completed-certificate-of-service-2",
+            "custody": "master_library",
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+            "sourcePath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+            "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+            "byteLength": 16815,
+            "assetFormat": "docx",
+            "pageCount": null,
+            "componentOutputStrategy": "official_pdf_fill",
+            "representationStatus": "SOURCE_DERIVED_PRINT_BOUND_ORIGINAL_DOCX_RETAINED",
+            "derivedPrint": {
+              "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/certificate-unfilled.pdf",
+              "sha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3",
+              "exportedPages": 1,
+              "selectedPages": 1,
+              "droppedPages": [],
+              "originalDOCXPreserved": true,
+              "converter": "/tmp/rcap-mt-office/soffice on existing worker",
+              "fontConfig": "/tmp/rcap-mt-office/fontconfig.conf",
+              "fontConfigSha256": "d560046c88d07bc76412bb6f2bd7ea40f2b5a4f5e02e6e4ea4545f9243eaf224",
+              "substitutionsDeclared": "Existing approved MT conversion configuration; Arial -> Liberation Sans, symbol fallback retained"
+            }
+          },
+          {
+            "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
+            "documentId": "mt_mmrta_completed-proposed-order-3",
+            "custody": "master_library",
+            "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+            "sourcePath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+            "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+            "byteLength": 21143,
+            "assetFormat": "docx",
+            "pageCount": null,
+            "componentOutputStrategy": "official_pdf_fill",
+            "representationStatus": "SOURCE_DERIVED_PRINT_BOUND_ORIGINAL_DOCX_RETAINED",
+            "derivedPrint": {
+              "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/proposed-order-unfilled.pdf",
+              "sha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64",
+              "exportedPages": 2,
+              "selectedPages": 2,
+              "droppedPages": [],
+              "originalDOCXPreserved": true,
+              "footerNormalization": [
+                {
+                  "input": "private/transfers/mt-mmrta-completed-ready-20260913/sources/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+                  "inputSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+                  "output": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-form-b.docx",
+                  "outputSha256": "fd162dcfbaed21a2e4c6026ee316191a2cf9ef4f950ffca53f0a8428702e8238",
+                  "changedParts": [
+                    "word/footer1.xml"
+                  ],
+                  "sourceTextControlsAndBodyXMLUnchanged": true,
+                  "change": "Footer right tab stop10800->9360 twips, moving page count from x612.104 overflow to normal right text margin; no text or field removal."
+                },
+                {
+                  "input": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-order.docx",
+                  "inputSha256": "0f14d255545d373ee3be3ead2a648a6960d01aea3aeb5e403afc8d4f117a6802",
+                  "output": "private/transfers/mt-mmrta-completed-ready-20260913/normalized-order-footer.docx",
+                  "outputSha256": "9e790de0ab9e0e765d6c6daef0b332c4060bda2526854797e0678e3f220f9a34",
+                  "changedParts": [
+                    "word/footer1.xml"
+                  ],
+                  "sourceTextControlsAndBodyXMLUnchanged": true,
+                  "change": "Footer right tab stop10800->9360 twips, moving page count from x612.104 overflow to normal right text margin; no text or field removal."
+                }
+              ],
+              "layoutNormalization": {
+                "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+                "normalizedSha256": "0f14d255545d373ee3be3ead2a648a6960d01aea3aeb5e403afc8d4f117a6802",
+                "originalSourceUnmodified": true,
+                "sourceParagraphsUnchanged": true,
+                "sourceTextUnchanged": true,
+                "fieldAndControlContentUnchanged": true,
+                "onlyChange": "Set exact 2pt line height/zero before-after on two empty spacer paragraphs immediately before judge signature rule. Original blank paragraphs retained.",
+                "zeroBasedBodyParagraphsChanged": [
+                  46,
+                  47
+                ]
+              },
+              "converter": "/tmp/rcap-mt-office/soffice on existing worker",
+              "fontConfig": "/tmp/rcap-mt-office/fontconfig.conf",
+              "fontConfigSha256": "d560046c88d07bc76412bb6f2bd7ea40f2b5a4f5e02e6e4ea4545f9243eaf224",
+              "substitutionsDeclared": "Existing approved MT conversion configuration; Arial -> Liberation Sans, symbol fallback retained",
+              "layoutNormalizedInput": {
+                "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/normalized-order-footer.docx",
+                "sha256": "9e790de0ab9e0e765d6c6daef0b332c4060bda2526854797e0678e3f220f9a34",
+                "notOriginalOfficialSource": true,
+                "originalDOCXHashUnchanged": true
+              }
+            }
+          },
+          {
+            "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+            "documentId": "mt_mmrta_completed-primary-filing-5",
+            "custody": "master_library",
+            "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+            "sourcePath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+            "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+            "byteLength": 84539,
+            "assetFormat": "docx",
+            "pageCount": null,
+            "componentOutputStrategy": "official_pdf_fill",
+            "representationStatus": "SOURCE_DERIVED_PRINT_BOUND_ORIGINAL_DOCX_RETAINED",
+            "derivedPrint": {
+              "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/doj-unfilled.pdf",
+              "sha256": "8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc",
+              "exportedPages": 2,
+              "selectedPages": 2,
+              "droppedPages": [],
+              "originalDOCXPreserved": true,
+              "reuse": "Exact accepted 2-page unfilled derivative; source and derivative SHA verified"
+            }
+          }
+        ],
+        "commercialRoutesOpened": 0
+      },
+      "rasterState": "NOT_RUN_PENDING_INDEPENDENT_SEMANTIC_ACCEPTANCE",
+      "rasterPages": 42,
+      "packetsSelfVerified": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "itemId": "mt_mmrta_completed-set",
+      "lane": "PF16",
+      "laneKind": "packet-build",
+      "isIndependentVerification": false,
+      "buildCommit": "13e2df030a47a8830a5d5dc0b69748eccb68cdf4",
+      "jurisdiction": "MT",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill",
+      "completion": "COMPLETE_CURRENT_BYTE_CANDIDATE",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "completenessResultScope": "Native author audit, not independent final acceptance",
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+          "byteLength": 128690,
+          "pageCount": 8,
+          "components": [
+            "mt_mmrta_completed-primary-filing-1",
+            "mt_mmrta_completed-certificate-of-service-2",
+            "mt_mmrta_completed-proposed-order-3",
+            "mt_mmrta_completed-attachment-4",
+            "mt_mmrta_completed-instructions-6"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 1,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 2,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 2,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 3,
+              "component": "mt_mmrta_completed-certificate-of-service-2",
+              "sourcePage": 1,
+              "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+              "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+            },
+            {
+              "packetPage": 4,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 1,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 5,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 2,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 6,
+              "component": "mt_mmrta_completed-attachment-4"
+            },
+            {
+              "packetPage": 7,
+              "component": "mt_mmrta_completed-instructions-6"
+            },
+            {
+              "packetPage": 8,
+              "component": "mt_mmrta_completed-instructions-6"
+            }
+          ],
+          "syntheticNonfilingFixture": true,
+          "filingReady": false,
+          "completeFamily": true,
+          "conditionalDOJ": {
+            "required": false,
+            "included": false,
+            "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+          }
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "5c12e9b294427331e555c800a0a7b2bb10e1eb2bbb91f49ea991cf839c52b0b9",
+          "byteLength": 128746,
+          "pageCount": 8,
+          "components": [
+            "mt_mmrta_completed-primary-filing-1",
+            "mt_mmrta_completed-certificate-of-service-2",
+            "mt_mmrta_completed-proposed-order-3",
+            "mt_mmrta_completed-attachment-4",
+            "mt_mmrta_completed-instructions-6"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 1,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 2,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 2,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 3,
+              "component": "mt_mmrta_completed-certificate-of-service-2",
+              "sourcePage": 1,
+              "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+              "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+            },
+            {
+              "packetPage": 4,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 1,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 5,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 2,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 6,
+              "component": "mt_mmrta_completed-attachment-4"
+            },
+            {
+              "packetPage": 7,
+              "component": "mt_mmrta_completed-instructions-6"
+            },
+            {
+              "packetPage": 8,
+              "component": "mt_mmrta_completed-instructions-6"
+            }
+          ],
+          "syntheticNonfilingFixture": true,
+          "filingReady": false,
+          "completeFamily": true,
+          "conditionalDOJ": {
+            "required": false,
+            "included": false,
+            "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+          }
+        },
+        {
+          "fixture": "city-redesignation",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/city-redesignation.pdf",
+          "sha256": "cc819e12abbfa521cfdf0994d42d135bd7498a41bdca9971da32b493942a0c5d",
+          "byteLength": 128489,
+          "pageCount": 8,
+          "components": [
+            "mt_mmrta_completed-primary-filing-1",
+            "mt_mmrta_completed-certificate-of-service-2",
+            "mt_mmrta_completed-proposed-order-3",
+            "mt_mmrta_completed-attachment-4",
+            "mt_mmrta_completed-instructions-6"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 1,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 2,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 2,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 3,
+              "component": "mt_mmrta_completed-certificate-of-service-2",
+              "sourcePage": 1,
+              "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+              "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+            },
+            {
+              "packetPage": 4,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 1,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 5,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 2,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 6,
+              "component": "mt_mmrta_completed-attachment-4"
+            },
+            {
+              "packetPage": 7,
+              "component": "mt_mmrta_completed-instructions-6"
+            },
+            {
+              "packetPage": 8,
+              "component": "mt_mmrta_completed-instructions-6"
+            }
+          ],
+          "syntheticNonfilingFixture": true,
+          "filingReady": false,
+          "completeFamily": true,
+          "conditionalDOJ": {
+            "required": false,
+            "included": false,
+            "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+          }
+        },
+        {
+          "fixture": "expungement-order",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/expungement-order.pdf",
+          "sha256": "f6cb17fa7e28f57d00e8cb37491d289d1df75b166e9846993fe952a0e4a475da",
+          "byteLength": 198925,
+          "pageCount": 10,
+          "components": [
+            "mt_mmrta_completed-primary-filing-1",
+            "mt_mmrta_completed-certificate-of-service-2",
+            "mt_mmrta_completed-proposed-order-3",
+            "mt_mmrta_completed-attachment-4",
+            "mt_mmrta_completed-primary-filing-5",
+            "mt_mmrta_completed-instructions-6"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 1,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 2,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 2,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 3,
+              "component": "mt_mmrta_completed-certificate-of-service-2",
+              "sourcePage": 1,
+              "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+              "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+            },
+            {
+              "packetPage": 4,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 1,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 5,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 2,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 6,
+              "component": "mt_mmrta_completed-attachment-4"
+            },
+            {
+              "packetPage": 7,
+              "component": "mt_mmrta_completed-primary-filing-5",
+              "sourcePage": 1,
+              "sourceSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+              "derivedPrintSha256": "8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc"
+            },
+            {
+              "packetPage": 8,
+              "component": "mt_mmrta_completed-primary-filing-5",
+              "sourcePage": 2,
+              "sourceSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+              "derivedPrintSha256": "8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc"
+            },
+            {
+              "packetPage": 9,
+              "component": "mt_mmrta_completed-instructions-6"
+            },
+            {
+              "packetPage": 10,
+              "component": "mt_mmrta_completed-instructions-6"
+            }
+          ],
+          "syntheticNonfilingFixture": true,
+          "filingReady": false,
+          "completeFamily": true,
+          "conditionalDOJ": {
+            "required": true,
+            "included": true,
+            "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+          }
+        },
+        {
+          "fixture": "boundary-separate-conviction",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary-separate-conviction.pdf",
+          "sha256": "1c50ba986038c52f67abfb1455bdcf0ffd73462330f1643f0d1366d94e6c88d4",
+          "byteLength": 128858,
+          "pageCount": 8,
+          "components": [
+            "mt_mmrta_completed-primary-filing-1",
+            "mt_mmrta_completed-certificate-of-service-2",
+            "mt_mmrta_completed-proposed-order-3",
+            "mt_mmrta_completed-attachment-4",
+            "mt_mmrta_completed-instructions-6"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 1,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 2,
+              "component": "mt_mmrta_completed-primary-filing-1",
+              "sourcePage": 2,
+              "sourceSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+              "derivedPrintSha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7"
+            },
+            {
+              "packetPage": 3,
+              "component": "mt_mmrta_completed-certificate-of-service-2",
+              "sourcePage": 1,
+              "sourceSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+              "derivedPrintSha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3"
+            },
+            {
+              "packetPage": 4,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 1,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 5,
+              "component": "mt_mmrta_completed-proposed-order-3",
+              "sourcePage": 2,
+              "sourceSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+              "derivedPrintSha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64"
+            },
+            {
+              "packetPage": 6,
+              "component": "mt_mmrta_completed-attachment-4"
+            },
+            {
+              "packetPage": 7,
+              "component": "mt_mmrta_completed-instructions-6"
+            },
+            {
+              "packetPage": 8,
+              "component": "mt_mmrta_completed-instructions-6"
+            }
+          ],
+          "syntheticNonfilingFixture": true,
+          "filingReady": false,
+          "completeFamily": true,
+          "conditionalDOJ": {
+            "required": false,
+            "included": false,
+            "predicate": "Received court order grants expungement; redesignation and pending request do not qualify"
+          }
+        }
+      ],
+      "candidateBindings": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/approval-request.json",
+          "sha256": "33c21a260f5474c4f8682e33a443a4a8341631fe2b734abd34fb9ba68074080a",
+          "byteLength": 417
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/build-status.json",
+          "sha256": "80658127a4775df461a51e26db352c0b70bbcd3bd8359684660f1ac0e07dfc81",
+          "byteLength": 235
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/component-set.json",
+          "sha256": "21e4ef3da6bf2d1a96a8cea2cc9d8d585fe5ef4e0af9072fb7cdb08f653f0258",
+          "byteLength": 2584
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary-separate-conviction.pdf",
+          "sha256": "1c50ba986038c52f67abfb1455bdcf0ffd73462330f1643f0d1366d94e6c88d4",
+          "byteLength": 128858
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary-separate-conviction.txt",
+          "sha256": "4fce397a9918d7c93174d2574395c74f4224656b9fb756eac2877cee36231aa4",
+          "byteLength": 19059
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "5c12e9b294427331e555c800a0a7b2bb10e1eb2bbb91f49ea991cf839c52b0b9",
+          "byteLength": 128746
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary.txt",
+          "sha256": "9572c6a18c51481f77e25471cd93398da334977553710fd18aa0f4d10cfc5739",
+          "byteLength": 18999
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+          "byteLength": 128690
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.txt",
+          "sha256": "71018348c16fd6e7660c68ebe75d14f0d36874b100ef6b4f0cb0178aeced9ed5",
+          "byteLength": 18808
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/city-redesignation.pdf",
+          "sha256": "cc819e12abbfa521cfdf0994d42d135bd7498a41bdca9971da32b493942a0c5d",
+          "byteLength": 128489
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/city-redesignation.txt",
+          "sha256": "eaee9371f34cd6331240ca1c3fbc156efbe820e9068456cb1bc62646f538d349",
+          "byteLength": 18779
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/expungement-order.pdf",
+          "sha256": "f6cb17fa7e28f57d00e8cb37491d289d1df75b166e9846993fe952a0e4a475da",
+          "byteLength": 198925
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/expungement-order.txt",
+          "sha256": "366e7dc0e55fb5e19e2e1ad38c10bd48b54ded4d4b6925dc334b885452076011",
+          "byteLength": 22504
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/inputs.json",
+          "sha256": "3dc52f18e5967b8c4cd41a2187fdeab60c768e4ee971ef6ddca3636a7822d869",
+          "byteLength": 13381
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "3b4817098a145e9eff4c469cf678c20840d4f405da88d2d4ca85988b336caae9",
+          "byteLength": 6643
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/production-field-map.json",
+          "sha256": "05cc5771aa0e98690d212d2d88643220df5f72287c9cf2369849de2acc9c562d",
+          "byteLength": 265311
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "b4cf2cb4f606db190e10a1b6420d6b6208fbe74625de21874c166a178a015eeb",
+          "byteLength": 127786
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/adopted-track-input-snapshot.json",
+          "sha256": "2e1f212407e68f06f17d7c84beb1c7511808e87c921dd57a2bdc5590cfef2906",
+          "byteLength": 88715
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "09525f11931b0c805513d45a9543d0af2a51b6217a55c3391ea6c3b0d2eb9ac6",
+          "byteLength": 228448
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "3bf6fab67d0409d539962219d83c605ca9fd5f0ebfc9f9aff9afa8ee9784f16f",
+          "byteLength": 187
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/footer-layout-normalization.json",
+          "sha256": "c977db727b26a34721ba73782411239d8e259ccf385cd0d64aa97cee18481892",
+          "byteLength": 1325
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/order-layout-normalization.json",
+          "sha256": "07429eba9d9b2df3fa2efb7b38a8b060d7b61f1b71d853cea314d59a0997d36e",
+          "byteLength": 555
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "0a4f7b0b7f23a41cce8622e1622bbdd6b1615fce0a8afbb642720975fab8d623",
+          "byteLength": 40060
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/saved-page-geometry-check.json",
+          "sha256": "cdaf7fc3fdfc093cb27050b0e77eb76c92953efe8f796f1fd6708c38e5080582",
+          "byteLength": 109
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/source-fidelity-proof.json",
+          "sha256": "7fc57e194314887230f9f313eb321e4a02cf1dfd5e35aa1fe0c3db618d5c491d",
+          "byteLength": 2092
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/source-stream-preservation-proof.json",
+          "sha256": "a2b52ac45b6465b57210830cb9e5db4141bc9e0bdca7f206311d1c7dd43c238f",
+          "byteLength": 310
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/certificate-unfilled.pdf",
+          "sha256": "93866395bbb574fa3857d6379de8ab73aad7514b4b05a7a8dbe333c7d967c5f3",
+          "byteLength": 32889
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/doj-unfilled.pdf",
+          "sha256": "8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc",
+          "byteLength": 74987
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/form-b-unfilled.pdf",
+          "sha256": "36783ee3f6623d05663b6f1c31e2700343f452e3facab51d8f5e34b160e2fda7",
+          "byteLength": 52500
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/normalized-form-b.docx",
+          "sha256": "fd162dcfbaed21a2e4c6026ee316191a2cf9ef4f950ffca53f0a8428702e8238",
+          "byteLength": 20401
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/normalized-order-footer.docx",
+          "sha256": "9e790de0ab9e0e765d6c6daef0b332c4060bda2526854797e0678e3f220f9a34",
+          "byteLength": 17793
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-derived/proposed-order-unfilled.pdf",
+          "sha256": "9ee5a864f08fb8eb8c29a1653f71d3186188760edddb3342942baa51deae8d64",
+          "byteLength": 52908
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-receipt.json",
+          "sha256": "c72f1cb773204688edca26c9a2284972ec54eb5198a1c7a1164dd4f3585ba3d2",
+          "byteLength": 10666
+        },
+        {
+          "path": "scripts/build-census-v1-mt_mmrta_completed-set.mjs",
+          "sha256": "55d7fa69df16dcbce12762ecfa4acf19a53fe8bc3ba02417facb6984efa9fcc4",
+          "byteLength": 32964
+        }
+      ],
+      "focusedCheck": {
+        "result": "PASS_COMPLETE",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "totals": {
+          "terminalFields": 320,
+          "written": 177,
+          "blank": 143,
+          "blanksByDisposition": {
+            "PROTECTED_FIELD": 47,
+            "NOT_APPLICABLE_ON_THIS_ROUTE": 80,
+            "PARTICIPANT_ELECTION_GENUINE": 15,
+            "OPTIONAL_PARTICIPANT_CONTENT": 1
+          },
+          "rowsInspected": 0,
+          "fieldMapSchema": "maps-with-canonical-and-boundary"
+        },
+        "scope": "Native author check only"
+      },
+      "authorChecks": {
+        "fullSavedRender": "PASS",
+        "savedWriteReadback": "177 actual writes verified on own saved pages",
+        "allSevenStopsSavedReadback": "PASS",
+        "fullPageCoverage": "5fixtures,8+8+8+10+8pages=42; separate fullsets for two boundary convictions",
+        "sourceFidelity": "109 nonempty source leaf paragraphs and45checkboxes retained; exact2pageDOJderivative reused unchanged",
+        "sourceStreams": "27 original derivative page instances preserved byte-for-byte as content streams; additions in separate overlay streams",
+        "savedWordGeometry": "All42pages measured; zero words outside612x792page",
+        "layoutRepairs": "Two empty spacer paragraphs normalized before proposed-order signature; FormB/order footer righttab moved to bodymargin; originals untouched, normalizedDOCXinputs distinctly labeled and hashed",
+        "sourceFieldPreservation": "Outcome/narrative/hearing/attachment elections, newCaseNo, alljudicialfindings andexecution blanks preserved",
+        "independentAcceptance": false,
+        "originalRasterAcceptance": "NOT_RUN"
+      },
+      "protectedFields": "Alljudicialdecisions/date/signature; newCaseNo; FormB narrative/outcome/hearing/actualattachments; serviceexecution andDOJsignature/date remain blank. Sourcecourtlevel/offense selected from ownfixturefacts. DOJ marijuana type only after receivedexpungementorder.",
+      "formatTreatment": "Source-derived prints from exactoriginalDOCX, never represented as originally issuedPDF. Alloriginalsourcecontrols retained. ReusedDOJ2pages; noFD258 onmarijuanarequest.",
+      "nextExecutableAction": "Captain immediate native admission and distinct independent semantic review of exact42pages/currentbindings, thenfreeze andstandardoriginalraster; do not waitotherfamilies.",
+      "finalAcceptance": false,
+      "commercialAuthorityGranted": false
+    }
+  ]
+}
