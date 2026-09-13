@@ -26,9 +26,15 @@ missing charge-description/where-seen facts, and four adopted self-help stops.
 Native vfnc1 failure preserved. Existing worker completed ONE bounded repair at
 21a3cd424d120f061f139df9fc74687fea757037,25 tests PASS, native24/107 writes and
 9counterszero,3+6pages. Transfer: private/transfers/pf05-nc-semantic-repair-20260913/.
-Next: Captain imports this exact repair and freezes it; resolver_review continues
-its already-prepared independent repair review. Do not repeat completed diagnosis
-or rebuild. Fresh visual evidence remains required after semantic PASS.
+Captain imported exact repair at dc0f3d7005; independent vfnc2 semantic PASS
+measures all14 nonvisual obligations. Native full completeness adds only NC;
+all327 prior rows unchanged, all324 terminals preserved. Frozen28792ce373fe;
+one accepted raster dispatch34773855638,2fixtures/9pages,scale2.5. Consume this
+run after shared controls and family succeed; do not redispatch. Protected-ink
+raw-source diagnostic found2242 added pixels outside10write masks (zero lost),
+15/81 unwritten widgets differ. ia_reader_review owns bounded existing zero-write
+normalization comparison; resolver_review owns independent applicability and
+original-page final review. This finding is not yet cleared. PDFs unchanged.
 
 Recovery CLOSED: all4 original histories and exact DE petition restored earlier;
 old recovery Codespace remains stopped. Iowa2families are accepted from original
