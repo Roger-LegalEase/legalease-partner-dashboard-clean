@@ -28,15 +28,15 @@ const attestations = LEGAL_BLOCK_SUPERSESSION_PATHS.map((recordPath) => ({ path:
 const baseResolutions = mergeLegalBlockResolutionRecords(docs);
 const resolutions = loadLegalBlockResolutions(ROOT);
 
-assert.equal(baseResolutions.records.length, 6);
-assert.deepEqual(baseResolutions.records.map((row) => [row.legalClearFamilies, row.legalHoldFamilies]), [[29, 6], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0]]);
-assert.equal(baseResolutions.clearFamilyIds.length, 34);
+assert.equal(baseResolutions.records.length, 7);
+assert.deepEqual(baseResolutions.records.map((row) => [row.legalClearFamilies, row.legalHoldFamilies]), [[29, 6], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0]]);
+assert.equal(baseResolutions.clearFamilyIds.length, 35);
 assert.equal(baseResolutions.holdFamilyIds.length, 6);
-assert.equal(resolutions.records.length, 7);
-assert.equal(resolutions.clearFamilyIds.length, 40);
+assert.equal(resolutions.records.length, 8);
+assert.equal(resolutions.clearFamilyIds.length, 41);
 assert.equal(resolutions.holdFamilyIds.length, 0);
-assert.equal(resolutions.byFamily.size, 40);
-assert.equal(new Set([...resolutions.clearFamilyIds, ...resolutions.holdFamilyIds]).size, 40);
+assert.equal(resolutions.byFamily.size, 41);
+assert.equal(new Set([...resolutions.clearFamilyIds, ...resolutions.holdFamilyIds]).size, 41);
 
 const nh = docs.find(r => r.path.endsWith("NH_STREAMLINED_OWNER_ADOPTION_2026-09-12.json")).document;
 assert.deepEqual(nh.legalClearFamilyIds, ["nh_conviction_streamlined-set"]);
@@ -94,6 +94,36 @@ assert.equal(arDraft.familyId, "ar-veterans-court-set");
 assert.equal(assessLegalResolutionAtReviewBase(ROOT, arDraft.reviewedAtBase, arResolution).available, false,
   "the additive AR owner record was unavailable at the historical draft review base");
 
+const wvAcquittal = docs.find(r => r.path.endsWith("WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json")).document;
+const wvResolution = resolutions.byFamily.get("wv_nc_acquittal_dismissal-set");
+assert.deepEqual(wvAcquittal.legalClearFamilyIds, ["wv_nc_acquittal_dismissal-set"]);
+assert.deepEqual(wvAcquittal.legalHoldFamilyIds, []);
+assert.equal(wvAcquittal.scope, "wv_nc_acquittal_dismissal-set: disposition-specific two-branch implementation under existing §61-11-25; no coverage reduction");
+assert.equal(wvAcquittal.provenance.owner, "Roger Roman");
+assert.equal(wvAcquittal.provenance.ownerAdoption, true);
+for (const key of ["counselApproval", "courtRuling", "packetPass", "terminalPromotion", "productionAuthorization", "commercialAuthority"]) assert.equal(wvAcquittal.provenance[key], false);
+assert.match(wvAcquittal.stateSemantics.LEGAL_CLEAR, /Does not grant counsel\/packet\/raster\/terminal\/commercial\/production approval/);
+assert.equal(wvAcquittal.decisions.length, 1);
+assert.equal(wvAcquittal.decisions[0].decisionId, "WV-ACQUITTAL-DISMISSAL-TWO-BRANCH-OWNER-ADOPTION-20260913");
+assert.equal(wvAcquittal.decisions[0].disposition, "LEGAL_CLEAR");
+assert.deepEqual(wvAcquittal.decisions[0].familyIds, ["wv_nc_acquittal_dismissal-set"]);
+assert.deepEqual(wvAcquittal.decisions[0].adoptedRevisions.map((revision) => revision.number), [1, 2, 3, 4, 5, 6]);
+assert.deepEqual(wvAcquittal.decisions[0].adoptedRevisions.map((revision) => revision.id), [
+  "DISMISSAL_BRANCH",
+  "ACQUITTAL_BRANCH",
+  "SHARED_ROUTE_RULES",
+  "ROUTING",
+  "SOURCE_GOVERNANCE_CORRECTIONS",
+  "ACCEPTANCE"
+]);
+assert.match(wvAcquittal.decisions[0].adoptedRevisions.find((revision) => revision.id === "ACQUITTAL_BRANCH").adoptedText, /certified acquittal order/);
+assert.equal(wvAcquittal.provenance.historicalMeasuredFindingPreserved, true);
+const historicalFinding = fs.readFileSync(path.join(ROOT, wvAcquittal.provenance.measuredIssue.path), "utf8");
+assert.match(historicalFinding, /Status:\*\* open, for Roger/);
+assert.match(historicalFinding, /Grants nothing/);
+assert.equal(wvResolution.familyId, "wv_nc_acquittal_dismissal-set");
+assert.equal(wvResolution.disposition, "LEGAL_CLEAR");
+
 const permissionFamily = "ks-22-2410-arrest-set";
 const permissionRecord = {disposition:"PRODUCT_PATH_PENDING", permissionHold:"Kansas Judicial Council noncommercial-use and republication restriction", productQuestion:null, unresolvedObligations:[]};
 const permissionResolution = resolutions.byFamily.get(permissionFamily);
@@ -127,7 +157,7 @@ mustRefuse("clear and hold overlap", (copy) => {
 }, /clear\/hold lists overlap/);
 
 const exactSupersession = applyLegalResolutionSupersessions(baseResolutions, attestations);
-assert.equal(exactSupersession.clearFamilyIds.length, 40);
+assert.equal(exactSupersession.clearFamilyIds.length, 41);
 assert.equal(exactSupersession.holdFamilyIds.length, 0);
 for (const familyId of baseResolutions.holdFamilyIds) {
   const effective = exactSupersession.byFamily.get(familyId);
@@ -279,7 +309,7 @@ if (process.argv.includes("--generated")) {
   assert.ok(stateDelta.every((family) => inScope.has(family.familyId)));
   assert.equal(active.assignments.length > 0, true);
   assert.equal(Array.isArray(ledger.claims), true);
-  console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 40 legally clear; SC source/product gates preserved`);
+  console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 41 legally clear; SC source/product gates preserved`);
 }
 
-console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 40 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");
+console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 41 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");

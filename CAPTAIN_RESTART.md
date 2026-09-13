@@ -8,7 +8,7 @@ This note records locations; it is not a backup of referenced bytes.
 
 Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
-Latest committed/pushed checkpoint before this note: f3486d8921c0e9f17629d8ff4d2dbfef636fef3c.
+Latest completed checkpoint before this note: dc6e4b148e605e5deedf7fabb97a0ea1080931cd.
 Current HEAD advances through the commit containing this note.
 **312/346 terminal** after full native KY integration; all prior311 preserved.
 Act346 and NH remain closed. No production/commercial authority changed.
@@ -75,7 +75,11 @@ General disk-heavy Captain pause remains; budgeted integration allowed.
 PF05 native worktree on worker:
 /workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf05-ut-cannabis-resume-20260913
 branchpf05-ut-cannabis-resume-20260913, base7f50087dcb66ba2fd4a2ee6b164d128b37b41d43.
-Saved uncommitted repair and generated outputs preserved. PF05 is resuming repair.
+PF05 completed native repair: candidate e1be5a7909118b554b953ee9cbe3de22703d1796,
+return commit b0a13b09a0a5540a7fee1e420050d195d60e6bdb. Saved PDFs frozen for VFUT1
+independent semantic review by act346_order_review; no raster yet. Native author
+checks all nine counters0, canonical/boundary12pages each. Author is publishing
+worker branch and transferring return; Captain must verify remote/transfer before integration.
 Claims sd_caption/PF05 and review_wa/VFUT1 unchanged; independent review required.
 5sources +1642dependencyfiles independently verified, wrappers bound on destination.
 Exactsource/runtimepaths: pf05/relocation-manifest-pf05-ut-cannabis-20260913.json;
@@ -85,10 +89,15 @@ Old Captain PF05 checkout retired via nonforce git worktree remove after preserv
 branch/history retained, only obsolete symlinks detached, targets untouched.
 Receipt pf05/relocation-retirement-receipt-20260913.json;2993635328bytes recovered.
 
-Other active assignments: PF20 reads saved Kansas work for exact build handoff;
-ut_preflight_repair owns only two preflight code/test files, addressing three
-CHANGES_REQUIRED findings; act346_order_review independently reviews its delta.
-resume_vfar1 reads held WV nonconviction source/adopted decisions for exact route mapping.
+Other active assignments: PF04 builds AR veterans in second isolated worktree on
+existing finish-worker; source/runtime/provision receipt pending. PF20 independently
+reviews frozen WV owner-registration delta, then resumes Kansas build when budgetfits.
+UT juvenile resolver fixed/reviewed/committed7bc17e7dd: family source1/1binds; full
+Captain preflight still fails preserved dirtyworktree and5absent sampled inputs.
+Exact missing paths/hashes: pf20/ut-juvenile-current-preflight-20260913.json.
+resume_vfar1 prepares WV source-layout/index correction patch only; Captain applies.
+AR owner registration independently reviewed and committed2395591ec.
+WV owner record92f02f8c1 adopted; additive registration frozen for independent review.
 Do not duplicate these assignments. Review and integration retain priority.
 
 ## Remaining local blockers and preservation
@@ -115,15 +124,15 @@ Current truth file remains dirty/uncommitted; further scopedchecks use --no-writ
 | --- | --- | --- | --- |
 | ar-veterans-court-set | Implement adopted ten-part owner direction, saved-byte/component/branch checks, then independent semantics | PF04 implementation; independent VF44 destination | Product-design questions resolved by actual owner direction2026-09-13. Post-adjudication instrument gap is participant-specific handoff. Ordinary acceptance gates remain. |
 | ca-diversion-seal-set | Build the San Diego County-scoped packet from the exact CRM-307 binding, then return it for independent review. | PF06 | None in the current source return beyond the PF06 build and ordinary completeness, raster, and independent-review gates. |
-| census-pending-family:UT:path-m-juvenile-expungement | Finish three preflight review corrections, independent delta review, then bounded build | ut_preflight_repair; act346_order_review; PF01 | Exact 1174XX source already held/admitted. Resolver needs containment/conflict guards and hermetic negative test. |
+| census-pending-family:UT:path-m-juvenile-expungement | Complete build in suitable isolated environment using reviewed resolver | PF01 next slot | Exact source binds; Captain global preflight fails preserved dirty work and5missing sampled corpus inputs, recorded individually. |
 | composed-treatment:nc_146_dismissal_petition | Build from the exact bound AOC-CR-287, instructions, and AOC-CV-226 inputs, preserving the composed treatment, then return for review. | PF12 | None in the current queue/source binding beyond the PF12 build and ordinary acceptance gates. |
 | fl-expunction-set | Build the expunction route from the exact FDLE40-021 binding and Rule 3.989 composed pleadings; preserve all participant branches and fee instructions. | PF19 | None in the current source reconciliation beyond the PF19 build and ordinary acceptance gates. |
 | fl-sealing-set | Build the sealing route from the exact FDLE40-021 binding and Rule 3.989 composed pleadings; preserve all participant branches and fee instructions. | PF01 | None in the current source reconciliation beyond the PF01 build and ordinary acceptance gates. |
 | ia-12346-set | Build from the exact Form 3 binding and render its embedded certification section as part of the filing flow. | PF23 | None in the current source reconciliation; the recorded determination treats the certification as an embedded section, not a missing standalone document. |
 | ia-901c3-set | Build from the exact Form 2 binding, composing its embedded certification and optional filer-created continuation sheet. | PF07 | None in the current source reconciliation; the recorded determination treats the continuation as filer-created content, not a missing official source document. |
 | il-prb-cert-set | Build the four owner-custodied PRB application/acknowledgment instruments; keep EXP-AD Request only on the downstream court-petition stage. | PF16 | None in the current source-wave custody. Older locator-only source-resolution entries are superseded by the exact-byte PRB recovery return; PF16 must consume the current bound set and preserve the route split. |
-| ks-22-2410-arrest-set | Consume saved-work build handoff with recovered exact sources; then complete native build and independent review | PF20, Captain integration | Four formerly missing KJC PDFs recovered and hash-verified; no remaining four-source custody gap. Candidate status awaits current handoff. |
-| ks-22-4908-registration-relief-set | Consume saved-work build handoff with recovered exact sources; then complete native build and independent review | PF20, Captain integration | Four formerly missing KJC PDFs recovered and hash-verified; no remaining four-source custody gap. Candidate status awaits current handoff. |
+| ks-22-2410-arrest-set | Complete native build from saved PF20 handoff and admitted six exact inputs, then independent semantics | PF20 next implementation slot | No existing candidate. Four missing PDFs recovered; source-index admission independently PASS atdc6e4b148. |
+| ks-22-4908-registration-relief-set | Complete native build from saved PF20 handoff and admitted six exact inputs, then independent semantics | PF20 next implementation slot | No existing candidate. Four missing PDFs recovered; source-index admission independently PASS atdc6e4b148. |
 | ky_felony_expungement_after_pardon-set | Build the AOC-496.3 route, carrying full pardon as an eligibility branch and attaching the pardon as required; do not create a separate pardon instrument. | PF03 | None in the adopted legal resolution beyond the PF03 build and ordinary acceptance gates. The stale route-election hold is retired by the current KY-FULL-PARDON-AOC-496-3 rule. |
 | mo-575-120-identity-theft-correction-set | Build with the shared exact FI-05 source and the bound CR300, CR310, and GN10 component strategy; return all required participant and filing instructions. | PF10 | None in the current queue source binding beyond the PF10 build. Historical CR310 locator and GN10 DOCX format caveats must be preserved in the build return; no fresh source hunt or silent conversion is authorized. |
 | mo-610-122-arrest-expungement-set | Build with the shared exact FI-05 source and the already-bound route forms; return the complete candidate for independent review. | PF09 | None in the current queue source binding beyond the PF09 build. Historical source-format/locator caveats do not authorize a new hunt or silent conversion. |
@@ -140,7 +149,7 @@ Current truth file remains dirty/uncommitted; further scopedchecks use --no-writ
 | rcap-oh-custom-pleading-clean-tracks | Bind statewide composed routes versus local-court application routes, split delivery types where required, and route the exact missing local application, caption, and filing instructions to source work before a live filing component set is claimed. | CAPTAIN | Current VF32 independent review is BLOCKED_LEGAL_INPUT on COMPONENT_SET: the drafts and BCI companion exist, but local-court application/caption/instructions and route-family binding are unresolved. The packet is rendered and complete by counters, which does not discharge this product-path gate. |
 | rcap-sc-custom-pleading | Keep the custom replacement closed and bind the mandatory SCCA-223A1 official delivery type or preserve the family as nonterminal; then run the required downstream gates for the corrected route. | CAPTAIN / owner delivery gate | Adopted owner decision OWN-DT-2026-09-02-SC-223A1 refuses replacing the mandatory SCCA-223A1 GS order with this custom pleading and keeps checkout disabled. The adopted SC fee treatment remains separate ($250 solicitor, $25 SLED when applicable, $35 clerk when applicable); the SCCA223C custody issue is tracked separately and is not a legal waiver. |
 | tx_nd_dwi_conviction-set | Build from the three separately bound Texas components and return the complete candidate for independent review. | PF22 | None in the current source reconciliation beyond the PF22 build and ordinary acceptance gates. |
-| ut_pet_cannabis-set | Finish saved caption/completeness repair on existing finish-worker | sd_caption/PF05; review_wa/VFUT1 | Native FAIL_MISSING_REQUIRED_FACTS: 2 missing, 7 uncollected, 6 unclassified. Source/runtime verified. |
+| ut_pet_cannabis-set | Independent VFUT1 semantic review of frozen e1be5a79 candidate, then current-byte raster | review_wa/VFUT1 resumed by act346_order_review; Captain dispatch | Native repair complete, all9counters0; no raster/final acceptance yet. Preserve frozen worker checkout. |
 | ut_pet_remove_link-set | Implement the clerk/court-confirmed judgeOrCommissioner selector and builder, then exercise both exact branches and the fail-closed ambiguous case. | PF01 | No source bytes are missing under the current UT disposition. The family has no builder/artifacts yet and must use Judge = 1501CR + 1502CR + 1110GE or Commissioner = 1501CR-C + 1502CR + 1111GE; otherwise STOP configuration_ambiguous / clerk-confirmation-required. |
 | wa_blake_vacatur_and_lfo_refund-set | Build from exact BLAKE-001, BLAKE-002, and BLAKE-005 bindings, resolving their packet component selection as mapping, then return for independent review. | CAPTAIN / PF24 | None in current source custody. The bounded mapping question is whether BLAKE-002 is the courts-limited-jurisdiction alternative or a separate refund component; resolve it in the build return without new source acquisition. |
 | wa_vac_homicide_victim_prostitution-set | Resolve the current route-specific component and prefill question under RCW 9.96.060(7), update the held route-specific candidate if required, and send the corrected current bytes through independent review. | CAPTAIN / bounded VF34 resolution, then independent review | VF34 is BLOCKED_LEGAL_INPUT on COMPONENT_SET, KNOWN_PREFILLS, and ROUTE_OPTIONS: the existing CrRLJ set does not establish a distinct family-member pleading, applicant/victim field placement, or a valid printed-ground election. The adopted WA decision requires the route-specific petition/order and forbids forcing it into the ordinary residual box. |
