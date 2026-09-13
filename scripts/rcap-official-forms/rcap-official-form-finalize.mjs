@@ -8,7 +8,7 @@
 // one, because an intermediate is not what gets filed.
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
-import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt, protectCategoryOf } from "./rcap-field-semantics.mjs";
+import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt, protectCategoryOf, PROTECT_RULES } from "./rcap-field-semantics.mjs";
 import { fitTextToWidget, applyFitToTextField, wrapToWidth, usableWidthOf, MIN_READABLE_FONT_SIZE, DEFAULT_MAX_FONT_SIZE }
   from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
@@ -1539,8 +1539,28 @@ export async function finalizeOfficialForm({
 
     const entries = names.map((name) => census.find((f) => f.name === name) ?? null);
     if (entries.some((e) => !e)) { refuseAll("narrative_line_absent_from_census"); continue; }
-    const protectedLine = names.find((name, i) =>
-      protectCategoryOf(entries[i].effectiveLabel ?? name) ?? protectCategoryOf(name));
+    // A family may explicitly identify a participant-stated field whose
+    // printed wording contains a protected token (for example, a petitioner
+    // must state a conviction date even though the word "conviction" is also
+    // used for court-owned disposition fields). This is a narrow, per-field
+    // opt-in; the ordinary narrative path remains deny-first, and every
+    // category not named by the family remains protected.
+    const allowedProtectedCategories = new Set(
+      (Array.isArray(narrative?.allowProtectedCategories) ? narrative.allowProtectedCategories : []).map(String)
+    );
+    const knownProtectedCategories = new Set(PROTECT_RULES.map(([category]) => category));
+    const unknownProtectedCategories = [...allowedProtectedCategories].filter((category) => !knownProtectedCategories.has(category));
+    if (unknownProtectedCategories.length > 0) {
+      refuseAll("narrative_has_unknown_protected_category", { unknownProtectedCategories });
+      continue;
+    }
+    const protectedLine = names.find((name, i) => {
+      const categories = [
+        protectCategoryOf(entries[i].effectiveLabel ?? name),
+        protectCategoryOf(name)
+      ].filter(Boolean);
+      return categories.some((category) => !allowedProtectedCategories.has(category));
+    });
     if (protectedLine) { refuseAll("protected_category", { protectedLine }); continue; }
     if (names.some((name) => alreadyWritten.has(name) || unwritableByRole.has(name))) {
       refuseAll("narrative_line_already_written_or_unwritable"); continue;
