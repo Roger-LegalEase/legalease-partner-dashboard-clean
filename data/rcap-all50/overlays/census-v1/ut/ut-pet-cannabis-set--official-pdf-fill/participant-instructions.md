@@ -7,7 +7,7 @@ platform does not hold the value, and it is not guessed: a guessed arresting
 agency is worse than a blank one, because the blank is visible and the guess is
 not. Complete each one by hand before you file.
 
-Required before filing: 30 field(s).
+Required before filing: 30 field(s), plus 9 route-specific action(s).
 
 ## 1003EX
 
@@ -45,6 +45,20 @@ Required before filing: 30 field(s).
 - Utah District Court Cover Sheet for Civil Actions (Not for Probate and Domestic Relations Cases) · Name Name (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - $50 [ ] Petition for Adjudication of Priority to (page 2) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - Funds on Trustee's Sale (page 2) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+## Route-specific required actions before filing
+
+The committed route record also requires every action below. LegalEase does not determine these facts; obtain the records, compare your answers, and correct the packet yourself before you sign or file.
+
+- Obtain and attach medical records or a clinician's letter establishing the qualifying condition at the time of the arrest or citation. Ask the clinician who treated the condition for records covering that date. LegalEase never receives, inspects, or authenticates these records and does not judge whether they establish the condition; the participant attaches them and the court weighs them.
+- Check your answer to the qualifying-condition question against the medical records or clinician's letter establishing the condition at the time of the arrest or citation, and correct the packet if they disagree.
+- Obtain the charging document, police report, or laboratory report describing the cannabis form and amount. Ask the clerk of the court that entered the conviction or the arresting agency for the charging document and any laboratory report; LegalEase does not decide what those records prove.
+- Check your answer to the form-and-amount question against the charging document, police report, or laboratory report, and correct the packet if they disagree.
+- Obtain a certified copy of the judgment of conviction from the clerk of the court that entered the conviction. It carries the conviction date and the offense as charged.
+- Check the conviction date in the packet against the certified judgment of conviction, and correct the packet if they disagree.
+- Before signing and filing, verify the qualifying-condition showing: you had a qualifying condition at the time of the arrest or citation.
+- Before signing and filing, verify the allowed-form showing: the cannabis was in a form allowed by Utah law under 26-61a-102.
+- Before signing and filing, verify the amount showing: it did not exceed 113 grams of unprocessed cannabis in a medicinal dosage form or 20 grams of total composite tetrahydrocannabinol in a cannabis product in medicinal dosage form.
+
 
 Signature, signature date, and any certificate of mailing are deliberately left
 blank and are not listed here: you sign them, and a certificate of mailing is
@@ -52,13 +66,17 @@ completed after mailing has happened.
 
 ## Where you file this
 
-**File this packet in the Utah district court for the case shown on the judgment.** Copy the court, county, case number, and charge exactly from the certified judgment; do not reconstruct them from memory.
+**File this packet in the Utah district or justice court that decided the criminal case.** Copy the court, county, case number, and charge exactly from the certified judgment; do not reconstruct them from memory.
+
+**If the court that decided the case no longer exists, file in the court that would have jurisdiction if the case were filed today.** Confirm the current court and county with the clerk before filing.
+
+**If charges were never filed, file in the district court in the county where the arrest occurred; for a traffic matter, file in the court where the citation was received.** These are the committed route's fallback branches; a cannabis conviction normally uses the court that entered the conviction.
 
 This route is the cannabis-possession petition that proceeds without a BCI certificate of eligibility. It is not the ordinary certificate-based Utah expungement route.
 
 ## What it costs, and what to do if you cannot pay
 
-**Confirm the current civil filing fee with the clerk of that district court before filing.** The held route materials do not establish one immutable statewide dollar amount for this filing, so this packet does not invent one.
+**Confirm the current civil filing fee with the clerk of that district or justice court before filing.** The held route materials do not establish one immutable statewide dollar amount for this filing, so this packet does not invent one.
 
 If you cannot pay, ask that clerk for the current Utah fee-waiver process before filing.
 
@@ -66,7 +84,13 @@ If you cannot pay, ask that clerk for the current Utah fee-waiver process before
 
 The ordinary petitioner does not complete the prosecutor Acceptance of Service or Consent and Waiver. Those companion forms belong to the prosecutor after receipt and are left untouched.
 
-Follow the court clerk current filing-copy instructions. Do not sign, date, or complete a prosecutor response in advance.
+**The court sends the filing to the prosecuting attorney. The prosecutor has 35 days to respond, the victim has 60 days to respond, and the court waits 60 days. If a response or objection is served on you, you may reply within 14 days.**
+
+**Adult Probation and Parole (AP&P) may be ordered to respond.** When AP&P responds, the response is served on the parties and the parties have another 14-day reply period.
+
+**Proof of Service is conditional and optional:** use it only if the prosecutor's office will not accept service from the court and the court directs you to use it. Complete or sign a Proof of Service only after the service it records actually occurs.
+
+Do not apply general civil service rules to this route; they would import a summons, a process server, and a 120-day deadline that this track does not have. Do not sign, date, or complete a prosecutor response in advance.
 
 ## Stop, and take this to a lawyer, if any of these is true
 
@@ -79,7 +103,11 @@ Follow the court clerk current filing-copy instructions. Do not sign, date, or c
 - you seek to expunge appellate records;
 - you cannot establish the qualifying medical condition with medical records or a clinician letter;
 - you cannot establish the cannabis form and amount from charging, police, or laboratory records;
-- the record involves distribution, cultivation, or intent rather than possession.
+- the record involves distribution, cultivation, or intent rather than possession;
+- the criminal case is unfinished or still open;
+- you still owe unpaid fines, fees, restitution, or interest on the case;
+- you have a pending criminal case other than a traffic case;
+- you are currently incarcerated, on probation, or on parole.
 
 ## What this relief is, and is not
 
