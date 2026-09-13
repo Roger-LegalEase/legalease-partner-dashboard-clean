@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+  "requiredBeforeFiling": [],
+  "protectedBlanks": [
+    {
+      "field": "p1-case-number",
+      "label": "Case Number (court use)",
+      "why": "Court, clerk, prosecutor, agency, or hearing field is completed by the court."
+    },
+    {
+      "field": "p1-judge",
+      "label": "Judge (court use)",
+      "why": "Court, clerk, prosecutor, agency, or hearing field is completed by the court."
+    },
+    {
+      "field": "p2-signed-at",
+      "label": "Signed at (city, state or country)",
+      "why": "Signature and date are completed by the participant; never prefilled."
+    },
+    {
+      "field": "p2-signature",
+      "label": "Signature",
+      "why": "Signature and date are completed by the participant; never prefilled."
+    },
+    {
+      "field": "p2-date",
+      "label": "Date (signature block)",
+      "why": "Signature and date are completed by the participant; never prefilled."
+    },
+    {
+      "field": "p2-printed-name",
+      "label": "Printed Name (signature block)",
+      "why": "Signature and date are completed by the participant; never prefilled."
+    }
+  ],
+  "conditionalBranches": [
+    {
+      "field": "p1-age-under-18",
+      "label": "[ ] under 18 years of age",
+      "why": "The verified fixture takes the over-18 branch; the under-18 age-waiver branch is not applicable on this route."
+    },
+    {
+      "field": "p1-represented",
+      "label": "[ ] represented",
+      "why": "The verified fixture takes the not-represented branch; the represented branch is not applicable on this route."
+    },
+    {
+      "field": "p1-age-waiver-choice",
+      "label": "[ ] Under 18 years old",
+      "why": "The verified fixture takes the adult branch; the under-18 age-waiver choice is not applicable on this route."
+    },
+    {
+      "field": "p1-age-waiver-reason",
+      "label": "Question 2 under-18 age waiver explanation",
+      "why": "The adult branch is selected, so the under-18 age-waiver explanation is not applicable on this route."
+    },
+    {
+      "field": "p2-one-year-waiver-choice",
+      "label": "[ ] judge waive one-year requirement",
+      "why": "The verified fixture takes the one-year-elapsed branch; the waiver choice is not applicable on this route."
+    },
+    {
+      "field": "p2-one-year-waiver-reason",
+      "label": "Question 3 one-year waiver explanation",
+      "why": "The one-year-elapsed branch is selected, so the waiver explanation is not applicable on this route."
+    },
+    {
+      "field": "p2-violent-felony-yes",
+      "label": "[ ] been convicted of a violent felony",
+      "why": "The verified record takes the no-violent-felony branch; the contrary selection is not applicable on this route."
+    },
+    {
+      "field": "p2-pending-yes",
+      "label": "[ ] pending delinquency or criminal proceedings",
+      "why": "The verified record takes the no-pending-proceedings branch; the contrary selection is not applicable on this route."
+    },
+    {
+      "field": "p2-restitution-no",
+      "label": "[ ] I have not satisfied restitution",
+      "why": "The verified record takes the restitution-satisfied branch; the contrary selection is not applicable on this route."
+    },
+    {
+      "field": "p2-murder-yes",
+      "label": "[ ] been adjudicated for murder or aggravated murder",
+      "why": "The verified record takes the no-murder-adjudication branch; the contrary selection is not applicable on this route."
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true
+}

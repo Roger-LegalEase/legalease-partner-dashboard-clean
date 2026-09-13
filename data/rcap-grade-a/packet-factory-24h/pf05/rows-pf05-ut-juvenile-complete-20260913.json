@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF05",
+  "laneKind": "packet-build",
+  "baseSha": "05ac5b45c",
+  "headShaAtReturn": "21e427a00",
+  "headShaAtReturnIs": "candidate implementation and generated evidence are frozen at this commit; this native return is written alongside it",
+  "isIndependentVerification": false,
+  "writtenAlongsideRatherThanOver": true,
+  "rows": [
+    {
+      "itemId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "PF05"
+      ],
+      "buildCommit": "21e427a00",
+      "implementationCommit": "21e427a00",
+      "completion": "Built the two-page Utah 1174XX Petition to Expunge Juvenile Court Records from the exact admitted source bytes. The candidate measures the source anchors, fills the held participant/court/caption facts and selected eligibility controls, leaves court-owned and execution fields protected, and remains disabled for runtime and commercial delivery pending central raster and independent review.",
+      "jurisdiction": "UT",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:ordinary_petition_branch"
+      ],
+      "buildScript": "scripts/build-census-v1-census-pending-family:UT:path-m-juvenile-expungement.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill",
+      "changedScope": {
+        "builder": "scripts/build-census-v1-census-pending-family:UT:path-m-juvenile-expungement.mjs",
+        "generatedFiles": [
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/approval-request.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/build-status.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/packet-set-manifest.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/reports/completeness-counters.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/source-receipt.json"
+        ],
+        "durableEvidenceFiles": [
+          "data/rcap-grade-a/packet-factory-24h/pf05/rows-pf05-ut-juvenile-complete-20260913.json"
+        ],
+        "sharedGovernanceFilesChanged": [],
+        "sourceBytesCommitted": false,
+        "localRasterPages": 0
+      },
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/source-receipt.json",
+        "allSourcesExact": true,
+        "sources": [
+          {
+            "sourceId": "official-form:1174XX",
+            "documentId": "1174XX",
+            "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+            "byteLength": 128760,
+            "pageCount": 2,
+            "custody": "tracked_reference"
+          }
+        ],
+        "sourceAdmission": "data/rcap-grade-a/packet-factory-24h/pf20/ut-juvenile-source-return-20260913.json"
+      },
+      "terminalFields": 35,
+      "written": 19,
+      "protectedOrConditionalBlanks": 16,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "focusedCompletenessCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family census-pending-family:UT:path-m-juvenile-expungement",
+      "focusedCompleteness": "PASS_COMPLETE — 19/35 written; all nine counters zero",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "faebbde6fdbfdb90078e0a6d090813b74bef373a2ee277f29284e5119a726a85",
+          "byteLength": 148042,
+          "pageCount": 2
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "6231956bf23bfe282da1ca303455678920b4ba92902bd512939f78183f97fa07",
+          "byteLength": 148193,
+          "pageCount": 2
+        }
+      ],
+      "determinism": "Rebuild with --no-raster reproduced both fixture SHA-256 values byte-for-byte.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "claimLedger": {
+        "changed": false,
+        "note": "The existing live PF01 claim was not edited in this worker; Captain transfer must reconcile lane ownership before central raster dispatch."
+      }
+    }
+  ],
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "familiesRemaining": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
