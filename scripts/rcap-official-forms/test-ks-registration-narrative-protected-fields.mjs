@@ -62,4 +62,19 @@ const stillProtected = await finalizeOfficialForm({
 assert.equal(stillProtected.report.written.length, 0);
 assert.ok(stillProtected.report.refused.some((row) => row.reason === "protected_category"));
 
-console.log("PASS Kansas narrative protected-field opt-in: default deny, exact category opt-in, unknown category rejection, and residual protection");
+for (const effectiveLabel of ["Judge signature", "Prosecutor signature", "Judge prosecutor signature"]) {
+  const mixedProtected = await finalizeOfficialForm({
+    sourceBytes: original.bytes, expectedSha256: digest(original.bytes), census: census(effectiveLabel),
+    facts, narrativeAcrossFields: [{
+      factId: "matter.conviction_date", fields: ["Date"],
+      allowProtectedCategories: ["signature"]
+    }]
+  });
+  assert.equal(mixedProtected.report.written.length, 0, effectiveLabel);
+  assert.ok(
+    mixedProtected.report.refused.some((row) => row.reason === "protected_category"),
+    effectiveLabel
+  );
+}
+
+console.log("PASS Kansas narrative protected-field opt-in: default deny, exact category opt-in, unknown category rejection, residual protection, and mixed signature/court/prosecutor protection");

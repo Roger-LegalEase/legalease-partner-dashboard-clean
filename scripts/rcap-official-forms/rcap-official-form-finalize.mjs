@@ -8,7 +8,10 @@
 // one, because an intermediate is not what gets filed.
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
-import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt, protectCategoryOf, PROTECT_RULES } from "./rcap-field-semantics.mjs";
+import {
+  decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt,
+  protectCategoryOf, PROTECT_RULES, haystack, statedSubjectExemptions
+} from "./rcap-field-semantics.mjs";
 import { fitTextToWidget, applyFitToTextField, wrapToWidth, usableWidthOf, MIN_READABLE_FONT_SIZE, DEFAULT_MAX_FONT_SIZE }
   from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
@@ -1554,11 +1557,20 @@ export async function finalizeOfficialForm({
       refuseAll("narrative_has_unknown_protected_category", { unknownProtectedCategories });
       continue;
     }
+    const allProtectedCategoriesOf = (subject) => {
+      const exemptions = statedSubjectExemptions(subject);
+      return PROTECT_RULES
+        .filter(([category, pattern]) => !exemptions.has(category) && pattern.test(haystack(subject)))
+        .map(([category]) => category);
+    };
     const protectedLine = names.find((name, i) => {
-      const categories = [
-        protectCategoryOf(entries[i].effectiveLabel ?? name),
-        protectCategoryOf(name)
-      ].filter(Boolean);
+      // `protectCategoryOf` intentionally reports the first matching category.
+      // Narrative opt-in is narrower: permitting `signature` must not hide a
+      // later `court` or `prosecutor` match in the same printed label/name.
+      const categories = [...new Set([
+        ...allProtectedCategoriesOf(entries[i].effectiveLabel ?? name),
+        ...allProtectedCategoriesOf(name)
+      ])];
       return categories.some((category) => !allowedProtectedCategories.has(category));
     });
     if (protectedLine) { refuseAll("protected_category", { protectedLine }); continue; }

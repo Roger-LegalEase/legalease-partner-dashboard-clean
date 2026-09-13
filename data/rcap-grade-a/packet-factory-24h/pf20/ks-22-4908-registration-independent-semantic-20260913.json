@@ -544,6 +544,410 @@
     "existingTest": "scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs passes current cases but does not cover mixed Judge/Prosecutor signature labels.",
     "requiredRepair": "Make narrative protection evaluate every matching protected category (or equivalent narrow residual check) and add mixed-label negative tests while preserving unknown-category rejection, default deny, exact opt-in and unrelated behavior.",
     "packetImpact": "Frozen PF20 candidate uses intended single-category opt-ins and has zero protected writes in actual-write/native completeness evidence. Shared helper defect must be repaired and independently tested before generic opt-in is relied on for future candidates or treated as PASS.",
-    "reviewerDidNotModifySharedCode": true
+    "reviewerDidNotModifySharedCode": true,
+    "postRepair": {
+      "status": "PASS_POST_REPAIR",
+      "reviewedAt": "2026-09-13T08:14:40.248Z",
+      "actualHeadAtReview": "ac2ffbc3d4879f1b34b5aaebda8974835938a64a",
+      "historicalDefect": "The prior independent review found that protectCategoryOf returned only the first matching category, allowing an allowed signature category to hide court/prosecutor protection in mixed labels.",
+      "implementationReviewed": {
+        "changedPaths": [
+          "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+          "scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs"
+        ],
+        "finalizer": {
+          "path": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+          "sha256": "309f69994b578ec0442ef53ccbb78020be347a9e893cae39724ab602c5117a21",
+          "bytes": 95824
+        },
+        "focusedTest": {
+          "path": "scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs",
+          "sha256": "40c9494f157ee44e81df93293a2fd329da7f26fce1fbc2f6ef411f9cc5984b91",
+          "bytes": 3596
+        },
+        "fieldSemanticsUnchanged": true,
+        "behavior": "The narrative path now scans every PROTECT_RULES match for both effectiveLabel and field name, applies statedSubjectExemptions per subject, deduplicates categories, and refuses any category not explicitly allowed. Ordinary protectCategoryOf paths remain unchanged."
+      },
+      "focusedEvidence": {
+        "command": "node scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs",
+        "exitStatus": 0,
+        "result": "PASS: default deny, exact category opt-in, unknown category rejection, residual protection, and mixed signature/court/prosecutor protection",
+        "cases": [
+          {
+            "label": "Judge signature",
+            "allow": [
+              "signature"
+            ],
+            "result": "refused protected_category"
+          },
+          {
+            "label": "Prosecutor signature",
+            "allow": [
+              "signature"
+            ],
+            "result": "refused protected_category"
+          },
+          {
+            "label": "Judge prosecutor signature",
+            "allow": [
+              "signature"
+            ],
+            "result": "refused protected_category"
+          },
+          {
+            "label": "Conviction date",
+            "allow": [
+              "disposition_or_hearing"
+            ],
+            "result": "writes as the explicit narrow opt-in"
+          },
+          {
+            "label": "Judge conviction date",
+            "allow": [
+              "disposition_or_hearing"
+            ],
+            "result": "refused protected_category"
+          },
+          {
+            "label": "Conviction date",
+            "allow": [
+              "made_up_category"
+            ],
+            "result": "refused narrative_has_unknown_protected_category"
+          },
+          {
+            "label": "Conviction date",
+            "allow": [],
+            "result": "refused protected_category"
+          }
+        ]
+      },
+      "regressionEvidence": [
+        {
+          "command": "node scripts/rcap-official-forms/d0-canary-verify.mjs",
+          "exitStatus": 0,
+          "result": "PASS: 107 checks across 4 canaries and 6 mutations; tracked evidence unchanged"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/test-standard-font-fit-fallback.mjs",
+          "exitStatus": 0,
+          "result": "PASS: 25 assertions"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/test-standard-14-metrics.mjs",
+          "exitStatus": 0,
+          "result": "PASS: all controls passed"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs",
+          "exitStatus": 0,
+          "result": "PASS"
+        }
+      ],
+      "dependencyComparison": {
+        "candidateAndSourceBytesUnchanged": true,
+        "comparedArtifacts": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+            "actualSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "2aa9a8e548a946b17742dc6ed0e88b53782aab33279c2aa354a421838bc9bc22",
+            "actualSha256": "2aa9a8e548a946b17742dc6ed0e88b53782aab33279c2aa354a421838bc9bc22",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/participant-facts.json",
+            "expectedSha256": "e8ea557f93a179383427041a6908d9fbf17fcb7137a2850e922caf7f6bb2e9d6",
+            "actualSha256": "e8ea557f93a179383427041a6908d9fbf17fcb7137a2850e922caf7f6bb2e9d6",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/participant-instructions.md",
+            "expectedSha256": "03903fec86ffdce62670809464fdddd995e2ed75ab20ce13f137bf58289e2cfb",
+            "actualSha256": "03903fec86ffdce62670809464fdddd995e2ed75ab20ce13f137bf58289e2cfb",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/production-field-map.json",
+            "expectedSha256": "29f62bf273a8f016ce221072322f9dbf5aa85e52462dd1da44679b79e8ee0c7a",
+            "actualSha256": "29f62bf273a8f016ce221072322f9dbf5aa85e52462dd1da44679b79e8ee0c7a",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/source-receipt.json",
+            "expectedSha256": "c3cbda91ffe2fcbfc1958108b8887121adab0f2feb9eaf6f1046b341013dff5d",
+            "actualSha256": "c3cbda91ffe2fcbfc1958108b8887121adab0f2feb9eaf6f1046b341013dff5d",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "expectedSha256": "da3a3600ced8b4f4542329ba85f48aa70e496acdeb9076fe190d8b9ccbccb9f4",
+            "actualSha256": "da3a3600ced8b4f4542329ba85f48aa70e496acdeb9076fe190d8b9ccbccb9f4",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/reports/actual-writes.json",
+            "expectedSha256": "4fed5a04b8b03b34a7c050dd1cce9ac2d10bd8a08dafa5ac89d881e2e9ce3323",
+            "actualSha256": "4fed5a04b8b03b34a7c050dd1cce9ac2d10bd8a08dafa5ac89d881e2e9ce3323",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/reports/completeness-counters.json",
+            "expectedSha256": "1ee0fe78fe4d3c7fea6b86839d4df378ab4a814183280f337f6ed5e9b9bad1ad",
+            "actualSha256": "1ee0fe78fe4d3c7fea6b86839d4df378ab4a814183280f337f6ed5e9b9bad1ad",
+            "same": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/build-findings.json",
+            "expectedSha256": "684ddbcd23c013f1ac1e4a3408bbc5353416487b737f3a9903975a7fbb9d7769",
+            "actualSha256": "684ddbcd23c013f1ac1e4a3408bbc5353416487b737f3a9903975a7fbb9d7769",
+            "same": true
+          },
+          {
+            "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+            "expectedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+            "actualSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+            "same": true
+          },
+          {
+            "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+            "expectedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+            "actualSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+            "same": true
+          },
+          {
+            "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+            "expectedSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+            "actualSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+            "same": true
+          }
+        ],
+        "currentCandidateCodeStillMatchesFrozenBuild": true,
+        "pdfRegenerated": false,
+        "packetInstructionsChanged": false,
+        "sourceBytesChanged": false,
+        "originalReviewPreserved": true
+      },
+      "reviewerIndependence": {
+        "reviewer": "/root/pf04_ar_veterans_build",
+        "repairAuthor": "/root/resume_ks",
+        "distinct": true,
+        "packetModifiedByReviewer": false,
+        "sharedRepairModifiedByReviewer": false
+      },
+      "finalSemanticStatus": "PASS_PRE_RASTER_SEMANTIC",
+      "sharedCodeStatus": "PASS_POST_REPAIR",
+      "remainingGates": [
+        "Current-byte raster acceptance and independent original-page review remain pending.",
+        "Native integration remains pending after raster evidence."
+      ],
+      "conclusion": "The exact mixed-category defect is repaired narrowly and independently verified. All matching protected categories are now considered, stated-subject exemptions remain active, ordinary protectCategoryOf behavior and canary/font controls pass, and the frozen PF20 candidate/source/PDF bytes are unchanged. This clears the shared-helper review; it does not create raster PASS, final acceptance, or terminal promotion."
+    }
+  },
+  "postRepairReview": {
+    "status": "PASS_POST_REPAIR",
+    "reviewedAt": "2026-09-13T08:14:40.248Z",
+    "actualHeadAtReview": "ac2ffbc3d4879f1b34b5aaebda8974835938a64a",
+    "historicalDefect": "The prior independent review found that protectCategoryOf returned only the first matching category, allowing an allowed signature category to hide court/prosecutor protection in mixed labels.",
+    "implementationReviewed": {
+      "changedPaths": [
+        "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+        "scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs"
+      ],
+      "finalizer": {
+        "path": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+        "sha256": "309f69994b578ec0442ef53ccbb78020be347a9e893cae39724ab602c5117a21",
+        "bytes": 95824
+      },
+      "focusedTest": {
+        "path": "scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs",
+        "sha256": "40c9494f157ee44e81df93293a2fd329da7f26fce1fbc2f6ef411f9cc5984b91",
+        "bytes": 3596
+      },
+      "fieldSemanticsUnchanged": true,
+      "behavior": "The narrative path now scans every PROTECT_RULES match for both effectiveLabel and field name, applies statedSubjectExemptions per subject, deduplicates categories, and refuses any category not explicitly allowed. Ordinary protectCategoryOf paths remain unchanged."
+    },
+    "focusedEvidence": {
+      "command": "node scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs",
+      "exitStatus": 0,
+      "result": "PASS: default deny, exact category opt-in, unknown category rejection, residual protection, and mixed signature/court/prosecutor protection",
+      "cases": [
+        {
+          "label": "Judge signature",
+          "allow": [
+            "signature"
+          ],
+          "result": "refused protected_category"
+        },
+        {
+          "label": "Prosecutor signature",
+          "allow": [
+            "signature"
+          ],
+          "result": "refused protected_category"
+        },
+        {
+          "label": "Judge prosecutor signature",
+          "allow": [
+            "signature"
+          ],
+          "result": "refused protected_category"
+        },
+        {
+          "label": "Conviction date",
+          "allow": [
+            "disposition_or_hearing"
+          ],
+          "result": "writes as the explicit narrow opt-in"
+        },
+        {
+          "label": "Judge conviction date",
+          "allow": [
+            "disposition_or_hearing"
+          ],
+          "result": "refused protected_category"
+        },
+        {
+          "label": "Conviction date",
+          "allow": [
+            "made_up_category"
+          ],
+          "result": "refused narrative_has_unknown_protected_category"
+        },
+        {
+          "label": "Conviction date",
+          "allow": [],
+          "result": "refused protected_category"
+        }
+      ]
+    },
+    "regressionEvidence": [
+      {
+        "command": "node scripts/rcap-official-forms/d0-canary-verify.mjs",
+        "exitStatus": 0,
+        "result": "PASS: 107 checks across 4 canaries and 6 mutations; tracked evidence unchanged"
+      },
+      {
+        "command": "node scripts/rcap-official-forms/test-standard-font-fit-fallback.mjs",
+        "exitStatus": 0,
+        "result": "PASS: 25 assertions"
+      },
+      {
+        "command": "node scripts/rcap-official-forms/test-standard-14-metrics.mjs",
+        "exitStatus": 0,
+        "result": "PASS: all controls passed"
+      },
+      {
+        "command": "node scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs",
+        "exitStatus": 0,
+        "result": "PASS"
+      }
+    ],
+    "dependencyComparison": {
+      "candidateAndSourceBytesUnchanged": true,
+      "comparedArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/canonical.pdf",
+          "expectedSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+          "actualSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/boundary.pdf",
+          "expectedSha256": "2aa9a8e548a946b17742dc6ed0e88b53782aab33279c2aa354a421838bc9bc22",
+          "actualSha256": "2aa9a8e548a946b17742dc6ed0e88b53782aab33279c2aa354a421838bc9bc22",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/participant-facts.json",
+          "expectedSha256": "e8ea557f93a179383427041a6908d9fbf17fcb7137a2850e922caf7f6bb2e9d6",
+          "actualSha256": "e8ea557f93a179383427041a6908d9fbf17fcb7137a2850e922caf7f6bb2e9d6",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/participant-instructions.md",
+          "expectedSha256": "03903fec86ffdce62670809464fdddd995e2ed75ab20ce13f137bf58289e2cfb",
+          "actualSha256": "03903fec86ffdce62670809464fdddd995e2ed75ab20ce13f137bf58289e2cfb",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/production-field-map.json",
+          "expectedSha256": "29f62bf273a8f016ce221072322f9dbf5aa85e52462dd1da44679b79e8ee0c7a",
+          "actualSha256": "29f62bf273a8f016ce221072322f9dbf5aa85e52462dd1da44679b79e8ee0c7a",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/source-receipt.json",
+          "expectedSha256": "c3cbda91ffe2fcbfc1958108b8887121adab0f2feb9eaf6f1046b341013dff5d",
+          "actualSha256": "c3cbda91ffe2fcbfc1958108b8887121adab0f2feb9eaf6f1046b341013dff5d",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "expectedSha256": "da3a3600ced8b4f4542329ba85f48aa70e496acdeb9076fe190d8b9ccbccb9f4",
+          "actualSha256": "da3a3600ced8b4f4542329ba85f48aa70e496acdeb9076fe190d8b9ccbccb9f4",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/reports/actual-writes.json",
+          "expectedSha256": "4fed5a04b8b03b34a7c050dd1cce9ac2d10bd8a08dafa5ac89d881e2e9ce3323",
+          "actualSha256": "4fed5a04b8b03b34a7c050dd1cce9ac2d10bd8a08dafa5ac89d881e2e9ce3323",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/reports/completeness-counters.json",
+          "expectedSha256": "1ee0fe78fe4d3c7fea6b86839d4df378ab4a814183280f337f6ed5e9b9bad1ad",
+          "actualSha256": "1ee0fe78fe4d3c7fea6b86839d4df378ab4a814183280f337f6ed5e9b9bad1ad",
+          "same": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/build-findings.json",
+          "expectedSha256": "684ddbcd23c013f1ac1e4a3408bbc5353416487b737f3a9903975a7fbb9d7769",
+          "actualSha256": "684ddbcd23c013f1ac1e4a3408bbc5353416487b737f3a9903975a7fbb9d7769",
+          "same": true
+        },
+        {
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+          "expectedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+          "actualSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+          "same": true
+        },
+        {
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+          "expectedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+          "actualSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+          "same": true
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+          "expectedSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "actualSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "same": true
+        }
+      ],
+      "currentCandidateCodeStillMatchesFrozenBuild": true,
+      "pdfRegenerated": false,
+      "packetInstructionsChanged": false,
+      "sourceBytesChanged": false,
+      "originalReviewPreserved": true
+    },
+    "reviewerIndependence": {
+      "reviewer": "/root/pf04_ar_veterans_build",
+      "repairAuthor": "/root/resume_ks",
+      "distinct": true,
+      "packetModifiedByReviewer": false,
+      "sharedRepairModifiedByReviewer": false
+    },
+    "finalSemanticStatus": "PASS_PRE_RASTER_SEMANTIC",
+    "sharedCodeStatus": "PASS_POST_REPAIR",
+    "remainingGates": [
+      "Current-byte raster acceptance and independent original-page review remain pending.",
+      "Native integration remains pending after raster evidence."
+    ],
+    "conclusion": "The exact mixed-category defect is repaired narrowly and independently verified. All matching protected categories are now considered, stated-subject exemptions remain active, ordinary protectCategoryOf behavior and canary/font controls pass, and the frozen PF20 candidate/source/PDF bytes are unchanged. This clears the shared-helper review; it does not create raster PASS, final acceptance, or terminal promotion."
   }
 }
