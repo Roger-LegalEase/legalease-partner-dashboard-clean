@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "rcap-independent-bounded-code-review/v1",
+  "reviewer": "/root/resolver_review",
+  "generatedAt": "2026-09-13T20:02:51.781009+00:00",
+  "result": "PASS_SCOPED_EXISTING_FINALIZER_SYNCHRONIZATION",
+  "reviewedCommits": [
+    "8a88914bedc7dab2885103003bb4ff7a9cc608b6",
+    "b3149e4eebca45bc24c894aeba8de004611178e9"
+  ],
+  "candidate": {
+    "path": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+    "sha256": "309f69994b578ec0442ef53ccbb78020be347a9e893cae39724ab602c5117a21",
+    "byteLength": 95824
+  },
+  "workerOriginalSha256": "4c6218bf3754b3b70badeeed1e02650907b487dd49f2e680ddb20ddff4b12fcf",
+  "workerOriginalMatchesLocalPre8a88914be": true,
+  "unchangedDirectDependencies": [
+    {
+      "path": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "sha256": "ca6210d28a1c38d8cce831d6a379eb8d918474748b2066cc15fb72df8753032f",
+      "byteLength": 45758
+    },
+    {
+      "path": "scripts/rcap-official-forms/rcap-text-fitting.mjs",
+      "sha256": "4c38e13bc44f4e7a49ef0dc96b2fd5c94a8ff3b040ca9f90e7a1e1da36c99857",
+      "byteLength": 8715
+    },
+    {
+      "path": "scripts/rcap-official-forms/rcap-active-content.mjs",
+      "sha256": "389633484fc394bcb356fb8afa724cad1fa8ec85992466e17190493957919df1",
+      "byteLength": 81021
+    },
+    {
+      "path": "scripts/rcap-official-forms/rcap-source-notice.mjs",
+      "sha256": "258e6f0d8d53817cb81b39d6780e5364b67319b5af22df135b89e3a2c146c641",
+      "byteLength": 5894
+    },
+    {
+      "path": "scripts/rcap-official-forms/rcap-appearance-semantics.mjs",
+      "sha256": "dadc9d75fb46e642bdf2075fa6ab9d4ed308b3ca5a0960ae5e1557bf37c24696",
+      "byteLength": 3959
+    }
+  ],
+  "workerDependencyEvidence": {
+    "path": "private/transfers/pf24-nd-complete-20260913/WORKER_NATIVE_DEPENDENCY_SHA256.txt",
+    "sha256": "9eeab669de5e38495723ef579df0ced02052c71cff9f4db6ad1b33b02b3c4b7d",
+    "byteLength": 720
+  },
+  "syncScope": "Only the finalizer file is different. Five direct relative imports already byte-identical to Captain; pdf-lib remains existing1.17.1. Do not sync unrelated builder/shared state. Existing focused test file may be copied/run read-only on worker.",
+  "codeFindings": [
+    "Default narrative path still denies all protected matches; only explicitly named, known categories can be permitted for the exact named narrative fields.",
+    "Unknown category refuses entire narrative. Both raw field name and effective label checked. Every matching category is considered, so permitting signature cannot conceal court/prosecutor, and permitting prosecutor/attorney cannot conceal signature/court.",
+    "Missing fact/census/rectangle, role-unwritable or already-written fields and unreadable overflow remain refused; original source hash, final active-content and flattening pipeline unchanged.",
+    "This is an author-specified per-field permission, not automatic source-role inference. Independent candidate review must verify each opt-in is a participant-held fact in the exact source region; caller could otherwise intentionally opt into actual protected roles, which is not approved by this review."
+  ],
+  "scopeApplication": {
+    "familyId": "nd-prohibit-remote-public-access-set",
+    "sourceRole": "Mail/office service recipient identity is supplied by participant/server as delivery destination, not prosecutor approval/certification. Exact source copies reviewed under nine-source admission.",
+    "exactMailField": "Name of States Attorney",
+    "categoriesRequired": [
+      "prosecutor",
+      "attorney"
+    ],
+    "authorDeclaredScope": "Only exact two service-recipient fields/fact; no field renaming. Exact office field mapping remains part of future candidate review.",
+    "prohibitedUses": [
+      "Prosecutor signature or certification",
+      "Court findings, decision or signature",
+      "Service execution dates or actual server signature",
+      "Global category exemption or all-fields mapping"
+    ]
+  },
+  "validation": {
+    "existingTest": {
+      "path": "scripts/rcap-official-forms/test-ks-registration-narrative-protected-fields.mjs",
+      "sha256": "40c9494f157ee44e81df93293a2fd329da7f26fce1fbc2f6ef411f9cc5984b91",
+      "byteLength": 3596
+    },
+    "existingTestResult": "PASS: seven cases default deny, authorized conviction-date field, unknown category, judicial residual, mixedsignaturecourtprosecutor protections",
+    "independentTests": {
+      "path": "private/transfers/vfnd-finalizer-review-20260913/test-nd-narrative-recipient.mjs",
+      "sha256": "6cf8b4431882816d63bc894fbf2b5b226c333ab8b3a79e962728960a0f2b0025",
+      "byteLength": 2026
+    },
+    "independentTestResults": {
+      "path": "private/transfers/vfnd-finalizer-review-20260913/test-results.json",
+      "sha256": "c67a39b232aa76f64f9c07d3ca46f16831a1c9ca45b4042643b67645bdae0543",
+      "byteLength": 1697
+    },
+    "cases": [
+      {
+        "name": "Name of States Attorney",
+        "label": "Name of States Attorney",
+        "allowed": null,
+        "writes": 0,
+        "refusalReasons": [
+          "protected_category"
+        ]
+      },
+      {
+        "name": "Name of States Attorney",
+        "label": "Name of States Attorney",
+        "allowed": [
+          "prosecutor",
+          "attorney"
+        ],
+        "writes": 1,
+        "refusalReasons": []
+      },
+      {
+        "name": "Name of States Attorney",
+        "label": "Name of States Attorney",
+        "allowed": [
+          "made_up_category"
+        ],
+        "writes": 0,
+        "refusalReasons": [
+          "narrative_has_unknown_protected_category"
+        ]
+      },
+      {
+        "name": "Name of States Attorney",
+        "label": "Prosecutor signature",
+        "allowed": [
+          "prosecutor",
+          "attorney"
+        ],
+        "writes": 0,
+        "refusalReasons": [
+          "protected_category"
+        ]
+      },
+      {
+        "name": "Prosecutor signature",
+        "label": "Name of States Attorney",
+        "allowed": [
+          "prosecutor",
+          "attorney"
+        ],
+        "writes": 0,
+        "refusalReasons": [
+          "protected_category"
+        ]
+      },
+      {
+        "name": "Name of States Attorney",
+        "label": "Judge prosecutor signature",
+        "allowed": [
+          "prosecutor",
+          "attorney"
+        ],
+        "writes": 0,
+        "refusalReasons": [
+          "protected_category"
+        ]
+      },
+      {
+        "name": "Name of States Attorney",
+        "label": "Name of States Attorney",
+        "allowed": [
+          "prosecutor",
+          "attorney"
+        ],
+        "writes": 0,
+        "refusalReasons": [
+          "narrative_fact_not_held"
+        ]
+      }
+    ],
+    "note": "Synthetic in-memory one-field fixtures test finalizer mechanism. They do not claim actual packet content/raster acceptance. Positive prosecutor-only test initially refused because attorney is a second category, confirming all-match enforcement; corrected exact-two-category positive passed."
+  },
+  "packetSemanticVerdict": null,
+  "authoritativeWrites": false
+}

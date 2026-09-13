@@ -78,6 +78,21 @@ Current Captain alone writes integration outputs; heavy builds remain on existin
 rcap-finish-worker-77jr7gx76jq3rg65. Captain free6.7GiB; maintain at least3GiB.
 All gh commands unset GH_TOKEN and GITHUB_TOKEN; use stored Captain login.
 
+Current production continuation: OH exact Rules container admitted source-only;
+original official-rules identity preserved by independently reviewed namespace
+addition. All326terminal families and325prior terminal raster rows exact;
+60MASTER/5raster files converge. Receipt pf08/oh-source-only-integration-20260913.json.
+CA/WV remaining-family handoff now records actual companion/vehicle prerequisites.
+ND author ia_reader_review continues current complete candidate on existing worker;
+reviewed one-file renderer synchronization passes14focusedcontrols. MT author
+fl_final_review uses reconciled existing PF20checkout, nativepreflight14/14PASS.
+Its full five-component draft passes native completeness; exact DOCX derivative
+retains2pages/all23bodyparagraphs/18controls, final savedchecks pending.
+Portable converter /tmp/rcap-mt-office/soffice executes onworker;67package hashes
+and frozenfontconfig recorded in pf04/mt-portable-office-runtime-receipt-20260913.json.
+No ND/MT semantic or raster acceptance claimed. Admit completed returns next;
+resolver_review reserved NDsemantics, distinct MTsemantics follows authorhandoff.
+
 The sections below are historical handoffs, not a current assignment roster.
 Consult current MASTER_QUEUE and current returns before resuming any listed task;
 in particular AR veterans is already COMPLETE_PACKET_PROVEN and must not rebuild.

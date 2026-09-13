@@ -82,9 +82,11 @@ function validateAdoption(root, document) {
     if (typeof source.sourceObligationId !== "string"
         || (!source.sourceObligationId.startsWith("official-form:")
           && !source.sourceObligationId.startsWith("official-authority:")
+          && !source.sourceObligationId.startsWith("official-rules:")
           && !source.sourceObligationId.includes("::official-form:")
-          && !source.sourceObligationId.includes("::official-authority:"))) {
-      refuse(`${label}.sourceObligationId must identify an official form or authority obligation`);
+          && !source.sourceObligationId.includes("::official-authority:")
+          && !source.sourceObligationId.includes("::official-rules:"))) {
+      refuse(`${label}.sourceObligationId must identify an official form, authority, or rules obligation`);
     }
     if (source.sourceId !== source.sourceObligationId) {
       refuse(`${label}.sourceId must equal sourceObligationId`);
