@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "rcap-ut-custody-bridge-return/v1",
+  "familyId": "ut_pet_remove_link-set",
+  "status": "SOURCE_BINDING_REPAIRED_NATIVE_FAMILY_CHECK_PASS",
+  "author": "/root/ut_custody_bridge",
+  "baselineActualSources": 3,
+  "currentActualSources": 5,
+  "tests": {
+    "passed": 41,
+    "failed": 0,
+    "command": "source private/source-corpus-environment.txt; node --test scripts/verify-packet-build-environment.ut-remove-link.test.mjs"
+  },
+  "nativePreflight": {
+    "command": "source private/source-corpus-environment.txt; node scripts/verify-packet-build-environment.mjs --family ut_pet_remove_link-set",
+    "familySourcesBind": "PASS 5/5 exact SHA-256",
+    "wholeEnvironmentVerdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "firstFailure": "worktree_clean: 7 uncommitted path(s)",
+    "otherExistingFailures": [
+      "master_library_complete: 24/499 files, 22/329 PDFs",
+      "corpus_matches_committed_index: 22 absent, 0 mismatched of 24 sampled"
+    ],
+    "unchangedFailureNotRerun": true
+  },
+  "allFamilyPreservation": "all-family-preservation.json",
+  "sourceAcquisition": false,
+  "sharedOutputsEdited": false,
+  "commit": "CAPTAIN_BOUNDARY_PENDING",
+  "bindings": [
+    {
+      "path": "scripts/verify-packet-build-environment.mjs",
+      "sha256": "53100ebedcb577dc21015a4266976fcd4ca468de44d96baf72000f7a3a0966fe",
+      "byteLength": 129106
+    },
+    {
+      "path": "scripts/verify-packet-build-environment.ut-remove-link.test.mjs",
+      "sha256": "200f98402cb37ecbd8cd2ac2523248d7736334caca9ccfd07dac8449085ec900",
+      "byteLength": 5293
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf01/ut-custody-bridge-20260913/all-family-preservation.json",
+      "sha256": "e1404978f633dd47f9558894f8b2c905b4f43d17cb4c272c85b05754fb9a57a6",
+      "byteLength": 13658
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf01/ut-custody-bridge-20260913/complete-source-bindings.json",
+      "sha256": "0a7ca518eb948600f5e7aaddabb9b7e1806e962d78669d6c7576df63600755bd",
+      "byteLength": 2237
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf01/ut-custody-bridge-20260913/native-preflight.log",
+      "sha256": "de3d3ee2df7a1568b7cc160e0d653671a57e55fdbbd937f19fe53616e4d9f6c0",
+      "byteLength": 2031
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf01/ut-custody-bridge-20260913/tests.tap",
+      "sha256": "0b8c7d7413e26228be97303b3b493f1463292b982bd09830e8222b7e61785829",
+      "byteLength": 2820
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf01/ut-custody-bridge-20260913/before-family-bindings.json",
+      "sha256": "9129d7e0786742dffd5888ae4dd618934f115939c0a4f096ffc30b76a6535ff3",
+      "byteLength": 243829
+    }
+  ]
+}

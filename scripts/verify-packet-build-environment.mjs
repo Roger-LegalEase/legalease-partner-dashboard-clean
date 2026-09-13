@@ -79,6 +79,117 @@ const KNOWN_RESIDUAL_SOURCE_RECOVERY =
 const SOURCE_RECOVERY_WAVE1 =
   "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json";
 
+const UT_REMOVE_LINK_FAMILY = "ut_pet_remove_link-set";
+const UT_REMOVE_LINK_ADOPTION = "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json";
+const UT_REMOVE_LINK_NOTICES = [
+  {
+    "sourceId": "1110GE",
+    "sourceObligationId": "official-form:1110GE",
+    "familyIds": [
+      "ut_pet_remove_link-set"
+    ],
+    "itemIds": [
+      "ut_pet_remove_link-set::official-form:1110GE"
+    ],
+    "result": "ACQUIRED_CURRENT_OFFICIAL_BINARY",
+    "heldCorpusPath": "reference/utah/1110GE-official-20260911.pdf",
+    "sha256": "c2ca5eb5fdb0303025b2fa5f24263cef225cc863161128c4b42a11b998981c72",
+    "byteLength": 68608,
+    "pageCount": 3,
+    "printedTitle": "Request to Submit for Decision (General)",
+    "printedRevision": "Approved April 16, 2018 / Revised September 17, 2019",
+    "printedFormNumber": "1110GE",
+    "officialListing": {
+      "formIdOnListing": "1110GE",
+      "listingUrl": "https://www.utcourts.gov/en/forms/forms/court-forms/form-detail.detail.html?formNumber=1110GE",
+      "listingStatus": 200,
+      "listingTitle": "Request to Submit for Decision - General",
+      "directPdfLinkFromListing": "https://apps.utcourts.gov/aem-services/aem/forms/template/1110GE"
+    }
+  },
+  {
+    "sourceId": "1111GE",
+    "sourceObligationId": "official-form:1111GE",
+    "familyIds": [
+      "ut_pet_remove_link-set"
+    ],
+    "itemIds": [
+      "ut_pet_remove_link-set::official-form:1111GE"
+    ],
+    "result": "ACQUIRED_CURRENT_OFFICIAL_BINARY",
+    "heldCorpusPath": "reference/utah/1111GE-official-20260911.pdf",
+    "sha256": "3e623db96048111929a98c5a36a8e8f4d4dd6411d6b8baece81d3f2ce1512544",
+    "byteLength": 218391,
+    "pageCount": 4,
+    "printedTitle": "Notice of Hearing",
+    "printedRevision": "Approved April 16, 2018 / Revised September 9, 2020",
+    "printedFormNumber": "1111GEJ",
+    "officialListing": {
+      "formIdOnListing": "1111GE",
+      "listingUrl": "https://www.utcourts.gov/en/forms/forms/court-forms/form-detail.detail.html?formNumber=1111GE",
+      "listingStatus": 200,
+      "listingTitle": "Notice of Hearing",
+      "directPdfLinkFromListing": "https://legacy.utcourts.gov/howto/filing/motions/docs/1111GE_Notice_of_Hearing.pdf"
+    }
+  }
+];
+const UT_REMOVE_LINK_SELECTOR = {
+  "requiredFact": "judgeOrCommissioner",
+  "factSource": [
+    "clerk-confirmed",
+    "court-confirmed"
+  ],
+  "judge": [
+    "1501CR",
+    "1502CR",
+    "1110GE"
+  ],
+  "commissioner": [
+    "1501CR-C",
+    "1502CR",
+    "1111GE"
+  ],
+  "otherwise": {
+    "action": "STOP",
+    "generateFilingPacket": false,
+    "status": "configuration_ambiguous",
+    "reason": "clerk-confirmation-required"
+  }
+};
+
+/* Supplement the three wave1 bodies only through the adopted exact selector
+ * and original residual receipts. Printed 1111GEJ is intentionally preserved. */
+function committedUtRemoveLinkNoticeBindings(family, env = ROOT) {
+  if (family !== UT_REMOVE_LINK_FAMILY) return null;
+  const adoption = readJson(UT_REMOVE_LINK_ADOPTION, env);
+  const residual = readJson(KNOWN_RESIDUAL_SOURCE_RECOVERY, env);
+  if (adoption?.schemaVersion !== "rcap-bounded-execution-disposition/v1"
+    || adoption.familyId !== family || adoption.ownerAnswer !== "RESOLVED"
+    || adoption.sourceAcquisitionOwed !== false
+    || adoption.sourceRecoveryRecord !== KNOWN_RESIDUAL_SOURCE_RECOVERY
+    || canonicalJson(adoption.missingRequiredSourceIds) !== "[]"
+    || canonicalJson(adoption.additionalRequiredSourceIds) !== canonicalJson(UT_REMOVE_LINK_NOTICES.map(x => x.sourceObligationId))
+    || canonicalJson(adoption.bindingProductRule) !== canonicalJson(UT_REMOVE_LINK_SELECTOR)
+    || canonicalJson(adoption.recordedBranchSemantics) !== canonicalJson({judge:["1501CR","1110GE"],commissioner:["1501CR-C","1111GE"],shared:["1502CR"]})
+    || residual?.schemaVersion !== "rcap-source-recovery-adoption/v1"
+    || residual.recordedOn !== "2026-09-11" || !Array.isArray(residual.sources)) return null;
+  const familySources = residual.sources.filter(x => x?.familyIds?.includes(family));
+  if (familySources.length !== 2) return null;
+  const resolved = [];
+  for (const expected of UT_REMOVE_LINK_NOTICES) {
+    const matches = residual.sources.filter(x => x?.sourceId === expected.sourceId
+      || x?.sourceObligationId === expected.sourceObligationId);
+    if (matches.length !== 1) return null;
+    const source = matches[0];
+    if (Object.keys(expected).some(key => canonicalJson(source[key]) !== canonicalJson(expected[key]))) return null;
+    const file = path.basename(expected.heldCorpusPath);
+    const binding = repositorySourceRecoveryBinding({...expected, sourceId: expected.sourceObligationId, file}, {...source, file}, env);
+    if (!binding) return null;
+    resolved.push({...binding, resolvedBy: "committed_known_residual_and_ut_selector_adoption"});
+  }
+  return resolved;
+}
+
 /* One already-admitted source needs a custody-row bridge. Keep this repair
  * deliberately explicit: it consumes a committed acquisition admission, never
  * a generated queue pin, and it cannot become a general source resolver. */
@@ -760,12 +871,18 @@ function familySources(family, env = ROOT) {
     ? custody.rows.filter((candidate) => candidate?.worklistGroupId === family)
     : [];
   const row = matchingRows[0];
+  if (!row && family === UT_REMOVE_LINK_FAMILY) return {
+    tier: "custody_reconciliation", from: CUSTODY, sources: [],
+    unresolvable: [{sourceId: family, indexMatches: 0, why: "the governed UT custody row is absent"}]
+  };
   if (row) {
     const sources = [];
     const unresolvable = [];
-    const recoveryExpectations = governedSourceRecoveryExpectations(family);
+    const recoveryExpectations = [...governedSourceRecoveryExpectations(family),
+      ...(family === UT_REMOVE_LINK_FAMILY ? UT_REMOVE_LINK_NOTICES.map(x => ({...x, sourceId:x.sourceObligationId, recoverySourceId:x.sourceId})) : [])];
     const expectedBySourceId = new Map(recoveryExpectations.map((expectation) => [expectation.sourceId, expectation]));
     const allowedSourceIds = recoveryExpectations.length ? governedFamilySourceIds(family, env) : null;
+    if (family === UT_REMOVE_LINK_FAMILY) for (const expected of UT_REMOVE_LINK_NOTICES) allowedSourceIds.add(expected.sourceObligationId);
     const allRowSources = recoveryExpectations.length
       ? matchingRows.flatMap((candidate) => candidate.documentSources ?? []).map(source => normalizeNcHistoricalCustody(source, family, env))
       : row.documentSources || [];
@@ -799,6 +916,9 @@ function familySources(family, env = ROOT) {
         let conflict = null;
         if (typeof sourceId !== "string" || !allowedSourceIds.has(sourceId)) {
           conflict = "the custody row carries a source ID outside the family's committed obligation map";
+        } else if (family === UT_REMOVE_LINK_FAMILY && !expectation
+          && (hasHeldAs || source?.resolved === true)) {
+          conflict = "a historical combined UT obligation cannot assert bytes in place of the five exact adopted sources";
         } else if (source?.sourceObligationId !== undefined && source.sourceObligationId !== sourceId) {
           conflict = "the custody row carries a sourceObligationId alias that does not equal its canonical sourceId";
         } else if (expectation && (source?.resolved !== true || !hasHeldAs
@@ -885,13 +1005,19 @@ function familySources(family, env = ROOT) {
      * preload identical bytes. Otherwise a stale or malformed adoption record
      * can be bypassed by a resolved row. */
     const admitted = committedKnownResidualBinding(family, env);
-    const recovered = committedSourceRecoveryWave1Bindings(family, env);
+    let recovered = committedSourceRecoveryWave1Bindings(family, env);
+    if (family === UT_REMOVE_LINK_FAMILY) {
+      const notices = committedUtRemoveLinkNoticeBindings(family, env);
+      recovered = recovered && notices ? [...recovered, ...notices] : null;
+    }
     if (recoveryExpectations.length && !recovered) {
       for (const expectation of recoveryExpectations) {
         unresolvable.push({
           sourceId: expectation.sourceId,
           indexMatches: 0,
-          why: "the governed SOURCE_RECOVERY_WAVE1 admission is absent, stale, or contradictory"
+          why: family === UT_REMOVE_LINK_FAMILY
+            ? "the governed wave1, residual notice, or UT selector admission is absent, stale, or contradictory"
+            : "the governed SOURCE_RECOVERY_WAVE1 admission is absent, stale, or contradictory"
         });
       }
     }
