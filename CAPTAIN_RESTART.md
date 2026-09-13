@@ -183,3 +183,34 @@ Captain owns this blocker. Resume condition: restore the genuinely missing
 lockfile-pinned sharp dependency closure with expected integrity verification
 when dependency restoration is allowed, then retry required integration.
 Do not redispatch or reraster AR. Builds and additional cleanup remain paused.
+
+## Bounded sharp restoration and integration attempt — 2026-09-13
+
+Starting HEAD4d583570c300b9fc5b1fa82f1e31d80c543c3d0d. Existing dependency link
+remains /tmp/rcap-dependencies-after-ci-20260912/node_modules on separate ext4
+/dev/sda1 (108216872960 available before repair), codespace writable.
+Restored locked sharp0.34.5, nested semver7.8.1, @img/colour1.1.0, detect-libc2.1.2,
+@img/sharp-linux-x64 version0.34.5 and @img/sharp-libvips-linux-x64 version1.2.4.
+All expected archive integrity checks passed; five existing pdf-lib packages
+were byte-verified without overwrite. Native2x2PNG encode/decode PASS, vips8.17.3.
+Receipt/recovery script: restart-recovery-20260913/sharp-restoration.json,
+sharp-native-verification.json and restore-sharp-locked.py. Lockfile unchanged.
+Packages remain disposable in /tmp; recovery instructions are durable.
+
+All24pre-existing dirty tracked files (3382657bytes) were hash-preserved under
+private/restart-preservation/20260913-before-sharp-integration and remain
+unchanged after integration. integration-write-budget.json records replacement,
+Git-write, preservation and96MiBreserve allowances.
+
+Native integration passed all5self-tests, extraction, completeness, wiring,
+first generation and raster queue; failed original receipt ingestion.
+sharp-restored-integration.log and sharp-integration-result.json record exact
+digests: payload e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a;
+queue bc02aba95c4383ee07973c15b91b08342d7468c773c8cfd93d80954d99cb44f8.
+Current4PDF path/role/hash membership is identical; ordered arrays differ
+(petition-first frozen manifest, order-first generated queue). Captain owns
+reconciliation through existing admission controls. Receipt not altered or
+admitted. Current queue310/346; AR and KY now BUILT_RASTER_PENDING, no new
+terminal. AR independent finalPASS remains accepted.
+Next: resolve exact admission identity mismatch. No redispatch34732930032,
+reraster, repeated visual review, cleanup or disk-heavy builds.

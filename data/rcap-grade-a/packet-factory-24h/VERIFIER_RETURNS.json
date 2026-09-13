@@ -34,15 +34,13 @@
     }
   ],
   "counts": {
-    "returnDirectories": 340,
-    "rows": 1431,
-    "independentVerdicts": 314,
-    "failRepairRequired": 1,
-    "passIndependent": 310
+    "returnDirectories": 343,
+    "rows": 1434,
+    "independentVerdicts": 315,
+    "failRepairRequired": 0,
+    "passIndependent": 312
   },
-  "failRepairRequiredFamilies": [
-    "ky_protective_order_record_expungement-set"
-  ],
+  "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
@@ -2396,6 +2394,36 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-trafficking-set",
       "superseded": false
+    },
+    {
+      "familyId": "ar-act346-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfar1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "253ece8b351f247f77c74c668121048b7e0fb58d",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfar1/rows-vfar1-ar-act346-original-final-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-act346-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-act346-set",
+      "verdict": "PASS",
+      "lane": "vfar1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f50087dcb66ba2fd4a2ee6b164d128b37b41d43",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfar1/rows-vfar1-ar-act346-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-act346-set",
+      "superseded": true
     },
     {
       "familyId": "ar-act531-set",
@@ -15662,6 +15690,22 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-20260910-ky.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_protective_order_record_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ky_protective_order_record_expungement-set",
+      "verdict": "PASS",
+      "lane": "vf24",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d72e2883820ba4a7ac7345d1b3ba90e3cc097011",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-ky-adopted-service-semantic-pass-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_protective_order_record_expungement-set",
       "superseded": false
