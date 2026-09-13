@@ -384,3 +384,8 @@ OH, CA diversion, NC composed dismissal, FL sealing exact prerequisite blockers 
 
 UT juvenile dispatched once as run34755241448 at20ec0d482c79052eff52274dc733d3a0ae294d1f,4pages.
 Inputs: pf05/ut-juvenile-dispatch-inputs-20260913.json. Do not redispatch.
+
+UT run34755241448 completed; original4page custody committed90d4adb78; final reviewer ks_arrest_final active.
+FL expunction semanticPASS14730fa5a, frozen68fff2a6e, dispatched once run34756193839 for20pages.
+Inputs: pf19/fl-expunction-dispatch-inputs-20260913.json. No redispatch.
+Activeimplementation: PF05KYfelony-after-pardon, existingworkerMTcompleted marijuana.
