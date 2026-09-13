@@ -583,6 +583,8 @@ function anchorsFor(doc, census) {
       withheld.push({
         blankId: blank.blankId, page: blank.page, caption: blank.caption,
         channel: "family_role_refusal", class: role.class, why: role.why,
+        refusalClass: role.refusalClass ?? null,
+        completenessDisposition: role.completenessDisposition ?? null,
         // The role gate runs first, so a blank that BOTH the role and the region
         // channel would catch is reported here rather than there — which is why
         // the region channel's own count is zero on this family. Recording the
@@ -1021,6 +1023,144 @@ function refusalFor(doc, blank) {
   return { class: "participant_entered_unmapped", why: "The measured blank has no unambiguous collected fact mapping. It is disclosed for the participant or responsible actor rather than guessed by the builder." };
 }
 
+const PENDING_SELECTION_IDS = new Set([
+  "p2-y513.80-x107.52", "p2-y465.60-x102.97"
+]);
+const OPTIONAL_CHARGE_CONTINUATION_ID = "p1-y230.10-x99.38";
+
+function near(value, target) {
+  return Math.abs(Number(value ?? 0) - target) < 0.2;
+}
+
+function participantLabelFor(doc, blank) {
+  const id = blank.blankId;
+  const x = Number(blank.measured?.x0 ?? 0);
+  const y = Number(blank.measured?.baselineY ?? 0);
+  if (doc.documentRole !== "PETITION") return `Participant field ${id}`;
+  if (near(y, 707) && near(x, 130.22)) return "Filing court name";
+  if (near(y, 707) && near(x, 320.09)) return "Filing county";
+  if (near(y, 302.6) && near(x, 324.61)) return "Arrest date — day";
+  if (near(y, 302.6) && near(x, 424.9)) return "Arrest date — month";
+  if (near(y, 278.5)) return "Arrest date — year";
+  if (id === OPTIONAL_CHARGE_CONTINUATION_ID) return "Charged offense continuation line (only if needed)";
+  if (near(y, 230.1)) return "Charged offense continuation line";
+  if (near(y, 206)) return "Charged offense statute";
+  if (near(y, 634.5)) return "Veterans Treatment Court completion date";
+  if (near(y, 417.2) && near(x, 99.02)) return "Pending felony charge status — details line 1";
+  if (near(y, 393.1)) return "Pending felony charge status — details line 2";
+  if (id === "p2-y513.80-x107.52") return "Pending felony charge status — no pending charges";
+  if (id === "p2-y465.60-x102.97") return "Pending felony charge status — one or more pending charges";
+  if (near(y, 369) && near(x, 228.96)) return "Other-court conviction date — day";
+  if (near(y, 369) && near(x, 321.55)) return "Other-court conviction date — month";
+  if (near(y, 369) && near(x, 399.41)) return "Other-court conviction date — year";
+  if (near(y, 344.8) && x < 250) return "Other-court case number(s)";
+  if (near(y, 344.8) && x < 430) return "Other-court county";
+  if (near(y, 344.8)) return "Other-court court";
+  if (near(y, 272.3)) return "Other-court offense";
+  if (near(y, 248.2)) return "Other-court offense statute";
+  if (near(y, 461.6) && x < 430) return "Other-court case number(s) for sealing";
+  if (near(y, 461.6)) return "Other-court county for sealing";
+  if (near(y, 437.5)) return "Other-court court for sealing";
+  if (near(y, 200.2) && x < 300) return "Participant race";
+  if (near(y, 176.1) && x < 300) return "Participant sex";
+  const printed = String(blank.printedLine ?? "").replace(/_+/g, " ").replace(/\s+/g, " ").trim();
+  const caption = String(blank.caption ?? "").replace(/\s+/g, " ").trim();
+  return `${caption || printed || `Participant field ${id}`} (participant fact)`;
+}
+
+function participantIdentityBlank(doc, blank) {
+  const x = Number(blank.measured?.x0 ?? 0);
+  const y = Number(blank.measured?.baselineY ?? 0);
+  return doc.documentRole === "PETITION"
+    && ((near(y, 200.2) && x < 300) || (near(y, 176.1) && x < 300));
+}
+
+function participantRequired(doc, blank, legacy) {
+  if (doc.documentRole !== "PETITION") return false;
+  if (PENDING_SELECTION_IDS.has(blank.blankId) || blank.blankId === OPTIONAL_CHARGE_CONTINUATION_ID) return false;
+  if (participantIdentityBlank(doc, blank)) return true;
+  if (["notarial_or_verification_actor", "service_actor_or_attestation", "agency_assigned_identifier"].includes(legacy.class)) return false;
+  if (["conditional_participant_or_other_court_branch", "participant_record_fact_or_statute", "participant_identification_not_collected", "participant_entered_unmapped"].includes(legacy.class)) return true;
+  if (legacy.class === "participant_or_notary_execution") {
+    const text = `${blank.caption ?? ""} ${blank.printedLine ?? ""} ${blank.printedLineAbove ?? ""}`;
+    return /arrested on|if applicable/i.test(text);
+  }
+  return false;
+}
+
+function nativeRoleRefusal(doc, blank, legacy) {
+  const sourceLabel = String(blank.printedLine || blank.caption || `page ${blank.page} blank`).trim();
+  const base = {
+    ...legacy,
+    blankId: blank.blankId,
+    documentId: doc.documentId,
+    page: blank.page,
+    printedLabel: sourceLabel,
+    sourceLabel,
+    identity: `${doc.documentId} field ${blank.blankId}`,
+    factAvailable: false,
+    routeDetermined: false,
+    requiredBeforeFiling: false,
+    reason: legacy.why
+  };
+  if (doc.documentRole === "PETITION" && PENDING_SELECTION_IDS.has(blank.blankId)) {
+    const label = participantLabelFor(doc, blank);
+    return {
+      ...base,
+      effectiveLabel: `${label} (selection)`,
+      refusalClass: "participant_sworn_narrative_or_legal_election",
+      completenessDisposition: "PARTICIPANT_ELECTION_GENUINE",
+      isSelectionControl: true,
+      role: "participant",
+      reason: "Select the one pending-felony-charge status that matches the participant's current record; this route does not determine the participant's answer."
+    };
+  }
+  if (doc.documentRole === "PETITION" && blank.blankId === OPTIONAL_CHARGE_CONTINUATION_ID) {
+    return {
+      ...base,
+      effectiveLabel: participantLabelFor(doc, blank),
+      refusalClass: null,
+      completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+      routeConditionThatMakesItInapplicable: "The complete charged-offense text fits on the preceding measured charge line in this one-charge packet; this continuation line is reached only when that text exceeds the preceding line.",
+      role: "participant_optional_continuation",
+      reason: "The complete charged-offense text fits on the preceding measured charge line in the current canonical and boundary fixtures; the second source line is a continuation only when the charge needs it."
+    };
+  }
+  if (participantRequired(doc, blank, legacy)) {
+    const label = participantLabelFor(doc, blank);
+    const conditional = legacy.class === "conditional_participant_or_other_court_branch" || /if applicable|pending felony/i.test(`${blank.printedLine ?? ""} ${blank.printedLineAbove ?? ""}`);
+    return {
+      ...base,
+      effectiveLabel: label,
+      refusalClass: null,
+      completenessDisposition: "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: true,
+      requiredBeforeFilingCondition: conditional ? "Complete only when the printed conditional branch applies to the participant's record." : null,
+      role: "participant",
+      reason: `Required before filing: complete ${label} from the participant's actual record; do not guess.`
+    };
+  }
+  const nativeClass = ["participant_or_notary_execution", "service_actor_or_attestation"].includes(legacy.class)
+    ? "signature_or_date_participant_completion"
+    : "court_prosecutor_clerk_or_agency_owned";
+  const effectiveLabel = legacy.class === "notarial_or_verification_actor"
+    ? `Notarial verification actor field (${blank.blankId})`
+    : legacy.class === "service_actor_or_attestation"
+      ? `Certificate-of-service actor field (${blank.blankId})`
+      : legacy.class === "agency_assigned_identifier"
+        ? `Record-system identifier field (${blank.blankId})`
+        : doc.documentRole === "PROPOSED_ORDER"
+          ? `Court-owned proposed-order field (${blank.blankId})`
+          : `Protected actor field (${blank.blankId})`;
+  return {
+    ...base,
+    effectiveLabel,
+    refusalClass: nativeClass,
+    completenessDisposition: "PROTECTED_FIELD",
+    role: "protected_actor"
+  };
+}
+
 function policyFor(doc, census) {
   const allowed = new Map();
   const explicitMappings = {};
@@ -1043,7 +1183,7 @@ function policyFor(doc, census) {
     }
     if (factId) allowed.set(blank.blankId, factId);
   }
-  const roleRefusals = census.blanks.filter((b) => !allowed.has(b.blankId)).map((b) => ({ blankId: b.blankId, class: refusalFor(doc, b).class, why: refusalFor(doc, b).why }));
+  const roleRefusals = census.blanks.filter((b) => !allowed.has(b.blankId)).map((b) => nativeRoleRefusal(doc, b, refusalFor(doc, b)));
   const nameBlankIds = census.blanks.filter((b) => allowed.get(b.blankId) === "participant.full_legal_name").map((b) => b.blankId);
   return { ...doc, explicitMappings, anchorLabelByBlankId, roleRefusals, allowed, nameBlankIds };
 }
@@ -1058,6 +1198,7 @@ function sourceReceipt(documents) {
     adoptionRecord: ADOPTION_RECORD, sourceReviewRecord: SOURCE_REVIEW, masterLibraryIsNotOperationalNationwide: true,
     stalePrintedCitationTreatment: "The exact July 27, 2021 ACIC petition and order are preserved byte-for-byte as official source artifacts. Their printed references to repealed § 16-101-106 and old § 16-98-303 are disclosed as stale source text and are not current authority. Current instructions use Act 691 of 2025 and A.C.A. §§ 16-90-1601 and 16-90-1602.",
     committedRecords: documents.map(({doc,census}) => ({ sourceId:`official-form:${doc.documentId}`, role:doc.documentRole, documentId:doc.documentId, pathInRepository:doc.repoPath, pathInArchive:doc.pathInArchive, sha256:doc.sha256, byteLength:doc.byteLength, pageCount:census.pages.length, revision:doc.revision, structuralClass:"flat_pdf", acroFieldCount:census.acroFieldCount, bindingResult:"BOUND_EXACT", custody:doc.sourceKind??"recorded_governed_custody", expectedSha256:doc.sha256, expectedByteLength:doc.byteLength, indexComparison:{sha256:"MATCH",byteLength:"MATCH",revision:"MATCH"} })),
+    documents: documents.map(({doc,census}) => ({ documentId: doc.documentId, role: doc.documentRole, sha256: doc.sha256, byteLength: doc.byteLength, path: doc.repoPath, pageCount: census.pages.length })),
     missingExternalAuthorityBytes: [{ path:"/tmp/ar-veterans-authority/Act691-2025.pdf", expectedSha256:"3129da9190cd7aebb606351e8c8e479efff6f84af0b98cbc3fcb80a37bd83e4a", expectedByteLength:309709, status:"not_required_for_source_binding; adopted decision/source review metadata is the authority record; no substitute used" }]
   };
 }
@@ -1121,15 +1262,18 @@ function writeCensusRecord(documents) {
 }
 
 function writeRecords({documents,rasters,allFindings}) {
-  const guides=guidanceTexts(); fs.mkdirSync(path.join(rootDir,OUT),{recursive:true}); fs.writeFileSync(path.join(rootDir,`${OUT}/stage-1-process-guidance.md`),`${guides.stage}\n`); fs.writeFileSync(path.join(rootDir,`${OUT}/participant-instructions.md`),`${guides.participant}\n`);
+  const guides=guidanceTexts(); fs.mkdirSync(path.join(rootDir,OUT),{recursive:true}); fs.writeFileSync(path.join(rootDir,`${OUT}/stage-1-process-guidance.md`),`${guides.stage}\n`);
   const components=componentSet(); const source=sourceReceipt(documents);
   writeJson(`${OUT}/component-set.json`,{schemaVersion:"rcap-composed-component-set/v1",familyId:FAMILY_ID,compositionMode:"sequential",components,sourceBindings:documents.map(({doc})=>doc.sha256),note:"Stage 1 is participant guidance; Stage 2 is the held ACIC petition/order pair. The original source PDFs are unchanged."});
   writeJson(`${OUT}/source-receipt.json`,source);
   const artifacts=documents.flatMap(({doc,census,fixtures})=>["canonical","boundary"].map((label)=>({document:doc.documentId,documentRole:doc.documentRole,fixture:label,file:fixtures[label].file,sha256:fixtures[label].sha256,byteLength:fixtures[label].byteLength,pageCount:census.pages.length,fieldsWritten:fixtures[label].report.written.length,fieldsRefused:fixtures[label].report.refused.length,unfittable:fixtures[label].report.unfittable,proofFindings:fixtures[label].proof.findings.length})));
-  const mapDocs=documents.map(({doc,census,anchors,withheld,fixtures})=>{const canonical=fixtures.canonical;const inked=new Set(canonical.proof.perBlank.filter((b)=>b.inkFoundAtTheMeasuredRectangle).map((b)=>b.blankId));const byId=new Map(census.blanks.map((b)=>[b.blankId,b]));return {documentId:doc.documentId,documentRole:doc.documentRole,ownership:doc.ownership,captionOnly:doc.captionOnly,explicitMappings:doc.explicitMappings,roleRefusals:doc.roleRefusals.map((r)=>({field:r.blankId,...r})),anchorsOffered:anchors.length,writeBoxes:anchors.filter((a)=>inked.has(a.blankId)).map((a)=>{const b=byId.get(a.blankId);const w=canonical.report.written.find((x)=>x.anchor===a.label);return {blankId:a.blankId,field:a.label,factId:w?.factId??null,page:a.page,writeBox:a.writeBox,measured:b.measured,geometryBasis:b.geometryBasis,writeBoxIsExactlyMeasured:b.writeBoxIsExactlyMeasured,withinTheMediaBox:b.withinTheMediaBox,confirmedInk:canonical.proof.perBlank.find((x)=>x.blankId===a.blankId)?.inkFoundAtTheMeasuredRectangle??null};}),withheldBeforeFactory:withheld,protectedRulesHandedToFactory:protectedRulesFor(census)};});
+  const mapDocs=documents.map(({doc,census,anchors,withheld,fixtures})=>{const canonical=fixtures.canonical;const inked=new Set(canonical.proof.perBlank.filter((b)=>b.inkFoundAtTheMeasuredRectangle).map((b)=>b.blankId));const byId=new Map(census.blanks.map((b)=>[b.blankId,b]));return {documentId:doc.documentId,documentRole:doc.documentRole,ownership:doc.ownership,captionOnly:doc.captionOnly,explicitMappings:doc.explicitMappings,roleRefusals:doc.roleRefusals.map((r)=>({field:r.blankId,...r})),anchorsOffered:anchors.length,writeBoxes:anchors.filter((a)=>inked.has(a.blankId)).map((a)=>{const b=byId.get(a.blankId);const w=canonical.report.written.find((x)=>x.anchor===a.label);return {documentId:doc.documentId,blankId:a.blankId,field:a.label,factId:w?.factId??null,page:a.page,writeBox:a.writeBox,measured:b.measured,geometryBasis:b.geometryBasis,writeBoxIsExactlyMeasured:b.writeBoxIsExactlyMeasured,withinTheMediaBox:b.withinTheMediaBox,confirmedInk:canonical.proof.perBlank.find((x)=>x.blankId===a.blankId)?.inkFoundAtTheMeasuredRectangle??null};}),withheldBeforeFactory:withheld,protectedRulesHandedToFactory:protectedRulesFor(census)};});
+  const requiredRows=mapDocs.flatMap((d)=>d.roleRefusals).filter((r)=>r.requiredBeforeFiling===true);
+  const requiredDisclosure=requiredRows.length ? `\n\n## Exact participant facts required before filing\n\nComplete each listed item from the participant's actual records before filing. Conditional items apply only when the printed branch applies; do not guess a value or complete a protected actor field.\n\n${requiredRows.map((r)=>`- ${r.documentId} page ${r.page}: ${r.effectiveLabel} (measured blank ${r.blankId})${r.requiredBeforeFilingCondition ? ` — ${r.requiredBeforeFilingCondition}` : ""}`).join("\n")}\n` : "";
+  fs.writeFileSync(path.join(rootDir,`${OUT}/participant-instructions.md`),`${guides.participant}${requiredDisclosure}`.replace(/\n+$/, "\n"));
   writeJson(`${OUT}/production-field-map.json`,{schemaVersion:"rcap-official-form-field-map/v1-census-v1",familyId:FAMILY_ID,routeKeys:ROUTE_KEYS,renderStrategy:"flat_overlay_draw",renderedBy:"scripts/rcap-official-forms/rcap-official-form-finalize.mjs finalizeFlatOverlay",componentSet:components,generationAllowed:false,runtimeSelectable:false,documents:mapDocs,writes:mapDocs.flatMap((d)=>d.writeBoxes),refusals:mapDocs.flatMap((d)=>d.roleRefusals)});
   writeJson(`${OUT}/reports/actual-writes.json`,{schemaVersion:"rcap-actual-writes-byte-proof/v1",familyId:FAMILY_ID,derivedFromArtifactBytes:true,documents:documents.flatMap(({doc,fixtures})=>["canonical","boundary"].map((label)=>({documentId:doc.documentId,fixture:label,valuesReportedByFinalizer:fixtures[label].report.written,refused:fixtures[label].report.refused,unfittable:fixtures[label].report.unfittable,addedGlyphsReadFromOutputBytes:fixtures[label].proof.glyphsAdded,itemsInsideMeasuredBlanks:fixtures[label].proof.itemsInsideAMeasuredBlank,findings:fixtures[label].proof.findings}))),blockingFindings:allFindings});
-  const blankRows=documents.map(({doc,census,withheld,fixtures})=>{const canonical=fixtures.canonical;const inked=new Set(canonical.proof.perBlank.filter((b)=>b.inkFoundAtTheMeasuredRectangle).map((b)=>b.blankId));const held=new Map(withheld.map((x)=>[x.blankId,x]));return {documentId:doc.documentId,blanksTotal:census.blanks.length,blanksWritten:inked.size,blanksLeftEmpty:census.blanks.length-inked.size,blanks:census.blanks.filter((b)=>!inked.has(b.blankId)).map((b)=>({blankId:b.blankId,page:b.page,caption:b.caption,printedLine:b.printedLine,measured:b.measured,reasonClass:held.get(b.blankId)?.class??"participant_or_actor_completion",reason:held.get(b.blankId)?.why??"No collected fact was written here; complete from the participant or responsible actor's records.",whoCompletesIt:held.get(b.blankId)?.class??"participant_or_responsible_actor"}))};});
+  const blankRows=documents.map(({doc,census,withheld,fixtures})=>{const canonical=fixtures.canonical;const inked=new Set(canonical.proof.perBlank.filter((b)=>b.inkFoundAtTheMeasuredRectangle).map((b)=>b.blankId));const held=new Map(withheld.map((x)=>[x.blankId,x]));return {documentId:doc.documentId,blanksTotal:census.blanks.length,blanksWritten:inked.size,blanksLeftEmpty:census.blanks.length-inked.size,blanks:census.blanks.filter((b)=>!inked.has(b.blankId)).map((b)=>({blankId:b.blankId,page:b.page,caption:b.caption,printedLine:b.printedLine,measured:b.measured,reasonClass:held.get(b.blankId)?.class??"participant_or_actor_completion",reason:held.get(b.blankId)?.why??"No collected fact was written here; complete from the participant or responsible actor's records.",whoCompletesIt:held.get(b.blankId)?.class??"participant_or_responsible_actor",refusalClass:held.get(b.blankId)?.refusalClass??null,completenessDisposition:held.get(b.blankId)?.completenessDisposition??null}))};});
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`,{schemaVersion:"rcap-blanks-left-for-the-participant/v1",familyId:FAMILY_ID,documents:blankRows,everyBlankDisclosed:true,disclosedIn:`${OUT}/participant-instructions.md`});
   writeJson(`${OUT}/reports/charge-caption-proof.json`,{schemaVersion:"rcap-charge-caption-proof/v1",familyId:FAMILY_ID,source:"artifact bytes",documents:documents.map(({doc,census,fixtures})=>({documentId:doc.documentId,chargeBlanks:census.blanks.filter((b)=>b.chargeAssociated).map((b)=>({blankId:b.blankId,caption:b.caption,printedLine:b.printedLine,printedLineAbove:b.printedLineAbove})),fixtures:Object.fromEntries(["canonical","boundary"].map((label)=>[label,{chargeBlanks:fixtures[label].proof.chargeBlanks,participantNameTokensInChargeBlanks:fixtures[label].proof.chargeBlanks.flatMap((x)=>x.participantNameTokensFound)}]))}))});
   writeJson(`${OUT}/reports/participant-name-placement.json`,{schemaVersion:"rcap-participant-name-placement-proof/v1",familyId:FAMILY_ID,allowedByDocument:Object.fromEntries(documents.map(({doc})=>[doc.documentId,NAME_MAY_APPEAR_IN[doc.documentId]??[]])),fixtures:documents.flatMap(({doc,fixtures})=>["canonical","boundary"].map((label)=>({documentId:doc.documentId,fixture:label,namePlacements:fixtures[label].proof.namePlacements})))});
