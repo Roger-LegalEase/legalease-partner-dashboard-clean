@@ -318,3 +318,16 @@ additive returns before dispatch; no semantic gate is waived. AR repair stays lo
 Current Captain HEAD before this note: b3149e4eebca45bc24c894aeba8de004611178e9.
 No reraster of Utah, Act346, KY or NH. Next raster is only newly frozen KS/WV
 current-byte candidates after native semantic recognition.
+
+## Current raster handoff — run34747882153
+
+Hosted run34747882153 IN_PROGRESS at frozencommit
+de82161d28ab1cc5ab689fd7b6a2878ff3f58829. Families: ks-22-2410-arrest-set
+and wv_nc_acquittal_dismissal-set;26pages total. Native semantic extraction PASS
+for both (only clipping remains unmeasured). Input: pf08/wv-ks-arrest-dispatch-inputs-20260913.json;
+frozen manifest: pf08/wv-ks-arrest-frozen-raster-manifest-20260913.json.
+Do not redispatch. After all requiredjobscomplete, consume originalartifact/logcustody
+and send to distinct original-page reviewers. Captainfree2757042176bytes;workerfree4418318336bytes.
+AR instruction-only repair imported6227c8913, exactauthorb19a34142e5d4db79ed3fb045020a24bf7d697f5;
+reviewut_preflight_repair active. KS registration native-return recheckVFAR1active;
+advance separately whenready. Currentverifiedterminal313/346; no ownerdecisionneeded.
