@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 372,
-    "rows": 1463,
+    "returnDirectories": 374,
+    "rows": 1465,
     "independentVerdicts": 326,
     "failRepairRequired": 0,
     "passIndependent": 324
@@ -40974,7 +40974,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud1/rows-vfwasud1-wa-sud-repair-semantic-pass-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -41024,6 +41024,45 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud1/rows-vfwasud1-wa-sud-semantic-independent-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "verdict": "PASS",
+      "lane": "vfwasud2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5bb6b054dafd901e46fdb9eae36173fd7183ed44",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud2/rows-vfwasud2-wa-sud-layout-successor-semantic-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfwasud2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "dac2698a60762ad8294d629e626744061e9ebd90",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud2/rows-vfwasud2-wa-sud-original-raster-diagnostic-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
       "superseded": true
