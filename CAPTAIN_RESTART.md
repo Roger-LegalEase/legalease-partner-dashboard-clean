@@ -1,5 +1,12 @@
 # CAPTAIN_RESTART — SOLE FINISH CAPTAIN
 
+CURRENT: Terminal329/346. UT raster34787156519 pinnedb8a50a1b84718a35db8bd9af77396497f67b369d; single watcher69399. Original review VFUTNEXT1 /root/ut_custody_bridge. Prepared original custody tool private/transfers/verify-current-original-raster.py.
+MT completed Form B5fixtures42pages committed176abc2f68, independent semantic reviewerVFMTB1 /root/ut_custody_bridge active. All5 enrolled byc132b2d574;12 mutation refusals across3MTfamilies.
+IL PRB8fixtures84pages complete candidate commite6c339670f; independent semantic reviewerVFILNEXT1 /root/nd_repair_independent_review active. Author /root/mt_deferred_final_review available for repairs. Court previews NON-FILING; actual issued certificate must be participant-provided.
+Full native matrix admission for complete MT+IL candidates running session46624, logprivate/transfers/mt-il-full-native-completeness-20260913.log. No active MASTER/raster regeneration yet. Baselinesprivate/transfers/mt-il-integration-20260913. Reviewer-owned incoming outputs held until stable admission.
+OH exact usable TNR/Arial font input remains required; no runtime/source hunt. No new live authority.
+
+
 ACTIVE CONTINUATION after user keep-going: UT remove-link author /root/mt_deferred_final_review (PF01), independent packet reviewer /root/ut_custody_bridge (VFUTNEXT1). Five-source native bridge committed6f574d9932; 41testsPASS;345otherfamilies unchanged. Expected complete4fixture54pagepacket. OH author /root/nd_repair_independent_review (PF08) preserving corrected four-branch Franklin diagnostic bindings; exact namedfont remains blocker. Next author slot MT MMRTA completed PF16; all original source bytes confirmed in existingworker and copied exact to private/transfers/mt-mmrta-completed-ready-20260913. Existing converter /tmp/rcap-mt-office/soffice. No newruntime/machine/sourcehunt. Terminal329/346.
 
 
