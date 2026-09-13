@@ -2,11 +2,12 @@
 
 ## Current native closure checkpoint — 2026-09-13
 
-**324/346 terminal.** All323 accepted families at dac2698a60 retain their exact
-family identities and dispositions; only WA SUD is newly terminal. All322 prior
-terminal raster rows retain identical document hashes and receipts. Native master
-convergence60 files PASS; raster convergence5 files PASS.
-Closure receipt: pf05/wa-sud-final-closure-20260913.json.
+**325/346 terminal. Native convergence and preservation PASS.** All324
+accepted families at083c28085 retain exact identities and dispositions; only NC
+agency follow-up is newly terminal. All323 prior terminal raster rows retain
+identical documents and receipts. Read pf05/nc-auto146-final-closure-20260913.json
+for the completed checks and closure evidence.
+WA closure receipt remains pf05/wa-sud-final-closure-20260913.json.
 
 WA SUD family-only notice leading repair5bb6b054da preserves every word, field,
 protected control and all unaffected pages. Both PDFs are9pages. Independent
@@ -27,14 +28,26 @@ Native vfnc1 failure preserved. Existing worker completed ONE bounded repair at
 21a3cd424d120f061f139df9fc74687fea757037,25 tests PASS, native24/107 writes and
 9counterszero,3+6pages. Transfer: private/transfers/pf05-nc-semantic-repair-20260913/.
 Captain imported exact repair at dc0f3d7005; independent vfnc2 semantic PASS
-measures all14 nonvisual obligations. Native full completeness adds only NC;
-all327 prior rows unchanged, all324 terminals preserved. Frozen28792ce373fe;
-one accepted raster dispatch34773855638,2fixtures/9pages,scale2.5. Consume this
-run after shared controls and family succeed; do not redispatch. Protected-ink
-raw-source diagnostic found2242 added pixels outside10write masks (zero lost),
-15/81 unwritten widgets differ. ia_reader_review owns bounded existing zero-write
-normalization comparison; resolver_review owns independent applicability and
-original-page final review. This finding is not yet cleared. PDFs unchanged.
+measures all14 nonvisual obligations. Full native completeness added only NC;
+all327 prior audit rows unchanged. Frozen28792ce373fe; run34773855638 succeeded,
+2fixtures/9pages,scale2.5. Original ZIP/log/PDF/PNG bindings verified; native receipt
+atf6a03ddd5. Distinct vfncfinal1 final review PASS_COMPLETE_INDEPENDENT,15/15.
+Raw2242addedpixel comparison is preserved; exact NC zero-write baseline explains
+all differences,81unwritten controls match,negative mark/on-state controls fail.
+Independent scoped applicability review is bound in vfnc3. No NC rebuild or
+reraster needed. Synthetic nonfiling restrictions remain intact.
+
+FL sealing is the next existing PF01 assignment, on the same worker/existing
+exclusive checkout. Claim verified; exactFDLEsource1d07f48487cc held,6flatpages.
+All7 required records exactly match Captain. Authorized actualavailablebase
+21a3cd424d120f061f139df9fc74687fea757037; no ancestryfiction for absent oldminimum.
+Native preflight14/14PASS. Family-only builder under implementation; author checks
+caught expunction-only sourcepage2 and refuse any sealing participant writes there.
+Keep all6sourcepages; no StateAttorney certification on sealing. Work/returns stay
+worker/private until NC integration chain, convergence, preservation,commit/push
+finishes. Readiness/baseauthorization private/transfers/pf01-fl-sealing-20260913/.
+No completed source restoration, history recovery or accepted reviews repeated.
+
 
 Recovery CLOSED: all4 original histories and exact DE petition restored earlier;
 old recovery Codespace remains stopped. Iowa2families are accepted from original

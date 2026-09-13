@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "471596d9fc1f1f56646c5ce005406e656ea51275",
+  "minimumCaptainSha": "f6a03ddd5595f6b432a3da0e4374f0457de3913e",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -84,12 +84,11 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 302,
+    "COMPLETE_PACKET_PROVEN": 303,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 18,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 1,
     "PRODUCT_PATH_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -32556,16 +32555,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vfnc2",
-        "verifiedAtBase": "dc0f3d70050045a34674712648d7df7bc4490220",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnc2/rows-vfnc2-nc-auto146-repair-semantic-pass-20260913.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfncfinal1",
+        "verifiedAtBase": "f6a03ddd5595f6b432a3da0e4374f0457de3913e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfncfinal1/rows-vfncfinal1-nc-auto146-original-final-20260913.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -32598,7 +32594,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_auto_146_a4_agency_followup-set.mjs",
