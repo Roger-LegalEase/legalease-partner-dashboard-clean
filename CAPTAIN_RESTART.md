@@ -2,17 +2,21 @@
 
 ## Latest preservation checkpoint — 2026-09-13
 
-Accepted MASTER_QUEUE remains byte-identical to6277ad331: **321/346**.
-Do not apply regression previews or substitute new review dates for missing history.
-One final fresh preview against current extracted Iowa returns and repaired history
-reproduces317 accepted families, no new terminals. Four exact historical review
-commits remain absent in Captain, worker Git and the indexed preserved worker bundle:
-ND nonconviction5ec5b9d743d4c780db344e0f0465580d90631df4;
-DE mandatorya9d0acdf0f37d18d9b469ffaf18dbecc9b514596;
-DE pardonca8ffa9fb57041ee0d113e7cfb72f244fd17d75c;
-FL bridge7dc4c078409979b5aa480d83fbd4294332d4bbdb.
-These are historical evidence/execution blockers, not newly established legal defects.
-No substantive packet regression established. No renewed source hunt/review is authorized.
+Accepted MASTER_QUEUE remains 321/346 pending completed native integration.
+The authorized bounded old-Captain recovery recovered all four exact original
+review histories and the exact 179445-byte Delaware CIV_EXP_02_A petition.
+All 31 exported Git objects, historical family/legal reads and parent ancestry
+verified. No replacement reviews were created or consumed. The earlier missing
+history finding remains historical; the recovery/review prohibition was superseded
+only for these four preservation blockers and this completed recovery window.
+Recovery Codespace is verified Shutdown. Existing worker resumed, with corpus
+and required dependencies verified. Its saved assignments remain unchanged.
+Usable pack and restoration verification:
+`data/rcap-grade-a/packet-factory-24h/preservation-reconciliation-20260913/recovered-old-captain/`.
+Restore the scoped pack with `git index-pack --stdin < review-histories.pack`
+after restoring the previously recorded durable base objects. Private petition
+bytes remain solely in private governed custody; no raw source is committed.
+Native integration is in progress; do not claim 323 before exact-family checks.
 Cause table, exact family sets, wiring verification and object receipts:
 `data/rcap-grade-a/packet-factory-24h/preservation-reconciliation-20260913/`.
 Eight authentic required commit objects and4615 trees restored from worker, SHA identities
@@ -33,7 +37,7 @@ vfiafinal1/rows-vfiafinal1-ia-12346-original-final-20260913.json and
 vfiafinal2/rows-vfiafinal2-ia-901c3-original-final-20260913.json.
 No diagnostic/nonfiling class changed. Original packet commit remains67c72bae5addcc2084ffbd2ba79294af56232b9b.
 Fresh preview selects both final returns at VERIFIED_PASS. No authoritative terminal
-closure yet: shared preservation gate needs authentic missing historical objects.
+closure yet: shared preservation gate is being rerun with restored authentic history.
 Existing integration supports receipt batches, not a bypass around unrelated terminal losses.
 Old recovery machine remains stopped; worker resumes existing assignments, no duplicate worker.
 
