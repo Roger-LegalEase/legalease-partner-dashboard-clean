@@ -28,15 +28,15 @@ const attestations = LEGAL_BLOCK_SUPERSESSION_PATHS.map((recordPath) => ({ path:
 const baseResolutions = mergeLegalBlockResolutionRecords(docs);
 const resolutions = loadLegalBlockResolutions(ROOT);
 
-assert.equal(baseResolutions.records.length, 5);
-assert.deepEqual(baseResolutions.records.map((row) => [row.legalClearFamilies, row.legalHoldFamilies]), [[29, 6], [1, 0], [1, 0], [1, 0], [1, 0]]);
-assert.equal(baseResolutions.clearFamilyIds.length, 33);
+assert.equal(baseResolutions.records.length, 6);
+assert.deepEqual(baseResolutions.records.map((row) => [row.legalClearFamilies, row.legalHoldFamilies]), [[29, 6], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0]]);
+assert.equal(baseResolutions.clearFamilyIds.length, 34);
 assert.equal(baseResolutions.holdFamilyIds.length, 6);
-assert.equal(resolutions.records.length, 6);
-assert.equal(resolutions.clearFamilyIds.length, 39);
+assert.equal(resolutions.records.length, 7);
+assert.equal(resolutions.clearFamilyIds.length, 40);
 assert.equal(resolutions.holdFamilyIds.length, 0);
-assert.equal(resolutions.byFamily.size, 39);
-assert.equal(new Set([...resolutions.clearFamilyIds, ...resolutions.holdFamilyIds]).size, 39);
+assert.equal(resolutions.byFamily.size, 40);
+assert.equal(new Set([...resolutions.clearFamilyIds, ...resolutions.holdFamilyIds]).size, 40);
 
 const nh = docs.find(r => r.path.endsWith("NH_STREAMLINED_OWNER_ADOPTION_2026-09-12.json")).document;
 assert.deepEqual(nh.legalClearFamilyIds, ["nh_conviction_streamlined-set"]);
@@ -59,6 +59,40 @@ assert.match(kyService.decisions[0].bindingProductRule, /CR 5\.03 where applicab
 assert.match(kyService.decisions[0].bindingProductRule, /No proof obligation is waived/);
 assert.equal(read(kyService.provenance.draft.path).status, "RESEARCH_DRAFT_NOT_ADOPTED");
 assert.equal(assessLegalResolutionAtReviewBase(ROOT, kyService.provenance.draftCommit, resolutions.byFamily.get("ky_protective_order_record_expungement-set")).available, false, "original research draft commit is not owner adoption or packet acceptance");
+
+const arVeterans = docs.find(r => r.path.endsWith("AR_VETERANS_OWNER_PRODUCT_ADOPTION_2026-09-13.json")).document;
+const arResolution = resolutions.byFamily.get("ar-veterans-court-set");
+assert.deepEqual(arVeterans.legalClearFamilyIds, ["ar-veterans-court-set"]);
+assert.deepEqual(arVeterans.legalHoldFamilyIds, []);
+assert.equal(arVeterans.scope, "ar-veterans-court-set only; bounded pre-adjudication held-form implementation and conditional supported handoffs");
+assert.equal(arVeterans.provenance.owner, "Roger Roman");
+assert.equal(arVeterans.provenance.ownerAdoption, true);
+for (const key of ["counselApproval", "courtRuling", "packetPass", "terminalPromotion", "productionAuthorization"]) assert.equal(arVeterans.provenance[key], false);
+assert.match(arVeterans.stateSemantics.LEGAL_CLEAR, /No counsel\/packet\/production grant/);
+assert.equal(arVeterans.decisions.length, 1);
+assert.equal(arVeterans.decisions[0].decisionId, "AR-VETERANS-OWNER-PRODUCT-ADOPTION-20260913");
+assert.equal(arVeterans.decisions[0].disposition, "LEGAL_CLEAR");
+assert.deepEqual(arVeterans.decisions[0].familyIds, ["ar-veterans-court-set"]);
+assert.deepEqual(arVeterans.decisions[0].adoptedRevisions.map((revision) => revision.number), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+assert.deepEqual(arVeterans.decisions[0].adoptedRevisions.map((revision) => revision.id), [
+  "CURRENT_GOVERNING_LAW",
+  "PRE_ADJUDICATION_SCOPE",
+  "COMPLETION_AND_JUDICIAL_FINDINGS",
+  "CROSS_COURT_RELIEF",
+  "TIMING_PRIOR_FELONIES_DWI_BWI",
+  "SERVICE_OBJECTION_DISTRIBUTION",
+  "FILING_FEE",
+  "PROGRAM_EVIDENCE",
+  "SOURCE_AND_PROTECTED_FIELDS",
+  "ACCEPTANCE_CONTROLS"
+]);
+assert.equal(arVeterans.provenance.draftRemainsHistoricalUnadoptedDocument, true);
+assert.equal(arVeterans.provenance.adoptedRevisionsControlDraft, true);
+const arDraft = read(arVeterans.provenance.draft.path);
+assert.equal(arDraft.status, "NOT_ADOPTED");
+assert.equal(arDraft.familyId, "ar-veterans-court-set");
+assert.equal(assessLegalResolutionAtReviewBase(ROOT, arDraft.reviewedAtBase, arResolution).available, false,
+  "the additive AR owner record was unavailable at the historical draft review base");
 
 const permissionFamily = "ks-22-2410-arrest-set";
 const permissionRecord = {disposition:"PRODUCT_PATH_PENDING", permissionHold:"Kansas Judicial Council noncommercial-use and republication restriction", productQuestion:null, unresolvedObligations:[]};
@@ -93,7 +127,7 @@ mustRefuse("clear and hold overlap", (copy) => {
 }, /clear\/hold lists overlap/);
 
 const exactSupersession = applyLegalResolutionSupersessions(baseResolutions, attestations);
-assert.equal(exactSupersession.clearFamilyIds.length, 39);
+assert.equal(exactSupersession.clearFamilyIds.length, 40);
 assert.equal(exactSupersession.holdFamilyIds.length, 0);
 for (const familyId of baseResolutions.holdFamilyIds) {
   const effective = exactSupersession.byFamily.get(familyId);
@@ -245,7 +279,7 @@ if (process.argv.includes("--generated")) {
   assert.ok(stateDelta.every((family) => inScope.has(family.familyId)));
   assert.equal(active.assignments.length > 0, true);
   assert.equal(Array.isArray(ledger.claims), true);
-  console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 39 legally clear; SC source/product gates preserved`);
+  console.log(`LEGAL_BLOCK_RESOLUTION_GENERATED_OK: exact ${stateDelta.length}-family state delta; 0 unaffected changes; 0 sole-clear admissions; all 40 legally clear; SC source/product gates preserved`);
 }
 
-console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 39 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");
+console.log("LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 40 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned");

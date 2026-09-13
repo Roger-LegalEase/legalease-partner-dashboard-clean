@@ -10,6 +10,7 @@ export const LEGAL_BLOCK_RESOLUTION_PATHS = Object.freeze([
   "data/rcap-grade-a/legal-decisions/DE_FAMILY_COURT_SOURCE_FACTS_2026-09-12.json",
   "data/rcap-grade-a/legal-decisions/NH_STREAMLINED_OWNER_ADOPTION_2026-09-12.json",
   "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json",
+  "data/rcap-grade-a/legal-decisions/AR_VETERANS_OWNER_PRODUCT_ADOPTION_2026-09-13.json",
 ]);
 export const LEGAL_BLOCK_SUPERSESSION_PATHS = Object.freeze([
   "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
