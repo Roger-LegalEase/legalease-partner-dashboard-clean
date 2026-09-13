@@ -1,114 +1,87 @@
 # CAPTAIN_RESTART — RECONSTRUCTED_AFTER_RESTART
 
-Created 2026-09-13T01:58:45.597526+00:00. This file did not exist before restart. No saved
-pre-restart checkpoint or confirmed backup was located. Do not wait for one.
+This note was created after restart; no pre-restart checkpoint or backup was
+located. `/workspaces/.legalease-restart` was checked once and was absent.
+Recovery is finished. Continue the existing gates; do not bootstrap or regenerate
+national outputs for startup/status. Historical recovery detail remains committed
+under `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/`.
 
-## Current recovered state
+## Current checkpoint
 
-- Repository: `/workspaces/legalease-partner-dashboard-clean`; Unix user codespace, UID 1000.
-- HEAD: `765cdcf73273d3dc81491d98dc07fa378fb51a57` on `claude/legalease-sprint-captain-utucnw`.
-- Last proven generated comparison: **310/346 terminal** (288 proven packets,
-  15 guidance, 2 handoffs, 5 out of scope). No regeneration or promotion performed.
-- Current local commits, dirty files, untracked work and worker branches preserved.
-  Missing `/tmp` worktrees remain registered; none pruned, released or recreated.
-- `/workspaces/.legalease-restart` checked once: absent. It was a requested
-  destination, not a confirmed backup. Do not invent preserved temporary files.
-- NH remains closed. Its independent final return is
-  `data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-nh-conviction-streamlined-revision-original-final-20260912.json`.
-- KY bounded owner adoption remains adopted at
-  `3f16e3a55499f790d2b316a42171d473634c935d`; prior drafts remain unadopted.
-- Act 346 complete implementation remains committed at
-  `2bbc77426760798df1f8762f0338d8ecd2c1888f`.
+- Worktree: `/workspaces/legalease-partner-dashboard-clean`; user `codespace`.
+- Captain HEAD observed at this update: `7c57ca5584b8a754279097ff42cde98d862536da`.
+- Current MASTER_QUEUE counted once after recovery: **310/346 terminal**.
+  No new closure yet. NH remains COMPLETE_PACKET_PROVEN.
+- KY adoption `3f16e3a55499f790d2b316a42171d473634c935d` remains adopted.
+  Earlier drafts remain unadopted. No production or commercial authority changed.
+- Local commits, branch pointers and missing old `/tmp` worktree registrations
+  retained. Do not reset, clean, prune or blanket-release claims.
 
-## Verified environment
+## Verified task environment
 
-Master Library real directory: `/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1`.
-`requireMasterLibraryEnvironment()` passed, including separate-custody checks,
-after sourcing each recreated wrapper:
+Source `private/source-corpus-environment.txt` or `$HOME/.legalease-corpus-env`.
+Both export MASTER_LIBRARY_SOURCE_DIR and RCAP_BUNDLE_EXTRACT to
+`/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1`.
+`requireMasterLibraryEnvironment()` and its existing test pass. Operational
+Nationwide remains absent; never substitute this library or assert full custody.
 
-- `private/source-corpus-environment.txt`
-- `/home/codespace/.legalease-corpus-env`
+`node_modules` retains its original symlink to
+`/tmp/rcap-dependencies-after-ci-20260912/node_modules`. Only pdf-lib1.17.1 and its
+four lockfile dependencies were restored, against EXPECTED SHA-512 SRI and
+verified extracted bytes. Exact versions/URLs/integrities are persisted in
+`restart-recovery-20260913/pdf-lib-restoration.json` under the factory directory.
+No required source or review evidence is stored solely in `/tmp`.
 
-Wrappers follow `scripts/codex-cloud/setup-packet-factory.sh`'s `write_env`
-convention, exporting only `MASTER_LIBRARY_SOURCE_DIR` and `RCAP_BUNDLE_EXTRACT`
-to that verified directory. No credentials, browser binding, invented archive
-verification claim, or operational Nationwide binding was inserted. Wrapper
-hashes, Git status and worktree records are in
-`data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/reconstructed-environment.json`.
+## Active gates and returns
 
-The mount validator is not an archive-wide fidelity audit. Act 346's two sources
-were separately verified against committed receipt hashes and lengths: petition
-`b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3`
-(530147 bytes) and order
-`70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740`
-(307979 bytes). Both survive in their recorded custody. All four saved candidate
-PDFs match `fix112/ar-act346-current-raster-manifest-20260912.json`.
+1. **AR Act346**: complete candidate `2bbc77426760798df1f8762f0338d8ecd2c1888f`;
+   four-document freeze at `ad98a571b8507f68371240c2d429e1207054eb9e`.
+   Consumed `vfar1/rows-vfar1-ar-act346-semantic-pass-20260913.json` at commit
+   `7c57ca558`: 14 semantic obligations PASS, clipping/overlap unmeasured.
+   All frozen current/pinned hashes pass existing dispatch-byte verifier.
+   **Raster run34732930032 pending**; canary and plan passed, family was queued at
+   last check. Inputs: `raster-runs/34732930032/dispatch-inputs.json`.
+   On success retain original archive/log in that persisted run directory and use
+   existing `codex-captain-20260910/consume-original-raster.py`, then independent
+   original-page final review and required integration chain. Never consume early.
+2. **KY protective order**: scoped implementation `03709d771`; PF08 complete return
+   `pf08/rows-pf08-ky-adopted-service-repair-20260913.json` committed at7c57ca558.
+   Both saved PDF hashes unchanged; service guides changed. Adoption test,
+   saved-output readback, native completeness and B/C checks passed.
+   `resume_vfar1` now performs the existing VF24 independent review assignment;
+   it did not author KY. Do not reraster unchanged PDFs merely for restart.
+3. **Kansas arrest/registration relief**: consumed
+   `pf20/ks-custody-resume-20260913.json`. Latest saved worker return041959548 is
+   STOPPED/BLOCKED_SOURCE, no candidate. Four exact files absent; expected paths,
+   hashes, lengths and recorded URLs are in that handoff. `resume_ks_custody`
+   attempts only exact recorded custody/URLs, no new source hunt. Parent owns
+   source-binding integration. Owner KJC permission attestation stays adopted.
+4. **UT cannabis**: PF05 and VFUT1 claims unchanged. Latest saved script return
+   ea1eb64da is the flat typed-underscore caption refusal. `resume_pf05_ut` resumes
+   it in persisted isolated worktree
+   `private/worker-worktrees/pf05-ut-cannabis-resume-20260913`, same-named branch,
+   base7f50087dc; existing provisioner links private/node_modules. Owned UT family
+   paths only; parent merges, VFUT1 independently reviews. No duplicate build.
 
-## Exact remaining gaps
+All factory-relative paths above are under `data/rcap-grade-a/packet-factory-24h/`.
+Captain owns shared index, queues and authoritative integration. Review workers
+leave returns uncommitted for serial Captain commits. Preserve live claims.
+Use `env -u GH_TOKEN -u GITHUB_TOKEN gh ...`; stored OAuth works. Fifteen saved
+raster runs plus NH34712867106 were already checked successful; do not redispatch.
 
-- Operational `private/Nationwide Record Clearing/` is absent. No operational root
-  or restoration binding has been established. The Master Library is separate.
-- `/tmp/ky-clerks-manual-2026-check.pdf`: expected SHA-256
-  `3d5c55025b617846b19537965a7ae453f4f8edbe00b7105ce5be1493882948b0`,
-  length 5128994. Recorded URL:
-  `https://www.kycourts.gov/Courts/County-Information/Documents/ClerksManual.pdf`.
-- `/tmp/ky-cr-201009-official.pdf`: expected SHA-256
-  `89fc9d0011f0424fcedd54160c8ad00af41469bbdb71711cbd3365f4caa2e56b`,
-  length 3298823. Recorded URL:
-  `https://www.kycourts.gov/Courts/Supreme-Court/Supreme%20Court%20Orders/201009.pdf`.
+## Local blockers and preservation issue
 
-Both recorded URL restoration attempts returned HTTP 403 on 2026-09-13. No
-matching-length candidate exists in surviving `private/` or `reference/` trees.
-Neither file was restored or replaced. The immutable expected values and attempt
-results are in `restart-recovery-20260913/ky-dependency-restoration.json` under the
-packet-factory directory. Other lost scratch files have not been presumed
-necessary; derive requirements only from the next task's committed receipts.
+- KY historical manual and2010 rule PDFs remain unavailable (recorded URLs403).
+  Exact expected hashes/lengths: `restart-recovery-20260913/ky-dependency-restoration.json`.
+  Reviewer must distinguish historical-source evidence from actual current
+  dependencies; this does not reopen the adopted owner decision.
+- VFAR1 initially ran B/C without `--no-write`, contrary to assigned scope.
+  `writeSection` replaced B/C in the already-dirty TRUTH4_FINDINGS.json plus its
+  generated timestamp. No pre-write snapshot exists; original dirty B/C contents
+  cannot be claimed preserved. No reset was attempted; current file stays dirty
+  and uncommitted. Other sections are retained by writeSection. All further
+  scoped checks use --no-write. This report grants no acceptance authority.
 
-## Actions and ownership
-
-Stored GitHub authentication succeeded with both environment-token overrides
-unset. Use `env -u GH_TOKEN -u GITHUB_TOKEN gh ...`; no browser login needed.
-All 15 runs listed in `warp-20260912/restart-raster-dispatches.json`, plus NH
-34712867106, were checked and completed successfully. No redispatch is needed
-merely because scratch vanished. Workflow head and packet input commit are
-different concepts; do not interpret their inequality alone as evidence drift.
-Four recorded WV/DE/IL/OR final-return hashes and lengths were verified.
-
-VFAR1's independent Act 346 claim remains live and distinct from PF01 implementation.
-VF24's KY review claim remains live; the saved assignment placed KY after AR.
-All other claims remain untouched. No blanket release or reassignment occurred.
-
-## Next executable handoff
-
-Resumed VFAR1 independent **semantic** review of the existing Act 346 candidate
-with an independent worker (`resume_vfar1` in this session), using the saved PF01
-return and exact existing sources. It may write a bounded review return only;
-no rebuild, raster, implementation repair, national generation or claim changes.
-Collect its current return before doing more work. If it finds defects, preserve
-the candidate and return concrete findings to implementation. Only independently
-accepted semantics may proceed to the recorded central raster gate, followed by
-independent original-page review; unmeasured visual obligations remain unaccepted.
-
-KY saved dirty implementation remains preserved pending its separate review and
-required source recovery. No live/commercial authority is granted by this recovery.
-
-## Recovery continuation: task dependency restored
-
-VFAR1 verified the sources/candidate bindings and asserted its existing claim,
-but its completeness-script load exposed the vanished `node_modules` target:
-`/tmp/rcap-dependencies-after-ci-20260912/node_modules`. No review verdict was
-issued from that failed load. Its saved inspection work was retained.
-
-Restored only `pdf-lib@1.17.1`, `@pdf-lib/standard-fonts@1.0.0`,
-`@pdf-lib/upng@1.0.1`, `pako@1.0.11`, and pdf-lib's nested `tslib@1.14.1`
-from `package-lock.json` resolved URLs. Every tarball matched the lockfile's
-EXPECTED SHA-512 SRI before extraction; every extracted file matched its verified
-archive bytes. The lockfile has no expected archive length or SHA-256; observed
-values are explicitly labeled, not represented as prior expectations. Existing
-symlink, package.json and package-lock.json were preserved; no broad install,
-lifecycle scripts, or bootstrap ran. `PDFDocument` import now succeeds.
-
-Evidence: `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/pdf-lib-restoration.json`.
-VFAR1 resumed the blocked completeness check from its saved work. Wait for its
-actual bounded return before advancing any gate. Other absent dependencies are
-not presumed needed and have not been broadly restored.
+Priority: integrate current final PASS; consume completed original raster; dispatch
+semantically accepted frozen candidate; finish active repairs; only then next
+bounded source-ready build. Do not wait for siblings that are not ready.
