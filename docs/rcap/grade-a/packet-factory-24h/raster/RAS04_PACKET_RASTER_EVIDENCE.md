@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `17b5d695f98eb64c4ea1c4952c99c6a62d2048ca`
+**Minimum required ancestor:** `14a72272edaafa83aa425f6bdd5ba1152a8c8b25`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -316,7 +316,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/canonical.pdf` — `f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3`
 - boundary `data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/boundary.pdf` — `2aa9a8e548a946b17742dc6ed0e88b53782aab33279c2aa354a421838bc9bc22`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### ky_misdemeanor_expungement-set
 

@@ -10,7 +10,7 @@ Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
 Latest verified remote before this note: 4726c2bf4bada1d4e0db4597bc56f87d2003cc60.
 Current HEAD advances through the commit containing this note.
-**Verified terminal checkpoint:315/346.**
+**Verified terminal checkpoint:316/346.**
 Full native integration with Utah original run34744433174 completed at base
 b3149e4eebca45bc24c894aeba8de004611178e9.
 Utah integration preserved312 prior terminals. WV integration then preserved all313
@@ -367,3 +367,8 @@ Kansas arrest final native integration passed all steps;314 prior terminals and2
 Final return: vfks1/rows-vfks1-ks-22-2410-arrest-original-final-20260913.json.
 Closure: restart-recovery-20260913/ks-arrest-final-closure-20260913.json.
 Original run34747882153 custody unchanged. Registration and AR final reviews remain pending.
+
+AR veterans closed316 via original run34748768620; all315 prior terminals preserved.
+Closure: restart-recovery-20260913/ar-veterans-final-closure-20260913.json.
+Kansas registration finalPASS recorded14a72272e; native integration next.
+OH blocked on existing remedy-matching source/mapping inputs; same slot advances CA diversion seal.
