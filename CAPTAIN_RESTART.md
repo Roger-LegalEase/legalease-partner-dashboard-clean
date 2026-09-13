@@ -381,3 +381,6 @@ UT juvenile exact candidate imported13a80e4f0, semanticPASS c7ba985c5, four page
 in pf05/ut-juvenile-frozen-raster-manifest-20260913.json; dispatch next.
 Only implementation slots: PF05 Florida expunction, existing worker Iowa12346.
 OH, CA diversion, NC composed dismissal, FL sealing exact prerequisite blockers are isolated in native returns.
+
+UT juvenile dispatched once as run34755241448 at20ec0d482c79052eff52274dc733d3a0ae294d1f,4pages.
+Inputs: pf05/ut-juvenile-dispatch-inputs-20260913.json. Do not redispatch.
