@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "6047963ba3003fedf901eec00d50166f0124f132410a949cb7a832e1b10e36b5",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "17a5d0c6c61879acb826e73b7966650c0a7eaad1e96de02575fe49062298633b",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 32,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 32,
+            "sourceSha256": "17a5d0c6c61879acb826e73b7966650c0a7eaad1e96de02575fe49062298633b",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "17a5d0c6c61879acb826e73b7966650c0a7eaad1e96de02575fe49062298633b"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 32,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 32,
+            "sourceSha256": "6047963ba3003fedf901eec00d50166f0124f132410a949cb7a832e1b10e36b5",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "6047963ba3003fedf901eec00d50166f0124f132410a949cb7a832e1b10e36b5"
+        }
+      ],
+      "documentsDigest": "04cf3d0d0970bbc1bad30af97b264213e8f3dae13da4aaa4fcec3c37db16742f",
+      "expectedPages": 32,
+      "familyId": "nd-prohibit-remote-public-access-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "ff9715e9e149283b343283eacc72464a2389cbe0",
+      "requestedScale": 2.5
+    }
+  ]
+}
