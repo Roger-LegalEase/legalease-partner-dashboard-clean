@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-packet-set-manifest/v2",
+  "familyId": "ut_pet_remove_link-set",
+  "components": [
+    {
+      "componentId": "ut_pet_remove_link-motion-1",
+      "role": "motion",
+      "requirement": "conditional",
+      "conditionDescription": "The judge-track version, used where a judge rather than a court commissioner decides the motion.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1501CR",
+      "officialSourceUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+      "order": 1
+    },
+    {
+      "componentId": "ut_pet_remove_link-motion-commissioner-track-2",
+      "role": "motion_commissioner_track",
+      "requirement": "conditional",
+      "conditionDescription": "The commissioner-track version, used where a court commissioner rather than a judge decides the motion. Which applies turns on case category and judicial district.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1501CR-C",
+      "officialSourceUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR-C_Motion_to_Remove_Link_to_Personal_Identifying_Information-Commissioner.pdf",
+      "order": 2
+    },
+    {
+      "componentId": "ut_pet_remove_link-proposed-order-3",
+      "role": "proposed_order",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1502CR",
+      "officialSourceUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1502CR_Order_on_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+      "order": 3
+    },
+    {
+      "componentId": "ut_pet_remove_link-notice-to-submit-or-notice-of-hearing-4",
+      "role": "notice_to_submit_or_notice_of_hearing",
+      "requirement": "conditional",
+      "conditionDescription": "Which of the two applies depends on whether the motion runs on the judge track or the commissioner track.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "1110GE or 1111GE",
+      "officialSourceUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "order": 4
+    },
+    {
+      "componentId": "ut_pet_remove_link-filing-and-expectation-instructions-5",
+      "role": "filing_and_expectation_instructions",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "officialSourceUrl": null,
+      "order": 5
+    }
+  ],
+  "selector": {
+    "requiredFact": "judgeOrCommissioner",
+    "factSources": [
+      "clerk-confirmed",
+      "court-confirmed"
+    ],
+    "judge": [
+      "1501CR",
+      "1502CR",
+      "1110GE"
+    ],
+    "commissioner": [
+      "1501CR-C",
+      "1502CR",
+      "1111GE"
+    ],
+    "otherwise": "configuration_ambiguous; no filing packet"
+  },
+  "externalRequiredDocuments": [
+    {
+      "name": "Order of dismissal in the criminal case",
+      "obtainedFrom": "The clerk of the district or justice court that dismissed the case",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for a copy of the dismissal order. It carries the dismissal date the 30-day clock runs from and shows the charges, which is what the domestic violence screen turns on.",
+      "confirms": "dismissalDate"
+    }
+  ],
+  "sourcePagesPreserved": true,
+  "instructionsLast": true
+}
