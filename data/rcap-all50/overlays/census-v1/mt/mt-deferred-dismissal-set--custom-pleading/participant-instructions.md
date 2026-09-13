@@ -29,3 +29,5 @@ REVIEW ARTIFACT LIMIT: these fixtures contain synthetic facts and example contac
 Required completion before service certificate filing: Printed name of actual server. The server is not assumed to be the defendant.
 
 RELEASE NOTES RETAINED: local procedure/fee, DOJ 2023-versus-2024 attachment practice, supporting-process asset-role mismatch, and denial-of-charge legal effect remain the adopted release blockers. No source-index reclassification or commercial authority is created.
+
+This record is sealed and treated as confidential criminal justice information. Agencies listed in MCA 44-5-103 retain access to the sealed record in its entirety. DOJ specifically identifies law enforcement, including the military and Border Patrol. Sealing does not destroy or erase the record and does not establish permission to deny the charge.
