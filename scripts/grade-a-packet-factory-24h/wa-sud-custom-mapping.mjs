@@ -12,6 +12,8 @@ export const WA_SUD_REVIEW = 'data/rcap-grade-a/packet-factory-24h/vfwasud1/rows
 export const WA_SUD_REVIEW_SHA256 = '2763787f73e340e1443e4fc8c2c6f420daf7d7d776a3bdbbcca4e327854de4c7';
 const DECISION_PATH = 'data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json';
 const DECISION_ID = 'WA-SUD-VACATUR-CUSTOM-96060-6';
+export const WA_SUD_LAYOUT_CERTIFICATE = 'data/rcap-grade-a/packet-factory-24h/vfwasud2/wa-sud-layout-successor-certificate-20260913.json';
+const LAYOUT_CERTIFICATE_SHA256 = 'c5208f2fa1c8ea8b38937b481d141a6be690601f00b4c6eb0011dd3d0a6443bb';
 const CANDIDATE = '6632fd3b9471791d3748e895fdb00a54c7448c8d';
 const COMPONENTS = ['petition-1', 'declaration-2', 'notice-order-3', 'program-evidence-4', 'filing-instructions-5'].map(x => `wa-96060-6-${x}`);
 const OBLIGATIONS = ['ROUTE_IDENTITY','SOURCE_IDENTITY','COMPONENT_SET','KNOWN_PREFILLS','REQUIRED_BEFORE_FILING','ROUTE_OPTIONS','REPEATING_ROWS','PROTECTED_FIELDS','ARTIFACTS','PAGE_ORDER','CLIPPING_AND_OVERLAP','FILING_DESTINATION','FEE_AND_WAIVER','SERVICE','SELF_HELP_STOP'];
@@ -85,15 +87,69 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
     assert.equal(later.verdict, selected.verdict);
     assert.equal((later.lane ?? next.lane).toLowerCase(), selected.lane.toLowerCase());
   }
-  const bindings = row.currentCandidateBindings;
+  // Keep the original approval immutable. A separately reviewed layout successor
+  // can bind changed bytes; it grants neither a visual PASS nor final acceptance.
+  let bindingRow = row, candidate = CANDIDATE, expectedPages = 10;
+  const originalBindings = row.currentCandidateBindings;
+  const changed = originalBindings.some(b => hash(read(b.path)) !== b.sha256);
+  if (changed) {
+    const certificateBytes = read(WA_SUD_LAYOUT_CERTIFICATE);
+    assert.equal(hash(certificateBytes), LAYOUT_CERTIFICATE_SHA256, 'Unrecognized layout successor certificate');
+    const certificate = JSON.parse(certificateBytes);
+    assert.equal(certificate.originalSemanticReview.path, WA_SUD_REVIEW);
+    assert.equal(certificate.originalSemanticReview.sha256, WA_SUD_REVIEW_SHA256);
+    const successorBytes = read(certificate.independentReview.path);
+    assert.equal(hash(successorBytes), certificate.independentReview.sha256);
+    const successorDoc = JSON.parse(successorBytes);
+    assert.equal(successorDoc.laneKind, 'independent-verification');
+    assert.equal(successorDoc.rows.length, 1);
+    bindingRow = successorDoc.rows[0];
+    assert.equal(bindingRow.familyId, WA_SUD_FAMILY);
+    assert.equal(bindingRow.independence.independentOfImplementer, true);
+    assert.equal(bindingRow.independence.buildOrRegenerationPerformed, false);
+    assert.equal(bindingRow.verdict, 'PASS');
+    assert.equal(bindingRow.finalAcceptance, false);
+    assert.equal(bindingRow.proofObligations.CLIPPING_AND_OVERLAP.measured, false);
+    assert.deepEqual(Object.keys(bindingRow.proofObligations).sort(), [...OBLIGATIONS].sort());
+    for (const obligation of OBLIGATIONS.filter(x => x !== 'CLIPPING_AND_OVERLAP')) {
+      assert.equal(bindingRow.proofObligations[obligation].result, 'PASS');
+      assert.equal(bindingRow.proofObligations[obligation].measured, true);
+    }
+    candidate = certificate.candidateCommit;
+    assert.equal(bindingRow.candidateCodeCommit, candidate);
+    git(['merge-base', '--is-ancestor', row.verifiedAtBase, candidate]);
+    git(['merge-base', '--is-ancestor', candidate, bindingRow.verifiedAtBase]);
+    git(['merge-base', '--is-ancestor', bindingRow.verifiedAtBase, selected.verifiedAtBase]);
+    assert.deepEqual(certificate.currentCandidateBindings, bindingRow.currentCandidateBindings);
+    assert.deepEqual(certificate.currentArtifacts, bindingRow.currentArtifacts);
+    const allowed = new Set([
+      `${WA_SUD_DIRECTORY}/fixtures/canonical.pdf`, `${WA_SUD_DIRECTORY}/fixtures/boundary.pdf`,
+      `${WA_SUD_DIRECTORY}/reports/rendered-artifacts.json`,
+      'scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs'
+    ]);
+    for (const old of originalBindings) {
+      const bytes = git(['show', `${CANDIDATE}:${old.path}`]);
+      assert.equal(hash(bytes), old.sha256); assert.equal(bytes.length, old.bytes);
+      atBase(row.verifiedAtBase, old.path, bytes);
+      const next = bindingRow.currentCandidateBindings.find(b => b.path === old.path);
+      assert(next, 'Successor omitted an original obligation artifact');
+      if (!allowed.has(old.path)) {
+        assert.equal(next.sha256, old.sha256, `Non-layout bytes changed: ${old.path}`);
+        assert.equal(next.bytes, old.bytes);
+      }
+    }
+    expectedPages = 9;
+  }
+  const bindings = bindingRow.currentCandidateBindings;
   assert.equal(bindings.length, 14);
   assert.equal(new Set(bindings.map(b => b.path)).size, bindings.length);
+  assert.deepEqual(bindings.map(b => b.path).sort(), originalBindings.map(b => b.path).sort());
   for (const b of bindings) {
     const bytes = read(b.path);
     assert.equal(hash(bytes), b.sha256, `Custom candidate changed: ${b.path}`);
     assert.equal(bytes.length, b.bytes);
-    atBase(CANDIDATE, b.path, bytes);
-    atBase(row.verifiedAtBase, b.path, bytes);
+    atBase(candidate, b.path, bytes);
+    atBase(bindingRow.verifiedAtBase, b.path, bytes);
     atBase(selected.verifiedAtBase, b.path, bytes);
   }
   const receipt = json(`${WA_SUD_DIRECTORY}/source-receipt.json`);
@@ -127,11 +183,11 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
     assert.equal(pdf.file, relative); assert.equal(artifact.file, relative);
     const bytes = read(relative);
     assert.equal(hash(bytes), pdf.sha256); assert.equal(bytes.length, pdf.byteLength);
-    assert.equal((overrides.pageCount ?? pdfPageCount)(bytes), 10); assert.equal(pdf.pageCount, 10);
+    assert.equal((overrides.pageCount ?? pdfPageCount)(bytes), expectedPages); assert.equal(pdf.pageCount, expectedPages);
     assert.equal(artifact.sha256, pdf.sha256);
-    assert.deepEqual(artifact.pageManifest, row.currentArtifacts.find(p => p.fixture === fixture).pageManifest);
-    assert.equal(artifact.pageManifest.length, 10);
-    return {fixture, path: relative, sha256: pdf.sha256, byteLength: pdf.byteLength, pageCount: 10};
+    assert.deepEqual(artifact.pageManifest, bindingRow.currentArtifacts.find(p => p.fixture === fixture).pageManifest);
+    assert.equal(artifact.pageManifest.length, expectedPages);
+    return {fixture, path: relative, sha256: pdf.sha256, byteLength: pdf.byteLength, pageCount: expectedPages};
   });
   // Additional fixture outputs are never silently left outside the raster set.
   const fixtureNames = (overrides.fixtureNames ?? (() => fs.readdirSync(path.join(root, WA_SUD_DIRECTORY, 'fixtures'))))();
@@ -162,9 +218,9 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
     executionReclassification: {...input.executionReclassification, stateOverride: null,
       historicalStateOverride: input.executionReclassification.stateOverride,
       historicalNextExecutableAction: input.executionReclassification.nextExecutableAction,
-      nextExecutableAction: 'Raster the exact two reviewed custom packets (20 pages), then obtain independent final visual review.'},
+      nextExecutableAction: `Raster the exact two reviewed custom packets (${expectedPages * 2} pages), then obtain independent final visual review.`},
     evidence: {semanticReview: WA_SUD_REVIEW, semanticReviewSha256: WA_SUD_REVIEW_SHA256,
-      candidateCommit: CANDIDATE, reviewBase: row.verifiedAtBase, selectedReviewBase: selected.verifiedAtBase,
+      candidateCommit: candidate, reviewBase: bindingRow.verifiedAtBase, layoutSuccessor: changed ? WA_SUD_LAYOUT_CERTIFICATE : null, selectedReviewBase: selected.verifiedAtBase,
       documents, historicalMapping: structuredClone(input.executionReclassification),
       mappingOnly: true, finalAcceptance: false, grantsCommercialAuthority: false}
   };

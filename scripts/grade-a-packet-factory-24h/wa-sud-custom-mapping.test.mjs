@@ -5,9 +5,18 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import os from 'node:os';
-import {assessWaSudCustomMapping, WA_SUD_FAMILY, WA_SUD_ROUTE, WA_SUD_DIRECTORY, WA_SUD_REVIEW} from './wa-sud-custom-mapping.mjs';
+import {assessWaSudCustomMapping as assessCurrentMapping, WA_SUD_FAMILY, WA_SUD_ROUTE, WA_SUD_DIRECTORY, WA_SUD_REVIEW, WA_SUD_LAYOUT_CERTIFICATE} from './wa-sud-custom-mapping.mjs';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const read = p => fs.readFileSync(path.join(root,p));
+const liveRead = p => fs.readFileSync(path.join(root,p));
+const originalCommit = '6632fd3b9471791d3748e895fdb00a54c7448c8d';
+const preLayoutBase = 'fc78ab3ac5e3ab94c332117fc40ef7a5edc65c6a';
+const originalReview = JSON.parse(liveRead(WA_SUD_REVIEW));
+const historicalBytes = new Map(originalReview.rows[0].currentCandidateBindings.map(b => [b.path, execFileSync('git',['show',`${originalCommit}:${b.path}`],{cwd:root})]));
+const read = p => historicalBytes.get(p) ?? liveRead(p);
+// Exercise original accepted bytes explicitly: the live checkout now carries
+// the separately reviewed layout successor. Git assertions still use real
+// original/candidate/review objects; no historical commit is fabricated.
+const assessWaSudCustomMapping = (repoRoot, value, overrides={}) => assessCurrentMapping(repoRoot,value,{readBytes:read,...overrides});
 const json = p => JSON.parse(read(p));
 const review = json(WA_SUD_REVIEW);
 const input = {
@@ -50,13 +59,57 @@ test('refuses missing historical object rather than inventing ancestry',()=>asse
 
 for (const verdict of ['PASS_COMPLETE_INDEPENDENT','FAIL_REPAIR_REQUIRED']) test(`later ${verdict} retains vehicle, never overwrites selected verdict`,()=>{
  const x=structuredClone(input);const nextPath='data/rcap-grade-a/packet-factory-24h/test-only-wa-final.json';
- x.independentReturn={...x.independentReturn,evidencePath:nextPath,lane:'INDEPENDENT_FINAL',verdict,verifiedAtBase:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()};
+ x.independentReturn={...x.independentReturn,evidencePath:nextPath,lane:'INDEPENDENT_FINAL',verdict,verifiedAtBase:preLayoutBase};
  const next={laneKind:'independent-verification',lane:'INDEPENDENT_FINAL',rows:[{familyId:WA_SUD_FAMILY,verifiedAtBase:x.independentReturn.verifiedAtBase,verdict}]};
  const before=JSON.stringify(x);const mapped=assessWaSudCustomMapping(root,x,{readBytes:p=>p===nextPath?Buffer.from(JSON.stringify(next)):read(p)});
  assert.equal(mapped.directory,WA_SUD_DIRECTORY);assert.equal(JSON.stringify(x),before);assert.equal(mapped.evidence.finalAcceptance,false);
 });
 test('default custody reader rejects a symlink evidence file',()=>{
  const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'wa-sud-mapping-'));
- try {const target=path.join(temporary,WA_SUD_REVIEW);fs.mkdirSync(path.dirname(target),{recursive:true});fs.symlinkSync(path.join(root,WA_SUD_REVIEW),target);assert.throws(()=>assessWaSudCustomMapping(temporary,input),/symlink/);}
+ try {const target=path.join(temporary,WA_SUD_REVIEW);fs.mkdirSync(path.dirname(target),{recursive:true});fs.symlinkSync(path.join(root,WA_SUD_REVIEW),target);assert.throws(()=>assessCurrentMapping(temporary,input),/symlink/);}
  finally {fs.rmSync(temporary,{recursive:true,force:true});}
+});
+
+
+const certificate = JSON.parse(liveRead(WA_SUD_LAYOUT_CERTIFICATE));
+const successorReview = JSON.parse(liveRead(certificate.independentReview.path));
+const successorInput = {...structuredClone(input), independentReturn:{familyId:WA_SUD_FAMILY,
+ evidencePath:certificate.independentReview.path,lane:successorReview.lane,verdict:'PASS',verifiedAtBase:successorReview.verifiedAtBase}};
+test('exact layout successor binds two9page PDFs and preserves original semantic certificate',()=>{
+ const before=JSON.stringify(successorInput);const result=assessCurrentMapping(root,successorInput);
+ assert.equal(result.directory,WA_SUD_DIRECTORY);assert.equal(result.evidence.candidateCommit,certificate.candidateCommit);
+ assert.equal(result.evidence.layoutSuccessor,WA_SUD_LAYOUT_CERTIFICATE);
+ assert.deepEqual(result.evidence.documents.map(d=>d.pageCount),[9,9]);
+ assert.equal(result.evidence.finalAcceptance,false);assert.equal(result.evidence.grantsCommercialAuthority,false);
+ assert.equal(result.completeness.measurementProvenance.visualMeasuredIndependently,false);
+ assert.equal(JSON.stringify(successorInput),before);
+});
+for(const relative of [WA_SUD_LAYOUT_CERTIFICATE,certificate.independentReview.path,
+ `${WA_SUD_DIRECTORY}/fixtures/canonical.pdf`,`${WA_SUD_DIRECTORY}/fixtures/boundary.pdf`,
+ `${WA_SUD_DIRECTORY}/reports/rendered-artifacts.json`,`${WA_SUD_DIRECTORY}/production-field-map.json`,
+ `${WA_SUD_DIRECTORY}/reports/actual-writes.json`,`${WA_SUD_DIRECTORY}/reports/blanks-left-for-the-participant.json`,
+ 'scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs']) {
+ test(`layout successor refuses altered ${relative}`,()=>assert.throws(()=>assessCurrentMapping(root,successorInput,
+  {readBytes:p=>p===relative?Buffer.concat([liveRead(p),Buffer.from(' ') ]):liveRead(p)})));
+}
+test('layout successor requires a selected review at or after its candidate',()=>assert.throws(()=>assessCurrentMapping(root,input)));
+test('layout successor refuses old ten-page identity',()=>assert.throws(()=>assessCurrentMapping(root,successorInput,{pageCount:()=>10})));
+test('layout successor refuses changed historical original PDF proof',()=>{
+ const originalSpec=`${originalCommit}:${WA_SUD_DIRECTORY}/fixtures/canonical.pdf`;
+ assert.throws(()=>assessCurrentMapping(root,successorInput,{git:args=>args[0]==='show'&&args[1]===originalSpec
+  ?Buffer.from('changed historical original'):execFileSync('git',args,{cwd:root})}));
+});
+test('layout successor refuses missing historical original objects',()=>assert.throws(()=>assessCurrentMapping(root,successorInput,
+ {git:args=>{if(args[0]==='show'&&args[1].startsWith(originalCommit+':'))throw Error('missing original');return execFileSync('git',args,{cwd:root});}})));
+test('layout successor refuses conflicting treatment and changed owner rule',()=>{
+ for(const mutate of [x=>x.treatment={directory:'historical'},x=>x.executionReclassification.ownerDecision+=' changed',x=>x.legalResolution.bindingProductRule+=' changed']) {
+  const x=structuredClone(successorInput);mutate(x);assert.throws(()=>assessCurrentMapping(root,x));
+ }
+});
+for(const verdict of ['PASS_COMPLETE_INDEPENDENT','FAIL_REPAIR_REQUIRED'])test(`post-layout selected ${verdict} retains its verdict and no final grant`,()=>{
+ const x=structuredClone(successorInput);const nextPath='data/rcap-grade-a/packet-factory-24h/test-only-wa-layout-final.json';
+ x.independentReturn={...x.independentReturn,evidencePath:nextPath,lane:'LAYOUT_FINAL',verdict};
+ const next={laneKind:'independent-verification',lane:'LAYOUT_FINAL',rows:[{familyId:WA_SUD_FAMILY,verifiedAtBase:x.independentReturn.verifiedAtBase,verdict}]};
+ const before=JSON.stringify(x);const result=assessCurrentMapping(root,x,{readBytes:p=>p===nextPath?Buffer.from(JSON.stringify(next)):liveRead(p)});
+ assert.deepEqual(result.evidence.documents.map(d=>d.pageCount),[9,9]);assert.equal(result.evidence.finalAcceptance,false);assert.equal(JSON.stringify(x),before);
 });
