@@ -1077,7 +1077,7 @@ function participantIdentityBlank(doc, blank) {
 
 function participantRequired(doc, blank, legacy) {
   if (doc.documentRole !== "PETITION") return false;
-  if (PENDING_SELECTION_IDS.has(blank.blankId) || blank.blankId === OPTIONAL_CHARGE_CONTINUATION_ID) return false;
+  if (PENDING_SELECTION_IDS.has(blank.blankId)) return false;
   if (participantIdentityBlank(doc, blank)) return true;
   if (["notarial_or_verification_actor", "service_actor_or_attestation", "agency_assigned_identifier"].includes(legacy.class)) return false;
   if (["conditional_participant_or_other_court_branch", "participant_record_fact_or_statute", "participant_identification_not_collected", "participant_entered_unmapped"].includes(legacy.class)) return true;
@@ -1115,20 +1115,11 @@ function nativeRoleRefusal(doc, blank, legacy) {
       reason: "Select the one pending-felony-charge status that matches the participant's current record; this route does not determine the participant's answer."
     };
   }
-  if (doc.documentRole === "PETITION" && blank.blankId === OPTIONAL_CHARGE_CONTINUATION_ID) {
-    return {
-      ...base,
-      effectiveLabel: participantLabelFor(doc, blank),
-      refusalClass: null,
-      completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
-      routeConditionThatMakesItInapplicable: "The complete charged-offense text fits on the preceding measured charge line in this one-charge packet; this continuation line is reached only when that text exceeds the preceding line.",
-      role: "participant_optional_continuation",
-      reason: "The complete charged-offense text fits on the preceding measured charge line in the current canonical and boundary fixtures; the second source line is a continuation only when the charge needs it."
-    };
-  }
   if (participantRequired(doc, blank, legacy)) {
     const label = participantLabelFor(doc, blank);
-    const conditional = legacy.class === "conditional_participant_or_other_court_branch" || /if applicable|pending felony/i.test(`${blank.printedLine ?? ""} ${blank.printedLineAbove ?? ""}`);
+    const conditional = blank.blankId === OPTIONAL_CHARGE_CONTINUATION_ID
+      || legacy.class === "conditional_participant_or_other_court_branch"
+      || /if applicable|pending felony/i.test(`${blank.printedLine ?? ""} ${blank.printedLineAbove ?? ""}`);
     return {
       ...base,
       effectiveLabel: label,
