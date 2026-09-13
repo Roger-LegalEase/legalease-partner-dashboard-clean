@@ -258,7 +258,7 @@ Full gate/blocker evidence: `data/rcap-grade-a/packet-factory-24h/pf20/remaining
 | --- | --- | --- | --- |
 | ar-veterans-court-set | Resolve the VF44 owner/counsel adoption questions; after an adopted current-law/form strategy, PF04 may build and return the complete candidate. | OWNER+COUNSEL, then PF04 | The durable VF44 legal-design draft is NOT_ADOPTED. It leaves current citation treatment after Act 691, pre/post-adjudication scope, cross-court branch, criminal-history/appropriateness finding, service, fee/waiver, and stage-1 eligibility treatment unresolved. No build or raster authorization was granted. |
 | ca-diversion-seal-set | Build the San Diego County-scoped packet from the exact CRM-307 binding, then return it for independent review. | PF06 | None in the current source return beyond the PF06 build and ordinary completeness, raster, and independent-review gates. |
-| census-pending-family:UT:path-m-juvenile-expungement | Place the exact current Utah State Courts juvenile-expungement petition in governed custody; only then release PF01 to build it. | SOURCE CUSTODY OWNER, then PF01 | The source reconciliation is SOURCE_BLOCKED: the petition identity is known, but its current binary is not held in governed custody. The matching reference PDF is identity evidence only. |
+| census-pending-family:UT:path-m-juvenile-expungement | Existing admitted-source preflight, then complete build | PF01 | Exact governed reference PDF verified against prior admission eac1e799; historical missing-source label is stale. No new acquisition or owner adoption needed. |
 | composed-treatment:nc_146_dismissal_petition | Build from the exact bound AOC-CR-287, instructions, and AOC-CV-226 inputs, preserving the composed treatment, then return for review. | PF12 | None in the current queue/source binding beyond the PF12 build and ordinary acceptance gates. |
 | fl-expunction-set | Build the expunction route from the exact FDLE40-021 binding and Rule 3.989 composed pleadings; preserve all participant branches and fee instructions. | PF19 | None in the current source reconciliation beyond the PF19 build and ordinary acceptance gates. |
 | fl-sealing-set | Build the sealing route from the exact FDLE40-021 binding and Rule 3.989 composed pleadings; preserve all participant branches and fee instructions. | PF01 | None in the current source reconciliation beyond the PF01 build and ordinary acceptance gates. |
@@ -291,3 +291,16 @@ Full gate/blocker evidence: `data/rcap-grade-a/packet-factory-24h/pf20/remaining
 | wa_vac_substance_use_disorder-set | Map RCW 9.96.060(6) to a route-specific petition/declaration and notice/order vehicle, retain the clerk lookup for local fee/waiver, repair the recorded self-help stop text, and then return it to independent review. | CAPTAIN | VF06 records live ROUTE_OPTIONS and FEE_AND_WAIVER blocks: CrRLJ 09.0100 has no RCW 9.96.060(6) election and no held fee schedule establishes the local amount or waiver procedure. VF06 also measured SELF_HELP_STOP as failed for the registry's immigration, pending-charge, DV/protection-order, DUI, weapon/enhancement, and firearm-rights conditions. |
 | wv_nc_acquittal_dismissal-set | Bind the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, then release the official-form build to the appropriate PF lane. | CAPTAIN | The current product-path decision leaves route-election mapping pending; there is no rendered artifact or completeness result. The exact SCA-C903 source is bound, so this is a route mapping gate rather than a source hunt. |
 | wv_nc_diversion_deferred-set | Build from the exact SCA-C903 binding with the diversion/deferred route branch and return the complete candidate for independent review. | PF08 | None in the current source reconciliation beyond the PF08 build and ordinary acceptance gates. |
+
+UT juvenile source correction: PF20 verified existing committed admission
+eac1e799ffc09ecfc63db39b25e4223907c5a830 and reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf
+SHA256b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458,128760bytes.
+No new fetch or owner adoption. Current queue already sourceBound/ready; old
+sourceReconciliation missing label is historical. Source evidence return:
+pf20/ut-juvenile-source-return-20260913.json. Preserve original governedreference.
+
+Pending owner inputs requested once: (1) existing durable custody location for
+four exact Kansas PDFs, recorded hashes/paths in pf20/ks-custody-resume-20260913.json;
+(2) AR veterans owner/counsel Q1–Q8 choices and authority bindings in
+vf44/ar-veterans-owner-decision-handoff-20260913.json. All remain unadopted
+until an express applicable decision; do not infer adoption from sprint urgency.
