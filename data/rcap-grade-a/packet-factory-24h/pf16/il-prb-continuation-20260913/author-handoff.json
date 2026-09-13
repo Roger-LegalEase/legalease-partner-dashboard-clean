@@ -320,8 +320,8 @@
           "branch": "military-expungement",
           "stage": "application",
           "file": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/military-boundary.pdf",
-          "sha256": "b7e2ff36ce87a22b0ffb10f92a4231045c8a25ea50e8c105d092aa3c4a17c7ac",
-          "byteLength": 302091,
+          "sha256": "85c1070313c31d9ad186d863816facda21efeb9fff1493aed7dbf7e0eeb4456d",
+          "byteLength": 302119,
           "pageCount": 11,
           "pageManifest": [
             {
@@ -823,5 +823,26 @@
     "fullAddressVisible": true,
     "signingAndOfficialControlsUnwritten": true,
     "scope": "Author diagnostic screenshot only; independent original raster acceptance pending"
+  },
+  "repair": {
+    "finding": "Military combined prior certificate / Executive Clemency question omitted held clemency date and answered clemency-only cases incorrectly.",
+    "correctedCause": "Combined answer uses prior PRB OR prior clemency; month/year field includes each held labeled date and outcome.",
+    "changedPdfFixtures": [
+      "military-boundary"
+    ],
+    "unchangedPdfFixtures": [
+      "canonical",
+      "boundary",
+      "military-canonical",
+      "court-canonical",
+      "court-boundary",
+      "court-military-canonical",
+      "court-military-boundary"
+    ],
+    "allSavedPagesRemeasured": 84,
+    "savedWritesRemeasured": 252,
+    "selectorCases": "data/rcap-grade-a/packet-factory-24h/pf16/il-prb-continuation-20260913/combined-history-repair-check.json",
+    "priorHandoff": "data/rcap-grade-a/packet-factory-24h/pf16/il-prb-continuation-20260913/author-handoff-before-combined-history-repair.json",
+    "noClemencyDocketInvented": true
   }
 }

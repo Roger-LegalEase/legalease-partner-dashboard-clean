@@ -52,14 +52,14 @@ export const applicationFixtures=[
  {...boundary,fixture:'military-boundary',baseFixture:'boundary',branch:'military-expungement',stage:'application',militaryService:true,militaryEligibilityConfirmed:true,dd214Available:true,tourProofAvailable:true,militaryDischarge:'Honorable; 09/30/2021',personalHistory:boundary.personalHistory+' I served in the United States Army from 2017 to 2021, completed a tour of duty and received an honorable discharge on September 30, 2021. My DD-214 and tour documentation must accompany the application.'}
 ];
 const wraps=(s,font,size,width)=>{let lines=[],line='';for(const word of s.split(/\s+/)){let next=line?line+' '+word:word;if(font.widthOfTextAtSize(next,size)>width){assert.ok(line);lines.push(line);line=word;}else line=next;}if(line)lines.push(line);return lines;};
-function resolveApplication(field,f,font){
+export function resolveApplication(field,f,font){
  const n=field.name;
  const simple={'Full Name':'name','Address':'address','City':'city','State':'state','Zip Code':'zip','Telephone Number include area code':'phone','Date of Birth':'dob','Place of Birth':'birthplace','Social Security Number':'ssn','State Prisoner Number if applicable':'prisonerNumber','Name Convicted Under and any Aliases':'convictedName','DD214':'militaryDischarge','Offense':'offense','Case Number':'caseNumber','Date of Arrest':'arrestDate','County of Conviction':'county','Sentencing Judge':'sentencingJudge','Date Sentenced':'sentenceDate','Sentenced':'sentence','Time Served':'timeServed','Date of Discharge':'sentenceDischargeDate','including the date of decisionss by the Court':'appealStatus'};
  if(n in simple){const key=simple[n];return f[key]?{value:f[key],factId:key}:{blank:'NOT_APPLICABLE',reason:key==='prisonerNumber'?'This participant has never been assigned a state prisoner number.':'This nonmilitary sealing applicant has no military discharge or DD-214.'};}
  if(n.startsWith('CERTIFICATE OF '))return {blank:'SOURCE_TITLE',reason:'Source publisher title widget over the preprinted document heading; not a participant fact.'};
  if(field.widgets[0].page===4)return {blank:'PROTECTED',reason:'Participant execution date or notarized oath; the participant and notary perform these acts in person.'};
- if(n==='Clemency with the Prisoner Review Board before')return {selected:f.previousPrb};
- if(n==='No')return {selected:!f.previousPrb};
+ if(n==='Clemency with the Prisoner Review Board before')return {selected:f.previousPrb||f.previousClemency};
+ if(n==='No')return {selected:!(f.previousPrb||f.previousClemency)};
  if(n==='Have you ever petitioned for sealing andor expungement through the Circuit Clerks office')return {selected:f.previousCourt};
  if(n==='No_2')return {selected:!f.previousCourt};
  if(n==='If yes please state your discharge status and date of discharge and attach a copy of your')return {widgetIndex:f.militaryService?0:1};
@@ -69,7 +69,7 @@ function resolveApplication(field,f,font){
  if(n==='If yes when')return f.previousPrb?{value:f.previousPrbDate,factId:'previousPrbDate'}:{blank:'NOT_APPLICABLE',reason:'No previous PRB sealing petition.'};
  if(n==='If yes when and docket number')return f.previousPrb?{value:f.previousPrbDocket,factId:'previousPrbDocket'}:{blank:'NOT_APPLICABLE',reason:'No previous PRB petition.'};
  if(n==='If yes when and what was the outcome')return f.previousCourt?{value:f.previousCourtDetails,factId:'previousCourtDetails'}:{blank:'NOT_APPLICABLE',reason:'No earlier circuit-court petition.'};
- if(n==='If yes please state the month and year your petition was considered'){const isMilitary=f.branch==='military-expungement';return (isMilitary?f.previousPrb:f.previousClemency)?{value:isMilitary?f.previousPrbDate:f.previousClemencyDate,factId:isMilitary?'previousPrbDate':'previousClemencyDate'}:{blank:'NOT_APPLICABLE',reason:'No prior petition of the category asked in this branch.'};}
+ if(n==='If yes please state the month and year your petition was considered'){const isMilitary=f.branch==='military-expungement';const history=isMilitary?[f.previousPrb?`PRB: ${f.previousPrbDate}`:null,f.previousClemency?`Clemency: ${f.previousClemencyDate}`:null].filter(Boolean).join('; '):(f.previousClemency?f.previousClemencyDate:'');return history?{value:history,factId:isMilitary?'previousCombinedPrbClemencyHistory':'previousClemencyDate'}:{blank:'NOT_APPLICABLE',reason:'No prior petition of the categories asked in this branch.'};}
  if(['Plea','Bench','Trial','Jury Trial'].includes(n))return {selected:n===f.plea};
  if(n.startsWith('Add typewritten additional pages if necessary ')){const lines=wraps(f.offenseFacts,font,10,field.widgets[0].rect.width-6);const i=Number(n.match(/\d+$/)[0])-1;assert.ok(lines.length<=7,'Offense statement needs an explicit authorized continuation page');return lines[i]?{value:lines[i],factId:'offenseFacts',narrativeLine:i+1}:{blank:'NOT_APPLICABLE',reason:'The complete participant statement ends on the preceding lines; there is no further statement text for this continuation line.'};}
  const non={'Case Number_2':'caseNumber','Offense Charged':'offense','Date of Arrest_2':'arrestDate','County of Arrest':'county','Disposition':'disposition','Date probation or supervision terminated if applicable':'supervisionEnd'};
