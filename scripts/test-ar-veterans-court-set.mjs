@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { DOCUMENTS, policyFor, resolveSource } from "./build-census-v1-ar-veterans-court-set.mjs";
+import { DOCUMENTS, policyFor, resolveSource, participantInstructionsMarkdown } from "./build-census-v1-ar-veterans-court-set.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill");
@@ -17,7 +17,8 @@ const actual = json("reports/actual-writes.json");
 const rendered = json("reports/rendered-artifacts.json");
 const status = json("build-status.json");
 const branches = json("reports/conditional-branches.json");
-const guides = fs.readFileSync(path.join(OUT, "stage-1-process-guidance.md"), "utf8") + fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
+const participantInstructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
+const guides = fs.readFileSync(path.join(OUT, "stage-1-process-guidance.md"), "utf8") + participantInstructions;
 
 assert.equal(census.documents.length, 2);
 assert.equal(receipt.committedRecords.length, 2);
@@ -63,6 +64,13 @@ assert.equal(map.refusals.filter((r) => r.completenessDisposition === "PARTICIPA
 assert.equal(map.refusals.filter((r) => r.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE").length, 0);
 assert.equal(map.refusals.filter((r) => r.completenessDisposition === "PROTECTED_FIELD").length, 56);
 assert.deepEqual(receipt.documents.map((r) => [r.documentId, r.sha256, r.byteLength]), DOCUMENTS.map((d) => [d.documentId, d.sha256, d.byteLength]));
+const requiredRows = map.documents.flatMap((d) => d.roleRefusals ?? []).filter((r) => r.requiredBeforeFiling === true);
+assert.equal(requiredRows.length, 23);
+assert.equal(participantInstructions, participantInstructionsMarkdown(requiredRows));
+assert.ok(participantInstructions.startsWith("# What to do — Arkansas Veterans Treatment Court"));
+assert.ok(participantInstructions.includes("\n"));
+assert.equal(participantInstructions.includes("\\n"), false);
+assert.equal((participantInstructions.match(/\n/g) ?? []).length, 39);
 assert.match(guides, /Act 691 of 2025/);
 assert.match(guides, /16-90-1601/);
 assert.match(guides, /16-90-1602/);
@@ -94,7 +102,7 @@ const report = {
     "participant fact allowlist and proposed-order actor protection",
     "artifact hash/length proof and pending review non-grants",
     "current-law, service, fee, cross-court and post-adjudication guidance disclosures",
-    "native completeness disposition schema, participant disclosure and current source receipt"
+    "native completeness disposition schema, participant disclosure/newline serialization and current source receipt"
   ],
   sourceHashesUnchanged: true,
   artifactHashesMatchRenderedRecord: true,

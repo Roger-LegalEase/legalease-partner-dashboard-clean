@@ -1252,6 +1252,24 @@ function writeCensusRecord(documents) {
   writeJson(`${OUT}/field-census.census-v1.json`, { schemaVersion:"rcap-official-form-field-census/v1-flat",familyId:FAMILY_ID,routeKeys:ROUTE_KEYS,jurisdiction:"AR",structuralClass:"flat_pdf",structuralClassReadFrom:"source bytes via pdf-lib getForm().getFields()",geometrySource:"content_stream",documents:documents.map(({doc,census})=>({documentId:doc.documentId,documentRole:doc.documentRole,officialTitle:doc.officialTitle,revision:doc.revision,sha256:doc.sha256,byteLength:doc.byteLength,pageCount:census.pages.length,blankCount:census.blanks.length,structuralClass:"flat_pdf",acroFieldCount:census.acroFieldCount,sourcePath:doc.repoPath,pageGeometry:census.pageGeometry,strokedByPage:census.strokedByPage,rulesByPage:census.rulesByPage,documentTextLines:census.documentTextLines,blanks:census.blanks})) });
 }
 
+function participantInstructionsMarkdown(requiredRows) {
+  const guides = guidanceTexts();
+  const requiredDisclosure = requiredRows.length ? `\n\n## Exact participant facts required before filing\n\nComplete each listed item from the participant's actual records before filing. Conditional items apply only when the printed branch applies; do not guess a value or complete a protected actor field.\n\n${requiredRows.map((r)=>`- ${r.documentId} page ${r.page}: ${r.effectiveLabel} (measured blank ${r.blankId})${r.requiredBeforeFilingCondition ? ` — ${r.requiredBeforeFilingCondition}` : ""}`).join("\n")}\n` : "";
+  const instructions = `${guides.participant}${requiredDisclosure}`.replace(/\n+$/, "\n");
+  if (instructions.includes("\\n")) fail("participant instructions contain literal escaped newline sequences");
+  return instructions;
+}
+
+function writeParticipantInstructionsOnly() {
+  const map = readJson(`${OUT}/production-field-map.json`);
+  if (!Array.isArray(map.documents)) fail("instructions-only repair requires the saved production field map");
+  const requiredRows = map.documents.flatMap((d) => d.roleRefusals ?? []).filter((r) => r.requiredBeforeFiling === true);
+  const declaredRows = (map.refusals ?? []).filter((r) => r.completenessDisposition === "REQUIRED_BEFORE_FILING");
+  if (requiredRows.length !== declaredRows.length) fail("instructions-only repair found a field-map disclosure count mismatch", `${requiredRows.length}/${declaredRows.length}`);
+  fs.writeFileSync(path.join(rootDir, `${OUT}/participant-instructions.md`), participantInstructionsMarkdown(requiredRows));
+  console.log(`${FAMILY_ID}: participant instructions written without rerendering packet PDFs`);
+}
+
 function writeRecords({documents,rasters,allFindings}) {
   const guides=guidanceTexts(); fs.mkdirSync(path.join(rootDir,OUT),{recursive:true}); fs.writeFileSync(path.join(rootDir,`${OUT}/stage-1-process-guidance.md`),`${guides.stage}\n`);
   const components=componentSet(); const source=sourceReceipt(documents);
@@ -1260,8 +1278,7 @@ function writeRecords({documents,rasters,allFindings}) {
   const artifacts=documents.flatMap(({doc,census,fixtures})=>["canonical","boundary"].map((label)=>({document:doc.documentId,documentRole:doc.documentRole,fixture:label,file:fixtures[label].file,sha256:fixtures[label].sha256,byteLength:fixtures[label].byteLength,pageCount:census.pages.length,fieldsWritten:fixtures[label].report.written.length,fieldsRefused:fixtures[label].report.refused.length,unfittable:fixtures[label].report.unfittable,proofFindings:fixtures[label].proof.findings.length})));
   const mapDocs=documents.map(({doc,census,anchors,withheld,fixtures})=>{const canonical=fixtures.canonical;const inked=new Set(canonical.proof.perBlank.filter((b)=>b.inkFoundAtTheMeasuredRectangle).map((b)=>b.blankId));const byId=new Map(census.blanks.map((b)=>[b.blankId,b]));return {documentId:doc.documentId,documentRole:doc.documentRole,ownership:doc.ownership,captionOnly:doc.captionOnly,explicitMappings:doc.explicitMappings,roleRefusals:doc.roleRefusals.map((r)=>({field:r.blankId,...r})),anchorsOffered:anchors.length,writeBoxes:anchors.filter((a)=>inked.has(a.blankId)).map((a)=>{const b=byId.get(a.blankId);const w=canonical.report.written.find((x)=>x.anchor===a.label);return {documentId:doc.documentId,blankId:a.blankId,field:a.label,factId:w?.factId??null,page:a.page,writeBox:a.writeBox,measured:b.measured,geometryBasis:b.geometryBasis,writeBoxIsExactlyMeasured:b.writeBoxIsExactlyMeasured,withinTheMediaBox:b.withinTheMediaBox,confirmedInk:canonical.proof.perBlank.find((x)=>x.blankId===a.blankId)?.inkFoundAtTheMeasuredRectangle??null};}),withheldBeforeFactory:withheld,protectedRulesHandedToFactory:protectedRulesFor(census)};});
   const requiredRows=mapDocs.flatMap((d)=>d.roleRefusals).filter((r)=>r.requiredBeforeFiling===true);
-  const requiredDisclosure=requiredRows.length ? `\n\n## Exact participant facts required before filing\n\nComplete each listed item from the participant's actual records before filing. Conditional items apply only when the printed branch applies; do not guess a value or complete a protected actor field.\n\n${requiredRows.map((r)=>`- ${r.documentId} page ${r.page}: ${r.effectiveLabel} (measured blank ${r.blankId})${r.requiredBeforeFilingCondition ? ` — ${r.requiredBeforeFilingCondition}` : ""}`).join("\n")}\n` : "";
-  fs.writeFileSync(path.join(rootDir,`${OUT}/participant-instructions.md`),`${guides.participant}${requiredDisclosure}`.replace(/\n+$/, "\n"));
+  fs.writeFileSync(path.join(rootDir,`${OUT}/participant-instructions.md`),participantInstructionsMarkdown(requiredRows));
   writeJson(`${OUT}/production-field-map.json`,{schemaVersion:"rcap-official-form-field-map/v1-census-v1",familyId:FAMILY_ID,routeKeys:ROUTE_KEYS,renderStrategy:"flat_overlay_draw",renderedBy:"scripts/rcap-official-forms/rcap-official-form-finalize.mjs finalizeFlatOverlay",componentSet:components,generationAllowed:false,runtimeSelectable:false,documents:mapDocs,writes:mapDocs.flatMap((d)=>d.writeBoxes),refusals:mapDocs.flatMap((d)=>d.roleRefusals)});
   writeJson(`${OUT}/reports/actual-writes.json`,{schemaVersion:"rcap-actual-writes-byte-proof/v1",familyId:FAMILY_ID,derivedFromArtifactBytes:true,documents:documents.flatMap(({doc,fixtures})=>["canonical","boundary"].map((label)=>({documentId:doc.documentId,fixture:label,valuesReportedByFinalizer:fixtures[label].report.written,refused:fixtures[label].report.refused,unfittable:fixtures[label].report.unfittable,addedGlyphsReadFromOutputBytes:fixtures[label].proof.glyphsAdded,itemsInsideMeasuredBlanks:fixtures[label].proof.itemsInsideAMeasuredBlank,findings:fixtures[label].proof.findings}))),blockingFindings:allFindings});
   const blankRows=documents.map(({doc,census,withheld,fixtures})=>{const canonical=fixtures.canonical;const inked=new Set(canonical.proof.perBlank.filter((b)=>b.inkFoundAtTheMeasuredRectangle).map((b)=>b.blankId));const held=new Map(withheld.map((x)=>[x.blankId,x]));return {documentId:doc.documentId,blanksTotal:census.blanks.length,blanksWritten:inked.size,blanksLeftEmpty:census.blanks.length-inked.size,blanks:census.blanks.filter((b)=>!inked.has(b.blankId)).map((b)=>({blankId:b.blankId,page:b.page,caption:b.caption,printedLine:b.printedLine,measured:b.measured,reasonClass:held.get(b.blankId)?.class??"participant_or_actor_completion",reason:held.get(b.blankId)?.why??"No collected fact was written here; complete from the participant or responsible actor's records.",whoCompletesIt:held.get(b.blankId)?.class??"participant_or_responsible_actor",refusalClass:held.get(b.blankId)?.refusalClass??null,completenessDisposition:held.get(b.blankId)?.completenessDisposition??null}))};});
@@ -1296,5 +1313,12 @@ async function main() {
   writeRecords({documents,rasters,allFindings}); if(allFindings.length){for(const f of allFindings)console.error(`  ${f.severity} ${f.fixture??""} ${f.blankId??""}: ${f.check}`);fail(`author-side artifact findings: ${allFindings.length}`);} console.log(`OK: ${documents.length} exact source documents; raster=${rasters.length?"performed":"deferred"}`);
 }
 
-export { DOCUMENTS, policyFor, resolveSource, refusalFor };
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) main().catch((e)=>{console.error(e.stack||e);process.exitCode=1;});
+export { DOCUMENTS, policyFor, resolveSource, refusalFor, participantInstructionsMarkdown, writeParticipantInstructionsOnly };
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
+  if (process.argv.includes("--instructions-only")) {
+    try { writeParticipantInstructionsOnly(); }
+    catch (e) { console.error(e.stack || e); process.exitCode = 1; }
+  } else {
+    main().catch((e)=>{console.error(e.stack||e);process.exitCode=1;});
+  }
+}
