@@ -9,7 +9,7 @@ under `data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/`.
 ## Current checkpoint
 
 - Worktree: `/workspaces/legalease-partner-dashboard-clean`; user `codespace`.
-- Captain HEAD before resize-preparation commit: `4748adf94892a58185bdc268b176121bc36edde9`.
+- Captain HEAD before this acceptance handoff: `253ece8b351f247f77c74c668121048b7e0fb58d`; verified remote Captain tip contains checkpoint `4748adf94892a58185bdc268b176121bc36edde9`.
 - Current MASTER_QUEUE counted once after recovery: **310/346 terminal**.
   No new closure yet. NH remains COMPLETE_PACKET_PROVEN.
 - KY adoption `3f16e3a55499f790d2b316a42171d473634c935d` remains adopted.
@@ -131,3 +131,55 @@ node_modules symlinks resolve as recorded in the preparation receipt.
 The verified corpus and persisted worker paths above remain actual local files;
 this note is NOT their backup. No entire corpus or historical archive was copied.
 No cleanup, builds, automatic resize, or automatic restart during preparation.
+
+## One bounded worktree-retirement check — 2026-09-13
+
+Machine API succeeded once for fictional-bassoon-p7jj9gq67jpgfr9r7: basicLinux32gb
+and standardLinux32gb both return34359738368 bytes (32GiB). No larger capacity
+was returned. No machine change or billing change attempted.
+
+No worktree was eligible or removed. The measured2.8GiB is the PF05 persisted
+worktree named above, HEAD7f50087dcb66ba2fd4a2ee6b164d128b37b41d43 (ancestor of
+verified remote Captain253ece8b351f247f77c74c668121048b7e0fb58d). Its tracked tree
+is clean, but ignored private/node_modules dependency symlinks remain and its
+repair assignment is unfinished. No nested repository/submodule was found.
+Old /tmp worktree registrations point to missing paths and were not pruned.
+Actual space recovered by retirement:0 bytes. No further cleanup loop.
+
+A small AR acceptance operation fits: available212484096 bytes before retrieval;
+verified archive7059621 bytes and measured uncompressed members7806145 bytes,
+with134217728 bytes reserved. Builds remain paused. AR archive and original job
+log are retained persistently under raster-runs/34732930032; use the existing
+original-evidence consumer and then independent original-page review.
+
+## Act 346 original evidence consumed — 2026-09-13
+
+Run34732930032 completed successfully, including all three required jobs.
+Existing consume-original-raster.py exited0: one family,16pages,RASTER_PASS.
+Current/pinned PDF hashes, original artifact digest, job-log agreement and all
+original PNG hashes passed. Custody receipt:
+`data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ORIGINAL_EVIDENCE_VERIFIED.json`.
+The archive, original job log and16 extracted original PNGs are persistent in
+that run directory (`original-pages/`); no PDFs were rerasterized. Earlier
+preparation text saying the artifact was not downloaded is historical.
+VFAR1 (`/root/resume_vfar1`) is reviewing all16original pages for the final
+independent return; packet author has not been assigned its approval.
+No terminal transition is claimed pending final acceptance and integration.
+Available after bounded consumption:189169664 bytes. No worktree removed.
+Next: consume VFAR1 final return; execute the existing required integration
+chain only after PASS and an adequate measured operation budget.
+
+## Latest acceptance boundary
+
+VFAR1 final return `vfar1/rows-vfar1-ar-act346-original-final-20260913.json`
+is PASS_COMPLETE_INDEPENDENT:15/15obligations,16originalpages viewed,0visual
+defects; SHA256a9084af6e7f4990662844f4f67f5187e4047f525e65e4b6c9617795469b93b7b.
+Integration with --raster-custody passed identity, gate-coverage and governance
+tripwires, then stopped at required builder self-tests:3/5failed. Diagnostic
+AZ self-test identifies MODULE_NOT_FOUND:sharp. Log is preserved under
+`raster-runs/34732930032/integration.log`. No later integration stage ran;
+310/346 remains the last verified terminal checkpoint, no new closure.
+Captain owns this blocker. Resume condition: restore the genuinely missing
+lockfile-pinned sharp dependency closure with expected integrity verification
+when dependency restoration is allowed, then retry required integration.
+Do not redispatch or reraster AR. Builds and additional cleanup remain paused.
