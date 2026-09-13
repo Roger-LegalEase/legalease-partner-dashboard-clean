@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import path from 'node:path';
+import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { PDFDocument } from 'pdf-lib';
 import { conditionalPacketDocuments } from './conditional-raster-documents.mjs';
@@ -91,4 +92,92 @@ if(process.argv.includes('--generated')) {
  for(const mutate of corruptions) {const d=structuredClone(history);mutate(d);assert.throws(()=>validateQueueCoverage(d,'FAIL_REPAIR_REQUIRED'));generatedRejectionControls++;}
  assert.equal(JSON.stringify(q),originalQueue);
 }
-console.log(JSON.stringify({selectablePackets:8,selectablePages:44,diagnosticPages:16,allPages:60,admissionNegativeControlsCaught:caught,generatedCoverageChecked:process.argv.includes('--generated'),generatedLocation,generatedPositiveControls:process.argv.includes('--generated')?2:0,generatedRejectionControls,grantsApproval:false}));
+
+
+/* Chat8 native whole-packet contracts: every fixture emitted by both Iowa
+ * builders must enter the existing raster document set with current-byte
+ * identity, including the diagnostic variants beyond canonical/boundary. */
+const iaCases = [
+  ['ia/ia-12346-set', ['canonical', 'boundary', 'permitted-traffic', 'later-conviction', 'local-ordinance', 'missing-contact'], 24],
+  ['ia/ia-901c3-set', ['canonical', 'boundary', 'additional-aliases', 'history-stale', 'history-requested', 'release-missing', 'exact-eight-years', 'missing-identifiers'], 49],
+];
+const iaMeasurements = [];
+for (const [family, expectedFixtures, expectedPages] of iaCases) {
+  const directory = `data/rcap-all50/overlays/census-v1/${family}--official-pdf-fill`;
+  const scratchRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'rcap-ia-reader-'));
+  try {
+  const iaFixturesDir = path.join(scratchRoot, directory, 'fixtures');
+  fs.mkdirSync(path.dirname(iaFixturesDir), { recursive: true });
+  fs.cpSync(path.join(root, directory, 'fixtures'), iaFixturesDir, { recursive: true });
+  const report = JSON.parse(fs.readFileSync(path.join(root, directory, 'reports/rendered-artifacts.json')));
+  const iaCall = candidate => conditionalPacketDocuments({ report: candidate, fixtures: iaFixturesDir, root: scratchRoot });
+  const selectedIa = iaCall(report);
+  assert.deepEqual(selectedIa.map(d => d.name).sort(), expectedFixtures.map(f => `${f}.pdf`).sort());
+  assert.equal(selectedIa.length, expectedFixtures.length);
+  assert.equal(selectedIa.reduce((n, d) => n + d.declaredPageCount, 0), expectedPages);
+  for (const packet of report.packets) {
+    const selectedDoc = selectedIa.find(d => d.name === `${packet.fixture}.pdf`);
+    assert.ok(selectedDoc, `${report.familyId}: fixture was not enrolled: ${packet.fixture}`);
+    assert.equal(selectedDoc.declaredPageCount, packet.pageCount);
+    const pdf = await PDFDocument.load(fs.readFileSync(path.join(iaFixturesDir, selectedDoc.name)), { updateMetadata: false });
+    assert.equal(pdf.getPageCount(), packet.pageCount);
+    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(iaFixturesDir, selectedDoc.name))).digest('hex'), packet.sha256);
+  }
+
+  const reportMutations = [
+    d => d.packets = d.packets.slice(0, -1),
+    d => d.packets[0].sha256 = '0'.repeat(64),
+    d => d.packets[0].bytes++,
+    d => d.packets[0].pageCount++,
+    d => d.packets[0].relativePath = 'fixtures/renamed.pdf',
+    d => d.packets[0].path = `${directory}/fixtures/renamed.pdf`,
+    d => d.packets[0].fixture = 'renamed',
+    d => d.packets[0].path = path.join(scratchRoot, d.packets[0].path),
+    d => d.packets[0].path = `${directory}/fixtures/../fixtures/${d.packets[0].fixture}.pdf`,
+    d => d.packets[0].path = `${directory}/fixtures/${d.packets[0].fixture}.pdf/../${d.packets[0].fixture}.pdf`,
+    d => d.packets[0].path = `${directory}/fixtures/./${d.packets[0].fixture}.pdf`,
+  ];
+  for (const mutate of reportMutations) {
+    const altered = structuredClone(report);
+    mutate(altered);
+    assert.throws(() => iaCall(altered));
+  }
+
+  const missingPath = path.join(iaFixturesDir, 'canonical.pdf');
+  const missingBackup = path.join(iaFixturesDir, 'canonical.pdf.test-missing');
+  fs.renameSync(missingPath, missingBackup);
+  try { assert.throws(() => iaCall(report)); }
+  finally { fs.renameSync(missingBackup, missingPath); }
+
+  const changedBytes = fs.readFileSync(missingPath);
+  const changedCopy = Buffer.from(changedBytes);
+  changedCopy[changedCopy.length - 1] ^= 1;
+  fs.writeFileSync(missingPath, changedCopy);
+  try { assert.throws(() => iaCall(report)); }
+  finally { fs.writeFileSync(missingPath, changedBytes); }
+
+  const extra = path.join(iaFixturesDir, 'extra.pdf');
+  fs.copyFileSync(missingPath, extra);
+  try { assert.throws(() => iaCall(report)); }
+  finally { fs.unlinkSync(extra); }
+  fs.symlinkSync('canonical.pdf', extra);
+  try { assert.throws(() => iaCall(report)); }
+  finally { fs.unlinkSync(extra); }
+  const nested = path.join(iaFixturesDir, 'extra-dir');
+  fs.mkdirSync(nested);
+  fs.copyFileSync(missingPath, path.join(nested, 'extra.pdf'));
+  try { assert.throws(() => iaCall(report)); }
+  finally { fs.rmSync(nested, { recursive: true }); }
+  // A replacement symlink may bind the exact PDF bytes and must still fail.
+  const symlinkTarget = path.join(scratchRoot, 'canonical-preserved.pdf');
+  fs.renameSync(missingPath, symlinkTarget);
+  fs.symlinkSync(symlinkTarget, missingPath);
+  try { assert.throws(() => iaCall(report)); }
+  finally { fs.unlinkSync(missingPath); fs.renameSync(symlinkTarget, missingPath); }
+
+  assert.deepEqual(iaCall(report), selectedIa, `${report.familyId}: mutation controls changed the original selection`);
+  iaMeasurements.push({ family: report.familyId, fixtures: expectedFixtures.length, pages: expectedPages, missingFixtureRefused: true, changedFixtureRefused: true, reportControls: reportMutations.length, unsafeInventoryControls: 4, mutationsInTemporaryCopy: true });
+  } finally { fs.rmSync(scratchRoot, { recursive: true, force: true }); }
+}
+
+console.log(JSON.stringify({selectablePackets:8,selectablePages:44,diagnosticPages:16,allPages:60,admissionNegativeControlsCaught:caught,generatedCoverageChecked:process.argv.includes('--generated'),generatedLocation,generatedPositiveControls:process.argv.includes('--generated')?2:0,generatedRejectionControls,iaMeasurements,grantsApproval:false}));
