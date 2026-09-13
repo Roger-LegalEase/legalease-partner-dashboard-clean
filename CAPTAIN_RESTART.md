@@ -8,7 +8,7 @@ This note records locations; it is not a backup of referenced bytes.
 
 Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
-Latest completed checkpoint before this note: dc6e4b148e605e5deedf7fabb97a0ea1080931cd.
+Latest completed/pushed checkpoint before this note: a42d4549b6789c7a6f5530091f4cee153a7a5786.
 Current HEAD advances through the commit containing this note.
 **312/346 terminal** after full native KY integration; all prior311 preserved.
 Act346 and NH remain closed. No production/commercial authority changed.
@@ -78,8 +78,9 @@ branchpf05-ut-cannabis-resume-20260913, base7f50087dcb66ba2fd4a2ee6b164d128b37b4
 PF05 completed native repair: candidate e1be5a7909118b554b953ee9cbe3de22703d1796,
 return commit b0a13b09a0a5540a7fee1e420050d195d60e6bdb. Saved PDFs frozen for VFUT1
 independent semantic review by act346_order_review; no raster yet. Native author
-checks all nine counters0, canonical/boundary12pages each. Author is publishing
-worker branch and transferring return; Captain must verify remote/transfer before integration.
+checks all nine counters0, canonical/boundary12pages each. Worker branch published at b0a13b09; Captain candidate255d9252a and returna42d4549b
+are pushed. All14 candidate file bodies and return SHA were compared identical.
+Transfer proof: pf05/captain-candidate-transfer-20260913.json.
 Claims sd_caption/PF05 and review_wa/VFUT1 unchanged; independent review required.
 5sources +1642dependencyfiles independently verified, wrappers bound on destination.
 Exactsource/runtimepaths: pf05/relocation-manifest-pf05-ut-cannabis-20260913.json;
@@ -90,14 +91,20 @@ branch/history retained, only obsolete symlinks detached, targets untouched.
 Receipt pf05/relocation-retirement-receipt-20260913.json;2993635328bytes recovered.
 
 Other active assignments: PF04 builds AR veterans in second isolated worktree on
-existing finish-worker; source/runtime/provision receipt pending. PF20 independently
-reviews frozen WV owner-registration delta, then resumes Kansas build when budgetfits.
+existing finish-worker at /workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/
+pf04-ar-veterans-adopted-20260913; directory existence/size measured, exact source/runtime
+provision receipt pending from author. PF20 resumes Kansas arrest then registration-relief builds on the existing worker.
+Provision target: /workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/
+pf20-ks-arrest-registration-resume-20260913; provisioning verification return pending.
+Budget boundary: worker7435063296bytes free before KS checkout; AR checkout2925892KiB.
+Only AR and KS are active implementation slots; PF05 checkout is protected for review.
 UT juvenile resolver fixed/reviewed/committed7bc17e7dd: family source1/1binds; full
 Captain preflight still fails preserved dirtyworktree and5absent sampled inputs.
 Exact missing paths/hashes: pf20/ut-juvenile-current-preflight-20260913.json.
 resume_vfar1 prepares WV source-layout/index correction patch only; Captain applies.
 AR owner registration independently reviewed and committed2395591ec.
-WV owner record92f02f8c1 adopted; additive registration frozen for independent review.
+WV owner record92f02f8c1 adopted; additive registration independently PASS and
+committedf72d3ec4e. No additional owner question currently pending.
 Do not duplicate these assignments. Review and integration retain priority.
 
 ## Remaining local blockers and preservation
