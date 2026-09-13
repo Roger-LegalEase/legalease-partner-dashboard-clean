@@ -88,6 +88,7 @@ export function conditionalPacketDocuments({ report, fixtures, root }) {
     'mt_deferred_dismissal-set': ['boundary', 'canonical', 'verdict-justice'],
     'mt_misdemeanor_expungement-set': ['boundary', 'canonical', 'military'],
     'mt_mmrta_completed-set': ['boundary', 'boundary-separate-conviction', 'canonical', 'city-redesignation', 'expungement-order'],
+    'mt_mmrta_serving-set': ['boundary', 'boundary-separate-conviction', 'canonical', 'city-resentencing', 'expungement-order'],
   };
   if (mtFixtureContracts[report?.familyId]) {
     const names = mtFixtureContracts[report.familyId];
