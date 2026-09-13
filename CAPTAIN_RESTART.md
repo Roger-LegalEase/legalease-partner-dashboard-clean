@@ -44,7 +44,8 @@ boundary10pages. Full native completeness PASS54/162. Native wiring expanded the
 unaccepted author stub to all adopted components. Enrollment preserves all325
 terminal dispositions and all324 prior terminal raster documents/receipts.
 Frozen manifest: pf01/fl-sealing-frozen-raster-manifest-20260913.json.
-Dispatch only these current bytes once; final original-page review remains required.
+Accepted run34776394081 binds frozen eb57eb18241cd90e5532e4a029b0938774a6c453,
+2fixtures/20pages at scale2.5. Do not redispatch. Final original-page review remains required.
 Both existing agents currently report usage limits. Do not fabricate independent
 final acceptance or restart/retry agents without changed availability.
 
