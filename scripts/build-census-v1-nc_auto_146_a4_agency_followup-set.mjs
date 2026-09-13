@@ -50,17 +50,17 @@ export function requireReadyPreflight(run) {
  return result;
 }
 export function parseArgs(argv) {
- const allowed=new Set(['--no-raster','--preflight-only']);let base=null;
+ const allowed=new Set(['--no-raster','--preflight-only','--repair-reviewed-candidate']);let base=null;
  for(let i=0;i<argv.length;i++) {
   if(argv[i]==='--minimum-captain-sha'){base=argv[++i];continue;}
   assert(allowed.has(argv[i]),`Unsupported option: ${argv[i]}`);
  }
  assert.match(base??'',/^[a-f0-9]{40}$/,'Provide the available Captain assignment base via --minimum-captain-sha');
- return {base,preflightOnly:argv.includes('--preflight-only')};
+ return {base,repairReviewed:argv.includes('--repair-reviewed-candidate'),preflightOnly:argv.includes('--preflight-only')};
 }
 export function planFixture(f) {
  assert.equal(f.syntheticFixture,true,'Only explicitly synthetic nonfiling fixtures are generated');
- for(const k of ['name','address','city','state','zip','dob','county','caseNumber','holderName','holderAddress','disposition']) assert(typeof f[k]==='string'&&f[k].trim(),`Missing ${k}`);
+ for(const k of ['name','address','city','state','zip','dob','county','caseNumber','holderName','holderAddress','disposition','followupChargeDescription','followupWhereSeen']) assert(typeof f[k]==='string'&&f[k].trim(),`Missing ${k}`);
  assert.equal(f.supportingRecordsChecked,true);assert.equal(f.recordStillReported,true);
  assert.equal(f.disposition,'dismissed','This bounded fixture branch does not infer another disposition');
  for(const k of ['dispositionDate','asOfDate']) assert(/^\d{4}-\d{2}-\d{2}$/.test(f[k])&&!Number.isNaN(Date.parse(f[k]))&&new Date(f[k]).toISOString().slice(0,10)===f[k],`Invalid ${k}`);
@@ -95,9 +95,16 @@ export function nativeBlankDeclaration(row) {
  if(/^(Date\d*|AuthorizedName\d*|Notary\d*|ExpiresDate\d*|CountyNotarized\d*|DepCSC\d*|AsstCSC\d*|CSC\d*|Magistrate\d*|Search\d*|NoRecord\d*|CopyOrder|CertificateReport\d*|FurtherCertify|DateOn)$/.test(name))return {category:'court_prosecutor_clerk_or_agency_owned',reason:'Oath official or NCAOC records-officer certification, search, and result field; only that official supplies it.'};
  return {reason:row.disposition};
 }
+export function adoptedSelfHelpInstructions(track) {
+ assert.equal(track?.trackId,'nc_auto_146_a4_agency_followup');
+ for(const key of ['followupFinalDispositionDate','followupCountyAndFileNumber','followupChargeDescription','followupRecordHolder','followupWhereSeen','followupProofRequested'])assert(track.generationRequirements.some(r=>r.key===key),`Missing adopted requirement ${key}`);
+ assert.equal(track.selfHelpStopConditions.length,5);
+ const additional=track.legalDesignLimitations.filter(r=>['post_generation_handoff','self_help_boundary'].includes(r.classification)).map(r=>r.statement);assert.equal(additional.length,2);
+ return [...track.selfHelpStopConditions.map(s=>`Stop and get legal advice: ${s}`),...additional];
+}
 export const FIXTURES=[
- {fixture:'canonical',syntheticFixture:true,name:'Morgan Example',address:'120 Example Lane',city:'Raleigh',state:'NC',zip:'27601',dob:'01/02/1990',email:'morgan@example.invalid',county:'Wake',caseNumber:'20CR000001',holderName:'Example Record Holder',holderAddress:'100 Sample Avenue, Raleigh, NC 27601',disposition:'dismissed',dispositionDate:'2024-01-01',asOfDate:'2026-09-13',supportingRecordsChecked:true,recordStillReported:true,certificateRequired:false},
- {fixture:'boundary',syntheticFixture:true,name:'Alexandra Morgan Example-Sample',address:'1250 Long Example Boulevard Apt 204',city:'Winston-Salem',state:'NC',zip:'27101',dob:'12/31/1985',email:'alexandra.example@example.invalid',county:'Forsyth',caseNumber:'20CR000002',holderName:'Example County Records Department',holderAddress:'12345 Long Sample Administrative Road, Winston-Salem, NC 27101',disposition:'dismissed',dispositionDate:'2023-12-31',asOfDate:'2026-09-13',supportingRecordsChecked:true,recordStillReported:true,certificateRequired:true}
+ {fixture:'canonical',syntheticFixture:true,name:'Morgan Example',address:'120 Example Lane',city:'Raleigh',state:'NC',zip:'27601',dob:'01/02/1990',email:'morgan@example.invalid',followupChargeDescription:'SYNTHETIC misdemeanor trespass charge',followupWhereSeen:'SYNTHETIC SBI right-to-review copy dated 2026-09-01',county:'Wake',caseNumber:'20CR000001',holderName:'Example Record Holder',holderAddress:'100 Sample Avenue, Raleigh, NC 27601',disposition:'dismissed',dispositionDate:'2024-01-01',asOfDate:'2026-09-13',supportingRecordsChecked:true,recordStillReported:true,certificateRequired:false},
+ {fixture:'boundary',syntheticFixture:true,name:'Alexandra Morgan Example-Sample',address:'1250 Long Example Boulevard Apt 204',city:'Winston-Salem',state:'NC',zip:'27101',dob:'12/31/1985',email:'alexandra.example@example.invalid',followupChargeDescription:'SYNTHETIC misdemeanor property-damage charge',followupWhereSeen:'SYNTHETIC county records response dated 2026-09-02, checked against the SBI right-to-review copy',county:'Forsyth',caseNumber:'20CR000002',holderName:'Example County Records Department',holderAddress:'12345 Long Sample Administrative Road, Winston-Salem, NC 27101',disposition:'dismissed',dispositionDate:'2023-12-31',asOfDate:'2026-09-13',supportingRecordsChecked:true,recordStillReported:true,certificateRequired:true}
 ];
 
 async function textPdf(PDFDocument,StandardFonts,title,paragraphs) {
@@ -121,9 +128,18 @@ export async function runFamily(argv=process.argv.slice(2),root=ROOT) {
  if(args.preflightOnly)return {familyId:FAMILY,preflight:'PASS',artifactsWritten:0};
  const read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
  const route=read(CENSUS).routes.find(r=>r.routeKey===ROUTE),worklist=read(WORKLIST).packetFamilies.find(r=>r.worklistGroupId===FAMILY),manifest=read(MANIFEST).packetSets.find(r=>r.packetSetId===FAMILY);
+ const track=read(REGISTRY).tracks.find(r=>r.trackId==='nc_auto_146_a4_agency_followup');
+ const adoptedStops=adoptedSelfHelpInstructions(track);
  const sourceBytes=fs.readFileSync(path.join(root,SOURCE)),prior=read(PRIOR);
  validateBuildInputs({route,worklist,manifest,sourceBytes,prior});
- const out=path.join(root,OUTPUT);assert(!fs.existsSync(out),'Refuse overwriting an existing candidate; reconcile its review first');
+ const out=path.join(root,OUTPUT);
+ if(fs.existsSync(out)) {
+  assert(args.repairReviewed,'Refuse overwriting an existing candidate; reconcile its review first');
+  const reviewed='ca9719840c8b194e192222e461783e6eedeb9992';
+  const entries=execFileSync('git',['ls-tree','-r','--name-only',reviewed,'--',OUTPUT],{cwd:root,encoding:'utf8'}).trim().split('\n');assert.equal(entries.length,12);
+  const actual=fs.readdirSync(out,{recursive:true}).filter(p=>fs.statSync(path.join(out,p)).isFile()).map(p=>`${OUTPUT}/${p}`).sort();assert.deepEqual(actual,[...entries].sort(),'Unexpected candidate output refuses repair');
+  for(const p of entries)assert.equal(sha(fs.readFileSync(path.join(root,p))),sha(execFileSync('git',['show',`${reviewed}:${p}`],{cwd:root,maxBuffer:4<<20})),`Unreviewed candidate change ${p}`);
+ } else assert(!args.repairReviewed,'Reviewed candidate repair requires its exact saved original');
  const {PDFDocument,StandardFonts}=await import('pdf-lib');
  const source=await PDFDocument.load(sourceBytes);assert.equal(source.getPageCount(),3);
  const assets=new Map(),reports=[],fieldRows=[],writeDocuments=[],maps=[],participantInstructions=[];
@@ -132,6 +148,7 @@ export async function runFamily(argv=process.argv.slice(2),root=ROOT) {
   const letter=await textPdf(PDFDocument,StandardFonts,'Request to check and conform an agency record',[
    `${fixture.name}; ${fixture.address}, ${fixture.city}, ${fixture.state} ${fixture.zip}`,
    `To: ${fixture.holderName}, ${fixture.holderAddress}`,
+   `Charge still shown: ${fixture.followupChargeDescription}. Where I saw the charge still shown: ${fixture.followupWhereSeen}.`,
    `My records identify ${fixture.county} County case ${fixture.caseNumber}, disposed as ${fixture.disposition} on ${fixture.dispositionDate}. The recorded 210-day outer window closed on ${plan.windowClosed}. A current record still reports this charge. Please check whether your records should be conformed to the court's disposition and any automatic expunction under G.S.15A-146(a4) and applicable notice under G.S.15A-150.`,
    'This request does not certify that an expunction occurred or that your agency failed to act. Please identify any documentary verification you require and your procedure for correcting the record.',
    'Participant signature: ____________________  Date: ____________________'
@@ -146,6 +163,7 @@ export async function runFamily(argv=process.argv.slice(2),root=ROOT) {
    'Do not infer a certificate fee or waiver entitlement from the free agency letter. Confirm any applicable certificate charge through the receiving office\'s current published instructions before submitting. Do not manufacture a separate court fee-waiver filing.'
   ]);
   const legal=await textPdf(PDFDocument,StandardFonts,'Legal effect and self-help limits',[
+   ...adoptedStops,
    'This packet requests record verification and follow-up. It does not itself expunge, seal, certify, or order removal of a charge. A 210-day calculation is a route timing check, not proof that automatic expunction actually ran.',
    'Keep the SBI right-to-review record and the report showing the charge. Stop if the person/case/disposition does not match, if the recorded period has not elapsed, if the court record still needs relief rather than agency follow-up, or if an agency contests the legal basis. Get route-specific legal help rather than altering this letter into a petition.',
    'A private background-report disclosure may involve a different G.S.15A-152 civil-action branch. This packet does not select that sworn application or determine civil liability. Do not promise record destruction, employment results, a deadline for agency correction or a guaranteed response.',
@@ -170,7 +188,9 @@ export async function runFamily(argv=process.argv.slice(2),root=ROOT) {
   const bytes=Buffer.from(await combined.save({useObjectStreams:false,updateMetadata:false})),file=`${OUTPUT}/fixtures/${fixture.fixture}.pdf`;assets.set(file,bytes);
   const text=execFileSync('pdftotext',['-layout','-','-'],{input:bytes,maxBuffer:4<<20}).toString();
   const pages=text.split('\f').filter((v,i,a)=>i<a.length-1||v.trim());assert.equal(pages.length,combined.getPageCount());
-  const expectedLetter={name:fixture.name,address:fixture.address,city:fixture.city,state:fixture.state,zip:fixture.zip,holderName:fixture.holderName,holderAddress:fixture.holderAddress,county:fixture.county,caseNumber:fixture.caseNumber,disposition:fixture.disposition,dispositionDate:fixture.dispositionDate,windowClosed:plan.windowClosed};
+  const expectedLetter={followupChargeDescription:fixture.followupChargeDescription,followupWhereSeen:fixture.followupWhereSeen,name:fixture.name,address:fixture.address,city:fixture.city,state:fixture.state,zip:fixture.zip,holderName:fixture.holderName,holderAddress:fixture.holderAddress,county:fixture.county,caseNumber:fixture.caseNumber,disposition:fixture.disposition,dispositionDate:fixture.dispositionDate,windowClosed:plan.windowClosed};
+  const legalText=normalize(pageManifest.filter(p=>p.component===REQUIRED_COMPONENTS[3]).map(p=>pages[p.packetPage-1]).join(' '));
+  for(const stop of adoptedStops)assert(legalText.includes(normalize(stop)),'Adopted self-help stop missing from legal-effect output bytes');
   const actualWrites=[];
   for(const [component,expected] of [[REQUIRED_COMPONENTS[0],expectedLetter],...(plan.certificateRequired?[[REQUIRED_COMPONENTS[2],plan.applicationWrites]]:[])]) {
    const ownText=normalize(pageManifest.filter(p=>p.component===component).map(p=>pages[p.packetPage-1]).join(' '));

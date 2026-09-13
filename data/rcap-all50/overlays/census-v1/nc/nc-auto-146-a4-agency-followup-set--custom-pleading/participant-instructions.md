@@ -57,6 +57,26 @@ SYNTHETIC REVIEW FIXTURE - DO NOT SEND OR FILE
 
 Legal effect and self-help limits
 
+Stop and get legal advice: The agency refuses to act, or does not respond within the time it publishes for records
+requests.
+
+Stop and get legal advice: The agency asserts the expunction did not occur, or that the case is outside G.S.
+15A-146(a4).
+
+Stop and get legal advice: The stale record has already cost the participant a job, a licence or housing, where a claim
+may exist and time limits may run.
+
+Stop and get legal advice: Any immigration matter, where the underlying records may be needed and this
+correspondence should not go out without advice.
+
+Stop and get legal advice: The holder is a federal agency or an out-of-state agency, which North Carolina expunction
+does not reach.
+
+If the holder refuses or does not respond, self-help ends. A second letter is not the answer and the participant needs a
+lawyer.
+
+Expunction can harm an immigration case by destroying record access.
+
 This packet requests record verification and follow-up. It does not itself expunge, seal, certify, or order removal of a
 charge. A 210-day calculation is a route timing check, not proof that automatic expunction actually ran.
 

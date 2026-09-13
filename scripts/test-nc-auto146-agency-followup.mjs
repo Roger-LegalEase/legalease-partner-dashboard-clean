@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {FAMILY,ROUTE,SOURCE,OUTPUT,FIXTURES,planFixture,classifySourceField,parseArgs,requireReadyPreflight,validateBuildInputs} from './build-census-v1-nc_auto_146_a4_agency_followup-set.mjs';
+import {adoptedSelfHelpInstructions,FAMILY,ROUTE,SOURCE,OUTPUT,FIXTURES,planFixture,classifySourceField,parseArgs,requireReadyPreflight,validateBuildInputs} from './build-census-v1-nc_auto_146_a4_agency_followup-set.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
 const inputs={route:read('data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json').routes.find(r=>r.routeKey===ROUTE),
@@ -46,3 +46,6 @@ test('CLI has no skip-preflight or arbitrary output escape',()=>{
 
 // Regression: the printed name is a known fact, not the protected signature.
 test('selected application printed applicant name repeats the known name',()=>{assert.equal(planFixture(FIXTURES[1]).applicationWrites.SignedName,FIXTURES[1].name);});
+
+for(const field of ['followupChargeDescription','followupWhereSeen'])test(`required distinct participant fact ${field}`,()=>{const f={...FIXTURES[0],[field]:''};assert.throws(()=>planFixture(f),new RegExp(field));});
+test('all adopted stops and handoff limitations are included without invented deadlines',()=>{const track=read('data/record-clearing/legal-design-track-registry.json').tracks.find(r=>r.trackId==='nc_auto_146_a4_agency_followup');const lines=adoptedSelfHelpInstructions(track);assert.equal(lines.length,7);for(const s of track.selfHelpStopConditions)assert(lines.some(line=>line.endsWith(s)));for(const r of track.legalDesignLimitations.filter(r=>['post_generation_handoff','self_help_boundary'].includes(r.classification)))assert(lines.includes(r.statement));});
