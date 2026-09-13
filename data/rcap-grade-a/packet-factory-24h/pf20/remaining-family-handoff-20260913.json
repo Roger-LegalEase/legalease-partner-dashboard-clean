@@ -1,0 +1,696 @@
+{
+  "schemaVersion": "rcap-remaining-family-handoff/v1",
+  "status": "RECONSTRUCTED_AFTER_RESTART",
+  "recordedAt": "2026-09-13T04:22:51Z",
+  "purpose": "Account for every currently nonterminal family exactly once from the current native queue and the latest durable returns. This is a scoped handoff, not a queue, claim, source-custody, or terminal-state mutation.",
+  "recovery": {
+    "preRestartCheckpointLocated": false,
+    "reconstructionBasis": [
+      "current Git records and HEAD",
+      "current native MASTER_QUEUE",
+      "current ACTIVE_ASSIGNMENTS and VERIFIER_RETURNS",
+      "durable worker returns and source-wave/legal decisions"
+    ],
+    "comparisonPointOnly": "765cdcf73273d3dc81491d98dc07fa378fb51a57; historical proven terminal count 310/346",
+    "reconstructedNote": "CAPTAIN_RESTART.md",
+    "sourceEnvironmentRule": "The Master Library remains reference-only and is not substituted for the operational Nationwide corpus."
+  },
+  "checkpoint": {
+    "captainHead": "35202abe0697ff5bc2851560c465a50f2eb26841",
+    "queuePath": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "queueSha256": "f5e9df20f3d0e3ed922b0739ab8a100107f03e1a085676dfedd8eeb5fe31cb14",
+    "activeAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "activeAssignmentsSha256": "3839586b290931ea523f355bf43251066b80578c72e9915f790330be35e644aa",
+    "verifierReturnsPath": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+    "verifierReturnsSha256": "1500ca8fd9816f4d957dcd7ed0213951243b26a18f2ede7ce1bef0b5e5f85031",
+    "denominator": 346,
+    "queueRows": 346,
+    "terminalDefinition": [
+      "COMPLETE_PACKET_PROVEN",
+      "GUIDANCE_READY",
+      "HANDOFF_READY",
+      "OUT_OF_SCOPE"
+    ],
+    "terminalCount": 311,
+    "terminalStateCounts": {
+      "COMPLETE_PACKET_PROVEN": 289,
+      "GUIDANCE_READY": 15,
+      "HANDOFF_READY": 2,
+      "OUT_OF_SCOPE": 5
+    },
+    "nonterminalCount": 35,
+    "nonterminalStates": {
+      "SOURCE_READY": 29,
+      "BUILT_RASTER_PENDING": 1,
+      "PRODUCT_PATH_PENDING": 3,
+      "WRONG_DELIVERY_TYPE": 1,
+      "VERIFYING": 1
+    },
+    "queueDenominatorRemaining": 345,
+    "queueDenominatorRemainingMeaning": "The native queue excludes one active family; it is not the count of nonterminal rows."
+  },
+  "latestRelevantReturns": [
+    "data/rcap-grade-a/packet-factory-24h/vfar1/act346-order-code-review-secondary-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf08/rows-pf08-ky-adopted-service-repair-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-ky-adopted-service-semantic-pass-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf08/ky-adopted-service-raster-manifest-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-source-input-review-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-legal-design-resolution-draft-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/pf20/ks-custody-resume-20260913.json",
+    "private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json",
+    "data/rcap-grade-a/packet-factory-24h/pf05/resume-pf05-ut-paused-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf01/rows-pf01-20260911-ut-remove-link.json",
+    "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
+    "data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-mapping-completion-acceptance-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+  ],
+  "families": [
+    {
+      "familyId": "ar-veterans-court-set",
+      "jurisdiction": "AR",
+      "queueState": "SOURCE_READY",
+      "owner": "OWNER+COUNSEL, then PF04",
+      "actualNextGate": "Resolve the VF44 owner/counsel adoption questions; after an adopted current-law/form strategy, PF04 may build and return the complete candidate.",
+      "exactBlocker": "The durable VF44 legal-design draft is NOT_ADOPTED. It leaves current citation treatment after Act 691, pre/post-adjudication scope, cross-court branch, criminal-history/appropriateness finding, service, fee/waiver, and stage-1 eligibility treatment unresolved. No build or raster authorization was granted.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-source-input-review-20260912.json",
+        "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-legal-design-resolution-draft-20260912.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ca-diversion-seal-set",
+      "jurisdiction": "CA",
+      "queueState": "SOURCE_READY",
+      "owner": "PF06",
+      "actualNextGate": "Build the San Diego County-scoped packet from the exact CRM-307 binding, then return it for independent review.",
+      "exactBlocker": "None in the current source return beyond the PF06 build and ordinary completeness, raster, and independent-review gates.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "jurisdiction": "UT",
+      "queueState": "SOURCE_READY",
+      "owner": "SOURCE CUSTODY OWNER, then PF01",
+      "actualNextGate": "Place the exact current Utah State Courts juvenile-expungement petition in governed custody; only then release PF01 to build it.",
+      "exactBlocker": "The source reconciliation is SOURCE_BLOCKED: the petition identity is known, but its current binary is not held in governed custody. The matching reference PDF is identity evidence only.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "docs/record-clearing/e3-job-graph.md",
+        "docs/record-clearing/retrieval-packets/compiled_pathway_UT_path-m-juvenile-expungement.md"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "composed-treatment:nc_146_dismissal_petition",
+      "jurisdiction": "NC",
+      "queueState": "SOURCE_READY",
+      "owner": "PF12",
+      "actualNextGate": "Build from the exact bound AOC-CR-287, instructions, and AOC-CV-226 inputs, preserving the composed treatment, then return for review.",
+      "exactBlocker": "None in the current queue/source binding beyond the PF12 build and ordinary acceptance gates.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "fl-expunction-set",
+      "jurisdiction": "FL",
+      "queueState": "SOURCE_READY",
+      "owner": "PF19",
+      "actualNextGate": "Build the expunction route from the exact FDLE40-021 binding and Rule 3.989 composed pleadings; preserve all participant branches and fee instructions.",
+      "exactBlocker": "None in the current source reconciliation beyond the PF19 build and ordinary acceptance gates.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "fl-sealing-set",
+      "jurisdiction": "FL",
+      "queueState": "SOURCE_READY",
+      "owner": "PF01",
+      "actualNextGate": "Build the sealing route from the exact FDLE40-021 binding and Rule 3.989 composed pleadings; preserve all participant branches and fee instructions.",
+      "exactBlocker": "None in the current source reconciliation beyond the PF01 build and ordinary acceptance gates.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ia-12346-set",
+      "jurisdiction": "IA",
+      "queueState": "SOURCE_READY",
+      "owner": "PF23",
+      "actualNextGate": "Build from the exact Form 3 binding and render its embedded certification section as part of the filing flow.",
+      "exactBlocker": "None in the current source reconciliation; the recorded determination treats the certification as an embedded section, not a missing standalone document.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ia-901c3-set",
+      "jurisdiction": "IA",
+      "queueState": "SOURCE_READY",
+      "owner": "PF07",
+      "actualNextGate": "Build from the exact Form 2 binding, composing its embedded certification and optional filer-created continuation sheet.",
+      "exactBlocker": "None in the current source reconciliation; the recorded determination treats the continuation as filer-created content, not a missing official source document.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "il-prb-cert-set",
+      "jurisdiction": "IL",
+      "queueState": "SOURCE_READY",
+      "owner": "PF16",
+      "actualNextGate": "Build the four owner-custodied PRB application/acknowledgment instruments; keep EXP-AD Request only on the downstream court-petition stage.",
+      "exactBlocker": "None in the current source-wave custody. Older locator-only source-resolution entries are superseded by the exact-byte PRB recovery return; PF16 must consume the current bound set and preserve the route split.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "jurisdiction": "KS",
+      "queueState": "SOURCE_READY",
+      "owner": "SOURCE CUSTODY OWNER, then PF20",
+      "actualNextGate": "Materialize or expose the two exact arrest-record PDFs through recorded custody, verify each expected SHA-256 and byte length, then resume the bounded PF20 build.",
+      "exactBlocker": "The saved PF20 return and recovery report prove no build candidate and no exact current PDF bodies. The adopted KJC owner attestation resolves the commercial permission question, but does not waive source custody.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf20/ks-custody-resume-20260913.json",
+        "private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [
+        "rcap-official-source-acquisition-batch.yml run 34666647147: both recorded KJC URLs returned HTTP 403",
+        "The four downloaded GitHub artifact archives contained only authoritative not_acquired receipts and no PDF body; direct URL retry was intentionally zero in this recovery."
+      ]
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "jurisdiction": "KS",
+      "queueState": "SOURCE_READY",
+      "owner": "SOURCE CUSTODY OWNER, then PF20",
+      "actualNextGate": "Materialize or expose the two exact registration-relief PDFs through recorded custody, verify each expected SHA-256 and byte length, then resume the bounded PF20 build.",
+      "exactBlocker": "The saved PF20 return and recovery report prove no build candidate and no exact current PDF bodies. The adopted KJC owner attestation resolves the commercial permission question, but does not waive source custody.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf20/ks-custody-resume-20260913.json",
+        "private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [
+        "rcap-official-source-acquisition-batch.yml run 34666647147: both recorded KJC URLs returned HTTP 403",
+        "The four downloaded GitHub artifact archives contained only authoritative not_acquired receipts and no PDF body; direct URL retry was intentionally zero in this recovery."
+      ]
+    },
+    {
+      "familyId": "ky_felony_expungement_after_pardon-set",
+      "jurisdiction": "KY",
+      "queueState": "SOURCE_READY",
+      "owner": "PF03",
+      "actualNextGate": "Build the AOC-496.3 route, carrying full pardon as an eligibility branch and attaching the pardon as required; do not create a separate pardon instrument.",
+      "exactBlocker": "None in the adopted legal resolution beyond the PF03 build and ordinary acceptance gates. The stale route-election hold is retired by the current KY-FULL-PARDON-AOC-496-3 rule.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ky_protective_order_record_expungement-set",
+      "jurisdiction": "KY",
+      "queueState": "BUILT_RASTER_PENDING",
+      "owner": "CAPTAIN: central raster acceptance, then independent review/integration",
+      "actualNextGate": "Consume current-byte raster run 34737617513; on RASTER_PASS send the frozen exact PDFs through the independent visual/acceptance gate and integrate the result.",
+      "exactBlocker": "The current central raster run is pending. VF24 is PASS_PRE_RASTER_SEMANTIC with CLIPPING_AND_OVERLAP unmeasured; the adopted service decision remains adopted. No source or legal reopening is warranted.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf08/rows-pf08-ky-adopted-service-repair-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-ky-adopted-service-semantic-pass-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/ky-adopted-service-raster-manifest-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34737617513/dispatch-inputs.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "jurisdiction": "MO",
+      "queueState": "SOURCE_READY",
+      "owner": "PF10",
+      "actualNextGate": "Build with the shared exact FI-05 source and the bound CR300, CR310, and GN10 component strategy; return all required participant and filing instructions.",
+      "exactBlocker": "None in the current queue source binding beyond the PF10 build. Historical CR310 locator and GN10 DOCX format caveats must be preserved in the build return; no fresh source hunt or silent conversion is authorized.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "jurisdiction": "MO",
+      "queueState": "SOURCE_READY",
+      "owner": "PF09",
+      "actualNextGate": "Build with the shared exact FI-05 source and the already-bound route forms; return the complete candidate for independent review.",
+      "exactBlocker": "None in the current queue source binding beyond the PF09 build. Historical source-format/locator caveats do not authorize a new hunt or silent conversion.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mt_deferred_dismissal-set",
+      "jurisdiction": "MT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF04",
+      "actualNextGate": "Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components.",
+      "exactBlocker": "No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mt_misdemeanor_expungement-set",
+      "jurisdiction": "MT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF16",
+      "actualNextGate": "Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components.",
+      "exactBlocker": "No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mt_mmrta_completed-set",
+      "jurisdiction": "MT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF16",
+      "actualNextGate": "Build the completed-record packet from exact Form B and all three identified supporting inputs, with every source and format stated in the return.",
+      "exactBlocker": "No missing source bytes are established. The current records identify DOCX inputs rather than PDF overlays; preserve that format strategy and do not silently convert or omit a component.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mt_mmrta_serving-set",
+      "jurisdiction": "MT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF15",
+      "actualNextGate": "Build the serving-record packet from exact Form A and all three identified supporting inputs, with every source and format stated in the return.",
+      "exactBlocker": "No missing source bytes are established. The current records identify DOCX inputs rather than PDF overlays; preserve that format strategy and do not silently convert or omit a component.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "nc_145_8a_youthful-set",
+      "jurisdiction": "NC",
+      "queueState": "SOURCE_READY",
+      "owner": "PF01",
+      "actualNextGate": "Build from the exact AOC-CR-293, instructions, AOC-CV-226, and bound AOC-CR-296 set; preserve the youthful route and all required components.",
+      "exactBlocker": "None in the current source-wave binding beyond the PF01 build and ordinary acceptance gates. Earlier missing/locator observations are superseded by the committed exact-byte wave return.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "nc_auto_146_a4_agency_followup-set",
+      "jurisdiction": "NC",
+      "queueState": "SOURCE_READY",
+      "owner": "PF05",
+      "actualNextGate": "Build from the exact AOC-G-260 agency-follow-up binding and return the complete candidate for independent review.",
+      "exactBlocker": "None in the current source binding beyond the PF05 build and ordinary acceptance gates.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "nd-prohibit-remote-public-access-set",
+      "jurisdiction": "ND",
+      "queueState": "SOURCE_READY",
+      "owner": "PF24",
+      "actualNextGate": "Build from the four exact North Dakota judiciary self-help bindings, preserving the nonmandatory disclaimer and all route instructions.",
+      "exactBlocker": "None in the current source-wave binding beyond the PF24 build and ordinary acceptance gates. Older locator-only entries are historical and do not trigger a new acquisition hunt.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "jurisdiction": "NE",
+      "queueState": "SOURCE_READY",
+      "owner": "PF01",
+      "actualNextGate": "Build the two-stage route from exact CC-6-12 custody: first trafficking-related set-aside/vacatur, then sealing only after that prerequisite exists.",
+      "exactBlocker": "None beyond the PF01 build; the adopted NE staged legal decision is binding and must remain an explicit conditional branch.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "or_contempt_setaside-set",
+      "jurisdiction": "OR",
+      "queueState": "SOURCE_READY",
+      "owner": "CAPTAIN / PF02",
+      "actualNextGate": "Build the separately scoped ORS 137.225(1)(a) family from exact held sources, preserving the historical aliases; do not reopen the terminal nonconviction sibling.",
+      "exactBlocker": "None in the current identity-reconciliation and mapping acceptance beyond the PF02 build and ordinary acceptance gates.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-identity-reconciliation-20260912.json",
+        "data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-mapping-completion-acceptance-20260912.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "rcap-mo-custom-pleading",
+      "jurisdiction": "MO",
+      "queueState": "SOURCE_READY",
+      "owner": "PF17",
+      "actualNextGate": "Build the settled custom-pleading route from the exact FI-05 and GN10 bindings, preserving the recorded source format and participant stop conditions.",
+      "exactBlocker": "None in the current queue source binding beyond the PF17 build; GN10's recorded DOCX format is a build-strategy caveat, not permission to invent a PDF source.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "jurisdiction": "OH",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "owner": "CAPTAIN",
+      "actualNextGate": "Bind statewide composed routes versus local-court application routes, split delivery types where required, and route the exact missing local application, caption, and filing instructions to source work before a live filing component set is claimed.",
+      "exactBlocker": "Current VF32 independent review is BLOCKED_LEGAL_INPUT on COMPONENT_SET: the drafts and BCI companion exist, but local-court application/caption/instructions and route-family binding are unresolved. The packet is rendered and complete by counters, which does not discharge this product-path gate.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "rcap-sc-custom-pleading",
+      "jurisdiction": "SC",
+      "queueState": "WRONG_DELIVERY_TYPE",
+      "owner": "CAPTAIN / owner delivery gate",
+      "actualNextGate": "Keep the custom replacement closed and bind the mandatory SCCA-223A1 official delivery type or preserve the family as nonterminal; then run the required downstream gates for the corrected route.",
+      "exactBlocker": "Adopted owner decision OWN-DT-2026-09-02-SC-223A1 refuses replacing the mandatory SCCA-223A1 GS order with this custom pleading and keeps checkout disabled. The adopted SC fee treatment remains separate ($250 solicitor, $25 SLED when applicable, $35 clerk when applicable); the SCCA223C custody issue is tracked separately and is not a legal waiver.",
+      "evidence": [
+        "data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "tx_nd_dwi_conviction-set",
+      "jurisdiction": "TX",
+      "queueState": "SOURCE_READY",
+      "owner": "PF22",
+      "actualNextGate": "Build from the three separately bound Texas components and return the complete candidate for independent review.",
+      "exactBlocker": "None in the current source reconciliation beyond the PF22 build and ordinary acceptance gates.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ut_pet_cannabis-set",
+      "jurisdiction": "UT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF05 repair branch, then VFUT1",
+      "actualNextGate": "Resume the saved bounded typed-underscore-caption repair when storage is available, return a complete current-byte candidate, then send it to independent VFUT1 review.",
+      "exactBlocker": "The saved PF05 worker return is PAUSED_AT_SAFE_BOUNDARY with no files changed and no new candidate. The exact repair is the flat typed-underscore caption refusal; this is an active repair, not a source or legal permission to duplicate work.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf05/resume-pf05-ut-paused-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ut_pet_remove_link-set",
+      "jurisdiction": "UT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF01",
+      "actualNextGate": "Implement the clerk/court-confirmed judgeOrCommissioner selector and builder, then exercise both exact branches and the fail-closed ambiguous case.",
+      "exactBlocker": "No source bytes are missing under the current UT disposition. The family has no builder/artifacts yet and must use Judge = 1501CR + 1502CR + 1110GE or Commissioner = 1501CR-C + 1502CR + 1111GE; otherwise STOP configuration_ambiguous / clerk-confirmation-required.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/pf01/rows-pf01-20260911-ut-remove-link.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+      "jurisdiction": "WA",
+      "queueState": "SOURCE_READY",
+      "owner": "CAPTAIN / PF24",
+      "actualNextGate": "Build from exact BLAKE-001, BLAKE-002, and BLAKE-005 bindings, resolving their packet component selection as mapping, then return for independent review.",
+      "exactBlocker": "None in current source custody. The bounded mapping question is whether BLAKE-002 is the courts-limited-jurisdiction alternative or a separate refund component; resolve it in the build return without new source acquisition.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "jurisdiction": "WA",
+      "queueState": "VERIFYING",
+      "owner": "CAPTAIN / bounded VF34 resolution, then independent review",
+      "actualNextGate": "Resolve the current route-specific component and prefill question under RCW 9.96.060(7), update the held route-specific candidate if required, and send the corrected current bytes through independent review.",
+      "exactBlocker": "VF34 is BLOCKED_LEGAL_INPUT on COMPONENT_SET, KNOWN_PREFILLS, and ROUTE_OPTIONS: the existing CrRLJ set does not establish a distinct family-member pleading, applicant/victim field placement, or a valid printed-ground election. The adopted WA decision requires the route-specific petition/order and forbids forcing it into the ordinary residual box.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "jurisdiction": "WA",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "owner": "CAPTAIN",
+      "actualNextGate": "Map RCW 9.96.060(6) to a route-specific petition/declaration and notice/order vehicle, retain the clerk lookup for local fee/waiver, repair the recorded self-help stop text, and then return it to independent review.",
+      "exactBlocker": "VF06 records live ROUTE_OPTIONS and FEE_AND_WAIVER blocks: CrRLJ 09.0100 has no RCW 9.96.060(6) election and no held fee schedule establishes the local amount or waiver procedure. VF06 also measured SELF_HELP_STOP as failed for the registry's immigration, pending-charge, DV/protection-order, DUI, weapon/enhancement, and firearm-rights conditions.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "jurisdiction": "WV",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "owner": "CAPTAIN",
+      "actualNextGate": "Bind the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, then release the official-form build to the appropriate PF lane.",
+      "exactBlocker": "The current product-path decision leaves route-election mapping pending; there is no rendered artifact or completeness result. The exact SCA-C903 source is bound, so this is a route mapping gate rather than a source hunt.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wv_nc_diversion_deferred-set",
+      "jurisdiction": "WV",
+      "queueState": "SOURCE_READY",
+      "owner": "PF08",
+      "actualNextGate": "Build from the exact SCA-C903 binding with the diversion/deferred route branch and return the complete candidate for independent review.",
+      "exactBlocker": "None in the current source reconciliation beyond the PF08 build and ordinary acceptance gates.",
+      "evidence": ["data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"],
+      "retrievalChannelsAlreadyFailed": []
+    }
+  ],
+  "knownMissingInputs": [
+    {
+      "scope": ["ks-22-2410-arrest-set", "ks-22-4908-registration-relief-set"],
+      "status": "EXACT_PDF_BODIES_ABSENT",
+      "custodyRootChecked": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "operationalNationwideRootPresent": false,
+      "recoveryEvidence": "private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json",
+      "inputs": [
+        {
+          "familyId": "ks-22-2410-arrest-set",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+          "expectedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+          "expectedByteLength": 55112,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1620/638968300953030000",
+          "status": "absent; recorded URL HTTP 403"
+        },
+        {
+          "familyId": "ks-22-2410-arrest-set",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+          "expectedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+          "expectedByteLength": 51084,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1628/638968301226600000",
+          "status": "absent; recorded URL HTTP 403"
+        },
+        {
+          "familyId": "ks-22-4908-registration-relief-set",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+          "expectedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+          "expectedByteLength": 217564,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1462/638624730892300000",
+          "status": "absent; recorded URL HTTP 403"
+        },
+        {
+          "familyId": "ks-22-4908-registration-relief-set",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+          "expectedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+          "expectedByteLength": 401878,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1474/638624730904830000",
+          "status": "absent; recorded URL HTTP 403"
+        }
+      ]
+    },
+    {
+      "scope": ["census-pending-family:UT:path-m-juvenile-expungement"],
+      "status": "GOVERNED_CURRENT_BINARY_ABSENT",
+      "identityReference": {
+        "path": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+        "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+        "observedByteLength": 128760,
+        "meaning": "reference identity evidence only; it is not admitted operational Nationwide custody"
+      },
+      "expectedByteLength": null,
+      "exactRequirement": "Current Utah State Courts Petition to Expunge Juvenile Court Records binary in governed custody, hash-bound before PF01 build.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "docs/record-clearing/e3-job-graph.md",
+        "docs/record-clearing/retrieval-packets/compiled_pathway_UT_path-m-juvenile-expungement.md"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    }
+  ],
+  "freshnessOnlyRecordedGaps": [
+    {
+      "scope": ["ky_protective_order_record_expungement-set"],
+      "effect": "Does not block the exact AOC-275.18 current-byte raster gate; preserve as freshness evidence only.",
+      "inputs": [
+        {
+          "recordedPath": "/tmp/ky-clerks-manual-2026-check.pdf",
+          "expectedSha256": "3d5c55025b617846b19537965a7ae453f4f8edbe00b7105ce5be1493882948b0",
+          "expectedByteLength": 5128994,
+          "officialUrl": "https://www.kycourts.gov/Courts/County-Information/Documents/ClerksManual.pdf",
+          "status": "NOT_RESTORED; recorded HTTP 403"
+        },
+        {
+          "recordedPath": "/tmp/ky-cr-201009-official.pdf",
+          "expectedSha256": "89fc9d0011f0424fcedd54160c8ad00af41469bbdb71711cbd3365f4caa2e56b",
+          "expectedByteLength": 3298823,
+          "officialUrl": "https://www.kycourts.gov/Courts/Supreme-Court/Supreme%20Court%20Orders/201009.pdf",
+          "status": "NOT_RESTORED; recorded HTTP 403"
+        }
+      ],
+      "evidence": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/ky-dependency-restoration.json",
+      "retrievalChannelsAlreadyFailed": [
+        "Recorded Kentucky Courts URLs returned HTTP 403 in the saved restoration record; no retry is required for the current exact AOC-275.18 gate."
+      ]
+    }
+  ],
+  "sourceFormatCaveats": [
+    {
+      "scope": ["mt_deferred_dismissal-set", "mt_misdemeanor_expungement-set", "mt_mmrta_completed-set", "mt_mmrta_serving-set", "rcap-mo-custom-pleading", "mo-575-120-identity-theft-correction-set"],
+      "meaning": "Current records identify some held DOCX inputs or historical locator-only labels. This is not a newly asserted missing-byte finding; builders must preserve exact source identity and use the recorded custom-composition strategy without silent conversion or a fresh source hunt.",
+      "evidence": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+    }
+  ],
+  "decisionsPreserved": [
+    {
+      "decision": "NH remains closed.",
+      "evidence": "CAPTAIN_RESTART.md"
+    },
+    {
+      "decision": "Kansas KJC commercial redistribution hold is adopted as released by owner attestation; it does not waive exact source, build, review, raster, or acceptance gates.",
+      "evidence": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
+    },
+    {
+      "decision": "KY protective-order service amendment/owner adoption remains adopted; no repeat approval request.",
+      "evidence": "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json"
+    },
+    {
+      "decision": "KY full pardon is an AOC-496.3 eligibility branch, not a separate instrument.",
+      "evidence": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+    },
+    {
+      "decision": "NE trafficking route is staged: set aside/vacatur first, CC 6:12 sealing second.",
+      "evidence": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+    },
+    {
+      "decision": "SC custom replacement of mandatory SCCA-223A1 is refused and checkout remains disabled.",
+      "evidence": "data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json"
+    },
+    {
+      "decision": "AR Act 346 is currently COMPLETE_PACKET_PROVEN after integration; its current-byte review chain is complete and must not be reopened by restart.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+    },
+    {
+      "decision": "The AR veterans VF44 proposal remains unadopted.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-legal-design-resolution-draft-20260912.json"
+    }
+  ],
+  "countsByActualNextGate": {
+    "source_ready_build": 23,
+    "source_custody_blocked": 3,
+    "owner_counsel_adoption": 1,
+    "raster_acceptance_pending": 1,
+    "active_repair": 1,
+    "product_path_pending": 3,
+    "wrong_delivery_type": 1,
+    "legal_component_resolution": 1,
+    "bounded_implementation": 1,
+    "total": 35
+  },
+  "nearestExecutableHandoffs": [
+    {
+      "priority": 1,
+      "familyId": "ky_protective_order_record_expungement-set",
+      "action": "Consume raster run 34737617513; then independent visual acceptance and integration.",
+      "owner": "CAPTAIN"
+    },
+    {
+      "priority": 2,
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "action": "Complete route-family/delivery binding and identify the exact local-court component input required by VF32.",
+      "owner": "CAPTAIN"
+    },
+    {
+      "priority": 3,
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "action": "Map RCW 9.96.060(6), preserve fail-closed behavior, handle clerk fee lookup, and repair SELF_HELP_STOP.",
+      "owner": "CAPTAIN"
+    },
+    {
+      "priority": 4,
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "action": "Bind disposition facts to SCA-C903 ground and release the official-form build.",
+      "owner": "CAPTAIN"
+    },
+    {
+      "priority": 5,
+      "familyId": "ut_pet_cannabis-set",
+      "action": "Resume the saved PF05 caption repair after the storage pause, then send the complete candidate to VFUT1.",
+      "owner": "PF05 repair branch"
+    }
+  ],
+  "noMutations": [
+    "No source acquisition or URL retry was performed by this handoff.",
+    "No packet generation, raster dispatch, claim release, queue edit, shared manifest edit, or source metadata write was performed.",
+    "No Master Library bytes were substituted for operational Nationwide custody.",
+    "This file is the only scoped handoff write and is intentionally left uncommitted for Captain integration."
+  ]
+}
