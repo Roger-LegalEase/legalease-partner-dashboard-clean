@@ -1,5 +1,27 @@
 # CAPTAIN_RESTART — SOLE FINISH CAPTAIN
 
+## Latest terminal closure — MT deferred327/346
+
+MT deferred is COMPLETE_PACKET_PROVEN after VFMTFINAL2 distinct original-page
+PASS15/15, all24original PNGs, exact current/frozenPDF/archive/log custody and
+native convergence60MASTER/5raster/1wiring unchanged. All326prior terminal
+identities/dispositions and325prior terminal raster documents/receipts exact.
+Closure: pf04/mt-deferred-final-closure-20260913.json. Run34782464548 completed
+success; no redispatch. Original corpus DOCX84539bytes/SHA4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7
+was transferred directly from its existing worker path into
+private/transfers/mt-readiness-20260913/exact-existing-doj-source.docx; no search,
+converter installation or source replacement.
+
+User expressly authorized replacement reviewers after dead-path refusal.
+Live replacement sessions: /root/mt_deferred_final_review (MTfinal, now NDoriginal)
+and /root/nd_repair_independent_review (NDsemantic, now MTmisdemeanorsemantic).
+ND current64page semantic VFND2 PASS accepted; frozen0db583223b already pushed
+and dispatch submitted once. Resolve runID from workflow event, do not redispatch.
+MT misdemeanor VFMTMIS1 semantic PASS is ready in own native directory; collect
+at this completed integration boundary and dispatch all3fixtures/29pages.
+Captain alone owns shared queues/manifests/integration. No terminal328 claimed.
+
+
 ## Current completed candidates — 2026-09-13 continuation
 
 Terminal remains326/346; no new terminal closure claimed. All326prior terminal

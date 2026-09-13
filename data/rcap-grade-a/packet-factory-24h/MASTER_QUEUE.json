@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "fc4a70613aee9b972872ba6dacf31e7c925465d9",
+  "minimumCaptainSha": "ff9715e9e149283b343283eacc72464a2389cbe0",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -80,17 +80,16 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 1,
+    "repairRequired": 0,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 304,
+    "COMPLETE_PACKET_PROVEN": 305,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 14,
     "HANDOFF_READY": 2,
     "BUILT_RASTER_PENDING": 2,
-    "FAIL_REPAIR_REQUIRED": 1,
     "PRODUCT_PATH_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
@@ -30916,10 +30915,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vfmt2",
-        "verifiedAtBase": "1c58063c769dca92c05bd6dfdc385f55b3d7dde4",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmt2/rows-vfmt2-mt-deferred-repair-semantic-pass-20260913.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfmtfinal2",
+        "verifiedAtBase": "f5fd19f25fe58f535748003371f8607fce705f4c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtfinal2/rows-vfmtfinal2-mt-deferred-original-final-pass-20260913.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -30955,7 +30954,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mt_deferred_dismissal-set.mjs",
@@ -33053,10 +33052,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vfnd1",
-        "verifiedAtBase": "16fe76088ab185620c723ad2083d49f646697f8e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnd1/rows-vfnd1-nd-remote-semantic-changes-required-20260913.json"
+        "verdict": "PASS",
+        "lane": "vfnd2",
+        "verifiedAtBase": "ff9715e9e149283b343283eacc72464a2389cbe0",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnd2/rows-vfnd2-nd-repair-semantic-pass-20260913.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
@@ -33160,9 +33159,7 @@
         "mismatches": [],
         "reason": "The family source receipt binds every required adopted packet source by SHA-256."
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -33191,24 +33188,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Two independently viewed exact-boundary diagnostic pages confirm clipped known surname: Findings page23 Defendant and CIF page26 full name. Full-packet original raster remains unperformed.",
-          "findingReadFrom": "finding",
-          "evidence": {
-            "path": "data/rcap-grade-a/packet-factory-24h/vfnd1/nd-remote-independent-semantic-evidence-20260913.json",
-            "sha256": "cdd723edae04cf1c37a9249ab672263841a14c50eb7d424ee8e7d2e654ac2a6d",
-            "byteLength": 165557
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-prohibit-remote-public-access-set.mjs",

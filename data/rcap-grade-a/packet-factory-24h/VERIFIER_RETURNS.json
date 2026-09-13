@@ -34,15 +34,13 @@
     }
   ],
   "counts": {
-    "returnDirectories": 385,
-    "rows": 1475,
+    "returnDirectories": 388,
+    "rows": 1477,
     "independentVerdicts": 330,
-    "failRepairRequired": 1,
-    "passIndependent": 327
+    "failRepairRequired": 0,
+    "passIndependent": 328
   },
-  "failRepairRequiredFamilies": [
-    "nd-prohibit-remote-public-access-set"
-  ],
+  "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
@@ -19715,6 +19713,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmt2/rows-vfmt2-mt-deferred-repair-semantic-pass-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_deferred_dismissal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mt_deferred_dismissal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmtfinal2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f5fd19f25fe58f535748003371f8607fce705f4c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmtfinal2/rows-vfmtfinal2-mt-deferred-original-final-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mt_deferred_dismissal-set",
       "superseded": false
     },
     {
@@ -20874,6 +20886,22 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnd1/rows-vfnd1-nd-remote-semantic-changes-required-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-prohibit-remote-public-access-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nd-prohibit-remote-public-access-set",
+      "verdict": "PASS",
+      "lane": "vfnd2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ff9715e9e149283b343283eacc72464a2389cbe0",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfnd2/rows-vfnd2-nd-repair-semantic-pass-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-prohibit-remote-public-access-set",
       "superseded": false
