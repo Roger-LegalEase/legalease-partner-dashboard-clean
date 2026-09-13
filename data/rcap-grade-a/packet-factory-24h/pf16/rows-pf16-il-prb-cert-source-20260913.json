@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF16",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "9bdaa8295e16",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF16 'il-prb-cert-set'",
+    "result": "CLAIM_OK PF16 il-prb-cert-set (packet-build, grant set 4cb248e7618fd712)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "8ff9d4d22f490506d6fcb90bec54cc3cf5a9bd40131dd145c9923d7bd8743d57",
+    "captainLedgerGeneratedAtCommit": "3a9ef08889a3ef63f4e8bfb5c3366b9e126234cd"
+  },
+  "itemId": "il-prb-cert-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "IL",
+  "routeKeys": [
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-certificate-application",
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-court-petition",
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-military-branch",
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+    "obligation:unit:IL:il-prb-cert:il-prb-cert-sealing-branch"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "EXP-AD Request+PRB Certificate of Expungement for Military Application+PRB Certificate of Expungement for Military Eligibility Acknowledgement+PRB Certificate of Sealing Application+PRB Certificate of Sealing Eligibility Acknowledgement",
+  "requiredComponents": [
+    "component:il-prb-cert-attachment-2",
+    "component:il-prb-cert-attachment-4",
+    "component:il-prb-cert-primary-filing-1",
+    "component:il-prb-cert-primary-filing-3",
+    "component:il-prb-cert-primary-filing-5"
+  ],
+  "forms": [
+    "EXP-AD Request",
+    "PRB Certificate of Expungement for Military Application",
+    "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+    "PRB Certificate of Sealing Application",
+    "PRB Certificate of Sealing Eligibility Acknowledgement"
+  ],
+  "buildScript": "scripts/build-census-v1-il-prb-cert-set.mjs",
+  "buildScriptExists": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 5,
+    "exactHeldSources": [
+      {
+        "sourceId": "official-form:PRB Certificate of Expungement for Military Application",
+        "workerPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION__87d693a24931.pdf",
+        "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+        "byteLength": 222490
+      },
+      {
+        "sourceId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+        "workerPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ELIGIBILITY-ACKNOWLEDGEMENT__691ce0bffc30.pdf",
+        "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+        "byteLength": 84623
+      },
+      {
+        "sourceId": "official-form:PRB Certificate of Sealing Application",
+        "workerPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-APPLICATION__5aa1b7803bfa.pdf",
+        "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+        "byteLength": 226488
+      },
+      {
+        "sourceId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
+        "workerPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-ELIGIBILITY-ACKNOWLEDGEMENT__b204190533f2.pdf",
+        "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+        "byteLength": 89530
+      },
+      {
+        "sourceId": "official-form:EXP-AD Request",
+        "workerPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+        "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+        "byteLength": 1015247
+      }
+    ],
+    "custodyRecord": {
+      "path": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+      "row": "worklistGroupId=il-prb-cert-set",
+      "documentSourcesNamed": 5,
+      "documentSourcesResolved": 1,
+      "resolvedSource": "official-form:EXP-AD Request",
+      "unresolvedSources": [
+        "official-form:PRB Certificate of Expungement for Military Application",
+        "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+        "official-form:PRB Certificate of Sealing Application",
+        "official-form:PRB Certificate of Sealing Eligibility Acknowledgement"
+      ],
+      "unresolvedReason": "label_does_not_identify_a_document",
+      "sharedRecordModified": false
+    },
+    "familyGate": {
+      "result": "PASS_FOR_CUSTODY_ROW_ONLY",
+      "verifierDetail": "1 of 1 source(s) bind by exact SHA-256 (custody_reconciliation)",
+      "completeQueueSourceBind": false,
+      "explanation": "The verifier's resolved-source set contains only EXP-AD; the four queue-pinned PRB sources are not represented in the custody row and cannot be treated as bound merely because their bytes are held."
+    }
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'il-prb-cert-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "PASS only for 1 custody-resolved source; complete five-form queue input does not bind",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger and exact held source bytes are intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: 13 of 499 files and 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 sampled entries absent"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the four missing custody identities are the exact blocker."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "All five queue-pinned PDFs are held byte-exact, but only EXP-AD is admitted by custody reconciliation. The four required PRB certificate identities remain unresolved, and the exclusive builder is absent.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true
+  },
+  "nextExecutableAction": "Captain must admit the four existing PRB source identities into governed custody/source reconciliation and provide the exclusive builder, then rerun the complete family gate before building.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF16, the lane recorded in Captain's current claim ledger.",
+    "Only the five exact queue-pinned bytes were provisioned; no broad source search, legal research, corpus restoration, or resolver edit was performed.",
+    "Prior native returns, the active FL expunction scope, shared manifests, source custody, builder scripts, and overlay directories were not modified."
+  ]
+}
