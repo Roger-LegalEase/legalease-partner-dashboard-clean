@@ -350,8 +350,12 @@ unchanged. Wiring changed only lastIndependentVerification metadata; exact diff
 is in wv-final-closure-20260913.json. No commercial/production authority.
 KS arrest14pages original review act346_order_review; registration26pages original
 review pf04_ar_veterans_build. Originalregistrationcustody in raster-runs/34748021265/.
-AR18pages current semanticPASS now frozen in pf04/ar-veterans-frozen-raster-manifest-20260913.json.
-Next Captain action: dispatch that frozen candidate, then integrate ready final returns.
+AR18pages current semanticPASS frozen in pf04/ar-veterans-frozen-raster-manifest-20260913.json.
+Existing run34748768620 completed success at a7c892d6891120fae5f04b367bcd0d1d6695d2ad; do not redispatch.
+Original archive, job log, receipt and18PNGs retained under raster-runs/34748768620/;
+current-byte custody verified. Run recorded once in pf04/ar-veterans-raster-run-20260913.json.
+Evidence published through5e0c278667813a0b4af909577154901f311efad6.
+Final original-page reviews resumed for KS arrest, KS registration and AR; integrate first ready PASS.
 Only2 implementation slots: PF05UTjuvenile and existingKSworkerOHfour-trackrepair.
 OH officialrulesbooknewacquisition private/source-acquisition-20260913/oh-96c1/
 OH-SUPR-Superintendence-2026-08-06.pdf SHA3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05,11986292bytes.
