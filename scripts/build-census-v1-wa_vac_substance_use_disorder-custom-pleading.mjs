@@ -971,7 +971,10 @@ async function renderComposedPdf(fullText, title) {
   pdf.setProducer("RCAP census-v1 artifact-only renderer");
   pdf.setCreator("RCAP evidence build");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const fontSize = 11, width = 612, height = 792, margin = 72;
+  // Keep the notice/order closing sentence on its component page. Text, type
+  // size, margins, and every other component retain their reviewed settings.
+  const lineHeight = title === COMPONENT["wa-96060-6-notice-order-3"].title ? 14 : 14.5;
   const maxWidth = width - 2 * margin;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
