@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "rcap-repair-lane-return/v1",
+  "lane": "PF04",
+  "laneKind": "packet-build-repair",
+  "assignmentId": "PF04-ar-veterans-native-completeness-disposition-repair-20260913",
+  "familyId": "ar-veterans-court-set",
+  "status": "COMPLETED_METADATA_REPAIR_PENDING_INDEPENDENT_REVIEW",
+  "baseSha": "8966796e47730817fe997594f055d6705774c4f6",
+  "repairCommit": null,
+  "repairedByThisLane": true,
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "This return records a bounded native completeness metadata repair. It grants no packet PASS, raster PASS, terminal closure, counsel approval, production authority or commercial route.",
+  "actualCause": {
+    "nativeRowSchema": "production-field-map.json used legacy class and why keys on all 81 refusals",
+    "nativeReaderSchema": "verify-packet-completeness.mjs normalizeRow reads refusalClass, completenessDisposition, reason and field/effectiveLabel",
+    "observedFinding": "MASTER_QUEUE ar-veterans-court-set FAIL_REPAIR_REQUIRED / FAIL_MISSING_PREFILLS with unclassifiedBlanks=81; matrix findings basis no reason recorded",
+    "conclusion": "The exact PDFs and source bindings were unchanged; the native reader discarded the legacy class/why metadata, so every refusal became UNCLASSIFIED_BLANK."
+  },
+  "repair": {
+    "mode": "metadata_only",
+    "pdfsRerendered": false,
+    "pdfsRerasterized": false,
+    "sourceBytesReacquired": false,
+    "typedDispositionSummary": {
+      "REQUIRED_BEFORE_FILING": 22,
+      "NOT_APPLICABLE_ON_THIS_ROUTE": 1,
+      "PARTICIPANT_ELECTION_GENUINE": 2,
+      "PROTECTED_FIELD": 56
+    },
+    "dispositionMeaning": {
+      "REQUIRED_BEFORE_FILING": "22 participant facts are named in participant-instructions.md and must be supplied from actual records before filing, with conditional branch disclosure.",
+      "PARTICIPANT_ELECTION_GENUINE": "2 pending-felony status controls remain genuine participant selections.",
+      "NOT_APPLICABLE_ON_THIS_ROUTE": "1 measured charge continuation line is outside the selected one-charge candidate when the preceding measured line fits, with a named condition.",
+      "PROTECTED_FIELD": "56 court, judge, notary, service, actor, signature and agency/order fields remain protected."
+    },
+    "nativeKeysAdded": [
+      "documentId",
+      "blankId",
+      "effectiveLabel",
+      "printedLabel",
+      "sourceLabel",
+      "reason",
+      "refusalClass",
+      "completenessDisposition",
+      "requiredBeforeFiling",
+      "factAvailable",
+      "routeDetermined",
+      "identity"
+    ],
+    "sourceReceiptCurrentness": "Added exact documents[] SHA-256/byte-length bindings so the native checker can verify currentness from the supported receipt schema."
+  },
+  "sourceBindings": {
+    "receipt": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/source-receipt.json",
+    "receiptSha256": "511496f44b2f34af54f6500e8e28c2e8efc38d2d3fe94239f3d05092a6538637",
+    "documents": [
+      {
+        "documentId": "AR-ACIC-PETITION-VETERANS-COURT",
+        "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+        "byteLength": 131167,
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf"
+      },
+      {
+        "documentId": "AR-ACIC-ORDER-VETERANS-COURT",
+        "sha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
+        "byteLength": 116034,
+        "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-VETERANS-COURT-SET__ACIC-ORDER-VETERANS-COURT__dd73dfdee29c.pdf"
+      }
+    ],
+    "exact": true
+  },
+  "artifacts": {
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/production-field-map.json",
+    "fieldMapSha256": "3780dd85da46fbf0927ea3abcbf4877d64f8c4748ac4ba0c9d03372e1996a5ce",
+    "participantInstructions": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/participant-instructions.md",
+    "participantInstructionsSha256": "faee6c5e9892e55848751c1e80172d8b2c4b529671fe47eb314a1e020c69a8b6",
+    "pdfs": {
+      "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf": {
+        "beforeSha256": "31a08f2b50a8221b71d4e22ec5c7e3cec9348dacefd86dd1196368ca597f1faf",
+        "beforeByteLength": 131073,
+        "afterSha256": "31a08f2b50a8221b71d4e22ec5c7e3cec9348dacefd86dd1196368ca597f1faf",
+        "afterByteLength": 131073,
+        "unchanged": true
+      },
+      "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf": {
+        "beforeSha256": "2a8d8964897939f503496d92d592dcb84fdc2be30f37bd2fffe77f98de8f44b4",
+        "beforeByteLength": 131182,
+        "afterSha256": "2a8d8964897939f503496d92d592dcb84fdc2be30f37bd2fffe77f98de8f44b4",
+        "afterByteLength": 131182,
+        "unchanged": true
+      },
+      "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/order-canonical-filled.pdf": {
+        "beforeSha256": "5694c59831da43f009336f5af4608ccde26c0e2d5704ec1e332971ce154b8554",
+        "beforeByteLength": 115223,
+        "afterSha256": "5694c59831da43f009336f5af4608ccde26c0e2d5704ec1e332971ce154b8554",
+        "afterByteLength": 115223,
+        "unchanged": true
+      },
+      "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/order-boundary-filled.pdf": {
+        "beforeSha256": "f4251723d33bddcd6e04401aca1e54fa4a0b2312d84d894ed2b7322c40ef118f",
+        "beforeByteLength": 115256,
+        "afterSha256": "f4251723d33bddcd6e04401aca1e54fa4a0b2312d84d894ed2b7322c40ef118f",
+        "afterByteLength": 115256,
+        "unchanged": true
+      }
+    }
+  },
+  "checks": {
+    "focusedNativeCompleteness": {
+      "command": "source private/source-corpus-environment.txt && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-veterans-court-set --write",
+      "result": "PASS_COMPLETE",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "totals": {
+        "terminalFields": 89,
+        "written": 8,
+        "blank": 81,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 22,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 1,
+          "PARTICIPANT_ELECTION_GENUINE": 2,
+          "PROTECTED_FIELD": 56
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "writes-and-refusals"
+      }
+    },
+    "focusedAuthorTest": {
+      "command": "source private/source-corpus-environment.txt && node scripts/test-ar-veterans-court-set.mjs",
+      "result": "PASS",
+      "evidence": "reports/focused-self-test.json"
+    },
+    "syntax": {
+      "command": "node --check scripts/build-census-v1-ar-veterans-court-set.mjs && node --check scripts/test-ar-veterans-court-set.mjs",
+      "result": "PASS"
+    },
+    "diffCheck": {
+      "command": "git diff --check",
+      "result": "PASS"
+    },
+    "savedPdfIdentity": {
+      "result": "PASS_PDFS_BYTE_IDENTICAL",
+      "evidence": "reports/rendered-artifacts.json"
+    }
+  },
+  "reviewBoundary": {
+    "existingSemanticReview": "data/rcap-grade-a/packet-factory-24h/vf44/rows-vf44-ar-veterans-semantic-20260913.json",
+    "existingReviewBase": "56c4843d43fd97de2c42210c42d45ccd8197e26d",
+    "repairChangesReviewInputs": true,
+    "nextGate": "Independent VF44 semantic re-review of the repaired current candidate/map/instructions; then freeze the reviewed bytes before raster/original-page review.",
+    "noRasterOrFinalPassClaim": true
+  },
+  "changedPaths": [
+    "scripts/build-census-v1-ar-veterans-court-set.mjs",
+    "scripts/test-ar-veterans-court-set.mjs",
+    "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/reports/focused-self-test.json",
+    "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/source-receipt.json"
+  ]
+}

@@ -53,6 +53,16 @@ for (const row of actual.documents) {
 assert.ok(map.documents.find((d) => d.documentId === "AR-ACIC-ORDER-VETERANS-COURT").roleRefusals.length >= 40);
 assert.ok(map.documents.find((d) => d.documentId === "AR-ACIC-ORDER-VETERANS-COURT").roleRefusals.every((r) => ["court_owned_finding_or_execution", "judge_owned_rehabilitation_finding"].includes(r.class)));
 assert.ok(map.documents.find((d) => d.documentId === "AR-ACIC-ORDER-VETERANS-COURT").roleRefusals.some((r) => r.class === "judge_owned_rehabilitation_finding"));
+// The native completeness reader consumes these typed keys. Legacy class/why
+// prose remains for family-specific review, but cannot be the only disposition.
+assert.equal(map.refusals.length, 81);
+assert.equal(new Set(map.refusals.map((r) => `${r.documentId}|${r.blankId}`)).size, 81);
+assert.ok(map.refusals.every((r) => r.documentId && r.blankId && r.effectiveLabel && r.reason && Object.hasOwn(r, "completenessDisposition")));
+assert.equal(map.refusals.filter((r) => r.completenessDisposition === "REQUIRED_BEFORE_FILING").length, 22);
+assert.equal(map.refusals.filter((r) => r.completenessDisposition === "PARTICIPANT_ELECTION_GENUINE").length, 2);
+assert.equal(map.refusals.filter((r) => r.completenessDisposition === "NOT_APPLICABLE_ON_THIS_ROUTE").length, 1);
+assert.equal(map.refusals.filter((r) => r.completenessDisposition === "PROTECTED_FIELD").length, 56);
+assert.deepEqual(receipt.documents.map((r) => [r.documentId, r.sha256, r.byteLength]), DOCUMENTS.map((d) => [d.documentId, d.sha256, d.byteLength]));
 assert.match(guides, /Act 691 of 2025/);
 assert.match(guides, /16-90-1601/);
 assert.match(guides, /16-90-1602/);
@@ -83,7 +93,8 @@ const report = {
     "policy input immutability and unique measured blank IDs",
     "participant fact allowlist and proposed-order actor protection",
     "artifact hash/length proof and pending review non-grants",
-    "current-law, service, fee, cross-court and post-adjudication guidance disclosures"
+    "current-law, service, fee, cross-court and post-adjudication guidance disclosures",
+    "native completeness disposition schema, participant disclosure and current source receipt"
   ],
   sourceHashesUnchanged: true,
   artifactHashesMatchRenderedRecord: true,
