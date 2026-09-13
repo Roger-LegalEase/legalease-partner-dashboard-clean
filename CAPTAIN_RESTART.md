@@ -268,7 +268,7 @@ Full gate/blocker evidence: `data/rcap-grade-a/packet-factory-24h/pf20/remaining
 | ks-22-2410-arrest-set | Materialize or expose the two exact arrest-record PDFs through recorded custody, verify each expected SHA-256 and byte length, then resume the bounded PF20 build. | SOURCE CUSTODY OWNER, then PF20 | The saved PF20 return and recovery report prove no build candidate and no exact current PDF bodies. The adopted KJC owner attestation resolves the commercial permission question, but does not waive source custody. |
 | ks-22-4908-registration-relief-set | Materialize or expose the two exact registration-relief PDFs through recorded custody, verify each expected SHA-256 and byte length, then resume the bounded PF20 build. | SOURCE CUSTODY OWNER, then PF20 | The saved PF20 return and recovery report prove no build candidate and no exact current PDF bodies. The adopted KJC owner attestation resolves the commercial permission question, but does not waive source custody. |
 | ky_felony_expungement_after_pardon-set | Build the AOC-496.3 route, carrying full pardon as an eligibility branch and attaching the pardon as required; do not create a separate pardon instrument. | PF03 | None in the adopted legal resolution beyond the PF03 build and ordinary acceptance gates. The stale route-election hold is retired by the current KY-FULL-PARDON-AOC-496-3 rule. |
-| ky_protective_order_record_expungement-set | VF24 final original-page acceptance, then integration | CAPTAIN: central raster acceptance, then independent review/integration | Original run34737617513 consumed RASTER_PASS; final review running. |
+| ky_protective_order_record_expungement-set | Integrate final PASS after verified PF05 relocation/retirement restores write budget | CAPTAIN: central raster acceptance, then independent review/integration | Original run34737617513 consumed RASTER_PASS; VF24 final15/15PASS. |
 | mo-575-120-identity-theft-correction-set | Build with the shared exact FI-05 source and the bound CR300, CR310, and GN10 component strategy; return all required participant and filing instructions. | PF10 | None in the current queue source binding beyond the PF10 build. Historical CR310 locator and GN10 DOCX format caveats must be preserved in the build return; no fresh source hunt or silent conversion is authorized. |
 | mo-610-122-arrest-expungement-set | Build with the shared exact FI-05 source and the already-bound route forms; return the complete candidate for independent review. | PF09 | None in the current queue source binding beyond the PF09 build. Historical source-format/locator caveats do not authorize a new hunt or silent conversion. |
 | mt_deferred_dismissal-set | Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components. | PF04 | No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used. |
@@ -304,3 +304,13 @@ four exact Kansas PDFs, recorded hashes/paths in pf20/ks-custody-resume-20260913
 (2) AR veterans owner/counsel Q1–Q8 choices and authority bindings in
 vf44/ar-veterans-owner-decision-handoff-20260913.json. All remain unadopted
 until an express applicable decision; do not infer adoption from sprint urgency.
+
+KY final acceptance ready: vf24/rows-vf24-ky-adopted-service-original-final-20260913.json
+SHA2563eb9c2e8eecbf4fa605449933ccedc49d988fd0ddafbf9196a27466fc5034173,
+83515bytes, all15obligationsPASS and2originalpages clean.
+Integration budget124859773bytes includes64MiBreserve; available119123968
+at admission boundary, short5735805bytes. No chain launched with this budget.
+Nextcapacitygate: consume PF05 destination source/runtime verification, detach
+only obsolete oldworktree links, git worktree remove exactoldpath withoutforce.
+Then nativeintegration with raster-runs/34737617513/ORIGINAL_EVIDENCE_VERIFIED.json.
+No source/raster/visualredo needed.
