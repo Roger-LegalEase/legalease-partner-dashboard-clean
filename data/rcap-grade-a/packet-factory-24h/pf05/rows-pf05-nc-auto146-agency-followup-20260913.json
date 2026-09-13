@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF05",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "0a6babf4893860b610c702fb14e433dbcc572020",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF05 'nc_auto_146_a4_agency_followup-set'",
+    "result": "CLAIM_OK PF05 nc_auto_146_a4_agency_followup-set (packet-build, grant set a6ef9ebd94267c7e)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "captainLedgerGeneratedAtCommit": "46f58905a130a3168c34851d4ea387802117767c"
+  },
+  "itemId": "nc_auto_146_a4_agency_followup-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "NC",
+  "routeKeys": [
+    "obligation:track-only:NC:nc_auto_146_a4_agency_followup"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "officialFormFamily": "AOC-G-260",
+  "requiredComponents": [
+    "component:nc_auto_146_a4_agency_followup-certificate-of-verification-application-3"
+  ],
+  "readinessArtifact": {
+    "path": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/nc-auto146-agency-followup-readiness.json",
+    "routeResult": "ROUTE_SCOPE_CLEAR",
+    "sourceResult": "SOURCE_BINDING_REQUIRES_RUNTIME_CUSTODY_VERIFICATION_BEFORE_COMPONENT_BUILD",
+    "buildabilityStatus": "NOT_IMMEDIATELY_CONVERTIBLE",
+    "legacyCorrespondenceUntouched": true
+  },
+  "buildScript": "scripts/build-census-v1-nc_auto_146_a4_agency_followup-set.mjs",
+  "buildScriptExists": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-auto-146-a4-agency-followup-set--custom-pleading",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 1,
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "1 of 1 source(s) do not bind",
+      "boundSourceCount": 0,
+      "completeQueueSourceBind": false,
+      "resolverTier": "custody_reconciliation"
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:AOC-G-260",
+        "declaredPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-G-260__cf998cecefea.pdf",
+        "sha256": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCaptainPaths": "NOT_MOUNTED; readiness artifact records absence"
+      }
+    ],
+    "custodyRecord": {
+      "row": "nc_auto_146_a4_agency_followup-set",
+      "documentSourcesNamed": 1,
+      "documentSourcesResolved": 1,
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'nc_auto_146_a4_agency_followup-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: 1 of 1 source(s) do not bind",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: below immutable minimum: 13 of 499 files, 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the exact AOC-G-260 source absence and absent exclusive builder are the bounded blockers."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "The named readiness artifact and current prerequisite agree that the exact AOC-G-260 byte is not mounted at its governed recovery path; the exclusive NC agency-followup builder is also absent. Route scope is clear, legal input is settled, and no legacy correspondence was modified.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Materialize the exact AOC-G-260 byte at its governed path and create the exclusive NC agency-followup builder, then rerun the existing prerequisite once before component build.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF05, the lane recorded in Captain's current claim ledger.",
+    "The existing readiness artifact was consulted as named; it confirms route scope but does not authorize substitution or acquisition.",
+    "No source bytes were transferred; no exact AOC-G-260 byte was mounted in the known Captain/runtime paths.",
+    "The worker claim ledger remains intentionally uncommitted; shared manifests, source custody, resolver logic, legacy correspondence, closed families, and the active KY pardon slot were not modified."
+  ]
+}
