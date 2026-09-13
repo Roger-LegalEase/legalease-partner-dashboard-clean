@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 368,
-    "rows": 1459,
+    "returnDirectories": 374,
+    "rows": 1463,
     "independentVerdicts": 326,
     "failRepairRequired": 0,
-    "passIndependent": 321
+    "passIndependent": 322
   },
   "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
@@ -11795,6 +11795,20 @@
     },
     {
       "familyId": "ia-12346-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfiafinal1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6277ad331a1f06467faa1526ea7c756e48713276",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfiafinal1/rows-vfiafinal1-ia-12346-original-final-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12346-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ia-12346-set",
       "verdict": "PASS",
       "lane": "vfks1",
       "isIndependentVerification": true,
@@ -11807,7 +11821,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfks1/rows-vfks1-ia-12346-set-semantic-native-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12346-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ia-12347-set",
@@ -11931,6 +11945,20 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfia2/rows-vfia2-ia-901c3-semantic-independent-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-901c3-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ia-901c3-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfiafinal2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6277ad331a1f06467faa1526ea7c756e48713276",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfiafinal2/rows-vfiafinal2-ia-901c3-original-final-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-901c3-set",
       "superseded": false
@@ -40881,7 +40909,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -40928,6 +40956,74 @@
       "obligationsReadFromElsewhere": "this row's proofObligations named none; the failing obligations below were read from a named-obligation block elsewhere in the same row",
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "verdict": "PASS",
+      "lane": "vfwasud1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e818d1d3d9cb32f6c51c8a0d9b07928fb2e40762",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud1/rows-vfwasud1-wa-sud-repair-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfwasud1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "67c72bae5addcc2084ffbd2ba79294af56232b9b",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Five composed components are present, but the purported declaration lacks recorded sworn execution requirement; VFWASUD1-003.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "wa-96060-6-petition-1",
+            "wa-96060-6-declaration-2",
+            "wa-96060-6-notice-order-3",
+            "wa-96060-6-program-evidence-4",
+            "wa-96060-6-filing-instructions-5"
+          ]
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Twenty-seven distinct required blanks and thirteen protected blanks are declared, but at least two notice/order caption blanks are uncensused. Program qualification requirements are incompletely disclosed; VFWASUD1-002 and -004.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Both evidence alternatives are visibly available without automatic selection, but assessment path requirements are weakened; VFWASUD1-001 and -002.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Generic stops do not close previously recorded specific conditions; VFWASUD1-005. Program proof is not fabricated, but specific qualification/referral boundaries need repair.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud1/rows-vfwasud1-wa-sud-semantic-independent-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
       "superseded": true

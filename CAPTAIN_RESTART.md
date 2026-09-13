@@ -1,5 +1,42 @@
 # CAPTAIN_RESTART — SOLE FINISH CAPTAIN
 
+## Latest preservation checkpoint — 2026-09-13
+
+Accepted MASTER_QUEUE remains byte-identical to6277ad331: **321/346**.
+Do not apply regression previews or substitute new review dates for missing history.
+One final fresh preview against current extracted Iowa returns and repaired history
+reproduces317 accepted families, no new terminals. Four exact historical review
+commits remain absent in Captain, worker Git and the indexed preserved worker bundle:
+ND nonconviction5ec5b9d743d4c780db344e0f0465580d90631df4;
+DE mandatorya9d0acdf0f37d18d9b469ffaf18dbecc9b514596;
+DE pardonca8ffa9fb57041ee0d113e7cfb72f244fd17d75c;
+FL bridge7dc4c078409979b5aa480d83fbd4294332d4bbdb.
+These are historical evidence/execution blockers, not newly established legal defects.
+No substantive packet regression established. No renewed source hunt/review is authorized.
+Cause table, exact family sets, wiring verification and object receipts:
+`data/rcap-grade-a/packet-factory-24h/preservation-reconciliation-20260913/`.
+Eight authentic required commit objects and4615 trees restored from worker, SHA identities
+verified. Durable882796-byte required-history-objects.pack permits exact restoration
+with `git index-pack --stdin < <pack-path>`; no source blobs in that pack.
+Full remote history fetched with blob filtering; Captain free6.6GiB.
+Use GIT_NO_LAZY_FETCH=1 during blocked historical checks to avoid futile repeated fetches.
+KY/TX missing native wiring regenerated and route/components/original acceptance/non-grants
+verified. FL stale whole-manifest pin refreshed by existing native mechanism after all5
+relevant anchors compared identical. Accepted PDFs unchanged; no raster repeated.
+Additive preservation review drafts were NOT consumed as replacement approval and are
+retained privately under private/packet-factory-24h/transfers/preservation-reconciliation-20260913/.
+
+Iowa original run34765630915 fully succeeded. Native receipts admitted for IA12346
+6fixtures24pages and IA901c3 8fixtures49pages; all other raster rows preserved exactly.
+Distinct original-page final reviews BOTH PASS_COMPLETE_INDEPENDENT,15/15:
+vfiafinal1/rows-vfiafinal1-ia-12346-original-final-20260913.json and
+vfiafinal2/rows-vfiafinal2-ia-901c3-original-final-20260913.json.
+No diagnostic/nonfiling class changed. Original packet commit remains67c72bae5addcc2084ffbd2ba79294af56232b9b.
+Fresh preview selects both final returns at VERIFIED_PASS. No authoritative terminal
+closure yet: shared preservation gate needs authentic missing historical objects.
+Existing integration supports receipt batches, not a bypass around unrelated terminal losses.
+Old recovery machine remains stopped; worker resumes existing assignments, no duplicate worker.
+
 ## Authoritative current handoff — new Captain, 2026-09-13
 
 This worktree is the sole control plane. Initial remote truth was exactly

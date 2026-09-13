@@ -59,28 +59,87 @@
       },
       {
         "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-        "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-        "byteLength": 3708050,
+        "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+        "byteLength": 3711585,
         "identityRefresh": {
-          "refreshedOn": "2026-09-10",
+          "refreshedOn": "2026-09-13",
           "was": {
-            "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-            "byteLength": 3683419
+            "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "byteLength": 3708050
           },
-          "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for fl-10yr-bridge-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
-          "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
-          "anchorsCompared": 2,
+          "why": "The record was rewritten around this receipt's anchors. 5 named entries moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set, de_discretionary_superior_court-set, il-seal-edu-set, wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+          "anchorsCompared": 5,
           "anchorDetail": [
-            "recordGlobalMetadata: identical",
-            "packetSet:fl-10yr-bridge-set: identical"
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:fl-10yr-bridge-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
           ],
-          "anchorsIdentical": 2,
+          "anchorsIdentical": 5,
           "identicalAnchorSha256": {
-            "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
-            "packetSet:fl-10yr-bridge-set": "4584798246802d87f9f0123a6c16c2f9e4548d56ef27b6afdc3cd77a51038bf6"
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:fl-10yr-bridge-set": "a44dc08f727afd6fe7fff4dc84959fcee4cc47182adef4c447c1038444ed5374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
           },
-          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
-          "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+          "anchorScope": {
+            "anchorIds": [
+              "fl-10yr-bridge-set"
+            ],
+            "derivation": {
+              "declarations": [
+                {
+                  "basis": "receipt.familyId exact packetSetId",
+                  "packetSetId": "fl-10yr-bridge-set"
+                },
+                {
+                  "basis": "receipt.routeKeys:obligation:track-pathway:FL:fl-10yr-bridge:court-ordered-expunction-943-0585",
+                  "packetSetId": "fl-10yr-bridge-set"
+                }
+              ],
+              "globalMetadataComparedAsOneAnchor": true
+            }
+          },
+          "entriesThatMovedInThisRecord": [
+            "de_discretionary_family_court-set",
+            "de_discretionary_superior_court-set",
+            "il-seal-edu-set",
+            "wv_nc_acquittal_dismissal-set",
+            "wv_nc_diversion_deferred-set"
+          ],
+          "recoveredFrom": {
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "d744a59beb35f31bb71f66e6c57acc7886410fbc",
+            "commit": "b3f6fbc7acda9c96295eaa66636b49dc7ca2c656",
+            "commitsWithThisPath": 16,
+            "distinctBlobs": 16,
+            "blobsHashed": 5
+          },
+          "previousIdentityRefresh": {
+            "refreshedOn": "2026-09-10",
+            "was": {
+              "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+              "byteLength": 3683419
+            },
+            "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for fl-10yr-bridge-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+            "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+            "anchorsCompared": 2,
+            "anchorDetail": [
+              "recordGlobalMetadata: identical",
+              "packetSet:fl-10yr-bridge-set: identical"
+            ],
+            "anchorsIdentical": 2,
+            "identicalAnchorSha256": {
+              "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+              "packetSet:fl-10yr-bridge-set": "4584798246802d87f9f0123a6c16c2f9e4548d56ef27b6afdc3cd77a51038bf6"
+            },
+            "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+            "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+          },
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
         }
       }
     ]

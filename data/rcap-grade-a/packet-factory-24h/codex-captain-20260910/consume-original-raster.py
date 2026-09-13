@@ -5,7 +5,8 @@ ROOT = pathlib.Path('data/rcap-grade-a/packet-factory-24h/raster-runs')
 REPO = 'repos/Roger-LegalEase/legalease-partner-dashboard-clean'
 sha = lambda b: hashlib.sha256(b).hexdigest()
 def api(endpoint):
-    return subprocess.check_output(['gh', 'api', REPO + endpoint])
+    return subprocess.check_output(['env', '-u', 'GH_TOKEN', '-u', 'GITHUB_TOKEN',
+                                    'gh', 'api', REPO + endpoint, '--allow-escape-sequences'])
 def save(p, value):
     p.write_text(json.dumps(value, indent=2) + '\n')
 
@@ -68,7 +69,13 @@ for family in selected:
         archive.write_bytes(body)
     body = archive.read_bytes()
     assert 'sha256:' + sha(body) == artifact['digest']
-    log = subprocess.check_output(['gh', 'run', 'view', str(run_id), '--repo', REPO[6:], '--job', str(job['id']), '--log'])
+    # gh run view refuses logs until the entire run ends, even when this
+    # selected job and both controls have passed. The job endpoint exposes
+    # that completed job's original log without waiting for a sibling.
+    log = (api(f"/actions/jobs/{job['id']}/logs") if partial else
+           subprocess.check_output(['env', '-u', 'GH_TOKEN', '-u', 'GITHUB_TOKEN',
+                                    'gh', 'run', 'view', str(run_id), '--repo', REPO[6:],
+                                    '--job', str(job['id']), '--log']))
     log_path = out / (slug + '.job.log')
     if not log_path.exists():
         log_path = scratch / (slug + '.job.log')
