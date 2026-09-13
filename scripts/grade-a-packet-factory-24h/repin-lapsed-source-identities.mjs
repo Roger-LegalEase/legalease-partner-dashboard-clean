@@ -482,7 +482,363 @@ const sourceDeterminationAdapter = {
   }
 };
 
-export const ADAPTERS = new Map([[REGISTRY, registryAdapter], [PACKET_MANIFESTS, packetManifestAdapter], [SOURCE_DETERMINATIONS, sourceDeterminationAdapter]]);
+/*
+ * The WV compiled profile is a shared record, but this receipt does not bind
+ * the profile as an undifferentiated blob. The composed-treatment builder
+ * re-reads five statements from it: the shared fee statement, the selected
+ * pathway identity and substance, the legal-aid referral, and the
+ * rehabilitation label. The current WV ownership correction changed the
+ * inventory metadata for SCA-C903 in this profile. That is a different
+ * source input, and this family has no SCA-C903 component; it is the only
+ * transition this adapter is allowed to set aside.
+ *
+ * Everything else in the profile remains an anchor: the route pathway, all
+ * shared routing/rule data, all source sections, the packet-generator rules
+ * and the non-SCA-C903 inventory. An unknown field, duplicate identity, a
+ * changed route/shared rule, or a differently shaped SCA-C903 transition is a
+ * refusal. This is deliberately one route adapter, not a compiled-profile
+ * framework or a global exemption.
+ */
+const WV_COMPILED_PROFILE = "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json";
+const WV_PROFILE_FAMILY = "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement";
+const WV_PROFILE_ROUTE_KEY = "obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement";
+const WV_PROFILE_ROUTE_ID = "sex-trafficking-victim-vacatur-and-expungement";
+const WV_C903_GOVERNED_PATHWAY_ID = "first-offense-drug-possession-conditional-discharge-relief";
+const WV_PROFILE_RECORD_ID = `compiled-profile:WV-west-virginia#${WV_PROFILE_ROUTE_ID}`;
+const WV_PROFILE_DETAIL_TITLE = "Sex-trafficking victim vacatur and expungement";
+const WV_PROFILE_SOURCE_ANCHORS = Object.freeze({
+  feeRulePrefix: "For 61-11-26 conviction expungement, the circuit clerk charges the same fee as filing a civil action, and a person who receives an expungement order must pay a $100 West Virginia State Police processing fee.",
+  pathwayId: WV_PROFILE_ROUTE_ID,
+  pathwaySummaryPrefix: "A person convicted of prostitution, or adjudicated delinquent, as a direct result of being a trafficking victim may petition the circuit court in the county of conviction or juvenile adjudication to vacate the conviction/adjudication and expunge the record.",
+  legalAidReferral: "West Virginia has a special relief route for prostitution records caused by sex trafficking. This can involve vacating the conviction or juvenile adjudication, so it should be routed to legal aid or an attorney.",
+  rehabilitationLabel: "rehabilitation_not_required_61_14_9"
+});
+
+const WV_PROFILE_TOP_KEYS = new Set([
+  "schemaVersion", "profileVersion", "questionLifecycle", "jurisdiction", "source", "terminology",
+  "flowStages", "questions", "caseOutcomeOptions", "pathways", "orderedDecisionRules",
+  "waitingPeriodRules", "exclusionRules", "packetGenerator", "resultPresentationContract",
+  "copyGuardrails", "sourceSections", "frontendContract", "qa"
+]);
+const WV_PROFILE_SOURCE_KEYS = new Set([
+  "sourcePolicy", "references", "sourceCorpusSha256", "sourceCorpusChars", "selectedOfficialEdition",
+  "historicalComparisonBindings", "sourceCorpusBindingNote", "allFolderFiles"
+]);
+const WV_PROFILE_PACKET_KEYS = new Set([
+  "architecture", "legacyGeneratorAllowed", "genericLegalFallbackAllowed", "pathways", "requiredInputs",
+  "sourceFormStatements", "attachments", "filingDestinationRules", "serviceAndNoticeRules", "feeRules",
+  "hearingAndObjectionRules", "postFilingRules", "formInventory", "allSourceFiles", "generatorSelectionContract"
+]);
+const WV_C903_IDENTITIES = Object.freeze({
+  historical: Object.freeze({
+    fileName: "SCA-C-903.pdf",
+    relativePath: "LegalEase West Virginia/SCA-C-903.pdf",
+    extension: ".pdf",
+    kind: "official_form_or_packet",
+    sha256: "242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035",
+    byteLength: 112484
+  }),
+  current: Object.freeze({
+    fileName: "SCA-C-903.pdf",
+    relativePath: "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+    extension: ".pdf",
+    kind: "official_form_or_packet",
+    sha256: "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+    byteLength: 23275
+  })
+});
+const WV_C903_SOURCE_SELECTION = Object.freeze({
+  sourceId: "official-form:SCA-C903",
+  formNumber: "SCA-C903",
+  revision: "REV-2010-04",
+  custody: "master_library",
+  custodyRoot: "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+  relativePath: WV_C903_IDENTITIES.current.relativePath,
+  sha256: WV_C903_IDENTITIES.current.sha256,
+  byteLength: WV_C903_IDENTITIES.current.byteLength,
+  pageCount: 3,
+  structuralClassObserved: "flat_pdf",
+  encrypted: true,
+  acroFormPresent: false,
+  acroFieldCount: 0,
+  xfaPresent: false,
+  role: "current individual source input used by the WV route ownership correction"
+});
+const WV_C903_HISTORICAL_BINDING = Object.freeze({
+  sourceId: "official-form:SCA-C903",
+  formNumber: "SCA-C903",
+  revisionPrinted: "04/01/2010",
+  custody: "nationwide_recovery_pool_2026_09_02",
+  path: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C-903.pdf",
+  relativePath: "LegalEase West Virginia/SCA-C-903.pdf",
+  sha256: WV_C903_IDENTITIES.historical.sha256,
+  byteLength: WV_C903_IDENTITIES.historical.byteLength,
+  pageCount: 2,
+  structuralClassObserved: "acroform",
+  encrypted: false,
+  acroFormPresent: true,
+  acroFieldCount: 25,
+  role: "retained comparison history; not the current route binding"
+});
+const WV_C903_BINDING_NOTE = "sourceCorpusSha256 remains the pre-existing compiled-profile aggregate and is not recomputed by this correction; the selected SCA-C903 binding is an individual Master Library source input and does not assert a complete operational Nationwide corpus.";
+
+const wvClone = (value) => structuredClone(value);
+const wvKeys = (value) => Object.keys(value ?? {}).sort();
+const wvRequireObject = (value, message) => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Refusal(message);
+  return value;
+};
+const wvRequireExactKeys = (value, allowed, side, label) => {
+  wvRequireObject(value, `the ${side} WV compiled profile has no ${label} object`);
+  const unknown = wvKeys(value).filter((key) => !allowed.has(key));
+  if (unknown.length) throw new Refusal(`ambiguous ${side} WV compiled profile ${label} fields: ${unknown.join(", ")}`);
+  return value;
+};
+const wvC903Marker = (value) => value && typeof value === "object" && (
+  value.fileName === "SCA-C-903.pdf" || value.formNumber === "SCA-C903" || value.sourceId === "official-form:SCA-C903"
+  || (typeof value.relativePath === "string" && (value.relativePath.includes("SCA-C-903") || value.relativePath.includes("SCA-C903")))
+  || (typeof value.path === "string" && (value.path.includes("SCA-C-903") || value.path.includes("SCA-C903")))
+);
+const wvExpectedC903 = (side) => side === "recovered historical" ? WV_C903_IDENTITIES.historical : WV_C903_IDENTITIES.current;
+const wvValidateC903Identity = (value, side, label) => {
+  wvRequireObject(value, `the ${side} ${label} SCA-C903 entry is not an object`);
+  const expected = wvExpectedC903(side);
+  const expectedEntry = {
+    fileName: expected.fileName,
+    relativePath: expected.relativePath,
+    extension: expected.extension,
+    kind: expected.kind,
+    sha256: expected.sha256,
+    sizeBytes: expected.byteLength
+  };
+  if (canonical(value) !== canonical(expectedEntry)) {
+    throw new Refusal(`the ${side} ${label} SCA-C903 entry is not the complete recorded ${side === "recovered historical" ? "historical" : "current"} binding`);
+  }
+};
+const wvFilterC903 = (values, side, label, { requireOne = false } = {}) => {
+  if (!Array.isArray(values)) throw new Refusal(`the ${side} WV compiled profile ${label} is not an array`);
+  const marked = values.filter(wvC903Marker);
+  if (marked.length > 1 || (requireOne && marked.length !== 1)) {
+    throw new Refusal(`ambiguous ${side} SCA-C903 entries in ${label}: expected ${requireOne ? "one" : "at most one"}, found ${marked.length}`);
+  }
+  marked.forEach((value) => wvValidateC903Identity(value, side, label));
+  return values.filter((value) => !wvC903Marker(value));
+};
+const wvValidateCurrentC903Selection = (source, side) => {
+  if (side === "current" && [
+    "selectedOfficialEdition",
+    "historicalComparisonBindings",
+    "sourceCorpusBindingNote"
+  ].some((key) => !Object.hasOwn(source, key))) {
+    throw new Refusal("the current WV compiled profile must carry all three recorded SCA-C903 custody-selection fields");
+  }
+  if (source.selectedOfficialEdition !== undefined) {
+    if (side !== "current" || canonical(source.selectedOfficialEdition) !== canonical(WV_C903_SOURCE_SELECTION)) {
+      throw new Refusal(`the ${side} WV compiled profile carries an unexpected selected SCA-C903 binding`);
+    }
+  }
+  if (source.historicalComparisonBindings !== undefined) {
+    if (side !== "current" || !Array.isArray(source.historicalComparisonBindings)
+      || source.historicalComparisonBindings.length !== 1
+      || canonical(source.historicalComparisonBindings[0]) !== canonical(WV_C903_HISTORICAL_BINDING)) {
+      throw new Refusal(`the ${side} WV compiled profile carries an unexpected historical SCA-C903 binding`);
+    }
+  }
+  if (source.sourceCorpusBindingNote !== undefined
+    && (side !== "current" || source.sourceCorpusBindingNote !== WV_C903_BINDING_NOTE)) {
+    throw new Refusal(`the ${side} WV compiled profile carries an unexpected source-corpus binding note`);
+  }
+};
+
+const wvSourceStable = (doc, side) => {
+  const source = wvRequireExactKeys(doc.source, WV_PROFILE_SOURCE_KEYS, side, "source");
+  wvValidateCurrentC903Selection(source, side);
+  const out = wvClone(source);
+  delete out.selectedOfficialEdition;
+  delete out.historicalComparisonBindings;
+  delete out.sourceCorpusBindingNote;
+  out.allFolderFiles = wvFilterC903(out.allFolderFiles, side, "source.allFolderFiles", { requireOne: true });
+  return out;
+};
+
+const wvPacketGeneratorStable = (doc, side) => {
+  const packet = wvRequireExactKeys(doc.packetGenerator, WV_PROFILE_PACKET_KEYS, side, "packetGenerator");
+  if (!Array.isArray(packet.pathways)) throw new Refusal(`the ${side} WV packetGenerator has no pathways array`);
+  const pathwayIds = packet.pathways.map((entry) => entry?.pathwayId);
+  if (pathwayIds.some((id) => typeof id !== "string" || !id) || new Set(pathwayIds).size !== pathwayIds.length) {
+    throw new Refusal(`ambiguous ${side} WV packetGenerator pathway identities`);
+  }
+  const out = wvClone(packet);
+  out.formInventory = wvFilterC903(out.formInventory, side, "packetGenerator.formInventory", { requireOne: true });
+  out.allSourceFiles = wvFilterC903(out.allSourceFiles, side, "packetGenerator.allSourceFiles", { requireOne: true });
+  out.pathways = out.pathways.map((entry) => {
+    if (entry.pathwayId !== WV_C903_GOVERNED_PATHWAY_ID) return entry;
+    entry.formCandidates = wvFilterC903(entry.formCandidates, side, `packetGenerator.pathways:${entry.pathwayId}.formCandidates`, { requireOne: true });
+    return entry;
+  });
+  return out;
+};
+
+const wvSharedProfile = (doc, side) => {
+  const out = wvClone(doc);
+  delete out.source;
+  delete out.packetGenerator;
+  delete out.pathways;
+  delete out.sourceSections;
+  wvRequireExactKeys(doc, WV_PROFILE_TOP_KEYS, side, "top-level");
+  return out;
+};
+
+const wvPathways = (doc, side) => {
+  if (!Array.isArray(doc.pathways)) throw new Refusal(`the ${side} WV compiled profile has no pathways array`);
+  const out = new Map();
+  for (const entry of doc.pathways) {
+    if (!entry || typeof entry.id !== "string" || !entry.id) throw new Refusal(`the ${side} WV compiled profile has an unidentifiable pathway`);
+    if (out.has(entry.id)) throw new Refusal(`ambiguous ${side} WV compiled profile pathway ${entry.id}`);
+    out.set(entry.id, entry);
+  }
+  return out;
+};
+
+const wvPacketPathways = (doc, side) => {
+  if (!Array.isArray(doc.packetGenerator?.pathways)) throw new Refusal(`the ${side} WV packetGenerator has no pathways array`);
+  const out = new Map();
+  for (const entry of doc.packetGenerator.pathways) {
+    if (!entry || typeof entry.pathwayId !== "string" || !entry.pathwayId) throw new Refusal(`the ${side} WV packetGenerator has an unidentifiable pathway`);
+    if (out.has(entry.pathwayId)) throw new Refusal(`ambiguous ${side} WV packetGenerator pathway ${entry.pathwayId}`);
+    out.set(entry.pathwayId, entry);
+  }
+  return out;
+};
+
+const wvSourceSections = (doc, side) => {
+  if (!Array.isArray(doc.sourceSections)) throw new Refusal(`the ${side} WV compiled profile has no sourceSections array`);
+  const out = new Map();
+  for (const section of doc.sourceSections) {
+    if (!section || typeof section.title !== "string" || !section.title) throw new Refusal(`the ${side} WV source section has no title`);
+    if (out.has(section.title)) throw new Refusal(`ambiguous ${side} WV source section ${section.title}`);
+    out.set(section.title, section);
+  }
+  return out;
+};
+
+const compiledProfileAdapter = {
+  recordPath: WV_COMPILED_PROFILE,
+  describe: "WV compiled profile (route pathway and all relevant shared dependencies; explicit SCA-C903 inventory transition)",
+
+  index(doc, side) {
+    wvRequireExactKeys(doc, WV_PROFILE_TOP_KEYS, side, "top-level");
+    if (doc.schemaVersion !== "2.0.0" || doc.jurisdiction?.code !== "WV") {
+      throw new Refusal(`the ${side} record is not the WV compiled profile schema this adapter describes`);
+    }
+    const pathways = wvPathways(doc, side);
+    const packetPathways = wvPacketPathways(doc, side);
+    const sections = wvSourceSections(doc, side);
+    const sourceC903 = doc.source.allFolderFiles.find(wvC903Marker);
+    const packetC903Inventory = doc.packetGenerator.formInventory.find(wvC903Marker);
+    const packetC903AllSource = doc.packetGenerator.allSourceFiles.find(wvC903Marker);
+    wvValidateC903Identity(sourceC903, side, "source.allFolderFiles");
+    wvValidateC903Identity(packetC903Inventory, side, "packetGenerator.formInventory");
+    wvValidateC903Identity(packetC903AllSource, side, "packetGenerator.allSourceFiles");
+    const out = new Map([
+      ["compiledProfile:sharedCore", wvSharedProfile(doc, side)],
+      ["compiledProfile:sourceStable", wvSourceStable(doc, side)],
+      ["compiledProfile:packetGeneratorStable", wvPacketGeneratorStable(doc, side)],
+      ["compiledProfile:sourceSections", wvClone(doc.sourceSections)],
+      ["compiledProfile:source:allFolderFiles:SCA-C-903.pdf", sourceC903],
+      ["compiledProfile:packetGenerator:formInventory:SCA-C-903.pdf", packetC903Inventory],
+      ["compiledProfile:packetGenerator:allSourceFiles:SCA-C-903.pdf", packetC903AllSource],
+      ["compiledProfile:source:selectedOfficialEdition", doc.source?.selectedOfficialEdition ?? null],
+      ["compiledProfile:source:historicalComparisonBindings", doc.source?.historicalComparisonBindings ?? null],
+      ["compiledProfile:source:sourceCorpusBindingNote", doc.source?.sourceCorpusBindingNote ?? null]
+    ]);
+    for (const [id, entry] of pathways) out.set(`compiledProfile:pathway:${id}`, entry);
+    for (const [id, entry] of packetPathways) out.set(`compiledProfile:packetGeneratorPathway:${id}`, entry);
+    for (const [title, entry] of sections) out.set(`compiledProfile:sourceSection:${title}`, entry);
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc }) {
+    if (receipt.familyId !== WV_PROFILE_FAMILY || pin.recordId !== WV_PROFILE_RECORD_ID
+      || pin.pathInRepository !== WV_COMPILED_PROFILE) {
+      throw new Refusal("compiled-profile pin does not uniquely bind the assigned WV sex-trafficking route");
+    }
+    if (!Array.isArray(receipt.routeKeys) || receipt.routeKeys.length !== 1 || receipt.routeKeys[0] !== WV_PROFILE_ROUTE_KEY) {
+      throw new Refusal("the WV compiled-profile receipt has an ambiguous or unrelated route key");
+    }
+    const indexed = this.index(currentDoc, "current");
+    const pathway = indexed.get(`compiledProfile:pathway:${WV_PROFILE_ROUTE_ID}`);
+    const packetPathway = indexed.get(`compiledProfile:packetGeneratorPathway:${WV_PROFILE_ROUTE_ID}`);
+    const detail = indexed.get(`compiledProfile:sourceSection:${WV_PROFILE_DETAIL_TITLE}`);
+    if (!pathway || !packetPathway || !detail) {
+      throw new Refusal("the WV compiled profile does not uniquely expose the route pathway, packet-generator pathway and pathway-detail section");
+    }
+    if (pathway.id !== WV_PROFILE_SOURCE_ANCHORS.pathwayId
+      || typeof pathway.summary !== "string" || !pathway.summary.startsWith(WV_PROFILE_SOURCE_ANCHORS.pathwaySummaryPrefix)
+      || !Array.isArray(pathway.ruleClauses)
+      || !pathway.ruleClauses.some((value) => typeof value === "string" && value.includes(WV_PROFILE_SOURCE_ANCHORS.legalAidReferral))
+      || !pathway.ruleClauses.some((value) => typeof value === "string" && value.includes(WV_PROFILE_SOURCE_ANCHORS.rehabilitationLabel))
+      || !Array.isArray(currentDoc.packetGenerator?.feeRules)
+      || !currentDoc.packetGenerator.feeRules.some((value) => typeof value === "string" && value.includes(WV_PROFILE_SOURCE_ANCHORS.feeRulePrefix))
+      || typeof detail.text !== "string" || !detail.text.includes(WV_PROFILE_SOURCE_ANCHORS.legalAidReferral)
+      || !detail.text.includes(WV_PROFILE_SOURCE_ANCHORS.rehabilitationLabel)) {
+      throw new Refusal("the WV compiled profile no longer contains all five builder anchor statements this route relies on");
+    }
+    return {
+      anchorIds: [
+        "compiledProfile:sharedCore",
+        "compiledProfile:sourceStable",
+        "compiledProfile:packetGeneratorStable",
+        `compiledProfile:pathway:${WV_PROFILE_ROUTE_ID}`,
+        "compiledProfile:sourceSections"
+      ],
+      derivation: {
+        recordId: WV_PROFILE_RECORD_ID,
+        familyId: receipt.familyId,
+        routeKey: WV_PROFILE_ROUTE_KEY,
+        pathwayId: WV_PROFILE_ROUTE_ID,
+        builderAnchorStatements: [
+          { name: "shared fee rule", statement: WV_PROFILE_SOURCE_ANCHORS.feeRulePrefix, dependency: "compiledProfile:packetGeneratorStable" },
+          { name: "pathway id", statement: WV_PROFILE_SOURCE_ANCHORS.pathwayId, dependency: `compiledProfile:pathway:${WV_PROFILE_ROUTE_ID}` },
+          { name: "pathway summary", statement: WV_PROFILE_SOURCE_ANCHORS.pathwaySummaryPrefix, dependency: `compiledProfile:pathway:${WV_PROFILE_ROUTE_ID}` },
+          { name: "legal-aid referral", statement: WV_PROFILE_SOURCE_ANCHORS.legalAidReferral, dependency: "compiledProfile:sourceSections" },
+          { name: "rehabilitation label", statement: WV_PROFILE_SOURCE_ANCHORS.rehabilitationLabel, dependency: "compiledProfile:sourceSections" }
+        ],
+        excludedKnownTransition: {
+          kind: "unrelated-SCA-C903-source-inventory-correction",
+          reason: "this custom-pleading route binds no SCA-C903 component; only the selected/current and retained historical SCA-C903 inventory metadata moved",
+          fields: [
+            "source.selectedOfficialEdition",
+            "source.historicalComparisonBindings",
+            "source.sourceCorpusBindingNote",
+            "source.allFolderFiles:SCA-C-903.pdf",
+            "packetGenerator.formInventory:SCA-C-903.pdf",
+            "packetGenerator.allSourceFiles:SCA-C-903.pdf",
+            "packetGenerator.pathways[first-offense-drug-possession-conditional-discharge-relief].formCandidates:SCA-C-903.pdf"
+          ]
+        },
+        sharedDependenciesComparedAsSeparateAnchors: true
+      }
+    };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const indexed = this.index(doc, side);
+    const out = new Map();
+    for (const id of scope.anchorIds) {
+      if (!indexed.has(id)) throw new Refusal(`the ${side} WV compiled profile lacks required anchor ${id}`);
+      out.set(id, indexed.get(id));
+    }
+    return out;
+  }
+};
+
+export const ADAPTERS = new Map([
+  [REGISTRY, registryAdapter],
+  [PACKET_MANIFESTS, packetManifestAdapter],
+  [SOURCE_DETERMINATIONS, sourceDeterminationAdapter],
+  [WV_COMPILED_PROFILE, compiledProfileAdapter]
+]);
 
 /* ------------------------------------------------------------------ *
  * The comparison
