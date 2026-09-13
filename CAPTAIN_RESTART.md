@@ -8,7 +8,8 @@ This note records locations; it is not a backup of referenced bytes.
 
 Captain: /workspaces/legalease-partner-dashboard-clean, user codespace,
 Codespace fictional-bassoon-p7jj9gq67jpgfr9r7, branch claude/legalease-sprint-captain-utucnw.
-Latest completed/pushed checkpoint before this note: a42d4549b6789c7a6f5530091f4cee153a7a5786.
+Latest completed local checkpoint before this note: 3693021b7 (PF05 repair return).
+Last verified remote before this handoff: f8c625c3717a3909f6fb6e64fa04c0e2cee4cbba; normal push follows.
 Current HEAD advances through the commit containing this note.
 **312/346 terminal** after full native KY integration; all prior311 preserved.
 Act346 and NH remain closed. No production/commercial authority changed.
@@ -70,7 +71,7 @@ Artifact retrieval: repos/Roger-LegalEase/legalease-partner-dashboard-clean/acti
 ## Active execution and capacity
 
 Existing worker rcap-finish-worker-77jr7gx76jq3rg65 resumed via supported gh codespace ssh.
-Measured worker free10435399680bytes; Captain last measured3098722304bytes.
+Measured worker free4427640832bytes at AR return; Captain free2987798528bytes at this handoff.
 General disk-heavy Captain pause remains; budgeted integration allowed.
 PF05 native worktree on worker:
 /workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf05-ut-cannabis-resume-20260913
@@ -179,3 +180,29 @@ Dismissal keeps SCA-C903; acquittal uses separate §61-11-25 civil pleading with
 required certified acquittal-order attachment. Shared stops/procedure retained.
 No new owner decision pending for that branch. Source binary/classification
 reconciliation remains assigned; no source allegations are rewritten.
+
+## Current handoff update — 2026-09-13
+
+AR complete candidate f7f5961ebca67ad4a4230d0154370e4e3f018a34 transferred
+byte-identically as 56c4843d4; return/transfer receipt a3edcf401e4328c6cf55430144586b9fcbad0119.
+VF44 independent semantic review active under resume_vfar1. No raster dispatched.
+PF05 instruction repair candidate85655682eff41e05855d0249fad8e63baaed9e4b
+transferred byte-identically as20b88f6b8, return3693021b7.
+Native author PASS_COMPLETE; 23 focused assertions pass; PDFs unchanged.
+Return pf05/rows-pf05-ut-cannabis-instruction-repair-complete-20260913.json
+SHA2560079af08e0fab711d318f072b502a12b73b5dc398caed46b4e74e9abfb3dce89.
+VFUT1 fresh semantic review follows current WV patch review under act346_order_review.
+Broad worker self-test missing pdftoppm is not PASS; Captain required chain remains.
+
+WV source/layout four-file correction applied locally, not committed or accepted yet;
+independent review active under act346_order_review. Patch and proof are
+pf08/wv-source-layout-correction-20260913.{patch,json}. No source bytes changed.
+WV two-branch implementation assigned to existing resume_pf05_ut implementer
+in the same now-free remote PF05 execution worktree, preserving frozen UT files.
+Only new WV builder/test/family outputs and return are owned; no shared writes.
+Kansas first-family build may continue after its pending bundle-process receipt;
+resume_ks_custody owns the existing KS worker checkout. No third concurrent build.
+WA read-only next-gates return: pf24/wa-two-route-next-gates-20260913.json,
+SHA25684f8f695ebe3baa155eb6c2b828c6733257d3e9185541ae1e1a321d128ebab11.
+It preserves unresolved subsection(2)/(6) applicability and local filing procedure;
+existing custom-vehicle decisions remain adopted. No new terminal from these handoffs.
