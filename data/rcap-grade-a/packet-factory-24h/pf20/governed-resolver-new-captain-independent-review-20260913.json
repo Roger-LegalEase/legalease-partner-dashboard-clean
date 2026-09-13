@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "rcap-governed-resolver-independent-code-review/v1",
+  "reviewedAt": "2026-09-13T14:49:49.152Z",
+  "reviewer": "/root/resolver_review",
+  "independentOfAuthor": true,
+  "verdict": "CHANGES_REQUIRED",
+  "priorReviewCommit": "6ed99e33ecb6aef452e9834e183bbb984810f870",
+  "worker": {
+    "codespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "worktree": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+    "observedHead": "4af75b7c49ff33085366e29c2258ccc7d3643f88",
+    "correctionCommit": "57f498591609462b7ed9d6680fed5ce355147593"
+  },
+  "targetBytes": {
+    "scripts/verify-packet-build-environment.mjs": {
+      "sha256": "28257ba5dbe17b505f53b6eb21df681bebd1c62a7e3fca6efc94034eeed466cb",
+      "byteLength": 119680
+    },
+    "scripts/verify-family-source-resolution.test.mjs": {
+      "sha256": "4879ba72d94e0fe22fe22f3787d433af632366a1024d6b4009de33d1774d8cfe",
+      "byteLength": 24833
+    }
+  },
+  "priorFindings": [
+    {
+      "id": "CA-CHECKER-FOLLOWUP-CODE-01",
+      "disposition": "RESOLVED",
+      "evidence": "All matching rows inspected; canonical assertion equality required for duplicates; contradictory and identical duplicate regressions pass."
+    },
+    {
+      "id": "CA-CHECKER-FOLLOWUP-CODE-02",
+      "disposition": "RESOLVED",
+      "evidence": "Unknown/recovery source IDs and mismatched sourceObligationId refused; canonical wave path/hash/length validated; alias regressions pass."
+    },
+    {
+      "id": "CA-CHECKER-FOLLOWUP-CODE-03",
+      "disposition": "RESOLVED",
+      "evidence": "Invalid governed admission adds unresolvable entries even for exact preloaded custody; regression verifies native family_sources_bind refuses."
+    }
+  ],
+  "findings": [
+    {
+      "id": "PF20-NEW-CAPTAIN-RESOLVER-01",
+      "severity": "BLOCKING",
+      "title": "Valid preloaded governed custody drops the repository namespace and refuses present exact bytes",
+      "locations": [
+        "scripts/verify-packet-build-environment.mjs:780",
+        "scripts/verify-packet-build-environment.mjs:857",
+        "scripts/verify-packet-build-environment.mjs:1588"
+      ],
+      "observed": "A hermetic CA fixture with valid unmodified adoption and input manifest, exact CRM-307 body at its repository-relative path, and canonical resolved custody with exact path/hash/length returns no unresolvable entries but family_sources_bind reports present=false and bound=false.",
+      "cause": "The custody preload pushes only sourceId/path/sha256. The recovered binding loop then skips its canonical binding because that sourceId already exists. Native resolution therefore joins the path to the Master Library root rather than the repository root.",
+      "impact": "Previously resolved canonical custody fails preflight solely because it was already resolved; the stale unresolved custody positive case passes. This prevents a valid governed admission from reliably unblocking its recorded family.",
+      "requiredFix": "After validating all governed custody assertions and admission, return the canonical recovered binding for each expected governed source, preserving pathRoot=repositoryRoot and byteLength. Preserve refusals for invalid admission, contradictory duplicates and aliases. Add a positive resolved-custody fixture asserting both repositoryRoot and native family_sources_bind.ok=true; test duplicate exact resolved custody as well.",
+      "probeSetup": {
+        "body": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+        "bodySha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+        "bodyByteLength": 211228,
+        "admission": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "manifest": "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json",
+        "custody": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+        "procedure": "Copy only body, admission and manifest into a fresh worker /tmp directory, preserving repository-relative paths. Write custody.rows=[{worklistGroupId:'ca-diversion-seal-set',documentSources:[{sourceId:'official-form:SDSC-CRM-307',resolved:true,heldAs:{path:body,sha256:bodySha256,byteLength:211228}}]}]. Invoke familySources(family,tmp) and runAll(tmp,{family}).find(r=>r.id==='family_sources_bind'). Remove only the newly created temporary fixture."
+      },
+      "probeObserved": {
+        "sources": {
+          "tier": "custody_reconciliation",
+          "from": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "sources": [
+            {
+              "sourceId": "official-form:SDSC-CRM-307",
+              "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+              "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287"
+            }
+          ],
+          "unresolvable": []
+        },
+        "check": {
+          "id": "family_sources_bind",
+          "title": "Every source this family names is present and hashes to its pinned digest",
+          "because": "Family-level is the level that matters. A corpus can be complete in aggregate and still not carry the two binaries this worker was dispatched to measure.",
+          "ok": false,
+          "family": "ca-diversion-seal-set",
+          "tier": "custody_reconciliation",
+          "sources": [
+            {
+              "sourceId": "official-form:SDSC-CRM-307",
+              "present": false,
+              "bound": false,
+              "pinned": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+              "observed": null,
+              "resolvedBy": null
+            }
+          ],
+          "boundByContentHashRatherThanDeclaredPath": 0,
+          "detail": "1 of 1 source(s) do not bind"
+        }
+      }
+    }
+  ],
+  "verification": {
+    "runtime": "Node v22.23.2 on existing worker",
+    "focused": {
+      "command": "node --test --test-name-pattern='governed|hermetic|CA' scripts/verify-family-source-resolution.test.mjs",
+      "passed": 11,
+      "failed": 0
+    },
+    "fullResolverFile": {
+      "command": "node --test scripts/verify-family-source-resolution.test.mjs",
+      "passed": 19,
+      "failed": 2,
+      "failures": [
+        "a pool-held source with no declared form number resolves through its confirmed pin",
+        "the same repair reaches the other states the pool unblocked"
+      ],
+      "limitation": "Author reports these are prior partial-worker-corpus failures. Independently observed failures on reviewed HEAD; did not reconstitute a full corpus or run a baseline checkout."
+    },
+    "syntax": "PASS, both target files",
+    "diffCheck": "PASS, scoped 7c077106..57f498591 target diff",
+    "targetHashes": "Unchanged before/after tests",
+    "sharedWorkerStatus": "Identical before/after: pre-existing dirty claim-ledger and three untracked author returns preserved"
+  },
+  "nonActions": [
+    "No implementation edits, commits, pushes, dispatch, packet builds, raster, prerequisite batch, source acquisition, queue updates or shared output generation.",
+    "Only hermetic test temporary directories were created/removed on worker; Captain received this small independent review artifact.",
+    "No broad fetch/history changes; missing d66948d7463fa8a8df38981d611ebfe04139ea3e not touched."
+  ],
+  "nextGate": "Existing PF20 implementation assignment repairs the canonical resolved-custody positive case; obtain independent PASS on exact amended bytes before releasing dependent checks/builds."
+}

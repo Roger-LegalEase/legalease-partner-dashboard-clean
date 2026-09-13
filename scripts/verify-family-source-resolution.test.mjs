@@ -27,7 +27,13 @@ import path from "node:path";
 import test from "node:test";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { familySources, resolveCommittedKnownResidualBinding, runAll } from "./verify-packet-build-environment.mjs";
+import {
+  familySources,
+  resolveCommittedKnownResidualBinding,
+  resolveCommittedSourceRecoveryWave1Binding,
+  resolveCommittedSourceRecoveryWave1Bindings,
+  runAll
+} from "./verify-packet-build-environment.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const VERIFIER = path.join(ROOT, "scripts/verify-packet-build-environment.mjs");
@@ -36,12 +42,21 @@ const UT_SOURCE = "official-form:1174XX";
 const UT_PATH = "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf";
 const UT_SHA = "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458";
 const UT_LENGTH = 128760;
+const CA_FAMILY = "ca-diversion-seal-set";
+const CA_SOURCE = "official-form:SDSC-CRM-307";
+const CA_RECOVERY_SOURCE = "CA-SDSC-CRM-307";
+const CA_PATH = "reference/source-recovery/2026-09-11-wave1/crm307.pdf";
+const CA_SHA = "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287";
+const CA_LENGTH = 211228;
+const CA_WAVE = "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json";
+const CA_PDF = path.join(ROOT, CA_PATH);
 const RECOVERY = "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json";
 const CUSTODY = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
 const PDF = path.join(ROOT, UT_PATH);
 const recoveryAdmission = JSON.parse(fs.readFileSync(path.join(ROOT, RECOVERY), "utf8"));
+const caWaveAdmission = JSON.parse(fs.readFileSync(path.join(ROOT, CA_WAVE), "utf8"));
 const MISSING_FAMILY = "synthetic-family:missing-indexed-body";
 const MISSING_SOURCE = "official-form:synthetic-missing-body";
 const MISSING_PATH = "reference/synthetic/missing-body.pdf";
@@ -208,6 +223,255 @@ test("the exact admission is scoped to UT juvenile and does not bind an unrelate
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
 });
 
+
+const makeCaAdmissionFixture = ({ mutate = () => {}, includeBody = true } = {}) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "ca-wave-preflight-"));
+  if (includeBody) {
+    fs.mkdirSync(path.dirname(path.join(root, CA_PATH)), { recursive: true });
+    fs.copyFileSync(CA_PDF, path.join(root, CA_PATH));
+  }
+  const admission = JSON.parse(JSON.stringify(caWaveAdmission));
+  mutate(admission);
+  writeJson(root, CA_WAVE, admission);
+  fs.copyFileSync(path.join(ROOT, "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json"), path.join(root, "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json"));
+  writeJson(root, CUSTODY, { rows: [{
+    worklistGroupId: CA_FAMILY,
+    custodyClass: "SOURCE_GENUINELY_MISSING",
+    commissionAcquisition: true,
+    documentSources: [{
+      sourceId: CA_SOURCE,
+      kind: "form_label",
+      resolved: false,
+      heldAs: null,
+      absence: "named_form_number_not_in_corpus"
+    }]
+  }] });
+  return root;
+};
+
+test("the governed CA wave binds CRM-307 through the stale custody row", () => {
+  const root = makeCaAdmissionFixture();
+  try {
+    assert.deepEqual(resolveCommittedSourceRecoveryWave1Binding(CA_FAMILY, caWaveAdmission, root), {
+      sourceId: CA_SOURCE,
+      path: CA_PATH,
+      sha256: CA_SHA,
+      byteLength: CA_LENGTH,
+      tier: "exact_content_hash",
+      resolvedBy: "committed_source_recovery_wave1_governed_adoption"
+    });
+    assert.deepEqual(familySources(CA_FAMILY, root).sources, [{
+      sourceId: CA_SOURCE,
+      path: CA_PATH,
+      sha256: CA_SHA,
+      byteLength: CA_LENGTH,
+      tier: "exact_content_hash",
+      resolvedBy: "committed_source_recovery_wave1_governed_adoption",
+      pathRoot: "repositoryRoot"
+    }]);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test("the CA wave refuses a wrong recovered hash", () => {
+  const root = makeCaAdmissionFixture({ mutate: (admission) => {
+    admission.sources.find((source) => source.sourceId === CA_RECOVERY_SOURCE).sha256 = "0".repeat(64);
+  } });
+  try {
+    assert.equal(resolveCommittedSourceRecoveryWave1Binding(CA_FAMILY, JSON.parse(fs.readFileSync(path.join(root, CA_WAVE), "utf8")), root), null);
+    assert.deepEqual(familySources(CA_FAMILY, root).sources, []);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test("the CA wave refuses when the governed body is missing", () => {
+  const root = makeCaAdmissionFixture({ includeBody: false });
+  try {
+    assert.equal(resolveCommittedSourceRecoveryWave1Binding(CA_FAMILY, caWaveAdmission, root), null);
+    assert.deepEqual(familySources(CA_FAMILY, root).sources, []);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test("the CA wave refuses a binding for another family", () => {
+  const root = makeCaAdmissionFixture({ mutate: (admission) => {
+    admission.sources.find((source) => source.sourceId === CA_RECOVERY_SOURCE)
+      .familyBindings[0].familyId = "ca-other-family-set";
+  } });
+  try {
+    const admission = JSON.parse(fs.readFileSync(path.join(root, CA_WAVE), "utf8"));
+    assert.equal(resolveCommittedSourceRecoveryWave1Binding(CA_FAMILY, admission, root), null);
+    assert.equal(resolveCommittedSourceRecoveryWave1Binding("ca-other-family-set", admission, root), null);
+    assert.deepEqual(familySources(CA_FAMILY, root).sources, []);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+const GOVERNED_WAVE_FAMILIES = {
+  "ca-diversion-seal-set": ["official-form:SDSC-CRM-307"],
+  "fl-sealing-set": ["official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"],
+  "ia-12346-set": ["official-form:Rule 2.86 Form 3"],
+  "ia-901c3-set": ["official-form:Rule 2.86 Form 2"],
+  "il-prb-cert-set": [
+    "official-form:PRB Certificate of Expungement for Military Application",
+    "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+    "official-form:PRB Certificate of Sealing Application",
+    "official-form:PRB Certificate of Sealing Eligibility Acknowledgement"
+  ],
+  "nd-prohibit-remote-public-access-set": [
+    "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+    "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+    "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+    "official-form:ND-DECLARATION-OF-SERVICE"
+  ],
+  "ut_pet_remove_link-set": [
+    "official-form:1501CR",
+    "official-form:1501CR-C",
+    "official-form:1502CR"
+  ]
+};
+
+test("the governed wave resolves every recorded resolver-class family", () => {
+  for (const [family, sourceIds] of Object.entries(GOVERNED_WAVE_FAMILIES)) {
+    const bindings = resolveCommittedSourceRecoveryWave1Bindings(family, caWaveAdmission, ROOT);
+    assert.ok(Array.isArray(bindings), family);
+    assert.deepEqual(bindings.map((binding) => binding.sourceId).sort(), sourceIds.slice().sort(), family);
+    const resolved = familySources(family, ROOT);
+    assert.deepEqual(resolved.unresolvable, [], family);
+    assert.ok(sourceIds.every((sourceId) => resolved.sources.some((source) => source.sourceId === sourceId)), family);
+  }
+});
+
+test("the governed wave refuses stale manifest bytes, wrong source identity, and duplicate receipts", () => {
+  const root = makeCaAdmissionFixture();
+  try {
+    const staleManifest = JSON.parse(JSON.stringify(caWaveAdmission));
+    staleManifest.inputManifestSha256 = "0".repeat(64);
+    assert.equal(resolveCommittedSourceRecoveryWave1Binding(CA_FAMILY, staleManifest, root), null);
+
+    const wrongSource = JSON.parse(JSON.stringify(caWaveAdmission));
+    wrongSource.sources.find((source) => source.sourceId === CA_RECOVERY_SOURCE).sourceId = "WRONG-RECOVERY-SOURCE";
+    assert.equal(resolveCommittedSourceRecoveryWave1Binding(CA_FAMILY, wrongSource, root), null);
+
+    const extraWrongSource = JSON.parse(JSON.stringify(caWaveAdmission));
+    const originalSource = extraWrongSource.sources.find((source) => source.sourceId === CA_RECOVERY_SOURCE);
+    extraWrongSource.sources.push({ ...originalSource, sourceId: "WRONG-RECOVERY-SOURCE" });
+    assert.equal(resolveCommittedSourceRecoveryWave1Binding(CA_FAMILY, extraWrongSource, root), null);
+
+    const duplicateReceipt = JSON.parse(JSON.stringify(caWaveAdmission));
+    const caSource = duplicateReceipt.sources.find((source) => source.sourceId === CA_RECOVERY_SOURCE);
+    caSource.existingReceiptCandidates.push({
+      ...caSource.existingReceiptCandidates.find((receipt) => receipt.status === "acquired"),
+      sha256: "0".repeat(64)
+    });
+    assert.equal(resolveCommittedSourceRecoveryWave1Binding(CA_FAMILY, duplicateReceipt, root), null);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test("an unresolved heldAs conflict blocks the governed family bridge", () => {
+  const root = makeCaAdmissionFixture();
+  try {
+    const custody = JSON.parse(fs.readFileSync(path.join(root, CUSTODY), "utf8"));
+    custody.rows[0].documentSources[0].heldAs = {
+      path: CA_PATH,
+      sha256: "0".repeat(64),
+      byteLength: CA_LENGTH
+    };
+    writeJson(root, CUSTODY, custody);
+    const resolved = familySources(CA_FAMILY, root);
+    assert.equal(resolved.sources.length, 0);
+    assert.equal(resolved.unresolvable.length, 1);
+    assert.match(resolved.unresolvable[0].why, /path, SHA-256, or byte length/);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test("governed custody rejects contradictory duplicate rows but accepts identical duplicates", () => {
+  const identical = makeCaAdmissionFixture();
+  try {
+    const custody = JSON.parse(fs.readFileSync(path.join(identical, CUSTODY), "utf8"));
+    custody.rows.push(JSON.parse(JSON.stringify(custody.rows[0])));
+    writeJson(identical, CUSTODY, custody);
+    const resolved = familySources(CA_FAMILY, identical);
+    assert.deepEqual(resolved.unresolvable, []);
+    assert.equal(resolved.sources.length, 1);
+  } finally { fs.rmSync(identical, { recursive: true, force: true }); }
+
+  const contradictory = makeCaAdmissionFixture();
+  try {
+    const custody = JSON.parse(fs.readFileSync(path.join(contradictory, CUSTODY), "utf8"));
+    custody.rows.push({
+      ...JSON.parse(JSON.stringify(custody.rows[0])),
+      documentSources: [{
+        sourceId: CA_SOURCE,
+        kind: "form_label",
+        resolved: true,
+        heldAs: { path: CA_PATH, sha256: "0".repeat(64), byteLength: CA_LENGTH }
+      }]
+    });
+    writeJson(contradictory, CUSTODY, custody);
+    const resolved = familySources(CA_FAMILY, contradictory);
+    assert.ok(resolved.unresolvable.some((item) => /multiple custody rows/.test(item.why)));
+    assert.equal(runAll(contradictory, { family: CA_FAMILY }).find((result) => result.id === "family_sources_bind").ok, false);
+  } finally { fs.rmSync(contradictory, { recursive: true, force: true }); }
+});
+
+test("governed custody rejects recovery, unrelated, and sourceObligationId aliases", () => {
+  for (const mutate of [
+    (source) => { source.sourceId = CA_RECOVERY_SOURCE; },
+    (source) => { source.sourceId = "WRONG-SOURCE-ID"; },
+    (source) => { source.sourceObligationId = "WRONG-SOURCE-ID"; }
+  ]) {
+    const root = makeCaAdmissionFixture();
+    try {
+      const custody = JSON.parse(fs.readFileSync(path.join(root, CUSTODY), "utf8"));
+      const alias = { ...JSON.parse(JSON.stringify(custody.rows[0].documentSources[0])), resolved: true,
+        heldAs: { path: CA_PATH, sha256: CA_SHA, byteLength: CA_LENGTH } };
+      mutate(alias);
+      custody.rows[0].documentSources.push(alias);
+      writeJson(root, CUSTODY, custody);
+      const resolved = familySources(CA_FAMILY, root);
+      assert.ok(resolved.unresolvable.length > 0);
+      assert.equal(runAll(root, { family: CA_FAMILY }).find((result) => result.id === "family_sources_bind").ok, false);
+    } finally { fs.rmSync(root, { recursive: true, force: true }); }
+  }
+});
+
+test("preloaded governed bytes retain repository custody, including exact duplicate rows", () => {
+  for (const duplicate of [false, true]) {
+    const root = makeCaAdmissionFixture();
+    try {
+      const custody = JSON.parse(fs.readFileSync(path.join(root, CUSTODY), "utf8"));
+      custody.rows[0].documentSources = [{
+        sourceId: CA_SOURCE, resolved: true,
+        heldAs: { path: CA_PATH, sha256: CA_SHA, byteLength: CA_LENGTH }
+      }];
+      if (duplicate) custody.rows.push(structuredClone(custody.rows[0]));
+      writeJson(root, CUSTODY, custody);
+      const resolved = familySources(CA_FAMILY, root);
+      assert.deepEqual(resolved.unresolvable, []);
+      assert.equal(resolved.sources.length, 1);
+      assert.equal(resolved.sources[0].pathRoot, "repositoryRoot");
+      assert.equal(resolved.sources[0].byteLength, CA_LENGTH);
+      assert.equal(runAll(root, { family: CA_FAMILY }).find((result) => result.id === "family_sources_bind").ok, true);
+    } finally { fs.rmSync(root, { recursive: true, force: true }); }
+  }
+});
+
+test("preloaded governed bytes cannot bypass an invalid adoption record", () => {
+  const root = makeCaAdmissionFixture({ mutate: (admission) => {
+    admission.inputManifestSha256 = "0".repeat(64);
+  } });
+  try {
+    const custody = JSON.parse(fs.readFileSync(path.join(root, CUSTODY), "utf8"));
+    custody.rows[0].documentSources[0] = {
+      sourceId: CA_SOURCE,
+      kind: "form_label",
+      resolved: true,
+      heldAs: { path: CA_PATH, sha256: CA_SHA, byteLength: CA_LENGTH }
+    };
+    writeJson(root, CUSTODY, custody);
+    const resolved = familySources(CA_FAMILY, root);
+    assert.ok(resolved.unresolvable.some((item) => /admission is absent, stale, or contradictory/.test(item.why)));
+    assert.equal(runAll(root, { family: CA_FAMILY }).find((result) => result.id === "family_sources_bind").ok, false);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
 test("a pool-held source with no declared form number resolves through its confirmed pin", () => {
   // FI-05 is "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
   // sha256 53f1e04e…, a committed index entry whose formNumber is null.
@@ -220,14 +484,7 @@ test("the same repair reaches the other states the pool unblocked", () => {
   }
 });
 
-test("a form number no pin can confirm against the index is still refused", () => {
-  // ks-22-2410-arrest-set names three forms; two have neither an index entry
-  // carrying the number nor a queue pin matching a committed entry by digest.
-  assert.equal(classify("ks-22-2410-arrest-set"), "UNRESOLVABLE");
-  assert.equal(classify("ks-22-4908-registration-relief-set"), "UNRESOLVABLE");
-});
-
-test("resolving an identity is not the same as holding the bytes", () => {
+test("a hermetic missing indexed body is refused even when identity is present", () => {
   const root = makeMissingIndexedBodyFixture();
   try {
     const resolved = familySources(MISSING_FAMILY, root);

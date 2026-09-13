@@ -76,6 +76,8 @@ const STALE_BLOCK = "data/rcap-grade-a/stale-artifact-block.json";
 const BOOTSTRAP = "scripts/rcap-corpus/bootstrap-private-corpus.sh";
 const KNOWN_RESIDUAL_SOURCE_RECOVERY =
   "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json";
+const SOURCE_RECOVERY_WAVE1 =
+  "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json";
 
 /* One already-admitted source needs a custody-row bridge. Keep this repair
  * deliberately explicit: it consumes a committed acquisition admission, never
@@ -90,6 +92,182 @@ const UT_JUVENILE_ADMISSION = Object.freeze({
   byteLength: 128760,
   result: "OFFICIAL_SOURCE_ALREADY_HELD"
 });
+
+/* These are the seven families whose current source-ready returns share the
+ * governed SOURCE_RECOVERY_WAVE1 resolver class. The expectations are the
+ * already-recorded source identities and byte pins; they are deliberately
+ * limited to this resolver class and never read MASTER_QUEUE. */
+const WAVE1_INPUT_MANIFEST = "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json";
+const GOVERNED_SOURCE_RECOVERY_EXPECTATIONS = Object.freeze([
+  {
+    "familyId": "ca-diversion-seal-set",
+    "recoverySourceId": "CA-SDSC-CRM-307",
+    "sourceId": "official-form:SDSC-CRM-307",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+    "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+    "byteLength": 211228,
+    "file": "crm307.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "ca-diversion-seal-set::official-form:SDSC-CRM-307"
+  },
+  {
+    "familyId": "ia-12346-set",
+    "recoverySourceId": "IA-RULE-2.86-FORM-3",
+    "sourceId": "official-form:Rule 2.86 Form 3",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-12346-SET__RULE-2-86-FORM-3__dd7685c6caf6.pdf",
+    "sha256": "dd7685c6caf6d87979a31ce1639be6d08067a5c006a3d57eab68c1d097df49a5",
+    "byteLength": 1415336,
+    "file": "CODEX-CS2-SRC3__IA-12346-SET__RULE-2-86-FORM-3__dd7685c6caf6.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "ia-12346-set::official-form:Rule 2.86 Form 3"
+  },
+  {
+    "familyId": "ia-901c3-set",
+    "recoverySourceId": "IA-RULE-2.86-FORM-2",
+    "sourceId": "official-form:Rule 2.86 Form 2",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
+    "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+    "byteLength": 2674736,
+    "file": "CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "ia-901c3-set::official-form:Rule 2.86 Form 2"
+  },
+  {
+    "familyId": "il-prb-cert-set",
+    "recoverySourceId": "IL-PRB-MILITARY-EXPUNGEMENT-APPLICATION",
+    "sourceId": "official-form:PRB Certificate of Expungement for Military Application",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION__87d693a24931.pdf",
+    "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+    "byteLength": 222490,
+    "file": "CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION__87d693a24931.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "il-prb-cert-set::official-form:PRB Certificate of Expungement for Military Application"
+  },
+  {
+    "familyId": "il-prb-cert-set",
+    "recoverySourceId": "IL-PRB-MILITARY-ELIGIBILITY-ACK",
+    "sourceId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ELIGIBILITY-ACKNOWLEDGEMENT__691ce0bffc30.pdf",
+    "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+    "byteLength": 84623,
+    "file": "CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ELIGIBILITY-ACKNOWLEDGEMENT__691ce0bffc30.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "il-prb-cert-set::official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement"
+  },
+  {
+    "familyId": "il-prb-cert-set",
+    "recoverySourceId": "IL-PRB-SEALING-APPLICATION",
+    "sourceId": "official-form:PRB Certificate of Sealing Application",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-APPLICATION__5aa1b7803bfa.pdf",
+    "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+    "byteLength": 226488,
+    "file": "CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-APPLICATION__5aa1b7803bfa.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "il-prb-cert-set::official-form:PRB Certificate of Sealing Application"
+  },
+  {
+    "familyId": "il-prb-cert-set",
+    "recoverySourceId": "IL-PRB-SEALING-ELIGIBILITY-ACK",
+    "sourceId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-ELIGIBILITY-ACKNOWLEDGEMENT__b204190533f2.pdf",
+    "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+    "byteLength": 89530,
+    "file": "CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-ELIGIBILITY-ACKNOWLEDGEMENT__b204190533f2.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "il-prb-cert-set::official-form:PRB Certificate of Sealing Eligibility Acknowledgement"
+  },
+  {
+    "familyId": "nd-prohibit-remote-public-access-set",
+    "recoverySourceId": "ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+    "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-MOTION-PROHIBIT-PUBLIC-ACCESS__0bc80466174c.pdf",
+    "sha256": "0bc80466174c034c79ac60487d079088ee91f86c07eb8ee1bea7213fd6c02e0a",
+    "byteLength": 1151556,
+    "file": "CODEX-CS2-SRC4__ND-MOTION-PROHIBIT-PUBLIC-ACCESS__0bc80466174c.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "nd-prohibit-remote-public-access-set::official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS"
+  },
+  {
+    "familyId": "nd-prohibit-remote-public-access-set",
+    "recoverySourceId": "ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+    "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-BRIEF-PROHIBIT-PUBLIC-ACCESS__60a50d5f3c2c.pdf",
+    "sha256": "60a50d5f3c2c96a4cc804fba3c35ab3fa19d3e1c7d438917867130408e1ffe2d",
+    "byteLength": 1224033,
+    "file": "CODEX-CS2-SRC4__ND-BRIEF-PROHIBIT-PUBLIC-ACCESS__60a50d5f3c2c.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "nd-prohibit-remote-public-access-set::official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS"
+  },
+  {
+    "familyId": "nd-prohibit-remote-public-access-set",
+    "recoverySourceId": "ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+    "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS__4e8d129f8ef2.pdf",
+    "sha256": "4e8d129f8ef27e9b78ddd3c8968bd93add41a71586f2e91149f0ac1d1be1d250",
+    "byteLength": 1165106,
+    "file": "CODEX-CS2-SRC4__ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS__4e8d129f8ef2.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "nd-prohibit-remote-public-access-set::official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS"
+  },
+  {
+    "familyId": "nd-prohibit-remote-public-access-set",
+    "recoverySourceId": "ND-DECLARATION-OF-SERVICE",
+    "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-DECLARATION-OF-SERVICE__ad05e9e15182.pdf",
+    "sha256": "ad05e9e15182e04408119a84a5c2fc557324400c2f33e02037b8886c64195fb3",
+    "byteLength": 1212802,
+    "file": "CODEX-CS2-SRC4__ND-DECLARATION-OF-SERVICE__ad05e9e15182.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "nd-prohibit-remote-public-access-set::official-form:ND-DECLARATION-OF-SERVICE"
+  },
+  {
+    "familyId": "ut_pet_remove_link-set",
+    "recoverySourceId": "UT-1501CR",
+    "sourceId": "official-form:1501CR",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR__69c37d4da60e.pdf",
+    "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+    "byteLength": 175626,
+    "file": "CODEX-CS1-SRC4__1501CR__69c37d4da60e.pdf",
+    "identityStatus": "IDENTITY_MATCH_NO_PRIOR_HASH_PIN",
+    "itemId": "ut_pet_remove_link-set::official-form:1501CR"
+  },
+  {
+    "familyId": "ut_pet_remove_link-set",
+    "recoverySourceId": "UT-1501CR-C",
+    "sourceId": "official-form:1501CR-C",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR-C__25e24089f588.pdf",
+    "sha256": "25e24089f588bf32121cf01fe0c3a32e5eb576c757670baad163bc4b4f023951",
+    "byteLength": 177335,
+    "file": "CODEX-CS1-SRC4__1501CR-C__25e24089f588.pdf",
+    "identityStatus": "IDENTITY_MATCH_NO_PRIOR_HASH_PIN",
+    "itemId": "ut_pet_remove_link-set::official-form:1501CR-C"
+  },
+  {
+    "familyId": "ut_pet_remove_link-set",
+    "recoverySourceId": "UT-1502CR",
+    "sourceId": "official-form:1502CR",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1502CR__d23d74d35aaf.pdf",
+    "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+    "byteLength": 106034,
+    "file": "CODEX-CS1-SRC4__1502CR__d23d74d35aaf.pdf",
+    "identityStatus": "IDENTITY_MATCH_NO_PRIOR_HASH_PIN",
+    "itemId": "ut_pet_remove_link-set::official-form:1502CR"
+  },
+  {
+    "familyId": "fl-sealing-set",
+    "recoverySourceId": "FL-FDLE-CERTIFICATE-SEALING",
+    "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-SEALING-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__1d07f48487cc.pdf",
+    "sha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
+    "byteLength": 26589,
+    "file": "CODEX-CS2-SRC2__FL-SEALING-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__1d07f48487cc.pdf",
+    "identityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+    "itemId": "fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
+  }
+]);
+const GOVERNED_SOURCE_RECOVERY_FAMILY_IDS = new Set(
+  GOVERNED_SOURCE_RECOVERY_EXPECTATIONS.map((expectation) => expectation.familyId)
+);
 
 const EXPECT_JURISDICTIONS = 51;
 const EXPECT_FILES = 499;
@@ -343,18 +521,270 @@ function resolveCommittedKnownResidualBinding(family, admission, env = ROOT) {
   };
 }
 
+/**
+ * Resolve the recorded SOURCE_RECOVERY_WAVE1 bodies for the seven families
+ * that share this resolver class. The wave and its tracked input manifest are
+ * governed evidence; a queue row cannot create a binding. Each expected source
+ * must match its recorded identity, family binding, byte pin and held body.
+ */
+function governedSourceRecoveryExpectations(family) {
+  return GOVERNED_SOURCE_RECOVERY_EXPECTATIONS.filter((expectation) => expectation.familyId === family);
+}
+
+/* Canonical JSON lets the duplicate-row guard compare source assertions without
+ * allowing object-key or source-array ordering to hide a contradiction. */
+function canonicalJson(value) {
+  if (value === undefined) return "undefined";
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalJson).sort().join(",")}]`;
+  }
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
+}
+
+function custodyRowAssertions(row) {
+  return canonicalJson({
+    worklistGroupId: row?.worklistGroupId ?? null,
+    custodyClass: row?.custodyClass ?? null,
+    commissionAcquisition: row?.commissionAcquisition ?? null,
+    documentSources: row?.documentSources ?? []
+  });
+}
+
+/* The census worklist is the committed family obligation map. It is used only
+ * to recognize the source IDs a custody row is allowed to assert; it does not
+ * supply a binding or replace the governed wave admission. Hermetic fixtures
+ * that intentionally omit the worklist still permit the explicit wave IDs. */
+function governedFamilySourceIds(family, env = ROOT) {
+  const worklist = readJson(WORKLIST, env);
+  const entry = worklist?.packetFamilies?.find((candidate) => candidate.worklistGroupId === family);
+  const ids = new Set((entry?.routes ?? [])
+    .flatMap((route) => route.requiredSourceIds ?? [])
+    .filter((id) => typeof id === "string"));
+  for (const expectation of governedSourceRecoveryExpectations(family)) ids.add(expectation.sourceId);
+  return ids;
+}
+
+function wave1InputManifestMatches(admission, env = ROOT) {
+  if (admission?.inputManifest !== WAVE1_INPUT_MANIFEST
+    || !/^[0-9a-f]{64}$/.test(String(admission?.inputManifestSha256 ?? ""))) return false;
+  const repoRoot = path.resolve(env);
+  const manifest = path.resolve(repoRoot, WAVE1_INPUT_MANIFEST);
+  if (manifest !== repoRoot && !manifest.startsWith(repoRoot + path.sep)) return false;
+  let stat;
+  try {
+    stat = fs.lstatSync(manifest);
+    if (!stat.isFile() || stat.isSymbolicLink()) return false;
+    return sha256(manifest) === admission.inputManifestSha256;
+  } catch {
+    return false;
+  }
+}
+
+function repositorySourceRecoveryBinding(expectation, source, env = ROOT) {
+  if (source?.file !== expectation.file
+    || source?.heldCorpusPath !== expectation.heldCorpusPath
+    || source?.sha256 !== expectation.sha256
+    || source?.byteLength !== expectation.byteLength) return null;
+  const relative = source.heldCorpusPath;
+  if (typeof relative !== "string" || !relative || path.isAbsolute(relative)
+    || relative.includes("\\") || relative.split("/").includes("..")) return null;
+  const repoRoot = path.resolve(env);
+  const candidate = path.resolve(repoRoot, relative);
+  if (candidate !== repoRoot && !candidate.startsWith(repoRoot + path.sep)) return null;
+  let repositoryReal;
+  try { repositoryReal = fs.realpathSync(repoRoot); } catch { return null; }
+  let stat;
+  let real;
+  try {
+    /* lstat rejects a symlinked body; governed custody must hold real bytes. */
+    stat = fs.lstatSync(candidate);
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== expectation.byteLength) return null;
+    real = fs.realpathSync(candidate);
+  } catch { return null; }
+  if (real !== repositoryReal && !real.startsWith(repositoryReal + path.sep)) return null;
+  const master = path.resolve(repoRoot, MASTER_LIBRARY_RELATIVE);
+  if (fs.existsSync(master)) {
+    let masterReal;
+    try { masterReal = fs.realpathSync(master); } catch { masterReal = master; }
+    if (real === masterReal || real.startsWith(masterReal + path.sep)) return null;
+  }
+  let observed;
+  try { observed = sha256(candidate); } catch { return null; }
+  if (observed !== expectation.sha256) return null;
+  return {
+    sourceId: expectation.sourceId,
+    path: expectation.heldCorpusPath,
+    sha256: expectation.sha256,
+    byteLength: expectation.byteLength,
+    tier: "exact_content_hash",
+    resolvedBy: "committed_source_recovery_wave1_governed_adoption"
+  };
+}
+
+function resolveCommittedSourceRecoveryWave1Bindings(family, admission, env = ROOT) {
+  const expectations = governedSourceRecoveryExpectations(family);
+  if (!GOVERNED_SOURCE_RECOVERY_FAMILY_IDS.has(family)
+    || !expectations.length
+    || admission?.schemaVersion !== "rcap-source-recovery-adoption/v1"
+    || admission?.recordedOn !== "2026-09-11"
+    || !wave1InputManifestMatches(admission, env)
+    || !Number.isInteger(admission?.payloadsVerified) || admission.payloadsVerified < 1
+    || !Number.isInteger(admission?.uniqueBodiesPreserved) || admission.uniqueBodiesPreserved < 1
+    || typeof admission?.rule !== "string"
+    || !admission.rule.startsWith("Exact uploaded bodies adopted into governed reference custody.")
+    || !admission.rule.includes("Existing hashes remain unchanged")
+    || !admission.rule.includes("No legal or terminal approval")
+    || !Array.isArray(admission?.sources)) return null;
+
+  /* Do not ignore an additional source that claims this family. The expected
+   * recovery IDs and the family-bound source count are both exact, so a
+   * contradictory source cannot hide beside a matching one. */
+  const expectedRecoveryIds = new Set(expectations.map((expectation) => expectation.recoverySourceId));
+  const familyBoundSources = admission.sources.filter((source) =>
+    (source?.familyBindings ?? []).some((binding) => binding?.familyId === family));
+  if (familyBoundSources.length !== expectations.length
+    || new Set(familyBoundSources.map((source) => source?.sourceId)).size !== familyBoundSources.length
+    || familyBoundSources.some((source) => !expectedRecoveryIds.has(source?.sourceId))) return null;
+
+  const resolved = [];
+  for (const expectation of expectations) {
+    const candidates = admission.sources.filter((source) => source?.sourceId === expectation.recoverySourceId);
+    if (candidates.length !== 1) return null;
+    const source = candidates[0];
+    const bindings = Array.isArray(source.familyBindings) ? source.familyBindings : [];
+    if (bindings.length !== 1) return null;
+    const binding = bindings[0];
+    if (binding.familyId !== expectation.familyId
+      || binding.status !== expectation.identityStatus
+      || !Array.isArray(binding.obligationIds)
+      || binding.obligationIds.length !== 1
+      || binding.obligationIds[0] !== expectation.sourceId
+      || !Array.isArray(source.itemIds)
+      || source.itemIds.length !== 1
+      || source.itemIds[0] !== expectation.itemId
+      || source.identityStatus !== expectation.identityStatus
+      || source.result !== "OFFICIAL_SOURCE_ALREADY_HELD") return null;
+
+    /* A duplicate acquired receipt is a contradiction even when one copy
+     * happens to match. For a single receipt, every identity field must match. */
+    const receipts = Array.isArray(source.existingReceiptCandidates)
+      ? source.existingReceiptCandidates
+      : [];
+    const acquired = receipts.filter((receipt) => receipt?.status === "acquired");
+    if (acquired.length > 1) return null;
+    if (acquired.length === 1) {
+      const receipt = acquired[0];
+      if (receipt.schemaVersion !== "rcap-targeted-source-receipt/v1"
+        || receipt.sourceId !== expectation.recoverySourceId
+        || receipt.sha256 !== expectation.sha256
+        || receipt.byteLength !== expectation.byteLength
+        || receipt.storedFilename !== expectation.file) return null;
+    }
+    const result = repositorySourceRecoveryBinding(expectation, source, env);
+    if (!result) return null;
+    resolved.push(result);
+  }
+  return resolved;
+}
+
+/* Keep the original singular helper for callers that handle one-source rows. */
+function resolveCommittedSourceRecoveryWave1Binding(family, admission, env = ROOT) {
+  const bindings = resolveCommittedSourceRecoveryWave1Bindings(family, admission, env);
+  return bindings?.length === 1 ? bindings[0] : null;
+}
+
 function committedKnownResidualBinding(family, env = ROOT) {
   return resolveCommittedKnownResidualBinding(family, readJson(KNOWN_RESIDUAL_SOURCE_RECOVERY, env), env);
 }
 
+function committedSourceRecoveryWave1Bindings(family, env = ROOT) {
+  return resolveCommittedSourceRecoveryWave1Bindings(family, readJson(SOURCE_RECOVERY_WAVE1, env), env);
+}
+
+function committedSourceRecoveryWave1Binding(family, env = ROOT) {
+  const bindings = committedSourceRecoveryWave1Bindings(family, env);
+  return bindings?.length === 1 ? bindings[0] : null;
+}
+
 function familySources(family, env = ROOT) {
   const custody = readJson(CUSTODY, env);
-  const row = custody?.rows?.find((r) => r.worklistGroupId === family);
+  const matchingRows = Array.isArray(custody?.rows)
+    ? custody.rows.filter((candidate) => candidate?.worklistGroupId === family)
+    : [];
+  const row = matchingRows[0];
   if (row) {
-    const sources = (row.documentSources || [])
-      .filter((s) => s.resolved && s.heldAs?.sha256)
-      .map((s) => ({ sourceId: s.sourceId, path: s.heldAs.path, sha256: s.heldAs.sha256 }));
+    const sources = [];
     const unresolvable = [];
+    const recoveryExpectations = governedSourceRecoveryExpectations(family);
+    const expectedBySourceId = new Map(recoveryExpectations.map((expectation) => [expectation.sourceId, expectation]));
+    const allowedSourceIds = recoveryExpectations.length ? governedFamilySourceIds(family, env) : null;
+    const allRowSources = recoveryExpectations.length
+      ? matchingRows.flatMap((candidate) => candidate.documentSources ?? [])
+      : row.documentSources || [];
+
+    /* A duplicate family row is safe only when its custody and source
+     * assertions are byte-for-byte equivalent after canonical ordering. A
+     * second row with a different assertion is an ambiguity, even if the first
+     * row happens to carry a usable source. */
+    if (recoveryExpectations.length && matchingRows.length > 1) {
+      const firstAssertions = custodyRowAssertions(row);
+      if (matchingRows.some((candidate) => custodyRowAssertions(candidate) !== firstAssertions)) {
+        unresolvable.push({
+          sourceId: family,
+          indexMatches: 0,
+          why: "multiple custody rows assert different identity or source evidence for this governed family"
+        });
+      }
+    }
+
+    /* The stricter identity checks belong only to the seven governed wave
+     * families. All other custody families retain their existing resolver;
+     * this repair must not change unrelated source classifications. */
+    if (recoveryExpectations.length) {
+      /* Validate every source assertion in every matching row before selecting
+       * the first equivalent row's resolved bytes. This closes aliases and
+       * contradictory heldAs data that a first-row-only read could hide. */
+      for (const source of allRowSources) {
+        const sourceId = source?.sourceId;
+        const hasHeldAs = source?.heldAs !== null && source?.heldAs !== undefined;
+        const expectation = expectedBySourceId.get(sourceId);
+        let conflict = null;
+        if (typeof sourceId !== "string" || !allowedSourceIds.has(sourceId)) {
+          conflict = "the custody row carries a source ID outside the family's committed obligation map";
+        } else if (source?.sourceObligationId !== undefined && source.sourceObligationId !== sourceId) {
+          conflict = "the custody row carries a sourceObligationId alias that does not equal its canonical sourceId";
+        } else if (expectation && (source?.resolved !== true || !hasHeldAs
+          || source.heldAs.path !== expectation.heldCorpusPath
+          || source.heldAs.sha256 !== expectation.sha256
+          || (source.heldAs.byteLength ?? source.byteLength) !== expectation.byteLength)) {
+          /* A stale unresolved row is the only permitted pre-admission shape for
+           * an expected wave source: it must have no heldAs assertion. Once it
+           * carries bytes, every governed identity field must agree. */
+          if (hasHeldAs || source?.resolved === true) {
+            conflict = "the custody row carries a governed source path, SHA-256, or byte length different from the admitted binding";
+          }
+        }
+        if (conflict) {
+          unresolvable.push({
+            sourceId: sourceId ?? "(missing sourceId)",
+            indexMatches: 0,
+            why: conflict
+          });
+          continue;
+        }
+        if (row.documentSources?.includes(source) && source?.resolved === true && source.heldAs?.sha256) {
+          sources.push({ sourceId, path: source.heldAs.path, sha256: source.heldAs.sha256 });
+        }
+      }
+    } else {
+      for (const source of row.documentSources || []) {
+        if (source?.resolved && source.heldAs?.sha256) {
+          sources.push({ sourceId: source.sourceId, path: source.heldAs.path, sha256: source.heldAs.sha256 });
+        }
+      }
+    }
+
     if (family === UT_JUVENILE_ADMISSION.familyId) {
       const utRowSources = (row.documentSources || []).filter((source) =>
         source?.sourceId === UT_JUVENILE_ADMISSION.sourceId
@@ -376,14 +806,61 @@ function familySources(family, env = ROOT) {
         });
       }
     }
-    /* The current queue is already generated from this admission. The
-     * preflight must read the committed admission directly because the queue
-     * is a lead, while the custody row can retain its historical zero-source
-     * shape. Do not replace a conflicting row binding; it must still fail. */
+
+    for (const expectation of recoveryExpectations) {
+      const rowSources = allRowSources.filter((source) =>
+        source?.sourceId === expectation.sourceId
+        || source?.sourceId === expectation.recoverySourceId
+        || source?.sourceObligationId === expectation.sourceId);
+      const conflicting = rowSources.filter((source) => {
+        const held = source?.heldAs;
+        const hasHeldAs = held !== null && held !== undefined;
+        /* Historical unresolved rows with no heldAs are the shape this bridge
+         * exists to repair. Once a row declares held bytes, however, all of its
+         * identity fields must agree with the governed admission. */
+        if (!hasHeldAs) return source?.resolved === true;
+        const declaredLength = held?.byteLength ?? source?.byteLength;
+        return held?.path !== expectation.heldCorpusPath
+          || held?.sha256 !== expectation.sha256
+          || declaredLength !== expectation.byteLength;
+      });
+      if (conflicting.length && !unresolvable.some((item) => item.sourceId === expectation.sourceId
+        && item.why.includes("different from the admitted binding"))) {
+        unresolvable.push({
+          sourceId: expectation.sourceId,
+          indexMatches: 0,
+          why: "the existing custody row binds " + expectation.sourceId + " to a path, SHA-256, or byte length different from the governed SOURCE_RECOVERY_WAVE1 admission"
+        });
+      }
+    }
+
+    /* A valid governed admission is required even when custody happens to
+     * preload identical bytes. Otherwise a stale or malformed adoption record
+     * can be bypassed by a resolved row. */
     const admitted = committedKnownResidualBinding(family, env);
+    const recovered = committedSourceRecoveryWave1Bindings(family, env);
+    if (recoveryExpectations.length && !recovered) {
+      for (const expectation of recoveryExpectations) {
+        unresolvable.push({
+          sourceId: expectation.sourceId,
+          indexMatches: 0,
+          why: "the governed SOURCE_RECOVERY_WAVE1 admission is absent, stale, or contradictory"
+        });
+      }
+    }
     if (admitted && !sources.some((source) => source.sourceId === admitted.sourceId)
       && unresolvable.length === 0) {
       sources.push({ sourceId: admitted.sourceId, path: admitted.path, sha256: admitted.sha256, byteLength: admitted.byteLength, pathRoot: "repositoryRoot" });
+    }
+    if (recovered && unresolvable.length === 0) {
+      for (const binding of recovered) {
+        // The governed binding supplies its namespace even when a validated
+        // custody row preloaded identical bytes. Collapse exact duplicates.
+        for (let i = sources.length - 1; i >= 0; i--) {
+          if (sources[i].sourceId === binding.sourceId) sources.splice(i, 1);
+        }
+        sources.push({ ...binding, pathRoot: "repositoryRoot" });
+      }
     }
     return {
       tier: "custody_reconciliation",
@@ -1639,4 +2116,10 @@ if (REPORT) console.log(`Wrote ${REPORT}`);
 process.exit(failed.length === 0 && vacuous.length === 0 && cloudGatesThatDoNotHold.length === 0 ? 0 : 1);
 }
 
-export { familySources, resolveCommittedKnownResidualBinding, runAll };
+export {
+  familySources,
+  resolveCommittedKnownResidualBinding,
+  resolveCommittedSourceRecoveryWave1Binding,
+  resolveCommittedSourceRecoveryWave1Bindings,
+  runAll
+};
