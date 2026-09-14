@@ -42,11 +42,17 @@
     "servicePreflightOriginal36": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json",
     "servicePreflightOriginal37": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json",
     "servicePreflightOriginal38": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log",
+    "servicePreflightSuccessor": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
+    "serviceSuccessorOriginal0": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original.zip",
+    "serviceSuccessorOriginal1": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/artifacts.json",
+    "serviceSuccessorOriginal2": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/preflight.json",
+    "serviceSuccessorOriginal3": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/worker-input-plan.json",
+    "serviceSuccessorOriginal4": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/job.log",
     "launchControlGenerator": "scripts/grade-a-launch-control/generate-launch-control.mjs"
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "373ba3bfe60f8e48573c4210e2c5786b1204baf0",
+    "captainSha": "308f7c655779621b9ea72986bb696e01fad15d45",
     "censusFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
     "censusLedgerBlob": "d87bf67294e123237e917824e39a512f593274ab",
     "productionConnected": null,
@@ -658,7 +664,7 @@
     "hostedAcceptance": "NOT_ACCEPTED: {\"ACCEPTED_CURRENT\":0,\"MISSING\":35,\"STALE\":0,\"FAILED\":0,\"INVALID\":0}; Existing hosted_full anti-skip contract requires nine infrastructure/payment/gallery steps, but no export, matter-deletion or account-deletion step. This evaluator does not execute or close that missing hosted coverage.",
     "productionPreflight": "A read-only candidate-bound receipt is required. Production authorization is separate.",
     "familyPrerequisite": "NC core dismissal and acquittal families are terminal. Only the conditional DNA supplement retains an unresolved participant instrument or acceptance procedure; it does not block core expunction. The owner will contact NCAOC; the inquiry remains unsent. See data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json.",
-    "servicePreflight": "Run 34843210160: 9 failed checks. Supabase returned HTTP 401; Vercel pinned-team absence was measured on one page only. See servicePrerequisites for exact intervention."
+    "servicePreflight": "Run 34857707932: Supabase 0/5; Vercel 0/4. See servicePrerequisites.latestReadOnlyRun for exact endpoints and investigation. No credential replacement is requested."
   },
   "launchGate": {
     "gateOpen": false,
@@ -34465,10 +34471,29 @@
         {
           "id": "SUPABASE_ACCEPTANCE_ACCESS",
           "status": "OBSERVED_FAILED_ACCESS",
-          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json",
-          "runId": 34843210160,
-          "meaning": "One credential/access cause underlies multiple failed preflight checks; project and SQL safety checks remain unproven, not separately diagnosed defects.",
-          "nextStep": "An authorized owner must verify or replace the workflow SUPABASE_ACCESS_TOKEN with a valid token authorized for the existing acceptance project. No migration or production secret change is implied."
+          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
+          "runId": 34857707932,
+          "supersedesRunId": 34843210160,
+          "projectRef": "hyflxnlhpmiqxvvcoiia",
+          "passedChecks": 0,
+          "failedChecks": [
+            "supabase_token_usable",
+            "acceptance_project_resolves",
+            "acceptance_project_identity_is_exact",
+            "acceptance_project_reachable_for_sql",
+            "acceptance_project_carries_no_production_data"
+          ],
+          "gates": {
+            "supabase_token_usable": false,
+            "acceptance_project_resolves": false,
+            "acceptance_project_identity_is_exact": false,
+            "acceptance_project_reachable_for_sql": false,
+            "acceptance_project_carries_no_production_data": false
+          },
+          "candidateAcceptance": false,
+          "migrationAuthorized": false,
+          "nextStep": "Investigate the existing workflow authentication binding and account/project authorization after billing restoration; no credential replacement or additional preflight is prescribed by this receipt.",
+          "meaning": "The current Supabase service predicates still fail; the historical run remains preserved but is not the current diagnosis."
         },
         {
           "id": "VERCEL_TEAM_LOOKUP",
@@ -34622,32 +34647,117 @@
     "data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json": "39ea8274f993b1bba924334e0b56ed6261cee4902b439fbabcbd816eff584b61"
   },
   "servicePrerequisites": {
-    "review": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json",
-    "runId": 34843210160,
-    "status": "FAILED_CURRENT_SERVICE_PREFLIGHT",
-    "observedApplicationSha": "41db064ec6f25149802504f410fab7ece2c61b96",
-    "observedToolsSha": "f89a93f9082ed83a966df0367a1b14d9bcbd391c",
-    "originalCustodyVerified": true,
-    "findings": {
-      "supabase": {
-        "managementProjectListHttpStatus": 401,
-        "acceptanceProjectSelectHttpStatus": 401,
-        "projectRef": "hyflxnlhpmiqxvvcoiia",
-        "conclusion": "Protected workflow Supabase credential was rejected by both endpoints. No project identity, SQL reachability, or empty/synthetic-data proof was established.",
-        "intervention": "An authorized owner must verify or replace the workflow SUPABASE_ACCESS_TOKEN with a valid token authorized for the existing acceptance project. No migration or production secret change is implied."
+    "historicalResult": {
+      "review": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json",
+      "runId": 34843210160,
+      "status": "FAILED_CURRENT_SERVICE_PREFLIGHT",
+      "observedApplicationSha": "41db064ec6f25149802504f410fab7ece2c61b96",
+      "observedToolsSha": "f89a93f9082ed83a966df0367a1b14d9bcbd391c",
+      "originalCustodyVerified": true,
+      "findings": {
+        "supabase": {
+          "managementProjectListHttpStatus": 401,
+          "acceptanceProjectSelectHttpStatus": 401,
+          "projectRef": "hyflxnlhpmiqxvvcoiia",
+          "conclusion": "Protected workflow Supabase credential was rejected by both endpoints. No project identity, SQL reachability, or empty/synthetic-data proof was established.",
+          "intervention": "An authorized owner must verify or replace the workflow SUPABASE_ACCESS_TOKEN with a valid token authorized for the existing acceptance project. No migration or production secret change is implied."
+        },
+        "vercel": {
+          "endpoint": "VERCEL_TEAMS",
+          "httpStatus": 200,
+          "reason": "PINNED_TEAM_NOT_VISIBLE",
+          "expectedTeamSlug": "roger947s-projects",
+          "conclusion": "Expected team absent from the one returned page consumed by the resolver; this does not prove team access was removed.",
+          "pagination": "Resolver requests /v2/teams?limit=100 once and ignores pagination. Local synthetic response with pagination.next reproduced one request and first-page refusal. Actual run does not retain pagination metadata, so omitted later-page team remains unexcluded.",
+          "intervention": "Verify workflow VERCEL_TOKEN scope for the existing team/project and establish complete team-list coverage before diagnosing absent access. No deployment is needed."
+        }
       },
-      "vercel": {
-        "endpoint": "VERCEL_TEAMS",
-        "httpStatus": 200,
-        "reason": "PINNED_TEAM_NOT_VISIBLE",
-        "expectedTeamSlug": "roger947s-projects",
-        "conclusion": "Expected team absent from the one returned page consumed by the resolver; this does not prove team access was removed.",
-        "pagination": "Resolver requests /v2/teams?limit=100 once and ignores pagination. Local synthetic response with pagination.next reproduced one request and first-page refusal. Actual run does not retain pagination metadata, so omitted later-page team remains unexcluded.",
-        "intervention": "Verify workflow VERCEL_TOKEN scope for the existing team/project and establish complete team-list coverage before diagnosing absent access. No deployment is needed."
+      "candidateAcceptanceEstablished": false,
+      "meaning": "Observed service-only result at the named tools SHA; a resolver repair or credential change requires applicable retest. This is not final candidate acceptance."
+    },
+    "latestReadOnlyRun": {
+      "review": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
+      "runId": 34857707932,
+      "observedApplicationSha": "41db064ec6f25149802504f410fab7ece2c61b96",
+      "observedToolsSha": "308f7c655779621b9ea72986bb696e01fad15d45",
+      "services": {
+        "supabase": {
+          "status": "FAILED_SERVICE_PREFLIGHT",
+          "passedChecks": 0,
+          "requiredChecks": 5,
+          "managementApi": {
+            "method": "GET",
+            "endpointCategory": "MANAGEMENT_PROJECT_LIST",
+            "path": "/v1/projects",
+            "httpStatus": 401
+          },
+          "readOnlySql": {
+            "method": "POST",
+            "endpointCategory": "ACCEPTANCE_DATABASE_QUERY",
+            "path": "/v1/projects/hyflxnlhpmiqxvvcoiia/database/query",
+            "queryKind": "SELECT",
+            "httpStatus": 401
+          },
+          "projectIdentityAndStatus": "NOT_ESTABLISHED",
+          "nonproductionSafeguards": "NOT_ESTABLISHED_BECAUSE_SQL_UNAUTHORIZED"
+        },
+        "vercel": {
+          "status": "FAILED_SERVICE_PREFLIGHT",
+          "passedChecks": 0,
+          "requiredChecks": 4,
+          "endpointCategory": "VERCEL_TEAMS",
+          "httpStatus": 200,
+          "reason": "PINNED_TEAM_NOT_VISIBLE",
+          "separateCompletePaginationEvidence": "data/rcap-grade-a/participant-data-rights/vercel-identity-independent-review-20260914.json"
+        }
+      },
+      "supabaseEvidence": {
+        "id": "SUPABASE_ACCEPTANCE_ACCESS",
+        "status": "OBSERVED_FAILED_ACCESS",
+        "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
+        "runId": 34857707932,
+        "supersedesRunId": 34843210160,
+        "projectRef": "hyflxnlhpmiqxvvcoiia",
+        "passedChecks": 0,
+        "failedChecks": [
+          "supabase_token_usable",
+          "acceptance_project_resolves",
+          "acceptance_project_identity_is_exact",
+          "acceptance_project_reachable_for_sql",
+          "acceptance_project_carries_no_production_data"
+        ],
+        "gates": {
+          "supabase_token_usable": false,
+          "acceptance_project_resolves": false,
+          "acceptance_project_identity_is_exact": false,
+          "acceptance_project_reachable_for_sql": false,
+          "acceptance_project_carries_no_production_data": false
+        },
+        "candidateAcceptance": false,
+        "migrationAuthorized": false,
+        "nextStep": "Investigate the existing workflow authentication binding and account/project authorization after billing restoration; no credential replacement or additional preflight is prescribed by this receipt.",
+        "meaning": "The current Supabase service predicates still fail; the historical run remains preserved but is not the current diagnosis."
+      },
+      "investigation": {
+        "ownerReportedBillingRestrictionResolved": true,
+        "existingTokenUsed": true,
+        "credentialRotated": false,
+        "repositorySecretName": "SUPABASE_ACCESS_TOKEN",
+        "repositorySecretCreatedAt": "2026-08-13T19:39:58Z",
+        "repositorySecretUpdatedAt": "2026-08-13T19:39:58Z",
+        "secretMetadataSource": "GitHub GET /repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/secrets/SUPABASE_ACCESS_TOKEN; metadata only",
+        "repositoryEnvironmentNames": [],
+        "caller": ".github/workflows/rcap-f1-ephemeral-staging.yml jobs.hosted.secrets.SUPABASE_ACCESS_TOKEN",
+        "callee": ".github/workflows/rcap-hosted-acceptance-staging.yml workflow_call secret to preflight step environment",
+        "authentication": "Existing secret passed as Bearer authorization to api.supabase.com; no project API key substitution, no token transformation or missing-input refusal.",
+        "officialAuthenticationSource": "https://supabase.com/docs/reference/api/introduction",
+        "remainingQuestion": "Why the existing stored Management API credential is unauthorized after reported account restoration: its current expiry/revocation, owning account and restored account authorization cannot be established from GitHub secret metadata or the safely omitted response bodies.",
+        "tokenReplacementRequested": false,
+        "additionalPreflightDispatched": false
       }
     },
     "candidateAcceptanceEstablished": false,
-    "meaning": "Observed service-only result at the named tools SHA; a resolver repair or credential change requires applicable retest. This is not final candidate acceptance."
+    "meaning": "Services are assessed separately. Earlier failure remains history; this successor creates no migration, deployment or candidate acceptance."
   },
   "consumedInputDigests": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
@@ -34671,9 +34781,9 @@
     "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json": "764d59c2965e5cfe272edbe5648be84e45194343865d3fbc43e45aa8751a49da",
     "docs/LAUNCH_SEQUENCE.md": "91760f8f982164839993de583cccd100c4b4dc9dee048e38de54d789e8a2a509",
     "docs/PRODUCT_CONTRACT.md": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
-    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "e1128ac57e2c68d65edcc81de7d79a1ea082f12fe8afc00fe3b4404b94c78f66",
+    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "9835b8790f36cbe04f171c29f94b63adf12ae7927b3f81f2b5db81d51360d0cc",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "c5623b1b3abd961b3be3da27a64f5aba114e4bfcd59b94143980b1a695899969",
-    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json": "625c2c6eebde0c3aac0bb3a2d4b47ad622d0853ec85d61b3e2076a75ecc544cf",
+    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json": "35396e8b6f8a524df2dd080147c0571babefb5f29c842035536753d2e4e17fda",
     "scripts/grade-a-launch-control/apply-national-release-control.mjs": "229c3436c81ad4a97f8e94d66e885f9932ab512f5cf4ed6ee7b8ffcfff65b343",
     "scripts/grade-a-launch-control/participant-acceptance-receipts.mjs": "696feff901bea242d16c65ff2793401c6ff98546bc2f3fd722387280ade6d75d",
     "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json": "77c409cbe9432e6d5847694e0dff8475b5fc71f01a52d0b2f940f2b0166898c3",
@@ -34689,6 +34799,12 @@
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json": "d1a54fa51771aa02d5c6aaeca2759f2123f649ec71dd85924e7a14ec68ffb73f",
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log": "f0a5c4d87fdc1f2396231436a0f0bd9b86f350b040ab8b4731d4f4b4829427ad",
-    "scripts/grade-a-launch-control/generate-launch-control.mjs": "142689a36dd5c9df0bc0d791970367ed839e7ac809d3ab6418fa29098424f02f"
+    "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json": "53c692a0a94d6ae7330d838122d99ad00e158db54a6925f0afd82d981f153952",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original.zip": "2e648685bc1f9ec422e191bbfbec70119b92f2377b83a9e63f186511338752b6",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/artifacts.json": "455c1a805dcf28a4058a2ea07017a0347b63f1026cf113cad18fa9bd0ab28e22",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/preflight.json": "2a01520231d147057e34e78d3018008bc3a71ea500122bc55ec4a47a081a853e",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/worker-input-plan.json": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/job.log": "b6cb8b47eb518146fa1da96555dfcd0835af2038fed542c740685c30dc743e4d",
+    "scripts/grade-a-launch-control/generate-launch-control.mjs": "86c8479db6b3df9577a514da272d971e5b5ed8698924aa896bbd1577ae8933d7"
   }
 }

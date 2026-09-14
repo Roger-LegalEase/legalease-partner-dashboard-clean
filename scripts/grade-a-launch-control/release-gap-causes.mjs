@@ -17,7 +17,7 @@ const classify = gap => {
   }
   return ['OTHER_EXACT_GAP', 'UNPROVEN', 'Inspect the existing exact gap; no new task or defect is inferred.'];
 };
-export function groupReleaseGapCauses(gaps, { serviceReview = null, serviceReviewPath = null, ncInquiry = null, ncInquiryPath = null, vercelReview = null, vercelReviewPath = null, readSuccessorBytes = null, reconciledFamilies = [], ncOwnerScope = null, ncOwnerScopePath = null, currentQueueSha256 = null } = {}) {
+export function groupReleaseGapCauses(gaps, { serviceReview = null, serviceReviewPath = null, ncInquiry = null, ncInquiryPath = null, vercelReview = null, vercelReviewPath = null, readSuccessorBytes = null, reconciledFamilies = [], ncOwnerScope = null, ncOwnerScopePath = null, currentQueueSha256 = null, supabaseReview = null, supabaseReviewPath = null } = {}) {
   const ncCoreAndConditionalSupplement = validatedNcScope(ncOwnerScope, ncOwnerScopePath, currentQueueSha256, reconciledFamilies);
   const groups = new Map(), seen = new Set();
   let duplicates = 0;
@@ -31,11 +31,13 @@ export function groupReleaseGapCauses(gaps, { serviceReview = null, serviceRevie
   });
   const causeGroups=[...groups.values()].sort((a,b)=>a.id.localeCompare(b.id)).map(({families,routes,dimensions,...g})=>({...g,affectedFamilyCount:families.size,affectedRouteOrObligationCount:routes.size,dimensions:[...dimensions].sort(),uniqueGapCount:g.gapIndexes.length}));
   const externalDependencies=[];
+  const supabaseSuccessor = verifiedSupabaseServiceSuccessor(supabaseReview, supabaseReviewPath, readSuccessorBytes);
   const vercelSuccessor = verifiedVercelSuccessor(vercelReview, vercelReviewPath, readSuccessorBytes);
   if (serviceReview?.status === 'FAILED_CURRENT_SERVICE_PREFLIGHT' && serviceReview.serviceOnly === true && serviceReview.releaseAuthorityGranted === false) {
-    if (serviceReview.findings?.supabase?.managementProjectListHttpStatus === 401 && serviceReview.findings?.supabase?.acceptanceProjectSelectHttpStatus === 401) externalDependencies.push({id:'SUPABASE_ACCEPTANCE_ACCESS',status:'OBSERVED_FAILED_ACCESS',evidence:serviceReviewPath,runId:serviceReview.runId,meaning:'One credential/access cause underlies multiple failed preflight checks; project and SQL safety checks remain unproven, not separately diagnosed defects.',nextStep:serviceReview.findings.supabase.intervention});
+    if (!supabaseSuccessor && serviceReview.findings?.supabase?.managementProjectListHttpStatus === 401 && serviceReview.findings?.supabase?.acceptanceProjectSelectHttpStatus === 401) externalDependencies.push({id:'SUPABASE_ACCEPTANCE_ACCESS',status:'OBSERVED_FAILED_ACCESS',evidence:serviceReviewPath,runId:serviceReview.runId,meaning:'One credential/access cause underlies multiple failed preflight checks; project and SQL safety checks remain unproven, not separately diagnosed defects.',nextStep:serviceReview.findings.supabase.intervention});
     if (!vercelSuccessor && serviceReview.findings?.vercel?.reason === 'PINNED_TEAM_NOT_VISIBLE') externalDependencies.push({id:'VERCEL_TEAM_LOOKUP',status:'ACCESS_OR_LOOKUP_UNRESOLVED',evidence:serviceReviewPath,runId:serviceReview.runId,meaning:'One-page team absence cannot establish lost access. Any subsequent resolver repair still needs the applicable retest.',nextStep:serviceReview.findings.vercel.intervention});
   }
+  if (supabaseSuccessor) externalDependencies.push(supabaseSuccessor);
   if (vercelSuccessor) externalDependencies.push(vercelSuccessor);
   if (ncInquiry?.status === 'NOT_SENT' && ncInquiry.familyId === 'composed-treatment:nc_146_dismissal_petition' && gaps.some(g => g.familyId === ncInquiry.familyId && g.dimension === 'terminal_treatment')) externalDependencies.push({id:'NC_INSTITUTIONAL_INPUT',status:'OWNER_CONTACT_PENDING',evidence:ncInquiryPath,meaning:ncCoreAndConditionalSupplement ? 'Conditional DNA supplement instrument/procedure remains unresolved; core expunction is terminal. The inquiry stays unsent for owner contact with NCAOC; no agent contact is authorized.' : 'The exact application/acceptance-procedure question remains unanswered. The inquiry stays unsent; the owner will contact NCAOC. No agent contact is authorized.'});
   const recognizedExistingBindings = reconciledFamilies.filter(f => ['wy_fel_1502-set','dc_innocence_expungement-set'].includes(f.familyId)
@@ -85,4 +87,50 @@ function validatedNcScope(record, recordPath, queueSha256, families) {
     coreFamilies:record.coreFamilies.map(f=>({familyId:f.familyId,state:f.state,selectedIndependentVerdict:f.selectedIndependentVerdict,sourceHashes:f.sourceHashes})),
     supplement:{familyId:supplement.familyId,routeKey:supplement.routeKey,conditional:true,blocksCoreExpunction:false,participantInstrumentOrAcceptanceProcedure:'UNRESOLVED',nativeState:currentSupplement[0].disposition},
     meaning:'Core expunction is already terminal. Only the conditional DNA participant instrument/procedure remains unresolved. No native state, denominator, legal entitlement, packet approval or Production authority changes.'};
+}
+
+export function verifiedSupabaseServiceSuccessor(review, reviewPath, readBytes) {
+  const runId=34857707932, prefix='private/transfers/national-release-preservation-20260914/service-preflight-'+runId;
+  const app='41db064ec6f25149802504f410fab7ece2c61b96', tools='308f7c655779621b9ea72986bb696e01fad15d45';
+  const flags=['applicationAccepted','workerImageAccepted','participantAcceptanceEstablished','releaseAuthorityGranted'];
+  const gates=['supabase_token_usable','acceptance_project_resolves','acceptance_project_identity_is_exact','acceptance_project_reachable_for_sql','acceptance_project_carries_no_production_data'];
+  if (typeof readBytes!=='function' || review?.schemaVersion!=='rcap-independent-service-preflight-review/v1' || review.runId!==runId || review.supersedes!==34843210160 || review.serviceOnly!==true || review.reviewerIndependentOfImplementation!==true || typeof review.reviewer!=='string' || !review.reviewer || flags.some(k=>review[k]!==false) || review.applicationSha!==app || review.toolsSha!==tools || review.originalFilesEqualArchiveMembers!==true || review.originalZipDigestMatchesGitHubArtifactMetadata!==true) return null;
+  const paths=['/original.zip','/artifacts.json','/original/preflight.json','/original/worker-input-plan.json','/job.log'].map(s=>prefix+s);
+  if (!Array.isArray(review.custody) || review.custody.length!==5 || new Set(review.custody.map(c=>c.path)).size!==5 || review.custody.some(c=>!paths.includes(c.path))) return null;
+  try {
+    const bytes=new Map();
+    for (const ref of review.custody) {
+      const b=readBytes(ref.path);
+      if (!Buffer.isBuffer(b) || !Number.isSafeInteger(ref.byteLength) || ref.byteLength!==b.length || crypto.createHash('sha256').update(b).digest('hex')!==ref.sha256) return null;
+      bytes.set(ref.path,b);
+    }
+    const original=JSON.parse(bytes.get(prefix+'/original/preflight.json')), plan=JSON.parse(bytes.get(prefix+'/original/worker-input-plan.json')), metadata=JSON.parse(bytes.get(prefix+'/artifacts.json'));
+    const artifacts=(metadata.artifacts??[]).filter(a=>a.id===review.artifactId);
+    if (artifacts.length!==1 || artifacts[0].digest!=='sha256:'+crypto.createHash('sha256').update(bytes.get(prefix+'/original.zip')).digest('hex') || String(artifacts[0].workflow_run?.id)!==String(runId) || artifacts[0].workflow_run?.head_sha!==tools) return null;
+    if (original.schemaVersion!=='rcap-hosted-acceptance-preflight/v1' || original.serviceOnly!==true || original.applicationSha!==app || original.toolsSha!==tools || original.applicationAccepted!==false || original.workerImageAccepted!==false || original.releaseAuthorityGranted!==false || original.acceptanceProjectRef!=='hyflxnlhpmiqxvvcoiia' || plan.candidateSha!==app || typeof plan.rebuildRequired!=='boolean' || original.workerRebuildRequired!==plan.rebuildRequired || review.workerRebuildRequired!==plan.rebuildRequired) return null;
+    const verdicts=original.cases?.verdicts;
+    if (!verdicts || gates.some(k=>typeof verdicts[k]!=='boolean') || !Array.isArray(original.requiredCases) || new Set(original.requiredCases).size!==original.requiredCases.length || gates.some(k=>!original.requiredCases.includes(k)) || !Array.isArray(original.missingCases) || gates.some(k=>original.missingCases.includes(k)) || !Array.isArray(original.failedCases) || gates.some(k=>original.failedCases.includes(k)!==(verdicts[k]===false))) return null;
+    const passed=gates.every(k=>verdicts[k]===true);
+    if (review.services?.supabase?.status!==(passed?'PASS_SERVICE_ONLY':'FAILED_SERVICE_PREFLIGHT')) return null;
+    const vercelGates=['vercel_token_usable','vercel_project_resolves','production_environment_shape_snapshotted_without_values','preview_binding_is_per_deployment_only'];
+    if (review.services.supabase.passedChecks!==gates.filter(k=>verdicts[k]).length || review.services.supabase.requiredChecks!==gates.length
+      || vercelGates.some(k=>typeof verdicts[k]!=='boolean' || !original.requiredCases.includes(k) || original.missingCases.includes(k) || original.failedCases.includes(k)!==(verdicts[k]===false))
+      || review.services.vercel?.passedChecks!==vercelGates.filter(k=>verdicts[k]).length || review.services.vercel?.requiredChecks!==vercelGates.length
+      || review.services.vercel?.status!==(vercelGates.every(k=>verdicts[k])?'PASS_SERVICE_ONLY':'FAILED_SERVICE_PREFLIGHT')) return null;
+    if (passed) {
+      const identity=original.cases.projectIdentity, proof=original.cases.emptinessProof;
+      if (identity?.name!=='legalease-rcap-acceptance' || identity.region!=='us-west-2' || identity.status!=='ACTIVE_HEALTHY' || proof?.completePresence!==true || proof.completeCounts!==true) return null;
+      if (proof.provenBy==='acceptance_marker') { if (proof.marker?.projectRef!=='hyflxnlhpmiqxvvcoiia') return null; }
+      else if (proof.provenBy==='no_participant_data') {
+        if (!Array.isArray(proof.participantWitnesses) || proof.participantWitnesses.length<3 || new Set(proof.participantWitnesses).size!==proof.participantWitnesses.length || !Array.isArray(proof.absent) || !Array.isArray(proof.presentWithCounts)) return null;
+        for (const table of proof.participantWitnesses) {
+          const counts=proof.presentWithCounts.filter(r=>r.table===table);
+          if (proof.absent.includes(table) ? counts.length!==0 : counts.length!==1 || counts[0].rows!==0) return null;
+        }
+      } else return null;
+    }
+    return {id:'SUPABASE_ACCEPTANCE_ACCESS',status:passed?'SERVICE_PREFLIGHT_PASSED_ONLY':'OBSERVED_FAILED_ACCESS',evidence:reviewPath,runId,supersedesRunId:34843210160,projectRef:original.acceptanceProjectRef,passedChecks:gates.filter(k=>verdicts[k]).length,failedChecks:gates.filter(k=>!verdicts[k]),gates:Object.fromEntries(gates.map(k=>[k,verdicts[k]])),candidateAcceptance:false,migrationAuthorized:false,
+      nextStep:passed?'Preserve the verified service result; check candidate, worker and exact existing nonproduction authorization prerequisites separately before any next action.':'Investigate the existing workflow authentication binding and account/project authorization after billing restoration; no credential replacement or additional preflight is prescribed by this receipt.',
+      meaning:passed?'The five Supabase service predicates passed in the independently reviewed successor. The historical credential failure is superseded for this service only; Vercel, worker, hosted participant acceptance and migration authorization are separate.':'The current Supabase service predicates still fail; the historical run remains preserved but is not the current diagnosis.'};
+  } catch { return null; }
 }

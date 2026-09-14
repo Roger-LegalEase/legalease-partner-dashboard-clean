@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-grade-a-post-wave-2-national-launch-worklist/v2",
   "generatedBy": "scripts/grade-a-launch-control/generate-post-wave-2-launch-worklist.mjs",
   "question": "For each exact current family and route, which release obligations remain evidenced or missing?",
-  "atCaptainHead": "373ba3bfe60f8e48573c4210e2c5786b1204baf0",
+  "atCaptainHead": "308f7c655779621b9ea72986bb696e01fad15d45",
   "censusDenominator": {
     "obligations": 703,
     "categoryA": 451,
@@ -18196,10 +18196,29 @@
         {
           "id": "SUPABASE_ACCEPTANCE_ACCESS",
           "status": "OBSERVED_FAILED_ACCESS",
-          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json",
-          "runId": 34843210160,
-          "meaning": "One credential/access cause underlies multiple failed preflight checks; project and SQL safety checks remain unproven, not separately diagnosed defects.",
-          "nextStep": "An authorized owner must verify or replace the workflow SUPABASE_ACCESS_TOKEN with a valid token authorized for the existing acceptance project. No migration or production secret change is implied."
+          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
+          "runId": 34857707932,
+          "supersedesRunId": 34843210160,
+          "projectRef": "hyflxnlhpmiqxvvcoiia",
+          "passedChecks": 0,
+          "failedChecks": [
+            "supabase_token_usable",
+            "acceptance_project_resolves",
+            "acceptance_project_identity_is_exact",
+            "acceptance_project_reachable_for_sql",
+            "acceptance_project_carries_no_production_data"
+          ],
+          "gates": {
+            "supabase_token_usable": false,
+            "acceptance_project_resolves": false,
+            "acceptance_project_identity_is_exact": false,
+            "acceptance_project_reachable_for_sql": false,
+            "acceptance_project_carries_no_production_data": false
+          },
+          "candidateAcceptance": false,
+          "migrationAuthorized": false,
+          "nextStep": "Investigate the existing workflow authentication binding and account/project authorization after billing restoration; no credential replacement or additional preflight is prescribed by this receipt.",
+          "meaning": "The current Supabase service predicates still fail; the historical run remains preserved but is not the current diagnosis."
         },
         {
           "id": "VERCEL_TEAM_LOOKUP",

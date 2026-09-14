@@ -62,8 +62,10 @@ const serviceReviewPath='data/rcap-grade-a/participant-data-rights/service-prefl
 const ncInquiryPath='data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json';
 const vercelReviewPath='data/rcap-grade-a/participant-data-rights/vercel-identity-independent-review-20260914.json';
 const ncOwnerScopePath='data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json';
+const supabaseReviewPath='data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json';
 const sharedCauses=groupReleaseGapCauses(reconciliation.gaps,{
  reconciledFamilies:reconciliation.families,
+ supabaseReview:fs.existsSync(supabaseReviewPath)?read(supabaseReviewPath):null,supabaseReviewPath,
  ncOwnerScope:fs.existsSync(ncOwnerScopePath)?read(ncOwnerScopePath):null,ncOwnerScopePath,currentQueueSha256:inputDigests[INPUTS[0]],
  serviceReview:fs.existsSync(serviceReviewPath)?read(serviceReviewPath):null,serviceReviewPath,
  ncInquiry:fs.existsSync(ncInquiryPath)?read(ncInquiryPath):null,ncInquiryPath,

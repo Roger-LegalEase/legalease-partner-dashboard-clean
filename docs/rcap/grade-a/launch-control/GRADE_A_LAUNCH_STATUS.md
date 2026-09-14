@@ -4,7 +4,7 @@ _Generated from the existing GRADE_A_LAUNCH_CONTROL.json; this page has no indep
 
 **GO/HOLD: HOLD.** 345/346 families are terminal. Release obligations and candidate authorization remain separate; final family baseline status: BOUND.
 
-Captain input SHA: `373ba3bfe60f8e48573c4210e2c5786b1204baf0`.
+Captain input SHA: `308f7c655779621b9ea72986bb696e01fad15d45`.
 
 National scope: All 50 states plus DC.
 
@@ -30,7 +30,7 @@ Terminal treatment, runtime reachability, output approval, route fulfillment, ho
 - **hostedAcceptance**: NOT_ACCEPTED: {"ACCEPTED_CURRENT":0,"MISSING":35,"STALE":0,"FAILED":0,"INVALID":0}; Existing hosted_full anti-skip contract requires nine infrastructure/payment/gallery steps, but no export, matter-deletion or account-deletion step. This evaluator does not execute or close that missing hosted coverage.
 - **productionPreflight**: A read-only candidate-bound receipt is required. Production authorization is separate.
 - **familyPrerequisite**: NC core dismissal and acquittal families are terminal. Only the conditional DNA supplement retains an unresolved participant instrument or acceptance procedure; it does not block core expunction. The owner will contact NCAOC; the inquiry remains unsent. See data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json.
-- **servicePreflight**: Run 34843210160: 9 failed checks. Supabase returned HTTP 401; Vercel pinned-team absence was measured on one page only. See servicePrerequisites for exact intervention.
+- **servicePreflight**: Run 34857707932: Supabase 0/5; Vercel 0/4. See servicePrerequisites.latestReadOnlyRun for exact endpoints and investigation. No credential replacement is requested.
 
 Bind the pushed final 346-family closeout, satisfy the exact national release obligations, freeze application SHA and worker digest, pass currentness and the full required chain, independently accept the hosted candidate, prove rollback and read-only Production preflight, then obtain exact Production authorization.
 

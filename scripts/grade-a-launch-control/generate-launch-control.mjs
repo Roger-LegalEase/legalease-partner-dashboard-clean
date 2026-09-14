@@ -475,6 +475,24 @@ if (exists(SERVICE_REVIEW)) {
     ? `Run ${review.runId}: ${review.failedChecks} failed checks. Supabase returned HTTP 401; Vercel pinned-team absence was measured on one page only. See servicePrerequisites for exact intervention.`
     : "Original service-preflight custody is unavailable or changed; do not reuse its result.";
 }
+// Consume the verified service successor independently of the full-run verdict.
+const supabaseSuccessor = doc.releaseReconciliation.sharedCauses?.externalDependencies
+  ?.find(item => item.id === 'SUPABASE_ACCEPTANCE_ACCESS' && item.runId === 34857707932);
+if (supabaseSuccessor) {
+  const latestReview = read(supabaseSuccessor.evidence);
+  doc.consumes.servicePreflightSuccessor = supabaseSuccessor.evidence;
+  for (const [index, item] of latestReview.custody.entries()) doc.consumes[`serviceSuccessorOriginal${index}`] = item.path;
+  doc.servicePrerequisites = {
+    historicalResult: doc.servicePrerequisites,
+    latestReadOnlyRun: { review: supabaseSuccessor.evidence, runId: latestReview.runId,
+      observedApplicationSha: latestReview.applicationSha, observedToolsSha: latestReview.toolsSha,
+      services: latestReview.services, supabaseEvidence: supabaseSuccessor,
+      investigation: latestReview.investigation },
+    candidateAcceptanceEstablished: false,
+    meaning: 'Services are assessed separately. Earlier failure remains history; this successor creates no migration, deployment or candidate acceptance.'
+  };
+  doc.testStatus.servicePreflight = `Run ${latestReview.runId}: Supabase ${latestReview.services.supabase.passedChecks}/${latestReview.services.supabase.requiredChecks}; Vercel ${latestReview.services.vercel.passedChecks}/${latestReview.services.vercel.requiredChecks}. See servicePrerequisites.latestReadOnlyRun for exact endpoints and investigation. No credential replacement is requested.`;
+}
 doc.consumes.launchControlGenerator = "scripts/grade-a-launch-control/generate-launch-control.mjs";
 doc.consumedInputDigests = Object.fromEntries(Object.values(doc.consumes).map(rel => [rel, exists(rel) ? hashFile(rel) : null]));
 
