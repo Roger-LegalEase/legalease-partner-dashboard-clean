@@ -8251,10 +8251,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF01",
       "laneKind": "packet-build",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "User-authorized restart replacement: previous execution paths died, current exact family remains SOURCE_READY with explicit executable adopted ORS137.225(1)(a) instruction; preserve historical returns."
     },
     {
       "subjectType": "packet-family",
@@ -15831,7 +15832,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "2ea8534cb28e3bc6741a0eff6cdffabdf80af77a001db9b48520183f994169dd",
+  "claimsDigest": "e08ed8248ada1b7f6fe7cf59a99767a6675ad7203c7953e0c7a97c338d205710",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43280,6 +43281,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-14T03:53:45.051Z",
       "reason": "Semantic review completed in bc673e2c9f; current raster34804012657 final original-page review assigned to distinct replacement /root/ne_build under VFWABLAKE2. Preserve VFWABLAKE1 semantic evidence."
+    },
+    {
+      "lane": "PF02",
+      "subjectType": "packet-family",
+      "subjectId": "or_contempt_setaside-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-14T03:56:24.542Z",
+      "reason": "User-authorized restart replacement: previous execution paths died, current exact family remains SOURCE_READY with explicit executable adopted ORS137.225(1)(a) instruction; preserve historical returns."
     }
   ],
   "reissues": [
@@ -66540,6 +66550,17 @@
       "previouslyReleasedAt": "2026-09-14T03:53:45.051Z",
       "transferredAt": "2026-09-14T03:53:45.253Z",
       "reason": "User-authorized work stealing: /root/ne_build independently reviews current WA originals after CI; WA author is /root/nc_build."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "or_contempt_setaside-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF02",
+      "toLane": "PF01",
+      "previouslyReleasedAt": "2026-09-14T03:56:24.542Z",
+      "transferredAt": "2026-09-14T03:56:24.774Z",
+      "reason": "User next-executable-family work stealing: /root/ne_build resumes exact OR family on existing recovered worker after NE/WV handoffs, preemptible for WA original review."
     }
   ],
   "grants": [
