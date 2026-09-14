@@ -69,13 +69,9 @@ async function original(title,f,paragraphs,evidence,documentId){
 }
 async function saveDoc(doc,rel){stamp(doc);const bytes=await doc.save();fs.mkdirSync(path.dirname(path.join(ROOT,rel)),{recursive:true});fs.writeFileSync(path.join(ROOT,rel),bytes);return {file:rel,sha256:hash(bytes),byteLength:bytes.length,pageCount:doc.getPageCount()};}
 
-export async function build(){
- for(const s of SOURCE){const bytes=read(s.path);assert.equal(hash(bytes),s.sha256);assert.equal((await PDFDocument.load(bytes)).getPageCount(),s.pageCount);}
- const acceptance=json('data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-mapping-completion-acceptance-20260912.json');assert.equal(acceptance.status,'PASS_MAPPING_COMPLETION_ONLY');
+export async function renderOfficialMotion(f) {
+ const {selected}=validateInput(f);const evidence=[];
  const profile=json(`${PROFILE}/overlay-profile.json`),census=json(`${PROFILE}/field-census.json`),geometry=json('data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json');
- const packets=[],allWrites=[],fieldMaps=[];
- for(const [fixture,f]of Object.entries(fixtures())) {
-  const {selected}=validateInput(f);const evidence=[],components=[];const target=`${DIRECTORY}/components/${fixture}`;
   const motion=await PDFDocument.load(read(SOURCE[0].path));const font=await motion.embedFont(StandardFonts.Helvetica);
   const facts={'matter.county':f.county,'matter.case_number':f.caseNumber,'participant.full_legal_name':f.name,'participant.date_of_birth':f.dob,'participant.email':f.email,'participant.street_address':f.street,'participant.city_state_zip':f.city,'participant.phone':f.phone};
   for(const a of profile.anchors)text(motion.getPage(a.page-1),font,facts[a.factId],a.writeBox,evidence,a.label,a.page,{fallback:a.factId==='participant.phone'?'Att.':'See attachment'});
@@ -88,12 +84,23 @@ export async function build(){
   mark(motion.getPage(3),geometry.options.find(o=>o.page===4&&o.option==='Option 1').box,evidence,'Option 1',4);
   mark(motion.getPage(3),boxes[f.selection==='all'?1:2],evidence,`${f.selection} charges`,4);
   if(f.selection==='partial') {
-   selected.slice(0,7).forEach((c,i)=>{const ys=[295.2,282.1,269.2,256.2,243.1,230.2,217.2];fillSlot(`p4.r${ys[i].toFixed(1)}.x144.rule`,c.name,`Selected charge ${i+1}`);fillSlot(`p4.r${ys[i].toFixed(1)}.x477.rule`,c.count,`Selected count ${i+1}`);});
-   if(selected.length>7)mark(motion.getPage(3),boxes[3],evidence,'Additional selected charges attached',4);
+   selected.slice(0,5).forEach((c,i)=>{const ys=[269.2,256.2,243.1,230.2,217.2];fillSlot(`p4.r${ys[i].toFixed(1)}.x144.rule`,c.name,`Selected charge ${i+1}`);fillSlot(`p4.r${ys[i].toFixed(1)}.x477.rule`,c.count,`Selected count ${i+1}`);});
+   if(selected.length>5)mark(motion.getPage(3),boxes[3],evidence,'Additional selected charges attached',4);
   }
   const declarations=[f.waitingPeriodConfirmed,f.eligibilityBeliefConfirmed,f.fingerprintsFiled,f.serviceIntentConfirmed,!f.pendingCharges,f.feePaid,f.sentenceCompleted];
   geometry.declarationBoxes.forEach((b,i)=>{if(declarations[i])mark(motion.getPage(4),b.box,evidence,`Declaration ${i+1}`,5);});
   for(const id of ['p5.r378.2.x72.rule','p5.r378.2.x288.rule','p5.r229.8.x186.rule','p5.r154.8.x72.rule','p5.r154.8.x288.rule'])evidence.push({kind:'protected',label:id,page:5,box:slots[id].widgets[0].rect});
+ return {motion,evidence};
+}
+
+export async function build(){
+ for(const s of SOURCE){const bytes=read(s.path);assert.equal(hash(bytes),s.sha256);assert.equal((await PDFDocument.load(bytes)).getPageCount(),s.pageCount);}
+ const acceptance=json('data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-mapping-completion-acceptance-20260912.json');assert.equal(acceptance.status,'PASS_MAPPING_COMPLETION_ONLY');
+ const profile=json(`${PROFILE}/overlay-profile.json`),census=json(`${PROFILE}/field-census.json`),geometry=json('data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json');
+ const packets=[],allWrites=[],fieldMaps=[];
+ for(const [fixture,f]of Object.entries(fixtures())) {
+  const {selected}=validateInput(f);const evidence=[],components=[];const target=`${DIRECTORY}/components/${fixture}`;
+  const renderedMotion=await renderOfficialMotion(f);const motion=renderedMotion.motion;evidence.push(...renderedMotion.evidence);
   const motionInfo=await saveDoc(motion,`${target}/official-motion-and-instructions.pdf`);components.push({...motionInfo,documentId:'official-motion-and-instructions',role:'primary_filing'});
   const attachment=await original('Attachment to Motion and Declaration',f,[
    'This attachment supplies the full identifying facts and selected charge list referenced by Att. or See attachment on the official motion. It is part of the motion and must accompany every copy served or filed.',
