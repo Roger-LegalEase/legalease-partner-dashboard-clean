@@ -82,6 +82,25 @@ const iaWholePacketDocuments = ({ report, fixtures, root, expectedFixtures }) =>
 };
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
+  if (report?.familyId === 'ne-trafficking-setaside-and-seal-set') {
+    const names = ['boundary', 'boundary-post-order', 'canonical', 'canonical-post-order'];
+    assert.deepEqual(report.packets.map(d => d.fixture).sort(), names, 'NE must declare both stages in both fixtures');
+    assert.deepEqual(fs.readdirSync(fixtures).filter(n => n.endsWith('.pdf')).sort(), names.map(n => `${n}.pdf`).sort(), 'NE staged PDF inventory drift');
+    const home = fs.realpathSync(fixtures);
+    return report.packets.map(d => {
+      assert.equal(d.file, `fixtures/${d.fixture}.pdf`, 'NE staged packet path drift');
+      assert.equal(d.stage, d.fixture.endsWith('-post-order') ? 'seal' : 'set-aside', 'NE stage identity drift');
+      const file = path.join(home, `${d.fixture}.pdf`);
+      assert.ok(!fs.lstatSync(file).isSymbolicLink(), 'NE staged packet must not be a symlink');
+      const bytes = fs.readFileSync(file);
+      assert.equal(bytes.subarray(0, 5).toString(), '%PDF-', 'NE staged fixture must be a PDF');
+      assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), d.sha256, 'NE staged packet digest drift');
+      assert.equal(pdfInfoPageCount(file), d.pageCount, 'NE staged page count drift');
+      return { role: d.fixture.startsWith('canonical') ? 'canonical' : 'boundary',
+        name: `${d.fixture}.pdf`, declaredPageCount: d.pageCount,
+        branch: d.fixture, selectionKind: 'native_complete_fixture', filingReady: false };
+    }).sort((a, b) => a.name.localeCompare(b.name, 'en'));
+  }
   if (report?.familyId === 'wa_blake_vacatur_and_lfo_refund-set') {
     const names = ['boundary', 'canonical', 'municipal-partial', 'superior-full'];
     assert.deepEqual(report.packets.map(d => d.fixture).sort(), names, 'Blake must declare all four court/relief fixtures');
