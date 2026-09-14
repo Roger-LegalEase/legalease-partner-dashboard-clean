@@ -68,6 +68,9 @@ COPY data/record-clearing/legal-decisions/route-ratification-registry.json data/
 # The binding scans this whole directory and matches file bytes against a
 # record's packetSpecification.sha256, so it ships complete.
 COPY data/record-clearing/packet-specifications/ data/record-clearing/packet-specifications/
+COPY data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json data/record-clearing/legal-decisions/
+COPY data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json data/rcap-ledger/grade-a/
+COPY data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json data/rcap-ledger/grade-a/
 USER rcapworker
 # Liveness: the loop logs one JSON line per non-idle cycle; the healthcheck
 # asserts the process is alive and can reach its own module graph.

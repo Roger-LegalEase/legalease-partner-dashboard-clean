@@ -723,6 +723,18 @@ function renderStatus(d) {
   return lines.join("\n");
 }
 
+const msPaidDecisionPath = "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json";
+const msPaidDecisionBytes = fs.readFileSync(path.join(ROOT, msPaidDecisionPath));
+doc.mississippiPaidConsumerSuccessor = {
+  decisionPath: msPaidDecisionPath,
+  decisionSha256: crypto.createHash("sha256").update(msPaidDecisionBytes).digest("hex"),
+  routeId: JSON.parse(msPaidDecisionBytes).routeId,
+  consumerPaidAuthorized: JSON.parse(msPaidDecisionBytes).consumerPaidAuthorized,
+  productionAuthorized: false,
+  technicalAcceptanceWaived: false,
+  authorityRegistryPath: "data/rcap-grade-a/fulfillment-authority-registry.json",
+  authorityRegistrySha256: crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/fulfillment-authority-registry.json"))).digest("hex")
+};
 const serialized = JSON.stringify(doc, null, 2) + "\n";
 const status = renderStatus(doc);
 const outPath = path.join(ROOT, OUT);

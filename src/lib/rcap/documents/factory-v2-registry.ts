@@ -2,6 +2,7 @@ import "server-only";
 
 import fs from "node:fs";
 import path from "node:path";
+import { loadMsPaidConsumerSuccessor } from "@/lib/rcap/fulfillment/paid-consumer-successor";
 
 import {
   packetSpecificationFor,
@@ -152,6 +153,7 @@ export type FactoryV2RouteMigration = {
   registryTrackIds: string[];
   packetFamilyId: string;
   ownerDecisionRecordId: string;
+  paidConsumerSuccessorDecisionSha256?: string;
 };
 
 export type FactoryV2LegalApprovalEvidence = {
@@ -347,6 +349,19 @@ function loadRouteMigrations(): ReadonlyMap<string, FactoryV2RouteMigration> {
         registryTrackIds,
         packetFamilyId,
         ownerDecisionRecordId
+      });
+    }
+    // This later owner decision adopts only the unchanged approved MS packet.
+    // It is additive; the old cohort, its manifest, and retirement stay intact.
+    const successor = loadMsPaidConsumerSuccessor();
+    if (successor && !migrations.has(successor.routeId)
+      && packetSets.filter(set => set.packetSetId === successor.packetFamilyId
+        && set.jurisdiction === successor.jurisdiction && set.trackId === successor.trackId).length === 1) {
+      migrations.set(successor.routeId, {
+        routeId: successor.routeId, jurisdiction: successor.jurisdiction, pathwayId: successor.pathwayId,
+        registryTrackIds: [successor.trackId], packetFamilyId: successor.packetFamilyId,
+        ownerDecisionRecordId: successor.decisionId,
+        paidConsumerSuccessorDecisionSha256: successor.decisionSha256
       });
     }
   } catch {
@@ -608,7 +623,11 @@ function admissible(
     if (!exactStringList(migration.registryTrackIds, [specification.trackId])) return false;
     if (!specificationRouteKeys.includes(routeId)) return false;
     if (!specificationLegalSectionsBound(specification)) return false;
-    if (!("legalSectionsBoundBy" in specification)
+    if (migration.paidConsumerSuccessorDecisionSha256) {
+      const successor = loadMsPaidConsumerSuccessor();
+      if (!successor || successor.routeId !== routeId || successor.decisionId !== migration.ownerDecisionRecordId
+        || successor.decisionSha256 !== migration.paidConsumerSuccessorDecisionSha256) return false;
+    } else if (!("legalSectionsBoundBy" in specification)
       || specification.legalSectionsBoundBy?.ownerDecisionRecordId !== migration.ownerDecisionRecordId
       || specification.legalSectionsBoundBy.postApprovalAuditVerdict !== "COVERED_BY_EXISTING_APPROVAL") return false;
   }

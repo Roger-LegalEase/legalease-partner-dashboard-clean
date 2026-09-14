@@ -301,6 +301,8 @@ function requireEvidence(condition, message) {
   if (!condition) throw new Error(`First-cohort evidence refusal: ${message}`);
 }
 
+const { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_DECISION_PATH } = await import("../src/lib/rcap/fulfillment/paid-consumer-successor.ts");
+const MS_PREVIEW_HISTORY = "data/rcap-grade-a/participant-data-rights/ms-sponsored-preview-authority-preserved-20260914.json";
 const { stableStringify, fulfillmentRecordSha256 } = await import("../src/lib/rcap/fulfillment/grade-a-registry.ts");
 const {
   GRADE_A_AUTHORITY_SCHEMA_VERSION,
@@ -1024,7 +1026,7 @@ function mississippiClinicCandidateRecord() {
     supersedesRecordSha256: null
   }];
   const prior = priorCurrentRecordFor(MS_CLINIC_ROUTE);
-  if (prior) {
+  if (prior?.recordId === record.recordId) {
     // Preserve the existing record's authority history when correcting the
     // publication proof; do not recreate its approval as a new version one.
     record.version = prior.version;
@@ -1042,6 +1044,43 @@ function mississippiClinicCandidateRecord() {
       supersedesRecordSha256: prior.history.at(-1).recordSha256
     }];
   }
+  return record;
+}
+
+function mississippiPaidConsumerSuccessorRecord() {
+  const approval = loadMsPaidConsumerSuccessor(rootDir);
+  if (!approval) throw new Error("Mississippi paid successor owner decision or preserved evidence refused");
+  const archived = readJson(MS_PREVIEW_HISTORY);
+  const originalBytes = readGitBlob(archived.sourceSha, archived.sourcePath);
+  const original = JSON.parse(originalBytes).records.find(entry => entry.routeId === MS_CLINIC_ROUTE);
+  if (sha256(originalBytes) !== archived.sourceFileSha256 || stableStringify(original) !== stableStringify(archived.record)) {
+    throw new Error("Historical Mississippi sponsored Preview authority custody refused");
+  }
+  // Adopt only the commercial scope newly authorized by the owner. The old
+  // output review remains exact and historical. Missing technical proof is
+  // deliberately carried forward, never converted into an approval.
+  const record = mississippiClinicCandidateRecord();
+  record.recordId = "grade-a-ms-nonconv-paid-consumer-successor-20260914";
+  record.version = 1;
+  record.effectiveFrom = "2026-09-14";
+  record.evidenceBindings.paidConsumerSuccessor = {
+    ...approval, consumerPaidAuthorized: true, priceCents: 5000, currency: "USD",
+    productionAuthorized: false, technicalAcceptanceWaived: false,
+    historicalSponsoredPreview: { path: MS_PREVIEW_HISTORY, sha256: sha256(readEvidenceBytes(MS_PREVIEW_HISTORY)), recordId: archived.record.recordId },
+    legacyRetirementPreserved: true
+  };
+  const prior = priorCurrentRecordFor(MS_CLINIC_ROUTE);
+  const sameIdentity = prior?.recordId === record.recordId;
+  record.version = sameIdentity ? prior.version : 1;
+  if (sameIdentity && fulfillmentRecordSha256(record) === fulfillmentRecordSha256(prior)) return prior;
+  record.version = sameIdentity ? prior.version + 1 : 1;
+  record.history = [...(sameIdentity ? prior.history : []), {
+    version: record.version, changeKind: sameIdentity ? "proof_added" : "created",
+    changedAt: "2026-09-14", changedBy: GENERATOR_ID,
+    reason: `New exact paid-consumer owner approval ${approval.decisionPath} sha256:${approval.decisionSha256}; preserves the prior sponsored Preview authority separately. No technical proof, legal review, packet content or retirement status is fabricated or waived.`,
+    recordSha256: fulfillmentRecordSha256(record),
+    supersedesRecordSha256: sameIdentity ? prior.history.at(-1).recordSha256 : null
+  }];
   return record;
 }
 
@@ -1835,9 +1874,22 @@ function exactProductizedRecordOrRevocation(definition) {
 
 const records = [
   ...rows.map(candidateRecord),
-  mississippiClinicCandidateRecord(),
+  mississippiPaidConsumerSuccessorRecord(),
   ...EXACT_PRODUCTIZED_ROUTES.map(exactProductizedRecordOrRevocation).filter(Boolean)
 ]
+  .map(record => {
+    const prior = priorCurrentRecordFor(record.routeId);
+    if (!prior || prior.recordId !== record.recordId || record.version > prior.version) return record;
+    record.version = prior.version;
+    if (fulfillmentRecordSha256(record) === fulfillmentRecordSha256(prior)) return prior;
+    record.version = prior.version + 1;
+    record.history = [...prior.history, {
+      version: record.version, changeKind: "proof_added", changedAt: changeDate, changedBy: GENERATOR_ID,
+      reason: "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+      recordSha256: fulfillmentRecordSha256(record), supersedesRecordSha256: prior.history.at(-1).recordSha256
+    }];
+    return record;
+  })
   .sort((a, b) => a.routeId.localeCompare(b.routeId));
 
 const exactProductizedEvidencePaths = [...new Set([
@@ -1884,7 +1936,7 @@ const registry = {
   candidateScope: {
     jurisdictions: allCandidateJurisdictions,
     routes: [MS_CLINIC_ROUTE, ...EXACT_PRODUCTIZED_ROUTES.map((entry) => entry.routeId)].sort(),
-    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort records and the separately productized exact Illinois v2 route bind their own current packet/raster/independent-verification, owner-audit, codified-authority, provider and fixture evidence. A fulfillment record is additive: it opens no route and supplies no hosted canary, deployment pin, payment, sponsorship, launch-graph or Production gate. Codified authority is accepted only where both specification and packet-set components require no official PDF; official-PDF routes still require exact official bytes. The Mississippi clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. A route absent from this registry fails closed."
+    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort records and the separately productized exact Illinois v2 route bind their own current packet/raster/independent-verification, owner-audit, codified-authority, provider and fixture evidence. A fulfillment record is additive: it opens no route and supplies no hosted canary, deployment pin, payment, sponsorship, launch-graph or Production gate. Codified authority is accepted only where both specification and packet-set components require no official PDF; official-PDF routes still require exact official bytes. The Mississippi paid-consumer successor binds the new 2026-09-14 owner scope decision while preserving the historical sponsored Preview authority separately. It remains incomplete while final verification, source authority or current publication proof is absent. A route absent from this registry fails closed."
   },
   evidenceInputs: {
     [LAUNCH_GRAPH]: sha256(readEvidenceBytes(LAUNCH_GRAPH)),
@@ -1894,6 +1946,8 @@ const registry = {
     [VISUAL_PROOF]: sha256(readEvidenceBytes(VISUAL_PROOF)),
     [WORKER_EVIDENCE]: sha256(readEvidenceBytes(WORKER_EVIDENCE)),
     [SOURCE_REGISTRY]: sha256(readEvidenceBytes(SOURCE_REGISTRY)),
+    [MS_PAID_SUCCESSOR_DECISION_PATH]: sha256(readEvidenceBytes(MS_PAID_SUCCESSOR_DECISION_PATH)),
+    [MS_PREVIEW_HISTORY]: sha256(readEvidenceBytes(MS_PREVIEW_HISTORY)),
     [MS_CLINIC_SPECIFICATION]: sha256(readEvidenceBytes(MS_CLINIC_SPECIFICATION)),
     [MS_CLINIC_FIXTURE]: sha256(readEvidenceBytes(MS_CLINIC_FIXTURE)),
     [MS_CLINIC_ARTIFACTS]: sha256(readEvidenceBytes(MS_CLINIC_ARTIFACTS)),

@@ -29,6 +29,10 @@ const OUT = path.join(here, "runtime-data-manifest.json");
 
 /** Every entry carries why it is in the image and what reads it. */
 const ENTRIES = [
+  {"path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."},
+  {"path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."},
+  {"path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."},
+
   { path: "data/rcap-grade-a/fulfillment-authority-registry.json", kind: "file",
     readBy: "src/lib/rcap/fulfillment/grade-a-registry.ts (REGISTRY_PATH)",
     why: "The Grade-A fulfillment record set. Absent, getCurrentFulfillmentRecord finds no record and every route is refused." },
