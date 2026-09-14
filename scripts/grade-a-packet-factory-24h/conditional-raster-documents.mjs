@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
+import { ohRasterDocuments, OH_RASTER_FAMILY } from './oh-raster-documents.mjs';
 import { FAMILY as GA_FAMILY, fixtures as gaFixtures, validateGa } from '../rcap-packet-recovery/chat5/ga-pre2013.mjs';
 import { alcoholFixtures as ia12346Fixtures, FAMILY as IA12346_FAMILY } from '../rcap-packet-recovery/chat8/ia-12346.mjs';
 import { fixtureFacts as ia901c3Fixtures, FAMILY as IA901C3_FAMILY } from '../rcap-packet-recovery/chat8/ia-901c3.mjs';
@@ -82,6 +83,7 @@ const iaWholePacketDocuments = ({ report, fixtures, root, expectedFixtures }) =>
 };
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
+  if (report?.familyId === OH_RASTER_FAMILY) return ohRasterDocuments({ report, fixtures, root });
   if (report?.familyId === 'ne-trafficking-setaside-and-seal-set') {
     const names = ['boundary', 'boundary-post-order', 'canonical', 'canonical-post-order'];
     assert.deepEqual(report.packets.map(d => d.fixture).sort(), names, 'NE must declare both stages in both fixtures');
