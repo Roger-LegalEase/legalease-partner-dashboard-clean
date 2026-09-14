@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-bounded-prerequisite-resolution/v1",
+  "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+  "status": "READY_FOR_BUILD",
+  "verifiedAt": "2026-09-14T03:19:22.733054+00:00",
+  "ownerSession": "/root/prerequisite",
+  "result": "Existing adopted proposed-order conditions and all eight exact source bodies survive restart. No adoption decision remains.",
+  "sources": [
+    {
+      "sourceId": "official-form:Blake-001",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+      "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+      "byteLength": 171772
+    },
+    {
+      "sourceId": "official-form:Blake-005",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
+      "sha256": "b266545459aeb0a0e074755fbf2100118903ab5c20425934d0cf5aba2ac3c635",
+      "byteLength": 413907
+    },
+    {
+      "sourceId": "official-form:Blake-002",
+      "path": "private/source-imports/wa-blake-current-002-20260914/BLAKE-002-current.pdf",
+      "sha256": "f6495869b4fea94e396971aaaf40cc31c9ccab0e79d759cdaf1cc17ded3217cd",
+      "byteLength": 157167
+    },
+    {
+      "sourceId": "official-form:Blake-003",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-003__blake-003-record-vacatur-form__REV-2025-12__EN.pdf",
+      "sha256": "69c5ba8fadc6123328c3508f8edf38db840c9b0026c75d614a1d9d0b456260e8",
+      "byteLength": 174435
+    },
+    {
+      "sourceId": "official-form:Blake-004",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-004__blake-004-record-vacatur-form__REV-2025-12__EN.pdf",
+      "sha256": "4fc9b490f332e76fa59104d4bff1458f3bdab53f3f6e139cdf3b66ab1700d0c7",
+      "byteLength": 128913
+    },
+    {
+      "sourceId": "official-form:Blake-006",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-006__blake-006-record-vacatur-form__REV-2025-05__EN.pdf",
+      "sha256": "85bfbe2da7687db133432b4382aac07156ef7b7b1c1574f65007b607cae74ade",
+      "byteLength": 518645
+    },
+    {
+      "sourceId": "official-form:Blake-007",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-007__blake-007-record-vacatur-form__REV-2025-05__EN.pdf",
+      "sha256": "6f6d867b882f74048f92c0a734525c597279af792f1468c2f55c6d3cb74de0bc",
+      "byteLength": 414585
+    },
+    {
+      "sourceId": "official-form:Blake-008",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-008__blake-008-record-vacatur-form__REV-2025-05__EN.pdf",
+      "sha256": "8c861a358be2cdfc38b43a567c030ae4a36b11add031d8cab6e35d7f3b402426",
+      "byteLength": 445290
+    }
+  ],
+  "adoptedOrderTreatment": [
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-clj-full-order-5",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Use when the case is in a court of limited jurisdiction and all convictions under the cause number are Blake-void.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-005",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20005%20Order_CLJ%20full%20vacate.pdf",
+      "order": 5
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-clj-partial-order-6",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Use when the case is in a court of limited jurisdiction and non-Blake counts remain.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-006",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20006%20Order_CLJ%20partial%20vacate.pdf",
+      "order": 6
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-superior-full-order-7",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Use when the case is in superior court and all convictions under the cause number are Blake-void.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-007",
+      "officialSourceUrl": "https://www.courts.wa.gov/Forms/documents/Blake%20007%20Order_Superior%20Court%20full%20vacate.pdf",
+      "order": 7
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-superior-partial-order-8",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Use when the case is in superior court and non-Blake counts remain.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-008",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20008%20Order_Superior%20Court%20partial%20vacate.pdf",
+      "order": 8
+    }
+  ],
+  "current002Correction": "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/wa-blake-current-002-resolved-source-binding.json",
+  "releaseAction": "Captain assigns existing PF24 claim to available author for complete candidate and handoff.",
+  "newLegalDecision": false,
+  "packetAcceptanceGranted": false,
+  "commercialAuthorityGranted": false,
+  "sharedInputsChanged": false
+}
