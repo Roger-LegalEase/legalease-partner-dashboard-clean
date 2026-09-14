@@ -639,9 +639,15 @@ async function renderComposedPdf(fullText, title) {
   pdf.setProducer("RCAP census-v1 artifact-only renderer");
   pdf.setCreator("RCAP evidence build");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  // Owner layout direction, 2026-09-14: keep the unchanged court-owned-blank
+  // explanation with the proposed order's signature block. Only this short
+  // order uses 13pt leading; font size, margins, wording and all other
+  // components retain their existing layout. Its complete text and trailer
+  // fit together without pulling the explanation onto a separate page.
+  const fontSize = 11, lineHeight = title === COMPOSED_TITLES["ms-misd-addl-proposed-order-2"] ? 13 : 14.5;
+  const width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
-  /* The same 45 rows a page this composer has always drawn: y starts at
+  /* With the component's leading: y starts at
    * height - margin and a row is drawn while y >= margin, which is
    * floor((height - 2 * margin) / lineHeight) + 1 rows. Stated once here so the
    * layout can be settled as a plan before any ink is placed. */

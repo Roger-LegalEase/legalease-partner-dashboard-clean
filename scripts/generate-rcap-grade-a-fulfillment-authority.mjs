@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { loadIlArtifactApproval, IL_ARTIFACT_APPROVAL_PATH } from "./lib/owner-artifact-approval.mjs";
 import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — candidate records, observation snapshot, projection.
 //
@@ -1943,6 +1944,8 @@ for (const withdrawn of withdrawnCandidates) {
 }
 
 const exactProductizedEvidencePaths = [...new Set([
+  IL_ARTIFACT_APPROVAL_PATH,
+  "scripts/lib/owner-artifact-approval.mjs",
   "scripts/lib/wy-unchanged-track-authority.mjs",
   "scripts/lib/ms-unchanged-track-authority.mjs",
   FIRST_COHORT_RETURN,
@@ -1974,11 +1977,14 @@ const allCandidateJurisdictions = [...new Set([
   ...EXACT_PRODUCTIZED_ROUTES.map((entry) => entry.routeId.slice(0, entry.routeId.indexOf(":")))
 ])].sort();
 
+const ownerArtifactApprovals = [loadIlArtifactApproval(readEvidenceBytes)];
+
 const registry = {
   schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,
   generatedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
   purpose: "The one canonical controlling registry of Grade-A fulfillment authority records. Only COMPLETE_PACKET_PROVEN authorizes a commercial action; every other state, including the absence of a record, denies.",
   createsApproval: false,
+  ownerArtifactApprovals,
   changesRuntime: false,
   withdrawnCandidates: {
     rule: "An exact-productized route whose evidence fails a requirement is not silently kept at its last version: its record is revoked on its own history chain (REVOKED denies at the runtime) or, if it never had a record, written nowhere. Entries here are the refusals measured on this regeneration.",

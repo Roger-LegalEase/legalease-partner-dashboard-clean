@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { loadIlArtifactApproval } from "./lib/owner-artifact-approval.mjs";
 import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — acceptance gate.
 //
@@ -1140,6 +1141,14 @@ check("the authority module does not consult any jurisdiction allow-list", () =>
 // ---------------------------------------------------------------------------
 
 const registryDocument = readJson(REGISTRY_PATH);
+check("New IL owner artifact approval is bound to exact current bytes without replacing historical revocations", () => {
+  const approval = loadIlArtifactApproval(readBytes);
+  const bound = registryDocument.ownerArtifactApprovals?.find(entry => entry.recordId === approval.recordId);
+  if (stableStringify(bound) !== stableStringify(approval)) return "new IL exact-artifact owner approval is missing or stale";
+  const historical = readJson("data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json");
+  if (historical.recordId !== "OWN-ADOPT-2026-09-02-BATCH-53") return "historical approval identity was replaced";
+  return null;
+});
 const projection = readJson(PROJECTION_PATH);
 const observationDocument = readJson(OBSERVATION_PATH);
 
