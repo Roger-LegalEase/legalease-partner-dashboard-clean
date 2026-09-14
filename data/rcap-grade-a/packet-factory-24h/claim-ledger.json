@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "cefa2ac65f70b0282e2f6007fe54cfcb7fec7b58",
+  "generatedAtCommit": "76c62e283bd595e2f940194a39066af9d1017992",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -72919,6 +72919,14 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "withdrawnAt": "2026-09-14T04:09:19Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_blake_vacatur_and_lfo_refund-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "withdrawnAt": "2026-09-14T04:13:38Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

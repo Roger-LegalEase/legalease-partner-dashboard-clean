@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 422,
-    "rows": 1508,
+    "returnDirectories": 424,
+    "rows": 1510,
     "independentVerdicts": 342,
     "failRepairRequired": 0,
     "passIndependent": 342
@@ -22022,6 +22022,22 @@
       "verdict": "PASS",
       "lane": "vfne1",
       "isIndependentVerification": true,
+      "verifiedAtBase": "1a828eb952ae8bbac4994aa8095adc7c15c5a805",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfne1/rows-vfne1-caption-successor-semantic-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-trafficking-setaside-and-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "verdict": "PASS",
+      "lane": "vfne1",
+      "isIndependentVerification": true,
       "verifiedAtBase": "0cbd29e7a33dff03b7fb56fd9eaf5886e586b26f",
       "failedObligations": [],
       "failedObligationNames": [],
@@ -22031,7 +22047,30 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfne1/rows-vfne1-current-semantic-20260914.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-trafficking-setaside-and-seal-set",
-      "superseded": false
+      "superseded": true
+    },
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfne1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e4a2d3a80e77c1cd41a292ff5052e200c6c1793d",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All18originalpages examined; two postorderpage1captions visually join OFLANCASTER. Other16pages passed visual review. See exact original-bound pageproof.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfne1/rows-vfne1-original-raster-repair-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-trafficking-setaside-and-seal-set",
+      "superseded": true
     },
     {
       "familyId": "nh_conviction_standard-set",
