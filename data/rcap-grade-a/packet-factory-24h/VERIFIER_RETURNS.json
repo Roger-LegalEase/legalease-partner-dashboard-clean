@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 424,
-    "rows": 1510,
+    "returnDirectories": 427,
+    "rows": 1513,
     "independentVerdicts": 342,
     "failRepairRequired": 0,
     "passIndependent": 342
@@ -22031,7 +22031,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfne1/rows-vfne1-caption-successor-semantic-20260914.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-trafficking-setaside-and-seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ne-trafficking-setaside-and-seal-set",
@@ -22071,6 +22071,20 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-trafficking-setaside-and-seal-set",
       "superseded": true
+    },
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfne1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ff5c337b411a9747331d42752161208998e87e81",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfne1/rows-vfne1-successor-original-final-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-trafficking-setaside-and-seal-set",
+      "superseded": false
     },
     {
       "familyId": "nh_conviction_standard-set",
@@ -40922,7 +40936,46 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwablake1/rows-vfwablake1-current-semantic-20260914.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_blake_vacatur_and_lfo_refund-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+      "verdict": "PASS",
+      "lane": "vfwablake2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ff5c337b411a9747331d42752161208998e87e81",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwablake2/rows-vfwablake2-layout-successor-semantic-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_blake_vacatur_and_lfo_refund-set",
       "superseded": false
+    },
+    {
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfwablake2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6aebdf806fd1eefcdea51ab911ab9dd38343472f",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 61 original pages opened. Three placement incidents require repair: municipal-partial pages 6 and 7, superior-full page 3. Exact original page hashes and observations in page proof.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwablake2/rows-vfwablake2-original-raster-repair-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_blake_vacatur_and_lfo_refund-set",
+      "superseded": true
     },
     {
       "familyId": "wa_crop_certificate_of_restoration-set",
