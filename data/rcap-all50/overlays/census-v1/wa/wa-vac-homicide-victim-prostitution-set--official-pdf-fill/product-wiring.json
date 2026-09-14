@@ -22,7 +22,7 @@
     "routeKeys": [
       "obligation:track-only:WA:wa_vac_homicide_victim_prostitution"
     ],
-    "deliveryType": "official_pdf_fill",
+    "deliveryType": "custom_pleading",
     "instrumentKinds": [
       "filing_instructions",
       "primary_filing",
@@ -36,30 +36,19 @@
     "instructions": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/participant-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/source-receipt.json",
-    "sourceVersion": [
-      {
-        "sourceId": "official-form:CrRLJ-09.0100",
-        "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
-        "tier": "exact_form_number"
-      },
-      {
-        "sourceId": "official-form:CrRLJ-09.0200",
-        "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
-        "tier": "exact_form_number"
-      }
-    ],
+    "sourceVersion": [],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "33497786539",
-      "jobId": "99824472439",
-      "artifactId": "9796685838",
-      "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+      "workflowRunId": "34791366441",
+      "jobId": "103816771658",
+      "artifactId": "10328373441",
+      "boundToCanonicalSha256": "89e365937729d7d03b84227fed09dc323ffe0742e4de8829a7a30b4e97597afe",
       "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
-      "verdict": "BLOCKED_LEGAL_INPUT",
-      "lane": "vf34",
-      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350"
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfwacustomfinal2",
+      "verifiedAtBase": "4a5d8e352da29931b0b92f8b379e2b33bf603f06"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -69,6 +58,21 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "This write authored a different acceptance receipt. The superseded receipt is kept as history rather than overwritten; it is not carried forward as though it still applied.",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "replacedByCanonicalSha256": "89e365937729d7d03b84227fed09dc323ffe0742e4de8829a7a30b4e97597afe",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33497786539",
+          "jobId": "99824472439",
+          "artifactId": "9796685838",
+          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   }
 }

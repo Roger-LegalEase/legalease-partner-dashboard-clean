@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "506d778f71b057c9f65c6e78200410c8ef6071db",
+  "generatedAtCommit": "4a5d8e352da29931b0b92f8b379e2b33bf603f06",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -8903,10 +8903,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VFSCGUIDANCE1",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T13:50:39.051Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8921,7 +8921,7 @@
       "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
-      "releasedAt": "2026-09-02T07:34:40.892Z"
+      "releasedAt": "2026-09-14T00:14:58.194Z"
     },
     {
       "subjectType": "packet-family",
@@ -10904,7 +10904,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VFWACUSTOMREPAIR1",
+      "lane": "VFWACUSTOMFINAL2",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
@@ -15733,7 +15733,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "80030caa7dc6a6949dba38e8f20646264dd7e78ac38909dd46e820f9076aff5c",
+  "claimsDigest": "b6436a2a274553c5079d99a3b6bce03b83db61263795c0e25225e191b78b0c00",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43038,6 +43038,22 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-13T23:53:45.755Z"
+    },
+    {
+      "lane": "VFWACUSTOMREPAIR1",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-14T00:07:11.304Z"
+    },
+    {
+      "lane": "PF01",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-sc-custom-pleading",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-14T00:14:58.194Z"
     }
   ],
   "reissues": [
@@ -53916,6 +53932,16 @@
       "previouslyReleasedAt": "2026-09-02T22:51:28.645Z",
       "reissuedAt": "2026-09-13T23:10:04.156Z",
       "reason": "Current settled custom petition/order authority enables bounded candidate repair; /root/ut_original_acceptance assigned second build slot in existing PF04 worktree"
+    },
+    {
+      "lane": "PF01",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-sc-custom-pleading",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "previouslyReleasedAt": "2026-09-02T07:34:40.892Z",
+      "reissuedAt": "2026-09-14T00:08:10.856Z",
+      "reason": "Captain session-pool override assigns /root/mt_serving_build SC solicitor guidance conversion under existing owner decision"
     }
   ],
   "transfers": [
@@ -66117,6 +66143,28 @@
       "previouslyReleasedAt": "2026-09-13T23:53:45.755Z",
       "transferredAt": "2026-09-13T23:53:46.076Z",
       "reason": "Original-page failure complete; same independent WA semantic reviewer rereads bounded exhibit layout repair before corrected raster"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VFWACUSTOMREPAIR1",
+      "toLane": "VFWACUSTOMFINAL2",
+      "previouslyReleasedAt": "2026-09-14T00:07:11.304Z",
+      "transferredAt": "2026-09-14T00:07:11.500Z",
+      "reason": "Repaired semantic PASS complete; distinct original-page reviewer prepared for run 34791366441"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-sc-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VFSCGUIDANCE1",
+      "previouslyReleasedAt": "2026-09-02T13:50:39.051Z",
+      "transferredAt": "2026-09-14T00:15:14.427Z",
+      "reason": "Complete saved solicitor guidance requires distinct independent acceptance; prior VF01 review released"
     }
   ],
   "grants": [

@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `506d778f71b057c9f65c6e78200410c8ef6071db`
+**Minimum required ancestor:** `4a5d8e352da29931b0b92f8b379e2b33bf603f06`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -679,8 +679,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### wa_vac_homicide_victim_prostitution-set
 
-- canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/canonical.pdf` — `e109f757692e05742a8b34483616628b63ec6d4ef77276bb96a5bd0b26091dd9`
-- boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/boundary.pdf` — `8d77b70a77c94028a3f3a57fac78e9cff37973139c0d93952561ae58fbc489f5`
+- canonical `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/canonical.pdf` — `89e365937729d7d03b84227fed09dc323ffe0742e4de8829a7a30b4e97597afe`
+- boundary `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/boundary.pdf` — `beaba6025b3bcf3e06666da72efff8654283d9aa2796fce0a2c93123c07b1aaf`
 - expected pages 11 · requested scale 2.5
 - built by (no builder lane recorded)
 

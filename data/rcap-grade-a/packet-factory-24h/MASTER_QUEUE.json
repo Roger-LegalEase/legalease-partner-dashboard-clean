@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "506d778f71b057c9f65c6e78200410c8ef6071db",
+  "minimumCaptainSha": "4a5d8e352da29931b0b92f8b379e2b33bf603f06",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -85,14 +85,13 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 311,
+    "COMPLETE_PACKET_PROVEN": 312,
     "GUIDANCE_READY": 15,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 10,
     "HANDOFF_READY": 2,
     "PRODUCT_PATH_PENDING": 1,
-    "WRONG_DELIVERY_TYPE": 1,
-    "VERIFYING": 1
+    "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -49686,10 +49685,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "vfwacustom1",
-        "verifiedAtBase": "095812f37cbe207304bcb47a0a983519a345f3c9",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwacustom1/rows-vfwacustom1-wa-homicide-custom-semantic-pass-20260913.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vfwacustomfinal2",
+        "verifiedAtBase": "4a5d8e352da29931b0b92f8b379e2b33bf603f06",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwacustomfinal2/rows-vfwacustomfinal2-wa-homicide-original-pass-20260914.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -49708,7 +49707,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "095812f37cbe207304bcb47a0a983519a345f3c9",
+          "verifiedAtBase": "4a5d8e352da29931b0b92f8b379e2b33bf603f06",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -49739,7 +49738,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFYING; all ordinary gates remain. Binding product rule WA-HOMICIDE-VICTIM-FAMILY-MEMBER-96060-7: Authorize a route-specific custom petition and proposed order under RCW 9.96.060(7) for a qualifying family member applying in the sentencing court on behalf of a homicide victim's RCW 9A.88.030 prostitution conviction. Do not force this route into the ordinary CrRLJ 09.0100 residual box and do not import ordinary three-year/new-crime/sentence-completion conditions into this special route. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule WA-HOMICIDE-VICTIM-FAMILY-MEMBER-96060-7: Authorize a route-specific custom petition and proposed order under RCW 9.96.060(7) for a qualifying family member applying in the sentencing court on behalf of a homicide victim's RCW 9A.88.030 prostitution conviction. Do not force this route into the ordinary CrRLJ 09.0100 residual box and do not import ordinary three-year/new-crime/sentence-completion conditions into this special route. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -49760,7 +49759,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFYING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
