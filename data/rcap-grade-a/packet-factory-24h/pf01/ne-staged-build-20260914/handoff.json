@@ -7,8 +7,8 @@
   "baseAtHandoff": "05de04540033d453a8ff0f1473c1e933517bfc93",
   "buildScript": {
     "path": "scripts/build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
-    "sha256": "0ee1e0c49b987d9c83f4b11b1859cb84bf4710001a48e5ca2d9d3c0db5d6e58b",
-    "byteLength": 34940
+    "sha256": "6ec2c5ba4c3e1e8ec653cfd6d5dd1f17e47022d9d30e1e4dddd8b9965c954017",
+    "byteLength": 35217
   },
   "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill",
   "fixtureCount": 4,
@@ -61,7 +61,7 @@
   },
   "completeSavedEvidence": {
     "path": "data/rcap-grade-a/packet-factory-24h/pf01/ne-staged-build-20260914/saved-candidate-evidence.json",
-    "sha256": "eefb336c0aa07d63c09cef729bf8e5f84810cfc2dd95e7439ffa9f1e6433c879",
+    "sha256": "0776ba2727c2c26dea8002735df8885a42e70b94327685177efa70ca56c8749d",
     "byteLength": 14719
   },
   "staging": "canonical and boundary are first-stage only; canonical-post-order and boundary-post-order are separate synthetic adult snapshots with verified signed prior-order facts. Central raster/review must cover all four exact PDFs, not just the two first-stage artifacts.",
@@ -71,5 +71,12 @@
   "independentSemanticReview": "Distinct reviewer required; no author acceptance.",
   "rasterPerformed": false,
   "commercialAuthorityGranted": false,
-  "productionTouched": false
+  "productionTouched": false,
+  "provenanceRepair": {
+    "reason": "Independent reviewer identified author intent counts incorrectly labeled as measured output glyph/control counts.",
+    "changed": "Unmeasured glyph/control/outside-box/refused-ink metrics are null. Whole-PDF extracted character count labeled accurately. Expected-write inventory explicitly not derived from output bytes.",
+    "pdfBytesChanged": false,
+    "nativeResultScope": "Prior native completeness schema audit; does not establish independently measured glyph deltas or visual acceptance.",
+    "independentMeasurementStatus": "PENDING_VFNE1"
+  }
 }
