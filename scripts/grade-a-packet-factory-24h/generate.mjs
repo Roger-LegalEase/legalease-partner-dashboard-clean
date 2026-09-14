@@ -16,6 +16,7 @@
  * source, which is far fewer than the roster would hold. That is what the source
  * conveyor is for, and it is reported rather than smoothed.
  */
+import { onlyReviewBoundReportChanged } from "./review-bound-report-currentness.mjs";
 import { assessWaSudCustomMapping } from "./wa-sud-custom-mapping.mjs";
 import { visualOnlyRasterPending } from "./visual-only-raster-pending.mjs";
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
@@ -397,7 +398,6 @@ const INPUTS = {
   scoreboard: "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json",
   census: "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
   custody: "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
-  worklist: `${LC}/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json`,
   categoryB: `${LC}/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json`,
   categoryBStatus: `${LC}/CATEGORY_B_INTEGRATION_STATUS.json`,
   counsel: `${LC}/COUNSEL_DETERMINATION_DELTA.json`,
@@ -1680,6 +1680,17 @@ function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
       else if (onlyChangeIsAnIdentityRefresh(base, directory)) moved = false;
     }
   } catch { moved = false; }
+  if (moved) {
+    const changes = spawnSync("git", ["diff", "--name-only", base, "HEAD", "--", directory,
+      ...GENERATED_BOOKKEEPING.map(f => `:(exclude)${directory}/${f}`)], {cwd: ROOT, encoding:"utf8"});
+    const rawReview = independentReturn.evidencePath ? readIf(independentReturn.evidencePath) : null;
+    const matchingReviews = (rawReview?.rows ?? []).filter(r => r.familyId === independentReturn.familyId
+      && r.verifiedAtBase === independentReturn.verifiedAtBase && r.verdict === independentReturn.verdict);
+    if (changes.status === 0 && matchingReviews.length === 1 && onlyReviewBoundReportChanged({
+      changedPaths: changes.stdout.trim().split("\n").filter(Boolean), directory, review: matchingReviews[0],
+      readBytes: p => fs.readFileSync(path.join(ROOT,p))
+    })) moved = false;
+  }
   movedSinceCache.set(key, moved);
   return moved;
 }
