@@ -170,6 +170,9 @@ export async function buildFamily(kind,{root=ROOT,outDir}={}) {
   built[fixture]=result;
   fs.writeFileSync(path.join(temp,`${fixture}.fixture.json`),j(input));
   fs.writeFileSync(path.join(temp,`${fixture}.packet.pdf`),result.packet.bytes);
+  const fixtureFile=fixture==='petition-only'?'fixtures/selectable/petition-only.pdf':`fixtures/${fixture}.pdf`;
+  fs.mkdirSync(path.dirname(path.join(temp,fixtureFile)),{recursive:true});
+  fs.writeFileSync(path.join(temp,fixtureFile),result.packet.bytes);
   for(const component of result.parts) fs.writeFileSync(path.join(temp,`${fixture}.${component.id}.pdf`),component.bytes);
   fs.writeFileSync(path.join(temp,`${fixture}.coverage.json`),j(result.packet.coverage));
   fs.writeFileSync(path.join(temp,`${fixture}.participant-instructions.md`),markdownInstructions(result.instructions.sections));
@@ -189,12 +192,13 @@ export async function buildFamily(kind,{root=ROOT,outDir}={}) {
  }));
  const rendered={
   schemaVersion:'rcap-rendered-artifacts/v1',familyId:route.familyId,componentIdentityMode:'exact',
+  pdfs:[{fixture:'selectable/petition-only',baseFixture:'canonical',file:path.relative(root,path.join(target,'fixtures/selectable/petition-only.pdf')),sha256:hash(built['petition-only'].packet.bytes),byteLength:built['petition-only'].packet.bytes.length,pageCount:built['petition-only'].packet.pages}],
   packets:Object.entries(built).map(([fixture,result])=>({
-   fixture,file:`${fixture}.packet.pdf`,sha256:hash(result.packet.bytes),pageCount:result.packet.pages,
+   fixture,file:fixture==='petition-only'?'fixtures/selectable/petition-only.pdf':`fixtures/${fixture}.pdf`,sha256:hash(result.packet.bytes),pageCount:result.packet.pages,
    documents:[...result.packet.coverage.map(x=>({documentId:x.documentId,role:x.role,firstPage:x.firstPage,pageCount:x.pageCount})),...Array.from(new Set(result.map.map(x=>x.documentId))).map(documentId=>({documentId,role:'mapped-source-occurrence',firstPage:null,pageCount:null}))]
   })),
   artifacts:Object.entries(built).map(([fixture,result])=>({
-   fixture,file:`${fixture}.packet.pdf`,sha256:hash(result.packet.bytes),pageCount:result.packet.pages,
+   fixture,file:fixture==='petition-only'?'fixtures/selectable/petition-only.pdf':`fixtures/${fixture}.pdf`,sha256:hash(result.packet.bytes),pageCount:result.packet.pages,
    valuesReportedByFinalizer:result.map.filter(x=>x.decision==='write').length,
    addedGlyphsReadFromOutputBytes:result.packet.proof.characters,
    flattenedWidgetAppearancesReadFromOutputBytes:result.parts.filter(x=>['CR145','FI-05'].includes(x.id)).reduce((n,x)=>n+x.mapped.length,0),
