@@ -1,6 +1,6 @@
 # oh_2953_33_nonconviction
 
-Your destination is Court of Common Pleas, Franklin County, Ohio, General Division, Criminal, determined from the supplied court record. These Franklin diagnostic fixtures do not limit statewide route coverage; another court requires its own current mandatory mechanics before generation.
+Your destination is Court of Common Pleas, Franklin County, Ohio, General Division, Criminal, determined from the supplied court record. This sample uses Franklin County. If your case was handled elsewhere, obtain that court's current filing instructions and required documents.
 
 Franklin criminal filings use electronic filing. A self-represented filer may bring paper to the clerk for registration/scanning assistance and submission, or mail paper for clerk registration/scanning/filing. Incarcerated self-represented defendants submit paper themselves. Email and fax are not substitutes. Clerk: Franklin County Clerk of Courts, General Division, 345 South High Street, first floor, Columbus, OH 43215.
 
@@ -10,7 +10,7 @@ Serve opposing counsel and unrepresented parties under Local Rule 19 and retain 
 
 The held sources do not establish the exact Franklin fee for this R.C.2953.33 application. Confirm the amount, if any, before submission; no no-fee claim is made.
 
-These fixtures are nonindigent. If requesting indigency, obtain the exact current court affidavit and execute it truthfully; generation refuses that branch until the document is bound. No judicial indigency finding is prefilled.
+This sample does not request a fee waiver. If you cannot pay the filing fee, obtain the current court indigency affidavit and complete it truthfully before filing. Leave the court's indigency decision blank.
 
 Review and sign the original application and date it personally. It is an original pleading, not an official state form.
 
@@ -40,13 +40,13 @@ Stop for legal assistance: Choosing between sealing and expungement, which is a 
 
 Stop for legal assistance: Immigration exposure.
 
-Ohio has both sealing and expungement and they are different remedies. Do not say "completely gone from everywhere".
+Ohio has both sealing and expungement and they are different remedies. Neither remedy means that the record is completely gone from everywhere.
 
-"Eligible offender" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Any product logic inherited from pre-2023 Ohio is wrong.
+"Eligible offender" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Do not use the former numeric conviction cap to decide whether you can apply; the current exclusions and other requirements still apply.
 
-Build this first. Screen § 2953.61 before anything else.
+Before filing, review every charge from the same incident and how each charge ended under R.C. 2953.61.
 
-"Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly.
+"Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility.
 
 If relief is granted, retain the signed order and follow its agency distribution directions. The BCI request is a blank post-order transmission companion for the authorized sender, not an application for relief. Do not sign, date, check record-system boxes or certify a judicial order before those events occur.
 
@@ -54,7 +54,7 @@ Any requested DNA relief needs the applicable separate court direction; it does 
 
 # oh_2953_32_sealing
 
-Your destination is Court of Common Pleas, Franklin County, Ohio, General Division, Criminal, determined from the supplied court record. These Franklin diagnostic fixtures do not limit statewide route coverage; another court requires its own current mandatory mechanics before generation.
+Your destination is Court of Common Pleas, Franklin County, Ohio, General Division, Criminal, determined from the supplied court record. This sample uses Franklin County. If your case was handled elsewhere, obtain that court's current filing instructions and required documents.
 
 Franklin criminal filings use electronic filing. A self-represented filer may bring paper to the clerk for registration/scanning assistance and submission, or mail paper for clerk registration/scanning/filing. Incarcerated self-represented defendants submit paper themselves. Email and fax are not substitutes. Clerk: Franklin County Clerk of Courts, General Division, 345 South High Street, first floor, Columbus, OH 43215.
 
@@ -64,7 +64,7 @@ Serve opposing counsel and unrepresented parties under Local Rule 19 and retain 
 
 R.C.2953.32 requires a $50 fee unless indigent and permits an additional local fee up to $50; the held Franklin listing states $50 for conviction sealing. Confirm the exact total for your selected remedy before submission.
 
-These fixtures are nonindigent. If requesting indigency, obtain the exact current court affidavit and execute it truthfully; generation refuses that branch until the document is bound. No judicial indigency finding is prefilled.
+This sample does not request a fee waiver. If you cannot pay the filing fee, obtain the current court indigency affidavit and complete it truthfully before filing. Leave the court's indigency decision blank.
 
 Form96-C1 is used only for sealing. Full values too long for an official line are printed in its attached continuation; do not file the official page without the continuation. Driver license number, if applicable: confirm applicability and enter the actual number before filing. Sign the applicant block after review. Attorney blocks and the entire court SERVICE certification remain blank.
 
@@ -110,15 +110,15 @@ Stop for legal assistance: Choosing between sealing and expungement, which is a 
 
 Stop for legal assistance: Immigration exposure.
 
-Sealable but not expungeable: third and fourth degree misdemeanour domestic violence under ORC 2919.25, and protection order violations under ORC 2919.27 or substantially similar municipal ordinances. This split matters and is easy to miss.
+Sealable but not expungeable: third and fourth degree misdemeanour domestic violence under ORC 2919.25, and protection order violations under ORC 2919.27 or substantially similar municipal ordinances.
 
-Ohio has both sealing and expungement and they are different remedies. Do not say "completely gone from everywhere".
+Ohio has both sealing and expungement and they are different remedies. Neither remedy means that the record is completely gone from everywhere.
 
-"Eligible offender" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Any product logic inherited from pre-2023 Ohio is wrong.
+"Eligible offender" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Do not use the former numeric conviction cap to decide whether you can apply; the current exclusions and other requirements still apply.
 
-For § 2953.32 conviction expungements, BCI keeps a limited record for law-enforcement employment qualification and disqualification, while other entities receiving notice must destroy, delete and erase. This is the single most important disclosure in Ohio expungement copy.
+For § 2953.32 conviction expungements, BCI keeps a limited record for law-enforcement employment qualification and disqualification, while other entities receiving notice must destroy, delete and erase.
 
-"Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly.
+"Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility.
 
 If relief is granted, retain the signed order and follow its agency distribution directions. The BCI request is a blank post-order transmission companion for the authorized sender, not an application for relief. Do not sign, date, check record-system boxes or certify a judicial order before those events occur.
 
@@ -126,7 +126,7 @@ Sealing does not destroy records. For expungement under R.C.2953.32(D)(5), BCI r
 
 # oh_2953_32_expungement
 
-Your destination is Court of Common Pleas, Franklin County, Ohio, General Division, Criminal, determined from the supplied court record. These Franklin diagnostic fixtures do not limit statewide route coverage; another court requires its own current mandatory mechanics before generation.
+Your destination is Court of Common Pleas, Franklin County, Ohio, General Division, Criminal, determined from the supplied court record. This sample uses Franklin County. If your case was handled elsewhere, obtain that court's current filing instructions and required documents.
 
 Franklin criminal filings use electronic filing. A self-represented filer may bring paper to the clerk for registration/scanning assistance and submission, or mail paper for clerk registration/scanning/filing. Incarcerated self-represented defendants submit paper themselves. Email and fax are not substitutes. Clerk: Franklin County Clerk of Courts, General Division, 345 South High Street, first floor, Columbus, OH 43215.
 
@@ -136,7 +136,7 @@ Serve opposing counsel and unrepresented parties under Local Rule 19 and retain 
 
 R.C.2953.32 requires a $50 fee unless indigent and permits an additional local fee up to $50; the held Franklin listing states $50 for conviction sealing. Confirm the exact total for your selected remedy before submission.
 
-These fixtures are nonindigent. If requesting indigency, obtain the exact current court affidavit and execute it truthfully; generation refuses that branch until the document is bound. No judicial indigency finding is prefilled.
+This sample does not request a fee waiver. If you cannot pay the filing fee, obtain the current court indigency affidavit and complete it truthfully before filing. Leave the court's indigency decision blank.
 
 Review and sign the original application and date it personally. It is an original pleading, not an official state form.
 
@@ -184,15 +184,15 @@ Stop for legal assistance: Choosing between sealing and expungement, which is a 
 
 Stop for legal assistance: Immigration exposure.
 
-Sealable but not expungeable: third and fourth degree misdemeanour domestic violence under ORC 2919.25, and protection order violations under ORC 2919.27 or substantially similar municipal ordinances. This split matters and is easy to miss.
+Sealable but not expungeable: third and fourth degree misdemeanour domestic violence under ORC 2919.25, and protection order violations under ORC 2919.27 or substantially similar municipal ordinances.
 
-Ohio has both sealing and expungement and they are different remedies. Do not say "completely gone from everywhere".
+Ohio has both sealing and expungement and they are different remedies. Neither remedy means that the record is completely gone from everywhere.
 
-"Eligible offender" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Any product logic inherited from pre-2023 Ohio is wrong.
+"Eligible offender" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Do not use the former numeric conviction cap to decide whether you can apply; the current exclusions and other requirements still apply.
 
-For § 2953.32 conviction expungements, BCI keeps a limited record for law-enforcement employment qualification and disqualification, while other entities receiving notice must destroy, delete and erase. This is the single most important disclosure in Ohio expungement copy.
+For § 2953.32 conviction expungements, BCI keeps a limited record for law-enforcement employment qualification and disqualification, while other entities receiving notice must destroy, delete and erase.
 
-"Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly.
+"Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility.
 
 If relief is granted, retain the signed order and follow its agency distribution directions. The BCI request is a blank post-order transmission companion for the authorized sender, not an application for relief. Do not sign, date, check record-system boxes or certify a judicial order before those events occur.
 
@@ -200,7 +200,7 @@ Sealing does not destroy records. For expungement under R.C.2953.32(D)(5), BCI r
 
 # oh_2953_35_firearm
 
-Your destination is Court of Common Pleas, Franklin County, Ohio, General Division, Criminal, determined from the supplied court record. These Franklin diagnostic fixtures do not limit statewide route coverage; another court requires its own current mandatory mechanics before generation.
+Your destination is Court of Common Pleas, Franklin County, Ohio, General Division, Criminal, determined from the supplied court record. This sample uses Franklin County. If your case was handled elsewhere, obtain that court's current filing instructions and required documents.
 
 Franklin criminal filings use electronic filing. A self-represented filer may bring paper to the clerk for registration/scanning assistance and submission, or mail paper for clerk registration/scanning/filing. Incarcerated self-represented defendants submit paper themselves. Email and fax are not substitutes. Clerk: Franklin County Clerk of Courts, General Division, 345 South High Street, first floor, Columbus, OH 43215.
 
@@ -210,7 +210,7 @@ Serve opposing counsel and unrepresented parties under Local Rule 19 and retain 
 
 R.C.2953.35 requires $50 unless indigent; confirm current clerk payment instructions.
 
-These fixtures are nonindigent. If requesting indigency, obtain the exact current court affidavit and execute it truthfully; generation refuses that branch until the document is bound. No judicial indigency finding is prefilled.
+This sample does not request a fee waiver. If you cannot pay the filing fee, obtain the current court indigency affidavit and complete it truthfully before filing. Leave the court's indigency decision blank.
 
 Review and sign the original application and date it personally. It is an original pleading, not an official state form.
 
@@ -246,11 +246,11 @@ Stop for legal assistance: Immigration exposure.
 
 This is not a general firearm expungement. It is tied to specific old statutory versions and authorization language, and any other firearm conviction is outside it.
 
-Ohio has both sealing and expungement and they are different remedies. Do not say "completely gone from everywhere".
+Ohio has both sealing and expungement and they are different remedies. Neither remedy means that the record is completely gone from everywhere.
 
-"Eligible offender" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Any product logic inherited from pre-2023 Ohio is wrong.
+"Eligible offender" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Do not use the former numeric conviction cap to decide whether you can apply; the current exclusions and other requirements still apply.
 
-"Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly.
+"Sentence" does not include payment of court costs, so unpaid court costs do not delay eligibility.
 
 If relief is granted, retain the signed order and follow its agency distribution directions. The BCI request is a blank post-order transmission companion for the authorized sender, not an application for relief. Do not sign, date, check record-system boxes or certify a judicial order before those events occur.
 
