@@ -34,7 +34,7 @@ Review every allegation and record before personally signing and dating. Ask the
 
 FI-05 is included only when a new circuit or associate circuit case is opened and the court requires it. Its Case Type Code and Case Type Description remain REQUIRED BEFORE FILING for clerk confirmation: the held case-types list does not name this specific statute. Do not borrow X5 or XG from a different route. The clerk supplies the Filing Date, Case number and Judge or Division. The full official trailing pages and submitter fields are retained.
 
-GN10 is included only when the applicant requests a waiver, supplies actual financial facts and confirms the court accepts it. Review all income, spouse/dependent facts, expenses, property and debt entries, then personally sign Your Signature and Date. GN10 Respondent’s Address/Telephone requires clerk confirmation before filing when multiple agency respondents are listed. Do not fill the clerk’s Date File Stamp or court assignment fields.
+GN10 is included only when the applicant requests a waiver, supplies actual financial facts and confirms the court accepts it. Review all income, spouse/dependent facts, expenses, property and debt entries, then personally sign Your Signature and Date. GN10 references the complete agency-address inventory headed Agencies identified from my records in this application. Review that supplied inventory before filing. Do not fill the clerk’s Date File Stamp or court assignment fields.
 
 Leave every proposed-order finding, grant/deny choice, court direction, order date and judicial signature for the court. Do not obtain a signed order as a prerequisite to filing.
 

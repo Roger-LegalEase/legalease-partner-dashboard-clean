@@ -5,11 +5,11 @@
   "authorSession": "/root/mt_serving_build",
   "status": "COMPLETE_CANDIDATE_NATIVE_PASS_READY_FOR_INDEPENDENT_REVIEW",
   "reviewerMustBeDistinct": true,
-  "baseAtHandoff": "20d26d6a3bd74521f7f400ca27d98f307fb8d7b6",
+  "baseAtHandoff": "f27fe5a8b4956cddbb81677feda4fa11fd25d9e4",
   "buildScript": {
     "path": "scripts/build-census-v1-rcap-mo-custom-pleading.mjs",
-    "sha256": "a0f5481d44d7cde3f2f57ae928604438c53d11b17b9805c7f09bdae15bbb3900",
-    "byteLength": 62362
+    "sha256": "fc98f30a062192179c5bfecab1449e44b7a7642efc47a0e45921ad5b8710fc7b",
+    "byteLength": 62755
   },
   "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading",
   "routeKeys": [
@@ -19,29 +19,29 @@
   "fixtures": [
     {
       "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/mip-canonical.pdf",
-      "sha256": "c993406e6581d25df2cb750ba87e0046da3a76bf3a9788839716a9d7cd6f0d3d",
-      "byteLength": 20468,
+      "sha256": "da002da0ba3492f0ef6e46184fbbd73b6a5f86c482c65016c75c5e31979e8ce6",
+      "byteLength": 20476,
       "fixture": "mip-canonical",
       "pageCount": 7
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/mip-boundary.pdf",
-      "sha256": "a17feb43971a0425aaa87d0abff69013628845d21bd5022e4cd5455fb4567083",
-      "byteLength": 605808,
+      "sha256": "5f2905b4744e26b0d16938bdc473fa56a19bb327fd51641a68b82fb63f982e11",
+      "byteLength": 605900,
       "fixture": "mip-boundary",
       "pageCount": 14
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/intoxication-canonical.pdf",
-      "sha256": "f6463254db852bd84808c38beca0c315fb70abbcf3a050dd6131e9e4a62d5905",
-      "byteLength": 22474,
+      "sha256": "b96dc246487c78d566eb7fdc0f4bb806e477d07708ae8be9dee9efdf1654e86a",
+      "byteLength": 22766,
       "fixture": "intoxication-canonical",
       "pageCount": 8
     },
     {
       "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/intoxication-boundary.pdf",
-      "sha256": "5205041e192d43f7c594c6ffff15d08ee154239a43e87b623ee98717a9732c63",
-      "byteLength": 607876,
+      "sha256": "a108e7b28cb24111bb259bb1c35f7a42f75d8345e07ffd83af344fa8b392a971",
+      "byteLength": 608246,
       "fixture": "intoxication-boundary",
       "pageCount": 15
     }
@@ -62,18 +62,32 @@
   },
   "completeSavedEvidence": {
     "path": "data/rcap-grade-a/packet-factory-24h/pf17/mo-custom-20260914/saved-candidate-evidence.json",
-    "sha256": "520dfc2f9015900d5034f4a51f0ae8b8b54e956ee668357bdf3f304e5397d8e6",
-    "byteLength": 18386
+    "sha256": "8edd49b36913816115ef8f6a8bb3de82d988b803f5c1605295d46b815c2e3fd4",
+    "byteLength": 18646
   },
   "scope": "Four complete packets, separate application/order/conditional-service and instructions per settled route; new-case boundary fixtures include exact FI-05 and requested GN10. No live route, global queue or shared acceptance mutation.",
   "manualFields": [
     "FI-05 Case Type Code and Case Type Description require clerk confirmation for these specific statutes.",
     "Clerk new case number, filing date and judge assignment remain blank; original case identity supplied separately.",
-    "GN10 respondent address convention requires local confirmation where agencies are plural; signature/date remain for applicant.",
+    "GN10 names the same-packet application agency-address inventory; signature/date remain for applicant.",
     "Court findings/grant/deny and execution remain blank; actual service event fields remain for actual server."
   ],
   "importInstructions": "Extract archive at repository root after active convergence. All paths are exclusive new family builder/output or PF17 scoped evidence. Do not copy staging symlinks or private helper scripts. Existing exact FI05/GN10 local source paths are reused. Native audit directory is the isolated staging path; re-admit against final path without changing candidate PDFs.",
   "independentSemanticReview": "Required before freeze/raster; author supplies no independent PASS.",
   "commercialAuthorityGranted": false,
-  "rasterPerformed": false
+  "rasterPerformed": false,
+  "repairOfNativeFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vfmocustomsem1/rows-vfmocustomsem1-independent-fail-20260914.json",
+    "sha256": "91ca62b0e50ae3239ddde8220eacf6edb75655a6f38668c277ecd5d7bb1ab05f"
+  },
+  "semanticRepairProof": {
+    "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/reports/semantic-repair-preservation.json",
+    "sha256": "1c59b04a4884216057a118d0c516dd2d377122e4b013e507bdb19c844cbf96d7",
+    "byteLength": 1907
+  },
+  "repairScope": [
+    "GN10 exact same-packet agency-address inventory reference",
+    "Attorney recommendation on intoxication application first page",
+    "Pending record-review permits draft generation and adds required-before-filing checklist; substantive exclusions preserved"
+  ]
 }
