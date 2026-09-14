@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "005ca2f7775485be9432215940cadffbf647134c",
+  "minimumCaptainSha": "849ce61c2ac201a88bada7c65e3f940990c5cb21",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "b05142d6084283936a69031bfedbf3db5bea3530eba484b56e645670896d189b",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "c39101525c17c7e90cd1a7d60d36750fca55e95143a644a08c621029a8e90dfc",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -78,21 +78,20 @@
     "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
     "remaining": 345,
-    "sourceReady": 3,
+    "sourceReady": 2,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 1,
+    "verifyPending": 0,
     "repairRequired": 0,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 317,
+    "COMPLETE_PACKET_PROVEN": 318,
     "GUIDANCE_READY": 16,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 3,
+    "SOURCE_READY": 2,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 2,
-    "VERIFY_PENDING": 1
+    "BUILT_RASTER_PENDING": 3
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -158,10 +157,10 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 25,
-    "sourceReadyFamilies": 3,
+    "sourceReadyFamilies": 2,
     "familiesPerBuilder": 0.1,
     "targetPerBuilder": "15 to 25",
-    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 3 do, so a full roster of 25 builders averages 0.1 families each rather than 15 to 25.",
+    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 2 do, so a full roster of 25 builders averages 0.1 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -37972,12 +37971,14 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS",
+        "lane": "vfor1",
+        "verifiedAtBase": "2d64fcba6f43fe1e53c105186f3abb3b8707ae4e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfor1/rows-vfor1-current-semantic-20260914.json"
+      },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -38012,15 +38013,25 @@
       "nextExecutableAction": "Build the separately scoped ORS 137.225(1)(a) family from the exact held sources, preserving or_contempt_setaside and or_contempt_setaside-set as historical aliases. The terminal nonconviction sibling is not this family and is not reopened.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_AUDITED",
-      "allNineCountersZero": null,
-      "counters": null,
+      "completenessStatus": "NOT_MEASURABLE_HERE",
+      "allNineCountersZero": false,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-or_contempt_setaside-set.mjs",
@@ -40489,7 +40500,9 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfoh1/rows-vfoh1-current-semantic-20260914.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -52041,10 +52054,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfwv1",
-        "verifiedAtBase": "089d7c75d7f42c529a597b6c544edf95ad36ee59",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwv1/rows-vfwv1-current-semantic-20260914.json"
+        "verifiedAtBase": "4a06a48d4385b7537b621fd2324e14013946ddfe",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwv1/rows-vfwv1-original-final-34805276590.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -52080,7 +52093,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
@@ -52199,9 +52212,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 3,
+    "familiesAssignedToBuilders": 2,
     "sourceObligationsAssigned": 0,
-    "actualPromotedAndReleased": 3,
+    "actualPromotedAndReleased": 2,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
