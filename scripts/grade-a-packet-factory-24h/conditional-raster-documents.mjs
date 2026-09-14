@@ -82,6 +82,24 @@ const iaWholePacketDocuments = ({ report, fixtures, root, expectedFixtures }) =>
 };
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
+  if (report?.familyId === 'wa_blake_vacatur_and_lfo_refund-set') {
+    const names = ['boundary', 'canonical', 'municipal-partial', 'superior-full'];
+    assert.deepEqual(report.packets.map(d => d.fixture).sort(), names, 'Blake must declare all four court/relief fixtures');
+    assert.deepEqual(fs.readdirSync(fixtures).filter(n => n.endsWith('.pdf')).sort(), names.map(n => `${n}.pdf`), 'Blake fixture inventory differs from its contract');
+    const home = fs.realpathSync(fixtures);
+    return report.packets.map(d => {
+      assert.equal(d.file, `fixtures/${d.fixture}.pdf`, 'Blake packet path differs from fixture');
+      assert.ok(['canonical', 'boundary'].includes(d.fixtureRole), 'Blake fixture role is invalid');
+      const file = path.join(home, `${d.fixture}.pdf`);
+      assert.ok(!fs.lstatSync(file).isSymbolicLink(), 'Blake packet must not be a symlink');
+      const bytes = fs.readFileSync(file);
+      assert.equal(bytes.subarray(0, 5).toString(), '%PDF-', 'Blake fixture must be a PDF');
+      assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), d.sha256, 'Blake packet digest drift');
+      assert.equal(pdfInfoPageCount(file), d.pageCount, 'Blake page count drift');
+      return { role: d.fixtureRole, name: `${d.fixture}.pdf`, declaredPageCount: d.pageCount,
+        branch: d.fixture, selectionKind: 'native_complete_fixture', filingReady: false };
+    }).sort((a, b) => a.name.localeCompare(b.name, 'en'));
+  }
   // Montana candidates declare route-specific complete diagnostic packets.
   // Preserve the route's own report and enroll its exact saved fixture set.
   const mtFixtureContracts = {
