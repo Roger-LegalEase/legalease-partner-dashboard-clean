@@ -18,6 +18,7 @@
  */
 
 import fs from "node:fs";
+import assert from "node:assert/strict";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { register } from "node:module";
@@ -65,7 +66,11 @@ const SEQUENCE = [
   "supabase/phase-52-rcap-consumer-payment-authority.sql",
   "supabase/phase-53-rcap-consumer-job-binding.sql",
   "supabase/phase-54-rcap-person-namespace-hardening.sql",
-  "supabase/phase-55-expungement-matter-payment-binding.sql"
+  "supabase/phase-55-expungement-matter-payment-binding.sql",
+  "supabase/phase-38-expungement-pending-screening-results.sql",
+  "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql",
+  "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql",
+  "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql"
 ];
 
 const USER_A = fixtureUuid("user-a");
@@ -100,6 +105,10 @@ function boot() {
   db.sql(`alter default privileges in schema public grant all on tables to anon, authenticated, service_role`);
   db.sql(`alter default privileges in schema public grant execute on functions to service_role`);
   db.sql(`create schema auth`);
+  // Supabase platform helper used by the current pending-result policies.
+  // This exists only in the disposable test cluster.
+  db.sql(`create function auth.role() returns text language sql stable as $$
+    select coalesce(nullif(current_setting('request.jwt.claim.role', true), ''), current_user::text) $$`);
   db.sql(`create table auth.users (id uuid primary key, email text)`);
   db.sql(
     `create or replace function auth.uid() returns uuid language sql stable set search_path='' as $$
@@ -151,16 +160,13 @@ const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/cons
 const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
 const {
   packetInformationPatch: derivePacketInformationPatch,
-  requireCurrentPacketVerification
+  requireCurrentPacketVerification,
+  requireCurrentPacketVerificationRecord,
+  protectedPacketDraftSeedFromAuthoritative
 } = await import("../src/lib/expungement-ai/packet-information.ts");
-const packetInformationPatch = (input) => derivePacketInformationPatch({
-  protectedVerification: {
-    status: "unverified",
-    reason: "final_verification_not_completed",
-    revision: 0
-  },
-  ...input
-});
+const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
+const { persistProtectedPacketVerification } = await import("../src/lib/expungement-ai/verification-cas.ts");
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 
 // --- fixtures -----------------------------------------------------------------
 
@@ -196,6 +202,10 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
     court_requirements_completed: "yes"
   };
   const packetAnswers = {
+    ...JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json"), "utf8")).facts,
+    date_of_birth: "1990-04-12",
+    offense_date: "2014-01-10",
+    arrest_date: "2014-01-10",
     age_at_offense: { value: "30", unknown: false },
     case_outcome: screeningAnswers.case_outcome,
     charge: { value: "Synthetic misdemeanor charge", unknown: false },
@@ -219,7 +229,7 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
     entitlementSource: "consumer_payment",
     productId: "expungement_packet",
     screening: {
-      profileVersion: "2026-06-19-source-conversion-1",
+      profileVersion: getProfileByJurisdiction(jurisdiction).profileVersion,
       screeningMatterId: `screening-${id}`,
       pathwayId: MS_PATHWAY,
       pathwayLabel: "Non-conviction expungement for dismissal, no disposition, or acquittal",
@@ -256,16 +266,20 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
      )`
   );
   const inserted = await getBriefcaseItemForWebhook(userId, id);
-  const verified = inserted ? packetInformationPatch({ existingItem: inserted, answers: {}, verify: true }) : null;
-  if (!inserted || !verified?.readyToGenerate) throw new Error(`fixture ${id} could not be explicitly verified`);
-  const verifiedRefs = JSON.stringify({
-    ...inserted.artifactRefs,
-    commercialFlow: {
-      ...inserted.artifactRefs?.commercialFlow,
-      ...verified.patch.commercialFlow
-    }
-  }).replaceAll("'", "''");
-  db.sql(`update public.consumer_briefcase_items set artifact_refs_json='${verifiedRefs}'::jsonb where id='${id}'`);
+  // Seed the current protected draft from server evaluation, never from a
+  // participant-writable mirror or a fabricated verification verdict.
+  const authoritative = evaluateAuthoritativeScreeningResult({ jurisdiction, profileVersion: getProfileByJurisdiction(jurisdiction).profileVersion, matterId: id, answers: screeningAnswers });
+  const seed = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers, packetAnswers, dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: "expungement_packet" }, capturedAt: new Date().toISOString() });
+  const verified = inserted && seed ? derivePacketInformationPatch({ existingItem: inserted, answers: {}, verify: true, protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0, draftSnapshot: seed.snapshot, draftHash: seed.hash } }) : null;
+  if (!inserted || !verified?.readyToGenerate) throw new Error(`fixture ${id} could not be explicitly verified: ${verified?.reviewReason}; missing=${JSON.stringify(verified?.missingInputIds)}`);
+  const persisted = await persistProtectedPacketVerification({ consumerAuthUserId: userId, briefcaseItemId: id, transition: verified.protectedTransition });
+  if (!persisted.ok) throw new Error(`fixture protected verification persistence failed: ${persisted.reason}`);
+  const readback = await requireCurrentPacketVerification(userId, inserted);
+  assert.equal(readback.hash, verified.protectedTransition.nextVerification.hash, 'final hash survives real jsonb persistence');
+  const tampered = structuredClone(persisted.value);
+  tampered.snapshot.packetAnswers.participant_full_legal_name = 'Changed after verification';
+  assert.throws(() => requireCurrentPacketVerificationRecord(inserted, tampered), /current final verification/i, 'changed facts still invalidate final verification');
+  check(`V-${label}`, 'protected verification survives jsonb ordering and rejects altered facts', true);
   return id;
 }
 

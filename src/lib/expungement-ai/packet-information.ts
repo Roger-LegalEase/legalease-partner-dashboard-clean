@@ -878,7 +878,9 @@ function buildPacketVerificationSnapshot(
 }
 
 function packetVerificationHash(snapshot: PacketVerificationSnapshot) {
-  return createHash("sha256").update(JSON.stringify(snapshot)).digest("hex");
+  // jsonb does not preserve JavaScript insertion order. Final verification must
+  // survive a protected database round trip, just like the draft hash does.
+  return createHash("sha256").update(JSON.stringify(canonicalize(snapshot))).digest("hex");
 }
 
 function profileAuthorityFingerprint(

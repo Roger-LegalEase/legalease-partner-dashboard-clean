@@ -341,6 +341,18 @@ assert.equal(verified.readyToGenerate, true);
 assert.equal(verified.protectedTransition.nextVerification.status, "verified");
 assert.equal(verified.protectedTransition.nextVerification.draftHash, completed.protectedTransition.nextVerification.draftHash, "explicit verification promotes the same protected draft");
 
+// PostgreSQL jsonb may reorder every object's keys. Ordering changes must retain
+// authority, while a changed fact with the same stored hash must still fail.
+const reverseKeys = value => Array.isArray(value) ? value.map(reverseKeys)
+  : value && typeof value === "object"
+    ? Object.fromEntries(Object.keys(value).reverse().map(key => [key, reverseKeys(value[key])]))
+    : value;
+const reorderedVerification = reverseKeys(verified.protectedTransition.nextVerification);
+assert.ok(protectedPacketInformationModelFor(reorderedVerification), "final verification survives jsonb key reordering");
+const modifiedVerification = structuredClone(reorderedVerification);
+modifiedVerification.snapshot.packetAnswers.participant_full_legal_name = "Unverified changed name";
+assert.equal(protectedPacketInformationModelFor(modifiedVerification), null, "key-order tolerance never authorizes changed facts");
+
 const reviewPageSource = fs.readFileSync(path.join(rootDir, "src/app/briefcase/[packetId]/review/page.tsx"), "utf8");
 if (reviewPageSource.includes("decorateBriefcaseItemForPresentation")) {
   assert.ok(reviewPageSource.includes('item?.packetDraft.status === "available"'), "review must require the protected packet draft");

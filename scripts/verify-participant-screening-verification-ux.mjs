@@ -830,8 +830,11 @@ requireSource(
   partnerCommercialBrowser.includes('getByRole("button", { name: "Save to my Briefcase and continue"')
     && partnerCommercialBrowser.includes("Your packet is covered by your partner program.")
     && partnerCommercialBrowser.includes("generationRequests.length === 0")
-    && partnerCommercialBrowser.includes('getByRole("button", { name: "I verified these packet facts"')
-    && partnerCommercialBrowser.includes('getByRole("button", { name: "Generate my packet"'),
+    && partnerCommercialBrowser.includes('getByRole("button", { name: "Verify and prepare clinic packet"')
+    && partnerCommercialBrowser.includes('getByRole("button", { name: "Generate my packet"')
+    && partnerCommercialBrowser.includes('check(verificationResponse.ok()')
+    && partnerCommercialBrowser.includes('check(generationResponse.ok()')
+    && partnerCommercialBrowser.includes('generationRequests.length === 1'),
   "The sponsored browser proof must cross review/verification/generation and prove generation is absent before verification."
 );
 requireSource(
