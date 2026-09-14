@@ -53,12 +53,12 @@ test("Supabase-only preflight neither requires nor accesses Vercel", () => {
 
 test("service-only exception cannot admit a mutation phase with changed worker inputs", async () => {
   const { spawnSync } = await import('node:child_process');
-  const guarded = hostedWorkflow.slice(hostedWorkflow.indexOf('          if [ "${{ inputs.phase }}" != "preflight" ]; then'), hostedWorkflow.indexOf('          git checkout --detach'));
+  const guarded = hostedWorkflow.slice(hostedWorkflow.indexOf('          if [ "${{ inputs.phase }}" != "preflight" ] && [ "${{ inputs.phase }}" != "vercel_identity" ]; then'), hostedWorkflow.indexOf('          git checkout --detach'));
   assert.ok(guarded.includes('git diff --quiet'));
-  for (const phase of ['preflight','deploy','replace_preview','accept','full','payment','browser','clinic_preview','clinic_migrate','migrate','stripe_retarget','checkout_gate','worker_contract','unknown']) {
+  for (const phase of ['preflight','vercel_identity','deploy','replace_preview','accept','full','payment','browser','clinic_preview','clinic_migrate','migrate','stripe_retarget','checkout_gate','worker_contract','unknown']) {
     const script = 'set -e\ngit() { return 1; }\n' + guarded.replaceAll('${{ inputs.phase }}', phase).replaceAll(/\$\{\{ inputs\.[a-z_]+ \}\}/g,'a'.repeat(40));
     const result = spawnSync('bash',['-c',script],{encoding:'utf8'});
-    assert.equal(result.status === 0, phase === 'preflight',phase);
+    assert.equal(result.status === 0, ['preflight','vercel_identity'].includes(phase),phase);
   }
 });
 
