@@ -2674,6 +2674,10 @@ async function buildOfficialFamily(familyId, records, documents) {
 }
 
 export async function buildWaFamily(familyId, argv = process.argv.slice(2)) {
+  if (familyId === ANCHOR_FAMILY && !argv.includes('--dry-run') && !argv.includes('--inspect')) {
+    const { runBlakeCurrent } = await import('./build-census-v1-wa-blake-current.mjs');
+    return runBlakeCurrent(argv);
+  }
   const records = familyRecords(familyId);
   if (argv.includes("--dry-run")) {
     // A custody row counts bindings, not documents: the same bytes may be bound
