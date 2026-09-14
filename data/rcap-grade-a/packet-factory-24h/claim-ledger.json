@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "2bf0ab54e8c3ae9c80845fb5b19ebf82408dc6f0",
+  "generatedAtCommit": "cefa2ac65f70b0282e2f6007fe54cfcb7fec7b58",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -11482,6 +11482,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "wv_nc_diversion_deferred-set",
+      "itemId": null,
+      "familyId": "wv_nc_diversion_deferred-set",
+      "familyIds": [
+        "wv_nc_diversion_deferred-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFWV1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_nc_diversion_deferred-set",
       "familyId": "wv_nc_diversion_deferred-set",
       "itemId": null,
       "familyIds": [
@@ -15815,24 +15830,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wv_nc_diversion_deferred-set",
-      "itemId": null,
-      "familyId": "wv_nc_diversion_deferred-set",
-      "familyIds": [
-        "wv_nc_diversion_deferred-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFWV1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "e08ed8248ada1b7f6fe7cf59a99767a6675ad7203c7953e0c7a97c338d205710",
+  "claimsDigest": "84f98ec98c297104d3dcd7d4a473c87339d7cd3ace8f9a9e70ad4e18a5b65124",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -72891,6 +72891,14 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "withdrawnAt": "2026-09-14T03:48:51Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-trafficking-setaside-and-seal-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "withdrawnAt": "2026-09-14T04:09:19Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
