@@ -35,11 +35,17 @@
     "participantAcceptanceInput0": "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json",
     "participantAcceptanceInput1": "data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json",
     "participantAcceptanceInput2": "supabase/migrations/20260830120000_participant_data_rights.sql",
+    "servicePreflightReview": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json",
+    "servicePreflightOriginal33": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original.zip",
+    "servicePreflightOriginal34": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/artifacts.json",
+    "servicePreflightOriginal35": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json",
+    "servicePreflightOriginal36": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json",
+    "servicePreflightOriginal37": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log",
     "launchControlGenerator": "scripts/grade-a-launch-control/generate-launch-control.mjs"
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "3520935450607759e4d03ec2cf2b85273e812ebe",
+    "captainSha": "513b870bb8ecea91b8b53d8d98ebda1d075d5924",
     "censusFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
     "censusLedgerBlob": "d87bf67294e123237e917824e39a512f593274ab",
     "productionConnected": null,
@@ -337,8 +343,8 @@
     "commercialRoutesOpened": 0,
     "fulfillment": {
       "commercialRoutesOpened": 0,
-      "completePacketProven": 1,
-      "commerciallyEligible": 1,
+      "completePacketProven": 2,
+      "commerciallyEligible": 2,
       "rule": "Native fulfillment projection is reported separately from family terminal states; this worklist creates no approval or commercial admission."
     },
     "rule": "Terminal treatment, runtime reachability, output approval, route fulfillment, hosted acceptance and Production authorization are separate obligations. No state or family membership authorizes a sale."
@@ -650,7 +656,8 @@
     "currentness": "Must pass against these generated inputs before candidate freeze.",
     "fullChain": "No full-chain receipt for this release candidate is bound.",
     "hostedAcceptance": "NOT_ACCEPTED: {\"ACCEPTED_CURRENT\":0,\"MISSING\":35,\"STALE\":0,\"FAILED\":0,\"INVALID\":0}; Existing hosted_full anti-skip contract requires nine infrastructure/payment/gallery steps, but no export, matter-deletion or account-deletion step. This evaluator does not execute or close that missing hosted coverage.",
-    "productionPreflight": "A read-only candidate-bound receipt is required. Production authorization is separate."
+    "productionPreflight": "A read-only candidate-bound receipt is required. Production authorization is separate.",
+    "servicePreflight": "Run 34843210160: 9 failed checks. Supabase returned HTTP 401; Vercel pinned-team absence was measured on one page only. See servicePrerequisites for exact intervention."
   },
   "launchGate": {
     "gateOpen": false,
@@ -16309,7 +16316,7 @@
       "obligationKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
       "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
       "dimension": "fulfillment_authority",
-      "reason": "{\"schema\":\"rcap-grade-a-fulfillment-authority/v2\",\"familyBound\":true,\"currentArtifact\":false,\"revoked\":true,\"state\":\"REVOKED\",\"missingProof\":[],\"stalenessReasons\":[]}"
+      "reason": "{\"schema\":\"rcap-grade-a-fulfillment-authority/v2\",\"familyBound\":true,\"currentArtifact\":false,\"revoked\":false,\"state\":\"COMPLETE_PACKET_PROVEN\",\"missingProof\":[],\"stalenessReasons\":[]}"
     },
     {
       "familyId": "wy_fel_1502-set",
@@ -32025,7 +32032,7 @@
         "obligationKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
         "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
         "dimension": "fulfillment_authority",
-        "reason": "{\"schema\":\"rcap-grade-a-fulfillment-authority/v2\",\"familyBound\":true,\"currentArtifact\":false,\"revoked\":true,\"state\":\"REVOKED\",\"missingProof\":[],\"stalenessReasons\":[]}"
+        "reason": "{\"schema\":\"rcap-grade-a-fulfillment-authority/v2\",\"familyBound\":true,\"currentArtifact\":false,\"revoked\":false,\"state\":\"COMPLETE_PACKET_PROVEN\",\"missingProof\":[],\"stalenessReasons\":[]}"
       },
       {
         "familyId": "wy_fel_1502-set",
@@ -32058,6 +32065,34 @@
     "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json": "d00fb760b8122ec2c45fdef1dcf689fae60f1b23222b19a876af41b7e909328b",
     "data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json": "39ea8274f993b1bba924334e0b56ed6261cee4902b439fbabcbd816eff584b61"
   },
+  "servicePrerequisites": {
+    "review": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json",
+    "runId": 34843210160,
+    "status": "FAILED_CURRENT_SERVICE_PREFLIGHT",
+    "observedApplicationSha": "41db064ec6f25149802504f410fab7ece2c61b96",
+    "observedToolsSha": "f89a93f9082ed83a966df0367a1b14d9bcbd391c",
+    "originalCustodyVerified": true,
+    "findings": {
+      "supabase": {
+        "managementProjectListHttpStatus": 401,
+        "acceptanceProjectSelectHttpStatus": 401,
+        "projectRef": "hyflxnlhpmiqxvvcoiia",
+        "conclusion": "Protected workflow Supabase credential was rejected by both endpoints. No project identity, SQL reachability, or empty/synthetic-data proof was established.",
+        "intervention": "An authorized owner must verify or replace the workflow SUPABASE_ACCESS_TOKEN with a valid token authorized for the existing acceptance project. No migration or production secret change is implied."
+      },
+      "vercel": {
+        "endpoint": "VERCEL_TEAMS",
+        "httpStatus": 200,
+        "reason": "PINNED_TEAM_NOT_VISIBLE",
+        "expectedTeamSlug": "roger947s-projects",
+        "conclusion": "Expected team absent from the one returned page consumed by the resolver; this does not prove team access was removed.",
+        "pagination": "Resolver requests /v2/teams?limit=100 once and ignores pagination. Local synthetic response with pagination.next reproduced one request and first-page refusal. Actual run does not retain pagination metadata, so omitted later-page team remains unexcluded.",
+        "intervention": "Verify workflow VERCEL_TOKEN scope for the existing team/project and establish complete team-list coverage before diagnosing absent access. No deployment is needed."
+      }
+    },
+    "candidateAcceptanceEstablished": false,
+    "meaning": "Observed service-only result at the named tools SHA; a resolver repair or credential change requires applicable retest. This is not final candidate acceptance."
+  },
   "consumedInputDigests": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json": "785cf79482e69216c1325c7adca3cdbae05b1527c4d255e5cbb9c8d42f97a1a9",
@@ -32080,9 +32115,9 @@
     "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json": "764d59c2965e5cfe272edbe5648be84e45194343865d3fbc43e45aa8751a49da",
     "docs/LAUNCH_SEQUENCE.md": "91760f8f982164839993de583cccd100c4b4dc9dee048e38de54d789e8a2a509",
     "docs/PRODUCT_CONTRACT.md": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
-    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "fadffd090e805b462cb7d88c4a5e063f496f245f62306da07a0db8d8bb1a4a8b",
+    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "e403d6ad1ca728a268fc3c6fa54bfb40476015cbfb9f069af07c9e6819f13d73",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "bc8d56c76e9ee40e68482004f23bbbb408f93f000f3bf5993e5b55f380640ee2",
-    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json": "3aa069e8f9c2a759ad8c4cd7f3b1031c217aa0988d97d72c95b1a32ab98dbe13",
+    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json": "88f9b5ad63b4ab1a3b46aa5c3fd6b84a9a52c5db74d4130f05e36dbc9638674c",
     "scripts/grade-a-launch-control/apply-national-release-control.mjs": "229c3436c81ad4a97f8e94d66e885f9932ab512f5cf4ed6ee7b8ffcfff65b343",
     "scripts/grade-a-launch-control/participant-acceptance-receipts.mjs": "696feff901bea242d16c65ff2793401c6ff98546bc2f3fd722387280ade6d75d",
     "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json": null,
@@ -32091,6 +32126,12 @@
     "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json": "d00fb760b8122ec2c45fdef1dcf689fae60f1b23222b19a876af41b7e909328b",
     "data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json": "39ea8274f993b1bba924334e0b56ed6261cee4902b439fbabcbd816eff584b61",
     "supabase/migrations/20260830120000_participant_data_rights.sql": "991fe21eab48b1ee72ab9f06346339f959f82d5f668b34560eef97bda08272ca",
-    "scripts/grade-a-launch-control/generate-launch-control.mjs": "055ae2b3980c2c2b4564af2d2b0d5485d4043e173bb5be01edc9c4f131bbd13e"
+    "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json": "ee446cbd6623e8af2d234b8a4e037dc9ae2c6defd42a560f0f20d9deba3aa69f",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original.zip": "c73d894e2c051246b0120c68e1dbbfcb0d3c7775808412c18188a936246f6919",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/artifacts.json": "ed3f4e9921180998e5cecc847b2ee4685bdedce201db771c697f83cc220a4772",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json": "d1a54fa51771aa02d5c6aaeca2759f2123f649ec71dd85924e7a14ec68ffb73f",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log": "f0a5c4d87fdc1f2396231436a0f0bd9b86f350b040ab8b4731d4f4b4829427ad",
+    "scripts/grade-a-launch-control/generate-launch-control.mjs": "43c81d7e3ca5fa7625cb21c6eae4b7cd36ca384d9ed8620b87776ae40ffb2d55"
   }
 }

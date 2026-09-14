@@ -4,7 +4,7 @@ _Generated from the existing GRADE_A_LAUNCH_CONTROL.json; this page has no indep
 
 **GO/HOLD: HOLD.** 344/346 families are terminal. Release obligations and candidate authorization remain separate; final family baseline status: BOUND.
 
-Captain input SHA: `3520935450607759e4d03ec2cf2b85273e812ebe`.
+Captain input SHA: `513b870bb8ecea91b8b53d8d98ebda1d075d5924`.
 
 National scope: All 50 states plus DC.
 
@@ -29,6 +29,7 @@ Terminal treatment, runtime reachability, output approval, route fulfillment, ho
 - **fullChain**: No full-chain receipt for this release candidate is bound.
 - **hostedAcceptance**: NOT_ACCEPTED: {"ACCEPTED_CURRENT":0,"MISSING":35,"STALE":0,"FAILED":0,"INVALID":0}; Existing hosted_full anti-skip contract requires nine infrastructure/payment/gallery steps, but no export, matter-deletion or account-deletion step. This evaluator does not execute or close that missing hosted coverage.
 - **productionPreflight**: A read-only candidate-bound receipt is required. Production authorization is separate.
+- **servicePreflight**: Run 34843210160: 9 failed checks. Supabase returned HTTP 401; Vercel pinned-team absence was measured on one page only. See servicePrerequisites for exact intervention.
 
 Bind the pushed final 346-family closeout, satisfy the exact national release obligations, freeze application SHA and worker digest, pass currentness and the full required chain, independently accept the hosted candidate, prove rollback and read-only Production preflight, then obtain exact Production authorization.
 

@@ -400,6 +400,63 @@ doc.acceptanceInputDigests = Object.fromEntries([...receiptInputs.filter(r => r.
   ...Object.entries(originalEvidence).map(([rel, bytes]) => [rel, crypto.createHash("sha256").update(bytes).digest("hex")])]);
 for (const [i, rel] of [...receiptPaths, ...Object.keys(originalEvidence), migration].entries()) doc.consumes[`participantAcceptanceInput${i}`] = rel;
 doc.testStatus.hostedAcceptance = `${doc.participantDataRights.acceptedCurrent ? "ACCEPTED_CURRENT" : "NOT_ACCEPTED"}: ${JSON.stringify(doc.participantDataRights.gateCounts)}; ${doc.participantDataRights.requiredChainGap}`;
+// Retain the actual service failure separately from candidate acceptance. This
+// receipt cannot approve an application or turn a missing hosted gate green.
+const SERVICE_REVIEW = "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json";
+doc.consumes.servicePreflightReview = SERVICE_REVIEW;
+if (exists(SERVICE_REVIEW)) {
+  const review = read(SERVICE_REVIEW);
+  if (review.runId !== 34843210160 || review.serviceOnly !== true
+      || review.status !== "FAILED_CURRENT_SERVICE_PREFLIGHT"
+      || review.failedChecks !== 9 || review.passedChecks !== 0 || review.missingChecks !== 0
+      || review.originalFilesEqualArchiveMembers !== true || review.originalZipDigestMatchesGitHubArtifactMetadata !== true
+      || review.applicationAccepted !== false || review.workerImageAccepted !== false
+      || review.participantAcceptanceEstablished !== false || review.releaseAuthorityGranted !== false) {
+    throw new Error("Service preflight review identity or authority mismatch");
+  }
+  const custody = review.custody ?? [];
+  const servicePrefix = "private/transfers/national-release-preservation-20260914/service-preflight-34843210160";
+  const expectedCustodyPaths = ["/original.zip", "/artifacts.json", "/original/preflight.json", "/original/worker-input-plan.json", "-failed.log"].map(suffix => servicePrefix + suffix);
+  const custodyCurrent = custody.length === expectedCustodyPaths.length
+    && new Set(custody.map(item => item.path)).size === expectedCustodyPaths.length
+    && custody.every(item => expectedCustodyPaths.includes(item.path)) && custody.every(item => {
+    if (typeof item.path !== "string" || !item.path.startsWith("private/transfers/national-release-preservation-20260914/")
+        || item.path.includes("\\") || item.path.split("/").some(part => ["..", ".", ""].includes(part))) return false;
+    if (!exists(item.path)) return false;
+    const real = fs.realpathSync(path.join(ROOT, item.path));
+    if (!real.startsWith(ROOT + path.sep)) return false;
+    doc.consumes[`servicePreflightOriginal${Object.keys(doc.consumes).length}`] = item.path;
+    return hashFile(item.path) === item.sha256 && fs.statSync(real).size === item.byteLength;
+  });
+  if (custodyCurrent) {
+    const preflight = read(servicePrefix + "/original/preflight.json");
+    const plan = read(servicePrefix + "/original/worker-input-plan.json");
+    const metadata = read(servicePrefix + "/artifacts.json");
+    const artifact = metadata.artifacts?.find(item => item.id === review.artifactId);
+    if (artifact?.digest !== "sha256:" + hashFile(servicePrefix + "/original.zip")
+        || String(artifact.workflow_run?.id) !== String(review.runId)
+        || preflight.serviceOnly !== true || preflight.passed !== false
+        || preflight.applicationAccepted !== false || preflight.workerImageAccepted !== false
+        || preflight.releaseAuthorityGranted !== false
+        || preflight.failedCases?.length !== review.failedChecks || preflight.missingCases?.length !== review.missingChecks
+        || preflight.applicationSha !== review.applicationSha || preflight.toolsSha !== review.toolsSha
+        || plan.candidateSha !== review.applicationSha || plan.rebuildRequired !== review.workerRebuildRequired) {
+      throw new Error("Service review does not match original preflight and artifact identity");
+    }
+  }
+  doc.servicePrerequisites = {
+    review: SERVICE_REVIEW, runId: review.runId,
+    status: custodyCurrent ? review.status : "ORIGINAL_CUSTODY_UNAVAILABLE_OR_CHANGED",
+    observedApplicationSha: review.applicationSha, observedToolsSha: review.toolsSha,
+    originalCustodyVerified: custodyCurrent,
+    findings: custodyCurrent ? review.findings : null,
+    candidateAcceptanceEstablished: false,
+    meaning: "Observed service-only result at the named tools SHA; a resolver repair or credential change requires applicable retest. This is not final candidate acceptance."
+  };
+  doc.testStatus.servicePreflight = custodyCurrent
+    ? `Run ${review.runId}: ${review.failedChecks} failed checks. Supabase returned HTTP 401; Vercel pinned-team absence was measured on one page only. See servicePrerequisites for exact intervention.`
+    : "Original service-preflight custody is unavailable or changed; do not reuse its result.";
+}
 doc.consumes.launchControlGenerator = "scripts/grade-a-launch-control/generate-launch-control.mjs";
 doc.consumedInputDigests = Object.fromEntries(Object.values(doc.consumes).map(rel => [rel, exists(rel) ? hashFile(rel) : null]));
 
