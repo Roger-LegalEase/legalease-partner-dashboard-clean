@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 403,
-    "rows": 1491,
+    "returnDirectories": 404,
+    "rows": 1493,
     "independentVerdicts": 335,
     "failRepairRequired": 0,
     "passIndependent": 334
@@ -41204,6 +41204,60 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwacustom1/rows-vfwacustom1-wa-homicide-custom-semantic-pass-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfwacustomfinal1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "506d778f71b057c9f65c6e78200410c8ef6071db",
+      "failedObligations": [
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "Original boundary page4 contains only one orphan dotted writing line near the top, no caption, field label, or substantive content. It is the second Exhibit identifiers/descriptions writing line spilled from page3. Page5 is the intended declaration execution continuation.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "private/transfers/wa-homicide-failed-raster-20260913/original/artifact/wa_vac_homicide_victim_prostitution-set/boundary/page-004.png",
+            "sha256": "828168a6b1e22377bdb126d3ae30002f58343e7267733736682c238b701e1c86",
+            "byteLength": 30223
+          }
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Original boundary page4 contains only one orphan dotted writing line near the top, no caption, field label, or substantive content. It is the second Exhibit identifiers/descriptions writing line spilled from page3. Page5 is the intended declaration execution continuation.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "private/transfers/wa-homicide-failed-raster-20260913/original/artifact/wa_vac_homicide_victim_prostitution-set/boundary/page-004.png",
+            "sha256": "828168a6b1e22377bdb126d3ae30002f58343e7267733736682c238b701e1c86",
+            "byteLength": 30223
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "PAGE_ORDER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwacustomfinal1/rows-vfwacustomfinal1-wa-homicide-original-fail-20260913.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "verdict": "PASS",
+      "lane": "vfwacustomrepair1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f02e57f59e23719321219580d44fd91ffb5afd0f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwacustomrepair1/rows-vfwacustomrepair1-wa-homicide-semantic-pass-20260914.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
       "superseded": false

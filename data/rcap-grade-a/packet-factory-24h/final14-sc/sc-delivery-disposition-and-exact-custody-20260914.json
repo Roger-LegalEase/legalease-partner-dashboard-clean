@@ -1,0 +1,1082 @@
+{
+  "schemaVersion": "rcap-bounded-blocker-delivery-disposition/v1",
+  "familyId": "rcap-sc-custom-pleading",
+  "ownerSession": "/root/mt_serving_build",
+  "recordedAt": "2026-09-13T23:56:36.731510+00:00",
+  "recordedAtHead": "f02e57f59e23719321219580d44fd91ffb5afd0f",
+  "status": "SOURCE_CUSTODY_RESOLVED_DELIVERY_PATH_MAPPED_BUILD_REQUIRED",
+  "currentNativeStateRetained": "WRONG_DELIVERY_TYPE",
+  "supportedReplacementTreatment": "GUIDANCE_READY",
+  "isTerminalAdmission": false,
+  "terminalCountChange": 0,
+  "ownerDecision": {
+    "decisionId": "OWN-DT-2026-09-02-SC-223A1",
+    "decidedOn": "2026-09-02",
+    "decisionOwner": "Roger Roman",
+    "familyId": "rcap-sc-custom-pleading",
+    "refused": true,
+    "decision": "LegalEase may not replace the mandatory SCCA 223A1 GS order form with its custom pleading.",
+    "classification": "WRONG_DELIVERY_TYPE",
+    "whatWasMeasuredBeforeTheDecision": [
+      "the string 223A1 appears in no file in the family directory and nowhere in the rendered canonical fixture; the only form the packet names is SCCA 223C, on one route",
+      "the rendered componentSet carries no official_form_reference, no records_checklist and no fee_instrument_schedule on any route, while production-field-map.json declares each of them nine times",
+      "eleven of the twelve tracks in the SC legal design memo carry destination.kind prosecutor, and the rendered packet is captioned IN THE ......... COURT and asks this court for relief",
+      "the memo states for every route that the composed package is not a substitute for the official order form, and that section 17-22-930 makes the solicitor's blank form mandatory and to the exclusion of all other expungement forms"
+    ],
+    "consequences": [
+      "removed from the first Grade A route cohort",
+      "COMPLETE_PACKET_PROVEN invalidated; the family is WRONG_DELIVERY_TYPE",
+      "every affected route removed from custom-pleading commercial eligibility",
+      "checkout stays disabled"
+    ],
+    "theSplitTreatmentOrdered": {
+      "A": "Where the mandatory official form is available and participant-filed: use the official form, include every required supporting component, the official-form reference, the records checklist and the fee-instrument schedule, give accurate solicitor-destination instructions, then build and independently verify.",
+      "B": "Where the solicitor supplies, controls or initiates the mandatory form: HANDOFF_READY or GUIDANCE_READY, naming the correct solicitor's office and what the participant must bring or request, stating plainly that LegalEase does not replace the solicitor's mandatory form, with packet checkout disabled.",
+      "C": "Only routes genuinely filed as court petitions may use a court-captioned pleading seeking relief from the court."
+    },
+    "whatMayNotBeDone": [
+      "preserving the current custom pleading because it already has fixtures and visual bundles",
+      "a cosmetic repair on a wrong delivery type"
+    ],
+    "visualReviewInstruction": "Neither South Carolina bundle is to be reviewed. Both were published before this decision and are superseded by it."
+  },
+  "classificationBasis": "Existing owner branch B expressly orders HANDOFF_READY or GUIDANCE_READY where solicitor supplies/controls/initiates mandatory form. Every one of this family's10 current registry destinations is prosecutor; each requires official_form_reference/process_guidance and records/fee/instruction components. Substantive application-preparation guidance matches these source roles. Exact custody of an official order does not make it participant-filed and does not authorize official_pdf_fill.",
+  "routeDispositions": [
+    {
+      "routeKey": "obligation:track-only:SC:sc_aep",
+      "trackId": "sc_aep",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office. The alcohol education program director must attest by signature under \u00a7 17-22-940(D) before the solicitor and then a circuit court judge sign. No SLED verification fee is charged."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_aep-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_aep-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_aep-attestation-request-3",
+          "role": "attestation_request",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_aep-records-checklist-4",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_aep-fee-instrument-schedule-5",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_aep-filing-instructions-6",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "Alcohol Education Program completion certificate or letter",
+          "obtainedFrom": "The circuit solicitor's Alcohol Education Program office or its contracted provider",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the programme office for written confirmation that you successfully completed the programme and the completion date. Ask for the attestation at the same time.",
+          "confirms": "aepCompletionDate"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "Alcohol Education Program Director's attestation signature \u2014 Attestation block of the official order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; NO SLED verification fee, because \u00a7 17-22-940(E)(1) exempts this route; and the $35 clerk of court filing fee under \u00a7 17-22-940(F). The \u00a7 17-22-550 programme enrolment fee of $250, and any provider fees, are programme costs; participation may not be denied for inability to pay and those fees may be waived or reduced at the solicitor's discretion.",
+        "The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
+      "trackId": "sc_conditional_discharge_44_53_450",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office. Where the matter was in summary court the summary court judge must attest by signature under \u00a7 17-22-940(D) before the solicitor and then a circuit court judge sign. No SLED verification is required and no SLED fee is charged."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_conditional_discharge_44_53_450-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_conditional_discharge_44_53_450-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_conditional_discharge_44_53_450-attestation-request-3",
+          "role": "attestation_request",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_conditional_discharge_44_53_450-records-checklist-4",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_conditional_discharge_44_53_450-fee-instrument-schedule-5",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_conditional_discharge_44_53_450-filing-instructions-6",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "Order of discharge and dismissal",
+          "obtainedFrom": "Clerk of the general sessions or summary court that entered it",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the order discharging you and dismissing the proceedings. Section 44-53-450(B) makes the court's determination that you were dismissed and discharged the whole of the expungement standard, so this is the document the order turns on.",
+          "confirms": "dischargeDate"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "Summary Court Judge's attestation signature \u2014 Attestation block of the official order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; NO SLED verification fee, because \u00a7 17-22-940(E)(1) exempts this route; and the $35 clerk of court filing fee under \u00a7 17-22-940(F). The \u00a7 44-53-450(C) conditional-discharge fee of $350 in general sessions court or $150 in summary court is a separate and earlier cost, payable before discharge and dismissal.",
+        "The \u00a7 44-53-450(C) conditional-discharge fee may be waived, reduced or suspended only in cases of indigency. The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-only:SC:sc_tep",
+      "trackId": "sc_tep",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office. The traffic education program director must attest by signature under \u00a7 17-22-940(D) before the solicitor and then a circuit court judge sign. No SLED verification fee is charged."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_tep-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_tep-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_tep-attestation-request-3",
+          "role": "attestation_request",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_tep-records-checklist-4",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_tep-fee-instrument-schedule-5",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_tep-filing-instructions-6",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "Traffic Education Program completion certificate or letter",
+          "obtainedFrom": "The governmental agency that administered the programme, being the circuit solicitor's office or the county or municipality it contracted with",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the administering agency for written confirmation that you successfully completed the programme and the completion date, and ask for the attestation at the same time.",
+          "confirms": "tepCompletionDate"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "Traffic Education Program Director's attestation signature \u2014 Attestation block of the official order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; NO SLED verification fee, because \u00a7 17-22-940(E)(1) exempts this route; and the $35 clerk of court filing fee under \u00a7 17-22-940(F). The \u00a7 17-22-350 programme application fee of $140, which cannot be reduced or suspended, and the participation fee of up to $140 are programme costs; participation may not be denied for inability to pay and both are waived where the person is deemed unable to pay.",
+        "The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
+      "trackId": "sc_17_1_40_general_sessions",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office, which supplies the mandatory blank order form, assists in completing it, obtains the signatures, files the completed order with the clerk of court and distributes certified copies. No SLED verification is required on this route and no SLED fee is charged."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_17_1_40_general_sessions-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_17_1_40_general_sessions-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_17_1_40_general_sessions-records-checklist-3",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_17_1_40_general_sessions-fee-instrument-schedule-4",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_17_1_40_general_sessions-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "conditional",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own criminal history record from SLED. It is not required for this route, but it is the only reliable way to see every charge on your record before you choose which to apply for.",
+          "confirms": "chargeIdentity",
+          "conditionDescription": "Recommended rather than required on this route, because \u00a7 17-22-940(E) does not require SLED verification for a \u00a7 17-1-40 expungement."
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "No $250 solicitor administrative fee, unless the charge was dismissed, discharged or nolle prossed as part of the plea arrangement under which the defendant pled guilty and was sentenced to other charges, in which case the $250 applies. No $25 SLED verification fee. No $35 clerk of court filing fee where the charge was discharged, dismissed, nolle prossed or the applicant was acquitted.",
+        "The \u00a7 17-22-940(A)(1) exemption is the operative relief on this route and is automatic rather than discretionary. The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
+      "trackId": "sc_17_1_65_handgun",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office, which supplies the mandatory blank SCCA 223C order form, obtains the signatures, files the completed order and distributes certified copies. SLED verifies statutory eligibility and the $25 verification fee applies, \u00a7 17-1-65 not being on the \u00a7 17-22-940(E)(1) exemption list."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_17_1_65_handgun-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_17_1_65_handgun-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_17_1_65_handgun-records-checklist-3",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_17_1_65_handgun-fee-instrument-schedule-4",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_17_1_65_handgun-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "Sentencing sheet or judgment identifying the statute of conviction",
+          "obtainedFrom": "Clerk of the General Sessions court that sentenced the participant",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the sentencing sheet or judgment and check that it names S.C. Code \u00a7 16-23-20 and that the conviction date is before 7 March 2024. Both are findings the order requires and neither can be taken from recollection.",
+          "confirms": "convictionStatute"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; $25 SLED verification fee under \u00a7 17-22-940(E)(1); and the $35 clerk of court filing fee under \u00a7 17-22-940(F) and \u00a7 8-21-310(C)(4), which the solicitor forwards and which is refunded if the charge is found statutorily ineligible.",
+        "The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "SCCA223C supplied by solicitor for \u00a717-1-65 handgun route",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
+      "trackId": "sc_22_5_910",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office. The summary court judge must attest by signature under \u00a7 17-22-940(D). SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_22_5_910-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_910-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_910-attestation-request-3",
+          "role": "attestation_request",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_910-records-checklist-4",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_910-fee-instrument-schedule-5",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_910-filing-instructions-6",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "Sentencing sheet or judgment showing the statutory penalty for the offence",
+          "obtainedFrom": "Clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the sentencing sheet or judgment. The statutory penalty ceiling, not the sentence you actually received, is what decides eligibility under \u00a7 22-5-910(A), and it must be taken from the record rather than from memory.",
+          "confirms": "penaltyCeiling"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "Summary Court Judge's attestation signature \u2014 Attestation block of the official order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; $25 SLED verification fee under \u00a7 17-22-940(E)(1); and the $35 clerk of court filing fee under \u00a7 17-22-940(F) and \u00a7 8-21-310(C)(4), which the solicitor forwards and which is refunded if the charge is found statutorily ineligible. Under \u00a7 17-22-940(E), on this route a conviction for any minor traffic-related offence that is not related in any way to driving under the influence of alcohol or other drugs is not considered a bar to expungement.",
+        "The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
+      "trackId": "sc_22_5_920_yoa",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office. SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_22_5_920_yoa-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_920_yoa-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_920_yoa-records-checklist-3",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_920_yoa-fee-instrument-schedule-4",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_920_yoa-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "Sentencing sheet or judgment showing a Youthful Offender Act sentence",
+          "obtainedFrom": "Clerk of the General Sessions court that sentenced the participant",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the sentencing sheet or judgment and check that it records a sentence under the Youthful Offender Act, Chapter 19 of Title 24. Being eligible for a youthful offender sentence is not the same as having received one, and this route needs the second. Check the paperwork rather than your recollection.",
+          "confirms": "yoaSentenced"
+        },
+        {
+          "name": "Written confirmation that probation and parole ended",
+          "obtainedFrom": "The South Carolina Department of Probation, Parole and Pardon Services",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the sentence included probation or parole, which the five-year clock runs from the completion of.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the Department of Probation, Parole and Pardon Services for written confirmation of the date your supervision ended. The five-year clock runs from completion of the whole sentence including probation and parole, not from the conviction.",
+          "confirms": "sentenceCompletionDate"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; $25 SLED verification fee under \u00a7 17-22-940(E)(1); and the $35 clerk of court filing fee under \u00a7 17-22-940(F) and \u00a7 8-21-310(C)(4), which the solicitor forwards and which is refunded if the charge is found statutorily ineligible. Under \u00a7 17-22-940(E), on this route a conviction for any minor traffic-related offence that is not related in any way to driving under the influence of alcohol or other drugs is not considered a bar to expungement.",
+        "The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
+      "trackId": "sc_22_5_930_drug",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office. SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_22_5_930_drug-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_930_drug-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_930_drug-records-checklist-3",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_930_drug-fee-instrument-schedule-4",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_22_5_930_drug-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "Written confirmation that probation and parole ended",
+          "obtainedFrom": "The South Carolina Department of Probation, Parole and Pardon Services",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the sentence included probation or parole, which both clocks run from the completion of.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the Department of Probation, Parole and Pardon Services for written confirmation of the date your supervision ended. Both the three-year and the twenty-year clock run from completion of the sentence including probation and parole, not from the conviction date.",
+          "confirms": "sentenceCompletionDate"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; $25 SLED verification fee under \u00a7 17-22-940(E)(1); and the $35 clerk of court filing fee under \u00a7 17-22-940(F) and \u00a7 8-21-310(C)(4), which the solicitor forwards and which is refunded if the charge is found statutorily ineligible. Under \u00a7 17-22-940(E), on this route a conviction for any minor traffic-related offence that is not related in any way to driving under the influence of alcohol or other drugs is not considered a bar to expungement.",
+        "The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
+      "trackId": "sc_34_11_90e_check",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office. SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies on this route."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_34_11_90e_check-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_34_11_90e_check-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_34_11_90e_check-records-checklist-3",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_34_11_90e_check-fee-instrument-schedule-4",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_34_11_90e_check-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; $25 SLED verification fee under \u00a7 17-22-940(E)(1); and the $35 clerk of court filing fee under \u00a7 17-22-940(F) and \u00a7 8-21-310(C)(4), which the solicitor forwards and which is refunded if the charge is found statutorily ineligible. Under \u00a7 17-22-940(E), on this route a conviction for any minor traffic-related offence that is not related in any way to driving under the influence of alcohol or other drugs is not considered a bar to expungement.",
+        "The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement",
+      "trackId": "sc_56_5_750f",
+      "existingDestination": {
+        "kind": "prosecutor",
+        "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+        "detail": "The applicant applies to the solicitor's office. SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies. Both SLED and the Department of Motor Vehicles retain a nonpublic record after the order."
+      },
+      "declaredComponentRoles": [
+        {
+          "componentId": "sc_56_5_750f-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_56_5_750f-official-form-reference-2",
+          "role": "official_form_reference",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_56_5_750f-records-checklist-3",
+          "role": "records_checklist",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_56_5_750f-fee-instrument-schedule-4",
+          "role": "fee_instrument_schedule",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        },
+        {
+          "componentId": "sc_56_5_750f-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "requirement": "required"
+        }
+      ],
+      "existingParticipantRecordsRequirements": [
+        {
+          "name": "SLED criminal history record",
+          "obtainedFrom": "South Carolina Law Enforcement Division",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+          "confirms": "chargeIdentity"
+        },
+        {
+          "name": "Court docket and certified disposition",
+          "obtainedFrom": "Clerk of the magistrate, municipal or General Sessions court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that handled the case for the docket and, where available, a certified disposition. The docket carries the warrant or indictment number, the court level and the disposition date the application needs.",
+          "confirms": "dispositionDetail"
+        },
+        {
+          "name": "Sentencing sheet and proof that every term and condition was completed",
+          "obtainedFrom": "Clerk of the court that sentenced the participant, and the supervising probation office where applicable",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the sentencing sheet, which shows the subsection you were convicted under and whether it was a felony, and for proof that fines, restitution and any other condition are satisfied. The three-year clock runs from the date the last of those was completed.",
+          "confirms": "termsCompletionDate"
+        }
+      ],
+      "existingOfficialOrderManualItems": [
+        "Obtain SLED criminal history record. Request your own criminal history record from SLED. It is the record the solicitor's office and SLED work from, and it is the only reliable way to see every charge and disposition on your record before you choose which one to spend an application on.",
+        "Signature on the official order form \u2014 The blank SCCA order form obtained from the solicitor's office.",
+        "Eligibility recital and statutory-lane election on the official form \u2014 Findings block of the SCCA order form.",
+        "The applicant signs the application. Under \u00a7 17-22-940(E)(3) the applicant may not take possession of the application during the expungement process, so the signature is given at the solicitor's office rather than on a document the participant keeps.",
+        "$250 solicitor administrative fee per individual order under \u00a7 17-22-940(A), nonrefundable even if the charge is later found ineligible; $25 SLED verification fee under \u00a7 17-22-940(E)(1); and the $35 clerk of court filing fee under \u00a7 17-22-940(F) and \u00a7 8-21-310(C)(4), which the solicitor forwards and which is refunded if the charge is found statutorily ineligible. Under \u00a7 17-22-940(E), on this route a conviction for any minor traffic-related offence that is not related in any way to driving under the influence of alcohol or other drugs is not considered a bar to expungement.",
+        "The solicitor may waive the $250 fee only where a person has been falsely accused as a result of identity theft, \u00a7 17-22-940(J). Each solicitor's office also maintains a private donation account which may defray up to fifty per cent of the administrative fee on a first-come first-served basis, \u00a7 17-22-940(A)(2)."
+      ],
+      "applicableOwnerBranch": "B",
+      "supportedReplacementTreatment": "GUIDANCE_READY",
+      "replacementDelivery": "Solicitor application-preparation guidance: correct office, record checklist, route-specific separated fee/instrument schedule, official-order reference and requests for authority-controlled attestations. No substitute court petition or participant-controlled official order.",
+      "officialFormReference": "Mandatory solicitor-supplied SCCA223A1 GS order; reference role only in this treatment",
+      "packetCheckout": "DISABLED"
+    }
+  ],
+  "sourceCustody": {
+    "status": "TRANSFERRED_EXACT_EXISTING_WORKER_BODY",
+    "worker": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "originPath": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+    "canonicalPath": "STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+    "localBody": {
+      "path": "private/transfers/sc-223a1-current-custody-20260914/STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+      "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+      "byteLength": 1045144
+    },
+    "pageCount": 7,
+    "issuerIdentity": "SCCA223A1 GS revised04/2026, Order for Destruction of Arrest Records, General Sessions Court",
+    "sourceBodyRoleFinding": "Seven original pages carry agency/judicial ownership: SLED verification; summary court judge attestations; circuit solicitor consent/declination/ineligibility; circuit court judge order; SLED internal processing. These are not participant-created allegations or signatures.",
+    "sourceSearchPerformed": false,
+    "newAcquisitionPerformed": false,
+    "sharedIndexOrPinnedSourcesModified": false
+  },
+  "bindings": [
+    {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_DELIVERY_TYPE_DECISIONS.json",
+      "sha256": "a870ad05b73aa608d7c9c4c9cafed646fcf5d3ffa868a7f26de1f0b3b9f47335",
+      "byteLength": 31306
+    },
+    {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "byteLength": 22372
+    },
+    {
+      "path": "private/transfers/sc-223a1-current-custody-20260914/STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+      "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+      "byteLength": 1045144
+    }
+  ],
+  "scopedFamilySnapshot": {
+    "familyId": "rcap-sc-custom-pleading",
+    "treatmentReconciliation": null,
+    "reviewedTreatmentGuidance": null,
+    "worklistGroupId": "rcap-sc-custom-pleading",
+    "jurisdiction": "SC",
+    "routeKeys": [
+      "obligation:track-only:SC:sc_aep",
+      "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
+      "obligation:track-only:SC:sc_tep",
+      "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
+      "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
+      "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement"
+    ],
+    "routeCount": 10,
+    "implementationStrategy": "custom_pleading",
+    "packetComponents": [],
+    "instrumentKinds": [],
+    "officialFormFamily": "NONE",
+    "forms": [],
+    "sourceIds": [],
+    "sourceHashes": [
+      {
+        "sourceId": "source-sha256:3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+        "path": "STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+        "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+    "sourceBound": true,
+    "sourceReadiness": {
+      "ready": true,
+      "reasons": [],
+      "boundSources": [
+        {
+          "sourceId": "source-sha256:3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+          "path": "STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+          "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+          "tier": "exact_content_hash",
+          "resolvedBy": "custody_reconciliation"
+        }
+      ],
+      "boundGuidanceAuthorityRecords": [],
+      "boundAuthorities": [],
+      "boundAuthorityCount": 0,
+      "supersededSourceIds": [],
+      "namedOfficialForms": 0,
+      "effectiveOfficialSourceIds": [],
+      "boundCount": 1,
+      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+      "custodyClassContradictedByThisRow": "custodyClass says SOURCE_GENUINELY_MISSING while this family binds 1 source(s) and readiness is ready. The binding is the measurement. The queue's own bySourceStatus, derived from readiness, does not count this family as missing.",
+      "directAttachment": true
+    },
+    "sourceReconciliation": null,
+    "verifierSourceHold": null,
+    "selectedIndependentVerdict": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+    },
+    "currentLegalResolution": {
+      "disposition": "LEGAL_CLEAR",
+      "decisionId": "SC-SINGLE-INCIDENT-FEE-TREATMENT",
+      "bindingProductRule": "Do not encode $310 as one universal filing fee. Encode separately the $250 solicitor administrative fee, $25 SLED fee when applicable, and $35 clerk fee when applicable, with statutory exemptions. The separate SCCA223C custody/source issue is not a legal blocker and remains independently tracked.",
+      "authority": "Current South Carolina Code and current Judicial Branch guidance cited in the supplied disposition.",
+      "liftCondition": null,
+      "producedOn": "2026-09-11",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "decisionRecords": [
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      ],
+      "supersedesDecisionId": null,
+      "supersededDecisionRecord": null,
+      "evidenceType": "legal_design_disposition",
+      "documentaryPermissionStoredInRepository": null,
+      "owner": null,
+      "independentReviewSawExactDecisionRecord": {
+        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "decisionRecords": [
+          "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+        ],
+        "available": false,
+        "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+        "recordBindings": [
+          {
+            "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+            "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+            "matches": false
+          }
+        ]
+      },
+      "historicalLegalEntrancesRemainEvidenceOnly": true,
+      "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
+    },
+    "rasterEnrolmentRefusal": null,
+    "legalInputStatus": "SETTLED",
+    "ownerDeliveryTypeRefusal": {
+      "decisionId": "OWN-DT-2026-09-02-SC-223A1",
+      "decidedOn": "2026-09-02",
+      "decisionOwner": "Roger Roman",
+      "decision": "LegalEase may not replace the mandatory SCCA 223A1 GS order form with its custom pleading.",
+      "consequences": [
+        "removed from the first Grade A route cohort",
+        "COMPLETE_PACKET_PROVEN invalidated; the family is WRONG_DELIVERY_TYPE",
+        "every affected route removed from custom-pleading commercial eligibility",
+        "checkout stays disabled"
+      ],
+      "commercialEligibility": "REMOVED",
+      "checkout": "DISABLED"
+    },
+    "verificationLapsedBecause": null,
+    "terminalTreatment": null,
+    "legalInputBasis": null,
+    "wave2LegalBlock": null,
+    "ownerCorrectionRequired": null,
+    "legalHoldReclassification": null,
+    "laneReturnLegalHold": null,
+    "executionReclassification": null,
+    "executionOwner": null,
+    "nextExecutableAction": "Continue from the current nonlegal state WRONG_DELIVERY_TYPE; all ordinary gates remain. Binding product rule SC-SINGLE-INCIDENT-FEE-TREATMENT: Do not encode $310 as one universal filing fee. Encode separately the $250 solicitor administrative fee, $25 SLED fee when applicable, and $35 clerk fee when applicable, with statutory exemptions. The separate SCCA223C custody/source issue is not a legal blocker and remains independently tracked. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+    "routeMappingStatus": "BOUND",
+    "artifactStatus": "RENDERED",
+    "completenessStatus": "PASS_COMPLETE",
+    "allNineCountersZero": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "failingCounters": [],
+    "failedObligationNames": [],
+    "failedObligations": [],
+    "continuationResult": null,
+    "c11Stopped": false,
+    "state": "WRONG_DELIVERY_TYPE",
+    "activeOwner": null,
+    "activeOwnerLane": null,
+    "buildScript": "scripts/build-census-v1-rcap-sc-custom-pleading.mjs",
+    "buildScriptExists": true,
+    "sharedBuildHost": null,
+    "directory": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading",
+    "ownedPaths": [
+      "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/**",
+      "scripts/build-census-v1-rcap-sc-custom-pleading.mjs"
+    ],
+    "prohibitedPaths": [],
+    "importedBy": [],
+    "exclusiveScript": true
+  },
+  "missingExternalInput": null,
+  "remainingWork": "Build complete substantive guidance for all10 routes from existing adopted components and separated fee decision; preserve retired custom packets as internal evidence. Obtain independent semantic review and current-byte raster/original-page review. Only then admit supported replacement via existing terminal-treatment contract while retaining refusal and disabled checkout.",
+  "singleResolutionAction": "Assign an implementation claim to rebuild rcap-sc-custom-pleading as solicitor application-preparation guidance under owner branch B, referencing exact SCCA223A1 custody and solicitor-controlled SCCA223C for handgun route; no new legal decision or source hunt is needed for that guidance path.",
+  "existingNativeAdmissionPath": {
+    "file": "data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json",
+    "consumer": "scripts/grade-a-packet-factory-24h/generate.mjs terminalTreatments",
+    "scope": "Existing path available after real replacement artifact is built and independently accepted; do not insert unsupported terminal flags or weaken owner refusal.",
+    "sharedPinnedFileNotModified": true
+  },
+  "commercialRoutesOpened": 0,
+  "runtimeModified": false,
+  "productionTouched": false
+}
