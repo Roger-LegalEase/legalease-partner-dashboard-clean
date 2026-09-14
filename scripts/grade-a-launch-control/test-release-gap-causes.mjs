@@ -28,6 +28,18 @@ assert.equal(successor(o=>{o.passed=false;o.identity=null;o.teamPaginationExhaus
 for(const mutate of [o=>o.identity.projectId='sibling',o=>o.identity.projectName='sibling',o=>o.candidateAcceptance=true,o=>o.mutations.deploy=true,o=>o.runId='456',o=>o.toolsSha='b'.repeat(40),o=>o.teamPaginationExhausted=false]){assert.equal(successor(mutate).externalDependencies.find(g=>g.id==='VERCEL_TEAM_LOOKUP').status,'ACCESS_OR_LOOKUP_UNRESOLVED');count++;}
 for(const mutate of [r=>r.custodyVerified=false,r=>r.archive.sha256='0'.repeat(64),r=>r.originalReceipt.path='private/transfers/../escape.json']){assert.equal(successor(()=>{},mutate).externalDependencies.find(g=>g.id==='VERCEL_TEAM_LOOKUP').status,'ACCESS_OR_LOOKUP_UNRESOLVED');count++;}
 assert.equal(successor(()=>{},()=>{},true).externalDependencies.find(g=>g.id==='VERCEL_TEAM_LOOKUP').status,'ACCESS_OR_LOOKUP_UNRESOLVED');count++;
+const pinnedReceipt = o => {
+  delete o.teamPaginationExhausted;
+  o.teamIdentitySource='canonical_pin';
+  o.identity.teamId='team_4qLmZK9WI6xIy5vjYC0IF3ae';
+  o.reads=[{endpoint:'VERCEL_PINNED_PROJECT',httpStatus:200}];
+};
+const pinnedReview = r => { delete r.paginationComplete; r.teamIdentitySource='canonical_pin'; };
+assert.equal(successor(pinnedReceipt,pinnedReview).externalDependencies.find(g=>g.id==='VERCEL_TEAM_LOOKUP').status,'IDENTITY_VERIFIED_ONLY');count++;
+for (const mutate of [o=>o.identity.teamId='team_other',o=>o.identity.projectId='prj_other',o=>o.reads[0].httpStatus=403,o=>o.reads.push({endpoint:'VERCEL_TEAMS',httpStatus:200}),o=>o.mutations.deploy=true]) {
+  assert.equal(successor(o=>{pinnedReceipt(o);mutate(o);},pinnedReview).externalDependencies.find(g=>g.id==='VERCEL_TEAM_LOOKUP').status,'ACCESS_OR_LOOKUP_UNRESOLVED');count++;
+}
+assert.equal(successor(pinnedReceipt).externalDependencies.find(g=>g.id==='VERCEL_TEAM_LOOKUP').status,'ACCESS_OR_LOOKUP_UNRESOLVED');count++;
 const recognized={familyId:'wy_fel_1502-set',evidenceBindings:{artifactReport:{bytesVerified:true,path:'report'}},routes:[{dimensions:{output_approval:{status:'SATISFIED'},fulfillment_authority:{status:'SATISFIED'}}}]};
 assert.equal(group([],{reconciledFamilies:[recognized]}).recognizedExistingBindings.length,1);count++;
 assert.equal(group([],{reconciledFamilies:[{...recognized,evidenceBindings:{artifactReport:{bytesVerified:false}}}]}).recognizedExistingBindings.length,0);count++;

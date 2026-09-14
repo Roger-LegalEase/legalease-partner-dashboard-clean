@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, HOSTED_VERCEL_TEAM_SLUG } from '../rcap-hosted-acceptance-vercel-identity.mjs';
 // Descriptive aggregation of existing evidence gaps, never a repair/task count.
 const classify = gap => {
   if (gap.dimension === 'terminal_treatment') return ['FAMILY_INPUT_PREREQUISITE', 'UNRESOLVED', 'Resolve the exact remaining family input.'];
@@ -63,6 +64,18 @@ function verifiedVercelSuccessor(review, reviewPath, readBytes) {
     if (Object.keys(original.mutations ?? {}).length !== mutationKeys.length || mutationKeys.some(k=>original.mutations[k] !== false)) return null;
     if (review.paginationComplete !== original.teamPaginationExhausted || !Array.isArray(original.reads) || original.reads.some(r=>!['VERCEL_TEAMS','VERCEL_PINNED_PROJECT'].includes(r.endpoint))) return null;
     const common={id:'VERCEL_TEAM_LOOKUP',evidence:reviewPath,runId:review.runId,identityOnly:true,candidateAcceptance:false};
+    if (original.teamIdentitySource === 'canonical_pin') {
+      if (review.teamIdentitySource !== 'canonical_pin' || original.teamPaginationExhausted !== undefined || review.paginationComplete !== undefined) return null;
+      if (review.outcome === 'IDENTITY_PASS' && original.passed === true
+          && original.identity?.teamSlug === HOSTED_VERCEL_TEAM_SLUG
+          && original.identity.teamId === HOSTED_VERCEL_TEAM_ID
+          && original.identity.projectId === HOSTED_VERCEL_PROJECT_ID
+          && original.identity.projectName === HOSTED_VERCEL_PROJECT_NAME
+          && original.reads.length === 1 && original.reads[0].endpoint === 'VERCEL_PINNED_PROJECT' && original.reads[0].httpStatus === 200) {
+        return {...common,status:'IDENTITY_VERIFIED_ONLY',meaning:'The independently reviewed scoped project read verifies the exact pinned team and project. Hosted, application, worker and Production acceptance remain unproven.'};
+      }
+      if (original.passed !== false) return null;
+    }
     if (review.outcome === 'IDENTITY_PASS' && original.passed === true && original.teamPaginationExhausted === true && original.identity?.teamSlug === 'roger947s-projects' && typeof original.identity.teamId === 'string' && original.identity.teamId.length > 0 && original.identity.projectId === 'prj_cdgwGzFqIHgEUlzEburSLaZETdQV' && original.identity.projectName === 'legalease-partner-dashboard-clean' && original.reads.some(r=>r.endpoint==='VERCEL_PINNED_PROJECT' && r.httpStatus===200)) return {...common,status:'IDENTITY_VERIFIED_ONLY',meaning:'The independently reviewed successor resolves the prior team-lookup uncertainty. Hosted, application, worker and Production acceptance remain unproven.'};
     if (original.passed !== false) return null;
     if (review.outcome === 'PINNED_TEAM_NOT_VISIBLE_COMPLETE_PAGINATION' && original.failure?.reason === 'PINNED_TEAM_NOT_VISIBLE' && original.teamPaginationExhausted === true && original.reads.length > 0 && original.reads.every(r=>r.endpoint==='VERCEL_TEAMS' && r.httpStatus===200) && original.reads.at(-1).nextPagePresent === false) return {...common,status:'TEAM_NOT_VISIBLE_AFTER_COMPLETE_LOOKUP',meaning:'The pinned team was absent after completed pagination using this credential. Owner access/scope verification is needed; the old incomplete-pagination question is superseded.'};

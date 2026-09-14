@@ -112,8 +112,7 @@ async function resolvePreflightVercelIdentity({ token, resolveIdentity = resolve
   try {
     const identity = await resolveIdentity({ token, fetchImpl: async (url, options) => {
       const parsed = new URL(url);
-      endpoint = parsed.origin === "https://api.vercel.com" && parsed.pathname === "/v2/teams"
-        ? "VERCEL_TEAMS" : parsed.origin === "https://api.vercel.com" && parsed.pathname.startsWith("/v9/projects/")
+      endpoint = parsed.origin === "https://api.vercel.com" && parsed.pathname.startsWith("/v9/projects/")
           ? "VERCEL_PINNED_PROJECT" : "UNEXPECTED_ENDPOINT";
       httpStatus = null;
       if (endpoint === "UNEXPECTED_ENDPOINT") throw new Error("UNEXPECTED_ENDPOINT");
@@ -127,15 +126,10 @@ async function resolvePreflightVercelIdentity({ token, resolveIdentity = resolve
       : httpStatus === 404 ? "HTTP_NOT_FOUND" : httpStatus !== null && (httpStatus < 200 || httpStatus >= 300)
         ? "HTTP_FAILURE" : "IDENTITY_READ_FAILED";
     const message = String(error?.message ?? "");
-    const paginationCodes = new Set(["TEAM_PAGINATION_INVALID", "TEAM_LIST_IDENTITY_INVALID", "TEAM_PAGINATION_DUPLICATE_IDENTITY", "TEAM_PAGINATION_CURSOR_INVALID", "TEAM_PAGINATION_CURSOR_LOOP", "TEAM_PAGINATION_LIMIT", "TEAM_SLUG_AMBIGUOUS"]);
-    if (paginationCodes.has(error?.code)) reason = error.code;
+    const identityCodes = new Set(["PINNED_PROJECT_ID_MISMATCH", "PINNED_PROJECT_NAME_MISMATCH", "PINNED_PROJECT_TEAM_MISMATCH"]);
+    if (identityCodes.has(error?.code)) reason = error.code;
     else if (endpoint === "UNEXPECTED_ENDPOINT") reason = "UNEXPECTED_ENDPOINT";
     else if (httpStatus === null) reason = "READ_FAILED_OR_TIMED_OUT";
-    else if (message.includes("cannot resolve pinned team slug")) reason = "PINNED_TEAM_NOT_VISIBLE";
-    else if (message.includes("returned no canonical team_ id")) reason = "TEAM_ID_INVALID";
-    else if (message.includes("identity mismatch")) reason = "PROJECT_NAME_MISMATCH";
-    else if (message.includes("returned no canonical prj_ id")) reason = "PROJECT_ID_INVALID";
-    else if (message.includes("does not belong")) reason = "PROJECT_TEAM_MISMATCH";
     else if (message.includes("non-JSON")) reason = "NON_JSON_RESPONSE";
     return { identity: null, failure: { endpoint, httpStatus, reason } };
   }

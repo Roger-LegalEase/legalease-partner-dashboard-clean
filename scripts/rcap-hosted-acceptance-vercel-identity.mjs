@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 export const HOSTED_VERCEL_TEAM_SLUG = "roger947s-projects";
+export const HOSTED_VERCEL_TEAM_ID = "team_4qLmZK9WI6xIy5vjYC0IF3ae";
+export const HOSTED_VERCEL_PROJECT_ID = "prj_cdgwGzFqIHgEUlzEburSLaZETdQV";
 export const HOSTED_VERCEL_PROJECT_NAME = "legalease-partner-dashboard-clean";
 
 export function expectedHostedReturnOrigin(applicationSha) {
@@ -62,50 +64,24 @@ export async function resolveHostedVercelIdentity({
   if (!token) throw new Error("VERCEL_TOKEN is required to resolve the pinned nonproduction project");
   if (typeof fetchImpl !== "function") throw new Error("a fetch implementation is required");
 
-  // Vercel pagination.next is the next request's until timestamp; only null
-  // proves exhaustion. See https://vercel.com/docs/rest-api/reference/endpoints/teams/list-all-teams.
-  const teams = [], cursors = new Set(), teamIds = new Set();
-  let until = null, complete = false;
-  const refuse = code => { const error = new Error(code); error.code = code; throw error; };
-  for (let page = 0; page < 20; page++) {
-    const url = `https://api.vercel.com/v2/teams?limit=100${until === null ? "" : `&until=${until}`}`;
-    const document = await getJson(url, { token, fetchImpl });
-    if (!Array.isArray(document?.teams) || document.teams.length > 100
-        || !document.pagination || !Object.hasOwn(document.pagination, "next")) refuse("TEAM_PAGINATION_INVALID");
-    for (const item of document.teams) {
-      if (!TEAM_ID.test(item?.id ?? "") || typeof item.slug !== "string" || !item.slug) refuse("TEAM_LIST_IDENTITY_INVALID");
-      if (teamIds.has(item.id)) refuse("TEAM_PAGINATION_DUPLICATE_IDENTITY");
-      teamIds.add(item.id); teams.push(item);
-    }
-    const next = document.pagination.next;
-    if (next === null) { complete = true; break; }
-    if (!Number.isSafeInteger(next) || next < 0) refuse("TEAM_PAGINATION_CURSOR_INVALID");
-    if (cursors.has(next) || (until !== null && next >= until)) refuse("TEAM_PAGINATION_CURSOR_LOOP");
-    cursors.add(next); until = next;
-  }
-  if (!complete) refuse("TEAM_PAGINATION_LIMIT");
-  const matchingTeams = teams.filter(candidate => candidate.slug === HOSTED_VERCEL_TEAM_SLUG);
-  if (matchingTeams.length > 1) refuse("TEAM_SLUG_AMBIGUOUS");
-  const team = matchingTeams[0];
-  if (!team) throw new Error(`Vercel token cannot resolve pinned team slug ${HOSTED_VERCEL_TEAM_SLUG}`);
-  if (!TEAM_ID.test(team.id ?? "")) throw new Error(`pinned Vercel team ${HOSTED_VERCEL_TEAM_SLUG} returned no canonical team_ id`);
-
-  const projectUrl = `https://api.vercel.com/v9/projects/${encodeURIComponent(HOSTED_VERCEL_PROJECT_NAME)}?teamId=${encodeURIComponent(team.id)}`;
+  // Pin the canonical identity: scoped PATs need not enumerate account teams.
+  const projectUrl = hostedVercelScopedUrl(
+    `/v9/projects/${encodeURIComponent(HOSTED_VERCEL_PROJECT_NAME)}`,
+    { teamId: HOSTED_VERCEL_TEAM_ID }
+  );
   const project = await getJson(projectUrl, { token, fetchImpl });
-  if (project?.name !== HOSTED_VERCEL_PROJECT_NAME) {
-    throw new Error(`Vercel project identity mismatch; expected ${HOSTED_VERCEL_PROJECT_NAME}`);
-  }
-  if (!PROJECT_ID.test(project.id ?? "")) {
-    throw new Error(`pinned Vercel project ${HOSTED_VERCEL_PROJECT_NAME} returned no canonical prj_ id`);
-  }
-  const owningTeamId = project.accountId ?? project.teamId ?? project.ownerId ?? null;
-  if (owningTeamId !== null && owningTeamId !== team.id) {
-    throw new Error(`Vercel project ${HOSTED_VERCEL_PROJECT_NAME} does not belong to ${HOSTED_VERCEL_TEAM_SLUG}`);
+  const refuse = code => { const error = new Error(code); error.code = code; throw error; };
+  if (project?.name !== HOSTED_VERCEL_PROJECT_NAME) refuse("PINNED_PROJECT_NAME_MISMATCH");
+  if (project.id !== HOSTED_VERCEL_PROJECT_ID) refuse("PINNED_PROJECT_ID_MISMATCH");
+  // Require affirmative ownership evidence and reject conflicting owner fields.
+  const owners = [project.accountId, project.teamId, project.ownerId].filter(value => value !== undefined);
+  if (owners.length === 0 || owners.some(value => value !== HOSTED_VERCEL_TEAM_ID)) {
+    refuse("PINNED_PROJECT_TEAM_MISMATCH");
   }
 
   return Object.freeze({
     teamSlug: HOSTED_VERCEL_TEAM_SLUG,
-    teamId: team.id,
+    teamId: HOSTED_VERCEL_TEAM_ID,
     projectName: HOSTED_VERCEL_PROJECT_NAME,
     projectId: project.id
   });

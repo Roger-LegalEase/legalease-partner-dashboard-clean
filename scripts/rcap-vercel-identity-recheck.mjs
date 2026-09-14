@@ -4,22 +4,20 @@ import {pathToFileURL} from 'node:url';
 import {resolveHostedVercelIdentity,HOSTED_VERCEL_PROJECT_NAME} from './rcap-hosted-acceptance-vercel-identity.mjs';
 import {prepareHostedAcceptanceEvidenceLayout} from './rcap-hosted-acceptance-evidence-layout.mjs';
 export async function recheck({token,fetchImpl=globalThis.fetch}={}) {
-  const result={schemaVersion:'rcap-vercel-identity-recheck/v1',checkedAt:new Date().toISOString(),operation:'VERCEL_IDENTITY_ONLY',passed:false,identity:null,reads:[],teamPaginationExhausted:false,mutations:{deploy:false,migration:false,auth:false,stripe:false,worker:false,browser:false,supabase:false,productionInspection:false},candidateAcceptance:false};
+  const result={schemaVersion:'rcap-vercel-identity-recheck/v1',checkedAt:new Date().toISOString(),operation:'VERCEL_IDENTITY_ONLY',passed:false,identity:null,reads:[],teamIdentitySource:'canonical_pin',mutations:{deploy:false,migration:false,auth:false,stripe:false,worker:false,browser:false,supabase:false,productionInspection:false},candidateAcceptance:false};
   if(!token){result.failure={reason:'MISSING_CREDENTIAL',endpoint:'NOT_REQUESTED',httpStatus:null};return result;}
   let endpoint='NOT_REQUESTED',httpStatus=null;
   try {
     result.identity=await resolveHostedVercelIdentity({token,fetchImpl:async(url,options)=>{
-      const u=new URL(url);endpoint=u.origin==='https://api.vercel.com'&&u.pathname==='/v2/teams'?'VERCEL_TEAMS':u.origin==='https://api.vercel.com'&&u.pathname===`/v9/projects/${HOSTED_VERCEL_PROJECT_NAME}`?'VERCEL_PINNED_PROJECT':'UNEXPECTED_ENDPOINT';httpStatus=null;
+      const u=new URL(url);endpoint=u.origin==='https://api.vercel.com'&&u.pathname===`/v9/projects/${HOSTED_VERCEL_PROJECT_NAME}`?'VERCEL_PINNED_PROJECT':'UNEXPECTED_ENDPOINT';httpStatus=null;
       if(endpoint==='UNEXPECTED_ENDPOINT'||(options.method&&options.method!=='GET'))throw new Error('REFUSED');
       const response=await fetchImpl(url,{...options,method:'GET',redirect:'error',signal:AbortSignal.timeout(15000)});httpStatus=response.status;const read={endpoint,httpStatus};result.reads.push(read);
-      if(endpoint==='VERCEL_TEAMS'&&response.ok){try{const j=await response.clone().json();read.teamCount=Array.isArray(j.teams)?j.teams.length:null;read.nextPagePresent=j.pagination?.next!==null; if(j.pagination?.next===null)result.teamPaginationExhausted=true;}catch{}}
       return response;
     }});
-    if(result.identity.projectId!=='prj_cdgwGzFqIHgEUlzEburSLaZETdQV'){const error=new Error('Pinned project differs');error.code='PINNED_PROJECT_ID_MISMATCH';throw error;}
     result.passed=true;
   }catch(error){
-    const allowed=['PINNED_PROJECT_ID_MISMATCH','TEAM_PAGINATION_INVALID','TEAM_LIST_IDENTITY_INVALID','TEAM_PAGINATION_DUPLICATE_IDENTITY','TEAM_PAGINATION_CURSOR_INVALID','TEAM_PAGINATION_CURSOR_LOOP','TEAM_PAGINATION_LIMIT','TEAM_SLUG_AMBIGUOUS'];
-    const reason=allowed.includes(error.code)?error.code:endpoint==='UNEXPECTED_ENDPOINT'?'UNEXPECTED_ENDPOINT':httpStatus===401?'HTTP_UNAUTHENTICATED':httpStatus===403?'HTTP_FORBIDDEN':httpStatus===404?'HTTP_NOT_FOUND':httpStatus===null?'READ_FAILED_OR_TIMED_OUT':String(error.message).includes('cannot resolve pinned team slug')?'PINNED_TEAM_NOT_VISIBLE':'IDENTITY_READ_FAILED';
+    const allowed=['PINNED_PROJECT_ID_MISMATCH','PINNED_PROJECT_NAME_MISMATCH','PINNED_PROJECT_TEAM_MISMATCH'];
+    const reason=allowed.includes(error.code)?error.code:endpoint==='UNEXPECTED_ENDPOINT'?'UNEXPECTED_ENDPOINT':httpStatus===401?'HTTP_UNAUTHENTICATED':httpStatus===403?'HTTP_FORBIDDEN':httpStatus===404?'HTTP_NOT_FOUND':httpStatus===null?'READ_FAILED_OR_TIMED_OUT':'IDENTITY_READ_FAILED';
     result.failure={reason,endpoint,httpStatus};
   }
   return result;

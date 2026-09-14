@@ -35,6 +35,8 @@ test("identity resolver pins the public team slug and project name", async () =>
   assert.equal(fs.existsSync(MODULE_PATH), true, "the Vercel identity module must exist");
   const identity = await import(`${new URL(`file://${MODULE_PATH}`).href}?${Date.now()}`);
   assert.equal(identity.HOSTED_VERCEL_TEAM_SLUG, TEAM_SLUG);
+  assert.equal(identity.HOSTED_VERCEL_TEAM_ID, "team_4qLmZK9WI6xIy5vjYC0IF3ae");
+  assert.equal(identity.HOSTED_VERCEL_PROJECT_ID, "prj_cdgwGzFqIHgEUlzEburSLaZETdQV");
   assert.equal(identity.HOSTED_VERCEL_PROJECT_NAME, PROJECT_NAME);
 });
 
@@ -49,74 +51,42 @@ test("hosted return origin is deterministic, SHA-scoped, and never Production", 
   assert.throws(() => expectedHostedReturnOrigin("441ee3188ee5"), /40-character/);
 });
 
-test("identity resolver lists the exact slug before resolving the exact project", async () => {
-  assert.equal(fs.existsSync(MODULE_PATH), true, "the Vercel identity module must exist");
-  const { resolveHostedVercelIdentity } = await import(`${new URL(`file://${MODULE_PATH}`).href}?${Date.now()}`);
+test("scoped PAT resolves pinned project even when team enumeration is forbidden", async () => {
+  const { resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID } = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
   const calls = [];
-  const fetchImpl = async (url, init) => {
-    calls.push({ url: String(url), authorization: init?.headers?.Authorization });
-    if (calls.length === 1) {
-      return jsonResponse(200, {
-        teams: [
-          { id: "team_other", slug: "other-team" },
-          { id: "team_exact", slug: TEAM_SLUG }
-        ]
-      });
-    }
-    return jsonResponse(200, {
-      id: "prj_exact",
-      name: PROJECT_NAME,
-      accountId: "team_exact"
-    });
+  const fetchImpl = async (url, options) => {
+    calls.push(url);
+    assert.equal(options.redirect, 'error');
+    assert.ok(options.signal instanceof AbortSignal);
+    assert.equal(options.headers.Authorization, 'Bearer synthetic');
+    if (new URL(url).pathname === '/v2/teams') return jsonResponse(403, { error: 'forbidden' });
+    assert.equal(url, `https://api.vercel.com/v9/projects/${PROJECT_NAME}?teamId=${HOSTED_VERCEL_TEAM_ID}`);
+    return jsonResponse(200, { id: HOSTED_VERCEL_PROJECT_ID, name: PROJECT_NAME, accountId: HOSTED_VERCEL_TEAM_ID });
   };
-
-  const resolved = await resolveHostedVercelIdentity({ token: "token-for-test", fetchImpl });
-
-  assert.deepEqual(resolved, {
-    teamSlug: TEAM_SLUG,
-    teamId: "team_exact",
-    projectName: PROJECT_NAME,
-    projectId: "prj_exact"
-  });
-  assert.equal(calls.length, 2);
-  assert.match(calls[0].url, /\/v2\/teams/);
-  assert.doesNotMatch(calls[0].url, /teamId=roger947s-projects/);
-  assert.equal(
-    calls[1].url,
-    `https://api.vercel.com/v9/projects/${PROJECT_NAME}?teamId=team_exact`
-  );
-  assert.equal(calls.every((call) => call.authorization === "Bearer token-for-test"), true);
+  assert.equal((await fetchImpl('https://api.vercel.com/v2/teams', {redirect:'error',signal:AbortSignal.timeout(1000),headers:{Authorization:'Bearer synthetic'}})).status, 403);
+  calls.length = 0;
+  const identity = await resolveHostedVercelIdentity({ token:'synthetic', fetchImpl });
+  assert.deepEqual(identity, {teamSlug:TEAM_SLUG,teamId:HOSTED_VERCEL_TEAM_ID,projectName:PROJECT_NAME,projectId:HOSTED_VERCEL_PROJECT_ID});
+  assert.equal(calls.length, 1);
 });
 
-test("identity resolver refuses missing tokens and mismatched identities", async () => {
-  assert.equal(fs.existsSync(MODULE_PATH), true, "the Vercel identity module must exist");
-  const { resolveHostedVercelIdentity } = await import(`${new URL(`file://${MODULE_PATH}`).href}?${Date.now()}`);
-
-  await assert.rejects(
-    () => resolveHostedVercelIdentity({ token: "", fetchImpl: async () => jsonResponse(200, {}) }),
-    /VERCEL_TOKEN/
-  );
-  await assert.rejects(
-    () => resolveHostedVercelIdentity({
-      token: "token",
-      fetchImpl: async () => jsonResponse(200, { teams: [{ id: "team_other", slug: "other-team" }] })
-    }),
-    /roger947s-projects/
-  );
-
-  let call = 0;
-  await assert.rejects(
-    () => resolveHostedVercelIdentity({
-      token: "token",
-      fetchImpl: async () => {
-        call += 1;
-        return call === 1
-          ? jsonResponse(200, { teams: [{ id: "team_exact", slug: TEAM_SLUG }] })
-          : jsonResponse(200, { id: "prj_wrong", name: "wrong-project", accountId: "team_exact" });
-      }
-    }),
-    /legalease-partner-dashboard-clean/
-  );
+test("identity refuses mismatches, absent ownership, failures and missing credentials", async () => {
+  const { resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID } = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
+  const project = { id:HOSTED_VERCEL_PROJECT_ID, name:PROJECT_NAME, accountId:HOSTED_VERCEL_TEAM_ID };
+  for (const [patch, code] of [
+    [{id:'prj_other'}, 'PINNED_PROJECT_ID_MISMATCH'],
+    [{id:null}, 'PINNED_PROJECT_ID_MISMATCH'],
+    [{name:'other'}, 'PINNED_PROJECT_NAME_MISMATCH'],
+    [{accountId:undefined}, 'PINNED_PROJECT_TEAM_MISMATCH'],
+    [{accountId:null}, 'PINNED_PROJECT_TEAM_MISMATCH'],
+    [{accountId:'team_other'}, 'PINNED_PROJECT_TEAM_MISMATCH'],
+    [{teamId:'team_other'}, 'PINNED_PROJECT_TEAM_MISMATCH'],
+    [{ownerId:'team_other'}, 'PINNED_PROJECT_TEAM_MISMATCH']
+  ]) await assert.rejects(resolveHostedVercelIdentity({token:'synthetic',fetchImpl:async()=>jsonResponse(200,{...project,...patch})}), {code});
+  for (const status of [401,403,404,500]) await assert.rejects(resolveHostedVercelIdentity({token:'synthetic',fetchImpl:async()=>jsonResponse(status,{error:'SECRET_BODY'})}), error => {assert.match(error.message,new RegExp(`HTTP ${status}`));assert.doesNotMatch(error.message,/SECRET/);return true;});
+  await assert.rejects(resolveHostedVercelIdentity({token:'',fetchImpl:()=>assert.fail('unexpected request')}), /VERCEL_TOKEN/);
+  await assert.rejects(resolveHostedVercelIdentity({token:'synthetic',fetchImpl:async()=>{throw new Error('SECRET');}}), /failed or timed out/);
+  await assert.rejects(resolveHostedVercelIdentity({token:'synthetic',fetchImpl:async()=>({ok:true,text:async()=>'invalid'})}), /non-JSON/);
 });
 
 test("scoped URL and CLI environment use resolved IDs while scope stays the public slug", async () => {
@@ -264,45 +234,4 @@ test("deploy cannot pass unless the exact Preview health endpoint is application
   assert.match(source, /health\.status === 200/);
   assert.match(source, /health\.json !== null/);
   assert.match(source, /"checks" in health\.json/);
-});
-
-test("team discovery traverses all pages before resolving exact team and project", async () => {
-  const { resolveHostedVercelIdentity } = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
-  const calls=[];
-  const result=await resolveHostedVercelIdentity({token:'synthetic',fetchImpl:async(url,options)=>{
-    calls.push(url);assert.equal(options.redirect,'error');assert.ok(options.signal instanceof AbortSignal);
-    if(calls.length===1)return jsonResponse(200,{teams:[{id:'team_other',slug:'other'}],pagination:{next:200}});
-    if(calls.length===2)return jsonResponse(200,{teams:[{id:'team_exact',slug:TEAM_SLUG}],pagination:{next:100}});
-    if(calls.length===3)return jsonResponse(200,{teams:[],pagination:{next:null}});
-    return jsonResponse(200,{id:'prj_exact',name:PROJECT_NAME,accountId:'team_exact'});
-  }});
-  assert.equal(result.teamId,'team_exact');assert.equal(calls.length,4);
-  assert.equal(calls[1],'https://api.vercel.com/v2/teams?limit=100&until=200');
-  assert.equal(calls[2],'https://api.vercel.com/v2/teams?limit=100&until=100');
-});
-
-test("team pagination refuses incomplete, looping, ambiguous and failed later pages", async () => {
-  const { resolveHostedVercelIdentity } = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
-  const team={id:'team_exact',slug:TEAM_SLUG};
-  const cases=[
-    ['missing pagination',[{teams:[team]}],'TEAM_PAGINATION_INVALID'],
-    ['missing next',[{teams:[team],pagination:{}}],'TEAM_PAGINATION_INVALID'],
-    ['string cursor',[{teams:[team],pagination:{next:'200'}}],'TEAM_PAGINATION_CURSOR_INVALID'],
-    ['negative cursor',[{teams:[team],pagination:{next:-1}}],'TEAM_PAGINATION_CURSOR_INVALID'],
-    ['cursor loop',[{teams:[team],pagination:{next:200}},{teams:[],pagination:{next:200}}],'TEAM_PAGINATION_CURSOR_LOOP'],
-    ['forward cursor',[{teams:[team],pagination:{next:200}},{teams:[],pagination:{next:201}}],'TEAM_PAGINATION_CURSOR_LOOP'],
-    ['duplicate identity',[{teams:[team],pagination:{next:200}},{teams:[team],pagination:{next:null}}],'TEAM_PAGINATION_DUPLICATE_IDENTITY'],
-    ['ambiguous slug',[{teams:[team,{id:'team_second',slug:TEAM_SLUG}],pagination:{next:null}}],'TEAM_SLUG_AMBIGUOUS'],
-    ['malformed id',[{teams:[{id:'invalid',slug:TEAM_SLUG}],pagination:{next:null}}],'TEAM_LIST_IDENTITY_INVALID'],
-    ['failed second page',[{teams:[team],pagination:{next:200}},{status:403}],'HTTP 403'],
-    ['page limit',Array.from({length:20},(_,i)=>({teams:[],pagination:{next:100-i}})),'TEAM_PAGINATION_LIMIT']
-  ];
-  for(const [label,pages,reason]of cases){
-    let calls=0;
-    await assert.rejects(()=>resolveHostedVercelIdentity({token:'SECRET_TOKEN',fetchImpl:async url=>{
-      assert.ok(url.includes('/v2/teams'),label);const page=pages[calls++];assert.ok(page,label);
-      return {ok:!page.status,status:page.status??200,text:async()=>JSON.stringify(page.status?{error:'SECRET_BODY'}:page)};
-    }}),error=>{assert.ok(error.message.includes(reason),`${label}: ${error.message}`);assert.doesNotMatch(error.message,/SECRET/);return true;});
-    assert.ok(calls<=20,label);
-  }
 });

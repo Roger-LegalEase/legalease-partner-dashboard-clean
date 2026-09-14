@@ -126,7 +126,7 @@ test("failed Vercel identity preserves independent Supabase proof and saved fail
   const executable = source.replace(/^#![^\n]*\n/,'').replace(/^import[\s\S]*?;\n/gm,'').replaceAll('import.meta.url',JSON.stringify(new URL('./rcap-hosted-acceptance-preflight.mjs',import.meta.url).href));
   const run = new AsyncFunction('fs','path','fileURLToPath','prepareHostedAcceptanceEvidenceLayout',
     'HOSTED_VERCEL_PROJECT_NAME','HOSTED_VERCEL_TEAM_SLUG','hostedVercelScopedUrl','resolveHostedVercelIdentity','process','console','fetch',executable);
-  for(const scenario of ['team401','team403','project404','team_missing','network','missing_token']) {
+  for(const scenario of ['project401','project403','project404','wrong_owner','network','missing_token','scoped_pat']) {
     const directory=fs.mkdtempSync(path.join(tmpdir(),'rcap-service-observability-'));
     const fakeProcess={env:{SUPABASE_ACCESS_TOKEN:'SYNTHETIC_SUPABASE_SECRET',VERCEL_TOKEN:scenario==='missing_token'?'':'SYNTHETIC_VERCEL_SECRET',ACCEPTANCE_SUPABASE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',PREFLIGHT_SCOPE:'full'},exit(code){if(!fs.existsSync(path.join(directory,'preflight.json')))throw new Error(`unexpected early exit ${code}`);this.exitCode=code;}};
     const calls=[],logs=[];
@@ -135,8 +135,15 @@ test("failed Vercel identity preserves independent Supabase proof and saved fail
       calls.push(url);assert.equal(options.redirect,'error');assert.ok(options.signal instanceof AbortSignal);
       if(url.startsWith('https://api.vercel.com')) {
         if(scenario==='network')throw new Error('SYNTHETIC_VERCEL_SECRET');
-        if(url.includes('/v2/teams'))return scenario==='team401'?response({error:'SYNTHETIC_ERROR_SECRET'},401):scenario==='team403'?response({error:'SYNTHETIC_ERROR_SECRET'},403):response({teams:scenario==='team_missing'?[]:[{slug:'roger947s-projects',id:'team_test'}]});
-        return response({error:'SYNTHETIC_ERROR_SECRET'},404);
+        if(scenario==='scoped_pat') {
+          if(new URL(url).pathname==='/v2/teams')return response({},403);
+          assert.equal(new URL(url).searchParams.get('teamId'),identityModule.HOSTED_VERCEL_TEAM_ID);
+          if(new URL(url).pathname.endsWith('/env'))return response({envs:[]});
+          if(new URL(url).pathname==='/v9/projects')return response({projects:[]});
+          return response({id:identityModule.HOSTED_VERCEL_PROJECT_ID,name:identityModule.HOSTED_VERCEL_PROJECT_NAME,accountId:identityModule.HOSTED_VERCEL_TEAM_ID});
+        }
+        if(scenario==='wrong_owner')return response({id:identityModule.HOSTED_VERCEL_PROJECT_ID,name:identityModule.HOSTED_VERCEL_PROJECT_NAME,accountId:'team_other'});
+        return response({error:'SYNTHETIC_ERROR_SECRET'},scenario==='project401'?401:scenario==='project403'?403:404);
       }
       if(url==='https://api.supabase.com/v1/projects')return response([{id:'hyflxnlhpmiqxvvcoiia',name:'legalease-rcap-acceptance',region:'us-west-2',status:'ACTIVE_HEALTHY'}]);
       const sql=JSON.parse(options.body).query;
@@ -148,11 +155,20 @@ test("failed Vercel identity preserves independent Supabase proof and saved fail
     };
     await run(fs,path,fileURLToPath,()=>({root:directory}),identityModule.HOSTED_VERCEL_PROJECT_NAME,identityModule.HOSTED_VERCEL_TEAM_SLUG,identityModule.hostedVercelScopedUrl,identityModule.resolveHostedVercelIdentity,fakeProcess,{log:(...x)=>logs.push(x.join(' ')),error:(...x)=>logs.push(x.join(' '))},fetch);
     const evidence=JSON.parse(fs.readFileSync(path.join(directory,'preflight.json'),'utf8'));
+    if(scenario==='scoped_pat') {
+      assert.equal(evidence.passed,true);assert.equal(fakeProcess.exitCode,0);
+      assert.equal(Object.keys(evidence.cases.verdicts).length,9);
+      assert.ok(Object.values(evidence.cases.verdicts).every(Boolean));
+      assert.ok(calls.every(url=>new URL(url).pathname!=='/v2/teams'));
+      assert.ok(calls.some(url=>url.includes('/env?decrypt=false')));
+      assert.doesNotMatch(logs.join('\n')+JSON.stringify(evidence),/SYNTHETIC_(?:VERCEL|SUPABASE|ERROR)_SECRET/);
+      continue;
+    }
     assert.equal(evidence.passed,false,scenario);assert.equal(fakeProcess.exitCode,1,scenario);
     for(const gate of ['supabase_token_usable','acceptance_project_resolves','acceptance_project_identity_is_exact','acceptance_project_reachable_for_sql','acceptance_project_carries_no_production_data'])assert.equal(evidence.cases.verdicts[gate],true,`${scenario}:${gate}`);
     assert.equal(evidence.failedCases.length,4);
     const failure=evidence.cases.vercelIdentityFailure;
-    const expected={team401:['VERCEL_TEAMS',401,'HTTP_UNAUTHENTICATED'],team403:['VERCEL_TEAMS',403,'HTTP_FORBIDDEN'],project404:['VERCEL_PINNED_PROJECT',404,'HTTP_NOT_FOUND'],team_missing:['VERCEL_TEAMS',200,'PINNED_TEAM_NOT_VISIBLE'],network:['VERCEL_TEAMS',null,'READ_FAILED_OR_TIMED_OUT'],missing_token:['NOT_REQUESTED',null,'MISSING_CREDENTIAL']}[scenario];
+    const expected={project401:['VERCEL_PINNED_PROJECT',401,'HTTP_UNAUTHENTICATED'],project403:['VERCEL_PINNED_PROJECT',403,'HTTP_FORBIDDEN'],project404:['VERCEL_PINNED_PROJECT',404,'HTTP_NOT_FOUND'],wrong_owner:['VERCEL_PINNED_PROJECT',200,'PINNED_PROJECT_TEAM_MISMATCH'],network:['VERCEL_PINNED_PROJECT',null,'READ_FAILED_OR_TIMED_OUT'],missing_token:['NOT_REQUESTED',null,'MISSING_CREDENTIAL']}[scenario];
     assert.deepEqual([failure.endpoint,failure.httpStatus,failure.reason],expected);
     assert.ok(calls.some(url=>url.includes('/database/query')));
     assert.doesNotMatch(logs.join('\n')+JSON.stringify(evidence),/SYNTHETIC_(?:VERCEL|SUPABASE|ERROR)_SECRET/);
