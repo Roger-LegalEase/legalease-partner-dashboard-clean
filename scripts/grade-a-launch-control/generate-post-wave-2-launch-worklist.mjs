@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /** Existing national worklist/freeze, reconciled from native evidence; no admission. */
+import { verifyPreservedFamilyBaseline } from './preserved-family-baseline.mjs';
 import { NC_SCOPE_PATH } from './conditional-family-scope.mjs';
 import fs from 'node:fs';
 import { CURRENT_SERVICE_REVIEW } from './verified-current-service-preflight.mjs';
@@ -40,8 +41,8 @@ if(flag>=0 || fs.existsSync(defaultBinding)){
   if(!/^[a-f0-9]{40}$/.test(supplied.commitSha??''))throw new Error('Baseline requires exact40-character commit SHA');
   execFileSync('git',['merge-base','--is-ancestor',supplied.commitSha,head]);
   const bytes=execFileSync('git',['show',`${supplied.commitSha}:${INPUTS[0]}`],{maxBuffer:64*1024*1024});
-  if(shaBytes(bytes)!==supplied.masterQueueSha256||inputDigests[INPUTS[0]]!==supplied.masterQueueSha256)throw new Error('Baseline queue digest disagrees with pinned or current queue bytes');
-  baseline={verified:true,commitSha:supplied.commitSha,masterQueueSha256:supplied.masterQueueSha256,bindingPath,bindingSha256:inputDigests[bindingPath]};
+  verifyPreservedFamilyBaseline(bytes,supplied.masterQueueSha256,masterQueue);
+  baseline={verified:true,commitSha:supplied.commitSha,masterQueueSha256:supplied.masterQueueSha256,bindingPath,bindingSha256:inputDigests[bindingPath],currentQueueSha256:inputDigests[INPUTS[0]],preservation:'Every native family record equals the pinned baseline exactly; generator scheduling/header metadata may advance.'};
  }catch(error){baseline={verified:false,reason:error.message,bindingPath};}
 }
 const artifactBindings={};
@@ -58,7 +59,7 @@ for(const f of masterQueue.families){
   measurementScope:bounded?.measurementScope??'Preserved native report bindings; this generator does not rerender or re-review artifacts.'};
 }
 const reconciliation=reconcileReleaseEvidence({masterQueue,registry,projection,launchGraph,baseline,artifactBindings,ownerScope:read(NC_SCOPE_PATH)});
-for (const p of ['scripts/grade-a-launch-control/conditional-family-scope.mjs','scripts/grade-a-launch-control/reconcile-release-evidence.mjs']) inputDigests[p]=shaBytes(fs.readFileSync(p));
+for (const p of ['scripts/grade-a-launch-control/preserved-family-baseline.mjs','scripts/grade-a-launch-control/conditional-family-scope.mjs','scripts/grade-a-launch-control/reconcile-release-evidence.mjs']) inputDigests[p]=shaBytes(fs.readFileSync(p));
 const causeHelper='scripts/grade-a-launch-control/release-gap-causes.mjs';
 inputDigests[causeHelper]=shaBytes(fs.readFileSync(causeHelper));
 inputDigests['scripts/grade-a-launch-control/verified-current-service-preflight.mjs']=shaBytes(fs.readFileSync('scripts/grade-a-launch-control/verified-current-service-preflight.mjs'));
