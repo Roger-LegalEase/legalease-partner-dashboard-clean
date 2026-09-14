@@ -36,16 +36,6 @@
         "revokedAt": "2026-09-05",
         "reason": "First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict",
         "currentRefusal": "First-cohort evidence refusal: data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf no longer hashes to its approved digest"
-      },
-      {
-        "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
-        "packetFamilyId": "wy_fel_1502-set",
-        "disposition": "ALREADY_REVOKED",
-        "recordId": "grade-a-wy-felony-conviction-expungement-w-s-7-13-1502-v1",
-        "version": 2,
-        "revokedAt": "2026-09-06",
-        "reason": "First-cohort evidence refusal: data/record-clearing/legal-design-intake/WY.memo.json moved after the admitted current digest",
-        "currentRefusal": "First-cohort evidence refusal: data/record-clearing/legal-design-intake/WY.memo.json moved after the admitted current digest"
       }
     ]
   },
@@ -69,7 +59,7 @@
     "rule": "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort records and the separately productized exact Illinois v2 route bind their own current packet/raster/independent-verification, owner-audit, codified-authority, provider and fixture evidence. A fulfillment record is additive: it opens no route and supplies no hosted canary, deployment pin, payment, sponsorship, launch-graph or Production gate. Codified authority is accepted only where both specification and packet-set components require no official PDF; official-PDF routes still require exact official bytes. The Mississippi clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. A route absent from this registry fails closed."
   },
   "evidenceInputs": {
-    "data/rcap-ledger/launch-graph.json": "96e4ba1a042e61db96dd773a92b3780e01769067015ec088c6ff415552752567",
+    "data/rcap-ledger/launch-graph.json": "84f8671b8478bfa5a760b8a4e0152981d748c63be28c4398e1683bd8960f7443",
     "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
     "data/rcap-ledger/completed-output-counsel-manifest.json": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
     "data/rcap-ledger/public-witness-fixtures.json": "a1152d0363cf0299733a8d868794fa7572ed734b5d7fc76418aaad0ae0fd29e2",
@@ -129,7 +119,8 @@
     "scripts/build-census-v1-dc_seal_nonconviction-set.mjs": "fcfb6a28bd9d512da91195b1a83d8349e3d3bb50d26c1c6d11385d672d7145d8",
     "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs": "993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b",
     "scripts/build-census-v1-ms-misd-addl-set.mjs": "84134742309196cc2b696d490c17689da6d56122f48b0e193f231ca710d3bd68",
-    "scripts/build-census-v1-wy_fel_1502-set.mjs": "5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76"
+    "scripts/build-census-v1-wy_fel_1502-set.mjs": "5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76",
+    "scripts/lib/wy-unchanged-track-authority.mjs": "6fdc4c1334473bf8d2347e720aa4e51bb568b290f81af066962691a6460c83f4"
   },
   "records": [
     {
@@ -2698,15 +2689,15 @@
       "pathwayId": "felony-conviction-expungement-w-s-7-13-1502",
       "packetFamilyId": "wy_fel_1502-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 2,
+      "version": 3,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
       "revocation": {
-        "revoked": true,
-        "reason": "First-cohort evidence refusal: data/record-clearing/legal-design-intake/WY.memo.json moved after the admitted current digest",
-        "revokedAt": "2026-09-06",
-        "revokedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs"
+        "revoked": false,
+        "reason": null,
+        "revokedAt": null,
+        "revokedBy": null
       },
       "legalAuthority": {
         "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
@@ -2724,9 +2715,9 @@
         {
           "sourceKind": "codified_authority",
           "sourceId": "codified-authority:wy_fel_1502-set:WY:felony-conviction-expungement-w-s-7-13-1502",
-          "sha256": "d5f4f57ca4d07110c260deb04a40668eac16029f241a043ea0639489d1fbe095",
-          "expectedSha256": "d5f4f57ca4d07110c260deb04a40668eac16029f241a043ea0639489d1fbe095",
-          "installedSha256": "d5f4f57ca4d07110c260deb04a40668eac16029f241a043ea0639489d1fbe095",
+          "sha256": "3b82300cc42f0e2c76dd1e3307111707797a49b8ad64ac2942cabc15cf7b0d5d",
+          "expectedSha256": "3b82300cc42f0e2c76dd1e3307111707797a49b8ad64ac2942cabc15cf7b0d5d",
+          "installedSha256": "3b82300cc42f0e2c76dd1e3307111707797a49b8ad64ac2942cabc15cf7b0d5d",
           "corpusReleaseId": "not_applicable:codified_authority",
           "corpusArchiveSha256": "not_applicable:codified_authority",
           "verifiedAt": "base:aefd46f7c",
@@ -2751,7 +2742,45 @@
                 "role": "track_authority",
                 "sourceId": "WY.memo:wy_fel_1502",
                 "path": "data/record-clearing/legal-design-intake/WY.memo.json",
-                "sha256": "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
+                "sha256": "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679",
+                "unchangedTrackReconciliation": {
+                  "contract": "rcap-wy-unchanged-track-container/v1",
+                  "familyId": "wy_fel_1502-set",
+                  "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
+                  "trackId": "wy_fel_1502",
+                  "approvedMemo": {
+                    "path": "data/record-clearing/legal-design-intake/WY.memo.json",
+                    "commit": "ff9705a240c004ed7b9d2f022113abe865442d3f",
+                    "sha256": "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
+                  },
+                  "currentMemo": {
+                    "path": "data/record-clearing/legal-design-intake/WY.memo.json",
+                    "sha256": "f210755837e1eecc6bae4505c812a2b4300cd1e282e8c90189291a9a50c8470b"
+                  },
+                  "selectedTrackSha256": "0917450737bf52e2371467090e57d4456ff4220cb56106534ff22a455abe5687",
+                  "delta": "Only wy_traffick_6_2_708 added; all pre-existing tracks and shared memo properties unchanged.",
+                  "unchangedSupportingFiles": {
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/canonical.pdf": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/boundary.pdf": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/source-receipt.json": "92c6d28709785008e9a5a20333523f034910068dd9d01e4eb525a7ef1fee194b",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/production-field-map.json": "244a3aa2ece054596574ff99dff2c124d58d7a701c3af6311feb42126746e3cf",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/reports/rendered-artifacts.json": "3697fe56e7c614e15d6f44fb12fee41383c4ed04196c346354d400eb20b1bed3",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/participant-instructions.md": "c6294b42fcb82670223e2812992b0e4f899fad818c4469c75e66b76f65ca8976",
+                    "scripts/build-census-v1-wy_fel_1502-set.mjs": "5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76",
+                    "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json": "97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f",
+                    "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3"
+                  },
+                  "successor": {
+                    "auditPath": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+                    "reviewPath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+                    "registryPath": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+                    "lane": "vf07",
+                    "verifiedAtBase": "aefd46f7c",
+                    "evidenceRowSha256": "68ec092ccbeeed2b5c25fe87aaf03721cba07124e1295a560866b34e40a2d4db"
+                  },
+                  "createsApproval": false,
+                  "changesShippingArtifacts": false
+                }
               },
               {
                 "role": "legal_authority",
@@ -2776,14 +2805,14 @@
               }
             ]
           },
-          "boundInputsSha256": "d5f4f57ca4d07110c260deb04a40668eac16029f241a043ea0639489d1fbe095"
+          "boundInputsSha256": "3b82300cc42f0e2c76dd1e3307111707797a49b8ad64ac2942cabc15cf7b0d5d"
         }
       ],
       "provider": {
         "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
         "rendererKind": "packet_document_v1",
         "rendererVersion": "1.0.0",
-        "imageDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864"
+        "imageDigest": "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633"
       },
       "fixture": {
         "fixtureId": "WY:felony-conviction-expungement-w-s-7-13-1502",
@@ -2856,7 +2885,7 @@
         "state": "passed",
         "pagesReviewed": 8,
         "pageCount": 8,
-        "evidenceSha256": "cbbc91e8011e3071f5e4d2d12ba44e764996d467abe7bc1bc8e27db606305581",
+        "evidenceSha256": "c4913425844bc4c7ff5184b55e73d524d69417831be7650c35464da64c5a7d7f",
         "reviewedBy": ".github/workflows/rcap-packet-raster-acceptance-batch.yml#job:100178595166",
         "reviewedAt": null
       },
@@ -2938,7 +2967,7 @@
         },
         "rasterReceipt": {
           "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-          "rowSha256": "71172a52e1e86c89cc7192b5dcad1ff27f6556593feb9657baca0e8cb04ea987",
+          "rowSha256": "f8632bb8ffaab24c3c137b44cdb2cffc9dcdf811f1e74fb37595d4bfb4d362af",
           "verdict": "RASTER_PASS",
           "workflowRunId": "33608483853",
           "jobId": "100178595166",
@@ -2953,7 +2982,7 @@
           "lane": "vf07",
           "verifiedAtBase": "aefd46f7c",
           "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
-          "evidenceDocumentSha256": "ba5f23fdc70bbbcf65c3c3530bb0ea12ee8fb0c77ea081713319fbdd52cba56b",
+          "evidenceDocumentSha256": "f53772e1cc5b75bda014d76902337797b1c1602cc52fbc6cda375714caf98a0c",
           "evidenceRowSha256": "68ec092ccbeeed2b5c25fe87aaf03721cba07124e1295a560866b34e40a2d4db",
           "boundInputs": {
             "packetSpecificationSha256": "97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f",
@@ -2985,7 +3014,45 @@
                 "role": "track_authority",
                 "sourceId": "WY.memo:wy_fel_1502",
                 "path": "data/record-clearing/legal-design-intake/WY.memo.json",
-                "sha256": "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
+                "sha256": "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679",
+                "unchangedTrackReconciliation": {
+                  "contract": "rcap-wy-unchanged-track-container/v1",
+                  "familyId": "wy_fel_1502-set",
+                  "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
+                  "trackId": "wy_fel_1502",
+                  "approvedMemo": {
+                    "path": "data/record-clearing/legal-design-intake/WY.memo.json",
+                    "commit": "ff9705a240c004ed7b9d2f022113abe865442d3f",
+                    "sha256": "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
+                  },
+                  "currentMemo": {
+                    "path": "data/record-clearing/legal-design-intake/WY.memo.json",
+                    "sha256": "f210755837e1eecc6bae4505c812a2b4300cd1e282e8c90189291a9a50c8470b"
+                  },
+                  "selectedTrackSha256": "0917450737bf52e2371467090e57d4456ff4220cb56106534ff22a455abe5687",
+                  "delta": "Only wy_traffick_6_2_708 added; all pre-existing tracks and shared memo properties unchanged.",
+                  "unchangedSupportingFiles": {
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/canonical.pdf": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/boundary.pdf": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/source-receipt.json": "92c6d28709785008e9a5a20333523f034910068dd9d01e4eb525a7ef1fee194b",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/production-field-map.json": "244a3aa2ece054596574ff99dff2c124d58d7a701c3af6311feb42126746e3cf",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/reports/rendered-artifacts.json": "3697fe56e7c614e15d6f44fb12fee41383c4ed04196c346354d400eb20b1bed3",
+                    "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/participant-instructions.md": "c6294b42fcb82670223e2812992b0e4f899fad818c4469c75e66b76f65ca8976",
+                    "scripts/build-census-v1-wy_fel_1502-set.mjs": "5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76",
+                    "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json": "97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f",
+                    "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3"
+                  },
+                  "successor": {
+                    "auditPath": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+                    "reviewPath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+                    "registryPath": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+                    "lane": "vf07",
+                    "verifiedAtBase": "aefd46f7c",
+                    "evidenceRowSha256": "68ec092ccbeeed2b5c25fe87aaf03721cba07124e1295a560866b34e40a2d4db"
+                  },
+                  "createsApproval": false,
+                  "changesShippingArtifacts": false
+                }
               },
               {
                 "role": "legal_authority",
@@ -3010,16 +3077,16 @@
               }
             ]
           },
-          "boundInputsSha256": "d5f4f57ca4d07110c260deb04a40668eac16029f241a043ea0639489d1fbe095"
+          "boundInputsSha256": "3b82300cc42f0e2c76dd1e3307111707797a49b8ad64ac2942cabc15cf7b0d5d"
         },
         "provider": {
           "deliveryProviderEvidencePath": "data/rcap-render/worker-publication-evidence.json",
-          "deliveryProviderEvidenceSha256": "5208f1710c2a97a36584aa16c005f4a0d2d12cbba3af3bb67f9482a02eef8267",
+          "deliveryProviderEvidenceSha256": "8864d2ab37e0ba7f1413a07e0bb65828361089171b6fd076aa45725ccd7938e0",
           "deliveryProvider": {
             "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
             "rendererKind": "packet_document_v1",
             "rendererVersion": "1.0.0",
-            "imageDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864"
+            "imageDigest": "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633"
           },
           "artifactProducer": {
             "builderPath": "scripts/build-census-v1-wy_fel_1502-set.mjs",
@@ -3068,6 +3135,15 @@
           "reason": "Revoked because the record's evidence no longer holds: First-cohort evidence refusal: data/record-clearing/legal-design-intake/WY.memo.json moved after the admitted current digest. The route denies until a fresh independent read, a current raster receipt and the owner re-review restore the evidence, at which point this generator reinstates the record on this same history chain.",
           "recordSha256": "30077b23e740e39300811c9d81faeb7c5ad0e1a145852aaafb44166c404d495a",
           "supersedesRecordSha256": "c61b9e3979caf256ba1ebc91645cf8dd7a8e236408e37f9f2dbbfe5940292e85"
+        },
+        {
+          "version": 3,
+          "changeKind": "reinstated",
+          "changedAt": "2026-09-14",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Reinstated: the evidence the revoked version 2 lacked holds again on the current bytes, raster receipt and independent verification.",
+          "recordSha256": "0959de409023dfc178906f98fb468bb15879446409615d3c96588d96710e684e",
+          "supersedesRecordSha256": "30077b23e740e39300811c9d81faeb7c5ad0e1a145852aaafb44166c404d495a"
         }
       ]
     }

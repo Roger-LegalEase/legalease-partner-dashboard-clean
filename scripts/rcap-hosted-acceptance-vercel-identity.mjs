@@ -17,10 +17,17 @@ const TEAM_ID = /^team_[A-Za-z0-9_]+$/;
 const PROJECT_ID = /^prj_[A-Za-z0-9_]+$/;
 
 async function getJson(url, { token, fetchImpl }) {
-  const response = await fetchImpl(url, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  const text = await response.text();
+  let response, text;
+  try {
+    response = await fetchImpl(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      redirect: "error",
+      signal: AbortSignal.timeout(15000)
+    });
+    text = await response.text();
+  } catch {
+    throw new Error("Vercel identity read failed or timed out");
+  }
   let json = null;
   try { json = JSON.parse(text); } catch { /* surfaced in the error below */ }
   if (!response.ok) {
@@ -55,9 +62,31 @@ export async function resolveHostedVercelIdentity({
   if (!token) throw new Error("VERCEL_TOKEN is required to resolve the pinned nonproduction project");
   if (typeof fetchImpl !== "function") throw new Error("a fetch implementation is required");
 
-  const teamDocument = await getJson("https://api.vercel.com/v2/teams?limit=100", { token, fetchImpl });
-  const teams = Array.isArray(teamDocument?.teams) ? teamDocument.teams : [];
-  const team = teams.find((candidate) => candidate?.slug === HOSTED_VERCEL_TEAM_SLUG);
+  // Vercel pagination.next is the next request's until timestamp; only null
+  // proves exhaustion. See https://vercel.com/docs/rest-api/reference/endpoints/teams/list-all-teams.
+  const teams = [], cursors = new Set(), teamIds = new Set();
+  let until = null, complete = false;
+  const refuse = code => { const error = new Error(code); error.code = code; throw error; };
+  for (let page = 0; page < 20; page++) {
+    const url = `https://api.vercel.com/v2/teams?limit=100${until === null ? "" : `&until=${until}`}`;
+    const document = await getJson(url, { token, fetchImpl });
+    if (!Array.isArray(document?.teams) || document.teams.length > 100
+        || !document.pagination || !Object.hasOwn(document.pagination, "next")) refuse("TEAM_PAGINATION_INVALID");
+    for (const item of document.teams) {
+      if (!TEAM_ID.test(item?.id ?? "") || typeof item.slug !== "string" || !item.slug) refuse("TEAM_LIST_IDENTITY_INVALID");
+      if (teamIds.has(item.id)) refuse("TEAM_PAGINATION_DUPLICATE_IDENTITY");
+      teamIds.add(item.id); teams.push(item);
+    }
+    const next = document.pagination.next;
+    if (next === null) { complete = true; break; }
+    if (!Number.isSafeInteger(next) || next < 0) refuse("TEAM_PAGINATION_CURSOR_INVALID");
+    if (cursors.has(next) || (until !== null && next >= until)) refuse("TEAM_PAGINATION_CURSOR_LOOP");
+    cursors.add(next); until = next;
+  }
+  if (!complete) refuse("TEAM_PAGINATION_LIMIT");
+  const matchingTeams = teams.filter(candidate => candidate.slug === HOSTED_VERCEL_TEAM_SLUG);
+  if (matchingTeams.length > 1) refuse("TEAM_SLUG_AMBIGUOUS");
+  const team = matchingTeams[0];
   if (!team) throw new Error(`Vercel token cannot resolve pinned team slug ${HOSTED_VERCEL_TEAM_SLUG}`);
   if (!TEAM_ID.test(team.id ?? "")) throw new Error(`pinned Vercel team ${HOSTED_VERCEL_TEAM_SLUG} returned no canonical team_ id`);
 

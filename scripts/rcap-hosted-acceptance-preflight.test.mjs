@@ -130,7 +130,7 @@ test("failed Vercel identity preserves independent Supabase proof and saved fail
     const directory=fs.mkdtempSync(path.join(tmpdir(),'rcap-service-observability-'));
     const fakeProcess={env:{SUPABASE_ACCESS_TOKEN:'SYNTHETIC_SUPABASE_SECRET',VERCEL_TOKEN:scenario==='missing_token'?'':'SYNTHETIC_VERCEL_SECRET',ACCEPTANCE_SUPABASE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',PREFLIGHT_SCOPE:'full'},exit(code){if(!fs.existsSync(path.join(directory,'preflight.json')))throw new Error(`unexpected early exit ${code}`);this.exitCode=code;}};
     const calls=[],logs=[];
-    const response=(body,status=200)=>new Response(JSON.stringify(body),{status});
+    const response=(body,status=200)=>new Response(JSON.stringify(body?.teams && !body.pagination ? {...body,pagination:{next:null}} : body),{status});
     const fetch=async(url,options)=>{
       calls.push(url);assert.equal(options.redirect,'error');assert.ok(options.signal instanceof AbortSignal);
       if(url.startsWith('https://api.vercel.com')) {

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — candidate records, observation snapshot, projection.
 //
 //   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs
@@ -1120,7 +1121,17 @@ function codifiedAuthorityProof({
 
   const trackBytes = readEvidenceBytes(trackExpected.path);
   const legalBytes = readEvidenceBytes(CODIFIED_COMMON_INPUTS.legal.path);
-  requireEvidence(sha256(trackBytes) === trackExpected.sha256, `${trackExpected.path} moved after the admitted current digest`);
+  let unchangedTrackReconciliation = null;
+  if (familyId === WY_CONTAINER.familyId && routeId === WY_CONTAINER.routeId && sha256(trackBytes) !== trackExpected.sha256) {
+    try {
+      unchangedTrackReconciliation = reconcileWyUnchangedTrack({
+        familyId, routeId,
+        approvedBytes: readGitBlob(WY_CONTAINER.approvedCommit, trackExpected.path),
+        currentBytes: trackBytes, readBytes: readEvidenceBytes
+      });
+    } catch (error) { requireEvidence(false, error.message); }
+  }
+  requireEvidence(sha256(trackBytes) === trackExpected.sha256 || unchangedTrackReconciliation, `${trackExpected.path} moved after the admitted current digest`);
   requireEvidence(sha256(legalBytes) === CODIFIED_COMMON_INPUTS.legal.sha256, `${CODIFIED_COMMON_INPUTS.legal.path} moved after the admitted current digest`);
   const packetSetSha256 = sha256(stableStringify(packetSet));
 
@@ -1147,7 +1158,8 @@ function codifiedAuthorityProof({
         role: "track_authority",
         sourceId: trackIdentity.sourceId,
         path: trackExpected.path,
-        sha256: trackExpected.sha256
+        sha256: trackExpected.sha256,
+        ...(unchangedTrackReconciliation ? { unchangedTrackReconciliation } : {})
       },
       {
         role: "legal_authority",
@@ -1829,6 +1841,7 @@ const records = [
   .sort((a, b) => a.routeId.localeCompare(b.routeId));
 
 const exactProductizedEvidencePaths = [...new Set([
+  "scripts/lib/wy-unchanged-track-authority.mjs",
   FIRST_COHORT_RETURN,
   IL_PRODUCTIZATION_RETURN,
   IL_CURRENT_VERIFICATION_RETURN,

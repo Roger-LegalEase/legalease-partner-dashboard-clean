@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — acceptance gate.
 //
 //   node scripts/verify-rcap-grade-a-fulfillment-authority.mjs
@@ -420,7 +421,15 @@ function codifiedAuthorityProblem(record, expected, options = {}) {
     if (!input || input.path !== expectedInput.path || input.sha256 !== expectedInput.sha256) {
       return `${role} does not bind its exact admitted path and digest`;
     }
-    if (sha256(readSource(input.path)) !== input.sha256) return `${role} moved from its bound current digest`;
+    if (sha256(readSource(input.path)) !== input.sha256) {
+      if (role !== "track_authority" || expected.familyId !== WY_CONTAINER.familyId || expected.routeId !== WY_CONTAINER.routeId) return `${role} moved from its bound current digest`;
+      try {
+        const proof = reconcileWyUnchangedTrack({ familyId: expected.familyId, routeId: expected.routeId,
+          approvedBytes: execFileSync("git", ["show", `${WY_CONTAINER.approvedCommit}:${input.path}`]),
+          currentBytes: readSource(input.path), readBytes: readSource });
+        if (stableStringify(proof) !== stableStringify(input.unchangedTrackReconciliation)) return "WY container reconciliation is absent or stale";
+      } catch (error) { return error.message; }
+    }
   }
   const packetSetInput = authorityInputs.find((entry) => entry.role === "packet_set_authority");
   const packetSetSha256 = sha256(stableStringify(packetSet));

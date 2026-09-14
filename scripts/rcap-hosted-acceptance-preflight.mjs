@@ -127,7 +127,9 @@ async function resolvePreflightVercelIdentity({ token, resolveIdentity = resolve
       : httpStatus === 404 ? "HTTP_NOT_FOUND" : httpStatus !== null && (httpStatus < 200 || httpStatus >= 300)
         ? "HTTP_FAILURE" : "IDENTITY_READ_FAILED";
     const message = String(error?.message ?? "");
-    if (endpoint === "UNEXPECTED_ENDPOINT") reason = "UNEXPECTED_ENDPOINT";
+    const paginationCodes = new Set(["TEAM_PAGINATION_INVALID", "TEAM_LIST_IDENTITY_INVALID", "TEAM_PAGINATION_DUPLICATE_IDENTITY", "TEAM_PAGINATION_CURSOR_INVALID", "TEAM_PAGINATION_CURSOR_LOOP", "TEAM_PAGINATION_LIMIT", "TEAM_SLUG_AMBIGUOUS"]);
+    if (paginationCodes.has(error?.code)) reason = error.code;
+    else if (endpoint === "UNEXPECTED_ENDPOINT") reason = "UNEXPECTED_ENDPOINT";
     else if (httpStatus === null) reason = "READ_FAILED_OR_TIMED_OUT";
     else if (message.includes("cannot resolve pinned team slug")) reason = "PINNED_TEAM_NOT_VISIBLE";
     else if (message.includes("returned no canonical team_ id")) reason = "TEAM_ID_INVALID";

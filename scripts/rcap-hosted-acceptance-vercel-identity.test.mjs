@@ -27,7 +27,7 @@ function jsonResponse(status, value) {
   return {
     ok: status >= 200 && status < 300,
     status,
-    async text() { return JSON.stringify(value); }
+    async text() { return JSON.stringify(value?.teams && !value.pagination ? { ...value, pagination: { next: null } } : value); }
   };
 }
 
@@ -264,4 +264,45 @@ test("deploy cannot pass unless the exact Preview health endpoint is application
   assert.match(source, /health\.status === 200/);
   assert.match(source, /health\.json !== null/);
   assert.match(source, /"checks" in health\.json/);
+});
+
+test("team discovery traverses all pages before resolving exact team and project", async () => {
+  const { resolveHostedVercelIdentity } = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
+  const calls=[];
+  const result=await resolveHostedVercelIdentity({token:'synthetic',fetchImpl:async(url,options)=>{
+    calls.push(url);assert.equal(options.redirect,'error');assert.ok(options.signal instanceof AbortSignal);
+    if(calls.length===1)return jsonResponse(200,{teams:[{id:'team_other',slug:'other'}],pagination:{next:200}});
+    if(calls.length===2)return jsonResponse(200,{teams:[{id:'team_exact',slug:TEAM_SLUG}],pagination:{next:100}});
+    if(calls.length===3)return jsonResponse(200,{teams:[],pagination:{next:null}});
+    return jsonResponse(200,{id:'prj_exact',name:PROJECT_NAME,accountId:'team_exact'});
+  }});
+  assert.equal(result.teamId,'team_exact');assert.equal(calls.length,4);
+  assert.equal(calls[1],'https://api.vercel.com/v2/teams?limit=100&until=200');
+  assert.equal(calls[2],'https://api.vercel.com/v2/teams?limit=100&until=100');
+});
+
+test("team pagination refuses incomplete, looping, ambiguous and failed later pages", async () => {
+  const { resolveHostedVercelIdentity } = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
+  const team={id:'team_exact',slug:TEAM_SLUG};
+  const cases=[
+    ['missing pagination',[{teams:[team]}],'TEAM_PAGINATION_INVALID'],
+    ['missing next',[{teams:[team],pagination:{}}],'TEAM_PAGINATION_INVALID'],
+    ['string cursor',[{teams:[team],pagination:{next:'200'}}],'TEAM_PAGINATION_CURSOR_INVALID'],
+    ['negative cursor',[{teams:[team],pagination:{next:-1}}],'TEAM_PAGINATION_CURSOR_INVALID'],
+    ['cursor loop',[{teams:[team],pagination:{next:200}},{teams:[],pagination:{next:200}}],'TEAM_PAGINATION_CURSOR_LOOP'],
+    ['forward cursor',[{teams:[team],pagination:{next:200}},{teams:[],pagination:{next:201}}],'TEAM_PAGINATION_CURSOR_LOOP'],
+    ['duplicate identity',[{teams:[team],pagination:{next:200}},{teams:[team],pagination:{next:null}}],'TEAM_PAGINATION_DUPLICATE_IDENTITY'],
+    ['ambiguous slug',[{teams:[team,{id:'team_second',slug:TEAM_SLUG}],pagination:{next:null}}],'TEAM_SLUG_AMBIGUOUS'],
+    ['malformed id',[{teams:[{id:'invalid',slug:TEAM_SLUG}],pagination:{next:null}}],'TEAM_LIST_IDENTITY_INVALID'],
+    ['failed second page',[{teams:[team],pagination:{next:200}},{status:403}],'HTTP 403'],
+    ['page limit',Array.from({length:20},(_,i)=>({teams:[],pagination:{next:100-i}})),'TEAM_PAGINATION_LIMIT']
+  ];
+  for(const [label,pages,reason]of cases){
+    let calls=0;
+    await assert.rejects(()=>resolveHostedVercelIdentity({token:'SECRET_TOKEN',fetchImpl:async url=>{
+      assert.ok(url.includes('/v2/teams'),label);const page=pages[calls++];assert.ok(page,label);
+      return {ok:!page.status,status:page.status??200,text:async()=>JSON.stringify(page.status?{error:'SECRET_BODY'}:page)};
+    }}),error=>{assert.ok(error.message.includes(reason),`${label}: ${error.message}`);assert.doesNotMatch(error.message,/SECRET/);return true;});
+    assert.ok(calls<=20,label);
+  }
 });
