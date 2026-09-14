@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 408,
-    "rows": 1494,
-    "independentVerdicts": 335,
+    "returnDirectories": 411,
+    "rows": 1498,
+    "independentVerdicts": 338,
     "failRepairRequired": 0,
-    "passIndependent": 334
+    "passIndependent": 337
   },
   "failRepairRequiredFamilies": [],
   "refusedAtTheClaimGate": {
@@ -18541,6 +18541,101 @@
       "superseded": false
     },
     {
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfmo575sem1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "75d0432b867c2609d4c95fba9d649550f4eee4e4",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "FAIL: XG filing code contradicts adopted correction-route clerk-confirmation requirement. Otherwise575.120/610.123 targeted false-factor remedy and civil county-of-arrest procedure retained.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfmo575sem1/saved-byte-measurements.json",
+            "sha256": "e316f2835d80de380392778e590f6c44906a17296c8b789183d667386a766559",
+            "byteLength": 265924
+          }
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Adopted generationRequirements requires impersonationAccount and identifyingFactorsUsed, but both fixtures and candidate builder collect confirmation booleans rather than a participant account/list of actual false factors. Required impersonatorRelationship and policeReportFiled answers also absent; instructions alone do not collect these answers.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfmo575sem1/saved-byte-measurements.json",
+            "sha256": "e316f2835d80de380392778e590f6c44906a17296c8b789183d667386a766559",
+            "byteLength": 265924
+          }
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "FAIL: OCN and execution-address writes violate exact adopted intentional blanks. CR310 directions/date/judge blanks otherwise retained.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfmo575sem1/saved-byte-measurements.json",
+            "sha256": "e316f2835d80de380392778e590f6c44906a17296c8b789183d667386a766559",
+            "byteLength": 265924
+          }
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "All10 stop conditions printed, but known-impersonator relationship is not collected; required-facts failure must be repaired before stop logic is accepted.",
+          "findingReadFrom": "finding",
+          "evidence": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vfmo575sem1/saved-byte-measurements.json",
+            "sha256": "e316f2835d80de380392778e590f6c44906a17296c8b789183d667386a766559",
+            "byteLength": 265924
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo575sem1/rows-vfmo575sem1-mo-identity-semantic-fail-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-575-120-identity-theft-correction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "verdict": "PASS",
+      "lane": "vfmo575sem1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b795d17915fba5f4085d65bdeb10858a1503bd1a",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo575sem1/rows-vfmo575sem1-repair-semantic-pass-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-575-120-identity-theft-correction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "verdict": "PASS",
+      "lane": "vfmo610sem1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a21495aec204ce613ecbd0916dba0e918cf9b602",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo610sem1/rows-vfmo610sem1-repair2-semantic-pass-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-122-arrest-expungement-set",
+      "superseded": false
+    },
+    {
       "familyId": "mo-610-140-arrest-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vfmo1",
@@ -28853,6 +28948,22 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-mo-custom-pleading",
+      "verdict": "PASS",
+      "lane": "vfmocustomsem1",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "cb7518f3724043b1074b3eed4d0727b73b116114",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmocustomsem1/rows-vfmocustomsem1-repair-independent-pass-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-mo-custom-pleading",
+      "superseded": false
     },
     {
       "familyId": "rcap-ms-custom-pleading",
