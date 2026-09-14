@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "0dd5446f237fbdcf008107b1eb550031ff09db16",
+  "minimumCaptainSha": "a09c7842170c892abadb42ed6bf55a34bfaa5f6c",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -82,7 +82,7 @@
     "sourceBlocked": 0,
     "legalBlocked": 0,
     "verifyPending": 0,
-    "repairRequired": 1,
+    "repairRequired": 0,
     "sumsToDenominator": true
   },
   "byState": {
@@ -91,7 +91,7 @@
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 2,
     "HANDOFF_READY": 2,
-    "FAIL_REPAIR_REQUIRED": 1
+    "BUILT_RASTER_PENDING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -37972,15 +37972,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS",
         "lane": "vfor2",
-        "verifiedAtBase": "c77972daa0a70b8607d3d084f8278a58f748ad15",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfor2/rows-vfor2-original-raster-repair-20260914.json"
+        "verifiedAtBase": "ab1d87f6f13da6c2a491f6c78b7b2d0791912728",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfor2/rows-vfor2-table-successor-semantic-20260914.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -38029,27 +38027,11 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "REPEATING_ROWS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": "Use actual five table body rows and overflow attachment; do not write above or into shaded source header. Preserve source background and full selected/excluded charge identities. Re-review successor current-byte originals.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "All 23 original pages opened; boundary page 4 table placement incident affects first two selected entries. Other 22 pages clean; custom line overruns do not clip page or obscure text.",
-          "findingReadFrom": "finding",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-or_contempt_setaside-set.mjs",

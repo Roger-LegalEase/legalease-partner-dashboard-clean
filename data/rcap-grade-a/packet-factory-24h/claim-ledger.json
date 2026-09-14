@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0dd5446f237fbdcf008107b1eb550031ff09db16",
+  "generatedAtCommit": "a09c7842170c892abadb42ed6bf55a34bfaa5f6c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -8260,21 +8260,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "or_contempt_setaside-set",
-      "familyId": "or_contempt_setaside-set",
-      "itemId": null,
-      "familyIds": [
-        "or_contempt_setaside-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX01",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "or_conviction_setaside-set",
       "familyId": "or_conviction_setaside-set",
       "itemId": null,
@@ -15848,7 +15833,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "161ea7de75e5bc2c5e531cd0e4438f06fe4a4bf6c89f0744ded01698b901fcfa",
+  "claimsDigest": "9f88b3e59291d3306a1ae14c90dbb432c78fc371fa89d8bd451f597de2f1d5de",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -73003,6 +72988,14 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "withdrawnAt": "2026-09-14T04:13:38Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "or_contempt_setaside-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "withdrawnAt": "2026-09-14T05:17:33Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
