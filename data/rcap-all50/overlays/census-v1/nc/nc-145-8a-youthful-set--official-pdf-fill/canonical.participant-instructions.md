@@ -12,6 +12,10 @@ You report reviewing the records. Recheck all entries and keep supporting record
 
 Court findings remain blank. Do not sign an untrue statement or claim service has happened before actual service. Sign and date the petition personally only after review and required service; this source petition has no notarial block.
 
+## Obtain and compare the SBI right-to-review record
+
+Request a right-to-review copy of your own North Carolina criminal history from the State Bureau of Investigation (SBI). Compare the offense class and offense date for each conviction against that SBI record and the court file. Correct this packet before filing if your answers disagree with those records; ask for legal help if the class or exclusion is uncertain. Obtain the court file from the clerk, and the judgment and probation/post-release completion documentation from the clerk or supervising office. This record procurement is a before-filing task and does not prevent preparation of a draft.
+
 ## Agency and offense inventory
 
 List the arresting agency and other North Carolina state/local agencies holding the case with complete addresses. Do not list courts, SBI, Department of Adult Correction, DMV or private companies; the official form explains their notification channels. Check all agencies/offenses against the court file. If more than 3 agencies or 6 offense rows are required, use official AOC-CR-285 and check the attachment box; do not omit records to fit this packet. This fixture has no overflow attachment.

@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VFNCYOUTHSEM1",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/mt_form_b_independent_review",
+  "sessionIdentity": "/root/mt_form_b_independent_review:VFNCYOUTHSEM1",
+  "authorSession": "/root/mt_serving_build",
+  "packetFilesEdited": false,
+  "buildersExecutedOrEdited": false,
+  "pureInputFunctionEvaluatedWithoutBuild": true,
+  "overlayDirectoriesModified": 0,
+  "grantSet": "ebae960f722bf151",
+  "verifiedAtBase": "3fa081a3e492541361ec6972b111ada301192d99",
+  "rows": [
+    {
+      "familyId": "nc_145_8a_youthful-set",
+      "itemId": "nc_145_8a_youthful-set",
+      "lane": "VFNCYOUTHSEM1",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "3fa081a3e492541361ec6972b111ada301192d99",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill",
+      "fixtureCount": 2,
+      "totalPages": 11,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Correct participant CR293 under145.8A; CR296 excluded, CR294 retained only alternative DA guidance.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Three exact source bodies independently hashed, all match;31 candidate bindings exact.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "CR293 two pages, issuer instructions one page, requested CV226 two pages only boundary, participant guides: canonical4/boundary7 total11.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "CR293 SignedName1 (printed participant name, page1) is blank in both fixtures; CV226 SignedByApplicantName and SigningApplicantIsDefendantCkBox are blank on boundary page2 although the applicant name and defendant role are supplied and selected on page1. These are printed identification/election fields, not signatures, dates, jurat, or official-only acts. The generic ^Signed/^Signing classifier mislabels them court_prosecutor_clerk_or_agency_owned. Fill the known printed names and applicable role while preserving actual signature/date/service/jurat/official blanks.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "Both guides omit adopted SBI right-to-review criminal record procurement and explicit offense-class comparison against that record. Generic official/court record language does not identify the required SBI input. Current packetSet.participantActionRequired and requiredBeforeFiling specify this comparison. Preserve CR293 source-role correction and current issuer fee; add the named adopted checklist instruction to both delivered guides. Pure input validation accepts missing military answer, shelter election, tax-refund election, employer and dependent count in the requested-waiver branch. Waiver mapping then uses truthiness defaults (missing military=>No; missing shelter=>Buying; missing tax choice=>Owe) and setText silently omits missing employer/dependents. Collect/validate material financial facts and elections, or preserve an honest optional unanswered control; do not convert absence to false facts or classify needed blanks as route-inapplicable. No packet was rebuilt to test this: importFacts acceptance and exact mapping code establish the defect.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "CR293 SignedName1 (printed participant name, page1) is blank in both fixtures; CV226 SignedByApplicantName and SigningApplicantIsDefendantCkBox are blank on boundary page2 although the applicant name and defendant role are supplied and selected on page1. These are printed identification/election fields, not signatures, dates, jurat, or official-only acts. The generic ^Signed/^Signing classifier mislabels them court_prosecutor_clerk_or_agency_owned. Fill the known printed names and applicable role while preserving actual signature/date/service/jurat/official blanks. Pure input validation accepts missing military answer, shelter election, tax-refund election, employer and dependent count in the requested-waiver branch. Waiver mapping then uses truthiness defaults (missing military=>No; missing shelter=>Buying; missing tax choice=>Owe) and setText silently omits missing employer/dependents. Collect/validate material financial facts and elections, or preserve an honest optional unanswered control; do not convert absence to false facts or classify needed blanks as route-inapplicable. No packet was rebuilt to test this: importFacts acceptance and exact mapping code establish the defect.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "REPEATING_ROWS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "Pure input validation accepts missing military answer, shelter election, tax-refund election, employer and dependent count in the requested-waiver branch. Waiver mapping then uses truthiness defaults (missing military=>No; missing shelter=>Buying; missing tax choice=>Owe) and setText silently omits missing employer/dependents. Collect/validate material financial facts and elections, or preserve an honest optional unanswered control; do not convert absence to false facts or classify needed blanks as route-inapplicable. No packet was rebuilt to test this: importFacts acceptance and exact mapping code establish the defect.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Saved text and mapping show actual signatures/dates/service/jurat/court/prosecutor controls unwritten; misclassified printed participant identification is separately failed.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Both whole PDFs and all31 bindings recomputed,109 mapped text values read from saved components.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Saved component/coverage sequence matches declared two fixtures, no CR296 composition.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "NOT_MEASURABLE_HERE",
+          "measured": false,
+          "finding": "Central original-page review remains pending; semantic review does not claim final raster acceptance.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "County and correct source division explicit; attached issuer instructions preserved.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Exact issuer instructions support52.50 fee, requested adoptedCV226 supplied; no stale175. Input omissions recorded separately.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "DA service30days before hearing and permitted actual methods retained; no invented completed service.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Age/date boundaries, classA-G, statutory exclusions, incomplete supervision, restitution and immigration stops stated.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+        }
+      },
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "findings": [
+        {
+          "id": "NC-YOUTH-SEM-01",
+          "obligations": [
+            "REQUIRED_BEFORE_FILING"
+          ],
+          "finding": "Both guides omit adopted SBI right-to-review criminal record procurement and explicit offense-class comparison against that record. Generic official/court record language does not identify the required SBI input. Current packetSet.participantActionRequired and requiredBeforeFiling specify this comparison. Preserve CR293 source-role correction and current issuer fee; add the named adopted checklist instruction to both delivered guides.",
+          "evidence": [
+            "data/record-clearing/legal-design-track-registry.json#nc_145_8a_youthful.packetSet.participantActionRequired",
+            "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json"
+          ]
+        },
+        {
+          "id": "NC-YOUTH-SEM-02",
+          "obligations": [
+            "KNOWN_PREFILLS",
+            "ROUTE_OPTIONS"
+          ],
+          "finding": "CR293 SignedName1 (printed participant name, page1) is blank in both fixtures; CV226 SignedByApplicantName and SigningApplicantIsDefendantCkBox are blank on boundary page2 although the applicant name and defendant role are supplied and selected on page1. These are printed identification/election fields, not signatures, dates, jurat, or official-only acts. The generic ^Signed/^Signing classifier mislabels them court_prosecutor_clerk_or_agency_owned. Fill the known printed names and applicable role while preserving actual signature/date/service/jurat/official blanks.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json",
+            "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        {
+          "id": "NC-YOUTH-SEM-03",
+          "obligations": [
+            "REQUIRED_BEFORE_FILING",
+            "ROUTE_OPTIONS",
+            "REPEATING_ROWS"
+          ],
+          "finding": "Pure input validation accepts missing military answer, shelter election, tax-refund election, employer and dependent count in the requested-waiver branch. Waiver mapping then uses truthiness defaults (missing military=>No; missing shelter=>Buying; missing tax choice=>Owe) and setText silently omits missing employer/dependents. Collect/validate material financial facts and elections, or preserve an honest optional unanswered control; do not convert absence to false facts or classify needed blanks as route-inapplicable. No packet was rebuilt to test this: importFacts acceptance and exact mapping code establish the defect.",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/independent-input-measurements.json",
+            "scripts/build-census-v1-nc_145_8a_youthful-set.mjs#waiver"
+          ]
+        }
+      ],
+      "savedByteEvidence": "data/rcap-grade-a/packet-factory-24h/vfncyouthsem1/saved-byte-measurements.json",
+      "nativeAuthorCountersDoNotSupersedeSemanticFindings": true,
+      "rasterAcceptanceGranted": false
+    }
+  ]
+}
