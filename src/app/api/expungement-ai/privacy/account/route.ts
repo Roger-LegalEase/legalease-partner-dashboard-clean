@@ -25,7 +25,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /** The exact words the participant has to type. Not localized on purpose. */
-export const ACCOUNT_DELETION_CONFIRMATION = "DELETE MY ACCOUNT";
+const ACCOUNT_DELETION_CONFIRMATION = "DELETE MY ACCOUNT";
 
 /**
  * Delete my account and personal data.
