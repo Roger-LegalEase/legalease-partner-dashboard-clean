@@ -10,7 +10,7 @@ The selected program is pretrial diversion under W. Va. Code Sec. 61-11-22. Conf
 
 Obtain the certified dismissal order; the signed diversion agreement or entered deferred-adjudication order; and the court record showing full successful completion. Ask the entering court clerk for court records and the prosecutor for the signed diversion agreement. Attach the actual records identified as Exhibits A, B and C. Compare their case identity, program, completion and dismissal dates against every claim in this packet.
 
-Synthetic diagnostics are never real orders or certificates. The review samples carry three conspicuous diagnostic pages to show attachment roles. Remove and replace them with actual supporting records before a real filing; the filing validator rejects synthetic pages even if other fields are relabeled.
+Synthetic diagnostics are never real orders or certificates. The review samples carry three conspicuous diagnostic pages to show attachment roles. Do not file synthetic pages; replace them with the actual supporting records.
 
 ## Sixty-day timing and all charges
 
@@ -58,7 +58,7 @@ The selected program is deferred adjudication under W. Va. Code Sec. 61-11-22a. 
 
 Obtain the certified dismissal order; the signed diversion agreement or entered deferred-adjudication order; and the court record showing full successful completion. Ask the entering court clerk for court records and the prosecutor for the signed diversion agreement. Attach the actual records identified as Exhibits A, B and C. Compare their case identity, program, completion and dismissal dates against every claim in this packet.
 
-Synthetic diagnostics are never real orders or certificates. The review samples carry three conspicuous diagnostic pages to show attachment roles. Remove and replace them with actual supporting records before a real filing; the filing validator rejects synthetic pages even if other fields are relabeled.
+Synthetic diagnostics are never real orders or certificates. The review samples carry three conspicuous diagnostic pages to show attachment roles. Do not file synthetic pages; replace them with the actual supporting records.
 
 ## Sixty-day timing and all charges
 
