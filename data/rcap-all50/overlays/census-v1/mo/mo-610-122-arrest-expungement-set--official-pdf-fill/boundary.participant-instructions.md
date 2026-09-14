@@ -4,6 +4,18 @@ You selected the qualifying-traffic ground. Obtain your Missouri Department of R
 
 Arrange the three standard fingerprint cards described below first; they are required before filing, even though this packet can be prepared now.
 
+## Your answers for personal and legal review
+
+False-information account: not applicable because you selected the qualifying-traffic ground.
+
+Suspended imposition of sentence for this arrest or a related offense: No. Charges expected to be pursued from this arrest: No. Intoxication-related offense: No. Civil action pending relating to this arrest: No.
+
+Commercial driver license held at arrest: No. Operating a commercial motor vehicle at arrest: No. These are answers about the time of arrest, not current status.
+
+Any misdemeanor or felony conviction before or after this arrest: Yes. This answer is supplied for court or counsel review; it does not import the older CR143 conviction language as an eligibility bar.
+
+Three standard fingerprint cards arranged: Not yet; arrange and obtain all three before filing. Signing before a notary, judge or clerk arranged: Not yet; arrange before filing and do not sign beforehand. Neither pending task prevents preparation of this draft.
+
 ## Your section 610.122 packet
 
 Prepared for Jordan Alexandria Example for the civil division of the Circuit Court in Jackson County, Missouri. Review every prefilled fact before filing. This packet concerns one arrest on 01/12/2023 by Kansas City Police Department.
@@ -22,7 +34,7 @@ Obtain three standard fingerprint cards before filing. Call a local police depar
 
 Compare every prefilled name, address, birth date, Social Security number, driver license, arrest fact, case and defendant against your records. FI-05 is confidential: submit it using the court’s confidential filing procedure; do not attach an unredacted copy to public instructions. The case-type table identifies XG for expungement of criminal/arrest records.
 
-Do not sign CR145 beforehand. Take identification and sign its sworn statement before the notary, judge or clerk authorized to administer the oath. Leave new case number, court ORI, court assignments, court findings, dates, file stamps, judicial and notarial signatures to their owners. The address under the participant signature is prefilled; the signature remains blank.
+Do not sign CR145 beforehand. Take identification and sign its sworn statement before the notary, judge or clerk authorized to administer the oath. Leave new case number, court ORI, court assignments, court findings, dates, file stamps, judicial and notarial signatures to their owners. Leave the signature and both address lines under it blank until personal completion before the officer administering the oath.
 
 The attached records checklist is part of these instructions: arrest/citation; criminal history; case and disposition documents if charges were filed; complete record-holder/service addresses; fingerprint card; and financial records if requesting waiver.
 
