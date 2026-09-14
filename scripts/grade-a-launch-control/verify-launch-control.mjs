@@ -331,9 +331,11 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
   check("A22", "the launch status mirror reports the record's own GO/HOLD and denominator",
     text.length > 0
     && says(`**GO/HOLD: ${lc.goHold.decision}.**`)
-    && says(`| Terminal obligations | ${lc.denominator.terminalObligations} |`)
-    && says(`| A branches newly required | ${lc.categoryBIntegration.aBranchesNewlyRequired} |`)
-    && says(`| New packet families required | ${lc.categoryBIntegration.newPacketFamiliesRequired} |`),
+    && (lc.releaseReconciliation
+      ? says(`| Total | ${lc.packetFamilies.total} |`) && says(`| Terminal | ${lc.packetFamilies.terminal} |`)
+      : says(`| Terminal obligations | ${lc.denominator.terminalObligations} |`)
+        && says(`| A branches newly required | ${lc.categoryBIntegration.aBranchesNewlyRequired} |`)
+        && says(`| New packet families required | ${lc.categoryBIntegration.newPacketFamiliesRequired} |`)),
     text.length === 0 ? `${STATUS} is missing` : "the mirror does not carry the record's values");
 }
 
@@ -471,11 +473,16 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
     && c11.summary.outputApprovalsGranted === 0,
     `verdict ${c11.verdict}, stopped ${c11.summary.stopped} classified ${c11Stops.counts.stoppedFamilies}, approvals ${c11.summary.outputApprovalsGranted}`);
 
-  // Built is not proven. Until an independent shard returns, the number of
-  // independently verified packets is zero, and the launch record must say so.
+  // The historical C11 return granted no proof. Current factory proofs must
+  // derive from current independent returns, not remain hardcoded to zero.
+  const currentFactory = read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
+  const currentProven = currentFactory.families.filter(f => f.state === "COMPLETE_PACKET_PROVEN");
   check("A33", "no built packet family is counted as proven without independent verification",
     lc.waveOne.packetFactory.packetsProvenIndependently === 0
-    && lc.packetFamilies.completePacketProven === 0
+    && (lc.releaseReconciliation
+      ? lc.packetFamilies.completePacketProven === currentProven.length
+        && currentProven.every(f => f.selectedIndependentVerdict?.verdict === "PASS_COMPLETE_INDEPENDENT")
+      : lc.packetFamilies.completePacketProven === 0)
     && lc.waveOne.packetFactory.familiesBuilt === c11.summary.built,
     `built ${lc.waveOne.packetFactory.familiesBuilt}, independently verified ${lc.waveOne.packetFactory.packetsProvenIndependently}, proven ${lc.packetFamilies.completePacketProven}`);
 }
@@ -788,7 +795,11 @@ if (mass && massCollisions && massCheckpoint && wave2 && repairWave && s2) {
 
   // The ladder is the whole claim: every family in the national worklist is
   // either in production or excluded for exactly one stated reason.
-  const worklist = read(WORKLIST);
+  // Verify this historical assignment against its original hash-bound worklist,
+  // not today's successor family set. Neither denominator is silently changed.
+  const historicalWorklistBytes = execFileSync("git", ["show", `${mass.captainBaseSha}:${WORKLIST}`], { cwd: ROOT });
+  const historicalWorklistDigest = crypto.createHash("sha256").update(historicalWorklistBytes).digest("hex");
+  const worklist = JSON.parse(historicalWorklistBytes);
   const ladder = new Set(mass.derivation.ladder);
   const badReason = mass.derivation.excluded.filter((e) => !ladder.has(e.reason));
   const producedIds = buildL.flatMap((a) => a.items);
@@ -796,7 +807,8 @@ if (mass && massCollisions && massCheckpoint && wave2 && repairWave && s2) {
     .filter((e) => e.reason !== "DUPLICATE_WORKLIST_GROUP" && producedIds.includes(e.familyId))
     .map((e) => `${e.familyId}:${e.reason}`);
   check("A53", "the exclusion ladder closes: every family is produced or excluded once, for a reason the ladder names",
-    mass.derivation.excludedTotal + mass.derivation.productionSetSize === worklist.counts.families
+    historicalWorklistDigest === mass.derivation.inputs[WORKLIST]
+    && mass.derivation.excludedTotal + mass.derivation.productionSetSize === worklist.counts.families
     && mass.derivation.denominator === worklist.counts.families
     && mass.derivation.sumsToDenominator === true
     && badReason.length === 0

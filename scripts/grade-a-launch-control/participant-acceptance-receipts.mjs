@@ -118,6 +118,11 @@ export function evaluateParticipantAcceptance({expected,receipts=[],evidenceByte
       const m=r.dataRightsMigration;
       if(m?.path!==expected.dataRightsMigration.path||m?.sha256!==expected.dataRightsMigration.sha256)return fail('STALE','Data-rights migration identity differs');
       if(m.applied!==true||evidence(m.readbackEvidence,evidenceBytesByPath))return fail('INVALID','Exact hosted migration application/readback not proven');
+      const journeyIds=['participant_export','single_matter_deletion','account_deletion'];
+      const processorKeys=['email_delivery','payment_processor','product_analytics','packet_render_worker'];
+      const exactUniqueKeys=(rows,key,allowed)=>Array.isArray(rows)&&rows.length===allowed.length&&new Set(rows.map(row=>row?.[key])).size===rows.length&&rows.every(row=>allowed.includes(row?.[key]));
+      if(!exactUniqueKeys(r.privacyJourneys,'id',journeyIds))return fail('INVALID','Exactly one entry per known privacy journey required, regardless of verdict');
+      if(!exactUniqueKeys(r.processorOutcomes,'key',processorKeys))return fail('INVALID','Exactly one entry per known processor required, regardless of status');
       if(!Array.isArray(r.privacyJourneys)||!['participant_export','single_matter_deletion','account_deletion'].every(id=>r.privacyJourneys.filter(c=>c?.id===id&&c.passed===true&&c.measured===true&&!evidence(c.evidence,evidenceBytesByPath)).length===1))return fail('MISSING','Three measured hosted privacy journeys required');
       if(!Array.isArray(r.processorOutcomes)||!['email_delivery','payment_processor','product_analytics','packet_render_worker'].every(key=>r.processorOutcomes.filter(p=>p?.key===key&&['acknowledged','not_applicable'].includes(p.status)&&nonempty(p.basis)&&!evidence(p.evidence,evidenceBytesByPath)).length===1))return fail('MISSING','Settled, evidenced processor outcomes and retention bases required');
     }

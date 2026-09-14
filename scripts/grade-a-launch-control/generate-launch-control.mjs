@@ -23,6 +23,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { applyNationalReleaseControl, renderNationalReleaseControl } from "./apply-national-release-control.mjs";
+import crypto from "node:crypto";
+import { evaluateParticipantAcceptance, EXISTING_PARTICIPANT_RECEIPTS } from "./participant-acceptance-receipts.mjs";
+import { verifyReleaseCandidateBinding } from "./verify-release-candidate-binding.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const OUT = "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json";
@@ -342,6 +346,61 @@ const doc = {
   }
 };
 
+// The old wave records above remain historical evidence. Current release gaps
+// come from the existing national worklist, not their historical status prose.
+const NATIONAL_WORKLIST = "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json";
+const FACTORY_QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
+applyNationalReleaseControl(doc, read(NATIONAL_WORKLIST), read(FACTORY_QUEUE));
+doc.consumes.nationalReleaseWorklist = NATIONAL_WORKLIST;
+doc.consumes.factoryQueue = FACTORY_QUEUE;
+doc.consumes.nationalReleaseWorklistFreeze = "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json";
+doc.consumes.releaseControlAdapter = "scripts/grade-a-launch-control/apply-national-release-control.mjs";
+doc.consumes.participantReceiptEvaluator = "scripts/grade-a-launch-control/participant-acceptance-receipts.mjs";
+const CANDIDATE_BINDING = "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json";
+const candidate = exists(CANDIDATE_BINDING) ? read(CANDIDATE_BINDING) : null;
+doc.consumes.releaseCandidateBinding = CANDIDATE_BINDING;
+const migration = "supabase/migrations/20260830120000_participant_data_rights.sql";
+const hashFile = rel => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex");
+const receiptPaths = [...new Set([...EXISTING_PARTICIPANT_RECEIPTS, ...(candidate?.participantReceiptPaths ?? [])])];
+const originalEvidence = {};
+const safeEvidencePath = rel => typeof rel === "string" && /^(data|docs|private\/rcap-hosted-acceptance)\//.test(rel)
+  && !rel.includes("\\") && !rel.split("/").some(p => p === ".." || p === "." || p === "");
+const readOriginal = rel => {
+  if (!safeEvidencePath(rel) || !exists(rel)) return undefined;
+  const real = fs.realpathSync(path.join(ROOT, rel));
+  if (!real.startsWith(ROOT + path.sep)) throw new Error("Acceptance evidence escapes workspace");
+  return fs.readFileSync(real);
+};
+const collectReferences = value => {
+  if (!value || typeof value !== "object") return;
+  if (typeof value.path === "string" && /^[a-f0-9]{64}$/.test(value.sha256 ?? "")) {
+    const bytes = readOriginal(value.path);
+    if (bytes) originalEvidence[value.path] = bytes;
+  }
+  for (const child of Object.values(value)) collectReferences(child);
+};
+const receiptInputs = receiptPaths.map(rel => {
+  const bytes = readOriginal(rel);
+  if (bytes) { try { collectReferences(JSON.parse(bytes)); } catch { /* evaluator reports malformed receipts */ } }
+  return { path: rel, bytes };
+});
+const candidateCurrentness = verifyReleaseCandidateBinding(ROOT, candidate, [...receiptPaths, ...Object.keys(originalEvidence)]);
+doc.participantDataRights = evaluateParticipantAcceptance({
+  expected: { candidateSha: candidateCurrentness.current ? candidate.applicationSha : null, workerDigest: candidateCurrentness.current ? candidate.workerDigest : null,
+    projectRef: candidate?.acceptanceProjectRef ?? null, productContractSha256: hashFile("docs/PRODUCT_CONTRACT.md"),
+    dataRightsMigration: { path: migration, sha256: hashFile(migration) },
+    reviewerIdentities: candidate?.independentReviewerIdentities ?? [] },
+  receipts: receiptInputs, evidenceBytesByPath: originalEvidence
+});
+doc.candidate = candidate ?? { status: "NOT_FROZEN", reason: "Application SHA and worker digest are not yet bound for final release acceptance." };
+doc.candidateCurrentness = candidateCurrentness;
+doc.consumes.releaseCandidateCurrentness = "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs";
+doc.consumes.workerPublication = "data/rcap-render/worker-publication-evidence.json";
+doc.acceptanceInputDigests = Object.fromEntries([...receiptInputs.filter(r => r.bytes).map(r => [r.path, crypto.createHash("sha256").update(r.bytes).digest("hex")]),
+  ...Object.entries(originalEvidence).map(([rel, bytes]) => [rel, crypto.createHash("sha256").update(bytes).digest("hex")])]);
+for (const [i, rel] of [...receiptPaths, ...Object.keys(originalEvidence), migration].entries()) doc.consumes[`participantAcceptanceInput${i}`] = rel;
+doc.testStatus.hostedAcceptance = `${doc.participantDataRights.acceptedCurrent ? "ACCEPTED_CURRENT" : "NOT_ACCEPTED"}: ${JSON.stringify(doc.participantDataRights.gateCounts)}; ${doc.participantDataRights.requiredChainGap}`;
+
 // ---- the human-readable mirror ---------------------------------------------------
 //
 // GRADE_A_LAUNCH_STATUS.md is rendered FROM the record above, in the same run,
@@ -349,6 +408,7 @@ const doc = {
 // generated record is the second claimant this phase exists to prevent; this
 // one has no facts of its own.
 function renderStatus(d) {
+  if (d.releaseReconciliation) return renderNationalReleaseControl(d);
   const row = (label, value) => `| ${label} | ${value} |`;
   const lines = [];
   lines.push("# Grade-A launch status");
@@ -598,5 +658,5 @@ fs.writeFileSync(statusPath, status);
 console.log(`Wrote ${OUT}`);
 console.log(`Wrote ${OUT_MD}\n`);
 console.log(`  captain ${doc.lineage.captainSha.slice(0, 8)} · ${doc.denominator.terminalObligations} obligations · ${doc.denominator.packetFamilies} families`);
-console.log(`  families: ${doc.packetFamilies.evidenceInCaptainTree} in tree, ${doc.packetFamilies.evidenceOnBranchAwaitingIntegration} awaiting integration, ${doc.packetFamilies.freeToDispatch} free`);
+console.log(`  current families: ${doc.packetFamilies.terminal}/${doc.packetFamilies.total} terminal`);
 console.log(`  counsel ${doc.legalWork.trueCounselQuestions} · blockers ${doc.exactBlockers.length} · ${doc.goHold.decision}`);

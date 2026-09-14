@@ -23,8 +23,14 @@ refused('duplicate gate refused',f=>f.r.gates.push({...f.r.gates[0]}),'INVALID')
 refused('unknown gate refused',f=>f.r.gates.push({id:'invented'}),'INVALID');
 refused('unapplied migration refused',f=>f.r.dataRightsMigration.applied=false,'INVALID');
 refused('changed migration identity stale',f=>f.r.dataRightsMigration.sha256='f'.repeat(64),'STALE');
-refused('missing export journey refused',f=>f.r.privacyJourneys=f.r.privacyJourneys.slice(1),'MISSING');
-refused('duplicate privacy journey refused',f=>f.r.privacyJourneys.push({...f.r.privacyJourneys[0]}),'MISSING');
+refused('missing export journey refused',f=>f.r.privacyJourneys=f.r.privacyJourneys.slice(1),'INVALID');
+refused('duplicate privacy journey refused',f=>f.r.privacyJourneys.push({...f.r.privacyJourneys[0]}),'INVALID');
+refused('failed duplicate journey alongside pass refused',f=>f.r.privacyJourneys.push({...f.r.privacyJourneys[0],passed:false}),'INVALID');
+refused('pending duplicate processor alongside acknowledgement refused',f=>f.r.processorOutcomes.push({...f.r.processorOutcomes[0],status:'pending'}),'INVALID');
+refused('unknown journey appended refused',f=>f.r.privacyJourneys.push({id:'unknown',passed:false}),'INVALID');
+refused('unknown processor appended refused',f=>f.r.processorOutcomes.push({key:'unknown',status:'pending'}),'INVALID');
+refused('unknown journey replacing required refused',f=>f.r.privacyJourneys[0].id='unknown','INVALID');
+refused('unknown processor replacing required refused',f=>f.r.processorOutcomes[0].key='unknown','INVALID');
 refused('pending processor cannot complete deletion',f=>f.r.processorOutcomes[0].status='pending','MISSING');
 refused('processor sent without settled evidence refused',f=>f.r.processorOutcomes[0].status='sent','MISSING');
 refused('missing processor basis refused',f=>f.r.processorOutcomes[1].basis='','MISSING');

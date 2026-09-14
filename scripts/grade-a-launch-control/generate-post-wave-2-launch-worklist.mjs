@@ -13,15 +13,26 @@ const INPUTS=['data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json','data/rca
 const inputDigests={};
 const read=p=>{const b=fs.readFileSync(p);inputDigests[p]=shaBytes(b);return JSON.parse(b);};
 const [masterQueue,freeze,registry,projection,launchGraph]=INPUTS.map(read);
-const atCaptainHead=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const savedWorklistPath='data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json';
+let atCaptainHead=head;
+if(CHECK && fs.existsSync(savedWorklistPath)){
+ const saved=JSON.parse(fs.readFileSync(savedWorklistPath,'utf8'));
+ if(saved.schemaVersion==='rcap-grade-a-post-wave-2-national-launch-worklist/v2'){
+  execFileSync('git',['merge-base','--is-ancestor',saved.atCaptainHead,head]);
+  atCaptainHead=saved.atCaptainHead;
+ }
+}
 // No default baseline, no inferred346 completion, and no overwritten approval pins.
 let baseline=null;const flag=process.argv.indexOf('--baseline-binding');
-if(flag>=0){
- const bindingPath=process.argv[flag+1];
+const defaultBinding='data/rcap-grade-a/launch-control/FAMILY_BASELINE_BINDING.json';
+if(flag>=0 || fs.existsSync(defaultBinding)){
+ const bindingPath=flag>=0 ? process.argv[flag+1] : defaultBinding;
  if(!bindingPath||bindingPath.startsWith('--'))throw new Error('--baseline-binding requires a JSON path');
  const supplied=read(bindingPath);
  try{
   if(!/^[a-f0-9]{40}$/.test(supplied.commitSha??''))throw new Error('Baseline requires exact40-character commit SHA');
+  execFileSync('git',['merge-base','--is-ancestor',supplied.commitSha,head]);
   const bytes=execFileSync('git',['show',`${supplied.commitSha}:${INPUTS[0]}`],{maxBuffer:64*1024*1024});
   if(shaBytes(bytes)!==supplied.masterQueueSha256||inputDigests[INPUTS[0]]!==supplied.masterQueueSha256)throw new Error('Baseline queue digest disagrees with pinned or current queue bytes');
   baseline={verified:true,commitSha:supplied.commitSha,masterQueueSha256:supplied.masterQueueSha256,bindingPath,bindingSha256:inputDigests[bindingPath]};
