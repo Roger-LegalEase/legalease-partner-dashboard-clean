@@ -10,7 +10,7 @@ const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(x=>x.isDirectory()?
 const write=(p,o)=>fs.writeFileSync(p,JSON.stringify(o,null,2)+'\n');
 fs.mkdirSync(evidence,{recursive:true});
 const independentAudit='data/rcap-grade-a/packet-factory-24h/vfne1/ne-independent-current-native-audit.json';
-const independentReturn='data/rcap-grade-a/packet-factory-24h/vfne1/rows-vfne1-current-semantic-20260914.json';
+const independentReturn='data/rcap-grade-a/packet-factory-24h/vfne1/rows-vfne1-caption-successor-semantic-20260914.json';
 const independentProof='data/rcap-grade-a/packet-factory-24h/vfne1/ne-independent-current-write-measurement.json';
 const audit=JSON.parse(fs.readFileSync(independentAudit));
 if(Object.entries(audit.counters).some(([k,n])=>k==='visualDefects'?n!==null&&n!==0:n!==0))throw Error('NONVISUAL_COUNTER_NOT_ZERO');
