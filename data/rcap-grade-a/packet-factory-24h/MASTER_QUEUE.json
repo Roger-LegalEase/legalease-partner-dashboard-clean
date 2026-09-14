@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "849ce61c2ac201a88bada7c65e3f940990c5cb21",
+  "minimumCaptainSha": "d49b660a443fff7f0563f901540e05a725ea7ccb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -86,12 +86,12 @@
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 318,
+    "COMPLETE_PACKET_PROVEN": 319,
     "GUIDANCE_READY": 16,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 2,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 3
+    "BUILT_RASTER_PENDING": 2
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -40494,27 +40494,31 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfoh1",
-        "verifiedAtBase": "68ee23ea766878bd39a9a967739fde58f2c2c58d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfoh1/rows-vfoh1-current-semantic-20260914.json"
+        "verifiedAtBase": "16e8eac0cf0bccd7f732c12249c9320a670211f5",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfoh1/rows-vfoh1-original-final-20260914.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": {
-        "superseded": false,
-        "reason": "the current independent read is PASS, which does not answer the blocked obligation",
+        "superseded": true,
         "wave2ReturnCommit": "34417136e9d3eb307ac836bc6dd4e0b8a91abf60",
         "wave2DecisiveObligation": "complete component set",
         "wave2LegalInputClass": "MISSING_ROUTE_FAMILY_BINDING",
-        "wave2SendToLawrence": false
+        "wave2SendToLawrence": false,
+        "supersededBy": {
+          "lane": "vfoh1",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "verifiedAtBase": "16e8eac0cf0bccd7f732c12249c9320a670211f5"
+        },
+        "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
+        "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
       },
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
@@ -40550,7 +40554,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs",
