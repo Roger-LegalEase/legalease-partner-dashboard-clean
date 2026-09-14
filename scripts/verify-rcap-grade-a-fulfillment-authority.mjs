@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { loadIlArtifactApproval } from "./lib/owner-artifact-approval.mjs";
+import { loadIlArtifactApproval, loadMsArtifactApproval } from "./lib/owner-artifact-approval.mjs";
+import { artifactSuccessorInputs, createArtifactSuccessor, SUCCESSOR_FAMILIES, MS_SUCCESSOR_VERIFICATION } from "./lib/artifact-approval-successor.mjs";
 import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — acceptance gate.
 //
@@ -71,7 +72,10 @@ const FIRST_COHORT_EXPECTED = [
       sha256: "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"
     }
   },
-  // The two ms-misd-addl-set entries below are failing for the same reason
+  // Historical approval pins and 2026-09-06 failure rationale follow. New
+  // 2026-09-14 exact owner approvals are consumed by the successor selection
+  // below; these older pins remain unchanged as historical evidence.
+  // At that time the two ms-misd-addl-set entries failed for the same reason
   // Illinois is, and neither is a metadata typo to be re-pinned away. Commit
   // 065aab4fc (FIX08) moved this family's shipping bytes off the owner-approved
   // 7878f2c0…/96c13766… to 3c7588be…/e2b8cebc…, which no legal decision names,
@@ -145,7 +149,10 @@ const FIRST_COHORT_EXPECTED = [
 ];
 
 // ---------------------------------------------------------------------------
-// Illinois: this block is an APPROVAL PIN, and it is failing on purpose.
+// Illinois: historical APPROVAL PIN and 2026-09-06 refusal rationale.
+// The new 2026-09-14 owner decision is bound by successor selection below.
+// The following description records why the old record was revoked; it does
+// not claim the now-approved exact current artifacts still lack owner review.
 //
 // canonicalSha256 / boundarySha256 below are the bytes the decision owner
 // approved on 2026-09-02 under OWN-ADOPT-2026-09-02-BATCH-53, whose travelling
@@ -218,7 +225,23 @@ const IL_EXISTING_V2_EXPECTED = {
   currentProductionFieldMapSha256: "98dd21ad067761c64b2b58149bf307e7188b60c8892fc6578a22383725ec7de8"
 };
 
-const EXACT_PRODUCTIZED_EXPECTED = [...FIRST_COHORT_EXPECTED, IL_EXISTING_V2_EXPECTED];
+// Historical pins above remain immutable. Only an independently validated new
+// owner decision can select successor pins; absence or changed bytes throws.
+const EXACT_PRODUCTIZED_EXPECTED = [...FIRST_COHORT_EXPECTED, IL_EXISTING_V2_EXPECTED].map(expected => {
+  if (!SUCCESSOR_FAMILIES.includes(expected.familyId)) return expected;
+  const read = rel => fs.readFileSync(path.join(rootDir, rel));
+  const approval = expected.familyId === 'ms-misd-addl-set' ? loadMsArtifactApproval(read) : loadIlArtifactApproval(read);
+  const registryPath = expected.familyId === 'ms-misd-addl-set' ? MS_SUCCESSOR_VERIFICATION : VERIFIER_RETURNS_PATH;
+  const row = JSON.parse(read(registryPath)).rows.find(r => r.familyId === expected.familyId && r.superseded === false);
+  const detail = JSON.parse(read(row.evidencePath)).rows.find(r => r.itemId === expected.familyId && r.verifiedAtBase === row.verifiedAtBase && String(r.lane).toLowerCase() === row.lane.toLowerCase());
+  const hash = value => crypto.createHash('sha256').update(value).digest('hex');
+  // Expectations follow the dated approval and new independent read. A missing
+  // current central raster remains an acceptance failure, never an exemption.
+  return {...expected, artifactSuccessor:true,
+    canonicalSha256:approval.approvedArtifacts.find(a => a.fixture === 'canonical').sha256,
+    boundarySha256:approval.approvedArtifacts.find(a => a.fixture === 'boundary').sha256,
+    verification:{registryPath,lane:row.lane,verifiedAtBase:row.verifiedAtBase,evidencePath:row.evidencePath,rowSha256:hash(JSON.stringify(row)),evidenceRowSha256:hash(JSON.stringify(detail))}};
+});
 
 const CODIFIED_COMMON_INPUTS = {
   legal: {
@@ -271,6 +294,7 @@ function finalVerificationProblem(record, expected) {
   const binding = record.evidenceBindings?.independentVerification ?? {};
   const inputs = proof.boundInputs ?? {};
   const expectedVerification = expected.verification;
+  const currentVerifierPath = expectedVerification.registryPath ?? VERIFIER_RETURNS_PATH;
 
   if (proof.state !== "bound") return `state is ${proof.state ?? "absent"}`;
   if (proof.contract !== INDEPENDENT_FINAL_VERIFICATION_CONTRACT) return `contract is ${proof.contract ?? "absent"}`;
@@ -285,7 +309,7 @@ function finalVerificationProblem(record, expected) {
   if (inputs.packetSpecificationSha256 !== expected.specificationSha256) return "bound inputs carry a different specification digest";
   if (inputs.canonicalArtifactSha256 !== expected.canonicalSha256) return "bound inputs carry a different canonical digest";
   if (inputs.boundaryArtifactSha256 !== expected.boundarySha256) return "bound inputs carry a different boundary digest";
-  if (inputs.verifierRegistry?.path !== VERIFIER_RETURNS_PATH
+  if (inputs.verifierRegistry?.path !== currentVerifierPath
     || inputs.verifierRegistry?.evidenceRowSha256 !== expectedVerification.rowSha256) {
     return "bound inputs carry a different verifier registry row";
   }
@@ -298,7 +322,7 @@ function finalVerificationProblem(record, expected) {
   const recomputedBoundInputsSha256 = sha256(stableStringify(inputs));
   if (proof.boundInputsSha256 !== recomputedBoundInputsSha256) return "bound-input digest does not hash the recorded inputs";
 
-  if (binding.path !== VERIFIER_RETURNS_PATH
+  if (binding.path !== currentVerifierPath
     || binding.rowSha256 !== expectedVerification.rowSha256
     || binding.verdict !== "PASS_COMPLETE_INDEPENDENT"
     || binding.lane !== expectedVerification.lane
@@ -314,7 +338,7 @@ function finalVerificationProblem(record, expected) {
     return "evidence binding carries different specification or artifact inputs";
   }
 
-  const verifierReturns = readJson(VERIFIER_RETURNS_PATH);
+  const verifierReturns = readJson(currentVerifierPath);
   const verifierRows = (verifierReturns.rows ?? [])
     .filter((row) => row.familyId === expected.familyId && row.superseded === false);
   if (verifierRows.length !== 1) return `current verifier registry row count is ${verifierRows.length}`;
@@ -334,7 +358,7 @@ function finalVerificationProblem(record, expected) {
   if (sha256(JSON.stringify(verifierRow)) !== expectedVerification.rowSha256) return "current verifier registry row digest moved";
 
   const evidenceDocument = readJson(expectedVerification.evidencePath);
-  const evidenceRows = (evidenceDocument.rows ?? []).filter((row) => row.itemId === expected.familyId);
+  const evidenceRows = (evidenceDocument.rows ?? []).filter((row) => row.itemId === expected.familyId && row.verifiedAtBase === expectedVerification.verifiedAtBase && String(row.lane).toLowerCase() === expectedVerification.lane.toLowerCase());
   if (evidenceRows.length !== 1) return `detailed verifier row count is ${evidenceRows.length}`;
   const evidenceRow = evidenceRows[0];
   if (evidenceRow.verdict !== "PASS_COMPLETE_INDEPENDENT") return "detailed verifier row is weaker than PASS_COMPLETE_INDEPENDENT";
@@ -469,7 +493,28 @@ function codifiedAuthorityProblem(record, expected, options = {}) {
   return null;
 }
 
+function artifactSuccessorProblem(record) {
+  try {
+    const successor = record.evidenceBindings?.artifactApprovalSuccessor;
+    if (!successor) {
+      artifactSuccessorInputs(record.packetFamilyId, readBytes);
+      return 'new owner-approved artifact successor has not been bound';
+    }
+    if (sha256(stableStringify(successor.scope)) !== successor.scopeSha256 || successor.scopeSha256 !== record.outputLegalApproval.scopeSha256 || successor.scopeSha256 !== record.legalAuthority.scopeSha256) return 'artifact successor scope hash is not canonical or disagrees with authority';
+    const regenerated = createArtifactSuccessor({routeId:record.routeId, readBytes, stableStringify, provider:record.provider});
+    // Compare all evidence and proof fields independently of append-only version history.
+    for (const key of Object.keys(regenerated).filter(key => !['version','history'].includes(key))) {
+      if (stableStringify(record[key]) !== stableStringify(regenerated[key])) return `artifact successor ${key} differs from exact current authority evidence`;
+    }
+    if (!record.history.some(h => h.changeKind === 'revoked') || !record.history.some(h => h.changeKind === 'reinstated')) return 'artifact successor erased revocation or lacks reinstatement';
+    return null;
+  } catch (error) { return error.message; }
+}
 function exactExistingV2Problem(record, expected = IL_EXISTING_V2_EXPECTED) {
+  if (record.evidenceBindings?.artifactApprovalSuccessor) {
+    const current = EXACT_PRODUCTIZED_EXPECTED.find(e => e.routeId === expected.routeId);
+    return artifactSuccessorProblem(record) ?? finalVerificationProblem(record, current) ?? codifiedAuthorityProblem(record, current);
+  }
   const bindings = record.evidenceBindings ?? {};
   const productization = bindings.exactRouteProductization ?? {};
   const expectedProductization = expected.productizationReceipt;
@@ -1149,6 +1194,10 @@ check("New IL owner artifact approval is bound to exact current bytes without re
   if (historical.recordId !== "OWN-ADOPT-2026-09-02-BATCH-53") return "historical approval identity was replaced";
   return null;
 });
+check("New MS artifact approval binds repaired bytes and preserves rejection history", () => {
+  const approval = loadMsArtifactApproval(readBytes);
+  return stableStringify(registryDocument.ownerArtifactApprovals?.find(a => a.recordId === approval.recordId)) === stableStringify(approval) ? null : 'MS current exact owner approval missing or stale';
+});
 const projection = readJson(PROJECTION_PATH);
 const observationDocument = readJson(OBSERVATION_PATH);
 
@@ -1268,6 +1317,10 @@ check("every exact productized record binds its committed specification, artifac
     if (record.packetFamilyId !== expected.familyId) return `${expected.routeId} binds ${record.packetFamilyId}`;
     const bound = record.evidenceBindings;
     if (bound?.assignmentClaim !== expected.assignmentClaim) return `${expected.routeId} binds a different assignment claim`;
+    if (expected.artifactSuccessor) {
+      const problem = artifactSuccessorProblem(record);
+      if (problem) return `${expected.routeId}: ${problem}`;
+    }
     if (expected.productizationReceipt) {
       const problem = exactExistingV2Problem(record, expected);
       if (problem) return `${expected.routeId}: ${problem}`;
@@ -1709,7 +1762,7 @@ if (MUTATIONS) {
     ["Illinois stale canonical bytes", (record) => { record.evidenceBindings.approvedArtifacts.canonical.sha256 = sha256("stale canonical"); }],
     ["Illinois stale boundary bytes", (record) => { record.evidenceBindings.approvedArtifacts.boundary.sha256 = sha256("stale boundary"); }],
     ["Illinois stale raster workflow", (record) => { record.evidenceBindings.rasterReceipt.workflowRunId = "33574304513"; }],
-    ["Illinois stale raster artifact", (record) => { record.evidenceBindings.rasterReceipt.receiptArtifact.zipSha256 = `sha256:${sha256("stale raster artifact")}`; }],
+    ["Illinois stale raster artifact", (record) => { record.evidenceBindings.rasterReceipt.receiptArtifact = {zipSha256:`sha256:${sha256("stale raster artifact")}`}; }],
     ["Illinois weaker independent verdict", (record) => { record.evidenceBindings.independentVerification.verdict = "PASS"; }],
     ["Illinois stale independent row", (record) => { record.finalVerification.evidenceRowSha256 = sha256("stale verifier row"); }],
     ["Illinois stale owner approval", (record) => { record.evidenceBindings.ownerApproval.recordId = "OWN-STALE"; }],

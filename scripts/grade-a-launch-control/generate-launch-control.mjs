@@ -721,8 +721,8 @@ function renderStatus(d) {
   lines.push(d.goHold.whatWouldChangeIt);
   lines.push("");
   if (d.artifactRereview) {
-    lines.push("", "## Exact-artifact re-review required", "",
-      "Illinois has a new exact-hash owner artifact approval. Mississippi's rejected pair is preserved; its layout-repaired pair awaits a new owner approval. Historical fulfillment revocations, candidate freeze and final successor publication remain blocked.", "");
+    lines.push("", "## Exact-artifact owner approvals", "",
+      "Illinois and the repaired Mississippi pair have dated exact-hash owner approvals. The rejected Mississippi pair and historical revocations remain preserved. These artifact approvals do not authorize deployment, hosted execution, worker publication or Production; technical acceptance and candidate-freeze gates remain separate.", "");
     for (const entry of d.artifactRereview.packages) {
       lines.push(`- [${entry.familyId}](../../../../${entry.path}): ${entry.status}.`);
     }
@@ -749,6 +749,8 @@ const artifactRereview = JSON.parse(artifactRereviewBytes);
 const artifactAuthority = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/fulfillment-authority-registry.json")));
 const ilOwnerApproval = artifactAuthority.ownerArtifactApprovals.find(a => a.familyId === "il-prostitution-j-vacate-set");
 if (!ilOwnerApproval || ilOwnerApproval.status !== "APPROVED_EXACT_SHIPPING_ARTIFACTS") throw new Error("Current Illinois owner approval must be canonically bound");
+const msOwnerApproval = artifactAuthority.ownerArtifactApprovals.find(a => a.familyId === "ms-misd-addl-set");
+if (!msOwnerApproval || msOwnerApproval.status !== "APPROVED_EXACT_SHIPPING_ARTIFACTS") throw new Error("Current Mississippi owner approval must be canonically bound");
 const msRepairPath = "data/rcap-grade-a/ms-misd-addl-layout-repair-20260914/package.json";
 const msRepairBytes = fs.readFileSync(path.join(ROOT, msRepairPath));
 const msRepair = JSON.parse(msRepairBytes);
@@ -759,14 +761,17 @@ const msRejectionPath = "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REJECT
 doc.artifactRereview = {
   manifestPath: artifactRereviewPath,
   manifestSha256: crypto.createHash("sha256").update(artifactRereviewBytes).digest("hex"),
-  status: "IL_APPROVED_MS_REPAIRED_PAIR_RE_REVIEW_REQUIRED",
+  status: "IL_AND_REPAIRED_MS_EXACT_ARTIFACTS_OWNER_APPROVED",
+  artifactRereviewRequired: false,
   approvalCreated: false,
   historicalPackages: artifactRereview.packages,
   packages: [
     { familyId: ilOwnerApproval.familyId, path: ilOwnerApproval.path, sha256: ilOwnerApproval.sha256, status: ilOwnerApproval.status },
-    { familyId: msRepair.familyId, path: msRepairPath, sha256: crypto.createHash("sha256").update(msRepairBytes).digest("hex"), status: msRepair.status }
+    { familyId: msOwnerApproval.familyId, path: msOwnerApproval.path, sha256: msOwnerApproval.sha256, status: msOwnerApproval.status }
   ],
   illinoisOwnerApproval: ilOwnerApproval,
+  mississippiOwnerApproval: msOwnerApproval,
+  mississippiReviewPackageAtApproval: { path: msRepairPath, sha256: crypto.createHash("sha256").update(msRepairBytes).digest("hex") },
   mississippiRejectedPairDecision: { path: msRejectionPath, sha256: crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, msRejectionPath))).digest("hex") },
   candidateFreezeBlocked: true,
   finalSuccessorPublicationBlocked: true,

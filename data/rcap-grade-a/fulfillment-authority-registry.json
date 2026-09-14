@@ -37,14 +37,54 @@
         },
         "raster": {
           "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-          "rowSha256": "bbd35580a17024535b6df9cb059b405312169b4db221d48a61ea775c55de08da",
+          "rowSha256": "6ab01b0317f39d32ee30e22f7699e18ea154e37382fed72778407f42307c5bf5",
           "workflowRunId": "33972727725",
           "jobId": 101324362197,
           "canonicalSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
           "boundarySha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e"
         },
-        "fulfillmentSuccessorBound": false,
-        "pendingImplementation": "Historical exact-productization receipts remain pinned to former artifacts; a successor fulfillment evidence binding must consume this current independent/raster proof without rewriting historical receipts."
+        "purpose": "Current exact-artifact technical proof. Fulfillment status is determined by the consuming successor record; historical productization receipts and revocations remain preserved."
+      },
+      "artifactApprovalOnly": true,
+      "preservesFulfillmentRevocations": true,
+      "runtimeOrProductionAuthorization": false
+    },
+    {
+      "recordId": "OWN-ARTIFACT-REREVIEW-MS-MISD-ADDL-2026-09-14",
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json",
+      "sha256": "9c04b146893f71d09cbf043317a6af6147a31dbe40395ab362ada8a2509abddd",
+      "decidedOn": "2026-09-14",
+      "familyId": "ms-misd-addl-set",
+      "routeIds": [
+        "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "status": "APPROVED_EXACT_SHIPPING_ARTIFACTS",
+      "approvedArtifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b"
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "61c429c2135a6b3b79de26adea8eb6f6ed1288aaf21c0a604dd656c431848c84"
+        }
+      ],
+      "ownerReviewedEvidence": {
+        "path": "data/rcap-grade-a/ms-misd-addl-layout-repair-20260914/package.json",
+        "sha256": "ffa4f91af0dae8856f62cff0c4b2fc8f84ae0dc516240ae2caed61cdba3aebfa",
+        "independentReview": {
+          "path": "data/rcap-grade-a/ms-misd-addl-layout-repair-20260914/independent-review.json",
+          "sha256": "ad07b33921613dd7e4ef30027e36c9fe80415efe244179abe8fa9c36045febde"
+        }
+      },
+      "preservedRejection": {
+        "path": "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REJECTION_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json",
+        "sha256": "dab1f90feddf45a254bd09dd60e977d028e977e153519428ed27ed96bd8b2744",
+        "canonical": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+        "boundary": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36"
       },
       "artifactApprovalOnly": true,
       "preservesFulfillmentRevocations": true,
@@ -56,16 +96,6 @@
     "rule": "An exact-productized route whose evidence fails a requirement is not silently kept at its last version: its record is revoked on its own history chain (REVOKED denies at the runtime) or, if it never had a record, written nowhere. Entries here are the refusals measured on this regeneration.",
     "entries": [
       {
-        "routeId": "IL:felony-prostitution-relief",
-        "packetFamilyId": "il-prostitution-j-vacate-set",
-        "disposition": "ALREADY_REVOKED",
-        "recordId": "grade-a-il-felony-prostitution-relief-v1",
-        "version": 2,
-        "revokedAt": "2026-09-05",
-        "reason": "First-cohort evidence refusal: il-prostitution-j-vacate-set has no current independent complete verdict",
-        "currentRefusal": "First-cohort evidence refusal: data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf no longer hashes to its approved digest"
-      },
-      {
         "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
         "packetFamilyId": "ms-misd-addl-set",
         "disposition": "ALREADY_REVOKED",
@@ -73,7 +103,7 @@
         "version": 3,
         "revokedAt": "2026-09-05",
         "reason": "First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict",
-        "currentRefusal": "First-cohort evidence refusal: data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf no longer hashes to its approved digest"
+        "currentRefusal": "First-cohort evidence refusal: artifact successor central published raster incomplete"
       },
       {
         "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
@@ -83,7 +113,7 @@
         "version": 3,
         "revokedAt": "2026-09-05",
         "reason": "First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict",
-        "currentRefusal": "First-cohort evidence refusal: data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf no longer hashes to its approved digest"
+        "currentRefusal": "First-cohort evidence refusal: artifact successor central published raster incomplete"
       }
     ]
   },
@@ -147,15 +177,17 @@
     "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/source-receipt.json": "92c6d28709785008e9a5a20333523f034910068dd9d01e4eb525a7ef1fee194b",
     "data/rcap-grade-a/codex-cloud/cs2-productize-il-prostitution-1293/RETURN.json": "333bc15d565388d1b732cac0657a3da166ccea4676fa4ece772fbe204c8dfd29",
     "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_IL_VACATUR_2026-09-14.json": "6d0a4760360f036b7c163f07c9410c3706bcdef3ce1fc69cd33061609536ae34",
+    "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json": "9c04b146893f71d09cbf043317a6af6147a31dbe40395ab362ada8a2509abddd",
     "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
     "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json": "ed9c2503fd87f041905503630c7bc2d7c87f5d562725085a7a00244da7b0e6b0",
-    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json": "7386bf3cb987488ff27e2e907ffd49070b057d28b11fb7cbda290515e33d59f3",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json": "5c4f1ce061cdfd0514ad42ae9f98e2fa420edf5cba1abc9742a1a24513a7377e",
     "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json": "b221c5660ded7a815a31ff385154d406e1a9702375ec530a22f43f30fa822c72",
     "data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json": "96157e584ba2d801f1ba78456bcf08463ad05982dbcc9b2ad5b8735913e649a7",
     "data/rcap-grade-a/packet-factory-24h/vf01/il-prostitution-j-vacate-set-current-return.json": "6005937cf7dd689f70bc277c4e446d62273095f66ecdf13dded9ba486970c7e9",
     "data/rcap-grade-a/packet-factory-24h/vf01/rows.json": "52a4c3169cd0e575e1441fae7a104d5f707cb12d5855b87bf59193a17409cbc6",
     "data/rcap-grade-a/packet-factory-24h/vf04/rows.json": "91429cc7ed50fcc20e7dea29662d203454e7455a4026b177fa48300b8de410bc",
     "data/rcap-grade-a/packet-factory-24h/vf07/rows.json": "f53772e1cc5b75bda014d76902337797b1c1602cc52fbc6cda375714caf98a0c",
+    "data/rcap-grade-a/participant-data-rights/artifact-successor-20260914/ms-independent-verification.json": "058fcf673ba8881e89d0da47511471886ef1d02365b4bcbc9b52d7988866b199",
     "data/record-clearing/legal-design-intake/DC.memo.json": "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64",
     "data/record-clearing/legal-design-intake/GA.memo.json": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
     "data/record-clearing/legal-design-intake/IL.memo.json": "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106",
@@ -172,8 +204,9 @@
     "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs": "993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b",
     "scripts/build-census-v1-ms-misd-addl-set.mjs": "cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f",
     "scripts/build-census-v1-wy_fel_1502-set.mjs": "5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76",
+    "scripts/lib/artifact-approval-successor.mjs": "db4b82506d0959bfd4b36f4a64733075516d8fad841e7407e35eee4806d98f70",
     "scripts/lib/ms-unchanged-track-authority.mjs": "26308a0a69b7fffccf1578b4f671d9d06a93be44d1e5c36b0af163d067aa4acc",
-    "scripts/lib/owner-artifact-approval.mjs": "eb48a0869baec23d46ed6f5576cd5cf7e15356346b819dd040379e3210e2f4db",
+    "scripts/lib/owner-artifact-approval.mjs": "bb1a835ed44067afe72f79bd0001aeec03dca7b20f3201e1b0019935549b02dd",
     "scripts/lib/wy-unchanged-track-authority.mjs": "6fdc4c1334473bf8d2347e720aa4e51bb568b290f81af066962691a6460c83f4"
   },
   "records": [
@@ -185,7 +218,7 @@
       "pathwayId": "dc_actual_innocence_expungement_16_803",
       "packetFamilyId": "dc_innocence_expungement-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 2,
+      "version": 3,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
@@ -425,7 +458,7 @@
         },
         "rasterReceipt": {
           "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-          "rowSha256": "0425917de4089420b4cf5aca6c0fc31d5803447de96d4b442514c07d281ee580",
+          "rowSha256": "35c9e48289695e0c540130245123904a2710eca74b054838a79af2b0fb8785f2",
           "verdict": "RASTER_PASS",
           "workflowRunId": "33549186956",
           "jobId": "99994821093",
@@ -556,6 +589,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "899ec662cd9c8f9425e0088e7d2abd4643bd48cb4c6c843d1b95c5294b8881c1",
           "supersedesRecordSha256": "7fd474d800df8875b896a75deff43b4e36ce940dd014a8b3cc24913ebff3d4a1"
+        },
+        {
+          "version": 3,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-14",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "48edb2984791e01d33729c8c5553006ba3d61a86150ca519a1244c66853fa5bc",
+          "supersedesRecordSha256": "899ec662cd9c8f9425e0088e7d2abd4643bd48cb4c6c843d1b95c5294b8881c1"
         }
       ]
     },
@@ -567,22 +609,22 @@
       "pathwayId": "felony-prostitution-relief",
       "packetFamilyId": "il-prostitution-j-vacate-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 2,
-      "effectiveFrom": "2026-09-02",
+      "version": 3,
+      "effectiveFrom": "2026-09-14",
       "supersededBy": null,
       "supersededAt": null,
       "revocation": {
-        "revoked": true,
-        "reason": "First-cohort evidence refusal: il-prostitution-j-vacate-set has no current independent complete verdict",
-        "revokedAt": "2026-09-05",
-        "revokedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs"
+        "revoked": false,
+        "reason": null,
+        "revokedAt": null,
+        "revokedBy": null
       },
       "legalAuthority": {
         "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
         "version": "OWN-ADOPT-2026-09-02-BATCH-53",
         "status": "approved_by_decision_owner",
         "effectiveDate": "2026-09-02",
-        "scopeSha256": "1f582fe054af19b18d0244d8e3e9e7ad8a89ed16d36ecac9865c0c3990b05ff2"
+        "scopeSha256": "d6f65ad7817ca7972d0e1b01d32ccc9a3b95f36ac7136f62a809bb1e4eb979e3"
       },
       "packetSpecification": {
         "specId": "il-felony-prostitution-relief@1.0.0",
@@ -652,7 +694,7 @@
         "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
         "rendererKind": "packet_document_v1",
         "rendererVersion": "1.0.0",
-        "imageDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864"
+        "imageDigest": "sha256:dd631d8db17149d5e57e84f2e2db2b3c51afbfc5123f97b10b5c8ca3e572c9e8"
       },
       "fixture": {
         "fixtureId": "IL:felony-prostitution-relief",
@@ -661,8 +703,8 @@
       },
       "artifactValidation": {
         "state": "validated",
-        "artifactSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
-        "validatedAt": "2026-09-02"
+        "artifactSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+        "validatedAt": "2026-09-14"
       },
       "packetCompleteness": {
         "specificationId": "il-felony-prostitution-relief",
@@ -711,10 +753,10 @@
         },
         "filingFormatArtifact": {
           "format": "pdf",
-          "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+          "sha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
           "pageCount": 3,
           "producedBy": {
-            "renderer": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs@sha256:27df6b2fcf89564f9d97a1f775ac20e3d990c367fa107e20a9b841d9d9594eec",
+            "renderer": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs@sha256:993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b",
             "matchesRecordProvider": false,
             "reconciliation": "The filing proof was produced by the committed census-v1 family builder. The record provider is the separately digest-pinned delivery worker image; no evidence claims that image produced the reviewed PDF.",
             "deterministicRenderVerified": true
@@ -725,43 +767,48 @@
         "state": "passed",
         "pagesReviewed": 3,
         "pageCount": 3,
-        "evidenceSha256": "2147d21c093800f5a41a9c0b4ed5a3f77e337c21d64fe825b21425690886cd65",
-        "reviewedBy": ".github/workflows/rcap-packet-raster-acceptance-batch.yml#job:100075268121",
-        "reviewedAt": null
+        "evidenceSha256": "dff9b60c71b9bd65e2c7a2db18af0ffc8aafa3cc6c64fc3eec64d79abd95793c",
+        "reviewedBy": ".github/workflows/rcap-packet-raster-acceptance-batch.yml#job:101324362197",
+        "reviewedAt": "2026-09-14"
       },
       "outputLegalApproval": {
         "state": "passed",
         "reviewerId": "Roger Roman",
-        "decidedAt": "2026-09-02",
-        "scopeSha256": "1f582fe054af19b18d0244d8e3e9e7ad8a89ed16d36ecac9865c0c3990b05ff2"
+        "decidedAt": "2026-09-14",
+        "scopeSha256": "d6f65ad7817ca7972d0e1b01d32ccc9a3b95f36ac7136f62a809bb1e4eb979e3"
       },
       "finalVerification": {
         "contract": "rcap-independent-packet-final-verification/v1",
-        "contractModule": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+        "contractModule": "scripts/lib/artifact-approval-successor.mjs",
         "state": "bound",
         "verifierId": "vf01",
-        "boundInputsSha256": "95597a7eeec0b3b1cd5b89e4e52a317487a36010841bc5f943fcb3fd6b978f67",
-        "verifiedAt": "2026-09-04T17:09:07Z",
-        "verifiedAtBase": "31cf727c0cb7b31719b206900973c973e9273161",
+        "boundInputsSha256": "780321fdae646409d1e8159842c9663e60b20f25e3df9fd5f2ff2fa7b9bf87c2",
+        "verifiedAt": "2026-09-05",
+        "verifiedAtBase": "d974bcdd8",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
-        "evidenceRowSha256": "f3c933a8ab6b932b9e0ad7d23fef78a4f6ddebbe8851e261c9a4bad56c43267d",
-        "evidenceDetailRowSha256": "c90ff84b1f56d881967854ff763c14fe67abe4f236d2ab6226cd5ad102285172",
+        "evidenceRowSha256": "be1cf5f4d9819930c79c9a9f8ad7608d380012f2addbe9557e051813d803d7e3",
+        "evidenceDetailRowSha256": "ae5f4315053130ce3a12451412a1eb1c4d68f183528ad386d62f862235f466bf",
         "boundInputs": {
           "contract": "rcap-independent-packet-final-verification/v1",
           "routeId": "IL:felony-prostitution-relief",
           "familyId": "il-prostitution-j-vacate-set",
           "packetSpecificationSha256": "7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa",
-          "canonicalArtifactSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
-          "boundaryArtifactSha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+          "canonicalArtifactSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+          "boundaryArtifactSha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
           "verifierRegistry": {
             "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
-            "evidenceRowSha256": "f3c933a8ab6b932b9e0ad7d23fef78a4f6ddebbe8851e261c9a4bad56c43267d"
+            "evidenceRowSha256": "be1cf5f4d9819930c79c9a9f8ad7608d380012f2addbe9557e051813d803d7e3"
           },
           "verifierEvidence": {
             "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
-            "evidenceRowSha256": "c90ff84b1f56d881967854ff763c14fe67abe4f236d2ab6226cd5ad102285172",
-            "verifiedAtBase": "31cf727c0cb7b31719b206900973c973e9273161",
+            "evidenceRowSha256": "ae5f4315053130ce3a12451412a1eb1c4d68f183528ad386d62f862235f466bf",
+            "verifiedAtBase": "d974bcdd8",
             "lane": "vf01"
+          },
+          "artifactApproval": {
+            "path": "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_IL_VACATUR_2026-09-14.json",
+            "sha256": "6d0a4760360f036b7c163f07c9410c3706bcdef3ce1fc69cd33061609536ae34",
+            "recordId": "OWN-ARTIFACT-REREVIEW-IL-VACATUR-2026-09-14"
           }
         }
       },
@@ -784,17 +831,16 @@
           "routeOpened": false
         },
         "currentIndependentReviewReceipt": {
-          "path": "data/rcap-grade-a/packet-factory-24h/vf01/il-prostitution-j-vacate-set-current-return.json",
-          "sha256": "6005937cf7dd689f70bc277c4e446d62273095f66ecdf13dded9ba486970c7e9",
-          "worker": "CODEX-CS1-VF01-IL-CURRENT",
-          "base": "31cf727c0cb7b31719b206900973c973e9273161",
-          "verdict": "VERIFIED_PASS",
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+          "sha256": "52a4c3169cd0e575e1441fae7a104d5f707cb12d5855b87bf59193a17409cbc6",
+          "evidenceRowSha256": "ae5f4315053130ce3a12451412a1eb1c4d68f183528ad386d62f862235f466bf",
+          "base": "d974bcdd8",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
           "obligationsMeasured": 15,
           "failedObligations": [],
           "unmeasuredObligations": [],
-          "currentBuilderSha256": "27df6b2fcf89564f9d97a1f775ac20e3d990c367fa107e20a9b841d9d9594eec",
+          "currentBuilderSha256": "993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b",
           "currentProductionFieldMapSha256": "98dd21ad067761c64b2b58149bf307e7188b60c8892fc6578a22383725ec7de8",
-          "metadataDeltaFinding": "The changed builder/field-map bytes add only the exact two-entry componentRoutes mapping now measured above; product binding/specification records were added without changing either PDF or legal content.",
           "freshCurrentByteReviewPerformed": true
         },
         "packetSpecification": {
@@ -807,14 +853,14 @@
         "approvedArtifacts": {
           "canonical": {
             "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
-            "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
-            "byteLength": 7802,
+            "sha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+            "byteLength": 7895,
             "pageCount": 3
           },
           "boundary": {
             "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
-            "sha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
-            "byteLength": 7980,
+            "sha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
+            "byteLength": 8073,
             "pageCount": 3
           }
         },
@@ -842,35 +888,30 @@
         },
         "rasterReceipt": {
           "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-          "rowSha256": "3766396bf14d734fd0b246f510563e4d32715c63fd84505c50e95634e50802a9",
+          "rowSha256": "6ab01b0317f39d32ee30e22f7699e18ea154e37382fed72778407f42307c5bf5",
           "verdict": "RASTER_PASS",
-          "workflowRunId": "33574304514",
-          "jobId": "100075268121",
-          "receiptArtifact": {
-            "id": "9826156184",
-            "name": "rcap-raster-il-prostitution-j-vacate-set-33574304514",
-            "zipSha256": "sha256:d5cdac57c5fc78b781b6169081c34c7779240c4ee1a6eb6351df203f6926e48d",
-            "expiresAt": "2026-09-16T00:16:25Z"
-          },
-          "canonicalSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
-          "boundarySha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+          "workflowRunId": "33972727725",
+          "jobId": 101324362197,
+          "receiptArtifact": null,
+          "canonicalSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+          "boundarySha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
           "coversTheWholeFamily": true
         },
         "independentVerification": {
           "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
-          "rowSha256": "f3c933a8ab6b932b9e0ad7d23fef78a4f6ddebbe8851e261c9a4bad56c43267d",
+          "rowSha256": "be1cf5f4d9819930c79c9a9f8ad7608d380012f2addbe9557e051813d803d7e3",
           "verdict": "PASS_COMPLETE_INDEPENDENT",
           "lane": "vf01",
-          "verifiedAtBase": "31cf727c0cb7b31719b206900973c973e9273161",
+          "verifiedAtBase": "d974bcdd8",
           "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
-          "evidenceDocumentSha256": "8e62efba51020bbde8fcaebc655b5e2a79cb4ceb4f926c6d90a587ada1213b9a",
-          "evidenceRowSha256": "c90ff84b1f56d881967854ff763c14fe67abe4f236d2ab6226cd5ad102285172",
+          "evidenceDocumentSha256": "52a4c3169cd0e575e1441fae7a104d5f707cb12d5855b87bf59193a17409cbc6",
+          "evidenceRowSha256": "ae5f4315053130ce3a12451412a1eb1c4d68f183528ad386d62f862235f466bf",
           "boundInputs": {
             "packetSpecificationSha256": "7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa",
-            "canonicalSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
-            "boundarySha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b"
+            "canonicalSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+            "boundarySha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e"
           },
-          "boundInputsSha256": "95597a7eeec0b3b1cd5b89e4e52a317487a36010841bc5f943fcb3fd6b978f67"
+          "boundInputsSha256": "780321fdae646409d1e8159842c9663e60b20f25e3df9fd5f2ff2fa7b9bf87c2"
         },
         "codifiedAuthority": {
           "sourceKind": "codified_authority",
@@ -924,22 +965,22 @@
         },
         "provider": {
           "deliveryProviderEvidencePath": "data/rcap-render/worker-publication-evidence.json",
-          "deliveryProviderEvidenceSha256": "5208f1710c2a97a36584aa16c005f4a0d2d12cbba3af3bb67f9482a02eef8267",
+          "deliveryProviderEvidenceSha256": "08cef5256808ebfd364f0da69742ec94a64f43f994bc7eb33c17493a308259a1",
           "deliveryProvider": {
             "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
             "rendererKind": "packet_document_v1",
             "rendererVersion": "1.0.0",
-            "imageDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864"
+            "imageDigest": "sha256:dd631d8db17149d5e57e84f2e2db2b3c51afbfc5123f97b10b5c8ca3e572c9e8"
           },
           "artifactProducer": {
             "builderPath": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
             "providerPaths": [
               "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs"
             ],
-            "builderSha256": "27df6b2fcf89564f9d97a1f775ac20e3d990c367fa107e20a9b841d9d9594eec",
+            "builderSha256": "993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b",
             "renderedArtifactsPath": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/reports/rendered-artifacts.json",
-            "renderedArtifactsSha256": "36859296af8b233deff75bc554ec89c06f88eb0b656ed6e0ae7b7c90b9c2a7b9",
-            "identity": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs@sha256:27df6b2fcf89564f9d97a1f775ac20e3d990c367fa107e20a9b841d9d9594eec"
+            "renderedArtifactsSha256": "7ce6ea98750384141c60ca62350e647dd94f34bf31cf39903baa6cae594c0e47",
+            "identity": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs@sha256:993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b"
           }
         },
         "fixture": {
@@ -948,8 +989,8 @@
           "witnessFixtureId": "IL:felony-prostitution-relief",
           "witnessFixtureSha256": "e206bbd41e54f9dfb14c07c7bdc99e34851ae8ffcb6e4cabb527064eec858a83",
           "expectedPaymentAllowed": false,
-          "canonicalSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
-          "boundarySha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b"
+          "canonicalSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+          "boundarySha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e"
         },
         "sourceReceipt": {
           "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/source-receipt.json",
@@ -958,6 +999,94 @@
         "productionFieldMap": {
           "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/production-field-map.json",
           "sha256": "98dd21ad067761c64b2b58149bf307e7188b60c8892fc6578a22383725ec7de8"
+        },
+        "artifactApprovalSuccessor": {
+          "contract": "rcap-owner-artifact-successor/v1",
+          "approval": {
+            "recordId": "OWN-ARTIFACT-REREVIEW-IL-VACATUR-2026-09-14",
+            "path": "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_IL_VACATUR_2026-09-14.json",
+            "sha256": "6d0a4760360f036b7c163f07c9410c3706bcdef3ce1fc69cd33061609536ae34",
+            "decidedOn": "2026-09-14",
+            "familyId": "il-prostitution-j-vacate-set",
+            "routeIds": [
+              "IL:felony-prostitution-relief"
+            ],
+            "status": "APPROVED_EXACT_SHIPPING_ARTIFACTS",
+            "approvedArtifacts": [
+              {
+                "fixture": "canonical",
+                "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+                "sha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657"
+              },
+              {
+                "fixture": "boundary",
+                "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+                "sha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e"
+              }
+            ],
+            "technicalEvidence": {
+              "independentVerification": {
+                "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+                "rowSha256": "be1cf5f4d9819930c79c9a9f8ad7608d380012f2addbe9557e051813d803d7e3",
+                "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+                "evidenceRowSha256": "ae5f4315053130ce3a12451412a1eb1c4d68f183528ad386d62f862235f466bf",
+                "verifiedAtBase": "d974bcdd8",
+                "obligationsPassed": 15
+              },
+              "raster": {
+                "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+                "rowSha256": "6ab01b0317f39d32ee30e22f7699e18ea154e37382fed72778407f42307c5bf5",
+                "workflowRunId": "33972727725",
+                "jobId": 101324362197,
+                "canonicalSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+                "boundarySha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e"
+              },
+              "purpose": "Current exact-artifact technical proof. Fulfillment status is determined by the consuming successor record; historical productization receipts and revocations remain preserved."
+            },
+            "artifactApprovalOnly": true,
+            "preservesFulfillmentRevocations": true,
+            "runtimeOrProductionAuthorization": false
+          },
+          "scope": {
+            "historicalLegalApproval": {
+              "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+              "version": "OWN-ADOPT-2026-09-02-BATCH-53",
+              "status": "approved_by_decision_owner",
+              "effectiveDate": "2026-09-02",
+              "scopeSha256": "1f582fe054af19b18d0244d8e3e9e7ad8a89ed16d36ecac9865c0c3990b05ff2"
+            },
+            "artifactApproval": {
+              "recordId": "OWN-ARTIFACT-REREVIEW-IL-VACATUR-2026-09-14",
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_IL_VACATUR_2026-09-14.json",
+              "sha256": "6d0a4760360f036b7c163f07c9410c3706bcdef3ce1fc69cd33061609536ae34"
+            },
+            "routeId": "IL:felony-prostitution-relief",
+            "familyId": "il-prostitution-j-vacate-set",
+            "artifacts": {
+              "canonical": {
+                "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+                "sha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+                "byteLength": 7895,
+                "pageCount": 3
+              },
+              "boundary": {
+                "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+                "sha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
+                "byteLength": 8073,
+                "pageCount": 3
+              }
+            }
+          },
+          "scopeSha256": "d6f65ad7817ca7972d0e1b01d32ccc9a3b95f36ac7136f62a809bb1e4eb979e3",
+          "historical": {
+            "sourceSha": "7cb3133a5ca8a5bac80550cb7bdc0e38d2359ce8",
+            "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+            "fileSha256": "0014f8913dc6dee7b79a0e19e55f0395a61f92dbfbe2eeb18685924681aab3ae",
+            "recordJsonSha256": "be16858dbfb02988897c4a611484c76326f448d08cfb82551e0935169acddc92"
+          },
+          "historicalReceiptsAreNotCurrentArtifactApprovals": true,
+          "changesLegalTreatment": false,
+          "opensRuntimeRoute": false
         }
       },
       "history": [
@@ -978,6 +1107,15 @@
           "reason": "Revoked because the record's evidence no longer holds: First-cohort evidence refusal: il-prostitution-j-vacate-set has no current independent complete verdict. The route denies until a fresh independent read, a current raster receipt and the owner re-review restore the evidence, at which point this generator reinstates the record on this same history chain.",
           "recordSha256": "382d3143c4cae71a222cbad3fd252e4ed08194b0bcf7121f82339d7139ff5847",
           "supersedesRecordSha256": "3087e2d5c487838b26d0a246dbff6d894403a9fe891c1f984ef76f8cea18cef9"
+        },
+        {
+          "version": 3,
+          "changeKind": "reinstated",
+          "changedAt": "2026-09-14",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Reinstated: the evidence the revoked version 2 lacked holds again on the current bytes, raster receipt and independent verification.",
+          "recordSha256": "716d364b070a8d7ed36636d838f00475e52c20fb5d4607e4f451099389aa6e2d",
+          "supersedesRecordSha256": "382d3143c4cae71a222cbad3fd252e4ed08194b0bcf7121f82339d7139ff5847"
         }
       ]
     },
@@ -2992,7 +3130,7 @@
       "pathwayId": "felony-conviction-expungement-w-s-7-13-1502",
       "packetFamilyId": "wy_fel_1502-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 2,
+      "version": 3,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
@@ -3270,7 +3408,7 @@
         },
         "rasterReceipt": {
           "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-          "rowSha256": "67164af2812803c28e68e25262cc941c60f102c816db671d2c86da44d3ff82a5",
+          "rowSha256": "deb3cae950184ad8c1e228cb7061b0b3672d7e219269dfbb2e463b4cc3e61f12",
           "verdict": "RASTER_PASS",
           "workflowRunId": "33608483853",
           "jobId": "100178595166",
@@ -3438,6 +3576,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "86e230a8364ccee809f8ee123ed7329edda27e8fdb4765be5fda16e654e45d67",
           "supersedesRecordSha256": "91ff6c3c4c5036928e4727af9149602b45518dc505b166eae60a685a3b295b60"
+        },
+        {
+          "version": 3,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-14",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "0588be11915f84e4913d529a553fee7a4567a8e32c80d1b7b9c6998b84394a89",
+          "supersedesRecordSha256": "86e230a8364ccee809f8ee123ed7329edda27e8fdb4765be5fda16e654e45d67"
         }
       ]
     }

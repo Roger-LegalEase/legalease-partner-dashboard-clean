@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { loadIlArtifactApproval, IL_ARTIFACT_APPROVAL_PATH } from "./lib/owner-artifact-approval.mjs";
+import { loadIlArtifactApproval, loadMsArtifactApproval, IL_ARTIFACT_APPROVAL_PATH, MS_ARTIFACT_APPROVAL_PATH } from "./lib/owner-artifact-approval.mjs";
+import { createArtifactSuccessor, SUCCESSOR_FAMILIES, MS_SUCCESSOR_VERIFICATION } from "./lib/artifact-approval-successor.mjs";
 import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — candidate records, observation snapshot, projection.
 //
@@ -1865,7 +1866,9 @@ function exactProductizedRecordOrRevocation(definition) {
   const prior = priorCurrentRecordFor(definition.routeId);
   let record;
   try {
-    record = exactProductizedCandidateRecord(definition);
+    record = SUCCESSOR_FAMILIES.includes(definition.familyId)
+      ? createArtifactSuccessor({routeId:definition.routeId, readBytes:readEvidenceBytes, stableStringify, provider})
+      : exactProductizedCandidateRecord(definition);
   } catch (error) {
     if (!/^First-cohort evidence refusal:/.test(String(error?.message ?? ""))) throw error;
     const reason = String(error.message);
@@ -1944,7 +1947,8 @@ for (const withdrawn of withdrawnCandidates) {
 }
 
 const exactProductizedEvidencePaths = [...new Set([
-  IL_ARTIFACT_APPROVAL_PATH,
+  IL_ARTIFACT_APPROVAL_PATH, MS_ARTIFACT_APPROVAL_PATH,
+  "scripts/lib/artifact-approval-successor.mjs", MS_SUCCESSOR_VERIFICATION,
   "scripts/lib/owner-artifact-approval.mjs",
   "scripts/lib/wy-unchanged-track-authority.mjs",
   "scripts/lib/ms-unchanged-track-authority.mjs",
@@ -1977,7 +1981,7 @@ const allCandidateJurisdictions = [...new Set([
   ...EXACT_PRODUCTIZED_ROUTES.map((entry) => entry.routeId.slice(0, entry.routeId.indexOf(":")))
 ])].sort();
 
-const ownerArtifactApprovals = [loadIlArtifactApproval(readEvidenceBytes)];
+const ownerArtifactApprovals = [loadIlArtifactApproval(readEvidenceBytes), loadMsArtifactApproval(readEvidenceBytes)];
 
 const registry = {
   schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,

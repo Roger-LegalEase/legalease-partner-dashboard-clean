@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `c54071b7086abffd9ad68f328fdabbdaf673b7c2`
+**Minimum required ancestor:** `7cb3133a5ca8a5bac80550cb7bdc0e38d2359ce8`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -433,9 +433,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ms-misd-addl-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf` — `3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399`
-- boundary `data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf` — `e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36`
-- expected pages 8 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf` — `c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b`
+- boundary `data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf` — `61c429c2135a6b3b79de26adea8eb6f6ed1288aaf21c0a604dd656c431848c84`
+- expected pages 7 · requested scale 2.5
 - built by (no builder lane recorded)
 
 ### mt_misdemeanor_expungement-set
