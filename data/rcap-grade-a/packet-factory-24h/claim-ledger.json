@@ -8251,11 +8251,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF01",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "User-authorized restart replacement: previous execution paths died, current exact family remains SOURCE_READY with explicit executable adopted ORS137.225(1)(a) instruction; preserve historical returns."
+      "releaseReason": "User-authorized work stealing: OR preflight only; no authored files. Current author preempted for independent WA original review; transfer next executable build to replacement nc_build."
     },
     {
       "subjectType": "packet-family",
@@ -15832,7 +15832,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "84f98ec98c297104d3dcd7d4a473c87339d7cd3ace8f9a9e70ad4e18a5b65124",
+  "claimsDigest": "92a9756cead41a9047e70f571c5da1536a541d4a1ce21604e55676441dbd6aaa",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43290,6 +43290,15 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-14T03:56:24.542Z",
       "reason": "User-authorized restart replacement: previous execution paths died, current exact family remains SOURCE_READY with explicit executable adopted ORS137.225(1)(a) instruction; preserve historical returns."
+    },
+    {
+      "lane": "PF01",
+      "subjectType": "packet-family",
+      "subjectId": "or_contempt_setaside-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-14T04:11:04.585Z",
+      "reason": "User-authorized work stealing: OR preflight only; no authored files. Current author preempted for independent WA original review; transfer next executable build to replacement nc_build."
     }
   ],
   "reissues": [
@@ -66561,6 +66570,17 @@
       "previouslyReleasedAt": "2026-09-14T03:56:24.542Z",
       "transferredAt": "2026-09-14T03:56:24.774Z",
       "reason": "User next-executable-family work stealing: /root/ne_build resumes exact OR family on existing recovered worker after NE/WV handoffs, preemptible for WA original review."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "or_contempt_setaside-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF01",
+      "toLane": "PF02",
+      "previouslyReleasedAt": "2026-09-14T04:11:04.585Z",
+      "transferredAt": "2026-09-14T04:11:05.006Z",
+      "reason": "Replacement nc_build takes executable OR adopted scope; prior PF01 confirms no authored files or candidate. Preserve both preflight histories."
     }
   ],
   "grants": [
