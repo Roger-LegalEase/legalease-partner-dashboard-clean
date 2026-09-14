@@ -17,6 +17,7 @@
  * conveyor is for, and it is reported rather than smoothed.
  */
 import { assessWaSudCustomMapping } from "./wa-sud-custom-mapping.mjs";
+import { visualOnlyRasterPending } from "./visual-only-raster-pending.mjs";
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import {
   applyUserSourceDeterminations,
@@ -2590,6 +2591,14 @@ for (const f of IN.scoreboard.familiesDetail) {
    * measured failure is never outranked by anyone's opinion, least of all the
    * builder's own.
    */
+  else if (visualOnlyRasterPending({ counters: comp?.counters,
+    completedBuild: completedPacketBuildFamilies.has(familyId), sourceReady: readiness.ready,
+    legalBlocked, routeMappingOpen, artifactPresent,
+    independentVerdict: independentReturn?.verdict,
+    failedObligations: independentReturn?.failedObligationNames,
+    unmeasuredObligations: independentReturn?.unmeasuredObligations,
+    isIndependentVerification: independentReturn?.isIndependentVerification,
+    rasterPassed: rasterPassByFamily.get(familyId) })) state = "BUILT_RASTER_PENDING";
   else if (comp && !nineZero) state = "FAIL_REPAIR_REQUIRED";
   /*
    * AND THESE TWO OWE THE VISUAL GATE AS WELL.
