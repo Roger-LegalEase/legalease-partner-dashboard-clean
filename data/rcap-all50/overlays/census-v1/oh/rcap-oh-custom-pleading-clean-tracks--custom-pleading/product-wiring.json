@@ -7,61 +7,52 @@
     "obligation:track-pathway:OH:oh_2953_33_nonconviction:adult-non-conviction-sealing-or-expungement-under-2953-33",
     "obligation:track-pathway:OH:oh_2953_35_firearm:certain-firearm-carry-conviction-expungement-under-2953-35"
   ],
-  "implementationStrategy": "custom_pleading_artifact_only_with_official_post_order_companion",
-  "fieldMap": null,
   "generationAllowed": false,
   "runtimeSelectable": false,
   "commercialRoutesOpened": 0,
   "createsFulfillmentRecord": false,
   "opensCommercialRoute": false,
-  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/product-wiring.json",
-  "integrationStatus": "INSTALLED_BY_CAPTAIN",
-  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
-  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/rcap-oh-custom-pleading-clean-tracks/product-wiring.json",
-  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "integrationStatus": "CANDIDATE_NOT_ADMITTED",
   "binding": {
     "family": "rcap-oh-custom-pleading-clean-tracks",
     "jurisdiction": "OH",
     "routeKeys": [
-      "obligation:track-only:OH:oh_2953_32_sealing"
+      "obligation:track-only:OH:oh_2953_32_sealing",
+      "obligation:track-pathway:OH:oh_2953_32_expungement:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+      "obligation:track-pathway:OH:oh_2953_33_nonconviction:adult-non-conviction-sealing-or-expungement-under-2953-33",
+      "obligation:track-pathway:OH:oh_2953_35_firearm:certain-firearm-carry-conviction-expungement-under-2953-35"
     ],
-    "deliveryType": "custom_pleading",
-    "instrumentKinds": [],
     "packetComponents": [
-      "component:oh_2953_32_sealing-bci-transmission-5"
+      "oh_2953_33_nonconviction-primary-filing-1",
+      "oh_2953_33_nonconviction-local-form-instructions-2",
+      "oh_2953_33_nonconviction-record-gathering-instructions-3",
+      "oh_2953_33_nonconviction-hearing-and-objection-instructions-4",
+      "oh_2953_33_nonconviction-bci-transmission-5",
+      "oh_2953_32_sealing-primary-filing-1",
+      "oh_2953_32_sealing-local-form-instructions-2",
+      "oh_2953_32_sealing-record-gathering-instructions-3",
+      "oh_2953_32_sealing-hearing-and-objection-instructions-4",
+      "oh_2953_32_sealing-bci-transmission-5",
+      "oh_2953_32_expungement-primary-filing-1",
+      "oh_2953_32_expungement-local-form-instructions-2",
+      "oh_2953_32_expungement-record-gathering-instructions-3",
+      "oh_2953_32_expungement-hearing-and-objection-instructions-4",
+      "oh_2953_32_expungement-bci-transmission-5",
+      "oh_2953_35_firearm-primary-filing-1",
+      "oh_2953_35_firearm-local-form-instructions-2",
+      "oh_2953_35_firearm-record-gathering-instructions-3",
+      "oh_2953_35_firearm-hearing-and-objection-instructions-4",
+      "oh_2953_35_firearm-bci-transmission-5"
     ],
+    "deliveryType": "official_96C1_sealing_plus_three_original_application_tracks",
     "fieldMap": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/source-receipt.json",
-    "sourceVersion": [
-      {
-        "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
-        "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
-        "tier": "exact_form_number"
-      }
-    ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33850403312",
-      "jobId": "100953975759",
-      "artifactId": "9928647531",
-      "boundToCanonicalSha256": "fbf1c284b7bf9e76d782279de376e0a5eef8cbe619887033f27fe628ff1065cb",
-      "coversTheWholeFamily": true
-    },
-    "lastIndependentVerification": {
-      "verdict": "BLOCKED_LEGAL_INPUT",
-      "lane": "vf32",
-      "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af"
-    },
+    "generationAllowed": false,
+    "runtimeSelectable": false,
     "paymentEligible": false,
     "sponsorshipEligible": false,
-    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
-    "maintenanceRelationship": {
-      "rebuiltFrom": "scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs",
-      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
-      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
-      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    "filingPermitted": false
   }
 }

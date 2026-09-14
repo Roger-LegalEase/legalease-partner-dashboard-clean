@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "rcap-composed-family-source-receipt/v1",
+  "schemaVersion": "rcap-source-receipt/v1",
   "familyId": "rcap-oh-custom-pleading-clean-tracks",
   "routeKeys": [
     "obligation:track-only:OH:oh_2953_32_sealing",
@@ -7,97 +7,39 @@
     "obligation:track-pathway:OH:oh_2953_33_nonconviction:adult-non-conviction-sealing-or-expungement-under-2953-33",
     "obligation:track-pathway:OH:oh_2953_35_firearm:certain-firearm-carry-conviction-expungement-under-2953-35"
   ],
-  "implementationStrategy": "custom_pleading_artifact_only_with_official_post_order_companion",
-  "legalDesignStatus": "legal_design_approved_with_limitations",
+  "allSourcesExact": true,
   "documents": [
     {
-      "documentId": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
-      "documentRole": "POST_ORDER_COMPANION_SOURCE",
-      "officialTitle": "Ohio BCI Sealings and Expungements Request",
-      "revision": "REV-UNKNOWN",
-      "pathInArchive": "STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
-      "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
-      "byteLength": 235789,
-      "matchedBy": "exact_path_sha256_and_byte_length",
-      "copiedWithoutModification": true,
-      "companionArtifact": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf",
-      "pageCount": 1,
-      "acroFieldCount": 0,
-      "firstHandGeometry": {
-        "pageGeometry": [
-          {
-            "page": 1,
-            "width": 612,
-            "height": 792,
-            "orientation": "portrait"
-          }
-        ],
-        "ctmStrokedGeometry": [
-          {
-            "page": 1,
-            "rectangles": [
-              {
-                "x0": 204.75,
-                "y0": 361.6,
-                "x1": 222,
-                "y1": 377.35,
-                "width": 17.25,
-                "height": 15.75,
-                "squareness": 0.913,
-                "construction": "re"
-              },
-              {
-                "x0": 418.5,
-                "y0": 361.6,
-                "x1": 435.75,
-                "y1": 377.35,
-                "width": 17.25,
-                "height": 15.75,
-                "squareness": 0.913,
-                "construction": "re"
-              },
-              {
-                "x0": 133.5,
-                "y0": 251.15,
-                "x1": 150.75,
-                "y1": 266.9,
-                "width": 17.25,
-                "height": 15.75,
-                "squareness": 0.913,
-                "construction": "re"
-              },
-              {
-                "x0": 306.75,
-                "y0": 251.15,
-                "x1": 324,
-                "y1": 266.9,
-                "width": 17.25,
-                "height": 15.75,
-                "squareness": 0.913,
-                "construction": "re"
-              },
-              {
-                "x0": 476.25,
-                "y0": 251.15,
-                "x1": 493.5,
-                "y1": 266.9,
-                "width": 17.25,
-                "height": 15.75,
-                "squareness": 0.913,
-                "construction": "re"
-              }
-            ]
-          }
-        ],
-        "fields": []
-      }
+      "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-C1",
+      "path": "private/source-acquisition-20260913/oh-96c1/OH-SUPR-Superintendence-2026-08-06.pdf",
+      "sha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05",
+      "physicalPage": 475
+    },
+    {
+      "sourceId": "font:ArialMT",
+      "path": "private/source-imports/oh-exact-fonts-20260914/Arial.TTF",
+      "sha256": "35c0f3559d8db569e36c31095b8a60d441643d95f59139de40e23fada819b833"
+    },
+    {
+      "sourceId": "official-order:Franklin-criminal-sixth-amended-efiling",
+      "path": "private/transfers/pf08-oh-continuation-20260913/efiling-order.pdf",
+      "sha256": "f7ac3b2e20684f86c7b1f2ac6b0107909e82c2029d5f1043731f8483d9336500"
+    },
+    {
+      "sourceId": "official-rule:Franklin-local19",
+      "path": "private/transfers/pf08-oh-continuation-20260913/local-rule19.pdf",
+      "sha256": "8f7511dced91c931f216af7b155dfbfc930bd946dbdaeabf05f85fe88502cb26"
+    },
+    {
+      "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+      "path": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf",
+      "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb"
     }
   ],
-  "sourceSilences": [
-    "No statewide mandatory Ohio primary application was identified.",
-    "No local-court application, caption, proposed order, service form, or current fee schedule is supplied by this source.",
-    "The BCI form is post-order companion evidence and does not establish primary-filing content or local filing practice."
+  "adoptedInputs": [
+    "data/rcap-grade-a/packet-factory-24h/pf08/oh-continuation-20260913/coherent-eight-fixture-inputs.json",
+    "data/rcap-grade-a/packet-factory-24h/pf08/oh-continuation-20260913/adopted-track-input-projection.json",
+    "data/rcap-grade-a/packet-factory-24h/pf08/oh-continuation-20260913/captain-implementation-dispatch.json"
   ],
-  "commercialAuthority": false,
-  "runtimeSelectable": false
+  "fontCustody": "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/oh-exact-arial-custody-release.json"
 }
