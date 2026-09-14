@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "wv_nc_diversion_deferred-set",
+  "jurisdiction": "WV",
+  "routeKeys": [
+    "obligation:track-pathway:WV:wv_nc_diversion_deferred:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "components": [
+    {
+      "componentId": "civil-petition",
+      "documentId": "civil-petition",
+      "role": "primary_filing",
+      "required": true,
+      "syntheticDiagnostic": false
+    },
+    {
+      "componentId": "statutory-supplement",
+      "documentId": "statutory-supplement",
+      "role": "supplemental_pleading",
+      "required": true,
+      "syntheticDiagnostic": false
+    },
+    {
+      "componentId": "proposed-order",
+      "documentId": "proposed-order",
+      "role": "proposed_order",
+      "required": true,
+      "syntheticDiagnostic": false
+    },
+    {
+      "componentId": "certificate-of-service",
+      "documentId": "certificate-of-service",
+      "role": "certificate_of_service",
+      "required": true,
+      "syntheticDiagnostic": false
+    },
+    {
+      "componentId": "custodian-and-exhibit-schedule",
+      "documentId": "custodian-and-exhibit-schedule",
+      "role": "supporting_records",
+      "required": true,
+      "syntheticDiagnostic": false
+    },
+    {
+      "componentId": "filing-instructions",
+      "documentId": "filing-instructions",
+      "role": "filing_instructions",
+      "required": true,
+      "syntheticDiagnostic": false
+    },
+    {
+      "componentId": "synthetic-exhibit-1",
+      "documentId": "synthetic-exhibit-1",
+      "role": "synthetic_diagnostic",
+      "required": false,
+      "syntheticDiagnostic": true
+    },
+    {
+      "componentId": "synthetic-exhibit-2",
+      "documentId": "synthetic-exhibit-2",
+      "role": "synthetic_diagnostic",
+      "required": false,
+      "syntheticDiagnostic": true
+    },
+    {
+      "componentId": "synthetic-exhibit-3",
+      "documentId": "synthetic-exhibit-3",
+      "role": "synthetic_diagnostic",
+      "required": false,
+      "syntheticDiagnostic": true
+    }
+  ],
+  "adoptedVehicleDecision": {
+    "record": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+    "registerQuestionId": "Q-055",
+    "reportQuestionId": "Q-048"
+  },
+  "realExhibitsRequired": [
+    "final_disposition",
+    "supporting_prior_order_or_agreement",
+    "completion_record"
+  ]
+}
