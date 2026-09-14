@@ -1,179 +1,64 @@
 #!/usr/bin/env node
-/**
- * POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST — every family, its whole chain, frozen.
- *
- *   node scripts/grade-a-launch-control/generate-post-wave-2-launch-worklist.mjs [--check]
- *
- * The chain a family must complete before it can launch has five links: a bound
- * official source, a built artifact, independent verification, output approval,
- * and product-path proof. A family is launch-ready only when it holds all five,
- * and the worklist names the first link it is missing rather than a status word.
- *
- * The freeze at the end is the same instrument as the census freeze: input
- * digests plus a content hash, so a later reader can tell whether the worklist
- * they are holding is the one that was frozen.
- */
-import fs from "node:fs";
-import path from "node:path";
-import crypto from "node:crypto";
-import { execFileSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
-
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-process.chdir(ROOT);
-const CHECK = process.argv.includes("--check");
-const read = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
-const sha = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
-
-const INPUTS = [
-  "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json",
-  "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
-  "data/rcap-grade-a/launch-control/WAVE_2_VERIFICATION_LEDGER.json",
-  "data/rcap-grade-a/launch-control/LAWRENCE_REVIEW_BATCH_1.json",
-  "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json",
-  "data/rcap-grade-a/launch-control/WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json",
-  "data/rcap-grade-a/fulfillment-authority-projection.json"
-];
-const scoreboard = read(INPUTS[0]);
-const freeze = read(INPUTS[1]);
-const ledger = read(INPUTS[2]);
-const projection = read(INPUTS[6]);
-
-const verdictByFamily = new Map(ledger.rows.map((r) => [r.family, r]));
-
-/*
- * A built artifact is counted from the tree, never from a status field. The
- * evidence is reports/rendered-artifacts.json: that is the file the verification
- * shards read the canonical and boundary hashes out of. packet-evidence.json is
- * a California-only extra, and using it as the test would have reported two
- * families that passed verification as unbuilt.
- */
-const OVERLAYS = "data/rcap-all50/overlays/census-v1";
-const builtByFamily = new Map();
-for (const st of fs.readdirSync(OVERLAYS)) {
-  const dir = path.join(OVERLAYS, st);
-  if (!fs.statSync(dir).isDirectory()) continue;
-  for (const d of fs.readdirSync(dir)) {
-    if (!fs.existsSync(path.join(dir, d, "reports/rendered-artifacts.json"))) continue;
-    /*
-     * The directory name is hyphenated and the family id is not, so parsing the
-     * name mis-joins most families. Each overlay states its own familyId in its
-     * receipt or its wiring record; read it there and fall back to the name only
-     * when neither exists.
-     */
-    let familyId = null;
-    for (const f of ["source-receipt.json", "product-wiring.json"]) {
-      const full = path.join(dir, d, f);
-      if (!familyId && fs.existsSync(full)) familyId = read(full).familyId ?? null;
-    }
-    builtByFamily.set(familyId ?? d.replace(/--(official-pdf-fill|custom-pleading)$/, ""), path.posix.join(OVERLAYS, st, d));
-  }
+/** Existing national worklist/freeze, reconciled from native evidence; no admission. */
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {reconcileReleaseEvidence, RELEASE_DIMENSIONS} from './reconcile-release-evidence.mjs';
+const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');process.chdir(ROOT);
+const CHECK=process.argv.includes('--check');
+const shaBytes=b=>crypto.createHash('sha256').update(b).digest('hex');
+const INPUTS=['data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json','data/rcap-grade-a/route-obligation-census-v1/FREEZE.json','data/rcap-grade-a/fulfillment-authority-registry.json','data/rcap-grade-a/fulfillment-authority-projection.json','data/rcap-ledger/launch-graph.json'];
+const inputDigests={};
+const read=p=>{const b=fs.readFileSync(p);inputDigests[p]=shaBytes(b);return JSON.parse(b);};
+const [masterQueue,freeze,registry,projection,launchGraph]=INPUTS.map(read);
+const atCaptainHead=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+// No default baseline, no inferred346 completion, and no overwritten approval pins.
+let baseline=null;const flag=process.argv.indexOf('--baseline-binding');
+if(flag>=0){
+ const bindingPath=process.argv[flag+1];
+ if(!bindingPath||bindingPath.startsWith('--'))throw new Error('--baseline-binding requires a JSON path');
+ const supplied=read(bindingPath);
+ try{
+  if(!/^[a-f0-9]{40}$/.test(supplied.commitSha??''))throw new Error('Baseline requires exact40-character commit SHA');
+  const bytes=execFileSync('git',['show',`${supplied.commitSha}:${INPUTS[0]}`],{maxBuffer:64*1024*1024});
+  if(shaBytes(bytes)!==supplied.masterQueueSha256||inputDigests[INPUTS[0]]!==supplied.masterQueueSha256)throw new Error('Baseline queue digest disagrees with pinned or current queue bytes');
+  baseline={verified:true,commitSha:supplied.commitSha,masterQueueSha256:supplied.masterQueueSha256,bindingPath,bindingSha256:inputDigests[bindingPath]};
+ }catch(error){baseline={verified:false,reason:error.message,bindingPath};}
 }
-
-/* A family's identity in the scoreboard is its worklist group; the verification
- * ledger keys by packet-family id. Join on the family id where the group names
- * one, so a family is not counted twice under two names. */
-const familyIdOf = (row) => {
-  const g = row.worklistGroupId ?? "";
-  const tail = g.split(":").pop();
-  return tail && (builtByFamily.has(tail) || verdictByFamily.has(tail)) ? tail : g;
-};
-
-const LINKS = ["source_bound", "artifact_built", "independently_verified", "output_approved", "product_path_proven"];
-const hasHold = (f, k) => (f.holds ?? []).some((h) => h.kind === k);
-
-const families = scoreboard.familiesDetail.map((f) => {
-  const id = familyIdOf(f);
-  const v = verdictByFamily.get(id) ?? null;
-  const chain = {
-    source_bound: !hasHold(f, "missing_source"),
-    artifact_built: builtByFamily.has(id),
-    independently_verified: v?.verdict === "PASS",
-    output_approved: !hasHold(f, "missing_output_approval"),
-    product_path_proven: false
-  };
-  const firstMissing = LINKS.find((l) => !chain[l]) ?? null;
-  return {
-    familyId: id,
-    worklistGroupId: f.worklistGroupId,
-    jurisdictions: f.jurisdictions,
-    implementationStrategy: f.implementationStrategy,
-    sourceCustody: f.sourceCustody,
-    chain,
-    linksHeld: LINKS.filter((l) => chain[l]).length,
-    firstMissingLink: firstMissing,
-    launchReady: firstMissing === null,
-    verification: v ? { verdict: v.verdict, shard: v.shard, decisiveObligation: v.decisiveObligation, nextOwner: v.requiredNextOwner } : { verdict: "NOT_YET_VERIFIED", shard: null },
-    nextOwner: v?.requiredNextOwner ?? (firstMissing === "source_bound" ? "source acquisition" : firstMissing === "artifact_built" ? "packet build lane" : "verification shard"),
-    commercialState: "CLOSED"
-  };
+const artifactBindings={};
+for(const f of masterQueue.families){
+ if(typeof f.directory!=='string')continue;
+ const reportPath=path.posix.join(f.directory,'reports/rendered-artifacts.json');
+ if(!fs.existsSync(reportPath))continue;
+ const report=read(reportPath);
+ if(report.familyId!==f.familyId)continue; // No directory-name or alias inference.
+ artifactBindings[f.familyId]={path:reportPath,sha256:inputDigests[reportPath],packets:report.packets??[],measurementScope:'Preserved native report bindings; this generator does not rerender or re-review artifacts.'};
+}
+const reconciliation=reconcileReleaseEvidence({masterQueue,registry,projection,launchGraph,baseline,artifactBindings});
+const oldLinks=['source_bound','artifact_built','independently_verified','output_approved','product_path_proven'];
+const families=reconciliation.families.map(f=>{
+ const native=masterQueue.families.find(n=>n.familyId===f.familyId);
+ const every=d=>f.routes.length>0&&f.routes.every(r=>r.dimensions[d].status==='SATISFIED');
+ const chain={source_bound:native.sourceBound===true,artifact_built:native.artifactStatus==='RENDERED',independently_verified:native.selectedIndependentVerdict?.verdict==='PASS_COMPLETE_INDEPENDENT',output_approved:f.packetSaleApplicable&&every('output_approval'),product_path_proven:f.packetSaleApplicable&&every('hosted_acceptance')};
+ return {...f,implementationStrategy:native.implementationStrategy,sourceCustody:native.sourceReadiness,chain,linksHeld:oldLinks.filter(k=>chain[k]).length,firstMissingLink:f.missingObligations[0]?.dimension??null,verification:native.selectedIndependentVerdict??{verdict:'NOT_YET_VERIFIED'},nextOwner:native.activeOwner??null,commercialState:'CLOSED'};
 });
-
-const countBy = (key) => families.reduce((acc, f) => ({ ...acc, [f[key] ?? "none"]: (acc[f[key] ?? "none"] ?? 0) + 1 }), {});
-
-const worklist = {
-  schemaVersion: "rcap-grade-a-post-wave-2-national-launch-worklist/v1",
-  generatedBy: "scripts/grade-a-launch-control/generate-post-wave-2-launch-worklist.mjs",
-  question: "For every packet family in the national build, what is the first thing standing between it and launch?",
-  theChain: {
-    links: LINKS,
-    rule: "A family launches only when it holds all five. The links are ordered: verifying an unbuilt artifact and approving an unverified one are both category errors, so the worklist names the first missing link and routes to that owner alone."
-  },
-  atCaptainHead: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
-  censusDenominator: { obligations: freeze.totals.totalObligations, categoryA: freeze.totals.categoryA, packetFamilies: freeze.totals.packetFamilies },
-  counts: {
-    families: families.length,
-    launchReady: families.filter((f) => f.launchReady).length,
-    sourceBound: families.filter((f) => f.chain.source_bound).length,
-    artifactBuilt: families.filter((f) => f.chain.artifact_built).length,
-    independentlyVerified: families.filter((f) => f.chain.independently_verified).length,
-    outputApproved: families.filter((f) => f.chain.output_approved).length,
-    productPathProven: families.filter((f) => f.chain.product_path_proven).length,
-    byFirstMissingLink: countBy("firstMissingLink"),
-    byVerificationVerdict: families.reduce((acc, f) => ({ ...acc, [f.verification.verdict]: (acc[f.verification.verdict] ?? 0) + 1 }), {})
-  },
-  dispatchedWork: {
-    lawrenceReviewBatch1: read(INPUTS[3]).count,
-    repairAssignments: read(INPUTS[4]).count,
-    legalInputAssignments: read(INPUTS[5]).count,
-    legalInputToLawrence: read(INPUTS[5]).toLawrence
-  },
-  commercial: {
-    commercialRoutesOpened: 0,
-    completePacketProven: projection.counters.completePacketProven,
-    commerciallyEligible: projection.counters.commerciallyEligible,
-    rule: "COMPLETE_PACKET_PROVEN counts families holding PASS and output approval and product-path proof. No family holds all three, so it is 0 and the launch gate is CLOSED."
-  },
-  launchGate: { open: families.some((f) => f.launchReady), why: "No family holds all five links: independent verification stands at four and product-path proof at zero." },
-  families
-};
-
-if (!CHECK) fs.writeFileSync("data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json", `${JSON.stringify(worklist, null, 2)}\n`);
-
-const frozen = {
-  schemaVersion: "rcap-grade-a-post-wave-2-launch-worklist-freeze/v1",
-  frozenAs: "POST WAVE 2 NATIONAL LAUNCH WORKLIST",
-  frozenAtHead: worklist.atCaptainHead,
-  worklist: "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json",
-  worklistSha256: CHECK ? null : sha("data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json"),
-  inputDigests: Object.fromEntries(INPUTS.map((f) => [f, sha(f)])),
-  whatThisFreezeIs: [
-    "A launch denominator: every packet family and the first link it is missing.",
-    "A dispatch basis: repair, legal-input and review queues that name their own owner."
-  ],
-  whatThisFreezeIsNot: [
-    "It is not an approval and creates no fulfillment record.",
-    "It opens no commercial route and grants no runtime authority.",
-    "A PASS in it proves a packet was verified, not that it may be sold."
-  ],
-  totals: worklist.counts,
-  commercialRoutesOpened: 0,
-  completePacketProven: projection.counters.completePacketProven,
-  launchGate: "CLOSED"
-};
-if (!CHECK) fs.writeFileSync("data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json", `${JSON.stringify(frozen, null, 2)}\n`);
-
-console.log(`worklist: ${worklist.counts.families} families`);
-console.log(`  source bound ${worklist.counts.sourceBound} · built ${worklist.counts.artifactBuilt} · verified ${worklist.counts.independentlyVerified} · approved ${worklist.counts.outputApproved} · product-path ${worklist.counts.productPathProven}`);
-console.log(`  first missing link: ${JSON.stringify(worklist.counts.byFirstMissingLink)}`);
-console.log(`  launch-ready ${worklist.counts.launchReady} · gate ${frozen.launchGate}`);
+const countBy=key=>families.reduce((a,f)=>(a[f[key]??'none']=(a[f[key]??'none']??0)+1,a),{});
+const worklist={schemaVersion:'rcap-grade-a-post-wave-2-national-launch-worklist/v2',generatedBy:'scripts/grade-a-launch-control/generate-post-wave-2-launch-worklist.mjs',question:'For each exact current family and route, which release obligations remain evidenced or missing?',atCaptainHead,
+ censusDenominator:{obligations:freeze.totals?.totalObligations,categoryA:freeze.totals?.categoryA,packetFamilies:families.length,historicalCensusPacketFamilies:freeze.totals?.packetFamilies},
+ theChain:{links:RELEASE_DIMENSIONS,rule:'Terminal treatment, runtime reachability, output approval, fulfillment, hosted acceptance and Production are separate dimensions. Terminal non-packet dispositions are not packet sales. Missing baseline remains closed.'},
+ counts:{families:families.length,launchReady:0,sourceBound:families.filter(f=>f.chain.source_bound).length,artifactBuilt:families.filter(f=>f.chain.artifact_built).length,independentlyVerified:families.filter(f=>f.chain.independently_verified).length,outputApproved:families.filter(f=>f.chain.output_approved).length,productPathProven:0,byFirstMissingLink:countBy('firstMissingLink'),byVerificationVerdict:families.reduce((a,f)=>(a[f.verification.verdict]=(a[f.verification.verdict]??0)+1,a),{})},
+ releaseReconciliation:{baseline:reconciliation.baseline,dimensions:reconciliation.dimensions,counts:reconciliation.counts,gaps:reconciliation.gaps},
+ commercial:{commercialRoutesOpened:0,completePacketProven:projection.counters?.completePacketProven??null,commerciallyEligible:projection.counters?.commerciallyEligible??null,rule:'Native fulfillment projection is reported separately from family terminal states; this worklist creates no approval or commercial admission.'},launchGate:reconciliation.launchGate,families};
+const output='data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json';
+const frozenOutput='data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json';
+const bytes=JSON.stringify(worklist,null,2)+'\n';
+const frozen={schemaVersion:'rcap-grade-a-post-wave-2-launch-worklist-freeze/v2',frozenAs:'POST WAVE 2 NATIONAL LAUNCH WORKLIST',frozenAtHead:atCaptainHead,worklist:output,worklistSha256:shaBytes(bytes),inputDigests,baseline:reconciliation.baseline,whatThisFreezeIs:['Exact native family denominator and route-specific release gaps.','Preserved source/artifact/review references and input hashes.'],whatThisFreezeIsNot:['Not approval, deployment authorization, a fulfillment record or runtime authority.','Terminal packet/guidance/handoff/exclusion evidence is not a sale authorization.'],totals:worklist.counts,commercialRoutesOpened:0,completePacketProven:projection.counters?.completePacketProven??null,launchGate:'CLOSED'};
+let stale=false;
+for(const [p,value]of [[output,bytes],[frozenOutput,JSON.stringify(frozen,null,2)+'\n']]){
+ if(CHECK){if(!fs.existsSync(p)||fs.readFileSync(p,'utf8')!==value){console.error(`Regeneration required: ${p}`);stale=true;}}
+ else fs.writeFileSync(p,value);
+}
+console.log(JSON.stringify({families:families.length,terminal:reconciliation.counts.terminal,baseline:reconciliation.baseline.status,gaps:reconciliation.counts.byDimension,launchGate:'CLOSED',check:CHECK}));
+if(stale)process.exitCode=1;
