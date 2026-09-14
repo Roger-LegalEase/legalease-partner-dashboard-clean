@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "ne-trafficking-setaside-and-seal-set",
+  "jurisdiction": "NE",
+  "routeKeys": [
+    "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_setaside_motion",
+    "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_seal_motion"
+  ],
+  "implementationStrategy": "staged_custom_pleading_and_official_pdf_fill",
+  "components": [
+    {
+      "componentId": "ne-trafficking-setaside-and-seal-primary-filing-1",
+      "documentId": "set-aside-motion",
+      "role": "primary_filing",
+      "required": true,
+      "stage": "set-aside"
+    },
+    {
+      "componentId": "ne-trafficking-setaside-and-seal-sealing-motion-2",
+      "documentId": "CC-6-12",
+      "role": "sealing_motion",
+      "conditional": true,
+      "condition": "Only after a verified signed adult trafficking set-aside covering every charge, with continued public appearance confirmed"
+    },
+    {
+      "componentId": "ne-trafficking-setaside-and-seal-in-camera-request-3",
+      "documentId": "in-camera-guidance",
+      "role": "in_camera_request",
+      "required": true
+    },
+    {
+      "componentId": "ne-trafficking-setaside-and-seal-safety-and-advocacy-handoff-4",
+      "documentId": "safety-handoff",
+      "role": "safety_and_advocacy_handoff",
+      "required": true
+    }
+  ],
+  "sourceBindings": [
+    {
+      "formNumber": "CC-6-12",
+      "sourceId": "official-form:CC-6-12",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+      "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "pages": 2,
+      "byteLength": 1682731,
+      "sha256Exact": true
+    }
+  ],
+  "stageRule": "Separate input snapshots and separate PDFs. No sealing motion exists in a first-stage packet."
+}

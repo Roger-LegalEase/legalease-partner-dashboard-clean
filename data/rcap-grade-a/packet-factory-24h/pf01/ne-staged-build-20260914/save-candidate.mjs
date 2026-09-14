@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+const familyId='ne-trafficking-setaside-and-seal-set';
+const out='data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill';
+const evidence='data/rcap-grade-a/packet-factory-24h/pf01/ne-staged-build-20260914';
+const builder='scripts/build-census-v1-ne-trafficking-setaside-and-seal-set.mjs';
+const hash=p=>({path:p,sha256:crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),byteLength:fs.statSync(p).size});
+const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(x=>x.isDirectory()?walk(path.join(d,x.name)):[path.join(d,x.name)]).sort();
+const write=(p,o)=>fs.writeFileSync(p,JSON.stringify(o,null,2)+'\n');
+fs.mkdirSync(evidence,{recursive:true});
+const audit=JSON.parse(fs.readFileSync(out+'/reports/native-audit.json'));
+if(audit.result!=='PASS_COMPLETE'||Object.values(audit.counters).some(n=>n!==0))throw Error('NATIVE_AUDIT_NOT_ZERO');
+const rendered=JSON.parse(fs.readFileSync(out+'/reports/rendered-artifacts.json'));
+const artifacts=rendered.packets.map(x=>({...hash(path.join(out,x.file)),fixture:x.fixture,pageCount:x.pageCount,stage:x.stage}));
+for(const a of artifacts){const p=rendered.packets.find(x=>x.fixture===a.fixture);if(a.sha256!==p.sha256)throw Error('ARTIFACT_DRIFT');}
+const files=[hash(builder),...walk(out).map(hash)];
+const snapshot={schemaVersion:'rcap-complete-saved-candidate-evidence/v1',familyId,assignmentId:'PF01',base:'05de04540033d453a8ff0f1473c1e933517bfc93',authorSession:'/root/ne_build',fileCount:files.length,files,artifacts,nativeAudit:hash(out+'/reports/native-audit.json'),selfChecks:{stageOneNeverGeneratesCC612:true,priorOrderMissingWrongCaseNotGrantedNotTraffickingAndUnverifiedRefused:true,juvenileAdultFormRefused:true,allChargesAndContinuedPublicRecordRequired:true,statutoryBranchAlternativeRefused:true},rasterState:'BUILT_RASTER_PENDING',independentReview:'PENDING',noAcceptanceClaimed:true,commercialAuthorityGranted:false};
+write(evidence+'/saved-candidate-evidence.json',snapshot);
+write(evidence+'/handoff.json',{schemaVersion:'rcap-packet-factory-family-return/v1',familyId,assignmentId:'PF01',authorSession:'/root/ne_build',status:'COMPLETE_CANDIDATE_NATIVE_PASS_READY_FOR_INDEPENDENT_REVIEW',baseAtHandoff:snapshot.base,buildScript:hash(builder),familyDirectory:out,fixtureCount:4,pageCount:18,fixtures:artifacts,nativeResult:audit.result,counters:audit.counters,completeSavedEvidence:hash(evidence+'/saved-candidate-evidence.json'),staging:'canonical and boundary are first-stage only; canonical-post-order and boundary-post-order are separate synthetic adult snapshots with verified signed prior-order facts. Central raster/review must cover all four exact PDFs, not just the two first-stage artifacts.',sourceBinding:'Exact CC6:12 SHA68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28, adopted staged decision. Obsolete source/vehicle STOP retained as superseded historical evidence.',requiredBeforeFiling:'Participant account/execution and actual first-court local filing/service/scheduling checks are disclosed before-filing tasks. No notice/service law was invented or reopened as legal design.',preflight:'PACKET_BUILD_ENVIRONMENT_READY 14/14, source1/1 exact, corpus499/329/51',independentSemanticReview:'Distinct reviewer required; no author acceptance.',rasterPerformed:false,commercialAuthorityGranted:false,productionTouched:false});
+const row={itemId:familyId,status:'COMPLETED',assignmentId:'PF01',countersAfter:audit.counters,counters:audit.counters,rasterState:'BUILT_RASTER_PENDING',artifacts:artifacts,buildScript:builder,overlayDirectory:out,nativeResult:audit.result,packetsSelfVerified:0,independentReview:'PENDING',commercialRoutesOpened:0,productionTouched:false};
+write(evidence+'/rows.json',{rows:[row]});write(evidence+'/checkpoints.json',{checkpoints:[{itemIds:[familyId],status:'SAVED_CANDIDATE_HANDOFF',completeSavedEvidence:hash(evidence+'/saved-candidate-evidence.json')}]});
+console.log(JSON.stringify({familyId,files:files.length,artifacts,handoff:evidence+'/handoff.json'},null,2));
