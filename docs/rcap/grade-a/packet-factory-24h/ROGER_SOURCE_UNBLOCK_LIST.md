@@ -2,7 +2,7 @@
 
 **RESIDUAL HUMAN-ACTION ITEMS: 0**
 
-**UNIQUE CANONICAL ARTIFACTS: 2**  ·  **UNIQUE FAMILIES: 1**
+**UNIQUE CANONICAL ARTIFACTS: 0**  ·  **UNIQUE FAMILIES: 0**
 
 ## What changed, and why the old list was withdrawn
 
@@ -23,7 +23,6 @@ _Nothing currently requires a person._
 
 | State | Records | Owner |
 |---|---:|---|
-| `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 2 | DISC settles source identity and the route or family relationship |
 
 0 SOURCE_BLOCKED famil(ies) name no official form at all — DISC discovery, not an errand.
 
