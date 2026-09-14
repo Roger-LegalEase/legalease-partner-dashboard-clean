@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "rcap-exact-artifact-rereview/v1",
+  "sourceSha": "ece879e400d2c0aaac08337f8cb8bb594b0b6ef4",
+  "familyId": "ms-misd-addl-set",
+  "routeIds": [
+    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+  ],
+  "status": "RE_REVIEW_REQUIRED",
+  "decision": null,
+  "reviewer": null,
+  "reviewedAt": null,
+  "approvalCreated": false,
+  "ownerDirection": "Roger Roman confirmed on 2026-09-14 that no later exact-hash approval exists and requested fresh packages; this is a request for re-review, not approval.",
+  "governingDecision": {
+    "path": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+    "sha256": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
+    "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "rule": "Any substantive legal change, or any change to a family shipping-artifact digest, requires re-review."
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+      "byteLength": 21325,
+      "pageCount": 8,
+      "historicalApproved": {
+        "sourceSha": "ff9705a240c004ed7b9d2f022113abe865442d3f",
+        "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+        "byteLength": 21298,
+        "pageCount": 8
+      },
+      "textDiff": {
+        "path": "data/rcap-grade-a/artifact-rereview-20260914/ms-misd-addl-set/canonical.text.diff",
+        "sha256": "aaec0a6949c2d43e4fc5839af67e3b5af1f12c6dde69beb4bff5a87d3d3a4cb8"
+      },
+      "textDiffLimit": "Extracted text comparison is an aid, not visual or legal approval. Review every page of the exact current PDF."
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36",
+      "byteLength": 21646,
+      "pageCount": 8,
+      "historicalApproved": {
+        "sourceSha": "ff9705a240c004ed7b9d2f022113abe865442d3f",
+        "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+        "byteLength": 21617,
+        "pageCount": 8
+      },
+      "textDiff": {
+        "path": "data/rcap-grade-a/artifact-rereview-20260914/ms-misd-addl-set/boundary.text.diff",
+        "sha256": "6aab796fb150670a4df380217345e4dd6d52f3fde95e65217e642fec826e0ff5"
+      },
+      "textDiffLimit": "Extracted text comparison is an aid, not visual or legal approval. Review every page of the exact current PDF."
+    }
+  ],
+  "preservedRevocations": [
+    {
+      "recordId": "grade-a-ms-additional-justice-court-misdemeanor-relief-9-11-15-3-v1",
+      "version": 3,
+      "revocation": {
+        "revoked": true,
+        "reason": "First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict",
+        "revokedAt": "2026-09-05",
+        "revokedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs"
+      }
+    },
+    {
+      "recordId": "grade-a-ms-additional-municipal-court-misdemeanor-relief-21-23-7-6-v1",
+      "version": 3,
+      "revocation": {
+        "revoked": true,
+        "reason": "First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict",
+        "revokedAt": "2026-09-05",
+        "revokedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs"
+      }
+    }
+  ],
+  "technicalEvidence": {
+    "selectedIndependentVerdicts": [
+      {
+        "familyId": "ms-misd-addl-set",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "isIndependentVerification": true,
+        "verifiedAtBase": "a0fbceb30",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": [],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+        "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-addl-set",
+        "superseded": false
+      }
+    ],
+    "rasterRows": [
+      {
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36",
+        "builderAssignment": null,
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+        "coverage": {
+          "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+          "complete": true,
+          "documents": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "notRenderedByThisGate": [],
+          "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+          "rastered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+        },
+        "currentRasterState": "RASTER_PASS",
+        "documents": [
+          {
+            "name": "canonical.pdf",
+            "pageCount": 8,
+            "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+            "pageCountEvidence": {
+              "method": "pdf-lib",
+              "pageCount": 8,
+              "sourceSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+              "version": "1.17.1"
+            },
+            "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+            "role": "canonical",
+            "sha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399"
+          },
+          {
+            "name": "boundary.pdf",
+            "pageCount": 8,
+            "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+            "pageCountEvidence": {
+              "method": "pdf-lib",
+              "pageCount": 8,
+              "sourceSha256": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36",
+              "version": "1.17.1"
+            },
+            "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+            "role": "boundary",
+            "sha256": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36"
+          }
+        ],
+        "documentsDigest": "fda73cbdc014361c69c48287e00dfeefca55c418d7dc8efba06879c8108d7855",
+        "expectedPages": 8,
+        "familyId": "ms-misd-addl-set",
+        "fixtureSelection": {
+          "boundary": "the assembled packet, matched by exact name",
+          "canonical": "the assembled packet, matched by exact name"
+        },
+        "nextOwner": "RAS03",
+        "packetCommitSha": "c54071b7086abffd9ad68f328fdabbdaf673b7c2",
+        "rasterReceipt": {
+          "boundToBoundarySha256": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36",
+          "boundToCanonicalSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101327338558); the family matrix depends on that job, so no family verdict exists without it",
+          "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+          "coverageReconciledFromTheRow": {
+            "wasClaimed": {
+              "coversTheWholeFamily": true,
+              "documentsCovered": [
+                "canonical.pdf"
+              ],
+              "documentsNotCovered": [],
+              "whatThisGateDidNotRender": [
+                "boundary.pdf"
+              ]
+            },
+            "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
+          },
+          "coversTheWholeFamily": true,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "everyCanonicalDocumentRendered": true,
+          "ingestedOn": "2026-09-05T15:27:06.201Z",
+          "jobConclusion": "success",
+          "jobId": 101327692850,
+          "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+          "renderedCommitSha": "1b373f2eee80108ce03c15a1bb3e958d408e7791",
+          "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+          "verdict": "RASTER_PASS",
+          "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on.",
+          "whatThisGateDidNotRender": [],
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33973981303"
+        },
+        "requestedScale": 2.5,
+        "supersededReceipts": [
+          {
+            "admittedBy": "Captain, re-verifying every precondition and recomputing every hash from disk rather than reading them out of the lane return",
+            "boundToBoundarySha256": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+            "boundToCanonicalSha256": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+            "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+            "coversTheWholeFamily": true,
+            "documentsCovered": [
+              "canonical.pdf"
+            ],
+            "documentsMeasured": 2,
+            "documentsNotCovered": [],
+            "jobConclusion": "success",
+            "jobId": "100178592342",
+            "noFixtureHashWasPrintedByTheRunner": "The render step printed one verdict line per family and no SHA-256. rcap-raster-batch.mjs re-verifies each fixture from disk and refuses on mismatch, so a green job is evidence the pinned bytes matched at render time; the hashes above were recomputed by Captain from the files on disk at this head and equal both the queue row and the receipt.",
+            "pagesMeasured": 16,
+            "problemsFound": 0,
+            "receiptArtifact": {
+              "expiresAt": "2026-09-16T08:35:00Z",
+              "id": "9838365268",
+              "name": "rcap-raster-ms-misd-addl-set-33608483853",
+              "zipSha256": "sha256:c257df614bcba64a129386d325131e727733683bf1306477f5bba2440ff9cf3c"
+            },
+            "renderedCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+            "supersededAt": "2026-09-05T15:09:49Z",
+            "supersededBecause": "the row now renders a different set of documents",
+            "theBytesOfThatArtifactWereNotInspected": "Artifact downloads redirect to blob storage this environment's egress proxy refuses at CONNECT with 403. The artifact id and the zip SHA-256 recorded in the run metadata are durable evidence of WHICH bytes exist and where, not evidence of what they look like.",
+            "verdict": "RASTER_PASS",
+            "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+            "workflowRunId": "33608483853"
+          }
+        ]
+      }
+    ],
+    "grantsOwnerApproval": false
+  },
+  "decisionRequirements": [
+    "Review both complete current PDFs, including all court-owned and participant-owned blanks.",
+    "Name reviewer, review date, exact family/routes and both full SHA-256 hashes.",
+    "State APPROVE, REJECT, or required corrections and qualifications explicitly.",
+    "Do not replace historical approvals or revoke historical evidence. Bind a new decision through canonical authority generators only after review."
+  ],
+  "boundaries": {
+    "candidateFreezeBlocked": true,
+    "finalSuccessorPublicationBlocked": true,
+    "authorityGatesBlocked": true,
+    "productionAuthorized": false,
+    "deploymentAuthorized": false,
+    "msNonconvPaidDecisionUnaffected": true
+  },
+  "freshRasterEvidence": {
+    "path": "data/rcap-grade-a/artifact-rereview-20260914/ms-misd-addl-set/rasters.json",
+    "sha256": "1000ec824c4b2f322ad9a8ce3f826ebf1b119f06ae1e61a8355ea48b6cd9aac3"
+  },
+  "inspectionEvidence": {
+    "path": "data/rcap-grade-a/artifact-rereview-20260914/ms-misd-addl-set/review-findings.json",
+    "sha256": "342fa7121d6a378910e143a422b435088806f5a6efebfb8442bc61ef76b1ddc9",
+    "approvalCreated": false
+  }
+}
