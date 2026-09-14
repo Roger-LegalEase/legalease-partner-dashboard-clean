@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 122,
-  "totalBytes": 13779954,
+  "fileCount": 123,
+  "totalBytes": 13971285,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -611,6 +611,13 @@
       "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
     },
     {
+      "path": "data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json",
+      "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+      "bytes": 156071,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
       "path": "data/rcap-all50/terminalization-treatments/sc.json",
       "sha256": "f77ec8696f1ed8022bc32bb54d52b9c5d3e68b9b3c8b12648ca1f8f868a61942",
       "bytes": 76872,
@@ -675,14 +682,14 @@
     },
     {
       "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
-      "sha256": "9a87a538b501b0f5c7888d312be6611269b55fe413569f6fac56b4352a57c91c",
-      "bytes": 164316,
+      "sha256": "3ad976cd7446438cfc71a06b116856090597eb7c1a56cb5487357d798e54a667",
+      "bytes": 172132,
       "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts (REGISTRY_PATH)",
       "why": "The Grade-A fulfillment record set. Absent, getCurrentFulfillmentRecord finds no record and every route is refused."
     },
     {
       "path": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
-      "sha256": "3b17d92b3dde08cfcbba6c55bf269f2a386540633e971fe5624b4b6d4371a261",
+      "sha256": "1546f65967064adee0b68ed212b1522ef6b737e947a020c29db4996ff68efa5f",
       "bytes": 19995,
       "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts (OBSERVATION_PATH)",
       "why": "Independent observation the admission gate binds a record against."
@@ -745,8 +752,8 @@
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "27ba7b77eb8f36528b7365ec8b33d01052cefbcf7928e7abc4222d96ec4b9d3d",
-      "bytes": 3684141,
+      "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+      "bytes": 3711585,
       "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (ROUTE_MIGRATIONS_PATH)",
       "why": "Packet-set manifests behind buildRenderJobSpec."
     },
