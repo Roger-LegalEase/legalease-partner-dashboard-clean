@@ -37,10 +37,10 @@ test("Preview isolation proof inspects the actual deploy argument contract", () 
 });
 
 test("Supabase-only preflight neither requires nor accesses Vercel", () => {
-  assert.match(source, /if \(SCOPE === "full"\) requiredCredentials\.push\(\["VERCEL_TOKEN", VERCEL_TOKEN\]\)/);
-  assert.match(source, /if \(SCOPE === "full"\) \{\s*try \{\s*VERCEL_IDENTITY = await resolveHostedVercelIdentity/);
-  assert.match(source, /if \(SCOPE === "full"\) \{\s*const listing = await vercelApi/);
-  assert.match(source, /if \(SCOPE === "full"\) \{[\s\S]{0,500}const env = await vercelApi/);
+  assert.doesNotMatch(source, /requiredCredentials\.push\(\["VERCEL_TOKEN"/);
+  assert.match(source, /if \(SCOPE === "full"\) \{\s*const result = await resolvePreflightVercelIdentity/);
+  assert.match(source, /if \(SCOPE === "full" && VERCEL_IDENTITY\) \{\s*const listing = await vercelApi/);
+  assert.match(source, /if \(SCOPE === "full" && VERCEL_IDENTITY\) \{[\s\S]{0,500}const env = await vercelApi/);
   assert.match(hostedWorkflow, /VERCEL_TOKEN:\s*\n\s*required: false/);
   assert.match(dispatcherWorkflow, /VERCEL_TOKEN: \$\{\{ inputs\.mode == 'hosted_migrate' && 'not-used-in-supabase-only' \|\| secrets\.VERCEL_TOKEN \}\}/);
   const supabaseStep = hostedWorkflow.match(/- name: Prove acceptance Supabase credentials and project[\s\S]*?run: node scripts\/rcap-hosted-acceptance-preflight\.mjs/)?.[0] ?? "";
@@ -93,7 +93,7 @@ test("network reads refuse redirects, expire, and never return raw failure bodie
   assert.deepEqual(failed,{status:0,json:null,text:'READ_FAILED_OR_TIMED_OUT'});
   assert.match(source,/\/env\?decrypt=false/);
   assert.doesNotMatch(source,/console\.error\(`PREFLIGHT: \$\{error\.message\}/);
-  assert.match(source,/fetchImpl: boundedFetch/);
+  assert.match(source,/fetchImpl = boundedFetch/);
 });
 
 test("empty database proof refuses failed, missing, duplicate and invalid witness readback", () => {
@@ -117,4 +117,44 @@ test("empty database proof refuses failed, missing, duplicate and invalid witnes
   }
   // A synthetic marker cannot bypass incomplete witness readback.
   assert.match(source,/const clean = completePresence && completeCounts && \(empty \|\| markerValid\)/);
+});
+
+test("failed Vercel identity preserves independent Supabase proof and saved failed full receipt", async () => {
+  const identityModule = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
+  const { tmpdir } = await import('node:os');
+  const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+  const executable = source.replace(/^#![^\n]*\n/,'').replace(/^import[\s\S]*?;\n/gm,'').replaceAll('import.meta.url',JSON.stringify(new URL('./rcap-hosted-acceptance-preflight.mjs',import.meta.url).href));
+  const run = new AsyncFunction('fs','path','fileURLToPath','prepareHostedAcceptanceEvidenceLayout',
+    'HOSTED_VERCEL_PROJECT_NAME','HOSTED_VERCEL_TEAM_SLUG','hostedVercelScopedUrl','resolveHostedVercelIdentity','process','console','fetch',executable);
+  for(const scenario of ['team401','team403','project404','team_missing','network','missing_token']) {
+    const directory=fs.mkdtempSync(path.join(tmpdir(),'rcap-service-observability-'));
+    const fakeProcess={env:{SUPABASE_ACCESS_TOKEN:'SYNTHETIC_SUPABASE_SECRET',VERCEL_TOKEN:scenario==='missing_token'?'':'SYNTHETIC_VERCEL_SECRET',ACCEPTANCE_SUPABASE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',PREFLIGHT_SCOPE:'full'},exit(code){if(!fs.existsSync(path.join(directory,'preflight.json')))throw new Error(`unexpected early exit ${code}`);this.exitCode=code;}};
+    const calls=[],logs=[];
+    const response=(body,status=200)=>new Response(JSON.stringify(body),{status});
+    const fetch=async(url,options)=>{
+      calls.push(url);assert.equal(options.redirect,'error');assert.ok(options.signal instanceof AbortSignal);
+      if(url.startsWith('https://api.vercel.com')) {
+        if(scenario==='network')throw new Error('SYNTHETIC_VERCEL_SECRET');
+        if(url.includes('/v2/teams'))return scenario==='team401'?response({error:'SYNTHETIC_ERROR_SECRET'},401):scenario==='team403'?response({error:'SYNTHETIC_ERROR_SECRET'},403):response({teams:scenario==='team_missing'?[]:[{slug:'roger947s-projects',id:'team_test'}]});
+        return response({error:'SYNTHETIC_ERROR_SECRET'},404);
+      }
+      if(url==='https://api.supabase.com/v1/projects')return response([{id:'hyflxnlhpmiqxvvcoiia',name:'legalease-rcap-acceptance',region:'us-west-2',status:'ACTIVE_HEALTHY'}]);
+      const sql=JSON.parse(options.body).query;
+      assert.match(sql,/^select /i);assert.doesNotMatch(sql,/\b(insert|update|delete|alter|create|drop)\b/i);
+      if(sql.includes('current_database'))return response([{db:'acceptance'}]);
+      if(sql.includes('to_regclass'))return response([...sql.matchAll(/\('([a-z_]+)'\)/g)].map(match=>({table_name:match[1],present:-1})));
+      if(sql.includes('rcap_acceptance_environment_marker'))return response({error:'SYNTHETIC_ERROR_SECRET'},404);
+      throw new Error('Unexpected query');
+    };
+    await run(fs,path,fileURLToPath,()=>({root:directory}),identityModule.HOSTED_VERCEL_PROJECT_NAME,identityModule.HOSTED_VERCEL_TEAM_SLUG,identityModule.hostedVercelScopedUrl,identityModule.resolveHostedVercelIdentity,fakeProcess,{log:(...x)=>logs.push(x.join(' ')),error:(...x)=>logs.push(x.join(' '))},fetch);
+    const evidence=JSON.parse(fs.readFileSync(path.join(directory,'preflight.json'),'utf8'));
+    assert.equal(evidence.passed,false,scenario);assert.equal(fakeProcess.exitCode,1,scenario);
+    for(const gate of ['supabase_token_usable','acceptance_project_resolves','acceptance_project_identity_is_exact','acceptance_project_reachable_for_sql','acceptance_project_carries_no_production_data'])assert.equal(evidence.cases.verdicts[gate],true,`${scenario}:${gate}`);
+    assert.equal(evidence.failedCases.length,4);
+    const failure=evidence.cases.vercelIdentityFailure;
+    const expected={team401:['VERCEL_TEAMS',401,'HTTP_UNAUTHENTICATED'],team403:['VERCEL_TEAMS',403,'HTTP_FORBIDDEN'],project404:['VERCEL_PINNED_PROJECT',404,'HTTP_NOT_FOUND'],team_missing:['VERCEL_TEAMS',200,'PINNED_TEAM_NOT_VISIBLE'],network:['VERCEL_TEAMS',null,'READ_FAILED_OR_TIMED_OUT'],missing_token:['NOT_REQUESTED',null,'MISSING_CREDENTIAL']}[scenario];
+    assert.deepEqual([failure.endpoint,failure.httpStatus,failure.reason],expected);
+    assert.ok(calls.some(url=>url.includes('/database/query')));
+    assert.doesNotMatch(logs.join('\n')+JSON.stringify(evidence),/SYNTHETIC_(?:VERCEL|SUPABASE|ERROR)_SECRET/);
+  }
 });

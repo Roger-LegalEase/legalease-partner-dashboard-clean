@@ -400,6 +400,8 @@ doc.acceptanceInputDigests = Object.fromEntries([...receiptInputs.filter(r => r.
   ...Object.entries(originalEvidence).map(([rel, bytes]) => [rel, crypto.createHash("sha256").update(bytes).digest("hex")])]);
 for (const [i, rel] of [...receiptPaths, ...Object.keys(originalEvidence), migration].entries()) doc.consumes[`participantAcceptanceInput${i}`] = rel;
 doc.testStatus.hostedAcceptance = `${doc.participantDataRights.acceptedCurrent ? "ACCEPTED_CURRENT" : "NOT_ACCEPTED"}: ${JSON.stringify(doc.participantDataRights.gateCounts)}; ${doc.participantDataRights.requiredChainGap}`;
+doc.consumes.launchControlGenerator = "scripts/grade-a-launch-control/generate-launch-control.mjs";
+doc.consumedInputDigests = Object.fromEntries(Object.values(doc.consumes).map(rel => [rel, exists(rel) ? hashFile(rel) : null]));
 
 // ---- the human-readable mirror ---------------------------------------------------
 //
@@ -647,7 +649,7 @@ if (CHECK) {
     console.error(`${OUT_MD} does not match the record it mirrors. Run the generator.`);
     process.exit(1);
   }
-  console.log(`launch control current: ${doc.denominator.packetFamilies} families, GO/HOLD ${doc.goHold.decision}; recorded at ${committed.lineage.captainSha.slice(0, 8)}.`);
+  console.log(`launch control current: ${doc.packetFamilies.terminal}/${doc.packetFamilies.total} terminal families, GO/HOLD ${doc.goHold.decision}; recorded at ${committed.lineage.captainSha.slice(0, 8)}.`);
   console.log(`launch status mirror current: ${OUT_MD}`);
   process.exit(0);
 }
@@ -657,6 +659,6 @@ fs.writeFileSync(outPath, serialized);
 fs.writeFileSync(statusPath, status);
 console.log(`Wrote ${OUT}`);
 console.log(`Wrote ${OUT_MD}\n`);
-console.log(`  captain ${doc.lineage.captainSha.slice(0, 8)} · ${doc.denominator.terminalObligations} obligations · ${doc.denominator.packetFamilies} families`);
+console.log(`  captain ${doc.lineage.captainSha.slice(0, 8)} · historical census ${doc.denominator.terminalObligations} obligations / ${doc.denominator.packetFamilies} family groups`);
 console.log(`  current families: ${doc.packetFamilies.terminal}/${doc.packetFamilies.total} terminal`);
 console.log(`  counsel ${doc.legalWork.trueCounselQuestions} · blockers ${doc.exactBlockers.length} · ${doc.goHold.decision}`);

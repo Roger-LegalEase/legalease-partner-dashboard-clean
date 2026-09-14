@@ -105,6 +105,40 @@ async function supabaseApi(pathname, { method = "GET", body = null } = {}) {
   });
 }
 
+async function resolvePreflightVercelIdentity({ token, resolveIdentity = resolveHostedVercelIdentity, fetchImpl = boundedFetch }) {
+  let endpoint = "NOT_REQUESTED";
+  let httpStatus = null;
+  if (!token) return { identity: null, failure: { endpoint, httpStatus, reason: "MISSING_CREDENTIAL" } };
+  try {
+    const identity = await resolveIdentity({ token, fetchImpl: async (url, options) => {
+      const parsed = new URL(url);
+      endpoint = parsed.origin === "https://api.vercel.com" && parsed.pathname === "/v2/teams"
+        ? "VERCEL_TEAMS" : parsed.origin === "https://api.vercel.com" && parsed.pathname.startsWith("/v9/projects/")
+          ? "VERCEL_PINNED_PROJECT" : "UNEXPECTED_ENDPOINT";
+      httpStatus = null;
+      if (endpoint === "UNEXPECTED_ENDPOINT") throw new Error("UNEXPECTED_ENDPOINT");
+      const response = await fetchImpl(url, options);
+      httpStatus = response.status;
+      return response;
+    } });
+    return { identity, failure: null };
+  } catch (error) {
+    let reason = httpStatus === 401 ? "HTTP_UNAUTHENTICATED" : httpStatus === 403 ? "HTTP_FORBIDDEN"
+      : httpStatus === 404 ? "HTTP_NOT_FOUND" : httpStatus !== null && (httpStatus < 200 || httpStatus >= 300)
+        ? "HTTP_FAILURE" : "IDENTITY_READ_FAILED";
+    const message = String(error?.message ?? "");
+    if (endpoint === "UNEXPECTED_ENDPOINT") reason = "UNEXPECTED_ENDPOINT";
+    else if (httpStatus === null) reason = "READ_FAILED_OR_TIMED_OUT";
+    else if (message.includes("cannot resolve pinned team slug")) reason = "PINNED_TEAM_NOT_VISIBLE";
+    else if (message.includes("returned no canonical team_ id")) reason = "TEAM_ID_INVALID";
+    else if (message.includes("identity mismatch")) reason = "PROJECT_NAME_MISMATCH";
+    else if (message.includes("returned no canonical prj_ id")) reason = "PROJECT_ID_INVALID";
+    else if (message.includes("does not belong")) reason = "PROJECT_TEAM_MISMATCH";
+    else if (message.includes("non-JSON")) reason = "NON_JSON_RESPONSE";
+    return { identity: null, failure: { endpoint, httpStatus, reason } };
+  }
+}
+
 let VERCEL_IDENTITY = null;
 async function vercelFetch(url) {
   return safeResponse(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
@@ -128,7 +162,7 @@ async function query(sql) {
     ["SUPABASE_ACCESS_TOKEN", SUPABASE_ACCESS_TOKEN],
     ["ACCEPTANCE_SUPABASE_PROJECT_REF", ACCEPTANCE_PROJECT_REF]
   ];
-  if (SCOPE === "full") requiredCredentials.push(["VERCEL_TOKEN", VERCEL_TOKEN]);
+  // Vercel credential failures must not suppress independent Supabase reads.
   const missing = requiredCredentials.filter(([, value]) => !value).map(([name]) => name);
   if (missing.length > 0) {
     console.error(`PREFLIGHT: missing required input(s): ${missing.join(", ")}`);
@@ -143,13 +177,12 @@ async function query(sql) {
     process.exit(1);
   }
 }
+let vercelIdentityFailure = null;
 if (SCOPE === "full") {
-  try {
-    VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN, fetchImpl: boundedFetch });
-  } catch (error) {
-    console.error("PREFLIGHT: VERCEL_IDENTITY_READ_FAILED");
-    process.exit(1);
-  }
+  const result = await resolvePreflightVercelIdentity({ token: VERCEL_TOKEN });
+  VERCEL_IDENTITY = result.identity;
+  vercelIdentityFailure = result.failure;
+  if (vercelIdentityFailure) console.error(`PREFLIGHT: VERCEL_IDENTITY ${JSON.stringify(vercelIdentityFailure)}`);
 }
 
 const evidence = {
@@ -160,7 +193,7 @@ const evidence = {
   scopeMeaning: SCOPE === "supabase_only"
     ? "Only the Supabase gate was required. This authorizes writing to the acceptance project. It does NOT authorize deploying, and it is not a full preflight pass."
     : "Both gates were required: writing to the acceptance project and deploying the application.",
-  cases: {}
+  cases: { ...(vercelIdentityFailure ? { vercelIdentityFailure } : {}) }
 };
 
 if (process.env.HOSTED_PREFLIGHT_SERVICE_ONLY === "true") {
@@ -380,7 +413,10 @@ if (process.env.HOSTED_PREFLIGHT_SERVICE_ONLY === "true") {
 
 // --- 3. Vercel credential and project identity -------------------------------
 let vercelProject = null;
-if (SCOPE === "full") {
+if (SCOPE === "full" && !VERCEL_IDENTITY) {
+  for (const caseId of VERCEL_GATE) record(caseId, false, `not established: ${vercelIdentityFailure.reason}`);
+}
+if (SCOPE === "full" && VERCEL_IDENTITY) {
   const listing = await vercelApi("/v9/projects?limit=1");
   const usable = listing.status === 200;
   record(
@@ -422,7 +458,7 @@ if (SCOPE === "full") {
 }
 
 // --- 4. Production shape + Preview-only deployment contract ------------------
-if (SCOPE === "full") {
+if (SCOPE === "full" && VERCEL_IDENTITY) {
   // Production-target values are intentionally not decrypted. The acceptance
   // binding is passed to one deployment with CLI --env arguments, so the
   // relevant proof is structural: snapshot the Production shape, then inspect

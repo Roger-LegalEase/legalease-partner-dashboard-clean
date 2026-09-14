@@ -13,6 +13,9 @@ import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { PRESERVATION_BASE, WAVE2_C11_SHA256, REVOCATION_MATRIX_SHA256, REVOCATION_PLAN_SHA256, MASS_MATRIX_COMMIT, assertPinnedJson, corpusPreservationDelta, historicalDispatchCoverage, historicalRevocationValid, independentlyRestored } from "./historical-check-bindings.mjs";
+import { acceptedRasterFor, candidateRowsByFamily } from "../grade-a-packet-factory-24h/acceptance-identity.mjs";
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const MUTATIONS = process.argv.includes("--mutations");
 const LC = "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json";
@@ -234,7 +237,13 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
     `record ${String(recorded).slice(0, 8)} is not an ancestor of head ${String(head).slice(0, 8)}`);
 
   const drifted = [];
-  if (isAncestor && recorded !== head) {
+  if (lc.consumedInputDigests) {
+    for (const consumed of Object.values(lc.consumes)) {
+      const full = path.join(ROOT, consumed);
+      const currentDigest = fs.existsSync(full) ? crypto.createHash("sha256").update(fs.readFileSync(full)).digest("hex") : null;
+      if (!Object.hasOwn(lc.consumedInputDigests, consumed) || lc.consumedInputDigests[consumed] !== currentDigest) drifted.push(consumed);
+    }
+  } else if (isAncestor && recorded !== head) {
     for (const consumed of Object.values(lc.consumes)) {
       if (git(["rev-parse", `${recorded}:${consumed}`]) !== git(["rev-parse", `HEAD:${consumed}`])) drifted.push(consumed);
     }
@@ -443,25 +452,27 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
 // 24. Private corpus bytes entering the repository.
 //
 // The corpus governance keeps 583 source files out of git and commits only their
-// SHA-256 index. The packet factory committed 52 of them; they were excluded at
-// integration. This is the check that makes the exclusion stick: hash every
-// committed binary and count how many the index knows. The count may fall. It
-// may never rise.
+// SHA-256 index. The historical limit was ten; the user-bound 344-family
+// preservation baseline contains 108. Preserve that discrepancy explicitly,
+// without approving it or deleting assets. Exact paths and SHA identities, not
+// a count allowance, prevent any new source-identical binary entering unnoticed.
 {
-  const inventory = read("data/rcap-all50/nationwide-source-inventory.json");
-  const corpus = new Set();
-  for (const state of inventory.states ?? []) for (const f of state.files ?? []) if (f.sha256) corpus.add(String(f.sha256).toLowerCase());
-  const binaries = (git(["ls-tree", "-r", "--name-only", "HEAD"]) ?? "").split("\n").filter((f) => /\.(pdf|docx?|rtf)$/i.test(f));
-  const hits = [];
-  for (const file of binaries) {
-    try {
-      const sha = crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, file))).digest("hex");
-      if (corpus.has(sha)) hits.push(file);
-    } catch { /* unreadable file is not a corpus hit */ }
-  }
-  check("A31", "no new private-corpus binary has entered the repository",
-    hits.length <= KNOWN_COMMITTED_CORPUS_BINARIES,
-    `${hits.length} committed binaries match a private-corpus sha256; the known pre-existing count is ${KNOWN_COMMITTED_CORPUS_BINARIES}${hits.length > KNOWN_COMMITTED_CORPUS_BINARIES ? `: ${hits.slice(KNOWN_COMMITTED_CORPUS_BINARIES, KNOWN_COMMITTED_CORPUS_BINARIES + 3).join(", ")}` : ""}`);
+  if (git(["merge-base", "--is-ancestor", PRESERVATION_BASE, "HEAD"]) === null) throw new Error("User preservation baseline is not in this history");
+  const inventoryPath = "data/rcap-all50/nationwide-source-inventory.json";
+  const priorInventory = JSON.parse(execFileSync("git", ["show", `${PRESERVATION_BASE}:${inventoryPath}`], {cwd:ROOT}));
+  const inventory = read(inventoryPath), corpus = new Set();
+  for (const inv of [priorInventory, inventory]) for (const state of inv.states ?? []) for (const f of state.files ?? []) if (f.sha256) corpus.add(String(f.sha256).toLowerCase());
+  const tree = ref => (git(["ls-tree", "-r", ref]) ?? "").split("\n").filter(Boolean).map(line => {const [left,file]=line.split("\t");return {path:file,blob:left.split(" ")[2]};}).filter(x=>/\.(pdf|docx?|rtf)$/i.test(x.path));
+  const baselineTree=tree(PRESERVATION_BASE), currentTree=(git(["ls-files"])??"").split("\n").filter(p=>/\.(pdf|docx?|rtf)$/i.test(p)).map(path=>({path})), currentHashes=new Map(), current=[];
+  // Worktree changes to tracked binaries are inspected too; unreadability fails.
+  for(const file of currentTree){const bytes=fs.readFileSync(path.join(ROOT,file.path));const sha256=crypto.createHash("sha256").update(bytes).digest("hex");const blob=crypto.createHash("sha1").update(Buffer.from(`blob ${bytes.length}\0`)).update(bytes).digest("hex");currentHashes.set(file.path,{blob,sha256});if(corpus.has(sha256))current.push({path:file.path,sha256});}
+  const baseline=[];
+  for(const file of baselineTree){const now=currentHashes.get(file.path);const sha256=now?.blob===file.blob?now.sha256:crypto.createHash("sha256").update(execFileSync("git",["cat-file","blob",file.blob],{cwd:ROOT,maxBuffer:1<<28})).digest("hex");if(corpus.has(sha256))baseline.push({path:file.path,sha256});}
+  const delta=corpusPreservationDelta(baseline,current);
+  check("A31", "source-identical binary paths and hashes preserve the exact user-bound baseline without new additions",
+    delta.passed,
+    `${baseline.length} preserved; ${delta.addedOrChanged.length} new/changed, ${delta.missingOrChanged.length} missing/changed; historical policy ${KNOWN_COMMITTED_CORPUS_BINARIES}, discrepancy ${delta.historicalDiscrepancy} remains unapproved`);
+  console.log(`  note A31 historical governance discrepancy: ${KNOWN_COMMITTED_CORPUS_BINARIES} -> ${baseline.length}; ${delta.historicalDiscrepancy} additional pre-existing assets preserved, not approved by this check.`);
 }
 
 // 25. The packet factory's return, and what "built" is allowed to mean.
@@ -513,11 +524,12 @@ if (wave2) {
 
   const shards = wave2.assignments.filter((a) => a.lane === "independent-verification");
   const verified = shards.flatMap((a) => a.items);
-  const built = c11.families.filter((f) => f.classification === "BUILT").map((f) => f.familyId);
+  const historicalC11=assertPinnedJson(execFileSync("git",["show",`${base}:${C11}`],{cwd:ROOT,maxBuffer:1<<28}),WAVE2_C11_SHA256);
+  const built = historicalC11.families.filter((f) => f.classification === "BUILT").map((f) => f.familyId);
   const dupes = verified.filter((f, i) => verified.indexOf(f) !== i);
   const omitted = built.filter((f) => !verified.includes(f));
   check("A36", "every built family is independently verified exactly once, by someone who did not build it",
-    dupes.length === 0 && omitted.length === 0 && verified.length === built.length
+    historicalDispatchCoverage(built, verified) && dupes.length === 0 && omitted.length === 0 && verified.length === built.length
     && shards.every((a) => a.items.length >= 6 && a.items.length <= 8)
     && shards.every((a) => a.workerBranch !== "codex/c11-packet-factory-accelerator"),
     `${verified.length} of ${built.length} across ${shards.length} shard(s); ${dupes.length} duplicate, ${omitted.length} omitted`);
@@ -547,12 +559,23 @@ if (wave2) {
     `${audited} audited, ${claimedComplete.length} complete, ${wrong.length} with a nonzero counter`);
 
   const revoked = new Set(repairPlan.passRevocation.families);
+  const historicalMatrix=assertPinnedJson(execFileSync("git",["show",`${wave2.captainBaseSha}:${COMPLETENESS}`],{cwd:ROOT,maxBuffer:1<<28}),REVOCATION_MATRIX_SHA256);
+  const historicalPlan=assertPinnedJson(execFileSync("git",["show",`${wave2.captainBaseSha}:${REPAIR_PLAN}`],{cwd:ROOT,maxBuffer:1<<28}),REVOCATION_PLAN_SHA256);
   const stillPassing = [...revoked].filter((f) => completeness.results.find((r) => r.familyId === f)?.result === "PASS_COMPLETE");
-  check("A40", "every revoked PASS family is reclassified and carries no review package",
-    revoked.size === 4 && stillPassing.length === 0
+  const currentFactory=read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
+  const rasterRows=candidateRowsByFamily(read("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"),{includeSuperseded:false});
+  const invalidRestorations=stillPassing.filter(id=>{
+    const family=currentFactory.families.find(f=>f.familyId===id),selected=family?.selectedIndependentVerdict;
+    if(!selected?.evidencePath||!selected.evidencePath.startsWith("data/rcap-grade-a/packet-factory-24h/")||selected.evidencePath.split("/").includes(".."))return true;
+    const receipt=read(selected.evidencePath),rows=(Array.isArray(receipt)?receipt:receipt.rows??[]).filter(r=>(r.familyId??r.itemId)===id);
+    return rows.length!==1||!independentlyRestored({family,row:rows[0],raster:acceptedRasterFor(ROOT,rasterRows.get(id),{requireReceiptDeclaredCoverage:true})});
+  });
+  check("A40", "historical revocations remain immutable; current reinstatement requires independent proof on current raster bytes",
+    historicalRevocationValid(repairPlan,historicalPlan,historicalMatrix)
+    && invalidRestorations.length===0
     && repairPlan.passRevocation.newClassification === "PASS_REVOKED_PENDING_COMPLETENESS_RECHECK"
     && repairPlan.passRevocation.lawrenceReviewPackagesPrepared === 0,
-    `${revoked.size} revoked, ${stillPassing.length} still passing, ${repairPlan.passRevocation.lawrenceReviewPackagesPrepared} package(s)`);
+    `${revoked.size} historically revoked; ${stillPassing.length} current mechanical passes; ${invalidRestorations.length} missing independent current-byte proof; ${repairPlan.passRevocation.lawrenceReviewPackagesPrepared} historical package(s)`);
 
   // The launch record must read the contract's numbers, not restate them.
   const lcc = lc.waveOne.packetFactory.completeness;
@@ -834,12 +857,18 @@ if (mass && massCollisions && massCheckpoint && wave2 && repairWave && s2) {
     && verifyL.length === 6 && sourceL.length === 4 && sharedL.length === 2,
     `${buildL.length} build lane(s) carrying ${dispatched}; ${wrongSize.length} off-size; ${mass.totals.buildLanesHeldForSource} held; ${verifyStatic.length} verifier(s) with a static list`);
 
+  const pinnedMassInput=rel=>{
+    const commit=rel===COMPLETENESS?MASS_MATRIX_COMMIT:mass.captainBaseSha;
+    if(git(["merge-base","--is-ancestor",commit,"HEAD"])===null)throw new Error("Historical mass input is not in current history");
+    return assertPinnedJson(execFileSync("git",["show",`${commit}:${rel}`],{cwd:ROOT,maxBuffer:1<<28}),mass.derivation.inputs[rel]);
+  };
+  const massMatrix=pinnedMassInput(COMPLETENESS),massWave2=pinnedMassInput(WAVE2),massRepairWave=pinnedMassInput(REPAIR_WAVE),massS2=pinnedMassInput(S2),massRepairs=pinnedMassInput(WAVE2_REPAIRS);
   // Ownership, recomputed rather than read out of the collision record it checks.
   const activeOwned = [];
-  for (const a of [...wave2.assignments, ...repairWave.assignments, ...s2.assignments]) {
+  for (const a of [...massWave2.assignments, ...massRepairWave.assignments, ...massS2.assignments]) {
     for (const p of a.ownedPaths ?? []) activeOwned.push({ lane: a.assignmentId, path: p.split("(")[0].trim() });
   }
-  for (const r of read(WAVE2_REPAIRS).assignments) if (r.ownedPath) activeOwned.push({ lane: `WAVE_2_REPAIR:${r.family}`, path: r.ownedPath });
+  for (const r of massRepairs.assignments) if (r.ownedPath) activeOwned.push({ lane: `WAVE_2_REPAIR:${r.family}`, path: r.ownedPath });
   const rootOf = (p) => p.replace(/\/?\*+$/, "");
   const touches = (a, b) => { const ra = rootOf(a), rb = rootOf(b); return ra === rb || ra.startsWith(`${rb}/`) || rb.startsWith(`${ra}/`); };
   const massPaths = mass.assignments.flatMap((a) => (a.ownedPaths ?? []).map((p) => ({ lane: a.assignmentId, path: p })));
@@ -852,9 +881,9 @@ if (mass && massCollisions && massCheckpoint && wave2 && repairWave && s2) {
     }
   }
   const activeFams = new Set([
-    ...read(COMPLETENESS).results.map((r) => r.familyId),
-    ...[...wave2.assignments, ...repairWave.assignments, ...s2.assignments].flatMap((a) => a.items ?? []),
-    ...read(WAVE2_REPAIRS).assignments.map((r) => r.family)
+    ...massMatrix.results.map((r) => r.familyId),
+    ...[...massWave2.assignments, ...massRepairWave.assignments, ...massS2.assignments].flatMap((a) => a.items ?? []),
+    ...massRepairs.assignments.map((r) => r.family)
   ]);
   const reDispatched = producedIds.filter((f) => activeFams.has(f));
   const dupes = producedIds.filter((f, i) => producedIds.indexOf(f) !== i);
