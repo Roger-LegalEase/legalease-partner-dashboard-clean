@@ -3,5 +3,47 @@
   "generationAllowed": false,
   "checkoutAllowed": false,
   "commercialAuthorityGranted": false,
-  "productionTouched": false
+  "productionTouched": false,
+  "binding": {
+    "family": "ca-diversion-seal-set",
+    "jurisdiction": "CA",
+    "routeKeys": [
+      "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-1",
+      "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-2"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "County petition and order set (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ca-diversion-seal-primary-filing-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": null,
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:SDSC-CRM-307",
+        "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "PASS",
+      "lane": "vfca",
+      "verifiedAtBase": "6ccf8b719ebe6cdc8fef75c0c81dfa6f8a3fe8b4"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ca-diversion-seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

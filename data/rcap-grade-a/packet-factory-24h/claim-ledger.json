@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "a7ce1c9e204ad2302357a05c169079111b78ccbb",
+  "generatedAtCommit": "5446a03c65a0c77b6c2e404310183090a260ad5e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1734,6 +1734,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-03T21:45:37.421Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-diversion-seal-set",
+      "itemId": null,
+      "familyId": "ca-diversion-seal-set",
+      "familyIds": [
+        "ca-diversion-seal-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFCA",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15833,24 +15848,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ca-diversion-seal-set",
-      "itemId": null,
-      "familyId": "ca-diversion-seal-set",
-      "familyIds": [
-        "ca-diversion-seal-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFCA",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "bfe17f25b1f645dd7ae9ed5a2857e4b0dfddafe531d18c5a954542dcec205457",
+  "claimsDigest": "2339d3500cec43ccb8ccbd9806d378d572ccf5801e1c72af9e3672234e7170a7",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",

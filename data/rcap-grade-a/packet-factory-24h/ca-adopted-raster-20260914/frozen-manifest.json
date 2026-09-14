@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "341341f895acb5eebbc692cebb4b2ab52d0e3ce33211c5170aef8de1d33584e0",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "ab9dd5490b40b6f8d5c4a6c222ed4da4cc7bb15b8ad84c421ff6742f3f2164db",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 6,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 6,
+            "sourceSha256": "ab9dd5490b40b6f8d5c4a6c222ed4da4cc7bb15b8ad84c421ff6742f3f2164db",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "ab9dd5490b40b6f8d5c4a6c222ed4da4cc7bb15b8ad84c421ff6742f3f2164db"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 6,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 6,
+            "sourceSha256": "341341f895acb5eebbc692cebb4b2ab52d0e3ce33211c5170aef8de1d33584e0",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "341341f895acb5eebbc692cebb4b2ab52d0e3ce33211c5170aef8de1d33584e0"
+        }
+      ],
+      "documentsDigest": "659ea23059d03f5c67290da4512d1c80f7016d039fe2c44421e4c60a0288af29",
+      "expectedPages": 6,
+      "familyId": "ca-diversion-seal-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS01",
+      "packetCommitSha": "5446a03c65a0c77b6c2e404310183090a260ad5e",
+      "requestedScale": 2.5
+    }
+  ]
+}
