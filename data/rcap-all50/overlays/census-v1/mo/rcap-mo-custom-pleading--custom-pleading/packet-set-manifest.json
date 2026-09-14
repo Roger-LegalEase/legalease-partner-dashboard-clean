@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "rcap-mo-custom-pleading",
+  "jurisdiction": "MO",
+  "routeKeys": [
+    "obligation:service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:state_311_325_conviction",
+    "obligation:track-pathway:MO:mo-610-130-first-intoxication:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "components": [
+    {
+      "componentId": "component:mo-311-326-minor-in-possession-primary-filing-1",
+      "role": "primary_filing",
+      "required": true
+    },
+    {
+      "componentId": "component:mo-311-326-minor-in-possession-proposed-order-2",
+      "role": "proposed_order",
+      "required": true
+    },
+    {
+      "componentId": "component:mo-311-326-minor-in-possession-cover-sheet-3",
+      "role": "cover_sheet",
+      "formNumber": "FI-05",
+      "required": false,
+      "conditional": true
+    },
+    {
+      "componentId": "component:mo-311-326-minor-in-possession-fee-waiver-4",
+      "role": "fee_waiver",
+      "formNumber": "GN10",
+      "required": false,
+      "conditional": true
+    },
+    {
+      "componentId": "component:mo-311-326-minor-in-possession-instructions-5",
+      "role": "instructions",
+      "required": true
+    },
+    {
+      "componentId": "mo-311-326-minor-in-possession-actual-service",
+      "role": "service",
+      "required": false,
+      "conditional": true
+    },
+    {
+      "componentId": "component:mo-610-130-first-intoxication-primary-filing-1",
+      "role": "primary_filing",
+      "required": true
+    },
+    {
+      "componentId": "component:mo-610-130-first-intoxication-proposed-order-2",
+      "role": "proposed_order",
+      "required": true
+    },
+    {
+      "componentId": "component:mo-610-130-first-intoxication-cover-sheet-3",
+      "role": "cover_sheet",
+      "formNumber": "FI-05",
+      "required": false,
+      "conditional": true
+    },
+    {
+      "componentId": "component:mo-610-130-first-intoxication-fee-waiver-4",
+      "role": "fee_waiver",
+      "formNumber": "GN10",
+      "required": false,
+      "conditional": true
+    },
+    {
+      "componentId": "component:mo-610-130-first-intoxication-instructions-5",
+      "role": "instructions",
+      "required": true
+    },
+    {
+      "componentId": "mo-610-130-first-intoxication-actual-service",
+      "role": "service",
+      "required": false,
+      "conditional": true
+    }
+  ],
+  "sourceBindings": [
+    {
+      "formNumber": "FI-05",
+      "sourceId": "official-form:FI-05",
+      "path": "reference/chat-parallel-2026-09-07/chat7/FI-05.pdf",
+      "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+      "byteLength": 298649,
+      "pages": 4,
+      "mediaType": "application/pdf",
+      "revision": "SJRC (04-23); case types SJRC (07-23)",
+      "sha256Exact": true
+    },
+    {
+      "formNumber": "GN10",
+      "sourceId": "official-form:GN10",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+      "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+      "byteLength": 39193,
+      "pages": 1,
+      "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "revision": "SJRC (07-15)",
+      "sha256Exact": true
+    }
+  ],
+  "conditions": {
+    "coverSheet": "Only a court-required new circuit/associate circuit action; FI-05 code and description confirmed by clerk.",
+    "feeWaiver": "Participant request, court accepts statewide GN10 and complete financial facts.",
+    "service": "Blank certificate used only after actual service directed by filing court."
+  }
+}

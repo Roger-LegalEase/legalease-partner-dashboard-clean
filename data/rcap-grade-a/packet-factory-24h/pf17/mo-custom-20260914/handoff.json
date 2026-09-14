@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "familyId": "rcap-mo-custom-pleading",
+  "assignmentId": "PF17",
+  "authorSession": "/root/mt_serving_build",
+  "status": "COMPLETE_CANDIDATE_NATIVE_PASS_READY_FOR_INDEPENDENT_REVIEW",
+  "reviewerMustBeDistinct": true,
+  "baseAtHandoff": "20d26d6a3bd74521f7f400ca27d98f307fb8d7b6",
+  "buildScript": {
+    "path": "scripts/build-census-v1-rcap-mo-custom-pleading.mjs",
+    "sha256": "a0f5481d44d7cde3f2f57ae928604438c53d11b17b9805c7f09bdae15bbb3900",
+    "byteLength": 62362
+  },
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading",
+  "routeKeys": [
+    "obligation:service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:state_311_325_conviction",
+    "obligation:track-pathway:MO:mo-610-130-first-intoxication:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+  ],
+  "fixtures": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/mip-canonical.pdf",
+      "sha256": "c993406e6581d25df2cb750ba87e0046da3a76bf3a9788839716a9d7cd6f0d3d",
+      "byteLength": 20468,
+      "fixture": "mip-canonical",
+      "pageCount": 7
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/mip-boundary.pdf",
+      "sha256": "a17feb43971a0425aaa87d0abff69013628845d21bd5022e4cd5455fb4567083",
+      "byteLength": 605808,
+      "fixture": "mip-boundary",
+      "pageCount": 14
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/intoxication-canonical.pdf",
+      "sha256": "f6463254db852bd84808c38beca0c315fb70abbcf3a050dd6131e9e4a62d5905",
+      "byteLength": 22474,
+      "fixture": "intoxication-canonical",
+      "pageCount": 8
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/intoxication-boundary.pdf",
+      "sha256": "5205041e192d43f7c594c6ffff15d08ee154239a43e87b623ee98717a9732c63",
+      "byteLength": 607876,
+      "fixture": "intoxication-boundary",
+      "pageCount": 15
+    }
+  ],
+  "fixtureCount": 4,
+  "pageCount": 44,
+  "nativeResult": "PASS_COMPLETE",
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "completeSavedEvidence": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf17/mo-custom-20260914/saved-candidate-evidence.json",
+    "sha256": "520dfc2f9015900d5034f4a51f0ae8b8b54e956ee668357bdf3f304e5397d8e6",
+    "byteLength": 18386
+  },
+  "scope": "Four complete packets, separate application/order/conditional-service and instructions per settled route; new-case boundary fixtures include exact FI-05 and requested GN10. No live route, global queue or shared acceptance mutation.",
+  "manualFields": [
+    "FI-05 Case Type Code and Case Type Description require clerk confirmation for these specific statutes.",
+    "Clerk new case number, filing date and judge assignment remain blank; original case identity supplied separately.",
+    "GN10 respondent address convention requires local confirmation where agencies are plural; signature/date remain for applicant.",
+    "Court findings/grant/deny and execution remain blank; actual service event fields remain for actual server."
+  ],
+  "importInstructions": "Extract archive at repository root after active convergence. All paths are exclusive new family builder/output or PF17 scoped evidence. Do not copy staging symlinks or private helper scripts. Existing exact FI05/GN10 local source paths are reused. Native audit directory is the isolated staging path; re-admit against final path without changing candidate PDFs.",
+  "independentSemanticReview": "Required before freeze/raster; author supplies no independent PASS.",
+  "commercialAuthorityGranted": false,
+  "rasterPerformed": false
+}
