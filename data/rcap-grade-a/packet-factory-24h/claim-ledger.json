@@ -11471,9 +11471,11 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF08",
+      "lane": "PF01",
       "laneKind": "packet-build",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "User confirms prior execution paths died and authorizes replacement workers; existing WV stopped prerequisite return preserved, supporting-input type now resolved in wv-exact-supporting-input-identification.json."
     },
     {
       "subjectType": "packet-family",
@@ -15812,7 +15814,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "70db89d1496604d64018b6dbbcfdbf1646bb747761d1888879304f731560874e",
+  "claimsDigest": "d4f72d02e38d1e8556ac17ec242c179a3ac7fa583288218622db74850e5bde49",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43234,6 +43236,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-14T01:39:31.546Z",
       "reason": "Prepared reviewer is busy with MO custom; existing eligible non-author session now consumes available NC originals."
+    },
+    {
+      "lane": "PF08",
+      "subjectType": "packet-family",
+      "subjectId": "wv_nc_diversion_deferred-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-14T03:34:07.009Z",
+      "reason": "User confirms prior execution paths died and authorizes replacement workers; existing WV stopped prerequisite return preserved, supporting-input type now resolved in wv-exact-supporting-input-identification.json."
     }
   ],
   "reissues": [
@@ -66461,6 +66472,17 @@
       "previouslyReleasedAt": "2026-09-14T01:27:31.270Z",
       "transferredAt": "2026-09-14T01:27:31.463Z",
       "reason": "Prepared /root/ut_original_acceptance for NC final originals after Missouri original-page priority; author /root/mt_serving_build and semantic reviewer /root/mt_form_b_independent_review remain distinct."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_nc_diversion_deferred-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF08",
+      "toLane": "PF01",
+      "previouslyReleasedAt": "2026-09-14T03:34:07.009Z",
+      "transferredAt": "2026-09-14T03:34:07.195Z",
+      "reason": "User-authorized work stealing: replacement NE author /root/ne_build takes WV build after NE saved handoff; PF08 replacement owns OH."
     }
   ],
   "grants": [
