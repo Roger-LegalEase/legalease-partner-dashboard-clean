@@ -4,7 +4,7 @@ _Generated from the existing GRADE_A_LAUNCH_CONTROL.json; this page has no indep
 
 **GO/HOLD: HOLD.** 345/346 families are terminal. Release obligations and candidate authorization remain separate; final family baseline status: BOUND.
 
-Captain input SHA: `5e18167c65966ceba5ef7986dd0bae15a747d22f`.
+Captain input SHA: `06f8049a332e3b077e761f43ce08e871d4c4f64f`.
 
 National scope: All 50 states plus DC.
 
