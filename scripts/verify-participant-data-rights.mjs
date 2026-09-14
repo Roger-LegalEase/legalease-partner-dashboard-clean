@@ -133,6 +133,20 @@ const processorServer = http.createServer((req, res) => {
   });
 });
 await new Promise((resolve) => processorServer.listen(0, "127.0.0.1", resolve));
+// Exit cleanup also runs after a thrown assertion or route exception. The handle
+// is assigned immediately after boot, before any schema/fixture setup can fail.
+let ownedEphemeralDb = null;
+function cleanupOwnedResources() {
+  gotrueServer.close();
+  processorServer.close();
+  if (ownedEphemeralDb) {
+    const owned = ownedEphemeralDb;
+    ownedEphemeralDb = null;
+    owned.stop();
+    if (process.argv.includes("--cleanup-failure-control")) console.log(`CLEANUP_COMPLETED ${owned.root}`);
+  }
+}
+process.once("exit", cleanupOwnedResources);
 const processorUrl = `http://127.0.0.1:${processorServer.address().port}`;
 process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL = `${processorUrl}/email`;
 process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_TOKEN = "email-suppression-test-token";
@@ -187,6 +201,8 @@ function check(id, title, passed, observed = "") {
 
 function boot() {
   const db = startEphemeralPg();
+  ownedEphemeralDb = db;
+  if (process.argv.includes("--cleanup-failure-control")) throw new Error("INJECTED_FAILURE_AFTER_OWNED_CLUSTER_START");
   db.sql(`create role anon nologin`);
   db.sql(`create role authenticated nologin`);
   db.sql(`create role service_role nologin bypassrls`);
@@ -310,7 +326,7 @@ const packetGeneration = await import("../src/lib/expungement-ai/packet-generati
 async function privateDownloadWorks(userId, itemId) {
   // The lookup runs under row-level security as the signed-in participant, so
   // the session has to be the one whose link is being tested.
-  setSession({ isAuthenticated: true, userId, email: "download-check@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId, email: "download-check@participant.test" });
   try {
     const packet = await packetGeneration.getConsumerPacketDownload({ userId, briefcaseItemId: itemId });
     return Boolean(packet?.fileName);
@@ -587,7 +603,7 @@ async function jsonOf(response) {
 }
 
 async function mintProof(userId, purpose, password = gotrue.password) {
-  setSession({ isAuthenticated: true, userId, email: `${userId === USER_A ? "a" : userId === USER_B ? "b" : "staff"}@${userId === PARTNER_STAFF ? "partner" : "participant"}.test` });
+  setSession({ isAuthenticated: true, isVerified: true, userId, email: `${userId === USER_A ? "a" : userId === USER_B ? "b" : "staff"}@${userId === PARTNER_STAFF ? "partner" : "participant"}.test` });
   const response = await reauthRoute.POST(req("/api/expungement-ai/privacy/reauth", { purpose, password }));
   return { status: response.status, body: await jsonOf(response) };
 }
@@ -705,7 +721,15 @@ console.log("\nParticipant data rights\n");
 
 let exportPackage = null;
 {
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  const beforeUnverified = count(`select count(*) from public.participant_privacy_requests`);
+  for (const [id, verified] of [["E0a", false], ["E0b", undefined]]) {
+    setSession({ isAuthenticated: true, isVerified: verified, userId: USER_A, email: "a@participant.test" });
+    const denied = await exportRoute.POST(req("/api/expungement-ai/privacy/export", { idempotencyKey: `unverified-${id}-0001` }));
+    const body = await denied.json();
+    check(id, "authenticated participant without explicit verification cannot export", denied.status === 403 && body.code === "account_unverified", JSON.stringify(body));
+  }
+  check("E0c", "unverified requests created no privacy work", count(`select count(*) from public.participant_privacy_requests`) === beforeUnverified);
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const response = await exportRoute.POST(
     req("/api/expungement-ai/privacy/export", { idempotencyKey: "export-key-0001" })
   );
@@ -737,7 +761,7 @@ let exportPackage = null;
 
 {
   // Idempotency on export: the same key twice is one request row.
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   await exportRoute.POST(req("/api/expungement-ai/privacy/export", { idempotencyKey: "export-key-0001" }));
   check("E11", "a repeated export key is one request, not two", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='export'`) === 1);
 }
@@ -772,7 +796,7 @@ let exportPackage = null;
 // =============================================================================
 
 {
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   for (const [id, origin] of [["S1", "http://evil.example"], ["S2", null], ["S3", "null"]]) {
     const response = await accountRoute.POST(
       req("/api/expungement-ai/privacy/account", { idempotencyKey: "csrf-attempt-0001", proof: "x", confirmation: "DELETE MY ACCOUNT" }, { origin })
@@ -785,7 +809,7 @@ let exportPackage = null;
   const anon = await exportRoute.POST(req("/api/expungement-ai/privacy/export", { idempotencyKey: "anon-key-0001" }));
   check("S5", "an unauthenticated export is refused", anon.status === 401, String(anon.status));
 
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const oversize = new NextRequest("http://app.test/api/expungement-ai/privacy/export", {
     method: "POST",
     headers: new Headers({
@@ -819,20 +843,20 @@ let proofA = null;
   check("R2", "the right password mints a proof against the real identity provider", right.status === 200 && typeof proofA === "string" && gotrue.tokenCalls.some((call) => call.email === "a@participant.test"), JSON.stringify(right).slice(0, 200));
 
   // Purpose binding and account binding, checked through the route that consumes them.
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const wrongPurpose = await matterRoute.POST(
     req("/api/expungement-ai/privacy/matter", { matterId: A.itemId, proof: proofA, idempotencyKey: "purpose-test-0001" })
   );
   check("R3", "an account-deletion proof cannot delete a matter", wrongPurpose.status === 401 && (await jsonOf(wrongPurpose)).reason === "wrong_purpose", String(wrongPurpose.status));
 
-  setSession({ isAuthenticated: true, userId: USER_B, email: "b@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_B, email: "b@participant.test" });
   const wrongUser = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof: proofA, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "cross-user-0001" })
   );
   check("R4", "one participant's proof cannot authorize another's deletion", wrongUser.status === 401 && (await jsonOf(wrongUser)).reason === "wrong_user", String(wrongUser.status));
   check("R5", "the refused cross-account attempt deleted nothing", count(`select count(*) from auth.users where id='${USER_A}'`) === 1 && count(`select count(*) from auth.users where id='${USER_B}'`) === 1);
 
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const noConfirm = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof: proofA, confirmation: "delete", idempotencyKey: "no-confirm-0001" })
   );
@@ -870,7 +894,7 @@ let proofA = null;
 
 {
   const proof = (await mintProof(USER_A, "matter_deletion")).body.proof;
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const response = await matterRoute.POST(
     req("/api/expungement-ai/privacy/matter", { matterId: B.itemId, proof, idempotencyKey: "cross-matter-0001" })
   );
@@ -889,7 +913,7 @@ let proofA = null;
   // present a valid proof for their OWN account. The route has no parameter
   // that names a subject, so the only account they can reach is their own.
   const proof = (await mintProof(PARTNER_STAFF, "account_deletion")).body.proof;
-  setSession({ isAuthenticated: true, userId: PARTNER_STAFF, email: "staff@partner.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: PARTNER_STAFF, email: "staff@partner.test" });
   const response = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "staff-self-0001" })
   );
@@ -907,7 +931,7 @@ let proofA = null;
 {
   const beforeDeletion = await privateDownloadWorks(USER_B, B.itemId);
   const proof = (await mintProof(USER_B, "matter_deletion")).body.proof;
-  setSession({ isAuthenticated: true, userId: USER_B, email: "b@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_B, email: "b@participant.test" });
   const response = await matterRoute.POST(
     req("/api/expungement-ai/privacy/matter", { matterId: B.itemId, proof, idempotencyKey: "matter-b-0001" })
   );
@@ -954,7 +978,7 @@ let proofA = null;
      values ('${USER_A}','A court preservation order applies to this account.','legal@legalease.test')`
   );
   const proof = (await mintProof(USER_A, "account_deletion")).body.proof;
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const response = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "hold-blocked-0001" })
   );
@@ -976,7 +1000,7 @@ let accountReceipt = null;
   // account frozen, and leave a ledger that says exactly where it stopped.
   gotrue.logoutStatus = 500;
   const proof = (await mintProof(USER_A, "account_deletion")).body.proof;
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const failed = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-0001" })
   );
@@ -993,7 +1017,7 @@ let accountReceipt = null;
   // Fix the cause and resume with the SAME idempotency key.
   gotrue.logoutStatus = 200;
   const resumeProof = (await mintProof(USER_A, "account_deletion")).body.proof;
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const resumed = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof: resumeProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-0001" })
   );
@@ -1034,7 +1058,7 @@ let accountReceipt = null;
 
 {
   const blocked = await apiSession.requireConsumerBriefcaseApiSession();
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A, email: "a@participant.test" });
   const stillBlocked = await apiSession.requireConsumerBriefcaseApiSession();
   check("A1", "a surviving session for the deleted account is refused", stillBlocked.ok === false && stillBlocked.response.status === 403, JSON.stringify(stillBlocked.ok));
   void blocked;
@@ -1054,7 +1078,7 @@ let accountReceipt = null;
   check("A4", "a restore-from-backup cannot recreate the account's records", /frozen or erased/.test(restored), restored.slice(0, 200));
   check("A5", "the tombstone records the deletion and its receipt", count(`select count(*) from public.participant_account_tombstones where user_id='${USER_A}' and deleted_at is not null and receipt_code is not null and restoration_barrier`) === 1);
 
-  setSession({ isAuthenticated: true, userId: USER_B, email: "b@participant.test" });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_B, email: "b@participant.test" });
   const unaffected = await apiSession.requireConsumerBriefcaseApiSession();
   check("A6", "an unrelated participant is unaffected", unaffected.ok === true && count(`select count(*) from auth.users where id='${USER_B}'`) === 1);
 }
@@ -1297,9 +1321,8 @@ let accountReceipt = null;
 
 // =============================================================================
 
-gotrueServer.close();
-processorServer.close();
-db.stop?.();
+cleanupOwnedResources();
+process.off("exit", cleanupOwnedResources);
 
 console.log(`\n${results.length - failures}/${results.length} checks passed.`);
 if (failures > 0) {

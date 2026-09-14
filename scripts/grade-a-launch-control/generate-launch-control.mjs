@@ -356,6 +356,17 @@ doc.consumes.factoryQueue = FACTORY_QUEUE;
 doc.consumes.nationalReleaseWorklistFreeze = "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json";
 doc.consumes.releaseControlAdapter = "scripts/grade-a-launch-control/apply-national-release-control.mjs";
 doc.consumes.participantReceiptEvaluator = "scripts/grade-a-launch-control/participant-acceptance-receipts.mjs";
+const NC_PREREQUISITE = "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json";
+doc.consumes.ncDnaPrerequisite = NC_PREREQUISITE;
+if (exists(NC_PREREQUISITE)) {
+  const prerequisite = read(NC_PREREQUISITE);
+  if (doc.packetFamilies.nonterminalFamilyIds.includes(prerequisite.familyId)) {
+    doc.familyPrerequisites = [{ familyId: prerequisite.familyId, record: NC_PREREQUISITE,
+      status: prerequisite.status, requiredInput: prerequisite.responseAcceptance.required,
+      buildSlotReleased: prerequisite.buildSlotReleased, contactAttempted: prerequisite.contactAttempted }];
+    doc.testStatus.familyPrerequisite = `${prerequisite.familyId}: ${prerequisite.responseAcceptance.required} See ${NC_PREREQUISITE}; the institutional inquiry has not been sent.`;
+  }
+}
 const CANDIDATE_BINDING = "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json";
 const candidate = exists(CANDIDATE_BINDING) ? read(CANDIDATE_BINDING) : null;
 doc.consumes.releaseCandidateBinding = CANDIDATE_BINDING;
@@ -435,6 +446,7 @@ if (exists(SERVICE_REVIEW)) {
     const artifact = metadata.artifacts?.find(item => item.id === review.artifactId);
     if (artifact?.digest !== "sha256:" + hashFile(servicePrefix + "/original.zip")
         || String(artifact.workflow_run?.id) !== String(review.runId)
+        || artifact.workflow_run?.head_sha !== review.toolsSha
         || preflight.serviceOnly !== true || preflight.passed !== false
         || preflight.applicationAccepted !== false || preflight.workerImageAccepted !== false
         || preflight.releaseAuthorityGranted !== false

@@ -6,11 +6,14 @@ import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {reconcileReleaseEvidence, RELEASE_DIMENSIONS} from './reconcile-release-evidence.mjs';
+import {composedArtifactReportBindings} from './composed-artifact-report-bindings.mjs';
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');process.chdir(ROOT);
 const CHECK=process.argv.includes('--check');
 const shaBytes=b=>crypto.createHash('sha256').update(b).digest('hex');
 const INPUTS=['data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json','data/rcap-grade-a/route-obligation-census-v1/FREEZE.json','data/rcap-grade-a/fulfillment-authority-registry.json','data/rcap-grade-a/fulfillment-authority-projection.json','data/rcap-ledger/launch-graph.json'];
 const inputDigests={};
+const composedAdapterPath='scripts/grade-a-launch-control/composed-artifact-report-bindings.mjs';
+inputDigests[composedAdapterPath]=shaBytes(fs.readFileSync(composedAdapterPath));
 const read=p=>{const b=fs.readFileSync(p);inputDigests[p]=shaBytes(b);return JSON.parse(b);};
 const [masterQueue,freeze,registry,projection,launchGraph]=INPUTS.map(read);
 const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
@@ -45,7 +48,11 @@ for(const f of masterQueue.families){
  if(!fs.existsSync(reportPath))continue;
  const report=read(reportPath);
  if(report.familyId!==f.familyId)continue; // No directory-name or alias inference.
- artifactBindings[f.familyId]={path:reportPath,sha256:inputDigests[reportPath],packets:report.packets??[],measurementScope:'Preserved native report bindings; this generator does not rerender or re-review artifacts.'};
+ const bounded=['wy_fel_1502-set','dc_innocence_expungement-set'].includes(f.familyId)
+  ? composedArtifactReportBindings({familyId:f.familyId,directory:f.directory,report,readBytes:p=>{const b=fs.readFileSync(p);inputDigests[p]=shaBytes(b);return b;}}) : null;
+ artifactBindings[f.familyId]={path:reportPath,sha256:inputDigests[reportPath],packets:bounded?.packets??report.packets??[],
+  ...(bounded?{bytesVerified:bounded.bytesVerified,refusal:bounded.refusal}:{}),
+  measurementScope:bounded?.measurementScope??'Preserved native report bindings; this generator does not rerender or re-review artifacts.'};
 }
 const reconciliation=reconcileReleaseEvidence({masterQueue,registry,projection,launchGraph,baseline,artifactBindings});
 const oldLinks=['source_bound','artifact_built','independently_verified','output_approved','product_path_proven'];

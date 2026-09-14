@@ -29,6 +29,7 @@
     "nationalReleaseWorklistFreeze": "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json",
     "releaseControlAdapter": "scripts/grade-a-launch-control/apply-national-release-control.mjs",
     "participantReceiptEvaluator": "scripts/grade-a-launch-control/participant-acceptance-receipts.mjs",
+    "ncDnaPrerequisite": "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json",
     "releaseCandidateBinding": "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
     "releaseCandidateCurrentness": "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
     "workerPublication": "data/rcap-render/worker-publication-evidence.json",
@@ -36,16 +37,16 @@
     "participantAcceptanceInput1": "data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json",
     "participantAcceptanceInput2": "supabase/migrations/20260830120000_participant_data_rights.sql",
     "servicePreflightReview": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json",
-    "servicePreflightOriginal33": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original.zip",
-    "servicePreflightOriginal34": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/artifacts.json",
-    "servicePreflightOriginal35": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json",
-    "servicePreflightOriginal36": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json",
-    "servicePreflightOriginal37": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log",
+    "servicePreflightOriginal34": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original.zip",
+    "servicePreflightOriginal35": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/artifacts.json",
+    "servicePreflightOriginal36": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json",
+    "servicePreflightOriginal37": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json",
+    "servicePreflightOriginal38": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log",
     "launchControlGenerator": "scripts/grade-a-launch-control/generate-launch-control.mjs"
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "513b870bb8ecea91b8b53d8d98ebda1d075d5924",
+    "captainSha": "4afecd0f844e06c134ca7aabd1baaf27f8159f22",
     "censusFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
     "censusLedgerBlob": "d87bf67294e123237e917824e39a512f593274ab",
     "productionConnected": null,
@@ -206,10 +207,10 @@
       "whatBuiltDoesNotMean": "Built means artifacts were rendered and byte-checked by the lane that built them. It is not independent verification, not visual review, not an output-level legal approval, and not COMPLETE_PACKET_PROVEN.",
       "completeness": {
         "contract": "scripts/rcap-packet-completeness/completeness-contract.mjs",
-        "familiesAudited": 344,
-        "passComplete": 307,
+        "familiesAudited": 345,
+        "passComplete": 308,
         "byResult": {
-          "PASS_COMPLETE": 307,
+          "PASS_COMPLETE": 308,
           "NOT_MEASURABLE_HERE": 37
         },
         "counterTotals": {
@@ -323,17 +324,16 @@
   "packetFamilies": {
     "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "total": 346,
-    "terminal": 344,
+    "terminal": 345,
     "byDisposition": {
-      "COMPLETE_PACKET_PROVEN": 321,
+      "COMPLETE_PACKET_PROVEN": 322,
       "GUIDANCE_READY": 16,
       "OUT_OF_SCOPE": 5,
-      "SOURCE_READY": 2,
+      "SOURCE_READY": 1,
       "HANDOFF_READY": 2
     },
-    "completePacketProven": 321,
+    "completePacketProven": 322,
     "nonterminalFamilyIds": [
-      "ca-diversion-seal-set",
       "composed-treatment:nc_146_dismissal_petition"
     ],
     "evidence": "Exact identities, dispositions and source/artifact/review bindings are preserved in the release worklist."
@@ -657,13 +657,14 @@
     "fullChain": "No full-chain receipt for this release candidate is bound.",
     "hostedAcceptance": "NOT_ACCEPTED: {\"ACCEPTED_CURRENT\":0,\"MISSING\":35,\"STALE\":0,\"FAILED\":0,\"INVALID\":0}; Existing hosted_full anti-skip contract requires nine infrastructure/payment/gallery steps, but no export, matter-deletion or account-deletion step. This evaluator does not execute or close that missing hosted coverage.",
     "productionPreflight": "A read-only candidate-bound receipt is required. Production authorization is separate.",
+    "familyPrerequisite": "composed-treatment:nc_146_dismissal_petition: Exact current approved application and order companion, or an authoritative written acceptance procedure for the specifically composed DNA application, with jurisdictional scope and required filing/service/disposition components. See data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json; the institutional inquiry has not been sent.",
     "servicePreflight": "Run 34843210160: 9 failed checks. Supabase returned HTTP 401; Vercel pinned-team absence was measured on one page only. See servicePrerequisites for exact intervention."
   },
   "launchGate": {
     "gateOpen": false,
     "nationalScope": "All 50 states plus DC",
     "gapsRecord": "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json",
-    "remainingObligations": 2238
+    "remainingObligations": 2232
   },
   "exactBlockers": [
     {
@@ -2420,13 +2421,6 @@
       "familyId": "ca-diversion-seal-set",
       "obligationKey": "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-1",
       "runtimeRouteId": null,
-      "dimension": "terminal_treatment",
-      "reason": "Native MASTER_QUEUE state: SOURCE_READY"
-    },
-    {
-      "familyId": "ca-diversion-seal-set",
-      "obligationKey": "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-1",
-      "runtimeRouteId": null,
       "dimension": "runtime_product_reachability",
       "reason": "No unambiguous exact runtime route mapping."
     },
@@ -2457,13 +2451,6 @@
       "runtimeRouteId": null,
       "dimension": "production_readiness",
       "reason": "No exact current Production deployment, authorization and all-51 launch acceptance admitted by this reporting adapter."
-    },
-    {
-      "familyId": "ca-diversion-seal-set",
-      "obligationKey": "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-2",
-      "runtimeRouteId": null,
-      "dimension": "terminal_treatment",
-      "reason": "Native MASTER_QUEUE state: SOURCE_READY"
     },
     {
       "familyId": "ca-diversion-seal-set",
@@ -4214,20 +4201,6 @@
       "runtimeRouteId": null,
       "dimension": "production_readiness",
       "reason": "No exact current Production deployment, authorization and all-51 launch acceptance admitted by this reporting adapter."
-    },
-    {
-      "familyId": "dc_innocence_expungement-set",
-      "obligationKey": "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
-      "runtimeRouteId": "DC:dc_actual_innocence_expungement_16_803",
-      "dimension": "output_approval",
-      "reason": "Approval artifact hash does not bind a current family packet report."
-    },
-    {
-      "familyId": "dc_innocence_expungement-set",
-      "obligationKey": "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
-      "runtimeRouteId": "DC:dc_actual_innocence_expungement_16_803",
-      "dimension": "fulfillment_authority",
-      "reason": "{\"schema\":\"rcap-grade-a-fulfillment-authority/v2\",\"familyBound\":true,\"currentArtifact\":false,\"revoked\":false,\"state\":\"COMPLETE_PACKET_PROVEN\",\"missingProof\":[],\"stalenessReasons\":[]}"
     },
     {
       "familyId": "dc_innocence_expungement-set",
@@ -16308,20 +16281,6 @@
       "familyId": "wy_fel_1502-set",
       "obligationKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
       "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
-      "dimension": "output_approval",
-      "reason": "Approval artifact hash does not bind a current family packet report."
-    },
-    {
-      "familyId": "wy_fel_1502-set",
-      "obligationKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
-      "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
-      "dimension": "fulfillment_authority",
-      "reason": "{\"schema\":\"rcap-grade-a-fulfillment-authority/v2\",\"familyBound\":true,\"currentArtifact\":false,\"revoked\":false,\"state\":\"COMPLETE_PACKET_PROVEN\",\"missingProof\":[],\"stalenessReasons\":[]}"
-    },
-    {
-      "familyId": "wy_fel_1502-set",
-      "obligationKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
-      "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
       "dimension": "hosted_acceptance",
       "reason": "No exact current route/family/provider-bound hosted participant payment, sponsorship, render and private-delivery acceptance admitted by this reporting adapter."
     },
@@ -16335,7 +16294,7 @@
   ],
   "goHold": {
     "decision": "HOLD",
-    "because": "344/346 families are terminal. Release obligations and candidate authorization remain separate; final family baseline status: BOUND.",
+    "because": "345/346 families are terminal. Release obligations and candidate authorization remain separate; final family baseline status: BOUND.",
     "whatWouldChangeIt": "Bind the pushed final 346-family closeout, satisfy the exact national release obligations, freeze application SHA and worker digest, pass currentness and the full required chain, independently accept the hosted candidate, prove rollback and read-only Production preflight, then obtain exact Production authorization."
   },
   "historicalSections": {
@@ -16353,10 +16312,10 @@
     "baseline": {
       "status": "BOUND",
       "verified": true,
-      "commitSha": "41db064ec6f25149802504f410fab7ece2c61b96",
-      "masterQueueSha256": "bc8d56c76e9ee40e68482004f23bbbb408f93f000f3bf5993e5b55f380640ee2",
+      "commitSha": "4afecd0f844e06c134ca7aabd1baaf27f8159f22",
+      "masterQueueSha256": "c5623b1b3abd961b3be3da27a64f5aba114e4bfcd59b94143980b1a695899969",
       "bindingPath": "data/rcap-grade-a/launch-control/FAMILY_BASELINE_BINDING.json",
-      "bindingSha256": "ac38b79f4f701612db027b3139732739e1758c68b209de1786259b5923fb93b7"
+      "bindingSha256": "7f17c9d88c1f71842144d23a042b9781beadb1ce30d80550a7d638024341ace2"
     },
     "dimensions": [
       "terminal_treatment",
@@ -16368,15 +16327,15 @@
     ],
     "counts": {
       "families": 346,
-      "terminal": 344,
+      "terminal": 345,
       "packetSaleApplicable": 323,
       "nonPacketTerminal": 23,
-      "missingObligations": 2238,
+      "missingObligations": 2232,
       "byDimension": {
-        "terminal_treatment": 3,
+        "terminal_treatment": 1,
         "runtime_product_reachability": 339,
-        "output_approval": 456,
-        "fulfillment_authority": 456,
+        "output_approval": 454,
+        "fulfillment_authority": 454,
         "hosted_acceptance": 492,
         "production_readiness": 492
       }
@@ -18136,13 +18095,6 @@
         "familyId": "ca-diversion-seal-set",
         "obligationKey": "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-1",
         "runtimeRouteId": null,
-        "dimension": "terminal_treatment",
-        "reason": "Native MASTER_QUEUE state: SOURCE_READY"
-      },
-      {
-        "familyId": "ca-diversion-seal-set",
-        "obligationKey": "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-1",
-        "runtimeRouteId": null,
         "dimension": "runtime_product_reachability",
         "reason": "No unambiguous exact runtime route mapping."
       },
@@ -18173,13 +18125,6 @@
         "runtimeRouteId": null,
         "dimension": "production_readiness",
         "reason": "No exact current Production deployment, authorization and all-51 launch acceptance admitted by this reporting adapter."
-      },
-      {
-        "familyId": "ca-diversion-seal-set",
-        "obligationKey": "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-2",
-        "runtimeRouteId": null,
-        "dimension": "terminal_treatment",
-        "reason": "Native MASTER_QUEUE state: SOURCE_READY"
       },
       {
         "familyId": "ca-diversion-seal-set",
@@ -19930,20 +19875,6 @@
         "runtimeRouteId": null,
         "dimension": "production_readiness",
         "reason": "No exact current Production deployment, authorization and all-51 launch acceptance admitted by this reporting adapter."
-      },
-      {
-        "familyId": "dc_innocence_expungement-set",
-        "obligationKey": "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
-        "runtimeRouteId": "DC:dc_actual_innocence_expungement_16_803",
-        "dimension": "output_approval",
-        "reason": "Approval artifact hash does not bind a current family packet report."
-      },
-      {
-        "familyId": "dc_innocence_expungement-set",
-        "obligationKey": "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
-        "runtimeRouteId": "DC:dc_actual_innocence_expungement_16_803",
-        "dimension": "fulfillment_authority",
-        "reason": "{\"schema\":\"rcap-grade-a-fulfillment-authority/v2\",\"familyBound\":true,\"currentArtifact\":false,\"revoked\":false,\"state\":\"COMPLETE_PACKET_PROVEN\",\"missingProof\":[],\"stalenessReasons\":[]}"
       },
       {
         "familyId": "dc_innocence_expungement-set",
@@ -32024,20 +31955,6 @@
         "familyId": "wy_fel_1502-set",
         "obligationKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
         "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
-        "dimension": "output_approval",
-        "reason": "Approval artifact hash does not bind a current family packet report."
-      },
-      {
-        "familyId": "wy_fel_1502-set",
-        "obligationKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
-        "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
-        "dimension": "fulfillment_authority",
-        "reason": "{\"schema\":\"rcap-grade-a-fulfillment-authority/v2\",\"familyBound\":true,\"currentArtifact\":false,\"revoked\":false,\"state\":\"COMPLETE_PACKET_PROVEN\",\"missingProof\":[],\"stalenessReasons\":[]}"
-      },
-      {
-        "familyId": "wy_fel_1502-set",
-        "obligationKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
-        "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
         "dimension": "hosted_acceptance",
         "reason": "No exact current route/family/provider-bound hosted participant payment, sponsorship, render and private-delivery acceptance admitted by this reporting adapter."
       },
@@ -32050,6 +31967,16 @@
       }
     ]
   },
+  "familyPrerequisites": [
+    {
+      "familyId": "composed-treatment:nc_146_dismissal_petition",
+      "record": "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json",
+      "status": "NOT_SENT",
+      "requiredInput": "Exact current approved application and order companion, or an authoritative written acceptance procedure for the specifically composed DNA application, with jurisdictional scope and required filing/service/disposition components.",
+      "buildSlotReleased": false,
+      "contactAttempted": false
+    }
+  ],
   "candidate": {
     "status": "NOT_FROZEN",
     "reason": "Application SHA and worker digest are not yet bound for final release acceptance."
@@ -32110,16 +32037,17 @@
     "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json": "4cc057eb6ad0b435d154bfaa183785f75d3fbfc7f051958183b65bc38ae86db4",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "aaf48a2421a29cc97d1ac9da8b087ab866df3c40bbf015d8975436e27326b040",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "ad8d3c7b2a515d1d5e8f81bf7f5a300426625329caa0dde665d5af7d368fc361",
     "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json": "415ed3abf10d1a6ffc33590754f8b131b820345920cde77d5f0f1f0a13d19216",
     "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json": "764d59c2965e5cfe272edbe5648be84e45194343865d3fbc43e45aa8751a49da",
     "docs/LAUNCH_SEQUENCE.md": "91760f8f982164839993de583cccd100c4b4dc9dee048e38de54d789e8a2a509",
     "docs/PRODUCT_CONTRACT.md": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
-    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "e403d6ad1ca728a268fc3c6fa54bfb40476015cbfb9f069af07c9e6819f13d73",
-    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "bc8d56c76e9ee40e68482004f23bbbb408f93f000f3bf5993e5b55f380640ee2",
-    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json": "88f9b5ad63b4ab1a3b46aa5c3fd6b84a9a52c5db74d4130f05e36dbc9638674c",
+    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "2fca8511c9bca0552dba20318e34a86137086d73dababa9667f49b265ffa5709",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "c5623b1b3abd961b3be3da27a64f5aba114e4bfcd59b94143980b1a695899969",
+    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json": "3368865e6a10b2e52fe9c6b4274539703affecc3a190233cba1a0f6ccec98c62",
     "scripts/grade-a-launch-control/apply-national-release-control.mjs": "229c3436c81ad4a97f8e94d66e885f9932ab512f5cf4ed6ee7b8ffcfff65b343",
     "scripts/grade-a-launch-control/participant-acceptance-receipts.mjs": "696feff901bea242d16c65ff2793401c6ff98546bc2f3fd722387280ade6d75d",
+    "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json": "ce5053208c8514fcbf90a4ddeb8ebe34d6749e12487c80db7e21fd6b7dde17b4",
     "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json": null,
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs": "feb774aa6759745f080e98ef9e6bf1e933c76fce86c6ec2e22290e1021cf9273",
     "data/rcap-render/worker-publication-evidence.json": "8864d2ab37e0ba7f1413a07e0bb65828361089171b6fd076aa45725ccd7938e0",
@@ -32132,6 +32060,6 @@
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json": "d1a54fa51771aa02d5c6aaeca2759f2123f649ec71dd85924e7a14ec68ffb73f",
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log": "f0a5c4d87fdc1f2396231436a0f0bd9b86f350b040ab8b4731d4f4b4829427ad",
-    "scripts/grade-a-launch-control/generate-launch-control.mjs": "43c81d7e3ca5fa7625cb21c6eae4b7cd36ca384d9ed8620b87776ae40ffb2d55"
+    "scripts/grade-a-launch-control/generate-launch-control.mjs": "743bf4422e6a85c688980ab5ff976a7b6fb7f045fc75ed5c62d67d2e489256c2"
   }
 }
