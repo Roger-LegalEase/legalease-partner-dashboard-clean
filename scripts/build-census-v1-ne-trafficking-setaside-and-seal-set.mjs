@@ -93,6 +93,12 @@ async function renderMotion(f){
 }
 async function sealing(f){
  const{doc}=await loadPdf('CC612');const written=new Set(),mapped=[];const form=doc.getForm();
+ // The source calculated caption widgets overlap by 0.981 pt. Keep the
+ // county appearance within its source rectangle while reserving a clear
+ // 5 pt inset from the adjoining "OF" caption.
+ const countyWidget=form.getTextField('fullcountystatementRIGHT').acroField.getWidgets()[0];
+ const countyRect=rectOf(countyWidget);
+ countyWidget.setRectangle({...countyRect,x:countyRect.x+5,width:countyRect.width-5});
  for(const [choiceName,displayName,value]of [['TYPEOFCOURTDROPDOWN','TYPEOFCOURTRESULTS',f.court.division],['DROPDOWNCOUNTY2','fullcountystatementRIGHT',f.court.county]]){
   const choice=form.getDropdown(choiceName),entry=choice.acroField.getOptions().find(x=>x.display?.decodeText()===value);
   if(!entry)throw Error('SOURCE_CAPTION_OPTION_NOT_FOUND:'+value);
