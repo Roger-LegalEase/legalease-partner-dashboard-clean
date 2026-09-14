@@ -1,0 +1,18 @@
+import fs from 'node:fs';import crypto from 'node:crypto';import path from 'node:path';import assert from 'node:assert/strict';import {register} from 'node:module';import {pathToFileURL} from 'node:url';
+const root=process.cwd();register(pathToFileURL(path.join(root,'scripts/lib/ts-esm-loader.mjs')));
+const imp=p=>import(pathToFileURL(path.join(root,p)));
+const {terminalTreatmentForTrack,terminalTreatmentBundle}=await imp('src/lib/rcap/documents/guidance-packet-registry.ts');
+const {resolvePacketRoute,packetRouteCanRender}=await imp('src/lib/rcap/documents/packet-route-resolver.ts');
+const {buildRenderJobSpec}=await imp('src/lib/rcap/render/job-contract.ts');
+const {createConsumerPaymentPlaceholder,assertCheckoutAllowed,ConsumerCheckoutNotAllowedError}=await imp('src/lib/expungement-ai/payment-adapter.ts');
+const dir='data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914';const candidate=JSON.parse(fs.readFileSync(dir+'/guidance.json'));const expected=JSON.parse(fs.readFileSync(dir+'/saved-native-bundles.json'));const rows=[];
+for(const t of candidate.treatments){
+ const record=terminalTreatmentForTrack(t.trackId);assert.equal(record.classification,'terminal_treatment_candidate');assert.deepEqual(record.raw,t);
+ for(const lang of ['en','es'])assert.deepEqual(terminalTreatmentBundle(t.trackId,lang),expected.find(b=>b.trackId===t.trackId&&b.locale===lang));
+ const route=resolvePacketRoute({state:'SC',pathway:'',trackId:t.trackId});assert.equal(route.exactDeferralTrackId,t.trackId);assert.equal(route.sellable,false);assert.equal(route.creditConsumable,false);assert.equal(packetRouteCanRender(route),false);assert.equal(route.rendererKind,'none');
+ const job=buildRenderJobSpec({packetId:'00000000-0000-4000-8000-000000000000',state:'SC',pathway:'',profileId:'SC',profileVersion:'1.3.0',briefcaseItemId:'verify-'+t.trackId,trackId:t.trackId,packetFields:{}});assert.equal(job.spec,null);
+ const placeholder=createConsumerPaymentPlaceholder({resultCode:'packet_ready',userLabel:'',state:'SC',pathwayLabel:'',confidence:'high',paymentAllowed:true,packetType:'custom_pleading',reasons:[],nextSteps:[],emailCaptureRecommended:false,reminderRecommended:false,disclaimer:'',selectedTrackId:t.trackId},null);assert.equal(placeholder.enabled,false);assert.equal(placeholder.amountCents,undefined);
+ assert.throws(()=>assertCheckoutAllowed({jurisdiction:'SC',pathwayId:null,selectedTrackId:t.trackId,treatmentClassification:'terminal_treatment_candidate',deferralComponentIds:[],packetType:'custom_pleading',resultCode:'packet_ready',paymentAllowed:true}),ConsumerCheckoutNotAllowedError);
+ rows.push({trackId:t.trackId,savedGuidanceExact:true,bothLocaleBundlesExact:true,route,renderSpecRefused:true,paymentPlaceholderDisabled:true,checkoutRefused:true});
+}
+assert.equal(rows.length,10);const consumerBindings=['src/lib/rcap/documents/guidance-packet-registry.ts','src/lib/rcap/documents/packet-route-resolver.ts','src/lib/rcap/render/job-contract.ts','src/lib/expungement-ai/payment-adapter.ts'].map(path=>{const bytes=fs.readFileSync(path);return {path,sha256:crypto.createHash('sha256').update(bytes).digest('hex'),byteLength:bytes.length};});const output={schemaVersion:'rcap-sc-guidance-runtime-binding/v1',familyId:'rcap-sc-custom-pleading',status:'PASS',nativeConsumerUnmodified:true,recordCount:10,localeBundleCount:20,rows,commercialRoutesOpened:0,consumerBindings};fs.writeFileSync('data/rcap-grade-a/packet-factory-24h/vfscguidance1/sc-guidance-native-binding-20260914.json',JSON.stringify(output,null,2)+'\n');console.log('PASS actual native SC registry, 20 saved bundles, 10 exact route/render/payment/checkout probes');

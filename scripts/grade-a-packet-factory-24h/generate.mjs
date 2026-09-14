@@ -31,6 +31,7 @@ import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
 import { assessGeorgiaReviewedGuidance, applyGeorgiaGuidanceAcceptance } from "./ga-reviewed-guidance.mjs";
 import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
+import { loadScReviewedGuidance } from "./sc-reviewed-guidance.mjs";
 import { normalizeDeclaredDeGuidanceBuildInputs, declaredDeGuidanceSourceReadiness, DE_FAMILY } from "./de-guidance-binding.mjs";
 import { normalizeDeclaredUtPcraBuildInputs, UT_PCRA_FAMILY } from "./ut-pcra-declared-delivery.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
@@ -414,6 +415,7 @@ const INPUTS = {
   corpusIndex: "data/rcap-all50/local-source-corpus-index.json",
   sourceDeterminations: "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
   waHomicideCustomStrategy: "data/rcap-grade-a/source-wave-integration/WA_HOMICIDE_CUSTOM_SOURCE_STRATEGY_2026-09-13.json",
+  scSolicitorGuidanceAdmission: "data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2026-09-14.json",
   utRemoveLinkSelector: "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
   recoveredSourceWave1: "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
   recoveredKnownResidual: "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
@@ -732,6 +734,8 @@ try {
     terminalTreatments.set(r.familyId, r);
   }
 } catch { /* no terminal treatments registered yet */ }
+const scReviewedGuidance = loadScReviewedGuidance(ROOT, ownerDeliveryTypeRefusals);
+if (scReviewedGuidance) terminalTreatments.set(scReviewedGuidance.familyId, scReviewedGuidance);
 
 /*
  * Owner holds pending a NAMED correction.

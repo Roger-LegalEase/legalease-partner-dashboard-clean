@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "4a5d8e352da29931b0b92f8b379e2b33bf603f06",
+  "minimumCaptainSha": "0fb850994aec34644d97d0f522ebf4f8bc2016d2",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -28,6 +28,7 @@
     "data/rcap-all50/local-source-corpus-index.json": "66a4f469cd20871c3282cc7795a9eb18aa0b4fd6f0c5c697feafc0712ac154ba",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
     "data/rcap-grade-a/source-wave-integration/WA_HOMICIDE_CUSTOM_SOURCE_STRATEGY_2026-09-13.json": "6a3e48fd146ac034da5df956d2639c4453b399420d0ebf78a5e00bd995b1e898",
+    "data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2026-09-14.json": "bff4646da6eb4072bf4f9e167af4fc60ffbd2d33d8cf02f6721590fa16f9af0f",
     "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json": "7d03705d29178719ae13b0a26a4d79eda92433123458df0feef2933a205a6609",
     "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
     "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json": "3e39ef0018140b10c0594108b3ddd232b6e7d759f15918f8b6dc2f858bf80d60",
@@ -86,12 +87,11 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 312,
-    "GUIDANCE_READY": 15,
+    "GUIDANCE_READY": 16,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 10,
     "HANDOFF_READY": 2,
-    "PRODUCT_PATH_PENDING": 1,
-    "WRONG_DELIVERY_TYPE": 1
+    "PRODUCT_PATH_PENDING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -40866,7 +40866,19 @@
         "checkout": "DISABLED"
       },
       "verificationLapsedBecause": null,
-      "terminalTreatment": null,
+      "terminalTreatment": {
+        "treatment": "GUIDANCE_READY",
+        "authorizingRecord": {
+          "path": "data/rcap-grade-a/legal-decisions/OWNER_DELIVERY_TYPE_DECISIONS.json",
+          "sha256": "a870ad05b73aa608d7c9c4c9cafed646fcf5d3ffa868a7f26de1f0b3b9f47335",
+          "byteLength": 31306,
+          "field": "decisions[decisionId=OWN-DT-2026-09-02-SC-223A1], branch B"
+        },
+        "treatmentWasReadNotChosen": "Existing owner branch B permits GUIDANCE_READY where the solicitor controls the mandatory application; all ten current track destinations are the circuit solicitor.",
+        "independentVerification": "PASS_COMPLETE_INDEPENDENT",
+        "theRefusalIsStillInForce": true,
+        "opensNothing": "No terminal treatment opens a route, restores a packet or enables checkout."
+      },
       "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
@@ -40874,7 +40886,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state WRONG_DELIVERY_TYPE; all ordinary gates remain. Binding product rule SC-SINGLE-INCIDENT-FEE-TREATMENT: Do not encode $310 as one universal filing fee. Encode separately the $250 solicitor administrative fee, $25 SLED fee when applicable, and $35 clerk fee when applicable, with statutory exemptions. The separate SCCA223C custody/source issue is not a legal blocker and remains independently tracked. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state GUIDANCE_READY; all ordinary gates remain. Binding product rule SC-SINGLE-INCIDENT-FEE-TREATMENT: Do not encode $310 as one universal filing fee. Encode separately the $250 solicitor administrative fee, $25 SLED fee when applicable, and $35 clerk fee when applicable, with statutory exemptions. The separate SCCA223C custody/source issue is not a legal blocker and remains independently tracked. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -40895,7 +40907,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "WRONG_DELIVERY_TYPE",
+      "state": "GUIDANCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-sc-custom-pleading.mjs",

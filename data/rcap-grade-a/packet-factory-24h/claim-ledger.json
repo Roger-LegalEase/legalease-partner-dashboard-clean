@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "4a5d8e352da29931b0b92f8b379e2b33bf603f06",
+  "generatedAtCommit": "0fb850994aec34644d97d0f522ebf4f8bc2016d2",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6588,6 +6588,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "mo-610-122-arrest-expungement-set",
+      "itemId": null,
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "familyIds": [
+        "mo-610-122-arrest-expungement-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFMO610SEM1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-122-arrest-expungement-set",
       "familyId": "mo-610-122-arrest-expungement-set",
       "itemId": null,
       "familyIds": [
@@ -6595,10 +6610,9 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF09",
+      "lane": "PF01",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -8903,7 +8917,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VFSCGUIDANCE1",
+      "lane": "VFSCADMISSION1",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
@@ -15733,7 +15747,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "b6436a2a274553c5079d99a3b6bce03b83db61263795c0e25225e191b78b0c00",
+  "claimsDigest": "6c20558961f083404c394023b49bf85949107861f12d3a4077e42f2f12d29acf",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43054,6 +43068,22 @@
       "operation": "packet-build",
       "laneKind": "packet-build",
       "releasedAt": "2026-09-14T00:14:58.194Z"
+    },
+    {
+      "lane": "PF09",
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-122-arrest-expungement-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-14T00:24:41.083Z"
+    },
+    {
+      "lane": "VFSCGUIDANCE1",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-sc-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-14T00:24:41.456Z"
     }
   ],
   "reissues": [
@@ -53942,6 +53972,16 @@
       "previouslyReleasedAt": "2026-09-02T07:34:40.892Z",
       "reissuedAt": "2026-09-14T00:08:10.856Z",
       "reason": "Captain session-pool override assigns /root/mt_serving_build SC solicitor guidance conversion under existing owner decision"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-122-arrest-expungement-set",
+      "operation": "packet-build",
+      "lane": "PF01",
+      "dispatchNames": "PF01",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-14T00:32:27Z",
+      "reason": "the current dispatch names PF01 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -66165,6 +66205,17 @@
       "previouslyReleasedAt": "2026-09-02T13:50:39.051Z",
       "transferredAt": "2026-09-14T00:15:14.427Z",
       "reason": "Complete saved solicitor guidance requires distinct independent acceptance; prior VF01 review released"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-sc-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VFSCGUIDANCE1",
+      "toLane": "VFSCADMISSION1",
+      "previouslyReleasedAt": "2026-09-14T00:24:41.456Z",
+      "transferredAt": "2026-09-14T00:24:41.636Z",
+      "reason": "Guidance semantic acceptance complete; distinct reviewer reading additive native admission and runtime binding"
     }
   ],
   "grants": [
@@ -67365,6 +67416,17 @@
       "grantedAt": "2026-09-13T23:15:04.773Z",
       "grantedBy": "Captain",
       "reason": "Complete PF15 Form A handoff imported, assign independent semantic review to /root/mt_form_b_independent_review with IL final-page priority",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VFMO610SEM1",
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-122-arrest-expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-14T00:24:41.275Z",
+      "grantedBy": "Captain",
+      "reason": "Complete PF09 candidate requires distinct independent semantic review",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
