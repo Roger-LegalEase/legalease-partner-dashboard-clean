@@ -1,15 +1,15 @@
 # Exact-artifact re-review: ms-misd-addl-set
 
-**RE-REVIEW REQUIRED — no approval recorded.**
+**Historical review snapshot — Illinois later approved; this Mississippi pair rejected. Consult current launch control.**
 
-Source: `ece879e400d2c0aaac08337f8cb8bb594b0b6ef4`
+Source: `d4bcf80dbecfd5e1c7e0f2939d4b3528b12cd215`
 
 Review both current PDFs below. Their shipping digests differ from the prior approval; technical and raster passes do not renew it.
 
 | Fixture | Current PDF | SHA-256 | Pages | Change evidence |
 | --- | --- | --- | --- | --- |
-| canonical | [Open PDF](../../../../data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf) | `3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399` | 8 | [canonical text diff](canonical.text.diff) |
-| boundary | [Open PDF](../../../../data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf) | `e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36` | 8 | [boundary text diff](boundary.text.diff) |
+| canonical | [Open PDF](../../../../data/rcap-grade-a/artifact-rereview-20260914/ms-misd-addl-set/reviewed-pdfs/canonical.pdf) | `3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399` | 8 | [canonical text diff](canonical.text.diff) |
+| boundary | [Open PDF](../../../../data/rcap-grade-a/artifact-rereview-20260914/ms-misd-addl-set/reviewed-pdfs/boundary.pdf) | `e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36` | 8 | [boundary text diff](boundary.text.diff) |
 
 [Open all current/prior page images side by side](review.html)
 

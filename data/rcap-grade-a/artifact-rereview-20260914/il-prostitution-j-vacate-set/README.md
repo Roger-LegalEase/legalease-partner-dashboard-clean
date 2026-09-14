@@ -1,15 +1,15 @@
 # Exact-artifact re-review: il-prostitution-j-vacate-set
 
-**RE-REVIEW REQUIRED — no approval recorded.**
+**Historical review snapshot — Illinois later approved; this Mississippi pair rejected. Consult current launch control.**
 
-Source: `ece879e400d2c0aaac08337f8cb8bb594b0b6ef4`
+Source: `d4bcf80dbecfd5e1c7e0f2939d4b3528b12cd215`
 
 Review both current PDFs below. Their shipping digests differ from the prior approval; technical and raster passes do not renew it.
 
 | Fixture | Current PDF | SHA-256 | Pages | Change evidence |
 | --- | --- | --- | --- | --- |
-| canonical | [Open PDF](../../../../data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf) | `d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657` | 3 | [canonical text diff](canonical.text.diff) |
-| boundary | [Open PDF](../../../../data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf) | `ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e` | 3 | [boundary text diff](boundary.text.diff) |
+| canonical | [Open PDF](../../../../data/rcap-grade-a/artifact-rereview-20260914/il-prostitution-j-vacate-set/reviewed-pdfs/canonical.pdf) | `d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657` | 3 | [canonical text diff](canonical.text.diff) |
+| boundary | [Open PDF](../../../../data/rcap-grade-a/artifact-rereview-20260914/il-prostitution-j-vacate-set/reviewed-pdfs/boundary.pdf) | `ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e` | 3 | [boundary text diff](boundary.text.diff) |
 
 [Open all current/prior page images side by side](review.html)
 
