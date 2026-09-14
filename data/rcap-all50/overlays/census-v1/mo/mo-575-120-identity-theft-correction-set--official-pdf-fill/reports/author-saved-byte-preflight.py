@@ -26,7 +26,14 @@ for p in report['packets']:
   for slot in range(3):
    name='Party Type Code'+('' if slot==0 else '_'+str(slot*2+1));r=widgets[name];value=fi[i].get_text(clip=r+(-1,-1,1,1));expected='PET' if i==0 and slot==0 else 'RES' if i*3+slot<partycount else '';check(f,'FI05_party_role:'+str(i)+':'+str(slot),norm(value)==norm(expected),{'expected':expected,'read':value})
    name='Party Type Code_'+str(slot*2+2);r=widgets[name];check(f,'FI05_attorney_code_blank:'+str(i)+':'+str(slot),orig[0].get_pixmap(clip=r,alpha=False).samples==fi[i].get_pixmap(clip=r,alpha=False).samples)
- for key,regions in {'CR300':[(1,[342,615,584,654])],'CR310':[(1,[35,290,585,746])]}.items():
+ for i in range(copies):
+  for name in ['Case Type Code','Case Type Description']:
+   rect=widgets[name];check(f,'FI05_clerk_confirmed_blank:'+str(i)+':'+name,orig[0].get_pixmap(clip=rect,alpha=False).samples==fi[i].get_pixmap(clip=rect,alpha=False).samples)
+ continuation=fitz.open(out/(f+'.respondent-schedule.pdf'));ctext=' '.join(page.get_text() for page in continuation)
+ check(f,'account_supplied_exact',norm(facts['impersonationAccount']) in norm(ctext))
+ for index,factor in enumerate(facts['identifyingFactorsUsed']):check(f,'identifying_factor:'+str(index),norm(factor) in norm(ctext))
+ check(f,'relationship_answer_visible',norm(facts['impersonatorRelationship']) in norm(ctext));check(f,'police_report_answer_visible','police report: '+('yes' if facts['policeReportFiled'] else 'no') in ctext)
+ for key,regions in {'CR300':[(1,[342,615,584,695]),(1,[207,70,441,115])],'CR310':[(1,[35,290,585,746])]}.items():
   cp=out/(f+'.'+key+'.pdf')
   if not cp.exists():continue
   receipt=json.loads((out/'source-receipt.json').read_text());src=next(s for s in receipt['documents'] if s['formNumber']==key);orig=fitz.open(pathlib.Path('/workspaces/legalease-partner-dashboard-clean')/src['path']);got=fitz.open(cp)

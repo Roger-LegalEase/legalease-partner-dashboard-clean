@@ -177,20 +177,6 @@
         },
         {
           "document": "CR300",
-          "field": "Offense Cycle Number",
-          "expected": "SYNTH-OCN-123",
-          "factId": "canonical.Offense Cycle Number",
-          "page": 1,
-          "rect": [
-            327.525,
-            679.061,
-            112.166,
-            14.74899999999991
-          ],
-          "fontSize": 9
-        },
-        {
-          "document": "CR300",
           "field": "Date of Conviction",
           "expected": "06/10/2024",
           "factId": "canonical.Date of Conviction",
@@ -256,20 +242,6 @@
             248.974,
             276.3994,
             13.617000000000019
-          ],
-          "fontSize": 9
-        },
-        {
-          "document": "CR300",
-          "field": "Petitioner Address",
-          "expected": "412 Example Avenue, Kansas City, MO, 64106",
-          "factId": "canonical.Petitioner Address",
-          "page": 1,
-          "rect": [
-            350.018,
-            91.6752,
-            213.844,
-            41.99079999999999
           ],
           "fontSize": 9
         },
@@ -376,40 +348,125 @@
     {
       "fixture": "canonical",
       "formNumber": "respondent-schedule",
-      "actualWrites": []
+      "actualWrites": [
+        {
+          "document": "respondent-schedule",
+          "field": "Petitioner continuation identity",
+          "expected": "Petitioner: Jordan Lee Example. Civil correction action in Jackson County, Missouri.",
+          "factId": "canonical.participant.continuation_identity",
+          "page": 1,
+          "rect": [
+            42,
+            707,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Applicant supplied impersonation account",
+          "expected": "Applicant account: I obtained a court and arrest record showing a different person arrested under my name, birth date and Social Security number. I was not the person arrested. I do not know who used those details.",
+          "factId": "canonical.participant.impersonationAccount",
+          "page": 1,
+          "rect": [
+            42,
+            635,
+            528,
+            36
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Applicant identifying factors used",
+          "expected": "Identifying factors the applicant says appear on the false record: My full name Jordan Lee Example; My birth date 04/17/1988; My Social Security number shown on CR300",
+          "factId": "canonical.participant.identifyingFactorsUsed",
+          "page": 1,
+          "rect": [
+            42,
+            599,
+            528,
+            36
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Impersonator relationship",
+          "expected": "Applicant reports relationship to impersonator: unknown.",
+          "factId": "canonical.participant.impersonatorRelationship",
+          "page": 1,
+          "rect": [
+            42,
+            576,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Police report status",
+          "expected": "Applicant reports having filed an identity-theft police report: no. A police or FTC report is not a statutory prerequisite.",
+          "factId": "canonical.participant.policeReportFiled",
+          "page": 1,
+          "rect": [
+            42,
+            553,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Named respondent 1",
+          "expected": "1. Circuit Court of Jackson County; 415 E 12th Street; Kansas City, MO 64106; telephone confirm with entity.",
+          "factId": "canonical.respondents.0.address_inventory",
+          "page": 1,
+          "rect": [
+            42,
+            494,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Named respondent 2",
+          "expected": "2. Kansas City Police Department; 1125 Locust Street; Kansas City, MO 64106; telephone confirm with entity.",
+          "factId": "canonical.respondents.1.address_inventory",
+          "page": 1,
+          "rect": [
+            42,
+            471,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Named respondent 3",
+          "expected": "3. Missouri State Highway Patrol Criminal Record Repository; 1510 E Elm Street; Jefferson City, MO 65101; telephone confirm with entity.",
+          "factId": "canonical.respondents.2.address_inventory",
+          "page": 1,
+          "rect": [
+            42,
+            435,
+            528,
+            36
+          ],
+          "fontSize": 9.5
+        }
+      ]
     },
     {
       "fixture": "canonical",
       "formNumber": "FI-05",
       "actualWrites": [
-        {
-          "document": "FI-05",
-          "field": "Case Type Code",
-          "expected": "XG",
-          "factId": "canonical.filing_sheet.0.Case Type Code",
-          "page": 1,
-          "rect": [
-            62.3383,
-            597.742,
-            247.8327,
-            20.618000000000052
-          ],
-          "fontSize": 8
-        },
-        {
-          "document": "FI-05",
-          "field": "Case Type Description",
-          "expected": "Expungement of Crim/Arrest Record",
-          "factId": "canonical.filing_sheet.0.Case Type Description",
-          "page": 1,
-          "rect": [
-            320.72,
-            596.742,
-            256.342,
-            20.618000000000052
-          ],
-          "fontSize": 8
-        },
         {
           "document": "FI-05",
           "field": "Party Type Code",
@@ -829,34 +886,6 @@
             17.269000000000005
           ],
           "fontSize": null
-        },
-        {
-          "document": "FI-05",
-          "field": "Case Type Code",
-          "expected": "XG",
-          "factId": "canonical.filing_sheet.1.Case Type Code",
-          "page": 2,
-          "rect": [
-            62.3383,
-            597.742,
-            247.8327,
-            20.618000000000052
-          ],
-          "fontSize": 8
-        },
-        {
-          "document": "FI-05",
-          "field": "Case Type Description",
-          "expected": "Expungement of Crim/Arrest Record",
-          "factId": "canonical.filing_sheet.1.Case Type Description",
-          "page": 2,
-          "rect": [
-            320.72,
-            596.742,
-            256.342,
-            20.618000000000052
-          ],
-          "fontSize": 8
         },
         {
           "document": "FI-05",
@@ -1325,20 +1354,6 @@
         },
         {
           "document": "CR300",
-          "field": "Offense Cycle Number",
-          "expected": "SYNTH-OCN-123",
-          "factId": "boundary.Offense Cycle Number",
-          "page": 1,
-          "rect": [
-            327.525,
-            679.061,
-            112.166,
-            14.74899999999991
-          ],
-          "fontSize": 9
-        },
-        {
-          "document": "CR300",
           "field": "Date of Conviction",
           "expected": "06/10/2024",
           "factId": "boundary.Date of Conviction",
@@ -1404,20 +1419,6 @@
             248.974,
             276.3994,
             13.617000000000019
-          ],
-          "fontSize": 9
-        },
-        {
-          "document": "CR300",
-          "field": "Petitioner Address",
-          "expected": "9876 Long Synthetic Residence Boulevard, Kansas City, MO, 64106",
-          "factId": "boundary.Petitioner Address",
-          "page": 1,
-          "rect": [
-            350.018,
-            91.6752,
-            213.844,
-            41.99079999999999
           ],
           "fontSize": 9
         },
@@ -1552,40 +1553,139 @@
     {
       "fixture": "boundary",
       "formNumber": "respondent-schedule",
-      "actualWrites": []
+      "actualWrites": [
+        {
+          "document": "respondent-schedule",
+          "field": "Petitioner continuation identity",
+          "expected": "Petitioner: Alexandria Louise Montgomery Example. Civil correction action in Jackson County, Missouri.",
+          "factId": "boundary.participant.continuation_identity",
+          "page": 1,
+          "rect": [
+            42,
+            707,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Applicant supplied impersonation account",
+          "expected": "Applicant account: I obtained a court and arrest record showing a different person arrested under my name, birth date and Social Security number. I was not the person arrested. I do not know who used those details.",
+          "factId": "boundary.participant.impersonationAccount",
+          "page": 1,
+          "rect": [
+            42,
+            635,
+            528,
+            36
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Applicant identifying factors used",
+          "expected": "Identifying factors the applicant says appear on the false record: My full name Alexandria Louise Montgomery Example; My birth date 04/17/1988; My Social Security number shown on CR300",
+          "factId": "boundary.participant.identifyingFactorsUsed",
+          "page": 1,
+          "rect": [
+            42,
+            599,
+            528,
+            36
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Impersonator relationship",
+          "expected": "Applicant reports relationship to impersonator: unknown.",
+          "factId": "boundary.participant.impersonatorRelationship",
+          "page": 1,
+          "rect": [
+            42,
+            576,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Police report status",
+          "expected": "Applicant reports having filed an identity-theft police report: no. A police or FTC report is not a statutory prerequisite.",
+          "factId": "boundary.participant.policeReportFiled",
+          "page": 1,
+          "rect": [
+            42,
+            553,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Named respondent 1",
+          "expected": "1. Circuit Court of Jackson County; 415 E 12th Street; Kansas City, MO 64106; telephone confirm with entity.",
+          "factId": "boundary.respondents.0.address_inventory",
+          "page": 1,
+          "rect": [
+            42,
+            494,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Named respondent 2",
+          "expected": "2. Kansas City Police Department; 1125 Locust Street; Kansas City, MO 64106; telephone confirm with entity.",
+          "factId": "boundary.respondents.1.address_inventory",
+          "page": 1,
+          "rect": [
+            42,
+            471,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Named respondent 3",
+          "expected": "3. Missouri State Highway Patrol Criminal Record Repository; 1510 E Elm Street; Jefferson City, MO 65101; telephone confirm with entity.",
+          "factId": "boundary.respondents.2.address_inventory",
+          "page": 1,
+          "rect": [
+            42,
+            435,
+            528,
+            36
+          ],
+          "fontSize": 9.5
+        },
+        {
+          "document": "respondent-schedule",
+          "field": "Named respondent 4",
+          "expected": "4. Jackson County Sheriff's Department; 4001 NE Lakewood Court; Lees Summit, MO 64064; telephone confirm with entity.",
+          "factId": "boundary.respondents.3.address_inventory",
+          "page": 1,
+          "rect": [
+            42,
+            412,
+            528,
+            23
+          ],
+          "fontSize": 9.5
+        }
+      ]
     },
     {
       "fixture": "boundary",
       "formNumber": "FI-05",
       "actualWrites": [
-        {
-          "document": "FI-05",
-          "field": "Case Type Code",
-          "expected": "XG",
-          "factId": "boundary.filing_sheet.0.Case Type Code",
-          "page": 1,
-          "rect": [
-            62.3383,
-            597.742,
-            247.8327,
-            20.618000000000052
-          ],
-          "fontSize": 8
-        },
-        {
-          "document": "FI-05",
-          "field": "Case Type Description",
-          "expected": "Expungement of Crim/Arrest Record",
-          "factId": "boundary.filing_sheet.0.Case Type Description",
-          "page": 1,
-          "rect": [
-            320.72,
-            596.742,
-            256.342,
-            20.618000000000052
-          ],
-          "fontSize": 8
-        },
         {
           "document": "FI-05",
           "field": "Party Type Code",
@@ -2005,34 +2105,6 @@
             17.269000000000005
           ],
           "fontSize": null
-        },
-        {
-          "document": "FI-05",
-          "field": "Case Type Code",
-          "expected": "XG",
-          "factId": "boundary.filing_sheet.1.Case Type Code",
-          "page": 2,
-          "rect": [
-            62.3383,
-            597.742,
-            247.8327,
-            20.618000000000052
-          ],
-          "fontSize": 8
-        },
-        {
-          "document": "FI-05",
-          "field": "Case Type Description",
-          "expected": "Expungement of Crim/Arrest Record",
-          "factId": "boundary.filing_sheet.1.Case Type Description",
-          "page": 2,
-          "rect": [
-            320.72,
-            596.742,
-            256.342,
-            20.618000000000052
-          ],
-          "fontSize": 8
         },
         {
           "document": "FI-05",
@@ -2995,24 +3067,24 @@
   "artifacts": [
     {
       "fixture": "canonical",
-      "file": "canonical.packet.pdf",
-      "sha256": "2a4a01fb6cd199d4a93513d862ae0ad897a3cd1e4f1bc978dd55ff907aaee375",
+      "file": "fixtures/canonical.pdf",
+      "sha256": "973805ea6f5d9e94cbb96800bdd7af7beb6e5dfa1edea88f69870349b4bb6f58",
       "pageCount": 10,
-      "valuesReportedByFinalizer": 80,
-      "addedGlyphsReadFromOutputBytes": 19956,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 72,
+      "valuesReportedByFinalizer": 82,
+      "addedGlyphsReadFromOutputBytes": 20803,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 66,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": [],
       "measurementScope": "Every AcroForm value uses its exact source widget rectangle and fit guard; every flat-source/custom write uses an explicit bounded rectangle and fit guard. pdftotext reads the exact saved packet bytes and required facts."
     },
     {
       "fixture": "boundary",
-      "file": "boundary.packet.pdf",
-      "sha256": "3d762bd1c14c97ab6011a2adfa7214d6be7f9faee4eb336841cb1f138f163bd2",
+      "file": "fixtures/boundary.pdf",
+      "sha256": "06ff8c3a114cc89b3b3d569036543d890e0d026d5abed2e9bee586290d39172f",
       "pageCount": 11,
-      "valuesReportedByFinalizer": 129,
-      "addedGlyphsReadFromOutputBytes": 22071,
-      "flattenedWidgetAppearancesReadFromOutputBytes": 81,
+      "valuesReportedByFinalizer": 132,
+      "addedGlyphsReadFromOutputBytes": 22916,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 75,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": [],
       "measurementScope": "Every AcroForm value uses its exact source widget rectangle and fit guard; every flat-source/custom write uses an explicit bounded rectangle and fit guard. pdftotext reads the exact saved packet bytes and required facts."
