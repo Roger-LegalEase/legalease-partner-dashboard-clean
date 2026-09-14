@@ -83,28 +83,31 @@ const VERCEL_GATE = [
 const SCOPE = process.env.PREFLIGHT_SCOPE === "supabase_only" ? "supabase_only" : "full";
 const REQUIRED_CASES = SCOPE === "supabase_only" ? SUPABASE_GATE : [...SUPABASE_GATE, ...VERCEL_GATE];
 
+// Bound network lifetime and refuse redirects before credentials leave the endpoint.
+async function boundedFetch(url, options = {}) {
+  return fetch(url, { ...options, redirect: "error", signal: AbortSignal.timeout(15000) });
+}
+async function safeResponse(url, options) {
+  try {
+    const response = await boundedFetch(url, options);
+    const json = await response.json().catch(() => null);
+    return { status: response.status, json, text: "response body omitted" };
+  } catch {
+    return { status: 0, json: null, text: "READ_FAILED_OR_TIMED_OUT" };
+  }
+}
+
 async function supabaseApi(pathname, { method = "GET", body = null } = {}) {
-  const res = await fetch(`https://api.supabase.com${pathname}`, {
+  return safeResponse(`https://api.supabase.com${pathname}`, {
     method,
-    headers: {
-      Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`,
-      "Content-Type": "application/json"
-    },
+    headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
     body: body ? JSON.stringify(body) : undefined
   });
-  let json = null;
-  const text = await res.text();
-  try { json = JSON.parse(text); } catch { /* non-JSON surfaces through text */ }
-  return { status: res.status, json, text: text.slice(0, 400) };
 }
 
 let VERCEL_IDENTITY = null;
 async function vercelFetch(url) {
-  const res = await fetch(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
-  let json = null;
-  const text = await res.text();
-  try { json = JSON.parse(text); } catch { /* non-JSON surfaces through text */ }
-  return { status: res.status, json, text: text.slice(0, 400) };
+  return safeResponse(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
 }
 async function vercelApi(pathname) {
   if (!VERCEL_IDENTITY) throw new Error("the pinned Vercel identity has not been resolved");
@@ -142,9 +145,9 @@ async function query(sql) {
 }
 if (SCOPE === "full") {
   try {
-    VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
+    VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN, fetchImpl: boundedFetch });
   } catch (error) {
-    console.error(`PREFLIGHT: ${error.message}`);
+    console.error("PREFLIGHT: VERCEL_IDENTITY_READ_FAILED");
     process.exit(1);
   }
 }
@@ -159,6 +162,23 @@ const evidence = {
     : "Both gates were required: writing to the acceptance project and deploying the application.",
   cases: {}
 };
+
+if (process.env.HOSTED_PREFLIGHT_SERVICE_ONLY === "true") {
+  const plan = JSON.parse(fs.readFileSync(path.join(EVIDENCE_DIR, "worker-input-plan.json"), "utf8"));
+  if (plan.candidateSha !== process.env.HOSTED_APPLICATION_SHA || typeof plan.rebuildRequired !== "boolean"
+      || !/^[a-f0-9]{40}$/.test(process.env.HOSTED_TOOLS_SHA ?? "")) {
+    throw new Error("SERVICE_PREFLIGHT_INPUT_PLAN_INVALID");
+  }
+  evidence.serviceOnly = true;
+  evidence.applicationSha = plan.candidateSha;
+  evidence.toolsSha = process.env.HOSTED_TOOLS_SHA;
+  evidence.workerRebuildRequired = plan.rebuildRequired;
+  evidence.workerChangedPaths = plan.changedPaths;
+  evidence.applicationAccepted = false;
+  evidence.workerImageAccepted = false;
+  evidence.releaseAuthorityGranted = false;
+  evidence.scopeMeaning = "Read-only service connectivity and identity evidence only; no application, image, deployment, migration, or release acceptance.";
+}
 
 // --- 1. Supabase credential and project identity -----------------------------
 {
@@ -216,7 +236,7 @@ const evidence = {
     "acceptance_project_reachable_for_sql",
     reachable,
     reachable
-      ? `read-only query executed through the Management API (no database password held): ${JSON.stringify(ping.json).slice(0, 160)}`
+      ? "read-only query executed through the Management API; response values omitted"
       : `query endpoint returned ${ping.status}: ${ping.text}`
   );
 
@@ -273,16 +293,18 @@ const evidence = {
                      from (values ${PRODUCTION_WITNESS_TABLES.map((t) => `('${t}')`).join(",")}) as t(table_name)`;
     const presence = await query(guarded);
     const present = Array.isArray(presence.json)
-      ? presence.json.filter((row) => Number(row.present) === 0).map((row) => row.table_name)
+      ? presence.json.filter((row) => PRODUCTION_WITNESS_TABLES.includes(row.table_name) && Number(row.present) === 0).map((row) => row.table_name)
       : [];
 
     let counts = [];
+    let countReadSucceeded = present.length === 0;
     if (present.length > 0) {
       const countSql = present
         .map((table) => `select '${table}' as table_name, (select count(*) from public.${table})::int as row_count`)
         .join("\nunion all\n");
       const countRes = await query(countSql);
       counts = Array.isArray(countRes.json) ? countRes.json : [];
+      countReadSucceeded = [200, 201].includes(countRes.status);
     }
 
     const countOf = (table) => {
@@ -295,7 +317,15 @@ const evidence = {
     const populatedTenant = tenantWitnesses.filter((t) => countOf(t) > 0);
 
     const hasWitnesses = participantWitnesses.length >= 3;
-    const empty = hasWitnesses && (presence.status === 200 || presence.status === 201) && populatedParticipant.length === 0;
+    const completePresence = [200, 201].includes(presence.status) && Array.isArray(presence.json)
+      && presence.json.length === PRODUCTION_WITNESS_TABLES.length
+      && PRODUCTION_WITNESS_TABLES.every(table => presence.json.filter(row => row.table_name === table
+        && [-1, 0].includes(row.present)).length === 1);
+    const completeCounts = countReadSucceeded && counts.length === present.length
+      && present.every(table => counts.filter(row => row.table_name === table
+        && (typeof row.row_count === "number" || (typeof row.row_count === "string" && /^[0-9]+$/.test(row.row_count)))
+        && Number.isSafeInteger(Number(row.row_count)) && Number(row.row_count) >= 0).length === 1);
+    const empty = hasWitnesses && completePresence && completeCounts && populatedParticipant.length === 0;
 
     // Emptiness is a ONE-TIME proof: the first successful migrate fills these
     // tables, and after that a purely emptiness-based gate would refuse every
@@ -314,11 +344,13 @@ const evidence = {
     const marker = Array.isArray(markerRows.json) ? markerRows.json[0] ?? null : null;
     const markerValid = Boolean(marker) && String(marker.project_ref) === ACCEPTANCE_PROJECT_REF;
 
-    const clean = empty || markerValid;
+    const clean = completePresence && completeCounts && (empty || markerValid);
     record(
       "acceptance_project_carries_no_production_data",
       clean,
-      !hasWitnesses
+      !completePresence || !completeCounts
+        ? "REFUSING: witness presence/count readback incomplete or invalid"
+        : !hasWitnesses
         ? `only ${participantWitnesses.length} participant witness table(s) are corroborated by a migration; that is too few to decide the question`
         : empty
           ? `every participant witness is absent or empty (${participantWitnesses.map((t) => `${t}=${present.includes(t) ? countOf(t) : "absent"}`).join(", ")}) — this database serves no participants, so it is not a production database of a product that exists to serve them${populatedTenant.length > 0 ? `. Tenant configuration is present and reported, not gating: ${populatedTenant.map((t) => `${t}=${countOf(t)}`).join(", ")}` : ""}`
@@ -329,6 +361,8 @@ const evidence = {
               : `REFUSING: participant data is present and no acceptance marker vouches for it: ${populatedParticipant.map((t) => `${t}=${countOf(t)}`).join(", ")}`
     );
     evidence.cases.emptinessProof = {
+      completePresence,
+      completeCounts,
       participantWitnesses,
       tenantWitnesses,
       excludedAsUncorroborated: vacuousWitnesses,
@@ -393,7 +427,7 @@ if (SCOPE === "full") {
   // binding is passed to one deployment with CLI --env arguments, so the
   // relevant proof is structural: snapshot the Production shape, then inspect
   // the exact deploy argument builder that the workflow will execute.
-  const env = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
+  const env = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env?decrypt=false`);
   const entries = Array.isArray(env.json?.envs) ? env.json.envs : [];
   const productionEntries = entries.filter((entry) => Array.isArray(entry.target) && entry.target.includes("production"));
   const productionShape = productionEntries

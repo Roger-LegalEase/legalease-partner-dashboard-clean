@@ -188,19 +188,31 @@ jobs:
             || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
           git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
-          # This server-only post-claim Clinic binding is not imported by the
-          # render worker. It is the one measured application repair in this
-          # Preview; every actual worker input remains byte-compared below.
-          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src ':(exclude)src/lib/clinic-mode/result-follow-up.ts' \
-            || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
-            || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
+          # Service inspection makes no image/application acceptance claim.
+          # Every other phase retains the existing image-equivalence refusals.
+          if [ "${{ inputs.phase }}" != "preflight" ]; then
+            # This server-only post-claim Clinic binding is not imported by the
+            # render worker. It is the one measured application repair in this
+            # Preview; every actual worker input remains byte-compared below.
+            git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src ':(exclude)src/lib/clinic-mode/result-follow-up.ts' \
+              || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
+            git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+              || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
+          fi
           git checkout --detach "${{ inputs.tools_sha }}"
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Record worker rebuild requirement without accepting an image
+        if: inputs.phase == 'preflight'
+        env:
+          HOSTED_ACCEPTED_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          HOSTED_ACCEPTED_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-hosted-acceptance-worker-input-plan.mjs
 
       - name: Verify the read-only post-failure Vercel audit
         if: inputs.phase == 'vercel_audit'
@@ -221,6 +233,9 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           PREFLIGHT_SCOPE: full
+          HOSTED_PREFLIGHT_SERVICE_ONLY: ${{ inputs.phase == 'preflight' && 'true' || 'false' }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
 
       # This is the final read after a failed or timed-out CLI deployment. It

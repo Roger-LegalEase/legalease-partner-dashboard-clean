@@ -50,3 +50,71 @@ test("Supabase-only preflight neither requires nor accesses Vercel", () => {
   assert.match(fullStep, /VERCEL_TOKEN: \$\{\{ secrets\.VERCEL_TOKEN \}\}/);
   assert.match(fullStep, /PREFLIGHT_SCOPE: full/);
 });
+
+test("service-only exception cannot admit a mutation phase with changed worker inputs", async () => {
+  const { spawnSync } = await import('node:child_process');
+  const guarded = hostedWorkflow.slice(hostedWorkflow.indexOf('          if [ "${{ inputs.phase }}" != "preflight" ]; then'), hostedWorkflow.indexOf('          git checkout --detach'));
+  assert.ok(guarded.includes('git diff --quiet'));
+  for (const phase of ['preflight','deploy','replace_preview','accept','full','payment','browser','clinic_preview','clinic_migrate','migrate','stripe_retarget','checkout_gate','worker_contract','unknown']) {
+    const script = 'set -e\ngit() { return 1; }\n' + guarded.replaceAll('${{ inputs.phase }}', phase).replaceAll(/\$\{\{ inputs\.[a-z_]+ \}\}/g,'a'.repeat(40));
+    const result = spawnSync('bash',['-c',script],{encoding:'utf8'});
+    assert.equal(result.status === 0, phase === 'preflight',phase);
+  }
+});
+
+test("preflight execution contract emits no mutation outputs", async () => {
+  const { spawnSync } = await import('node:child_process');
+  const { tmpdir } = await import('node:os');
+  const output = path.join(fs.mkdtempSync(path.join(tmpdir(),'rcap-preflight-contract-')),'outputs');
+  const start = hostedWorkflow.indexOf("          PHASE='${{ inputs.phase }}'");
+  const end = hostedWorkflow.indexOf('\n      - name: Retarget',start);
+  const script = hostedWorkflow.slice(start,end).replace('${{ inputs.phase }}','preflight');
+  const result = spawnSync('bash',['-c',script],{encoding:'utf8',env:{...process.env,GITHUB_OUTPUT:output}});
+  assert.equal(result.status,0,result.stderr);
+  const fields = Object.fromEntries(fs.readFileSync(output,'utf8').trim().split('\n').map(line=>line.split('=')));
+  assert.equal(fields.phase,'preflight');
+  for(const key of ['deploy','matrix','gate','retarget','browser','clinic','diagnose','require_staging_scoped'])assert.equal(fields[key],'false',key);
+  assert.match(hostedWorkflow,/Record worker rebuild requirement without accepting an image\n\s+if: inputs.phase == 'preflight'/);
+  assert.match(source,/evidence\.workerRebuildRequired = plan\.rebuildRequired/);
+  for(const key of ['applicationAccepted','workerImageAccepted','releaseAuthorityGranted'])assert.match(source,new RegExp(`evidence\\.${key} = false`));
+});
+
+test("network reads refuse redirects, expire, and never return raw failure bodies", async () => {
+  const start=source.indexOf('async function boundedFetch(');
+  const end=source.indexOf('async function supabaseApi(',start);
+  const make = new Function('fetch','AbortSignal',source.slice(start,end)+'return safeResponse;');
+  let observed;
+  const fetchOk=async(url,options)=>{observed=options;return {status:403,json:async()=>({error:'SECRET_BODY'})}};
+  const safe=make(fetchOk,AbortSignal);
+  const result=await safe('https://api.vercel.com/v9/projects',{});
+  assert.equal(observed.redirect,'error');assert.ok(observed.signal instanceof AbortSignal);
+  assert.equal(result.status,403);assert.equal(result.text,'response body omitted');
+  const failed=await make(async()=>{throw new Error('SECRET_TOKEN')},AbortSignal)('https://api.vercel.com',{});
+  assert.deepEqual(failed,{status:0,json:null,text:'READ_FAILED_OR_TIMED_OUT'});
+  assert.match(source,/\/env\?decrypt=false/);
+  assert.doesNotMatch(source,/console\.error\(`PREFLIGHT: \$\{error\.message\}/);
+  assert.match(source,/fetchImpl: boundedFetch/);
+});
+
+test("empty database proof refuses failed, missing, duplicate and invalid witness readback", () => {
+  const start=source.indexOf('    const completePresence =');
+  const end=source.indexOf('\n\n    // Emptiness',start);
+  const evaluate=new Function('presence','PRODUCTION_WITNESS_TABLES','countReadSucceeded','counts','present','hasWitnesses','populatedParticipant',source.slice(start,end)+'return empty;');
+  const tables=['a','b','c'];
+  const presence={status:200,json:tables.map(table_name=>({table_name,present:0}))};
+  const counts=tables.map(table_name=>({table_name,row_count:0}));
+  const check=(p,c,ok=true)=>evaluate(p,tables,ok,c,tables,true,[]);
+  assert.equal(check(presence,counts),true);
+  assert.equal(check(presence,counts,false),false);
+  assert.equal(check(presence,[]),false);
+  assert.equal(check({...presence,json:[]},counts),false);
+  assert.equal(check({...presence,status:403},counts),false);
+  assert.equal(check(presence,[counts[0],counts[0],counts[2]]),false);
+  assert.equal(check(presence,[...counts.slice(0,2),{table_name:'c',row_count:-1}]),false);
+  assert.equal(check({...presence,json:[presence.json[0],presence.json[0],presence.json[2]]},counts),false);
+  for(const row_count of [null, true, '', 'NaN', {}, 1.2, -1]) {
+    assert.equal(check(presence,[...counts.slice(0,2),{table_name:'c',row_count}]),false);
+  }
+  // A synthetic marker cannot bypass incomplete witness readback.
+  assert.match(source,/const clean = completePresence && completeCounts && \(empty \|\| markerValid\)/);
+});

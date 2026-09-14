@@ -24,13 +24,16 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
   try {
     execFileSync('git', ['merge-base', '--is-ancestor', candidate.applicationSha, 'HEAD'], { cwd: root, stdio: 'pipe' });
     const changed = execFileSync('git', ['diff', '--name-only', candidate.applicationSha], { cwd: root, encoding: 'utf8' }).trim().split('\n').filter(Boolean);
-    const untrackedRuntime = execFileSync('git', ['ls-files', '--others', '--exclude-standard', '--', 'src', 'public', 'deploy', 'workers'], { cwd: root, encoding: 'utf8' }).trim().split('\n').filter(Boolean);
-    const changedInputs = [...changed.filter(p => !generated.has(p)), ...untrackedRuntime];
-    if (changedInputs.length) reasons.push(`Candidate inputs changed: ${changedInputs.join(', ')}`);
     const publication = JSON.parse(fs.readFileSync(path.join(root, 'data/rcap-render/worker-publication-evidence.json')));
     if (publication.immutableRegistryDigest !== candidate.workerDigest || publication.workflowConclusion !== 'success') reasons.push('Worker digest is not the successful native publication.');
+    execFileSync('git', ['merge-base', '--is-ancestor', publication.sourceSha, candidate.applicationSha], { cwd: root, stdio: 'pipe' });
     const plan = createWorkerInputPlan({ rootDir: root, candidateSha: candidate.applicationSha,
       acceptedSourceSha: publication.sourceSha, acceptedDigest: publication.immutableRegistryDigest });
+    const untracked = execFileSync('git', ['ls-files', '--others', '--exclude-standard'], { cwd: root, encoding: 'utf8' }).trim().split('\n').filter(Boolean);
+    const roots = [...plan.comparedInputs, 'src', 'public', 'deploy', 'workers', 'scripts', 'package.json', 'package-lock.json', 'next.config.js', 'next.config.ts', 'next.config.mjs', 'tsconfig.json', 'vercel.json'];
+    const untrackedRuntime = untracked.filter(p => roots.some(root => p === root || p.startsWith(root.replace(/\/$/, '') + '/')) && !generated.has(p));
+    const changedInputs = [...changed.filter(p => !generated.has(p)), ...untrackedRuntime];
+    if (changedInputs.length) reasons.push(`Candidate inputs changed: ${changedInputs.join(', ')}`);
     if (plan.rebuildRequired !== false) reasons.push('Current application requires a successor worker publication.');
   } catch {
     reasons.push('Candidate ancestry or current worker input proof could not be verified.');
