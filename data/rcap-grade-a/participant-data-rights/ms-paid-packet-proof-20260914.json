@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "rcap-ms-paid-packet-proof/v1",
+  "generatedBy": "scripts/verify-ms-paid-packet-proof.mjs",
+  "sourceSha": "193c22ba5ee76dee5718cb139f81adde1438d188",
+  "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "trackId": "ms-nonconv",
+  "packetFamilyId": "ms-nonconv-set",
+  "ownerDecision": {
+    "decisionId": "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260914",
+    "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+    "jurisdiction": "MS",
+    "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+    "trackId": "ms-nonconv",
+    "packetFamilyId": "ms-nonconv-set",
+    "decisionPath": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+    "decisionSha256": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8",
+    "specificationPath": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    "specificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+    "historicalApprovalPath": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+    "historicalApprovalSha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a"
+  },
+  "sourceAuthority": {
+    "boundInputs": {
+      "contract": "rcap-codified-authority-bound-inputs/v1",
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "familyId": "ms-nonconv-set",
+      "trackId": "ms-nonconv",
+      "packetSetId": "ms-nonconv-set",
+      "implementationStrategy": "custom_pleading",
+      "officialBinaryComponentsExpected": false,
+      "authorityInputs": [
+        {
+          "role": "track_authority",
+          "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+          "selector": {
+            "trackId": "ms-nonconv"
+          },
+          "sha256": "dba3db005ab3a4c9b61837f99bf553c40938f567ce8b1280179b4ecb31eabd05"
+        },
+        {
+          "role": "packet_set_authority",
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "selector": {
+            "packetSetId": "ms-nonconv-set"
+          },
+          "sha256": "87f4fe657e4064ee9a624eabf924fa3cf5a911a4c6e9b984e4b40f668f44ba5f"
+        },
+        {
+          "role": "packet_specification_authority",
+          "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+          "sha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f"
+        },
+        {
+          "role": "approved_output_authority",
+          "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+          "sha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a"
+        },
+        {
+          "role": "paid_scope_authority",
+          "path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+          "sha256": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8"
+        }
+      ],
+      "officialRuleClaims": "The specification retains its asserted-by-ingestion administrative/notary references. This proves adopted custom-pleading authority, not possession of an official binary or a new legal review."
+    },
+    "boundInputsSha256": "5032640b87363afd3f0d73c7f9e5bbc606f8b3a584bb18e8c6e326e96f1a897b"
+  },
+  "results": [
+    {
+      "fixture": "participant_delivery_canonical",
+      "artifactPath": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-a-canonical.pdf",
+      "artifactSha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+      "pageCount": 12,
+      "documentCount": 5,
+      "participantDelivery": true,
+      "currentRendererByteIdentical": true,
+      "postgresJsonbByteIdentical": true,
+      "verificationBoundInputs": {
+        "participantUserId": "synthetic:participant_delivery_canonical",
+        "matterId": "synthetic:participant_delivery_canonical:matter",
+        "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "packetFamilyId": "ms-nonconv-set",
+        "factSnapshotSha256": "126a5e2acb121e2edabca46a68e26b04c5656b4929b8edd9e691e1a2645f73e6",
+        "specificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+        "officialSourceSha256ById": {
+          "codified-authority:ms-nonconv-set": "5032640b87363afd3f0d73c7f9e5bbc606f8b3a584bb18e8c6e326e96f1a897b"
+        },
+        "artifactInputSha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+        "verificationRevision": "f8c520342faecf3be4b3f5d5dc7e84a44ced9d7e02cb284aa2134d01f4487340"
+      },
+      "verificationBoundInputsSha256": "6cadf9d350cca96418ac8602bfdf31a8289a0e0e364162da8e021753c0c8f428",
+      "postgresVerificationHashIdentical": true,
+      "negativeBindingControls": 9
+    },
+    {
+      "fixture": "participant_delivery_boundary",
+      "artifactPath": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-b-boundary.pdf",
+      "artifactSha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+      "pageCount": 13,
+      "documentCount": 5,
+      "participantDelivery": true,
+      "currentRendererByteIdentical": true,
+      "postgresJsonbByteIdentical": true,
+      "verificationBoundInputs": {
+        "participantUserId": "synthetic:participant_delivery_boundary",
+        "matterId": "synthetic:participant_delivery_boundary:matter",
+        "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "packetFamilyId": "ms-nonconv-set",
+        "factSnapshotSha256": "73caeef02ba88144bf4f2db7c05011b6890b928e45c764454f483f66ea146176",
+        "specificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+        "officialSourceSha256ById": {
+          "codified-authority:ms-nonconv-set": "5032640b87363afd3f0d73c7f9e5bbc606f8b3a584bb18e8c6e326e96f1a897b"
+        },
+        "artifactInputSha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+        "verificationRevision": "d9b2244b276e5e8e0eb50a4cc1140a8de3830050876f06fd4a559e08eeb2eed8"
+      },
+      "verificationBoundInputsSha256": "17aaa879ddd652f35a315eab47f4f7b8f97857d7252b61e79f5a039d411dc719",
+      "postgresVerificationHashIdentical": true,
+      "negativeBindingControls": 9
+    }
+  ],
+  "inputs": {
+    "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8",
+    "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+    "data/record-clearing/legal-design-packet-set-manifests.json": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+    "data/record-clearing/legal-design-intake/MS.memo.json": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+    "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json": "3ba2327d60c5d694824529197c6ab1686ee37ec9d1ff8dbd9f1f23ec5113b826",
+    "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md": "b265affe1396ee844c91e26c48fa7ffe01f04aa32496f902410d50bdaed7e052",
+    "docs/rcap/grade-a/MS_CLINIC_DEMO_LAWRENCE_REVISION_DESIGN.md": "63199bb3498af073d5fd6691fbf1f631c32bea37b0f922b8709a671ef82ddc22",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json": "74f8aab9cdfb2518b6ec57b1d888d52bddd31a6b8bba7adb874fa330a1025d26",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json": "a0dbb755fcad8e0916d26913e56219a2c2d5a52479b7f01492055000b79325b6",
+    "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-a-canonical.pdf": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-01.png": "714ebe52d0061fbb7f99ef84ada99444e2b83162ae23f93ca58a3a83238122a4",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-02.png": "c19a3f516cf0d51cb40991fbb04b5eae9042bbb60b4820c2b6e6b44afd336a55",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-03.png": "a3485e0197c84eb426a2af75b7b0b782f0f528195e8e92d1b45cab1b0c6effca",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-04.png": "f8a10129bb25f372a027b74a97d00592b446b5fb1d206667ea1358cbfe98d4af",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-05.png": "bd31e643a14255bbb637d434a6700d450e2c0b9fa597599e6ec4fc567c5ef0b7",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-06.png": "46b8a9fb163f332ce800925941633a6d1960e00bcaafb49847bb95311340e8fa",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-07.png": "53ea05b2552b15013bb1bc15c851229eabc4dac6a6f4166d3c15d77becdf0a76",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-08.png": "c30ddc205647c571ba3b3e94581fedf557812b9e32e8a4fa6ce157e19d062f34",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-09.png": "65af6c295fbd13445fc90b3111e8ed358f54ccb886e045f99e59da3370550381",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-10.png": "43348d9bd90e09bbf9337d75603f80adb3672ff5eada4c7a0e33b43756952791",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-11.png": "59825069bee645ffbf023a9ddc039c4f32b593903f85978cb320f606117fca34",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a/page-12.png": "4a1ef74c10dd9427dda7d3a688cac8592b4ac79a17c387abc14646c0f033764d",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-b.fixture.json": "05820fb2fe14c6e3bd6dc4b0a5182a6386c371f7c174407bc98a28daa520eeb7",
+    "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-b-boundary.pdf": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-01.png": "714ebe52d0061fbb7f99ef84ada99444e2b83162ae23f93ca58a3a83238122a4",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-02.png": "184f1462258d2d6204e59b734a41ecbad512e4b13c25d7829fa095cea922f4c9",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-03.png": "c1fd828d416519741c747713724a9132dc4c6e63a6e371910a7dce5fea5ee8a2",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-04.png": "57d3e7fce938a4dc1405288eb47879de9b2f64cd8c21398a088bebd781098678",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-05.png": "72245bc7968b5e76c1775df6b80f778ee6b702d183cd3831f5e2f3913cc5ce17",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-06.png": "d19e302d6e90cdbd834bdfe137210a5f1264e3d9b3c058d351f29d07dd80dcef",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-07.png": "91aeeb7f49a73acf9f8bb9d1897994f1d041c1b5366b091fcb93f9709b615330",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-08.png": "306aa9547dfba7d494bdcdf84a11f2899f12cd869f826689c8c086c2470b4753",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-09.png": "1232d336e763469116ccd2237289a5da45e2f1fcfedcf9aaf9e7e6d9c1e63960",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-10.png": "799f3ce798e346d7bedb82c564e6e6a41c069e1aad84e6362a08b4785343b18e",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-11.png": "52be3973695828819a884d58ea91934dcb32a24d4fd08a99003469f09ece31e1",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-12.png": "59825069bee645ffbf023a9ddc039c4f32b593903f85978cb320f606117fca34",
+    "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b/page-13.png": "a56460b3c83eae4dd0b9b1ab06c96f5202060b80ad6bafa941cc41716c1265fd",
+    "src/lib/rcap/grade-a/composer.ts": "607928a4952f9edb539d2b9434b804136d9711d391f7fc1796e16e8e3db23cb4",
+    "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts": "217a40feba98cd107a1cc5e9fe2ff816fb8205fed673ba0275d2da36399fbdcd",
+    "src/lib/rcap/grade-a/packet-specification.ts": "44534bfa80ba6792aaf630d4cadc3e5430f87e7b793c73f72a865443c9a9d021",
+    "src/lib/rcap/grade-a/participant-packet.ts": "2f45341103a36ec5c1c13236aca62fe62d109c26aab5d639b237d695e8944cba",
+    "src/lib/rcap/grade-a/renderer.ts": "3c2aecda320aa2d47f05b9c859ced1b674df1183a0ddcd5edfa53c600ab99e93",
+    "scripts/verify-ms-paid-packet-proof.mjs": "1e377bc41d9d9e1fe63fdcea39c741a4dc75f460aa8babdd0daec51ff19e8cd6",
+    "scripts/lib/ms-paid-packet-proof.mjs": "6a364a136ded013bfb6751e8baadb40fd5596de801a6dd9f512ca688fa23dbb9",
+    "src/lib/rcap/render/personalized-packet.ts": "23a305ac5363cd462190aa0b8e767d4cb01abd0c2d588c46d213eaa335ea5ccd",
+    "src/lib/expungement-ai/packet-information.ts": "b850feb8dd59a78408b4ee108739161717b612c5ab00ee646b73ce9502ab042d",
+    "src/lib/expungement-ai/verification-cas.ts": "8ebec22ba2993c387226856d358f0725b4a0d2a6cac1957f936d8f3746a75e49",
+    "src/lib/rcap/fulfillment/final-verification-contract.ts": "555a8465e278b6c646d6fb8b188dc210a9ba4c092a4a139ec2615182c6de3603",
+    "src/lib/rcap/fulfillment/paid-consumer-successor.ts": "f6ae12d67f61a7511c1678ba347de1e6b0c772c5e1ca5f39c303040c3ed75d2b"
+  },
+  "scope": "Local exact approved packet/renderer/source-authority verification only; no hosted acceptance, publication, participant delivery, new legal review or Production authority."
+}

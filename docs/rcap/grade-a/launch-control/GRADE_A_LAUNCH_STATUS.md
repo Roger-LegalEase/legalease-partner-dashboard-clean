@@ -4,7 +4,7 @@ _Generated from the existing GRADE_A_LAUNCH_CONTROL.json; this page has no indep
 
 **GO/HOLD: HOLD.** 345/345 launch-required families are terminal within the 346-family inventory; 1 conditional supplement(s) remain separate and unresolved. Release obligations and candidate authorization remain separate; final family baseline status: BOUND.
 
-Captain input SHA: `d660f43bdc75a1e6424ffcac6a682f06a8496dfb`.
+Captain input SHA: `193c22ba5ee76dee5718cb139f81adde1438d188`.
 
 National scope: All 50 states plus DC.
 

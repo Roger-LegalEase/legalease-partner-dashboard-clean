@@ -22,7 +22,7 @@
         "packetFamilyId": "ms-misd-addl-set",
         "disposition": "ALREADY_REVOKED",
         "recordId": "grade-a-ms-additional-justice-court-misdemeanor-relief-9-11-15-3-v1",
-        "version": 2,
+        "version": 3,
         "revokedAt": "2026-09-05",
         "reason": "First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict",
         "currentRefusal": "First-cohort evidence refusal: data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf no longer hashes to its approved digest"
@@ -32,7 +32,7 @@
         "packetFamilyId": "ms-misd-addl-set",
         "disposition": "ALREADY_REVOKED",
         "recordId": "grade-a-ms-additional-municipal-court-misdemeanor-relief-21-23-7-6-v1",
-        "version": 2,
+        "version": 3,
         "revokedAt": "2026-09-05",
         "reason": "First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict",
         "currentRefusal": "First-cohort evidence refusal: data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf no longer hashes to its approved digest"
@@ -67,6 +67,7 @@
     "data/rcap-render/worker-publication-evidence.json": "08cef5256808ebfd364f0da69742ec94a64f43f994bc7eb33c17493a308259a1",
     "data/rcap-grade-a/official-source-registry.json": "93b116987dc5c666d03de52132718e5ffde46d68888cc5337a617d5c60f7abf7",
     "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8",
+    "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json": "bb45b81f60aa2d9c1717ad70017dbdc16e8aae0a7c3930033176b170c1e13541",
     "data/rcap-grade-a/participant-data-rights/ms-sponsored-preview-authority-preserved-20260914.json": "be7d4bc93339e37009ffe7704abb036f73fe60ae028f61da2ad7facaa6f79297",
     "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
     "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json": "a0dbb755fcad8e0916d26913e56219a2c2d5a52479b7f01492055000b79325b6",
@@ -122,6 +123,7 @@
     "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs": "993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b",
     "scripts/build-census-v1-ms-misd-addl-set.mjs": "84134742309196cc2b696d490c17689da6d56122f48b0e193f231ca710d3bd68",
     "scripts/build-census-v1-wy_fel_1502-set.mjs": "5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76",
+    "scripts/lib/ms-unchanged-track-authority.mjs": "26308a0a69b7fffccf1578b4f671d9d06a93be44d1e5c36b0af163d067aa4acc",
     "scripts/lib/wy-unchanged-track-authority.mjs": "6fdc4c1334473bf8d2347e720aa4e51bb568b290f81af066962691a6460c83f4"
   },
   "records": [
@@ -937,7 +939,7 @@
       "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
       "packetFamilyId": "ms-misd-addl-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 2,
+      "version": 3,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
@@ -963,9 +965,9 @@
         {
           "sourceKind": "codified_authority",
           "sourceId": "codified-authority:ms-misd-addl-set:MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
-          "sha256": "52225fe5942841f0cb9fc6ab94ecd6c3ecf58d9fbb7aa07cb59c4a334394f26b",
-          "expectedSha256": "52225fe5942841f0cb9fc6ab94ecd6c3ecf58d9fbb7aa07cb59c4a334394f26b",
-          "installedSha256": "52225fe5942841f0cb9fc6ab94ecd6c3ecf58d9fbb7aa07cb59c4a334394f26b",
+          "sha256": "0bdc21358be5932af54e806946a48eff86b3e0275d260e7a69c7948ca974a1fe",
+          "expectedSha256": "0bdc21358be5932af54e806946a48eff86b3e0275d260e7a69c7948ca974a1fe",
+          "installedSha256": "0bdc21358be5932af54e806946a48eff86b3e0275d260e7a69c7948ca974a1fe",
           "corpusReleaseId": "not_applicable:codified_authority",
           "corpusArchiveSha256": "not_applicable:codified_authority",
           "verifiedAt": "base:cd48fc14e",
@@ -990,7 +992,26 @@
                 "role": "track_authority",
                 "sourceId": "MS.memo:ms-misd-addl",
                 "path": "data/record-clearing/legal-design-intake/MS.memo.json",
-                "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+                "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+                "unchangedTrackReconciliation": {
+                  "contract": "rcap-ms-unchanged-track-container/v1",
+                  "familyId": "ms-misd-addl-set",
+                  "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+                  "trackId": "ms-misd-addl",
+                  "approvedMemo": {
+                    "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                    "commit": "ff9705a240c004ed7b9d2f022113abe865442d3f",
+                    "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+                  },
+                  "currentMemo": {
+                    "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                    "sha256": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2"
+                  },
+                  "selectedTrackSha256": "90cf882e258b23eec63a32084e40ddceae9f8216fee8723af106f52278614909",
+                  "delta": "Only the separate ms-nonconv track changed; shared authority and ms-misd-addl are identical.",
+                  "artifactApprovalGranted": false,
+                  "revocationCleared": false
+                }
               },
               {
                 "role": "legal_authority",
@@ -1015,7 +1036,7 @@
               }
             ]
           },
-          "boundInputsSha256": "52225fe5942841f0cb9fc6ab94ecd6c3ecf58d9fbb7aa07cb59c4a334394f26b"
+          "boundInputsSha256": "0bdc21358be5932af54e806946a48eff86b3e0275d260e7a69c7948ca974a1fe"
         }
       ],
       "provider": {
@@ -1224,7 +1245,26 @@
                 "role": "track_authority",
                 "sourceId": "MS.memo:ms-misd-addl",
                 "path": "data/record-clearing/legal-design-intake/MS.memo.json",
-                "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+                "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+                "unchangedTrackReconciliation": {
+                  "contract": "rcap-ms-unchanged-track-container/v1",
+                  "familyId": "ms-misd-addl-set",
+                  "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+                  "trackId": "ms-misd-addl",
+                  "approvedMemo": {
+                    "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                    "commit": "ff9705a240c004ed7b9d2f022113abe865442d3f",
+                    "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+                  },
+                  "currentMemo": {
+                    "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                    "sha256": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2"
+                  },
+                  "selectedTrackSha256": "90cf882e258b23eec63a32084e40ddceae9f8216fee8723af106f52278614909",
+                  "delta": "Only the separate ms-nonconv track changed; shared authority and ms-misd-addl are identical.",
+                  "artifactApprovalGranted": false,
+                  "revocationCleared": false
+                }
               },
               {
                 "role": "legal_authority",
@@ -1249,7 +1289,7 @@
               }
             ]
           },
-          "boundInputsSha256": "52225fe5942841f0cb9fc6ab94ecd6c3ecf58d9fbb7aa07cb59c4a334394f26b"
+          "boundInputsSha256": "0bdc21358be5932af54e806946a48eff86b3e0275d260e7a69c7948ca974a1fe"
         },
         "provider": {
           "deliveryProviderEvidencePath": "data/rcap-render/worker-publication-evidence.json",
@@ -1307,6 +1347,15 @@
           "reason": "Revoked because the record's evidence no longer holds: First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict. The route denies until a fresh independent read, a current raster receipt and the owner re-review restore the evidence, at which point this generator reinstates the record on this same history chain.",
           "recordSha256": "fa233d8dfd315c371acc43cc35e12ebc3202dbe0e1e9cf35e3ac77c2c8420a21",
           "supersedesRecordSha256": "6391e904b4314d06482512a8ce6902011adfc7150840b37789bc93e0ebfcb551"
+        },
+        {
+          "version": 3,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-14",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "34ec7fc01075d365e47eb31c2625a6c879ff4312f7c115810d2fa7c7983072b2",
+          "supersedesRecordSha256": "fa233d8dfd315c371acc43cc35e12ebc3202dbe0e1e9cf35e3ac77c2c8420a21"
         }
       ]
     },
@@ -1318,7 +1367,7 @@
       "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "packetFamilyId": "ms-misd-addl-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 2,
+      "version": 3,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
@@ -1344,9 +1393,9 @@
         {
           "sourceKind": "codified_authority",
           "sourceId": "codified-authority:ms-misd-addl-set:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
-          "sha256": "982a1fbc204645ffa9c119106b44db0735d7f21a772df2c2e9865dbc4399396c",
-          "expectedSha256": "982a1fbc204645ffa9c119106b44db0735d7f21a772df2c2e9865dbc4399396c",
-          "installedSha256": "982a1fbc204645ffa9c119106b44db0735d7f21a772df2c2e9865dbc4399396c",
+          "sha256": "ffc5a9d4f0c0d16e63c9dc20e6bc3ee2cbac782d6dc26274fc394141df25091e",
+          "expectedSha256": "ffc5a9d4f0c0d16e63c9dc20e6bc3ee2cbac782d6dc26274fc394141df25091e",
+          "installedSha256": "ffc5a9d4f0c0d16e63c9dc20e6bc3ee2cbac782d6dc26274fc394141df25091e",
           "corpusReleaseId": "not_applicable:codified_authority",
           "corpusArchiveSha256": "not_applicable:codified_authority",
           "verifiedAt": "base:cd48fc14e",
@@ -1371,7 +1420,26 @@
                 "role": "track_authority",
                 "sourceId": "MS.memo:ms-misd-addl",
                 "path": "data/record-clearing/legal-design-intake/MS.memo.json",
-                "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+                "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+                "unchangedTrackReconciliation": {
+                  "contract": "rcap-ms-unchanged-track-container/v1",
+                  "familyId": "ms-misd-addl-set",
+                  "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+                  "trackId": "ms-misd-addl",
+                  "approvedMemo": {
+                    "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                    "commit": "ff9705a240c004ed7b9d2f022113abe865442d3f",
+                    "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+                  },
+                  "currentMemo": {
+                    "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                    "sha256": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2"
+                  },
+                  "selectedTrackSha256": "90cf882e258b23eec63a32084e40ddceae9f8216fee8723af106f52278614909",
+                  "delta": "Only the separate ms-nonconv track changed; shared authority and ms-misd-addl are identical.",
+                  "artifactApprovalGranted": false,
+                  "revocationCleared": false
+                }
               },
               {
                 "role": "legal_authority",
@@ -1396,7 +1464,7 @@
               }
             ]
           },
-          "boundInputsSha256": "982a1fbc204645ffa9c119106b44db0735d7f21a772df2c2e9865dbc4399396c"
+          "boundInputsSha256": "ffc5a9d4f0c0d16e63c9dc20e6bc3ee2cbac782d6dc26274fc394141df25091e"
         }
       ],
       "provider": {
@@ -1605,7 +1673,26 @@
                 "role": "track_authority",
                 "sourceId": "MS.memo:ms-misd-addl",
                 "path": "data/record-clearing/legal-design-intake/MS.memo.json",
-                "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+                "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+                "unchangedTrackReconciliation": {
+                  "contract": "rcap-ms-unchanged-track-container/v1",
+                  "familyId": "ms-misd-addl-set",
+                  "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+                  "trackId": "ms-misd-addl",
+                  "approvedMemo": {
+                    "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                    "commit": "ff9705a240c004ed7b9d2f022113abe865442d3f",
+                    "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+                  },
+                  "currentMemo": {
+                    "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                    "sha256": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2"
+                  },
+                  "selectedTrackSha256": "90cf882e258b23eec63a32084e40ddceae9f8216fee8723af106f52278614909",
+                  "delta": "Only the separate ms-nonconv track changed; shared authority and ms-misd-addl are identical.",
+                  "artifactApprovalGranted": false,
+                  "revocationCleared": false
+                }
               },
               {
                 "role": "legal_authority",
@@ -1630,7 +1717,7 @@
               }
             ]
           },
-          "boundInputsSha256": "982a1fbc204645ffa9c119106b44db0735d7f21a772df2c2e9865dbc4399396c"
+          "boundInputsSha256": "ffc5a9d4f0c0d16e63c9dc20e6bc3ee2cbac782d6dc26274fc394141df25091e"
         },
         "provider": {
           "deliveryProviderEvidencePath": "data/rcap-render/worker-publication-evidence.json",
@@ -1688,6 +1775,15 @@
           "reason": "Revoked because the record's evidence no longer holds: First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict. The route denies until a fresh independent read, a current raster receipt and the owner re-review restore the evidence, at which point this generator reinstates the record on this same history chain.",
           "recordSha256": "24d4892d2305f8fb92dbf17e816e2921e32ebda3af1bc48ac0b7735f57ea64c1",
           "supersedesRecordSha256": "0150673adb0c670b1d26db87a10a75e65d8084306a1f9acd7433cb9e3342dbb6"
+        },
+        {
+          "version": 3,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-14",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "b4da0daf2387d501a198d6e66bd44f8e685c20817c5130b6f84f9b88151a6d77",
+          "supersedesRecordSha256": "24d4892d2305f8fb92dbf17e816e2921e32ebda3af1bc48ac0b7735f57ea64c1"
         }
       ]
     },
@@ -1699,7 +1795,7 @@
       "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
       "packetFamilyId": "ms-nonconv-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 1,
+      "version": 2,
       "effectiveFrom": "2026-09-14",
       "supersededBy": null,
       "supersededAt": null,
@@ -1721,11 +1817,70 @@
         "sha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
         "complete": true
       },
-      "officialSources": [],
+      "officialSources": [
+        {
+          "sourceKind": "codified_authority",
+          "sourceId": "codified-authority:ms-nonconv-set",
+          "sha256": "5032640b87363afd3f0d73c7f9e5bbc606f8b3a584bb18e8c6e326e96f1a897b",
+          "expectedSha256": "5032640b87363afd3f0d73c7f9e5bbc606f8b3a584bb18e8c6e326e96f1a897b",
+          "installedSha256": "5032640b87363afd3f0d73c7f9e5bbc606f8b3a584bb18e8c6e326e96f1a897b",
+          "corpusReleaseId": "not_applicable:codified_authority",
+          "corpusArchiveSha256": "not_applicable:codified_authority",
+          "verifiedAt": "base:193c22ba5ee76dee5718cb139f81adde1438d188",
+          "verificationRecord": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json",
+          "officialBinaryExpected": false,
+          "officialBinarySource": null,
+          "contract": "rcap-codified-authority-bound-inputs/v1",
+          "boundInputs": {
+            "contract": "rcap-codified-authority-bound-inputs/v1",
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "familyId": "ms-nonconv-set",
+            "trackId": "ms-nonconv",
+            "packetSetId": "ms-nonconv-set",
+            "implementationStrategy": "custom_pleading",
+            "officialBinaryComponentsExpected": false,
+            "authorityInputs": [
+              {
+                "role": "track_authority",
+                "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                "selector": {
+                  "trackId": "ms-nonconv"
+                },
+                "sha256": "dba3db005ab3a4c9b61837f99bf553c40938f567ce8b1280179b4ecb31eabd05"
+              },
+              {
+                "role": "packet_set_authority",
+                "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+                "selector": {
+                  "packetSetId": "ms-nonconv-set"
+                },
+                "sha256": "87f4fe657e4064ee9a624eabf924fa3cf5a911a4c6e9b984e4b40f668f44ba5f"
+              },
+              {
+                "role": "packet_specification_authority",
+                "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+                "sha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f"
+              },
+              {
+                "role": "approved_output_authority",
+                "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+                "sha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a"
+              },
+              {
+                "role": "paid_scope_authority",
+                "path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+                "sha256": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8"
+              }
+            ],
+            "officialRuleClaims": "The specification retains its asserted-by-ingestion administrative/notary references. This proves adopted custom-pleading authority, not possession of an official binary or a new legal review."
+          },
+          "boundInputsSha256": "5032640b87363afd3f0d73c7f9e5bbc606f8b3a584bb18e8c6e326e96f1a897b"
+        }
+      ],
       "provider": {
-        "providerId": "rcap_grade_a_composer_v1",
-        "rendererKind": "rcap_grade_a_document_v1",
-        "rendererVersion": "2.0.0",
+        "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
+        "rendererKind": "packet_document_v1",
+        "rendererVersion": "1.0.0",
         "imageDigest": ""
       },
       "evidenceBindings": {
@@ -1770,6 +1925,12 @@
             "recordId": "grade-a-ms-non-conviction-expungement-clinic-demo-v1"
           },
           "legacyRetirementPreserved": true
+        },
+        "exactPaidPacketProof": {
+          "path": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json",
+          "sha256": "bb45b81f60aa2d9c1717ad70017dbdc16e8aae0a7c3930033176b170c1e13541",
+          "currentInputsVerified": true,
+          "hostedAcceptance": false
         }
       },
       "fixture": {
@@ -1833,8 +1994,8 @@
           "pageCount": 12,
           "producedBy": {
             "renderer": "rcap_grade_a_document_v1@2.0.0",
-            "matchesRecordProvider": true,
-            "reconciliation": null,
+            "matchesRecordProvider": false,
+            "reconciliation": "The reviewed PDF producer is rcap_grade_a_document_v1@2.0.0. The delivery worker uses packet_document_v1 dispatch and selects the protected exact-route participant composer. Current worker publication remains separately required.",
             "deterministicRenderVerified": true
           }
         }
@@ -1854,12 +2015,32 @@
         "scopeSha256": "beb7d7f69f6c3cff724a15cf602a3d5ea97b42431cd2a415850d3d96f59436a4"
       },
       "finalVerification": {
-        "contract": "rcap-final-verification-bound-inputs/v1",
-        "contractModule": "src/lib/rcap/fulfillment/final-verification-contract.ts",
-        "state": "unbound",
-        "verifierId": null,
-        "boundInputsSha256": null,
-        "verifiedAt": null
+        "contract": "rcap-independent-packet-final-verification/v1",
+        "contractModule": "scripts/verify-ms-paid-packet-proof.mjs",
+        "state": "bound",
+        "verifierId": "scripts/verify-ms-paid-packet-proof.mjs",
+        "boundInputsSha256": "a1b8345334fa4bddf41fd31984529f03a9da61e2f912eca1918496e7c3131659",
+        "verifiedAt": "base:193c22ba5ee76dee5718cb139f81adde1438d188",
+        "boundInputs": {
+          "contract": "rcap-independent-packet-final-verification/v1",
+          "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+          "familyId": "ms-nonconv-set",
+          "packetSpecificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+          "canonicalArtifactSha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+          "boundaryArtifactSha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+          "proofPath": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json",
+          "proofSha256": "bb45b81f60aa2d9c1717ad70017dbdc16e8aae0a7c3930033176b170c1e13541",
+          "participantVerifications": [
+            {
+              "fixture": "participant_delivery_canonical",
+              "boundInputsSha256": "6cadf9d350cca96418ac8602bfdf31a8289a0e0e364162da8e021753c0c8f428"
+            },
+            {
+              "fixture": "participant_delivery_boundary",
+              "boundInputsSha256": "17aaa879ddd652f35a315eab47f4f7b8f97857d7252b61e79f5a039d411dc719"
+            }
+          ]
+        }
       },
       "history": [
         {
@@ -1870,6 +2051,15 @@
           "reason": "New exact paid-consumer owner approval data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json sha256:e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8; preserves the prior sponsored Preview authority separately. No technical proof, legal review, packet content or retirement status is fabricated or waived.",
           "recordSha256": "1c38bf73f2f5c5bafdb6749686aa673791ade249a77676ba9809cd95fbe5025d",
           "supersedesRecordSha256": null
+        },
+        {
+          "version": 2,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-14",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "New exact paid-consumer owner approval data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json sha256:e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8; preserves the prior sponsored Preview authority separately. No technical proof, legal review, packet content or retirement status is fabricated or waived.",
+          "recordSha256": "fa1ed7e8c206e82b3237938247e2f0ca5602263c77eb8aa66dc6aa8aed301a5b",
+          "supersedesRecordSha256": "1c38bf73f2f5c5bafdb6749686aa673791ade249a77676ba9809cd95fbe5025d"
         }
       ]
     },

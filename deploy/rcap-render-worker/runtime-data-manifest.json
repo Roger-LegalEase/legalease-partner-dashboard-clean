@@ -5,7 +5,7 @@
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
   "fileCount": 126,
-  "totalBytes": 13989305,
+  "totalBytes": 14001595,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -682,15 +682,15 @@
     },
     {
       "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
-      "sha256": "a9b2a66ddd56cf1fe57b5dd38a282c94b0724cbcb6514800cb48ba12b502e54f",
-      "bytes": 176383,
+      "sha256": "6358ea605cb4b382b76ab291ad9767a550c21c7c3a69943ef8221cb8b8cfd625",
+      "bytes": 188502,
       "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts (REGISTRY_PATH)",
       "why": "The Grade-A fulfillment record set. Absent, getCurrentFulfillmentRecord finds no record and every route is refused."
     },
     {
       "path": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
-      "sha256": "5f7855a6a093f0a390eb28b0f004bf01c0b1cc96508ca3efd316bee219638210",
-      "bytes": 19995,
+      "sha256": "ebc29edf2f6ac905455a5ff6dd718c8a1359a36dc247539c95c5313bb4541b05",
+      "bytes": 20166,
       "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts (OBSERVATION_PATH)",
       "why": "Independent observation the admission gate binds a record against."
     },
