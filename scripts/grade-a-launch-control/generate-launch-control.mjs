@@ -720,6 +720,14 @@ function renderStatus(d) {
   lines.push("");
   lines.push(d.goHold.whatWouldChangeIt);
   lines.push("");
+  if (d.artifactRereview) {
+    lines.push("", "## Exact-artifact re-review required", "",
+      "Existing revocations, affected authority gates, candidate freeze and final successor publication remain blocked. No approval is created by these packages.", "");
+    for (const entry of d.artifactRereview.packages) {
+      lines.push(`- [${entry.familyId}](../../../../data/rcap-grade-a/artifact-rereview-20260914/${entry.familyId}/README.md): RE-REVIEW REQUIRED; both current artifact hashes require review.`);
+    }
+    lines.push("", "The separately approved MS nonconv paid-consumer decision is unchanged.", "");
+  }
   return lines.join("\n");
 }
 
@@ -734,6 +742,19 @@ doc.mississippiPaidConsumerSuccessor = {
   technicalAcceptanceWaived: false,
   authorityRegistryPath: "data/rcap-grade-a/fulfillment-authority-registry.json",
   authorityRegistrySha256: crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/fulfillment-authority-registry.json"))).digest("hex")
+};
+const artifactRereviewPath = "data/rcap-grade-a/artifact-rereview-20260914/manifest.json";
+const artifactRereviewBytes = fs.readFileSync(path.join(ROOT, artifactRereviewPath));
+const artifactRereview = JSON.parse(artifactRereviewBytes);
+doc.artifactRereview = {
+  manifestPath: artifactRereviewPath,
+  manifestSha256: crypto.createHash("sha256").update(artifactRereviewBytes).digest("hex"),
+  status: artifactRereview.status,
+  approvalCreated: false,
+  packages: artifactRereview.packages,
+  candidateFreezeBlocked: true,
+  finalSuccessorPublicationBlocked: true,
+  msNonconvPaidScopeDecisionUnchanged: true
 };
 const serialized = JSON.stringify(doc, null, 2) + "\n";
 const status = renderStatus(doc);
