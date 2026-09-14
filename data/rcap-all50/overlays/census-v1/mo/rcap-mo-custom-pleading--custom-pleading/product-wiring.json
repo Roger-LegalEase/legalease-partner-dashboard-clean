@@ -16,22 +16,50 @@
       "obligation:track-pathway:MO:mo-610-130-first-intoxication:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
     ],
     "deliveryType": "custom_pleading",
+    "instrumentKinds": [],
     "packetComponents": [
-      "application",
-      "proposed-order",
-      "service",
-      "FI-05",
-      "GN10",
-      "instructions"
+      "component:mo-311-326-minor-in-possession-cover-sheet-3",
+      "component:mo-311-326-minor-in-possession-fee-waiver-4",
+      "component:mo-610-130-first-intoxication-cover-sheet-3",
+      "component:mo-610-130-first-intoxication-fee-waiver-4"
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/participant-instructions.md",
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:FI-05",
+        "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:GN10",
+        "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34795581765",
+      "jobId": "103828514005",
+      "artifactId": "10329294840",
+      "boundToCanonicalSha256": "da002da0ba3492f0ef6e46184fbbd73b6a5f86c482c65016c75c5e31979e8ce6",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmocustomfinal1",
+      "verifiedAtBase": "debb0ae2ff9ecc9b3ba9f7f95ffd310c42a3b7b3"
+    },
     "paymentEligible": false,
     "sponsorshipEligible": false,
-    "runtimeInstalled": false,
-    "generationAllowed": false,
-    "filingPermitted": false
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-rcap-mo-custom-pleading.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }
