@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-bounded-execution-request/v1",
-  "status": "AWAITING_ROGER_APPROVAL",
+  "status": "PUBLISHED_PUBLICATION_ONLY",
   "action": "Publish the exact candidate worker image only",
   "candidateSha": "075b815cb40832243c426135ceb1897a07ee90b1",
   "workerSourceSha": "075b815cb40832243c426135ceb1897a07ee90b1",
@@ -27,9 +27,13 @@
   "noDeployments": true,
   "noHostedJourneys": true,
   "noProductionAuthorization": true,
-  "registryDigest": "pending_actual_publication",
+  "registryDigest": "sha256:d18b241eada7ff886ad1467335353632039b170c7ad57ff3f7dc50cdbe37d0ad",
   "localBuildManifestDigest": "sha256:1c3a98f3bac083f40663afe0fc030ca91dceff8249c7af4915d1409b365a51cb",
   "localDigestIsNotTheFutureRegistryDigest": true,
   "localBuildStatus": "BUILT_AND_LOCALLY_VERIFIED",
-  "applicationBuildStatus": "NOT_PROVEN_SIGTERM; typecheck and local privacy behavior pass"
+  "applicationBuildStatus": "FULL_BUILD_PASS_AT_69847700175ec231137583753bd22cd7a46309ff_WITH_RECORDED_DIRTY_CONFIG; successor hash repair requires fresh build",
+  "workflowRunId": 34888813626,
+  "publicationEvidencePath": "data/rcap-render/worker-publication-evidence.json",
+  "runtimeAccepted": false,
+  "successorRequiredReason": "Subsequent demonstrated final-verification jsonb key-order defect changes src/lib/expungement-ai/packet-information.ts. This publication remains exact to 075b815; no authority or digest equivalence is transferred."
 }
