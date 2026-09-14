@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-bounded-execution-request/v1",
+  "status": "AWAITING_ROGER_APPROVAL",
+  "action": "Publish the exact candidate worker image only",
+  "candidateSha": "075b815cb40832243c426135ceb1897a07ee90b1",
+  "workerSourceSha": "075b815cb40832243c426135ceb1897a07ee90b1",
+  "inputFingerprint": "sha256:f3541936916b5ba399b0b3479f8e165546ca53eb3100fa8428eaf5fe20dadfac",
+  "workflow": ".github/workflows/publish-rcap-render-worker.yml",
+  "workflowRef": "claude/legalease-sprint-captain-utucnw",
+  "inputs": {
+    "integration_sha": "075b815cb40832243c426135ceb1897a07ee90b1",
+    "tag_replacement_authorization": ""
+  },
+  "target": "ghcr.io/roger-legalease/rcap-render-worker:075b815cb40832243c426135ceb1897a07ee90b1",
+  "preconditions": [
+    "Push the prepared source commits to the canonical integration branch by fast-forward; do not reset an advanced branch.",
+    "Verify exact candidate remains in canonical integration history.",
+    "Retain both tag-integrity guards; refuse if full-SHA tag already exists."
+  ],
+  "expectedWrites": [
+    "Canonical integration branch fast-forward to carry the reviewed commits, if not already present.",
+    "One new full-SHA GHCR tag and its image manifests/layers.",
+    "GitHub Actions publication evidence artifact containing the actual immutable registry digest."
+  ],
+  "rollback": "Leave the newly published digest unreferenced if publication or verification fails. Do not deploy, move existing tags, start worker claiming, or change any existing runtime pin.",
+  "noMigrations": true,
+  "noDeployments": true,
+  "noHostedJourneys": true,
+  "noProductionAuthorization": true,
+  "registryDigest": "pending_actual_publication",
+  "localBuildManifestDigest": "sha256:1c3a98f3bac083f40663afe0fc030ca91dceff8249c7af4915d1409b365a51cb",
+  "localDigestIsNotTheFutureRegistryDigest": true,
+  "localBuildStatus": "BUILT_AND_LOCALLY_VERIFIED",
+  "applicationBuildStatus": "NOT_PROVEN_SIGTERM; typecheck and local privacy behavior pass"
+}
