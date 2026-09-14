@@ -49,6 +49,7 @@ process.env.NODE_ENV = "test";
 register("./lib/next-server-loader.mjs", import.meta.url);
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 register("./lib/consumer-payment-test-loader.mjs", import.meta.url);
+register("./consumer-payment-auth-test-loader.mjs", import.meta.url);
 
 const Stripe = (await import("stripe")).default;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -81,6 +82,18 @@ function check(id, title, passed, observed) {
   results.push({ id, title, passed, observed });
   console.log(`  ${passed ? "ok  " : "FAIL"} ${id} ${title}`);
   if (!passed) console.log(`         observed: ${observed}`);
+}
+
+// A failed fulfillment prerequisite must not hide independent signature and
+// isolation checks. Every unreached assertion is recorded as FAILED, never skipped.
+async function runCaseGroup(ids, execute) {
+  try { await execute(); } catch (error) {
+    const missing = ids.filter(id => !results.some(row => row.id === id));
+    for (const id of missing.length ? missing : [ids[0] + '-execution']) {
+      check(id, 'case could not complete its required assertions', false, String(error.message));
+    }
+  }
+  for (const id of ids) if (!results.some(row => row.id === id)) check(id, 'required assertion was not executed', false);
 }
 
 // --- cluster -----------------------------------------------------------------
@@ -165,7 +178,7 @@ const {
   protectedPacketDraftSeedFromAuthoritative
 } = await import("../src/lib/expungement-ai/packet-information.ts");
 const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
-const { persistProtectedPacketVerification } = await import("../src/lib/expungement-ai/verification-cas.ts");
+const { persistProtectedPacketVerification, readProtectedPacketVerification } = await import("../src/lib/expungement-ai/verification-cas.ts");
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 
 // --- fixtures -----------------------------------------------------------------
@@ -415,7 +428,7 @@ console.log("PROVIDER EVENTS — through the real webhook route");
 // signed webhook must be able to exercise its durable queue boundary.
 process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
-{
+await runCaseGroup(["P1","P4"], async () => {
   // P1 — a valid signed event records exactly one $50 USD payment.
   const item = await createItem(USER_A, "p1");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p1" });
@@ -451,9 +464,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     replay.status === 200 && before === after && recordedBy?.provider_event_id === "evt_p1",
     `before=${before} after=${after} status=${replay.status}`
   );
-}
+});
 
-{
+await runCaseGroup(["P2"], async () => {
   // P2 — an invalid signature records nothing.
   const item = await createItem(USER_A, "p2");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p2" });
@@ -469,9 +482,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     res.status === 400 && row?.payment_status === "unpaid" && row?.provider_event_id === null,
     `${res.status} ${JSON.stringify(row)}`
   );
-}
+});
 
-{
+await runCaseGroup(["P3"], async () => {
   // P3 — a missing signature records nothing.
   const item = await createItem(USER_A, "p3");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p3" });
@@ -483,9 +496,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     res.status === 400 && row?.payment_status === "unpaid" && row?.provider_event_id === null,
     `${res.status} ${JSON.stringify(row)}`
   );
-}
+});
 
-{
+await runCaseGroup(["P5"], async () => {
   // P5 — the wrong amount records nothing, even correctly signed.
   const item = await createItem(USER_A, "p5");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p5", amount: 500 });
@@ -501,9 +514,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     res.status === 500 && row?.payment_status === "unpaid" && row?.provider_event_id === null && claimed === "0",
     `${res.status} ${JSON.stringify(row)} claimed=${claimed}`
   );
-}
+});
 
-{
+await runCaseGroup(["P6"], async () => {
   // P6 — the wrong currency records nothing.
   const item = await createItem(USER_A, "p6");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p6", currency: "eur" });
@@ -516,23 +529,25 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     res.status === 500 && row?.payment_status === "unpaid" && row?.provider_event_id === null && claimed === "0",
     `${res.status} ${JSON.stringify(row)} claimed=${claimed}`
   );
-}
+});
 
-{
+await runCaseGroup(["P19"], async () => {
   // P19 — the Checkout metadata freezes the reviewed answers. A participant
   // edit after Session creation cannot be paid against the earlier review.
   const item = await createItem(USER_A, "p19");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p19" });
-  db.sql(
-    `update public.consumer_briefcase_items
-        set artifact_refs_json = jsonb_set(
-          artifact_refs_json,
-          '{commercialFlow,packetInformation,answers,pending_cases}',
-          '"Yes"'::jsonb,
-          true
-        )
-      where id='${item}'`
-  );
+  const prior = await readProtectedPacketVerification({ consumerAuthUserId: USER_A, briefcaseItemId: item });
+  assert.equal(prior.ok, true);
+  // A participant edit now crosses protected CAS; editing the display mirror
+  // alone is correctly ignored by the payment authority.
+  const edit = derivePacketInformationPatch({
+    existingItem: await getBriefcaseItemForWebhook(USER_A, item),
+    protectedVerification: prior.value, answers: { pending_cases: 'Yes' }, verify: false
+  });
+  assert.ok(edit?.protectedTransition);
+  const changed = await persistProtectedPacketVerification({ consumerAuthUserId: USER_A, briefcaseItemId: item, transition: edit.protectedTransition });
+  assert.equal(changed.ok, true);
+  assert.notEqual(changed.value.status, 'verified');
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p19", session)));
   const row = paymentRow(item);
   const claimed = db.scalar(`select count(*) from public.processed_stripe_events where stripe_event_id='evt_p19'`);
@@ -546,9 +561,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
       && claimed === "0",
     `${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length} claimed=${claimed}`
   );
-}
+});
 
-{
+await runCaseGroup(["P7"], async () => {
   // P7 — a session naming another user's item records nothing.
   const itemA = await createItem(USER_A, "p7-a");
   const itemB = await createItem(USER_B, "p7-b");
@@ -562,9 +577,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     rowA?.payment_status === "unpaid" && rowB?.payment_status === "unpaid",
     `status=${res.status} a=${rowA?.payment_status} b=${rowB?.payment_status}`
   );
-}
+});
 
-{
+await runCaseGroup(["P8"], async () => {
   // P8 — the participant cannot call the server-only payment writer.
   const item = await createItem(USER_A, "p8");
   const denied = db.sqlExpectError(
@@ -580,9 +595,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     /permission denied/i.test(denied),
     denied.split("\n")[0]
   );
-}
+});
 
-{
+await runCaseGroup(["P18"], async () => {
   // P18 — the legacy endpoint is the same handler, so it cannot skip the check.
   const item = await createItem(USER_A, "p18");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p18" });
@@ -617,7 +632,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
       /constructEvent\(rawBody, signature, endpointSecret\)/.test(handlerSource),
     `legacy=${res.status} rogueRoutes=${rogue.map((f) => path.relative(rootDir, f)).join(",") || "none"}`
   );
-}
+});
 
 // =============================================================================
 console.log("\nCONSUMER ENQUEUE — through the real authenticated route");
@@ -630,21 +645,31 @@ function renderRequest(body) {
   });
 }
 
-{
+await runCaseGroup(['P20'], async () => {
+  const item = await createItem(USER_A, 'p20');
+  for (const isVerified of [false, undefined]) {
+    setSession({ isAuthenticated: true, isVerified, userId: USER_A });
+    const response = await renderRoute.POST(renderRequest({ briefcaseItemId: item }));
+    assert.equal(response.status, 403, 'an unverified session cannot render');
+  }
+  check('P20', 'explicitly unverified and unspecified-verification sessions are denied', jobsFor(item).length === 0);
+});
+
+await runCaseGroup(["P15"], async () => {
   // P15 — the control is closed by default.
   delete process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE;
   const item = await createItem(USER_A, "p15");
-  setSession({ isAuthenticated: true, userId: USER_A });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A });
   const res = await renderRoute.POST(renderRequest({ briefcaseItemId: item }));
   check("P15", "a disabled feature control refuses the route", res.status === 503, `status=${res.status}`);
-}
+});
 
-{
+await runCaseGroup(["P16"], async () => {
   // P16 — a scoped staging state admits only the named context.
   process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "staging_scoped";
   process.env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE = USER_A;
   const itemB = await createItem(USER_B, "p16-b");
-  setSession({ isAuthenticated: true, userId: USER_B });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_B });
   const outside = await renderRoute.POST(renderRequest({ briefcaseItemId: itemB }));
   check(
     "P16",
@@ -652,14 +677,14 @@ function renderRequest(body) {
     outside.status === 503,
     `outsideScope=${outside.status}`
   );
-}
+});
 
 process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
-{
+await runCaseGroup(["P11"], async () => {
   // P11 — an unpaid item cannot enqueue.
   const item = await createItem(USER_A, "p11");
-  setSession({ isAuthenticated: true, userId: USER_A });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A });
   const res = await renderRoute.POST(renderRequest({ briefcaseItemId: item }));
   if (process.env.DEBUG_HTTP) {
     console.log("DEBUG P11 body:", JSON.stringify(await res.clone().json()));
@@ -672,16 +697,16 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     res.status === 402 && jobsFor(item).length === 0,
     `status=${res.status} jobs=${jobsFor(item).length}`
   );
-}
+});
 
-{
+await runCaseGroup(["P9","P12","P10","P13"], async () => {
   // P9 / P12 — a paid item creates exactly one Phase 53-bound job, and a repeat
   // request returns the same job rather than a second one.
   const item = await createItem(USER_A, "p9");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p9" });
   await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p9", session)));
 
-  setSession({ isAuthenticated: true, userId: USER_A });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A });
   const first = await renderRoute.POST(renderRequest({ briefcaseItemId: item }));
   const firstBody = await first.json();
   const afterFirst = jobsFor(item);
@@ -711,7 +736,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
   // P10 — a browser-supplied user id is ignored. USER_B is logged in and names
   // USER_A's item while claiming to be USER_A.
-  setSession({ isAuthenticated: true, userId: USER_B });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_B });
   const spoof = await renderRoute.POST(
     renderRequest({ briefcaseItemId: item, expectedConsumerAuthUserId: USER_A, userId: USER_A })
   );
@@ -732,7 +757,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
   //
   // The route's own job is finalized first. Phase 55 now rejects a different
   // matter before it can even enter the durable queue.
-  setSession({ isAuthenticated: true, userId: USER_A });
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A });
   const firstFinalize = driveToFinalize(firstBody.jobId);
   if (firstFinalize?.accounting_result !== "zero_charge") {
     throw new Error(`the paid consumer job should finalize zero_charge, got ${JSON.stringify(firstFinalize)}`);
@@ -755,9 +780,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     /payment binding refused \(matter_mismatch\)/.test(refused),
     refused.split("\n")[0]
   );
-}
+});
 
-{
+await runCaseGroup(["P14"], async () => {
   // P14 — a sponsored request stays valid with no consumer payment at all.
   db.sql(`insert into public.partner_records (partner_slug) values ('we-must-vote') on conflict do nothing`);
   const partnerId = pickUuid(db.sql(`select id from public.partner_records where partner_slug='we-must-vote'`));
@@ -781,9 +806,9 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     Boolean(jobId) && row?.partner_id === partnerId && row?.consumer_briefcase_item_id === null && row?.consumer_auth_user_id === null,
     JSON.stringify(row)
   );
-}
+});
 
-{
+await runCaseGroup(["P17"], async () => {
   // P17 — no application callsite uses the dropped 13-argument signature.
   const appFiles = [];
   const walk = (dir) => {
@@ -809,7 +834,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
     unbound.length === 0 && /does not exist/.test(legacyResolves),
     `unbound=${unbound.map((f) => path.relative(rootDir, f)).join(",") || "none"}`
   );
-}
+});
 
 // =============================================================================
 const passed = results.filter((r) => r.passed).length;

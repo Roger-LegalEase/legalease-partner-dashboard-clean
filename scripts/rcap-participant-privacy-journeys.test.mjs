@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runPrivacyJourneys } from './rcap-participant-privacy-journeys.mjs';
+import { REQUIRED_ACCOUNT_STEPS, accountCompletionSql } from './rcap-privacy-postconditions.mjs';
 
 // These controls test the evidence driver's refusal behavior. Actual routes and
 // SQL are exercised separately by verify-participant-data-rights --privacy-journeys.
@@ -12,6 +13,7 @@ function harness(mutate = () => {}) {
   let serial = 0;
   return {
     fixture,
+    observeCompletion: async () => { const proof = { completed: true, receiptCode: 'synthetic-receipt', legalHoldChecked: true, restorationBarrier: true, sessionsRevoked: true, steps: REQUIRED_ACCOUNT_STEPS.map(key => ({ key, status: 'completed' })), processors: ['email_delivery', 'packet_render_worker', 'payment_processor', 'product_analytics'].map(key => ({ key, required: true, settled: true, status: 'acknowledged' })) }; mutate('completion', proof); return proof; },
     observe: async () => { const copy = structuredClone(state); mutate('observation', copy); return copy; },
     request: async (actor, endpoint, body, options) => {
       const response = (status, payload = {}) => {
@@ -49,7 +51,14 @@ for (const [name, mutate, expected] of [
   ['credential leak', (endpoint, body) => { if (endpoint === 'export' && body.profile) body.answers.push({ value: 'secret-owner' }); }, /privacy_export_no_leak/],
   ['missing export section', (endpoint, body) => { if (endpoint === 'export' && body.profile) delete body.retainedRecordExplanation; }, /privacy_export_content/],
   ['false Auth deletion', (endpoint, body) => { if (endpoint === 'observation' && body.ownerMatters.length === 0) body.authUserIds.push('owner'); }, /privacy_account_auth_erased/],
-  ['false matter deletion', (endpoint, body) => { if (endpoint === 'observation' && body.ownerMatters.length === 1) body.ownerMatters.push('m1'); }, /privacy_matter_postcondition/]
+  ['false matter deletion', (endpoint, body) => { if (endpoint === 'observation' && body.ownerMatters.length === 1) body.ownerMatters.push('m1'); }, /privacy_matter_postcondition/],
+  ['pending processor', (endpoint, body) => { if (endpoint === 'completion') body.processors[0].status = 'pending'; }, /privacy_account_completion_ledger/],
+  ['missing processor', (endpoint, body) => { if (endpoint === 'completion') body.processors.pop(); }, /privacy_account_completion_ledger/],
+  ['missing deletion step', (endpoint, body) => { if (endpoint === 'completion') body.steps.pop(); }, /privacy_account_completion_ledger/],
+  ['missing restoration barrier', (endpoint, body) => { if (endpoint === 'completion') body.restorationBarrier = false; }, /privacy_account_completion_ledger/]
 ]) test(`driver refuses ${name}`, async () => {
   await assert.rejects(runPrivacyJourneys(harness(mutate)), expected);
+});
+test('completion query refuses unvalidated identifiers before SQL', () => {
+  assert.throws(() => accountCompletionSql("'; drop table auth.users; --", 'invalid'));
 });

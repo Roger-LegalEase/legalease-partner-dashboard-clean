@@ -1325,6 +1325,7 @@ let accountReceipt = null;
 // Fresh synthetic accounts keep the existing 120 checks and their rate limits intact.
 if (process.argv.includes("--privacy-journeys")) {
   const { runPrivacyJourneys } = await import("./rcap-participant-privacy-journeys.mjs");
+  const { accountCompletionSql } = await import("./rcap-privacy-postconditions.mjs");
   const actors = ["journey-owner", "journey-peer", "journey-tenant"].map((label, i) => ({
     id: fixtureUuid(label), password: gotrue.password, tenant: i === 2 ? "other-clinic" : "second-chance-clinic"
   }));
@@ -1335,6 +1336,7 @@ if (process.argv.includes("--privacy-journeys")) {
   const routes = { reauth: reauthRoute, export: exportRoute, matter: matterRoute, account: accountRoute };
   await runPrivacyJourneys({
     fixture: { owner: actors[0], peer: actors[1], otherTenant: actors[2], matterId: fixtures[0].itemId, remainingMatterId: remaining.itemId },
+    observeCompletion: async (ownerId, requestId) => JSON.parse(scalar(accountCompletionSql(ownerId, requestId)) || 'null'),
     request: async (actor, endpoint, body, options) => {
       setSession(actor ? { isAuthenticated: true, isVerified: true, userId: actor.id, email: `${actor.id}@participant.test` } : { isAuthenticated: false });
       const r = await routes[endpoint].POST(req(`/api/expungement-ai/privacy/${endpoint}`, body, options));

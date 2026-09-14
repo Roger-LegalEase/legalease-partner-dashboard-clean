@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import { createHash, randomUUID } from 'node:crypto';
+import { completionProofPasses } from './rcap-privacy-postconditions.mjs';
 
 // Shared executable cases: transports must execute the real privacy routes.
 // Observations contain hashes/statuses, never cookies, passwords or export contents.
 // This is original execution evidence, not an independently reviewed acceptance receipt.
-export async function runPrivacyJourneys({ request, observe, fixture, record = () => {} }) {
+export async function runPrivacyJourneys({ request, observe, observeCompletion, fixture, record = () => {} }) {
   const { owner, peer, otherTenant, matterId, remainingMatterId } = fixture;
   assert.equal(new Set([owner.id, peer.id, otherTenant.id]).size, 3, 'three distinct synthetic participants');
   assert.notEqual(owner.tenant, otherTenant.tenant, 'distinct tenant required');
@@ -81,6 +82,8 @@ export async function runPrivacyJourneys({ request, observe, fixture, record = (
   const ap = await proof(owner, 'account_deletion');
   const account = await call(owner, 'account', { proof: ap, confirmation: 'DELETE MY ACCOUNT' });
   check('privacy_account_completed', account.status === 200 && account.body.status === 'completed' && Boolean(account.body.receiptCode), `HTTP ${account.status}; completion receipt required`);
+  const completion = await observeCompletion(owner.id, account.body.requestId);
+  check('privacy_account_completion_ledger', completionProofPasses(completion, account.body.receiptCode), 'independent request, all 15 ordered steps, settled processors, session revocation and restoration barrier match the completion receipt');
   const afterAccount = await observe();
   check('privacy_account_postcondition', afterAccount.ownerMatters.length === 0 && JSON.stringify(afterAccount.peerMatters) === JSON.stringify(before.peerMatters) && JSON.stringify(afterAccount.otherTenantMatters) === JSON.stringify(before.otherTenantMatters), 'owner matters erased; cross-user and tenant matters preserved');
   check('privacy_account_auth_erased', !afterAccount.authUserIds.includes(owner.id) && [peer, otherTenant].every(a => afterAccount.authUserIds.includes(a.id)), 'Auth account erased; adjacent accounts preserved');

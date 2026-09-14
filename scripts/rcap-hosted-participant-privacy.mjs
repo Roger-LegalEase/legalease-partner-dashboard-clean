@@ -8,6 +8,7 @@ import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { verifyReleaseCandidateBinding } from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import { runPrivacyJourneys } from './rcap-participant-privacy-journeys.mjs';
+import { accountCompletionSql } from './rcap-privacy-postconditions.mjs';
 import { prepareHostedAcceptanceEvidenceLayout } from './rcap-hosted-acceptance-evidence-layout.mjs';
 import { expectedHostedReturnOrigin, resolveHostedVercelIdentity, hostedVercelScopedUrl } from './rcap-hosted-acceptance-vercel-identity.mjs';
 
@@ -67,6 +68,15 @@ export async function main(env = process.env) {
     evidence.fixtureSha256 = env.HOSTED_PRIVACY_FIXTURE_SHA256;
     const result = await runPrivacyJourneys({
       fixture,
+      observeCompletion: async (ownerId, requestId) => {
+        assert.equal(ownerId, fixture.owner.id);
+        const query = `begin read only; ${accountCompletionSql(ownerId, requestId)}; commit;`;
+        const r = await fetch(`https://api.supabase.com/v1/projects/${env.ACCEPTANCE_SUPABASE_PROJECT_REF}/database/query`, { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(30000), headers: { Authorization: `Bearer ${env.SUPABASE_ACCESS_TOKEN}`, 'content-type': 'application/json' }, body: JSON.stringify({ query }) });
+        assert.equal(r.ok, true, 'independent completion ledger read required');
+        const rows = await r.json();
+        assert.equal(rows.length, 1, 'one exact owned deletion receipt required');
+        return rows[0].proof;
+      },
       request: async (actor, endpoint, body, options) => {
         assert.ok(['export', 'matter', 'account', 'reauth'].includes(endpoint));
         const r = await fetch(`${origin}/api/expungement-ai/privacy/${endpoint}`, {
