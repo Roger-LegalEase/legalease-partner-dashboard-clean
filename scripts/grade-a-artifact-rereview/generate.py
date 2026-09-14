@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Package exact existing artifacts for review. Never render or grant approval."""
-import argparse, difflib, hashlib, json, pathlib, subprocess, tempfile
+import argparse, difflib, hashlib, html, json, pathlib, subprocess, tempfile
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 OUT=ROOT/'data/rcap-grade-a/artifact-rereview-20260914'
 OWNER='data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json'
@@ -55,10 +55,39 @@ def main():
      'technicalEvidence':{'selectedIndependentVerdicts':selected,'rasterRows':rasters,'grantsOwnerApproval':False},
      'decisionRequirements':['Review both complete current PDFs, including all court-owned and participant-owned blanks.','Name reviewer, review date, exact family/routes and both full SHA-256 hashes.','State APPROVE, REJECT, or required corrections and qualifications explicitly.','Do not replace historical approvals or revoke historical evidence. Bind a new decision through canonical authority generators only after review.'],
      'boundaries':{'candidateFreezeBlocked':True,'finalSuccessorPublicationBlocked':True,'authorityGatesBlocked':True,'productionAuthorized':False,'deploymentAuthorized':False,'msNonconvPaidDecisionUnaffected':True}}
+   raster_file=OUT/family/'rasters.json';findings_file=OUT/family/'review-findings.json'
+   if raster_file.exists() and findings_file.exists():
+    raster_receipt=js(raster_file.read_bytes());findings=js(findings_file.read_bytes())
+    assert findings['approvalCreated'] is False and findings['familyId']==family
+    for row in raster_receipt['artifacts']:
+     a=next(a for a in artifacts if a['fixture']==row['fixture'])
+     expected=a if row['version']=='current' else a['historicalApproved']
+     assert row['pdfSha256']==expected['sha256'] and len(row['images'])==expected['pageCount']
+     for image in row['images']:assert sha(read(image['path']))==image['sha256'],'review image bytes moved'
+    package['freshRasterEvidence']={'path':str(raster_file.relative_to(ROOT)),'sha256':sha(raster_file.read_bytes())}
+    package['inspectionEvidence']={'path':str(findings_file.relative_to(ROOT)),'sha256':sha(findings_file.read_bytes()),'approvalCreated':False}
+    parts=['<!doctype html><html lang="en"><meta charset="utf-8"><title>'+html.escape(family)+' — re-review</title>',
+     '<style>body{font:16px system-ui;margin:24px;color:#182331;background:#f3f5f7}header{max-width:1100px}a{color:#164e96}code{overflow-wrap:anywhere}section{margin:32px 0}.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{margin:0}img{width:100%;border:1px solid #aaa}figcaption{padding:10px;background:white}.note{background:#fff4cb;padding:16px}.changed{color:#922}pre{white-space:pre-wrap;background:white;padding:16px}nav a{margin-right:24px}@media(max-width:700px){.pair{grid-template-columns:1fr}}</style>',
+     '<header><h1>'+html.escape(family)+'</h1><p class="note"><strong>RE-REVIEW REQUIRED. No approval recorded.</strong> Existing revocations, affected authority gates, candidate freeze and final successor publication remain blocked.</p>',
+     '<p>'+html.escape(findings['classification'])+'</p><p>'+html.escape(findings['change'])+'</p>',
+     '<p>'+html.escape(findings['inspectionSummary'])+'</p><ul>'+''.join('<li>'+html.escape(x)+'</li>' for x in findings['ownerReviewConcerns'])+'</ul>',
+     '<p>No additional clipping, overlap or content loss was observed. This inspection does not approve the artifacts.</p><nav><a href="#canonical">Canonical pair</a><a href="#boundary">Boundary pair</a><a href="package.json">Exact evidence manifest</a></nav></header>']
+    for a in artifacts:
+     variant=a['fixture'];parts+=['<section id="'+variant+'"><h2>'+variant.title()+'</h2><p>Current PDF: <a href="../../../../'+a['path']+'">'+html.escape(a['path'])+'</a></p><p>Current SHA-256: <code>'+a['sha256']+'</code><br>Previously approved SHA-256: <code>'+a['historicalApproved']['sha256']+'</code></p>']
+     rows={r['version']:r for r in raster_receipt['artifacts'] if r['fixture']==variant}
+     for i in range(a['pageCount']):
+      changed=rows['current']['images'][i]['sha256']!=rows['approved']['images'][i]['sha256']
+      parts+=['<h3 class="'+('changed' if changed else '')+'">Page '+str(i+1)+(' — changed' if changed else ' — identical fresh render')+'</h3><div class="pair">']
+      for kind,label in [('approved','Previously approved version'),('current','Current shipping version — awaiting approval')]:
+       image=rows[kind]['images'][i];rel=str(pathlib.Path(image['path']).relative_to(OUT.relative_to(ROOT)/family))
+       parts+=['<figure><figcaption>'+label+'</figcaption><a href="'+rel+'"><img loading="lazy" src="'+rel+'" alt="'+label+', '+variant+', page '+str(i+1)+'"></a></figure>']
+      parts+=['</div>']
+     parts+=['<details><summary>Exact extracted-text differences</summary><pre>'+html.escape(products[f'{family}/{variant}.text.diff'].decode())+'</pre></details></section>']
+    products[f'{family}/review.html']='\n'.join(parts+['</html>']).encode()
    products[f'{family}/package.json']=(json.dumps(package,indent=2)+'\n').encode();packages.append(package)
    lines=[f'# Exact-artifact re-review: {family}','', '**RE-REVIEW REQUIRED — no approval recorded.**','',f'Source: `{source}`','', 'Review both current PDFs below. Their shipping digests differ from the prior approval; technical and raster passes do not renew it.','', '| Fixture | Current PDF | SHA-256 | Pages | Change evidence |','| --- | --- | --- | --- | --- |']
    for a in artifacts:lines.append(f"| {a['fixture']} | {link(a['path'],'Open PDF')} | `{a['sha256']}` | {a['pageCount']} | [{a['fixture']} text diff]({a['fixture']}.text.diff) |")
-   lines+=['','Exact routes:','']+[f'- `{r}`' for r in package['routeIds']]
+   lines+=['', '[Open all current/prior page images side by side](review.html)', '', '[Inspection findings and presentation concerns](review-findings.json)', '', 'The canonical and boundary hashes identify two shipping PDFs; the boundary digest does not identify a JSON review record.', '', 'Exact routes:', '']+[f'- `{r}`' for r in package['routeIds']]
    lines+=['','Review instructions:','']+[f'{i+1}. {r}' for i,r in enumerate(package['decisionRequirements'])]
    lines+=['','Existing revocations, affected authority gates, candidate freeze and final successor publication remain blocked. This package grants no deployment or Production authority. The separate MS nonconv paid-consumer decision is unchanged.','', '[Machine-readable evidence and historical hashes](package.json)','']
    products[f'{family}/README.md']='\n'.join(lines).encode()
