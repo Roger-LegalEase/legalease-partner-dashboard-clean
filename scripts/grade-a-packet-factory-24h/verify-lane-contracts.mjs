@@ -19,6 +19,7 @@
  *   node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs --mutations
  */
 import fs from "node:fs";
+import {BINDINGS_PATH, provenReceiptWorkflow} from "./raster-workflow-bindings.mjs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -235,7 +236,7 @@ for (const r of queue?.rows ?? []) {
    * other -- and a row whose documents do not contain its own primary
    * canonical is now a problem rather than a silent fallback.
    */
-  const primary = (r.documents ?? []).find((d) => d.role === "canonical" && d.path === r.canonicalPdfPath);
+  const primary = (r.documents ?? []).find((d) => /^canonical(?:-|$)/.test(d.role) && d.path === r.canonicalPdfPath);
   if (r.canonicalPdfPath && (r.documents ?? []).length && !primary) {
     coverageProblems.push(`${r.familyId} names ${r.canonicalPdfPath} as its canonical and does not carry it as a canonical document`);
   }
@@ -243,7 +244,7 @@ for (const r of queue?.rows ?? []) {
   if (chosen && !rastered.includes(chosen)) {
     coverageProblems.push(`${r.familyId} renders ${chosen} but does not list it as covered`);
   }
-  const named = (r.documents ?? []).filter((x) => x.role === "canonical").map((x) => x.name);
+  const named = (r.documents ?? []).filter((x) => /^canonical(?:-|$)/.test(x.role)).map((x) => x.name);
   if (r.documents && named.length && documents.length && named.some((x) => !documents.includes(x))) {
     coverageProblems.push(`${r.familyId} renders a canonical document its coverage does not list`);
   }
@@ -413,6 +414,7 @@ check("L9", "a PASS_COMPLETE_INDEPENDENT verdict scored every proof obligation, 
  * schema drift rather than over anything about the gate.
  */
 const PROVEN_STATES = ["COMPLETE_PACKET_PROVEN"];
+const workflowBindings = JSON.parse(fs.readFileSync(path.join(ROOT,BINDINGS_PATH),"utf8"));
 const reach = queue?.workflowReachability ?? null;
 const reachProblems = [];
 const provenFamilies = (master?.families ?? []).filter((f) => PROVEN_STATES.includes(f.state));
@@ -453,7 +455,7 @@ for (const f of provenFamilies) {
     continue;
   }
   const flaws = [];
-  if (receipt.workflow !== RASTER_WORKFLOW) flaws.push(`its receipt names ${receipt.workflow ?? "no workflow"} rather than the central raster workflow`);
+  if (provenReceiptWorkflow(ROOT,row,workflowBindings) !== RASTER_WORKFLOW) flaws.push(`its receipt names ${receipt.workflow ?? "no workflow"} rather than the central raster workflow`);
   if (!/^[0-9]+$/.test(String(receipt.workflowRunId ?? ""))) flaws.push("its receipt names no dispatched run");
   if (receipt.verdict !== "RASTER_PASS") flaws.push(`its receipt returned ${receipt.verdict ?? "no verdict"}`);
   if (receipt.jobConclusion !== "success") flaws.push(`the job that produced it concluded ${receipt.jobConclusion ?? "nothing"}`);

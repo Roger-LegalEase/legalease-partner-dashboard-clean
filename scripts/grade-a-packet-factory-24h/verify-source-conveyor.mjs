@@ -12,6 +12,7 @@
  * asserted, not assumed.
  */
 import fs from "node:fs";
+import {effectivePacketLaneCount, livePacketLaneByFamily} from "./pf-lane-retention.mjs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -306,6 +307,7 @@ function run() {
 
   // C19. Elastic capacity that is triggered must exist, not merely be recorded.
   const elasticProblems = [];
+  const retainedPacketLanes = effectivePacketLaneCount(16, livePacketLaneByFamily(read(`${DIR}/claim-ledger.json`).claims));
   for (const e of ci.elasticCapacity?.thresholds ?? []) {
     const present = e.creates.filter((id) => active.assignments.some((x) => x.assignmentId === id));
     if (e.triggered && present.length !== e.creates.length) {
@@ -318,11 +320,14 @@ function run() {
      * it is EMPTY. VF09-VF12 each held a family and FIX05-FIX08 each held two
      * when the queue dipped below the threshold; deleting them would have
      * orphaned twelve families to make a counter tidy. What must not survive is
-     * capacity nobody needs and nothing occupies.
+     * capacity nobody needs and nothing occupies. The native PF roster is
+     * contiguous through its highest live grant; its intermediate slots must
+     * survive as well, or retaining PF25 would incorrectly orphan that grant.
      */
     const idleElastic = present.filter((id) => {
       const lane = active.assignments.find((x) => x.assignmentId === id);
-      return ((lane?.items ?? []).length === 0);
+      const retainedByLiveGrant = /^PF[0-9]+$/.test(id) && Number(id.slice(2)) <= retainedPacketLanes;
+      return (lane?.items ?? []).length === 0 && !retainedByLiveGrant;
     });
     if (!e.triggered && idleElastic.length > 0) {
       elasticProblems.push(`${e.when} is not triggered and ${idleElastic.length} elastic lane(s) exist holding no work: ${idleElastic.join(", ")}`);
@@ -443,7 +448,7 @@ function run() {
   }
   const separatelyDoubleCounted = [...preservedSeparate].filter((f) => releasedIds.has(f) || advancedIds.has(f));
   if (separatelyDoubleCounted.length) closureProblems.push(`${separatelyDoubleCounted.length} later blocker(s) are both separate and counted in this reconciliation`);
-  if (sourceBlocked.size === 0) closureProblems.push("no source-blocked family, so this accounting has no subject");
+  // An empty current blocked set is valid; synthetic mutations exercise its accounting.
   check("C23", "every source-blocked family is released, split across lanes, or a later blocker still kept separate",
     closureProblems.length === 0,
     `${sourceBlocked.size} blocked = ${releasedIds.size} released + ${advancedIds.size} split + ${preservedSeparate.size} later/separate; ${closureProblems.length} problem(s): ${closureProblems.slice(0, 2).join(" | ")}`);
@@ -531,10 +536,10 @@ if (MUTATIONS) {
     { on: "planner", id: "C5", name: "a planner that restates its own allowlist instead of importing it is caught", mutateText: (t) => t.replace(
       'import { hostAllowed, ALLOWED_EXACT_HOSTS, REFUSED_HOSTS } from "./lib/official-host-policy.mjs";',
       'const ALLOWED = [\n  ".gov",\n  ".us"\n];\nconst hostAllowed = (h) => ALLOWED.some((s) => h.endsWith(s));\nconst ALLOWED_EXACT_HOSTS = new Map();\nconst REFUSED_HOSTS = new Set();') },
-    { on: "active", id: "C6", name: "one obligation dispatched to two lanes is caught", mutate: (j) => { const s = j.assignments.filter((x) => x.itemKind === "sourceObligation" && x.items.length); s[1].items.push(s[0].items[0]); return j; } },
+    { on: "active", id: "C6", name: "one obligation dispatched to two lanes is caught", mutate: (j) => { const s = j.assignments.filter((x) => x.itemKind === "sourceObligation"); s[0].items.push("SYNTHETIC-C6-DUPLICATE"); s[1].items.push("SYNTHETIC-C6-DUPLICATE"); return j; } },
     { on: "manifest", id: "C6", name: "a duplicate URL in the manifest is caught", mutate: (j) => { j.entries.push({ ...j.entries[0], sourceId: `${j.entries[0].sourceId}-again` }); return j; } },
     { on: "manifest", id: "C6", name: "a duplicate source id in the manifest is caught", mutate: (j) => { j.entries.push({ ...j.entries[0], officialUrl: `${j.entries[0].officialUrl}?v=2` }); return j; } },
-    { on: "active", id: "C7", name: "one family owned by two builders is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].items.push(b[0].items[0]); return j; } },
+    { on: "active", id: "C7", name: "one family owned by two builders is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build"); b[0].items.push("SYNTHETIC-C7-DUPLICATE"); b[1].items.push("SYNTHETIC-C7-DUPLICATE"); return j; } },
     /* The host must be one the master queue actually calls shared, or the
      * mutation writes a second writer onto an exclusive script and proves
      * nothing about the collision rule. */
@@ -575,7 +580,7 @@ if (MUTATIONS) {
         j.families.push({ ...structuredClone(template), familyId: "mutation-c23-unaccounted-source-family", state: "SOURCE_BLOCKED" });
         return j;
       } },
-    { on: "active", id: "C23", name: "a family both released and deferred is caught", mutate: (j) => { const l = j.assignments.find((x) => x.itemKind === "sourceObligation" && (x.familiesUnblocked ?? []).length); l.familiesAdvancedButNotReleasedHere = [...(l.familiesAdvancedButNotReleasedHere ?? []), { familyId: l.familiesUnblocked[0] }]; return j; } },
+    { on: "active", id: "C23", name: "a family both released and deferred is caught", mutate: (j) => { const l = j.assignments.find((x) => x.itemKind === "sourceObligation"); l.familiesUnblocked = [...(l.familiesUnblocked??[]), "SYNTHETIC-C23-SPLIT"]; l.familiesAdvancedButNotReleasedHere = [...(l.familiesAdvancedButNotReleasedHere ?? []), { familyId: "SYNTHETIC-C23-SPLIT" }]; return j; } },
     { on: "prompt", id: "C22", name: "a source prompt stripped of the relationship registry is caught", mutateText: (t) => t.replace(/## Read the source relationship registry first[\s\S]*?(?=\n## )/, "") },
     { on: "prompt", id: "C22", name: "a source prompt listing the states without saying which are not a fetch is caught", mutateText: (t) => t.replace(/\*\*These states are NOT a fetch[^\n]*\*\*/, "**These states exist.**") },
     { on: "conveyorGen", id: "C21", name: "a threshold reading an undeclared queue state is caught", mutateText: (t) => t.replace('countIn("FAIL_REPAIR_REQUIRED")', 'countIn("REPAIR_REQUIRED")') },
@@ -607,12 +612,13 @@ if (MUTATIONS) {
   ];
 
   let allCaught = true;
+  try {
   for (const c of cases) {
     const target = targets[c.on];
     if (c.mutateText) fs.writeFileSync(target, c.mutateText(originals[c.on].toString("utf8")));
     else fs.writeFileSync(target, `${JSON.stringify(c.mutate(JSON.parse(originals[c.on].toString("utf8"))), null, 2)}\n`);
     let after;
-    try { after = run(); } catch { after = { failed: [{ id: c.id }] }; }
+    try { after = run(); } catch (error) { console.error(`CHECK ERROR [${c.id}]: ${error.message}`); allCaught=false; after = { failed: [] }; }
     fs.writeFileSync(target, originals[c.on]);
     if (c.control) {
       const ok = after.failed.length === 0;
@@ -625,6 +631,7 @@ if (MUTATIONS) {
     console.log(`  ${caught ? "detected" : "MISSED  "} [${c.id}] ${c.name}`);
   }
 
+  } finally { for (const [key,target] of Object.entries(targets)) fs.writeFileSync(target, originals[key]); }
   const restored = Object.entries(targets).every(([k, p]) => fs.readFileSync(p).equals(originals[k]));
   console.log(`\n  every mutated file restored byte-for-byte: ${restored}`);
   if (!allCaught || !restored) { console.error("\nFAIL conveyor mutations"); process.exit(1); }

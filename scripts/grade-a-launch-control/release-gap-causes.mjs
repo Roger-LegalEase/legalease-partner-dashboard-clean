@@ -19,8 +19,8 @@ const classify = gap => {
   }
   return ['OTHER_EXACT_GAP', 'UNPROVEN', 'Inspect the existing exact gap; no new task or defect is inferred.'];
 };
-export function groupReleaseGapCauses(gaps, { serviceReview = null, serviceReviewPath = null, ncInquiry = null, ncInquiryPath = null, vercelReview = null, vercelReviewPath = null, readSuccessorBytes = null, reconciledFamilies = [], ncOwnerScope = null, ncOwnerScopePath = null, currentQueueSha256 = null, supabaseReview = null, supabaseReviewPath = null, currentServiceReview = null } = {}) {
-  const ncCoreAndConditionalSupplement = validatedNcScope(ncOwnerScope, ncOwnerScopePath, currentQueueSha256, reconciledFamilies);
+export function groupReleaseGapCauses(gaps, { serviceReview = null, serviceReviewPath = null, ncInquiry = null, ncInquiryPath = null, vercelReview = null, vercelReviewPath = null, readSuccessorBytes = null, reconciledFamilies = [], ncOwnerScope = null, ncOwnerScopePath = null, currentQueueSha256 = null, readScopeBaselineBytes = null, supabaseReview = null, supabaseReviewPath = null, currentServiceReview = null } = {}) {
+  const ncCoreAndConditionalSupplement = validatedNcScope(ncOwnerScope, ncOwnerScopePath, currentQueueSha256, reconciledFamilies, readScopeBaselineBytes);
   const groups = new Map(), seen = new Set();
   let duplicates = 0;
   gaps.forEach((gap, index) => {
@@ -87,8 +87,18 @@ function verifiedVercelSuccessor(review, reviewPath, readBytes) {
   return null;
 }
 
-function validatedNcScope(record, recordPath, queueSha256, families) {
-  if (record?.schemaVersion !== 'rcap-owner-product-scope-clarification/v1' || record.status !== 'ADOPTED_OWNER_PRODUCT_SCOPE_ONLY' || record.decisionId !== 'NC-146-CORE-AND-CONDITIONAL-DNA-SCOPE-20260914' || !/^[a-f0-9]{64}$/.test(queueSha256 ?? '') || record.baseline?.queueSha256 !== queueSha256) return null;
+function validatedNcScope(record, recordPath, queueSha256, families, readBaselineBytes) {
+  if (record?.schemaVersion !== 'rcap-owner-product-scope-clarification/v1' || record.status !== 'ADOPTED_OWNER_PRODUCT_SCOPE_ONLY' || record.decisionId !== 'NC-146-CORE-AND-CONDITIONAL-DNA-SCOPE-20260914' || !/^[a-f0-9]{64}$/.test(queueSha256 ?? '')) return null;
+  // The owner signed a historical queue. Regenerated scheduling metadata may
+  // change its current hash; authenticate that original instead of repinning it.
+  if (record.baseline?.queueSha256 !== queueSha256) {
+    if (typeof readBaselineBytes !== 'function' || !/^[a-f0-9]{40}$/.test(record.baseline?.commitSha ?? '')
+      || record.baseline?.queuePath !== 'data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json') return null;
+    try {
+      const bytes=readBaselineBytes(record.baseline);
+      if (crypto.createHash('sha256').update(bytes).digest('hex') !== record.baseline.queueSha256) return null;
+    } catch { return null; }
+  }
   const ids=['nc_146_acquittal_petition-set','nc_146_dismissal_petition-set'];
   if (!Array.isArray(record.coreFamilies) || record.coreFamilies.length !== 2 || new Set(record.coreFamilies.map(f=>f.familyId)).size !== 2 || record.coreFamilies.some(f=>!ids.includes(f.familyId))) return null;
   for (const bound of record.coreFamilies) {

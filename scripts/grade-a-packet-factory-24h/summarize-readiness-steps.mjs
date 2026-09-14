@@ -2,7 +2,7 @@
 /** Report actual step outcomes; skipped or absent checks never become PASS. */
 import assert from 'node:assert/strict';
 export const REQUIRED_READINESS_STEPS=Object.freeze([
- 'exact_commit','syntax','yaml','corpus_environment','scope_controls','convergence','factory_checks','factory_mutations',
+ 'exact_commit','syntax','yaml','corpus_environment','scope_controls','manual_acquisition','convergence','factory_checks','factory_mutations',
  'conveyor_checks','conveyor_mutations','manifest','handoff_checks','handoff_mutations',
  'summary_controls','clean','source_preflight','setup_contract','lane_contracts','source_relationship',
  'source_relationship_mutations','lane_mutations',

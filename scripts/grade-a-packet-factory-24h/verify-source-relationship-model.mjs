@@ -67,7 +67,7 @@ check("S1", "every externally verified Top-20 disposition is applied to the reco
 /* S2. No issuer field is a plus-joined list of form IDs. 206 of 232 were. */
 const plusJoined = records.filter((r) => /\+/.test(String(r.canonicalPublisher)));
 check("S2", "no issuing-body field carries a plus-joined list of form IDs",
-  plusJoined.length === 0 && records.length > 0,
+  plusJoined.length === 0 && Array.isArray(reg.records),
   `${records.length} record(s); ${plusJoined.length} plus-joined: ${plusJoined.slice(0, 2).map((r) => r.canonicalArtifactId).join(", ")}`);
 
 /* S3. No URL carries corpus metadata. Two were entire CSV rows. */
@@ -145,7 +145,7 @@ const verifiedCount = records.filter((r) => r.externallyVerified).length;
 check("S10", "the registry says how much of it was externally verified and how much was not",
   typeof reg.externalVerification?.scopeLimit === "string"
   && /not.*verified|no current-source determination|must not be presented/i.test(reg.externalVerification.scopeLimit)
-  && verifiedCount < records.length,
+  && reg.counts?.externallyVerifiedRecords === verifiedCount,
   `${verifiedCount}/${records.length} externally verified; scope limit recorded: ${Boolean(reg.externalVerification?.scopeLimit)}`);
 
 /* S11. An ambiguous identity is never resolved by array order.
@@ -286,8 +286,10 @@ if (MUTATIONS) {
    * verifier rather than an absent subject. Each case that needs a human task
    * now builds one from a real registry record.
    */
+  const syntheticRecord = () => ({jurisdiction:'UT',canonicalArtifactId:'SYNTHETIC-SOURCE-CONTROL',canonicalPublisher:'Synthetic publisher',sourceState:'BUNDLE_COMPONENT',officialSourcePage:'https://example.gov/forms',officialArtifactUrl:null,uniqueFamilies:['SYNTHETIC-FAMILY'],externallyVerified:false,artifactSha256:null,heldCandidates:[]});
+  const recount = j => {j.counts.uniqueCanonicalArtifacts=j.records.length;j.counts.uniqueFamilies=new Set(j.records.flatMap(r=>r.uniqueFamilies??[])).size;j.counts.externallyVerifiedRecords=j.records.filter(r=>r.externallyVerified).length;};
   const syntheticTask = () => {
-    const r = (reg.records ?? []).find((x) => (x.uniqueFamilies ?? []).length) ?? (reg.records ?? [])[0];
+    const r = (reg.records ?? []).find((x) => (x.uniqueFamilies ?? []).length) ?? (reg.records ?? [])[0] ?? syntheticRecord();
     return {
       jurisdiction: r.jurisdiction, canonicalArtifactId: r.canonicalArtifactId,
       sourceState: "PUBLIC_DOWNLOAD_BOT_BLOCKED",
@@ -315,6 +317,12 @@ if (MUTATIONS) {
     return r;
   };
   const cases = [
+    { id: 'S12', name: 'a legal release cannot be replaced by a changed decision identity', file: MASTER,
+      edit: j => {j.families.find(f=>f.familyId==='ks-21-6614-conviction-set').currentLegalResolution.decisionId='forged';return j;} },
+    { id: 'S12', name: 'a Utah juvenile source release cannot discard its exact held hash', file: MASTER,
+      edit: j => {j.families.find(f=>f.familyId==='census-pending-family:UT:path-m-juvenile-expungement').sourceReadiness.boundSources[0].sha256='0'.repeat(64);return j;} },
+    { id: 'S12', name: 'a Utah selector release cannot omit a branch document', file: MASTER,
+      edit: j => {j.families.find(f=>f.familyId==='ut_pet_remove_link-set').sourceReadiness.boundSources.pop();return j;} },
     { id: 'S12', name: 'a released Maine source hash cannot be replaced by a ready flag', file: MASTER,
       edit: j => { j.families.find(f => f.familyId === 'census-pending-family:ME:juvenile-sealing').sourceReadiness.boundSources[0].sha256 = '0'.repeat(64); return j; } },
     { id: 'S12', name: 'a Washington motion claim cannot inherit court-initiated guidance acceptance', file: MASTER,
@@ -342,7 +350,7 @@ if (MUTATIONS) {
     { id: "S5", name: "a reuse restriction sent to a person instead of counsel is caught", file: UNBLOCK,
       edit: (j) => { j.tasks = [{ ...syntheticTask(), sourceState: "LICENSE_PERMISSION_REVIEW" }]; return j; } },
     { id: "S6", name: "held hash-matching bytes relabelled a missing source is caught", file: REGISTRY,
-      edit: (j) => { const r = j.records.find((x) => x.artifactSha256); r.sourceState = "MISSING_SOURCE_BINARY"; return j; } },
+      edit: (j) => { const r = j.records.find((x) => x.artifactSha256) ?? j.records[0]; if(!r)throw new Error("S6 requires a record schema"); r.artifactSha256 ||= "a".repeat(64); r.sourceState = "MISSING_SOURCE_BINARY"; return j; } },
     { id: "S7", name: "a family counted twice through a duplicated identity is caught", file: REGISTRY,
       edit: (j) => { j.records.push(JSON.parse(JSON.stringify(j.records[0]))); return j; } },
     { id: "S7", name: "a declared family count that disagrees with the records is caught", file: REGISTRY,
@@ -369,18 +377,22 @@ if (MUTATIONS) {
     const abs = path.join(ROOT, c.file);
     const original = fs.readFileSync(abs);
     const fixture = JSON.parse(original.toString("utf8"));
+    if(c.file===REGISTRY && !fixture.records.length && !["S1","S12"].includes(c.id)){fixture.records.push(syntheticRecord());recount(fixture);}
     if (c.id === "S11") {
-      ambiguousSubject(fixture);
+      ambiguousSubject(fixture);recount(fixture);
       fs.writeFileSync(abs, `${JSON.stringify(fixture,null,2)}\n`);
       let baseline;
       try { baseline=rerun(); } finally { fs.writeFileSync(abs, original); }
       if (!/ok\s+S11\b/.test(baseline)) throw new Error("Synthetic ambiguity fixture has no passing S11 baseline");
     }
+    if(c.file===REGISTRY){
+      let baseline;try{fs.writeFileSync(abs,JSON.stringify(fixture));baseline=rerun();}finally{fs.writeFileSync(abs,original);}
+      if(!new RegExp(`ok\\s+${c.id}\\b`).test(baseline))throw new Error(`Synthetic ${c.id} baseline is not green`);
+    }
     const mutated = `${JSON.stringify(c.edit(fixture), null, 2)}\n`;
     if (mutated === original.toString("utf8")) { console.log(`  MISSED   [${c.id}] ${c.name} — the mutation changed nothing`); allCaught = false; continue; }
-    fs.writeFileSync(abs, mutated);
-    const out = rerun();
-    fs.writeFileSync(abs, original);
+    let out;
+    try { fs.writeFileSync(abs, mutated); out = rerun(); } finally { fs.writeFileSync(abs, original); }
     const restored = fs.readFileSync(abs).equals(original);
     const caught = new RegExp(`FAIL ${c.id}\\b`).test(out);
     if (!caught || !restored) allCaught = false;

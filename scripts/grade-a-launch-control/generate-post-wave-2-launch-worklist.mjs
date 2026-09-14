@@ -71,6 +71,7 @@ const supabaseReviewPath='data/rcap-grade-a/participant-data-rights/service-pref
 const sharedCauses=groupReleaseGapCauses(reconciliation.gaps,{
  currentServiceReview:fs.existsSync(CURRENT_SERVICE_REVIEW)?read(CURRENT_SERVICE_REVIEW):null,
  reconciledFamilies:reconciliation.families,
+ readScopeBaselineBytes:b=>execFileSync('git',['show',`${b.commitSha}:${b.queuePath}`],{maxBuffer:64*1024*1024}),
  supabaseReview:fs.existsSync(supabaseReviewPath)?read(supabaseReviewPath):null,supabaseReviewPath,
  ncOwnerScope:fs.existsSync(ncOwnerScopePath)?read(ncOwnerScopePath):null,ncOwnerScopePath,currentQueueSha256:inputDigests[INPUTS[0]],
  serviceReview:fs.existsSync(serviceReviewPath)?read(serviceReviewPath):null,serviceReviewPath,

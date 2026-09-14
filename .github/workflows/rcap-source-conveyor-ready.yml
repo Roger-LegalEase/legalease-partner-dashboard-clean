@@ -91,11 +91,16 @@ jobs:
           printf 'MASTER_LIBRARY_SOURCE_DIR=%s\nRCAP_BUNDLE_EXTRACT=%s\n' "$corpus" "$corpus" >> "$GITHUB_ENV"
       - name: Conditional scope and corpus guard regressions
         id: scope_controls
-        run: node --test scripts/grade-a-launch-control/conditional-family-scope.test.mjs scripts/grade-a-launch-control/preserved-family-baseline.test.mjs scripts/grade-a-packet-factory-24h/review-bound-report-currentness.test.mjs scripts/lib/corpus-audit-environment.test.mjs
+        run: node --test scripts/grade-a-launch-control/conditional-family-scope.test.mjs scripts/grade-a-launch-control/preserved-family-baseline.test.mjs scripts/grade-a-packet-factory-24h/review-bound-report-currentness.test.mjs scripts/lib/corpus-audit-environment.test.mjs scripts/grade-a-packet-factory-24h/raster-workflow-bindings.test.mjs
+      - name: Acquisition requires explicit dispatch
+        id: manual_acquisition
+        run: node scripts/grade-a-packet-factory-24h/test-manual-acquisition.mjs
       - name: Generator convergence
         id: convergence
         run: |
           set -euo pipefail
+          node scripts/grade-a-packet-factory-24h/generate-source-relationship-registry.mjs --check
+          node scripts/grade-a-packet-factory-24h/generate-raster-workflow-bindings.mjs --check
           node scripts/grade-a-packet-factory-24h/generate.mjs --check
           node scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs --check
           node scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs --check

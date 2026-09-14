@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';import {groupReleaseGapCauses as group} from './release-gap-causes.mjs';
 const gap=(dimension,reason)=>({familyId:'exact',obligationKey:'route',dimension,reason});
 const gaps=[gap('runtime_product_reachability','No unambiguous exact runtime route mapping.'),gap('output_approval','Exact route fulfillment record absent or ambiguous.'),gap('fulfillment_authority','Exact route fulfillment record absent or ambiguous.'),gap('hosted_acceptance','No hosted proof'),gap('production_readiness','No production proof')];
@@ -52,10 +53,13 @@ const queueBytes=fs.readFileSync('data/rcap-grade-a/packet-factory-24h/MASTER_QU
 const queue=JSON.parse(queueBytes);const owner=JSON.parse(fs.readFileSync(scopePath));
 const nativeFamilies=queue.families.map(f=>({familyId:f.familyId,disposition:f.state,terminal:f.state==='COMPLETE_PACKET_PROVEN',routeKeys:f.routeKeys,evidenceBindings:{sourceHashes:f.sourceHashes,selectedIndependentVerdict:f.selectedIndependentVerdict}}));
 const ncGap={familyId:owner.supplement.familyId,obligationKey:owner.supplement.routeKey,dimension:'terminal_treatment',reason:'Native supplement remains source-ready'};
-const scopeArgs={ncOwnerScope:owner,ncOwnerScopePath:scopePath,currentQueueSha256:digest(queueBytes),reconciledFamilies:nativeFamilies};
+const scopeArgs={ncOwnerScope:owner,ncOwnerScopePath:scopePath,currentQueueSha256:digest(queueBytes),reconciledFamilies:nativeFamilies,readScopeBaselineBytes:b=>execFileSync('git',['show',`${b.commitSha}:${b.queuePath}`],{maxBuffer:64*1024*1024})};
+assert.equal(group([ncGap],{...scopeArgs,currentQueueSha256:'a'.repeat(64),readScopeBaselineBytes:undefined}).ncCoreAndConditionalSupplement,null);
+assert.equal(group([ncGap],{...scopeArgs,currentQueueSha256:'a'.repeat(64)}).ncCoreAndConditionalSupplement.status,'BOUND_OWNER_PRODUCT_SCOPE');
+assert.equal(group([ncGap],{...scopeArgs,currentQueueSha256:'a'.repeat(64),readScopeBaselineBytes:()=>Buffer.from('tampered')}).ncCoreAndConditionalSupplement,null);
 const scoped=group([ncGap],scopeArgs);assert.equal(scoped.ncCoreAndConditionalSupplement.status,'BOUND_OWNER_PRODUCT_SCOPE');assert.equal(scoped.causeGroups[0].id,'CONDITIONAL_DNA_INSTRUMENT');
 for(const mutate of [o=>o.coreFamilies[0].familyId='sibling',o=>o.coreFamilies[0].selectedIndependentVerdict.verifiedAtBase='changed',o=>o.supplement.blocksCoreExpunction=true,o=>o.supplement.routeKey='sibling',o=>o.baseline.queueSha256='0'.repeat(64)]){const ncOwnerScope=structuredClone(owner);mutate(ncOwnerScope);assert.equal(group([ncGap],{...scopeArgs,ncOwnerScope}).ncCoreAndConditionalSupplement,null);}
 const reviewPath='data/rcap-grade-a/participant-data-rights/vercel-identity-independent-review-20260914.json';
 const verified=group([],{vercelReview:JSON.parse(fs.readFileSync(reviewPath)),vercelReviewPath:reviewPath,readSuccessorBytes:p=>fs.readFileSync(p)});
 assert.equal(verified.externalDependencies[0].status,'TEAM_NOT_VISIBLE_AFTER_COMPLETE_LOOKUP');
-console.log('7 actual NC/Vercel scope controls PASS; native statuses untouched.');
+console.log('10 actual NC/Vercel scope and historical binding controls PASS; native statuses untouched.');

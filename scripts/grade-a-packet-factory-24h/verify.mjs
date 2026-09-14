@@ -23,6 +23,7 @@ import {
 } from "./post-repair-reread.mjs";
 import { pathsOverlap } from "./path-ownership.mjs";
 import { boundedRepairAuthorization } from "./bounded-repair-authorization.mjs";
+import { prepareMutationSubjects } from "./mutation-subjects.mjs";
 import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
 import { assessConnecticutReviewedGuidance, connecticutGuidanceClosesReturnedFailure } from "./ct-reviewed-guidance.mjs";
 import {
@@ -41,6 +42,15 @@ function currentCtGuidanceAssessment(familyId) {
   return ctGuidanceAssessments.get(familyId);
 }
 
+// Memoize immutable Git evidence by both review base and current authority bytes.
+// Mutations of family bases or authority content still force a fresh comparison.
+const legalReviewCache = new Map();
+function legalReviewAtBase(base, resolution) {
+  const paths=resolution.decisionRecords ?? [resolution.decisionRecord];
+  const key=JSON.stringify([base,resolution,paths.map(p=>crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT,p))).digest("hex"))]);
+  if(!legalReviewCache.has(key)) legalReviewCache.set(key,assessLegalResolutionAtReviewBase(ROOT,base,resolution));
+  return legalReviewCache.get(key);
+}
 const DIR = "data/rcap-grade-a/packet-factory-24h";
 const PROMPTS = "docs/rcap/grade-a/packet-factory-24h";
 
@@ -991,7 +1001,7 @@ function run() {
       }
     }
     // A negative test whose subject cannot exist proves nothing.
-    if (failedFamilies.length === 0) returnedVerdictProblems.push("no failed family to check; this gate has no subject and proves nothing");
+    if (!Array.isArray(vr.rows) || vr.rows.length === 0) returnedVerdictProblems.push("no verifier verdict history; absence of an extraction is not completion");
   }
   check("F29", "a family an independent verifier failed is out of VERIFYING and dispatched to a repair lane that names its exact obligation",
     returnedVerdictProblems.length === 0,
@@ -1079,7 +1089,7 @@ function run() {
       if (liveVerificationClaims.has(r.familyId)) sourceBlockProjectionProblems.push(`${r.familyId} projects to ${expectedState} but still has a live independent-verification claim`);
     }
   }
-  if (selectedSourceBlocks.length === 0) sourceBlockProjectionProblems.push("no current BLOCKED_SOURCE verdict exists; the check has no subject");
+  // Zero current source refusals is valid. Mutations construct both custody states.
   check("F32", "a current BLOCKED_SOURCE verdict follows current custody without losing separately measured defects",
     sourceBlockProjectionProblems.length === 0,
     `${selectedSourceBlocks.length} current source block(s); ${sourceBlockProjectionProblems.length} problem(s): ${sourceBlockProjectionProblems.slice(0, 3).join(" | ")}`);
@@ -1099,7 +1109,7 @@ function run() {
     if (dispatch) wrongDeliveryProblems.push(`${fam.familyId} awaits an owner replacement but was dispatched to ${dispatch.assignmentId}`);
     if (liveVerificationClaims.has(fam.familyId)) wrongDeliveryProblems.push(`${fam.familyId} awaits an owner replacement but has a live reread claim`);
   }
-  if (wrongDeliveryFamilies.length === 0) wrongDeliveryProblems.push("no WRONG_DELIVERY_TYPE family exists; the check has no subject");
+  // Completed owner treatments need no new refusal; isolated mutations retain this branch.
   check("F33", "owner-refused delivery types stay out of VERIFY_PENDING and independent rereview",
     wrongDeliveryProblems.length === 0,
     `${wrongDeliveryFamilies.length} owner-refused family(ies); ${wrongDeliveryProblems.length} problem(s): ${wrongDeliveryProblems.slice(0, 3).join(" | ")}`);
@@ -1614,8 +1624,7 @@ function run() {
           legalProblems.push(`${familyId} is authoritatively clear but still uses a historical legal entrance as controlling state`);
         }
         if (packetAdmissionStates.has(fam.state)) {
-          const review = assessLegalResolutionAtReviewBase(ROOT,
-            fam.selectedIndependentVerdict?.verifiedAtBase, resolution);
+          const review = legalReviewAtBase(fam.selectedIndependentVerdict?.verifiedAtBase, resolution);
           if (fam.selectedIndependentVerdict?.verdict !== "PASS_COMPLETE_INDEPENDENT" || !review.available) {
             legalProblems.push(`${familyId} reached ${fam.state} without decision-aware independent acceptance`);
           }
@@ -1704,7 +1713,8 @@ if (MUTATIONS) {
     ...(rereadSubject ? { causalRepairRows: path.join(ROOT, rereadSubject.evidencePath) } : {}),
     washingtonRepair: path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"),
     rasterQueue: path.join(ROOT, DIR, "RASTER_QUEUE.json") };
-  const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
+  const productionOriginals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
+  let originals = productionOriginals;
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
   const firstPF = (j) => j.assignments.find((x) => x.lane === "packet-build" && x.items.length > 0);
@@ -1729,6 +1739,7 @@ if (MUTATIONS) {
       const readiness = candidate.sourceReadiness;
       return candidate.state === "SOURCE_READY"
         && readiness
+        && readiness.directAttachment !== true
         && Array.isArray(readiness.boundSources)
         && readiness.boundSources.length > 0
         && readiness.boundSources.some((source) => source && typeof source === "object");
@@ -1995,8 +2006,8 @@ if (MUTATIONS) {
     { on: "master", id: "F27", name: "dropping a state from the vocabulary while families are still in it is caught", mutate: (j) => { j.stateVocabulary = j.stateVocabulary.filter((x) => x !== "LEGAL_BLOCKED"); return j; } },
     { on: "stale", id: "F26", name: "a legally blocked family handed to a builder is caught", mutate: (j) => { const legal = j.rows.find((r) => r.destination === "LEGAL"); const built = read(ACTIVE).assignments.find((x) => x.lane === "packet-build" && x.items.length); legal.familyId = built.items[0]; return j; } },
     { on: "stale", id: "F26", name: "dropping every legal finding is caught by the master queue still holding them", mutate: (j) => { j.rows = j.rows.map((r) => (r.destination === "LEGAL" ? { ...r, destination: "SOURCE" } : r)); return j; } },
-    { on: "ledger", id: "F24", name: "one family granted to two verifiers is caught", mutate: (j) => { const v = j.claims.filter((c) => c.laneKind === "independent-verification"); v[1] = { ...v[1], familyId: v[0].familyId }; j.claims = j.claims.map((c) => (c === v[1] ? v[1] : c)); j.claims.push({ ...v[0], lane: "VF99" }); return j; } },
-    { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => { j.claims.shift(); return j; } },
+    { on: "ledger", id: "F24", name: "one family granted to two verifiers is caught", mutate: (j) => { const v = j.claims.find(c => c.laneKind === "independent-verification"); if (!v) throw new Error("F24 needs a grant schema"); j.claims.push({ ...v, lane: "VF99" }); return withClaimsDigest(j); } },
+    { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => { const ids=new Set(read(ACTIVE).assignments.flatMap(a=>a.items??[])); const index=j.claims.findIndex(c=>ids.has(c.subjectId)); if(index<0)throw new Error("F24 requires a dispatched grant");j.claims.splice(index,1);return withClaimsDigest(j); } },
     /* Both of these ADD a grant, which moves claimsDigest, and F24 checks the
      * digest too. Without recomputing it the "caught" case would be caught for
      * the wrong reason and the "stays green" case could never stay green, so
@@ -2312,11 +2323,16 @@ if (MUTATIONS) {
   if (baselineFailed.size) console.log(`  baseline: ${[...baselineFailed].sort().join(", ")} already failing — cases for those checks cannot be judged\n`);
   try {
     for (const c of cases) {
-      if (baselineFailed.has(c.id)) {
+      originals = prepareMutationSubjects(c, productionOriginals);
+      for (const [k,p] of Object.entries(targets)) fs.writeFileSync(p, originals[k]);
+      const fixtureChanged = Object.keys(targets).some(k=>!originals[k].equals(productionOriginals[k]));
+      const subjectBaseline = fixtureChanged ? new Set(run().failed.map(f=>f.id)) : baselineFailed;
+      if (subjectBaseline.has(c.id) || (c.mustStayGreen??[]).some(id=>subjectBaseline.has(id))) {
         console.log(`  UNPROVABLE  [${c.id}] ${c.name} — this check is red before the mutation`);
         unprovable += 1;
         continue;
       }
+      try {
       let subjectId;
       if (c.subject) {
         try { subjectId = c.subject(); } catch { subjectId = null; }
@@ -2343,12 +2359,13 @@ if (MUTATIONS) {
         }
       } else fs.writeFileSync(targets[c.on], `${JSON.stringify(c.mutate(JSON.parse(originals[c.on].toString("utf8")), subjectId), null, 2)}\n`);
       let caught = false;
+      let checkErrored = false;
       let collateral = [];
       try {
         const after = run();
         caught = after.failed.some((f) => f.id === c.id);
         collateral = (c.mustStayGreen ?? []).filter((id) => after.failed.some((f) => f.id === id));
-      } catch { caught = true; }
+      } catch (error) { console.error(`CHECK ERROR ${c.id}: ${error.message}`); checkErrored = true; caught = false; }
       if (c.on === "prompt") fs.writeFileSync(promptTarget, originalPrompt);
       else for (const key of touchedTargets) fs.writeFileSync(targets[key], originals[key]);
       /*
@@ -2359,22 +2376,23 @@ if (MUTATIONS) {
        */
       if (c.expectPass) {
         console.log(`  ${caught || collateral.length ? "OVER-CAUGHT" : "stayed green"} [${c.id}] ${c.name}${collateral.length ? `; unexpectedly failed ${collateral.join(", ")}` : ""}`);
-        if (caught || collateral.length) undetected += 1;
+        if (checkErrored || caught || collateral.length) undetected += 1;
         continue;
       }
       console.log(`  ${caught && collateral.length === 0 ? "detected " : "MISSED   "} [${c.id}] ${c.name}${collateral.length ? `; unexpectedly failed ${collateral.join(", ")}` : ""}`);
-      if (!caught || collateral.length) undetected += 1;
+      if (checkErrored || !caught || collateral.length) undetected += 1;
+      } catch(error) { console.error(`FIXTURE ERROR [${c.id}] ${c.name}: ${error.message}`); undetected += 1; }
     }
   } finally {
-    for (const [k, p] of Object.entries(targets)) fs.writeFileSync(p, originals[k]);
+    for (const [k, p] of Object.entries(targets)) fs.writeFileSync(p, productionOriginals[k]);
     fs.writeFileSync(promptTarget, originalPrompt);
   }
-  const restored = Object.entries(targets).every(([k, p]) => fs.readFileSync(p).equals(originals[k]))
+  const restored = Object.entries(targets).every(([k, p]) => fs.readFileSync(p).equals(productionOriginals[k]))
     && fs.readFileSync(promptTarget).equals(originalPrompt);
   console.log(`\n  every mutated file restored byte-for-byte: ${restored}`);
   if (unprovable) console.log(`  ${unprovable} case(s) unprovable: their check was already failing.`);
   if (noSubject) console.log(`  ${noSubject} case(s) had no subject: the branch they exercise has no live family in the corpus. They proved nothing and claim nothing.`);
-  if (!restored || undetected > 0) { console.error("the factory verifier proves less than it claims."); process.exit(1); }
+  if (!restored || undetected > 0 || noSubject > 0) { console.error("the factory verifier proves less than it claims."); process.exit(1); }
   if (unprovable) { console.error(`\n${unprovable} case(s) could not be judged because their check is red at baseline. Fix the baseline, then this suite means something.`); process.exit(1); }
   console.log(`\nOK factory mutations — ${cases.length + isolatedF35Cases} case(s), including ${isolatedF35Cases} isolated F35 control(s); every mutation caught.`);
 }

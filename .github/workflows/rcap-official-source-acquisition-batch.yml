@@ -19,17 +19,11 @@
 # validation stops the run rather than acquiring the entries that happen to be
 # well-formed: a batch that half-ran is harder to reason about than one that
 # did not start.
+# Manifest generation is reporting, not acquisition authorization. Only an
+# explicit dispatch may acquire sources or publish acquisition artifacts.
 name: RCAP Official Source Acquisition (Batch)
 
 on:
-  push:
-    branches: [claude/legalease-sprint-captain-utucnw]
-    paths:
-      - data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json
-      - scripts/rcap-plan-source-acquisition-batch.mjs
-      - scripts/rcap-acquire-official-source.mjs
-      - scripts/rcap-summarize-source-acquisition-batch.mjs
-      - .github/workflows/rcap-official-source-acquisition-batch.yml
   workflow_dispatch:
     inputs:
       manifest:
