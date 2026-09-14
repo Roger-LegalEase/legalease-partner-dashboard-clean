@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0fb850994aec34644d97d0f522ebf4f8bc2016d2",
+  "generatedAtCommit": "f8046401eddc62d84f68fcc11de2abf1b27368b9",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6573,6 +6573,22 @@
     {
       "subjectType": "packet-family",
       "subjectId": "mo-575-120-identity-theft-correction-set",
+      "itemId": null,
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "familyIds": [
+        "mo-575-120-identity-theft-correction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFMO575FINAL1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Completed repaired semantic PASS admitted; transfer to independent original-page final acceptance."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-575-120-identity-theft-correction-set",
       "familyId": "mo-575-120-identity-theft-correction-set",
       "itemId": null,
       "familyIds": [
@@ -7031,6 +7047,22 @@
       "released": true,
       "releasedAt": "2026-09-09T14:30:06.362Z",
       "releaseReason": "PF07 06f2c66c4 COMPLETED: AOC-CR-298 plus instructions and AOC-CV-226, 5 pages, 17 writes, nine counters zero"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_8a_youthful-set",
+      "itemId": null,
+      "familyId": "nc_145_8a_youthful-set",
+      "familyIds": [
+        "nc_145_8a_youthful-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFNCYOUTHFINAL1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Prepared reviewer is busy with MO custom; existing eligible non-author session now consumes available NC originals."
     },
     {
       "subjectType": "packet-family",
@@ -8648,6 +8680,22 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T07:34:40.499Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-mo-custom-pleading",
+      "itemId": null,
+      "familyId": "rcap-mo-custom-pleading",
+      "familyIds": [
+        "rcap-mo-custom-pleading"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VFMOCUSTOMFINAL1",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Completed repaired semantic PASS admitted; transfer to independent original-page final acceptance."
     },
     {
       "subjectType": "packet-family",
@@ -15747,57 +15795,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-mo-custom-pleading",
-      "itemId": null,
-      "familyId": "rcap-mo-custom-pleading",
-      "familyIds": [
-        "rcap-mo-custom-pleading"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFMOCUSTOMFINAL1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Completed repaired semantic PASS admitted; transfer to independent original-page final acceptance."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mo-575-120-identity-theft-correction-set",
-      "itemId": null,
-      "familyId": "mo-575-120-identity-theft-correction-set",
-      "familyIds": [
-        "mo-575-120-identity-theft-correction-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFMO575FINAL1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Completed repaired semantic PASS admitted; transfer to independent original-page final acceptance."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nc_145_8a_youthful-set",
-      "itemId": null,
-      "familyId": "nc_145_8a_youthful-set",
-      "familyIds": [
-        "nc_145_8a_youthful-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFNCYOUTHFINAL1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Repaired semantic PASS complete; final original-page acceptance assigned to distinct candidate non-author."
     }
   ],
-  "claimsDigest": "27f00d2f54fd30cf877eefe4b23b604e8762b3857b906ddb679367cb3460403c",
+  "claimsDigest": "06fde6f27ceb14cc9c2fc3e460b92c9961d5d0ff675ba3ab854de13d612a80e2",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43210,6 +43210,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-14T01:27:31.270Z",
       "reason": "Repaired semantic PASS complete; final original-page acceptance assigned to distinct candidate non-author."
+    },
+    {
+      "lane": "VFNCYOUTHFINAL1",
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_8a_youthful-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-14T01:39:31.546Z",
+      "reason": "Prepared reviewer is busy with MO custom; existing eligible non-author session now consumes available NC originals."
     }
   ],
   "reissues": [
@@ -54128,6 +54137,16 @@
       "previouslyReleasedAt": "2026-09-14T00:41:57.278Z",
       "reissuedAt": "2026-09-14T00:53:31.584Z",
       "reason": "Complete independent four-finding return requires bounded original-author repair"
+    },
+    {
+      "lane": "VFNCYOUTHFINAL1",
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_8a_youthful-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-14T01:39:31.546Z",
+      "reissuedAt": "2026-09-14T01:39:31.772Z",
+      "reason": "Final original-page review now owned by /root/mt_form_b_independent_review, distinct from candidate author /root/mt_serving_build; semantic/final session reuse allowed by existing native independence contract."
     }
   ],
   "transfers": [
