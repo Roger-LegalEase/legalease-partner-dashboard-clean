@@ -20,6 +20,7 @@ async function run(change = () => {}, input = manifest) {
     fetchImpl: async (raw, options) => {
       const url = new URL(raw); requests.push(url);
       assert.equal(options.method, 'GET'); assert.equal(options.redirect, 'error');
+      assert(options.signal instanceof AbortSignal);
       assert(!raw.includes(secret)); assert(!raw.includes('/database/query'));
       let body;
       if (url.pathname.endsWith('/env')) {
@@ -29,7 +30,7 @@ async function run(change = () => {}, input = manifest) {
       else if (url.pathname.startsWith('/v4/aliases/')) body = { deploymentId: manifest.rollbackDeploymentId };
       else if (url.pathname.startsWith('/v13/deployments/')) {
         const id = url.pathname.split('/').at(-1);
-        body = { id, projectId: manifest.vercelProjectId, readyState: 'READY',
+        body = { id, projectId: manifest.vercelProjectId, readyState: 'READY', gitSource: {sha: manifest.applicationSha},
           target: id === manifest.previewDeploymentId ? 'preview' : 'production', meta: { ...meta } };
       } else if (url.hostname === 'api.supabase.com') body = { ref: url.pathname.split('/').at(-1), status: 'ACTIVE_HEALTHY' };
       else body = { id: manifest.vercelProjectId, accountId: manifest.vercelTeamId };
@@ -44,6 +45,8 @@ async function run(change = () => {}, input = manifest) {
 }
 assert.equal((await run()).result.passed, true);
 const mutations = [
+  ({url,response}) => { if(url.pathname.endsWith('dpl_staged')) response.body.gitSource.sha = 'd'.repeat(40); },
+  ({url,response}) => { if(url.pathname.endsWith('dpl_preview')) delete response.body.gitSource; },
   ({url,response}) => { if(url.pathname.endsWith('dpl_staged')) response.status = 404; },
   ({url,response}) => { if(url.pathname.endsWith('dpl_staged')) response.body.meta.rcapWorkerDigest = `sha256:${'d'.repeat(64)}`; },
   ({url,response}) => { if(url.pathname.endsWith('dpl_staged')) response.body.meta.rcapApplicationSha = 'd'.repeat(40); },
@@ -62,7 +65,10 @@ const mutations = [
   ({url,response}) => { if(url.pathname.endsWith(manifest.vercelProjectId)) response.body.accountId = 'team_wrong'; },
   () => { throw new Error(secret); }
 ];
-for (const mutation of mutations) assert.equal((await run(mutation)).result.passed, false);
+for (const mutation of mutations) {
+  const {result} = await run(mutation); assert.equal(result.passed, false);
+  assert(result.failedOperation); assert(result.failedCase);
+}
 for (const field of Object.keys(manifest).filter(x => x !== 'ignoredSecret')) {
   const malformed = {...manifest, [field]: 'invalid'};
   const r = await run(() => {}, malformed); assert.equal(r.result.passed, false); assert.equal(r.requests.length, 0);

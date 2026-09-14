@@ -18,7 +18,7 @@ export async function inspectProductionReadiness({ manifest, vercelToken, supaba
     operation: 'read_only_control_plane',
     passed: false,
     checks: [],
-    requestCount: 0,
+    requestCount: 0, requestTimeoutMs: 15000,
     remoteMethodsUsed: ['GET'],
     deploymentCreated: false, sqlExecuted: false, secretValuesIncluded: false,
     runtimeOriginVerified: false, hostedContractAccepted: false,
@@ -55,14 +55,22 @@ export async function inspectProductionReadiness({ manifest, vercelToken, supaba
           || /^\/v4\/aliases\/[^/]+$/.test(url.pathname))
         : [PRODUCTION, ACCEPTANCE].some(ref => url.pathname === `/v1/projects/${ref}`);
       if (!allowed || url.origin !== origin) throw new Error('request_not_allowlisted');
+      evidence.lastOperation = provider === 'supabase' ? 'READ_SUPABASE_PROJECT'
+        : url.pathname.startsWith('/v13/deployments/') ? 'READ_EXACT_DEPLOYMENT'
+        : url.pathname.startsWith('/v4/aliases/') ? 'READ_ALIAS_MAPPING'
+        : url.pathname.endsWith('/env') ? 'READ_ENVIRONMENT_METADATA'
+        : url.pathname.endsWith('/domains') ? 'READ_DOMAIN_INVENTORY' : 'READ_VERCEL_PROJECT';
       evidence.requestCount++;
       const response = await fetchImpl(url.href, { method: 'GET', redirect: 'error',
+        signal: AbortSignal.timeout(15000),
         headers: { Authorization: `Bearer ${provider === 'vercel' ? vercelToken : supabaseToken}` } });
       if (response.status !== 200) throw new Error('remote_read_refused');
       return response.json();
     }
     const ready = d => (d.readyState ?? d.state) === 'READY';
-    const exactTuple = d => d.meta?.rcapApplicationSha === tuple.applicationSha
+    // gitSource.sha is Vercel's build source identity; rcap metadata alone is caller-supplied.
+    const exactTuple = d => d.gitSource?.sha === tuple.applicationSha
+      && d.meta?.rcapApplicationSha === tuple.applicationSha
       && d.meta?.rcapWorkerSourceSha === tuple.workerSourceSha && d.meta?.rcapWorkerDigest === tuple.workerDigest;
     async function deployment(which) {
       const d = await get('vercel', `/v13/deployments/${tuple[which]}`);
@@ -109,6 +117,8 @@ export async function inspectProductionReadiness({ manifest, vercelToken, supaba
   } catch {
     // No raw error, remote payload, token, URL, environment value or hostname escapes.
     evidence.failure = 'READ_ONLY_PREFLIGHT_REFUSED';
+    evidence.failedOperation = evidence.lastOperation ?? 'VALIDATE_LOCAL_INPUTS';
+    evidence.failedCase = evidence.checks.find(check => !check.passed)?.caseId ?? 'REMOTE_READ_OR_CONTROL_INVENTORY_REFUSED';
   }
   return evidence;
 }
