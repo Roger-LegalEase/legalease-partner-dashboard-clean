@@ -39,3 +39,8 @@ test('CI establishes corpus before convergence, exports binding, and stops on fi
  assert.match(w,/id: convergence\n        run: \|\n          set -euo pipefail/);
  assert.match(w,/secrets.SOURCE_CORPUS_READ_TOKEN/);
 });
+
+test('changed supplement verdict requires fresh scope reconciliation',()=>{
+ const q=structuredClone(masterQueue);q.families.find(f=>f.familyId===NC_SUPPLEMENT).state='COMPLETE_PACKET_PROVEN';
+ assert.throws(()=>conditionalFamilyScope(ownerScope,q.families));
+});

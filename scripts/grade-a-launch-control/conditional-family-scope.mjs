@@ -11,7 +11,7 @@ export function conditionalFamilyScope(decision, families) {
     || s?.familyId !== NC_SUPPLEMENT || s.conditional !== true || s.blocksCoreExpunction !== false
     || s.participantInstrumentOrAcceptanceProcedure !== 'UNRESOLVED'
     || s.routeKey !== 'obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1'
-    || supplement?.routeKeys?.length !== 1 || supplement.routeKeys[0] !== s.routeKey
+    || supplement?.state !== 'SOURCE_READY' || supplement?.routeKeys?.length !== 1 || supplement.routeKeys[0] !== s.routeKey
     || !coreIds.every(id => decision.coreFamilies?.some(f => f.familyId === id && f.state === 'COMPLETE_PACKET_PROVEN')
       && families.some(f => f.familyId === id && f.state === 'COMPLETE_PACKET_PROVEN'))) {
     throw new Error('NC conditional scope refuses changed identity, scope, or nonterminal core evidence');

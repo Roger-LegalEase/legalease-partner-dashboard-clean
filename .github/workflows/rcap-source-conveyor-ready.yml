@@ -6,6 +6,8 @@ on:
     paths:
       - scripts/grade-a-packet-factory-24h/**
       - scripts/grade-a-launch-control/conditional-family-scope*.mjs
+      - scripts/grade-a-launch-control/preserved-family-baseline*.mjs
+      - scripts/grade-a-launch-control/reconcile-release-evidence.mjs
       - scripts/lib/corpus-index-paths.mjs
       - scripts/rcap-corpus/bootstrap-private-corpus.sh
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
@@ -25,6 +27,8 @@ on:
     paths:
       - scripts/grade-a-packet-factory-24h/**
       - scripts/grade-a-launch-control/conditional-family-scope*.mjs
+      - scripts/grade-a-launch-control/preserved-family-baseline*.mjs
+      - scripts/grade-a-launch-control/reconcile-release-evidence.mjs
       - scripts/lib/corpus-index-paths.mjs
       - scripts/rcap-corpus/bootstrap-private-corpus.sh
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
@@ -87,7 +91,7 @@ jobs:
           printf 'MASTER_LIBRARY_SOURCE_DIR=%s\nRCAP_BUNDLE_EXTRACT=%s\n' "$corpus" "$corpus" >> "$GITHUB_ENV"
       - name: Conditional scope and corpus guard regressions
         id: scope_controls
-        run: node --test scripts/grade-a-launch-control/conditional-family-scope.test.mjs scripts/lib/corpus-audit-environment.test.mjs
+        run: node --test scripts/grade-a-launch-control/conditional-family-scope.test.mjs scripts/grade-a-launch-control/preserved-family-baseline.test.mjs scripts/grade-a-packet-factory-24h/review-bound-report-currentness.test.mjs scripts/lib/corpus-audit-environment.test.mjs
       - name: Generator convergence
         id: convergence
         run: |
