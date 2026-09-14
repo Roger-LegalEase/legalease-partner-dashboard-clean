@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { CURRENT_SERVICE_REVIEW, verifiedCurrentServicePreflight } from "./verified-current-service-preflight.mjs";
 // The one controlling launch record.
 //
 //   node scripts/grade-a-launch-control/generate-launch-control.mjs [--check]
@@ -492,6 +493,20 @@ if (supabaseSuccessor) {
     meaning: 'Services are assessed separately. Earlier failure remains history; this successor creates no migration, deployment or candidate acceptance.'
   };
   doc.testStatus.servicePreflight = `Run ${latestReview.runId}: Supabase ${latestReview.services.supabase.passedChecks}/${latestReview.services.supabase.requiredChecks}; Vercel ${latestReview.services.vercel.passedChecks}/${latestReview.services.vercel.requiredChecks}. See servicePrerequisites.latestReadOnlyRun for exact endpoints and investigation. No credential replacement is requested.`;
+}
+if (exists(CURRENT_SERVICE_REVIEW)) {
+  const review = read(CURRENT_SERVICE_REVIEW);
+  const current = verifiedCurrentServicePreflight(review, rel => {
+    const real = fs.realpathSync(path.join(ROOT, rel));
+    if (!real.startsWith(ROOT + path.sep)) throw new Error('Service custody leaves workspace');
+    doc.consumes[`currentServiceOriginal${Object.keys(doc.consumes).length}`] = rel;
+    return fs.readFileSync(real);
+  });
+  if (!current) throw new Error('Current service successor custody or authority mismatch');
+  doc.consumes.currentServicePreflight = CURRENT_SERVICE_REVIEW;
+  doc.consumes.currentServiceVerifier = 'scripts/grade-a-launch-control/verified-current-service-preflight.mjs';
+  doc.servicePrerequisites = { historicalResult:doc.servicePrerequisites, ...current };
+  doc.testStatus.servicePreflight = `Run ${current.runId}: Supabase 5/5; Vercel 4/4; 9/9 service-only. Worker rebuild, participant acceptance and Production remain separate.`;
 }
 doc.consumes.launchControlGenerator = "scripts/grade-a-launch-control/generate-launch-control.mjs";
 doc.consumedInputDigests = Object.fromEntries(Object.values(doc.consumes).map(rel => [rel, exists(rel) ? hashFile(rel) : null]));

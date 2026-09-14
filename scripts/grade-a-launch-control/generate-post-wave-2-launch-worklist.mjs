@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /** Existing national worklist/freeze, reconciled from native evidence; no admission. */
 import fs from 'node:fs';
+import { CURRENT_SERVICE_REVIEW } from './verified-current-service-preflight.mjs';
 import {groupReleaseGapCauses} from './release-gap-causes.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -58,12 +59,14 @@ for(const f of masterQueue.families){
 const reconciliation=reconcileReleaseEvidence({masterQueue,registry,projection,launchGraph,baseline,artifactBindings});
 const causeHelper='scripts/grade-a-launch-control/release-gap-causes.mjs';
 inputDigests[causeHelper]=shaBytes(fs.readFileSync(causeHelper));
+inputDigests['scripts/grade-a-launch-control/verified-current-service-preflight.mjs']=shaBytes(fs.readFileSync('scripts/grade-a-launch-control/verified-current-service-preflight.mjs'));
 const serviceReviewPath='data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34843210160.json';
 const ncInquiryPath='data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json';
 const vercelReviewPath='data/rcap-grade-a/participant-data-rights/vercel-identity-independent-review-20260914.json';
 const ncOwnerScopePath='data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json';
 const supabaseReviewPath='data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json';
 const sharedCauses=groupReleaseGapCauses(reconciliation.gaps,{
+ currentServiceReview:fs.existsSync(CURRENT_SERVICE_REVIEW)?read(CURRENT_SERVICE_REVIEW):null,
  reconciledFamilies:reconciliation.families,
  supabaseReview:fs.existsSync(supabaseReviewPath)?read(supabaseReviewPath):null,supabaseReviewPath,
  ncOwnerScope:fs.existsSync(ncOwnerScopePath)?read(ncOwnerScopePath):null,ncOwnerScopePath,currentQueueSha256:inputDigests[INPUTS[0]],

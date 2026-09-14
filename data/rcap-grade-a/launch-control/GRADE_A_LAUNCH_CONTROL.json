@@ -42,17 +42,19 @@
     "servicePreflightOriginal36": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json",
     "servicePreflightOriginal37": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json",
     "servicePreflightOriginal38": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log",
-    "servicePreflightSuccessor": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
-    "serviceSuccessorOriginal0": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original.zip",
-    "serviceSuccessorOriginal1": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/artifacts.json",
-    "serviceSuccessorOriginal2": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/preflight.json",
-    "serviceSuccessorOriginal3": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/worker-input-plan.json",
-    "serviceSuccessorOriginal4": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/job.log",
+    "currentServiceOriginal39": "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/original.zip",
+    "currentServiceOriginal40": "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/original/preflight.json",
+    "currentServiceOriginal41": "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/original/worker-input-plan.json",
+    "currentServiceOriginal42": "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/artifacts.json",
+    "currentServiceOriginal43": "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/run.json",
+    "currentServiceOriginal44": "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/jobs.json",
+    "currentServicePreflight": "data/rcap-grade-a/participant-data-rights/service-preflight-evidence-34869440888.json",
+    "currentServiceVerifier": "scripts/grade-a-launch-control/verified-current-service-preflight.mjs",
     "launchControlGenerator": "scripts/grade-a-launch-control/generate-launch-control.mjs"
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "308f7c655779621b9ea72986bb696e01fad15d45",
+    "captainSha": "5e18167c65966ceba5ef7986dd0bae15a747d22f",
     "censusFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
     "censusLedgerBlob": "d87bf67294e123237e917824e39a512f593274ab",
     "productionConnected": null,
@@ -664,7 +666,7 @@
     "hostedAcceptance": "NOT_ACCEPTED: {\"ACCEPTED_CURRENT\":0,\"MISSING\":35,\"STALE\":0,\"FAILED\":0,\"INVALID\":0}; Existing hosted_full anti-skip contract requires nine infrastructure/payment/gallery steps, but no export, matter-deletion or account-deletion step. This evaluator does not execute or close that missing hosted coverage.",
     "productionPreflight": "A read-only candidate-bound receipt is required. Production authorization is separate.",
     "familyPrerequisite": "NC core dismissal and acquittal families are terminal. Only the conditional DNA supplement retains an unresolved participant instrument or acceptance procedure; it does not block core expunction. The owner will contact NCAOC; the inquiry remains unsent. See data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json.",
-    "servicePreflight": "Run 34857707932: Supabase 0/5; Vercel 0/4. See servicePrerequisites.latestReadOnlyRun for exact endpoints and investigation. No credential replacement is requested."
+    "servicePreflight": "Run 34869440888: Supabase 5/5; Vercel 4/4; 9/9 service-only. Worker rebuild, participant acceptance and Production remain separate."
   },
   "launchGate": {
     "gateOpen": false,
@@ -34470,39 +34472,27 @@
       "externalDependencies": [
         {
           "id": "SUPABASE_ACCEPTANCE_ACCESS",
-          "status": "OBSERVED_FAILED_ACCESS",
-          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
-          "runId": 34857707932,
-          "supersedesRunId": 34843210160,
-          "projectRef": "hyflxnlhpmiqxvvcoiia",
-          "passedChecks": 0,
-          "failedChecks": [
-            "supabase_token_usable",
-            "acceptance_project_resolves",
-            "acceptance_project_identity_is_exact",
-            "acceptance_project_reachable_for_sql",
-            "acceptance_project_carries_no_production_data"
-          ],
-          "gates": {
-            "supabase_token_usable": false,
-            "acceptance_project_resolves": false,
-            "acceptance_project_identity_is_exact": false,
-            "acceptance_project_reachable_for_sql": false,
-            "acceptance_project_carries_no_production_data": false
-          },
+          "service": "supabase",
+          "status": "SERVICE_PREFLIGHT_PASSED_ONLY",
+          "runId": 34869440888,
+          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-evidence-34869440888.json",
+          "passedChecks": 5,
           "candidateAcceptance": false,
           "migrationAuthorized": false,
-          "nextStep": "Investigate the existing workflow authentication binding and account/project authorization after billing restoration; no credential replacement or additional preflight is prescribed by this receipt.",
-          "meaning": "The current Supabase service predicates still fail; the historical run remains preserved but is not the current diagnosis."
+          "releaseAuthorityGranted": false,
+          "meaning": "Current service access and designed boundary checks verified; no application, worker or participant acceptance."
         },
         {
           "id": "VERCEL_TEAM_LOOKUP",
-          "evidence": "data/rcap-grade-a/participant-data-rights/vercel-identity-independent-review-20260914.json",
-          "runId": 34849972050,
-          "identityOnly": true,
+          "service": "vercel",
+          "status": "SERVICE_PREFLIGHT_PASSED_ONLY",
+          "runId": 34869440888,
+          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-evidence-34869440888.json",
+          "passedChecks": 4,
           "candidateAcceptance": false,
-          "status": "TEAM_NOT_VISIBLE_AFTER_COMPLETE_LOOKUP",
-          "meaning": "The pinned team was absent after completed pagination using this credential. Owner access/scope verification is needed; the old incomplete-pagination question is superseded."
+          "migrationAuthorized": false,
+          "releaseAuthorityGranted": false,
+          "meaning": "Current service access and designed boundary checks verified; no application, worker or participant acceptance."
         },
         {
           "id": "NC_INSTITUTIONAL_INPUT",
@@ -34675,89 +34665,43 @@
       "candidateAcceptanceEstablished": false,
       "meaning": "Observed service-only result at the named tools SHA; a resolver repair or credential change requires applicable retest. This is not final candidate acceptance."
     },
-    "latestReadOnlyRun": {
-      "review": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
-      "runId": 34857707932,
-      "observedApplicationSha": "41db064ec6f25149802504f410fab7ece2c61b96",
-      "observedToolsSha": "308f7c655779621b9ea72986bb696e01fad15d45",
-      "services": {
-        "supabase": {
-          "status": "FAILED_SERVICE_PREFLIGHT",
-          "passedChecks": 0,
-          "requiredChecks": 5,
-          "managementApi": {
-            "method": "GET",
-            "endpointCategory": "MANAGEMENT_PROJECT_LIST",
-            "path": "/v1/projects",
-            "httpStatus": 401
-          },
-          "readOnlySql": {
-            "method": "POST",
-            "endpointCategory": "ACCEPTANCE_DATABASE_QUERY",
-            "path": "/v1/projects/hyflxnlhpmiqxvvcoiia/database/query",
-            "queryKind": "SELECT",
-            "httpStatus": 401
-          },
-          "projectIdentityAndStatus": "NOT_ESTABLISHED",
-          "nonproductionSafeguards": "NOT_ESTABLISHED_BECAUSE_SQL_UNAUTHORIZED"
-        },
-        "vercel": {
-          "status": "FAILED_SERVICE_PREFLIGHT",
-          "passedChecks": 0,
-          "requiredChecks": 4,
-          "endpointCategory": "VERCEL_TEAMS",
-          "httpStatus": 200,
-          "reason": "PINNED_TEAM_NOT_VISIBLE",
-          "separateCompletePaginationEvidence": "data/rcap-grade-a/participant-data-rights/vercel-identity-independent-review-20260914.json"
-        }
-      },
-      "supabaseEvidence": {
-        "id": "SUPABASE_ACCEPTANCE_ACCESS",
-        "status": "OBSERVED_FAILED_ACCESS",
-        "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
-        "runId": 34857707932,
-        "supersedesRunId": 34843210160,
+    "review": "data/rcap-grade-a/participant-data-rights/service-preflight-evidence-34869440888.json",
+    "runId": 34869440888,
+    "toolsSha": "53b8deb6d02a92852ef70b06e5e81078cba74a5e",
+    "applicationSha": "41db064ec6f25149802504f410fab7ece2c61b96",
+    "status": "SUCCESSFUL_SERVICE_PREFLIGHT",
+    "originalCustodyVerified": true,
+    "services": {
+      "supabase": {
+        "status": "PASS_SERVICE_ONLY",
+        "passedChecks": 5,
+        "requiredChecks": 5,
         "projectRef": "hyflxnlhpmiqxvvcoiia",
-        "passedChecks": 0,
-        "failedChecks": [
-          "supabase_token_usable",
-          "acceptance_project_resolves",
-          "acceptance_project_identity_is_exact",
-          "acceptance_project_reachable_for_sql",
-          "acceptance_project_carries_no_production_data"
-        ],
-        "gates": {
-          "supabase_token_usable": false,
-          "acceptance_project_resolves": false,
-          "acceptance_project_identity_is_exact": false,
-          "acceptance_project_reachable_for_sql": false,
-          "acceptance_project_carries_no_production_data": false
+        "projectIdentity": {
+          "name": "legalease-rcap-acceptance",
+          "region": "us-west-2",
+          "status": "ACTIVE_HEALTHY",
+          "createdAt": "2026-08-13T18:47:22.761707Z",
+          "organizationId": "fogprwizelfcmahyukhb"
         },
-        "candidateAcceptance": false,
-        "migrationAuthorized": false,
-        "nextStep": "Investigate the existing workflow authentication binding and account/project authorization after billing restoration; no credential replacement or additional preflight is prescribed by this receipt.",
-        "meaning": "The current Supabase service predicates still fail; the historical run remains preserved but is not the current diagnosis."
+        "nonproductionProof": "acceptance_marker"
       },
-      "investigation": {
-        "ownerReportedBillingRestrictionResolved": true,
-        "existingTokenUsed": true,
-        "credentialRotated": false,
-        "repositorySecretName": "SUPABASE_ACCESS_TOKEN",
-        "repositorySecretCreatedAt": "2026-08-13T19:39:58Z",
-        "repositorySecretUpdatedAt": "2026-08-13T19:39:58Z",
-        "secretMetadataSource": "GitHub GET /repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/secrets/SUPABASE_ACCESS_TOKEN; metadata only",
-        "repositoryEnvironmentNames": [],
-        "caller": ".github/workflows/rcap-f1-ephemeral-staging.yml jobs.hosted.secrets.SUPABASE_ACCESS_TOKEN",
-        "callee": ".github/workflows/rcap-hosted-acceptance-staging.yml workflow_call secret to preflight step environment",
-        "authentication": "Existing secret passed as Bearer authorization to api.supabase.com; no project API key substitution, no token transformation or missing-input refusal.",
-        "officialAuthenticationSource": "https://supabase.com/docs/reference/api/introduction",
-        "remainingQuestion": "Why the existing stored Management API credential is unauthorized after reported account restoration: its current expiry/revocation, owning account and restored account authorization cannot be established from GitHub secret metadata or the safely omitted response bodies.",
-        "tokenReplacementRequested": false,
-        "additionalPreflightDispatched": false
+      "vercel": {
+        "status": "PASS_SERVICE_ONLY",
+        "passedChecks": 4,
+        "requiredChecks": 4,
+        "teamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+        "teamSlug": "roger947s-projects",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "identityEvidence": "Successful mandatory resolver gate at toolsSha; exact team pin and ownership checks preserved in resolver-at-tools-sha.mjs.",
+        "teamEnumerationUsed": false,
+        "scopedPatResolved": true
       }
     },
+    "workerRebuildRequired": true,
     "candidateAcceptanceEstablished": false,
-    "meaning": "Services are assessed separately. Earlier failure remains history; this successor creates no migration, deployment or candidate acceptance."
+    "releaseAuthorityGranted": false,
+    "verificationBasis": "Owner-confirmed run and digest; exact downloaded archive and receipt bytes verified. No independent implementation-review claim."
   },
   "consumedInputDigests": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
@@ -34781,9 +34725,9 @@
     "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json": "764d59c2965e5cfe272edbe5648be84e45194343865d3fbc43e45aa8751a49da",
     "docs/LAUNCH_SEQUENCE.md": "91760f8f982164839993de583cccd100c4b4dc9dee048e38de54d789e8a2a509",
     "docs/PRODUCT_CONTRACT.md": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
-    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "9835b8790f36cbe04f171c29f94b63adf12ae7927b3f81f2b5db81d51360d0cc",
+    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "0b9f9859e4611926143e9db1ef94008a6f59793146da1dfb91c1c053cd8b6c18",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "c5623b1b3abd961b3be3da27a64f5aba114e4bfcd59b94143980b1a695899969",
-    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json": "35396e8b6f8a524df2dd080147c0571babefb5f29c842035536753d2e4e17fda",
+    "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json": "5fbe14be041f5affa1029c0df8b53a3e2ca108a44d08db1b6051cb8fde6123fb",
     "scripts/grade-a-launch-control/apply-national-release-control.mjs": "229c3436c81ad4a97f8e94d66e885f9932ab512f5cf4ed6ee7b8ffcfff65b343",
     "scripts/grade-a-launch-control/participant-acceptance-receipts.mjs": "696feff901bea242d16c65ff2793401c6ff98546bc2f3fd722387280ade6d75d",
     "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json": "77c409cbe9432e6d5847694e0dff8475b5fc71f01a52d0b2f940f2b0166898c3",
@@ -34799,12 +34743,14 @@
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json": "d1a54fa51771aa02d5c6aaeca2759f2123f649ec71dd85924e7a14ec68ffb73f",
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
     "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log": "f0a5c4d87fdc1f2396231436a0f0bd9b86f350b040ab8b4731d4f4b4829427ad",
-    "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json": "53c692a0a94d6ae7330d838122d99ad00e158db54a6925f0afd82d981f153952",
-    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original.zip": "2e648685bc1f9ec422e191bbfbec70119b92f2377b83a9e63f186511338752b6",
-    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/artifacts.json": "455c1a805dcf28a4058a2ea07017a0347b63f1026cf113cad18fa9bd0ab28e22",
-    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/preflight.json": "2a01520231d147057e34e78d3018008bc3a71ea500122bc55ec4a47a081a853e",
-    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/worker-input-plan.json": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
-    "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/job.log": "b6cb8b47eb518146fa1da96555dfcd0835af2038fed542c740685c30dc743e4d",
-    "scripts/grade-a-launch-control/generate-launch-control.mjs": "86c8479db6b3df9577a514da272d971e5b5ed8698924aa896bbd1577ae8933d7"
+    "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/original.zip": "914568aabb0b7f12ee995d71f7083e39cbcca57282e43f374f18596d6d77ce8e",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/original/preflight.json": "2fb770099148dee430145b4f1861b347d3f9af6c15941987c4202fc73f031851",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/original/worker-input-plan.json": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/artifacts.json": "72c581bfc7a2024a796cc670d10e03e9f3590e3992797b5142ef81eed21810ac",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/run.json": "67d3e0b27e85dde834e0807936887a2f0bdee5cbb6a5cc6a4255e923949b4c11",
+    "private/transfers/national-release-preservation-20260914/service-preflight-34869440888/jobs.json": "8e2449ac5c3257f2dbfea53fe515d685de7d90ecc852720e5120eabd7ed61c15",
+    "data/rcap-grade-a/participant-data-rights/service-preflight-evidence-34869440888.json": "7e851e41c7e987b366b2c95c5ca14b23559ba84779752ee5f6c45903a2beba42",
+    "scripts/grade-a-launch-control/verified-current-service-preflight.mjs": "23639047cd3453e2b0ea191542adf5523a9367f74ba22ad74687de7bf733caa8",
+    "scripts/grade-a-launch-control/generate-launch-control.mjs": "d9f283da7faa8cd2bb21ba6fb0b0de193d3dd2857f7a852dc310a3f16a8aba8b"
   }
 }

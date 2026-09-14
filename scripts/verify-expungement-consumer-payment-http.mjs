@@ -82,6 +82,12 @@ function check(id, title, passed, observed) {
 
 function boot() {
   const db = startEphemeralPg();
+  // Fixture or migration failures must tear down this verifier's own cluster.
+  // Keep the normal cleanup idempotent with the synchronous exit fallback.
+  const stop = db.stop.bind(db);
+  let stopped = false;
+  db.stop = () => { if (!stopped) { stopped = true; stop(); } };
+  process.once("exit", () => db.stop());
   db.sql(`create role anon nologin`);
   db.sql(`create role authenticated nologin`);
   db.sql(`create role service_role nologin bypassrls`);

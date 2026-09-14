@@ -1,3 +1,4 @@
+import { verifiedCurrentServicePreflight } from './verified-current-service-preflight.mjs';
 import crypto from 'node:crypto';
 import { HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, HOSTED_VERCEL_TEAM_SLUG } from '../rcap-hosted-acceptance-vercel-identity.mjs';
 // Descriptive aggregation of existing evidence gaps, never a repair/task count.
@@ -18,7 +19,7 @@ const classify = gap => {
   }
   return ['OTHER_EXACT_GAP', 'UNPROVEN', 'Inspect the existing exact gap; no new task or defect is inferred.'];
 };
-export function groupReleaseGapCauses(gaps, { serviceReview = null, serviceReviewPath = null, ncInquiry = null, ncInquiryPath = null, vercelReview = null, vercelReviewPath = null, readSuccessorBytes = null, reconciledFamilies = [], ncOwnerScope = null, ncOwnerScopePath = null, currentQueueSha256 = null, supabaseReview = null, supabaseReviewPath = null } = {}) {
+export function groupReleaseGapCauses(gaps, { serviceReview = null, serviceReviewPath = null, ncInquiry = null, ncInquiryPath = null, vercelReview = null, vercelReviewPath = null, readSuccessorBytes = null, reconciledFamilies = [], ncOwnerScope = null, ncOwnerScopePath = null, currentQueueSha256 = null, supabaseReview = null, supabaseReviewPath = null, currentServiceReview = null } = {}) {
   const ncCoreAndConditionalSupplement = validatedNcScope(ncOwnerScope, ncOwnerScopePath, currentQueueSha256, reconciledFamilies);
   const groups = new Map(), seen = new Set();
   let duplicates = 0;
@@ -32,8 +33,10 @@ export function groupReleaseGapCauses(gaps, { serviceReview = null, serviceRevie
   });
   const causeGroups=[...groups.values()].sort((a,b)=>a.id.localeCompare(b.id)).map(({families,routes,dimensions,...g})=>({...g,affectedFamilyCount:families.size,affectedRouteOrObligationCount:routes.size,dimensions:[...dimensions].sort(),uniqueGapCount:g.gapIndexes.length}));
   const externalDependencies=[];
-  const supabaseSuccessor = verifiedSupabaseServiceSuccessor(supabaseReview, supabaseReviewPath, readSuccessorBytes);
-  const vercelSuccessor = verifiedVercelSuccessor(vercelReview, vercelReviewPath, readSuccessorBytes);
+  const currentService = verifiedCurrentServicePreflight(currentServiceReview, readSuccessorBytes);
+  const serviceSuccessor = (id, service) => currentService ? {id,service,status:"SERVICE_PREFLIGHT_PASSED_ONLY",runId:currentService.runId,evidence:currentService.review,passedChecks:currentService.services[service].passedChecks,candidateAcceptance:false,migrationAuthorized:false,releaseAuthorityGranted:false,meaning:"Current service access and designed boundary checks verified; no application, worker or participant acceptance."} : null;
+  const supabaseSuccessor = serviceSuccessor("SUPABASE_ACCEPTANCE_ACCESS", "supabase") ?? verifiedSupabaseServiceSuccessor(supabaseReview, supabaseReviewPath, readSuccessorBytes);
+  const vercelSuccessor = serviceSuccessor("VERCEL_TEAM_LOOKUP", "vercel") ?? verifiedVercelSuccessor(vercelReview, vercelReviewPath, readSuccessorBytes);
   if (serviceReview?.status === 'FAILED_CURRENT_SERVICE_PREFLIGHT' && serviceReview.serviceOnly === true && serviceReview.releaseAuthorityGranted === false) {
     if (!supabaseSuccessor && serviceReview.findings?.supabase?.managementProjectListHttpStatus === 401 && serviceReview.findings?.supabase?.acceptanceProjectSelectHttpStatus === 401) externalDependencies.push({id:'SUPABASE_ACCEPTANCE_ACCESS',status:'OBSERVED_FAILED_ACCESS',evidence:serviceReviewPath,runId:serviceReview.runId,meaning:'One credential/access cause underlies multiple failed preflight checks; project and SQL safety checks remain unproven, not separately diagnosed defects.',nextStep:serviceReview.findings.supabase.intervention});
     if (!vercelSuccessor && serviceReview.findings?.vercel?.reason === 'PINNED_TEAM_NOT_VISIBLE') externalDependencies.push({id:'VERCEL_TEAM_LOOKUP',status:'ACCESS_OR_LOOKUP_UNRESOLVED',evidence:serviceReviewPath,runId:serviceReview.runId,meaning:'One-page team absence cannot establish lost access. Any subsequent resolver repair still needs the applicable retest.',nextStep:serviceReview.findings.vercel.intervention});

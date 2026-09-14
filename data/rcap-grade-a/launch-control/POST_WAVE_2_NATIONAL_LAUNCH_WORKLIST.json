@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-grade-a-post-wave-2-national-launch-worklist/v2",
   "generatedBy": "scripts/grade-a-launch-control/generate-post-wave-2-launch-worklist.mjs",
   "question": "For each exact current family and route, which release obligations remain evidenced or missing?",
-  "atCaptainHead": "308f7c655779621b9ea72986bb696e01fad15d45",
+  "atCaptainHead": "5e18167c65966ceba5ef7986dd0bae15a747d22f",
   "censusDenominator": {
     "obligations": 703,
     "categoryA": 451,
@@ -18195,39 +18195,27 @@
       "externalDependencies": [
         {
           "id": "SUPABASE_ACCEPTANCE_ACCESS",
-          "status": "OBSERVED_FAILED_ACCESS",
-          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-independent-review-34857707932.json",
-          "runId": 34857707932,
-          "supersedesRunId": 34843210160,
-          "projectRef": "hyflxnlhpmiqxvvcoiia",
-          "passedChecks": 0,
-          "failedChecks": [
-            "supabase_token_usable",
-            "acceptance_project_resolves",
-            "acceptance_project_identity_is_exact",
-            "acceptance_project_reachable_for_sql",
-            "acceptance_project_carries_no_production_data"
-          ],
-          "gates": {
-            "supabase_token_usable": false,
-            "acceptance_project_resolves": false,
-            "acceptance_project_identity_is_exact": false,
-            "acceptance_project_reachable_for_sql": false,
-            "acceptance_project_carries_no_production_data": false
-          },
+          "service": "supabase",
+          "status": "SERVICE_PREFLIGHT_PASSED_ONLY",
+          "runId": 34869440888,
+          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-evidence-34869440888.json",
+          "passedChecks": 5,
           "candidateAcceptance": false,
           "migrationAuthorized": false,
-          "nextStep": "Investigate the existing workflow authentication binding and account/project authorization after billing restoration; no credential replacement or additional preflight is prescribed by this receipt.",
-          "meaning": "The current Supabase service predicates still fail; the historical run remains preserved but is not the current diagnosis."
+          "releaseAuthorityGranted": false,
+          "meaning": "Current service access and designed boundary checks verified; no application, worker or participant acceptance."
         },
         {
           "id": "VERCEL_TEAM_LOOKUP",
-          "evidence": "data/rcap-grade-a/participant-data-rights/vercel-identity-independent-review-20260914.json",
-          "runId": 34849972050,
-          "identityOnly": true,
+          "service": "vercel",
+          "status": "SERVICE_PREFLIGHT_PASSED_ONLY",
+          "runId": 34869440888,
+          "evidence": "data/rcap-grade-a/participant-data-rights/service-preflight-evidence-34869440888.json",
+          "passedChecks": 4,
           "candidateAcceptance": false,
-          "status": "TEAM_NOT_VISIBLE_AFTER_COMPLETE_LOOKUP",
-          "meaning": "The pinned team was absent after completed pagination using this credential. Owner access/scope verification is needed; the old incomplete-pagination question is superseded."
+          "migrationAuthorized": false,
+          "releaseAuthorityGranted": false,
+          "meaning": "Current service access and designed boundary checks verified; no application, worker or participant acceptance."
         },
         {
           "id": "NC_INSTITUTIONAL_INPUT",
