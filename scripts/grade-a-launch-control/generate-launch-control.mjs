@@ -364,7 +364,13 @@ if (exists(NC_PREREQUISITE)) {
     doc.familyPrerequisites = [{ familyId: prerequisite.familyId, record: NC_PREREQUISITE,
       status: prerequisite.status, requiredInput: prerequisite.responseAcceptance.required,
       buildSlotReleased: prerequisite.buildSlotReleased, contactAttempted: prerequisite.contactAttempted }];
-    doc.testStatus.familyPrerequisite = `${prerequisite.familyId}: ${prerequisite.responseAcceptance.required} See ${NC_PREREQUISITE}; the institutional inquiry has not been sent.`;
+    const scope = doc.releaseReconciliation.sharedCauses?.ncCoreAndConditionalSupplement;
+    if (scope?.status === 'BOUND_OWNER_PRODUCT_SCOPE' && scope.supplement.familyId === prerequisite.familyId) {
+      doc.familyPrerequisites[0].scope = scope;
+      doc.testStatus.familyPrerequisite = `NC core dismissal and acquittal families are terminal. Only the conditional DNA supplement retains an unresolved participant instrument or acceptance procedure; it does not block core expunction. The owner will contact NCAOC; the inquiry remains unsent. See ${scope.evidence}.`;
+    } else {
+      doc.testStatus.familyPrerequisite = `${prerequisite.familyId}: ${prerequisite.responseAcceptance.required} See ${NC_PREREQUISITE}; the institutional inquiry has not been sent.`;
+    }
   }
 }
 const CANDIDATE_BINDING = "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json";
