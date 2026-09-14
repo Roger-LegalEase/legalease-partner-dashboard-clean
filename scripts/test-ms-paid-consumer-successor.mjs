@@ -71,7 +71,9 @@ check('new active record binds owner scope and does not invent missing technical
   assert.equal(current.length, 1);
   assert.equal(current[0].recordId, 'grade-a-ms-nonconv-paid-consumer-successor-20260914');
   assert.equal(current[0].evidenceBindings.paidConsumerSuccessor.decisionSha256, loadMsPaidConsumerSuccessor().decisionSha256);
-  assert.equal(current[0].finalVerification.state, 'unbound');
+  assert.equal(current[0].finalVerification.state, 'bound');
+  assert.equal(current[0].evidenceBindings.exactPaidPacketProof.currentInputsVerified, true);
+  assert.equal(current[0].provider.imageDigest, '', 'owner scope and packet proof cannot fabricate publication');
   assert.equal(current[0].revocation.revoked, false);
 });
 console.log(`${passed}/${passed} exact-scope controls passed`);

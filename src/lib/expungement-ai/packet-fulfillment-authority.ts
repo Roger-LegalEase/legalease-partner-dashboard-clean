@@ -1,4 +1,5 @@
 import "server-only";
+import { msPaidSuccessorConsumerScope } from "@/lib/rcap/fulfillment/paid-consumer-successor";
 
 import fulfillmentRecords from "@/../data/rcap-ledger/packet-fulfillment-records.json";
 import { fulfillmentAuthorityFor } from "@/lib/rcap/fulfillment/grade-a-admission";
@@ -306,7 +307,7 @@ export function packetFulfillmentAuthority(
     verificationBinding: canonical.finalVerification.boundInputsSha256 ?? "",
     privateDelivery: true, repeatDownload: true,
     artifactApprovalStatus: "counsel_reviewed_and_visually_verified",
-    consumerPosture: legacy?.consumerPosture ?? "open", sponsoredPosture: legacy?.sponsoredPosture ?? "open",
+    consumerPosture: msPaidSuccessorConsumerScope(canonical) ? "open" : legacy?.consumerPosture ?? "open", sponsoredPosture: legacy?.sponsoredPosture ?? "open",
     holdReason: legacy?.holdReason ?? "", provenBy: canonical.recordId, provenOn: canonical.effectiveFrom
   };
 

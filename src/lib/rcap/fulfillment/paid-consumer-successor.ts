@@ -52,3 +52,15 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
     };
   } catch { return null; }
 }
+
+/** Channel scope only. Callers must establish canonical technical admission
+ * first; the historical sponsored posture is never changed by this predicate. */
+export function msPaidSuccessorConsumerScope(record: {
+  recordId: string; routeId: string; packetFamilyId: string | null;
+  packetSpecification: { sha256: string };
+}): boolean {
+  const approval = loadMsPaidConsumerSuccessor();
+  return !!approval && record.recordId === "grade-a-ms-nonconv-paid-consumer-successor-20260914"
+    && record.routeId === approval.routeId && record.packetFamilyId === approval.packetFamilyId
+    && record.packetSpecification.sha256 === approval.specificationSha256;
+}

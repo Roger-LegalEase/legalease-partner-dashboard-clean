@@ -198,8 +198,8 @@ export async function enqueueVerifiedConsumerRender(
   // All existing consumer entry points converge here. The exact assigned route
   // carries the protected snapshot and specification into the durable input;
   // the RPC still owns atomic verification/payment comparison and insertion.
-  const { PERSONALIZED_DELIVERY_ROUTE, currentPersonalizedVerification, preparePersonalizedPacket } = await import("@/lib/rcap/render/personalized-packet");
-  if (spec.routeId === PERSONALIZED_DELIVERY_ROUTE) {
+  const { isPersonalizedDeliveryRoute, currentPersonalizedVerification, preparePersonalizedPacket } = await import("@/lib/rcap/render/personalized-packet");
+  if (isPersonalizedDeliveryRoute(spec.routeId)) {
     const verification = await currentPersonalizedVerification(identity.expectedConsumerAuthUserId, identity.consumerBriefcaseItemId);
     if (verification.hash !== identity.expectedVerificationHash) return null;
     const prepared = preparePersonalizedPacket({

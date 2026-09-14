@@ -1,4 +1,5 @@
 import "server-only";
+import { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_ROUTE } from "@/lib/rcap/fulfillment/paid-consumer-successor";
 
 import { createHash } from "node:crypto";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -15,6 +16,11 @@ import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
 
 export const PERSONALIZED_DELIVERY_ROUTE = "IL:felony-prostitution-relief";
 
+export function isPersonalizedDeliveryRoute(routeId: string): boolean {
+  return routeId === PERSONALIZED_DELIVERY_ROUTE
+    || (routeId === MS_PAID_SUCCESSOR_ROUTE && loadMsPaidConsumerSuccessor() !== null);
+}
+
 function uuidFor(seed: string) {
   const h = createHash("sha256").update(seed).digest("hex");
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-8${h.slice(17, 20)}-${h.slice(20, 32)}`;
@@ -29,7 +35,7 @@ export function preparePersonalizedPacket(input: {
 }) {
   const { snapshot } = input;
   const routeId = `${snapshot.jurisdiction}:${snapshot.pathwayId}`;
-  if (routeId !== PERSONALIZED_DELIVERY_ROUTE
+  if (!isPersonalizedDeliveryRoute(routeId)
     || input.matterId !== consumerMatterIdForItem(input.briefcaseItemId)
     || !/^[a-f0-9]{64}$/.test(input.verificationHash)) throw new Error("personalized render identity mismatch");
   const authority = packetFulfillmentAuthority(snapshot.jurisdiction, snapshot.pathwayId, "packet generation", {

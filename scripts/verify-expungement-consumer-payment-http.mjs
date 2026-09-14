@@ -50,6 +50,12 @@ register("./lib/next-server-loader.mjs", import.meta.url);
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 register("./lib/consumer-payment-test-loader.mjs", import.meta.url);
 register("./consumer-payment-auth-test-loader.mjs", import.meta.url);
+if (process.argv.includes("--admission-trace")) {
+  register("./consumer-payment-admission-trace-test-loader.mjs", import.meta.url);
+  globalThis.__rcapPaymentAdmissionTrace = event => console.log("ADMISSION_TRACE " + JSON.stringify({
+    testGroup: globalThis.__rcapPaymentTestGroup, ...event
+  }));
+}
 
 const Stripe = (await import("stripe")).default;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -87,6 +93,7 @@ function check(id, title, passed, observed) {
 // A failed fulfillment prerequisite must not hide independent signature and
 // isolation checks. Every unreached assertion is recorded as FAILED, never skipped.
 async function runCaseGroup(ids, execute) {
+  globalThis.__rcapPaymentTestGroup = ids;
   try { await execute(); } catch (error) {
     const missing = ids.filter(id => !results.some(row => row.id === id));
     for (const id of missing.length ? missing : [ids[0] + '-execution']) {
@@ -237,6 +244,14 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
     sentence_completion_date: "Yes",
     trafficking_status: "No"
   };
+  // The approved participant composer requires the exact filing facts and
+  // self-help confirmations. Keep the payment assertions unchanged and seed
+  // complete synthetic facts from the already-approved participant fixture.
+  const approvedParticipantFacts = JSON.parse(fs.readFileSync(path.join(rootDir,
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json"), "utf8")).facts;
+  for (const [key, value] of Object.entries(approvedParticipantFacts)) {
+    if (!(key in packetAnswers)) packetAnswers[key] = value;
+  }
   const commercialFlow = {
     version: 1,
     entitlementSource: "consumer_payment",

@@ -3,7 +3,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import { requestConsumerPacketRender, requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
 import { enqueueVerifiedSponsoredRender, getRenderJob, hasFinalizedPersonalizedRender } from "@/lib/rcap/render/job-queue";
-import { PERSONALIZED_DELIVERY_ROUTE, preparePersonalizedPacket } from "@/lib/rcap/render/personalized-packet";
+import { isPersonalizedDeliveryRoute, preparePersonalizedPacket } from "@/lib/rcap/render/personalized-packet";
 import { finalizeSponsoredRenderArtifact, sponsoredRenderDeliveryReady } from "@/lib/rcap/render/sponsored-packet";
 import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
 
@@ -199,7 +199,7 @@ export async function generatePaidConsumerPacket({
     entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined
   });
 
-  if (`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}` === PERSONALIZED_DELIVERY_ROUTE) {
+  if (isPersonalizedDeliveryRoute(`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`)) {
     if (!resolveConsumerDeliveryAccess({ subjectId: userId }).allowed) {
       throw new ConsumerPacketGenerationError("Consumer delivery is disabled.");
     }
@@ -753,7 +753,7 @@ export async function assertPacketGenerationAllowed(
     jurisdiction: verification.snapshot.jurisdiction,
     pathwayId: verification.snapshot.pathwayId
   });
-  const regeneration = generationIdentity.routeId === PERSONALIZED_DELIVERY_ROUTE
+  const regeneration = isPersonalizedDeliveryRoute(generationIdentity.routeId)
     && await hasFinalizedPersonalizedRender(userId, item.id, !paymentRequired);
   const admitGeneration = regeneration ? governProviderDispatch : governGenerationAdmission;
   admitGeneration(generationIdentity, fulfillmentRequestContext({

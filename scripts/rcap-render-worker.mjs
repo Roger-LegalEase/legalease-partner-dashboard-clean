@@ -27,10 +27,10 @@ const { getPacketArtifactStorage } = await import("../src/lib/rcap/render/artifa
 const { renderRcapPacketPdf } = await import("../src/lib/rcap/documents/packet-document-renderer.ts");
 const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { PACKET_RENDERER_KIND } = await import("../src/lib/rcap/documents/packet-document-renderer.ts");
-const { PERSONALIZED_DELIVERY_ROUTE, renderPersonalizedClaim } = await import("../src/lib/rcap/render/personalized-packet.ts");
+const { isPersonalizedDeliveryRoute, renderPersonalizedClaim } = await import("../src/lib/rcap/render/personalized-packet.ts");
 
 export async function renderClaimPacket(claim) {
-  if (claim.routeId === PERSONALIZED_DELIVERY_ROUTE) return renderPersonalizedClaim(claim);
+  if (isPersonalizedDeliveryRoute(claim.routeId)) return renderPersonalizedClaim(claim);
   const { getRcapDocumentPacket } = await import("../src/lib/rcap/documents/source-repository.ts");
   const packet = await getRcapDocumentPacket(claim.packetId);
   if (!packet) throw new Error(`packet ${claim.packetId} not found`);

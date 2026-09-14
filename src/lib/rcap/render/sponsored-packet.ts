@@ -1,7 +1,7 @@
 import "server-only";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
-import { currentPersonalizedVerification, preparePersonalizedPacket, PERSONALIZED_DELIVERY_ROUTE } from "@/lib/rcap/render/personalized-packet";
+import { currentPersonalizedVerification, preparePersonalizedPacket, isPersonalizedDeliveryRoute } from "@/lib/rcap/render/personalized-packet";
 import { artifactStorageContext, commercialRouteIdentity, finalVerificationSnapshotFrom,
   fulfillmentRequestContext, governArtifactAttachment } from "@/lib/rcap/render/commercial-admission";
 import { readProtectedPacketArtifact } from "@/lib/expungement-ai/verification-cas";
@@ -32,7 +32,7 @@ export async function finalizeSponsoredRenderArtifact(jobId: string): Promise<bo
   if (!supabase) return false;
   const { data: job, error } = await supabase.from("packet_render_jobs").select("*").eq("id", jobId).maybeSingle();
   if (error || !job) return false;
-  if (job.route_id !== PERSONALIZED_DELIVERY_ROUTE || !job.sponsored_route_key) return true;
+  if (!isPersonalizedDeliveryRoute(job.route_id) || !job.sponsored_route_key) return true;
   if (!["artifact_validated", "delivered"].includes(job.status) || job.delivery_eligibility !== "eligible"
     || !job.output_sha256 || !job.output_storage_path || !job.artifact_validated_at || !job.page_count) return false;
   const current = await currentPersonalizedVerification(job.sponsored_consumer_auth_user_id, job.sponsored_consumer_briefcase_item_id);

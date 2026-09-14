@@ -31,6 +31,8 @@ import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-trac
 // This generator creates no approval. Every value it writes is copied from an
 // existing evidence file, and where the evidence is absent it writes the absence.
 
+import { loadMsPaidPacketProof, MS_PAID_PACKET_PROOF } from "./lib/ms-paid-packet-proof.mjs";
+import { MS_TRACK_CONTAINER, reconcileMsUnchangedTrack } from "./lib/ms-unchanged-track-authority.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -1069,6 +1071,34 @@ function mississippiPaidConsumerSuccessorRecord() {
     historicalSponsoredPreview: { path: MS_PREVIEW_HISTORY, sha256: sha256(readEvidenceBytes(MS_PREVIEW_HISTORY)), recordId: archived.record.recordId },
     legacyRetirementPreserved: true
   };
+  const {proof, sha256: proofSha256} = loadMsPaidPacketProof({readBytes:readEvidenceBytes, stableStringify, approval});
+  // The worker dispatch adapter and the internal PDF composer have different
+  // identities. Preserve the reviewed producer while naming the actual queue
+  // provider; publication is still missing until exact current inputs publish.
+  record.provider = {...record.provider, providerId:"ghcr.io/roger-legalease/rcap-render-worker",
+    rendererKind:PACKET_RENDERER_KIND, rendererVersion:PACKET_RENDERER_VERSION};
+  record.packetCompleteness.filingFormatArtifact.producedBy.matchesRecordProvider = false;
+  record.packetCompleteness.filingFormatArtifact.producedBy.reconciliation = "The reviewed PDF producer is rcap_grade_a_document_v1@2.0.0. The delivery worker uses packet_document_v1 dispatch and selects the protected exact-route participant composer. Current worker publication remains separately required.";
+  const source = proof.sourceAuthority;
+  record.officialSources = [{
+    sourceKind: "codified_authority", sourceId: `codified-authority:${record.packetFamilyId}`,
+    sha256: source.boundInputsSha256, expectedSha256: source.boundInputsSha256, installedSha256: source.boundInputsSha256,
+    corpusReleaseId: "not_applicable:codified_authority", corpusArchiveSha256: "not_applicable:codified_authority",
+    verifiedAt: `base:${proof.sourceSha}`, verificationRecord: MS_PAID_PACKET_PROOF,
+    officialBinaryExpected: false, officialBinarySource: null, contract: source.boundInputs.contract,
+    boundInputs: source.boundInputs, boundInputsSha256: source.boundInputsSha256
+  }];
+  const finalInputs = {contract: INDEPENDENT_FINAL_VERIFICATION_CONTRACT, routeId: record.routeId,
+    familyId: record.packetFamilyId, packetSpecificationSha256: record.packetSpecification.sha256,
+    canonicalArtifactSha256: proof.results[0].artifactSha256, boundaryArtifactSha256: proof.results[1].artifactSha256,
+    proofPath: MS_PAID_PACKET_PROOF, proofSha256,
+    participantVerifications: proof.results.map(r=>({fixture:r.fixture,boundInputsSha256:r.verificationBoundInputsSha256}))};
+  record.finalVerification = {contract: INDEPENDENT_FINAL_VERIFICATION_CONTRACT,
+    contractModule: proof.generatedBy, state: "bound", verifierId: proof.generatedBy,
+    boundInputsSha256: sha256(stableStringify(finalInputs)), verifiedAt: `base:${proof.sourceSha}`,
+    boundInputs: finalInputs};
+  record.evidenceBindings.exactPaidPacketProof = {path:MS_PAID_PACKET_PROOF,sha256:proofSha256,
+    currentInputsVerified:true, hostedAcceptance:false};
   const prior = priorCurrentRecordFor(MS_CLINIC_ROUTE);
   const sameIdentity = prior?.recordId === record.recordId;
   record.version = sameIdentity ? prior.version : 1;
@@ -1878,6 +1908,21 @@ const records = [
   ...EXACT_PRODUCTIZED_ROUTES.map(exactProductizedRecordOrRevocation).filter(Boolean)
 ]
   .map(record => {
+    if (MS_TRACK_CONTAINER.routes.includes(record.routeId) && record.revocation.revoked) {
+      record = structuredClone(record);
+      const reconciliation = reconcileMsUnchangedTrack({familyId:record.packetFamilyId,routeId:record.routeId,
+        approvedBytes:readGitBlob(MS_TRACK_CONTAINER.approvedCommit,MS_TRACK_CONTAINER.path),
+        currentBytes:readEvidenceBytes(MS_TRACK_CONTAINER.path)});
+      const source = record.officialSources.find(s=>s.sourceKind === "codified_authority");
+      if (!source) throw new Error("Missing MS codified source proof");
+      const track = source.boundInputs.authorityInputs.find(i=>i.role === "track_authority");
+      if (track.sha256 !== MS_TRACK_CONTAINER.approvedSha256) throw new Error("MS historical source pin changed");
+      track.unchangedTrackReconciliation = reconciliation;
+      const boundHash = sha256(stableStringify(source.boundInputs));
+      for (const key of ["sha256","expectedSha256","installedSha256","boundInputsSha256"]) source[key]=boundHash;
+      record.evidenceBindings.codifiedAuthority.boundInputs = source.boundInputs;
+      record.evidenceBindings.codifiedAuthority.boundInputsSha256 = boundHash;
+    }
     const prior = priorCurrentRecordFor(record.routeId);
     if (!prior || prior.recordId !== record.recordId || record.version > prior.version) return record;
     record.version = prior.version;
@@ -1892,8 +1937,14 @@ const records = [
   })
   .sort((a, b) => a.routeId.localeCompare(b.routeId));
 
+for (const withdrawn of withdrawnCandidates) {
+  const current = records.find(record => record.routeId === withdrawn.routeId);
+  if (current && withdrawn.recordId === current.recordId) withdrawn.version = current.version;
+}
+
 const exactProductizedEvidencePaths = [...new Set([
   "scripts/lib/wy-unchanged-track-authority.mjs",
+  "scripts/lib/ms-unchanged-track-authority.mjs",
   FIRST_COHORT_RETURN,
   IL_PRODUCTIZATION_RETURN,
   IL_CURRENT_VERIFICATION_RETURN,
@@ -1947,6 +1998,7 @@ const registry = {
     [WORKER_EVIDENCE]: sha256(readEvidenceBytes(WORKER_EVIDENCE)),
     [SOURCE_REGISTRY]: sha256(readEvidenceBytes(SOURCE_REGISTRY)),
     [MS_PAID_SUCCESSOR_DECISION_PATH]: sha256(readEvidenceBytes(MS_PAID_SUCCESSOR_DECISION_PATH)),
+    [MS_PAID_PACKET_PROOF]: sha256(readEvidenceBytes(MS_PAID_PACKET_PROOF)),
     [MS_PREVIEW_HISTORY]: sha256(readEvidenceBytes(MS_PREVIEW_HISTORY)),
     [MS_CLINIC_SPECIFICATION]: sha256(readEvidenceBytes(MS_CLINIC_SPECIFICATION)),
     [MS_CLINIC_FIXTURE]: sha256(readEvidenceBytes(MS_CLINIC_FIXTURE)),

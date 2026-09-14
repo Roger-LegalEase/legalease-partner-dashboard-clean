@@ -23,6 +23,7 @@ import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-trac
 // rule deliberately, in memory only, and requires the check to notice. Nothing
 // is written to disk in either mode.
 
+import { MS_TRACK_CONTAINER, reconcileMsUnchangedTrack } from "./lib/ms-unchanged-track-authority.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -422,11 +423,19 @@ function codifiedAuthorityProblem(record, expected, options = {}) {
       return `${role} does not bind its exact admitted path and digest`;
     }
     if (sha256(readSource(input.path)) !== input.sha256) {
+      if (role === "track_authority" && expected.familyId === MS_TRACK_CONTAINER.familyId) {
+        try {
+          const proof = reconcileMsUnchangedTrack({familyId:expected.familyId,routeId:expected.routeId,
+            approvedBytes:execFileSync("git",["show",`${MS_TRACK_CONTAINER.approvedCommit}:${input.path}`]),currentBytes:readSource(input.path)});
+          if (stableStringify(proof) !== stableStringify(input.unchangedTrackReconciliation)) return "MS unchanged-track reconciliation absent or stale";
+          continue;
+        } catch(error) { return error.message; }
+      }
       if (role !== "track_authority" || expected.familyId !== WY_CONTAINER.familyId || expected.routeId !== WY_CONTAINER.routeId) return `${role} moved from its bound current digest`;
       try {
         const proof = reconcileWyUnchangedTrack({ familyId: expected.familyId, routeId: expected.routeId,
           approvedBytes: execFileSync("git", ["show", `${WY_CONTAINER.approvedCommit}:${input.path}`]),
-          currentBytes: readSource(input.path), readBytes: readSource });
+          currentBytes: readBytes(input.path), readBytes });
         if (stableStringify(proof) !== stableStringify(input.unchangedTrackReconciliation)) return "WY container reconciliation is absent or stale";
       } catch (error) { return error.message; }
     }
