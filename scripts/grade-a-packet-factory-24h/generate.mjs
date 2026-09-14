@@ -35,6 +35,7 @@ import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
 import { loadScReviewedGuidance } from "./sc-reviewed-guidance.mjs";
 import { normalizeDeclaredDeGuidanceBuildInputs, declaredDeGuidanceSourceReadiness, DE_FAMILY } from "./de-guidance-binding.mjs";
 import { normalizeDeclaredUtPcraBuildInputs, UT_PCRA_FAMILY } from "./ut-pcra-declared-delivery.mjs";
+import { assessOhReviewedBuildMapping } from "./oh-reviewed-build-mapping.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
 import {
   assessLegalResolutionAtReviewBase,
@@ -2162,6 +2163,14 @@ for (const f of IN.scoreboard.familiesDetail) {
     familyId, routes, implementationStrategy: strategy, sourceReconciliation, treatment,
     legalResolution: currentLegalResolution
   }));
+  const ohMapping = assessOhReviewedBuildMapping(ROOT, {
+    familyId, routes, implementationStrategy: strategy, treatment,
+    executionReclassification: ownerExecutionReclassifications.get(familyId) ?? null
+  });
+  if (ohMapping) {
+    routes = ohMapping.routes;
+    strategy = ohMapping.implementationStrategy;
+  }
   const waSudMapping = assessWaSudCustomMapping(ROOT, {
     familyId, routes, treatment, legalResolution: currentLegalResolution, independentReturn,
     executionReclassification: ownerExecutionReclassifications.get(familyId) ?? null
@@ -2280,7 +2289,7 @@ for (const f of IN.scoreboard.familiesDetail) {
         decisionRecord: LEGAL_HOLD_RECLASSIFICATION
       }
     : wave2LegalMeasured;
-  const executionReclassification = waSudMapping?.executionReclassification
+  const executionReclassification = ohMapping?.executionReclassification ?? waSudMapping?.executionReclassification
     ?? ownerExecutionReclassifications.get(familyId) ?? null;
   const ownerCorrection = ownerCorrectionsRequired.get(familyId) ?? null;
   const ownerCorrectionAwaitsReread = Boolean(ownerCorrection)
