@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-packet-completeness-matrix/v1",
+  "generatedBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+  "contract": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+  "question": "Does every built packet contain everything a filing needs, or only everything the build chose to write?",
+  "whatTheOldPassProved": "That every write was correct: bound to exact source bytes, inside a measured box, off every protected field. It never asked what was owed, so a family could pass having written 6 of 187 fields.",
+  "passRule": "A family returns PASS_COMPLETE only when all 9 counters are zero: knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects.",
+  "resultClasses": [
+    "PASS_COMPLETE",
+    "FAIL_PROTECTED_WRITE",
+    "FAIL_VISIBLE_APPEARANCE",
+    "FAIL_MISSING_REQUIRED_FACTS",
+    "FAIL_ROUTE_SELECTION",
+    "FAIL_MISSING_PREFILLS",
+    "FAIL_COMPONENT_SET",
+    "FAIL_CURRENTNESS"
+  ],
+  "familiesAudited": 1,
+  "byResult": {
+    "NOT_MEASURABLE_HERE": 1
+  },
+  "counterTotals": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": null,
+    "protectedWrites": 0,
+    "visualDefects": null
+  },
+  "auditScope": {
+    "kind": "family-only",
+    "familyId": "ca-diversion-seal-set",
+    "nationalMatrixUpdated": false,
+    "reusedResults": 0,
+    "integrationRequiresFullAudit": true
+  },
+  "results": [
+    {
+      "familyId": "ca-diversion-seal-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill",
+      "result": "NOT_MEASURABLE_HERE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 250,
+        "written": 218,
+        "blank": 32,
+        "blanksByDisposition": {
+          "PROTECTED_FIELD": 10,
+          "PARTICIPANT_ELECTION_GENUINE": 2,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 20
+        },
+        "rowsInspected": 2,
+        "fieldMapSchema": "writes-and-refusals"
+      },
+      "outputApprovalStatus": "PENDING_RASTER_AND_FINAL_INDEPENDENT_REVIEW",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    }
+  ]
+}

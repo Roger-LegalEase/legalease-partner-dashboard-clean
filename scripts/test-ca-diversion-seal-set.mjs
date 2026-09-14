@@ -16,5 +16,8 @@ const ready={...f,synthetic:false,participantSigned:true,actualServiceComplete:t
 for(const k of ['participantSigned','actualServiceComplete','allPartiesNoticeResolved']){assert.throws(()=>validateInput({...ready,[k]:false},{filing:true}));checks++;}
 for(const k of ['hearing','lawEnforcement']){assert.throws(()=>validateInput({...ready,[`${k}NoticeRequired`]:true},{filing:true}));checks++;}
 assert.throws(()=>validateInput({...ready,synthetic:true},{filing:true}));checks++;
+for(const program of ['PC1000.5','PC1000.8'])pass({...f,program});
+for(const key of ['hearingNoticeRequired','lawEnforcementNoticeRequired'])refuse(key,undefined);
+const badDate=structuredClone(f);badDate.arrests[0].date='unknown';assert.throws(()=>validateInput(badDate));checks++;
 assert.equal(TABLE.rowTops.length,3);assert(TABLE.rowTops.every((v,i)=>TABLE.rowBottoms[i]-v>19));checks++;
 console.log(JSON.stringify({status:'PASS',checks}));
