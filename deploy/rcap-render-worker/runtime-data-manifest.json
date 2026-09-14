@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 123,
-  "totalBytes": 13971285,
+  "fileCount": 126,
+  "totalBytes": 13989305,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -682,14 +682,14 @@
     },
     {
       "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
-      "sha256": "3ad976cd7446438cfc71a06b116856090597eb7c1a56cb5487357d798e54a667",
-      "bytes": 172132,
+      "sha256": "a9b2a66ddd56cf1fe57b5dd38a282c94b0724cbcb6514800cb48ba12b502e54f",
+      "bytes": 176383,
       "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts (REGISTRY_PATH)",
       "why": "The Grade-A fulfillment record set. Absent, getCurrentFulfillmentRecord finds no record and every route is refused."
     },
     {
       "path": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
-      "sha256": "1546f65967064adee0b68ed212b1522ef6b737e947a020c29db4996ff68efa5f",
+      "sha256": "5f7855a6a093f0a390eb28b0f004bf01c0b1cc96508ca3efd316bee219638210",
       "bytes": 19995,
       "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts (OBSERVATION_PATH)",
       "why": "Independent observation the admission gate binds a record against."
@@ -700,6 +700,20 @@
       "bytes": 9791,
       "readBy": "src/lib/rcap/documents/packet-route-resolver.ts (ROUTE_HOLDS_PATH)",
       "why": "Route-scoped maintenance holds. Absent = no holds, which would silently un-hold a held route."
+    },
+    {
+      "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+      "sha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a",
+      "bytes": 6353,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+      "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."
+    },
+    {
+      "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+      "sha256": "74f8aab9cdfb2518b6ec57b1d888d52bddd31a6b8bba7adb874fa330a1025d26",
+      "bytes": 4752,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+      "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."
     },
     {
       "path": "data/rcap-ledger/packet-correction-required.json",
@@ -742,6 +756,13 @@
       "bytes": 507842,
       "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (REGISTRY_PATH)",
       "why": "Factory-v2 route rows behind buildRenderJobSpec."
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+      "sha256": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8",
+      "bytes": 2664,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+      "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."
     },
     {
       "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
