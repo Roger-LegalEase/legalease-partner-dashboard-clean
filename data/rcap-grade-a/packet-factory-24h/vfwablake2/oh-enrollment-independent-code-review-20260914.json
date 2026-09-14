@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "reviewer": "/root/ne_build",
+  "role": "independent code review; not OH packet review",
+  "reviewedCommit": "3e532f9df3",
+  "reviewedAt": "2026-09-14T03:55:21.886214+00:00",
+  "verdict": "PASS",
+  "files": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/oh-raster-documents.mjs",
+      "sha256": "9bd3e47d2ffdce7536a2c1466ccefec6474393981abca6a2a5fe34321d5dda56"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-oh-raster-documents.mjs",
+      "sha256": "ac5166a1324cd5d0dd1aa1325f25073a3e88e8de56427dbd0d1824d124a1b434"
+    }
+  ],
+  "validation": {
+    "command": "node --test scripts/grade-a-packet-factory-24h/test-oh-raster-documents.mjs",
+    "passed": 24,
+    "failed": 0
+  },
+  "findings": [],
+  "reviewedProperties": [
+    "Exact eight complete continuation packets across four tracks and two roles",
+    "Packet and artifact declarations agree with each other and actual SHA256, byte lengths and parsed page counts",
+    "Exact family-root containment; no symbolic links or escaping paths",
+    "Missing/duplicate/extra fixture identities and unexpected stage entries fail closed",
+    "Read-only selection; no rendering, mutation or admission; filingReady false"
+  ],
+  "remainingIntegrationCheck": "Captain wiring must select this helper before fallback and verify real queue excludes eight superseded PDFs.",
+  "commercialAuthorityGranted": false,
+  "packetAcceptanceGranted": false
+}
