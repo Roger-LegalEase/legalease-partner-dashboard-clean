@@ -341,7 +341,9 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
     text.length > 0
     && says(`**GO/HOLD: ${lc.goHold.decision}.**`)
     && (lc.releaseReconciliation
-      ? says(`| Total | ${lc.packetFamilies.total} |`) && says(`| Terminal | ${lc.packetFamilies.terminal} |`)
+      ? says(`| Total inventory (including conditional supplements) | ${lc.packetFamilies.total} |`)
+        && says(`| Launch-required | ${lc.packetFamilies.launchRequired} |`)
+        && says(`| Terminal | ${lc.packetFamilies.terminal} |`)
       : says(`| Terminal obligations | ${lc.denominator.terminalObligations} |`)
         && says(`| A branches newly required | ${lc.categoryBIntegration.aBranchesNewlyRequired} |`)
         && says(`| New packet families required | ${lc.categoryBIntegration.newPacketFamiliesRequired} |`)),
