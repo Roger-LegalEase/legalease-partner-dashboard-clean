@@ -12,14 +12,42 @@
     "family": "ne-trafficking-setaside-and-seal-set",
     "jurisdiction": "NE",
     "routeKeys": [
-      "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_setaside_motion",
-      "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_seal_motion"
+      "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_seal_motion",
+      "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_setaside_motion"
     ],
-    "deliveryType": "staged_custom_pleading_and_official_pdf_fill",
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Motion to seal the record once the conviction has been set aside (official_pdf_fill)",
+      "Motion to set aside the conviction or adjudication as a victim of sex trafficking (custom_pleading)"
+    ],
+    "packetComponents": [
+      "component:ne-trafficking-setaside-and-seal-sealing-motion-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-6-12",
+        "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "PASS",
+      "lane": "vfne1",
+      "verifiedAtBase": "0cbd29e7a33dff03b7fb56fd9eaf5886e586b26f"
+    },
     "paymentEligible": false,
     "sponsorshipEligible": false,
-    "runtimeInstalled": false,
-    "generationAllowed": false,
-    "filingPermitted": false
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

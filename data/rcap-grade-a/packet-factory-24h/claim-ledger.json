@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "debb0ae2ff9ecc9b3ba9f7f95ffd310c42a3b7b3",
+  "generatedAtCommit": "2bf0ab54e8c3ae9c80845fb5b19ebf82408dc6f0",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7480,15 +7480,15 @@
     {
       "subjectType": "packet-family",
       "subjectId": "ne-trafficking-setaside-and-seal-set",
-      "familyId": "ne-trafficking-setaside-and-seal-set",
       "itemId": null,
+      "familyId": "ne-trafficking-setaside-and-seal-set",
       "familyIds": [
         "ne-trafficking-setaside-and-seal-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF01",
-      "laneKind": "packet-build",
+      "operation": "independent-verification",
+      "lane": "VFNE1",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -8844,10 +8844,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF32",
+      "lane": "VFOH1",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T22:41:30.114Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -10826,15 +10826,15 @@
     {
       "subjectType": "packet-family",
       "subjectId": "wa_blake_vacatur_and_lfo_refund-set",
-      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
       "itemId": null,
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
       "familyIds": [
         "wa_blake_vacatur_and_lfo_refund-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF24",
-      "laneKind": "packet-build",
+      "operation": "independent-verification",
+      "lane": "VFWABLAKE1",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -11153,6 +11153,22 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T12:25:55.530Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa-blake-vacatur-and-lfo-refund-set",
+      "itemId": null,
+      "familyId": "wa-blake-vacatur-and-lfo-refund-set",
+      "familyIds": [
+        "wa-blake-vacatur-and-lfo-refund-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF24",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-14T03:35:06.865Z",
+      "releaseReason": "Captain correction: overlay directory spelling was mistaken for queue identity; existing PF24 grant wa_blake_vacatur_and_lfo_refund-set has remained authoritative. Preserve this mistaken alias grant as released history."
     },
     {
       "subjectType": "packet-family",
@@ -15797,55 +15813,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wa-blake-vacatur-and-lfo-refund-set",
-      "itemId": null,
-      "familyId": "wa-blake-vacatur-and-lfo-refund-set",
-      "familyIds": [
-        "wa-blake-vacatur-and-lfo-refund-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF24",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-14T03:35:06.865Z",
-      "releaseReason": "Captain correction: overlay directory spelling was mistaken for queue identity; existing PF24 grant wa_blake_vacatur_and_lfo_refund-set has remained authoritative. Preserve this mistaken alias grant as released history."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wa_blake_vacatur_and_lfo_refund-set",
-      "itemId": null,
-      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
-      "familyIds": [
-        "wa_blake_vacatur_and_lfo_refund-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFWABLAKE1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ne-trafficking-setaside-and-seal-set",
-      "itemId": null,
-      "familyId": "ne-trafficking-setaside-and-seal-set",
-      "familyIds": [
-        "ne-trafficking-setaside-and-seal-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VFNE1",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "bf76e1a065c8cc22d96ead1bc835704a8bb0c2b013b7f23d65327b9e8c54f504",
+  "claimsDigest": "a37771843cd029c14fa49937155934243060ed6611941befdad1c6462531e1c6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -66523,6 +66493,17 @@
       "previouslyReleasedAt": "2026-09-14T03:34:07.009Z",
       "transferredAt": "2026-09-14T03:34:07.195Z",
       "reason": "User-authorized work stealing: replacement NE author /root/ne_build takes WV build after NE saved handoff; PF08 replacement owns OH."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-oh-custom-pleading-clean-tracks",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF32",
+      "toLane": "VFOH1",
+      "previouslyReleasedAt": "2026-09-02T22:41:30.114Z",
+      "transferredAt": "2026-09-14T03:43:21.203Z",
+      "reason": "User-authorized replacement reviewer /root/prerequisite takes new exact Arial eight-fixture OH candidate after stable PF08 handoff; distinct from author."
     }
   ],
   "grants": [
@@ -72810,6 +72791,38 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-13T23:37:37Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-trafficking-setaside-and-seal-set",
+      "operation": "packet-build",
+      "lane": "PF01",
+      "withdrawnAt": "2026-09-14T03:39:05Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_blake_vacatur_and_lfo_refund-set",
+      "operation": "packet-build",
+      "lane": "PF24",
+      "withdrawnAt": "2026-09-14T03:43:05Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-trafficking-setaside-and-seal-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "withdrawnAt": "2026-09-14T03:48:51Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_blake_vacatur_and_lfo_refund-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "withdrawnAt": "2026-09-14T03:48:51Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
