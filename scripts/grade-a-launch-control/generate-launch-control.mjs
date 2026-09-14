@@ -757,7 +757,7 @@ if (CHECK) {
     console.error(`${OUT_MD} does not match the record it mirrors. Run the generator.`);
     process.exit(1);
   }
-  console.log(`launch control current: ${doc.packetFamilies.terminal}/${doc.packetFamilies.total} terminal families, GO/HOLD ${doc.goHold.decision}; recorded at ${committed.lineage.captainSha.slice(0, 8)}.`);
+  console.log(`launch control current: ${doc.packetFamilies.terminal}/${doc.packetFamilies.launchRequired} launch-required terminal (${doc.packetFamilies.total} inventory) families, GO/HOLD ${doc.goHold.decision}; recorded at ${committed.lineage.captainSha.slice(0, 8)}.`);
   console.log(`launch status mirror current: ${OUT_MD}`);
   process.exit(0);
 }
@@ -768,5 +768,5 @@ fs.writeFileSync(statusPath, status);
 console.log(`Wrote ${OUT}`);
 console.log(`Wrote ${OUT_MD}\n`);
 console.log(`  captain ${doc.lineage.captainSha.slice(0, 8)} · historical census ${doc.denominator.terminalObligations} obligations / ${doc.denominator.packetFamilies} family groups`);
-console.log(`  current families: ${doc.packetFamilies.terminal}/${doc.packetFamilies.total} terminal`);
+console.log(`  current families: ${doc.packetFamilies.terminal}/${doc.packetFamilies.launchRequired} launch-required terminal (${doc.packetFamilies.total} inventory)`);
 console.log(`  counsel ${doc.legalWork.trueCounselQuestions} · blockers ${doc.exactBlockers.length} · ${doc.goHold.decision}`);

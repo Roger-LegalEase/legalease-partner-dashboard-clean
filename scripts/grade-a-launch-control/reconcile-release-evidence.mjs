@@ -1,3 +1,4 @@
+import { conditionalFamilyScope } from './conditional-family-scope.mjs';
 /** Pure reporting: never grants admission, changes evidence or invents a route. */
 export const RELEASE_DIMENSIONS = ['terminal_treatment', 'runtime_product_reachability', 'output_approval', 'fulfillment_authority', 'hosted_acceptance', 'production_readiness'];
 const TERMINAL = new Set(['COMPLETE_PACKET_PROVEN', 'GUIDANCE_READY', 'HANDOFF_READY', 'OUT_OF_SCOPE']);
@@ -22,12 +23,13 @@ export function resolveRuntimeRoute(family, obligationKey, graphRows) {
   return null;
 }
 
-export function reconcileReleaseEvidence({masterQueue, registry, projection, launchGraph, baseline = null, artifactBindings = {}}) {
+export function reconcileReleaseEvidence({masterQueue, registry, projection, launchGraph, baseline = null, artifactBindings = {}, ownerScope = null}) {
   if (!Array.isArray(masterQueue?.families)) throw new Error('MASTER_QUEUE families required');
   const ids = masterQueue.families.map(f => f.familyId);
   if (ids.some(id => typeof id !== 'string' || !id) || new Set(ids).size !== ids.length) throw new Error('Duplicate or missing exact family ID');
   const graphRows = launchGraph?.rows ?? [], records = registry?.records ?? [], projections = projection?.routes ?? [];
   const baselineStatus = baseline?.verified === true ? {status:'BOUND', ...baseline} : {status:'UNBOUND', reason:baseline?.reason ?? 'Authoritative release baseline not supplied; current local queue is an observation only.'};
+  const scopes = conditionalFamilyScope(ownerScope, masterQueue.families);
   const families = masterQueue.families.map(f => {
     const nonPacket = NON_PACKET.has(f.state);
     const terminal = result(TERMINAL.has(f.state), `Native MASTER_QUEUE state: ${f.state}`, [evidence(Q,f.familyId)]);
@@ -61,10 +63,11 @@ export function reconcileReleaseEvidence({masterQueue, registry, projection, lau
       }
       return {obligationKey:key,runtimeRouteId:routeId,dimensions,missingObligations:RELEASE_DIMENSIONS.filter(d=>dimensions[d].status==='MISSING').map(d=>({familyId:f.familyId,obligationKey:key,runtimeRouteId:routeId,dimension:d,reason:dimensions[d].reason})),commercialAuthorityGranted:false};
     });
-    return {familyId:f.familyId,worklistGroupId:f.worklistGroupId,jurisdiction:f.jurisdiction,routeKeys:f.routeKeys ?? [],disposition:f.state,terminal:terminal.status==='SATISFIED',packetSaleApplicable:!nonPacket,
+    return {familyId:f.familyId,launchRequired:!scopes.has(f.familyId),conditionalScope:scopes.get(f.familyId) ?? null,worklistGroupId:f.worklistGroupId,jurisdiction:f.jurisdiction,routeKeys:f.routeKeys ?? [],disposition:f.state,terminal:terminal.status==='SATISFIED',packetSaleApplicable:!nonPacket,
       evidenceBindings:{sourceIds:f.sourceIds,sourceHashes:f.sourceHashes,sourceReadiness:f.sourceReadiness,selectedIndependentVerdict:f.selectedIndependentVerdict,terminalTreatment:f.terminalTreatment,treatmentReconciliation:f.treatmentReconciliation,reviewedTreatmentGuidance:f.reviewedTreatmentGuidance,ownerDeliveryTypeRefusal:f.ownerDeliveryTypeRefusal,artifactReport:artifactBindings[f.familyId] ?? null},routes,
       missingObligations:routes.flatMap(r=>r.missingObligations),launchReady:false,commercialAuthorityGranted:false};
   });
-  const gaps = families.flatMap(f=>f.missingObligations);
-  return {baseline:baselineStatus,dimensions:RELEASE_DIMENSIONS,families,gaps,counts:{families:families.length,terminal:families.filter(f=>f.terminal).length,packetSaleApplicable:families.filter(f=>f.packetSaleApplicable).length,nonPacketTerminal:families.filter(f=>!f.packetSaleApplicable).length,missingObligations:gaps.length,byDimension:Object.fromEntries(RELEASE_DIMENSIONS.map(d=>[d,gaps.filter(g=>g.dimension===d).length]))},launchGate:{open:false,reason:baselineStatus.status==='UNBOUND' ? baselineStatus.reason : 'Reporting never grants launch; route-bound hosted/Production proof and separately authorized all-51 release remain required.'},commercialAuthorityGranted:false};
+  const gaps = families.filter(f=>f.launchRequired).flatMap(f=>f.missingObligations);
+  const supplementalGaps = families.filter(f=>!f.launchRequired).flatMap(f=>f.missingObligations);
+  return {baseline:baselineStatus,dimensions:RELEASE_DIMENSIONS,families,gaps,supplementalGaps,counts:{families:families.length,launchRequired:families.filter(f=>f.launchRequired).length,conditionalSupplemental:scopes.size,terminal:families.filter(f=>f.terminal).length,packetSaleApplicable:families.filter(f=>f.packetSaleApplicable).length,nonPacketTerminal:families.filter(f=>!f.packetSaleApplicable).length,missingObligations:gaps.length,byDimension:Object.fromEntries(RELEASE_DIMENSIONS.map(d=>[d,gaps.filter(g=>g.dimension===d).length]))},launchGate:{open:false,reason:baselineStatus.status==='UNBOUND' ? baselineStatus.reason : 'Reporting never grants launch; route-bound hosted/Production proof and separately authorized all-51 release remain required.'},commercialAuthorityGranted:false};
 }

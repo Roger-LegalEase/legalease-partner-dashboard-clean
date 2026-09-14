@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /** Existing national worklist/freeze, reconciled from native evidence; no admission. */
+import { NC_SCOPE_PATH } from './conditional-family-scope.mjs';
 import fs from 'node:fs';
 import { CURRENT_SERVICE_REVIEW } from './verified-current-service-preflight.mjs';
 import {groupReleaseGapCauses} from './release-gap-causes.mjs';
@@ -56,7 +57,8 @@ for(const f of masterQueue.families){
   ...(bounded?{bytesVerified:bounded.bytesVerified,refusal:bounded.refusal}:{}),
   measurementScope:bounded?.measurementScope??'Preserved native report bindings; this generator does not rerender or re-review artifacts.'};
 }
-const reconciliation=reconcileReleaseEvidence({masterQueue,registry,projection,launchGraph,baseline,artifactBindings});
+const reconciliation=reconcileReleaseEvidence({masterQueue,registry,projection,launchGraph,baseline,artifactBindings,ownerScope:read(NC_SCOPE_PATH)});
+for (const p of ['scripts/grade-a-launch-control/conditional-family-scope.mjs','scripts/grade-a-launch-control/reconcile-release-evidence.mjs']) inputDigests[p]=shaBytes(fs.readFileSync(p));
 const causeHelper='scripts/grade-a-launch-control/release-gap-causes.mjs';
 inputDigests[causeHelper]=shaBytes(fs.readFileSync(causeHelper));
 inputDigests['scripts/grade-a-launch-control/verified-current-service-preflight.mjs']=shaBytes(fs.readFileSync('scripts/grade-a-launch-control/verified-current-service-preflight.mjs'));
@@ -87,7 +89,7 @@ const worklist={schemaVersion:'rcap-grade-a-post-wave-2-national-launch-worklist
  censusDenominator:{obligations:freeze.totals?.totalObligations,categoryA:freeze.totals?.categoryA,packetFamilies:families.length,historicalCensusPacketFamilies:freeze.totals?.packetFamilies},
  theChain:{links:RELEASE_DIMENSIONS,rule:'Terminal treatment, runtime reachability, output approval, fulfillment, hosted acceptance and Production are separate dimensions. Terminal non-packet dispositions are not packet sales. Missing baseline remains closed.'},
  counts:{families:families.length,launchReady:0,sourceBound:families.filter(f=>f.chain.source_bound).length,artifactBuilt:families.filter(f=>f.chain.artifact_built).length,independentlyVerified:families.filter(f=>f.chain.independently_verified).length,outputApproved:families.filter(f=>f.chain.output_approved).length,productPathProven:0,byFirstMissingLink:countBy('firstMissingLink'),byVerificationVerdict:families.reduce((a,f)=>(a[f.verification.verdict]=(a[f.verification.verdict]??0)+1,a),{})},
- releaseReconciliation:{baseline:reconciliation.baseline,dimensions:reconciliation.dimensions,counts:reconciliation.counts,gaps:reconciliation.gaps,sharedCauses},
+ releaseReconciliation:{baseline:reconciliation.baseline,dimensions:reconciliation.dimensions,counts:reconciliation.counts,gaps:reconciliation.gaps,supplementalGaps:reconciliation.supplementalGaps,sharedCauses},
  commercial:{commercialRoutesOpened:0,completePacketProven:projection.counters?.completePacketProven??null,commerciallyEligible:projection.counters?.commerciallyEligible??null,rule:'Native fulfillment projection is reported separately from family terminal states; this worklist creates no approval or commercial admission.'},launchGate:reconciliation.launchGate,families};
 const output='data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json';
 const frozenOutput='data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json';

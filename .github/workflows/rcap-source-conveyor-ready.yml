@@ -5,6 +5,10 @@ on:
     branches: [claude/legalease-sprint-captain-utucnw]
     paths:
       - scripts/grade-a-packet-factory-24h/**
+      - scripts/grade-a-launch-control/conditional-family-scope*.mjs
+      - scripts/lib/corpus-index-paths.mjs
+      - scripts/rcap-corpus/bootstrap-private-corpus.sh
+      - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
       - scripts/lib/**
@@ -20,6 +24,10 @@ on:
   pull_request:
     paths:
       - scripts/grade-a-packet-factory-24h/**
+      - scripts/grade-a-launch-control/conditional-family-scope*.mjs
+      - scripts/lib/corpus-index-paths.mjs
+      - scripts/rcap-corpus/bootstrap-private-corpus.sh
+      - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
       - scripts/lib/**
@@ -60,9 +68,30 @@ jobs:
       - name: Workflow YAML validation
         id: yaml
         run: ruby -e 'require "yaml"; Dir[".github/workflows/*.yml"].each { |f| YAML.parse_file(f) }'
+      # A checkout has no ignored corpus. Restore only the pinned Master Library;
+      # this does not provide Nationwide or the later private custody supplements.
+      - name: Establish verified corpus environment
+        id: corpus_environment
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_CORPUS_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          corpus="$GITHUB_WORKSPACE/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+          if [ ! -d "$corpus" ]; then
+            test -n "$GH_TOKEN" || { echo "CORPUS_ENVIRONMENT_REFUSED: SOURCE_CORPUS_READ_TOKEN must read the pinned private source-artifacts release"; exit 1; }
+            bash scripts/rcap-corpus/bootstrap-private-corpus.sh
+          fi
+          export MASTER_LIBRARY_SOURCE_DIR="$corpus"
+          export RCAP_BUNDLE_EXTRACT="$corpus"
+          node --input-type=module -e 'import { requireMasterLibraryEnvironment } from "./scripts/lib/corpus-index-paths.mjs"; requireMasterLibraryEnvironment({repoRoot:process.cwd()});'
+          printf 'MASTER_LIBRARY_SOURCE_DIR=%s\nRCAP_BUNDLE_EXTRACT=%s\n' "$corpus" "$corpus" >> "$GITHUB_ENV"
+      - name: Conditional scope and corpus guard regressions
+        id: scope_controls
+        run: node --test scripts/grade-a-launch-control/conditional-family-scope.test.mjs scripts/lib/corpus-audit-environment.test.mjs
       - name: Generator convergence
         id: convergence
         run: |
+          set -euo pipefail
           node scripts/grade-a-packet-factory-24h/generate.mjs --check
           node scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs --check
           node scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs --check

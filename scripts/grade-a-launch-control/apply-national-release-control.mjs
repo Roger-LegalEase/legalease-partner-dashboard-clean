@@ -1,3 +1,4 @@
+import { NC_SUPPLEMENT, NC_SCOPE_PATH } from './conditional-family-scope.mjs';
 // Present current release obligations in the existing controlling record.
 // This module creates no route, output approval, or deployment authority.
 export function applyNationalReleaseControl(doc, worklist, factory) {
@@ -11,8 +12,14 @@ export function applyNationalReleaseControl(doc, worklist, factory) {
     throw new Error('Release worklist does not cover exact current factory identities');
   }
   const terminal = new Set(['COMPLETE_PACKET_PROVEN', 'GUIDANCE_READY', 'HANDOFF_READY', 'OUT_OF_SCOPE']);
+  const required = families.filter(f => worklist.families.find(w => w.familyId === f.familyId)?.launchRequired !== false);
+  const supplemental = families.filter(f => !required.includes(f));
+  for (const f of supplemental) {
+    const scope = worklist.families.find(w => w.familyId === f.familyId).conditionalScope;
+    if (f.familyId !== NC_SUPPLEMENT || scope?.authority !== NC_SCOPE_PATH || scope.conditional !== true || scope.blocksCoreExpunction !== false || scope.packetComplete !== false) throw new Error('Unbound conditional family exclusion');
+  }
   const byDisposition = {};
-  for (const family of families) byDisposition[family.state] = (byDisposition[family.state] ?? 0) + 1;
+  for (const family of required) byDisposition[family.state] = (byDisposition[family.state] ?? 0) + 1;
   doc.historicalSections = {
     sections: ['denominator', 'frozenCategoryB', 'categoryBIntegration', 'waveOne', 'legalWork', 'sourceWork'],
     meaning: 'Preserved census and earlier-wave records. They do not describe current release obligations or authorize renewed packet production.'
@@ -21,10 +28,12 @@ export function applyNationalReleaseControl(doc, worklist, factory) {
   doc.packetFamilies = {
     record: 'data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json',
     total: families.length,
-    terminal: families.filter(row => terminal.has(row.state)).length,
+    launchRequired: required.length,
+    conditionalSupplements: supplemental.map(f => ({familyId:f.familyId,nativeDisposition:f.state,...worklist.families.find(w=>w.familyId===f.familyId).conditionalScope})),
+    terminal: required.filter(row => terminal.has(row.state)).length,
     byDisposition,
     completePacketProven: byDisposition.COMPLETE_PACKET_PROVEN ?? 0,
-    nonterminalFamilyIds: families.filter(row => !terminal.has(row.state)).map(row => row.familyId),
+    nonterminalFamilyIds: required.filter(row => !terminal.has(row.state)).map(row => row.familyId),
     evidence: 'Exact identities, dispositions and source/artifact/review bindings are preserved in the release worklist.'
   };
   doc.productPath = {
@@ -52,7 +61,7 @@ export function applyNationalReleaseControl(doc, worklist, factory) {
   doc.lineage.productionConnectedEvidence = 'Not observed by this generator; read-only preflight supplies evidence separately.';
   doc.goHold = {
     decision: 'HOLD',
-    because: `${doc.packetFamilies.terminal}/${families.length} families are terminal. Release obligations and candidate authorization remain separate; final family baseline status: ${reconciliation.baseline.status}.`,
+    because: `${doc.packetFamilies.terminal}/${required.length} launch-required families are terminal within the ${families.length}-family inventory; ${supplemental.length} conditional supplement(s) remain separate and unresolved. Release obligations and candidate authorization remain separate; final family baseline status: ${reconciliation.baseline.status}.`,
     whatWouldChangeIt: 'Bind the pushed final 346-family closeout, satisfy the exact national release obligations, freeze application SHA and worker digest, pass currentness and the full required chain, independently accept the hosted candidate, prove rollback and read-only Production preflight, then obtain exact Production authorization.'
   };
   return doc;
@@ -66,8 +75,9 @@ export function renderNationalReleaseControl(doc) {
     `**GO/HOLD: ${doc.goHold.decision}.** ${doc.goHold.because}`, '',
     `Captain input SHA: \`${doc.lineage.captainSha}\`.`, '',
     `National scope: ${doc.launchGate.nationalScope}.`, '',
-    '| Factory disposition | Families |', '| --- | ---: |', ...rows,
-    `| Total | ${doc.packetFamilies.total} |`, `| Terminal | ${doc.packetFamilies.terminal} |`, '',
+    '| Launch-required factory disposition | Families |', '| --- | ---: |', ...rows,
+    `| Launch-required | ${doc.packetFamilies.launchRequired} |`, `| Total inventory (including conditional supplements) | ${doc.packetFamilies.total} |`, `| Terminal | ${doc.packetFamilies.terminal} |`, '',
+    ...doc.packetFamilies.conditionalSupplements.map(s => `Conditional supplement: \`${s.familyId}\` — native ${s.nativeDisposition}; participant instrument/procedure UNRESOLVED; excluded from launch-required denominator, not packet-complete. NCAOC inquiry remains owner-handled and unsent.`), '',
     'Exact family and route obligations, including unchanged evidence bindings:',
     '`data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json`.', '',
     `Remaining enumerated obligations: ${doc.launchGate.remainingObligations}.`, '',
