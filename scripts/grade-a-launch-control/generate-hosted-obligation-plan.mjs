@@ -43,14 +43,15 @@ const gates=PARTICIPANT_GATE_CATALOG.map(g=>{
  for(const p of tests)if(!fs.existsSync(p))throw Error('Missing local coverage source '+p);
  return {...g,hostedStatus:'NOT_EXECUTED',localCoverageSources:tests,localCoverageMeaning:'Related local checks; not proof that the entire hosted obligation passed.',
    hostedScenario:privacy?`Run synthetic matter/account deletion and independently verify: ${g.label}.`:scenarios[g.id],
-   workflowCoverage:privacy?'MISSING_HOSTED_PRIVACY_RUNNER':'PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE',
-   nextAction:privacy?'Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence.':'Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient.'};
+   workflowCoverage:privacy?'CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED':'PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE',
+   nextAction:privacy?'Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review.':'Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient.'};
 });
 if(gates.length!==35||new Set(gates.map(g=>g.id)).size!==35)throw Error('Incomplete hosted catalog');
 const out={schemaVersion:'rcap-hosted-obligation-execution-plan/v1',generatedBy:'scripts/grade-a-launch-control/generate-hosted-obligation-plan.mjs',
  catalogCount:35,hostedAcceptanceGranted:false,productionAuthorityGranted:false,
  workflow:{path:workflow,sha256:crypto.createHash('sha256').update(source).digest('hex'),hostedFullIncludesPrivacyJourneys:false,
    separatePhases:['browser','clinic_preview'],note:'hosted_full does not run these separate phases or a hosted privacy runner; no inference of full contract coverage.'},
+ privacyRunner:{path:'scripts/rcap-hosted-participant-privacy.mjs',localIntegrationCommand:'node scripts/verify-participant-data-rights.mjs --privacy-journeys',hostedExecuted:false,complete15GateCoverage:false},
  requiredJourneys:['participant_export','single_matter_deletion','account_deletion'],
  exportRequirements:['authenticated owner only','cross-user and cross-tenant denial','complete participant-owned export without credentials or foreign records','idempotent request and private delivery'],
  prerequisites:['New exact candidate worker publication and image verification','Reviewed candidate/digest/Preview binding','Explicit authorization for hosted writes','Current data-rights migration and privacy configuration readback','Trusted independent reviewer and original receipt custody'],gates};

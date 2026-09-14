@@ -14,6 +14,12 @@
     ],
     "note": "hosted_full does not run these separate phases or a hosted privacy runner; no inference of full contract coverage."
   },
+  "privacyRunner": {
+    "path": "scripts/rcap-hosted-participant-privacy.mjs",
+    "localIntegrationCommand": "node scripts/verify-participant-data-rights.mjs --privacy-journeys",
+    "hostedExecuted": false,
+    "complete15GateCoverage": false
+  },
   "requiredJourneys": [
     "participant_export",
     "single_matter_deletion",
@@ -304,8 +310,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: User A cannot request deletion for user B.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_partner_staff_denial",
@@ -317,8 +323,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Partner staff cannot delete a participant.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_briefcase_access_removed",
@@ -330,8 +336,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Deletion removes all active Briefcase access.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_private_urls_dead",
@@ -343,8 +349,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Private packet URLs stop working.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_objects_removed",
@@ -356,8 +362,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Uploads and generated objects are removed.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_reminders_stopped",
@@ -369,8 +375,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Reminders stop.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_assisted_access_ended",
@@ -382,8 +388,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Clinic and partner access ends.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_accounting_preserved",
@@ -395,8 +401,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Payment and sponsorship accounting remain accurate.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_retention_minimized",
@@ -408,8 +414,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Retained records are pseudonymised and access-restricted.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_sessions_revoked",
@@ -421,8 +427,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Auth sessions are revoked.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_signin_denied",
@@ -434,8 +440,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: The deleted account cannot sign in.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_idempotency",
@@ -447,8 +453,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Repeated requests do not duplicate work.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_resume",
@@ -460,8 +466,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: A failed step resumes safely.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_backup_tombstone",
@@ -473,8 +479,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: Backup restoration does not reactivate the account.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     },
     {
       "id": "privacy_accurate_receipt",
@@ -486,8 +492,8 @@
       ],
       "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
       "hostedScenario": "Run synthetic matter/account deletion and independently verify: The participant receives an accurate completion receipt.",
-      "workflowCoverage": "MISSING_HOSTED_PRIVACY_RUNNER",
-      "nextAction": "Implement a pinned synthetic hosted privacy runner for export, matter deletion and account deletion; bind all 15 postconditions to original endpoint, SQL and storage evidence."
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
     }
   ]
 }

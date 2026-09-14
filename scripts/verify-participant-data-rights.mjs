@@ -1321,6 +1321,33 @@ let accountReceipt = null;
 
 // =============================================================================
 
+// The same HTTP journey driver will be used for bounded hosted acceptance.
+// Fresh synthetic accounts keep the existing 120 checks and their rate limits intact.
+if (process.argv.includes("--privacy-journeys")) {
+  const { runPrivacyJourneys } = await import("./rcap-participant-privacy-journeys.mjs");
+  const actors = ["journey-owner", "journey-peer", "journey-tenant"].map((label, i) => ({
+    id: fixtureUuid(label), password: gotrue.password, tenant: i === 2 ? "other-clinic" : "second-chance-clinic"
+  }));
+  for (const a of actors) sql(`insert into auth.users (id,email,email_confirmed_at,created_at) values ('${a.id}','${a.id}@participant.test',now(),now())`);
+  sql(`insert into public.partner_records (partner_slug,partner_name) values ('other-clinic','Other Synthetic Clinic')`);
+  const fixtures = actors.map((a, i) => seedParticipant(a.id, `journey-${i}`, { partnerSlug: a.tenant }));
+  const remaining = seedParticipant(actors[0].id, "journey-remaining");
+  const routes = { reauth: reauthRoute, export: exportRoute, matter: matterRoute, account: accountRoute };
+  await runPrivacyJourneys({
+    fixture: { owner: actors[0], peer: actors[1], otherTenant: actors[2], matterId: fixtures[0].itemId, remainingMatterId: remaining.itemId },
+    request: async (actor, endpoint, body, options) => {
+      setSession(actor ? { isAuthenticated: true, isVerified: true, userId: actor.id, email: `${actor.id}@participant.test` } : { isAuthenticated: false });
+      const r = await routes[endpoint].POST(req(`/api/expungement-ai/privacy/${endpoint}`, body, options));
+      return { status: r.status, headers: r.headers, body: await r.json() };
+    },
+    observe: async () => ({
+      ...Object.fromEntries(actors.map((a, i) => [["ownerMatters", "peerMatters", "otherTenantMatters"][i], JSON.parse(scalar(`select coalesce(json_agg(id order by id), '[]') from public.consumer_briefcase_items where user_id='${a.id}'`))])),
+      authUserIds: JSON.parse(scalar(`select coalesce(json_agg(id order by id), '[]') from auth.users where id in (${actors.map(a => `'${a.id}'`).join(',')})`))
+    }),
+    record: row => { if ("passed" in row) check(row.id, row.observation, row.passed); }
+  });
+}
+
 cleanupOwnedResources();
 process.off("exit", cleanupOwnedResources);
 
