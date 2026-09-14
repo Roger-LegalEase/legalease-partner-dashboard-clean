@@ -54,16 +54,16 @@
     ],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "34804012657",
-      "jobId": "103852833010",
-      "artifactId": "10332377339",
+      "workflowRunId": "34807137532",
+      "jobId": "103861827111",
+      "artifactId": "10334011713",
       "boundToCanonicalSha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
       "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
-      "verdict": "PASS",
-      "lane": "vfwablake2",
-      "verifiedAtBase": "ff5c337b411a9747331d42752161208998e87e81"
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfwablake3",
+      "verifiedAtBase": "b1237a197dec28149fc1bf4577e7b3bc0dad0ea6"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -73,6 +73,21 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "This write authored a different acceptance receipt. The superseded receipt is kept as history rather than overwritten; it is not carried forward as though it still applied.",
+        "boundToCanonicalSha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
+        "replacedByCanonicalSha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34804012657",
+          "jobId": "103852833010",
+          "artifactId": "10332377339",
+          "boundToCanonicalSha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   }
 }

@@ -34,13 +34,15 @@
     }
   ],
   "counts": {
-    "returnDirectories": 429,
-    "rows": 1516,
+    "returnDirectories": 431,
+    "rows": 1518,
     "independentVerdicts": 343,
-    "failRepairRequired": 0,
-    "passIndependent": 343
+    "failRepairRequired": 1,
+    "passIndependent": 342
   },
-  "failRepairRequiredFamilies": [],
+  "failRepairRequiredFamilies": [
+    "or_contempt_setaside-set"
+  ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
@@ -26326,6 +26328,36 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfor1/rows-vfor1-current-semantic-20260914.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family or_contempt_setaside-set",
+      "superseded": true
+    },
+    {
+      "familyId": "or_contempt_setaside-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfor2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c77972daa0a70b8607d3d084f8278a58f748ad15",
+      "failedObligations": [
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Use actual five table body rows and overflow attachment; do not write above or into shaded source header. Preserve source background and full selected/excluded charge identities. Re-review successor current-byte originals.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 23 original pages opened; boundary page 4 table placement incident affects first two selected entries. Other 22 pages clean; custom line overruns do not clip page or obscure text.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "REPEATING_ROWS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfor2/rows-vfor2-original-raster-repair-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family or_contempt_setaside-set",
       "superseded": false
     },
     {
@@ -40982,7 +41014,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwablake2/rows-vfwablake2-layout-successor-semantic-20260914.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_blake_vacatur_and_lfo_refund-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wa_blake_vacatur_and_lfo_refund-set",
@@ -41006,6 +41038,20 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_blake_vacatur_and_lfo_refund-set",
       "superseded": true
+    },
+    {
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfwablake3",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b1237a197dec28149fc1bf4577e7b3bc0dad0ea6",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwablake3/rows-vfwablake3-original-final-20260914.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_blake_vacatur_and_lfo_refund-set",
+      "superseded": false
     },
     {
       "familyId": "wa_crop_certificate_of_restoration-set",
