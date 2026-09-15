@@ -535,10 +535,14 @@ let route = null;
   for (const profile of profiles) {
     for (const pathway of profile.pathways ?? []) {
       const label = pathway.label ?? pathway.id;
+      // The resolver is keyed by the compiled pathway id. The display label
+      // used to double as the id for the legacy generators; since ADR-0004
+      // retired those, a label lookup resolves legacy_retired and can never
+      // reach a factory route, so nothing was ever renderable here.
       const built = buildRenderJobSpec({
         packetId: crypto.randomUUID(),
         state: profile.jurisdiction.code,
-        pathway: label,
+        pathway: pathway.id,
         profileId: profile.jurisdiction.code,
         profileVersion: "1.3.0",
         briefcaseItemId: crypto.randomUUID(),
@@ -546,7 +550,7 @@ let route = null;
         packetFields: {}
       });
       tried.push(`${profile.jurisdiction.code}:${pathway.id}`);
-      if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id }; break outer; }
+      if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id, trackId: null }; break outer; }
     }
   }
   // record() takes (caseId, passed, observed). This call passed FOUR arguments:
@@ -629,6 +633,31 @@ const { evaluateAuthoritativeScreeningResult } =
   await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
+const { packetFulfillmentAuthority } =
+  await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+
+/**
+ * The approved participant facts the Grade-A record's fixture was proven with.
+ * The composer requires the exact filing facts; synthetic answers satisfy the
+ * screening model but not the packet. Read from the committed registry so the
+ * facts follow whichever route the authority admits, never a hardcoded state.
+ */
+function approvedParticipantFactsFor(state, pathwayId) {
+  try {
+    const registry = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-grade-a/fulfillment-authority-registry.json"), "utf8"));
+    const record = (registry.records ?? []).find((r) => r.routeId === `${state}:${pathwayId}` && !r.supersededBy);
+    const fixtureId = record?.fixture?.fixtureId;
+    if (!fixtureId) return {};
+    const dir = path.join(rootDir, "data/rcap-ledger/grade-a");
+    for (const name of fs.readdirSync(dir)) {
+      if (!name.endsWith(".fixture.json")) continue;
+      const fixture = JSON.parse(fs.readFileSync(path.join(dir, name), "utf8"));
+      const matches = fixture.fixtureId === fixtureId || name.replace(/\.fixture\.json$/, "").replace(/\./g, "-") === fixtureId;
+      if (matches && fixture.facts && typeof fixture.facts === "object") return fixture.facts;
+    }
+  } catch { /* no approved fixture: the model's own answers stand */ }
+  return {};
+}
 
 // Answers that carry meaning rather than merely satisfying a type. A route sold
 // as a non-conviction expungement must not be seeded with a felony conviction,
@@ -712,13 +741,15 @@ function convergeSellableScreening(state) {
   let last = null;
   for (let round = 0; round < 16; round += 1) {
     let evaluation;
+    let authoritative;
     try {
-      evaluation = evaluateAuthoritativeScreeningResult({
+      authoritative = evaluateAuthoritativeScreeningResult({
         jurisdiction: state,
         profileVersion: profile.profileVersion,
         matterId: itemId,
         answers
-      }).evaluation;
+      });
+      evaluation = authoritative.evaluation;
     } catch (error) {
       // Packet-only fields are not evaluator questions. Drop exactly the ids it
       // names and re-ask; every recognised route fact stays.
@@ -730,7 +761,18 @@ function convergeSellableScreening(state) {
     const sellable = (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution")
       && evaluation.paymentAllowed === true
       && typeof evaluation.pathwayId === "string";
-    if (sellable) return { state, evaluation, answers, profile };
+    if (sellable) {
+      // The evaluator's payment gate is one of two: the deployed Checkout route
+      // also asks the Grade-A fulfillment authority, bound to the track the
+      // server selected. A route the authority refuses is not a route this
+      // journey can sell, however the screening came out.
+      const selectedTrackId = authoritative.selectedTrackId ?? null;
+      const authority = packetFulfillmentAuthority(state, evaluation.pathwayId, "checkout creation", { trackId: selectedTrackId });
+      if (!authority.allowed) {
+        return { state, failure: `${evaluation.pathwayId} (track ${selectedTrackId ?? "none"}): Grade-A authority refuses checkout creation — ${authority.reason}` };
+      }
+      return { state, evaluation, answers, profile, authoritative, selectedTrackId };
+    }
     const missing = evaluation.missingQuestionIds ?? [];
     if (!missing.length) {
       return {
@@ -768,7 +810,7 @@ function buildReviewedFlow(settled) {
   const model = packetInformationModelFor(baseItem);
   if (!model) return { failure: `${state}: no packet-information model for ${pathway.pathwayLabel}` };
 
-  const packetAnswers = { ...answers };
+  const packetAnswers = { ...answers, ...approvedParticipantFactsFor(state, model.pathwayId) };
   for (const question of model.questions) {
     if (!(question.id in packetAnswers)) packetAnswers[question.id] = answerForQuestion(question, question.id);
   }
@@ -812,7 +854,11 @@ function buildReviewedFlow(settled) {
       failure: `${state}: stage=${reviewedModel?.stage ?? "(none)"}, missing=${JSON.stringify(reviewedModel?.missingInputIds ?? null)}, reviewedAt=${reviewedModel?.reviewedAt ?? "null"}, safety=${safety.reason}`
     };
   }
-  return { state, pathway, commercialFlow, model: reviewedModel, safety, questionCount: model.questions.length };
+  return {
+    state, pathway, commercialFlow, model: reviewedModel, safety, questionCount: model.questions.length,
+    authoritative: settled.authoritative, selectedTrackId: settled.selectedTrackId ?? null,
+    screeningAnswers: answers, packetAnswers
+  };
 }
 
 // The route the registry offered is tried first; the remaining priority states
@@ -849,7 +895,7 @@ let reviewed = null;
   };
   // The seeded row must describe the route that was proven sellable, not the
   // one the render-spec scan happened to reach first.
-  route = { state: reviewed.state, pathwayLabel: reviewed.pathway.pathwayLabel, pathwayId: reviewed.model.pathwayId };
+  route = { state: reviewed.state, pathwayLabel: reviewed.pathway.pathwayLabel, pathwayId: reviewed.model.pathwayId, trackId: reviewed.selectedTrackId };
   evidence.route = route;
 }
 // --- 2c. Derive every route-specific value from the authorities ---------------
@@ -865,15 +911,19 @@ const derived = (() => {
   const built = buildRenderJobSpec({
     packetId: crypto.randomUUID(),
     state: route.state,
-    pathway: route.pathwayLabel,
+    pathway: route.pathwayId,
     profileId: route.state,
     // The same profileVersion consumer-render-request pins when it builds the
     // real job, so the spec compared here is the spec that route will produce.
     profileVersion: "1.3.0",
     briefcaseItemId: itemId,
-    trackId: null,
+    trackId: route.trackId ?? null,
     packetFields: {}
   });
+  // Commercial authority is a Grade-A record keyed to this exact route and
+  // track, and nothing else: a factory route resolves "in shadow" with
+  // sellable=false by design, and the deployed Checkout asks the authority.
+  const authority = packetFulfillmentAuthority(route.state, route.pathwayId, "checkout creation", { trackId: route.trackId ?? null });
   // result_code must be one the payment policy admits: isConsumerPaymentAllowed
   // permits packet_ready and packet_ready_with_caution and nothing else.
   const resultCode = "packet_ready";
@@ -888,7 +938,9 @@ const derived = (() => {
     jurisdiction: built.route?.jurisdiction ?? null,
     sellable: built.route?.sellable ?? null,
     creditConsumable: built.route?.creditConsumable ?? null,
-    trackId: built.route?.exactDeferralTrackId ?? null,
+    authorityAllowed: authority.allowed === true,
+    authorityReason: authority.allowed ? (authority.record?.provenBy ?? "proven") : authority.reason,
+    trackId: route.trackId ?? built.route?.exactDeferralTrackId ?? null,
     rendererKind: built.spec?.rendererKind ?? null,
     rendererVersion: built.spec?.rendererVersion ?? null,
     sourceSha256: built.spec?.sourceSha256 ?? null,
@@ -908,7 +960,7 @@ const seedResult = await sql(`
   insert into public.consumer_briefcase_items
     (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
      status, summary_json, artifact_refs_json, payment_status, payment_allowed)
-  values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
+  values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayId)}',
           '${derived.resultCode}', '${derived.packetType}',
           'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb,
           '${sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow }))}'::jsonb, 'unpaid', true)
@@ -950,8 +1002,8 @@ const seedResult = await sql(`
     seeded.pathway_label === derived.compiledPathwayId &&
     derived.jurisdiction === route.state &&
     derived.rendererKind === "packet_document_v1" &&
-    derived.sellable === true &&
-    derived.creditConsumable === true &&
+    derived.routeKind === "factory_v2" &&
+    derived.authorityAllowed === true &&
     derived.profileId === route.state &&
     typeof derived.profileVersion === "string" && derived.profileVersion.length > 0 &&
     derived.routeId === `${route.state}:${derived.compiledPathwayId}`;
@@ -961,12 +1013,79 @@ const seedResult = await sql(`
     `routeKind=${derived.routeKind}; compiled pathway=${JSON.stringify(derived.compiledPathwayId)}; routeId=${JSON.stringify(derived.routeId)}; ` +
     `renderer=${derived.rendererKind}@${derived.rendererVersion}; sourceSha256=${JSON.stringify(derived.sourceSha256)} ` +
     `(null is correct — this route composes its own document and the worker's allowedSourceShas is empty); ` +
-    `profile=${derived.profileId}@${derived.profileVersion}; sellable=${derived.sellable}; creditConsumable=${derived.creditConsumable}; ` +
+    `profile=${derived.profileId}@${derived.profileVersion}; track=${JSON.stringify(derived.trackId)}; resolver sellable=${derived.sellable} (factory routes resolve in shadow); Grade-A authority for checkout creation=${derived.authorityAllowed} (${derived.authorityReason}); ` +
     `stored result_code=${JSON.stringify(seeded.result_code)} vs derived ${JSON.stringify(derived.resultCode)}; ` +
     `stored packet_type derived from result_code as ${JSON.stringify(derived.packetType)} per eligibility-adapter; ` +
     `stored pathway_label=${JSON.stringify(seeded.pathway_label)}`
   );
   if (!agrees) finish();
+
+  // --- 2d. The protected verification the deployed Checkout demands ----------
+  //
+  // Since 89a3ad7d8 (2026-08-26) createConsumerPacketCheckout calls
+  // requireCurrentPacketVerification first, and a seeded item with no
+  // server-persisted protected verification is refused with
+  // protected_verification_missing before any Stripe call. The verification is
+  // produced by the application's own server functions from the authoritative
+  // screening the evaluator just returned, and persisted through the same
+  // CAS RPCs the application uses, against the acceptance project only.
+  {
+    const service = await serviceRoleKey();
+    process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = service;
+    const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
+    const {
+      packetInformationPatch: derivePacketInformationPatch,
+      requireCurrentPacketVerification,
+      protectedPacketDraftSeedFromAuthoritative
+    } = await import("../src/lib/expungement-ai/packet-information.ts");
+    const { persistProtectedPacketVerification } = await import("../src/lib/expungement-ai/verification-cas.ts");
+    let verificationFailure = null;
+    let readback = null;
+    try {
+      const existingItem = await getBriefcaseItemForWebhook(A.id, itemId);
+      if (!existingItem) throw new Error("the seeded item could not be read back through the application's own reader");
+      const seed = protectedPacketDraftSeedFromAuthoritative({
+        authoritative: reviewed.authoritative,
+        screeningAnswers: reviewed.screeningAnswers,
+        packetAnswers: reviewed.packetAnswers,
+        dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: "expungement_packet" },
+        capturedAt: new Date().toISOString()
+      });
+      if (!seed) throw new Error("protectedPacketDraftSeedFromAuthoritative produced no seed");
+      const verified = derivePacketInformationPatch({
+        existingItem,
+        answers: {},
+        verify: true,
+        protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0, draftSnapshot: seed.snapshot, draftHash: seed.hash }
+      });
+      if (!verified?.readyToGenerate) throw new Error(`not ready to generate: ${verified?.reviewReason}; missing=${JSON.stringify(verified?.missingInputIds ?? null)}`);
+      const persisted = await persistProtectedPacketVerification({ consumerAuthUserId: A.id, briefcaseItemId: itemId, transition: verified.protectedTransition });
+      if (!persisted.ok) throw new Error(`persistence refused: ${persisted.reason}`);
+      readback = await requireCurrentPacketVerification(A.id, existingItem);
+      if ((readback.snapshot?.selectedTrackId ?? null) !== (route.trackId ?? null)) {
+        throw new Error(`persisted track ${JSON.stringify(readback.snapshot?.selectedTrackId ?? null)} differs from the server-selected ${JSON.stringify(route.trackId ?? null)}`);
+      }
+    } catch (error) {
+      verificationFailure = String(error?.message ?? error).slice(0, 400);
+    } finally {
+      delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    }
+    evidence.protectedVerification = {
+      persisted: verificationFailure === null,
+      selectedTrackId: readback?.snapshot?.selectedTrackId ?? null,
+      hash: readback?.hash ?? null,
+      failure: verificationFailure
+    };
+    if (verificationFailure !== null) {
+      record(
+        "unpaid_render_is_refused_for_payment",
+        false,
+        `the protected packet verification the deployed Checkout requires could not be persisted for the seeded item, so the unpaid probe below would have measured protected_verification_missing rather than the payment gate: ${verificationFailure}`
+      );
+      finish();
+    }
+  }
   preflightRoute = derived;
 }
 
@@ -1110,9 +1229,13 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
   const preflightFulfillment = packetFulfillmentAuthority(
     preflightRoute.profileId ?? preflightRoute.jurisdiction ?? "",
     preflightRoute.pathwayId ?? "",
-    "checkout creation"
+    "checkout creation",
+    { trackId: preflightRoute.trackId ?? null }
   );
-  const passed = preflightRoute.routeKind === "legacy_retired"
+  // A factory route resolves in shadow (sellable=false by design); the sale is
+  // authorized by the Grade-A record, which is the next conjunct. A legacy
+  // route can no longer open a render job at all (ADR-0004).
+  const passed = preflightRoute.routeKind === "factory_v2"
     && preflightRoute.sellable === false
     && preflightFulfillment.allowed === true
     && dependsOnHeldPdf === false

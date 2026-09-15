@@ -67,13 +67,13 @@ function failures(harness) {
   fail(Boolean(verdict), "could not locate the preflight verdict");
   for (const [fragment, message] of [
     // ADR-0004: the legacy generators are retired as commercial fulfillment
-    // paths, so "legacy_verified and sellable" is a combination the resolver can
-    // no longer produce. What the preflight must require instead is the retired
-    // classification (the route identity is still exact) plus a verdict from the
-    // one fulfillment authority — which is the condition that actually decides
-    // whether there is a packet to charge for.
-    ['preflightRoute.routeKind === "legacy_retired"', "the preflight does not require an authoritative pathway"],
-    ["preflightRoute.sellable === false", "the preflight accepts a legacy route that claims commercial authority"],
+    // paths and can no longer open a render job at all. A Grade-A route builds
+    // through the shared packet factory and resolves in shadow (sellable=false
+    // by design); the sale is authorized by the fulfillment record, which is the
+    // next conjunct — the condition that actually decides whether there is a
+    // packet to charge for.
+    ['preflightRoute.routeKind === "factory_v2"', "the preflight does not require a factory route"],
+    ["preflightRoute.sellable === false", "the preflight accepts a route whose resolver flag claims commercial authority on its own"],
     ["preflightFulfillment.allowed === true", "the preflight does not require proven packet fulfillment"],
     ["dependsOnHeldPdf === false", "the preflight does not require freedom from a problematic-PDF dependency"],
     ["digestPinned", "the preflight does not require the image to be addressed by immutable digest"],
