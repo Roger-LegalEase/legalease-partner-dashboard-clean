@@ -56,7 +56,16 @@ export type RenderJobRow = {
   consumerBriefcaseItemId: string | null;
   consumerAuthUserId: string | null;
   consumerVerificationHash?: string | null;
-  sponsoredBinding?: { sourceSessionId: string; clinicEventId: string; briefcaseItemId: string; authUserId: string; verificationHash: string } | null;
+  /**
+   * The protected sponsored binding, surfaced ONLY when the row carries one that
+   * names this job's exact route. The binding columns are written by
+   * enqueue_verified_sponsored_packet_render for an active registered route and
+   * nothing else, and the row trigger keeps them immutable, so `routeKey` is the
+   * registration the database bound the job to rather than a claim made here.
+   * A partner job without one is a partner job that never passed through the
+   * shared sponsored verification mechanism, whatever its route.
+   */
+  sponsoredBinding?: { routeKey: string; sourceSessionId: string; clinicEventId: string; briefcaseItemId: string; authUserId: string; verificationHash: string } | null;
   personalizedBinding?: { trackId: string; packetFamilyId: string; specificationSha256: string; specificationFileSha256: string } | null;
 };
 
@@ -460,17 +469,24 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
     .maybeSingle();
   if (error || !data) return null;
   const job = rowFromRecord(data as Record<string, unknown>);
-  if (job.routeId === "IL:felony-prostitution-relief") {
-    if (job.partnerId) {
-      const { data: sponsored, error: scopeError } = await supabase.from("packet_render_jobs")
-        .select("sponsored_session_id, sponsored_clinic_event_id, sponsored_consumer_briefcase_item_id, sponsored_consumer_auth_user_id, sponsored_verification_hash")
-        .eq("id", jobId).maybeSingle();
-      if (!scopeError && sponsored?.sponsored_session_id) {
-        job.sponsoredBinding = { sourceSessionId: sponsored.sponsored_session_id,
-          clinicEventId: sponsored.sponsored_clinic_event_id, briefcaseItemId: sponsored.sponsored_consumer_briefcase_item_id,
-          authUserId: sponsored.sponsored_consumer_auth_user_id, verificationHash: sponsored.sponsored_verification_hash };
-      }
+  // Every partner job is asked the same question: did the shared sponsored
+  // transaction bind it? The answer is the row's own sponsored columns, which
+  // only enqueue_verified_sponsored_packet_render writes and only for a route
+  // registered in sponsored_packet_render_routes. The route id alone decides
+  // nothing here: an unregistered route can never carry a binding, and a
+  // registered one carries it only for the job that transaction created.
+  if (job.partnerId) {
+    const { data: sponsored, error: scopeError } = await supabase.from("packet_render_jobs")
+      .select("sponsored_route_key, sponsored_session_id, sponsored_clinic_event_id, sponsored_consumer_briefcase_item_id, sponsored_consumer_auth_user_id, sponsored_verification_hash")
+      .eq("id", jobId).maybeSingle();
+    if (!scopeError && sponsored?.sponsored_route_key && sponsored.sponsored_route_key === job.routeId
+      && sponsored.sponsored_session_id) {
+      job.sponsoredBinding = { routeKey: sponsored.sponsored_route_key, sourceSessionId: sponsored.sponsored_session_id,
+        clinicEventId: sponsored.sponsored_clinic_event_id, briefcaseItemId: sponsored.sponsored_consumer_briefcase_item_id,
+        authUserId: sponsored.sponsored_consumer_auth_user_id, verificationHash: sponsored.sponsored_verification_hash };
     }
+  }
+  if (job.routeId === "IL:felony-prostitution-relief") {
     const { data: input } = await supabase.from("rcap_document_packet_inputs")
       .select("input_payload").eq("document_packet_id", job.packetId).maybeSingle();
     const payload = input?.input_payload;

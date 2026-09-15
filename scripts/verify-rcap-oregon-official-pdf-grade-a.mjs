@@ -85,6 +85,7 @@ const { PDFDocument, PDFName, PDFArray, StandardFonts } = await import("pdf-lib"
 // defect the participant cannot see and the clerk cannot read.
 const measuringDoc = await PDFDocument.create();
 const helvetica = await measuringDoc.embedFont(StandardFonts.Helvetica);
+const { legalRouteContract, routeCheckoutIsClosed } = await import("../src/lib/legal-authority/index.ts");
 const { resolvePacketRoute, packetRouteCanRender } = await import(
   "../src/lib/rcap/documents/packet-route-resolver.ts"
 );
@@ -324,19 +325,91 @@ function staticFailures(evidence) {
   }
 
   // Resolved through the canonical resolver, not read out of the registry file:
-  // a route is admitted only if the shipped resolver says so.
+  // a route is admitted only if the shipped resolver says so. The registry
+  // still lists three Oregon pathways, but the legal contract governs what each
+  // resolves to, and two of the three are governed closed:
+  //
+  //   RETIRED   OR:set-aside-of-arrests-or-charges-without-conviction… was
+  //             retired in place on 2026-08-29 (LWD-2026-08-29-OR-SUBSECTION,
+  //             LWD-2026-08-29-OR-PACKET-SCOPE): it served the acquittal packet
+  //             to a never-charged participant. Its contract carries
+  //             outcomeMode unsupported, packetFamily null, retiredBy naming
+  //             three disposition-bound replacements, and doNotRecreate. The
+  //             key still resolves, to a refusal, and is never re-pointed.
+  //   GUIDANCE  OR:marijuana-specific-set-aside-redesignation is guidance_status
+  //             under LD-OR-03, terminalized 2026-09-02 by owner decision
+  //             OWN-DT-2026-09-02-Q1-…-or_conviction_setaside-set; its packet
+  //             fallback is the separately governed (1)(a) route.
+  //   PACKET    OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a is
+  //             the one route that binds this document through the factory,
+  //             in shadow and unsold.
+  const treatmentOf = (pathwayId) => {
+    const contract = legalRouteContract(JURISDICTION, pathwayId) ?? null;
+    if (contract?.retiredBy) return { kind: "retired", contract };
+    if (contract && routeCheckoutIsClosed(contract)) return { kind: "guidance", contract };
+    return { kind: "packet", contract };
+  };
+  const dispositionConfigurations = evidence.dispositionConfigurations ?? read("data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json");
+  let packetRoutes = 0;
   for (const route of registryRoutes) {
     const resolved = resolvePacketRoute({ state: JURISDICTION, pathway: route.pathwayId, trackId: null });
+    // Commercial containment applies to every treatment: nothing here sells.
+    fail(resolved.sellable === false, `III-sellable ${route.pathwayKey}: the route resolved sellable`);
+    fail(resolved.creditConsumable === false, `III-credit ${route.pathwayKey}: the route resolved credit-consumable`);
+    const treatment = treatmentOf(route.pathwayId);
+    if (treatment.kind === "retired") {
+      const { contract } = treatment;
+      fail(contract.outcomeMode === "unsupported" && contract.packetFamily === null,
+        `III-retired-contract ${route.pathwayKey}: the retired contract is ${contract.outcomeMode}/${contract.packetFamily}`);
+      fail(typeof contract.retiredBy.doNotRecreate === "string" && contract.retiredBy.doNotRecreate.length > 0,
+        `III-retired-do-not-recreate ${route.pathwayKey}: no do-not-recreate instruction`);
+      fail(["LWD-2026-08-29-OR-SUBSECTION", "LWD-2026-08-29-OR-PACKET-SCOPE"].every((id) => (contract.retiredBy.decisions ?? []).includes(id)),
+        `III-retired-decisions ${route.pathwayKey}: the retirement does not cite both controlling decisions`);
+      fail(resolved.routeKind === "guidance_only" && resolved.rendererKind === "none" && packetRouteCanRender(resolved) === false,
+        `III-retired-refused ${route.pathwayKey}: the retired route resolved ${resolved.routeKind}/${resolved.rendererKind}`);
+      fail((resolved.factoryV2?.officialFormIds ?? []).length === 0,
+        `III-retired-form ${route.pathwayKey}: the retired route still binds ${DOCUMENT_ID} through the resolver`);
+      const replacements = (contract.retiredBy.replacedBy ?? []).map((entry) => entry.routeKey);
+      fail(replacements.length === 3, `III-retired-replacements ${route.pathwayKey}: ${replacements.length} replacement(s), expected 3`);
+      fail(String(resolved.reason ?? "").includes(`${JURISDICTION}:${route.pathwayId}`) && !replacements.some((key) => String(resolved.reason ?? "").includes(key)),
+        `III-retired-not-repointed ${route.pathwayKey}: the refusal names a replacement instead of the retired key`);
+      // Each replacement: its own governed identity, predicate, form option and
+      // specification hash; none resolves as a packet route until it is built.
+      const configurations = dispositionConfigurations.configurations ?? [];
+      for (const key of replacements) {
+        const configuration = configurations.find((entry) => entry.routeKey === key) ?? null;
+        fail(configuration !== null, `III-replacement-configuration ${key}: no governed disposition configuration`);
+        const replacementResolved = resolvePacketRoute({ state: JURISDICTION, pathway: key.split(":")[1], trackId: null });
+        fail(replacementResolved.routeKind !== "factory_v2" && !(replacementResolved.factoryV2?.officialFormIds ?? []).includes(DOCUMENT_ID),
+          `III-replacement-unbuilt ${key}: a replacement resolves as a packet route bound to ${DOCUMENT_ID} without its own contract, record, fixture and verification`);
+        fail(replacementResolved.sellable === false && replacementResolved.creditConsumable === false, `III-replacement-closed ${key}: resolved sellable or credit-consumable`);
+        if (!configuration) continue;
+        fail(/^[0-9a-f]{64}$/.test(configuration.specificationSha256 ?? ""), `III-replacement-spec ${key}: no specification hash`);
+        fail(/^Option [23]$/.test(configuration.formOption ?? ""), `III-replacement-form ${key}: form option ${configuration.formOption}`);
+        fail(configuration.sourceIdentities?.some?.((source) => source.sourceId === DOCUMENT_ID) ?? String(JSON.stringify(configuration.documents ?? [])).includes(DOCUMENT_ID),
+          `III-replacement-base ${key}: the configuration does not name ${DOCUMENT_ID} as its base asset`);
+        fail((configuration.dispositionPredicate?.refuses ?? []).length > 0, `III-replacement-predicate ${key}: the predicate refuses nothing`);
+        fail(configuration.commercialStatus === "closed", `III-replacement-commercial ${key}: ${configuration.commercialStatus}`);
+      }
+      continue;
+    }
+    if (treatment.kind === "guidance") {
+      const { contract } = treatment;
+      fail(contract.outcomeMode === "guidance_status" && contract.packetFamily === null,
+        `III-guidance-contract ${route.pathwayKey}: ${contract.outcomeMode}/${contract.packetFamily}`);
+      fail(String(contract.notes ?? "").includes("OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-or_conviction_setaside-set"),
+        `III-guidance-decision ${route.pathwayKey}: the contract no longer cites the 2026-09-02 owner decision`);
+      fail(resolved.routeKind === "guidance_only" && packetRouteCanRender(resolved) === false && (resolved.factoryV2?.officialFormIds ?? []).length === 0,
+        `III-guidance-refused ${route.pathwayKey}: resolved ${resolved.routeKind} and binds ${(resolved.factoryV2?.officialFormIds ?? []).join(",") || "nothing"}`);
+      continue;
+    }
+    packetRoutes += 1;
     fail(resolved.routeKind === "factory_v2", `III-resolve ${route.pathwayKey}: the resolver returned ${resolved.routeKind}`);
     fail(resolved.rendererKind === "packet_document_v1", `III-renderer ${route.pathwayKey}: the resolver returned renderer ${resolved.rendererKind}`);
     fail(packetRouteCanRender(resolved) === true, `III-render ${route.pathwayKey}: the resolved route cannot render`);
     fail((resolved.factoryV2?.officialFormIds ?? []).includes(DOCUMENT_ID), `III-resolved-form ${route.pathwayKey}: the resolved route is not bound to ${DOCUMENT_ID}`);
-    // Commercial containment. Lane C produces candidate evidence; it never
-    // opens a sale, and a resolver that started selling this route would be the
-    // most expensive way for this work to go wrong.
-    fail(resolved.sellable === false, `III-sellable ${route.pathwayKey}: the route resolved sellable`);
-    fail(resolved.creditConsumable === false, `III-credit ${route.pathwayKey}: the route resolved credit-consumable`);
   }
+  fail(packetRoutes === 1, `III-packet-routes: ${packetRoutes} Oregon route(s) resolve to this packet; exactly one (the (1)(a) route) is governed to`);
 
   // Wrong state, wrong pathway and wrong family are all refused.
   const wrongState = resolvePacketRoute({ state: "WA", pathway: registryRoutes[0]?.pathwayId ?? "x", trackId: null });
@@ -642,6 +715,18 @@ async function productPathFailures() {
     trackId: null,
     packetFields: facts
   });
+  // job-contract.ts refuses to build a job for any route whose counsel
+  // ratification is not ratified_deployable. While OR:(1)(a) is
+  // hard_gate_pending the refusal IS the correct product-path outcome, and the
+  // admission/pin/validation proofs are deferred rather than reported passed.
+  const ratification = (read("data/record-clearing/legal-decisions/route-ratification-registry.json").routes ?? [])
+    .find((entry) => (entry.routeKey ?? entry.routeId) === `${JURISDICTION}:${pathway}`)?.status ?? null;
+  fail(ratification !== null, `XI-ratification: ${JURISDICTION}:${pathway} has no route-ratification entry`);
+  if (ratification !== "ratified_deployable") {
+    fail(built.spec === null, `XI-spec-gated: ${JURISDICTION}:${pathway} is ${ratification} yet a render job was built`);
+    deferred.push(`XI-product-path ${JURISDICTION}:${pathway}: deferred — counsel ratification is ${ratification}`);
+    return out;
+  }
   fail(built.spec !== null, "XI-spec: no render job could be built for the Oregon route");
   if (!built.spec) return out;
   fail(built.spec.routeId === `${JURISDICTION}:${pathway}`, `XI-route: the job names ${built.spec.routeId}`);
@@ -923,7 +1008,9 @@ if (MUTATIONS) {
   process.exit(0);
 }
 
+const deferred = [];
 const problems = [...staticFailures(evidence), ...(await productPathFailures())];
+for (const line of deferred) console.log(`  DEFERRED ${line}`);
 
 const corpusEntry = evidence.corpusEntry;
 const mountedPath = corpusEntry ? path.join(rootDir, CORPUS_ROOT, corpusEntry.path) : null;
@@ -950,5 +1037,8 @@ if (problems.length > 0) {
 }
 console.log(
   "The official PDF is the packet, every value sits where the profile says on the pages the participant signs, " +
-  "no court, prosecutor, agency or signature blank is filled, and the route admits, pins, validates and delivers it only to the participant who owns it."
+  "and no court, prosecutor, agency or signature blank is filled."
 );
+console.log(deferred.length > 0
+  ? `The product path (admission, pinning, validation, delivery) was NOT exercised on this run: ${deferred.length} section(s) deferred above, each on a governed hold that this verifier does not lift.`
+  : "The route admits, pins, validates and delivers it only to the participant who owns it.");

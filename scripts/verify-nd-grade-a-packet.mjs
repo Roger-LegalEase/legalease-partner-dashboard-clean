@@ -869,9 +869,16 @@ check(
   projectedRoute && projectedRoute.commercialStatus === "not_commercially_eligible",
   "The selected route must remain not_commercially_eligible."
 );
+// This lane opens nothing. That is a statement about the routes this lane
+// touches, all of them North Dakota, and not about the registry as a whole:
+// other jurisdictions reach COMPLETE_PACKET_PROVEN through their own records
+// and their own gates, and a North Dakota lane has no standing to assert that
+// they have not.
+const northDakotaRoutes = projection.routes.filter((route) => route.routeId.startsWith("ND:"));
+check(northDakotaRoutes.length > 0, "The projection must carry the North Dakota routes this lane is measured against.");
 check(
-  projection.counters.completePacketProven === 0 && projection.counters.commerciallyEligible === 0,
-  "No route may become commercially eligible through this lane."
+  northDakotaRoutes.every((route) => route.state !== "COMPLETE_PACKET_PROVEN" && route.commercialStatus === "not_commercially_eligible"),
+  `No North Dakota route may become commercially eligible through this lane (${northDakotaRoutes.filter((route) => route.state === "COMPLETE_PACKET_PROVEN" || route.commercialStatus !== "not_commercially_eligible").map((route) => route.routeId).join(", ") || "none"}).`
 );
 
 // ---------------------------------------------------------------------------

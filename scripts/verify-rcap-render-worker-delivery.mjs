@@ -206,7 +206,17 @@ function deliveryRow(jobId) {
     partnerId: row.partner_id,
     personId: row.person_id,
     matterId: row.matter_id,
-    sponsoredBinding: row.partner_id ? { verificationHash: verificationBindings.get(jobId) } : null,
+    // Transport fixture: these partner jobs are enqueued through the plain
+    // partner queue, so the sponsored binding the shared transaction would have
+    // written is supplied here for this route, and the scoped-publication read
+    // below is answered from the same fixture. What this verifier proves is the
+    // worker, the storage adapter and the stream; the binding and publication
+    // themselves are proven by test-rcap-sponsored-delivery-binding.mjs against
+    // the real sponsored transaction.
+    sponsoredBinding: row.partner_id
+      ? { routeKey: row.route_id, sourceSessionId: "transport-fixture", clinicEventId: "transport-fixture",
+          briefcaseItemId: row.briefcase_item_id, authUserId: USER_OWNER, verificationHash: verificationBindings.get(jobId) }
+      : null,
     consumerVerificationHash: row.partner_id ? null : verificationBindings.get(jobId),
     rendererKind: row.renderer_kind,
     rendererVersion: row.renderer_version,
@@ -228,6 +238,12 @@ const deliveryPorts = {
   userOwnsBriefcaseItem: async (userId, briefcaseItemId) => userId === USER_OWNER && briefcaseItemId === BRIEFCASE_ITEM,
   getCurrentVerification: async (item) => item === BRIEFCASE_ITEM && currentVerification
     ? { ...currentVerification, alreadyDownloaded: jobRow(baselineJobId).status === "delivered" } : null,
+  // Fixture boundary, named: the shipped check reads the sponsored registration,
+  // the Clinic scope and the participant-owned provenance through the Supabase
+  // client, which this verifier does not stand up. A sponsored job here is
+  // "published" exactly when its fixture binding names the owner and this item.
+  sponsoredDeliveryReady: async (job, userId) => Boolean(job.sponsoredBinding)
+    && job.sponsoredBinding.authUserId === userId && job.sponsoredBinding.briefcaseItemId === job.briefcaseItemId,
   storage,
   recordEvent: async (input) => {
     try {

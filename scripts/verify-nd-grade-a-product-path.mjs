@@ -8,8 +8,20 @@
 //
 //   screening -> result -> authentication -> atomic claim -> participant-owned
 //   matter -> Review and Edit -> final verification -> synthetic payment ->
-//   durable render -> artifact validation -> private Briefcase delivery ->
-//   download -> repeat download
+//   durable render -> artifact validation -> private Briefcase delivery,
+//   REFUSED
+//
+// The last step is a refusal on purpose. The render job is a partner job, and
+// a partner job is deliverable only through the shared sponsored verification
+// mechanism -- the binding enqueue_verified_sponsored_packet_render writes for a
+// registered route. North Dakota is not a registered sponsored route and this
+// job was queued outside that transaction, so the delivery core answers
+// sponsored_binding_missing with every technical door open: ownership,
+// eligibility, a hash-verified artifact and a current protected verification
+// for this exact matter. That answer is what separates an unapproved North
+// Dakota output from the mechanism (proven on a registered route in
+// test-rcap-sponsored-delivery-binding.mjs) and from a missing reader, which
+// says verification_not_current instead.
 //
 // And, at every step, the thing that must NOT happen: the shipped commercial
 // admission gate is asked, at all nine admission points, whether this route may
@@ -156,6 +168,15 @@ try {
   ]) {
     db.applyFile(path.join(rootDir, migration));
   }
+  // The protected final verification the delivery core reads is the committed
+  // consumer_packet_verifications table. The launch-rails migration that defines
+  // it also wires checkout and product functions this lane does not stand up,
+  // so its CREATE TABLE statement is lifted from the committed file verbatim
+  // rather than restated here.
+  const launchRails = fs.readFileSync(path.join(rootDir, "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql"), "utf8");
+  const verificationsDdl = launchRails.match(/create table if not exists public\.consumer_packet_verifications \([\s\S]*?\n\);/);
+  check(Boolean(verificationsDdl), "The committed launch-rails migration must define consumer_packet_verifications.");
+  db.sql(verificationsDdl[0]);
   db.sql(`insert into auth.users values ('${OWNER}'), ('${STRANGER}')`);
   db.sql(`insert into partner_records values ('${PARTNER}','we-must-vote')`);
   db.sql(`insert into rcap_persons values ('${PERSON}','we-must-vote','nd-grade-a')`);
@@ -315,6 +336,33 @@ try {
   check(
     db.scalar(`select user_id from consumer_briefcase_items where id = '${BRIEFCASE_ITEM}'`).trim() === OWNER,
     "The claimed matter must be owned by the claimant."
+  );
+  // The participant's current protected final verification, bound to this
+  // exact matter and route. Delivery is measured against THIS row, read
+  // server-side at download time, never against a hash carried by the caller.
+  const verificationSnapshot = {
+    schemaVersion: "expungement-ai/final-verification/v1",
+    jurisdiction: "ND",
+    pathwayId: ROUTE_ID.slice("ND:".length),
+    selectedTrackId: null,
+    verifiedAt: "2026-09-15T00:00:00.000Z",
+    profileVersion: ND_CHAPTER_12_60_1_SEALING_SPEC.provider.compiledProfileVersion,
+    packetFamilyIdentifiers: { mode: "custom_pleading", sourceFormIds: [] },
+    paymentAllowed: false,
+    resultCode: "packet_ready",
+    packetAnswers: canonicalFixture.facts,
+    screeningAnswers: {},
+    prefilledAnswers: {},
+    serverFacts: {}
+  };
+  const verificationHash = sha256(JSON.stringify(verificationSnapshot));
+  const draftSnapshot = { ...verificationSnapshot, schemaVersion: "expungement-ai/protected-packet-draft/v1" };
+  db.sql(
+    `insert into consumer_packet_verifications (briefcase_item_id, consumer_auth_user_id, matter_id, status, reason,
+       verification_hash, verification_snapshot, draft_hash, draft_snapshot, revision)
+     values ('${BRIEFCASE_ITEM}', '${OWNER}', '${MATTER}', 'verified', 'lane-d synthetic final verification',
+       '${verificationHash}', '${JSON.stringify(verificationSnapshot).replaceAll("'", "''")}'::jsonb,
+       '${sha256(JSON.stringify(draftSnapshot))}', '${JSON.stringify(draftSnapshot).replaceAll("'", "''")}'::jsonb, 1)`
   );
 
   // -------------------------------------------------------------------------
@@ -582,6 +630,22 @@ try {
           .trim() === "1"
       );
     },
+    // The current protected verification, read from the database at download
+    // time. Supplying the reader is what lets the refusal below say WHY the
+    // packet is not delivered, rather than only that no reader was present.
+    getCurrentVerification: async (briefcaseItemId) => {
+      const row = db.json(
+        `select row_to_json(t) from (select * from consumer_packet_verifications where briefcase_item_id = '${briefcaseItemId}' and status = 'verified') t`
+      );
+      if (!row) return null;
+      return {
+        snapshot: row.verification_snapshot,
+        hash: row.verification_hash,
+        ownerUserId: row.consumer_auth_user_id,
+        matterId: row.matter_id,
+        alreadyDownloaded: jobRow(jobId)?.status === "delivered"
+      };
+    },
     storage,
     recordEvent: async (input) => {
       try {
@@ -616,8 +680,29 @@ try {
   );
   const anonymous = await authorizePacketDownload(deliveryPorts, { jobId, userId: null });
   check(!anonymous.ok && anonymous.status === 401, "An unauthenticated request must be denied.");
+  // The owner. Every technical door is open -- ownership, eligibility, a
+  // hash-verified artifact, a current protected verification for this exact
+  // matter -- and the delivery core still refuses, because this partner job
+  // never obtained a sponsored binding through the shared verification
+  // mechanism: the North Dakota route is not a registered sponsored route and
+  // the job was queued outside that transaction. That is the answer that
+  // distinguishes an unapproved North Dakota output from the mechanism itself
+  // (proven on a registered route by test-rcap-sponsored-delivery-binding.mjs),
+  // and from a missing reader, which would have said verification_not_current.
   const ownerDecision = await authorizePacketDownload(deliveryPorts, { jobId, userId: OWNER });
-  check(ownerDecision.ok, `The owner must be authorized (${JSON.stringify(ownerDecision)}).`);
+  check(
+    !ownerDecision.ok && ownerDecision.status === 409 && ownerDecision.code === "sponsored_binding_missing",
+    `The owner must be refused because the job holds no authorized sponsored binding (${JSON.stringify(ownerDecision)}).`
+  );
+  const readerless = await authorizePacketDownload({ ...deliveryPorts, getCurrentVerification: undefined }, { jobId, userId: OWNER });
+  check(
+    !readerless.ok && readerless.code === "verification_not_current",
+    `Without the verification reader the refusal is a different one (${JSON.stringify(readerless)}).`
+  );
+  check(
+    db.scalar(`select count(*) from packet_delivery_events where render_job_id = '${jobId}' and event_type = 'delivery_authorized'`).trim() === "0",
+    "No delivery authorization may be recorded for the refused download."
+  );
 
   server = http.createServer(async (req, res) => {
     const url = new URL(req.url, "http://localhost");
@@ -697,63 +782,42 @@ try {
     { name: SESSION_COOKIE, value: OWNER_SESSION, url: `http://127.0.0.1:${port}` }
   ]);
   const page = await ownerContext.newPage();
-  // Diagnostic only: when the download never arrives, say what the owner
-  // navigation actually received instead of reporting a bare timeout.
+  // The owner's browser receives the refusal itself: a 409 naming the missing
+  // sponsored binding, no attachment and no download event.
   const ownerResponses = [];
   page.on("response", (response) => {
-    if (response.url() === downloadUrl) {
-      const line = `${response.status()} type=${response.headers()["content-type"] ?? "-"} disposition=${response.headers()["content-disposition"] ?? "-"}`;
-      ownerResponses.push(line);
-      if (response.status() >= 400) {
-        response.text().then((body) => ownerResponses.push(`body=${body.slice(0, 300)}`)).catch(() => {});
-      }
-    }
+    if (response.url() === downloadUrl) ownerResponses.push(response);
   });
-  const downloadPromise = page.waitForEvent("download", { timeout: 20000 });
-  await page.goto(downloadUrl).catch(() => {
-    // Chromium reports a navigation that becomes a download as aborted; the
-    // download event is the signal that matters.
-  });
-  const download = await downloadPromise.catch((error) => {
-    throw new Error(`owner download did not arrive: ${error.message.split("\n")[0]}; owner navigation received: ${ownerResponses.join(" | ") || "no response for the download URL"}`);
-  });
-  const savedPath = path.join(storageRoot, "owner-download.pdf");
-  await download.saveAs(savedPath);
-  const downloaded = fs.readFileSync(savedPath);
-  check(downloaded.subarray(0, 5).toString("latin1") === "%PDF-", "The participant must receive a PDF.");
+  let downloadArrived = false;
+  page.on("download", () => { downloadArrived = true; });
+  const ownerNavigation = await page.goto(downloadUrl).catch(() => null);
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  const ownerResponse = ownerNavigation ?? ownerResponses[0] ?? null;
+  check(Boolean(ownerResponse), "The owner navigation must receive a response for the download URL.");
   check(
-    sha256(downloaded) === finalized.output_sha256,
-    "The participant must receive the exact validated artifact bytes."
+    ownerResponse?.status() === 409,
+    `The owner's browser must receive the refusal, not a packet (${ownerResponse?.status() ?? "no response"}).`
   );
+  const ownerBody = ownerResponse ? await ownerResponse.json().catch(() => null) : null;
   check(
-    sha256(downloaded) === sha256(committedPdf),
-    "The downloaded packet must be the reviewed packet, byte for byte."
+    ownerBody?.code === "sponsored_binding_missing",
+    `The refusal the browser receives must name the missing sponsored binding (${JSON.stringify(ownerBody)}).`
   );
-  check(/\.pdf$/.test(download.suggestedFilename()), `The download must be named as a PDF (${download.suggestedFilename()}).`);
+  check(!downloadArrived, "No download may arrive for a refused North Dakota packet.");
+  check(
+    !/attachment/.test(ownerResponse?.headers()["content-disposition"] ?? ""),
+    "The refusal must not carry an attachment disposition."
+  );
 
-  await new Promise((resolve) => setTimeout(resolve, 250));
   const events = db.json(
     `select coalesce(json_object_agg(event_type, n), '{}'::json) from (select event_type, count(*) n from packet_delivery_events where render_job_id = '${jobId}' group by event_type) s`
   );
-  check(events.delivery_authorized >= 1, `Delivery authorization must be recorded (${JSON.stringify(events)}).`);
-  check(events.transmission_completed >= 1, `Transmission completion must be recorded (${JSON.stringify(events)}).`);
-  check(jobRow(jobId).status === "delivered", "The job must reach delivered.");
-
-  const consumedBefore = db
-    .scalar(`select count(*) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`)
-    .trim();
-  const repeatPromise = page.waitForEvent("download", { timeout: 20000 });
-  await page.goto(downloadUrl).catch(() => {});
-  const repeat = await repeatPromise;
-  const repeatPath = path.join(storageRoot, "owner-download-2.pdf");
-  await repeat.saveAs(repeatPath);
-  const consumedAfter = db
-    .scalar(`select count(*) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`)
-    .trim();
-  check(consumedBefore === consumedAfter, "A repeat download must consume nothing.");
+  check(!events.delivery_authorized, `No delivery authorization may be recorded (${JSON.stringify(events)}).`);
+  check(!events.transmission_started, `No transmission may start (${JSON.stringify(events)}).`);
+  check(jobRow(jobId).status === "artifact_validated", "The job must stay validated and undelivered.");
   check(
-    sha256(fs.readFileSync(repeatPath)) === sha256(downloaded),
-    "A repeat download must return the same bytes."
+    db.scalar(`select count(*) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`).trim() === "1",
+    "The refusal must consume nothing beyond the single render-time unit."
   );
 
   // And, after all of it, the commercial gate is still shut.
@@ -784,5 +848,5 @@ console.log("  review and edit:    deterministic, reversible, changes the render
 console.log("  final verification: a stale specification refuses to render");
 console.log("  payment:            synthetic, server-evidenced, receipt single-use, buys no admission");
 console.log("  render:             durable, validated, stored, page count matches the composer");
-console.log("  delivery:           mobile browser received the reviewed bytes; repeat consumed nothing");
-console.log("  denials:            anonymous 401, wrong user 403, wrong matter 403");
+console.log("  delivery:           REFUSED — the partner job holds no authorized sponsored binding (sponsored_binding_missing); the stored bytes are the reviewed packet, and they were not delivered");
+console.log("  denials:            anonymous 401, wrong user 403, wrong matter 403, owner 409 sponsored_binding_missing");

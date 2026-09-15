@@ -11,16 +11,26 @@
 //
 //   al-trafficking-set        4 complete packets, 11 pages each, 44 pages
 //   ne-seal-pre2017-set       6 complete packets,  5 pages each, 30 pages
-//   rcap-or-official-pdf-fill 4 complete packets,  9 pages each, 36 pages
+//   rcap-or-official-pdf-fill 4 court packets, 7 pages each, plus 4 separately
+//                             delivered OSP handoffs, 2 pages each: 8 outputs,
+//                             36 pages
 //   pa_pardon_expungement-set 2 complete packets,  5 pages each, 10 pages
 //
 // Oregon is the reason a declaration is read for what it EXCLUDES as well as what
-// it names: it declares a `motionFile` beside each `file`, and the
-// motion-and-declaration PDF is one component of the nine-page packet, not the
-// packet. Enrolling all eight Oregon PDFs would call four components complete
-// packets. Pennsylvania is the reason the count is two and not six: its four
-// --PA-RCRIM-P-790-* PDFs are retained per-component byte proof, and its own
-// report pushes only canonical.pdf and boundary.pdf into `artifacts`.
+// it names, and for what it delivers SEPARATELY. It declares a `motionFile`
+// beside each `file`, and the motion-and-declaration PDF is one component of the
+// seven-page court packet, not the packet: enrolling it would call a component a
+// complete packet. Since 75ab7a622 ("repair Oregon court packets and separate
+// OSP handoffs") it also declares, beside each court packet, an `agencyHandoff`
+// with deliveryRole "separate_agency_handoff": the Oregon State Police
+// criminal-history request, which the governed configuration sends to OSP
+// outside the court packet (OR-disposition-configurations.v1.json,
+// OR-OSP-SET-ASIDE-CCH). That handoff is a complete output of its own delivery
+// role -- the participant receives it and sends it -- so it is enrolled and
+// measured, but never counted as a court packet. Pennsylvania is the reason the
+// count is two and not six: its four --PA-RCRIM-P-790-* PDFs are retained
+// per-component byte proof, and its own report pushes only canonical.pdf and
+// boundary.pdf into `artifacts`.
 //
 // The second half of this file is the cost ledger. Two earlier attempts at this
 // repair each cost nineteen standing RASTER_PASS receipts, for two reasons that
@@ -70,11 +80,26 @@ const dirOf = (id) => {
  * anywhere at all. Anything in the second set and not the first is a component the
  * builder has classified as something other than the packet -- Oregon's motionFile.
  */
-const declaredOutputs = (dir, role) => {
+const declaredOutputs = (dir, role) => declaredOutputsOf(readDeclaration(dir), role);
+const readDeclaration = (dir) => {
   const report = path.join(dir, "reports", "rendered-artifacts.json");
-  if (!fs.existsSync(report)) return null;
-  const doc = readJson(report);
+  return fs.existsSync(report) ? readJson(report) : null;
+};
+/*
+ * Three sets, all from the declaration and none from a filename:
+ *   complete   the files the builder calls a complete output of this role (the
+ *              court packet, or the assembled packet where there is one);
+ *   handoffs   the files it declares beside a complete output as a separately
+ *              delivered agency handoff -- a complete output of a different
+ *              delivery role, carrying the same fixture role;
+ *   everyPdfNamed  every PDF the declaration mentions anywhere.
+ * A file in everyPdfNamed and in neither of the first two is a component the
+ * builder classified as something other than a deliverable -- Oregon's motionFile.
+ */
+const declaredOutputsOf = (doc, role) => {
+  if (!doc) return null;
   const complete = [];
+  const handoffs = [];
   const everyPdfNamed = new Set();
   const walk = (node) => {
     if (typeof node === "string") { if (node.toLowerCase().endsWith(".pdf")) everyPdfNamed.add(node); return; }
@@ -82,15 +107,18 @@ const declaredOutputs = (dir, role) => {
     if (node && typeof node === "object") Object.values(node).forEach(walk);
   };
   walk(doc);
+  const carriesRole = (label) => label === role || (typeof label === "string" && label.startsWith(`${role}--`));
   for (const key of ["artifacts", "pdfs", "packets"]) {
     for (const row of Array.isArray(doc[key]) ? doc[key] : []) {
       if (typeof row?.file !== "string") continue;
-      const label = row.fixtureClass ?? row.fixture;
-      if (label !== role && !(typeof label === "string" && label.startsWith(`${role}--`))) continue;
+      if (!carriesRole(row.fixtureClass ?? row.fixture)) continue;
       if (!complete.includes(row.file)) complete.push(row.file);
+      const handoff = row.agencyHandoff;
+      if (handoff?.deliveryRole === "separate_agency_handoff" && typeof handoff.file === "string"
+        && !handoffs.includes(handoff.file)) handoffs.push(handoff.file);
     }
   }
-  return { complete, everyPdfNamed };
+  return { complete, handoffs, everyPdfNamed };
 };
 
 /*
@@ -110,31 +138,42 @@ const FOUR = [
     note: "canonical and boundary for both misdemeanor and felony, each carrying CR-65 and C-10" },
   { familyId: "ne-seal-pre2017-set", documents: 6, pagesEach: 5, pages: 30,
     note: "canonical and boundary for dismissed-prosecutor-motion, dismissed-problem-solving-court and acquitted" },
-  { familyId: "rcap-or-official-pdf-fill", documents: 4, pagesEach: 9, pages: 36,
-    note: "two routes, canonical and boundary each; the motionFile beside each is a component of the nine-page packet, not the packet" },
+  { familyId: "rcap-or-official-pdf-fill", documents: 4, pagesEach: 7, handoffs: 4, handoffPagesEach: 2, pages: 36,
+    note: "two routes, canonical and boundary each; the motionFile beside each is a component of the seven-page court packet, not the packet, and the agencyHandoff beside each is the OSP criminal-history request, delivered separately" },
 ];
 
 for (const fam of FOUR) {
-  test(`${fam.familyId} is enrolled for its declared complete outputs (${fam.documents} documents, ${fam.pages} pages)`, () => {
+  const outputs = fam.documents + (fam.handoffs ?? 0);
+  test(`${fam.familyId} is enrolled for its declared complete outputs (${outputs} documents, ${fam.pages} pages)`, () => {
     const row = rowOf(fam.familyId);
-    assert.ok(row, `${fam.familyId} is not in the raster matrix at all — it declares ${fam.documents} complete outputs and the queue enrols none of them`);
+    assert.ok(row, `${fam.familyId} is not in the raster matrix at all — it declares ${outputs} complete outputs and the queue enrols none of them`);
     const dir = dirOf(fam.familyId);
     assert.ok(dir && fs.existsSync(dir), `no overlay directory for ${fam.familyId}`);
+    const relative = (file) => path.relative(path.join(dir, "fixtures"), path.resolve(ROOT, file));
+    const packetNames = [];
+    const handoffNames = [];
 
     for (const role of ["canonical", "boundary"]) {
       const declared = declaredOutputs(dir, role);
       assert.ok(declared?.complete.length, `${fam.familyId} declares no ${role} complete output`);
-      const expected = declared.complete
-        .map((file) => path.relative(path.join(dir, "fixtures"), path.resolve(ROOT, file)))
-        .sort();
+      const expectedPackets = declared.complete.map(relative).sort();
+      const expectedHandoffs = declared.handoffs.map(relative).sort();
+      assert.equal(expectedHandoffs.length, fam.handoffs ? fam.handoffs / 2 : 0,
+        `${fam.familyId} ${role}: the declaration names ${expectedHandoffs.length} separate agency handoff(s); the test expects ${fam.handoffs ? fam.handoffs / 2 : 0}`);
       const enrolled = (row.documents ?? []).filter((d) => d.role === role).map((d) => d.name).sort();
-      assert.deepEqual(enrolled, expected,
-        `${fam.familyId} ${role}: the queue must enrol exactly what the family declares as a complete ${role} output — ${fam.note}`);
+      assert.deepEqual(enrolled, [...expectedPackets, ...expectedHandoffs].sort(),
+        `${fam.familyId} ${role}: the queue must enrol exactly what the family declares as a complete ${role} output, court packet and separately delivered handoff alike, and nothing it classifies as a component — ${fam.note}`);
+      packetNames.push(...expectedPackets);
+      handoffNames.push(...expectedHandoffs);
     }
 
-    assert.equal((row.documents ?? []).length, fam.documents, `${fam.familyId} document count`);
+    assert.equal(packetNames.length, fam.documents, `${fam.familyId} court packet count`);
+    assert.equal(handoffNames.length, fam.handoffs ?? 0, `${fam.familyId} separate agency handoff count`);
+    assert.equal((row.documents ?? []).length, outputs, `${fam.familyId} enrolled document count`);
     for (const d of row.documents ?? []) {
-      assert.equal(d.pageCount, fam.pagesEach, `${fam.familyId} ${d.name} page count`);
+      const isHandoff = handoffNames.includes(d.name);
+      assert.equal(d.pageCount, isHandoff ? fam.handoffPagesEach : fam.pagesEach,
+        `${fam.familyId} ${d.name} page count (${isHandoff ? "separate agency handoff" : "court packet"})`);
     }
     assert.equal((row.documents ?? []).reduce((s, d) => s + (d.pageCount ?? 0), 0), fam.pages,
       `${fam.familyId} total enrolled pages`);
@@ -145,19 +184,109 @@ for (const fam of FOUR) {
 }
 
 test("no declared complete output is left out and no component is enrolled as one", () => {
-  // Oregon states this as a difference: eight PDFs carry a role in the fixtures
-  // directory and four of them are complete packets. If the gate ever enrols the
-  // component motion PDFs it will bind a receipt to four pages of a nine-page
-  // packet, which reads as a verdict on the packet and is not one.
+  // Oregon states this as a difference: twelve PDFs carry a role in the fixtures
+  // directory; four are court packets, four are the OSP handoffs delivered
+  // beside them, and four are motion components of the court packets. If the
+  // gate ever enrols a component motion PDF it binds a receipt to five pages of
+  // a seven-page packet, which reads as a verdict on the packet and is not one.
+  // If it ever drops a handoff it stops measuring a document the participant
+  // receives. If it ever counts a handoff as a court packet it restates what the
+  // governed configuration says is sent to a different recipient.
   const or = rowOf("rcap-or-official-pdf-fill");
   assert.ok(or, "rcap-or-official-pdf-fill is not in the matrix");
   const names = (or.documents ?? []).map((d) => d.name);
   assert.equal(names.filter((n) => n.includes("motion-and-declaration")).length, 0,
     "the motion-and-declaration PDF is a component of the Oregon packet and must never be queued as the packet");
   const dir = dirOf("rcap-or-official-pdf-fill");
+  const doc = readDeclaration(dir);
+  assert.deepEqual(doc.deliveryTopology?.separateAgencyHandoff, "criminal_history_request",
+    "the declaration names the criminal-history request as the separately delivered agency handoff");
+  assert.deepEqual(doc.deliveryTopology?.courtPacket, ["motion_and_declaration", "filing_instructions"],
+    "the declaration keeps the court packet to the motion and the filing instructions");
   const onDisk = fs.readdirSync(path.join(dir, "fixtures")).filter((n) => n.endsWith(".pdf"));
-  assert.equal(onDisk.length, 8, "Oregon ships eight fixture PDFs; four are complete packets and four are their motion components");
-  assert.equal(names.length, 4, "and the queue enrols the four complete packets");
+  assert.equal(onDisk.length, 12, "Oregon ships twelve fixture PDFs; four court packets, four OSP handoffs and four motion components");
+  const relative = (file) => path.relative(path.join(dir, "fixtures"), path.resolve(ROOT, file));
+  const packets = ["canonical", "boundary"].flatMap((role) => declaredOutputs(dir, role).complete.map(relative));
+  const handoffs = ["canonical", "boundary"].flatMap((role) => declaredOutputs(dir, role).handoffs.map(relative));
+  assert.equal(packets.length, 4, "four court packets are declared");
+  assert.equal(handoffs.length, 4, "four separate agency handoffs are declared");
+  assert.deepEqual([...names].sort(), [...packets, ...handoffs].sort(),
+    "the queue enrols the four court packets and the four handoffs, and nothing else");
+  for (const name of handoffs) {
+    const enrolled = (or.documents ?? []).find((d) => d.name === name);
+    assert.ok(enrolled, `${name}: the handoff is enrolled`);
+    assert.ok(name.includes("criminal-history-request"), `${name}: the handoff is the OSP criminal-history request`);
+    assert.equal(enrolled.pageCount, 2, `${name}: the handoff is the two-page OSP request, not a court packet`);
+  }
+  for (const name of packets) {
+    const enrolled = (or.documents ?? []).find((d) => d.name === name);
+    assert.ok(enrolled, `${name}: the court packet is enrolled`);
+    assert.equal(enrolled.pageCount, 7, `${name}: the court packet is seven pages, the OSP request having left it`);
+  }
+  assert.deepEqual(or.coverage?.notRastered ?? [], [], "no declared output is left unmeasured");
+  assert.deepEqual([...(or.coverage?.notRenderedByThisGate ?? [])].sort(),
+    onDisk.filter((n) => n.includes("motion-and-declaration")).sort(),
+    "exactly the four motion components are outside the gate, and nothing else is");
+});
+
+/*
+ * REGRESSION COVERAGE FOR THE READER ITSELF, on synthetic declarations, so that
+ * the three ways Oregon can be misread each fail on their own:
+ *   positive  a court packet with an agencyHandoff beside it yields one complete
+ *             output and one handoff, and the motionFile is a component;
+ *   negative  a handoff whose deliveryRole is anything but
+ *             separate_agency_handoff is not a handoff;
+ *   negative  an enrolment that lists a component, or omits a handoff, or counts
+ *             a handoff among the court packets, disagrees with the declaration.
+ */
+const syntheticOregon = () => ({
+  deliveryTopology: { courtPacket: ["motion_and_declaration", "filing_instructions"], separateAgencyHandoff: "criminal_history_request" },
+  artifacts: [{
+    fixture: "canonical--arrest-no-charges", file: "fixtures/canonical--arrest-no-charges.pdf",
+    motionFile: "fixtures/canonical--arrest-no-charges--motion-and-declaration.pdf",
+    agencyHandoff: { component: "criminal_history_request", deliveryRole: "separate_agency_handoff",
+      file: "fixtures/canonical--arrest-no-charges--criminal-history-request.pdf", pageCount: 2 }
+  }]
+});
+
+test("reader: a declared agency handoff is a separate complete output, and the motion file is a component", () => {
+  const read = declaredOutputsOf(syntheticOregon(), "canonical");
+  assert.deepEqual(read.complete, ["fixtures/canonical--arrest-no-charges.pdf"]);
+  assert.deepEqual(read.handoffs, ["fixtures/canonical--arrest-no-charges--criminal-history-request.pdf"]);
+  assert.ok(read.everyPdfNamed.has("fixtures/canonical--arrest-no-charges--motion-and-declaration.pdf"));
+  assert.ok(!read.complete.includes("fixtures/canonical--arrest-no-charges--motion-and-declaration.pdf")
+    && !read.handoffs.includes("fixtures/canonical--arrest-no-charges--motion-and-declaration.pdf"),
+    "the motion file is named and classified as neither packet nor handoff");
+  assert.deepEqual(declaredOutputsOf(syntheticOregon(), "boundary"), { complete: [], handoffs: [], everyPdfNamed: read.everyPdfNamed },
+    "a role the declaration does not carry yields no outputs");
+});
+
+test("reader: a nested file that is not declared a separate agency handoff is not one", () => {
+  for (const deliveryRole of [undefined, null, "court_packet_component", "separate_agency_component"]) {
+    const doc = syntheticOregon();
+    doc.artifacts[0].agencyHandoff.deliveryRole = deliveryRole;
+    const read = declaredOutputsOf(doc, "canonical");
+    assert.deepEqual(read.handoffs, [], `deliveryRole ${String(deliveryRole)} is not a separate agency handoff`);
+    assert.deepEqual(read.complete, ["fixtures/canonical--arrest-no-charges.pdf"]);
+  }
+  const bare = syntheticOregon();
+  delete bare.artifacts[0].agencyHandoff;
+  assert.deepEqual(declaredOutputsOf(bare, "canonical").handoffs, [], "no agencyHandoff, no handoff");
+});
+
+test("reader: an enrolment is judged against the declaration, not against the fixtures listing", () => {
+  const read = declaredOutputsOf(syntheticOregon(), "canonical");
+  const declared = [...read.complete, ...read.handoffs].sort();
+  const judge = (enrolled) => { try { assert.deepEqual([...enrolled].sort(), declared); return true; } catch { return false; } };
+  assert.equal(judge(["fixtures/canonical--arrest-no-charges.pdf", "fixtures/canonical--arrest-no-charges--criminal-history-request.pdf"]), true,
+    "packet plus handoff is exactly the declared set");
+  assert.equal(judge(["fixtures/canonical--arrest-no-charges.pdf"]), false,
+    "dropping the handoff drops a document the participant receives");
+  assert.equal(judge(["fixtures/canonical--arrest-no-charges.pdf", "fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+    "fixtures/canonical--arrest-no-charges--motion-and-declaration.pdf"]), false,
+    "enrolling the motion component calls a component a complete output");
+  assert.equal(read.complete.includes("fixtures/canonical--arrest-no-charges--criminal-history-request.pdf"), false,
+    "the handoff is never counted among the court packets");
 });
 
 /*

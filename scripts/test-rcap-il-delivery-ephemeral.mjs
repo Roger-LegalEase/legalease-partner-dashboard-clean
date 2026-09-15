@@ -29,11 +29,20 @@ async function exerciseIllinoisDeliveryWithFixture({ db, deps, deliveryPorts, us
       const binding = db.json(`select row_to_json(t) from (select consumer_briefcase_item_id from packet_render_jobs where id = '${id}') t`);
       return job && { ...job, consumerBriefcaseItemId: binding.consumer_briefcase_item_id,
         consumerVerificationHash: "local-il-verification",
+        // Fixture boundary: the sponsored variant is enqueued on the plain partner
+        // queue, so the binding the sponsored transaction writes is supplied here
+        // for this route and the publication read is answered from it below.
+        sponsoredBinding: job.partnerId
+          ? { routeKey: job.routeId, sourceSessionId: "local-il-fixture", clinicEventId: "local-il-fixture",
+              briefcaseItemId: job.briefcaseItemId, authUserId: userId, verificationHash: "local-il-verification" }
+          : null,
         personalizedBinding: { trackId: IL_TRACK, packetFamilyId: IL_FAMILY, specificationSha256: IL_SPECIFICATION.specificationSha256,
           specificationFileSha256: createHash("sha256").update(fs.readFileSync("data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json")).digest("hex") } };
     },
     userOwnsBriefcaseItem: async (user, item) => user === userId && currents.has(item),
-    getCurrentVerification: async (item) => currents.get(item) ?? null
+    getCurrentVerification: async (item) => currents.get(item) ?? null,
+    sponsoredDeliveryReady: async (job, user) => Boolean(job.sponsoredBinding)
+      && job.sponsoredBinding.authUserId === user && job.sponsoredBinding.briefcaseItemId === job.briefcaseItemId
   };
   for (const [index, kind] of ["consumer_payment", "sponsored_credit"].entries()) {
     const matterId = `aa110000-0000-4000-8000-00000000000${index}`;

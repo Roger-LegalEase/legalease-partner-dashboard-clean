@@ -72,6 +72,7 @@ const admission = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts
 const { resolvePacketRoute, packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
 const jobContract = await import("../src/lib/rcap/render/job-contract.ts");
 const { authorizePacketDownload } = await import("../src/lib/rcap/render/packet-delivery.ts");
+const legalAuthorityModule = await import("../src/lib/legal-authority/index.ts");
 
 function loadEvidence() {
   const registry = read(REGISTRY);
@@ -84,6 +85,8 @@ function loadEvidence() {
     sourceIdentity: read(`${LANE_DIR}/source-identity.json`),
     visualReview: read(`${LANE_DIR}/visual-review.json`),
     patchRequest: read(`${LANE_DIR}/authority-patch-request.json`),
+    dispositionConfigurations: read("data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json"),
+    legalContracts: Object.fromEntries(OR_ROUTES.map((routeId) => [routeId, structuredClone(legalAuthorityModule.legalRouteContract("OR", routeId.split(":")[1]) ?? null)])),
     authorityModuleSource: fs.readFileSync(path.join(rootDir, "src/lib/rcap/fulfillment/grade-a-authority.ts"), "utf8"),
     generatorSource: fs.readFileSync(path.join(rootDir, "scripts/generate-rcap-grade-a-fulfillment-authority.mjs"), "utf8")
   };
@@ -133,8 +136,13 @@ function staticFailures(evidence) {
     fail(source.byteLength > 0, `B-bytes ${source.sourceId}: no byte length`);
     fail(source.pageCount > 0, `B-pages ${source.sourceId}: no page count`);
     // The lane must not claim to have hashed bytes it never had.
-    fail(source.bytesRehashedOnThisRun === false || fs.existsSync(path.join(rootDir, "private")),
-      `B-honesty ${source.sourceId}: claims the bytes were re-hashed while no corpus is mounted`);
+    // A re-hash claim needs the bytes at the custody path the record names;
+    // the mere existence of a private/ directory proves nothing about them.
+    const custodyPath = String(source.corpusPath ?? "");
+    const bytesPresent = custodyPath !== "" && (fs.existsSync(path.join(rootDir, custodyPath))
+      || fs.existsSync(path.join(rootDir, "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1", custodyPath)));
+    fail(source.bytesRehashedOnThisRun === false || bytesPresent,
+      `B-honesty ${source.sourceId}: claims the bytes were re-hashed while nothing is mounted at ${custodyPath || "(no corpus path)"}`);
   }
 
   fail(visualReview.pageCount === PACKET_PAGES + CCH_PAGES, `B-pagecount: reviewed ${visualReview.pageCount} pages, the two bound forms have ${PACKET_PAGES + CCH_PAGES}`);
@@ -178,17 +186,89 @@ function staticFailures(evidence) {
   // The record is
   // data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json.
   const OWNER_TERMINALIZED = new Set(["OR:marijuana-specific-set-aside-redesignation"]);
+  // The broad (1)(c) route was RETIRED IN PLACE on 2026-08-29 by the decision
+  // owner (LWD-2026-08-29-OR-SUBSECTION, LWD-2026-08-29-OR-PACKET-SCOPE,
+  // data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json):
+  // it delivered the acquittal packet to a participant who was never charged.
+  // Its contract carries outcomeMode unsupported, packetFamily null, a retiredBy
+  // block naming three disposition-bound replacements, and doNotRecreate. The
+  // key still resolves so it cannot be silently re-pointed at a replacement;
+  // what it must resolve to is a refusal. Asserting a packet binding on it
+  // would require exactly what the retirement forbids.
+  const RETIRED = new Map([[
+    "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+    { decisions: ["LWD-2026-08-29-OR-SUBSECTION", "LWD-2026-08-29-OR-PACKET-SCOPE"] }
+  ]]);
+  const legalRouteContract = (jurisdiction, pathwayId) => evidence.legalContracts?.[`${jurisdiction}:${pathwayId}`] ?? legalAuthorityModule.legalRouteContract(jurisdiction, pathwayId);
+  const dispositionConfigurations = evidence.dispositionConfigurations ?? read("data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json");
   for (const routeId of OR_ROUTES) {
     const [, pathwayId] = routeId.split(":");
     const resolved = resolvePacketRoute({ state: "OR", pathway: pathwayId, trackId: null });
     fail(resolved.sellable === false, `C-sellable ${routeId}: resolved sellable`);
     fail(resolved.creditConsumable === false, `C-credit ${routeId}: resolved credit-consumable`);
+    if (RETIRED.has(routeId)) {
+      const contract = legalRouteContract("OR", pathwayId);
+      fail(contract?.outcomeMode === "unsupported" && contract?.packetFamily === null,
+        `C-retired-contract ${routeId}: the contract no longer closes the route (outcomeMode ${contract?.outcomeMode}, packetFamily ${contract?.packetFamily})`);
+      const retiredBy = contract?.retiredBy ?? null;
+      fail(retiredBy !== null && RETIRED.get(routeId).decisions.every((id) => (retiredBy.decisions ?? []).includes(id)),
+        `C-retired-by ${routeId}: the contract does not record the retiring decisions`);
+      fail(typeof contract?.retiredBy?.doNotRecreate === "string" && contract.retiredBy.doNotRecreate.length > 0,
+        `C-retired-do-not-recreate ${routeId}: the retirement carries no do-not-recreate instruction`);
+      fail(resolved.routeKind === "guidance_only" && resolved.rendererKind === "none",
+        `C-retired-refused ${routeId}: the retired route resolved ${resolved.routeKind}/${resolved.rendererKind} instead of a refusal`);
+      fail(packetRouteCanRender(resolved) === false, `C-retired-render ${routeId}: the retired route still renders a packet`);
+      fail((resolved.factoryV2?.officialFormIds ?? []).length === 0,
+        `C-retired-form ${routeId}: the retired route still binds an official form`);
+      // Not re-pointed: the refusal names the retired key itself, never a replacement.
+      const replacements = (retiredBy?.replacedBy ?? []).map((entry) => entry.routeKey);
+      fail(replacements.length === 3, `C-retired-replacements ${routeId}: ${replacements.length} replacement route(s) named, expected 3`);
+      fail(!replacements.some((key) => String(resolved.reason ?? "").includes(key)) && String(resolved.reason ?? "").includes(routeId),
+        `C-retired-not-repointed ${routeId}: the refusal reads as a replacement rather than the retired key`);
+      // Each replacement is a distinct governed configuration that does not yet
+      // resolve as a packet route: none may render, sell, or consume credit, and
+      // each carries its own identity, disposition predicate, form option and
+      // specification hash. What is still missing for each is reported by the
+      // readiness lines, not hidden behind these refusals.
+      const configurations = dispositionConfigurations.configurations ?? [];
+      for (const key of replacements) {
+        const [, replacementPathway] = key.split(":");
+        const replacementResolved = resolvePacketRoute({ state: "OR", pathway: replacementPathway, trackId: null });
+        fail(replacementResolved.routeKind !== "factory_v2" && packetRouteCanRender(replacementResolved) === false,
+          `C-replacement-unbuilt ${key}: a replacement configuration resolves as a renderable packet route without its own contract, record, fixture and final verification`);
+        fail(replacementResolved.sellable === false && replacementResolved.creditConsumable === false,
+          `C-replacement-closed ${key}: a replacement resolved sellable or credit-consumable`);
+        const configuration = configurations.find((entry) => entry.routeKey === key) ?? null;
+        fail(configuration !== null, `C-replacement-configuration ${key}: no governed disposition configuration`);
+        if (!configuration) continue;
+        fail(/^[0-9a-f]{64}$/.test(configuration.specificationSha256 ?? ""), `C-replacement-spec ${key}: no specification hash`);
+        fail(typeof configuration.formOption === "string" && /^Option [23]$/.test(configuration.formOption), `C-replacement-form ${key}: form option ${configuration.formOption}`);
+        fail((configuration.dispositionPredicate?.requires ?? []).length > 0 && (configuration.dispositionPredicate?.refuses ?? []).length > 0,
+          `C-replacement-predicate ${key}: the predicate does not name what it requires and refuses`);
+        fail(configuration.commercialStatus === "closed", `C-replacement-commercial ${key}: ${configuration.commercialStatus}`);
+      }
+      const distinct = new Set(configurations.map((entry) => `${entry.packetConfigurationId}|${entry.formOption}|${entry.specificationSha256}`));
+      fail(distinct.size === configurations.length, "C-replacement-distinct: two configurations share an identity, form option and specification hash");
+      continue;
+    }
     if (OWNER_TERMINALIZED.has(routeId)) {
       // The positive form of the same fact: the owner's refusal is in force.
       fail(packetRouteCanRender(resolved) === false,
         `C-terminalized ${routeId}: the owner took this route off the packet treatment and it still renders a packet`);
       fail((resolved.factoryV2?.officialFormIds ?? []).length === 0,
         `C-terminalized-form ${routeId}: the owner took this route off the packet treatment and the resolver still binds an official form`);
+      const contract = legalRouteContract("OR", pathwayId);
+      fail(contract?.outcomeMode === "guidance_status" && contract?.packetFamily === null,
+        `C-terminalized-contract ${routeId}: contract is ${contract?.outcomeMode}/${contract?.packetFamily}, not guidance with no packet family`);
+      fail(String(contract?.notes ?? "").includes("OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-or_conviction_setaside-set"),
+        `C-terminalized-decision ${routeId}: the contract no longer cites the 2026-09-02 owner delivery-type decision`);
+      fail(resolved.routeKind === "guidance_only", `C-terminalized-kind ${routeId}: resolved ${resolved.routeKind}`);
+      // The separately governed fallback (ORS 137.225(1)(a) class map) resolves
+      // through the factory in shadow. Resolving is not readiness: it stays
+      // unsellable and its render job is still gated by counsel's ratification.
+      const fallback = resolvePacketRoute({ state: "OR", pathway: "set-aside-of-eligible-convictions-under-ors-137-225-1-a", trackId: null });
+      fail(fallback.routeKind === "factory_v2" && fallback.sellable === false && fallback.creditConsumable === false,
+        `C-terminalized-fallback ${routeId}: the fallback route resolved ${fallback.routeKind}, sellable ${fallback.sellable}`);
       continue;
     }
     fail(packetRouteCanRender(resolved) === true, `C-render ${routeId}: the route cannot render`);
@@ -228,6 +308,8 @@ function staticFailures(evidence) {
   const rows = launchGraph.routes ?? launchGraph.rows ?? [];
   const namedForms = rows.reduce((sum, row) => sum + (row.sourceAssets?.officialFormIdsNamed ?? []).length, 0);
   fail(namedForms > 0, "E1-premise: the launch graph names no official form at all, so this rule has no subject");
+  fail(rows.filter((row) => row.jurisdiction === "OR").every((row) => (row.sourceAssets?.officialFormIdsHeldInThisRepository ?? []).length === 0),
+    "E1-launch-graph-held: an Oregon launch-graph row claims an official form is held in this repository, which private/ makes impossible");
   fail(!/heldInRepository/.test(evidence.authorityModuleSource),
     "E1-no-held-gate: the authority again requires heldInRepository, which is unsatisfiable while private/ is git-ignored");
   fail(/expectedSha256/.test(evidence.authorityModuleSource) && /installedSha256/.test(evidence.authorityModuleSource),
@@ -282,6 +364,18 @@ async function productPathFailures() {
     trackId: null,
     packetFields: facts
   });
+  // Counsel's ratification gates job building (job-contract.ts refuses any
+  // route whose ratification is not ratified_deployable). While the (1)(a)
+  // route is hard_gate_pending the correct product-path outcome is a refusal,
+  // and the delivery proofs below are deferred rather than reported as passed.
+  const ratification = (read("data/record-clearing/legal-decisions/route-ratification-registry.json").routes ?? [])
+    .find((entry) => (entry.routeKey ?? entry.routeId) === `OR:${pathway}`)?.status ?? null;
+  fail(ratification !== null, `D-ratification: OR:${pathway} has no entry in the route-ratification registry`);
+  if (ratification !== "ratified_deployable") {
+    fail(built.spec === null, `D-spec-gated: OR:${pathway} is ${ratification} yet a render job was built`);
+    deferred.push(`D-product-path OR:${pathway}: deferred — counsel ratification is ${ratification}, so admission, pinning, validation and private delivery cannot be exercised until it is ratified_deployable`);
+    return out;
+  }
   fail(built.spec !== null, "D-spec: no render job could be built for the Oregon route");
   if (!built.spec) return out;
   fail(built.spec.sourceSha256 === PACKET_SHA, "D-pin: the job does not pin the Oregon packet");
@@ -417,7 +511,9 @@ if (MUTATIONS) {
       launchGraph: evidence.launchGraph,
       sourceIdentity: evidence.sourceIdentity,
       visualReview: evidence.visualReview,
-      patchRequest: evidence.patchRequest
+      patchRequest: evidence.patchRequest,
+      dispositionConfigurations: evidence.dispositionConfigurations,
+      legalContracts: evidence.legalContracts
     }),
     observationByRoute: new Map(),
     authorityModuleSource: evidence.authorityModuleSource,
@@ -438,7 +534,7 @@ if (MUTATIONS) {
     ["the lane's criminal-history digest changes", (e) => { e.sourceIdentity.sources.find((s) => s.sourceId === CCH_FORM).sha256 = "0".repeat(64); }],
     ["a source identity loses its second witness", (e) => { e.sourceIdentity.sources[0].corroboratedBy = ["one-record-only"]; }],
     ["a source digest becomes the hash of its own identifier", (e) => { const s = e.sourceIdentity.sources[0]; s.sha256 = sha256(Buffer.from(s.sourceId, "utf8")); }],
-    ["the lane claims it re-hashed bytes it never had", (e) => { e.sourceIdentity.sources[0].bytesRehashedOnThisRun = true; }],
+    ["the lane claims it re-hashed bytes it never had", (e) => { e.sourceIdentity.sources[0].bytesRehashedOnThisRun = true; e.sourceIdentity.sources[0].corpusPath = "private/source-imports/nowhere/absent.pdf"; }],
     ["the review covers fewer pages than the bound forms have", (e) => { e.visualReview.pageCount = 5; }],
     ["the review leaves a page unreviewed", (e) => { e.visualReview.pagesReviewed = 6; }],
     ["a bound form loses a page in its artifact", (e) => { e.visualReview.allPagesRetained = false; }],
@@ -458,15 +554,35 @@ if (MUTATIONS) {
     ["the patch request drops the observation half", (e) => { delete e.patchRequest.observationSnapshotMustAlsoMove; }],
     ["the patch request stops saying legal approval is not the lane's", (e) => { e.patchRequest.proofsLaneCCannotClose.outputLegalApproval = ""; }],
     ["heldInRepository becomes true in the registry", (e) => { for (const r of e.registry.records) for (const s of r.officialSources) s.heldInRepository = true; }],
-    ["the launch graph starts holding forms", (e) => { const rows = e.launchGraph.routes ?? e.launchGraph.rows ?? []; if (rows[0]) { rows[0].sourceAssets = rows[0].sourceAssets ?? {}; rows[0].sourceAssets.officialFormIdsHeldInThisRepository = ["X-1"]; } }],
-    ["the authority drops heldInRepository entirely", (e) => { e.authorityModuleSource = e.authorityModuleSource.replaceAll("heldInRepository", "somethingElse"); }],
-    ["the generator stops hashing the identifier string", (e) => { e.generatorSource = e.generatorSource.replace("sha256(`${sourceId}`)", "sha256(sourceBytes)"); }]
+    ["the launch graph starts holding forms", (e) => { const rows = e.launchGraph.routes ?? e.launchGraph.rows ?? []; const row = rows.find((r) => r.jurisdiction === "OR"); if (row) { row.sourceAssets = row.sourceAssets ?? {}; row.sourceAssets.officialFormIdsHeldInThisRepository = ["X-1"]; } }],
+    ["the authority again requires heldInRepository", (e) => { e.authorityModuleSource += "\nif (!source.heldInRepository) missing.push(\"official_sources: not held\");\n"; }],
+    ["the generator again hashes the identifier string", (e) => { e.generatorSource += "\nconst digest = sha256(`${sourceId}`);\n"; }],
+    // The 2026-08-29 retirement and its three replacements.
+    ["the retired route regains a packet family", (e) => { e.legalContracts[OR_ROUTES[1]].packetFamily = "rcap-or-official-pdf-fill"; }],
+    ["the retired route's contract drops doNotRecreate", (e) => { delete e.legalContracts[OR_ROUTES[1]].retiredBy.doNotRecreate; }],
+    ["the retirement forgets one of its decisions", (e) => { e.legalContracts[OR_ROUTES[1]].retiredBy.decisions = ["LWD-2026-08-29-OR-SUBSECTION"]; }],
+    ["the retirement names only two replacements", (e) => { e.legalContracts[OR_ROUTES[1]].retiredBy.replacedBy.pop(); }],
+    ["a replacement configuration loses its specification hash", (e) => { e.dispositionConfigurations.configurations[0].specificationSha256 = ""; }],
+    ["a replacement configuration opens commercially", (e) => { e.dispositionConfigurations.configurations[1].commercialStatus = "open"; }],
+    ["two replacement configurations collapse into one identity", (e) => { const c = e.dispositionConfigurations.configurations; c[2].packetConfigurationId = c[1].packetConfigurationId; c[2].formOption = c[1].formOption; c[2].specificationSha256 = c[1].specificationSha256; }],
+    ["a replacement's predicate stops naming what it refuses", (e) => { e.dispositionConfigurations.configurations[0].dispositionPredicate.refuses = []; }],
+    ["the marijuana route's contract drops the 2026-09-02 owner decision", (e) => { e.legalContracts[OR_ROUTES[2]].notes = "guidance"; }],
+    ["the marijuana route's contract regains a packet family", (e) => { e.legalContracts[OR_ROUTES[2]].packetFamily = "rcap-or-official-pdf-fill"; }]
   ];
 
   let undetected = 0;
+  const snapshotOf = (e) => JSON.stringify([e.registry, e.observation, e.launchGraph, e.sourceIdentity, e.visualReview, e.patchRequest, e.dispositionConfigurations, e.legalContracts, e.authorityModuleSource, e.generatorSource]);
   for (const [label, mutate] of mutations) {
     const mutated = clone();
+    const before = snapshotOf(mutated);
     mutate(mutated);
+    if (snapshotOf(mutated) === before) {
+      // A mutation that changes nothing tests nothing: the defence it targeted
+      // has moved or been renamed, and reporting it as caught would be a lie.
+      console.log(`NO-OP    ${label} (the mutation matched nothing; retarget it)`);
+      undetected += 1;
+      continue;
+    }
     const caught = staticFailures(withObservation(mutated)).length > base;
     console.log(`${caught ? "caught  " : "MISSED  "} ${label}`);
     if (!caught) undetected += 1;
@@ -479,7 +595,9 @@ if (MUTATIONS) {
   process.exit(0);
 }
 
+const deferred = [];
 const problems = [...staticFailures(evidence), ...(await productPathFailures())];
+for (const line of deferred) console.log(`  DEFERRED ${line}`);
 
 const decisions = OR_ROUTES.map((routeId) => {
   const record = evidence.registry.records.find((row) => row.routeId === routeId) ?? null;

@@ -49,6 +49,15 @@ export type DeliveryPorts = {
     matterId: string;
     alreadyDownloaded: boolean;
   } | null>;
+  /**
+   * Whether a sponsored job's scoped publication has happened: the registration
+   * is active, the claimed Clinic scope still agrees, and the participant-owned
+   * provenance names this exact job and artifact. The default is the shipped
+   * check in sponsored-packet.ts, which the application never overrides; a
+   * verifier that runs the delivery core against a database the shipped check
+   * cannot reach supplies its own database-backed read and says so.
+   */
+  sponsoredDeliveryReady?(job: RenderJobRow, userId: string): Promise<boolean>;
   storage: PacketArtifactStorage;
   recordEvent(input: {
     jobId: string;
@@ -182,6 +191,16 @@ export async function authorizePacketDownload(
     if (current.ownerUserId !== input.userId) {
       return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
     }
+    // A partner job is deliverable only through the shared sponsored
+    // verification mechanism: the binding the sponsored transaction wrote for
+    // this exact route. A partner job that never obtained one -- an
+    // unregistered route, or a job enqueued outside that transaction -- is
+    // refused here with its own code, so that "this job holds no authorized
+    // sponsored binding" is never reported as "the verification changed".
+    if (job.partnerId && (!job.sponsoredBinding || job.sponsoredBinding.routeKey !== job.routeId
+      || job.sponsoredBinding.briefcaseItemId !== consumerItemId)) {
+      return { ok: false, status: 409, code: "sponsored_binding_missing", message: "This packet is not available for download." };
+    }
     // The current verification must still describe the job's exact matter,
     // route and fact snapshot. A newly verified different snapshot cannot
     // authorize delivery of an older stored artifact.
@@ -207,7 +226,10 @@ export async function authorizePacketDownload(
         return { ok: false, status: 409, code: "verification_binding_mismatch", message: "This packet must be reviewed again before it can be downloaded." };
       }
     }
-    if (exactIllinoisRoute && job.partnerId && !await sponsoredRenderDeliveryReady(job, input.userId)) {
+    // Every sponsored job, whatever its route, waits for its scoped publication:
+    // technical validation alone never exposes bytes, and the route's Grade-A
+    // admission below is still asked afterwards.
+    if (job.partnerId && !await (ports.sponsoredDeliveryReady ?? sponsoredRenderDeliveryReady)(job, input.userId)) {
       return { ok: false, status: 409, code: "sponsorship_not_finalized", message: "This packet is not ready to download." };
     }
     try {
