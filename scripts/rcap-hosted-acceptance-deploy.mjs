@@ -337,9 +337,9 @@ if (reusable) {
   try {
     const created = await createRestPreview({token: VERCEL_TOKEN, identity: VERCEL_IDENTITY,
       applicationSha: APPLICATION_SHA, runtimeEnv, buildEnv, meta: deploymentMeta}, {
-      onCreated: receipt => {
+      onState: receipt => {
         evidence.restCreation = receipt;
-        fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, passed:false, status:"CREATED_PENDING_VERIFICATION"}, null, 2)}\n`);
+        fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, passed:false, status:"REST_ATTEMPT_PENDING_VERIFICATION"}, null, 2)}\n`);
       }
     });
     deploymentUrl = created.url;

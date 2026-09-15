@@ -46,6 +46,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
         'scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs',
         'scripts/rcap-hosted-vercel-rest-transport.mjs',
+        'scripts/rcap-hosted-vercel-diagnostics.mjs',
         'scripts/rcap-hosted-vercel-rest-transport.test.mjs',
         'scripts/rcap-hosted-acceptance-preflight.mjs',
         'scripts/rcap-hosted-acceptance-vercel-identity.test.mjs'

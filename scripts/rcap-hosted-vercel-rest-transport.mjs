@@ -1,3 +1,4 @@
+import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
 import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 
 export const FROZEN_APPLICATION_SHA = '78c8c15c4fddd525bf3c327bbfde1c99dee778f0';
@@ -36,26 +37,41 @@ export function assertPreviewResponse(d, expectedMeta, expectedId) {
   return d;
 }
 
-export async function createRestPreview(options, {fetchImpl=globalThis.fetch, sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms)), maxPolls=180, onCreated=()=>{}}={}) {
+export async function createRestPreview(options, {fetchImpl=globalThis.fetch, sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms)), maxPolls=180, onCreated=()=>{}, onState=()=>{}}={}) {
   const body=createPreviewRequest(options);
   if (!options.token) throw new Error('REST_TOKEN_REQUIRED');
   const headers={Authorization:`Bearer ${options.token}`, 'Content-Type':'application/json'};
   // Exactly ONE creation call. Network ambiguity, 401/403, malformed replies,
   // timeouts and failed builds never cause a retry or another deployment.
+  const secrets=[options.token,...Object.entries({...options.runtimeEnv,...options.buildEnv}).filter(([key])=>/KEY|SECRET|PASSWORD|TOKEN/.test(key)).map(([,value])=>value)];
+  let receipt={creationPostCount:1,creationCalls:1,creationHttpStatus:null,phase:'CREATE_ATTEMPTED',observedAt:new Date().toISOString()};
+  const checkpoint=(d,extra={})=>{
+    receipt={...receipt,...sanitizeVercelDiagnostic(d,secrets),...extra,observedAt:new Date().toISOString()};
+    onState(receipt);return receipt;
+  };
+  onState(receipt);
   const response=await fetchImpl(CREATE_PREVIEW_URL,{method:'POST',headers,body:JSON.stringify(body),redirect:'error',signal:AbortSignal.timeout(60000)});
-  if (!response.ok) throw new Error(`REST_CREATE_HTTP_${response.status}`);
+  checkpoint({}, {creationHttpStatus:response.status,phase:'CREATE_RESPONSE'});
   let d=await response.json();
-  // Preserve the returned identity even if subsequent validation fails.
-  onCreated({id:/^dpl_[A-Za-z0-9]+$/.test(d?.id??'')?d.id:null,creationHttpStatus:response.status});
+  checkpoint(d);
+  if (!response.ok) throw new Error(`REST_CREATE_HTTP_${response.status}`);
+  onCreated(receipt);
   d=assertPreviewResponse(d,body.meta);
   const id=d.id;
   for(let poll=0;;poll++) {
-    if(d.readyState==='READY') return {id,url:`https://${d.url}`,sourceSha:d.gitSource.sha,target:d.target,creationCalls:1};
-    if(['ERROR','CANCELED','CANCELLED'].includes(d.readyState)) throw new Error('REST_BUILD_FAILED');
-    if(poll>=maxPolls) throw new Error('REST_BUILD_TIMEOUT_NO_RETRY');
+    const terminalState=d.readyState ?? d.state;
+    if(terminalState==='READY') return {...receipt,id,url:`https://${d.url}`,sourceSha:d.gitSource.sha,target:d.target,creationCalls:1};
+    if(['ERROR','CANCELED','CANCELLED','PAUSED','BLOCKED'].includes(terminalState)) throw new Error(`REST_BUILD_${terminalState}`);
+    if(poll>=maxPolls) {
+      checkpoint({}, {phase:'POLL_TIMEOUT',pollTimedOut:true});
+      throw new Error('REST_BUILD_TIMEOUT_NO_RETRY');
+    }
     await sleep(10000);
     const status=await fetchImpl(`https://api.vercel.com/v13/deployments/${id}?teamId=${HOSTED_VERCEL_TEAM_ID}`,{method:'GET',headers,redirect:'error',signal:AbortSignal.timeout(30000)});
+    checkpoint({}, {pollHttpStatus:status.status});
     if(!status.ok) throw new Error(`REST_POLL_HTTP_${status.status}`);
-    d=assertPreviewResponse(await status.json(),body.meta,id);
+    d=await status.json();
+    checkpoint(d,{phase:'BUILD_POLL'});
+    d=assertPreviewResponse(d,body.meta,id);
   }
 }
