@@ -46,6 +46,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-hosted-checkout-gate.mjs',
         'scripts/rcap-hosted-colorado-clinic-browser.mjs',
         'scripts/verify-rcap-hosted-browser.mjs',
+        'scripts/rcap-hosted-acceptance-payment.mjs',
+        'scripts/rcap-hosted-acceptance-gallery.mjs',
         'scripts/rcap-hosted-acceptance-deploy.mjs',
         'scripts/rcap-vercel-identity-recheck.mjs',
         'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',

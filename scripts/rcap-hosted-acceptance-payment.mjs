@@ -307,9 +307,18 @@ function finish() {
 {
   const res = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}`);
   const match = res.json;
+  // The resolution boundary hands this run the deterministic SHA-scoped return
+  // alias, not the deployment's immutable URL, so the hostname is bound to the
+  // deployment the way the resolver binds it: Vercel must resolve that exact
+  // hostname to this exact deployment id. An immutable URL still matches directly.
+  let hostnameBoundToDeployment = match?.url === EXACT_PREVIEW_HOSTNAME;
+  if (!hostnameBoundToDeployment) {
+    const aliased = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_PREVIEW_HOSTNAME)}`);
+    hostnameBoundToDeployment = aliased.status === 200 && (aliased.json?.id ?? aliased.json?.uid) === EXACT_DEPLOYMENT_ID;
+  }
   const exact = res.status === 200
     && match?.id === EXACT_DEPLOYMENT_ID
-    && match?.url === EXACT_PREVIEW_HOSTNAME
+    && hostnameBoundToDeployment
     && (match?.readyState ?? match?.state) === "READY"
     && (match?.target === null || match?.target === "preview")
     && match?.meta?.rcapApplicationSha === APPLICATION_SHA
