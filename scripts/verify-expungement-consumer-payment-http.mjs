@@ -57,6 +57,11 @@ if (process.argv.includes("--admission-trace")) {
   }));
 }
 
+if (process.argv.includes("--local-publication-fixture")) {
+  const { installLocalPublicationFixture } = await import("./consumer-payment-publication-fixture.mjs");
+  await installLocalPublicationFixture();
+}
+
 const Stripe = (await import("stripe")).default;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -222,7 +227,7 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
     court_requirements_completed: "yes"
   };
   const packetAnswers = {
-    ...JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json"), "utf8")).facts,
+    ...JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json"), "utf8")).facts,
     date_of_birth: "1990-04-12",
     offense_date: "2014-01-10",
     arrest_date: "2014-01-10",
@@ -297,12 +302,14 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
   // Seed the current protected draft from server evaluation, never from a
   // participant-writable mirror or a fabricated verification verdict.
   const authoritative = evaluateAuthoritativeScreeningResult({ jurisdiction, profileVersion: getProfileByJurisdiction(jurisdiction).profileVersion, matterId: id, answers: screeningAnswers });
+  assert.equal(authoritative.selectedTrackId, 'ms-nonconv', 'exact MS track is selected by the server');
   const seed = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers, packetAnswers, dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: "expungement_packet" }, capturedAt: new Date().toISOString() });
   const verified = inserted && seed ? derivePacketInformationPatch({ existingItem: inserted, answers: {}, verify: true, protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0, draftSnapshot: seed.snapshot, draftHash: seed.hash } }) : null;
   if (!inserted || !verified?.readyToGenerate) throw new Error(`fixture ${id} could not be explicitly verified: ${verified?.reviewReason}; missing=${JSON.stringify(verified?.missingInputIds)}`);
   const persisted = await persistProtectedPacketVerification({ consumerAuthUserId: userId, briefcaseItemId: id, transition: verified.protectedTransition });
   if (!persisted.ok) throw new Error(`fixture protected verification persistence failed: ${persisted.reason}`);
   const readback = await requireCurrentPacketVerification(userId, inserted);
+  assert.equal(readback.snapshot.selectedTrackId, 'ms-nonconv', 'server track survives protected PostgreSQL persistence');
   assert.equal(readback.hash, verified.protectedTransition.nextVerification.hash, 'final hash survives real jsonb persistence');
   const tampered = structuredClone(persisted.value);
   tampered.snapshot.packetAnswers.participant_full_legal_name = 'Changed after verification';
@@ -857,6 +864,7 @@ const report = {
   schemaVersion: "rcap-consumer-payment-http/v1",
   generatedBy: "scripts/verify-expungement-consumer-payment-http.mjs",
   migrationSequence: SEQUENCE,
+  syntheticPublicationFixture: process.argv.includes("--local-publication-fixture"),
   totals: { cases: results.length, passed, failed: results.length - passed },
   cases: results
 };

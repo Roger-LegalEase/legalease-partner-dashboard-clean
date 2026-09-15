@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 126,
-  "totalBytes": 14026570,
+  "fileCount": 125,
+  "totalBytes": 13987070,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -681,25 +681,18 @@
       "why": "Read only when the delivery route state is live. Absent, deploymentConfigIncomplete() fails closed and every live route stops resolving."
     },
     {
-      "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
-      "sha256": "a8c0553e03202213381e8ba4969d53b224eafda7d1f799924afad13cd3035007",
-      "bytes": 213477,
-      "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts (REGISTRY_PATH)",
-      "why": "The Grade-A fulfillment record set. Absent, getCurrentFulfillmentRecord finds no record and every route is refused."
-    },
-    {
-      "path": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
-      "sha256": "6a3aeb4fc50cf448a915eb8cc214cf4847b12ffa184ed76076096bb0d25fd8c2",
-      "bytes": 20166,
-      "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts (OBSERVATION_PATH)",
-      "why": "Independent observation the admission gate binds a record against."
-    },
-    {
       "path": "data/rcap-grade-a/maintenance/route-holds.json",
       "sha256": "54d7cdd734e207399e1f65977bfca6b6df7bea33c99e236a4f4264c6eb1a0d41",
       "bytes": 9791,
       "readBy": "src/lib/rcap/documents/packet-route-resolver.ts (ROUTE_HOLDS_PATH)",
       "why": "Route-scoped maintenance holds. Absent = no holds, which would silently un-hold a held route."
+    },
+    {
+      "path": "data/rcap-grade-a/worker-static-authority.json",
+      "sha256": "a9f4c6b8a50ebd40278e0e9e26cfa5db4cfe4c35262882644493baa9d3a517b2",
+      "bytes": 194143,
+      "readBy": "src/lib/rcap/fulfillment/worker-static-authority.ts",
+      "why": "Render-only legal/source/specification authority; external publication facts remain outside the image."
     },
     {
       "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {register} from 'node:module';
+register('./lib/ts-esm-loader.mjs',import.meta.url);
+const {selectComposedRoute,forbiddenRouteIdentityFields}=await import('../src/lib/rcap-engine/composed-route-selector.ts');
+const pathwayId='non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
+assert.deepEqual(selectComposedRoute({jurisdiction:'MS',pathwayId}),{status:'selected',trackId:'ms-nonconv'});
+for(const input of [{jurisdiction:'MS',pathwayId:'unknown'},{jurisdiction:'IL',pathwayId},{jurisdiction:'MS',pathwayId:'*'}]) assert.deepEqual(selectComposedRoute(input),{status:'no_composed_route',trackId:null});
+assert.deepEqual(forbiddenRouteIdentityFields({selectedTrackId:'ms-nonconv'}),['selectedTrackId']);
+assert.deepEqual(selectComposedRoute({jurisdiction:'MS',pathwayId:'unknown',selectedTrackId:'ms-nonconv'}),{status:'no_composed_route',trackId:null});
+console.log('Exact MS selector: 6/6 PASS; client track remains forbidden. Protected persistence and job creation are exercised by the payment HTTP verifier.');

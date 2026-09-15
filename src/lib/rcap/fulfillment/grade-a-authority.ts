@@ -484,7 +484,7 @@ function nonEmpty(value: string | null | undefined): boolean {
  * "you never obtained this" and "this changed under you" are different facts and
  * an operator needs to be told which one is true.
  */
-function collectMissingProof(record: GradeAFulfillmentRecord): string[] {
+function collectMissingProof(record: GradeAFulfillmentRecord, requirePublication = true): string[] {
   const missing: string[] = [];
 
   if (record.serviceDisposition !== "paid_packet_intended") {
@@ -539,7 +539,7 @@ function collectMissingProof(record: GradeAFulfillmentRecord): string[] {
     }
   }
 
-  if (!nonEmpty(record.provider.providerId) || !nonEmpty(record.provider.rendererVersion) || !nonEmpty(record.provider.imageDigest)) {
+  if (!nonEmpty(record.provider.providerId) || !nonEmpty(record.provider.rendererVersion) || (requirePublication && !nonEmpty(record.provider.imageDigest))) {
     missing.push("provider: a provider identity, renderer version and image digest are required");
   }
 
@@ -1054,4 +1054,14 @@ export function requiredProofDimensions(): readonly string[] {
 
 export function routeIdFor(jurisdiction: string, pathwayId: string): string {
   return `${String(jurisdiction).trim().toUpperCase()}:${String(pathwayId).trim()}`;
+}
+
+/** Static render validation is NOT commercial admission. Only already-claimed,
+ * protected jobs use this; dispatch continues to require publication proof. */
+export function evaluateStaticRenderAuthority(record: GradeAFulfillmentRecord, observation: FulfillmentObservation) {
+  const missing = collectMissingProof(record, false);
+  const stale = collectStaleness(record, observation);
+  const allowed = record.schemaVersion === GRADE_A_ADMISSION_SCHEMA_VERSION
+    && !record.supersededBy && !record.revocation.revoked && missing.length === 0 && stale.length === 0;
+  return { allowed, reason: allowed ? "Static legal/source/packet render authority verified; no commercial admission granted." : JSON.stringify({ missing, stale, revoked: record.revocation.revoked, superseded: record.supersededBy }) };
 }

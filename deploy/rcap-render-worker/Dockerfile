@@ -46,7 +46,7 @@ COPY src/ src/
 # Without these the image starts and then refuses every route, because each
 # reader is guarded and treats an absent file as "no authority".
 COPY deploy/rcap-render-worker/runtime-data-manifest.json deploy/rcap-render-worker/preflight.mjs deploy/rcap-render-worker/
-COPY data/rcap-grade-a/fulfillment-authority-registry.json data/rcap-grade-a/fulfillment-observation-snapshot.json data/rcap-grade-a/
+COPY data/rcap-grade-a/worker-static-authority.json data/rcap-grade-a/
 COPY data/rcap-grade-a/maintenance/route-holds.json data/rcap-grade-a/maintenance/
 COPY data/rcap-codex/release-readiness.json data/rcap-codex/
 COPY data/rcap-all50/problematic-pdf-register.json data/rcap-all50/

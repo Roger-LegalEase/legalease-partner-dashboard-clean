@@ -1,3 +1,4 @@
+import { workerStaticPacketBinding } from "@/lib/rcap/fulfillment/worker-static-authority";
 import "server-only";
 import { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_ROUTE } from "@/lib/rcap/fulfillment/paid-consumer-successor";
 
@@ -29,19 +30,24 @@ function uuidFor(seed: string) {
 /** Derive the immutable worker input from a protected verification. No packet
  * content, route choice, spec, family, owner or verification comes from a body.
  */
-export function preparePersonalizedPacket(input: {
+type PersonalizedInput = {
   authUserId: string; briefcaseItemId: string; personId: string; matterId: string;
   verificationHash: string; snapshot: PacketVerificationSnapshot;
-}) {
+};
+export function preparePersonalizedPacket(input: PersonalizedInput) {
+  const { snapshot } = input;
+  const authority = packetFulfillmentAuthority(snapshot.jurisdiction, snapshot.pathwayId, "packet generation", {trackId:snapshot.selectedTrackId});
+  if (!authority.allowed) throw new Error(`personalized render authority refused: ${authority.reason}`);
+  if (!authority.record.packetSpecificationFileSha256) throw new Error("personalized specification source hash missing");
+  return prepareBoundPersonalizedPacket(input, {packetSpecificationSha256:authority.record.packetSpecificationSha256,
+    packetSpecificationFileSha256:authority.record.packetSpecificationFileSha256});
+}
+function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding: {packetSpecificationSha256: string; packetSpecificationFileSha256: string}) {
   const { snapshot } = input;
   const routeId = `${snapshot.jurisdiction}:${snapshot.pathwayId}`;
   if (!isPersonalizedDeliveryRoute(routeId)
     || input.matterId !== consumerMatterIdForItem(input.briefcaseItemId)
     || !/^[a-f0-9]{64}$/.test(input.verificationHash)) throw new Error("personalized render identity mismatch");
-  const authority = packetFulfillmentAuthority(snapshot.jurisdiction, snapshot.pathwayId, "packet generation", {
-    trackId: snapshot.selectedTrackId
-  });
-  if (!authority.allowed) throw new Error(`personalized render authority refused: ${authority.reason}`);
   const specification = composablePacketSpecificationFor(routeId);
   if (!specification) throw new Error("personalized specification unavailable");
   const facts: Record<string, string> = {};
@@ -49,7 +55,11 @@ export function preparePersonalizedPacket(input: {
   // only fields named by this document set reach the composer.
   const merged = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers, ...snapshot.serverFacts };
   for (const { factId } of specification.requiredFacts) {
-    const value = merged[factId];
+    const answer = merged[factId];
+    // Protected verification supports explicit-known answer wrappers. Never
+    // stringify an object or turn an unknown answer into a participant fact.
+    const value = answer && typeof answer === "object" && !Array.isArray(answer)
+      ? ((answer as {unknown?: boolean}).unknown === true ? undefined : (answer as {value?: unknown}).value) : answer;
     if (typeof value === "string" || typeof value === "number") facts[factId] = String(value);
   }
   const packet = composeParticipantDeliveryPacket(specification, {
@@ -62,8 +72,8 @@ export function preparePersonalizedPacket(input: {
     verificationHash: input.verificationHash, snapshot, routeId,
     trackId: snapshot.selectedTrackId, packetFamilyId: specification.packetFamily,
     specificationId: specification.specificationId, specificationVersion: specification.specificationVersion,
-    specificationSha256: authority.record.packetSpecificationSha256,
-    specificationFileSha256: authority.record.packetSpecificationFileSha256,
+    specificationSha256: binding.packetSpecificationSha256,
+    specificationFileSha256: binding.packetSpecificationFileSha256,
     provider: GRADE_A_RENDERER_KIND, providerVersion: GRADE_A_RENDERER_VERSION
   };
   const packetId = uuidFor(`rcap:personalized-packet:v1:${stableStringify(payload)}`);
@@ -113,8 +123,10 @@ export async function renderPersonalizedClaim(claim: RenderJobClaim): Promise<Bu
   if (verification.hash !== payload.verificationHash || stableStringify(verification.snapshot) !== stableStringify(payload.snapshot)) {
     throw new Error("personalized render verification changed");
   }
-  const prepared = preparePersonalizedPacket({ authUserId: payload.authUserId, briefcaseItemId: payload.briefcaseItemId,
-    personId: claim.personId ?? "", matterId: claim.matterId ?? "", verificationHash: verification.hash, snapshot: verification.snapshot });
+  const binding = workerStaticPacketBinding(claim.routeId, verification.snapshot.selectedTrackId);
+  if (!binding) throw new Error("personalized static render authority refused");
+  const prepared = prepareBoundPersonalizedPacket({ authUserId: payload.authUserId, briefcaseItemId: payload.briefcaseItemId,
+    personId: claim.personId ?? "", matterId: claim.matterId ?? "", verificationHash: verification.hash, snapshot: verification.snapshot }, binding);
   if (prepared.spec.packetId !== claim.packetId || prepared.spec.inputHash !== claim.inputHash
     || prepared.spec.rendererKind !== claim.rendererKind || prepared.spec.rendererVersion !== claim.rendererVersion
     || prepared.spec.profileId !== claim.profileId || prepared.spec.profileVersion !== claim.profileVersion) {

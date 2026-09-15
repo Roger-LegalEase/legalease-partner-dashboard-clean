@@ -51,7 +51,7 @@ console.log(`data manifest: ${manifest.files.length} files declared, ${missing} 
 //    (@/../data/...) are present: without them the import throws here.
 register(pathToFileURL(path.join(ROOT, "scripts/lib/ts-esm-loader.mjs")).href);
 const { getAllJurisdictionProfiles } = await import(path.join(ROOT, "src/lib/rcap-engine/profile-registry.ts"));
-const { getCurrentFulfillmentRecord } = await import(path.join(ROOT, "src/lib/rcap/fulfillment/grade-a-registry.ts"));
+const { workerStaticPacketBinding } = await import(path.join(ROOT, "src/lib/rcap/fulfillment/worker-static-authority.ts"));
 const { packetFulfillmentAuthority } = await import(path.join(ROOT, "src/lib/expungement-ai/packet-fulfillment-authority.ts"));
 const { composablePacketSpecificationFor } = await import(path.join(ROOT, "src/lib/rcap/grade-a/packet-specification.ts"));
 await import(path.join(ROOT, "src/lib/rcap/render/personalized-packet.ts"));
@@ -62,27 +62,27 @@ console.log(`module graph: loaded; ${getAllJurisdictionProfiles().length} compil
 if (stage !== "preflight") {
 // 3. The authority gate reaches a reasoned decision per record, reading the
 //    packaged registry, observation snapshot and specification directory.
-const registryPath = "data/rcap-grade-a/fulfillment-authority-registry.json";
+const registryPath = "data/rcap-grade-a/worker-static-authority.json";
 const registry = JSON.parse(fs.readFileSync(path.join(ROOT, registryPath), "utf8"));
 let allowed = 0, refused = 0, undecided = 0;
-for (const record of registry.records) {
+for (const {record} of registry.entries) {
   const specification = composablePacketSpecificationFor(record.routeId);
   // A specification carries either a tracks[] array or a single trackId; the
   // binding refuses a missing track, so both shapes must be offered.
   const tracks = specification?.tracks?.map((t) => t.trackId) ?? [specification?.trackId].filter(Boolean);
   let decision = null;
   for (const trackId of tracks.length ? tracks : [undefined]) {
-    const verdict = packetFulfillmentAuthority(record.jurisdiction, record.pathwayId, "packet generation", { trackId });
+    const verdict = {allowed: !!workerStaticPacketBinding(record.routeId, trackId), reason: "Static legal/source/packet or exact specification binding refused"};
     if (!decision || verdict.allowed) decision = verdict;
     if (verdict.allowed) break;
   }
   if (!decision) { undecided += 1; fail(`${record.routeId}: no decision returned`); continue; }
   if (decision.allowed) allowed += 1; else refused += 1;
-  if (getCurrentFulfillmentRecord(record.routeId)?.revocation?.revoked && decision.allowed) fail(`${record.routeId}: revoked record was allowed`);
+  if (record?.revocation?.revoked && decision.allowed) fail(`${record.routeId}: revoked record was allowed`);
   if (!decision.allowed && !decision.reason) { undecided += 1; fail(`${record.routeId}: refused with no reason`); }
   console.log(`  ${record.routeId} -> ${decision.allowed ? "ALLOWED" : `refused: ${String(decision.reason).slice(0, 110)}`}`);
 }
-console.log(`authority gate: ${registry.records.length} records, ${allowed} allowed, ${refused} reasoned refusals, ${undecided} undecided`);
+console.log(`authority gate: ${registry.entries.length} records, ${allowed} allowed, ${refused} reasoned refusals, ${undecided} undecided`);
 
 }
 

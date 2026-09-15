@@ -1,6 +1,7 @@
 import "server-only";
 
 import fs from "node:fs";
+import { createHash } from "node:crypto";
 import path from "node:path";
 
 import {
@@ -66,7 +67,24 @@ export function resolveObservation(routeId: string): FulfillmentObservation | nu
       const routes = parsed?.routes;
       if (routes && typeof routes === "object" && !Array.isArray(routes)) {
         for (const [key, value] of Object.entries(routes)) {
-          if (value && typeof value === "object") cachedObservations.set(key, value);
+          if (value && typeof value === "object") {
+            // Publication is a server admission fact, never worker image data.
+            // Missing or altered receipts invalidate the independent observation.
+            const binding = (value as FulfillmentObservation & {externalPublication?: {sourceSha:string;immutableRegistryDigest:string;evidenceSha256:string;workflowConclusion:string}}).externalPublication;
+            if (!binding) continue;
+            try {
+              const bytes = fs.readFileSync(path.join(process.cwd(), "data/rcap-render/worker-publication-evidence.json"));
+              const publication = JSON.parse(bytes.toString("utf8"));
+              if (binding.workflowConclusion !== "success" || publication.workflowConclusion !== "success"
+                || !/^[a-f0-9]{40}$/.test(binding.sourceSha)
+                || !/^sha256:[a-f0-9]{64}$/.test(binding.immutableRegistryDigest)
+                || publication.sourceSha !== binding.sourceSha
+                || publication.immutableRegistryDigest !== binding.immutableRegistryDigest
+                || value.provider?.imageDigest !== binding.immutableRegistryDigest
+                || createHash("sha256").update(bytes).digest("hex") !== binding.evidenceSha256) continue;
+              cachedObservations.set(key, value);
+            } catch { /* No publication: no commercial observation. */ }
+          }
         }
       }
     } catch {

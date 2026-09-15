@@ -9,12 +9,8 @@ import "server-only";
  * Every caller that needs a track id calls here; nobody reads one off a request
  * body, a URL, a display label, or a jurisdiction code.
  *
- * The ten dependency-bearing composed routes are not reachable from the
- * compiled screening runtime today — no compiled pathway maps to them — so this
- * selector has no authoritative mapping to return and reports
- * `identity_unavailable` rather than guessing. That keeps those routes
- * unavailable instead of client-selectable, which is the conservative end of
- * the two failure modes.
+ * Only exact evidence-backed pathway/track pairs appear below. Routes without
+ * a mapped identity remain unselected; client input cannot fill that gap.
  */
 
 export type ComposedRouteSelection =
@@ -30,11 +26,14 @@ export type ComposedRouteSelectorInput = {
 /**
  * Evidence-backed jurisdiction+pathway to composed-route mappings.
  *
- * Empty by design. A row is added only when a compiled pathway is proven to be
+ * A row is added only when a compiled pathway is proven to be
  * the same legal route as the composed track — reviewed, not inferred. Until
  * then the route is unavailable, and an unavailable route sells nothing.
  */
-const AUTHORITATIVE_TRACK_BY_PATHWAY: ReadonlyMap<string, string> = new Map<string, string>();
+const AUTHORITATIVE_TRACK_BY_PATHWAY: ReadonlyMap<string, string> = new Map([
+  // Exact owner-approved route/track crosswalk; never derived from client fields.
+  ["MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal", "ms-nonconv"]
+]);
 
 export function selectComposedRoute(input: ComposedRouteSelectorInput): ComposedRouteSelection {
   const jurisdiction = String(input.jurisdiction ?? "").trim().toUpperCase();

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createStaticWorkerAuthority, STATIC_AUTHORITY_PATH } from "./lib/worker-static-authority.mjs";
 import { loadIlArtifactApproval, loadMsArtifactApproval, IL_ARTIFACT_APPROVAL_PATH, MS_ARTIFACT_APPROVAL_PATH } from "./lib/owner-artifact-approval.mjs";
 import { createArtifactSuccessor, SUCCESSOR_FAMILIES, MS_SUCCESSOR_VERIFICATION } from "./lib/artifact-approval-successor.mjs";
 import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
@@ -2029,6 +2030,8 @@ for (const record of records) {
     && record.officialSources.every((source) => source.sourceKind === "codified_authority");
   observationRoutes[record.routeId] = {
     observedAt: ownerDecision.effectiveDate,
+    externalPublication: { sourceSha: worker.sourceSha, immutableRegistryDigest: worker.immutableRegistryDigest,
+      evidenceSha256: sha256(readEvidenceBytes(WORKER_EVIDENCE)), workflowConclusion: worker.workflowConclusion },
     legalAuthority: {
       version: record.legalAuthority.version,
       status: record.legalAuthority.status,
@@ -2143,6 +2146,8 @@ if (CHECK && projectionResult.changed) {
   process.exit(1);
 }
 
+const staticResult = writeIfNeeded(STATIC_AUTHORITY_PATH, createStaticWorkerAuthority(registry, observation));
+if (CHECK && staticResult.changed) throw new Error(`Regeneration required: ${STATIC_AUTHORITY_PATH}`);
 const verb = CHECK ? "verified" : "written";
 console.log(`Grade-A fulfillment authority ${verb}: ${records.length} candidate record(s) across ${allCandidateJurisdictions.join(", ")}.`);
 console.log(`  ${COMPLETE_PACKET_PROVEN}: ${projection.counters.completePacketProven}`);
