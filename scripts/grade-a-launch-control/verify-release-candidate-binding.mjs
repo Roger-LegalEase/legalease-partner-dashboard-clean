@@ -22,6 +22,45 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     ...receiptPaths.filter(p => /^(data\/rcap-grade-a\/participant-data-rights|private\/rcap-hosted-acceptance)\//.test(p))
   ]);
   try {
+    // Exact release-specific tooling binding. No prefix or arbitrary post-freeze exemption.
+    const toolingPath = 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
+    if (fs.existsSync(path.join(root, toolingPath))) {
+      const binding = JSON.parse(fs.readFileSync(path.join(root, toolingPath)));
+      const frozen = {
+        applicationSha: '78c8c15c4fddd525bf3c327bbfde1c99dee778f0',
+        workerSourceSha: '870532340f3ef091bfa3b1a2e2b64c16d3195b25',
+        workerDigest: 'sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46',
+        workerInputFingerprint: 'sha256:dd48d9a106251e281553d2ddad1c754ed0c57de54bcc8a44cabf018879927dce'
+      };
+      for (const [key, value] of Object.entries(frozen)) {
+        if (binding[key] !== value || candidate[key] !== value) throw new Error('Frozen identity mismatch');
+      }
+      if (!/^[a-f0-9]{40}$/.test(binding.toolsSha ?? '')) throw new Error('Exact tools SHA required');
+      const git = args => execFileSync('git', args, {cwd: root, encoding: 'utf8', stdio: 'pipe'}).trim();
+      git(['merge-base', '--is-ancestor', candidate.applicationSha, binding.toolsSha]);
+      git(['merge-base', '--is-ancestor', binding.toolsSha, 'HEAD']);
+      const bounded = new Set([
+        '.github/workflows/rcap-hosted-acceptance-staging.yml',
+        'scripts/rcap-hosted-acceptance-deploy.mjs',
+        'scripts/rcap-vercel-identity-recheck.mjs',
+        'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+        'scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs',
+        'scripts/verify-rcap-vercel-cli-deploy-identity.mjs'
+      ]);
+      const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
+      if (delta.some(p => !generated.has(p) && !bounded.has(p))) throw new Error('Unbounded tooling delta');
+      const declared = binding.orchestrationFiles;
+      const actual = delta.filter(p => bounded.has(p)).sort();
+      if (!Array.isArray(declared) || JSON.stringify([...declared].sort()) !== JSON.stringify(actual)) throw new Error('Tooling file set mismatch');
+      // The approved commit's exact blobs must still be present: future changes refuse.
+      git(['diff', '--exit-code', binding.toolsSha, '--', ...actual]);
+      const toolPlan = createWorkerInputPlan({rootDir: root, candidateSha: binding.toolsSha,
+        acceptedSourceSha: frozen.workerSourceSha, acceptedDigest: frozen.workerDigest});
+      if (toolPlan.rebuildRequired || toolPlan.aggregateInputSha256 !== frozen.workerInputFingerprint) throw new Error('Tool worker mismatch');
+      git(['diff', '--exit-code', binding.toolsSha, '--', ...toolPlan.canonicalInputs]);
+      for (const p of actual) generated.add(p);
+      generated.add(toolingPath);
+    }
     execFileSync('git', ['merge-base', '--is-ancestor', candidate.applicationSha, 'HEAD'], { cwd: root, stdio: 'pipe' });
     const changed = execFileSync('git', ['diff', '--name-only', candidate.applicationSha], { cwd: root, encoding: 'utf8' }).trim().split('\n').filter(Boolean);
     const publication = JSON.parse(fs.readFileSync(path.join(root, 'data/rcap-render/worker-publication-evidence.json')));
