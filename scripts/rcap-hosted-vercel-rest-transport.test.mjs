@@ -84,10 +84,12 @@ test('poll failure retains last observed exact deployment and creation receipt',
   const last=receipts.at(-1);assert.equal(last.id,'dpl_Synthetic123');assert.equal(last.url,'synthetic-preview.vercel.app');assert.equal(last.readyState,'BUILDING');assert.equal(last.creationHttpStatus,200);assert.equal(last.pollHttpStatus,403);assert.equal(last.creationPostCount,1);
 });
 test('diagnosis makes only exact bounded GETs and redacts secrets before receipt',async()=>{
-  const {diagnoseFailedPreview,FAILED_PREVIEW_ID}=await import('./rcap-hosted-vercel-diagnostics.mjs');
+  const {diagnoseFailedPreview,FAILED_PREVIEW_ID,FAILED_PREVIEW_SOURCE_SHA}=await import('./rcap-hosted-vercel-diagnostics.mjs');
+  // The audited deployment is the historical failed Preview, not today's frozen candidate.
+  assert.notEqual(FAILED_PREVIEW_SOURCE_SHA,FROZEN_APPLICATION_SHA);
   const calls=[],saved=[];
   const result=await diagnoseFailedPreview({token:'synthetic-private-token',onReceipt:r=>saved.push(r),fetchImpl:async(url,init)=>{
-    calls.push({url,init});const data=calls.length===1?{...response(fixture()),id:FAILED_PREVIEW_ID,build:{env:{SECRET:'synthetic-hidden-env'},command:'npm run build'},errorMessage:'synthetic-private-token synthetic-hidden-env'}:[{type:'stderr',text:'sk_live_secretvalue'}];
+    calls.push({url,init});const data=calls.length===1?{...response(fixture()),id:FAILED_PREVIEW_ID,gitSource:{sha:FAILED_PREVIEW_SOURCE_SHA},build:{env:{SECRET:'synthetic-hidden-env'},command:'npm run build'},errorMessage:'synthetic-private-token synthetic-hidden-env'}:[{type:'stderr',text:'sk_live_secretvalue'}];
     return {ok:true,status:200,text:async()=>JSON.stringify(data)};
   }});
   assert.equal(result.passed,true);assert.equal(calls.length,2);assert(calls.every(c=>c.init.method==='GET'&&c.init.redirect==='error'));

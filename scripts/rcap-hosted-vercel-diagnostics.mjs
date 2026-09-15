@@ -1,5 +1,8 @@
 import {redactHostedAcceptanceOutput} from './rcap-hosted-acceptance-redaction.mjs';
 export const FAILED_PREVIEW_ID='dpl_A9wFw7P7gWHFJDKSyBpz6DY9GnBZ';
+// The historical failed Preview was built from 78c8c15; this audit keeps naming
+// what it audited regardless of which application SHA is frozen today.
+export const FAILED_PREVIEW_SOURCE_SHA='78c8c15c4fddd525bf3c327bbfde1c99dee778f0';
 const TEAM='team_4qLmZK9WI6xIy5vjYC0IF3ae';
 const hiddenKey=/^(env|environmentVariables|environment|token|refreshToken|accessToken|password|secret|authorization)$/i;
 export function sanitizeVercelDiagnostic(value,heldSecrets=[]) {
@@ -26,7 +29,7 @@ export async function diagnoseFailedPreview({token,fetchImpl=globalThis.fetch,on
     const text=await response.text();let data;try{data=JSON.parse(text);}catch{data=text;}
     const receipt={kind,url,httpStatus:response.status,fetchedAt:new Date().toISOString(),data:sanitizeVercelDiagnostic(data,[token])};result.requests.push(receipt);onReceipt(receipt);
     if(!response.ok)throw Error(`DIAGNOSTIC_HTTP_${response.status}`);
-    if(kind==='deployment'&&(data?.id!==FAILED_PREVIEW_ID||data?.projectId!=='prj_cdgwGzFqIHgEUlzEburSLaZETdQV'||data?.gitSource?.sha!=='78c8c15c4fddd525bf3c327bbfde1c99dee778f0'||!Object.hasOwn(data,'target')||(data.target!==null&&data.target!=='preview')))throw Error('DIAGNOSTIC_IDENTITY_MISMATCH');
+    if(kind==='deployment'&&(data?.id!==FAILED_PREVIEW_ID||data?.projectId!=='prj_cdgwGzFqIHgEUlzEburSLaZETdQV'||data?.gitSource?.sha!==FAILED_PREVIEW_SOURCE_SHA||!Object.hasOwn(data,'target')||(data.target!==null&&data.target!=='preview')))throw Error('DIAGNOSTIC_IDENTITY_MISMATCH');
   }
   result.passed=true;return result;
 }
