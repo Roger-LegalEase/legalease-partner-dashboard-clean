@@ -797,7 +797,9 @@ function buildReviewedFlow(settled) {
     title: "hosted acceptance payment journey",
     state,
     status: "packet_ready",
-    resultCode: "packet_ready",
+    // The item's result code is compared against a fresh evaluation at review
+    // time; packet_ready and packet_ready_with_caution are both sellable.
+    resultCode: evaluation.resultCode,
     createdAt: new Date().toISOString(),
     summary: "hosted acceptance payment journey",
     nextSteps: [],
@@ -810,7 +812,56 @@ function buildReviewedFlow(settled) {
   const model = packetInformationModelFor(baseItem);
   if (!model) return { failure: `${state}: no packet-information model for ${pathway.pathwayLabel}` };
 
-  const packetAnswers = { ...answers, ...approvedParticipantFactsFor(state, model.pathwayId) };
+  // Precedence: the converged screening answers, then the model's own
+  // questions, then the approved fixture facts for whatever the model never
+  // asks. The application re-evaluates {...screening, ...packet} at review
+  // time, so an approved fact that overrode an evaluator answer (a different
+  // disposition date, a structured value) would move the authoritative route
+  // and fail review safety — which is what run 35034822479 measured.
+  //
+  // Precedence, highest first: the converged screening answers (the evaluator
+  // questions, which fix the authoritative route); the approved participant
+  // facts the route's Grade-A fixture was proven with (they satisfy the
+  // route's own packet-safety rule, which synthetic answers do not); then a
+  // synthesized answer for anything the model still asks. Fixture dates are
+  // normalized to the ISO form the packet validator requires and kept before
+  // the screening disposition date, exactly as the application's own local
+  // payment verifier seeds its Mississippi fixture.
+  const fixtureFacts = approvedParticipantFactsFor(state, model.pathwayId);
+  const questionTypes = new Map(model.questions.map((question) => [question.id, question.type]));
+  const evaluatorQuestions = publicQuestionIndex(profile);
+  const isoDate = (value) => {
+    const text = String(value && typeof value === "object" ? value.value ?? "" : value ?? "").trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+    const parsed = new Date(text);
+    return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString().slice(0, 10);
+  };
+  const dispositionDate = isoDate(answers.disposition_date) ?? "2005-01-10";
+  const packetAnswers = { ...answers };
+  for (const [factId, value] of Object.entries(fixtureFacts)) {
+    // Ids this harness answers itself keep the preferred answer, which is what
+    // the application's fallback packet questions (a fixed choice list for
+    // record_type, a date for disposition_date) validate against.
+    if (factId in packetAnswers || factId in PREFERRED_ANSWERS) continue;
+    if (questionTypes.get(factId) === "date_or_unknown" || /(_date|date_of_birth)$/.test(factId)) {
+      const iso = isoDate(value);
+      if (!iso) continue;
+      // An arrest or offense recorded after the disposition the screening
+      // settled on would contradict the route; keep the chronology coherent.
+      packetAnswers[factId] = factId !== "date_of_birth" && iso > dispositionDate
+        ? `${Number(dispositionDate.slice(0, 4)) - 1}${dispositionDate.slice(4)}`
+        : iso;
+      continue;
+    }
+    // A fixture fact that is not one of the question's choices — the packet
+    // model's or the evaluator's public question's — would fail validation;
+    // the synthesized preferred choice stands instead.
+    const choiceQuestions = [model.questions.find((candidate) => candidate.id === factId), evaluatorQuestions.get(factId)]
+      .filter((question) => question?.options?.length && (question.type === "single_choice" || question.type === "multi_select"));
+    const values = Array.isArray(value) ? value : [value];
+    if (choiceQuestions.some((question) => !values.every((candidate) => question.options.includes(candidate)))) continue;
+    packetAnswers[factId] = value;
+  }
   for (const question of model.questions) {
     if (!(question.id in packetAnswers)) packetAnswers[question.id] = answerForQuestion(question, question.id);
   }
@@ -823,9 +874,11 @@ function buildReviewedFlow(settled) {
       profileVersion: profile.profileVersion,
       pathwayId: model.pathwayId,
       pathwayLabel: model.pathwayLabel,
-      resultCode: "packet_ready",
-      paymentAllowed: true,
-      packetType: "custom_pleading",
+      // The stored screening must be the evaluator's own verdict; the
+      // application compares it against a fresh evaluation at review time.
+      resultCode: evaluation.resultCode,
+      paymentAllowed: evaluation.paymentAllowed === true,
+      packetType: settled.authoritative?.packetType ?? "custom_pleading",
       packetPlan: model.packetPlan,
       answers
     },
@@ -841,7 +894,9 @@ function buildReviewedFlow(settled) {
     }
   };
 
-  const reviewedItem = { ...baseItem, artifactRefs: { commercialFlow } };
+  // The review-safety predicate compares the stored track with the one the
+  // server selected, so the item carries it exactly as the seeded row will.
+  const reviewedItem = { ...baseItem, artifactRefs: { commercialFlow, selectedTrackId: settled.selectedTrackId ?? null } };
   const reviewedModel = packetInformationModelFor(reviewedItem);
   const safety = packetInformationReviewSafety(reviewedItem);
   const complete = reviewedModel
@@ -925,8 +980,9 @@ const derived = (() => {
   // sellable=false by design, and the deployed Checkout asks the authority.
   const authority = packetFulfillmentAuthority(route.state, route.pathwayId, "checkout creation", { trackId: route.trackId ?? null });
   // result_code must be one the payment policy admits: isConsumerPaymentAllowed
-  // permits packet_ready and packet_ready_with_caution and nothing else.
-  const resultCode = "packet_ready";
+  // permits packet_ready and packet_ready_with_caution and nothing else — and
+  // it must be the evaluator's own verdict for this matter, not a constant.
+  const resultCode = reviewed.commercialFlow.screening.resultCode;
   // eligibility-adapter's packetTypeForResult: guidance_only -> guidance_packet,
   // packet_ready / packet_ready_with_caution -> custom_pleading.
   const packetType = resultCode === "guidance_only" ? "guidance_packet" : "custom_pleading";
@@ -963,7 +1019,7 @@ const seedResult = await sql(`
   values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayId)}',
           '${derived.resultCode}', '${derived.packetType}',
           'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb,
-          '${sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow }))}'::jsonb, 'unpaid', true)
+          '${sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow, selectedTrackId: reviewed.selectedTrackId ?? null }))}'::jsonb, 'unpaid', true)
   returning id, status, result_code, pathway_label
 `);
 
