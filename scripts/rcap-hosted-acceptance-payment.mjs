@@ -991,6 +991,10 @@ const derived = (() => {
     packetType,
     routeKind: built.route?.routeKind ?? null,
     compiledPathwayId: built.route?.pathwayId ?? null,
+    // The pre-charge preflight asks the fulfillment authority for
+    // `pathwayId`; without it the lookup was "MS:" and failed closed
+    // (run 35036769907), so the same compiled id is carried under both names.
+    pathwayId: built.route?.pathwayId ?? null,
     jurisdiction: built.route?.jurisdiction ?? null,
     sellable: built.route?.sellable ?? null,
     creditConsumable: built.route?.creditConsumable ?? null,
