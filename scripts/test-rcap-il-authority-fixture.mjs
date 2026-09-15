@@ -123,10 +123,13 @@ function provenObservation(record) {
 
 
 export function syntheticIllinoisRegistry() {
-  const specPath = "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json";
+  return syntheticPacketRegistry("data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json");
+}
+
+function syntheticPacketRegistry(specPath) {
   const spec = JSON.parse(fs.readFileSync(specPath, "utf8"));
   const record = provenRecord({
-    recordId: "SYNTHETIC-IL-delivery-test-only", routeId: spec.routeKey,
+    recordId: `SYNTHETIC-${spec.jurisdiction}-delivery-test-only`, routeId: spec.routeKey,
     jurisdiction: spec.jurisdiction, pathwayId: spec.pathwayId, packetFamilyId: spec.packetFamily,
     packetSpecification: { specId: `${spec.specificationId}@${spec.specificationVersion}`, sha256: sha256(fs.readFileSync(specPath)), complete: true },
     packetCompleteness: completenessProof({ specificationId: spec.specificationId, specificationVersion: spec.specificationVersion, specificationSha256: sha256(fs.readFileSync(specPath)) }),
@@ -140,20 +143,27 @@ export function syntheticIllinoisRegistry() {
 // and observation reader. Change cwd only while loading into process-local
 // caches, then restore it before any rendering. Never modify a tracked file.
 export async function withIllinoisRegistry(run, mutate = () => {}) {
-  const fixture = syntheticIllinoisRegistry();
+  return withSyntheticPacketRegistry("data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json", run, mutate);
+}
+
+// Isolated transport-test authority only. Never changes a shipping record,
+// approval, publication receipt or retired route's commercial authority.
+export async function withSyntheticPacketRegistry(specPath, run, mutate = () => {}) {
+  const fixture = syntheticPacketRegistry(specPath);
   mutate(fixture);
+  const routeId = fixture.document.records[0].routeId;
   for (const record of fixture.document.records) record.history.at(-1).recordSha256 = fulfillmentRecordSha256(record);
   const cwd = process.cwd();
   const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-il-authority-"));
   try {
     fs.mkdirSync(path.join(temporary, "data/rcap-grade-a"), { recursive: true });
     fs.writeFileSync(path.join(temporary, "data/rcap-grade-a/fulfillment-authority-registry.json"), JSON.stringify(fixture.document));
-    fs.writeFileSync(path.join(temporary, "data/rcap-grade-a/fulfillment-observation-snapshot.json"), JSON.stringify({ routes: { "IL:felony-prostitution-relief": fixture.observation } }));
+    fs.writeFileSync(path.join(temporary, "data/rcap-grade-a/fulfillment-observation-snapshot.json"), JSON.stringify({ routes: { [routeId]: fixture.observation } }));
     process.chdir(temporary);
     resetFulfillmentRegistryCache(); resetObservationCache();
     const loaded = loadFulfillmentRegistry();
     assert.deepEqual(loaded.problems, []);
-    resolveObservation("IL:felony-prostitution-relief");
+    resolveObservation(routeId);
     process.chdir(cwd);
     return await run(fixture);
   } finally {

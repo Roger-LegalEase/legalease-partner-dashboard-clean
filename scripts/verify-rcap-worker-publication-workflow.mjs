@@ -14,6 +14,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { isDeepStrictEqual } from 'node:util';
+import { createWorkerInputPlan } from './rcap-hosted-acceptance-worker-input-plan.mjs';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const wfPath = '.github/workflows/publish-rcap-render-worker.yml';
@@ -176,8 +178,25 @@ for (const [title, pattern] of [
 // in package.json because package.json is itself an image input: the commit
 // that introduced this gate was forbidden from touching any image-input path,
 // and wiring here keeps both non-skippable without doing so.
+// Release candidates use the canonical COPY-aware plan, independently of the
+// older staging-action freeze. Keep the legacy validation as the default and
+// retain its mutation proof in both modes; neither path changes runtime pins.
+const planIndex = process.argv.indexOf('--worker-input-plan');
+if (planIndex >= 0) {
+  try {
+    const plan = JSON.parse(fs.readFileSync(process.argv[planIndex + 1], 'utf8'));
+    const head = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: rootDir, encoding: 'utf8' });
+    if (head.status !== 0 || plan.candidateSha !== head.stdout.trim()) throw new Error('plan does not name exact HEAD');
+    const current = createWorkerInputPlan({ rootDir, acceptedSourceSha: plan.acceptedSourceSha,
+      acceptedDigest: plan.acceptedDigest, candidateSha: plan.candidateSha });
+    if (!isDeepStrictEqual(plan, current)) throw new Error('plan differs from canonical current COPY inputs');
+    check('exact-source canonical worker input plan is current', true, '');
+  } catch (error) {
+    failures.push(`current worker input plan refused: ${error.message}`);
+  }
+}
 for (const script of [
-  'scripts/verify-rcap-image-input-fingerprint.mjs',
+  ...(planIndex >= 0 ? ['scripts/rcap-worker-input-copy.test.mjs'] : ['scripts/verify-rcap-image-input-fingerprint.mjs']),
   'scripts/test-rcap-image-fingerprint-mutations.mjs',
 ]) {
   const run = spawnSync(process.execPath, [path.join(rootDir, script)], {

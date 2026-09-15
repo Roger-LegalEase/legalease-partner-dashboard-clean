@@ -237,6 +237,21 @@ try {
       }
       assert.deepEqual(accounting(),before);
       assert.equal((await authorizePacketDownload(ports,{jobId:c.jobId,userId:c===alice?bob.userId:alice.userId})).ok,false);
+      // Retain the historical delivery fixture's exact-scope negatives while
+      // exercising current protected verification and sponsorship provenance.
+      for (const selectedTrackId of [null, '*', 'il-prostitution-j-auto']) {
+        const wrongTrack = { ...ports, getCurrentVerification: async id => {
+          const current = await ports.getCurrentVerification(id);
+          return { ...current, snapshot: { ...current.snapshot, selectedTrackId } };
+        } };
+        assert.equal((await authorizePacketDownload(wrongTrack,{jobId:c.jobId,userId:c.userId})).ok,false,`${c.sponsored?'sponsored':'consumer'}: wrong-track download`);
+      }
+      for (const routeId of ['IL:*', '*', 'IL:il-prostitution-j-auto']) {
+        const wrongRoute = { ...ports, getJob: async id => ({ ...await ports.getJob(id), routeId }) };
+        assert.equal((await authorizePacketDownload(wrongRoute,{jobId:c.jobId,userId:c.userId})).ok,false,'wrong-scope artifact');
+      }
+      assert.equal((await authorizePacketDownload({...ports,getCurrentVerification:async()=>null},{jobId:c.jobId,userId:c.userId})).ok,false,'missing current verification');
+      assert.equal((await authorizePacketDownload(ports,{jobId:c.jobId,userId:null})).ok,false,'unauthenticated download');
       const pdf=path.join(output,`${c.itemId}.pdf`);fs.writeFileSync(pdf,c.bytes);
       c.text=execFileSync('pdftotext',['-layout',pdf,'-'],{encoding:'utf8'});
       assert.ok(c.text.toUpperCase().split(c.snapshot.packetAnswers.participant_full_legal_name.toUpperCase()).length>=3,'participant appears in both court documents');

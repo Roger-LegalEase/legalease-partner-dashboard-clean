@@ -1,4 +1,5 @@
-import { exerciseIllinoisDelivery } from "./test-rcap-il-delivery-ephemeral.mjs";
+import { execFileSync } from "node:child_process";
+import { withSyntheticPacketRegistry } from "./test-rcap-il-authority-fixture.mjs";
 // End-to-end verification of the render worker and the delivery layer against
 // a real ephemeral database and a real (filesystem-backed) storage adapter.
 //
@@ -49,6 +50,12 @@ const PERSON_A = "aaaaaaaa-1111-1111-1111-111111111111";
 const USER_OWNER = "0e0e0e0e-1111-1111-1111-111111111111";
 const USER_OTHER = "0f0f0f0f-1111-1111-1111-111111111111";
 const BRIEFCASE_ITEM = "b1b1b1b1-1111-1111-1111-111111111111";
+const TRANSPORT_SPEC_PATH = "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json";
+const TRANSPORT_SPEC = JSON.parse(fs.readFileSync(TRANSPORT_SPEC_PATH, "utf8"));
+let baselineJobId;
+let currentVerification;
+const verificationBindings = new Map();
+const transportVerificationHash = createHash("sha256").update("synthetic-transport-verification").digest("hex");
 
 // --- adapters over the real database ---------------------------------------
 
@@ -119,11 +126,11 @@ const storage = {
 
 const packetFor = (packetId) => ({
   id: packetId,
-  state: "MS",
-  pathway: "misdemeanor_conviction",
+  state: "DC",
+  pathway: TRANSPORT_SPEC.pathwayId,
   petitionerFirstName: "Test",
   petitionerLastName: "Participant",
-  county: "Hinds",
+  county: "District of Columbia",
   // The packet id is folded into RENDERED content on purpose.
   //
   // SF-DEFECT-001: this fixture used to give every packet identical visible
@@ -174,11 +181,13 @@ function enqueue({ briefcase = null, partner = null, person = null, matter = nul
   jobSeq += 1;
   const hash = createHash("sha256").update(`wd-input-${jobSeq}`).digest("hex");
   const packetRow = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
-  return db
+  const jobId = db
     .scalar(
-      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', ${briefcase ? `'${briefcase}'` : "null"}, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, 5, null, null)`
+      `select id from enqueue_packet_render_job('${packetRow}', '${TRANSPORT_SPEC.routeKey}', 'packet_document_v1', '1.0.0', null, 'DC', '1.3.0', '${hash}', ${briefcase ? `'${briefcase}'` : "null"}, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, 5, null, null)`
     )
     .trim();
+  verificationBindings.set(jobId, transportVerificationHash);
+  return jobId;
 }
 
 function jobRow(jobId) {
@@ -197,6 +206,8 @@ function deliveryRow(jobId) {
     partnerId: row.partner_id,
     personId: row.person_id,
     matterId: row.matter_id,
+    sponsoredBinding: row.partner_id ? { verificationHash: verificationBindings.get(jobId) } : null,
+    consumerVerificationHash: row.partner_id ? null : verificationBindings.get(jobId),
     rendererKind: row.renderer_kind,
     rendererVersion: row.renderer_version,
     status: row.status,
@@ -215,6 +226,8 @@ function deliveryRow(jobId) {
 const deliveryPorts = {
   getJob: async (jobId) => (jobRow(jobId) ? deliveryRow(jobId) : null),
   userOwnsBriefcaseItem: async (userId, briefcaseItemId) => userId === USER_OWNER && briefcaseItemId === BRIEFCASE_ITEM,
+  getCurrentVerification: async (item) => item === BRIEFCASE_ITEM && currentVerification
+    ? { ...currentVerification, alreadyDownloaded: jobRow(baselineJobId).status === "delivered" } : null,
   storage,
   recordEvent: async (input) => {
     try {
@@ -246,6 +259,9 @@ async function readAll(response) {
 
 const consumedCount = () => db.scalar(`select count(*) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`);
 
+// Real queue/storage/renderer and commercial admission; isolated synthetic
+// authority supplies the transport fixture's prerequisite, never release proof.
+await withSyntheticPacketRegistry(TRANSPORT_SPEC_PATH, async () => {
 try {
   db.sql(`create role service_role nologin bypassrls`);
   db.sql(`alter default privileges in schema public grant all on tables to service_role`);
@@ -274,6 +290,17 @@ try {
   // --- worker happy path -----------------------------------------------------
   const m1 = "9aaaaaaa-2222-1111-1111-111111111111";
   const jobA = enqueue({ briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m1 });
+  baselineJobId = jobA;
+  currentVerification = {
+    ownerUserId: USER_OWNER, matterId: m1, hash: transportVerificationHash,
+    snapshot: { schemaVersion: "expungement-ai/final-verification/v1", jurisdiction: "DC",
+      pathwayId: TRANSPORT_SPEC.pathwayId, selectedTrackId: TRANSPORT_SPEC.trackId,
+      verifiedAt: "2026-09-15T00:00:00.000Z", profileVersion: TRANSPORT_SPEC.profileVersion,
+      profileSourceFingerprint: TRANSPORT_SPEC.specificationSha256,
+      profileAuthorityFingerprint: "synthetic-transport-authority",
+      packetFamilyIdentifiers: { mode: "custom_pleading", sourceFormIds: [] },
+      paymentAllowed: false, resultCode: "packet_ready" }
+  };
   const happy = await runWorkerCycle(baseDeps());
   assert(happy.outcome === "finalized" && happy.jobId === jobA, `worker: happy path finalizes (${JSON.stringify(happy)})`);
   assert(happy.accountingResult === "consumed" && happy.deliveryEligibility === "eligible", "worker: happy path consumes and is eligible");
@@ -353,8 +380,17 @@ try {
   assert(Number(consumedCount()) === Number(beforeLedger3) + 1, "crash4: and consumes nothing further");
 
   // --- authorized delivery ---------------------------------------------------
+  for (const getCurrentVerification of [undefined, async () => null]) {
+    const refused = await authorizePacketDownload({ ...deliveryPorts, getCurrentVerification }, { jobId: jobA, userId: USER_OWNER });
+    assert(!refused.ok && refused.code === "verification_not_current", "delivery: absent current verification is refused");
+  }
+  const staleVerification = await authorizePacketDownload({ ...deliveryPorts,
+    getCurrentVerification: async () => ({ ...currentVerification, hash: "different-verification" })
+  }, { jobId: jobA, userId: USER_OWNER });
+  assert(!staleVerification.ok && staleVerification.code === "verification_binding_mismatch", "delivery: changed verification cannot authorize an older artifact");
   const okDecision = await authorizePacketDownload(deliveryPorts, { jobId: jobA, userId: USER_OWNER });
   assert(okDecision.ok === true, `delivery: owner is authorized (${JSON.stringify(okDecision)})`);
+  if (!okDecision.ok) throw new Error(`Transport fixture admission refused: ${JSON.stringify(okDecision)}`);
   const response = await streamAuthorizedPacket(deliveryPorts, okDecision, { userId: USER_OWNER });
   assert(response.headers.get("content-type") === "application/pdf", "delivery: content-type is application/pdf");
   assert(/attachment; filename=".+\.pdf"/.test(response.headers.get("content-disposition") ?? ""), "delivery: attachment disposition");
@@ -457,11 +493,16 @@ try {
   // Write-once: uploading over an existing object is refused by the adapter.
   const overwrite = await storage.upload(evidencePath, Buffer.from("evil"));
   assert(overwrite.ok === false, "storage: overwriting a validated object is refused");
-  await exerciseIllinoisDelivery({ db, deps: baseDeps(), deliveryPorts, userId: USER_OWNER, partnerId: P1, personId: PERSON_A });
+  // The current IL harness creates real protected verification, payment and
+  // sponsorship provenance instead of the historical unbound delivery rows.
+  // It retains owner/track/route/refusal/repeat assertions and renders through
+  // the actual worker rather than returning a pre-rendered fixture.
+  execFileSync(process.execPath, ["scripts/test-rcap-il-personalization.mjs"], { cwd: rootDir, stdio: "inherit" });
 } finally {
   db.stop();
   fs.rmSync(storageRoot, { recursive: true, force: true });
 }
+});
 
 if (failures.length > 0) {
   console.error("verify-rcap-render-worker-delivery FAILED");
