@@ -11,7 +11,7 @@
 //     nonproduction alias, known before build, and asserts afterwards that the
 //     deployment's own `target` is not "production".
 //   * It never writes a project-level environment variable. Every value is
-//     passed per-deployment with --env / --build-env, so other Preview
+//     passed per-deployment as env / build.env, so other Preview
 //     deployments and the Production environment keep exactly the variables
 //     they had. The production-target variable list is captured before and
 //     after and compared.
@@ -21,22 +21,18 @@
 //     the control's default is disabled. The deployed instance is then probed
 //     to confirm the route refuses.
 //
-// Secrets are passed to the Vercel CLI through an argv array and are never
-// echoed, never interpolated into a shell string, and never written to the
-// evidence bundle.
+// Secrets are sent in the authenticated REST request body and are never
+// echoed or written to the evidence bundle.
 
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { spawn } from "node:child_process";
+import { createRestPreview } from "./rcap-hosted-vercel-rest-transport.mjs";
 import { fileURLToPath } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
-import { redactHostedAcceptanceOutput } from "./rcap-hosted-acceptance-redaction.mjs";
 import {
-  HOSTED_VERCEL_TEAM_SLUG,
   expectedHostedReturnOrigin,
-  hostedVercelCliEnvironment,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
@@ -319,41 +315,15 @@ const buildEnv = {
   };
 }
 
-// `--archive=tgz` uploads ONE tarball instead of walking the file tree and
-// uploading each file separately.
-//
-// This is not a micro-optimisation, it is the fix for a two-hour hang. Once the
-// nationwide corpus landed in main the deployment source grew to thousands of
-// files, and two consecutive runs — one with a 60-minute ceiling, one with 120
-// — sat in `vercel deploy` without ever producing a READY deployment. The
-// evidence that it was the upload rather than the build: at cancellation the
-// runner still listed `npm exec vercel` as a live orphan process, and the
-// gallery step, which runs even when the deploy fails, reported "no READY
-// non-production deployment carrying 264d2a24" — so after 59 minutes Vercel had
-// not been handed a complete deployment at all.
-const args = ["vercel@latest", "deploy", "--archive=tgz", "--yes", "--token", VERCEL_TOKEN, "--scope", HOSTED_VERCEL_TEAM_SLUG];
-for (const [key, value] of Object.entries(runtimeEnv)) args.push("--env", `${key}=${value}`);
-for (const [key, value] of Object.entries(buildEnv)) args.push("--build-env", `${key}=${value}`);
-args.push("--meta", `rcapApplicationSha=${APPLICATION_SHA}`);
-args.push("--meta", `rcapAcceptanceProjectRef=${PROJECT_REF}`);
-// Metadata, not secrets: whether a deployment was BUILT with Stripe
-// configuration and which delivery state it carries. These are what the reuse
-// predicate compares, so they must be recorded on every deployment this script
-// creates or the next run cannot tell two builds of the same SHA apart.
-args.push("--meta", `rcapStripeConfigured=${STRIPE_CONFIGURED}`);
-args.push("--meta", `rcapRouteState=${ROUTE_STATE_TAG}`);
-args.push("--meta", `rcapReturnOrigin=${RETURN_ORIGIN}`);
-args.push("--meta", `rcapClinicDemoMode=${CLINIC_DEMO_MODE || "none"}`);
-args.push("--meta", `rcapStagingScopeSha256=${sha256(SCOPE_IDS)}`);
-
-const redact = (text) => redactHostedAcceptanceOutput(text, [
-  VERCEL_TOKEN,
-  SUPABASE_ACCESS_TOKEN,
-  process.env.HOSTED_STRIPE_TEST_SECRET,
-  process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET,
-  keys.anon,
-  keys.service
-]);
+const deploymentMeta = {
+  rcapApplicationSha: APPLICATION_SHA,
+  rcapAcceptanceProjectRef: PROJECT_REF,
+  rcapStripeConfigured: String(STRIPE_CONFIGURED),
+  rcapRouteState: ROUTE_STATE_TAG,
+  rcapReturnOrigin: RETURN_ORIGIN,
+  rcapClinicDemoMode: CLINIC_DEMO_MODE || "none",
+  rcapStagingScopeSha256: sha256(SCOPE_IDS)
+};
 
 let deploymentUrl = null;
 if (reusable) {
@@ -363,60 +333,22 @@ if (reusable) {
   evidence.deploymentOrigin = "reused an existing READY Preview deployment of the same application SHA";
   console.log(`  reusing READY Preview deployment ${reusable.id ?? "(id unknown)"} — no new deployment created`);
 } else {
-  console.log(`  deploying ${APPLICATION_SHA.slice(0, 12)}… to Preview (no --prod; deterministic SHA-scoped nonproduction return alias)`);
-  // Streamed, not buffered.
-  //
-  // This used to be spawnSync with piped stdio, which holds every byte until
-  // the process exits and prints only on failure. When the job timer killed the
-  // step, the buffer died with it: two runs totalling nearly three hours
-  // produced not one line about what the CLI was doing. A harness whose output
-  // only survives the happy path cannot diagnose the unhappy one.
-  //
-  // Every line is redacted before it is printed, so streaming does not turn the
-  // job log into a place secrets can appear.
-  const deploy = await new Promise((resolve) => {
-    const child = spawn("npx", args, {
-      cwd: rootDir,
-      // stdin explicitly closed rather than left as an open pipe nobody writes
-      // to. An earlier run died with an uncaught EPIPE on write AFTER Vercel
-      // had already accepted the deployment, which is the worst shape of
-      // failure: the work succeeded and the harness reported failure.
-      stdio: ["ignore", "pipe", "pipe"],
-      env: { ...process.env, ...hostedVercelCliEnvironment(VERCEL_IDENTITY) }
-    });
-
-    let combined = "";
-    let pending = "";
-    const consume = (chunk) => {
-      const text = String(chunk);
-      combined += text;
-      pending += text;
-      const lines = pending.split(/\r?\n/);
-      pending = lines.pop() ?? "";
-      for (const line of lines) {
-        if (line.trim().length > 0) console.log(`  vercel| ${redact(line)}`);
+  console.log(`  creating one REST Preview from exact Git SHA ${APPLICATION_SHA}`);
+  try {
+    const created = await createRestPreview({token: VERCEL_TOKEN, identity: VERCEL_IDENTITY,
+      applicationSha: APPLICATION_SHA, runtimeEnv, buildEnv, meta: deploymentMeta}, {
+      onCreated: receipt => {
+        evidence.restCreation = receipt;
+        fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, passed:false, status:"CREATED_PENDING_VERIFICATION"}, null, 2)}\n`);
       }
-    };
-
-    child.stdout.on("data", consume);
-    child.stderr.on("data", consume);
-    child.on("error", (error) => resolve({ status: null, error, stdout: combined, stderr: "" }));
-    child.on("close", (code) => {
-      if (pending.trim().length > 0) console.log(`  vercel| ${redact(pending)}`);
-      resolve({ status: code, error: null, stdout: combined, stderr: "" });
     });
-  });
-  if (deploy.error) {
-    console.error(`DEPLOY: the Vercel CLI could not be run to completion — ${deploy.error.code ?? ""} ${deploy.error.message ?? deploy.error}`);
-  }
-
-  const combined = `${deploy.stdout ?? ""}\n${deploy.stderr ?? ""}`;
-  const urlMatch = combined.match(/https:\/\/[a-z0-9-]+\.vercel\.app/gi) ?? [];
-  deploymentUrl = urlMatch[urlMatch.length - 1] ?? null;
-
-  if (deploy.status !== 0 || !deploymentUrl) {
-    fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({ ...evidence, passed: false, exitCode: deploy.status, tail: redact(combined).slice(-1500) }, null, 2)}\n`);
-    console.error(`DEPLOY FAILED — vercel exited ${deploy.status}\n${redact(combined).slice(-2000)}`);
+    deploymentUrl = created.url;
+    evidence.restCreation = created;
+  } catch (error) {
+    // Do not log the request, response body, or credentials. No fallback/retry.
+    const failure = /^REST_[A-Z0-9_]+$/.test(error.message ?? "") ? error.message : "REST_TRANSPORT_FAILED_NO_RETRY";
+    fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, passed:false, failure}, null, 2)}\n`);
+    console.error(`DEPLOY FAILED — ${failure}`);
     process.exit(1);
   }
   evidence.deploymentOrigin = "created a new Preview deployment";
@@ -448,7 +380,7 @@ let deploymentId = null;
   evidence.deploymentAliases = Array.isArray(detail.json?.alias) ? detail.json.alias : [];
 }
 
-if (deploymentId) {
+if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed && verdicts.get("deployment_carries_the_final_application_sha")?.passed) {
   const current = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
   const currentId = current.json?.id ?? current.json?.uid ?? null;
   if (current.status !== 200 || currentId !== deploymentId) {

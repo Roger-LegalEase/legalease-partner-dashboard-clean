@@ -478,11 +478,12 @@ if (SCOPE === "full" && VERCEL_IDENTITY) {
     path.join(rootDir, "scripts/rcap-hosted-acceptance-deploy.mjs"),
     "utf8"
   );
-  const deployArgsLine = deploySource.match(/const args = \[[^\n]+/)?.[0] ?? "";
-  const previewBindingOnly = deployArgsLine.includes('"deploy"')
-    && !deployArgsLine.includes('"--prod"')
-    && !deployArgsLine.includes('"alias"')
-    && deploySource.includes('args.push("--env"')
+  const transportSource = fs.readFileSync(path.join(rootDir, "scripts/rcap-hosted-vercel-rest-transport.mjs"), "utf8");
+  const previewBindingOnly = deploySource.includes('await createRestPreview(')
+    && !deploySource.includes('spawn("npx"')
+    && transportSource.includes("env: {...runtimeEnv}, build: {env: {...buildEnv}}")
+    && transportSource.includes("REST_NON_PREVIEW_REFUSED")
+    && transportSource.includes("REST_PINNED_IDENTITY_MISMATCH")
     && deploySource.includes("neverWroteProjectLevelEnv: true")
     && deploySource.includes('"production_aliases_unchanged"')
     && deploySource.includes('"production_environment_variables_unchanged"');
@@ -490,8 +491,8 @@ if (SCOPE === "full" && VERCEL_IDENTITY) {
     "preview_binding_is_per_deployment_only",
     previewBindingOnly,
     previewBindingOnly
-      ? "deploy arguments are Preview-only, pass acceptance values per deployment, and assert Production aliases/environment unchanged"
-      : "deploy argument contract is missing a required Preview-isolation guard"
+      ? "REST creation is Preview-only, passes acceptance values per deployment, and assert Production aliases/environment unchanged"
+      : "REST transport contract is missing a required Preview-isolation guard"
   );
 
   evidence.cases.previewIsolation = {

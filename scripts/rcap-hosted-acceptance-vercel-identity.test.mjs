@@ -120,11 +120,8 @@ test("Lane F runtimes use the pinned identity module and ignore arbitrary identi
   }
 
   const deploy = fs.readFileSync(path.join(ROOT, "scripts/rcap-hosted-acceptance-deploy.mjs"), "utf8");
-  assert.match(deploy, /"--scope", HOSTED_VERCEL_TEAM_SLUG/);
-  assert.match(deploy, /hostedVercelCliEnvironment\(VERCEL_IDENTITY\)/);
-  const deployArguments = deploy.match(/const args = \[[^\n]+/)?.[0] ?? "";
-  assert.notEqual(deployArguments, "");
-  assert.doesNotMatch(deployArguments, /"--prod"|"alias"/);
+  assert.match(deploy, /await createRestPreview\(/);
+  assert.doesNotMatch(deploy, /spawn\(|"--scope"|"--prod"/);
 
   const preflight = fs.readFileSync(path.join(ROOT, "scripts/rcap-hosted-acceptance-preflight.mjs"), "utf8");
   assert.doesNotMatch(preflight, /env\?decrypt=true/);

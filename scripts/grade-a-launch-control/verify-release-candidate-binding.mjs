@@ -45,10 +45,13 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-vercel-identity-recheck.mjs',
         'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
         'scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs',
-        'scripts/verify-rcap-vercel-cli-deploy-identity.mjs'
+        'scripts/rcap-hosted-vercel-rest-transport.mjs',
+        'scripts/rcap-hosted-vercel-rest-transport.test.mjs',
+        'scripts/rcap-hosted-acceptance-preflight.mjs',
+        'scripts/rcap-hosted-acceptance-vercel-identity.test.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
-      if (delta.some(p => !generated.has(p) && !bounded.has(p))) throw new Error('Unbounded tooling delta');
+      if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');
       const declared = binding.orchestrationFiles;
       const actual = delta.filter(p => bounded.has(p)).sort();
       if (!Array.isArray(declared) || JSON.stringify([...declared].sort()) !== JSON.stringify(actual)) throw new Error('Tooling file set mismatch');
