@@ -4,13 +4,18 @@
   "workerSourceSha": "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
   "workerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
   "workerInputFingerprint": "sha256:dd48d9a106251e281553d2ddad1c754ed0c57de54bcc8a44cabf018879927dce",
-  "toolsSha": "8cc5631bbca03744cadca051d98c622410cd8b22",
+  "toolsSha": "ed3473802a567ec2357cd67da4ff0e08f99024c4",
   "orchestrationFiles": [
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
     "scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs",
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+    "scripts/rcap-hosted-acceptance-deploy.mjs",
+    "scripts/rcap-hosted-acceptance-preflight.mjs",
+    "scripts/rcap-hosted-acceptance-vercel-identity.test.mjs",
+    "scripts/rcap-hosted-vercel-rest-transport.mjs",
+    "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
     "scripts/rcap-vercel-identity-recheck.mjs"
   ],
-  "authorization": "User-authorized read-only CLI identity probes and exact bounded tooling currentness. Deploy argv unchanged because the no-scope probe failed.",
+  "authorization": "User-authorized local REST creation transport repair and mock tests only. No external deployment creation authorized.",
   "deploymentAuthorized": false
 }
