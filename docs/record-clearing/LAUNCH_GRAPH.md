@@ -21,10 +21,10 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 | EXACT TRACK + PACKET SET | 222 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
 | OWNER-APPROVED LEGAL | 95 |
-| FACTORY_V2 RESOLVED | 166 |
+| FACTORY_V2 RESOLVED | 167 |
 | PAYMENT ALLOWED | 28 |
-| DETERMINISTICALLY RENDERED (complete packet) | 42 |
-| — composed text proven deterministic | 166 |
+| DETERMINISTICALLY RENDERED (complete packet) | 43 |
+| — composed text proven deterministic | 167 |
 | — official forms named but not held here | 124 |
 | OPERATIONALLY SELLABLE | 0 |
 
@@ -45,9 +45,9 @@ owner-authorized action through the consumer-delivery control under the all-51 l
 | `CUSTOM_PLEADING_READY` | 0 |
 | `GUIDANCE_READY` | 0 |
 | `HANDOFF_READY` | 5 |
-| `MAINTENANCE_HOLD` | 21 |
+| `MAINTENANCE_HOLD` | 25 |
 | `LEGAL_HOLD` | 8 |
-| `UNFINISHED` | 228 |
+| `UNFINISHED` | 224 |
 
 Per-state counts are carried in `availability.byState` of the JSON ledger.
 
@@ -56,7 +56,7 @@ Per-state counts are carried in `availability.byState` of the JSON ledger.
 | Unmet gate | Routes |
 |---|---:|
 | `paymentAllowed` | 234 |
-| `deterministicArtifactProven` | 220 |
+| `deterministicArtifactProven` | 219 |
 | `technicalApprovalCurrent` | 192 |
 | `ownerApprovedLegalDesign` | 167 |
 | `rendererSelected` | 70 |

@@ -585,6 +585,59 @@ await runCaseGroup(["P19"], async () => {
   );
 });
 
+await runCaseGroup(["P21"], async () => {
+  // P21 — the hash check itself. P19 proves a non-verified edit is refused, but
+  // that refusal comes from the protected-verification lock BEFORE the webhook
+  // compares hashes, so removing the comparison leaves P19 green. Here the
+  // participant re-verifies after Checkout creation: the current verification is
+  // VERIFIED (the lock is satisfied, the metadata still names the same product,
+  // person and matter), only its hash differs from the one frozen in the Session.
+  // The only remaining defence is `session.metadata.verification_hash !==
+  // verification.hash`, and the refusal must carry that check's own reason.
+  const { reconcileExpungementAiCheckoutEvent } = await import("../src/lib/expungement-ai/checkout-reconciliation.ts");
+  const item = await createItem(USER_A, "p21");
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p21" });
+  const prior = await readProtectedPacketVerification({ consumerAuthUserId: USER_A, briefcaseItemId: item });
+  assert.equal(prior.ok, true);
+  assert.equal(prior.value.status, "verified");
+  assert.equal(prior.value.hash, session.metadata.verification_hash, "the Session froze the verification current at creation");
+  const reverify = derivePacketInformationPatch({
+    existingItem: await getBriefcaseItemForWebhook(USER_A, item),
+    protectedVerification: prior.value,
+    answers: { participant_full_legal_name: "Re-verified Participant After Checkout" },
+    verify: true
+  });
+  assert.ok(reverify?.protectedTransition, "a material edit with verify:true derives a new protected transition");
+  assert.equal(reverify.readyToGenerate, true, "the re-verification is itself complete and reviewable");
+  const changed = await persistProtectedPacketVerification({ consumerAuthUserId: USER_A, briefcaseItemId: item, transition: reverify.protectedTransition });
+  assert.equal(changed.ok, true);
+  // Prerequisites of the hash check, established: the lock passes and the hash moved.
+  assert.equal(changed.value.status, "verified", "the current verification is VERIFIED, so the protected-verification lock cannot be what refuses");
+  assert.notEqual(changed.value.hash, session.metadata.verification_hash, "the current hash differs from the Session's frozen hash");
+  const current = await requireCurrentPacketVerification(USER_A, await getBriefcaseItemForWebhook(USER_A, item));
+  assert.equal(current.hash, changed.value.hash, "requireCurrentPacketVerification admits the re-verification (execution reaches the hash comparison)");
+  // The reconciliation names the hash check as its reason.
+  const event = stripeEvent("evt_p21", session);
+  let refusal = null;
+  try { await reconcileExpungementAiCheckoutEvent(event); } catch (error) { refusal = error; }
+  const namedTheHashCheck = refusal instanceof Error && /final verification changed after Checkout creation/.test(refusal.message);
+  // And the real webhook surface records nothing.
+  const res = await webhookRoute.POST(signedWebhookRequest(event));
+  const row = paymentRow(item);
+  const claimed = db.scalar(`select count(*) from public.processed_stripe_events where stripe_event_id='evt_p21'`);
+  check(
+    "P21",
+    "a verified re-verification after Checkout creation is refused by the verification-hash check itself",
+    namedTheHashCheck
+      && res.status === 500
+      && row?.payment_status === "unpaid"
+      && row?.provider_event_id === null
+      && jobsFor(item).length === 0
+      && claimed === "0",
+    `refusal=${refusal?.message ?? "none"} status=${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length} claimed=${claimed}`
+  );
+});
+
 await runCaseGroup(["P7"], async () => {
   // P7 — a session naming another user's item records nothing.
   const itemA = await createItem(USER_A, "p7-a");

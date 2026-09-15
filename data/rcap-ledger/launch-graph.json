@@ -51,8 +51,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 166,
-    "factoryV2Resolved": 166,
+    "factoryV2Selected": 167,
+    "factoryV2Resolved": 167,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -96,15 +96,15 @@
       }
     ],
     "paymentAllowed": 28,
-    "deterministicallyRenderedComposedText": 166,
-    "deterministicallyRendered": 42,
+    "deterministicallyRenderedComposedText": 167,
+    "deterministicallyRendered": 43,
     "officialFormsNamedButNotHeldInThisRepository": 124,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 167,
     "technicalApprovalCurrent": 192,
-    "deterministicArtifactProven": 220,
+    "deterministicArtifactProven": 219,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 234,
     "rendererSelected": 70,
@@ -127,9 +127,9 @@
       "CUSTOM_PLEADING_READY": 0,
       "GUIDANCE_READY": 0,
       "HANDOFF_READY": 5,
-      "MAINTENANCE_HOLD": 21,
+      "MAINTENANCE_HOLD": 25,
       "LEGAL_HOLD": 8,
-      "UNFINISHED": 228
+      "UNFINISHED": 224
     },
     "byState": {
       "AK": {
@@ -263,9 +263,9 @@
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
-        "MAINTENANCE_HOLD": 0,
+        "MAINTENANCE_HOLD": 1,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 8
+        "UNFINISHED": 7
       },
       "IN": {
         "PACKET_READY": 0,
@@ -362,9 +362,9 @@
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 2,
-        "MAINTENANCE_HOLD": 1,
+        "MAINTENANCE_HOLD": 4,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 12
+        "UNFINISHED": 9
       },
       "MT": {
         "PACKET_READY": 0,
@@ -6697,7 +6697,7 @@
       "jurisdiction": "IL",
       "pathwayId": "felony-prostitution-relief",
       "pathwayLabel": "Felony-prostitution relief",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -6801,7 +6801,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
-      "fulfillmentAuthorityAdmitted": false,
+      "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12423,7 +12423,7 @@
       "jurisdiction": "MS",
       "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
       "pathwayLabel": "Additional justice-court misdemeanor relief",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -12512,7 +12512,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
-      "fulfillmentAuthorityAdmitted": false,
+      "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12521,7 +12521,7 @@
       "jurisdiction": "MS",
       "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "pathwayLabel": "Additional municipal-court misdemeanor relief",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -12610,7 +12610,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
-      "fulfillmentAuthorityAdmitted": false,
+      "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13390,7 +13390,7 @@
       "jurisdiction": "MS",
       "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
       "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -13430,10 +13430,12 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "legacy_retired",
+        "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
-        "packetSetIds": [],
-        "reason": "MS's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "packetSetIds": [
+          "ms-nonconv-set"
+        ],
+        "reason": "MS non-conviction-expungement-for-dismissal-no-disposition-or-acquittal builds through the shared packet factory from packet set ms-nonconv-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -13446,7 +13448,15 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": null,
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "d322078b3d2375376825d062849e70d1a4e7488e92c6df48bb99557039df4b6c",
+        "characters": 3419,
+        "sections": 12,
+        "warnings": 0,
+        "errors": []
+      },
       "dtcResult": {
         "deliverable": false
       },
@@ -13461,15 +13471,14 @@
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
         "rendererSelected": true,
-        "deterministicArtifactProven": false,
+        "deterministicArtifactProven": true,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "ownerApprovedLegalDesign",
-        "technicalApprovalCurrent",
-        "deterministicArtifactProven"
+        "technicalApprovalCurrent"
       ],
-      "fulfillmentAuthorityAdmitted": false,
+      "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },

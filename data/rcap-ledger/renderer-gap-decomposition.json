@@ -12,11 +12,11 @@
     ],
     "consequence": "Porting the engines would move the renderer backwards. The remaining renderer work is wiring routes to the shared factory_v2 renderer."
   },
-  "total": 63,
+  "total": 70,
   "counts": {
     "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID": 21,
     "NO_TRACK_TO_RENDER_FROM": 34,
-    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 3,
+    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 10,
     "PACKET_INTENDED_BUT_ROUTE_RESOLVES_TO_GUIDANCE": 2,
     "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION": 3
   },
@@ -233,6 +233,52 @@
       "remedy": "Wire the route to the shared factory_v2 renderer for its packet strategy. This is the real renderer work."
     },
     {
+      "pathwayKey": "CT:absolute-pardon-resulting-in-erasure",
+      "jurisdiction": "CT",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ct-absolute-pardon",
+        "ct-pardon-erasure"
+      ],
+      "memoOutputStrategies": [
+        "process_guidance",
+        "composed"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
+      "pathwayKey": "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+      "jurisdiction": "CT",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ct-cleanslate-petition"
+      ],
+      "memoOutputStrategies": [
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
       "pathwayKey": "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
       "jurisdiction": "DE",
       "routeKind": "guidance_only",
@@ -392,6 +438,28 @@
       "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
     },
     {
+      "pathwayKey": "MA:marijuana-only-expungement",
+      "jurisdiction": "MA",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ma-expunge-mj"
+      ],
+      "memoOutputStrategies": [
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
       "pathwayKey": "MD:juvenile-expungement",
       "jurisdiction": "MD",
       "routeKind": "guidance_only",
@@ -484,7 +552,7 @@
     {
       "pathwayKey": "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
       "jurisdiction": "MN",
-      "routeKind": "guidance_only",
+      "routeKind": "handoff",
       "rendererKind": "none",
       "trackIds": [
         "mn_auto_cannabis_nonfelony"
@@ -492,7 +560,7 @@
       "memoOutputStrategies": [
         "process_guidance"
       ],
-      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=handoff).",
       "suppressedBy": null,
       "factoryV2": {
         "resolves": false,
@@ -508,11 +576,11 @@
     {
       "pathwayKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
       "jurisdiction": "MS",
-      "routeKind": "guidance_only",
+      "routeKind": "handoff",
       "rendererKind": "none",
       "trackIds": [],
       "memoOutputStrategies": [],
-      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=handoff).",
       "suppressedBy": null,
       "factoryV2": {
         "resolves": false,
@@ -530,11 +598,11 @@
     {
       "pathwayKey": "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
       "jurisdiction": "MS",
-      "routeKind": "guidance_only",
+      "routeKind": "handoff",
       "rendererKind": "none",
       "trackIds": [],
       "memoOutputStrategies": [],
-      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=handoff).",
       "suppressedBy": null,
       "factoryV2": {
         "resolves": false,
@@ -618,6 +686,28 @@
       "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
     },
     {
+      "pathwayKey": "NE:law-enforcement-error-expungement",
+      "jurisdiction": "NE",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "ne-expunge-le-error"
+      ],
+      "memoOutputStrategies": [
+        "custom_pleading"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
       "pathwayKey": "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
       "jurisdiction": "NH",
       "routeKind": "guidance_only",
@@ -664,6 +754,28 @@
       "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
       "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
       "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+      "jurisdiction": "NJ",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "nj_clean_slate"
+      ],
+      "memoOutputStrategies": [
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
     },
     {
       "pathwayKey": "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
@@ -738,11 +850,11 @@
     {
       "pathwayKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "jurisdiction": "NV",
-      "routeKind": "guidance_only",
+      "routeKind": "handoff",
       "rendererKind": "none",
       "trackIds": [],
       "memoOutputStrategies": [],
-      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=handoff).",
       "suppressedBy": null,
       "factoryV2": {
         "resolves": false,
@@ -894,6 +1006,50 @@
       "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
     },
     {
+      "pathwayKey": "OR:marijuana-specific-set-aside-redesignation",
+      "jurisdiction": "OR",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "or_conviction_setaside"
+      ],
+      "memoOutputStrategies": [
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
+      "pathwayKey": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "jurisdiction": "OR",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "or_acquittal"
+      ],
+      "memoOutputStrategies": [
+        "official_pdf_fill"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
       "pathwayKey": "RI:path-e-filed-complaint-relief-under-12-10-12",
       "jurisdiction": "RI",
       "routeKind": "guidance_only",
@@ -1034,11 +1190,11 @@
     {
       "pathwayKey": "SD:juvenile-trafficking-expungement",
       "jurisdiction": "SD",
-      "routeKind": "guidance_only",
+      "routeKind": "handoff",
       "rendererKind": "none",
       "trackIds": [],
       "memoOutputStrategies": [],
-      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=handoff).",
       "suppressedBy": null,
       "factoryV2": {
         "resolves": false,

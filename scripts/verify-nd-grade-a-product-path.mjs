@@ -697,12 +697,26 @@ try {
     { name: SESSION_COOKIE, value: OWNER_SESSION, url: `http://127.0.0.1:${port}` }
   ]);
   const page = await ownerContext.newPage();
+  // Diagnostic only: when the download never arrives, say what the owner
+  // navigation actually received instead of reporting a bare timeout.
+  const ownerResponses = [];
+  page.on("response", (response) => {
+    if (response.url() === downloadUrl) {
+      const line = `${response.status()} type=${response.headers()["content-type"] ?? "-"} disposition=${response.headers()["content-disposition"] ?? "-"}`;
+      ownerResponses.push(line);
+      if (response.status() >= 400) {
+        response.text().then((body) => ownerResponses.push(`body=${body.slice(0, 300)}`)).catch(() => {});
+      }
+    }
+  });
   const downloadPromise = page.waitForEvent("download", { timeout: 20000 });
   await page.goto(downloadUrl).catch(() => {
     // Chromium reports a navigation that becomes a download as aborted; the
     // download event is the signal that matters.
   });
-  const download = await downloadPromise;
+  const download = await downloadPromise.catch((error) => {
+    throw new Error(`owner download did not arrive: ${error.message.split("\n")[0]}; owner navigation received: ${ownerResponses.join(" | ") || "no response for the download URL"}`);
+  });
   const savedPath = path.join(storageRoot, "owner-download.pdf");
   await download.saveAs(savedPath);
   const downloaded = fs.readFileSync(savedPath);
