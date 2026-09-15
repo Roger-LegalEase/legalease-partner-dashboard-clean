@@ -31,11 +31,11 @@
   "authorization": "Roger authorized one exact 870532340f3ef091bfa3b1a2e2b64c16d3195b25 publication only; replacement authorization empty; both tag guards passed. Read-only image acceptance and proof binding separately authorized in the same instruction.",
   "priorPublicationEvidencePath": "private/transfers/release-publication-87053234/prior-publication-evidence.json",
   "supersededPublication": {
-    "sourceSha": "1d12b6a0a6a361b0dda62b8f3a333a74d651dd7d",
-    "immutableRegistryDigest": "sha256:2c2c9c24414445bf56b01d1f8a05a162201ce83e681f783fd3b6670fbc5a77fc",
-    "publicationRunId": 34917460365,
-    "disposition": "superseded_by_runtime_input_changes",
-    "why": "Exact MS server-owned track mapping and static worker authority separation changed canonical worker inputs. Prior tag and digest remain unchanged."
+    "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+    "immutableRegistryDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+    "disposition": "superseded_by_source_drift",
+    "why": "Historically valid for 5ac0d8d6 and inert. Superseded now that PR #127 merged the prepared-onboarding partner experience and the applied-prefill reproposal lifecycle into main, which changed 33 canonical image-input paths. Not deleted, not retagged.",
+    "publicationRunId": 32307070302
   },
   "supersededChain": [
     {
@@ -176,5 +176,21 @@
     "howItIsKnown": "Run 34942386033 succeeded on attempt 1; both source-SHA tag guards passed with replacement authorization empty."
   },
   "workerInputFingerprint": "sha256:dd48d9a106251e281553d2ddad1c754ed0c57de54bcc8a44cabf018879927dce",
-  "localVerificationDigest": "sha256:87e45ce1b4bb1e53eee6ef780c2bbd8825e9f7668f65c8eb73fc04915c5284b0"
+  "localVerificationDigest": "sha256:87e45ce1b4bb1e53eee6ef780c2bbd8825e9f7668f65c8eb73fc04915c5284b0",
+  "imageAcceptanceAttempts": [
+    {
+      "workflowRunId": 34942776241,
+      "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34942776241",
+      "workflowConclusion": "failure",
+      "toolsSha": "7c46eb8cdd4d701e9ca59a8458764fa1e265d332",
+      "sourceSha": "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
+      "immutableRegistryDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+      "readOnly": true,
+      "registryTagAndDigestVerified": true,
+      "authenticatedPullByDigestPassed": true,
+      "failure": "Publication receipt replaced the retired exception historical anchor in supersededPublication. Restored the original historical tuple; immediate predecessor remains in supersededChain. No exception or worker input changed.",
+      "logPath": "private/transfers/release-publication-87053234/acceptance-workflow.log",
+      "logSha256": "2534633e19ce99152841a17ed4fb125ab724d674ba2f8ba4955cb05f8d9fadfa"
+    }
+  ]
 }
