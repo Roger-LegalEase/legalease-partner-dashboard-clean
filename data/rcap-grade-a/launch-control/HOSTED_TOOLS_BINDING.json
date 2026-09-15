@@ -4,7 +4,7 @@
   "workerSourceSha": "b64701c16ab2a6c78d0d187143882407111c0778",
   "workerDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
   "workerInputFingerprint": "sha256:ed3d0e1fac48515de4eb641f48ad266da566cc1e42bddda3d75e859fadb65b4e",
-  "toolsSha": "52203cf3c80ec2e56d331b2d70d1f56f1945f5c4",
+  "toolsSha": "e85cc722f6226968a54c252faebb230fa0797a6b",
   "orchestrationFiles": [
     ".github/workflows/rcap-f1-ephemeral-staging.yml",
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
@@ -20,7 +20,7 @@
     "scripts/verify-rcap-hosted-checkout-gate.mjs",
     "scripts/verify-rcap-immutable-image-preflight.mjs"
   ],
-  "previousToolsSha": "581fdb962b395491f339fb00e68bcb3cd96692c1",
+  "previousToolsSha": "52203cf3c80ec2e56d331b2d70d1f56f1945f5c4",
   "supersededToolsSha": "2854c920ac2b87528480527fbb31dbf025e86983",
   "why": "Tools commit 034780c8 repairs scripts/verify-rcap-hosted-checkout-gate.mjs, which still pinned the 2026-08-25 release and failed 6/94 in every matrix phase (run 35030630607; identical at the inherited fda7ad86), pins the Checkout gate's expected worker digest and the ephemeral dispatcher's worker pair to the published successor, and adds those files to the bounded tooling set. Tools commit 3f7b1cbb keeps the failed-Preview audit (rcap-hosted-vercel-diagnostics.mjs) bound to its own historical source SHA so its regression test no longer couples to the frozen candidate.",
   "authorization": "Roger's DEPLOYMENT EXECUTION AUTHORIZATION (2026-09-15), step 4: exact-source guard, tools-binding and workflow-pin updates for the successor candidate, their focused regressions, and their fast-forward pushes; at most one new Preview in the existing acceptance environment, then one reuse-only hosted acceptance cycle. No Production activation.",
