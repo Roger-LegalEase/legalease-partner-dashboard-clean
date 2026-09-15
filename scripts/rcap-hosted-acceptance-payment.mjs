@@ -168,6 +168,43 @@ async function vercelApi(pathname) {
   return { status: res.status, json };
 }
 
+/**
+ * Read-only diagnostics for a 5xx from the deployed application. The Vercel
+ * runtime log is the only place the application's own console.error for a
+ * failed webhook or render lands; the Management API readback names which
+ * consumer-launch RPCs the acceptance project actually holds. Neither writes
+ * anything; both are sanitized before they reach the evidence.
+ */
+async function runtimeLogExcerpt(sinceMs, needles) {
+  try {
+    const res = await fetch(hostedVercelScopedUrl(
+      `/v1/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}/runtime-logs`,
+      VERCEL_IDENTITY
+    ), { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }, signal: AbortSignal.timeout(20000) });
+    const text = await res.text();
+    if (res.status !== 200) return `runtime-logs HTTP ${res.status}: ${sanitize(text).slice(0, 160)}`;
+    const lines = text.split("\n").map((line) => { try { return JSON.parse(line); } catch { return null; } }).filter(Boolean);
+    const hits = lines.filter((entry) => {
+      const at = Number(entry.timestampInMs ?? entry.timestamp ?? 0);
+      const message = String(entry.message ?? "");
+      return at >= sinceMs && needles.some((needle) => message.includes(needle));
+    }).slice(-6).map((entry) => `[${entry.level ?? "?"}] ${sanitize(String(entry.message ?? "")).slice(0, 400)}`);
+    return hits.length ? hits.join(" || ") : `runtime-logs returned ${lines.length} entries, none matching ${needles.join("/")} since ${new Date(sinceMs).toISOString()}`;
+  } catch (error) {
+    return `runtime-logs unavailable: ${sanitize(String(error?.message ?? error)).slice(0, 160)}`;
+  }
+}
+
+async function consumerLaunchSchemaReadback() {
+  const rpcs = ["enqueue_verified_consumer_packet_render", "persist_consumer_packet_verification", "get_consumer_packet_verification_authority", "get_consumer_packet_artifact_authority", "attach_consumer_packet_artifact_if_verified"];
+  const present = await sql(`select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname in (${rpcs.map((name) => `'${name}'`).join(",")}) order by 1`);
+  const ledger = await sql(`select phase from public.rcap_acceptance_migration_ledger order by phase`);
+  const signature = await sql(`select pg_get_function_identity_arguments(p.oid) as args from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname = 'enqueue_verified_consumer_packet_render'`);
+  const have = new Set((Array.isArray(present.json) ? present.json : []).map((row) => row.proname));
+  const args = (Array.isArray(signature.json) ? signature.json : []).map((row) => String(row.args ?? "").replace(/\s+/g, " ")).join(" | ") || "(no signature)";
+  return `consumer-launch RPCs present=[${rpcs.filter((name) => have.has(name)).join(",")}] missing=[${rpcs.filter((name) => !have.has(name)).join(",")}]; enqueue_verified_consumer_packet_render(${args.slice(0, 600)}); acceptance migration ledger phases=[${(Array.isArray(ledger.json) ? ledger.json : []).map((row) => row.phase).join(",")}]`;
+}
+
 async function sql(query) {
   const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
     method: "POST",
@@ -1516,13 +1553,17 @@ runNamespace.providerEventId = completionEvent.id;
     `POST /api/stripe/webhook with a payload signed by the WRONG secret = ${forgedRes.status} (must be 400) — this is the negative control for every payment case below it`
   );
 
+  const webhookSentAt = Date.now() - 5000;
   const genuineRes = await callApp("/api/stripe/webhook", {
     method: "POST", body: genuine.body, headers: { "stripe-signature": genuine.header }
   });
+  const webhookDiagnostics = genuineRes.status >= 500
+    ? `; runtime log: ${await runtimeLogExcerpt(webhookSentAt, ["Stripe webhook processing failed", "render job", "enqueue", "webhook"])}`
+    : "";
   record(
     "signed_webhook_records_the_payment",
     genuineRes.status === 200,
-    `POST /api/stripe/webhook correctly signed = ${genuineRes.status}, outcome=${genuineRes.json?.outcome ?? "(none)"}`
+    `POST /api/stripe/webhook correctly signed = ${genuineRes.status}, outcome=${genuineRes.json?.outcome ?? "(none)"}${genuineRes.json?.error ? `; application error=${JSON.stringify(sanitize(String(genuineRes.json.error)).slice(0, 300))}` : ""}${webhookDiagnostics}`
   );
   evidence.webhook = { forged: forgedRes.status, genuine: genuineRes.status, outcome: genuineRes.json?.outcome ?? null };
 }
@@ -1553,14 +1594,18 @@ runNamespace.providerEventId = completionEvent.id;
 // pathway, against a profile version the published image demonstrably admits.
 let targetJobId = null;
 {
+  const renderSentAt = Date.now() - 5000;
   const res = await callApp("/api/expungement-ai/packet/render", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
   const returnedJobId = typeof res.json?.jobId === "string" && res.json.jobId.trim() !== "" ? res.json.jobId.trim() : null;
+  const renderDiagnostics = res.status !== 202
+    ? `; ${await consumerLaunchSchemaReadback()}; runtime log: ${await runtimeLogExcerpt(renderSentAt, ["packet/render", "enqueue", "render job", "rpc", "error"])}`
+    : "";
   // A 202 that names no job is not a queued render: there would be nothing to
   // follow, and the journey below would have to guess. It does not guess.
   record(
     "paid_render_is_queued",
     res.status === 202 && returnedJobId !== null,
-    `POST /api/expungement-ai/packet/render for the same item after payment = ${res.status} (must be 202), jobId=${returnedJobId ?? "(none)"} — the identical request that was 402 moments ago. This job id is THE TARGET for the rest of this run; every worker cycle below is classified against it and no other row may satisfy a target case.`
+    `POST /api/expungement-ai/packet/render for the same item after payment = ${res.status} (must be 202), jobId=${returnedJobId ?? "(none)"}${res.json?.error || res.json?.reason ? `; application answered error=${JSON.stringify(sanitize(String(res.json?.error ?? "")).slice(0, 200))} reason=${JSON.stringify(sanitize(String(res.json?.reason ?? "")).slice(0, 400))}` : ""}${renderDiagnostics} — the identical request that was 402 moments ago. This job id is THE TARGET for the rest of this run; every worker cycle below is classified against it and no other row may satisfy a target case.`
   );
   evidence.render = { status: res.status, jobId: returnedJobId };
   if (res.status !== 202 || returnedJobId === null) finish();
