@@ -54,7 +54,7 @@
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "778f5398ded51b1e0acea8347b8320a9f010c300",
+    "captainSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
     "censusFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
     "censusLedgerBlob": "d87bf67294e123237e917824e39a512f593274ab",
     "productionConnected": null,
@@ -372,9 +372,9 @@
   "participantDataRights": {
     "schemaVersion": "rcap-participant-acceptance-evaluation/v1",
     "expected": {
-      "candidateSha": null,
-      "workerDigest": null,
-      "projectRef": null,
+      "candidateSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+      "workerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+      "projectRef": "hyflxnlhpmiqxvvcoiia",
       "productContractSha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
       "dataRightsMigration": {
         "path": "supabase/migrations/20260830120000_participant_data_rights.sql",
@@ -660,9 +660,6 @@
       }
     ],
     "inputErrors": [
-      "exact candidate SHA required",
-      "exact worker digest required",
-      "exact synthetic project ref required",
       "trusted independent reviewer identities required"
     ],
     "acceptanceRunIds": [],
@@ -34455,15 +34452,65 @@
     }
   },
   "candidate": {
-    "status": "NOT_FROZEN",
-    "reason": "Application SHA and worker digest are not yet bound for final release acceptance."
+    "schemaVersion": "rcap-release-candidate-binding/v1",
+    "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
+    "applicationSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+    "workerSourceSha": "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
+    "workerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+    "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+    "workerInputFingerprint": "sha256:dd48d9a106251e281553d2ddad1c754ed0c57de54bcc8a44cabf018879927dce",
+    "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+    "publication": {
+      "runId": 34942386033,
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34942386033",
+      "conclusion": "success"
+    },
+    "readOnlyImageAcceptance": {
+      "runId": 34943080203,
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34943080203",
+      "conclusion": "success"
+    },
+    "regressions": {
+      "sourceSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+      "command": "node scripts/verify-expungement-consumer-payment-http.mjs",
+      "msPaidConsumer": "20/20",
+      "expanded": "35/35",
+      "syntheticPublicationFixture": false,
+      "publishedWorkerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+      "publicationRunId": 34942386033,
+      "imageAcceptanceRunId": 34943080203,
+      "logSha256": "21a5a3b36fd890624bed6fcd94ae5a3896f798654d13e822658d3e7933c38fbd",
+      "scope": "Real published authority binding; isolated local PostgreSQL and provider signatures. No hosted database writes."
+    },
+    "applicationBuild": {
+      "sourceSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+      "command": "npm run build",
+      "exitCode": 0,
+      "elapsedSeconds": 243.49824953079224,
+      "maxRssKiB": 3477036,
+      "log": {
+        "path": "private/transfers/release-publication-87053234/application-build.log",
+        "sha256": "3ca616e002f0f1944cff4e8b6e91080f082189479e59d537f5c28fc29853e24c"
+      }
+    },
+    "publicationReceipt": {
+      "path": "data/rcap-render/worker-publication-evidence.json",
+      "sha256": "692dabf5074ea56a5a7db2984273fe936423ed488a35be1f5cf581905b87c141"
+    },
+    "workerInputPlan": {
+      "path": "private/transfers/release-publication-87053234/frozen-application-worker-input-plan.json",
+      "sha256": "eef0c752b63e05a1a9955be109913821b75380fb008cd6a3a2edfc28a7ca36ce"
+    },
+    "participantReceiptPaths": [],
+    "independentReviewerIdentities": [],
+    "hostedAcceptanceStatus": "NOT_RUN_PENDING_SEPARATE_AUTHORIZATION",
+    "productionAuthorized": false,
+    "scope": "Exact candidate freeze and local/read-only evidence only. No deployment, runtime-pin change, hosted execution, hosted database write, migration, or Production authorization."
   },
   "candidateCurrentness": {
-    "current": false,
-    "status": "NOT_FROZEN",
-    "reasons": [
-      "No release candidate binding exists."
-    ]
+    "current": true,
+    "status": "CURRENT",
+    "reasons": []
   },
   "acceptanceInputDigests": {
     "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json": "d00fb760b8122ec2c45fdef1dcf689fae60f1b23222b19a876af41b7e909328b",
@@ -34564,7 +34611,7 @@
     "scripts/grade-a-launch-control/apply-national-release-control.mjs": "527c83d7d893512737b08802d1d8dfa6a3ab6208704a43b7c997df8f9e3dac9f",
     "scripts/grade-a-launch-control/participant-acceptance-receipts.mjs": "696feff901bea242d16c65ff2793401c6ff98546bc2f3fd722387280ade6d75d",
     "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-institutional-question-not-sent.json": "77c409cbe9432e6d5847694e0dff8475b5fc71f01a52d0b2f940f2b0166898c3",
-    "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json": null,
+    "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json": "a253c7826a18b003105aa8c014b81caf905ac69547d2b274985b91abb4ab5173",
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs": "feb774aa6759745f080e98ef9e6bf1e933c76fce86c6ec2e22290e1021cf9273",
     "data/rcap-render/worker-publication-evidence.json": "692dabf5074ea56a5a7db2984273fe936423ed488a35be1f5cf581905b87c141",
     "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json": "d00fb760b8122ec2c45fdef1dcf689fae60f1b23222b19a876af41b7e909328b",

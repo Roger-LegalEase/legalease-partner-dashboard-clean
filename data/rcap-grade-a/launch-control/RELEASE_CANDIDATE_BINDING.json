@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-release-candidate-binding/v1",
+  "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
+  "applicationSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+  "workerSourceSha": "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
+  "workerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+  "workerInputFingerprint": "sha256:dd48d9a106251e281553d2ddad1c754ed0c57de54bcc8a44cabf018879927dce",
+  "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+  "publication": {
+    "runId": 34942386033,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34942386033",
+    "conclusion": "success"
+  },
+  "readOnlyImageAcceptance": {
+    "runId": 34943080203,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34943080203",
+    "conclusion": "success"
+  },
+  "regressions": {
+    "sourceSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+    "command": "node scripts/verify-expungement-consumer-payment-http.mjs",
+    "msPaidConsumer": "20/20",
+    "expanded": "35/35",
+    "syntheticPublicationFixture": false,
+    "publishedWorkerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+    "publicationRunId": 34942386033,
+    "imageAcceptanceRunId": 34943080203,
+    "logSha256": "21a5a3b36fd890624bed6fcd94ae5a3896f798654d13e822658d3e7933c38fbd",
+    "scope": "Real published authority binding; isolated local PostgreSQL and provider signatures. No hosted database writes."
+  },
+  "applicationBuild": {
+    "sourceSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+    "command": "npm run build",
+    "exitCode": 0,
+    "elapsedSeconds": 243.49824953079224,
+    "maxRssKiB": 3477036,
+    "log": {
+      "path": "private/transfers/release-publication-87053234/application-build.log",
+      "sha256": "3ca616e002f0f1944cff4e8b6e91080f082189479e59d537f5c28fc29853e24c"
+    }
+  },
+  "publicationReceipt": {
+    "path": "data/rcap-render/worker-publication-evidence.json",
+    "sha256": "692dabf5074ea56a5a7db2984273fe936423ed488a35be1f5cf581905b87c141"
+  },
+  "workerInputPlan": {
+    "path": "private/transfers/release-publication-87053234/frozen-application-worker-input-plan.json",
+    "sha256": "eef0c752b63e05a1a9955be109913821b75380fb008cd6a3a2edfc28a7ca36ce"
+  },
+  "participantReceiptPaths": [],
+  "independentReviewerIdentities": [],
+  "hostedAcceptanceStatus": "NOT_RUN_PENDING_SEPARATE_AUTHORIZATION",
+  "productionAuthorized": false,
+  "scope": "Exact candidate freeze and local/read-only evidence only. No deployment, runtime-pin change, hosted execution, hosted database write, migration, or Production authorization."
+}
