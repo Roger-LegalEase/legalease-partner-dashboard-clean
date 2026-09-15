@@ -44,6 +44,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         '.github/workflows/rcap-f1-ephemeral-staging.yml',
         'scripts/rcap-hosted-checkout-gate.mjs',
         'scripts/verify-rcap-hosted-checkout-gate.mjs',
+        'scripts/rcap-hosted-colorado-clinic-browser.mjs',
+        'scripts/verify-rcap-hosted-browser.mjs',
         'scripts/rcap-hosted-acceptance-deploy.mjs',
         'scripts/rcap-vercel-identity-recheck.mjs',
         'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',

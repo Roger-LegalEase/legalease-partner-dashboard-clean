@@ -344,10 +344,17 @@ async function main() {
     env: { ...process.env, RCAP_EVALUATOR_TODAY: "2026-08-25" }
   });
   const coloradoOutput = `${colorado.stdout ?? ""}\n${colorado.stderr ?? ""}`;
+  // The verifier reports its own check count (53 when this harness was
+  // written, 56 today). Require every check it ran to pass and never fewer
+  // checks than the original contract, instead of a hardcoded total that
+  // fails the moment the verifier gains a check.
+  const coloradoPass = coloradoOutput.match(/PASS: Colorado juvenile packet boundary \((\d+)\/(\d+)\)/);
+  const coloradoTotal = coloradoPass ? Number(coloradoPass[2]) : 0;
+  const coloradoAllPassed = colorado.status === 0 && coloradoPass !== null && coloradoPass[1] === coloradoPass[2] && coloradoTotal >= 53;
   record(
-    "colorado_juvenile_and_adjacent_packet_boundaries_53_of_53",
-    colorado.status === 0 && coloradoOutput.includes("Colorado juvenile packet boundary (53/53)"),
-    colorado.status === 0 ? "53/53; juvenile guidance-only/no payment/no render/no credit; adjacent JDF 417 and JDF 612 controls unchanged" : sanitize(coloradoOutput).slice(-800)
+    "colorado_juvenile_and_adjacent_packet_boundaries_all_checks",
+    coloradoAllPassed,
+    coloradoAllPassed ? `${coloradoTotal}/${coloradoTotal}; juvenile guidance-only/no payment/no render/no credit; adjacent JDF 417 and JDF 612 controls unchanged` : sanitize(coloradoOutput).slice(-800)
   );
 
   let browser = null;

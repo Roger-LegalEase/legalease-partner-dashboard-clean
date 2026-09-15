@@ -80,7 +80,8 @@ check(!/delete\s+from\s+public\./i.test(script), "browser fixture deletes persis
 
 includesEvery(script, [
   "verify-rcap-colorado-juvenile-packet-boundary.mjs",
-  "Colorado juvenile packet boundary (53/53)",
+  "PASS: Colorado juvenile packet boundary \\((\\d+)\\/(\\d+)\\)",
+  "coloradoPass[1] === coloradoPass[2] && coloradoTotal >= 53",
   "adjacent JDF 417 and JDF 612 controls unchanged",
   'result_code === "guidance_only"',
   "payment_allowed === false",
@@ -91,6 +92,7 @@ includesEvery(script, [
   "Number(noPayment.artifact_refs) === 0"
 ], "Colorado juvenile no-payment boundary proof");
 check(!script.includes("jsonb_object_length"), "browser evidence query calls a PostgreSQL function that does not exist");
+check(!/packet boundary \(\d+\/\d+\)/.test(script), "browser harness hardcodes the Colorado verifier's check count");
 check(!script.includes("/api/expungement-ai/checkout"), "browser harness can create Checkout");
 
 includesEvery(script, [
