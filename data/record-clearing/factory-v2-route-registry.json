@@ -12,7 +12,7 @@
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec"
+      "sha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4"
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
@@ -33,12 +33,11 @@
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
     "intendedPaidPathways": 262,
-    "factoryV2Admitted": 172,
-    "notAdmitted": 90,
+    "factoryV2Admitted": 174,
+    "notAdmitted": 88,
     "reasonsItIsNotAdmitted": {
       "sourceOrApprovedComposedDocument": 21,
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
-      "exactPacketSet+sourceOrApprovedComposedDocument": 2,
       "legacy_generator_owns_this_jurisdiction": 36
     },
     "ownerApprovedLegalDesign": 95,
@@ -1288,25 +1287,24 @@
         "pathway_id",
         "record_type"
       ],
-      "componentCount": 4,
+      "componentCount": 5,
       "officialFormIds": [
         "JDF-612",
+        "JDF-613",
+        "JDF-614",
         "JDF-615"
       ],
       "buildInputs": {
         "authoritativeProfile": true,
         "authoritativePathway": true,
-        "exactPacketSet": false,
+        "exactPacketSet": true,
         "packetSpecification": true,
         "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": false,
+        "sourceOrApprovedComposedDocument": true,
         "deterministicFixture": true
       },
-      "unmetBuildInputs": [
-        "exactPacketSet",
-        "sourceOrApprovedComposedDocument"
-      ],
-      "factoryV2Resolves": false,
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
@@ -1350,22 +1348,21 @@
       "componentCount": 5,
       "officialFormIds": [
         "JDF-417",
-        "JDF-417-ORDER"
+        "JDF-417-ORDER",
+        "JDF-419",
+        "JDF-435"
       ],
       "buildInputs": {
         "authoritativeProfile": true,
         "authoritativePathway": true,
-        "exactPacketSet": false,
+        "exactPacketSet": true,
         "packetSpecification": true,
         "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": false,
+        "sourceOrApprovedComposedDocument": true,
         "deterministicFixture": true
       },
-      "unmetBuildInputs": [
-        "exactPacketSet",
-        "sourceOrApprovedComposedDocument"
-      ],
-      "factoryV2Resolves": false,
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
@@ -1748,7 +1745,7 @@
         "pathway_id",
         "sentence_completion_date"
       ],
-      "componentCount": 4,
+      "componentCount": 3,
       "officialFormIds": [
         "CIV_EXP_02_A",
         "CIV_EXP_02_B",

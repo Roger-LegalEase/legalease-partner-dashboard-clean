@@ -14,11 +14,11 @@
   "inputs": {
     "data/rcap-ledger/sellable-pathway-closure.json": "fc8fddcc40cd523ddea2b59bb0aeaab60bbb6b443847fb3e4f2d8f3d2ea6f3c6",
     "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
-    "data/record-clearing/legal-design-packet-set-manifests.json": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+    "data/record-clearing/legal-design-packet-set-manifests.json": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4",
     "data/rcap-ledger/public-witness-answer-sets.json": "1c47de971663ae3a3b24e2ab2a153d7184e3a1a1c288e3355da5bce4f03cb9ed",
-    "data/record-clearing/factory-v2-route-registry.json": "1151bc230e299e8e865ea53db45e4927768dce746ea65a58d27ddc87662cfea5",
+    "data/record-clearing/factory-v2-route-registry.json": "82ed680bbad2f10a2e1e88bcfaa300d21849ff329e06f843789fb49932e86545",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
-    "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
+    "data/record-clearing/source-artifact-registry.json": "2134cc5e43a69bd7c7cd2f0f096726925b37320886a2f46b9409c4771bbd703b",
     "data/rcap-ledger/session-a-evidence-packet.json": "ed01b5fe9ada9ffa052401ede5aebcedab75d43d9b4f62a9d5a3c28a0d5b8342"
   },
   "ownerLegalDecision": {
@@ -51,8 +51,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 167,
-    "factoryV2Resolved": 167,
+    "factoryV2Selected": 169,
+    "factoryV2Resolved": 169,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -96,9 +96,9 @@
       }
     ],
     "paymentAllowed": 28,
-    "deterministicallyRenderedComposedText": 167,
+    "deterministicallyRenderedComposedText": 169,
     "deterministicallyRendered": 43,
-    "officialFormsNamedButNotHeldInThisRepository": 124,
+    "officialFormsNamedButNotHeldInThisRepository": 126,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
@@ -107,7 +107,7 @@
     "deterministicArtifactProven": 219,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 234,
-    "rendererSelected": 70,
+    "rendererSelected": 68,
     "packetSpecificationComplete": 40
   },
   "availability": {
@@ -2729,7 +2729,7 @@
         {
           "packetSetId": "co_motion_seal_conviction-set",
           "trackId": "co_motion_seal_conviction",
-          "components": 4
+          "components": 5
         }
       ],
       "ownerApprovedLegalStatus": "owner_approval_pending",
@@ -2737,12 +2737,14 @@
       "legalBasis": "owner_approved_existing_legal_design_packet_set",
       "packetSpecification": {
         "complete": true,
-        "componentCount": 4,
+        "componentCount": 5,
         "participantActionsRequired": 11
       },
       "sourceAssets": {
         "officialFormIdsNamed": [
           "JDF-612",
+          "JDF-613",
+          "JDF-614",
           "JDF-615"
         ],
         "officialFormIdsHeldInThisRepository": [],
@@ -2757,10 +2759,12 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "guidance_only",
-        "rendererKind": "none",
-        "packetSetIds": [],
-        "reason": "CO has a compiled profile but no certified packet renderer, so it serves guidance."
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "packetSetIds": [
+          "co_motion_seal_conviction-set"
+        ],
+        "reason": "CO petition-based-conviction-sealing-jdf-612-24-72-706 builds through the shared packet factory from packet set co_motion_seal_conviction-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -2773,7 +2777,15 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": null,
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "daa8ebaf166391ed24604adb9f3fcbf90c45a8ea0cf2a37ebc386b0e870f41d1",
+        "characters": 3296,
+        "sections": 11,
+        "warnings": 0,
+        "errors": []
+      },
       "dtcResult": {
         "deliverable": false
       },
@@ -2787,7 +2799,7 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": false,
+        "rendererSelected": true,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
@@ -2795,7 +2807,6 @@
         "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
-        "rendererSelected",
         "deterministicArtifactProven"
       ],
       "fulfillmentAuthorityAdmitted": false,
@@ -2836,7 +2847,9 @@
       "sourceAssets": {
         "officialFormIdsNamed": [
           "JDF-417",
-          "JDF-417-ORDER"
+          "JDF-417-ORDER",
+          "JDF-419",
+          "JDF-435"
         ],
         "officialFormIdsHeldInThisRepository": [],
         "allNamedSourcesHeld": false
@@ -2850,10 +2863,12 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "guidance_only",
-        "rendererKind": "none",
-        "packetSetIds": [],
-        "reason": "CO has a compiled profile but no certified packet renderer, so it serves guidance."
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "packetSetIds": [
+          "co_petition_seal_arrest-set"
+        ],
+        "reason": "CO petition-based-non-conviction-sealing-jdf-417-24-72-704 builds through the shared packet factory from packet set co_petition_seal_arrest-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -2866,7 +2881,15 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": null,
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "b7de5d8efc805a50924ca91bb31c1fd2a855307df0bb995776385c1ec3e54356",
+        "characters": 3310,
+        "sections": 11,
+        "warnings": 0,
+        "errors": []
+      },
       "dtcResult": {
         "deliverable": false
       },
@@ -2880,14 +2903,13 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": false,
+        "rendererSelected": true,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
-        "rendererSelected",
         "deterministicArtifactProven"
       ],
       "fulfillmentAuthorityAdmitted": false,
