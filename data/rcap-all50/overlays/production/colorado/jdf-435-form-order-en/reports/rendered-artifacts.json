@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v2-provenance",
+  "sourceSha256": "59026b6ad9809e21fd9cb071adb5725329ac7a65f4a7c3055b11ac57b9f2dd15",
+  "renderer": "scripts/rcap-official-forms/build-colorado-caption-only-families.mjs",
+  "rendererEngine": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs#finalizeFlatOverlay",
+  "reproducible": true,
+  "reproducibilityBasis": "Each fixture was rendered twice in one process from the same digest-bound source and both renders hashed identically; --check re-renders and compares byte for byte.",
+  "artifacts": {
+    "fixtures/canonical-filled.pdf": {
+      "sha256": "8ff5b99bc40ae1f5947a5318ccec529a976e9f5efbcba1b0a2387ae951214796",
+      "bytes": 45020
+    },
+    "fixtures/boundary-filled.pdf": {
+      "sha256": "637f0b8b738c56f812152e9ae6a502e8549d5f9208df7a21af3a97f522b1d19b",
+      "bytes": 45006
+    }
+  },
+  "negativeFixture": {
+    "writes": 0,
+    "artifactRetained": false,
+    "why": "a render that writes nothing is proved by its report, not by retaining a copy of the court's blank form"
+  }
+}

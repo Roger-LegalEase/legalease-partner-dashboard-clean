@@ -22,13 +22,13 @@
   ],
   "legalReview": [],
   "counts": {
-    "families": 21,
-    "hashVerified": 21,
+    "families": 25,
+    "hashVerified": 25,
     "hashMismatched": 0,
-    "filled": 6,
+    "filled": 10,
     "contactSheets": 6,
-    "fieldsInventoried": 510,
-    "fieldsBound": 30
+    "fieldsInventoried": 547,
+    "fieldsBound": 42
   },
   "families": [
     {
@@ -127,6 +127,48 @@
       "status": "implementation_complete_pending_independent_review"
     },
     {
+      "family": "jdf-419-form-notice-en",
+      "documentId": "JDF-419",
+      "documentRole": "NOTICE",
+      "hashVerified": true,
+      "renderStrategy": "flat_overlay",
+      "fields": 4,
+      "bound": 3,
+      "refused": 1,
+      "unfittable": 1,
+      "filled": true,
+      "contactSheet": false,
+      "deterministic": true,
+      "driftRefused": null,
+      "mutationsHeld": null,
+      "scanPass": null,
+      "findings": 3,
+      "status": "implementation_complete_pending_independent_review",
+      "addedOn": "2026-09-15",
+      "builtBy": "scripts/rcap-official-forms/build-colorado-caption-only-families.mjs"
+    },
+    {
+      "family": "jdf-435-form-order-en",
+      "documentId": "JDF-435",
+      "documentRole": "ORDER",
+      "hashVerified": true,
+      "renderStrategy": "flat_overlay",
+      "fields": 4,
+      "bound": 3,
+      "refused": 1,
+      "unfittable": 1,
+      "filled": true,
+      "contactSheet": false,
+      "deterministic": true,
+      "driftRefused": null,
+      "mutationsHeld": null,
+      "scanPass": null,
+      "findings": 3,
+      "status": "implementation_complete_pending_independent_review",
+      "addedOn": "2026-09-15",
+      "builtBy": "scripts/rcap-official-forms/build-colorado-caption-only-families.mjs"
+    },
+    {
       "family": "jdf-477-form-motion-en",
       "documentId": "JDF-477",
       "documentRole": "MOTION",
@@ -182,6 +224,48 @@
       "scanPass": true,
       "findings": 1,
       "status": "implementation_complete_pending_independent_review"
+    },
+    {
+      "family": "jdf-613-form-order-en",
+      "documentId": "JDF-613",
+      "documentRole": "ORDER",
+      "hashVerified": true,
+      "renderStrategy": "acroform_fill",
+      "fields": 13,
+      "bound": 3,
+      "refused": 10,
+      "unfittable": 1,
+      "filled": true,
+      "contactSheet": false,
+      "deterministic": true,
+      "driftRefused": null,
+      "mutationsHeld": null,
+      "scanPass": null,
+      "findings": 3,
+      "status": "implementation_complete_pending_independent_review",
+      "addedOn": "2026-09-15",
+      "builtBy": "scripts/rcap-official-forms/build-colorado-caption-only-families.mjs"
+    },
+    {
+      "family": "jdf-614-form-notice-en",
+      "documentId": "JDF-614",
+      "documentRole": "NOTICE",
+      "hashVerified": true,
+      "renderStrategy": "acroform_fill",
+      "fields": 16,
+      "bound": 3,
+      "refused": 13,
+      "unfittable": 1,
+      "filled": true,
+      "contactSheet": false,
+      "deterministic": true,
+      "driftRefused": null,
+      "mutationsHeld": null,
+      "scanPass": null,
+      "findings": 3,
+      "status": "implementation_complete_pending_independent_review",
+      "addedOn": "2026-09-15",
+      "builtBy": "scripts/rcap-official-forms/build-colorado-caption-only-families.mjs"
     },
     {
       "family": "jdf-615-form-order-en",
@@ -430,5 +514,15 @@
       "findings": 0,
       "status": "implementation_complete_pending_independent_review"
     }
-  ]
+  ],
+  "captionOnlyFamiliesAddedOn20260915": {
+    "families": [
+      "jdf-419-form-notice-en",
+      "jdf-435-form-order-en",
+      "jdf-613-form-order-en",
+      "jdf-614-form-notice-en"
+    ],
+    "basis": "JDF 416 and JDF 611 name these four under \"File the Request\" with \"just do §§ A-C\"; see each family's source-record.json and scripts/rcap-official-forms/build-colorado-caption-only-families.mjs.",
+    "note": "Lane D3A did not build these; they were added by the sprint captain agent on 2026-09-15 and carry their own builder and holds."
+  }
 }

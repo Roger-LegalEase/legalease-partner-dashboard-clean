@@ -1,0 +1,279 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "official_pdf_draft_field_map_review",
+  "status": "visual_review_required",
+  "lifecycle": "none",
+  "notices": [
+    "This is a tracked draft field-map review artifact only.",
+    "This is not visual approval.",
+    "This is not replacement_candidate.",
+    "This is not verified_replacement.",
+    "This is not production ready.",
+    "This is not live routed.",
+    "This does not replace human visual review, filled-data visual review, source freshness review, or counsel confirmation.",
+    "Do not wire this artifact to live routes."
+  ],
+  "jurisdictionCode": "CO",
+  "jurisdictionName": "Colorado",
+  "formSlug": "colorado-jdf613",
+  "sourcePdf": "LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
+  "sourcePdfSha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+  "sourcePdfRole": "blank official source PDF, nationwide_recovery_pool_2026_09_02 custody, bound by exact SHA-256",
+  "mappingMode": "manual_review",
+  "pdfClassification": "acroform",
+  "recommendedMappingMode": "acroform_fill_caption_only",
+  "generatedFrom": "scripts/rcap-official-forms/build-colorado-caption-only-families.mjs",
+  "generatedOn": "2026-09-15",
+  "productionFamily": "data/rcap-all50/overlays/production/colorado/jdf-613-form-order-en",
+  "reviewInput": {
+    "visualPlacementSanityReview": "not_started",
+    "reviewerNotes": [
+      "JDF 613 Order (just do §§ A-C) — the petitioner completes the caption only.",
+      "Candidate has 13 AcroForm fields; 3 caption fields bind.",
+      "The held binary is R: August 7, 2024, the same revision as the JDF 611 guide that names it. Whether the Judicial Department has since revised it could not be checked.",
+      "Filled-data visual review, source freshness review, and counsel confirmation are still required before production use."
+    ]
+  },
+  "counts": {
+    "candidateCount": 13,
+    "pageGeometry": [
+      {
+        "page": 1,
+        "width": 612,
+        "height": 792,
+        "orientation": "portrait"
+      }
+    ]
+  },
+  "draftFieldMap": {
+    "formId": "co_colorado_jdf613",
+    "status": "visual_review_required",
+    "lifecycle": "none",
+    "mappingMode": "manual_review",
+    "fields": {},
+    "overlays": []
+  },
+  "candidates": [
+    {
+      "candidateId": "COL-JDF613-F001",
+      "sourceAcroFormFieldName": "Group_CourtType",
+      "fieldType": "radio",
+      "page": 1,
+      "rect": {
+        "x": 90.11,
+        "y": 645,
+        "width": 12.24,
+        "height": 12.24
+      },
+      "section": "A. Court",
+      "printedLabel": "District Court or County Court (selection)",
+      "proposedClass": "election_control",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F002",
+      "sourceAcroFormFieldName": "County",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 163.7,
+        "y": 630.35,
+        "width": 186.82,
+        "height": 10.8
+      },
+      "section": "A. Court",
+      "printedLabel": "Colorado County",
+      "proposedClass": "participant",
+      "proposedFactId": "matter.county",
+      "confidence": "high"
+    },
+    {
+      "candidateId": "COL-JDF613-F003",
+      "sourceAcroFormFieldName": "Court Address",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 153.66,
+        "y": 617.43,
+        "width": 196.86,
+        "height": 10.8
+      },
+      "section": "A. Court",
+      "printedLabel": "Court Address",
+      "proposedClass": "withheld_by_review",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F004",
+      "sourceAcroFormFieldName": "∆",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 137.51,
+        "y": 545.48,
+        "width": 213,
+        "height": 10.8
+      },
+      "section": "B. Parties to the Case",
+      "printedLabel": "Defendant — Full Name",
+      "proposedClass": "participant",
+      "proposedFactId": "participant.full_legal_name",
+      "confidence": "high"
+    },
+    {
+      "candidateId": "COL-JDF613-F005",
+      "sourceAcroFormFieldName": "Case Number",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 420.82,
+        "y": 563.27,
+        "width": 110.51,
+        "height": 10.8
+      },
+      "section": "C. Case Details",
+      "printedLabel": "Case Number",
+      "proposedClass": "participant",
+      "proposedFactId": "matter.case_number",
+      "confidence": "high"
+    },
+    {
+      "candidateId": "COL-JDF613-F006",
+      "sourceAcroFormFieldName": "Division",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 420.5,
+        "y": 547.72,
+        "width": 110.73,
+        "height": 10.8
+      },
+      "section": "C. Case Details",
+      "printedLabel": "Division",
+      "proposedClass": "court_or_agency",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F007",
+      "sourceAcroFormFieldName": "Courtroom",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 431.3,
+        "y": 532.34,
+        "width": 99.87,
+        "height": 10.8
+      },
+      "section": "C. Case Details",
+      "printedLabel": "Courtroom",
+      "proposedClass": "court_or_agency",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F008",
+      "sourceAcroFormFieldName": "1.1",
+      "fieldType": "checkbox",
+      "page": 1,
+      "rect": {
+        "x": 109.04,
+        "y": 439.91,
+        "width": 9.36,
+        "height": 9.36
+      },
+      "section": "1. Decision",
+      "printedLabel": "By the Court — the motion, on its face, is insufficient",
+      "proposedClass": "court_or_agency",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F009",
+      "sourceAcroFormFieldName": "1.2",
+      "fieldType": "checkbox",
+      "page": 1,
+      "rect": {
+        "x": 109.19,
+        "y": 416.43,
+        "width": 9.36,
+        "height": 9.36
+      },
+      "section": "1. Decision",
+      "printedLabel": "By the Court — the Defendant is not entitled to relief under C.R.S. §§ 24-72-706 to 710",
+      "proposedClass": "court_or_agency",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F010",
+      "sourceAcroFormFieldName": "1.3",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 108.55,
+        "y": 169.7,
+        "width": 432,
+        "height": 193.35
+      },
+      "section": "1. Decision",
+      "printedLabel": "By the Court — the Court denies the motion because",
+      "proposedClass": "court_or_agency",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F011",
+      "sourceAcroFormFieldName": "Sig-by",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 125.2,
+        "y": 110.49,
+        "width": 198.87,
+        "height": 13.68
+      },
+      "section": "2. So Ordered",
+      "printedLabel": "By the Court — signature",
+      "proposedClass": "court_or_agency",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F012",
+      "sourceAcroFormFieldName": "Group_Sig",
+      "fieldType": "radio",
+      "page": 1,
+      "rect": {
+        "x": 125.36,
+        "y": 97.77,
+        "width": 12.24,
+        "height": 12.24
+      },
+      "section": "2. So Ordered",
+      "printedLabel": "By the Court — Judge or Magistrate (selection)",
+      "proposedClass": "court_or_agency",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF613-F013",
+      "sourceAcroFormFieldName": "Sig_date",
+      "fieldType": "text",
+      "page": 1,
+      "rect": {
+        "x": 139.88,
+        "y": 75.91,
+        "width": 147.87,
+        "height": 13.68
+      },
+      "section": "2. So Ordered",
+      "printedLabel": "By the Court — date signed",
+      "proposedClass": "court_or_agency",
+      "proposedFactId": null,
+      "confidence": "not_applicable"
+    }
+  ]
+}
