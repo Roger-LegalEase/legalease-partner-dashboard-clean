@@ -24,6 +24,8 @@ export interface CaptainPatchRequest {
   /** Whether applying it could open a route. It must not. */
   readonly opensARoute: false;
   readonly status: PatchRequestStatus;
+  /** A dated note where later work changed what the request rests on. The request itself is kept as written. */
+  readonly correction?: { readonly on: string; readonly note: string };
 }
 
 export const COLORADO_CAPTAIN_PATCH_REQUESTS: readonly CaptainPatchRequest[] = [
@@ -52,6 +54,11 @@ export const COLORADO_CAPTAIN_PATCH_REQUESTS: readonly CaptainPatchRequest[] = [
       "The manifest declares the two sets incomplete with four components each, two of which carry officialFormId: null. Both routes report exactPacketSet and sourceOrApprovedComposedDocument unmet.",
     opensARoute: false,
     status: "requested",
+    correction: {
+      on: "2026-09-15",
+      note:
+        "The second sentence of this request no longer describes the manifest. On Roger Roman's 2026-09-15 instruction the four participant-filed orders and notices (JDF 419, JDF 435, JDF 613, JDF 614) were found held in the nationwide_recovery_pool_2026_09_02 custody and named by the court's own guides under \"File the Request\", so both sets now carry an officialFormId on every required component, a superseding packetSetCompleteness of state complete, and both routes report no unmet build input. The first sentence — record the JDF 417 and JDF 612 binding specifications by path and digest — is still open. Nothing about this opens a route: both routes resolve in shadow with sellable false.",
+    },
   },
   {
     id: "CO-FUL-1",
@@ -91,6 +98,11 @@ export const COLORADO_CAPTAIN_PATCH_REQUESTS: readonly CaptainPatchRequest[] = [
       "Seven official artifacts are missing. Two of them have no established form number.",
     opensARoute: false,
     status: "requested",
+    correction: {
+      on: "2026-09-15",
+      note:
+        "Four of the seven were never missing. JDF 419, JDF 435, JDF 613 and JDF 614 are held in the nationwide_recovery_pool_2026_09_02 custody at the digests data/rcap-all50/local-source-corpus-index.json records, and the two JDF 611 form numbers are printed in the guide itself (\"JDF 613 Order (just do §§ A-C)\", \"JDF 614 Notice (Just do §§ A-C)\"). Each now has a caption-only overlay family under data/rcap-all50/overlays/production/colorado/ built by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs. Still owed: JDF 205/JDF 206 in a mounted custody (adopted at exact digest in user_upload_adopted_20260911, unmounted here), JDF 302, and current issuer revisions — the court's hosts were unreachable from the build environment on 2026-09-15.",
+    },
   },
 ];
 

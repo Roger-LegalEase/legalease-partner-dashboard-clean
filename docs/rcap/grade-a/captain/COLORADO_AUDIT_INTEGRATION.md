@@ -178,3 +178,107 @@ of service, the service recipients and the filing details.
 Source of every number above:
 `data/rcap-all50/overlays/production/colorado/<family>/specification/reports/binding-coverage.json`,
 re-derived by `node src/lib/rcap/state-packs/colorado/official-forms/run-verify.mjs`.
+
+## 2026-09-15 correction — the four "missing" orders and notices were held, and are participant-filed
+
+Recorded on Roger Roman's instruction of 2026-09-15: restore the two
+participant-filed Colorado adult sealing routes as packet-capable `factory_v2`
+routes using the held Colorado Judicial Branch forms, preserve every eligibility,
+timing, exclusion, automatic-sealing and escalation gate, and sell nothing.
+Everything above this heading is kept as it was written; this section restates
+what it got wrong and what changed.
+
+### What was wrong
+
+**"JDF-419 and JDF-435 … are absent from the pinned corpus"** and **"the two
+JDF-611 form numbers are NOT established"** were both false against the bytes.
+
+| Document | Where it was the whole time | sha256 | Printed revision |
+|---|---|---|---|
+| JDF 419 | `nationwide_recovery_pool_2026_09_02` — `LegalEase Colorado/JDF 419 Order and Notice of Hearing.pdf` | `64012a2a…bd86a2` | R 8/19 |
+| JDF 435 | `nationwide_recovery_pool_2026_09_02` — `LegalEase Colorado/JDF 435 order denying petition to seal.pdf` | `59026b6a…f2dd15` | R8/19 |
+| JDF 613 | `nationwide_recovery_pool_2026_09_02` — `LegalEase Colorado/reference-only/JDF-613__…__rev-2024-08-07.pdf` | `0745d99f…848677` | R: August 7, 2024 |
+| JDF 614 | `nationwide_recovery_pool_2026_09_02` — `LegalEase Colorado/JDF614.pdf` | `08f0a13f…e5e08b` | R: August 7, 2024 |
+
+They were filed under `reference-only/` and the source-artifact registry
+classified them `reference_only` / `ineligible_never_a_participant_filing_artifact`
+("court-generated hearing order", "court-generated denial order"). The issuing
+court says otherwise, in the guides this document already cited:
+
+- JDF 416 (R: July 1, 2025), under **"③ File the Request — File these forms
+  into your criminal case or start a new case in the District Court:"** lists
+  `JDF 417 Request`, `JDF 418 Order (just do §§ A-C)`, `JDF 419 Notice (Just do
+  §§ A-C)`, `JDF 435 Order (just do §§ A-C)`; and under **Filing Fees**: "If you
+  cannot afford the fee, also file: JDF 205 Motion to Waive Fees; JDF 206 Order
+  (Just do §§ A-C)".
+- JDF 611 (R: August 7, 2024), under **"③ File the Request — File these forms
+  into your criminal case:"** lists `JDF 612 Motion`, `JDF 613 Order (just do
+  §§ A-C)`, `JDF 614 Notice (Just do §§ A-C)`, `JDF 615 Order (just do §§ A-C)`;
+  and under **③ Filing Fees** the same JDF 205/206 sentence.
+
+A proposed order or notice the petitioner tenders with the caption completed is
+a participant filing artifact. Being completed by the court after the caption
+does not make it reference material. Every quotation above is asserted as a
+literal substring of the digest-bound guide, read in content-stream order, by
+`scripts/rcap-official-forms/build-colorado-caption-only-families.mjs`.
+
+### What changed (build facts)
+
+- `data/record-clearing/source-artifact-registry.json`: the four rows are
+  `form_candidate` / `ineligible_pending_source_legal_technical_visual_approval`;
+  the superseded classification is kept inside `classificationCorrection`.
+- `data/rcap-all50/local-source-corpus-index.json`: each of the four
+  recovery-pool entries carries an `identityDetermination` read from its printed
+  face. `formNumber` and `assetClass` stay `null` there on purpose:
+  `scripts/rcap-corpus/verify-partial-custody-cannot-assert-completeness.mjs`
+  holds that no partial-custody entry may carry a label-bindable form number, so
+  the bytes bind by exact digest plus the determination, never by name.
+- Four caption-only overlay families under
+  `data/rcap-all50/overlays/production/colorado/` — `jdf-419-form-notice-en`,
+  `jdf-435-form-order-en`, `jdf-613-form-order-en`, `jdf-614-form-notice-en` —
+  each binding exactly the three caption facts the platform holds (county, the
+  petitioner's own name, an existing case number), refusing everything after the
+  caption by role, with digest-verified canonical and boundary renders and a
+  negative fixture proving zero writes. The builder re-verifies them with
+  `--check`.
+- `data/record-clearing/legal-design-packet-set-manifests.json`: both sets name
+  all four documents by official form id; JDF 205/206 stays a **conditional,
+  guidance-instructed** `process_guidance` component (the existing generator
+  rule already excludes such components from the source check, so nothing was
+  loosened for any state); each set carries a superseding
+  `packetSetCompleteness` of state `complete` in the FIX157 shape.
+- `data/record-clearing/factory-v2-route-registry.json`: regenerated. Both
+  adult routes read `factoryV2Resolves: true` with no unmet build input; the
+  juvenile route is unchanged.
+
+### What did not change (the separate gates)
+
+- No evaluator, screening, eligibility, timing, exclusion, automatic-sealing or
+  escalation logic. JDF 417 still evaluates `packet_ready`; JDF 612 still
+  evaluates `needs_review` under its counsel hard gate.
+- No legal-decision record, no counsel status (JDF 417 `ratified_deployable`,
+  JDF 612 `hard_gate_pending`), no Grade-A fulfillment record, no payment,
+  checkout, sponsorship or credit behaviour. Both routes resolve in shadow:
+  `sellable: false`, `creditConsumable: false`. "Packet-capable" is a build
+  fact and this document keeps it separate from readiness, as its own earlier
+  correction required.
+- The field-census table above: 62 = 59 + 3 and 63 = 58 + 5 are unchanged, and
+  the retained JDF 417 / JDF 612 artifacts still realize 4 and 6 fields.
+
+### Still open, stated rather than hidden
+
+- **Revision currency.** The held JDF 419 and JDF 435 are R 8/19 flat forms
+  with an unlettered caption band; the JDF 416 that names them is R: July 1,
+  2025 and says "§§ A-C", so later revisions are likely. JDF 613 and JDF 614 are
+  R: August 7, 2024, the same as the held JDF 611; the track registry records
+  issuer revisions of 2025-07-01 for JDF 612 and JDF 615 that no mounted custody
+  holds. The issuer's hosts were unreachable from the build environment on
+  2026-09-15: the egress proxy answered 403 to CONNECT for
+  `www.coloradojudicial.gov:443` and `www.courts.state.co.us:443`. Source-freshness
+  review is open and is not a build blocker.
+- **JDF 205/206.** Adopted at exact digest in custody `user_upload_adopted_20260911`
+  (see `data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json`),
+  which is not mounted where this build ran; carried as a conditional
+  guidance-instructed component, not rendered.
+- Independent visual review of the four caption overlays; counsel review of both
+  routes; the JDF 612 hard gate; JDF 302 for the juvenile route.
