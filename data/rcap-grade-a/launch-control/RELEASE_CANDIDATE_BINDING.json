@@ -1,56 +1,65 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
   "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
-  "applicationSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
-  "workerSourceSha": "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
-  "workerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
-  "workerInputFingerprint": "sha256:dd48d9a106251e281553d2ddad1c754ed0c57de54bcc8a44cabf018879927dce",
+  "applicationSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
+  "workerSourceSha": "b64701c16ab2a6c78d0d187143882407111c0778",
+  "workerDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
+  "workerInputFingerprint": "sha256:ed3d0e1fac48515de4eb641f48ad266da566cc1e42bddda3d75e859fadb65b4e",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "publication": {
-    "runId": 34942386033,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34942386033",
+    "runId": 35027251980,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35027251980",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 34943080203,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34943080203",
+    "runId": 35027988039,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35027988039",
     "conclusion": "success"
   },
   "regressions": {
-    "sourceSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+    "sourceSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
     "command": "node scripts/verify-expungement-consumer-payment-http.mjs",
-    "msPaidConsumer": "20/20",
-    "expanded": "35/35",
+    "msPaidConsumer": "21/21 (P1-P21)",
+    "expanded": "37/37",
+    "mutations": "node scripts/test-rcap-consumer-payment-http-mutations.mjs 8/8",
+    "sponsoredDelivery": "node scripts/test-rcap-sponsored-delivery-binding.mjs 27/27; node scripts/verify-rcap-render-worker-delivery.mjs PASS",
+    "successorBinding": "node scripts/test-ms-paid-consumer-successor.mjs 34/34",
     "syntheticPublicationFixture": false,
-    "publishedWorkerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
-    "publicationRunId": 34942386033,
-    "imageAcceptanceRunId": 34943080203,
-    "logSha256": "21a5a3b36fd890624bed6fcd94ae5a3896f798654d13e822658d3e7933c38fbd",
+    "publishedWorkerDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
+    "publicationRunId": 35027251980,
+    "imageAcceptanceRunId": 35027988039,
+    "logSha256": "a6520d9f4da9bc865df9e3bcf2112955f60d0790401f9e4a7e2e0b0c804716dd",
     "scope": "Real published authority binding; isolated local PostgreSQL and provider signatures. No hosted database writes."
   },
   "applicationBuild": {
-    "sourceSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+    "sourceSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
     "command": "npm run build",
     "exitCode": 0,
-    "elapsedSeconds": 243.49824953079224,
-    "maxRssKiB": 3477036,
+    "elapsedSeconds": 72.3,
+    "staticPages": "169/169",
     "log": {
-      "path": "private/transfers/release-publication-87053234/application-build.log",
-      "sha256": "3ca616e002f0f1944cff4e8b6e91080f082189479e59d537f5c28fc29853e24c"
+      "path": "private/transfers/cloud-recovery-20260915/deploy/application-build-300a0edbf0a75daf5249f94d7a33f51570a00ba0.log",
+      "sha256": "2c80ed64152de1809b1f441e05b38f909aad62ae1aec58593afc6283d3d77bf0"
     }
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
-    "sha256": "692dabf5074ea56a5a7db2984273fe936423ed488a35be1f5cf581905b87c141"
+    "sha256": "26b401fa1b5d6b5f9cb5472879a9187890e5cec810e4f32f151d5d3a57ccbcda"
   },
   "workerInputPlan": {
-    "path": "private/transfers/release-publication-87053234/frozen-application-worker-input-plan.json",
-    "sha256": "eef0c752b63e05a1a9955be109913821b75380fb008cd6a3a2edfc28a7ca36ce"
+    "path": "private/transfers/cloud-recovery-20260915/deploy/frozen-application-worker-input-plan-300a0edb.json",
+    "sha256": "b79398cd7b167521ec7928fde023fe5928f4ed2e11f94cf69a3b1d7048f58985"
+  },
+  "supersedes": {
+    "applicationSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+    "workerSourceSha": "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
+    "workerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+    "why": "The shared sponsored-delivery correction changed canonical worker inputs; the successor worker b64701c1 / sha256:f99ebc19 was published (run 35027251980) and accepted read-only (run 35027988039), and the application candidate carries that publication binding."
   },
   "participantReceiptPaths": [],
   "independentReviewerIdentities": [],
   "hostedAcceptanceStatus": "NOT_RUN_PENDING_SEPARATE_AUTHORIZATION",
   "productionAuthorized": false,
-  "scope": "Exact candidate freeze and local/read-only evidence only. No deployment, runtime-pin change, hosted execution, hosted database write, migration, or Production authorization."
+  "scope": "Exact candidate freeze and local/read-only evidence only. No deployment, runtime-pin change, hosted execution, hosted database write, migration, or Production authorization is granted by this record."
 }
