@@ -204,7 +204,11 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # Node 22, as the published worker image (node:22-slim) and the local
+          # verification run. The application's Supabase client
+          # (@supabase/realtime-js 2.106) requires a native WebSocket when it
+          # connects, which Node 20 lacks; run 35036010302 stopped there.
+          node-version: 22
 
       - name: Record worker rebuild requirement without accepting an image
         if: inputs.phase == 'preflight'
