@@ -41,6 +41,9 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
       git(['merge-base', '--is-ancestor', binding.toolsSha, 'HEAD']);
       const bounded = new Set([
         '.github/workflows/rcap-hosted-acceptance-staging.yml',
+        '.github/workflows/rcap-f1-ephemeral-staging.yml',
+        'scripts/rcap-hosted-checkout-gate.mjs',
+        'scripts/verify-rcap-hosted-checkout-gate.mjs',
         'scripts/rcap-hosted-acceptance-deploy.mjs',
         'scripts/rcap-vercel-identity-recheck.mjs',
         'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',

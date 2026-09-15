@@ -29,9 +29,15 @@ function includesEvery(text, values, label) {
 // Lane A supplies the exact final application SHA at dispatch time. The only
 // reusable publication pin is the accepted worker source/digest pair, and the
 // workflow's canonical-input diff decides whether that pair is still valid.
-const RELEASE_CONTROL_BASE_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
-const ACCEPTED_WORKER_SOURCE_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
-const ACCEPTED_WORKER_DIGEST = "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c";
+// Exact subjects of the frozen successor candidate (RELEASE_CANDIDATE_BINDING.json):
+// application 300a0edb carries the publication binding of worker b64701c1,
+// published natively as sha256:f99ebc19 (run 35027251980) and accepted
+// read-only (run 35027988039). The checked-out tools commit may not change
+// the application's frozen inputs relative to that candidate, nor the
+// worker's canonical inputs relative to the published worker source.
+const RELEASE_CONTROL_BASE_SHA = "300a0edbf0a75daf5249f94d7a33f51570a00ba0";
+const ACCEPTED_WORKER_SOURCE_SHA = "b64701c16ab2a6c78d0d187143882407111c0778";
+const ACCEPTED_WORKER_DIGEST = "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301";
 
 includesEvery(gate, [
   "applicationShaExact",
@@ -100,11 +106,18 @@ check(
 // behind, and the gate then pins a pair that was never published together.
 check(![
   "264d2a240e5c857f55ee645f2683830e94f67c19",
-  "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926"
+  "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+  "441ee3188ee52047a012232d8d11f890a09b4ac5",
+  "1e95f1f067e2f26094228b6f0c922c875c25f33a",
+  "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
+  "78c8c15c4fddd525bf3c327bbfde1c99dee778f0"
 ].some((superseded) => gate.includes(superseded)), "gate still pins a superseded application identity");
 check(![
   "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
-  "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530"
+  "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+  "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+  "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
+  "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46"
 ].some((superseded) => gate.includes(superseded)), "gate still pins a superseded worker identity");
 
 for (const eventType of [
@@ -133,7 +146,10 @@ check(gate.includes("stripeGet(`/v1/checkout/sessions/${encodeURIComponent(check
 includesEvery(entry, [
   "hosted_checkout_gate",
   "preview_deployment_id",
-  "phase: ${{ inputs.mode == 'hosted_full'",
+  // The dispatcher's phase expression grew leading branches (clinic_preview);
+  // the anchor is the hosted_full -> full mapping itself, wherever it sits.
+  "(inputs.mode == 'hosted_full' && 'full'",
+  "(inputs.mode == 'hosted_accept' && 'accept'",
   "preview_deployment_id: ${{ inputs.preview_deployment_id }}"
 ], "entry workflow");
 
@@ -150,7 +166,9 @@ check(
     && entry.includes("hosted_replace_preview")
     && hosted.includes("replace_preview)")
     && deploy.includes("NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN")
-    && deploy.includes("rcapReturnOrigin=${RETURN_ORIGIN}")
+    // REST transport: the return origin is deployment metadata, not a CLI --meta flag.
+    && deploy.includes("rcapReturnOrigin: RETURN_ORIGIN,")
+    && deploy.includes("meta.rcapReturnOrigin === RETURN_ORIGIN")
     && deploy.includes("deterministic_nonproduction_return_alias_bound")
     && resolver.includes("rcapReturnOrigin")
     && resolver.includes("expectedHostedReturnOrigin")
@@ -234,10 +252,10 @@ const paymentStep = hosted.match(/- name: Run the hosted Stripe payment and pack
 check(Boolean(paymentStep), "could not locate the legacy payment step");
 check(!paymentStep.includes("checkout_gate"), "checkout_gate must never run the legacy simulated payment journey");
 
-function gitDiffQuiet(paths) {
+function gitDiffQuiet(baseSha, paths) {
   const run = spawnSync("git", [
     "diff", "--quiet",
-    RELEASE_CONTROL_BASE_SHA,
+    baseSha,
     "--",
     ...paths
   ], { cwd: root, encoding: "utf8" });
@@ -245,19 +263,22 @@ function gitDiffQuiet(paths) {
   // treating 128 as merely-differs would report a missing object as a content
   // change. Anything other than a clean 0 or a genuine 1 is a broken check.
   if (run.status !== 0 && run.status !== 1) {
-    failures.push(`git diff against ${RELEASE_CONTROL_BASE_SHA} could not run (exit ${run.status}): ${String(run.stderr ?? "").trim()}`);
+    failures.push(`git diff against ${baseSha} could not run (exit ${run.status}): ${String(run.stderr ?? "").trim()}`);
     return false;
   }
   return run.status === 0;
 }
 
-check(gitDiffQuiet([
+check(gitDiffQuiet(RELEASE_CONTROL_BASE_SHA, [
   "src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts",
   "postcss.config.mjs", "tailwind.config.ts", "public",
   "docs/record-clearing/field-map-drafts"
 ]),
   "checkout-gate branch changes frozen application inputs");
-check(gitDiffQuiet([
+// Worker inputs are compared against the source the accepted image was built
+// from, so a candidate that silently moved a canonical worker input could not
+// keep pinning the published digest.
+check(gitDiffQuiet(ACCEPTED_WORKER_SOURCE_SHA, [
   "package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs",
   "deploy/rcap-render-worker/Dockerfile", "scripts/lib", "src"
 ]), "checkout-gate branch changes frozen worker inputs");
