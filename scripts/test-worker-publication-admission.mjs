@@ -7,13 +7,19 @@ register('./lib/ts-esm-loader.mjs',import.meta.url);
 const {resolveObservation,resetObservationCache}=await import('../src/lib/rcap/fulfillment/grade-a-admission.ts');
 const root=process.cwd(),tmp=fs.mkdtempSync(path.join(os.tmpdir(),'publication-admission-'));
 const publication='data/rcap-render/worker-publication-evidence.json',observations='data/rcap-grade-a/fulfillment-observation-snapshot.json';
-const route='MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
-const original=fs.readFileSync(publication), snapshot=fs.readFileSync(observations);
+const route='DC:dc_actual_innocence_expungement_16_803';
+const original=fs.readFileSync(publication); const snapshotDocument=JSON.parse(fs.readFileSync(observations));
+// Isolate receipt validation from candidate equivalence; the unpublished
+// successor's real currentInputsEquivalent remains false outside this fixture.
+snapshotDocument.routes[route].externalPublication.currentInputsEquivalent=true;
+const snapshot=JSON.stringify(snapshotDocument);
 try {
  for(const [file,bytes] of [[publication,original],[observations,snapshot]]) {fs.mkdirSync(path.dirname(path.join(tmp,file)),{recursive:true});fs.writeFileSync(path.join(tmp,file),bytes);}
  process.chdir(tmp);
  const check=()=>{resetObservationCache();return resolveObservation(route);};
- assert(check(),'current native publication binding resolves');
+ assert(check(),'isolated current publication binding resolves');
+ const stale=structuredClone(snapshotDocument);stale.routes[route].externalPublication.currentInputsEquivalent=false;
+ fs.writeFileSync(observations,JSON.stringify(stale));assert.equal(check(),null,'stale worker inputs refuse');fs.writeFileSync(observations,snapshot);
  fs.renameSync(publication,publication+'.held'); assert.equal(check(),null,'missing publication refuses');fs.renameSync(publication+'.held',publication);
  for(const patch of [{workflowConclusion:'failure'},{sourceSha:'0'.repeat(40)},{immutableRegistryDigest:'sha256:'+'0'.repeat(64)},{imageAcceptance:{workflowConclusion:'invented'}}]) {
   fs.writeFileSync(publication,JSON.stringify({...JSON.parse(original),...patch}));assert.equal(check(),null,'changed publication receipt refuses');

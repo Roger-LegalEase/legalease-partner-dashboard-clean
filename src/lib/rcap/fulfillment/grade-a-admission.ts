@@ -70,12 +70,12 @@ export function resolveObservation(routeId: string): FulfillmentObservation | nu
           if (value && typeof value === "object") {
             // Publication is a server admission fact, never worker image data.
             // Missing or altered receipts invalidate the independent observation.
-            const binding = (value as FulfillmentObservation & {externalPublication?: {sourceSha:string;immutableRegistryDigest:string;evidenceSha256:string;workflowConclusion:string}}).externalPublication;
+            const binding = (value as FulfillmentObservation & {externalPublication?: {currentInputsEquivalent:boolean;sourceSha:string;immutableRegistryDigest:string;evidenceSha256:string;workflowConclusion:string}}).externalPublication;
             if (!binding) continue;
             try {
               const bytes = fs.readFileSync(path.join(process.cwd(), "data/rcap-render/worker-publication-evidence.json"));
               const publication = JSON.parse(bytes.toString("utf8"));
-              if (binding.workflowConclusion !== "success" || publication.workflowConclusion !== "success"
+              if (binding.currentInputsEquivalent !== true || binding.workflowConclusion !== "success" || publication.workflowConclusion !== "success"
                 || !/^[a-f0-9]{40}$/.test(binding.sourceSha)
                 || !/^sha256:[a-f0-9]{64}$/.test(binding.immutableRegistryDigest)
                 || publication.sourceSha !== binding.sourceSha

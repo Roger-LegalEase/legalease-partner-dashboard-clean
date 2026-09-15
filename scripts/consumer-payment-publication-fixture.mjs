@@ -13,7 +13,7 @@ export async function installLocalPublicationFixture() {
  const observations=JSON.parse(fs.readFileSync('data/rcap-grade-a/fulfillment-observation-snapshot.json'));
  const sourceSha='1'.repeat(40),digest='sha256:'+'a'.repeat(64);
  const publication=JSON.stringify({sourceSha,immutableRegistryDigest:digest,workflowConclusion:'success',syntheticLocalTestOnly:true});
- const externalPublication={sourceSha,immutableRegistryDigest:digest,workflowConclusion:'success',evidenceSha256:createHash('sha256').update(publication).digest('hex')};
+ const externalPublication={currentInputsEquivalent:true,sourceSha,immutableRegistryDigest:digest,workflowConclusion:'success',evidenceSha256:createHash('sha256').update(publication).digest('hex')};
  for(const record of registry.records) {
   record.provider.imageDigest=digest;
   record.history.at(-1).recordSha256=registryModule.fulfillmentRecordSha256(record);

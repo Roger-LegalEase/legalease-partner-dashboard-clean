@@ -1222,7 +1222,7 @@ check("every projected state is what the shipped authority computes from the reg
   for (const row of projection.routes) {
     const record = loaded.current.get(row.routeId);
     if (!record) return `${row.routeId} is projected but not controlled`;
-    const decision = evaluateFulfillmentAuthority(record, observationDocument.routes?.[row.routeId] ?? null, row.routeId);
+    const decision = evaluateFulfillmentAuthority(record, admission.resolveObservation(row.routeId), row.routeId);
     if (decision.state !== row.state) return `${row.routeId} projects ${row.state} but computes ${decision.state}`;
     if (decision.commercialStatus !== row.commercialStatus) return `${row.routeId} projects ${row.commercialStatus} but computes ${decision.commercialStatus}`;
     if (stableStringify(decision.missingProof) !== stableStringify(row.missingProof)) return `${row.routeId} projects a different missingProof list`;
@@ -1398,11 +1398,18 @@ check("every exact productized record closes its fulfillment evidence gaps witho
       return `${expected.routeId} does not carry exactly one codified-authority proof`;
     }
     if (record.finalVerification?.state !== "bound") return `${expected.routeId} did not bind final verification`;
-    if (row.state !== COMPLETE_PACKET_PROVEN || row.commercialStatus !== "commercially_eligible") {
-      return `${expected.routeId} projected ${row.state}/${row.commercialStatus}`;
+    const staticDecision = authority.evaluateStaticRenderAuthority(record, observationDocument.routes[expected.routeId]);
+    if (!staticDecision.allowed) return `${expected.routeId} static packet authority failed: ${staticDecision.reason}`;
+    const publicationCurrent = admission.resolveObservation(expected.routeId) !== null;
+    const expectedState = publicationCurrent ? COMPLETE_PACKET_PROVEN : "STALE";
+    const expectedCommercial = publicationCurrent ? "commercially_eligible" : "not_commercially_eligible";
+    if (row.state !== expectedState || row.commercialStatus !== expectedCommercial) {
+      return `${expected.routeId} projected ${row.state}/${row.commercialStatus}, expected ${expectedState}/${expectedCommercial}`;
     }
-    if ((row.missingProof ?? []).length !== 0 || (row.stalenessReasons ?? []).length !== 0) {
-      return `${expected.routeId} still reports open or stale evidence`;
+    if ((row.missingProof ?? []).length !== 0) return `${expected.routeId} still lacks static fulfillment proof`;
+    const stale = row.stalenessReasons ?? [];
+    if (publicationCurrent ? stale.length !== 0 : stale.length !== 1 || stale[0] !== "observation: the current world could not be established") {
+      return `${expected.routeId} has unexplained staleness: ${JSON.stringify(stale)}`;
     }
     if (expected.productizationReceipt) {
       const productizationReceipt = readJson(expected.productizationReceipt.path);
@@ -1420,7 +1427,7 @@ check("every exact productized record closes its fulfillment evidence gaps witho
     }
     const [jurisdiction, ...pathwayParts] = expected.routeId.split(":");
     const resolution = resolvePacketRoute({ state: jurisdiction, pathway: pathwayParts.join(":") });
-    if (resolution.availability !== "MAINTENANCE_HOLD" || resolution.sellable !== false) {
+    if (resolution.availability !== (publicationCurrent ? "MAINTENANCE_HOLD" : "UNFINISHED") || resolution.sellable !== false) {
       return `${expected.routeId} resolver posture is ${resolution.availability}/sellable=${resolution.sellable}`;
     }
   }

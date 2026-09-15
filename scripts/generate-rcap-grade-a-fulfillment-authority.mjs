@@ -404,6 +404,8 @@ if (!ownerDecision) {
 // worker image that renders packets, plus the renderer kind and version the
 // shipped code declares. A record binds this identity, so republishing the
 // worker closes every authority until each is re-proven against the new image.
+const currentPublicationInputs = createWorkerInputPlan({rootDir, acceptedSourceSha:worker.sourceSha,
+  acceptedDigest:worker.immutableRegistryDigest, candidateSha:execFileSync("git",["rev-parse","HEAD"],{cwd:rootDir,encoding:"utf8"}).trim()});
 const provider = {
   providerId: worker.imageRepository,
   rendererKind: PACKET_RENDERER_KIND,
@@ -2031,6 +2033,7 @@ for (const record of records) {
   observationRoutes[record.routeId] = {
     observedAt: ownerDecision.effectiveDate,
     externalPublication: { sourceSha: worker.sourceSha, immutableRegistryDigest: worker.immutableRegistryDigest,
+      currentInputsEquivalent: !currentPublicationInputs.rebuildRequired,
       evidenceSha256: sha256(readEvidenceBytes(WORKER_EVIDENCE)), workflowConclusion: worker.workflowConclusion },
     legalAuthority: {
       version: record.legalAuthority.version,

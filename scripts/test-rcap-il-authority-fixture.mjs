@@ -162,7 +162,7 @@ export async function withSyntheticPacketRegistry(specPath, run, mutate = () => 
     const publication = JSON.stringify({sourceSha: '1'.repeat(40), immutableRegistryDigest: fixture.observation.provider.imageDigest, workflowConclusion: 'success'});
     const observationPath = path.join(temporary, 'data/rcap-grade-a/fulfillment-observation-snapshot.json');
     const observationDocument = JSON.parse(fs.readFileSync(observationPath, 'utf8'));
-    observationDocument.routes[routeId].externalPublication = {sourceSha:'1'.repeat(40),immutableRegistryDigest:fixture.observation.provider.imageDigest,workflowConclusion:'success',evidenceSha256:sha256(publication)};
+    observationDocument.routes[routeId].externalPublication = {currentInputsEquivalent:true,sourceSha:'1'.repeat(40),immutableRegistryDigest:fixture.observation.provider.imageDigest,workflowConclusion:'success',evidenceSha256:sha256(publication)};
     fs.writeFileSync(observationPath,JSON.stringify(observationDocument));
     fs.mkdirSync(path.join(temporary,'data/rcap-render'),{recursive:true});
     fs.writeFileSync(path.join(temporary,'data/rcap-render/worker-publication-evidence.json'),publication);
