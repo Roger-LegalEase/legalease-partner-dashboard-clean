@@ -135,11 +135,13 @@ const FIRST_COHORT_EXPECTED = [
     canonicalSha256: "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
     boundarySha256: "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
     verification: {
-      lane: "vf09",
-      verifiedAtBase: "8b8699c2a63fcd7fdb3bade119f259653840eae5",
-      rowSha256: "a98c5d64a6b324b6bbd3941bc0815570bc7677dbb9d9cc3e9b7601938858462f",
-      evidencePath: "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
-      evidenceRowSha256: "956c4c7edcf042f5ee7f05d45fd6d011795ae4943e4aace7e4240659dddbdc86"
+      // Current targeted re-read, preserved with the superseded VF09 pin in
+      // POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json. Artifact bytes did not change.
+      lane: "vf07",
+      verifiedAtBase: "aefd46f7c",
+      rowSha256: "ddb864aa2052a5acf9dfdfaeabc3cf28cbb2543a2364e8b99216752bb3758169",
+      evidencePath: "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      evidenceRowSha256: "68ec092ccbeeed2b5c25fe87aaf03721cba07124e1295a560866b34e40a2d4db"
     },
     trackAuthority: {
       path: "data/record-clearing/legal-design-intake/WY.memo.json",

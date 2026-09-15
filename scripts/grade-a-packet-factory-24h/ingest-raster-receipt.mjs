@@ -60,6 +60,11 @@ const artifactId = arg("artifact-id", false);
 const artifactName = arg("artifact-name", false);
 const artifactDigest = arg("artifact-digest", false);
 const artifactExpires = arg("artifact-expires", false);
+const receiptSource = arg("receipt-source", false) ?? "job-log";
+if (!["job-log", "workflow-artifact"].includes(receiptSource)) {
+  console.error("REFUSED: receipt-source must be job-log or workflow-artifact");
+  process.exit(2);
+}
 
 const queue = JSON.parse(readFileSync(QUEUE, "utf8"));
 const row = (queue.rows ?? []).find((r) => r.familyId === payload.familyId);
@@ -108,7 +113,7 @@ row.rasterReceipt = {
   browserExecutable: payload.browserExecutable ?? null,
   canaryPrecondition: "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
   ...(artifactId ? { receiptArtifact: { id: artifactId, name: artifactName, digest: artifactDigest, expiresAt: artifactExpires } } : {}),
-  howThisReceiptWasRead: "The artifact blob store answers 403 at this environment's egress proxy, so the verdict was read from the job log server-side and parsed programmatically. Every digest, run id, job id and artifact id here comes from that payload or from the Actions API; none was transcribed by hand. This ingest refused to write unless the payload's canonical, boundary and documents digests each equalled the queued row's.",
+  howThisReceiptWasRead: `The verdict was parsed programmatically from the ${receiptSource === "workflow-artifact" ? "downloaded workflow artifact" : "job log"}. Every digest, run id, job id and artifact id here comes from that payload or from the Actions API; none was transcribed by hand. This ingest refused to write unless the payload's canonical, boundary and documents digests each equalled the queued row's.`,
   ingestedBy: "scripts/grade-a-packet-factory-24h/ingest-raster-receipt.mjs",
   whatThisDoesNotDecide: payload.whatThisDoesNotDecide
     ?? "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route.",
