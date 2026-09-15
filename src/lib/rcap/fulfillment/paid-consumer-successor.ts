@@ -31,24 +31,31 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
       || decision.legacyRetirementPreserved !== true || decision.historicalSponsoredPreviewApprovalPreserved !== true) return null;
     const expected = [SPECIFICATION, ARTIFACTS, RASTER_REVIEW];
     if (!Array.isArray(decision.preservedEvidence) || decision.preservedEvidence.length !== expected.length) return null;
+    // Read the exact original evidence bytes at statically identifiable paths.
+    // Neither an evidence record nor a loop variable can widen filesystem tracing.
+    const evidenceBytes = new Map<string, Buffer>([
+      [SPECIFICATION, fs.readFileSync(path.join(root, "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json"))],
+      [ARTIFACTS, fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json"))],
+      [RASTER_REVIEW, fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json"))]
+    ]);
     for (const file of expected) {
       const refs = decision.preservedEvidence.filter((entry: {path?:string}) => entry.path === file);
-      if (refs.length !== 1 || refs[0].sha256 !== digest(fs.readFileSync(path.join(root,file)))) return null;
+      if (refs.length !== 1 || refs[0].sha256 !== digest(evidenceBytes.get(file)!)) return null;
     }
-    const specification = JSON.parse(fs.readFileSync(path.join(root,SPECIFICATION),"utf8"));
-    const artifacts = JSON.parse(fs.readFileSync(path.join(root,ARTIFACTS),"utf8"));
+    const specification = JSON.parse(evidenceBytes.get(SPECIFICATION)!.toString("utf8"));
+    const artifacts = JSON.parse(evidenceBytes.get(ARTIFACTS)!.toString("utf8"));
     const prior = artifacts.participantDeliveryReview;
     if (specification.routeKey !== decision.routeId || specification.packetFamily !== decision.packetSetId
       || specification.trackId !== decision.trackId || prior?.state !== "approved" || prior.decision !== "APPROVE"
       || prior.routeId !== decision.routeId || prior.packetFamily !== decision.packetSetId
       || prior.consumerPaidAuthorized !== false || prior.productionAuthorized !== false
-      || prior.packetSpecificationSha256 !== digest(fs.readFileSync(path.join(root,SPECIFICATION)))) return null;
+      || prior.packetSpecificationSha256 !== digest(evidenceBytes.get(SPECIFICATION)!)) return null;
     return {
       decisionId: String(decision.decisionId), routeId: MS_PAID_SUCCESSOR_ROUTE,
       jurisdiction: "MS", pathwayId: MS_PAID_SUCCESSOR_ROUTE.slice(3), trackId: "ms-nonconv", packetFamilyId: "ms-nonconv-set",
       decisionPath: MS_PAID_SUCCESSOR_DECISION_PATH, decisionSha256: digest(bytes),
-      specificationPath: SPECIFICATION, specificationSha256: digest(fs.readFileSync(path.join(root,SPECIFICATION))),
-      historicalApprovalPath: ARTIFACTS, historicalApprovalSha256: digest(fs.readFileSync(path.join(root,ARTIFACTS)))
+      specificationPath: SPECIFICATION, specificationSha256: digest(evidenceBytes.get(SPECIFICATION)!),
+      historicalApprovalPath: ARTIFACTS, historicalApprovalSha256: digest(evidenceBytes.get(ARTIFACTS)!)
     };
   } catch { return null; }
 }

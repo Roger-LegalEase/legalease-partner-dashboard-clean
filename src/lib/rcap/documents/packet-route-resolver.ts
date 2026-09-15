@@ -255,7 +255,6 @@ const ROUTE_HOLDS_PATH = "data/rcap-grade-a/maintenance/route-holds.json";
  * readiness audit carries: a proven route is not servable while the application
  * and worker deploy targets it would be served from remain unnamed.
  */
-const RELEASE_READINESS_PATH = "data/rcap-codex/release-readiness.json";
 
 /**
  * The problematic-PDF register — the exact input the launch graph's
@@ -263,7 +262,6 @@ const RELEASE_READINESS_PATH = "data/rcap-codex/release-readiness.json";
  * matched by `affectedTrackIds`). Read here rather than re-derived, so the
  * resolver and the graph cannot disagree about which tracks are held.
  */
-const PROBLEMATIC_PDF_REGISTER_PATH = "data/rcap-all50/problematic-pdf-register.json";
 
 type RouteScopedHold = {
   routeId: string;
@@ -291,10 +289,6 @@ type RouteHoldLedger = {
 let cachedRouteHolds: RouteHoldLedger | null = null;
 let cachedDeploymentConfigIncomplete: boolean | null = null;
 let cachedProblematicPdfTracks: Set<string> | null = null;
-
-function readRepositoryJson(rel: string): unknown {
-  return JSON.parse(fs.readFileSync(path.join(process.cwd(), rel), "utf8"));
-}
 
 function routeHoldLedger(): RouteHoldLedger {
   if (cachedRouteHolds) return cachedRouteHolds;
@@ -351,7 +345,7 @@ function unreleasedHoldsFor(routeId: string): RouteScopedHold[] {
 function deploymentConfigIncomplete(): boolean {
   if (cachedDeploymentConfigIncomplete === null) {
     try {
-      const parsed = readRepositoryJson(RELEASE_READINESS_PATH) as {
+      const parsed = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data/rcap-codex/release-readiness.json"), "utf8")) as {
         deploymentReadiness?: {
           applicationTarget?: unknown;
           finalApplicationShaRequired?: unknown;
@@ -379,7 +373,7 @@ function problematicPdfTracks(): ReadonlySet<string> {
   if (!cachedProblematicPdfTracks) {
     cachedProblematicPdfTracks = new Set<string>();
     try {
-      const parsed = readRepositoryJson(PROBLEMATIC_PDF_REGISTER_PATH) as {
+      const parsed = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data/rcap-all50/problematic-pdf-register.json"), "utf8")) as {
         records?: { affectedTrackIds?: string[] }[];
       } | null;
       for (const record of parsed?.records ?? []) {
