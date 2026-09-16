@@ -1052,6 +1052,69 @@ await runCaseGroup(["D7"], async () => {
   );
 });
 
+await runCaseGroup(["D8", "D9"], async () => {
+  // D8, D9 - the customer did not pay. A Checkout Session can end unpaid in
+  // several ordinary ways: the card was declined, the customer closed the tab,
+  // the session expired, or they clicked cancel. Stripe still emits events for
+  // some of those, and the return page is still reachable by refreshing it.
+  //
+  // Discounts make this worth asserting rather than assuming. A zero-total
+  // order is now settled WITHOUT a payment, so "no PaymentIntent" can no longer
+  // stand in for "not paid" — the only thing separating a free packet from a
+  // declined one is the payment status, and a bug that treated `unpaid` the way
+  // `no_payment_required` is treated would hand out packets to people whose
+  // cards were refused. Both the webhook and the return-page reconciliation are
+  // exercised, because they are two entry points to the same entitlement.
+  const item = await createItem(USER_A, "d8");
+  const session = await checkoutSession({
+    itemId: item, userId: USER_A, sessionId: "cs_d8", regular: 5000, discount: 0, amount: 5000
+  });
+  // What Stripe reports for a session the customer never completed.
+  session.payment_status = "unpaid";
+  session.status = "open";
+  session.payment_intent = null;
+
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_d8", session)));
+  const afterWebhook = paymentRow(item);
+  check(
+    "D8",
+    "a cancelled, declined or incomplete order grants no entitlement and queues no job",
+    afterWebhook?.payment_status !== "paid" && jobsFor(item).length === 0,
+    `${res.status} ${JSON.stringify(afterWebhook)} jobs=${jobsFor(item).length}`
+  );
+
+  // The return page, refreshed repeatedly on that same unpaid session. It runs
+  // the same reconciliation the webhook does; none of the refreshes may settle
+  // the order, and none may burn the idempotency key the real payment needs
+  // once the customer retries with a card that works.
+  const { consumerCheckoutStatusFromSession } =
+    await import("../src/lib/expungement-ai/checkout-reconciliation.ts");
+  const binding = {
+    userId: USER_A,
+    briefcaseItemId: item,
+    pathwayId: session.metadata.pathway_id ?? null,
+    verificationHash: session.metadata.verification_hash
+  };
+  let settledOnSomeRefresh = false;
+  for (let refresh = 0; refresh < 3; refresh += 1) {
+    const status = await consumerCheckoutStatusFromSession(session, binding);
+    if (status?.paid === true) settledOnSomeRefresh = true;
+  }
+  const afterRetries = paymentRow(item);
+  const keyBurned = Number(
+    db.scalar(`select count(*) from public.processed_stripe_events where stripe_event_id='evt_d8'`)
+  ) > 0;
+  check(
+    "D9",
+    "repeated return-page refreshes on an unpaid session settle nothing and leave the idempotency key unburned",
+    !settledOnSomeRefresh
+      && afterRetries?.payment_status !== "paid"
+      && jobsFor(item).length === 0
+      && !keyBurned,
+    `settled=${settledOnSomeRefresh} ${JSON.stringify(afterRetries)} jobs=${jobsFor(item).length} keyBurned=${keyBurned}`
+  );
+});
+
 await runCaseGroup(["P17"], async () => {
   // P17 — no application callsite uses the dropped 13-argument signature.
   const appFiles = [];
