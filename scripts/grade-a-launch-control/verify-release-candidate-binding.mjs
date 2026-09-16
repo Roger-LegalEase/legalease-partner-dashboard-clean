@@ -68,6 +68,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-production-canary.mjs',
         'scripts/rcap-production-canary-smoke.mjs',
         'scripts/rcap-production-activate.mjs',
+        'scripts/rcap-production-public-verify.mjs',
         'scripts/verify-rcap-production-canary.mjs',
         'scripts/verify-rcap-production-smoke.mjs',
         'scripts/verify-rcap-production-activation.mjs',

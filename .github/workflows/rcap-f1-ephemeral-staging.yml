@@ -26,7 +26,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_clinic_preview, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_smoke, production_activate, production_worker_deploy]
+        options: [ephemeral, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_clinic_preview, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -106,6 +106,76 @@ jobs:
     secrets:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+  production_public_verify:
+    name: Read-only public-domain verification of the activated Production release
+    if: inputs.mode == 'production_public_verify'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Refuse any input that is not the authorized pinned value
+        env:
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA_INPUT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
+          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry of every pinned SHA and check out the tools commit
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          git merge-base --is-ancestor "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" \
+            || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install frozen dependencies
+        run: npm ci
+
+      # Read-only from the outside: control-plane readback of every Production
+      # domain, public HTTPS health and build identity on expungement.ai, and a
+      # fresh-context Chrome walk of the Mississippi screening. No secret other
+      # than the read-only Vercel token; no Supabase, Stripe or bypass secret.
+      - name: Verify the activated release on the public domain
+        env:
+          RCAP_PRODUCTION_PHASE: public_verify
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node scripts/rcap-production-public-verify.mjs
+
+      - name: Upload the public verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-production-public-verify-${{ github.run_id }}
+          path: production-public-evidence/
+          if-no-files-found: error
 
   github_acceptance:
     name: GitHub-hosted functional acceptance fallback
