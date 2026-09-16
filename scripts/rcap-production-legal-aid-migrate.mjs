@@ -82,6 +82,24 @@ async function managementQuery(query, caseId) {
   return json;
 }
 
+// One signature object per forward migration after the Clinic core (the
+// repository order in verify-rcap-production-schema-upgrade.mjs). Read-only.
+const FORWARD_CHAIN_SIGNATURES = Object.freeze([
+  { migration: "20260828100000_shared_pending_result_and_atomic_claim", key: "m20260828100000", probe: "to_regclass('public.participant_claim_events') is not null" },
+  { migration: "20260830120000_participant_data_rights", key: "m20260830120000", probe: "exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='guard_packet_delivery_events')" },
+  { migration: "20260901115000_consumer_packet_artifact_provenance", key: "m20260901115000", probe: "to_regclass('public.consumer_packet_artifact_provenance') is not null" },
+  { migration: "20260901120000_dtc_consumer_launch_rails", key: "m20260901120000", probe: "exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='bind_consumer_checkout_verification')" },
+  { migration: "20260901130000_consumer_private_delivery", key: "m20260901130000", probe: "to_regclass('public.consumer_artifact_download_grants') is not null" },
+  { migration: "20260903120000_clinic_event_jurisdiction_lock", key: "m20260903120000", probe: "exists(select 1 from information_schema.columns where table_schema='public' and table_name='clinic_events' and column_name='jurisdiction')" },
+  { migration: "20260903130000_atomic_sponsored_packet_finalization", key: "m20260903130000", probe: "exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='finalize_sponsored_packet_generation_if_verified')" },
+  { migration: "20260906120000_sponsored_route_render_transaction", key: "m20260906120000", probe: "to_regclass('public.sponsored_packet_render_routes') is not null" },
+  { migration: "20260906130000_verified_artifact_regeneration", key: "m20260906130000", probe: "exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='finalize_sponsored_packet_generation_for_route')" }
+]);
+
+function forwardChainInventoryQuery() {
+  return `select to_regclass('supabase_migrations.schema_migrations') is not null as migration_ledger_present, ${FORWARD_CHAIN_SIGNATURES.map(({ key, probe }) => `${probe} as ${key}`).join(", ")}`;
+}
+
 async function readback(caseId) {
   const rows = await managementQuery(readbackQuery(), caseId);
   return summarizeReadback(Array.isArray(rows) ? rows[0] ?? {} : {});
@@ -102,6 +120,27 @@ try {
 
   const sql = frozenMigrationSql(ROOT_DIR, APPLICATION_SHA);
   record("frozen_legal_aid_migration_hash_exact", sql.length > 0, `${LEGAL_AID_MIGRATION.path} at ${APPLICATION_SHA} hashes to the authorized ${LEGAL_AID_MIGRATION.sha256}`);
+
+  // SELECT-only inventory of the forward migration chain after the Clinic
+  // core, recorded before any verdict so a prerequisite refusal (readback run
+  // 35121528344: jurisdiction column absent) still reports exactly which
+  // repository migrations Production carries and which it lacks.
+  const forwardChainRows = await managementQuery(forwardChainInventoryQuery(), "forward_chain_inventory");
+  const forwardChain = Array.isArray(forwardChainRows) ? forwardChainRows[0] ?? {} : {};
+  const ledgerPresent = forwardChain.migration_ledger_present === true || forwardChain.migration_ledger_present === "true";
+  const appliedVersions = ledgerPresent
+    ? await managementQuery("select version::text as version, coalesce(name, '') as name from supabase_migrations.schema_migrations order by version", "forward_chain_ledger")
+    : [];
+  evidence.forwardChain = {
+    migrationLedgerPresent: ledgerPresent,
+    ledgerVersions: Array.isArray(appliedVersions) ? appliedVersions.map((row) => `${row.version}${row.name ? ` ${row.name}` : ""}`) : [],
+    signatures: Object.fromEntries(FORWARD_CHAIN_SIGNATURES.map(({ migration, key }) => [migration, forwardChain[key] === true || forwardChain[key] === "true"]))
+  };
+  record(
+    "forward_chain_inventory_read_without_writing",
+    Array.isArray(forwardChainRows) && forwardChainRows.length === 1,
+    `ledger=${ledgerPresent ? evidence.forwardChain.ledgerVersions.length + " versions" : "absent"}; signatures ${FORWARD_CHAIN_SIGNATURES.map(({ migration }) => `${migration}=${evidence.forwardChain.signatures[migration]}`).join(", ")}`
+  );
 
   const before = await readback("clinic_mode_prerequisites_readback");
   record(
