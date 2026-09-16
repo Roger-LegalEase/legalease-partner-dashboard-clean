@@ -6,29 +6,19 @@
   "provenIsTheOnlyClassificationThatCanOpenPayment": "COMPLETE_PACKET_PROVEN is set from the fulfillment record and from nothing else, and every other classification leaves the route refused at all six commercial surfaces. COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD is a proven packet whose postures are still closed: it opens nothing either.",
   "finding": "The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.",
   "totals": {
-    "commercialRoutes": 30,
-    "evaluatorPaymentAllowed": 29,
-    "checkoutActuallyOpen": 24,
-    "provenByFulfillmentRecord": 1,
+    "commercialRoutes": 29,
+    "evaluatorPaymentAllowed": 28,
+    "checkoutActuallyOpen": 25,
+    "provenByFulfillmentRecord": 2,
     "sponsorshipCapable": 0,
-    "PACKET_CORRECTION_REQUIRED": 24,
-    "GUIDANCE_OR_HANDOFF_NO_PACKET": 5,
-    "COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD": 1
+    "PACKET_CORRECTION_REQUIRED": 26,
+    "GUIDANCE_OR_HANDOFF_NO_PACKET": 3
   },
   "departuresFromTheCommercialDenominator": {
     "note": "Routes that were in this census and no longer are, each with the exact reason. A denominator that changes silently is not a denominator.",
-    "count": 25,
-    "reconciliation": "The previous census carried 54 commercial routes. 25 left when ADR-0004 withdrew the legacy generators' credit-consumability, and 1 entered on a fulfillment record rather than on a commercial capability. 54 - 25 + 1 = 30.",
+    "count": 22,
+    "reconciliation": "The previous census carried 54 commercial routes. 22 left when ADR-0004 withdrew the legacy generators' credit-consumability, and 1 entered on a fulfillment record rather than on a commercial capability. 54 - 22 + 1 = 29.",
     "routes": [
-      {
-        "route": "DC:dc_actual_innocence_expungement_16_803",
-        "jurisdiction": "DC",
-        "pathway": "dc_actual_innocence_expungement_16_803",
-        "wasCommercialBecause": "the packet route resolver classified its jurisdiction legacy_verified, which made every route in that state credit-consumable",
-        "leftBecause": "ADR-0004 retired the five legacy generators as commercial fulfillment paths. The route resolves legacy_retired with sellable false and creditConsumable false, so it can no longer take money or a sponsored credit and is not a commercial route.",
-        "stillRenders": "packet_document_v1",
-        "note": "Its renderer is retained so an already-generated artifact stays reachable. That is historical access, not commercial authority."
-      },
       {
         "route": "DC:dc_motion_seal_felony_conviction_8yr_16_806",
         "jurisdiction": "DC",
@@ -114,24 +104,6 @@
         "route": "IL:juvenile-automatic-or-petition-expungement",
         "jurisdiction": "IL",
         "pathway": "juvenile-automatic-or-petition-expungement",
-        "wasCommercialBecause": "the packet route resolver classified its jurisdiction legacy_verified, which made every route in that state credit-consumable",
-        "leftBecause": "ADR-0004 retired the five legacy generators as commercial fulfillment paths. The route resolves legacy_retired with sellable false and creditConsumable false, so it can no longer take money or a sponsored credit and is not a commercial route.",
-        "stillRenders": "packet_document_v1",
-        "note": "Its renderer is retained so an already-generated artifact stays reachable. That is historical access, not commercial authority."
-      },
-      {
-        "route": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
-        "jurisdiction": "MS",
-        "pathway": "additional-justice-court-misdemeanor-relief-9-11-15-3",
-        "wasCommercialBecause": "the packet route resolver classified its jurisdiction legacy_verified, which made every route in that state credit-consumable",
-        "leftBecause": "ADR-0004 retired the five legacy generators as commercial fulfillment paths. The route resolves legacy_retired with sellable false and creditConsumable false, so it can no longer take money or a sponsored credit and is not a commercial route.",
-        "stillRenders": "packet_document_v1",
-        "note": "Its renderer is retained so an already-generated artifact stays reachable. That is historical access, not commercial authority."
-      },
-      {
-        "route": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
-        "jurisdiction": "MS",
-        "pathway": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
         "wasCommercialBecause": "the packet route resolver classified its jurisdiction legacy_verified, which made every route in that state credit-consumable",
         "leftBecause": "ADR-0004 retired the five legacy generators as commercial fulfillment paths. The route resolves legacy_retired with sellable false and creditConsumable false, so it can no longer take money or a sponsored credit and is not a commercial route.",
         "stillRenders": "packet_document_v1",
@@ -378,7 +350,7 @@
       "currentPaymentAuthority": {
         "evaluatorPaymentAllowed": true,
         "contractPaymentAuthority": null,
-        "checkoutActuallyOpen": false
+        "checkoutActuallyOpen": true
       },
       "currentSponsorshipAuthority": {
         "contractSponsorshipAuthority": "closed",
@@ -401,14 +373,14 @@
         "post-filing steps"
       ],
       "sourceHashes": [],
-      "renderer": "none",
-      "routeKind": "guidance_only",
+      "renderer": "packet_document_v1",
+      "routeKind": "factory_v2",
       "artifactHash": "5fc0abff3c2fa9d1d67d5e8c9b0334a6f3552bbfeb1d8a20232ca3a44924bb50",
       "artifactBytes": 1214,
       "privateDelivery": "owner-scoped Briefcase download path; not reached while the route is fail-closed",
       "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
-      "currentClassification": "GUIDANCE_OR_HANDOFF_NO_PACKET",
-      "exactRemainingDelta": "The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it."
+      "currentClassification": "PACKET_CORRECTION_REQUIRED",
+      "exactRemainingDelta": "Checkout is OPEN. A participant can pay today and receive a 1214-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps."
     },
     {
       "route": "DE:discretionary-court-expungement-under-11-del-c-4374",
@@ -908,10 +880,17 @@
         "contractSponsorshipAuthority": "open",
         "routeCreditConsumable": false
       },
-      "generationEntryPoint": "generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)",
-      "artifactProvider": "none",
-      "contentType": "none",
-      "fulfillmentRecord": null,
+      "generationEntryPoint": "generatePaidConsumerPacket -> buildConsumerPacketArtifact -> buildGradeAArtifact -> composeGradeAPacket",
+      "artifactProvider": "rcap_grade_a_composer_v1",
+      "contentType": "application/pdf",
+      "fulfillmentRecord": {
+        "packetSpecificationId": "ms-nonconviction-expungement-99-19-71-4",
+        "packetSpecificationVersion": "2.0.0",
+        "packetSpecificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+        "artifactApprovalStatus": "participant_delivery_exact_hashes_approved_held_for_technical_preview_acceptance",
+        "consumerPosture": "held",
+        "sponsoredPosture": "held"
+      },
       "actualComponents": [],
       "requiredComponents": [
         "primary filing or application",
@@ -924,9 +903,9 @@
       ],
       "sourceHashes": [],
       "renderer": "packet_document_v1",
-      "routeKind": "legacy_retired",
-      "artifactHash": "16a18f380a082f3118fed756b42a95dba95123e0b55cf6dd8911543b8234da8e",
-      "artifactBytes": 1030,
+      "routeKind": "factory_v2",
+      "artifactHash": null,
+      "artifactBytes": null,
       "privateDelivery": "owner-scoped Briefcase download path; not reached while the route is fail-closed",
       "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
       "currentClassification": "PACKET_CORRECTION_REQUIRED",
@@ -1055,8 +1034,8 @@
       "artifactBytes": null,
       "privateDelivery": "owner-scoped Briefcase download path; not reached while the route is fail-closed",
       "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
-      "currentClassification": "COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD",
-      "exactRemainingDelta": "The packet is proven (nd-first-offense-possession-sealing v1.0.0, provider rcap_grade_a_composer_v1, application/pdf). Consumer posture held, sponsored posture held. Three things are outstanding and every one of them is a reason a participant should not yet be charged. (1) No counsel has reviewed the composed document set. Machine verification proves the packet is complete against its own specification; it says nothing about whether the specification is legally right. (2) Page-image review has not happened: this container has no PDF rasteriser, so the packet was reviewed as composed content and as parsed PDF structure rather than as rendered pages. (3) The specification records a gap in the approved legal design — neither the registry's required inputs nor the packet-set manifest names a first-offense confirmation, though the statute makes first-offense status an element and the motion asserts it. The fact is now collected and confirmed, and the gap belongs in the next legal-design review of this route. Opening either posture is an owner decision, not a consequence of this record existing."
+      "currentClassification": "PACKET_CORRECTION_REQUIRED",
+      "exactRemainingDelta": "Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 936-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps."
     },
     {
       "route": "NE:set-aside-incarceration-one-year-or-less",
@@ -1213,50 +1192,6 @@
       "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
       "currentClassification": "PACKET_CORRECTION_REQUIRED",
       "exactRemainingDelta": "Checkout is OPEN. A participant can pay today and receive a 971-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps."
-    },
-    {
-      "route": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-      "jurisdiction": "OR",
-      "pathway": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-      "packetFamily": null,
-      "currentResultCode": "packet_ready_with_caution",
-      "currentPaymentAuthority": {
-        "evaluatorPaymentAllowed": true,
-        "contractPaymentAuthority": "closed",
-        "checkoutActuallyOpen": false
-      },
-      "currentSponsorshipAuthority": {
-        "contractSponsorshipAuthority": "closed",
-        "routeCreditConsumable": false
-      },
-      "generationEntryPoint": "generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)",
-      "artifactProvider": "none",
-      "contentType": "none",
-      "fulfillmentRecord": null,
-      "actualComponents": [
-        "primary filing or application"
-      ],
-      "requiredComponents": [
-        "primary filing or application",
-        "proposed order where required",
-        "attachments or schedules",
-        "filing destination",
-        "fee or waiver instructions",
-        "service or notice",
-        "post-filing steps"
-      ],
-      "sourceHashes": [
-        "OR:LegalEase Oregon/or-setaside-motion.html:daf6ed74eae2690719a769961af9a8790c773db272c6cde7d6956d854fa0d108",
-        "OR:LegalEase Oregon/CriminalSetAside_AdultCases2.pdf:6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a"
-      ],
-      "renderer": "none",
-      "routeKind": "guidance_only",
-      "artifactHash": "257f88b7f4e61d2ba967d19ceb297758eedd679cd7072df5b114a853c1372724",
-      "artifactBytes": 1211,
-      "privateDelivery": "owner-scoped Briefcase download path; not reached while the route is fail-closed",
-      "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
-      "currentClassification": "GUIDANCE_OR_HANDOFF_NO_PACKET",
-      "exactRemainingDelta": "The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it."
     },
     {
       "route": "UT:path-i-traffic-offense-expungement-or-deletion",
