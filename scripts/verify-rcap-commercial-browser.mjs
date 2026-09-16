@@ -658,7 +658,9 @@ function validUuid(value) {
 
 function exactBriefcaseItemId(value) {
   if (typeof value !== "string") return null;
-  const match = value.match(/^\/briefcase\/([0-9a-f-]{36})(?:[?#]|$)/i);
+  // The atomic claim lands on /briefcase/matters/<id> (matter-path.ts); the
+  // packet-information, review and generated-packet pages stay on /briefcase/<id>.
+  const match = value.match(/^\/briefcase\/(?:matters\/)?([0-9a-f-]{36})(?:[?#]|$)/i);
   return validUuid(match?.[1]) ? match[1] : null;
 }
 
