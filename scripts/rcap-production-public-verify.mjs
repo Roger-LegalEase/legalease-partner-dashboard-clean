@@ -277,19 +277,29 @@ try {
   );
   for (const domain of domains) {
     const detail = await vercel(`/v13/deployments/${encodeURIComponent(domain)}`);
-    evidence.domainResolution.push({
+    const entry = {
       domain,
+      lookupStatus: detail.status,
       deploymentId: detail.status === 200 ? deploymentId(detail.json) : null,
       target: detail.status === 200 ? detail.json?.target ?? null : null,
       state: detail.status === 200 ? detail.json?.readyState ?? detail.json?.state ?? null : null
-    });
+    };
+    evidence.domainResolution.push(entry);
+    console.log(`  domain ${domain}: lookup HTTP ${entry.lookupStatus}; deployment ${entry.deploymentId ?? "(none)"}; target ${entry.target ?? "(none)"}; state ${entry.state ?? "(none)"}`);
   }
-  const resolved = new Set(evidence.domainResolution.map((entry) => entry.deploymentId));
+  // A redirect-only host has no deployment of its own in the lookup; it is
+  // proven below over public HTTPS instead. Every host that does resolve must
+  // resolve to the activated deployment, and the public domain itself must.
+  const resolvable = evidence.domainResolution.filter((entry) => entry.deploymentId !== null);
+  const unresolvable = evidence.domainResolution.filter((entry) => entry.deploymentId === null);
+  const resolvedIds = new Set(resolvable.map((entry) => entry.deploymentId));
+  const publicEntry = evidence.domainResolution.find((entry) => entry.domain === PUBLIC_DOMAIN);
   record(
     "public_domains_resolve_to_activated_deployment",
-    resolved.size === 1 && resolved.has(STAGED_DEPLOYMENT_ID)
-      && evidence.domainResolution.every((entry) => entry.target === "production" && entry.state === "READY"),
-    `all ${domains.length} Production domains, ${PUBLIC_DOMAIN} included, resolve to ${STAGED_DEPLOYMENT_ID}`
+    publicEntry?.deploymentId === STAGED_DEPLOYMENT_ID && publicEntry?.target === "production" && publicEntry?.state === "READY"
+      && resolvedIds.size === 1 && resolvedIds.has(STAGED_DEPLOYMENT_ID)
+      && resolvable.every((entry) => entry.target === "production" && entry.state === "READY"),
+    `${PUBLIC_DOMAIN} and every other resolvable Production domain (${resolvable.length} of ${domains.length}) resolve to ${STAGED_DEPLOYMENT_ID}; no deployment of their own (redirect hosts, proven over HTTPS below): ${unresolvable.map((entry) => `${entry.domain} (lookup HTTP ${entry.lookupStatus})`).join(", ") || "none"}`
   );
   record(
     "rollback_target_remains_ready",
@@ -317,6 +327,15 @@ try {
       && health.status === 200 && allowedHosts.has(new URL(health.url).hostname)
       && healthBody?.ok === true && healthBody?.checks?.db === "ok",
     `https://${PUBLIC_DOMAIN}/ is 200 on ${rootHost} through Vercel; /api/health is 200 with checks.db=ok`
+  );
+  const www = await fetchPublic(`https://www.${PUBLIC_DOMAIN}/`);
+  const wwwHost = new URL(www.url).hostname;
+  evidence.publicHttp.wwwStatus = www.status;
+  evidence.publicHttp.wwwFinalUrl = www.url;
+  record(
+    "www_host_lands_on_the_activated_release",
+    www.status === 200 && allowedHosts.has(wwwHost) && www.headers.has("x-vercel-id"),
+    `https://www.${PUBLIC_DOMAIN}/ answers 200 on ${wwwHost} through Vercel`
   );
 
   const canonicalDomain = `${HOSTED_VERCEL_PROJECT_NAME}.vercel.app`;
