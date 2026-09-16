@@ -1,0 +1,65 @@
+name: Grade A production release access
+on:
+  push:
+    branches: [release/grade-a-production-20260916]
+    paths: [.github/workflows/grade-a-production-release-access.yml]
+permissions:
+  contents: read
+concurrency:
+  group: grade-a-production-release-access
+  cancel-in-progress: false
+jobs:
+  release-access:
+    name: Read production identity and rollback target
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Inspect exact project without modifying production
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import { writeFileSync } from 'node:fs';
+          const team = 'team_4qLmZK9WI6xIy5vjYC0IF3ae';
+          const project = 'prj_cdgwGzFqIHgEUlzEburSLaZETdQV';
+          const report = { purpose: 'Production release identity/access; GET only; no deployment, alias, environment, database or payment mutation', sourceSha: process.env.GITHUB_SHA, teamId: team, expectedProjectId: project };
+          async function get(host, path, token) {
+            if (!token) return { status: 'credential_missing', data: null };
+            try {
+              const r = await fetch(host + path, { method: 'GET', headers: { Authorization: `Bearer ${token}` }, redirect: 'error', signal: AbortSignal.timeout(20000) });
+              const data = await r.json().catch(() => null);
+              return { status: r.status, data };
+            } catch (e) { return { status: 'request_failed', errorType: e.name, data: null }; }
+          }
+          const v = path => get('https://api.vercel.com', path + (path.includes('?') ? '&' : '?') + 'teamId=' + team, process.env.VERCEL_TOKEN);
+          const [p, a, e, s] = await Promise.all([
+            v('/v9/projects/' + project),
+            v('/v4/aliases/expungement.ai'),
+            v('/v10/projects/' + project + '/env?decrypt=false'),
+            get('https://api.supabase.com', '/v1/projects', process.env.SUPABASE_ACCESS_TOKEN)
+          ]);
+          report.project = { status: p.status, id: p.data?.id, name: p.data?.name, accountId: p.data?.accountId, productionBranch: p.data?.link?.productionBranch, gitRepo: p.data?.link?.repo, gitOwner: p.data?.link?.org, framework: p.data?.framework, nodeVersion: p.data?.nodeVersion };
+          report.publicAlias = { status: a.status, alias: a.data?.alias, projectId: a.data?.projectId, deploymentId: a.data?.deploymentId ?? a.data?.deployment?.id, redirect: a.data?.redirect };
+          report.productionEnvironment = { status: e.status, keysOnly: (e.data?.envs ?? []).filter(x => Array.isArray(x.target) ? x.target.includes('production') : x.target === 'production').map(x => ({ key: x.key, type: x.type })).sort((a,b) => a.key.localeCompare(b.key)) };
+          report.databaseAccess = { status: s.status, relevantProjects: (Array.isArray(s.data) ? s.data : []).filter(x => ['hyflxnlhpmiqxvvcoiia','wwtwtsmywnckfkdaqqeg'].includes(x.id)).map(x => ({ id:x.id, name:x.name, status:x.status })) };
+          const exact = p.status === 200 && p.data?.id === project && a.status === 200 && a.data?.projectId === project;
+          if (exact && report.publicAlias.deploymentId) {
+            const d = await v('/v13/deployments/' + report.publicAlias.deploymentId);
+            report.currentProduction = { status: d.status, id: d.data?.id, url: d.data?.url, target: d.data?.target, state: d.data?.readyState, projectId: d.data?.projectId, gitSource: d.data?.gitSource, applicationSha: d.data?.meta?.rcapApplicationSha, gitCommitSha: d.data?.meta?.githubCommitSha, gitBranch: d.data?.meta?.githubCommitRef, createdAt: d.data?.createdAt };
+          }
+          report.exactProductionIdentityReadable = exact;
+          writeFileSync('production-release-access.json', JSON.stringify(report, null, 2));
+          console.log(JSON.stringify(report, null, 2));
+          if (!exact) process.exitCode = 1;
+          JS
+      - name: Preserve sanitized release access result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: grade-a-production-release-access-${{ github.run_id }}
+          path: production-release-access.json
+          if-no-files-found: error
+          retention-days: 7
