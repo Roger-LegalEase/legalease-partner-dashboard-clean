@@ -28,6 +28,9 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     'data/rcap-grade-a/fulfillment-authority-projection.json',
     'data/rcap-grade-a/fulfillment-authority-registry.json',
     'data/rcap-grade-a/fulfillment-observation-snapshot.json',
+    // Roger's independent Production Legal Aid migration authorization: filled
+    // only from passing acceptance run ids, read by the migrate control.
+    'data/rcap-production-legal-aid-migration-authorization.json',
     ...receiptPaths.filter(p => /^(data\/rcap-grade-a\/participant-data-rights|private\/rcap-hosted-acceptance)\//.test(p))
   ]);
   try {

@@ -451,6 +451,13 @@ try {
   await browser?.close();
 }
 
+// A screening question heading may carry the "Optional" badge inside the
+// heading element (run 35118102472 saw "…court ordered in this case?OPTIONAL"),
+// so the accessible name is matched from its start rather than exactly.
+function screeningHeading(page, prompt) {
+  return page.getByRole("heading", { name: new RegExp(`^${escapeRegExp(prompt)}(?:\\s*Optional)?$`, "i") });
+}
+
 // Polls for whichever remaining screening prompt is visible, or the result
 // heading (null) when the engine has already evaluated. Bounded: a step that
 // neither shows a question nor a result fails with the visible headings
@@ -460,7 +467,7 @@ async function visibleScreeningPrompt(page, prompts, resultHeading, budgetMs = 4
   while (Date.now() < deadline) {
     if (await resultHeading.isVisible().catch(() => false)) return null;
     for (const prompt of prompts) {
-      if (await page.getByRole("heading", { name: prompt, exact: true }).isVisible().catch(() => false)) return prompt;
+      if (await screeningHeading(page, prompt).isVisible().catch(() => false)) return prompt;
     }
     await page.waitForTimeout(500);
   }
@@ -469,7 +476,7 @@ async function visibleScreeningPrompt(page, prompts, resultHeading, budgetMs = 4
 }
 
 async function answerChoice(page, prompt, option, final = false) {
-  await page.getByRole("heading", { name: prompt, exact: true }).waitFor({ state: "visible" });
+  await screeningHeading(page, prompt).waitFor({ state: "visible" });
   await page.getByRole("radio", { name: new RegExp(`^${escapeRegExp(option)}(?:\\s|$)`, "i") }).check();
   const evaluationResponsePromise = final
     ? page.waitForResponse(
