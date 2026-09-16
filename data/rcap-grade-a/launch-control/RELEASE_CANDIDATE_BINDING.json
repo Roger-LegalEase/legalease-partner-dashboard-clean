@@ -1,43 +1,43 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
-  "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE_AND_PRODUCTION_RELEASE",
-  "applicationSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
-  "workerSourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
-  "workerDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
-  "workerInputFingerprint": "sha256:c4771cb5265b4fe9c4f67795972506123f5bd81dedc6e2335801148841d54691",
+  "status": "FROZEN_FOR_HOSTED_ACCEPTANCE",
+  "applicationSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+  "workerSourceSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+  "workerDigest": "sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257",
+  "workerInputFingerprint": "sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "publication": {
-    "runId": 35054865971,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35054865971",
+    "runId": 35112372576,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35112372576",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 35055139765,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35055139765",
-    "conclusion": "success"
+    "runId": null,
+    "url": null,
+    "conclusion": "pending"
   },
   "regressions": {
-    "sourceSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
-    "note": "da432bd1 = cc4d8275 + the four restored 2026-09-15 Colorado commits (source reclassification, caption-only overlay families, packet-set readmission of both adult routes, state-pack record) + regenerated derived inputs + the production worker execution-target files. The application src delta from cc4d8275 is src/lib/rcap/state-packs/colorado/{captain-patch-requests,lane-g-route-dispositions}.ts only; the checks below ran on this tree in this session.",
-    "colorado": "node scripts/verify-rcap-colorado-juvenile-packet-boundary.mjs PASS 56/56 (FAIL 4/56 at cc4d8275: JDF 417 and JDF 612 boundaries resolved guidance_only); no assertion changed",
-    "msPacketProof": "node scripts/verify-ms-paid-packet-proof.mjs --write: re-pinned to the current packet-set manifests; Postgres round trip PASS, 18 negative binding controls",
-    "fulfillmentAuthority": "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs 78 checks; 6 commercially eligible; 0 stale after binding sha256:477afe68",
-    "generators": "factory_v2 registry, launch graph, renderer-gap decomposition, official source registry, route-kind adjudications, packet-family build status, sellable-pathway closure, problematic-PDF register, review manifests, commercial packet integrity and the staging action all read current",
-    "typecheck": "tsc --noEmit clean at 5c99224d (same src as da432bd1)",
-    "testChain": "the package test chain run script-by-script at head and at c5f0cb7e (pre-restoration) differs only where the head tree carries the inherited untracked artifacts (verify-tracked-mutation-safety) and where a ledger the restoration made stale was regenerated; every other failure is present at both",
+    "sourceSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+    "note": "436520e4 = 61a2f018 + Legal Aid Clinic Mode (MVLP): schema, service layer, routes, pages, co-branded MVLP page, interim-coordinator internal setup page, administrator handoff control, and the clinic-sponsored packet binding. Checks run on this tree in this session.",
+    "legalAidE2E": "node scripts/legal-aid/verify-legal-aid-e2e.mjs PASS 79/79 on the production build against the local Supabase shim (registration, confidential intake, protected field, signatures, staff review, sponsored packet attached as unsigned copy, notary, export, internal-administrator setup)",
+    "legalAidSchema": "node scripts/legal-aid/verify-legal-aid-schema.mjs PASS (isolated PGlite; sponsored packet of another applicant refused)",
+    "legalAidMigrationControls": "verify-rcap-hosted-legal-aid-migrate 30/30, verify-rcap-production-legal-aid-migrate 27/27, both mutation proofs 12/12, PGlite readback self-test",
+    "firstAdminProvisioning": "node scripts/verify-first-admin-provisioning.mjs PASS incl. handoff decision",
+    "typecheck": "tsc --noEmit clean at 436520e4",
+    "build": "next build clean at 436520e4",
     "syntheticPublicationFixture": false,
-    "publishedWorkerDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
-    "publicationRunId": 35054865971,
-    "imageAcceptanceRunId": 35055139765,
+    "publishedWorkerDigest": "sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257",
+    "publicationRunId": 35112372576,
+    "imageAcceptanceRunId": null,
     "scope": "Real published authority binding; isolated local PostgreSQL and provider signatures. No hosted database writes."
   },
   "applicationBuild": {
-    "sourceSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
-    "note": "The hosted Preview build of da432bd1 (hosted_replace_preview) is the deployable build; no local next build was made for this tree.",
-    "command": "hosted_replace_preview",
-    "exitCode": null
+    "sourceSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+    "note": "Local next build of 436520e4 succeeded in this session; the hosted Preview build is the deployable build.",
+    "command": "next build",
+    "exitCode": 0
   },
   "screeningVerification": {
     "method": "Playwright Chromium, fresh browser context, no injected answers, local `next start` of the candidate source (34dc5b9e, src identical to cc4d8275 outside the Colorado state pack)",
@@ -48,23 +48,24 @@
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
-    "sha256": "5a848639300d4caaba3a744ab49bb01a98ec9bcd5ae9d4bb937152f8bf6b9d98"
+    "sha256": "1c6f03950a2448299264b7ef6c231cb8ee52ec3032c4cce8fb2a5857a8285f23"
   },
   "workerInputPlan": {
-    "path": "private/transfers/cloud-recovery-20260915/deploy/frozen-application-worker-input-plan-da432bd1.json",
-    "sha256": "36d4989a50fb1253a933fa477c1f342c40204e8fefe1791e40ed71318fb9f170"
+    "path": null,
+    "sha256": null,
+    "note": "createWorkerInputPlan at 436520e4: rebuildRequired=false, aggregateInputSha256 sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683"
   },
   "supersedes": {
-    "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
-    "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
-    "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-    "why": "cc4d8275 lacked the 2026-09-15 Colorado readmission of the two participant-filed adult sealing routes, so the Colorado boundary verifier (which gates the hosted browser phase and the production smoke) failed 4/56. Integrating the existing restoration changes worker COPY inputs, so the successor worker sha256:477afe68 was published (run 35054865971) and accepted read-only; the hosted acceptance evidence of cc4d8275 (run 35049267105, 18/18) is for other bytes and is re-proved on this candidate.",
-    "hostedAcceptanceOfSupersededCandidate": null
+    "applicationSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
+    "workerSourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
+    "workerDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
+    "why": "61a2f018 / da432bd1 (sha256:477afe68) is the Grade A release live on expungement.ai and the application and worker rollback targets. The MVLP Legal Aid Clinic Mode build (7dc8df23 … 436520e4) changes application and worker inputs, so the successor worker sha256:98e3e820 was published (run 35112372576); hosted acceptance and image acceptance re-prove this candidate before any Production step.",
+    "hostedAcceptanceOfSupersededCandidate": "run 35057385695 (browser PASSED) and the Grade A production release evidence"
   },
   "participantReceiptPaths": [],
   "independentReviewerIdentities": [],
   "hostedAcceptanceStatus": "NOT_RUN_ON_THIS_CANDIDATE",
   "productionAuthorized": true,
-  "productionAuthorization": "Roger Roman, 2026-09-16: PRODUCTION RELEASE AUTHORIZATION (chat), issue #160 comment 5690402065, and the 'close all three release blockers' / 'execute through verified Grade A production go-live' instructions — release the intended Grade A application to expungement.ai through the existing production release process with rollback; production configuration and database; no destructive migrations, no new purchases, no real test charges.",
-  "scope": "Exact candidate freeze with published-worker and image-acceptance evidence. Hosted Preview acceptance and the production preflight/smoke/activate phases record their own evidence; this record authorizes no runtime-pin change, hosted database write or migration by itself."
+  "productionAuthorization": "Roger Roman, 2026-09-16 (chat): AUTHORIZED: COMPLETE THE MVLP ROLLOUT, WITH HOSTED VERIFICATION BEFORE PRODUCTION. Production only after the hosted acceptance conditions pass; apply only the accepted additive Legal Aid migration through the protected process; release the app and matching worker through the existing process with rollback; dropping legal_aid tables or columns is not authorized; real MVLP registration stays closed.",
+  "scope": "Exact candidate freeze with published-worker evidence; image acceptance, hosted Legal Aid acceptance and the Production phases record their own evidence. This record authorizes no runtime-pin change, hosted database write or migration by itself."
 }
