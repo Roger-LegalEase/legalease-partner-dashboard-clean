@@ -277,12 +277,23 @@ try {
 
   // 5. Verification uses the shared packet-information boundary. Only its
   // ready response may reveal the sponsored generation action.
+  // The verify action renders only when the saved facts are complete and
+  // route-safe; report the review panel instead of an unhandled timeout
+  // (run 35120640545 crashed while the click waited on a missing button).
+  const verifyButton = page.getByRole("button", { name: "Verify and prepare clinic packet", exact: true });
+  try {
+    await verifyButton.waitFor({ state: "visible", timeout: 15_000 });
+  } catch {
+    const panel = await page.locator("[data-packet-verification-state]").innerText().catch(() => "(no verification panel)");
+    const reviewResult = await page.locator("main").innerText().then((text) => text.match(/Result[\s\S]{0,160}/)?.[0] ?? "").catch(() => "");
+    throw new Error(`Verify action unavailable on the review page. Panel: ${JSON.stringify(panel)}. ${reviewResult}`);
+  }
   const verificationResponsePromise = packetInformationResponse(page, packetItemId);
   const generationResponsePromise = page.waitForResponse(
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/packet/generate",
     { timeout: 30_000 }
   );
-  await page.getByRole("button", { name: "Verify and prepare clinic packet", exact: true }).click();
+  await verifyButton.click();
   const verificationResponse = await verificationResponsePromise;
   check(verificationResponse.ok(), `Partner final verification returned ${verificationResponse.status()}.`);
   const generationResponse = await generationResponsePromise;
@@ -502,6 +513,25 @@ async function answerChoice(page, prompt, option, final = false) {
   }
 }
 
+// The Mississippi non-conviction packet re-checks these route facts before
+// final verification (mississippiNonConvictionPacketSafety): a first-option
+// or placeholder answer makes the review unsafe and hides the verify action
+// (run 35120640545). These are the demo fixture's safe answers.
+const MISSISSIPPI_SAFE_ROUTE_ANSWERS = Object.freeze({
+  pending_cases: "No",
+  trafficking_status: "No",
+  prior_relief: "No",
+  sentence_completion_date: "Yes",
+  financial_obligations: "Yes",
+  nonadjudication_or_diversion: "No",
+  open_co_defendant_matter: "No",
+  actual_arrest: "Yes",
+  release_confirmed: "Yes",
+  disposition_record_wording: "Charges dropped",
+  statutory_disposition_category: "Charges dropped",
+  case_outcome: "Charges dropped"
+});
+
 async function answerCurrentBuilderQuestion(page) {
   const builder = page.locator("[data-packet-information-builder='active']");
   await builder.waitFor({ state: "visible" });
@@ -510,11 +540,28 @@ async function answerCurrentBuilderQuestion(page) {
   if (await enabledText.count()) {
     const id = (await enabledText.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
     const prompt = await builder.locator("h1").innerText();
-    await enabledText.fill(valueForPacketField(id, prompt));
+    await enabledText.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? valueForPacketField(id, prompt));
+    return;
+  }
+
+  const textarea = builder.locator("textarea:visible:enabled").first();
+  if (await textarea.count()) {
+    const id = (await textarea.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
+    const prompt = await builder.locator("h1").innerText();
+    await textarea.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? valueForPacketField(id, prompt));
     return;
   }
 
   const selects = builder.locator("select:visible:enabled");
+  if (await selects.count() === 1) {
+    const select = selects.first();
+    const id = ((await select.getAttribute("id")) ?? "").replace(/^q-/, "");
+    const safe = MISSISSIPPI_SAFE_ROUTE_ANSWERS[id];
+    if (safe) {
+      await select.selectOption({ label: safe });
+      return;
+    }
+  }
   if (await selects.count() === 3) {
     await selects.nth(0).selectOption("01");
     await selects.nth(1).selectOption("15");
@@ -527,7 +574,8 @@ async function answerCurrentBuilderQuestion(page) {
   if (await radios.count()) {
     if (await builder.locator("input[type='radio']:visible:checked").count()) return;
     const controlId = ((await radios.first().getAttribute("name")) ?? "choice").replace(/^q-/, "");
-    const preferred = ["pending_cases", "prior_relief", "trafficking_status"].includes(controlId) ? /^No(?:\s|$)/i : null;
+    const safeAnswer = MISSISSIPPI_SAFE_ROUTE_ANSWERS[controlId];
+    const preferred = safeAnswer ? new RegExp(`^${escapeRegExp(safeAnswer)}(?:\\s|$)`, "i") : null;
     for (let index = 0; index < await radios.count(); index += 1) {
       const radio = radios.nth(index);
       const label = await radio.locator("xpath=ancestor::label").innerText().catch(() => "");

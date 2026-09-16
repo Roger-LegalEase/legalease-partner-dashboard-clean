@@ -109,7 +109,10 @@ jobs:
         run: |
           node scripts/verify-rcap-production-legal-aid-migrate.mjs
           node scripts/test-rcap-production-legal-aid-migrate-mutations.mjs
-          node scripts/rcap-legal-aid/self-test.mjs
+          # The PGlite readback self-test needs node_modules, which this
+          # Supabase-only step runs before installing (run 35120655761 stopped
+          # on ERR_MODULE_NOT_FOUND). It runs in the local test chain; the two
+          # dependency-free proofs above stay blocking here.
 
       - name: Install frozen dependencies for the exact-SHA Colorado smoke
         if: inputs.phase == 'smoke'
