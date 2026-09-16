@@ -63,6 +63,10 @@ check(probe.includes("await page.reload(") && probe.includes("first_matter_rende
 check(probe.includes("signed_in_save_claims_straight_into_a_new_matter") && probe.includes("secondMatterId !== firstMatterId"), "the signed-in claim must land on a distinct new matter");
 check(probe.includes("replayed_claim_token_cannot_mint_a_third_matter") && probe.includes("afterReplay.count === afterSecond.count"), "duplicate protection counts matter links before and after the replayed claim");
 check(probe.includes("await page.goto(signedOut.handoffUrl"), "the replay re-visits the exact captured handoff URL");
+check(
+  probe.includes('matterIdSource = claimMatterId ? "location" : null') && probe.includes("claimBodyRead: claimJson !== null"),
+  "a claim body lost to the navigation falls back to the landing matter URL and records its source"
+);
 
 // --- account provisioning ----------------------------------------------------------
 check(probe.includes("/api-keys?reveal=true"), "service key is read through the Management API");

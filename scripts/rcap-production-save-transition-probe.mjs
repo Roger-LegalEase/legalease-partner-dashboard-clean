@@ -592,12 +592,25 @@ async function signInAndClaim(page, section, credentials, label) {
   }
   const claimResponse = await claimResponsePromise;
   const claimJson = claimResponse ? await claimResponse.json().catch(() => null) : null;
+  let claimMatterId = validUuid(claimJson?.matterId) ? claimJson.matterId : null;
+  let matterIdSource = claimMatterId ? "response" : null;
+  if (!claimMatterId && claimResponse?.ok()) {
+    // The page navigates to the claimed matter as soon as the claim succeeds,
+    // and the response body can be discarded before it is read (run
+    // 35131741774: claim HTTP 200, body unavailable). The landing URL names
+    // the same matter, so it is the fallback; the source is recorded.
+    await page.waitForURL((url) => validUuid(exactBriefcaseItemId(url.pathname)), { timeout: 20_000 }).catch(() => null);
+    claimMatterId = exactBriefcaseItemId(new URL(page.url()).pathname);
+    matterIdSource = claimMatterId ? "location" : null;
+  }
   return {
     authStatus,
     captchaWidgetPresent,
     claimStatus: claimResponse?.status() ?? null,
+    claimBodyRead: claimJson !== null,
     claimError: typeof claimJson?.error === "string" ? claimJson.error : null,
-    claimMatterId: validUuid(claimJson?.matterId) ? claimJson.matterId : null,
+    claimMatterId,
+    matterIdSource,
     claimRedirectMatterId: exactBriefcaseItemId(claimJson?.redirectTo),
     xVercelId: claimResponse ? header(claimResponse, "x-vercel-id") : null
   };
@@ -679,7 +692,7 @@ async function verifyPhase() {
     record(
       "handoff_sign_in_completes_the_claim",
       firstSignIn.authStatus === 200 && firstSignIn.claimStatus === 200 && validUuid(firstSignIn.claimMatterId),
-      `auth HTTP ${firstSignIn.authStatus}; claim HTTP ${firstSignIn.claimStatus}${firstSignIn.claimError ? ` ${firstSignIn.claimError}` : ""}; matter id ${firstSignIn.claimMatterId ?? "none"}; captcha widget present ${firstSignIn.captchaWidgetPresent}`
+      `auth HTTP ${firstSignIn.authStatus}; claim HTTP ${firstSignIn.claimStatus}${firstSignIn.claimError ? ` ${firstSignIn.claimError}` : ""}; matter id ${firstSignIn.claimMatterId ?? "none"}${firstSignIn.matterIdSource ? ` (from ${firstSignIn.matterIdSource}; body read ${firstSignIn.claimBodyRead})` : ""}; captcha widget present ${firstSignIn.captchaWidgetPresent}`
     );
     const firstMatterId = firstSignIn.claimMatterId;
     evidence.mutations.mattersClaimed.push(firstMatterId);
