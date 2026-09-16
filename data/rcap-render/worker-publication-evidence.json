@@ -27,8 +27,8 @@
   "originalPublicationPath": null,
   "originalArchivePath": null,
   "originalPublicationSource": "The digest is the `Published ghcr.io/roger-legalease/rcap-render-worker@sha256:...` line the publication workflow's own digest-guard step printed in job 104972375047 of run 35149044045, read through the Actions job-log API; artifact id, name and zip sha256 come from the upload step of the same log. The artifact ZIP itself is not downloadable from this session (blob host denied by egress policy).",
-  "registryPullByDigestStatus": "pending_image_acceptance",
-  "runtimeAccepted": false,
+  "registryPullByDigestStatus": "accepted",
+  "runtimeAccepted": true,
   "authorization": "Roger's PRODUCTION HOTFIX FIRST instruction (2026-09-16, chat): restore the live expungement.ai customer journey ahead of the MVLP release, using the reviewed Final verification correction on the live application line including its actual dependencies, proceeding through the necessary build, worker publication, acceptance, deployment and public verification. The existing worker-input fingerprint mechanism reported rebuild-required for 3e3a528b5, which is the cause for this publication. tag_replacement_authorization empty; full-SHA tag only. Publish only: no deployment, no claiming, staging and production unchanged by this step.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
@@ -254,7 +254,13 @@
     "configDigest": "sha256:9f27bb0c0982dbfeab1afbe37e0287bbc2a8b9bbf079e696be99b5029c3d1873",
     "note": "config digest is the image ID the acceptance run read back after pulling by digest; manifest size not read back in this run"
   },
-  "imageAcceptance": null,
+  "imageAcceptance": {
+    "workflowRunId": 35149362033,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35149362033",
+    "workflowConclusion": "success",
+    "immutableRegistryDigest": "sha256:1b629dde3f5c0af3c992bd449d628e33bec9fb084a2f0e32654cc67141d5c86c",
+    "sourceSha": "1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6"
+  },
   "previousImageAcceptance": {
     "sourceSha": "3e3a528b5762ece971c53186d1a45a48e5633a9c",
     "immutableRegistryDigest": "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9",
