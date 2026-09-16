@@ -1578,7 +1578,18 @@ let session = null;
   const sessionId = res.json?.checkoutSessionId ?? res.json?.sessionId ?? res.json?.id ?? null;
   let fetched = null;
   if (sessionId) {
-    const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
+    // Expanded, because the application now reconciles the ORDER rather than
+    // asserting one price: it needs the product, the quantity, the unit amount
+    // and any promotion code Stripe applied. Without these on the session the
+    // server re-retrieves it from Stripe itself, which would discard the one
+    // field this harness documents as simulated and report the real unpaid
+    // status instead of the card entry the phone test covers.
+    const expand = [
+      "expand[]=line_items",
+      "expand[]=line_items.data.price.product",
+      "expand[]=discounts.promotion_code"
+    ].join("&");
+    const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}?${expand}`, {
       headers: { Authorization: `Bearer ${STRIPE_KEY}` }
     });
     fetched = await stripeRes.json().catch(() => null);
@@ -1660,9 +1671,17 @@ const completionEvent = {
   object: "event",
   type: "checkout.session.completed",
   created: Math.floor(Date.parse(session.created ? session.created * 1000 : Date.parse("2026-08-14T00:00:00Z")) / 1000) || 1786665600,
-  // Every field is the REAL session as Stripe returned it. Only payment_status
-  // is overridden, because completing the hosted page needs a browser.
-  data: { object: { ...session, payment_status: "paid" } }
+  // Every field is the REAL session as Stripe returned it, including the
+  // expanded line items the order reconciliation reads. Only payment_status
+  // and the session status are overridden, because completing the hosted page
+  // needs a browser; a real completion event carries exactly these two values.
+  //
+  // The line items have to travel ON the event. The server prefers an event's
+  // own line items and falls back to retrieving the session from Stripe, and
+  // that fallback would fetch the genuinely unpaid session and overwrite the
+  // simulation — which is what made this case report
+  // "payment_status unpaid is not paid on an order with 5000 due".
+  data: { object: { ...session, payment_status: "paid", status: "complete" } }
 };
 runNamespace.providerEventId = completionEvent.id;
 
