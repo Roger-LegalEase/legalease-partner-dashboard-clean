@@ -74,6 +74,14 @@ const MIGRATIONS = Object.freeze([
     sequencePosition: 10,
     path: "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql",
     sha256: "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4"
+  }),
+  // Promotion codes. The acceptance project needs the reconciling payment
+  // writer, the regular-price and discount columns and the entitlement probe
+  // that reads them, or a discounted order cannot be recorded there at all.
+  Object.freeze({
+    sequencePosition: 11,
+    path: "supabase/migrations/20260917090000_consumer_promotion_codes.sql",
+    sha256: "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369"
   })
 ]);
 
@@ -586,7 +594,7 @@ async function main() {
   record(
     "ledger_records_all_10_exact_frozen_migrations",
     ledgerExact,
-    `ledger records all 10 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
+    `ledger records all 11 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
   );
 }
 
