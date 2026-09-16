@@ -4,7 +4,7 @@
   "workerSourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
   "workerDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
   "workerInputFingerprint": "sha256:c4771cb5265b4fe9c4f67795972506123f5bd81dedc6e2335801148841d54691",
-  "toolsSha": "96daeed1ebed3bfc062866ee318b174384bd94ba",
+  "toolsSha": "96737e584668f09353503719bb438832336db675",
   "orchestrationFiles": [
     ".github/workflows/rcap-f1-ephemeral-staging.yml",
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
@@ -17,13 +17,15 @@
     "scripts/rcap-production-canary.mjs",
     "scripts/test-rcap-production-activation-mutations.mjs",
     "scripts/test-rcap-production-canary-mutations.mjs",
+    "scripts/test-rcap-production-smoke-mutations.mjs",
     "scripts/verify-rcap-hosted-checkout-gate.mjs",
     "scripts/verify-rcap-production-activation.mjs",
-    "scripts/verify-rcap-production-canary.mjs"
+    "scripts/verify-rcap-production-canary.mjs",
+    "scripts/verify-rcap-production-smoke.mjs"
   ],
-  "previousToolsSha": "82f4af6f97b5d96e7b7a3a2cc2d464a1aab04bdb",
-  "supersededToolsSha": "d7aa3808106f449ed8e57ed6e44a53b72a437a78",
-  "why": "Tools commit 82f4af6f pins the hosted acceptance tooling and the production release controls to the successor candidate 61a2f018 (application) / da432bd1 (worker source) / sha256:477afe68 (publication run 35054865971, image acceptance run 35055139765), which integrates the 2026-09-15 Colorado restoration; 96daeed1ebed3bfc062866ee318b174384bd94ba adds the accepted Preview dpl_AV3Mq1oeH2nXf8PH5AQJQh7DKb2p (run 35055676363) to the production preflight control. Exact-subject identity updates only; the staged and rollback production deployments and the smoke run are re-pinned by later tools commits as each phase produces them.",
+  "previousToolsSha": "96daeed1ebed3bfc062866ee318b174384bd94ba",
+  "supersededToolsSha": "82f4af6f97b5d96e7b7a3a2cc2d464a1aab04bdb",
+  "why": "Tools commit 82f4af6f pins the hosted acceptance tooling and the production release controls to the successor candidate 61a2f018 (application) / da432bd1 (worker source) / sha256:477afe68 (publication run 35054865971, image acceptance run 35055139765), which integrates the 2026-09-15 Colorado restoration; 96daeed1 adds the accepted Preview dpl_AV3Mq1oeH2nXf8PH5AQJQh7DKb2p (run 35055676363); 96737e584668f09353503719bb438832336db675 adds the staged Production deployment dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX and the rollback target dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL (preflight run 35056117558). Exact-subject identity updates only; the smoke run is re-pinned by the next tools commit once it succeeds.",
   "authorization": "Roger Roman's PRODUCTION RELEASE AUTHORIZATION (2026-09-16; chat and issue #160 comment 5690402065): targeted repairs, builds, tests, commits, pushes, worker publication, workflow executions, production deployment through the existing release process with rollback, and the existing expungement.ai domain cutover. No destructive migrations, no new purchases, no real test charges, no weakening of security or eligibility controls.",
   "deploymentAuthorized": true,
   "deploymentScope": "Vercel project prj_cdgwGzFqIHgEUlzEburSLaZETdQV (team team_4qLmZK9WI6xIy5vjYC0IF3ae): one acceptance Preview bound to acceptance Supabase hyflxnlhpmiqxvvcoiia with test-only Stripe and synthetic participants, then the production preflight/smoke/activate phases against production Supabase wwtwtsmywnckfkdaqqeg with a recorded rollback deployment. The public domain is never attached to the acceptance-database Preview."
