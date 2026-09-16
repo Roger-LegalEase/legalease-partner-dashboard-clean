@@ -195,8 +195,10 @@ async function walkMississippiScreening(hostname) {
       const headings = (await page.locator("h1, h2, legend").allTextContents()).map((t) => t.trim()).filter(Boolean).slice(0, 4);
       const options = (await page.locator("label, [role=radio], button[type=button]").allTextContents()).map((t) => t.trim()).filter(Boolean).slice(0, 30);
       await page.screenshot({ path: path.join(SHOTS_DIR, `step-${String(step).padStart(2, "0")}.png`), fullPage: true });
-      const hasContinue = (await page.getByRole("button", { name: /continue/i }).count()) > 0;
-      const isResult = !hasContinue && /result|preliminary|next step|create an account|sign in|packet|not eligible|more information/i.test(bodyText);
+      // The screening's own advance button is named "Continue"; the result
+      // screen's primary action is "Save my result and continue", which is not it.
+      const hasContinue = (await page.getByRole("button", { name: /^continue\b/i }).count()) > 0;
+      const isResult = !hasContinue && /path may be available|next steps|save my result|not eligible|more information|preliminary result/i.test(bodyText);
       if (FORBIDDEN_PROMPTS.test(headings.join(" "))) forbiddenPrompt = { step, headings };
       const rule = SCREENING_PLAN.find(([prompt]) => prompt.test(bodyText));
       const entry = { step, url: page.url(), headings, options, matchedPrompt: rule ? String(rule[0]) : null, isResult };
@@ -217,7 +219,7 @@ async function walkMississippiScreening(hostname) {
       entry.clicked = clicked;
       steps.push(entry);
       if (!clicked) { unplanned = { step, headings, noChoiceMatched: true, options }; break; }
-      await page.getByRole("button", { name: /continue/i }).first().click();
+      await page.getByRole("button", { name: /^continue\b/i }).first().click();
       await page.waitForTimeout(900);
     }
     const finalState = await context.storageState();
@@ -388,6 +390,8 @@ try {
   evidence.mutations.checkoutOpened = screening.externalRequestHosts.some((host) => /stripe\.com$/i.test(host));
   const answered = screening.steps.filter((entry) => entry.clicked).map((entry) => `${entry.matchedPrompt} → "${entry.clicked}"`);
   const result = screening.steps.find((entry) => entry.isResult);
+  const lastScreen = screening.steps[screening.steps.length - 1];
+  console.log(`  final screen: ${screening.finalUrl}; headings: ${JSON.stringify(lastScreen?.headings ?? [])}; result detected: ${screening.reachedResult}; pathway named: ${result?.pathwayNamed ?? false}; unplanned: ${screening.unplanned ? JSON.stringify(screening.unplanned).slice(0, 400) : "none"}`);
   record(
     "mississippi_screening_starts_fresh",
     screening.steps[0]?.freshContext === true,
@@ -402,7 +406,7 @@ try {
     "mississippi_screening_reaches_the_non_conviction_pathway",
     screening.reachedResult && screening.unplanned === null && result?.pathwayNamed === true
       && allowedHosts.has(screening.finalHost),
-    `${answered.length} visible answers (${answered.join("; ")}) reached a result on ${screening.finalHost} naming the non-conviction expungement pathway`
+    `${answered.length} visible answers (${answered.join("; ")}); result detected: ${screening.reachedResult}; unplanned screen: ${screening.unplanned === null ? "none" : "yes"}; pathway named: ${result?.pathwayNamed ?? false}; host ${screening.finalHost}`
   );
   record(
     "mississippi_screening_opens_no_checkout",
