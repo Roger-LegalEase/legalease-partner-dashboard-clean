@@ -28,6 +28,22 @@ on:
         description: "Exact immutable image digest sha256:… (must equal the frozen candidate)"
         required: true
         type: string
+  # Callable from the registered dispatcher (rcap-f1-ephemeral-staging.yml,
+  # mode production_worker_deploy): GitHub resolves workflow_dispatch against
+  # the default branch, which this release never updates directly.
+  workflow_call:
+    inputs:
+      worker_source_sha:
+        required: true
+        type: string
+      worker_digest:
+        required: true
+        type: string
+    secrets:
+      FLY_API_TOKEN:
+        required: true
+      SUPABASE_ACCESS_TOKEN:
+        required: true
 
 permissions:
   contents: read

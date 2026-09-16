@@ -62,6 +62,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         // Production release controls: the same exact-identity pins, moved to
         // the successor tuple under Roger's 2026-09-16 production authorization.
         '.github/workflows/rcap-production-canary.yml',
+        '.github/workflows/deploy-rcap-render-worker-production.yml',
+        'scripts/verify-rcap-production-worker-execution.mjs',
         'scripts/rcap-production-canary.mjs',
         'scripts/rcap-production-canary-smoke.mjs',
         'scripts/rcap-production-activate.mjs',
