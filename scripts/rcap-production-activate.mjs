@@ -18,8 +18,13 @@ const APPLICATION_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
 const WORKER_SOURCE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
 const WORKER_DIGEST = "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const STAGED_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX";
-const ROLLBACK_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL";
+const STAGED_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
+// The recovery target is the deployment that is live now. It is the newest
+// application whose save and claim path works against the migrated database;
+// the pre-migration dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL is not a usable recovery
+// target any more, because it writes the pending-result columns the applied
+// forward chain renamed.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX";
 const SMOKE_RUN_ID = "35083725518";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
