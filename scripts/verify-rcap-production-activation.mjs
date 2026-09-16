@@ -34,8 +34,9 @@ check(script.includes("successful_smoke_artifact_is_exact"), "activation require
 check(script.includes("rollback_is_ready_and_active_before_promotion"), "rollback is READY and active before promotion");
 check(script.includes("staged_deployment_identity_is_exact"), "staged deployment identity is rechecked before promotion");
 check(script.includes("production_clinic_schema_is_exact"), "Production Clinic schema is directly read back before promotion");
-check(script.includes('"promote"'), "activation promotes the existing staged deployment");
-check(script.includes('"--timeout=5m"'), "promotion has a bounded control-plane wait");
+check(script.includes('"promote", STAGED_DEPLOYMENT_ID') && script.includes("/promote/"), "activation promotes the existing staged deployment through the REST promote control");
+check(script.includes("signal: AbortSignal.timeout(60_000)") && script.includes("Date.now() + 120_000"), "promotion has a bounded control-plane wait");
+check(!script.includes("child_process") && !script.includes("vercel@latest"), "activation never shells out to the Vercel CLI");
 check(script.includes("production_domains_resolve_to_staged_deployment"), "all Production domains must resolve to the staged deployment");
 check(script.includes("canonicalRuntimeDomain"), "runtime smoke selects one exact canonical Vercel Production domain");
 check(script.includes("fetchWithRetry"), "post-promotion runtime reads use bounded retry for edge convergence");
@@ -44,7 +45,7 @@ check(script.includes("active_runtime_project_is_canonical"), "active runtime mu
 check(script.includes("environment_metadata_is_unchanged"), "environment metadata must remain unchanged");
 check(script.includes("rollback_target_remains_ready"), "recorded rollback target must remain READY");
 check(script.includes("automaticRollback"), "post-promotion failure has an automatic rollback path");
-check(script.includes('"rollback"'), "automatic rollback uses the exact recorded deployment");
+check(script.includes('"rollback", ROLLBACK_DEPLOYMENT_ID') && script.includes("/rollback/"), "automatic rollback uses the exact recorded deployment through the REST rollback control");
 check(script.includes("rollback_domains_restored"), "automatic rollback verifies domain restoration");
 check(!script.includes('"deploy"') && !script.includes("vercel deploy"), "activation cannot build or create a deployment");
 check(!/\/env[^\n]{0,180}method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/.test(script), "activation cannot mutate environment variables");
