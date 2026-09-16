@@ -79,8 +79,33 @@ check(probe.includes("secrets.add(password)") && probe.includes("secrets.add(ser
 check(probe.includes("passwordPersisted: false"), "evidence records that the password is not persisted");
 
 // --- what must never happen --------------------------------------------------------
-check(!/stripe|checkout|packet\/generate|packet[-_ ]?generat/i.test(probe), "probe never references a payment surface or packet generation");
-check(!/\$50|pay \$|continue to payment|getByRole\("(?:link|button)", \{ name: \/[^\n]*pay/i.test(probe), "probe never clicks a payment control or names consumer pricing");
+// The probe now follows the participant's journey to Final verification and
+// stops at the next legitimate action. It may LOCATE that action and record
+// that it exists; it may never take it, and it must still never reach a
+// payment provider or start packet generation.
+check(
+  !/(?:goto|request\.(?:get|post)|fetch)\([^\n]*stripe/i.test(probe)
+    && !/api\.stripe\.com|checkout\.stripe\.com|js\.stripe\.com/i.test(probe)
+    && !/packet\/generate/i.test(probe),
+  "the probe never navigates to a payment provider and never starts packet generation"
+);
+check(
+  /externalRequestHosts\.some\(\(host\) => \/stripe\/i\.test\(host\)\)/.test(probe),
+  "the probe asserts that no payment provider host was contacted"
+);
+check(
+  probe.includes("journey.nextActionTaken = false")
+    && !/checkout[^\n]*\.click\(\)|payButton[^\n]*\.click\(\)|name: CONSUMER_CHECKOUT_LABEL[^\n]*\}\)\.click\(\)/.test(probe),
+  "the next legitimate action is located and recorded as not taken, never clicked"
+);
+check(
+  (probe.match(/CONSUMER_CHECKOUT_LABEL/g) ?? []).length >= 2 && !/\bcard(?:Number|Element)\b|4242\s?4242|billing[_ ]?details/i.test(probe),
+  "the payment control is referenced only by its label; no card or billing detail is ever entered"
+);
+check(
+  !/originPostPaths[^\n]*checkout|POST[^\n]*\/(?:pay|checkout)\b/i.test(probe) && !/fetch\([^\n]*checkout/i.test(probe),
+  "the probe issues no request to a checkout endpoint"
+);
 check(probe.includes("section.externalRequestHosts = [...external].sort()") && probe.includes("section.originPostPaths = [...posts].sort()"), "every third-party host and origin POST path is recorded per browser");
 check(consoleLines.every((line) => !/claimToken|password|serviceKey|handoffUrl|SUPABASE_ACCESS_TOKEN/.test(line.replace("::add-mask::${serviceKey}", ""))), "no console line prints a claim token, password, handoff URL or key");
 check(!/\$\{(?:claimToken|password|credentials\.password|handoffUrl|signedOut\.handoffUrl)\}/.test(probe), "no template literal interpolates a claim token, password or handoff URL");

@@ -560,6 +560,91 @@ async function reproducePhase() {
   }
 }
 
+// Continues the claimed matter through the packet-information builder to Final
+// verification and stops at the next legitimate action without taking it. The
+// checkout button is located and reported, never clicked, so no charge is
+// created and no packet is generated.
+async function completePacketInformationAndVerify(page, section, matterId) {
+  const journey = { matterId, builderSteps: 0, saveStatuses: [], reviewBranch: null, verificationPanelPresent: false };
+  await page.goto(new URL(`${MATTERS_PATH}/${matterId}`, ORIGIN).href, { waitUntil: "domcontentloaded", timeout: 60_000 });
+  const builderLink = page.getByRole("link", { name: /^(?:Complete packet information|Resume packet information|Continue my Mississippi clinic packet)$/ });
+  if (!(await builderLink.count())) {
+    throw await withPageContext(page, section, `chromium: the claimed matter offered no packet-information action`);
+  }
+  journey.builderEntryLabel = (await builderLink.first().innerText().catch(() => "")).trim();
+  await builderLink.first().click();
+  await page.waitForURL((url) => url.pathname.endsWith("/packet-information"), { timeout: 30_000 });
+
+  for (let step = 0; step < 90 && new URL(page.url()).pathname.endsWith("/packet-information"); step += 1) {
+    await answerBuilderStep(page);
+    const savePromise = page.waitForResponse(
+      (response) => response.request().method() === "POST" && new URL(response.url()).pathname === `/api/expungement-ai/briefcase/${matterId}/packet-information`,
+      { timeout: 30_000 }
+    ).then((response) => response, () => null);
+    const finalButton = page.getByRole("button", { name: "Review packet facts", exact: true });
+    if (await finalButton.isVisible().catch(() => false)) await finalButton.click();
+    else await page.getByRole("button", { name: "Save and continue", exact: true }).click();
+    const save = await savePromise;
+    journey.builderSteps += 1;
+    journey.saveStatuses.push(save?.status() ?? null);
+    if (!save?.ok()) {
+      throw await withPageContext(page, section, `chromium: packet-information save ${journey.builderSteps} returned ${save?.status() ?? "no response"}`);
+    }
+  }
+  await page.waitForURL((url) => url.pathname.endsWith("/review"), { timeout: 30_000 });
+
+  // "Final verification" is also the heading of the review page's unavailable
+  // branch, so the panel itself is the only honest signal.
+  const panel = page.locator(VERIFICATION_PANEL);
+  const unavailable = page.locator(UNAVAILABLE_BRANCH);
+  await Promise.race([
+    panel.waitFor({ state: "visible", timeout: 25_000 }).catch(() => null),
+    unavailable.waitFor({ state: "visible", timeout: 25_000 }).catch(() => null)
+  ]);
+  journey.verificationPanelPresent = (await panel.count()) > 0;
+  if (!journey.verificationPanelPresent) {
+    journey.reviewBranch = await unavailable.evaluate((node) => Object.fromEntries(
+      Array.from(node.attributes).filter((attribute) => attribute.name.startsWith("data-")).map((attribute) => [attribute.name, attribute.value])
+    )).catch(() => null);
+    section.packetJourney = journey;
+    await screenshot(page, section, "06-review-unavailable");
+    throw await withPageContext(page, section, `chromium: Final verification is unavailable for the claimed matter: ${JSON.stringify(journey.reviewBranch)}`);
+  }
+  journey.panelStateBeforeVerify = await panel.getAttribute("data-packet-verification-state");
+  await screenshot(page, section, "06-final-verification");
+
+  const verifyButton = page.getByRole("button", { name: CONSUMER_VERIFY_LABEL, exact: true });
+  const verifyVisible = await verifyButton.waitFor({ state: "visible", timeout: 20_000 }).then(() => true, () => false);
+  journey.verifyActionPresent = verifyVisible;
+  if (!verifyVisible) {
+    journey.panelText = redact((await panel.innerText().catch(() => "")).replace(/\s+/g, " ").trim().slice(0, 400));
+    section.packetJourney = journey;
+    await screenshot(page, section, "06-verify-action-missing");
+    throw await withPageContext(page, section, `chromium: the Final verification panel rendered but offered no verify action; panel: ${JSON.stringify(journey.panelText)}`);
+  }
+  const verifyPromise = page.waitForResponse(
+    (response) => response.request().method() === "POST" && new URL(response.url()).pathname === `/api/expungement-ai/briefcase/${matterId}/packet-information`,
+    { timeout: 30_000 }
+  ).then((response) => response, () => null);
+  await verifyButton.click();
+  const verifyResponse = await verifyPromise;
+  journey.verifyStatus = verifyResponse?.status() ?? null;
+  if (!verifyResponse?.ok()) {
+    section.packetJourney = journey;
+    throw await withPageContext(page, section, `chromium: Final verification returned ${journey.verifyStatus ?? "no response"}`);
+  }
+  journey.panelStateAfterVerify = await panel.getAttribute("data-packet-verification-state").catch(() => null);
+
+  // The next legitimate action only. It is never taken.
+  const checkout = page.getByRole("button", { name: CONSUMER_CHECKOUT_LABEL, exact: true });
+  journey.nextActionPresent = await checkout.waitFor({ state: "visible", timeout: 20_000 }).then(() => true, () => false);
+  journey.nextActionLabel = journey.nextActionPresent ? CONSUMER_CHECKOUT_LABEL : null;
+  journey.nextActionTaken = false;
+  await screenshot(page, section, "07-verified-next-action");
+  section.packetJourney = journey;
+  return journey;
+}
+
 // --- verify phase ---------------------------------------------------------------
 async function switchToSignIn(page, section) {
   const toggle = page.getByRole("button", { name: /Already have an account\? Sign in/i });
@@ -614,6 +699,113 @@ async function signInAndClaim(page, section, credentials, label) {
     claimRedirectMatterId: exactBriefcaseItemId(claimJson?.redirectTo),
     xVercelId: claimResponse ? header(claimResponse, "x-vercel-id") : null
   };
+}
+
+// --- packet information through Final verification -------------------------
+// The Mississippi non-conviction packet re-checks these route facts before it
+// will verify (mississippiNonConvictionPacketSafety). A first-option or
+// placeholder answer makes the review unsafe and withholds the verify action.
+const PACKET_SAFE_ANSWERS = Object.freeze({
+  pending_cases: "No",
+  trafficking_status: "No",
+  prior_relief: "No",
+  sentence_completion_date: "Yes",
+  financial_obligations: "Yes",
+  nonadjudication_or_diversion: "No",
+  open_co_defendant_matter: "No",
+  actual_arrest: "Yes",
+  release_confirmed: "Yes",
+  disposition_record_wording: "Charges dropped",
+  statutory_disposition_category: "Charges dropped"
+});
+const PACKET_ISO_DATE = "2015-01-15";
+const PACKET_BUILDER = "[data-packet-information-builder='active']";
+const VERIFICATION_PANEL = "[data-packet-verification-state]";
+const UNAVAILABLE_BRANCH = "[data-review-branch='unavailable']";
+const CONSUMER_VERIFY_LABEL = "I verified these packet facts";
+// The legitimate next action for a paid consumer route. It is located and
+// reported, never clicked: this probe creates no charge.
+const CONSUMER_CHECKOUT_LABEL = "Pay $50 and generate my packet";
+
+function packetFieldValue(id, prompt) {
+  if (PACKET_SAFE_ANSWERS[id]) return PACKET_SAFE_ANSWERS[id];
+  if (/_date$|_date_/.test(id) || /\bdate\b/i.test(prompt)) return PACKET_ISO_DATE;
+  const known = {
+    participant_full_legal_name: "Acceptance Participant",
+    full_legal_name: "Acceptance Participant",
+    contact_information: "100 Acceptance Way, Jackson, MS 39201",
+    county: "Hinds County",
+    court: "Hinds County Circuit Court",
+    court_name: "Hinds County Circuit Court",
+    charge: "Acceptance test misdemeanor charge",
+    record_type: "Court case",
+    residency_or_location: "Jackson, Mississippi",
+    age_at_offense: "30"
+  };
+  if (known[id]) return known[id];
+  if (/name/i.test(prompt)) return "Acceptance Participant";
+  if (/number|docket|case/i.test(prompt)) return "25-CR-000123";
+  if (/county/i.test(prompt)) return "Hinds County";
+  if (/court/i.test(prompt)) return "Hinds County Circuit Court";
+  if (/age|year/i.test(prompt)) return "30";
+  return "Acceptance test information";
+}
+
+// Answers whichever control the builder is showing, exactly as a participant
+// would. A prefilled value is the participant's own answer projected into the
+// packet and is never overwritten.
+async function answerBuilderStep(page) {
+  const builder = page.locator(PACKET_BUILDER);
+  await builder.waitFor({ state: "visible", timeout: 20_000 });
+  const prompt = await builder.locator("h1").innerText().catch(() => "");
+
+  const text = builder.locator("input[type='text']:visible:enabled, input[type='number']:visible:enabled").first();
+  if (await text.count()) {
+    const id = (await text.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
+    const current = (await text.inputValue().catch(() => "")).trim();
+    if (!current) await text.fill(packetFieldValue(id, prompt));
+    return;
+  }
+  const textarea = builder.locator("textarea:visible:enabled").first();
+  if (await textarea.count()) {
+    const id = (await textarea.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
+    const current = (await textarea.inputValue().catch(() => "")).trim();
+    if (!current) await textarea.fill(packetFieldValue(id, prompt));
+    return;
+  }
+  const selects = builder.locator("select:visible:enabled");
+  const selectCount = await selects.count();
+  if (selectCount === 3) {
+    await selects.nth(0).selectOption("01");
+    await selects.nth(1).selectOption("15");
+    const years = await selects.nth(2).locator("option").evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
+    await selects.nth(2).selectOption(years.includes("2015") ? "2015" : years.at(-1) ?? "2000");
+    return;
+  }
+  if (selectCount === 1) {
+    const id = ((await selects.first().getAttribute("id")) ?? "").replace(/^q-/, "");
+    const safe = PACKET_SAFE_ANSWERS[id];
+    if (safe) { await selects.first().selectOption({ label: safe }).catch(() => null); return; }
+  }
+  const radios = builder.locator("input[type='radio']:visible:enabled");
+  const radioCount = await radios.count();
+  if (radioCount) {
+    if (await builder.locator("input[type='radio']:visible:checked").count()) return;
+    const id = ((await radios.first().getAttribute("name")) ?? "").replace(/^q-/, "");
+    const safe = PACKET_SAFE_ANSWERS[id];
+    const preferred = safe ? new RegExp(`^${safe.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s|$)`, "i") : null;
+    for (let index = 0; index < radioCount; index += 1) {
+      const radio = radios.nth(index);
+      const label = await radio.locator("xpath=ancestor::label").innerText().catch(() => "");
+      if (preferred ? preferred.test(label) : !/not sure|prefer not|unknown/i.test(label)) { await radio.check(); return; }
+    }
+    await radios.first().check();
+    return;
+  }
+  const checkboxes = builder.locator("input[type='checkbox']:visible:enabled");
+  if (await checkboxes.count() && !(await builder.locator("input[type='checkbox']:visible:checked").count())) {
+    await checkboxes.first().check().catch(() => null);
+  }
 }
 
 async function expectMatterRendered(page, section, matterId, label) {
@@ -777,6 +969,23 @@ async function verifyPhase() {
       "replayed_claim_token_cannot_mint_a_third_matter",
       replayOutcomeOk && afterReplay.count === afterSecond.count && !afterReplay.ids.some((id) => id !== firstMatterId && id !== secondMatterId && !afterSecond.ids.includes(id)),
       `replayed claim HTTP ${replay.claimStatus}${replay.claimError ? ` ${replay.claimError}` : ""}; ${replay.claimStatus === 200 ? `idempotent replay landed on the first matter: ${landedOnFirstMatter}` : `refusal copy shown: ${refusalCopyShown}`}; ${MATTERS_PATH} still lists ${afterReplay.count} matter link(s)`
+    );
+    // (e) the rest of the participant's journey: the claimed matter through the
+    // packet-information builder to Final verification, stopping at the next
+    // legitimate action without taking it.
+    const journey = await completePacketInformationAndVerify(page, section, secondMatterId);
+    record(
+      "packet_information_completes_and_final_verification_is_reachable",
+      journey.verificationPanelPresent && journey.verifyActionPresent && journey.verifyStatus === 200,
+      `entered the builder through "${journey.builderEntryLabel}"; ${journey.builderSteps} saved step(s), all HTTP 200;`
+        + ` the review page rendered the verification panel (${journey.panelStateBeforeVerify} before, ${journey.panelStateAfterVerify} after)`
+        + ` and Final verification returned HTTP ${journey.verifyStatus}`
+    );
+    record(
+      "verified_matter_offers_the_next_legitimate_action_and_nothing_was_charged",
+      journey.nextActionPresent && journey.nextActionTaken === false && !section.externalRequestHosts.some((host) => /stripe/i.test(host)),
+      `next action "${journey.nextActionLabel ?? "none"}" present=${journey.nextActionPresent}, taken=${journey.nextActionTaken};`
+        + ` external hosts contacted: ${section.externalRequestHosts.length === 0 ? "none" : section.externalRequestHosts.join(", ")}`
     );
     section.status = "captured";
     section.transitionHealthy = true;

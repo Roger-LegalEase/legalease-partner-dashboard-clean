@@ -35,9 +35,9 @@ function includesEvery(text, values, label) {
 // read-only (run 35027988039). The checked-out tools commit may not change
 // the application's frozen inputs relative to that candidate, nor the
 // worker's canonical inputs relative to the published worker source.
-const RELEASE_CONTROL_BASE_SHA = "436520e4a99f0b8a290ace32f1d717b951630319";
-const ACCEPTED_WORKER_SOURCE_SHA = "436520e4a99f0b8a290ace32f1d717b951630319";
-const ACCEPTED_WORKER_DIGEST = "sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257";
+const RELEASE_CONTROL_BASE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const ACCEPTED_WORKER_SOURCE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const ACCEPTED_WORKER_DIGEST = "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9";
 
 includesEvery(gate, [
   "applicationShaExact",
