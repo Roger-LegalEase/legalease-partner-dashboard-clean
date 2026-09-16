@@ -17,15 +17,15 @@ check(dispatcher.includes("production_activate"), "dispatcher exposes one isolat
 check(workflow.includes("inputs.phase == 'activate'"), "activation is isolated from preflight, migration, and smoke");
 check(workflow.includes("actions: read"), "workflow can read only the exact prior smoke artifact");
 check(dispatcher.includes("permissions:\n  contents: read\n  packages: read\n  actions: read"), "dispatcher grants the reusable workflow prior-artifact read access");
-check(workflow.includes("run-id: 32967717618"), "workflow pins the successful Production smoke run");
-check(workflow.includes("rcap-production-smoke-32967717618"), "workflow pins the exact successful smoke artifact");
+check(workflow.includes("run-id: 35083725518"), "workflow pins the successful Production smoke run");
+check(workflow.includes("rcap-production-smoke-35083725518"), "workflow pins the exact successful smoke artifact");
 check(workflow.includes("node scripts/verify-rcap-production-activation.mjs"), "workflow self-verifies the activation contract");
 check(workflow.includes("node scripts/test-rcap-production-activation-mutations.mjs"), "workflow runs activation mutation proof");
 check(workflow.includes("node scripts/rcap-production-activate.mjs"), "workflow invokes only the dedicated activation control");
 
 check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX"'), "exact staged deployment is pinned");
 check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "exact rollback deployment is pinned");
-check(script.includes('const SMOKE_RUN_ID = "32967717618"'), "exact successful smoke run is pinned");
+check(script.includes('const SMOKE_RUN_ID = "35083725518"'), "exact successful smoke run is pinned");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production Supabase project is pinned");
 check(script.includes('const APPLICATION_SHA = "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6"'), "final application SHA is pinned");
 check(script.includes('const WORKER_SOURCE_SHA = "da432bd11924cc3ba8d766cbb9e09b12650347c3"'), "accepted worker source is pinned");
