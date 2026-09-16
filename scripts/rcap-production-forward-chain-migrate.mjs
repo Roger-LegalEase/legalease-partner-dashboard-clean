@@ -57,7 +57,8 @@ export const UNLEDGERED_PRIOR_STEPS = Object.freeze([
 export const MIGRATIONS = Object.freeze([
   Object.freeze({ position: 17, version: "20260828100000", path: "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql", sha256: "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c", signature: { kind: "table", name: "participant_claim_events" } }),
   Object.freeze({ position: 18, version: "20260830120000", path: "supabase/migrations/20260830120000_participant_data_rights.sql", sha256: "991fe21eab48b1ee72ab9f06346339f959f82d5f668b34560eef97bda08272ca", signature: { kind: "table", name: "participant_privacy_requests" } }),
-  Object.freeze({ position: 19, version: "20260901115000", path: "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql", sha256: "eb4969342a488c281152323693f4ef90732026a16f443218e53231e09cf78132", signature: { kind: "table", name: "consumer_packet_artifact_provenance" } }),
+  // Every statement re-creates an object 20260830120000 already created identically (table if not exists, or-replace functions, trigger, index, comment); only the ledger row distinguishes it.
+  Object.freeze({ position: 19, version: "20260901115000", path: "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql", sha256: "eb4969342a488c281152323693f4ef90732026a16f443218e53231e09cf78132", signature: { kind: "ledger", name: "20260901115000" } }),
   Object.freeze({ position: 20, version: "20260901120000", path: "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql", sha256: "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb", signature: { kind: "function", name: "get_consumer_packet_verification_authority" } }),
   Object.freeze({ position: 21, version: "20260901130000", path: "supabase/migrations/20260901130000_consumer_private_delivery.sql", sha256: "ab3c23fa13bc52bbf9604e1811e5fec989a7291fb840e1ae5994a12100395621", signature: { kind: "table", name: "consumer_artifact_download_grants" } }),
   // Re-creates authorize_consumer_artifact_download with an identical signature; only the ledger row distinguishes it.
@@ -65,7 +66,8 @@ export const MIGRATIONS = Object.freeze([
   Object.freeze({ position: 23, version: "20260903120000", path: "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql", sha256: "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e", signature: { kind: "column", table: "clinic_events", name: "jurisdiction" } }),
   Object.freeze({ position: 24, version: "20260903130000", path: "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql", sha256: "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4", signature: { kind: "function", name: "finalize_sponsored_packet_generation_if_verified" } }),
   Object.freeze({ position: 25, version: "20260906120000", path: "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql", sha256: "e323452b977c71bef2553fefd537a297b9b36151a043bae8003145f9dc691fd9", signature: { kind: "table", name: "sponsored_packet_render_routes" } }),
-  Object.freeze({ position: 26, version: "20260906130000", path: "supabase/migrations/20260906130000_verified_artifact_regeneration.sql", sha256: "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7", signature: { kind: "function", name: "finalize_sponsored_packet_generation_for_route" } })
+  // finalize_sponsored_packet_generation_for_route is first created by 20260906120000; the superseded_artifacts column exists only from this file.
+  Object.freeze({ position: 26, version: "20260906130000", path: "supabase/migrations/20260906130000_verified_artifact_regeneration.sql", sha256: "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7", signature: { kind: "column", table: "consumer_packet_artifact_provenance", name: "superseded_artifacts" } })
 ]);
 
 // Objects the deployed application writes through, created by the loose phase
@@ -166,6 +168,31 @@ export function readbackQuery() {
       ${UNLEDGERED_PRIOR_STEPS.map((step) => `${signatureProbe(step.signature)} as prior_${step.version}`).join(",\n      ")},
       ${MIGRATIONS.map((migration) => `${signatureProbe(migration.signature)} as sig_${migration.version}`).join(",\n      ")}
   `;
+}
+
+// Names a migration file creates or replaces (functions, views, triggers,
+// policies, tables, indexes), lower-cased and without the public. prefix.
+// Used to prove that applying a skipped earlier file after later files have
+// run cannot overwrite a definition one of those later files owns.
+export function definedObjects(sql) {
+  const names = new Set();
+  const pattern = /create\s+(?:or\s+replace\s+)?(?:unique\s+)?(?:function|view|trigger|policy|table|index)\s+(?:if\s+not\s+exists\s+)?"?([a-z0-9_.]+)"?/gi;
+  for (const match of sql.matchAll(pattern)) names.add(match[1].toLowerCase().replace(/^public\./, ""));
+  return names;
+}
+
+// For every absent migration, the later migrations whose signature is
+// already present and which define an object the absent file also defines.
+// A late apply of that file would clobber the later definition, so it is
+// unsafe; an ordered prefix has no such gaps by construction.
+export function unsafeGaps(summary, sqlByVersion) {
+  return MIGRATIONS.filter((migration) => !summary.signatures[migration.version]).map((migration) => {
+    const own = definedObjects(sqlByVersion.get(migration.version) ?? "");
+    const clobbered = MIGRATIONS
+      .filter((later) => later.position > migration.position && summary.signatures[later.version])
+      .flatMap((later) => [...definedObjects(sqlByVersion.get(later.version) ?? "")].filter((name) => own.has(name)).map((name) => `${name} (owned by ${later.version})`));
+    return { version: migration.version, clobbered };
+  }).filter((gap) => gap.clobbered.length > 0);
 }
 
 function truthy(value) { return value === true || value === "true" || value === "t"; }
@@ -343,10 +370,11 @@ try {
     before.prerequisitesExact,
     Object.entries(before.prerequisites).map(([name, present]) => `${name}=${present}`).join(", ")
   );
+  const gaps = unsafeGaps(before, sqlByVersion);
   record(
-    "forward_chain_state_is_an_ordered_prefix",
-    before.orderedPrefix,
-    `present=[${before.present.join(", ")}]; missing=[${before.missing.join(", ")}]`
+    "forward_chain_gaps_cannot_clobber_later_definitions",
+    before.orderedPrefix || gaps.length === 0,
+    `present=[${before.present.join(", ")}]; missing=[${before.missing.join(", ")}]; ordered prefix=${before.orderedPrefix}; unsafe gaps=${gaps.length === 0 ? "none" : gaps.map((gap) => `${gap.version} would clobber ${gap.clobbered.join(", ")}`).join("; ")}`
   );
 
   const impact = await pendingResultImpactReadback();
@@ -405,21 +433,42 @@ try {
     for (const migration of MIGRATIONS) {
       const current = await readback(`pre_apply_readback_${migration.version}`);
       if (current.signatures[migration.version]) {
+        // A ledger-only signature can be satisfied by a row recorded without an
+        // execution. The authorization record may name such a version once,
+        // with its reason; the idempotent file is then executed so the row is
+        // backed by an execution. Object signatures are never re-executed.
+        const reExecute = Array.isArray(authorization?.executeDespiteLedgerRow?.versions)
+          && authorization.executeDespiteLedgerRow.versions.includes(migration.version)
+          && migration.signature.kind === "ledger";
+        if (reExecute) {
+          await managementQuery(sqlByVersion.get(migration.version), `forward_migration_${migration.position}_executed`);
+          evidence.productionDatabaseMutated = true;
+          evidence.migrationsApplied.push(migration.version);
+          record(`forward_migration_${migration.position}_executed_to_back_its_ledger_row`, true, `${migration.path} executed although its ledger row was already present (${authorization.executeDespiteLedgerRow.why ?? "reason recorded"})`);
+          continue;
+        }
         evidence.migrationsAlreadyPresent.push(migration.version);
         if (!current.ledgerVersions.includes(migration.version)) {
           await recordLedgerRow(migration, current.ledgerHasNameColumn);
           evidence.productionDatabaseMutated = true;
         }
-        record(`forward_migration_${migration.position}_already_present`, true, `${migration.path} signature present; ledger row ${current.ledgerVersions.includes(migration.version) ? "present" : "recorded"}`);
+        record(`forward_migration_${migration.position}_already_present`, true, `${migration.path} signature ${migration.signature.kind}:${migration.signature.name} present; ledger row ${current.ledgerVersions.includes(migration.version) ? "present" : "recorded"}`);
         continue;
       }
+      const gap = unsafeGaps(current, sqlByVersion).find((entry) => entry.version === migration.version);
+      record(
+        `forward_migration_${migration.position}_late_apply_cannot_clobber_later_definitions`,
+        !gap,
+        gap ? `${migration.path} would overwrite ${gap.clobbered.join(", ")}` : `${migration.path} defines nothing a present later migration owns`
+      );
+      const ledgerRowBeforeApply = current.ledgerVersions.includes(migration.version);
       await managementQuery(sqlByVersion.get(migration.version), `forward_migration_${migration.position}_applied`);
       evidence.productionDatabaseMutated = true;
       evidence.migrationsApplied.push(migration.version);
       const after = await readback(`post_apply_readback_${migration.version}`);
       if (!after.ledgerVersions.includes(migration.version)) await recordLedgerRow(migration, after.ledgerHasNameColumn);
       const proven = migration.signature.kind === "ledger" ? true : after.signatures[migration.version] === true;
-      record(`forward_migration_${migration.position}_applied_and_read_back`, proven, `${migration.path} applied; signature ${migration.signature.kind}:${migration.signature.name} present=${proven}`);
+      record(`forward_migration_${migration.position}_applied_and_read_back`, proven, `${migration.path} applied; signature ${migration.signature.kind}:${migration.signature.name} present=${proven}; ledger row before apply=${ledgerRowBeforeApply}`);
     }
 
     const final = await readback("forward_chain_final_readback");

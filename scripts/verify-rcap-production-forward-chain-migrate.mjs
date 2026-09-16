@@ -72,7 +72,42 @@ check(script.includes("canonical_production_project_is_authenticated"), "canonic
 check(script.includes("frozen_forward_chain_hashes_exact"), "frozen forward-chain hashes are proven exact before any apply");
 check(script.includes("migration_ledger_carries_the_recovered_baseline"), "migration ledger must carry the recovered baseline before mutation");
 check(script.includes("loose_phase_prerequisites_present"), "loose phase prerequisites are read before mutation");
-check(script.includes("forward_chain_state_is_an_ordered_prefix"), "out-of-order partial forward chain is refused");
+check(script.includes("forward_chain_gaps_cannot_clobber_later_definitions") && script.includes("unsafeGaps("), "a partial forward chain is refused when a late apply would overwrite a later migration's definitions");
+check(script.includes("_late_apply_cannot_clobber_later_definitions"), "each late apply is guarded against clobbering a present later migration");
+check(
+  script.includes("executeDespiteLedgerRow") && script.includes('&& migration.signature.kind === "ledger"'),
+  "a ledger row recorded without an execution can be backed by executing the file only when the authorization names the version and the signature is ledger-only"
+);
+
+// Every object signature must be created by no earlier migration file, or the
+// control would treat a file as applied because an earlier file created the
+// same object (run 35130488671 skipped positions 19 and 26 that way).
+const signatures = [];
+const signaturePattern = /position:\s*(\d+),[^\n]*?sha256:\s*"[0-9a-f]{64}",\s*signature:\s*\{\s*kind:\s*"(\w+)",(?:\s*table:\s*"([a-z0-9_]+)",)?\s*name:\s*"([a-z0-9_]+)"\s*\}/g;
+for (const match of script.matchAll(signaturePattern)) signatures.push({ position: Number(match[1]), kind: match[2], table: match[3], name: match[4] });
+const migrationDir = path.join(gitDir, "supabase/migrations");
+const migrationFiles = fs.existsSync(migrationDir) ? fs.readdirSync(migrationDir).filter((file) => file.endsWith(".sql")).sort() : [];
+const earlierSql = (version) => migrationFiles.filter((file) => file.slice(0, 14) < version).map((file) => fs.readFileSync(path.join(migrationDir, file), "utf8").toLowerCase()).join("\n");
+const createsObject = (sql, signature) => {
+  const name = signature.name.toLowerCase();
+  if (signature.kind === "table") return new RegExp(`create\\s+table\\s+(?:if\\s+not\\s+exists\\s+)?"?(?:public\\.)?"?${name}"?\\s*\\(`).test(sql);
+  if (signature.kind === "function") return new RegExp(`function\\s+"?(?:public\\.)?"?${name}"?\\s*\\(`).test(sql);
+  if (signature.kind === "column") {
+    if (new RegExp(`add\\s+column\\s+(?:if\\s+not\\s+exists\\s+)?"?${name}"?\\b`).test(sql)) return true;
+    const table = signature.table.toLowerCase();
+    const blockStart = sql.search(new RegExp(`create\\s+table\\s+(?:if\\s+not\\s+exists\\s+)?"?(?:public\\.)?"?${table}"?\\s*\\(`));
+    if (blockStart === -1) return false;
+    const block = sql.slice(blockStart, sql.indexOf("\n);", blockStart));
+    return new RegExp(`\\b${name}\\b`).test(block);
+  }
+  return false;
+};
+check(signatures.length === EXPECTED_POSITIONS.length, "every forward migration carries one signature");
+for (const signature of signatures) {
+  const migration = migrations.find((entry) => entry.position === signature.position);
+  const unique = signature.kind === "ledger" ? migration?.version === signature.name : Boolean(migration) && !createsObject(earlierSql(migration.version), signature);
+  check(unique, `forward migration ${signature.position} signature ${signature.kind}:${signature.name} is created by no earlier migration file`);
+}
 check(script.includes("readback_phase_wrote_nothing"), "readback phase asserts it wrote nothing");
 check(script.includes("independent_production_authorization_names_the_exact_chain"), "Production apply requires the independent authorization naming the exact chain");
 check(

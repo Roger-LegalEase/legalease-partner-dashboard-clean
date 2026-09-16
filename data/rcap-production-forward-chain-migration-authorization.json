@@ -41,6 +41,15 @@
     "backups": "Supabase Management API (run 35129903710): PITR disabled; WAL-G flag enabled (us-east-1); the API lists no completed backup and no physical backup window, so no API-confirmed restore point exists. The chain only adds and renames structure; its row effects are the status and matter-link updates counted below, reversible by inverse SQL.",
     "existingRowEffect": "43 stored pending results: 28 claimed under the old scheme gain their unique Briefcase matter link and become CLAIMED; 15 unclaimed rows that carry no claim token and are already past expires_at become REVOKED (0 unexpired, 0 created in the last 24 hours, 0 claimed without a provable matter); no row is deleted and no live pending row exists."
   },
+  "correction": {
+    "defectiveRunId": 35130488671,
+    "finding": "The control's signatures for positions 19 (table consumer_packet_artifact_provenance) and 26 (function finalize_sponsored_packet_generation_for_route) were objects that 20260830120000 and 20260906120000 already create, so after those files ran the control treated 20260901115000 and 20260906130000 as already present, recorded their ledger rows and did not execute them. The other eight files were executed and read back. 20260901115000 re-creates only objects 20260830120000 created identically; 20260906130000 adds consumer_packet_artifact_provenance.superseded_artifacts and redefines three functions and was materially unapplied.",
+    "remedy": "Signatures replaced by a ledger-only signature for 19 and the superseded_artifacts column for 26; a static uniqueness check and a late-apply clobber guard added; 20260906130000 is applied on its absent signature; 20260901115000 is executed once under executeDespiteLedgerRow so its ledger row is backed by an execution."
+  },
+  "executeDespiteLedgerRow": {
+    "versions": ["20260901115000"],
+    "why": "run 35130488671 recorded the row after a non-unique signature matched an object 20260830120000 created; the file is idempotent and re-creates identical objects"
+  },
   "acceptedRevocation": {
     "basis": "Counts read back without writing by run 35129903710; the migrate phase re-reads them and refuses before any write if a bucket exceeds its maximum. The expired, tokenless, ownerless rows were already unclaimable under both schemes.",
     "maxUnexpiredUnclaimedRowsRevoked": 0,

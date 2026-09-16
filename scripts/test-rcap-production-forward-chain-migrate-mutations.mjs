@@ -39,9 +39,24 @@ const mutations = [
     "prior_steps_ignored"
   ],
   [
-    "ordered prefix refusal",
-    "forward_chain_state_is_an_ordered_prefix",
+    "unsafe gap refusal",
+    "forward_chain_gaps_cannot_clobber_later_definitions",
     "order_ignored"
+  ],
+  [
+    "late-apply clobber guard",
+    "_late_apply_cannot_clobber_later_definitions",
+    "_late_apply_unguarded"
+  ],
+  [
+    "ledger-only re-execution guard",
+    "&& migration.signature.kind === \"ledger\"",
+    "&& true"
+  ],
+  [
+    "non-unique signature",
+    "signature: { kind: \"column\", table: \"consumer_packet_artifact_provenance\", name: \"superseded_artifacts\" }",
+    "signature: { kind: \"function\", name: \"finalize_sponsored_packet_generation_for_route\" }"
   ],
   [
     "independent authorization",
