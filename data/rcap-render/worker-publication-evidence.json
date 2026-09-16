@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
-  "sourceSha": "52ee3c7b80208993c7f3dda624c01bea2b14a7cf",
+  "sourceSha": "1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6",
   "canonicalIntegrationBranch": "main",
   "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
   "containedIn": "claude/legalease-sprint-captain-utucnw",
@@ -8,27 +8,27 @@
   "dockerfileSha256": "98f2934b4e817091233aef349de2c67edccd928d149e40ddeb827fcef4141076",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "52ee3c7b80208993c7f3dda624c01bea2b14a7cf",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:52ee3c7b80208993c7f3dda624c01bea2b14a7cf",
-  "immutableRegistryDigest": "sha256:154bbb51aac1957cc8007ddf54a2525cf6d34909dc44538732a41fb4ee501ea1",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:154bbb51aac1957cc8007ddf54a2525cf6d34909dc44538732a41fb4ee501ea1",
-  "workflowRunId": 35144588146,
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35144588146",
+  "imageTag": "1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6",
+  "immutableRegistryDigest": "sha256:1b629dde3f5c0af3c992bd449d628e33bec9fb084a2f0e32654cc67141d5c86c",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:1b629dde3f5c0af3c992bd449d628e33bec9fb084a2f0e32654cc67141d5c86c",
+  "workflowRunId": 35149044045,
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35149044045",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "publicationTimestamp": "2026-09-16T20:09:15Z",
-  "publicationArtifactId": 10466304570,
-  "publicationArtifactName": "rcap-render-worker-publication-52ee3c7b80208993c7f3dda624c01bea2b14a7cf",
-  "publicationArtifactSha256": "sha256:ee4f11ed52b2d83b517bfae1e1ac6dcfe4ca7ed5d592bd5a7773317d894da149",
+  "publicationTimestamp": "2026-09-16T20:53:58Z",
+  "publicationArtifactId": 10468437237,
+  "publicationArtifactName": "rcap-render-worker-publication-1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6",
+  "publicationArtifactSha256": "sha256:008d883e43a73ad16eaf622da483286fb973a601b38bd2f75b91bb3a2a7db66a",
   "originalPublicationPath": null,
   "originalArchivePath": null,
-  "originalPublicationSource": "The digest is the `Published ghcr.io/roger-legalease/rcap-render-worker@sha256:...` line the publication workflow's own digest-guard step printed in job 104957286074 of run 35144588146, read through the Actions job-log API; artifact id, name and zip sha256 come from the upload step of the same log. The artifact ZIP itself is not downloadable from this session (blob host denied by egress policy).",
-  "registryPullByDigestStatus": "pending_image_acceptance",
-  "runtimeAccepted": false,
+  "originalPublicationSource": "The digest is the `Published ghcr.io/roger-legalease/rcap-render-worker@sha256:...` line the publication workflow's own digest-guard step printed in job 104972375047 of run 35149044045, read through the Actions job-log API; artifact id, name and zip sha256 come from the upload step of the same log. The artifact ZIP itself is not downloadable from this session (blob host denied by egress policy).",
+  "registryPullByDigestStatus": "accepted",
+  "runtimeAccepted": true,
   "authorization": "Roger's PRODUCTION HOTFIX FIRST instruction (2026-09-16, chat): restore the live expungement.ai customer journey ahead of the MVLP release, using the reviewed Final verification correction on the live application line including its actual dependencies, proceeding through the necessary build, worker publication, acceptance, deployment and public verification. The existing worker-input fingerprint mechanism reported rebuild-required for 3e3a528b5, which is the cause for this publication. tag_replacement_authorization empty; full-SHA tag only. Publish only: no deployment, no claiming, staging and production unchanged by this step.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
@@ -45,7 +45,15 @@
       "publicationRunId": 35138591567,
       "imageAcceptanceRunId": 35139883391,
       "disposition": "superseded_by_source_drift",
-      "why": "The worker of the production hotfix released on 2026-09-16 (application 3e3a528b5, activated deployment dpl_3HHSPuppRrsvN12kgvTWX39zeLLG). Image acceptance run 35139883391 passed on this digest. Retained unchanged in GHCR; tag not moved. Superseded by publication run 35144588146 from 52ee3c7b80208993c7f3dda624c01bea2b14a7cf, the MVLP candidate re-frozen on top of that hotfix: the worker-input plan reported rebuild-required for 55 canonical paths, the Legal Aid, Clinic and partner surfaces the hotfix line does not carry."
+      "why": "The production hotfix worker released on 2026-09-16, accepted by image acceptance run 35139883391. Retained unchanged in GHCR; tag not moved. Superseded by publication run 35149044045 from 1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6, which adds Stripe promotion-code support: the worker-input plan reported rebuild-required for the four payment modules that reconcile an order instead of asserting one price."
+    },
+    {
+      "sourceSha": "52ee3c7b80208993c7f3dda624c01bea2b14a7cf",
+      "immutableRegistryDigest": "sha256:154bbb51aac1957cc8007ddf54a2525cf6d34909dc44538732a41fb4ee501ea1",
+      "publicationRunId": 35144588146,
+      "imageAcceptanceRunId": 35145005184,
+      "disposition": "superseded_unreleased_parallel_candidate",
+      "why": "Published and accepted for the MVLP candidate re-frozen on the production hotfix, which is paused while promotion codes ship. Retained in GHCR with no tag moved. Not superseded by source drift: it is a parallel line that was never released, and the MVLP re-freeze will publish again on top of whatever is live at that point."
     },
     {
       "sourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
@@ -234,64 +242,33 @@
       "imageAcceptanceRunId": 35008841830,
       "disposition": "superseded_by_source_drift",
       "why": "Retained unchanged in GHCR; tag not moved. Superseded by publication run 35027251980 from b64701c16ab2a6c78d0d187143882407111c0778 after these canonical worker inputs changed: package.json, src/lib/rcap/render/job-queue.ts, src/lib/rcap/render/packet-delivery.ts (the shared sponsored-delivery binding correction)."
-    },
-    {
-      "sourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
-      "immutableRegistryDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
-      "publicationRunId": 35054865971,
-      "imageAcceptanceRunId": 35055139765,
-      "disposition": "superseded_by_runtime_input_changes",
-      "why": "Retained unchanged in GHCR; tag not moved; it remains the image deployed on the Production worker machine (Fly app legalease-rcap-render-worker) and is the worker rollback target until the successor is accepted and deployed. Retained unchanged in GHCR; tag not moved; it remains the image deployed on the Production worker machine until the successor is accepted and deployed. Superseded by publication run 35106750212 from 7dc8df2341c99c44d7646578505eed170daa5c8d after these canonical worker inputs changed: package.json (test chain additions) and 48 files under src/ for Legal Aid Clinic Mode (MVLP): src/app/api/legal-aid/**, src/app/clinic/**, src/app/p/[partnerSlug]/**, src/app/partner/clinic/[eventId]/legal-aid, src/components/legal-aid/**, src/lib/legal-aid/**, src/lib/partners/{landing-page,mvlp-routing,seed-partners}.ts, src/lib/clinic-mode/types.ts, src/proxy.ts, src/components/clinic-mode/ClinicAdminConsole.tsx. The worker entrypoint, scripts/lib, the Dockerfile and the lockfile are byte-identical."
-    },
-    {
-      "sourceSha": "7dc8df2341c99c44d7646578505eed170daa5c8d",
-      "immutableRegistryDigest": "sha256:34cbd24cc722775a587227fb23bf32f6a758cfa52a2f0098b540ae2e15f6228b",
-      "publicationRunId": 35106750212,
-      "imageAcceptanceRunId": null,
-      "disposition": "superseded_unaccepted_by_runtime_input_changes",
-      "why": "Published from 7dc8df23 (Legal Aid Clinic Mode) and never submitted to image acceptance: before acceptance ran, e7de95b3 changed canonical worker inputs under src/ for the MVLP interim-coordinator access and administrator handoff control (src/app/internal/clinic/[eventId]/legal-aid/page.tsx (new), src/app/api/internal/partners/first-admin/[partnerSlug]/route.ts, src/app/internal/partners/provisioning/[partnerSlug]/FirstAdminAccessPanel.tsx, src/components/clinic-mode/ClinicAdminConsole.tsx, src/components/legal-aid/LegalAidAdminClient.tsx, src/lib/partners/first-admin-domain.ts, src/lib/partners/first-admin-service.ts). Retained in GHCR; tag not moved."
-    },
-    {
-      "sourceSha": "e7de95b33551032d37fc5a98ad31d370844651ad",
-      "immutableRegistryDigest": "sha256:5f86ff68fc641fc3002d4419bc7262c29b40b6a39d1caeab633519862c7c4d18",
-      "publicationRunId": 35109132344,
-      "imageAcceptanceRunId": 35109892810,
-      "disposition": "superseded_unaccepted_by_runtime_input_changes",
-      "why": "Image acceptance run 35109892810 pulled this digest and failed on the evidence anchor (supersededPublication had been moved off the tuple the retired source-binding exception covers; restored in f5c4f400). Before a re-run, f5c4f400 changed canonical worker inputs (src/lib/legal-aid/intake-service.ts, src/lib/rcap/render/job-queue.ts: clinic-sponsored packet binding). Retained in GHCR; tag not moved."
-    },
-    {
-      "sourceSha": "f5c4f40022e422033985302995511da7157f474d",
-      "immutableRegistryDigest": "sha256:cb21a864f67525a9030efedca8a1eee7212332eb411753274ed2e8c4c9a51766",
-      "publicationRunId": 35111171661,
-      "imageAcceptanceRunId": null,
-      "disposition": "superseded_unaccepted_by_runtime_input_changes",
-      "why": "Published (job 104844959765, artifact 10452546538, zip sha256 497c187fe80af7fba21a98643346e318830fceb892fda8076ade858acf96e56a) and never submitted to image acceptance: 436520e4 changed one canonical worker input (src/components/legal-aid/LegalAidAdminClient.tsx, the internal setup page naming the organization when preparing a profile draft) before acceptance ran. Retained in GHCR; tag not moved."
     }
   ],
   "exactlyOnePublication": {
     "attemptThatPublished": 1,
-    "howItIsKnown": "Run 35112372576 succeeded on attempt 1; both source-SHA tag guard steps concluded success with replacement authorization empty, and the registry returned exactly one digest."
+    "howItIsKnown": "Run 35054865971 succeeded on attempt 1; both source-SHA tag guard steps concluded success with replacement authorization empty, and the registry returned exactly one digest."
   },
-  "workerInputFingerprint": "sha256:47a7ad9bcd2f95fac6197f9d9e58376b9b8a44de5ca79a8579d7d24530049ec9",
+  "workerInputFingerprint": "sha256:fec4864d3fc8d25fa9ca37838715468c4ce8e6c156331806884cb66be9b14173",
   "localVerificationDigest": null,
-  "localVerificationDigestScope": "No pre-publication local container build was made for this source (no Docker daemon in the build session); the registry digest above is the only image identity.",
-  "imageAcceptanceAttempts": [
-    {
-      "workflowRunId": 35113443240,
-      "conclusion": "success"
-    }
-  ],
+  "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
+  "imageAcceptanceAttempts": [],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Image acceptance run 35113443240: anonymous pull refused; authenticated pull by digest succeeded.",
+  "packageVisibilityEvidence": "Acceptance run 35055139765 re-proved: the anonymous pull step refused (step concluded success only on refusal); authenticated pull by digest succeeded.",
   "publishedImagePlatform": {
     "os": "linux",
     "architecture": "amd64",
     "manifestMediaType": "application/vnd.oci.image.manifest.v1+json",
     "manifestSize": null,
-    "configDigest": "sha256:0f522ba6d650084f85d7a3325829926efa05ae2f4b135ded7d1366cd9f221405",
-    "note": "config digest (image ID) is read back by the image-acceptance run after pulling by digest"
+    "configDigest": "sha256:9f27bb0c0982dbfeab1afbe37e0287bbc2a8b9bbf079e696be99b5029c3d1873",
+    "note": "config digest is the image ID the acceptance run read back after pulling by digest; manifest size not read back in this run"
   },
-  "imageAcceptance": null,
+  "imageAcceptance": {
+    "workflowRunId": 35149362033,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35149362033",
+    "workflowConclusion": "success",
+    "immutableRegistryDigest": "sha256:1b629dde3f5c0af3c992bd449d628e33bec9fb084a2f0e32654cc67141d5c86c",
+    "sourceSha": "1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6"
+  },
   "previousImageAcceptance": {
     "sourceSha": "3e3a528b5762ece971c53186d1a45a48e5633a9c",
     "immutableRegistryDigest": "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9",
