@@ -16,8 +16,8 @@ check(workflow.includes("inputs.phase == 'smoke'"), "smoke is isolated from migr
 check(workflow.includes("node scripts/verify-rcap-production-smoke.mjs"), "workflow self-verifies the smoke contract");
 check(workflow.includes("node scripts/test-rcap-production-smoke-mutations.mjs"), "workflow runs focused smoke mutation proof");
 check(workflow.includes("node scripts/rcap-production-canary-smoke.mjs"), "workflow invokes the dedicated smoke control");
-check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "exact staged deployment is pinned");
-check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_9WoA51v3wXSvG3VmBKGUEKtVBCfS"'), "exact rollback deployment is pinned");
+check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX"'), "exact staged deployment is pinned");
+check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "exact rollback deployment is pinned");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "Production project is pinned");
 check(script.includes("exact_staged_application_worker_identity"), "staged application and worker identity are required");
 check(script.includes("rollback_target_is_ready_and_still_active"), "rollback readiness and unchanged active target are required");

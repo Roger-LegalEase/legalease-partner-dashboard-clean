@@ -13,8 +13,8 @@ const files = [
   "scripts/verify-rcap-production-activation.mjs"
 ];
 const mutations = [
-  ["staged deployment", "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL", "dpl_wrongstaged"],
-  ["rollback deployment", "dpl_9WoA51v3wXSvG3VmBKGUEKtVBCfS", "dpl_wrongrollback"],
+  ["staged deployment", "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX", "dpl_wrongstaged"],
+  ["rollback deployment", "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL", "dpl_wrongrollback"],
   ["smoke run", "32967717618", "32900000000"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
   ["application SHA", "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
