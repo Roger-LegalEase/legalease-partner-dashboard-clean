@@ -27,7 +27,7 @@
   "originalPublicationPath": null,
   "originalArchivePath": null,
   "originalPublicationSource": "Verbatim `cat publication/rcap-render-worker-publication.json` output in job 104849125406 of run 35112372576 (read through the Actions job-log API); artifact id, name, size (766 bytes) and zip sha256 from the upload step of the same log. The artifact ZIP itself is not downloadable from this session (blob host denied by egress policy, HTTP 403 at the proxy).",
-  "registryPullByDigestStatus": "pending_image_acceptance",
+  "registryPullByDigestStatus": "passed",
   "runtimeAccepted": false,
   "authorization": "Roger Roman's MVLP rollout authorization and MVLP onboarding authorization (2026-09-16, chat): complete the MVLP rollout with hosted verification before Production; choose the NEW WORKER path; verify the final worker inputs, build and publish the exact full-SHA image, capture its immutable registry digest, run image acceptance, and update the application/deployment bindings. tag_replacement_authorization empty; full-SHA tag only. Publish only: no deployment, no claiming, staging and production unchanged by this step.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
@@ -259,16 +259,47 @@
   "workerInputFingerprint": "sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No pre-publication local container build was made for this source (no Docker daemon in the build session); the registry digest above is the only image identity.",
-  "imageAcceptanceAttempts": [],
+  "imageAcceptanceAttempts": [
+    {
+      "workflowRunId": 35113443240,
+      "conclusion": "success"
+    }
+  ],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "To be re-proved by the successor image-acceptance run (anonymous pull must be refused; authenticated pull by digest must succeed).",
+  "packageVisibilityEvidence": "Image acceptance run 35113443240: anonymous pull refused; authenticated pull by digest succeeded.",
   "publishedImagePlatform": {
     "os": "linux",
     "architecture": "amd64",
     "manifestMediaType": "application/vnd.oci.image.manifest.v1+json",
     "manifestSize": null,
-    "configDigest": null,
+    "configDigest": "sha256:0f522ba6d650084f85d7a3325829926efa05ae2f4b135ded7d1366cd9f221405",
     "note": "config digest (image ID) is read back by the image-acceptance run after pulling by digest"
   },
-  "imageAcceptance": null
+  "imageAcceptance": {
+    "workflowRunId": 35113443240,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35113443240",
+    "workflowConclusion": "success",
+    "toolsSha": "ae4d28b855ee7831ba14318b787e9cc7b5093b6d",
+    "sourceSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+    "immutableRegistryDigest": "sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257",
+    "readOnly": true,
+    "noDeploymentNoClaim": true,
+    "registryTagAndDigestVerified": true,
+    "authenticatedPullByDigestPassed": true,
+    "anonymousPullRefused": "step 'Anonymous pull is refused' concluded success (the step fails unless the anonymous token request is refused)",
+    "ociRevisionLabel": "436520e4a99f0b8a290ace32f1d717b951630319",
+    "sourceBinding": "PASS (OCI revision; no exception used)",
+    "imageId": "sha256:0f522ba6d650084f85d7a3325829926efa05ae2f4b135ded7d1366cd9f221405",
+    "runtimeChecks": [
+      "non-root rcapworker",
+      "healthcheck command succeeds",
+      "fail-closed startup without Supabase (exit 2, no claim/render/finalize output)",
+      "graceful SIGTERM shutdown (worker_stop_requested, worker_stopped, shutdown_complete)",
+      "scratch directory owned, empty, writable",
+      "secret scans (filesystem, config, history) clean; positive/negative pattern controls pass"
+    ],
+    "jobId": 104852758325,
+    "logSource": "Actions job-log API tail (job 104852758325); the log was read, not downloaded as an artifact",
+    "acceptedAt": "2026-09-16T15:11:45Z"
+  }
 }

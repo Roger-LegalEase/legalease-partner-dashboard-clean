@@ -116,6 +116,46 @@ try {
   );
 
   if (PHASE === "legal_aid_readback") {
+    // Read-only onboarding facts for the MVLP coordinator setup (Roger's
+    // 2026-09-16 onboarding authorization): whether the MVLP organization,
+    // its onboarding workspace and first-administrator record exist, and the
+    // membership shape of the named setup contact. SELECT only; nothing is
+    // created, changed or confirmed here. No password, token or personal data
+    // beyond the named work email's role and status is read.
+    const onboardingRows = await managementQuery(`
+      select
+        (select count(*) from public.partner_records where partner_slug='mvlp') as mvlp_partner_rows,
+        (select organization_name from public.partner_records where partner_slug='mvlp' limit 1) as mvlp_organization_name,
+        (select provisioning_status from public.partner_records where partner_slug='mvlp' limit 1) as mvlp_provisioning_status,
+        (select count(*) from public.partner_onboarding where partner_slug='mvlp') as mvlp_onboarding_workspaces,
+        (select count(*) from public.partner_users where partner_slug='mvlp' and role='partner_admin' and status='active') as mvlp_active_administrators,
+        (select count(*) from public.partner_users where partner_slug='mvlp' and role='partner_staff' and status='active') as mvlp_active_staff,
+        (select count(*) from public.partner_events where partner_slug='mvlp' and event_type like 'first_admin_invitation_%') as mvlp_first_admin_events,
+        (select count(*) from public.clinic_events where partner_slug='mvlp') as mvlp_clinic_events,
+        (select count(*) from auth.users where lower(email)='roger@legalease.com') as contact_accounts,
+        (select (email_confirmed_at is not null) from auth.users where lower(email)='roger@legalease.com' limit 1) as contact_email_confirmed,
+        (select coalesce(jsonb_agg(jsonb_build_object('role', pu.role, 'partner_slug', pu.partner_slug, 'status', pu.status)), '[]'::jsonb)
+           from public.partner_users pu join auth.users u on u.id=pu.auth_user_id where lower(u.email)='roger@legalease.com') as contact_memberships,
+        (select count(*) from public.partner_users where role='internal_admin' and status='active') as active_internal_administrators
+    `, "mvlp_onboarding_readback");
+    const onboarding = Array.isArray(onboardingRows) ? onboardingRows[0] ?? {} : {};
+    evidence.mvlpOnboarding = {
+      readOnly: true,
+      contactEmail: "roger@legalease.com",
+      mvlpPartnerRows: Number(onboarding.mvlp_partner_rows ?? 0),
+      mvlpOrganizationName: onboarding.mvlp_organization_name ?? null,
+      mvlpProvisioningStatus: onboarding.mvlp_provisioning_status ?? null,
+      mvlpOnboardingWorkspaces: Number(onboarding.mvlp_onboarding_workspaces ?? 0),
+      mvlpActiveAdministrators: Number(onboarding.mvlp_active_administrators ?? 0),
+      mvlpActiveStaff: Number(onboarding.mvlp_active_staff ?? 0),
+      mvlpFirstAdminEvents: Number(onboarding.mvlp_first_admin_events ?? 0),
+      mvlpClinicEvents: Number(onboarding.mvlp_clinic_events ?? 0),
+      contactAccounts: Number(onboarding.contact_accounts ?? 0),
+      contactEmailConfirmed: onboarding.contact_email_confirmed ?? null,
+      contactMemberships: onboarding.contact_memberships ?? [],
+      activeInternalAdministrators: Number(onboarding.active_internal_administrators ?? 0)
+    };
+    record("mvlp_onboarding_facts_read_without_writing", Array.isArray(onboardingRows), `mvlp partner rows=${evidence.mvlpOnboarding.mvlpPartnerRows}; onboarding workspaces=${evidence.mvlpOnboarding.mvlpOnboardingWorkspaces}; active administrators=${evidence.mvlpOnboarding.mvlpActiveAdministrators}; contact accounts=${evidence.mvlpOnboarding.contactAccounts}; confirmed=${evidence.mvlpOnboarding.contactEmailConfirmed}; memberships=${JSON.stringify(evidence.mvlpOnboarding.contactMemberships)}`);
     evidence.readback = { before };
     evidence.migrationDisposition = before.complete ? "already_present_read_only" : "absent_read_only";
     record("readback_phase_wrote_nothing", evidence.productionDatabaseMutated === false, "read-only phase; no SQL other than catalog reads was issued");

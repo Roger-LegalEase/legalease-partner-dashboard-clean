@@ -317,7 +317,10 @@ jobs:
         run: |
           node scripts/verify-rcap-hosted-legal-aid-migrate.mjs
           node scripts/test-rcap-hosted-legal-aid-migrate-mutations.mjs
-          node scripts/rcap-legal-aid/self-test.mjs
+          # The PGlite readback self-test needs node_modules, which this
+          # Supabase-only phase never installs (run 35113452210 stopped on
+          # ERR_MODULE_NOT_FOUND before the apply). It runs in the local test
+          # chain; the two dependency-free proofs above stay blocking here.
 
       - name: Apply the exact frozen Legal Aid migration to acceptance only
         id: legal_aid_migrate
