@@ -169,6 +169,7 @@ export function readbackQuery() {
 }
 
 function truthy(value) { return value === true || value === "true" || value === "t"; }
+function unixToIso(value) { return Number.isFinite(Number(value)) && Number(value) > 0 ? new Date(Number(value) * 1000).toISOString() : "none"; }
 function postgresArray(value) {
   if (Array.isArray(value)) return value.map(String);
   if (typeof value !== "string") return [];
@@ -231,20 +232,40 @@ async function pendingResultImpactReadback() {
   const columns = new Set((Array.isArray(columnRows) ? columnRows : []).map((row) => row.column_name));
   const tokenHash = columns.has("claim_token_hash") ? "claim_token_hash" : "pending_token_hash";
   const hasStatus = columns.has("status");
-  const pendingPredicate = hasStatus ? "status = 'PENDING'" : "true";
+  // The migration runs three statements in order: (1) link claimed rows to
+  // their unique Briefcase matter, (2) mark rows with user, matter and time
+  // CLAIMED, (3) revoke what is still PENDING and carries no token or an old
+  // claim. A row that step 2 marks CLAIMED is not PENDING at step 3, so the
+  // revocation is modelled after the earlier steps, never on the raw table.
   const rows = await managementQuery(`
+    with p as (
+      select p0.pending_id, p0.claimed_user_id, p0.claimed_at, p0.expires_at, p0.created_at,
+        p0.${tokenHash} as token_hash,
+        ${columns.has("claimed_matter_id") ? "p0.claimed_matter_id" : "null::uuid"} as claimed_matter_id_now,
+        ${hasStatus ? "p0.status" : "'PENDING'"} as status_now,
+        (select count(*) from public.consumer_briefcase_items m where m.user_id = p0.claimed_user_id and m.source_session_id = p0.pending_id::text) as matter_matches
+      from public.consumer_pending_screening_results p0
+    ), s as (
+      select *,
+        (claimed_user_id is not null and claimed_matter_id_now is null and matter_matches = 1) as gains_matter_link,
+        (claimed_user_id is not null and claimed_at is not null and (claimed_matter_id_now is not null or matter_matches = 1) and status_now <> 'CLAIMED') as becomes_claimed
+      from p
+    ), t as (
+      select *, (status_now = 'PENDING' and not becomes_claimed and (token_hash is null or claimed_user_id is not null)) as becomes_revoked from s
+    )
     select
       count(*)::int as total_rows,
       count(*) filter (where claimed_user_id is not null)::int as claimed_under_old_scheme,
-      count(*) filter (where claimed_user_id is not null and ${columns.has("claimed_matter_id") ? "claimed_matter_id is null" : "true"}
-        and (select count(*) from public.consumer_briefcase_items m where m.user_id = p.claimed_user_id and m.source_session_id = p.pending_id::text) = 1)::int as claimed_rows_gaining_matter_link,
-      count(*) filter (where claimed_user_id is not null and claimed_at is not null
-        and (select count(*) from public.consumer_briefcase_items m where m.user_id = p.claimed_user_id and m.source_session_id = p.pending_id::text) = 1)::int as rows_becoming_claimed,
-      count(*) filter (where ${pendingPredicate} and (${tokenHash} is null or claimed_user_id is not null))::int as rows_to_be_revoked,
-      count(*) filter (where ${pendingPredicate} and (${tokenHash} is null or claimed_user_id is not null) and claimed_user_id is null and expires_at > now())::int as unexpired_unclaimed_rows_to_be_revoked,
-      count(*) filter (where ${pendingPredicate} and (${tokenHash} is null or claimed_user_id is not null) and claimed_user_id is null and created_at > now() - interval '24 hours')::int as rows_to_be_revoked_created_last_24h,
-      count(*) filter (where ${tokenHash} is not null and claimed_user_id is null and expires_at > now())::int as live_pending_rows_with_token_kept
-    from public.consumer_pending_screening_results p
+      count(*) filter (where gains_matter_link)::int as claimed_rows_gaining_matter_link,
+      count(*) filter (where becomes_claimed)::int as rows_becoming_claimed,
+      count(*) filter (where becomes_revoked)::int as rows_to_be_revoked,
+      count(*) filter (where becomes_revoked and claimed_user_id is not null)::int as claimed_rows_without_provable_matter_to_be_revoked,
+      count(*) filter (where becomes_revoked and claimed_user_id is null and expires_at > now())::int as unexpired_unclaimed_rows_to_be_revoked,
+      count(*) filter (where becomes_revoked and claimed_user_id is null and expires_at <= now())::int as expired_unclaimed_rows_to_be_revoked,
+      count(*) filter (where becomes_revoked and created_at > now() - interval '24 hours')::int as rows_to_be_revoked_created_last_24h,
+      count(*) filter (where status_now = 'PENDING' and not becomes_revoked and not becomes_claimed and expires_at > now())::int as live_pending_rows_kept,
+      count(*) filter (where status_now = 'PENDING' and not becomes_revoked and not becomes_claimed and expires_at <= now())::int as expired_pending_rows_kept
+    from t
   `, "pending_result_impact");
   const row = Array.isArray(rows) ? rows[0] ?? {} : {};
   return {
@@ -254,9 +275,12 @@ async function pendingResultImpactReadback() {
     claimedRowsGainingMatterLink: Number(row.claimed_rows_gaining_matter_link ?? 0),
     rowsBecomingClaimed: Number(row.rows_becoming_claimed ?? 0),
     rowsToBeRevoked: Number(row.rows_to_be_revoked ?? 0),
+    claimedRowsWithoutProvableMatterToBeRevoked: Number(row.claimed_rows_without_provable_matter_to_be_revoked ?? 0),
     unexpiredUnclaimedRowsToBeRevoked: Number(row.unexpired_unclaimed_rows_to_be_revoked ?? 0),
+    expiredUnclaimedRowsToBeRevoked: Number(row.expired_unclaimed_rows_to_be_revoked ?? 0),
     rowsToBeRevokedCreatedLast24h: Number(row.rows_to_be_revoked_created_last_24h ?? 0),
-    livePendingRowsWithTokenKept: Number(row.live_pending_rows_with_token_kept ?? 0)
+    livePendingRowsKept: Number(row.live_pending_rows_kept ?? 0),
+    expiredPendingRowsKept: Number(row.expired_pending_rows_kept ?? 0)
   };
 }
 
@@ -330,7 +354,7 @@ try {
   record(
     "pending_result_existing_row_impact_read_as_counts",
     Number.isInteger(impact.totalRows),
-    `rows=${impact.totalRows}; claimed under old scheme=${impact.claimedUnderOldScheme}; would gain matter link=${impact.claimedRowsGainingMatterLink}; would become CLAIMED=${impact.rowsBecomingClaimed}; would be REVOKED=${impact.rowsToBeRevoked} (unexpired and unclaimed=${impact.unexpiredUnclaimedRowsToBeRevoked}; created in last 24h=${impact.rowsToBeRevokedCreatedLast24h}); live pending rows with a token kept=${impact.livePendingRowsWithTokenKept}; token column now=${impact.columnNamesNow.tokenHash}; status column present=${impact.columnNamesNow.statusColumnPresent}`
+    `rows=${impact.totalRows}; claimed under old scheme=${impact.claimedUnderOldScheme}; would gain matter link=${impact.claimedRowsGainingMatterLink}; would become CLAIMED=${impact.rowsBecomingClaimed}; would be REVOKED=${impact.rowsToBeRevoked} (claimed without a provable matter=${impact.claimedRowsWithoutProvableMatterToBeRevoked}; unexpired unclaimed=${impact.unexpiredUnclaimedRowsToBeRevoked}; expired unclaimed=${impact.expiredUnclaimedRowsToBeRevoked}; created in last 24h=${impact.rowsToBeRevokedCreatedLast24h}); pending rows kept: live=${impact.livePendingRowsKept}, expired=${impact.expiredPendingRowsKept}; token column now=${impact.columnNamesNow.tokenHash}; status column present=${impact.columnNamesNow.statusColumnPresent}`
   );
 
   const backups = await backupReadback();
@@ -338,7 +362,7 @@ try {
   record(
     "database_backup_facts_read_without_writing",
     backups.httpStatus === 200,
-    `backups HTTP ${backups.httpStatus}; PITR=${backups.pitrEnabled}; WAL-G=${backups.walgEnabled}; region=${backups.region ?? "unknown"}; backups listed=${backups.backupCount}; latest completed=${backups.latestCompletedBackupAt ?? "none listed"}`
+    `backups HTTP ${backups.httpStatus}; PITR=${backups.pitrEnabled}; WAL-G=${backups.walgEnabled}; region=${backups.region ?? "unknown"}; backups listed=${backups.backupCount}; latest completed=${backups.latestCompletedBackupAt ?? "none listed"}; physical backups earliest=${unixToIso(backups.physicalBackupData?.earliest_physical_backup_date_unix)} latest=${unixToIso(backups.physicalBackupData?.latest_physical_backup_date_unix)}`
   );
 
   if (PHASE === "forward_chain_readback") {
@@ -360,15 +384,22 @@ try {
       authorized,
       `status=${authorization?.status}; readback run=${authorization?.readbackRunId ?? "none"}; migrations=${authorization?.migrations?.length ?? 0}; drop authorized=${authorization?.dropAuthorized}`
     );
-    // The revocation in 20260828100000 invalidates stored pending results that
-    // carry no claim token or were claimed under the old scheme. The apply is
-    // allowed only up to the count the owner accepted in the authorization
-    // record after reading the readback run; a larger live exposure stops here.
-    const acceptedRevocations = Number(authorization?.acceptedRevocation?.maxUnexpiredUnclaimedRowsRevoked ?? -1);
+    // The revocation in 20260828100000 marks REVOKED every stored pending
+    // result that stays PENDING and carries no claim token or an old-scheme
+    // claim without a provable matter. The apply is allowed only while each
+    // revocation bucket, re-read now, stays within the maximum the owner
+    // accepted in the authorization record after the readback run; a larger
+    // live effect stops here before any write.
+    const accepted = authorization?.acceptedRevocation ?? {};
+    const revocationBounds = [
+      ["unexpiredUnclaimedRowsToBeRevoked", "maxUnexpiredUnclaimedRowsRevoked"],
+      ["claimedRowsWithoutProvableMatterToBeRevoked", "maxClaimedRowsWithoutProvableMatterRevoked"],
+      ["expiredUnclaimedRowsToBeRevoked", "maxExpiredUnclaimedRowsRevoked"]
+    ];
     record(
       "existing_row_revocation_within_the_owner_accepted_bound",
-      Number.isInteger(acceptedRevocations) && acceptedRevocations >= 0 && impact.unexpiredUnclaimedRowsToBeRevoked <= acceptedRevocations,
-      `unexpired unclaimed rows the migration would revoke=${impact.unexpiredUnclaimedRowsToBeRevoked}; owner-accepted maximum=${acceptedRevocations >= 0 ? acceptedRevocations : "not recorded"}`
+      revocationBounds.every(([observedKey, acceptedKey]) => Number.isInteger(accepted[acceptedKey]) && accepted[acceptedKey] >= 0 && impact[observedKey] <= accepted[acceptedKey]),
+      revocationBounds.map(([observedKey, acceptedKey]) => `${observedKey}=${impact[observedKey]} (owner-accepted maximum ${Number.isInteger(accepted[acceptedKey]) ? accepted[acceptedKey] : "not recorded"})`).join("; ")
     );
 
     for (const migration of MIGRATIONS) {

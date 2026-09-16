@@ -75,6 +75,12 @@ check(script.includes("loose_phase_prerequisites_present"), "loose phase prerequ
 check(script.includes("forward_chain_state_is_an_ordered_prefix"), "out-of-order partial forward chain is refused");
 check(script.includes("readback_phase_wrote_nothing"), "readback phase asserts it wrote nothing");
 check(script.includes("independent_production_authorization_names_the_exact_chain"), "Production apply requires the independent authorization naming the exact chain");
+check(
+  script.includes("existing_row_revocation_within_the_owner_accepted_bound")
+    && ["maxUnexpiredUnclaimedRowsRevoked", "maxClaimedRowsWithoutProvableMatterRevoked", "maxExpiredUnclaimedRowsRevoked"].every((key) => script.includes(`"${key}"`))
+    && script.includes("pending_result_existing_row_impact_read_as_counts"),
+  "existing-row revocation is counted before any write and must stay within every owner-accepted maximum"
+);
 check(script.includes("forward_chain_complete_after_apply"), "complete forward chain is read back after apply");
 check(script.includes("ledger_records_every_forward_version"), "ledger readback of every forward version is required");
 check(script.includes("database/query"), "DDL and direct readback use the exact Supabase project endpoint");

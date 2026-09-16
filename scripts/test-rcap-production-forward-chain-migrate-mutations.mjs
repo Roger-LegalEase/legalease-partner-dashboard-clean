@@ -49,6 +49,11 @@ const mutations = [
     "authorization_ignored"
   ],
   [
+    "existing-row revocation bound",
+    "existing_row_revocation_within_the_owner_accepted_bound",
+    "revocation_unbounded"
+  ],
+  [
     "read-only phase",
     "readback_phase_wrote_nothing",
     "readback_may_write"
