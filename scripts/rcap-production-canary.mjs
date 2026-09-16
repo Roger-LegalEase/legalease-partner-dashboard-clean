@@ -331,44 +331,56 @@ async function runVercelCli(args, cliEnvironment) {
   });
 }
 
+// The staged candidate is created through the same REST transport the
+// acceptance Preview uses (one POST /v13/deployments from the exact Git SHA),
+// not through the CLI archive upload, which failed on run 35047531870 before
+// any identity was verified. `target: "production"` builds the candidate with
+// the project's Production environment; `autoAssignCustomDomains: false` is the
+// REST form of `--skip-domain`, so no Production domain moves. Exactly one
+// creation call is made; a failed build or a timeout never retries.
 async function createStagedProduction(vercelIdentity, vercel) {
-  const targetArgs = ["--prod", "--skip-domain"];
-  const args = [
-    "vercel@latest",
-    "deploy",
-    "--archive=tgz",
-    "--yes",
-    "--token",
-    VERCEL_TOKEN,
-    "--scope",
-    HOSTED_VERCEL_TEAM_SLUG,
-    ...targetArgs,
-    "--meta",
-    "rcapStagedProduction=true",
-    "--meta",
-    "rcapApplicationSha=" + APPLICATION_SHA,
-    "--meta",
-    "rcapWorkerSourceSha=" + WORKER_SOURCE_SHA,
-    "--meta",
-    "rcapWorkerDigest=" + WORKER_DIGEST,
-    "--meta",
-    "rcapToolsSha=" + INPUT_TOOLS_SHA
-  ];
-  const result = await runVercelCli(args, hostedVercelCliEnvironment(vercelIdentity));
-  if (result.error || result.status !== 0) {
-    throw new Error("staged Production deployment command failed before identity verification");
+  const body = {
+    name: HOSTED_VERCEL_PROJECT_NAME,
+    project: vercelIdentity.projectId,
+    gitSource: { type: "github", repoId: "1248656766", ref: APPLICATION_SHA, sha: APPLICATION_SHA },
+    target: "production",
+    autoAssignCustomDomains: false,
+    meta: {
+      rcapStagedProduction: "true",
+      rcapApplicationSha: APPLICATION_SHA,
+      rcapWorkerSourceSha: WORKER_SOURCE_SHA,
+      rcapWorkerDigest: WORKER_DIGEST,
+      rcapToolsSha: INPUT_TOOLS_SHA
+    }
+  };
+  const created = await fetch(hostedVercelScopedUrl("/v13/deployments", vercelIdentity), {
+    method: "POST",
+    headers: { Authorization: "Bearer " + VERCEL_TOKEN, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+    redirect: "error",
+    signal: AbortSignal.timeout(60000)
+  });
+  const createdJson = parseJson(await created.text());
+  if (!created.ok || !/^dpl_[A-Za-z0-9]+$/.test(createdJson?.id ?? "")) {
+    throw new Error("staged Production deployment command failed before identity verification (REST create HTTP " + created.status + ")");
   }
-
-  const urls = result.output.match(/https:\/\/[a-z0-9-]+\.vercel\.app/gi) ?? [];
-  const hostname = urls.length > 0 ? new URL(urls[urls.length - 1]).hostname : null;
-  if (!hostname) {
-    throw new Error("staged Production deployment command returned no immutable deployment identity");
+  if (createdJson?.gitSource?.sha !== APPLICATION_SHA || createdJson?.target !== "production") {
+    throw new Error("staged Production deployment was not created from the exact application SHA as a Production-target build");
   }
-  const detail = await vercel("/v13/deployments/" + encodeURIComponent(hostname));
-  if (detail.status !== 200) {
-    throw new Error("new staged Production deployment could not be resolved by exact identity");
+  const id = createdJson.id;
+  for (let poll = 0; poll < 180; poll += 1) {
+    const detail = await vercel("/v13/deployments/" + encodeURIComponent(id));
+    if (detail.status !== 200) {
+      throw new Error("new staged Production deployment could not be resolved by exact identity");
+    }
+    const state = detail.json?.readyState ?? detail.json?.state;
+    if (state === "READY") return detail.json;
+    if (["ERROR", "CANCELED", "CANCELLED", "PAUSED", "BLOCKED"].includes(state)) {
+      throw new Error("staged Production deployment build ended in " + state + "; no retry");
+    }
+    await new Promise((resolve) => setTimeout(resolve, 10000));
   }
-  return detail.json;
+  throw new Error("staged Production deployment did not reach READY within the poll budget; no retry");
 }
 
 async function exactDeploymentDetail(vercel, identifier) {

@@ -40,7 +40,9 @@ check(script.includes("candidateOrigins.size !== 1"), "runtime inspection requir
 check(script.includes("production_runtime_project_is_canonical"), "Production runtime must map to the canonical project");
 check(script.includes("acceptance_preview_project_is_exact"), "accepted Preview runtime must map to acceptance");
 check(script.includes("createHash(\"sha256\")"), "only SHA-256 origin hashes are retained in evidence");
-check(script.includes('"--prod", "--skip-domain"'), "a missing staged candidate may be created without domain assignment");
+check(script.includes('target: "production"') && script.includes("autoAssignCustomDomains: false"), "a missing staged candidate may be created as a Production-target build without domain assignment");
+check(script.includes('gitSource: { type: "github", repoId: "1248656766", ref: APPLICATION_SHA, sha: APPLICATION_SHA }'), "the staged candidate is built from the exact application SHA through the REST transport");
+check(!script.includes('"deploy"') && !script.includes("--archive=tgz"), "the staged candidate is not created through the CLI archive upload");
 check(!script.includes("vercel promote"), "preflight cannot promote the staged deployment");
 check(!script.includes("decrypt=true") && !script.includes('decrypt: "true"'), "withdrawn plaintext/decrypt readback gate is absent");
 check(!script.includes("/v1/projects/${encodeURIComponent(vercelIdentity.projectId)}/env/"), "stale single-variable v1 endpoint is absent");

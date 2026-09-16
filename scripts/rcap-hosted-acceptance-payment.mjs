@@ -246,6 +246,34 @@ async function postgresErrorLogExcerpt(sinceIso) {
  * this run's already-paid synthetic item; that job is a diagnostic, never the
  * target of any verdict below.
  */
+// A personalized (Grade-A) route derives its packet id from the immutable
+// render payload the application builds from the protected verification, not
+// from the consumer-packet namespace. The application's own preparePersonalizedPacket
+// computes it here, on the runner, from the same persisted verification the
+// deployed route will read — so the id is known before anything is charged.
+// Returns null when the resolved route is not a personalized delivery route.
+async function personalizedPacketIdFromRunner(consumer, briefcaseItemId) {
+  const service = await serviceRoleKey();
+  process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+  process.env.SUPABASE_SERVICE_ROLE_KEY = service;
+  try {
+    const { currentPersonalizedVerification, preparePersonalizedPacket, isPersonalizedDeliveryRoute } = await import("../src/lib/rcap/render/personalized-packet.ts");
+    const { resolveConsumerPersonId, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+    const verification = await currentPersonalizedVerification(consumer.id, briefcaseItemId);
+    const routeId = `${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`;
+    if (!isPersonalizedDeliveryRoute(routeId)) return null;
+    const person = await resolveConsumerPersonId(consumer.id);
+    if (!person.ok) throw new Error(`personalized packet id: person unresolved — ${redactSecrets(String(person.reason)).slice(0, 200)}`);
+    const prepared = preparePersonalizedPacket({
+      authUserId: consumer.id, briefcaseItemId, personId: person.personId, matterId: consumerMatterIdForItem(briefcaseItemId),
+      verificationHash: verification.hash, snapshot: verification.snapshot
+    });
+    return prepared.spec.packetId;
+  } finally {
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  }
+}
+
 async function replayEnqueueFromRunner(consumer, briefcaseItemId) {
   const service = await serviceRoleKey();
   process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
@@ -1471,10 +1499,20 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
 // deterministically from the briefcase item, so the exact id the render will
 // use is computable now — which is what makes "the job received the real
 // packet id" checkable rather than merely asserted afterwards.
-const expectedPacketId = (() => {
+const consumerNamespacePacketId = (() => {
   const h = crypto.createHash("sha256").update(`rcap:consumer-packet:v1:${itemId}`).digest("hex");
   const variant = ((parseInt(h[16], 16) & 0x3) | 0x8).toString(16);
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-${variant}${h.slice(17, 20)}-${h.slice(20, 32)}`;
+})();
+// A personalized (Grade-A) route — the Mississippi successor is one — derives
+// its packet id from the immutable render payload instead (run 35047317254:
+// the job carried the payload-derived id, not the namespace id). The
+// application's own preparePersonalizedPacket computes that id from the
+// persisted verification, so both derivations are the application's, and both
+// are seeded by this run's briefcase item.
+const personalizedPacketId = await personalizedPacketIdFromRunner(A, itemId);
+const expectedPacketId = (() => {
+  return personalizedPacketId ?? consumerNamespacePacketId;
 })();
 {
   // A row at this id that belongs to someone else would make the render either
