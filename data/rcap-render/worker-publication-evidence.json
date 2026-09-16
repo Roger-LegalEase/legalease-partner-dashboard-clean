@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
-  "sourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
+  "sourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
   "canonicalIntegrationBranch": "main",
   "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
   "containedIn": "claude/legalease-sprint-captain-utucnw",
@@ -8,28 +8,28 @@
   "dockerfileSha256": "98f2934b4e817091233aef349de2c67edccd928d149e40ddeb827fcef4141076",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "c177eef11ad041165294f2d4a38e9bddeef031db",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:c177eef11ad041165294f2d4a38e9bddeef031db",
-  "immutableRegistryDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-  "workflowRunId": 35044054712,
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35044054712",
+  "imageTag": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:da432bd11924cc3ba8d766cbb9e09b12650347c3",
+  "immutableRegistryDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
+  "workflowRunId": 35054865971,
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35054865971",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "publicationTimestamp": "2026-09-16T01:28:05Z",
-  "publicationArtifactId": 10425793218,
-  "publicationArtifactName": "rcap-render-worker-publication-c177eef11ad041165294f2d4a38e9bddeef031db",
-  "publicationArtifactSha256": "sha256:c6a0beddb09462f508786e8f0209c20a8feeb82e8f02151351e14a814872c6d8",
-  "originalPublicationPath": "private/transfers/cloud-recovery-20260915/publication/publication-c177eef1.from-run-log.json",
+  "publicationTimestamp": "2026-09-16T04:17:53Z",
+  "publicationArtifactId": 10430128065,
+  "publicationArtifactName": "rcap-render-worker-publication-da432bd11924cc3ba8d766cbb9e09b12650347c3",
+  "publicationArtifactSha256": "sha256:511cfcbf95b53251aa46025e29a7ff4871bf1cc46b152b6f88ce8675e247866b",
+  "originalPublicationPath": "private/transfers/cloud-recovery-20260915/publication/publication-da432bd1.from-run-log.json",
   "originalArchivePath": null,
-  "originalPublicationSource": "Verbatim `cat publication/rcap-render-worker-publication.json` output in job 104629957453 of run 35044054712 (read through the Actions job-log API); artifact id, name, size (763 bytes) and zip sha256 from the upload step of the same log. The artifact ZIP itself is not downloadable from this session (blob host denied by egress policy).",
-  "registryPullByDigestStatus": "passed",
+  "originalPublicationSource": "Verbatim `cat publication/rcap-render-worker-publication.json` output in job 104662794175 of run 35054865971 (read through the Actions job-log API); artifact id, name, size and zip sha256 from the upload step of the same log. The artifact ZIP itself is not downloadable from this session (blob host denied by egress policy).",
+  "registryPullByDigestStatus": "pending",
   "runtimeAccepted": false,
-  "authorization": "Roger's PRODUCTION RELEASE AUTHORIZATION (2026-09-16, chat and issue #160 comment 5690402065): worker publication from the exact repaired source; tag_replacement_authorization empty; full-SHA tag only. Publish only: no deployment, no claiming, staging and production unchanged by this step.",
+  "authorization": "Roger's PRODUCTION RELEASE AUTHORIZATION (2026-09-16, chat and issue #160 comment 5690402065) and the 2026-09-16 'close all three release blockers' instruction: worker publication from the source that integrates the 2026-09-15 Colorado restoration (four restored commits plus regenerated derived inputs); tag_replacement_authorization empty; full-SHA tag only. Publish only: no deployment, no claiming, staging and production unchanged by this step.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
     "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
@@ -39,6 +39,22 @@
     "publicationRunId": 32307070302
   },
   "supersededChain": [
+    {
+      "sourceSha": "71b692025bf4f6c973b46671c79eba5acc6a1116",
+      "immutableRegistryDigest": "sha256:0303b6fe58c88cdc9934369becf0cf91c282c027fe0605a4bea570806a5f6597",
+      "publicationRunId": 35054132613,
+      "imageAcceptanceRunId": null,
+      "disposition": "superseded_unaccepted_by_runtime_input_changes",
+      "why": "Published before the problematic-PDF register (a copied runtime input) had been regenerated for the Colorado source reclassification; a3dcb3a6 regenerated it and rebuilt the runtime-data manifest, so this image was never submitted to image acceptance. Retained in GHCR; tag not moved."
+    },
+    {
+      "sourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
+      "immutableRegistryDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+      "publicationRunId": 35044054712,
+      "imageAcceptanceRunId": 35044827927,
+      "disposition": "superseded_by_runtime_input_changes",
+      "why": "Retained unchanged in GHCR; tag not moved. Superseded by publication run 35054865971 from da432bd11924cc3ba8d766cbb9e09b12650347c3 after the 2026-09-15 Colorado restoration changed these canonical worker inputs: src/lib/rcap/state-packs/colorado/captain-patch-requests.ts, src/lib/rcap/state-packs/colorado/lane-g-route-dispositions.ts, data/record-clearing/factory-v2-route-registry.json, data/record-clearing/legal-design-packet-set-manifests.json, data/rcap-all50/problematic-pdf-register.json, data/rcap-ledger/route-kind-adjudications.json, data/rcap-grade-a/worker-static-authority.json and deploy/rcap-render-worker/runtime-data-manifest.json."
+    },
     {
       "sourceSha": "2cc6f321af4cfdb1433801d6cf16e2ed40d59d51",
       "immutableRegistryDigest": "sha256:e96d384b808e15884bbc8a6c95754bde956bb27bf2dcf6893b2b93f9f9d9f716",
@@ -206,47 +222,20 @@
   ],
   "exactlyOnePublication": {
     "attemptThatPublished": 1,
-    "howItIsKnown": "Run 35044054712 succeeded on attempt 1; both source-SHA tag guard steps (8 and 11) concluded success with replacement authorization empty, and the registry returned exactly one digest."
+    "howItIsKnown": "Run 35054865971 succeeded on attempt 1; both source-SHA tag guard steps concluded success with replacement authorization empty, and the registry returned exactly one digest."
   },
-  "workerInputFingerprint": "sha256:de034e8b43a3673e8b4de8f1049f7d7d4d3b5c1b585323f327c99b867ccf727e",
+  "workerInputFingerprint": "sha256:c4771cb5265b4fe9c4f67795972506123f5bd81dedc6e2335801148841d54691",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
   "imageAcceptanceAttempts": [],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Acceptance run 35044827927 re-proved: the anonymous pull step refused (step concluded success only on refusal); authenticated pull by digest succeeded.",
+  "packageVisibilityEvidence": "Carried from the prior accepted publication's acceptance run 35044827927; re-proved by this publication's own acceptance run once it exists.",
   "publishedImagePlatform": {
     "os": "linux",
     "architecture": "amd64",
     "manifestMediaType": "application/vnd.oci.image.manifest.v1+json",
     "manifestSize": null,
-    "configDigest": "sha256:421735439d388a9924963a8be70d2d4a85d1996711fa18ae7eabc17cd5e2022f",
-    "note": "config digest is the image ID the acceptance run read back after pulling by digest; manifest size not read back in this run"
-  },
-  "imageAcceptance": {
-    "workflowRunId": 35044827927,
-    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35044827927",
-    "workflowConclusion": "success",
-    "toolsSha": "8de7cac82ac1f3a36cb1428bb20cb479927b8ef5",
-    "sourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
-    "immutableRegistryDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-    "readOnly": true,
-    "noDeploymentNoClaim": true,
-    "registryTagAndDigestVerified": true,
-    "authenticatedPullByDigestPassed": true,
-    "anonymousPullRefused": "step 'Anonymous pull is refused' concluded success (the step fails unless the anonymous token request is refused); the HTTP status line was outside the retained log tail",
-    "ociRevisionLabel": "c177eef11ad041165294f2d4a38e9bddeef031db",
-    "sourceBinding": "PASS (OCI revision; no exception used)",
-    "imageId": "sha256:421735439d388a9924963a8be70d2d4a85d1996711fa18ae7eabc17cd5e2022f",
-    "runtimeChecks": [
-      "non-root rcapworker",
-      "healthcheck command succeeds",
-      "fail-closed startup without Supabase (exit 2, no claim/render/finalize output)",
-      "graceful SIGTERM shutdown (worker_stop_requested, worker_stopped, shutdown_complete)",
-      "scratch directory owned, empty, writable",
-      "secret scans (filesystem, config, history) clean; positive/negative pattern controls pass"
-    ],
-    "jobId": 104632296945,
-    "logSource": "Actions job-log API tail (job 104632296945); the log was read, not downloaded as an artifact",
-    "acceptedAt": "2026-09-16T01:39:24Z"
+    "configDigest": null,
+    "note": "manifest size and config digest are read back by this publication's own image acceptance run"
   }
 }
