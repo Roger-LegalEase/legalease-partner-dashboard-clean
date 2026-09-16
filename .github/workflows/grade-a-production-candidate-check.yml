@@ -1,0 +1,125 @@
+name: Grade A production candidate check
+on:
+  push:
+    branches: [release/grade-a-production-20260916]
+    paths: [.github/workflows/grade-a-production-candidate-check.yml]
+permissions:
+  contents: read
+concurrency:
+  group: grade-a-production-candidate-check
+  cancel-in-progress: false
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CANDIDATE_SHA: 34dc5b9e80cd971db0b6c18a643c8cfe223978b3
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 34dc5b9e80cd971db0b6c18a643c8cfe223978b3
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install exact candidate dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Verify repaired payment and screening boundaries
+        run: |
+          set -euo pipefail
+          mkdir -p release-check-evidence
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
+          node scripts/verify-expungement-consumer-payment-http.mjs > release-check-evidence/payment-regression.log 2>&1 & p1=$!
+          node scripts/test-rcap-sponsored-delivery-binding.mjs > release-check-evidence/sponsored-regression.log 2>&1 & p2=$!
+          node scripts/verify-free-screening-boundary.mjs > release-check-evidence/screening-boundary.log 2>&1 & p3=$!
+          code=0
+          wait "$p1" || code=1
+          wait "$p2" || code=1
+          wait "$p3" || code=1
+          cat release-check-evidence/*.log
+          exit "$code"
+      - name: Verify worker runtime data currentness
+        run: node deploy/rcap-render-worker/build-runtime-data-manifest.mjs --check
+      - name: Full application build at the repaired source
+        run: npm run build
+      - name: Install the repository-pinned browser
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Exercise actual Mississippi browser screening
+        run: |
+          set -euo pipefail
+          npm run start -- --hostname 127.0.0.1 --port 3100 > release-check-evidence/server.log 2>&1 & server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:3100/api/expungement-ai/profiles/MS >/dev/null; then break; fi
+            sleep 1
+          done
+          node --input-type=module <<'JS'
+          import { chromium } from 'playwright';
+          import { writeFileSync } from 'node:fs';
+          import assert from 'node:assert/strict';
+          const browser = await chromium.launch({ headless: true });
+          const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+          const seen = [];
+          let selectedNonconviction = false;
+          let finishedQuestions = false;
+          const preferred = [
+            [/own record/i, /^Yes$/],
+            [/case happen.*Mississippi/i, /^State or local$/],
+            [/case end\?/i, /^The case was dropped or thrown out/],
+            [/kind of charge/i, /^Misdemeanor$/],
+            [/sound like your situation/i, /^Non-conviction expungement for dismissal/],
+            [/completed everything/i, /^Yes$/],
+            [/how long ago/i, /^7-10 years ago$/]
+          ];
+          try {
+            await page.goto('http://127.0.0.1:3100/expungement-ai/screening/mississippi', { waitUntil: 'networkidle' });
+            await page.locator('h1[id^="q-"]').waitFor({ timeout: 30000 });
+            for (let i = 0; i < 25; i++) {
+              const heading = page.locator('h1[id^="q-"]');
+              if (!await heading.count()) { finishedQuestions = true; break; }
+              const id = await heading.getAttribute('id');
+              const text = (await heading.innerText()).trim();
+              assert(!seen.some(x => x.id === id), 'Question repeated without progress: ' + id);
+              assert(!/DUI sentence|underage.alcohol|most recent conviction/i.test(text), 'Unestablished route-specific question displayed: ' + text);
+              assert.equal(await page.locator('select').count(), 0, 'Exact-date selector displayed in anonymous screening');
+              const entry = { id, prompt: text };
+              seen.push(entry);
+              const match = preferred.find(([prompt]) => prompt.test(text));
+              const choice = match ? page.getByRole('radio', { name: match[1] }).first() : page.getByRole('radio', { name: /^(I am not sure|I'm not sure)$/ }).first();
+              if (await choice.count()) {
+                entry.answer = await choice.getAttribute('value');
+                await choice.check();
+                if (/sound like your situation/i.test(text)) selectedNonconviction = true;
+              } else {
+                assert(/optional/i.test(text), 'No supported answer for required question: ' + text);
+                entry.answer = 'left optional unanswered';
+              }
+              await page.getByRole('button', { name: /^Continue/ }).click();
+              await page.waitForFunction(previous => {
+                const current = document.querySelector('h1[id^="q-"]');
+                return !current || current.id !== previous;
+              }, id, { timeout: 30000 });
+              await page.waitForTimeout(350);
+            }
+            assert(selectedNonconviction, 'Non-conviction context was not selected through the browser');
+            assert(finishedQuestions || await page.locator('h1[id^="q-"]').count() === 0, 'Screening did not finish within the bound');
+            await page.screenshot({ path: 'release-check-evidence/mississippi-result.png', fullPage: true });
+            writeFileSync('release-check-evidence/mississippi-browser.json', JSON.stringify({ sourceSha: process.env.CANDIDATE_SHA, passed: true, questions: seen, resultText: (await page.locator('main').innerText()).slice(0, 3500), scope: 'Real fresh-browser anonymous screening on locally served exact production build; no seeded matter, checkout, payment or hosted acceptance claim' }, null, 2));
+            console.log('MISSISSIPPI_BROWSER_PASS', JSON.stringify(seen));
+          } catch (error) {
+            await page.screenshot({ path: 'release-check-evidence/mississippi-failure.png', fullPage: true }).catch(() => {});
+            writeFileSync('release-check-evidence/mississippi-browser.json', JSON.stringify({ sourceSha: process.env.CANDIDATE_SHA, passed: false, error: error.message, questions: seen }, null, 2));
+            throw error;
+          } finally { await browser.close(); }
+          JS
+      - name: Preserve focused candidate results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: grade-a-production-candidate-${{ github.run_id }}
+          path: release-check-evidence/
+          if-no-files-found: warn
+          retention-days: 7
