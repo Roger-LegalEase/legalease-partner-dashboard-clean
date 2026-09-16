@@ -85,6 +85,14 @@ function sqlText(value) {
   return String(value).split("'").join("''");
 }
 
+// A stable acceptance-only secret: the same acceptance environment always
+// derives the same bytes, so a replacement Preview can still read what the
+// previous Preview encrypted, and no value ever has to be stored or shown.
+function acceptanceServerSecret(purpose, bytes) {
+  const material = CLINIC_DEMO_PASSWORD.length >= 20 ? CLINIC_DEMO_PASSWORD : SUPABASE_ACCESS_TOKEN;
+  return crypto.createHmac("sha256", material).update(`rcap-acceptance-server-secret:${PROJECT_REF}:${purpose}`).digest().subarray(0, bytes);
+}
+
 function syntheticPassword(email) {
   if (MISSISSIPPI_PREVIEW_MODE) return CLINIC_DEMO_PASSWORD;
   const material = crypto.createHmac("sha256", SUPABASE_ACCESS_TOKEN)
@@ -273,6 +281,13 @@ const runtimeEnv = {
   STRIPE_WEBHOOK_SECRET: process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || "whsec_hosted_acceptance_placeholder",
   ...(ROUTE_STATE ? { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: ROUTE_STATE } : {}),
   ...(SCOPE_IDS ? { RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS } : {}),
+  // Acceptance-only server secrets, derived per acceptance environment from a
+  // secret this job already holds and never printed. They are separate from
+  // the Production values by construction: Production keeps its own keys in
+  // the Vercel Production environment store, which this Preview never reads.
+  LEGAL_AID_RESTRICTED_FIELD_KEY: acceptanceServerSecret("legal-aid-restricted-field-key/v1", 32).toString("base64"),
+  LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: "v1",
+  PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: acceptanceServerSecret("participant-privacy-pseudonym-secret/v1", 32).toString("base64url"),
   VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
 };
 const buildEnv = {
