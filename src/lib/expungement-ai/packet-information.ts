@@ -521,7 +521,8 @@ export function protectedPacketInformationModelFor(
     snapshot.pathwayId,
     screeningAnswers,
     requiredInputIds,
-    serverFacts
+    serverFacts,
+    new Set(Object.keys(initialAnswers).filter((id) => answerIsKnown(initialAnswers[id])))
   );
   const summaryFlow: CommercialFlow = {
     screening: { answers: screeningAnswers },
@@ -569,12 +570,54 @@ export function protectedPacketInformationModelFor(
 
 type ProtectedPacketAuthoritySnapshot = PacketVerificationSnapshot | ProtectedPacketDraftSnapshot;
 
+// Packet inputs the Mississippi non-conviction route carries forward from the
+// participant's own screening answers instead of asking again: the offense
+// category is the charge level the participant chose, and sentence completion
+// is the court-requirements answer (the evaluator treats the two as the same
+// completion fact). Nothing is invented: an unsure or absent screening answer
+// carries nothing, and the builder then asks the question itself.
+export function carriedForwardPacketAnswers(
+  jurisdiction: string,
+  pathwayId: string | null,
+  screeningAnswers: Record<string, AnswerValue>
+): Record<string, AnswerValue> {
+  if (jurisdiction !== "MS" || pathwayId !== "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") return {};
+  const carried: Record<string, AnswerValue> = {};
+
+  // offense_category has no question of its own; it is the classification of
+  // the offense, which is exactly what the participant chose as the charge
+  // level. An unsure or absent charge level classifies nothing and carries
+  // nothing.
+  const offenseLevel = answerTextRaw(screeningAnswers.offense_level).trim();
+  if (offenseLevel && !/not sure/i.test(offenseLevel)) carried.offense_category = offenseLevel;
+
+  // sentence_completion_date is named like a date but the profile defines it as
+  // a yes/no/unsure completion STATUS ("Is the sentence complete, including
+  // incarceration, probation, parole, supervision, treatment, and community
+  // service?"), and the evaluator only ever reads it through isNegative and
+  // isExplicitUnknownAnswer. "Yes, I completed everything the court ordered"
+  // entails that the sentence the court ordered is complete, so that one
+  // answer, and only that one, carries.
+  //
+  // Nothing else carries. "No" and "not sure" are about everything the court
+  // ordered, which includes obligations this fact does not cover, so they
+  // would be an inference rather than the participant's answer; "not
+  // applicable" is not an assertion that anything is complete. In each of
+  // those cases the builder asks the profile's own completion question and an
+  // unknown answer stays unknown.
+  if (answerTextRaw(screeningAnswers.court_requirements_completed).trim().toLowerCase() === "yes") {
+    carried.sentence_completion_date = "Yes";
+  }
+  return carried;
+}
+
 function protectedPacketQuestionSurface(
   profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>,
   pathwayId: string | null,
   screeningAnswers: Record<string, AnswerValue>,
   requiredInputIds: string[],
-  serverFacts: Record<string, AnswerValue>
+  serverFacts: Record<string, AnswerValue>,
+  answeredIds: ReadonlySet<string> = new Set()
 ) {
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
@@ -608,8 +651,15 @@ function protectedPacketQuestionSurface(
       }
     }
   }
+  // Screening-answered inputs never re-appear in the builder. The two carried-
+  // forward inputs stay hidden only while they are answered; when nothing could
+  // be carried forward the builder asks them, so a matter can never be stuck
+  // as incomplete on a question it never shows.
   const builderQuestions = mississippiNonConviction
-    ? questions.filter((question) => !["offense_category", "offense_level", "sentence_completion_date", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id))
+    ? questions.filter((question) => !(
+      ["offense_level", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id)
+      || (["offense_category", "sentence_completion_date"].includes(question.id) && answeredIds.has(question.id))
+    ))
     : questions;
   return { questionById, questions, builderQuestions };
 }
@@ -711,7 +761,10 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
   const packetPlan = evaluation.packetPlan ?? null;
   const factMaps = sourceDisjointFactMaps({
     screeningAnswers: input.screeningAnswers,
-    prefilledAnswers: input.prefilledAnswers,
+    prefilledAnswers: {
+      ...carriedForwardPacketAnswers(evaluation.jurisdiction, evaluation.pathwayId ?? null, input.screeningAnswers),
+      ...(input.prefilledAnswers ?? {})
+    },
     packetAnswers: input.packetAnswers,
     serverFacts: canonicalServerFacts(evaluation.jurisdiction, evaluation.pathwayId ?? null)
   });
@@ -1195,7 +1248,7 @@ function authoritativePacketContext(
   if (screening.packetType !== (authoritative.packetType ?? null) || item.packetType !== authoritative.packetType) {
     return { safe: false, reason: "stored_packet_type_mismatch" };
   }
-  if (!canonicalEqual(storedPlan, comparableStoredPacketPlan(authoritativePlan))) {
+  if (!canonicalEqual(comparableStoredPacketPlan(storedPlan), comparableStoredPacketPlan(authoritativePlan))) {
     return { safe: false, reason: "stored_packet_plan_mismatch" };
   }
   if (!canonicalEqual(stringArray(packetInformation.requiredInputIds), authoritativePlan?.requiredInputIds ?? [])) {
@@ -1306,7 +1359,13 @@ function readPacketPlan(value: unknown): PacketPlan | null {
     formMappingStatus: value.formMappingStatus as PacketPlan["formMappingStatus"],
     sourceFormIds: stringArray(value.sourceFormIds),
     requiredInputIds: stringArray(value.requiredInputIds),
-    sourceRuleRefs: stringArray(value.sourceRuleRefs)
+    sourceRuleRefs: stringArray(value.sourceRuleRefs),
+    // The compiled plan always carries packetReadyWhen and the protected
+    // snapshot stores the plan as evaluated. Dropping it here made the model's
+    // plan differ from the stored verification context, so verificationSummary
+    // returned null and the review page rendered "Final verification is not
+    // available" for every matter. Read it back exactly when it is stored.
+    ...(Array.isArray(value.packetReadyWhen) ? { packetReadyWhen: stringArray(value.packetReadyWhen) } : {})
   };
 }
 

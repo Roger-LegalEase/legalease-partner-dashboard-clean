@@ -232,6 +232,23 @@ try {
     if (!saveResponse.ok()) break;
   }
   await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}/review`, { timeout: 20_000 });
+  // "Final verification" is also the heading of the review page's unavailable
+  // branch, so a partial text match passes on a page that carries no
+  // verification panel at all. Require the panel itself and report the page's
+  // own branch attributes when it is missing.
+  const verificationPanel = page.locator("[data-packet-verification-state]");
+  const unavailableBranch = page.locator("[data-review-branch='unavailable']");
+  await Promise.race([
+    verificationPanel.waitFor({ state: "visible", timeout: 20_000 }).catch(() => null),
+    unavailableBranch.waitFor({ state: "visible", timeout: 20_000 }).catch(() => null)
+  ]);
+  if (!(await verificationPanel.count())) {
+    const branch = await unavailableBranch.evaluate((node) => Object.fromEntries(
+      Array.from(node.attributes).filter((attribute) => attribute.name.startsWith("data-")).map((attribute) => [attribute.name, attribute.value])
+    )).catch(() => null);
+    await screenshotPair(page, "04-partner-review-unavailable");
+    throw new Error(`The review page rendered its unavailable branch instead of the verification panel: ${JSON.stringify(branch)}`);
+  }
   await expectText(page, "Final verification");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner final verification");
   check((await page.getByRole("button", { name: "Generate my packet", exact: true }).count()) === 0, "Sponsored generation was available before explicit verification.");
@@ -449,7 +466,12 @@ async function answerCurrentBuilderQuestion(page) {
   if (await enabledText.count()) {
     const id = (await enabledText.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
     const prompt = await builder.locator("h1").innerText();
-    await enabledText.fill(valueForPacketField(id, prompt));
+    // A prefilled value is the participant's own answer projected into the
+    // packet; overwriting it fails the profile's own validator. Date prompts
+    // the packet specification renders as free text take an ISO date.
+    const current = (await enabledText.inputValue().catch(() => "")).trim();
+    if (current) return;
+    await enabledText.fill(isDateInput(id, prompt) ? ISO_DATE_ANSWER : valueForPacketField(id, prompt));
     return;
   }
 
@@ -498,6 +520,13 @@ function packetInformationResponse(page, itemId) {
       && new URL(response.url()).pathname === `/api/expungement-ai/briefcase/${itemId}/packet-information`,
     { timeout: 20_000 }
   );
+}
+
+// Prompts the packet specification renders as free text although the profile
+// validates them as dates.
+const ISO_DATE_ANSWER = "2015-01-15";
+function isDateInput(id, prompt) {
+  return /_date$|_date_/.test(id) || /\bdate\b/i.test(prompt);
 }
 
 function valueForPacketField(id, prompt) {
