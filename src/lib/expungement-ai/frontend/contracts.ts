@@ -244,6 +244,8 @@ export type PacketPlan = {
   sourceFormIds: string[];
   requiredInputIds: string[];
   sourceRuleRefs: string[];
+  /** Compiled plans carry the packet-ready checklist; stored plans keep it and the model must read it back unchanged. */
+  packetReadyWhen?: string[];
 };
 
 export type ScreeningEvaluation = {

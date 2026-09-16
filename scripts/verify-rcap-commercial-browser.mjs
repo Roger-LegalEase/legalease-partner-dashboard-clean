@@ -72,9 +72,14 @@ const MISSISSIPPI_SAFE_ROUTE_ANSWERS = Object.freeze({
   actual_arrest: "Yes",
   release_confirmed: "Yes",
   disposition_record_wording: "Charges dropped",
-  statutory_disposition_category: "Charges dropped",
-  case_outcome: "Charges dropped"
+  statutory_disposition_category: "Charges dropped"
 });
+// Prompts the builder renders as free text although the profile validates them
+// as dates (the packet specification carries no question type for them).
+const ISO_DATE_ANSWER = "2015-01-15";
+function isDateInput(id, prompt) {
+  return /_date$|_date_/.test(id) || /\bdate\b/i.test(prompt);
+}
 const browserErrors = [];
 const generationRequests = [];
 const stripeRequests = [];
@@ -287,6 +292,24 @@ try {
     if (!saveResponse.ok()) break;
   }
   await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}/review`, { timeout: 20_000 });
+  // The review page has an outer "Final verification is not available" branch
+  // whose heading also matches a partial "Final verification" text wait (runs
+  // 35120640545 and 35122300936). Require the actual verification panel and
+  // report the page's own branch diagnostics when it is absent.
+  const verificationPanel = page.locator("[data-packet-verification-state]");
+  const unavailableBranch = page.locator("[data-review-branch='unavailable']");
+  await Promise.race([
+    verificationPanel.waitFor({ state: "visible", timeout: 20_000 }).catch(() => null),
+    unavailableBranch.waitFor({ state: "visible", timeout: 20_000 }).catch(() => null)
+  ]);
+  if (!(await verificationPanel.count())) {
+    const branch = await unavailableBranch.evaluate((node) => Object.fromEntries(
+      Array.from(node.attributes).filter((attribute) => attribute.name.startsWith("data-")).map((attribute) => [attribute.name, attribute.value])
+    )).catch(() => null);
+    const crumbs = await page.locator("nav").first().innerText().catch(() => "");
+    await screenshotPair(page, "04-partner-review-unavailable");
+    throw new Error(`The review page rendered its unavailable branch instead of the verification panel: ${JSON.stringify(branch)}; breadcrumb ${JSON.stringify(crumbs.replace(/\s+/g, " ").trim())}`);
+  }
   await expectText(page, "Final verification");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner final verification");
   check((await page.getByRole("button", { name: "Generate my packet", exact: true }).count()) === 0, "Sponsored generation was available before explicit verification.");
@@ -539,7 +562,12 @@ async function answerCurrentBuilderQuestion(page) {
   if (await enabledText.count()) {
     const id = (await enabledText.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
     const prompt = await builder.locator("h1").innerText();
-    await enabledText.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? valueForPacketField(id, prompt));
+    // A prefilled value is the participant's own screening answer projected
+    // into the packet (run 35122300936 overwrote case_outcome and failed the
+    // public validator); keep it. Date prompts rendered as text take an ISO date.
+    const current = (await enabledText.inputValue().catch(() => "")).trim();
+    if (current) return;
+    await enabledText.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? (isDateInput(id, prompt) ? ISO_DATE_ANSWER : valueForPacketField(id, prompt)));
     return;
   }
 
@@ -547,6 +575,8 @@ async function answerCurrentBuilderQuestion(page) {
   if (await textarea.count()) {
     const id = (await textarea.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
     const prompt = await builder.locator("h1").innerText();
+    const current = (await textarea.inputValue().catch(() => "")).trim();
+    if (current) return;
     await textarea.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? valueForPacketField(id, prompt));
     return;
   }

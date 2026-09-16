@@ -153,7 +153,16 @@ export default async function PacketAccuracyReviewPage({
           />
         </section>
       ) : (
-        <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6" role="status" aria-live="polite">
+        <section
+          className="rounded-[16px] border border-[#ECEFF4] bg-white p-6"
+          role="status"
+          aria-live="polite"
+          data-review-branch="unavailable"
+          data-authority-status={item ? item.authorityStatus : "no_item"}
+          data-result-code={item?.resultCode ?? ""}
+          data-packet-draft-status={item?.packetDraft.status ?? ""}
+          data-verification-summary={model ? (summary ? "present" : "null") : "no_model"}
+        >
           <h1 className="text-2xl font-extrabold text-[#0B1320]">Final verification is not available for this matter.</h1>
           <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}>Open matter</Link>
         </section>
