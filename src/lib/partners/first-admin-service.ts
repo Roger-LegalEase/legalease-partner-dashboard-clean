@@ -12,6 +12,7 @@ import {
   FIRST_ADMIN_ROLE,
   createFirstAdminToken,
   decideFirstAdminAccountPath,
+  decideAdministratorAccessEnd,
   decidePostAcceptanceDestination,
   effectiveInvitationStatus,
   firstAdminRecordId,
@@ -98,7 +99,18 @@ export type FirstAdminAccessView = {
     accountStatus: "active";
     membershipStatus: "active";
   } | null;
+  // Every active Partner Administrator membership, in creation order. More
+  // than one entry is the administrator handoff in progress: the replacement
+  // has accepted and the outgoing administrator's access may now be ended.
+  administrators: FirstAdminAdministratorSummary[];
   history: FirstAdminHistoryItem[];
+};
+
+export type FirstAdminAdministratorSummary = {
+  membershipId: string;
+  email: string | null;
+  createdAt: string | null;
+  invitationHolder: boolean;
 };
 
 export class FirstAdminProvisioningError extends Error {
@@ -109,6 +121,8 @@ export class FirstAdminProvisioningError extends Error {
       | "partner_not_found"
       | "workspace_required"
       | "administrator_exists"
+      | "membership_not_found"
+      | "last_administrator"
       | "invitation_pending"
       | "invitation_not_found"
       | "invitation_inactive"
@@ -159,6 +173,10 @@ export async function getFirstAdminAccessView(
       listInvitationHistory(supabase, partnerSlug)
     ]);
 
+  const administratorSummaries = administrators.map((row) =>
+    administratorSummary(row, invitation)
+  );
+
   if (administrators.length > 1) {
     return baseView({
       accessStatus: "access_needs_attention",
@@ -166,6 +184,7 @@ export async function getFirstAdminAccessView(
       workspaceExists,
       invitation,
       administrator: null,
+      administrators: administratorSummaries,
       history
     });
   }
@@ -187,6 +206,7 @@ export async function getFirstAdminAccessView(
         accountStatus: "active",
         membershipStatus: "active"
       },
+      administrators: administratorSummaries,
       history
     });
   }
@@ -438,6 +458,77 @@ export async function revokeFirstAdminInvitation(input: {
     actor_user_id: input.operatorUserId
   });
   return invitationPublicFields(next);
+}
+
+/**
+ * Administrator handoff: end one active Partner Administrator membership.
+ *
+ * This is the only supported way to move an organization from two active
+ * administrators (the outgoing one and the accepted replacement) back to one.
+ * It never removes the last working administrator, never deletes the account
+ * or its history, and never touches the invitation record. The membership row
+ * is disabled with a compare-and-set on its active status, so a concurrent
+ * change is refused instead of silently repeated, and the outcome is written
+ * to the partner audit history. Access ends on the next request: every
+ * session resolves the membership row and requires it to be active.
+ */
+export async function endPartnerAdministratorAccess(input: {
+  partnerSlug: unknown;
+  membershipId: unknown;
+  confirmEmail?: unknown;
+  operatorUserId: string;
+  now?: Date;
+}) {
+  const partnerSlug = normalizePartnerSlug(input.partnerSlug);
+  const supabase = admin();
+  await requirePartner(supabase, partnerSlug);
+  const administrators = await listActivePartnerAdmins(supabase, partnerSlug);
+  const decision = decideAdministratorAccessEnd({
+    administrators: administrators.map((row) => ({
+      membershipId: row.id,
+      authUserId: row.auth_user_id,
+      email: row.invited_email ?? undefined
+    })),
+    membershipId: input.membershipId,
+    confirmEmail: input.confirmEmail
+  });
+  if (!decision.ok) {
+    throw new FirstAdminProvisioningError(decision.code, decision.message);
+  }
+  const endedAt = (input.now ?? new Date()).toISOString();
+  const { data, error } = await supabase
+    .from("partner_users")
+    .update({ status: "disabled" })
+    .eq("id", decision.ended.membershipId)
+    .eq("partner_slug", partnerSlug)
+    .eq("role", FIRST_ADMIN_ROLE)
+    .eq("status", "active")
+    .select("id");
+  if (error) {
+    throw persistenceWriteFailure();
+  }
+  if (!data || data.length !== 1) {
+    throw new FirstAdminProvisioningError(
+      "invitation_conflict",
+      "Administrator access changed in another session. Refresh before trying again."
+    );
+  }
+  await appendAudit(supabase, partnerSlug, "partner_admin_membership_ended", {
+    membership_id: decision.ended.membershipId,
+    email: decision.ended.email ?? "",
+    status: "disabled",
+    occurred_at: endedAt,
+    actor_user_id: input.operatorUserId,
+    remaining_administrators: String(decision.remaining.length)
+  });
+  return {
+    ended: {
+      membershipId: decision.ended.membershipId,
+      email: decision.ended.email ?? null,
+      endedAt
+    },
+    remainingAdministrators: decision.remaining.length
+  };
 }
 
 /**
@@ -1380,16 +1471,32 @@ export async function sendFirstAdminInvitationEmail(input: {
   return { sent: true, duplicatePrevented: false };
 }
 
+function administratorSummary(
+  row: PartnerUserRow,
+  invitation: FirstAdminInvitationPayload | null
+): FirstAdminAdministratorSummary {
+  return {
+    membershipId: row.id,
+    email: row.invited_email ?? null,
+    createdAt: row.created_at,
+    invitationHolder:
+      Boolean(invitation?.auth_user_id) &&
+      invitation?.auth_user_id === row.auth_user_id
+  };
+}
+
 function baseView(input: {
   accessStatus: FirstAdminAccessView["accessStatus"];
   statusLabel: FirstAdminAccessView["statusLabel"];
   workspaceExists: boolean;
   invitation: FirstAdminInvitationPayload | null;
   administrator: FirstAdminAccessView["administrator"];
+  administrators?: FirstAdminAdministratorSummary[];
   history: FirstAdminHistoryItem[];
 }): FirstAdminAccessView {
   return {
     ...input,
+    administrators: input.administrators ?? [],
     emailDeliveryConfigured: getPartnerEmailDeliveryConfig().enabled,
     invitation: input.invitation
       ? invitationPublicFields(input.invitation)
@@ -1572,6 +1679,7 @@ async function listInvitationHistory(
     "first_admin_invitation_claimed",
     "first_admin_invitation_accepted",
     "partner_admin_membership_created",
+    "partner_admin_membership_ended",
     "first_admin_replay_prevented"
   ];
   const { data, error } = await supabase
@@ -1863,6 +1971,8 @@ function auditLabel(eventType: string) {
       "Administrator invitation accepted",
     partner_admin_membership_created:
       "Partner administrator membership created",
+    partner_admin_membership_ended:
+      "Partner administrator access ended",
     first_admin_replay_prevented:
       "Duplicate administrator acceptance prevented"
   };

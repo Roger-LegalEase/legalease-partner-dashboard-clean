@@ -221,7 +221,41 @@ assert.doesNotMatch(panel, /auth_user_id|token_hash|service_role/);
 assert.match(password, /\/api\/partners\/first-admin\/accept/);
 assert.match(password, /safeAppRedirectPath\(\s*result\.redirectTo/);
 
+// Administrator handoff: ending one active administrator's access.
+{
+  const { decideAdministratorAccessEnd } = domain;
+  const outgoing = { membershipId: "6f0b4f2e-2d5c-4c7e-9a41-0f6d2b8a1c01", authUserId: "u-1", email: "outgoing@example.org" };
+  const replacement = { membershipId: "6f0b4f2e-2d5c-4c7e-9a41-0f6d2b8a1c02", authUserId: "u-2", email: "incoming@example.org" };
+  const lastOnly = decideAdministratorAccessEnd({ administrators: [outgoing], membershipId: outgoing.membershipId });
+  assert.equal(lastOnly.ok, false);
+  assert.equal(lastOnly.code, "last_administrator");
+  const handoff = decideAdministratorAccessEnd({ administrators: [outgoing, replacement], membershipId: outgoing.membershipId, confirmEmail: " Outgoing@Example.org " });
+  assert.equal(handoff.ok, true);
+  assert.equal(handoff.ended.membershipId, outgoing.membershipId);
+  assert.deepEqual(handoff.remaining.map((row) => row.membershipId), [replacement.membershipId]);
+  const wrongEmail = decideAdministratorAccessEnd({ administrators: [outgoing, replacement], membershipId: outgoing.membershipId, confirmEmail: "incoming@example.org" });
+  assert.equal(wrongEmail.ok, false);
+  assert.equal(wrongEmail.code, "invalid_input");
+  const unknown = decideAdministratorAccessEnd({ administrators: [outgoing, replacement], membershipId: "6f0b4f2e-2d5c-4c7e-9a41-0f6d2b8a1c99" });
+  assert.equal(unknown.ok, false);
+  assert.equal(unknown.code, "membership_not_found");
+  const malformed = decideAdministratorAccessEnd({ administrators: [outgoing, replacement], membershipId: "not-a-membership" });
+  assert.equal(malformed.ok, false);
+  assert.equal(malformed.code, "invalid_input");
+  // The service applies the decision with a compare-and-set on the active row, writes the audit event, and never deletes the account.
+  const endSection = service.slice(service.indexOf("export async function endPartnerAdministratorAccess"), service.indexOf("export type FirstAdminSetupClaim"));
+  assert.match(endSection, /decideAdministratorAccessEnd\(/);
+  assert.match(endSection, /\.update\(\{ status: "disabled" \}\)/);
+  assert.match(endSection, /\.eq\("status", "active"\)/);
+  assert.match(endSection, /"partner_admin_membership_ended"/);
+  assert.doesNotMatch(endSection, /deleteUser|\.delete\(\)/);
+  assert.match(internalRoute, /action === "end_access"/);
+  assert.match(panel, /End administrator access/);
+  assert.match(panel, /Protected: last administrator/);
+}
+
 console.log("First administrator provisioning verification passed.");
+console.log("- Administrator handoff decision refuses the last administrator and ends access only with an accepted replacement.");
 console.log("- Pure normalization, token, expiration, and redirect helpers passed.");
 console.log("- Static security guards and sensitive-field exclusions are present.");
 console.log(

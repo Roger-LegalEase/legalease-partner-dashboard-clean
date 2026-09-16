@@ -11,9 +11,9 @@ import { Panel, laInput, laPrimary, laSecondary } from "./LegalAidShell";
 // the event's legal-aid settings, and the clinic team chosen by email with
 // role-shaped permissions.
 
-type Props = { event: LegalAidEventSummary; profiles: PolicyProfileSummary[]; staff: StaffCandidate[]; templateAvailable: boolean; registrationUrl: string };
+type Props = { event: LegalAidEventSummary; profiles: PolicyProfileSummary[]; staff: StaffCandidate[]; templateAvailable: boolean; registrationUrl: string; consoleBase?: string };
 
-export function LegalAidAdminClient({ event, profiles, staff, templateAvailable, registrationUrl }: Props) {
+export function LegalAidAdminClient({ event, profiles, staff, templateAvailable, registrationUrl, consoleBase = "/partner/clinic" }: Props) {
   const router = useRouter();
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
@@ -87,7 +87,7 @@ export function LegalAidAdminClient({ event, profiles, staff, templateAvailable,
         <ul className="mt-4 divide-y divide-[#EEE8F2] text-sm">{staff.filter((member) => member.status).map((member) => <li key={member.partnerUserId} className="flex flex-wrap justify-between gap-2 py-2"><span className="font-bold">{member.email}</span><span className="text-[#5B4E66]">{member.status} · {member.permissions.map((permission) => LEGAL_AID_PERMISSION_LABELS[permission as keyof typeof LEGAL_AID_PERMISSION_LABELS]?.title ?? permission).join(", ")}</span></li>)}</ul>
       </Panel>
 
-      <p className="text-sm"><Link href={`/clinic/staff/${event.id}/applications`} className="font-bold text-[var(--la-brand-dark)] underline">Open the applications list</Link> · <Link href={`/partner/clinic/${event.id}`} className="font-bold text-[var(--la-brand-dark)] underline">Event controls (publish, pause, close)</Link></p>
+      <p className="text-sm"><Link href={`/clinic/staff/${event.id}/applications`} className="font-bold text-[var(--la-brand-dark)] underline">Open the applications list</Link> · <Link href={`${consoleBase}/${event.id}`} className="font-bold text-[var(--la-brand-dark)] underline">Event controls (publish, pause, close)</Link></p>
     </div>
   );
 }

@@ -352,6 +352,25 @@ try {
   const logged = serverLog.includes(SSN) || serverLog.includes(SSN_FORMATTED);
   check("logs: the protected value never appeared in the server log", !logged);
 
+  // LegalEase internal administrator (the interim-coordinator identity): the
+  // internal Clinic Mode console links to legal-aid setup, the internal
+  // legal-aid setup page renders with the same controls, and the staff
+  // application list opens with internal authority. The partner-only page
+  // still refuses the internal identity, so nothing widened.
+  const internal = await session(IDS.internalAdmin);
+  await internal.goto(`${BASE}/internal/clinic/${IDS.eventLegalAid}`);
+  check("internal: clinic console links to legal-aid setup", (await internal.locator(`a[href='/internal/clinic/${IDS.eventLegalAid}/legal-aid']`).count()) === 1);
+  await internal.goto(`${BASE}/internal/clinic/${IDS.eventLegalAid}/legal-aid`);
+  check("internal: legal-aid setup page renders for an internal administrator", await internal.textContent("h1").then((t) => t?.includes("legal aid clinic setup")));
+  check("internal: setup page shows the approved profile and staff controls", (await internal.locator("select[name=policyProfileId]").count()) === 1 && (await internal.locator("text=volunteer.attorney@example.org").count()) > 0);
+  check("internal: event-controls link stays inside the internal console", (await internal.locator(`a[href='/internal/clinic/${IDS.eventLegalAid}']`).count()) >= 1);
+  await internal.goto(`${BASE}/clinic/staff/${IDS.eventLegalAid}/applications`);
+  const internalApplicationsHeading = await internal.textContent("h1").catch(() => null);
+  check("internal: staff application list opens with internal authority", internalApplicationsHeading?.includes(": applications"), internalApplicationsHeading ?? (await internal.content()).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").slice(0, 300));
+  check("internal: application list shows the training applications", (await internal.locator("text=applicant@example.net").count()) > 0 || (await internal.locator("table tbody tr").count()) > 0);
+  await shot(internal, "internal-legal-aid-setup", 1440);
+  await internal.context().close();
+
   // Standard Clinic Mode regression.
   const anonymous = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await anonymous.goto(`${BASE}/clinic/mvlp-standard-check`);

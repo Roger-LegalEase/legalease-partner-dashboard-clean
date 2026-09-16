@@ -28,6 +28,7 @@ export const IDS = {
   notary: "10000000-0000-4000-8000-000000000006",
   applicant: "10000000-0000-4000-8000-000000000009",
   secondApplicant: "10000000-0000-4000-8000-000000000010",
+  internalAdmin: "10000000-0000-4000-8000-000000000011",
   eventLegalAid: "20000000-0000-4000-8000-000000000001",
   eventStandard: "20000000-0000-4000-8000-000000000002",
   matter: "50000000-0000-4000-8000-000000000001",
@@ -42,7 +43,11 @@ export const USERS = new Map([
   [IDS.attorney, { id: IDS.attorney, email: "volunteer.attorney@example.org", confirmed: true, partnerUserId: "90000000-0000-4000-8000-000000000005", role: "partner_staff" }],
   [IDS.notary, { id: IDS.notary, email: "clinic.notary@example.org", confirmed: true, partnerUserId: "90000000-0000-4000-8000-000000000006", role: "partner_staff" }],
   [IDS.applicant, { id: IDS.applicant, email: "applicant@example.net", confirmed: true }],
-  [IDS.secondApplicant, { id: IDS.secondApplicant, email: "second.applicant@example.net", confirmed: true }]
+  [IDS.secondApplicant, { id: IDS.secondApplicant, email: "second.applicant@example.net", confirmed: true }],
+  // A LegalEase internal administrator: no organization membership, so the
+  // interim-coordinator path (internal console, internal legal-aid setup) is
+  // exercised with the identity shape Roger's account actually has.
+  [IDS.internalAdmin, { id: IDS.internalAdmin, email: "internal.admin@legalease.example", confirmed: true, partnerUserId: "90000000-0000-4000-8000-000000000011", role: "internal_admin", internal: true }]
 ]);
 
 export const STUBS = `
@@ -84,7 +89,7 @@ export async function createLocalDatabase({ seedEvents = true } = {}) {
     insert into auth.users(id, email) values ${[...USERS.values()].map((user) => `('${user.id}','${user.email}')`).join(",")};
     insert into public.partner_records(id, partner_slug) values ('${IDS.partnerRecord}','mvlp');
     insert into public.partner_users(id, auth_user_id, partner_slug, role, status, invited_email) values
-      ${[...USERS.values()].filter((user) => user.partnerUserId).map((user) => `('${user.partnerUserId}','${user.id}','mvlp','${user.role}','active','${user.email}')`).join(",")};
+      ${[...USERS.values()].filter((user) => user.partnerUserId).map((user) => `('${user.partnerUserId}','${user.id}',${user.internal ? "null" : "'mvlp'"},'${user.role}','active','${user.email}')`).join(",")};
     insert into public.consumer_briefcase_items(id,user_id) values ('${IDS.matter}','${IDS.applicant}');
   `);
   if (seedEvents) {
