@@ -5,7 +5,7 @@
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
   "fileCount": 125,
-  "totalBytes": 13987070,
+  "totalBytes": 14011476,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -689,7 +689,7 @@
     },
     {
       "path": "data/rcap-grade-a/worker-static-authority.json",
-      "sha256": "26d1d2a6872f1b2b3ed016bd5db24b1bdc8a61185a074995a38a77ae61a22f0a",
+      "sha256": "35ee02082b411c396fe59a6bcf12a7adb0a982ec137177fac94db71ec8560472",
       "bytes": 194143,
       "readBy": "src/lib/rcap/fulfillment/worker-static-authority.ts",
       "why": "Render-only legal/source/specification authority; external publication facts remain outside the image."
@@ -724,8 +724,8 @@
     },
     {
       "path": "data/rcap-ledger/route-kind-adjudications.json",
-      "sha256": "89d93ae1a794d4cab67ab68eb5b93792799846a5278d30eda6135217ab3939ee",
-      "bytes": 45218,
+      "sha256": "df4757fa7b3ad6a942fc8cc0d8e516ea8b35e11f35614f4833f3d7b355162eb8",
+      "bytes": 45611,
       "readBy": "worker module graph (ESM JSON import)",
       "why": "Static import; module load fails if absent."
     },
@@ -745,8 +745,8 @@
     },
     {
       "path": "data/record-clearing/factory-v2-route-registry.json",
-      "sha256": "1151bc230e299e8e865ea53db45e4927768dce746ea65a58d27ddc87662cfea5",
-      "bytes": 507842,
+      "sha256": "82ed680bbad2f10a2e1e88bcfaa300d21849ff329e06f843789fb49932e86545",
+      "bytes": 507700,
       "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (REGISTRY_PATH)",
       "why": "Factory-v2 route rows behind buildRenderJobSpec."
     },
@@ -766,8 +766,8 @@
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-      "bytes": 3711585,
+      "sha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4",
+      "bytes": 3735740,
       "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (ROUTE_MIGRATIONS_PATH)",
       "why": "Packet-set manifests behind buildRenderJobSpec."
     },
