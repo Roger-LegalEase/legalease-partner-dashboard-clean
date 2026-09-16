@@ -465,6 +465,10 @@ try {
   }
 
   const stagedId = deploymentId(staged);
+  // Deployment identifiers are not secrets; the smoke and activation phases
+  // pin them by literal, so the preflight names them in its own log.
+  console.log("  staged Production-target deployment: " + stagedId);
+  console.log("  rollback (current Production) deployment: " + productionBefore.deploymentId);
   const stagedMeta = staged?.meta ?? {};
   const stagedExact = Boolean(stagedId)
     && stagedId !== productionBefore.deploymentId
