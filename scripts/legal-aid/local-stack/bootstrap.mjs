@@ -62,7 +62,7 @@ export const STUBS = `
   create table public.packet_render_jobs(
     id uuid primary key, packet_id text, route_id text, briefcase_item_id uuid, person_id uuid, renderer_kind text, renderer_version text,
     status text not null, attempt_count int default 0, max_attempts int default 5, accounting_result text, failure_disposition text, error_code text,
-    output_storage_path text, output_sha256 text, normalized_output_sha256 text, delivery_eligibility text, consumer_briefcase_item_id uuid, consumer_verification_hash text,
+    output_storage_path text, output_sha256 text, normalized_output_sha256 text, delivery_eligibility text, consumer_briefcase_item_id uuid, consumer_verification_hash text, sponsored_consumer_auth_user_id uuid,
     credit_ledger_id uuid references public.packet_credit_ledger(id), partner_id uuid references public.partner_records(id),
     matter_id uuid, consumer_auth_user_id uuid references auth.users(id), created_at timestamptz not null default now()
   );

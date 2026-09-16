@@ -422,7 +422,13 @@ export async function listApplicantRenderJobs(intakeId: string, actorUserId: str
   const db = requireLegalAidDatabase();
   const intake = await db.from("legal_aid_intakes").select("participant_user_id,clinic_case_id").eq("id", intakeId).maybeSingle();
   if (intake.error || !intake.data?.participant_user_id) return [];
-  const jobs = await db.from("packet_render_jobs").select("id,status,output_sha256,created_at").eq("consumer_auth_user_id", String(intake.data.participant_user_id))
+  // A paid packet is bound through consumer_auth_user_id; a clinic-sponsored
+  // packet (the MVLP case) is bound through sponsored_consumer_auth_user_id
+  // only. Both are the applicant's own; the participant id is a UUID already
+  // validated by the intake row, never free text.
+  const participantUserId = String(intake.data.participant_user_id);
+  const jobs = await db.from("packet_render_jobs").select("id,status,output_sha256,created_at")
+    .or(`consumer_auth_user_id.eq.${participantUserId},sponsored_consumer_auth_user_id.eq.${participantUserId}`)
     .in("status", ["artifact_validated", "delivered"]).order("created_at", { ascending: false }).limit(10);
   if (jobs.error) return [];
   return (jobs.data ?? []).map((job) => ({ id: String(job.id), status: String(job.status), outputSha256: job.output_sha256 ? String(job.output_sha256) : null, createdAt: String(job.created_at) }));
@@ -526,7 +532,8 @@ export async function openUnsignedArtifact(taskId: string, actorUserId: string):
   const [{ getRenderJob }, { getPacketArtifactStorage }] = await Promise.all([import("@/lib/rcap/render/job-queue"), import("@/lib/rcap/render/artifact-storage")]);
   const intake = await db.from("legal_aid_intakes").select("participant_user_id").eq("id", intakeId).maybeSingle();
   const job = await getRenderJob(String(task.data.unsigned_render_job_id));
-  if (!job || !intake.data?.participant_user_id || job.consumerAuthUserId !== String(intake.data.participant_user_id)) throw new ClinicServiceError("not_found", "The prepared copy does not belong to this applicant.");
+  const jobOwner = job?.consumerAuthUserId ?? job?.sponsoredConsumerAuthUserId ?? null;
+  if (!job || !intake.data?.participant_user_id || jobOwner !== String(intake.data.participant_user_id)) throw new ClinicServiceError("not_found", "The prepared copy does not belong to this applicant.");
   if (!job.outputStoragePath || job.outputSha256 !== String(task.data.unsigned_artifact_sha256)) throw new ClinicServiceError("conflict", "The prepared copy no longer matches the copy recorded on this document.");
   const storage = getPacketArtifactStorage();
   if (!storage) throw new ClinicServiceError("unavailable", "Packet storage is not configured.");

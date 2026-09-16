@@ -32,11 +32,11 @@
   "authorization": "Roger Roman's MVLP rollout authorization and MVLP onboarding authorization (2026-09-16, chat): complete the MVLP rollout with hosted verification before Production; choose the NEW WORKER path; verify the final worker inputs, build and publish the exact full-SHA image, capture its immutable registry digest, run image acceptance, and update the application/deployment bindings. tag_replacement_authorization empty; full-SHA tag only. Publish only: no deployment, no claiming, staging and production unchanged by this step.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
-    "sourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
-    "immutableRegistryDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
-    "disposition": "superseded_by_runtime_input_changes",
-    "why": "The Grade A worker (da432bd1, digest sha256:477afe68…) stays deployed on the Production machine and in GHCR until the successor is accepted and deployed; it is the worker rollback target. Not deleted, not retagged.",
-    "publicationRunId": 35054865971
+    "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+    "immutableRegistryDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+    "disposition": "superseded_by_source_drift",
+    "why": "Historically valid for 5ac0d8d6 and inert. Superseded now that PR #127 merged the prepared-onboarding partner experience and the applied-prefill reproposal lifecycle into main, which changed 33 canonical image-input paths. Not deleted, not retagged. This record stays as the tuple the retired worker-source-binding exception covers; later publications are listed in supersededChain.",
+    "publicationRunId": 32307070302
   },
   "supersededChain": [
     {
@@ -225,7 +225,7 @@
       "publicationRunId": 35054865971,
       "imageAcceptanceRunId": 35055139765,
       "disposition": "superseded_by_runtime_input_changes",
-      "why": "Retained unchanged in GHCR; tag not moved; it remains the image deployed on the Production worker machine until the successor is accepted and deployed. Superseded by publication run 35106750212 from 7dc8df2341c99c44d7646578505eed170daa5c8d after these canonical worker inputs changed: package.json (test chain additions) and 48 files under src/ for Legal Aid Clinic Mode (MVLP): src/app/api/legal-aid/**, src/app/clinic/**, src/app/p/[partnerSlug]/**, src/app/partner/clinic/[eventId]/legal-aid, src/components/legal-aid/**, src/lib/legal-aid/**, src/lib/partners/{landing-page,mvlp-routing,seed-partners}.ts, src/lib/clinic-mode/types.ts, src/proxy.ts, src/components/clinic-mode/ClinicAdminConsole.tsx. The worker entrypoint, scripts/lib, the Dockerfile and the lockfile are byte-identical."
+      "why": "Retained unchanged in GHCR; tag not moved; it remains the image deployed on the Production worker machine (Fly app legalease-rcap-render-worker) and is the worker rollback target until the successor is accepted and deployed. Retained unchanged in GHCR; tag not moved; it remains the image deployed on the Production worker machine until the successor is accepted and deployed. Superseded by publication run 35106750212 from 7dc8df2341c99c44d7646578505eed170daa5c8d after these canonical worker inputs changed: package.json (test chain additions) and 48 files under src/ for Legal Aid Clinic Mode (MVLP): src/app/api/legal-aid/**, src/app/clinic/**, src/app/p/[partnerSlug]/**, src/app/partner/clinic/[eventId]/legal-aid, src/components/legal-aid/**, src/lib/legal-aid/**, src/lib/partners/{landing-page,mvlp-routing,seed-partners}.ts, src/lib/clinic-mode/types.ts, src/proxy.ts, src/components/clinic-mode/ClinicAdminConsole.tsx. The worker entrypoint, scripts/lib, the Dockerfile and the lockfile are byte-identical."
     },
     {
       "sourceSha": "7dc8df2341c99c44d7646578505eed170daa5c8d",

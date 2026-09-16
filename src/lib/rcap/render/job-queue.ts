@@ -55,6 +55,8 @@ export type RenderJobRow = {
    */
   consumerBriefcaseItemId: string | null;
   consumerAuthUserId: string | null;
+  /** The clinic-sponsored participant, when the row was enqueued through the sponsored route (it then carries no consumer binding). */
+  sponsoredConsumerAuthUserId: string | null;
   consumerVerificationHash?: string | null;
   /**
    * The protected sponsored binding, surfaced ONLY when the row carries one that
@@ -92,6 +94,8 @@ function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
       ? null : String(record.consumer_briefcase_item_id),
     consumerAuthUserId: record.consumer_auth_user_id === null || record.consumer_auth_user_id === undefined
       ? null : String(record.consumer_auth_user_id),
+    sponsoredConsumerAuthUserId: record.sponsored_consumer_auth_user_id === null || record.sponsored_consumer_auth_user_id === undefined
+      ? null : String(record.sponsored_consumer_auth_user_id),
     consumerVerificationHash: typeof record.consumer_verification_hash === "string" ? record.consumer_verification_hash : null,
     deliveryEligibility: String(record.delivery_eligibility ?? "not_evaluated") as DeliveryEligibility,
     accountingResult: record.accounting_result === null || record.accounting_result === undefined
@@ -463,7 +467,7 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
   const { data, error } = await supabase
     .from("packet_render_jobs")
     .select(
-      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result, consumer_briefcase_item_id, consumer_auth_user_id, consumer_verification_hash"
+      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result, consumer_briefcase_item_id, consumer_auth_user_id, consumer_verification_hash, sponsored_consumer_auth_user_id"
     )
     .eq("id", jobId)
     .maybeSingle();

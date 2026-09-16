@@ -82,6 +82,18 @@ export async function startSupabaseShim({ db, serviceKey, anonKey, users, port =
     const push = (value) => { values.push(value); return `$${values.length}`; };
     for (const [key, raw] of params.entries()) {
       if (["select", "order", "limit", "offset", "on_conflict", "columns"].includes(key)) continue;
+      if (key === "or") {
+        // PostgREST disjunction of simple column filters: or=(a.eq.x,b.eq.y).
+        const parts = raw.replace(/^\(|\)$/g, "").split(",").map((part) => {
+          const [orColumn, orOp, ...rest] = part.split(".");
+          const orValue = rest.join(".");
+          if (orOp === "eq") return `${ident(orColumn)} = ${push(orValue)}`;
+          if (orOp === "is" && orValue === "null") return `${ident(orColumn)} is null`;
+          throw new Error(`unsupported or-filter ${part}`);
+        });
+        clauses.push(`(${parts.join(" or ")})`);
+        continue;
+      }
       const dot = raw.indexOf(".");
       const op = raw.slice(0, dot);
       const value = raw.slice(dot + 1);

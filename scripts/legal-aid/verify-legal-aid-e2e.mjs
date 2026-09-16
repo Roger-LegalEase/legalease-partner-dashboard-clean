@@ -35,10 +35,13 @@ const PDF_SHA = createHash("sha256").update(PDF).digest("hex");
 
 const db = await createLocalDatabase();
 const shim = await startSupabaseShim({ db, serviceKey: SERVICE_KEY, anonKey: ANON_KEY, users: USERS });
-// The applicant's prepared packet (a synthetic PDF in the packet bucket) so the attorney can attach the unsigned copy.
+// The applicant's prepared packet (a synthetic PDF in the packet bucket) so the
+// attorney can attach the unsigned copy. Shaped exactly as the clinic-sponsored
+// route enqueues it: sponsored_consumer_auth_user_id carries the participant and
+// consumer_auth_user_id is null (only a paid packet sets the consumer binding).
 shim.objects.set(`rcap-packet-artifacts-private/packets/${IDS.renderJob}.pdf`, { bytes: PDF, contentType: "application/pdf" });
-await db.exec(`insert into public.packet_render_jobs(id, packet_id, route_id, renderer_kind, renderer_version, status, accounting_result, output_storage_path, output_sha256, delivery_eligibility, partner_id, matter_id, consumer_briefcase_item_id, consumer_auth_user_id)
-  values ('${IDS.renderJob}','ms-expungement','MS:expungement','official-pdf','1','artifact_validated','consumed','packets/${IDS.renderJob}.pdf','${PDF_SHA}','eligible','${IDS.partnerRecord}','${IDS.matter}','${IDS.matter}','${IDS.applicant}')`);
+await db.exec(`insert into public.packet_render_jobs(id, packet_id, route_id, renderer_kind, renderer_version, status, accounting_result, output_storage_path, output_sha256, delivery_eligibility, partner_id, matter_id, consumer_briefcase_item_id, consumer_auth_user_id, sponsored_consumer_auth_user_id)
+  values ('${IDS.renderJob}','ms-expungement','MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal','official-pdf','1','artifact_validated','consumed','packets/${IDS.renderJob}.pdf','${PDF_SHA}','eligible','${IDS.partnerRecord}','${IDS.matter}',null,null,'${IDS.applicant}')`);
 
 const env = {
   ...process.env, NODE_ENV: "production", PORT: String(PORT), HOSTNAME: "127.0.0.1",

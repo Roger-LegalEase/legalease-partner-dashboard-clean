@@ -999,7 +999,11 @@ begin
     select * into v_case from public.clinic_cases where id = v_intake.clinic_case_id;
   end if;
   if p_unsigned_render_job_id is not null then
-    select j.consumer_auth_user_id, j.matter_id into v_job_owner, v_job_matter
+    -- A packet the applicant paid for carries consumer_auth_user_id; a packet
+    -- a clinic sponsored for them carries sponsored_consumer_auth_user_id only
+    -- (enqueue_verified_sponsored_packet_render passes no consumer binding).
+    -- Both are the applicant's own packet; neither is anyone else's.
+    select coalesce(j.consumer_auth_user_id, j.sponsored_consumer_auth_user_id), j.matter_id into v_job_owner, v_job_matter
       from public.packet_render_jobs j where j.id = p_unsigned_render_job_id;
     if not found then raise exception 'legal_aid_render_job_not_found'; end if;
     -- The unsigned execution copy must be the applicant's own packet.

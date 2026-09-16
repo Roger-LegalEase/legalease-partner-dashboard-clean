@@ -51,7 +51,7 @@ const ids = {
   eventStd: "20000000-0000-4000-8000-000000000002",
   eventB: "20000000-0000-4000-8000-000000000003",
   renderA: "60000000-0000-4000-8000-000000000001",
-  renderB: "60000000-0000-4000-8000-000000000002",
+  renderB: "60000000-0000-4000-8000-000000000002", renderC: "60000000-0000-4000-8000-000000000003",
   matterA: "50000000-0000-4000-8000-000000000001",
   matterB: "50000000-0000-4000-8000-000000000002"
 };
@@ -267,6 +267,7 @@ async function verifyDocumentsAndExecution(db, intakeId) {
   assert.ok(courtDoc);
   // Document task bound to the applicant's own render job; another person's job is refused.
   await assert.rejects(() => serviceCall(db, `select public.legal_aid_create_document_task('${intakeId}','${ids.attorney}','ms-petition','Petition for expungement','applicant_and_notary','notary_jurat','MS approved pleading; verification before a notary','ms-2026-09','${ids.renderB}','${hash1}')`), /legal_aid_render_job_owner_mismatch/);
+  await assert.rejects(() => serviceCall(db, `select public.legal_aid_create_document_task('${intakeId}','${ids.attorney}','ms-petition','Petition for expungement','applicant_and_notary','notary_jurat','MS approved pleading; verification before a notary','ms-2026-09','${ids.renderC}','${hash1}')`), /legal_aid_render_job_owner_mismatch/);
   await assert.rejects(() => serviceCall(db, `select public.legal_aid_create_document_task('${intakeId}','${ids.notary}','ms-petition','Petition for expungement','applicant_and_notary','notary_jurat',null,null,null,null)`), /legal_aid_task_forbidden/);
   const taskId = await scalar(db, `select public.legal_aid_create_document_task('${intakeId}','${ids.attorney}','ms-petition','Petition for expungement','applicant_and_notary','notary_jurat','MS approved pleading; verification before a notary','ms-2026-09','${ids.renderA}','${hash1}')`);
   assert.equal(await scalar(db, `select matter_id from public.legal_aid_document_tasks where id='${taskId}'`), ids.matterA);
@@ -357,9 +358,14 @@ async function seed(db) {
       ('${ids.eventA}','90000000-0000-4000-8000-000000000005','${ids.adminA}','approved',array['attorney']),
       ('${ids.eventA}','90000000-0000-4000-8000-000000000006','${ids.adminA}','approved',array['notary']);
     insert into public.consumer_briefcase_items(id,user_id) values ('${ids.matterA}','${ids.applicantA}'),('${ids.matterB}','${ids.applicantB}');
-    insert into public.packet_render_jobs(id, status, accounting_result, partner_id, matter_id, consumer_auth_user_id) values
-      ('${ids.renderA}','artifact_validated','consumed','80000000-0000-4000-8000-000000000001','${ids.matterA}','${ids.applicantA}'),
-      ('${ids.renderB}','artifact_validated','consumed','80000000-0000-4000-8000-000000000001','${ids.matterB}','${ids.applicantB}');
+    -- renderA is shaped as the clinic-sponsored route enqueues it (no consumer
+    -- binding; the participant is carried by sponsored_consumer_auth_user_id).
+    -- renderB is a paid packet of another applicant; renderC is a sponsored
+    -- packet of another applicant. Neither may be bound to applicant A's intake.
+    insert into public.packet_render_jobs(id, status, accounting_result, partner_id, matter_id, consumer_auth_user_id, sponsored_consumer_auth_user_id) values
+      ('${ids.renderA}','artifact_validated','consumed','80000000-0000-4000-8000-000000000001','${ids.matterA}',null,'${ids.applicantA}'),
+      ('${ids.renderB}','artifact_validated','consumed','80000000-0000-4000-8000-000000000001','${ids.matterB}','${ids.applicantB}',null),
+      ('${ids.renderC}','artifact_validated','consumed','80000000-0000-4000-8000-000000000001','${ids.matterB}',null,'${ids.applicantB}');
   `);
 }
 
@@ -376,7 +382,7 @@ function stubs() {
     create table public.packet_render_jobs(
       id uuid primary key, status text not null, accounting_result text, failure_disposition text,
       credit_ledger_id uuid references public.packet_credit_ledger(id), partner_id uuid references public.partner_records(id),
-      matter_id uuid, consumer_auth_user_id uuid references auth.users(id)
+      matter_id uuid, consumer_auth_user_id uuid references auth.users(id), sponsored_consumer_auth_user_id uuid references auth.users(id)
     );
     grant usage on schema public to anon, authenticated, service_role;
     grant usage on schema auth to anon, authenticated, service_role;
