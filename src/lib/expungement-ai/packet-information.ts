@@ -576,19 +576,38 @@ type ProtectedPacketAuthoritySnapshot = PacketVerificationSnapshot | ProtectedPa
 // is the court-requirements answer (the evaluator treats the two as the same
 // completion fact). Nothing is invented: an unsure or absent screening answer
 // carries nothing, and the builder then asks the question itself.
-function carriedForwardPacketAnswers(
+export function carriedForwardPacketAnswers(
   jurisdiction: string,
   pathwayId: string | null,
   screeningAnswers: Record<string, AnswerValue>
 ): Record<string, AnswerValue> {
   if (jurisdiction !== "MS" || pathwayId !== "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") return {};
   const carried: Record<string, AnswerValue> = {};
+
+  // offense_category has no question of its own; it is the classification of
+  // the offense, which is exactly what the participant chose as the charge
+  // level. An unsure or absent charge level classifies nothing and carries
+  // nothing.
   const offenseLevel = answerTextRaw(screeningAnswers.offense_level).trim();
   if (offenseLevel && !/not sure/i.test(offenseLevel)) carried.offense_category = offenseLevel;
-  const courtRequirements = answerTextRaw(screeningAnswers.court_requirements_completed).trim().toLowerCase();
-  if (courtRequirements === "yes" || courtRequirements === "not_applicable") carried.sentence_completion_date = "Yes";
-  else if (courtRequirements === "no") carried.sentence_completion_date = "No";
-  else if (courtRequirements === "not_sure") carried.sentence_completion_date = "I am not sure";
+
+  // sentence_completion_date is named like a date but the profile defines it as
+  // a yes/no/unsure completion STATUS ("Is the sentence complete, including
+  // incarceration, probation, parole, supervision, treatment, and community
+  // service?"), and the evaluator only ever reads it through isNegative and
+  // isExplicitUnknownAnswer. "Yes, I completed everything the court ordered"
+  // entails that the sentence the court ordered is complete, so that one
+  // answer, and only that one, carries.
+  //
+  // Nothing else carries. "No" and "not sure" are about everything the court
+  // ordered, which includes obligations this fact does not cover, so they
+  // would be an inference rather than the participant's answer; "not
+  // applicable" is not an assertion that anything is complete. In each of
+  // those cases the builder asks the profile's own completion question and an
+  // unknown answer stays unknown.
+  if (answerTextRaw(screeningAnswers.court_requirements_completed).trim().toLowerCase() === "yes") {
+    carried.sentence_completion_date = "Yes";
+  }
   return carried;
 }
 

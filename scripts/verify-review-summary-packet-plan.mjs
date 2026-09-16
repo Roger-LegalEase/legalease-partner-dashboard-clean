@@ -79,36 +79,95 @@ const summary = model
   : null;
 check(summary !== null, "the review page's verification summary is non-null for a freshly derived protected draft");
 
-// The Mississippi non-conviction route carries offense_category and
-// sentence_completion_date forward from the participant's screening answers
-// (charge level and court-requirements completion); the builder hides them
-// only while they are answered, so the draft can no longer be stuck as
-// incomplete on questions it never shows.
+// ANSWER REUSE. The Mississippi non-conviction packet requires
+// offense_category and sentence_completion_date, the builder never asks them,
+// and nothing else answered them, so every draft stayed incomplete and could
+// never verify. They are now carried forward from the participant's own
+// explicit screening answers, and only where the source and the destination
+// are the same fact.
+const PATHWAY = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+const carry = (overrides) => packetInformation.carriedForwardPacketAnswers("MS", PATHWAY, { ...answers, ...overrides });
+
+// sentence_completion_date is named like a date but the profile defines it as a
+// completion status, and the evaluator only reads it as one. Demonstrated from
+// the profile itself rather than asserted.
+const groups = publicProfile.postPaymentPacketCompletion ?? {};
+const publicQuestions = [
+  ...publicProfile.questions,
+  ...(groups.requiredPacketCompletionFields ?? []),
+  ...(groups.officialFormFields ?? []),
+  ...(groups.customPleadingFields ?? [])
+];
+const completionQuestion = publicQuestions.find((question) => question.id === "sentence_completion_date");
 check(
-  model?.prefilledAnswers?.offense_category === answers.offense_level
-    && model?.prefilledAnswers?.sentence_completion_date === "Yes",
-  "the charge level and court-requirements answers are carried forward into the packet inputs"
+  completionQuestion?.type === "yes_no_unsure" && /Is the sentence complete/i.test(completionQuestion?.prompt ?? ""),
+  `sentence_completion_date is a completion status, not a calendar date (type ${completionQuestion?.type ?? "absent"})`
+);
+const courtQuestion = publicQuestions.find((question) => question.id === "court_requirements_completed");
+check(
+  /completed everything the court ordered/i.test(courtQuestion?.prompt ?? "") && (courtQuestion?.options ?? []).includes("yes"),
+  "court_requirements_completed asks whether everything the court ordered is complete"
+);
+
+// The equivalent mapping, and only it: "yes, everything the court ordered is
+// complete" entails the ordered sentence is complete. No other value carries.
+check(carry({ court_requirements_completed: "yes" }).sentence_completion_date === "Yes", "\"yes, everything the court ordered is complete\" carries the equivalent completion status");
+check(!("sentence_completion_date" in carry({ court_requirements_completed: "not_sure" })), "an unsure court-requirements answer carries nothing, so unknown stays unknown");
+check(!("sentence_completion_date" in carry({ court_requirements_completed: "no" })), "a negative court-requirements answer is not converted into a sentence-completion answer");
+check(!("sentence_completion_date" in carry({ court_requirements_completed: "not_applicable" })), "a not-applicable court-requirements answer asserts no completion and carries nothing");
+check(!("sentence_completion_date" in carry({ court_requirements_completed: undefined })), "an absent court-requirements answer carries nothing");
+check(
+  Object.values(carry({ court_requirements_completed: "yes" })).every((value) => typeof value === "string" && !/^\d{4}-\d{2}-\d{2}$/.test(value)),
+  "no carried value is a fabricated calendar date"
+);
+
+// offense_category has no question of its own; the charge level is the same fact.
+check(carry({}).offense_category === answers.offense_level, "the participant's own charge level carries into the offense classification");
+check(!("offense_category" in carry({ offense_level: "I am not sure" })), "an unsure charge level classifies nothing and carries nothing");
+check(!("offense_category" in carry({ offense_level: undefined })), "an absent charge level carries nothing");
+
+// Nothing is carried outside the route whose packet needs it.
+check(
+  Object.keys(packetInformation.carriedForwardPacketAnswers("MS", "some-other-pathway", answers)).length === 0
+    && Object.keys(packetInformation.carriedForwardPacketAnswers("CA", PATHWAY, answers)).length === 0,
+  "no answer is carried outside the Mississippi non-conviction route"
+);
+
+check(
+  model?.prefilledAnswers?.offense_category === answers.offense_level && model?.prefilledAnswers?.sentence_completion_date === "Yes",
+  "the derived draft carries both inputs from the participant's own screening answers"
 );
 check(
   Array.isArray(model?.missingInputIds) && !model.missingInputIds.includes("offense_category") && !model.missingInputIds.includes("sentence_completion_date"),
-  "the carried-forward inputs are no longer missing"
+  "the carried-forward inputs are no longer missing, so the draft can complete"
 );
 check(
   Array.isArray(model?.builderQuestions) && !model.builderQuestions.some((question) => question.id === "offense_category" || question.id === "sentence_completion_date"),
-  "the builder does not re-ask the carried-forward inputs while they are answered"
+  "the builder does not re-ask an input the participant already answered"
 );
-const unsureSource = { ...source, answers: { ...answers, offense_level: "I am not sure", court_requirements_completed: "not_sure" } };
-const unsureSeed = presentation.protectedPacketVerificationSeedFromTrustedSource(unsureSource);
+
+// A saved packet answer is more specific than a carried-forward one and wins.
+const precedence = packetInformation.protectedPacketDraftSeedFromAuthoritative({
+  authoritative: seeded.authoritative,
+  screeningAnswers: answers,
+  packetAnswers: { offense_category: "Felony" },
+  dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: "expungement_packet" },
+  capturedAt: "2026-09-16T12:00:00.000Z"
+});
+check(
+  precedence?.snapshot.packetAnswers.offense_category === "Felony" && !("offense_category" in (precedence?.snapshot.prefilledAnswers ?? {})),
+  "a saved packet answer overrides the carried-forward value rather than the other way round"
+);
+
+// Whenever nothing could be carried, the packet's own question is asked.
+const unsureSeed = presentation.protectedPacketVerificationSeedFromTrustedSource({ ...source, answers: { ...answers, offense_level: "I am not sure" } });
 const unsureModel = unsureSeed ? packetInformation.protectedPacketInformationModelFor(JSON.parse(JSON.stringify(unsureSeed.verification))) : null;
-// An unsure charge level sends the screening to needs_review (no packet plan);
-// whatever the route, nothing is carried forward for it, and whenever the
-// packet still requires the input the builder asks for it.
 check(
   unsureModel === null
     || (!("offense_category" in unsureModel.prefilledAnswers)
       && (!unsureModel.requiredInputIds.includes("offense_category")
         || unsureModel.builderQuestions.some((question) => question.id === "offense_category"))),
-  "an unsure charge level carries nothing forward and the builder asks for the offense category whenever it is required"
+  "an unsure charge level leaves the offense classification to the builder wherever the packet requires it"
 );
 
 // The forged-context rejection must survive: an extra key the model does not carry is still refused.
