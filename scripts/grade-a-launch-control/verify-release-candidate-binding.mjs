@@ -47,6 +47,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-hosted-colorado-clinic-browser.mjs',
         'scripts/verify-rcap-hosted-browser.mjs',
         'scripts/rcap-hosted-acceptance-payment.mjs',
+        'scripts/rcap-hosted-acceptance-auth-config.mjs',
         'scripts/rcap-hosted-acceptance-gallery.mjs',
         'scripts/verify-rcap-immutable-image-preflight.mjs',
         'scripts/rcap-hosted-acceptance-deploy.mjs',
