@@ -73,6 +73,26 @@ includesEvery(migrationScript, [
 check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact eleven-file sequence");
 check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 11, "protected runner does not contain exactly eleven migration identities");
 
+// The ledger's own capacity has to match the sequence it records, or the
+// runner applies a migration to the acceptance database and is then refused
+// when it tries to write the row proving it did — which is exactly what
+// happened in run 35153887031, after the file count had moved to eleven but
+// this bound had not. Derived from the sequence length rather than typed, so
+// the twelfth migration cannot repeat it, and asserted in all three places the
+// runner states it: the create, the drift comparison, and the repair.
+{
+  const sequenceLength = (migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length;
+  const declared = migrationScript.match(/sequence_position between 1 and (\d+)/g) ?? [];
+  check(
+    declared.length === 2 && declared.every((text) => text.endsWith(` and ${sequenceLength}`)),
+    `ledger sequence_position bound does not admit all ${sequenceLength} migrations in both the create and the repair`
+  );
+  check(
+    migrationScript.includes(`(sequence_position <= ${sequenceLength})))'`),
+    `ledger drift comparison does not expect a bound of ${sequenceLength}, so an existing ledger would never be repaired to it`
+  );
+}
+
 const authorized = readiness.clinicModePreviewMigrationAuthorization;
 check(authorized?.status === "authorized_nonproduction_acceptance_only", "independent readiness does not carry the bounded nonproduction authorization");
 check(authorized?.acceptanceProjectRef === "hyflxnlhpmiqxvvcoiia", "independent readiness names the wrong acceptance project");
