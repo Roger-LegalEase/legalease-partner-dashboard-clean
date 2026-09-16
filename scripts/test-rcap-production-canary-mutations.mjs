@@ -13,8 +13,8 @@ const files = [
 ];
 
 const mutations = [
-  ["application SHA", "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
-  ["worker digest", "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
+  ["application SHA", "436520e4a99f0b8a290ace32f1d717b951630319", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
+  ["worker digest", "sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
   ["acceptance negative control", "hyflxnlhpmiqxvvcoiia", "wrongacceptanceproject"],
   ["canonical Production project", "wwtwtsmywnckfkdaqqeg", "wrongproductionproject"],
   ["accepted Preview deployment", "dpl_AV3Mq1oeH2nXf8PH5AQJQh7DKb2p", "dpl_wrongacceptedpreview"],

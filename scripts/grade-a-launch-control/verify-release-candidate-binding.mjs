@@ -27,10 +27,10 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     if (fs.existsSync(path.join(root, toolingPath))) {
       const binding = JSON.parse(fs.readFileSync(path.join(root, toolingPath)));
       const frozen = {
-        applicationSha: '61a2f018a9a444a24b3c1ee9533f4811bcfa56b6',
-        workerSourceSha: 'da432bd11924cc3ba8d766cbb9e09b12650347c3',
-        workerDigest: 'sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249',
-        workerInputFingerprint: 'sha256:c4771cb5265b4fe9c4f67795972506123f5bd81dedc6e2335801148841d54691'
+        applicationSha: '436520e4a99f0b8a290ace32f1d717b951630319',
+        workerSourceSha: '436520e4a99f0b8a290ace32f1d717b951630319',
+        workerDigest: 'sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257',
+        workerInputFingerprint: 'sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683'
       };
       for (const [key, value] of Object.entries(frozen)) {
         if (binding[key] !== value || candidate[key] !== value) throw new Error('Frozen identity mismatch');
@@ -74,7 +74,23 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-production-activation.mjs',
         'scripts/test-rcap-production-canary-mutations.mjs',
         'scripts/test-rcap-production-smoke-mutations.mjs',
-        'scripts/test-rcap-production-activation-mutations.mjs'
+        'scripts/test-rcap-production-activation-mutations.mjs',
+        // MVLP rollout controls (Roger's 2026-09-16 MVLP rollout and onboarding
+        // authorizations): the hosted Legal Aid phase, the exact Legal Aid
+        // migration controls, and the successor worker publication record.
+        'scripts/rcap-hosted-legal-aid-seed.mjs',
+        'scripts/rcap-hosted-legal-aid-browser.mjs',
+        'scripts/rcap-legal-aid/hosted-fixture.mjs',
+        'scripts/verify-rcap-hosted-legal-aid-browser.mjs',
+        'scripts/rcap-production-legal-aid-migrate.mjs',
+        'scripts/verify-rcap-production-legal-aid-migrate.mjs',
+        'scripts/test-rcap-production-legal-aid-migrate-mutations.mjs',
+        'data/rcap-render/worker-publication-evidence.json',
+        'data/rcap-staging-action.json',
+        'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',
+        'data/rcap-grade-a/fulfillment-authority-projection.json',
+        'data/rcap-grade-a/fulfillment-authority-registry.json',
+        'data/rcap-grade-a/fulfillment-observation-snapshot.json'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');
