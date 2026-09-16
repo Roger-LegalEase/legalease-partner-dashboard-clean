@@ -1,7 +1,12 @@
 export const CLINIC_EVENT_STATUSES = ["draft", "published", "paused", "closed", "archived"] as const;
 export type ClinicEventStatus = (typeof CLINIC_EVENT_STATUSES)[number];
 
-export const CLINIC_STAFF_PERMISSIONS = ["assist", "queue", "follow_up", "reporting", "incident"] as const;
+export const CLINIC_STANDARD_STAFF_PERMISSIONS = ["assist", "queue", "follow_up", "reporting", "incident"] as const;
+// Legal Aid Clinic Mode adds role-shaped permissions on the same event-staff
+// record. They are accepted by the shared staff RPC; the legal-aid predicates
+// decide what each one may do, and Standard Clinic Mode ignores them.
+export const CLINIC_LEGAL_AID_STAFF_PERMISSIONS = ["coordinator", "intake_review", "program_review", "attorney", "notary", "export"] as const;
+export const CLINIC_STAFF_PERMISSIONS = [...CLINIC_STANDARD_STAFF_PERMISSIONS, ...CLINIC_LEGAL_AID_STAFF_PERMISSIONS] as const;
 export type ClinicStaffPermission = (typeof CLINIC_STAFF_PERMISSIONS)[number];
 
 export type ClinicEvent = {

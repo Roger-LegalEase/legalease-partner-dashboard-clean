@@ -489,3 +489,52 @@ function mapDecision(row: Record<string, unknown>): ReviewDecision {
 }
 
 export type { IntakeAnswers };
+
+/** Approved event staff with their emails, so next-step owners and follow-up owners are chosen by person, not identifier. */
+export async function listEventStaffDirectory(eventId: string, actorUserId: string): Promise<{ eventStaffId: string; email: string; role: string; permissions: string[] }[]> {
+  const permissions = await eventPermissionsFor(eventId, actorUserId);
+  if (permissions.length === 0) throw new ClinicServiceError("forbidden", "You are not assigned to this clinic.");
+  const db = requireLegalAidDatabase();
+  const staff = await db.from("clinic_event_staff").select("id,partner_user_id,permissions").eq("event_id", eventId).eq("status", "approved");
+  if (staff.error) throw new ClinicServiceError("unavailable", "Clinic staff are temporarily unavailable.");
+  const ids = (staff.data ?? []).map((row) => String(row.partner_user_id));
+  const users = ids.length ? await db.from("partner_users").select("id,invited_email,role").in("id", ids) : { data: [], error: null };
+  if (users.error) throw new ClinicServiceError("unavailable", "Clinic staff are temporarily unavailable.");
+  const byId = new Map((users.data ?? []).map((row) => [String(row.id), row]));
+  return (staff.data ?? []).map((row) => {
+    const user = byId.get(String(row.partner_user_id));
+    return { eventStaffId: String(row.id), email: user?.invited_email ? String(user.invited_email) : "(email not recorded)", role: user?.role ? String(user.role) : "partner_staff", permissions: (row.permissions as string[]) ?? [] };
+  });
+}
+
+/**
+ * The unsigned execution copy of a court document, for the attorney,
+ * coordinator or notary on the application. It is the participant's own
+ * prepared packet: the render job must belong to the applicant and its
+ * stored bytes must match the hash recorded on the task. The read is
+ * recorded in the access log; nothing about delivery entitlement changes.
+ */
+export async function openUnsignedArtifact(taskId: string, actorUserId: string): Promise<{ bytes: Uint8Array; filename: string }> {
+  const db = requireLegalAidDatabase();
+  const task = await db.from("legal_aid_document_tasks").select("id,intake_id,title,unsigned_render_job_id,unsigned_artifact_sha256").eq("id", taskId).maybeSingle();
+  if (task.error) throw new ClinicServiceError("unavailable", "The document is temporarily unavailable.");
+  if (!task.data) throw new ClinicServiceError("not_found", "Document task was not found.");
+  const intakeId = String(task.data.intake_id);
+  const permissions = await intakePermissionsFor(intakeId, actorUserId);
+  if (!permissions.includes("attorney") && !permissions.includes("coordinator") && !permissions.includes("notary")) throw new ClinicServiceError("forbidden", "You are not assigned to this document.");
+  if (!task.data.unsigned_render_job_id || !task.data.unsigned_artifact_sha256) throw new ClinicServiceError("not_found", "No prepared copy is attached to this document yet.");
+  const [{ getRenderJob }, { getPacketArtifactStorage }] = await Promise.all([import("@/lib/rcap/render/job-queue"), import("@/lib/rcap/render/artifact-storage")]);
+  const intake = await db.from("legal_aid_intakes").select("participant_user_id").eq("id", intakeId).maybeSingle();
+  const job = await getRenderJob(String(task.data.unsigned_render_job_id));
+  if (!job || !intake.data?.participant_user_id || job.consumerAuthUserId !== String(intake.data.participant_user_id)) throw new ClinicServiceError("not_found", "The prepared copy does not belong to this applicant.");
+  if (!job.outputStoragePath || job.outputSha256 !== String(task.data.unsigned_artifact_sha256)) throw new ClinicServiceError("conflict", "The prepared copy no longer matches the copy recorded on this document.");
+  const storage = getPacketArtifactStorage();
+  if (!storage) throw new ClinicServiceError("unavailable", "Packet storage is not configured.");
+  const buffer = await storage.read(job.outputStoragePath);
+  if (!buffer) throw new ClinicServiceError("not_found", "The prepared copy could not be read.");
+  const bytes = new Uint8Array(buffer);
+  const actual = createHash("sha256").update(bytes).digest("hex");
+  if (actual !== job.outputSha256) throw new ClinicServiceError("unavailable", "The prepared copy failed its integrity check.");
+  await db.rpc("legal_aid_record_access", { p_intake_id: intakeId, p_actor_user_id: actorUserId, p_action: "unsigned_copy_opened", p_metadata: { task_id: taskId, render_job_id: job.id, sha256: actual } });
+  return { bytes, filename: `${String(task.data.title).replace(/[^\w. -]/g, "_").slice(0, 80)} (unsigned).pdf` };
+}

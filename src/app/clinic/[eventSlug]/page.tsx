@@ -1,8 +1,9 @@
 import { unstable_noStore as noStore } from "next/cache";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ClinicEntryClient } from "@/components/clinic-mode/ClinicEntryClient";
 import { getPublicClinicEvent } from "@/lib/clinic-mode/participant-service";
 import { ClinicServiceError } from "@/lib/clinic-mode/errors";
+import { getLegalAidEventBySlug } from "@/lib/legal-aid/registration-service";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -10,6 +11,9 @@ export const revalidate = 0;
 export default async function ClinicEntryPage({ params }: { params: Promise<{ eventSlug: string }> }) {
   noStore();
   const { eventSlug } = await params;
+  // A legal-aid clinic registers participants instead of redeeming an event code.
+  const legalAid = await getLegalAidEventBySlug(eventSlug).catch(() => null);
+  if (legalAid) redirect(`/clinic/${legalAid.publicSlug}/register`);
   let event;
   try { event = await getPublicClinicEvent(eventSlug); }
   catch (error) { if (error instanceof ClinicServiceError && error.code === "not_found") notFound(); throw error; }
