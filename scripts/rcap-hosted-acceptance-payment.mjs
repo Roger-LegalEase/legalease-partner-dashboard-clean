@@ -1578,21 +1578,33 @@ let session = null;
   const sessionId = res.json?.checkoutSessionId ?? res.json?.sessionId ?? res.json?.id ?? null;
   let fetched = null;
   if (sessionId) {
-    // Expanded, because the application now reconciles the ORDER rather than
-    // asserting one price: it needs the product, the quantity, the unit amount
-    // and any promotion code Stripe applied. Without these on the session the
-    // server re-retrieves it from Stripe itself, which would discard the one
-    // field this harness documents as simulated and report the real unpaid
-    // status instead of the card entry the phone test covers.
-    const expand = [
-      "expand[]=line_items",
-      "expand[]=line_items.data.price.product",
-      "expand[]=discounts.promotion_code"
-    ].join("&");
-    const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}?${expand}`, {
+    const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}?expand[]=discounts.promotion_code`, {
       headers: { Authorization: `Bearer ${STRIPE_KEY}` }
     });
     fetched = await stripeRes.json().catch(() => null);
+    // The line items, from Stripe's own endpoint for them rather than an
+    // `expand` on the retrieve. The application reconciles the ORDER now — it
+    // needs the product, the quantity and the unit amount — and a completion
+    // event does not carry them, so the server would otherwise retrieve the
+    // session itself and read back the genuinely unpaid status, discarding the
+    // one field this harness simulates. A dedicated endpoint is used because
+    // the query-string expand form silently returned nothing in run
+    // 35156456712 and a silently absent list reads as a wrong order.
+    if (fetched && fetched.id) {
+      const itemsRes = await fetch(
+        `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(fetched.id)}/line_items?expand[]=data.price.product`,
+        { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+      );
+      const items = await itemsRes.json().catch(() => null);
+      if (Array.isArray(items?.data) && items.data.length > 0) {
+        fetched.line_items = items;
+      } else {
+        // Say so rather than sending an event with no line items, which the
+        // server would refuse with a message about the order rather than
+        // about this harness failing to read Stripe.
+        console.log(`  note  line items unavailable for ${fetched.id}: HTTP ${itemsRes.status} ${JSON.stringify(items?.error ?? items).slice(0, 200)}`);
+      }
+    }
   }
   session = fetched && fetched.id ? fetched : null;
   // A generic 503 from the application says only "Stripe did not answer as
