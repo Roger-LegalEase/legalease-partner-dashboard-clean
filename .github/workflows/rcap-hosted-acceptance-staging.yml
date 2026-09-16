@@ -41,6 +41,21 @@ on:
         required: false
         type: string
         default: ""
+      promotion_code:
+        description: "Stripe promotion code to enter on the hosted Checkout page; empty runs the ordinary $50 order"
+        required: false
+        type: string
+        default: ""
+      promotion_zero_total:
+        description: "true when the promotion code is expected to bring the total to zero, so no card is entered"
+        required: false
+        type: string
+        default: ""
+      journey_state:
+        description: "Two-letter jurisdiction for the paid journey; empty lets the harness pick the first sellable route"
+        required: false
+        type: string
+        default: ""
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE. Supplying it forbids creating a new deployment: a candidate that does not match every condition refuses rather than silently deploying another Preview."
         required: false
@@ -544,6 +559,15 @@ jobs:
         if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
         run: npm ci
 
+      # The payment matrix now completes Checkout on Stripe's hosted page in a
+      # browser, because a session nobody paid has no PaymentIntent and the
+      # payment writer refuses a paid order without one. Idempotent, and a
+      # no-op when the runner image already carries the binary.
+      - name: Install the browser the Checkout journey drives
+        id: checkout_browser
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
+        run: npx playwright install chromium
+
       - name: Seed only the bounded synthetic MVL Clinic cohort
         id: clinic_seed
         if: steps.contract.outputs.clinic == 'true'
@@ -745,6 +769,11 @@ jobs:
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
           HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          # One discount shape per run, entered on Stripe's own page. Empty is
+          # the ordinary $50 order, which is the default.
+          HOSTED_STRIPE_PROMOTION_CODE: ${{ inputs.promotion_code }}
+          HOSTED_STRIPE_PROMOTION_ZERO_TOTAL: ${{ inputs.promotion_zero_total }}
+          HOSTED_JOURNEY_STATE: ${{ inputs.journey_state }}
         run: node scripts/rcap-hosted-acceptance-payment.mjs
 
       - name: Prove the Pennsylvania, Mississippi and Illinois galleries render
