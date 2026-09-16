@@ -29,7 +29,10 @@ const WORKER_SOURCE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
 const WORKER_DIGEST = "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_DYp7qmhbDanxurUBZZvyei8STrUx";
+// The one READY Preview of this hotfix application line, created by hosted
+// deploy run 35141124813 on the acceptance project and reachable at the
+// deterministic alias legalease-rcap-3e3a528b5762-roger947s-projects.vercel.app.
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_4MCQr3YdM2GuPHvcY8n4NzzGBajP";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
