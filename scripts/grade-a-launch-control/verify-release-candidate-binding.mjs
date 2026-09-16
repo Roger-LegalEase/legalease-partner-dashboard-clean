@@ -31,6 +31,9 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     // Roger's independent Production Legal Aid migration authorization: filled
     // only from passing acceptance run ids, read by the migrate control.
     'data/rcap-production-legal-aid-migration-authorization.json',
+    // Roger's 2026-09-16 production incident authorization: the forward
+    // migration chain Production lacks, filled from the readback run id.
+    'data/rcap-production-forward-chain-migration-authorization.json',
     ...receiptPaths.filter(p => /^(data\/rcap-grade-a\/participant-data-rights|private\/rcap-hosted-acceptance)\//.test(p))
   ]);
   try {
@@ -99,7 +102,14 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/test-rcap-production-legal-aid-migrate-mutations.mjs',
         'scripts/rcap-production-legal-aid-keys.mjs',
         'scripts/verify-rcap-production-legal-aid-keys.mjs',
-        'scripts/verify-rcap-commercial-browser.mjs'
+        'scripts/verify-rcap-commercial-browser.mjs',
+        // 2026-09-16 production incident controls: the forward migration
+        // chain apply/readback and the public save-transition probe.
+        'scripts/rcap-production-forward-chain-migrate.mjs',
+        'scripts/verify-rcap-production-forward-chain-migrate.mjs',
+        'scripts/test-rcap-production-forward-chain-migrate-mutations.mjs',
+        'scripts/rcap-production-save-transition-probe.mjs',
+        'scripts/verify-rcap-production-save-transition-probe.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');

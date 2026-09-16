@@ -1,0 +1,90 @@
+#!/usr/bin/env node
+// Contract verifier for the exact Production forward-chain readback and migration phases.
+import { createHash } from "node:crypto";
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+
+const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
+const APPLICATION_SHA = "436520e4a99f0b8a290ace32f1d717b951630319";
+const LEDGER_BASELINE_LAST_VERSION = "20260823171000";
+const FIRST_FORWARD_VERSION = "20260828100000";
+const EXPECTED_POSITIONS = Object.freeze([17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
+
+const root = path.resolve(process.env.RCAP_FORWARD_CHAIN_VERIFY_ROOT ?? ".");
+// Frozen migration bytes are read from the repository this verifier runs in rather than from the
+// verify root: a copy under test carries no git history, and the pinned commit yields identical
+// bytes in every clone that holds it.
+const gitDir = process.cwd();
+const read = (file) => fs.existsSync(path.join(root, file)) ? fs.readFileSync(path.join(root, file), "utf8") : "";
+const workflow = read(".github/workflows/rcap-production-canary.yml");
+const dispatcher = read(".github/workflows/rcap-f1-ephemeral-staging.yml");
+const script = read("scripts/rcap-production-forward-chain-migrate.mjs");
+const authorization = (() => { try { return JSON.parse(read("data/rcap-production-forward-chain-migration-authorization.json")); } catch { return {}; } })();
+const checks = [];
+const check = (passed, message) => checks.push({ passed, message });
+
+const migrations = [];
+const entryPattern = /Object\.freeze\(\{\s*position:\s*(\d+),\s*version:\s*"(\d+)",\s*path:\s*"([^"]+)",\s*sha256:\s*"([0-9a-f]{64})"/g;
+for (const match of script.matchAll(entryPattern)) migrations.push({ position: Number(match[1]), version: match[2], path: match[3], sha256: match[4] });
+
+const frozenSha256 = (migrationPath) => {
+  const result = spawnSync("git", ["show", `${APPLICATION_SHA}:${migrationPath}`], { cwd: gitDir, stdio: ["ignore", "pipe", "pipe"] });
+  return result.status === 0 ? createHash("sha256").update(result.stdout).digest("hex") : null;
+};
+
+check(dispatcher.includes("production_forward_chain_readback") && dispatcher.includes("production_forward_chain_migrate"), "dispatcher exposes the forward-chain readback and migration phases");
+check(workflow.includes("inputs.phase == 'forward_chain_readback'") && workflow.includes("inputs.phase == 'forward_chain_migrate'"), "forward-chain phases are isolated from runtime preflight");
+check(workflow.includes("node scripts/verify-rcap-production-forward-chain-migrate.mjs"), "workflow self-verifies the forward-chain contract");
+check(workflow.includes("node scripts/test-rcap-production-forward-chain-migrate-mutations.mjs"), "workflow runs the forward-chain mutation resistance proof");
+check(workflow.includes("node scripts/rcap-production-forward-chain-migrate.mjs"), "workflow invokes the dedicated forward-chain control");
+check(workflow.includes('RCAP_PRODUCTION_PHASE: "forward_chain_readback"') && workflow.includes('RCAP_PRODUCTION_PHASE: "forward_chain_migrate"'), "workflow fixes each phase name");
+check(script.includes(`const PRODUCTION_PROJECT_REF = "${PRODUCTION_PROJECT_REF}"`), "Production project ref is exact");
+check(script.includes(`const APPLICATION_SHA = "${APPLICATION_SHA}"`), "application SHA is exact");
+check(script.includes('PHASE !== "forward_chain_readback" && PHASE !== "forward_chain_migrate"'), "control enables only the forward-chain readback and migration phases");
+check(migrations.length === EXPECTED_POSITIONS.length, `control pins exactly ${EXPECTED_POSITIONS.length} forward migrations`);
+check(migrations.map((entry) => entry.position).join(",") === EXPECTED_POSITIONS.join(","), "forward migrations carry positions 17 through 26 in order");
+check(
+  migrations.length > 0 && migrations.every((entry, index) => path.basename(entry.path).startsWith(`${entry.version}_`) && (index === 0 || entry.version > migrations[index - 1].version)),
+  "forward migration versions ascend strictly and match their file names"
+);
+check(script.includes(`"${LEDGER_BASELINE_LAST_VERSION}"`) && migrations[0]?.version === FIRST_FORWARD_VERSION, "forward chain begins immediately after the recovered ledger baseline");
+for (const position of EXPECTED_POSITIONS) {
+  const migration = migrations.find((entry) => entry.position === position);
+  const actual = migration ? frozenSha256(migration.path) : null;
+  check(Boolean(migration) && actual !== null && actual === migration.sha256, `forward migration ${position} (${migration?.version ?? "absent"}) hashes to its pinned value at the frozen application commit`);
+}
+check(script.includes("frozenMigrationSql("), "migration bytes come from the frozen application commit");
+check(script.includes("canonical_production_project_is_authenticated"), "canonical Production project is authenticated before any read");
+check(script.includes("frozen_forward_chain_hashes_exact"), "frozen forward-chain hashes are proven exact before any apply");
+check(script.includes("migration_ledger_carries_the_recovered_baseline"), "migration ledger must carry the recovered baseline before mutation");
+check(script.includes("loose_phase_prerequisites_present"), "loose phase prerequisites are read before mutation");
+check(script.includes("forward_chain_state_is_an_ordered_prefix"), "out-of-order partial forward chain is refused");
+check(script.includes("readback_phase_wrote_nothing"), "readback phase asserts it wrote nothing");
+check(script.includes("independent_production_authorization_names_the_exact_chain"), "Production apply requires the independent authorization naming the exact chain");
+check(script.includes("forward_chain_complete_after_apply"), "complete forward chain is read back after apply");
+check(script.includes("ledger_records_every_forward_version"), "ledger readback of every forward version is required");
+check(script.includes("database/query"), "DDL and direct readback use the exact Supabase project endpoint");
+check(script.includes("on conflict (version) do nothing"), "ledger rows are recorded idempotently");
+check(!/api\.vercel\.com|vercel@|\/aliases|vercel promote/.test(script), "migration phase cannot deploy or move aliases");
+check(!/delete\s+from|truncate\s|drop\s+(?:table|schema|database|column)/i.test(script), "control contains no destructive SQL of its own");
+check(script.includes("structureDropped: false"), "evidence fixes structure drops to false");
+check(script.includes("realParticipantRecordsCreated: false"), "evidence fixes real participant creation to false");
+check(script.includes("realChargesCreated: false"), "evidence fixes real charges to false");
+check(authorization?.status === "authorized_production_incident", "authorization record carries the Production incident status");
+check(authorization?.productionProjectRef === PRODUCTION_PROJECT_REF, "authorization record names the canonical Production project");
+check(authorization?.applicationSha === APPLICATION_SHA, "authorization record pins the same application SHA");
+check(authorization?.dropAuthorized === false, "authorization record forbids dropping structure");
+check(/^[0-9]{6,}$/.test(String(authorization?.readbackRunId ?? "")), "authorization record names the incident readback run");
+check(
+  Array.isArray(authorization?.migrations)
+    && authorization.migrations.length === EXPECTED_POSITIONS.length
+    && migrations.length === EXPECTED_POSITIONS.length
+    && authorization.migrations.every((entry, index) => entry.position === migrations[index].position && entry.path === migrations[index].path && entry.sha256 === migrations[index].sha256),
+  "authorization record names the exact forward chain the control applies"
+);
+
+const failed = checks.filter((entry) => !entry.passed);
+for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);
+if (failed.length) { console.error(`verify-rcap-production-forward-chain-migrate failed: ${failed.length}/${checks.length}`); process.exit(1); }
+console.log(`verify-rcap-production-forward-chain-migrate passed: ${checks.length}/${checks.length}`);

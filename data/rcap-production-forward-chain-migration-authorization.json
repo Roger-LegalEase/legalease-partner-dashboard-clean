@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-production-forward-chain-migration-authorization/v1",
+  "status": "authorized_production_incident",
+  "authorizedBy": "Roger Roman",
+  "authorizedOn": "2026-09-16",
+  "authorizationReference": "Owner incident instruction of 2026-09-16 (\"Save my result and continue\" fails on the live Mississippi result page): diagnose, repair, deploy and verify under the existing production authorization; check Production schema as the evidence warrants; smallest complete correction; narrowly bounded synthetic production records and one dedicated test account for verification; no real customer matters, charges or court filings.",
+  "incidentEvidence": {
+    "readbackRunId": 35122706229,
+    "finding": "Production migration ledger holds the 13 baseline forward versions through 20260823171000; the deployed application's pending-result insert (claim_token_hash, screening_correlation_id, anonymous_session_id, status, candidate_route_context, partner attribution columns) and its claim RPC come from 20260828100000, whose signature table participant_claim_events is absent, as are the signatures of every later forward migration."
+  },
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "applicationSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+  "migrationBytesIdenticalAtLiveBuild": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
+  "migrations": [
+    { "position": 17, "version": "20260828100000", "path": "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql", "sha256": "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c" },
+    { "position": 18, "version": "20260830120000", "path": "supabase/migrations/20260830120000_participant_data_rights.sql", "sha256": "991fe21eab48b1ee72ab9f06346339f959f82d5f668b34560eef97bda08272ca" },
+    { "position": 19, "version": "20260901115000", "path": "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql", "sha256": "eb4969342a488c281152323693f4ef90732026a16f443218e53231e09cf78132" },
+    { "position": 20, "version": "20260901120000", "path": "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql", "sha256": "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb" },
+    { "position": 21, "version": "20260901130000", "path": "supabase/migrations/20260901130000_consumer_private_delivery.sql", "sha256": "ab3c23fa13bc52bbf9604e1811e5fec989a7291fb840e1ae5994a12100395621" },
+    { "position": 22, "version": "20260901140000", "path": "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql", "sha256": "cb0c3289f91b2eb5381fc663217149818ef2bfb0460e420c48f1091f87caf424" },
+    { "position": 23, "version": "20260903120000", "path": "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql", "sha256": "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e" },
+    { "position": 24, "version": "20260903130000", "path": "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql", "sha256": "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4" },
+    { "position": 25, "version": "20260906120000", "path": "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql", "sha256": "e323452b977c71bef2553fefd537a297b9b36151a043bae8003145f9dc691fd9" },
+    { "position": 26, "version": "20260906130000", "path": "supabase/migrations/20260906130000_verified_artifact_regeneration.sql", "sha256": "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7" }
+  ],
+  "readbackRunId": 35122706229,
+  "dropAuthorized": false
+}
