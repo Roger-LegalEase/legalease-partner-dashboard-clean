@@ -168,8 +168,23 @@ try {
   await answerChoice(page, "How did the case end?", "The case was dropped or thrown out");
   await answerChoice(page, "What kind of charge was it?", "Misdemeanor");
   await answerChoice(page, "Do any of these sound like your situation?", "Non-conviction expungement for dismissal, no disposition, or acquittal");
-  await answerChoice(page, "About how long ago did this case end or get resolved?", "More than 10 years ago");
-  await answerChoice(page, "Have you completed everything the court ordered in this case?", "Yes", true);
+  // The engine orders the last two Mississippi questions itself (the Grade A
+  // release observed court-ordered completion before the timing question;
+  // run 35115205679 timed out waiting for the timing question first). Answer
+  // whichever is shown; the final answer is the one that triggers evaluation.
+  const remainingMississippi = new Map([
+    ["About how long ago did this case end or get resolved?", "More than 10 years ago"],
+    ["Have you completed everything the court ordered in this case?", "Yes"]
+  ]);
+  while (remainingMississippi.size > 0) {
+    const prompts = [...remainingMississippi.keys()];
+    const shown = await Promise.race(prompts.map((prompt) =>
+      page.getByRole("heading", { name: prompt, exact: true }).waitFor({ state: "visible" }).then(() => prompt).catch(() => new Promise(() => {}))
+    ));
+    const option = remainingMississippi.get(shown);
+    remainingMississippi.delete(shown);
+    await answerChoice(page, shown, option, remainingMississippi.size === 0);
+  }
 
   await page.getByRole("heading", { name: /A path may be available|You may be able to prepare an expungement packet/i }).waitFor({ state: "visible" });
   await expectText(page, "Your packet is covered by your partner program.");
