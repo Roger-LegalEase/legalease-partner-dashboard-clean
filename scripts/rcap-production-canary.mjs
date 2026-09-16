@@ -29,7 +29,7 @@ const WORKER_SOURCE_SHA = "c177eef11ad041165294f2d4a38e9bddeef031db";
 const WORKER_DIGEST = "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_9ygomDGFAXSLHENBfc6Undtyknjf";
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_Hdmt31K5hx8ysFmDnqyFvSPBmQZ5";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
