@@ -38,7 +38,8 @@ import {
 export type ConsumerOrderBinding = {
   userId: string;
   briefcaseItemId: string;
-  pathwayId: string;
+  /** Null where the verified snapshot carries no pathway; compared as absent. */
+  pathwayId: string | null;
   verificationHash: string;
 };
 
@@ -133,7 +134,9 @@ export function reconcileConsumerOrder(
   if (session.metadata?.briefcase_item_id !== binding.briefcaseItemId) {
     return refuse("briefcase_item_id metadata does not match the matter");
   }
-  if (session.metadata?.pathway_id !== binding.pathwayId) return refuse("pathway_id metadata does not match");
+  if ((session.metadata?.pathway_id ?? "") !== (binding.pathwayId ?? "")) {
+    return refuse("pathway_id metadata does not match");
+  }
   if (session.metadata?.verification_hash !== binding.verificationHash) {
     return refuse("verification_hash metadata is not the current verification");
   }
