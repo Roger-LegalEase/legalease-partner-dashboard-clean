@@ -57,6 +57,24 @@ const environmentClassification = await verifyExactHostedPreview(baseUrl, bypass
 result.environmentClassification = environmentClassification;
 
 const failures = [];
+// The Mississippi non-conviction packet re-checks these route facts before
+// final verification (mississippiNonConvictionPacketSafety): a first-option
+// or placeholder answer makes the review unsafe and hides the verify action
+// (run 35120640545). These are the demo fixture's safe answers.
+const MISSISSIPPI_SAFE_ROUTE_ANSWERS = Object.freeze({
+  pending_cases: "No",
+  trafficking_status: "No",
+  prior_relief: "No",
+  sentence_completion_date: "Yes",
+  financial_obligations: "Yes",
+  nonadjudication_or_diversion: "No",
+  open_co_defendant_matter: "No",
+  actual_arrest: "Yes",
+  release_confirmed: "Yes",
+  disposition_record_wording: "Charges dropped",
+  statutory_disposition_category: "Charges dropped",
+  case_outcome: "Charges dropped"
+});
 const browserErrors = [];
 const generationRequests = [];
 const stripeRequests = [];
@@ -512,25 +530,6 @@ async function answerChoice(page, prompt, option, final = false) {
     check(evaluationResponse.ok(), `Authoritative screening evaluation returned ${evaluationResponse.status()}.`);
   }
 }
-
-// The Mississippi non-conviction packet re-checks these route facts before
-// final verification (mississippiNonConvictionPacketSafety): a first-option
-// or placeholder answer makes the review unsafe and hides the verify action
-// (run 35120640545). These are the demo fixture's safe answers.
-const MISSISSIPPI_SAFE_ROUTE_ANSWERS = Object.freeze({
-  pending_cases: "No",
-  trafficking_status: "No",
-  prior_relief: "No",
-  sentence_completion_date: "Yes",
-  financial_obligations: "Yes",
-  nonadjudication_or_diversion: "No",
-  open_co_defendant_matter: "No",
-  actual_arrest: "Yes",
-  release_confirmed: "Yes",
-  disposition_record_wording: "Charges dropped",
-  statutory_disposition_category: "Charges dropped",
-  case_outcome: "Charges dropped"
-});
 
 async function answerCurrentBuilderQuestion(page) {
   const builder = page.locator("[data-packet-information-builder='active']");
