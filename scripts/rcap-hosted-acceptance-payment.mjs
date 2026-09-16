@@ -182,16 +182,16 @@ async function runtimeLogExcerpt(sinceMs, needles) {
       VERCEL_IDENTITY
     ), { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }, signal: AbortSignal.timeout(20000) });
     const text = await res.text();
-    if (res.status !== 200) return `runtime-logs HTTP ${res.status}: ${sanitize(text).slice(0, 160)}`;
+    if (res.status !== 200) return `runtime-logs HTTP ${res.status}: ${redactSecrets(text).slice(0, 160)}`;
     const lines = text.split("\n").map((line) => { try { return JSON.parse(line); } catch { return null; } }).filter(Boolean);
     const hits = lines.filter((entry) => {
       const at = Number(entry.timestampInMs ?? entry.timestamp ?? 0);
       const message = String(entry.message ?? "");
       return at >= sinceMs && needles.some((needle) => message.includes(needle));
-    }).slice(-6).map((entry) => `[${entry.level ?? "?"}] ${sanitize(String(entry.message ?? "")).slice(0, 400)}`);
+    }).slice(-6).map((entry) => `[${entry.level ?? "?"}] ${redactSecrets(String(entry.message ?? "")).slice(0, 400)}`);
     return hits.length ? hits.join(" || ") : `runtime-logs returned ${lines.length} entries, none matching ${needles.join("/")} since ${new Date(sinceMs).toISOString()}`;
   } catch (error) {
-    return `runtime-logs unavailable: ${sanitize(String(error?.message ?? error)).slice(0, 160)}`;
+    return `runtime-logs unavailable: ${redactSecrets(String(error?.message ?? error)).slice(0, 160)}`;
   }
 }
 
@@ -420,21 +420,21 @@ function finish() {
       const cookies = cookieShapes(res);
       return {
         label,
-        url: sanitize(url),
+        url: redactSecrets(url),
         status: res.status,
-        location: sanitize(res.headers.get("location") ?? "(none)"),
+        location: redactSecrets(res.headers.get("location") ?? "(none)"),
         contentType: res.headers.get("content-type") ?? "(none)",
         server: res.headers.get("server") ?? "(none)",
         vercelId: res.headers.get("x-vercel-id") ?? "(none)",
         vercelCache: res.headers.get("x-vercel-cache") ?? "(none)",
         cookieNames: cookies.map((c) => c.name),
         cookies,
-        bodyHead: sanitize(body).slice(0, 200),
+        bodyHead: redactSecrets(body).slice(0, 200),
         isApplicationJson: res.status === 200 && json !== null && typeof json === "object" && "checks" in json
       };
     } catch (error) {
       return {
-        label, url: sanitize(url), status: `unreachable: ${error.message}`,
+        label, url: redactSecrets(url), status: `unreachable: ${error.message}`,
         location: "(none)", contentType: "(none)", server: "(none)",
         vercelId: "(none)", vercelCache: "(none)",
         cookieNames: [], cookies: [], bodyHead: "", isApplicationJson: false
@@ -487,7 +487,7 @@ function finish() {
       env: { ...process.env, ...hostedVercelCliEnvironment(VERCEL_IDENTITY) }
     });
     const token = process.env.VERCEL_TOKEN ?? "";
-    let out = sanitize(`${run.stdout ?? ""}${run.stderr ?? ""}`);
+    let out = redactSecrets(`${run.stdout ?? ""}${run.stderr ?? ""}`);
     if (token) out = out.split(token).join("***TOKEN***");
     cliControl = run.error
       ? `could not run: ${run.error.code ?? run.error.message}`
@@ -1563,7 +1563,7 @@ runNamespace.providerEventId = completionEvent.id;
   record(
     "signed_webhook_records_the_payment",
     genuineRes.status === 200,
-    `POST /api/stripe/webhook correctly signed = ${genuineRes.status}, outcome=${genuineRes.json?.outcome ?? "(none)"}${genuineRes.json?.error ? `; application error=${JSON.stringify(sanitize(String(genuineRes.json.error)).slice(0, 300))}` : ""}${webhookDiagnostics}`
+    `POST /api/stripe/webhook correctly signed = ${genuineRes.status}, outcome=${genuineRes.json?.outcome ?? "(none)"}${genuineRes.json?.error ? `; application error=${JSON.stringify(redactSecrets(String(genuineRes.json.error)).slice(0, 300))}` : ""}${webhookDiagnostics}`
   );
   evidence.webhook = { forged: forgedRes.status, genuine: genuineRes.status, outcome: genuineRes.json?.outcome ?? null };
 }
@@ -1605,7 +1605,7 @@ let targetJobId = null;
   record(
     "paid_render_is_queued",
     res.status === 202 && returnedJobId !== null,
-    `POST /api/expungement-ai/packet/render for the same item after payment = ${res.status} (must be 202), jobId=${returnedJobId ?? "(none)"}${res.json?.error || res.json?.reason ? `; application answered error=${JSON.stringify(sanitize(String(res.json?.error ?? "")).slice(0, 200))} reason=${JSON.stringify(sanitize(String(res.json?.reason ?? "")).slice(0, 400))}` : ""}${renderDiagnostics} — the identical request that was 402 moments ago. This job id is THE TARGET for the rest of this run; every worker cycle below is classified against it and no other row may satisfy a target case.`
+    `POST /api/expungement-ai/packet/render for the same item after payment = ${res.status} (must be 202), jobId=${returnedJobId ?? "(none)"}${res.json?.error || res.json?.reason ? `; application answered error=${JSON.stringify(redactSecrets(String(res.json?.error ?? "")).slice(0, 200))} reason=${JSON.stringify(redactSecrets(String(res.json?.reason ?? "")).slice(0, 400))}` : ""}${renderDiagnostics} — the identical request that was 402 moments ago. This job id is THE TARGET for the rest of this run; every worker cycle below is classified against it and no other row may satisfy a target case.`
   );
   evidence.render = { status: res.status, jobId: returnedJobId };
   if (res.status !== 202 || returnedJobId === null) finish();
