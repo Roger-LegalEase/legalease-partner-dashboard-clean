@@ -5,7 +5,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
-import { completeHostedCheckout, STRIPE_TEST_CARD } from "./lib/stripe-checkout-browser.mjs";
+import { completeHostedCheckout, STRIPE_TEST_CARD } from "./rcap-stripe-checkout-browser.mjs";
 import {
   HOSTED_VERCEL_TEAM_SLUG,
   hostedVercelCliEnvironment,
