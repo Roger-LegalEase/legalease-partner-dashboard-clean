@@ -12,13 +12,34 @@
   "workerSourceSha": "3e3a528b5762ece971c53186d1a45a48e5633a9c",
   "workerDigest": "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9",
   "runs": {
-    "acceptancePreviewDeploy": { "runId": 35141124813, "conclusion": "success" },
-    "productionPreflight": { "runId": 35142233495, "conclusion": "success" },
-    "productionSmoke": { "runId": 35142492175, "conclusion": "success" },
-    "productionActivate": { "runId": 35142875519, "conclusion": "success" },
-    "productionPublicVerify": { "runId": 35143085653, "conclusion": "success" },
-    "productionSaveTransitionVerify": { "runId": 35143327329, "conclusion": "success" },
-    "productionWorkerDeploy": { "runId": 35143706112, "conclusion": "failure" }
+    "acceptancePreviewDeploy": {
+      "runId": 35141124813,
+      "conclusion": "success"
+    },
+    "productionPreflight": {
+      "runId": 35142233495,
+      "conclusion": "success"
+    },
+    "productionSmoke": {
+      "runId": 35142492175,
+      "conclusion": "success"
+    },
+    "productionActivate": {
+      "runId": 35142875519,
+      "conclusion": "success"
+    },
+    "productionPublicVerify": {
+      "runId": 35143085653,
+      "conclusion": "success"
+    },
+    "productionSaveTransitionVerify": {
+      "runId": 35143327329,
+      "conclusion": "success"
+    },
+    "productionWorkerDeploy": {
+      "runId": 35143706112,
+      "conclusion": "failure"
+    }
   },
   "provenInProduction": [
     "Preflight proved the staged Production-target deployment and the accepted Preview are the exact hotfix identity, with no Production alias, environment or database mutation.",
@@ -35,7 +56,7 @@
   "workerDeployRefusal": {
     "runId": 35143706112,
     "verdict": "refused: candidate workerSourceSha, candidate workerDigest, image acceptance of this digest",
-    "reason": "The deploy gate requires data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json to name this worker tuple with productionAuthorized true, and requires worker-publication-evidence.json to carry a successful image acceptance for this digest. The binding still names the cc4d8275 candidate, and this release did not produce a Grade-A candidate binding for 3e3a528b5.",
+    "reason": "The deploy gate requires data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json to name this worker tuple with productionAuthorized true, and requires worker-publication-evidence.json to carry a successful image acceptance for this digest. The run checked out claude/hotfix-release-3e3a528b5, whose binding is the older cc4d8275 candidate because that branch was cut from the live application line before the MVLP freeze; the integration branch instead carries the MVLP candidate 436520e4. Neither names 3e3a528b5, and this release produced no Grade-A candidate binding for it.",
     "decision": "Stood down rather than rewriting the binding. The gate is a source, fingerprint and acceptance check, and editing the record to satisfy it would be the equivalence workaround the owner forbade. The worker was left unchanged, which is the state that preceded this hotfix; no live behaviour regressed.",
     "toReopen": "Run the Grade-A regression set against 3e3a528b5 and record a real candidate binding plus the image acceptance receipt, then re-dispatch production_worker_deploy."
   }
