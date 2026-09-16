@@ -25,7 +25,7 @@ const STAGED_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
 // target any more, because it writes the pending-result columns the applied
 // forward chain renamed.
 const ROLLBACK_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX";
-const SMOKE_RUN_ID = "35083725518";
+const SMOKE_RUN_ID = "35142492175";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
     ?? "prior-production-smoke-evidence/production-canary-smoke.json"
