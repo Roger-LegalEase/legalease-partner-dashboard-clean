@@ -341,16 +341,31 @@ try {
   const canonicalDomain = `${HOSTED_VERCEL_PROJECT_NAME}.vercel.app`;
   const publicRuntime = await inspectPublicRuntime(PUBLIC_DOMAIN, allowedHosts);
   const canonicalRuntime = await inspectPublicRuntime(canonicalDomain, allowedHosts);
+  // The landing page differs per brand host, so the build is compared through
+  // its content-addressed assets: every /_next/ asset the public root page
+  // references must be served byte-identical by the canonical Vercel domain.
+  const buildAssets = (publicRuntime.scripts ?? []).filter((source) => source.startsWith("/_next/"));
+  const assetComparisons = [];
+  for (const source of buildAssets) {
+    const [onPublic, onCanonical] = await Promise.all([
+      fetchPublic(`https://${PUBLIC_DOMAIN}${source}`),
+      fetchPublic(`https://${canonicalDomain}${source}`)
+    ]);
+    const publicBytes = onPublic.ok ? sha256(await onPublic.text()) : null;
+    const canonicalBytes = onCanonical.ok ? sha256(await onCanonical.text()) : null;
+    assetComparisons.push({ source, publicStatus: onPublic.status, canonicalStatus: onCanonical.status, identical: publicBytes !== null && publicBytes === canonicalBytes });
+  }
+  const identicalAssets = assetComparisons.filter((entry) => entry.identical).length;
   evidence.buildIdentity = {
-    publicScriptInventorySha256: sha256(JSON.stringify(publicRuntime.scripts)),
-    canonicalScriptInventorySha256: sha256(JSON.stringify(canonicalRuntime.scripts)),
-    scriptCount: publicRuntime.scripts?.length ?? 0
+    assetsReferencedByPublicRoot: buildAssets.length,
+    assetsIdenticalOnCanonicalDomain: identicalAssets,
+    assetInventorySha256: sha256(JSON.stringify(buildAssets)),
+    comparisons: assetComparisons
   };
   record(
     "public_build_matches_canonical_domain",
-    Array.isArray(publicRuntime.scripts) && publicRuntime.scripts.length > 0
-      && JSON.stringify(publicRuntime.scripts) === JSON.stringify(canonicalRuntime.scripts),
-    `the ${publicRuntime.scripts?.length ?? 0}-script inventory of / on ${PUBLIC_DOMAIN} is byte-identical to ${canonicalDomain}`
+    buildAssets.length > 0 && identicalAssets === buildAssets.length,
+    `all ${buildAssets.length} build assets referenced by / on ${PUBLIC_DOMAIN} are served byte-identical by ${canonicalDomain}`
   );
   evidence.runtimeOrigin = {
     publicOriginCount: publicRuntime.origins.length,
