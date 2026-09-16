@@ -27,10 +27,10 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     if (fs.existsSync(path.join(root, toolingPath))) {
       const binding = JSON.parse(fs.readFileSync(path.join(root, toolingPath)));
       const frozen = {
-        applicationSha: '300a0edbf0a75daf5249f94d7a33f51570a00ba0',
-        workerSourceSha: 'b64701c16ab2a6c78d0d187143882407111c0778',
-        workerDigest: 'sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301',
-        workerInputFingerprint: 'sha256:ed3d0e1fac48515de4eb641f48ad266da566cc1e42bddda3d75e859fadb65b4e'
+        applicationSha: 'cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b',
+        workerSourceSha: 'c177eef11ad041165294f2d4a38e9bddeef031db',
+        workerDigest: 'sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832',
+        workerInputFingerprint: 'sha256:de034e8b43a3673e8b4de8f1049f7d7d4d3b5c1b585323f327c99b867ccf727e'
       };
       for (const [key, value] of Object.entries(frozen)) {
         if (binding[key] !== value || candidate[key] !== value) throw new Error('Frozen identity mismatch');
@@ -57,7 +57,19 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-hosted-vercel-diagnostics.mjs',
         'scripts/rcap-hosted-vercel-rest-transport.test.mjs',
         'scripts/rcap-hosted-acceptance-preflight.mjs',
-        'scripts/rcap-hosted-acceptance-vercel-identity.test.mjs'
+        'scripts/rcap-hosted-acceptance-vercel-identity.test.mjs',
+        // Production release controls: the same exact-identity pins, moved to
+        // the successor tuple under Roger's 2026-09-16 production authorization.
+        '.github/workflows/rcap-production-canary.yml',
+        'scripts/rcap-production-canary.mjs',
+        'scripts/rcap-production-canary-smoke.mjs',
+        'scripts/rcap-production-activate.mjs',
+        'scripts/verify-rcap-production-canary.mjs',
+        'scripts/verify-rcap-production-smoke.mjs',
+        'scripts/verify-rcap-production-activation.mjs',
+        'scripts/test-rcap-production-canary-mutations.mjs',
+        'scripts/test-rcap-production-smoke-mutations.mjs',
+        'scripts/test-rcap-production-activation-mutations.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');

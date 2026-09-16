@@ -17,9 +17,9 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
-const WORKER_SOURCE_SHA = APPLICATION_SHA;
-const WORKER_DIGEST = "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c";
+const APPLICATION_SHA = "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b";
+const WORKER_SOURCE_SHA = "c177eef11ad041165294f2d4a38e9bddeef031db";
+const WORKER_DIGEST = "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const STAGED_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL";
 const ROLLBACK_DEPLOYMENT_ID = "dpl_9WoA51v3wXSvG3VmBKGUEKtVBCfS";

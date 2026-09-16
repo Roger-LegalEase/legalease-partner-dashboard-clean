@@ -1,88 +1,74 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
-  "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
-  "applicationSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
-  "workerSourceSha": "b64701c16ab2a6c78d0d187143882407111c0778",
-  "workerDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
-  "workerInputFingerprint": "sha256:ed3d0e1fac48515de4eb641f48ad266da566cc1e42bddda3d75e859fadb65b4e",
+  "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE_AND_PRODUCTION_RELEASE",
+  "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
+  "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
+  "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+  "workerInputFingerprint": "sha256:de034e8b43a3673e8b4de8f1049f7d7d4d3b5c1b585323f327c99b867ccf727e",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "publication": {
-    "runId": 35027251980,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35027251980",
+    "runId": 35044054712,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35044054712",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 35027988039,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35027988039",
+    "runId": 35044827927,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35044827927",
     "conclusion": "success"
   },
   "regressions": {
-    "sourceSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
+    "sourceSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
+    "note": "The application source of cc4d8275 equals 2cc6f321 on every src/ path (later commits changed only data records and deploy/rcap-render-worker/runtime-data-manifest.json); the checks below ran on that source in this session.",
     "command": "node scripts/verify-expungement-consumer-payment-http.mjs",
-    "msPaidConsumer": "21/21 (P1-P21)",
-    "expanded": "37/37",
-    "mutations": "node scripts/test-rcap-consumer-payment-http-mutations.mjs 8/8",
-    "sponsoredDelivery": "node scripts/test-rcap-sponsored-delivery-binding.mjs 27/27; node scripts/verify-rcap-render-worker-delivery.mjs PASS",
-    "successorBinding": "node scripts/test-ms-paid-consumer-successor.mjs 34/34",
+    "msPaidConsumer": "37/37 with the rcap_document_packets double declaring safety_disclaimer text not null (30/37 before the 2cc6f321 repair)",
+    "sponsoredDelivery": "node scripts/test-rcap-sponsored-delivery-binding.mjs 27/27 (double declaring safety_disclaimer not null)",
+    "successorBinding": "node scripts/test-ms-paid-consumer-successor.mjs 34/34 at cc4d8275",
+    "msPacketProof": "node scripts/verify-ms-paid-packet-proof.mjs --write: both fixtures byte-identical, Postgres round trip PASS, 18 negative binding controls",
+    "fulfillmentAuthority": "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs 78 checks; 6 commercially eligible; 0 stale",
+    "typecheck": "tsc --noEmit clean at 2cc6f321",
     "syntheticPublicationFixture": false,
-    "publishedWorkerDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
-    "publicationRunId": 35027251980,
-    "imageAcceptanceRunId": 35027988039,
-    "logSha256": "a6520d9f4da9bc865df9e3bcf2112955f60d0790401f9e4a7e2e0b0c804716dd",
+    "publishedWorkerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+    "publicationRunId": 35044054712,
+    "imageAcceptanceRunId": 35044827927,
     "scope": "Real published authority binding; isolated local PostgreSQL and provider signatures. No hosted database writes."
   },
   "applicationBuild": {
-    "sourceSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
-    "command": "npm run build",
-    "exitCode": 0,
-    "elapsedSeconds": 72.3,
-    "staticPages": "169/169",
-    "log": {
-      "path": "private/transfers/cloud-recovery-20260915/deploy/application-build-300a0edbf0a75daf5249f94d7a33f51570a00ba0.log",
-      "sha256": "2c80ed64152de1809b1f441e05b38f909aad62ae1aec58593afc6283d3d77bf0"
-    }
+    "sourceSha": "34dc5b9e80cd971db0b6c18a643c8cfe223978b3",
+    "note": "Local `next build` of the working tree at 34dc5b9e (src identical to cc4d8275) succeeded in this session and served the fresh-session Mississippi screening walk; the hosted Preview build of cc4d8275 is the deployable build.",
+    "command": "npx next build",
+    "exitCode": 0
+  },
+  "screeningVerification": {
+    "method": "Playwright Chromium, fresh browser context, no injected answers, local `next start` of the candidate source",
+    "journey": "Mississippi → own record → state or local → case dropped or thrown out → misdemeanor → non-conviction expungement for dismissal, no disposition, or acquittal → court-ordered completion (optional) → resolved 1-2 years ago",
+    "observed": "7 questions; no DUI-sentence or underage-alcohol prompt; result 'A path may be available' naming the Mississippi non-conviction expungement path with Save-to-Briefcase before any payment",
+    "evidence": "private/transfers/cloud-recovery-20260915/deploy/step-00.png … step-07.png"
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
-    "sha256": "26b401fa1b5d6b5f9cb5472879a9187890e5cec810e4f32f151d5d3a57ccbcda"
+    "sha256": "cc169ae65acbb36991ce700e00ad48aee48cb2a983e003dc481eca73e44879da"
   },
   "workerInputPlan": {
-    "path": "private/transfers/cloud-recovery-20260915/deploy/frozen-application-worker-input-plan-300a0edb.json",
-    "sha256": "b79398cd7b167521ec7928fde023fe5928f4ed2e11f94cf69a3b1d7048f58985"
+    "path": "private/transfers/cloud-recovery-20260915/deploy/frozen-application-worker-input-plan-cc4d8275.json",
+    "sha256": "cd88080a8e7f9e489d967747a884214e49d440a72f3185db561dd39cb0f7e1a2"
   },
   "supersedes": {
-    "applicationSha": "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
-    "workerSourceSha": "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
-    "workerDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
-    "why": "The shared sponsored-delivery correction changed canonical worker inputs; the successor worker b64701c1 / sha256:f99ebc19 was published (run 35027251980) and accepted read-only (run 35027988039), and the application candidate carries that publication binding."
+    "applicationSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
+    "workerSourceSha": "b64701c16ab2a6c78d0d187143882407111c0778",
+    "workerDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
+    "why": "Hosted acceptance of 300a0edb on Preview dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr failed at the paid render (Postgres 23502: the personalized packet row carried no safety_disclaimer). The repair 2cc6f321 changes src; the MS packet proof re-verified against it changes the worker's copied runtime data (c177eef1); so the successor worker sha256:57bb99a8 was published (run 35044054712) and accepted read-only (run 35044827927), and cc4d8275 records that acceptance.",
+    "hostedAcceptanceOfSupersededCandidate": {
+      "preview": "dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr (legalease-rcap-300a0edbf0a7-roger947s-projects.vercel.app)",
+      "lastRunId": 35039368758,
+      "result": "matrix 14/14, galleries 8/8, ten payment cases through the server-authoritative paid state; signed webhook 500 and paid render 502 from the application defect repaired in 2cc6f321; render, delivery and browser phases did not run"
+    }
   },
   "participantReceiptPaths": [],
   "independentReviewerIdentities": [],
-  "hostedAcceptanceStatus": "RUN_ON_PREVIEW_dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr_FAILED_APPLICATION_DEFECT",
-  "productionAuthorized": false,
-  "scope": "Exact candidate freeze and local/read-only evidence only. No deployment, runtime-pin change, hosted execution, hosted database write, migration, or Production authorization is granted by this record.",
-  "hostedAcceptance": {
-    "authorization": "Roger's DEPLOYMENT EXECUTION AUTHORIZATION (2026-09-15): one new Preview, one reuse-only hosted acceptance cycle; no Production activation",
-    "preview": {
-      "deploymentId": "dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr",
-      "hostname": "legalease-rcap-300a0edbf0a7-roger947s-projects.vercel.app",
-      "applicationSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
-      "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia"
-    },
-    "runs": {
-      "matrixAndGalleries": "14/14 and 8/8 on every completed hosted_accept run (35037270463, 35038038713, 35038662769, 35039368758)",
-      "lastRunId": 35039368758,
-      "lastToolsSha": "d508973efa6a8e625a9287505b72ceada8381260"
-    },
-    "result": "FAILED — signed webhook 500 and paid render 502; cause confirmed as an application defect on 300a0edb (personalized packet row lacks safety_disclaimer; rcap_document_packets.safety_disclaimer is text NOT NULL; Postgres 23502 inside enqueue_verified_consumer_packet_render). Payment cases through the server-authoritative paid state passed; render, delivery and browser phases did not run.",
-    "repair": {
-      "commit": "2cc6f321af4cfdb1433801d6cf16e2ed40d59d51",
-      "changesWorkerInputs": true,
-      "successorWorkerInputFingerprint": "sha256:9d79140f2d19d0d7cd948ffa02d9fa88b07df26027ba924efbac3f19e9f7533d",
-      "deployed": false,
-      "note": "This candidate (300a0edb) cannot pass hosted acceptance. A successor candidate at 2cc6f321 needs a new worker publication, freeze and Preview — beyond the spent authorization; not started."
-    },
-    "evidence": "private/transfers/cloud-recovery-20260915/deploy/hosted-*-run-*.json and CLOUD_RECOVERY_RECORD.json execution.deployment_20260915.step5_hostedAcceptance"
-  }
+  "hostedAcceptanceStatus": "NOT_RUN_ON_THIS_CANDIDATE",
+  "productionAuthorized": true,
+  "productionAuthorization": "Roger Roman, 2026-09-16: PRODUCTION RELEASE AUTHORIZATION (chat) and issue #160 comment 5690402065 — release the intended Grade A application to expungement.ai through the existing production release process with rollback; production configuration and database; no destructive migrations, no new purchases, no real test charges.",
+  "scope": "Exact candidate freeze with published-worker and image-acceptance evidence. Hosted Preview acceptance and the production preflight/smoke/activate phases record their own evidence; this record authorizes no runtime-pin change, hosted database write or migration by itself."
 }
