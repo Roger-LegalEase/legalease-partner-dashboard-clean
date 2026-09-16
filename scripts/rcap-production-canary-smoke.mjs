@@ -340,7 +340,14 @@ try {
     env: { ...process.env, RCAP_EVALUATOR_TODAY: "2026-08-25" }
   });
   const coloradoOutput = `${colorado.stdout ?? ""}\n${colorado.stderr ?? ""}`;
-  if (colorado.status !== 0 || !coloradoOutput.includes("Colorado juvenile packet boundary (53/53)")) {
+  // The verifier reports its own check count: 53 when this control was
+  // written, 56 since the 2026-09-15 Colorado correction. The verifier must
+  // exit successfully, every check it ran must pass, and it may never run
+  // fewer than the current complete suite. (Owner-authorized correction,
+  // 2026-09-16: an outdated literal total refused the current 56-check suite.)
+  const coloradoPass = coloradoOutput.match(/PASS: Colorado juvenile packet boundary \((\d+)\/(\d+)\)/);
+  const coloradoTotal = coloradoPass ? Number(coloradoPass[2]) : 0;
+  if (colorado.status !== 0 || coloradoPass === null || coloradoPass[1] !== coloradoPass[2] || coloradoTotal < 56) {
     throw new Error("Colorado juvenile exact-SHA verifier failed");
   }
 
@@ -458,7 +465,7 @@ try {
   record(
     "colorado_juvenile_guidance_has_no_commerce",
     true,
-    "exact-SHA Colorado verifier 53/53 plus rolled-back Production DB no-checkout/no-job/no-credit assertions"
+    `exact-SHA Colorado verifier ${coloradoTotal}/${coloradoTotal} plus rolled-back Production DB no-checkout/no-job/no-credit assertions`
   );
   record(
     "clinic_negative_control_isolated",
