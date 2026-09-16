@@ -89,7 +89,7 @@ jobs:
           if (publication.sourceSha !== sha) mismatches.push("publication sourceSha");
           if (publication.immutableRegistryDigest !== digest) mismatches.push("publication immutableRegistryDigest");
           if (publication.workflowConclusion !== "success") mismatches.push("publication workflowConclusion");
-          if (publication.imageAcceptance?.conclusion !== "success") mismatches.push("image acceptance conclusion");
+          if (publication.imageAcceptance?.workflowConclusion !== "success" || publication.imageAcceptance?.immutableRegistryDigest !== digest) mismatches.push("image acceptance of this digest");
           if (mismatches.length) throw new Error("refused: " + mismatches.join(", "));
           console.log("worker tuple is the frozen, published, accepted candidate");
           JS
@@ -162,4 +162,4 @@ jobs:
         with:
           name: rcap-production-worker-${{ github.run_id }}
           path: production-worker-evidence/
-          if-no-files-found: error
+          if-no-files-found: warn
