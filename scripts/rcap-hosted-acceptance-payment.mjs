@@ -5,6 +5,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import { completeHostedCheckout, STRIPE_TEST_CARD } from "./lib/stripe-checkout-browser.mjs";
 import {
   HOSTED_VERCEL_TEAM_SLUG,
   hostedVercelCliEnvironment,
@@ -49,6 +50,14 @@ const WORKER_DIGEST_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
+// One discount variant per run, so the same journey proves each case end to end
+// rather than a separate near-copy of it existing per discount shape. Empty
+// means the ordinary $50 order.
+const PROMOTION_CODE = (process.env.HOSTED_STRIPE_PROMOTION_CODE ?? "").trim() || null;
+const PROMOTION_CODE_EXPECTS_ZERO = (process.env.HOSTED_STRIPE_PROMOTION_ZERO_TOTAL ?? "").trim() === "true";
+// Lets one run prove a non-Mississippi purchase without duplicating this
+// journey per state. Empty keeps the existing behaviour.
+const JOURNEY_STATE = (process.env.HOSTED_JOURNEY_STATE ?? "").trim().toUpperCase();
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
@@ -144,6 +153,7 @@ const REQUIRED_CASES = [
   "packet_contract_is_provable_before_checkout",
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
+  "customer_completed_the_hosted_checkout_page",
   "forged_webhook_signature_is_rejected",
   "signed_webhook_records_the_payment",
   "payment_is_server_authoritative_in_the_database",
@@ -1078,7 +1088,13 @@ function buildReviewedFlow(settled) {
 let reviewed = null;
 {
   const attempts = [];
-  const candidates = [route.state, ...["MS", "IL", "PA"].filter((code) => code !== route.state)];
+  // A requested jurisdiction goes first, so the same journey can be pointed at
+  // a non-Mississippi route without a second near-copy of this harness. The
+  // others still follow: if the requested one is not sellable, that is reported
+  // by name in the attempts rather than silently substituted.
+  const requested = JOURNEY_STATE && /^[A-Z]{2}$/.test(JOURNEY_STATE) ? [JOURNEY_STATE] : [];
+  const candidates = [...requested, route.state, ...["MS", "IL", "PA"]]
+    .filter((code, index, all) => all.indexOf(code) === index);
   for (const state of candidates) {
     const settled = convergeSellableScreening(state);
     if (!settled || settled.failure) { attempts.push(`${state}: ${settled?.failure ?? "no profile"}`); continue; }
@@ -1671,6 +1687,71 @@ let session = null;
   runNamespace.checkoutSessionId = session.id;
 }
 
+// --- 4b. The customer actually pays -----------------------------------------
+//
+// On Stripe's own hosted page, in a browser, with a Stripe test card. This is
+// the step that used to be simulated by overriding payment_status, and the
+// simulation stopped being valid when the server started reconciling the order
+// against Stripe: a session nobody paid has no PaymentIntent, and the payment
+// writer refuses a paid order without one. That refusal is right, so the
+// payment is real instead.
+//
+// A promotion code, when this run carries one, is entered here through Stripe's
+// own control, so the discount is one Stripe applied rather than one this
+// harness claimed.
+{
+  const before = { paymentStatus: session.payment_status, amountTotal: session.amount_total, paymentIntent: session.payment_intent ?? null };
+  const zeroTotalExpected = PROMOTION_CODE_EXPECTS_ZERO;
+  const outcome = await completeHostedCheckout({
+    checkoutUrl: session.url,
+    promotionCode: PROMOTION_CODE,
+    card: zeroTotalExpected ? null : STRIPE_TEST_CARD,
+    expectNoPayment: zeroTotalExpected,
+    screenshotDir: path.join(EVIDENCE_DIR, "checkout-screenshots"),
+    label: PROMOTION_CODE ? `checkout-${PROMOTION_CODE}` : "checkout-no-code"
+  });
+
+  // Stripe is the witness, not the page. The session is read back and every
+  // later case reads this copy.
+  const after = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session.id)}?expand[]=discounts.promotion_code&expand[]=payment_intent`, {
+    headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+  }).then((r) => r.json()).catch(() => null);
+  if (after?.id) {
+    const items = await fetch(
+      `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(after.id)}/line_items?expand[]=data.price.product`,
+      { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+    ).then((r) => r.json()).catch(() => null);
+    if (Array.isArray(items?.data) && items.data.length > 0) after.line_items = items;
+    session = after;
+  }
+
+  const settled = session.payment_status === "paid" || session.payment_status === "no_payment_required";
+  record(
+    "customer_completed_the_hosted_checkout_page",
+    settled,
+    `Stripe's hosted page was driven in a browser${PROMOTION_CODE ? ` with promotion code ${PROMOTION_CODE}` : " with no promotion code"}; `
+      + `${outcome.completed ? "the page returned to the application" : "the page did not return to the application"}. `
+      + `Stripe now reports payment_status=${session.payment_status} (was ${before.paymentStatus}), amount_total=${session.amount_total} (was ${before.amountTotal}), `
+      + `discount=${session.total_details?.amount_discount ?? 0}, payment_intent=${session.payment_intent ? "present" : "absent"} (was ${before.paymentIntent ? "present" : "absent"}). `
+      + `No field is overridden by this harness: a test card in a sandbox account moves no money, and a zero-total order is completed with no card at all. `
+      + `Page notes: ${outcome.notes.join("; ")}`
+  );
+  evidence.hostedCheckoutCompletion = {
+    promotionCode: PROMOTION_CODE,
+    zeroTotalExpected,
+    completed: outcome.completed,
+    paymentStatusBefore: before.paymentStatus,
+    paymentStatusAfter: session.payment_status,
+    amountTotalAfter: session.amount_total,
+    discountAfter: session.total_details?.amount_discount ?? 0,
+    paymentIntentPresent: Boolean(session.payment_intent),
+    appliedPromotionCodes: (session.discounts ?? []).map((d) => (typeof d?.promotion_code === "string" ? d.promotion_code : d?.promotion_code?.id)).filter(Boolean),
+    notes: outcome.notes,
+    screenshots: outcome.screenshots
+  };
+  if (!settled) finish();
+}
+
 // --- 5. The webhook: a forgery first, then the genuine signature -------------
 function signedBody(payload, secret, timestamp) {
   const body = JSON.stringify(payload);
@@ -1683,17 +1764,15 @@ const completionEvent = {
   object: "event",
   type: "checkout.session.completed",
   created: Math.floor(Date.parse(session.created ? session.created * 1000 : Date.parse("2026-08-14T00:00:00Z")) / 1000) || 1786665600,
-  // Every field is the REAL session as Stripe returned it, including the
-  // expanded line items the order reconciliation reads. Only payment_status
-  // and the session status are overridden, because completing the hosted page
-  // needs a browser; a real completion event carries exactly these two values.
+  // Every field is the REAL session Stripe returned after the customer paid on
+  // its hosted page. Nothing is overridden any more — payment_status, the
+  // PaymentIntent and any applied discount are all Stripe's, because the
+  // payment actually happened in 4b.
   //
-  // The line items have to travel ON the event. The server prefers an event's
-  // own line items and falls back to retrieving the session from Stripe, and
-  // that fallback would fetch the genuinely unpaid session and overwrite the
-  // simulation — which is what made this case report
-  // "payment_status unpaid is not paid on an order with 5000 due".
-  data: { object: { ...session, payment_status: "paid", status: "complete" } }
+  // The line items travel on the event so the server uses this copy; it would
+  // otherwise retrieve the session itself, which is correct for a live webhook
+  // and merely redundant here.
+  data: { object: { ...session } }
 };
 runNamespace.providerEventId = completionEvent.id;
 
