@@ -367,6 +367,12 @@ try {
   check("internal: legal-aid setup page renders for an internal administrator", await internal.textContent("h1").then((t) => t?.includes("legal aid clinic setup")));
   check("internal: setup page shows the approved profile and staff controls", (await internal.locator("select[name=policyProfileId]").count()) === 1 && (await internal.locator("text=volunteer.attorney@example.org").count()) > 0);
   check("internal: event-controls link stays inside the internal console", (await internal.locator(`a[href='/internal/clinic/${IDS.eventLegalAid}']`).count()) >= 1);
+  // The interim coordinator prepares a policy profile draft from the internal
+  // page: the client must name the organization, because an internal
+  // administrator is not scoped to one.
+  await internal.click("button:has-text('Prepare a new draft from the template')");
+  await internal.waitForSelector("text=Draft profile prepared");
+  check("internal: internal administrator can prepare a policy profile draft", (await db.query("select count(*)::int as n from public.legal_aid_policy_profiles where partner_slug='mvlp' and status='draft' and prepared_by=$1", [IDS.internalAdmin])).rows[0].n === 1);
   await internal.goto(`${BASE}/clinic/staff/${IDS.eventLegalAid}/applications`);
   const internalApplicationsHeading = await internal.textContent("h1").catch(() => null);
   check("internal: staff application list opens with internal authority", internalApplicationsHeading?.includes(": applications"), internalApplicationsHeading ?? (await internal.content()).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").slice(0, 300));
