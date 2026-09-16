@@ -19,6 +19,15 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     'data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json',
     // Preserved pre-existing operating notes are not application inputs.
     'CAPTAIN_RESTART.md',
+    // Release records regenerated or updated after the application freeze
+    // (publication evidence, image acceptance, staging action, fulfillment
+    // authority). Data, not orchestration: the orchestration set is
+    // scripts/ and .github/ only.
+    'data/rcap-render/worker-publication-evidence.json',
+    'data/rcap-staging-action.json',
+    'data/rcap-grade-a/fulfillment-authority-projection.json',
+    'data/rcap-grade-a/fulfillment-authority-registry.json',
+    'data/rcap-grade-a/fulfillment-observation-snapshot.json',
     ...receiptPaths.filter(p => /^(data\/rcap-grade-a\/participant-data-rights|private\/rcap-hosted-acceptance)\//.test(p))
   ]);
   try {
@@ -84,13 +93,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-hosted-legal-aid-browser.mjs',
         'scripts/rcap-production-legal-aid-migrate.mjs',
         'scripts/verify-rcap-production-legal-aid-migrate.mjs',
-        'scripts/test-rcap-production-legal-aid-migrate-mutations.mjs',
-        'data/rcap-render/worker-publication-evidence.json',
-        'data/rcap-staging-action.json',
-        'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',
-        'data/rcap-grade-a/fulfillment-authority-projection.json',
-        'data/rcap-grade-a/fulfillment-authority-registry.json',
-        'data/rcap-grade-a/fulfillment-observation-snapshot.json'
+        'scripts/test-rcap-production-legal-aid-migrate-mutations.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');
