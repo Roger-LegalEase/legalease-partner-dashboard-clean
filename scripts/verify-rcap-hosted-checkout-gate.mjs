@@ -35,9 +35,9 @@ function includesEvery(text, values, label) {
 // read-only (run 35027988039). The checked-out tools commit may not change
 // the application's frozen inputs relative to that candidate, nor the
 // worker's canonical inputs relative to the published worker source.
-const RELEASE_CONTROL_BASE_SHA = "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b";
-const ACCEPTED_WORKER_SOURCE_SHA = "c177eef11ad041165294f2d4a38e9bddeef031db";
-const ACCEPTED_WORKER_DIGEST = "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832";
+const RELEASE_CONTROL_BASE_SHA = "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6";
+const ACCEPTED_WORKER_SOURCE_SHA = "da432bd11924cc3ba8d766cbb9e09b12650347c3";
+const ACCEPTED_WORKER_DIGEST = "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249";
 
 includesEvery(gate, [
   "applicationShaExact",
@@ -111,7 +111,8 @@ check(![
   "1e95f1f067e2f26094228b6f0c922c875c25f33a",
   "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
   "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
-  "300a0edbf0a75daf5249f94d7a33f51570a00ba0"
+  "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
+  "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"
 ].some((superseded) => gate.includes(superseded)), "gate still pins a superseded application identity");
 check(![
   "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
@@ -120,7 +121,8 @@ check(![
   "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
   "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
   "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
-  "sha256:e96d384b808e15884bbc8a6c95754bde956bb27bf2dcf6893b2b93f9f9d9f716"
+  "sha256:e96d384b808e15884bbc8a6c95754bde956bb27bf2dcf6893b2b93f9f9d9f716",
+  "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"
 ].some((superseded) => gate.includes(superseded)), "gate still pins a superseded worker identity");
 
 for (const eventType of [

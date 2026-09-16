@@ -24,10 +24,10 @@ check(workflow.includes("node scripts/rcap-production-canary.mjs"), "workflow ru
 check(workflow.includes("if: always()"), "evidence uploads even after refusal");
 check(workflow.includes("VERCEL_AUTOMATION_BYPASS_SECRET"), "runtime inspection receives the existing protection-bypass secret without printing it");
 
-check(script.includes('const APPLICATION_SHA = "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"'), "application SHA is exact");
-check(script.includes('const TOOLS_SHA = "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"'), "tools SHA is exact");
-check(script.includes('const WORKER_SOURCE_SHA = "c177eef11ad041165294f2d4a38e9bddeef031db"'), "worker source SHA is exact");
-check(script.includes('const WORKER_DIGEST = "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"'), "worker digest is exact");
+check(script.includes('const APPLICATION_SHA = "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6"'), "application SHA is exact");
+check(script.includes('const TOOLS_SHA = "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6"'), "tools SHA is exact");
+check(script.includes('const WORKER_SOURCE_SHA = "da432bd11924cc3ba8d766cbb9e09b12650347c3"'), "worker source SHA is exact");
+check(script.includes('const WORKER_DIGEST = "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249"'), "worker digest is exact");
 check(script.includes('const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"'), "acceptance project is an explicit negative control");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production project is pinned explicitly");
 check(script.includes('const ACCEPTANCE_DEPLOYMENT_ID = "dpl_Hdmt31K5hx8ysFmDnqyFvSPBmQZ5"'), "accepted Preview deployment is pinned exactly");

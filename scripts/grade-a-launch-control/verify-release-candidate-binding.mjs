@@ -27,10 +27,10 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     if (fs.existsSync(path.join(root, toolingPath))) {
       const binding = JSON.parse(fs.readFileSync(path.join(root, toolingPath)));
       const frozen = {
-        applicationSha: 'cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b',
-        workerSourceSha: 'c177eef11ad041165294f2d4a38e9bddeef031db',
-        workerDigest: 'sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832',
-        workerInputFingerprint: 'sha256:de034e8b43a3673e8b4de8f1049f7d7d4d3b5c1b585323f327c99b867ccf727e'
+        applicationSha: '61a2f018a9a444a24b3c1ee9533f4811bcfa56b6',
+        workerSourceSha: 'da432bd11924cc3ba8d766cbb9e09b12650347c3',
+        workerDigest: 'sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249',
+        workerInputFingerprint: 'sha256:c4771cb5265b4fe9c4f67795972506123f5bd81dedc6e2335801148841d54691'
       };
       for (const [key, value] of Object.entries(frozen)) {
         if (binding[key] !== value || candidate[key] !== value) throw new Error('Frozen identity mismatch');
