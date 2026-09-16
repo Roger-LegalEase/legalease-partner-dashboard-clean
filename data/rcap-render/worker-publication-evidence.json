@@ -27,7 +27,7 @@
   "originalPublicationPath": "private/transfers/cloud-recovery-20260915/publication/publication-da432bd1.from-run-log.json",
   "originalArchivePath": null,
   "originalPublicationSource": "Verbatim `cat publication/rcap-render-worker-publication.json` output in job 104662794175 of run 35054865971 (read through the Actions job-log API); artifact id, name, size and zip sha256 from the upload step of the same log. The artifact ZIP itself is not downloadable from this session (blob host denied by egress policy).",
-  "registryPullByDigestStatus": "pending",
+  "registryPullByDigestStatus": "passed",
   "runtimeAccepted": false,
   "authorization": "Roger's PRODUCTION RELEASE AUTHORIZATION (2026-09-16, chat and issue #160 comment 5690402065) and the 2026-09-16 'close all three release blockers' instruction: worker publication from the source that integrates the 2026-09-15 Colorado restoration (four restored commits plus regenerated derived inputs); tag_replacement_authorization empty; full-SHA tag only. Publish only: no deployment, no claiming, staging and production unchanged by this step.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
@@ -229,13 +229,40 @@
   "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
   "imageAcceptanceAttempts": [],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Carried from the prior accepted publication's acceptance run 35044827927; re-proved by this publication's own acceptance run once it exists.",
+  "packageVisibilityEvidence": "Acceptance run 35055139765 re-proved: the anonymous pull step refused (step concluded success only on refusal); authenticated pull by digest succeeded.",
   "publishedImagePlatform": {
     "os": "linux",
     "architecture": "amd64",
     "manifestMediaType": "application/vnd.oci.image.manifest.v1+json",
     "manifestSize": null,
-    "configDigest": null,
-    "note": "manifest size and config digest are read back by this publication's own image acceptance run"
+    "configDigest": "sha256:9f27bb0c0982dbfeab1afbe37e0287bbc2a8b9bbf079e696be99b5029c3d1873",
+    "note": "config digest is the image ID the acceptance run read back after pulling by digest; manifest size not read back in this run"
+  },
+  "imageAcceptance": {
+    "workflowRunId": 35055139765,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35055139765",
+    "workflowConclusion": "success",
+    "toolsSha": "e32910bdb1f1a3e119619d4f30d936fd96b11474",
+    "sourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
+    "immutableRegistryDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
+    "readOnly": true,
+    "noDeploymentNoClaim": true,
+    "registryTagAndDigestVerified": true,
+    "authenticatedPullByDigestPassed": true,
+    "anonymousPullRefused": "step 'Anonymous pull is refused' concluded success (the step fails unless the anonymous token request is refused)",
+    "ociRevisionLabel": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
+    "sourceBinding": "PASS (OCI revision; no exception used)",
+    "imageId": "sha256:9f27bb0c0982dbfeab1afbe37e0287bbc2a8b9bbf079e696be99b5029c3d1873",
+    "runtimeChecks": [
+      "non-root rcapworker",
+      "healthcheck command succeeds",
+      "fail-closed startup without Supabase (exit 2, no claim/render/finalize output)",
+      "graceful SIGTERM shutdown (worker_stop_requested, worker_stopped, shutdown_complete)",
+      "scratch directory owned, empty, writable",
+      "secret scans (filesystem, config, history) clean; positive/negative pattern controls pass"
+    ],
+    "jobId": 104663633157,
+    "logSource": "Actions job-log API tail (job 104663633157); the log was read, not downloaded as an artifact",
+    "acceptedAt": "2026-09-16T04:21:03Z"
   }
 }
