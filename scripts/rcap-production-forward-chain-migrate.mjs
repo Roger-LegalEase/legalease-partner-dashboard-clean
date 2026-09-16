@@ -29,14 +29,28 @@ const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const EVIDENCE_DIR = path.resolve(process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
 const EVIDENCE_FILE = path.join(EVIDENCE_DIR, `production-${PHASE || "forward-chain"}.json`);
 
-// The thirteen versions the Production ledger carried when the incident was
-// read back (run 35122706229): the recovered baseline's forward chain through
-// 20260823171000. The three 2026-08-25 Clinic files were applied by the
-// dedicated Clinic control and are proven by their objects, not the ledger.
+// The thirteen versions the Production ledger carries, read back exactly by
+// run 35127720320: the recovered remote baseline 20260728213131 and the
+// forward chain through 20260823171000, less 20260822180000, for which the
+// ledger holds no row. That prefill step and the three 2026-08-25 Clinic files
+// (applied by the dedicated Clinic control) are reconciled against their
+// objects below and are never replayed here because a ledger row is absent.
 export const LEDGER_BASELINE_VERSIONS = Object.freeze([
+  "20260728213131",
   "20260818200000", "20260818201000", "20260818202000", "20260818203000", "20260818204000",
   "20260818205000", "20260818206000", "20260818207000", "20260818208000", "20260818209000",
-  "20260819120000", "20260822180000", "20260823171000"
+  "20260819120000", "20260823171000"
+]);
+
+// Forward steps before position 17 whose ledger rows may be absent. Each is
+// reconciled against one signature object and reported; none is applied by
+// this control. The Clinic steps are required because 20260903120000 alters
+// clinic_events; the prefill step is outside this chain entirely.
+export const UNLEDGERED_PRIOR_STEPS = Object.freeze([
+  Object.freeze({ position: 12, version: "20260822180000", signature: { kind: "function", name: "rcap_onboarding_prefill_supersede_prior_applied" }, requiredByChain: false }),
+  Object.freeze({ position: 14, version: "20260825120000", signature: { kind: "table", name: "clinic_cases" }, requiredByChain: true }),
+  Object.freeze({ position: 15, version: "20260825121000", signature: { kind: "function", name: "clinic_is_event_staff" }, requiredByChain: true }),
+  Object.freeze({ position: 16, version: "20260825122000", signature: { kind: "function", name: "clinic_reserve_packet_credit" }, requiredByChain: true })
 ]);
 
 // Positions continue the numbering of scripts/verify-rcap-production-schema-upgrade.mjs FORWARD_CHAIN.
@@ -149,6 +163,7 @@ export function readbackQuery() {
       exists(select 1 from information_schema.columns where table_schema='supabase_migrations' and table_name='schema_migrations' and column_name='name') as ledger_has_name_column,
       coalesce((select array_agg(version::text order by version) from supabase_migrations.schema_migrations), '{}'::text[]) as ledger_versions,
       ${PHASE_PREREQUISITES.map((entry) => `${signatureProbe(entry)} as prereq_${entry.name}`).join(",\n      ")},
+      ${UNLEDGERED_PRIOR_STEPS.map((step) => `${signatureProbe(step.signature)} as prior_${step.version}`).join(",\n      ")},
       ${MIGRATIONS.map((migration) => `${signatureProbe(migration.signature)} as sig_${migration.version}`).join(",\n      ")}
   `;
 }
@@ -166,7 +181,16 @@ export function summarizeReadback(row) {
   const prerequisites = Object.fromEntries(PHASE_PREREQUISITES.map((entry) => [entry.name, truthy(row[`prereq_${entry.name}`])]));
   const signatures = Object.fromEntries(MIGRATIONS.map((migration) => [migration.version, truthy(row[`sig_${migration.version}`])]));
   const baselineExact = LEDGER_BASELINE_VERSIONS.every((version) => ledgerVersions.includes(version));
-  const unknownLedgerVersions = ledgerVersions.filter((version) => !LEDGER_BASELINE_VERSIONS.includes(version) && !MIGRATIONS.some((migration) => migration.version === version));
+  const unknownLedgerVersions = ledgerVersions.filter((version) => !LEDGER_BASELINE_VERSIONS.includes(version)
+    && !UNLEDGERED_PRIOR_STEPS.some((step) => step.version === version)
+    && !MIGRATIONS.some((migration) => migration.version === version));
+  const priorSteps = UNLEDGERED_PRIOR_STEPS.map((step) => ({
+    position: step.position,
+    version: step.version,
+    ledgerRow: ledgerVersions.includes(step.version),
+    objectPresent: truthy(row[`prior_${step.version}`]),
+    requiredByChain: step.requiredByChain
+  }));
   const missing = MIGRATIONS.filter((migration) => !signatures[migration.version]).map((migration) => migration.version);
   const present = MIGRATIONS.filter((migration) => signatures[migration.version]).map((migration) => migration.version);
   // The chain is an ordered prefix only if no later file is present while an earlier one is absent.
@@ -180,6 +204,8 @@ export function summarizeReadback(row) {
     unknownLedgerVersions,
     prerequisites,
     prerequisitesExact: Object.values(prerequisites).every(Boolean),
+    priorSteps,
+    priorStepsRequiredPresent: priorSteps.every((step) => !step.requiredByChain || step.objectPresent),
     signatures,
     present,
     missing,
@@ -282,6 +308,11 @@ try {
     "migration_ledger_carries_the_recovered_baseline",
     before.ledgerPresent && before.baselineExact,
     `ledger present=${before.ledgerPresent}; versions=${before.ledgerVersions.length} [${before.ledgerVersions.join(", ")}]; baseline 13 present=${before.baselineExact}; unknown=${JSON.stringify(before.unknownLedgerVersions)}`
+  );
+  record(
+    "unledgered_prior_steps_reconciled_against_objects",
+    before.priorStepsRequiredPresent,
+    before.priorSteps.map((step) => `${step.version}: ledger row=${step.ledgerRow}, object ${step.objectPresent ? "present" : "absent"}${step.requiredByChain ? "" : " (outside this chain; never replayed here)"}`).join("; ")
   );
   record(
     "loose_phase_prerequisites_present",

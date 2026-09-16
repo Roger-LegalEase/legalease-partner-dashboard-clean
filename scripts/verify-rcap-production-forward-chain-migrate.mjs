@@ -8,6 +8,8 @@ import path from "node:path";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const APPLICATION_SHA = "436520e4a99f0b8a290ace32f1d717b951630319";
 const LEDGER_BASELINE_LAST_VERSION = "20260823171000";
+const RECOVERED_REMOTE_BASELINE_VERSION = "20260728213131";
+const UNLEDGERED_PREFILL_VERSION = "20260822180000";
 const FIRST_FORWARD_VERSION = "20260828100000";
 const EXPECTED_POSITIONS = Object.freeze([17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
 
@@ -49,6 +51,17 @@ check(
   "forward migration versions ascend strictly and match their file names"
 );
 check(script.includes(`"${LEDGER_BASELINE_LAST_VERSION}"`) && migrations[0]?.version === FIRST_FORWARD_VERSION, "forward chain begins immediately after the recovered ledger baseline");
+const baselineStart = script.indexOf("export const LEDGER_BASELINE_VERSIONS");
+const baselineBlock = baselineStart === -1 ? "" : script.slice(baselineStart, script.indexOf("]);", baselineStart));
+check(
+  baselineBlock.includes(`"${RECOVERED_REMOTE_BASELINE_VERSION}"`) && baselineBlock.includes(`"${LEDGER_BASELINE_LAST_VERSION}"`)
+    && !baselineBlock.includes(`"${UNLEDGERED_PREFILL_VERSION}"`) && (baselineBlock.match(/"\d{14}"/g) ?? []).length === 13,
+  "ledger baseline is the thirteen versions Production recorded: the recovered remote baseline through 20260823171000 without the unledgered prefill step"
+);
+check(
+  script.includes("unledgered_prior_steps_reconciled_against_objects") && script.includes(`version: "${UNLEDGERED_PREFILL_VERSION}"`) && script.includes("rcap_onboarding_prefill_supersede_prior_applied"),
+  "unledgered prior steps are reconciled against their objects and never replayed for a missing ledger row"
+);
 for (const position of EXPECTED_POSITIONS) {
   const migration = migrations.find((entry) => entry.position === position);
   const actual = migration ? frozenSha256(migration.path) : null;

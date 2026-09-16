@@ -24,6 +24,11 @@ check(script.includes("rollback_target_is_ready_and_still_active"), "rollback re
 check(script.includes("runtime_supabase_origin_is_canonical"), "staged runtime must still map to canonical Production Supabase");
 check(script.includes("staged_health_is_200"), "staged health must pass");
 check(script.includes("production_clinic_schema_direct_readback"), "Production Clinic schema receives direct readback");
+check(script.includes("save_claim_schema_read_back_exact"), "save/claim pending-result schema receives exact read-back before activation");
+check(script.includes('"claim_token_hash"'), "save/claim read-back requires the claim_token_hash column the live pending route writes");
+check(script.includes('"claim_pending_screening_result"'), "save/claim read-back requires the atomic claim function the claim service calls");
+check(script.includes('"participant_claim_events"'), "save/claim read-back requires the participant claim events table");
+check(script.includes('const SAVE_CLAIM_LEGACY_COLUMNS = ["matter_id", "source_session_id", "pending_token_hash"]') && script.includes("legacyPresent.length === 0"), "save/claim read-back rejects the legacy matter_id, source_session_id and pending_token_hash columns");
 check(script.includes("colorado_juvenile_guidance_has_no_commerce"), "Colorado juvenile path must remain guidance-only with no commerce");
 check(script.includes("clinic_negative_control_isolated"), "negative-control isolation is required");
 check(script.includes("clinic_reset_boundary_passed"), "Clinic reset API, cookie, header, and DB boundary are required");

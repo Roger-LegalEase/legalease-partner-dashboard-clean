@@ -34,6 +34,11 @@ const mutations = [
     "ledger_ignored"
   ],
   [
+    "unledgered prior step reconciliation",
+    "unledgered_prior_steps_reconciled_against_objects",
+    "prior_steps_ignored"
+  ],
+  [
     "ordered prefix refusal",
     "forward_chain_state_is_an_ordered_prefix",
     "order_ignored"

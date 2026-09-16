@@ -53,6 +53,20 @@ const REQUIRED_FUNCTIONS = [
   "clinic_actor_can_event", "clinic_upsert_event_follow_up", "clinic_get_event_queue",
   "clinic_transition_event_case", "clinic_get_follow_ups", "clinic_get_event_report"
 ];
+// Save/claim pending-result schema (2026-09-16 incident: Production had never
+// received 20260828100000_shared_pending_result_and_atomic_claim.sql, so the
+// live pending-result route failed 503 pending_storage_failed while every gate
+// passed). The exact column, function and table names the live save/claim
+// path writes and calls must be read back from the Production catalog.
+const SAVE_CLAIM_TABLE = "consumer_pending_screening_results";
+const SAVE_CLAIM_REQUIRED_COLUMNS = [
+  "claim_token_hash", "screening_correlation_id", "anonymous_session_id", "status",
+  "claimed_matter_id", "candidate_route_context", "locale", "partner_slug", "program_id",
+  "event_id", "campaign_name", "access_code_id", "consent_grant_id"
+];
+const SAVE_CLAIM_LEGACY_COLUMNS = ["matter_id", "source_session_id", "pending_token_hash"];
+const SAVE_CLAIM_FUNCTION = "claim_pending_screening_result";
+const SAVE_CLAIM_EVENTS_TABLE = "participant_claim_events";
 
 fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 const verdicts = [];
@@ -259,6 +273,29 @@ async function clinicSchemaReadback() {
   return { rlsTables: postgresArray(row.rls_tables), functions: postgresArray(row.functions) };
 }
 
+async function saveClaimSchemaReadback() {
+  const rows = await managementQuery(`
+    select
+      array(select c.column_name::text from information_schema.columns c
+        where c.table_schema='public' and c.table_name='${SAVE_CLAIM_TABLE}'
+          and c.column_name in (${sqlNames(SAVE_CLAIM_REQUIRED_COLUMNS)}) order by c.column_name) as required_columns,
+      array(select c.column_name::text from information_schema.columns c
+        where c.table_schema='public' and c.table_name='${SAVE_CLAIM_TABLE}'
+          and c.column_name in (${sqlNames(SAVE_CLAIM_LEGACY_COLUMNS)}) order by c.column_name) as legacy_columns,
+      array(select distinct p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+        where n.nspname='public' and p.proname in (${sqlNames([SAVE_CLAIM_FUNCTION])})) as functions,
+      array(select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+        where n.nspname='public' and c.relkind='r' and c.relname in (${sqlNames([SAVE_CLAIM_EVENTS_TABLE])})) as tables
+  `);
+  const row = Array.isArray(rows) ? rows[0] ?? {} : {};
+  return {
+    requiredColumns: postgresArray(row.required_columns),
+    legacyColumns: postgresArray(row.legacy_columns),
+    functions: postgresArray(row.functions),
+    tables: postgresArray(row.tables)
+  };
+}
+
 try {
   if (PHASE !== "smoke"
     || INPUT_APPLICATION_SHA !== APPLICATION_SHA
@@ -331,6 +368,22 @@ try {
     "production_clinic_schema_direct_readback",
     exactNames(schema.rlsTables, REQUIRED_TABLES) && exactNames(schema.functions, REQUIRED_FUNCTIONS),
     `RLS tables=${schema.rlsTables.length}/10; functions=${schema.functions.length}/22`
+  );
+
+  const saveClaim = await saveClaimSchemaReadback();
+  const requiredPresent = SAVE_CLAIM_REQUIRED_COLUMNS.filter((name) => saveClaim.requiredColumns.includes(name));
+  const requiredAbsent = SAVE_CLAIM_REQUIRED_COLUMNS.filter((name) => !saveClaim.requiredColumns.includes(name));
+  const legacyPresent = SAVE_CLAIM_LEGACY_COLUMNS.filter((name) => saveClaim.legacyColumns.includes(name));
+  const legacyAbsent = SAVE_CLAIM_LEGACY_COLUMNS.filter((name) => !saveClaim.legacyColumns.includes(name));
+  const claimFunctionPresent = saveClaim.functions.includes(SAVE_CLAIM_FUNCTION);
+  const claimEventsTablePresent = saveClaim.tables.includes(SAVE_CLAIM_EVENTS_TABLE);
+  record(
+    "save_claim_schema_read_back_exact",
+    requiredAbsent.length === 0 && legacyPresent.length === 0 && claimFunctionPresent && claimEventsTablePresent,
+    `${SAVE_CLAIM_TABLE} required columns present=[${requiredPresent.join(",")}] absent=[${requiredAbsent.join(",")}]`
+      + `; legacy columns present=[${legacyPresent.join(",")}] absent=[${legacyAbsent.join(",")}]`
+      + `; function ${SAVE_CLAIM_FUNCTION}=${claimFunctionPresent ? "present" : "absent"}`
+      + `; table ${SAVE_CLAIM_EVENTS_TABLE}=${claimEventsTablePresent ? "present" : "absent"}`
   );
 
   const colorado = spawnSync(process.execPath, ["scripts/verify-rcap-colorado-juvenile-packet-boundary.mjs"], {

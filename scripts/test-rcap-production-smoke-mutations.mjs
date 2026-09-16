@@ -21,6 +21,7 @@ const mutations = [
   ["runtime project", "runtime_supabase_origin_is_canonical", "runtime_project_removed"],
   ["health", "staged_health_is_200", "health_removed"],
   ["Clinic readback", "production_clinic_schema_direct_readback", "clinic_readback_removed"],
+  ["save/claim readback", "save_claim_schema_read_back_exact", "save_claim_schema_ignored"],
   ["Colorado commerce boundary", "colorado_juvenile_guidance_has_no_commerce", "commerce_boundary_removed"],
   ["Clinic isolation", "clinic_negative_control_isolated", "isolation_removed"],
   ["Clinic reset", "clinic_reset_boundary_passed", "reset_removed"],
