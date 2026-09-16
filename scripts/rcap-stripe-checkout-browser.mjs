@@ -162,6 +162,13 @@ export async function completeHostedCheckout({
     const looksFree = expectNoPayment || /\$0\.00/.test(amountText);
     notes.push(`page total reads as ${looksFree ? "zero" : "an amount due"}`);
 
+    // Stripe Checkout collects an email on most configurations and will not
+    // submit without one. Filled for a zero-total order too, where the page
+    // still asks for it even though no card is needed.
+    await fillAcrossFrames(page, [
+      'input[name="email"]', 'input[type="email"]', 'input[autocomplete="email"]'
+    ], "acceptance-consumer-a@rcap-acceptance.test", "email", notes);
+
     if (!looksFree) {
       if (!card) {
         notes.push("an amount is due but no card was supplied");
@@ -198,7 +205,11 @@ export async function completeHostedCheckout({
       await shoot("no-submit");
       return { completed: false, promotion, notes, screenshots };
     }
-    await submit.click({ timeout: FIELD_TIMEOUT }).catch(() => {});
+    const submitDisabled = await submit.isDisabled().catch(() => false);
+    notes.push(`submit control ${submitDisabled ? "is disabled" : "is enabled"}`);
+    await submit.click({ timeout: FIELD_TIMEOUT }).catch((error) => {
+      notes.push(`submit click failed: ${String(error?.message ?? error).slice(0, 120)}`);
+    });
 
     // Stripe leaves its own domain when the order completes. Waiting on the URL
     // rather than a success banner keeps this from passing on a page that
@@ -210,7 +221,18 @@ export async function completeHostedCheckout({
       const current = page.url();
       if (!/checkout\.stripe\.com/.test(current)) { leftStripe = true; break; }
     }
-    notes.push(leftStripe ? `returned to ${new URL(page.url()).host}` : "still on Stripe's page after 90s");
+    if (leftStripe) {
+      notes.push(`returned to ${new URL(page.url()).host}`);
+    } else {
+      // Say what the page is complaining about. "Still on Stripe's page" on its
+      // own sent this harness round another cycle guessing at the cause; the
+      // page states it — a required field, a declined card, an extra step.
+      const complaints = await page.locator(
+        '[role="alert"], .Error, [class*="error" i], [data-testid*="error" i], p:has-text("required")'
+      ).allInnerTexts().catch(() => []);
+      const visible = complaints.map((text) => text.trim()).filter(Boolean).slice(0, 6);
+      notes.push(`still on Stripe's page after 90s; page says: ${visible.length ? visible.join(" | ") : "(no error text found)"}`);
+    }
     await shoot(leftStripe ? "returned" : "stuck");
 
     return { completed: leftStripe, returnUrl: page.url(), promotion, notes, screenshots };
