@@ -4,13 +4,14 @@
   "workerSourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
   "workerDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
   "workerInputFingerprint": "sha256:c4771cb5265b4fe9c4f67795972506123f5bd81dedc6e2335801148841d54691",
-  "toolsSha": "0b65b92a57c033ab64c81cb36502c7da213a4ef5",
+  "toolsSha": "5cf9584cd883c4f952ebd94220d18bc902e1bad2",
   "orchestrationFiles": [
     ".github/workflows/deploy-rcap-render-worker-production.yml",
     ".github/workflows/rcap-f1-ephemeral-staging.yml",
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
     ".github/workflows/rcap-production-canary.yml",
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+    "scripts/rcap-hosted-acceptance-auth-config.mjs",
     "scripts/rcap-hosted-checkout-gate.mjs",
     "scripts/rcap-hosted-colorado-clinic-browser.mjs",
     "scripts/rcap-hosted-vercel-rest-transport.mjs",
@@ -26,9 +27,9 @@
     "scripts/verify-rcap-production-smoke.mjs",
     "scripts/verify-rcap-production-worker-execution.mjs"
   ],
-  "previousToolsSha": "be2be859593b7b30d44b5514a2afd320b8273170",
-  "supersededToolsSha": "036d15fd780cf8183cb4a31d2ccb470388270221",
-  "why": "Tools commit 82f4af6f pins the hosted acceptance tooling and the production release controls to the successor candidate 61a2f018 (application) / da432bd1 (worker source) / sha256:477afe68 (publication run 35054865971, image acceptance run 35055139765); 96daeed1 adds the accepted Preview dpl_AV3Mq1oeH2nXf8PH5AQJQh7DKb2p; 96737e58 adds the staged Production deployment dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX and rollback dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL (preflight 35056117558); 90bcfda9 and a783fe89 make the hosted browser harness seed the claimed pending result its Colorado matter carries (browser run 35057385695 PASSED 20 cases); e0d54ece, 9910257d and 036d15fd route and verify the production worker deployment (worker running, run 35082020806); be2be859 is the owner-authorized smoke Colorado-count correction; 0b65b92a57c033ab64c81cb36502c7da213a4ef5 pins the successful Production smoke run 35083725518 in the activation control. Exact-subject identity updates and those tooling corrections.",
+  "previousToolsSha": "0b65b92a57c033ab64c81cb36502c7da213a4ef5",
+  "supersededToolsSha": "be2be859593b7b30d44b5514a2afd320b8273170",
+  "why": "Tools commit 82f4af6f pins the hosted acceptance tooling and the production release controls to the successor candidate 61a2f018 (application) / da432bd1 (worker source) / sha256:477afe68 (publication run 35054865971, image acceptance run 35055139765); 96daeed1 adds the accepted Preview dpl_AV3Mq1oeH2nXf8PH5AQJQh7DKb2p; 96737e58 adds the staged Production deployment dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX and rollback dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL (preflight 35056117558); 90bcfda9 and a783fe89 make the hosted browser harness seed the claimed pending result its Colorado matter carries (browser run 35057385695 PASSED 20 cases); e0d54ece, 9910257d and 036d15fd route and verify the production worker deployment (worker running, run 35082020806); be2be859 is the owner-authorized smoke Colorado-count correction; 0b65b92a pins the successful Production smoke run 35083725518; 5cf9584cd883c4f952ebd94220d18bc902e1bad2 makes the hosted Auth step report each Management API call's status, request id and sanitized error so the token diagnosis is read from the run rather than inferred. Exact-subject identity updates and those tooling corrections.",
   "authorization": "Roger Roman's PRODUCTION RELEASE AUTHORIZATION (2026-09-16; chat and issue #160 comment 5690402065): targeted repairs, builds, tests, commits, pushes, worker publication, workflow executions, production deployment through the existing release process with rollback, and the existing expungement.ai domain cutover. No destructive migrations, no new purchases, no real test charges, no weakening of security or eligibility controls.",
   "deploymentAuthorized": true,
   "deploymentScope": "Vercel project prj_cdgwGzFqIHgEUlzEburSLaZETdQV (team team_4qLmZK9WI6xIy5vjYC0IF3ae): one acceptance Preview bound to acceptance Supabase hyflxnlhpmiqxvvcoiia with test-only Stripe and synthetic participants, then the production preflight/smoke/activate phases against production Supabase wwtwtsmywnckfkdaqqeg with a recorded rollback deployment. The public domain is never attached to the acceptance-database Preview."
