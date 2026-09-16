@@ -1,0 +1,55 @@
+{
+  "profileId": "mvlp-v1",
+  "partnerSlug": "mvlp",
+  "version": 1,
+  "status": "draft_pending_mvlp_approval",
+  "intakeSchemaVersion": "mvlp-intake-v1",
+  "preparedOn": "2026-09-16",
+  "sourceOfRules": {
+    "intake": "inputs/MVLP_LIVE_INTAKE_BUILD_INPUTS field map (public screen inspected 2026-09-15)",
+    "finance": "45 CFR 1611.2(i) noncash exclusion; MVLP's approved income guideline table not yet supplied",
+    "citizenship": "45 CFR 1626.6 attestation for applicants claiming citizenship; noncitizen categories reviewed confidentially per 45 CFR 1626.5",
+    "documents": "Mississippi self-representation expungement clinic; approved pleading and verification requirements unchanged",
+    "records": "MVLP is the system of record for its case file; LegalEase holds the working copy under MVLP's authorization"
+  },
+  "finance": {
+    "countableReceiptCategories": ["wages", "disability", "unemployment", "tanf", "pension_retirement", "family_friend_assistance", "other"],
+    "excludedReceiptCategories": ["food_stamps"],
+    "incomeGuideline": null,
+    "assetPolicy": null,
+    "note": "Until MVLP supplies its approved income guideline and asset policy, every application's financial review outcome is manual review by the MVLP program reviewer. No 125% or 200% rule is installed."
+  },
+  "citizenship": {
+    "attestationRequiredWhenYes": true,
+    "confidentialReviewWhenNoOrUnsure": true,
+    "basis": "45 CFR 1626.6 and 1626.5; MVLP's status-review process to be confirmed"
+  },
+  "service": {
+    "permittedMatters": ["felony_expungement", "misdemeanor_expungement"],
+    "acceptanceAuthority": "MVLP program reviewer records program eligibility; an MVLP volunteer attorney records the attorney review; both are separate from legal eligibility and packet readiness",
+    "note": "Program decline is not a determination that record relief is unavailable."
+  },
+  "documents": [
+    {
+      "key": "ms-expungement-petition",
+      "title": "Petition for expungement (Mississippi)",
+      "requiredSigner": "applicant_and_notary",
+      "executionMethod": "notary_jurat",
+      "authorityNote": "Existing approved Mississippi pleading; the verification is signed before a notary. The clinic never fills a notary seal or signs for anyone.",
+      "templateVersion": "as shipped in the Grade A release"
+    },
+    {
+      "key": "ms-filing-instructions",
+      "title": "Filing instructions (participant copy)",
+      "requiredSigner": "applicant",
+      "executionMethod": "no_signature_required",
+      "authorityNote": "Participant instructions are separate from the court packet and the MVLP case file.",
+      "templateVersion": "as shipped in the Grade A release"
+    }
+  ],
+  "records": {
+    "caseFileOwner": "Mississippi Volunteer Lawyers Project",
+    "exportRecipientNote": "Export recipient and case-management destination to be named by MVLP (see 03_MVLP_ACTIVATION_DETAILS.md).",
+    "retentionNote": "Retention instructions to be supplied by MVLP; a participant account erasure keeps MVLP's separately retained case file and pseudonymizes the participant reference."
+  }
+}
