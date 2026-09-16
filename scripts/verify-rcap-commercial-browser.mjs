@@ -174,7 +174,7 @@ try {
   // timeout never resolved once the result appeared). Answer whichever is
   // shown, stop as soon as the result heading is visible, and fail loudly
   // with the visible headings if neither appears within the budget.
-  const resultHeading = page.getByRole("heading", { name: /A path may be available|You may be able to prepare an expungement packet/i });
+  const resultHeading = page.getByRole("heading", { name: /path may be available|You may be able to prepare an expungement packet/i });
   const evaluationStatuses = [];
   page.on("response", (response) => {
     if (response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/evaluate") {
@@ -196,7 +196,16 @@ try {
   }
   result.mississippiFollowUpOrder = answeredMississippi;
 
-  await page.getByRole("heading", { name: /A path may be available|You may be able to prepare an expungement packet/i }).waitFor({ state: "visible" });
+  // The Mississippi clinic result heading reads "A Mississippi non-conviction
+  // expungement path may be available." (run 35118996706 timed out on the
+  // exact "A path may be available" form), so the heading is matched on its
+  // shared phrase; a timeout reports what was visible instead of nothing.
+  try {
+    await resultHeading.waitFor({ state: "visible", timeout: 45_000 });
+  } catch {
+    const visible = await page.locator("h1, h2").allInnerTexts().catch(() => []);
+    throw new Error(`Screening result heading did not appear after ${JSON.stringify(answeredMississippi)}; evaluation statuses ${JSON.stringify(evaluationStatuses)}; visible headings: ${JSON.stringify(visible)}`);
+  }
   check(evaluationStatuses.length > 0 && evaluationStatuses[evaluationStatuses.length - 1] < 400, `Authoritative screening evaluation statuses were ${JSON.stringify(evaluationStatuses)}; the last must succeed before the result renders.`);
   await expectText(page, "Your packet is covered by your partner program.");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner result");
@@ -233,8 +242,10 @@ try {
 
   // 4. Complete the sponsored packet-information builder. Saving the final
   // fact must reach review without starting generation.
-  const builderLink = page.getByRole("link", { name: "Complete packet information", exact: true });
-  check(await builderLink.isVisible(), "Partner-covered Mississippi matter did not expose Complete packet information.");
+  // The Briefcase labels a Mississippi clinic packet "Continue my Mississippi
+  // clinic packet"; other partner-covered matters keep "Complete packet information".
+  const builderLink = page.getByRole("link", { name: /^(?:Complete packet information|Continue my Mississippi clinic packet)$/ });
+  check(await builderLink.isVisible(), "Partner-covered Mississippi matter did not expose the packet-information link.");
   const builderHref = await builderLink.getAttribute("href");
   const builderUrl = builderHref ? new URL(builderHref, baseUrl) : null;
   check(builderUrl?.origin === new URL(baseUrl).origin, "Packet-information CTA must stay on the current acceptance origin.");
