@@ -6,12 +6,12 @@ import fs from "node:fs";
 import path from "node:path";
 
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const APPLICATION_SHA = "436520e4a99f0b8a290ace32f1d717b951630319";
+const APPLICATION_SHA = "8d9382b93ada32adf9e50dd7f52680f4f9fb7018";
 const LEDGER_BASELINE_LAST_VERSION = "20260823171000";
 const RECOVERED_REMOTE_BASELINE_VERSION = "20260728213131";
 const UNLEDGERED_PREFILL_VERSION = "20260822180000";
 const FIRST_FORWARD_VERSION = "20260828100000";
-const EXPECTED_POSITIONS = Object.freeze([17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
+const EXPECTED_POSITIONS = Object.freeze([17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
 
 const root = path.resolve(process.env.RCAP_FORWARD_CHAIN_VERIFY_ROOT ?? ".");
 // Frozen migration bytes are read from the repository this verifier runs in rather than from the

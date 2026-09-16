@@ -18,7 +18,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const APPLICATION_SHA = "436520e4a99f0b8a290ace32f1d717b951630319";
+const APPLICATION_SHA = "8d9382b93ada32adf9e50dd7f52680f4f9fb7018";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const AUTHORIZATION_PATH = "data/rcap-production-forward-chain-migration-authorization.json";
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -67,7 +67,13 @@ export const MIGRATIONS = Object.freeze([
   Object.freeze({ position: 24, version: "20260903130000", path: "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql", sha256: "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4", signature: { kind: "function", name: "finalize_sponsored_packet_generation_if_verified" } }),
   Object.freeze({ position: 25, version: "20260906120000", path: "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql", sha256: "e323452b977c71bef2553fefd537a297b9b36151a043bae8003145f9dc691fd9", signature: { kind: "table", name: "sponsored_packet_render_routes" } }),
   // finalize_sponsored_packet_generation_for_route is first created by 20260906120000; the superseded_artifacts column exists only from this file.
-  Object.freeze({ position: 26, version: "20260906130000", path: "supabase/migrations/20260906130000_verified_artifact_regeneration.sql", sha256: "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7", signature: { kind: "column", table: "consumer_packet_artifact_provenance", name: "superseded_artifacts" } })
+  Object.freeze({ position: 26, version: "20260906130000", path: "supabase/migrations/20260906130000_verified_artifact_regeneration.sql", sha256: "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7", signature: { kind: "column", table: "consumer_packet_artifact_provenance", name: "superseded_artifacts" } }),
+  // Promotion codes. Without this the Production database still carries the
+  // writer that asserts a single price, so a discounted order cannot be
+  // recorded at all and a 100%-off Checkout would complete at Stripe and then
+  // be refused here. regular_price_cents is the signature because it exists
+  // only from this file; a ledger row alone would not distinguish it.
+  Object.freeze({ position: 27, version: "20260917090000", path: "supabase/migrations/20260917090000_consumer_promotion_codes.sql", sha256: "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369", signature: { kind: "column", table: "consumer_briefcase_items", name: "regular_price_cents" } })
 ]);
 
 // Objects the deployed application writes through, created by the loose phase
