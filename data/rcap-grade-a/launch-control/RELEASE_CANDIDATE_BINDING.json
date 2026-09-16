@@ -1,74 +1,70 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
   "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE_AND_PRODUCTION_RELEASE",
-  "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
-  "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
-  "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-  "workerInputFingerprint": "sha256:de034e8b43a3673e8b4de8f1049f7d7d4d3b5c1b585323f327c99b867ccf727e",
+  "applicationSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
+  "workerSourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
+  "workerDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
+  "workerInputFingerprint": "sha256:c4771cb5265b4fe9c4f67795972506123f5bd81dedc6e2335801148841d54691",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "publication": {
-    "runId": 35044054712,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35044054712",
+    "runId": 35054865971,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35054865971",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 35044827927,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35044827927",
+    "runId": 35055139765,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35055139765",
     "conclusion": "success"
   },
   "regressions": {
-    "sourceSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
-    "note": "The application source of cc4d8275 equals 2cc6f321 on every src/ path (later commits changed only data records and deploy/rcap-render-worker/runtime-data-manifest.json); the checks below ran on that source in this session.",
-    "command": "node scripts/verify-expungement-consumer-payment-http.mjs",
-    "msPaidConsumer": "37/37 with the rcap_document_packets double declaring safety_disclaimer text not null (30/37 before the 2cc6f321 repair)",
-    "sponsoredDelivery": "node scripts/test-rcap-sponsored-delivery-binding.mjs 27/27 (double declaring safety_disclaimer not null)",
-    "successorBinding": "node scripts/test-ms-paid-consumer-successor.mjs 34/34 at cc4d8275",
-    "msPacketProof": "node scripts/verify-ms-paid-packet-proof.mjs --write: both fixtures byte-identical, Postgres round trip PASS, 18 negative binding controls",
-    "fulfillmentAuthority": "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs 78 checks; 6 commercially eligible; 0 stale",
-    "typecheck": "tsc --noEmit clean at 2cc6f321",
+    "sourceSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
+    "note": "da432bd1 = cc4d8275 + the four restored 2026-09-15 Colorado commits (source reclassification, caption-only overlay families, packet-set readmission of both adult routes, state-pack record) + regenerated derived inputs + the production worker execution-target files. The application src delta from cc4d8275 is src/lib/rcap/state-packs/colorado/{captain-patch-requests,lane-g-route-dispositions}.ts only; the checks below ran on this tree in this session.",
+    "colorado": "node scripts/verify-rcap-colorado-juvenile-packet-boundary.mjs PASS 56/56 (FAIL 4/56 at cc4d8275: JDF 417 and JDF 612 boundaries resolved guidance_only); no assertion changed",
+    "msPacketProof": "node scripts/verify-ms-paid-packet-proof.mjs --write: re-pinned to the current packet-set manifests; Postgres round trip PASS, 18 negative binding controls",
+    "fulfillmentAuthority": "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs 78 checks; 6 commercially eligible; 0 stale after binding sha256:477afe68",
+    "generators": "factory_v2 registry, launch graph, renderer-gap decomposition, official source registry, route-kind adjudications, packet-family build status, sellable-pathway closure, problematic-PDF register, review manifests, commercial packet integrity and the staging action all read current",
+    "typecheck": "tsc --noEmit clean at 5c99224d (same src as da432bd1)",
+    "testChain": "the package test chain run script-by-script at head and at c5f0cb7e (pre-restoration) differs only where the head tree carries the inherited untracked artifacts (verify-tracked-mutation-safety) and where a ledger the restoration made stale was regenerated; every other failure is present at both",
     "syntheticPublicationFixture": false,
-    "publishedWorkerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-    "publicationRunId": 35044054712,
-    "imageAcceptanceRunId": 35044827927,
+    "publishedWorkerDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
+    "publicationRunId": 35054865971,
+    "imageAcceptanceRunId": 35055139765,
     "scope": "Real published authority binding; isolated local PostgreSQL and provider signatures. No hosted database writes."
   },
   "applicationBuild": {
-    "sourceSha": "34dc5b9e80cd971db0b6c18a643c8cfe223978b3",
-    "note": "Local `next build` of the working tree at 34dc5b9e (src identical to cc4d8275) succeeded in this session and served the fresh-session Mississippi screening walk; the hosted Preview build of cc4d8275 is the deployable build.",
-    "command": "npx next build",
-    "exitCode": 0
+    "sourceSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
+    "note": "The hosted Preview build of da432bd1 (hosted_replace_preview) is the deployable build; no local next build was made for this tree.",
+    "command": "hosted_replace_preview",
+    "exitCode": null
   },
   "screeningVerification": {
-    "method": "Playwright Chromium, fresh browser context, no injected answers, local `next start` of the candidate source",
+    "method": "Playwright Chromium, fresh browser context, no injected answers, local `next start` of the candidate source (34dc5b9e, src identical to cc4d8275 outside the Colorado state pack)",
     "journey": "Mississippi → own record → state or local → case dropped or thrown out → misdemeanor → non-conviction expungement for dismissal, no disposition, or acquittal → court-ordered completion (optional) → resolved 1-2 years ago",
     "observed": "7 questions; no DUI-sentence or underage-alcohol prompt; result 'A path may be available' naming the Mississippi non-conviction expungement path with Save-to-Briefcase before any payment",
+    "carriedForward": "the Colorado restoration touches no screening, evaluator or Mississippi module; the public-domain repeat after activation re-proves it on the served deployment",
     "evidence": "private/transfers/cloud-recovery-20260915/deploy/step-00.png … step-07.png"
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
-    "sha256": "cc169ae65acbb36991ce700e00ad48aee48cb2a983e003dc481eca73e44879da"
+    "sha256": "5a848639300d4caaba3a744ab49bb01a98ec9bcd5ae9d4bb937152f8bf6b9d98"
   },
   "workerInputPlan": {
-    "path": "private/transfers/cloud-recovery-20260915/deploy/frozen-application-worker-input-plan-cc4d8275.json",
-    "sha256": "cd88080a8e7f9e489d967747a884214e49d440a72f3185db561dd39cb0f7e1a2"
+    "path": "private/transfers/cloud-recovery-20260915/deploy/frozen-application-worker-input-plan-da432bd1.json",
+    "sha256": "36d4989a50fb1253a933fa477c1f342c40204e8fefe1791e40ed71318fb9f170"
   },
   "supersedes": {
-    "applicationSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
-    "workerSourceSha": "b64701c16ab2a6c78d0d187143882407111c0778",
-    "workerDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
-    "why": "Hosted acceptance of 300a0edb on Preview dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr failed at the paid render (Postgres 23502: the personalized packet row carried no safety_disclaimer). The repair 2cc6f321 changes src; the MS packet proof re-verified against it changes the worker's copied runtime data (c177eef1); so the successor worker sha256:57bb99a8 was published (run 35044054712) and accepted read-only (run 35044827927), and cc4d8275 records that acceptance.",
-    "hostedAcceptanceOfSupersededCandidate": {
-      "preview": "dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr (legalease-rcap-300a0edbf0a7-roger947s-projects.vercel.app)",
-      "lastRunId": 35039368758,
-      "result": "matrix 14/14, galleries 8/8, ten payment cases through the server-authoritative paid state; signed webhook 500 and paid render 502 from the application defect repaired in 2cc6f321; render, delivery and browser phases did not run"
-    }
+    "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
+    "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
+    "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+    "why": "cc4d8275 lacked the 2026-09-15 Colorado readmission of the two participant-filed adult sealing routes, so the Colorado boundary verifier (which gates the hosted browser phase and the production smoke) failed 4/56. Integrating the existing restoration changes worker COPY inputs, so the successor worker sha256:477afe68 was published (run 35054865971) and accepted read-only; the hosted acceptance evidence of cc4d8275 (run 35049267105, 18/18) is for other bytes and is re-proved on this candidate.",
+    "hostedAcceptanceOfSupersededCandidate": null
   },
   "participantReceiptPaths": [],
   "independentReviewerIdentities": [],
   "hostedAcceptanceStatus": "NOT_RUN_ON_THIS_CANDIDATE",
   "productionAuthorized": true,
-  "productionAuthorization": "Roger Roman, 2026-09-16: PRODUCTION RELEASE AUTHORIZATION (chat) and issue #160 comment 5690402065 — release the intended Grade A application to expungement.ai through the existing production release process with rollback; production configuration and database; no destructive migrations, no new purchases, no real test charges.",
+  "productionAuthorization": "Roger Roman, 2026-09-16: PRODUCTION RELEASE AUTHORIZATION (chat), issue #160 comment 5690402065, and the 'close all three release blockers' / 'execute through verified Grade A production go-live' instructions — release the intended Grade A application to expungement.ai through the existing production release process with rollback; production configuration and database; no destructive migrations, no new purchases, no real test charges.",
   "scope": "Exact candidate freeze with published-worker and image-acceptance evidence. Hosted Preview acceptance and the production preflight/smoke/activate phases record their own evidence; this record authorizes no runtime-pin change, hosted database write or migration by itself."
 }
