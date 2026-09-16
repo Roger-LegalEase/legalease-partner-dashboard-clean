@@ -113,6 +113,69 @@ async function applyPromotionCode(page, code, notes) {
   return { entered: true, accepted: !rejected };
 }
 
+/** A plausible value for a field this harness did not anticipate. */
+function valueForField({ name, autocomplete, placeholder, type }) {
+  const hay = `${name} ${autocomplete} ${placeholder}`.toLowerCase();
+  if (/email/.test(hay) || type === "email") return "acceptance-consumer-a@rcap-acceptance.test";
+  if (/postal|zip/.test(hay)) return STRIPE_TEST_CARD.postal;
+  if (/address.*2|line2/.test(hay)) return "";
+  if (/address|line1|street/.test(hay)) return "1 Acceptance Street";
+  if (/city|locality/.test(hay)) return "Jackson";
+  if (/state|province|region/.test(hay)) return "MS";
+  if (/phone|tel/.test(hay) || type === "tel") return "6015550142";
+  if (/name/.test(hay)) return "Acceptance Test Participant";
+  return "Acceptance";
+}
+
+/**
+ * Fills every visible, empty, required field Stripe still wants, and returns
+ * the ones it could not. Which fields exist depends on the account's Checkout
+ * configuration, so they are read off the page instead of hard-coded — three
+ * unnamed "Required" markers is what made run 35161962654 unactionable.
+ */
+async function fillRemainingRequired(page, notes) {
+  const unfilled = [];
+  for (const scope of frameScopes(page)) {
+    const controls = await scope.locator("input:not([type=hidden]):not([type=checkbox]):not([type=radio]), select")
+      .all().catch(() => []);
+    for (const control of controls) {
+      if (!(await control.isVisible().catch(() => false))) continue;
+      if (await control.isDisabled().catch(() => false)) continue;
+      const current = await control.inputValue().catch(() => "x");
+      if (current && current.trim()) continue;
+
+      const describe = await control.evaluate((el) => ({
+        tag: el.tagName.toLowerCase(),
+        name: el.getAttribute("name") ?? "",
+        autocomplete: el.getAttribute("autocomplete") ?? "",
+        placeholder: el.getAttribute("placeholder") ?? "",
+        type: el.getAttribute("type") ?? "",
+        required: el.hasAttribute("required") || el.getAttribute("aria-required") === "true"
+      })).catch(() => null);
+      if (!describe) continue;
+      const label = describe.name || describe.autocomplete || describe.placeholder || describe.tag;
+
+      try {
+        if (describe.tag === "select") {
+          // Country and similar. Prefer the United States where it is offered.
+          const options = await control.locator("option").allTextContents();
+          const us = options.findIndex((text) => /united states/i.test(text));
+          await control.selectOption({ index: us >= 0 ? us : 1 });
+          notes.push(`${label}: selected ${us >= 0 ? "United States" : "first option"}`);
+        } else {
+          const value = valueForField(describe);
+          if (!value) continue;
+          await control.fill(value);
+          notes.push(`${label}: filled`);
+        }
+      } catch {
+        unfilled.push(label);
+      }
+    }
+  }
+  return unfilled;
+}
+
 /**
  * Drives one Checkout Session to completion.
  *
@@ -188,10 +251,17 @@ export async function completeHostedCheckout({
       await fillAcrossFrames(page, [
         'input[name="billingPostalCode"]', 'input[autocomplete="postal-code"]'
       ], card.postal, "postal code", notes);
-      const name = await firstVisible(page, ['input[name="billingName"]', 'input[autocomplete="cc-name"]'], 3000);
-      if (name) await name.fill("Acceptance Test Participant").catch(() => {});
       await shoot("card-entered");
     }
+
+    // Whatever else this account's Checkout asks for. Which fields are required
+    // is a Stripe dashboard setting — cardholder name, country, a full billing
+    // address — so they are discovered from the page rather than guessed one
+    // per run. Anything left empty is named in the notes, which is what turns a
+    // silent "Required" into something actionable.
+    const remaining = await fillRemainingRequired(page, notes);
+    if (remaining.length) notes.push(`could not fill: ${remaining.join(", ")}`);
+    await shoot("form-complete");
 
     const submit = await firstVisible(page, [
       'button[data-testid="hosted-payment-submit-button"]',
@@ -231,7 +301,25 @@ export async function completeHostedCheckout({
         '[role="alert"], .Error, [class*="error" i], [data-testid*="error" i], p:has-text("required")'
       ).allInnerTexts().catch(() => []);
       const visible = complaints.map((text) => text.trim()).filter(Boolean).slice(0, 6);
-      notes.push(`still on Stripe's page after 90s; page says: ${visible.length ? visible.join(" | ") : "(no error text found)"}`);
+      // "Required" three times says nothing about which fields. Name the empty
+      // ones so the next attempt is informed rather than another guess.
+      const stillEmpty = [];
+      for (const scope of frameScopes(page)) {
+        const controls = await scope.locator("input:not([type=hidden]):not([type=checkbox]):not([type=radio]), select").all().catch(() => []);
+        for (const control of controls) {
+          if (!(await control.isVisible().catch(() => false))) continue;
+          const value = await control.inputValue().catch(() => "x");
+          if (value && value.trim()) continue;
+          const label = await control.evaluate((el) =>
+            el.getAttribute("name") || el.getAttribute("autocomplete") || el.getAttribute("placeholder") || el.getAttribute("aria-label") || el.tagName.toLowerCase()
+          ).catch(() => "(unnamed)");
+          stillEmpty.push(label);
+        }
+      }
+      notes.push(
+        `still on Stripe's page after 90s; page says: ${visible.length ? visible.join(" | ") : "(no error text found)"}; `
+        + `still empty: ${stillEmpty.length ? stillEmpty.join(", ") : "(nothing)"}`
+      );
     }
     await shoot(leftStripe ? "returned" : "stuck");
 
