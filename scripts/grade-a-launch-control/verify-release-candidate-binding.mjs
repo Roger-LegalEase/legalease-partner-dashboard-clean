@@ -93,7 +93,9 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-hosted-legal-aid-browser.mjs',
         'scripts/rcap-production-legal-aid-migrate.mjs',
         'scripts/verify-rcap-production-legal-aid-migrate.mjs',
-        'scripts/test-rcap-production-legal-aid-migrate-mutations.mjs'
+        'scripts/test-rcap-production-legal-aid-migrate-mutations.mjs',
+        'scripts/rcap-production-legal-aid-keys.mjs',
+        'scripts/verify-rcap-production-legal-aid-keys.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');

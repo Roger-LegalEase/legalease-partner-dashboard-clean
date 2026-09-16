@@ -9,6 +9,7 @@ check(script.includes("env?decrypt=false"), "listing never requests decrypted va
 check(script.includes("secretValuesIncluded: false"), "evidence fixes secret values to excluded");
 check(script.includes("upsert=false"), "creation refuses to upsert");
 check(script.includes("existing_key_is_never_overwritten"), "existing key is retained");
+check(script.includes("existing_pseudonym_secret_is_never_overwritten") && script.includes("pseudonym_secret_retained_if_it_existed"), "existing participant pseudonym secret is retained, never rotated");
 check(script.includes('type: "sensitive"'), "the key is stored as a sensitive (write-only) variable");
 check(script.includes('target: ["production"]'), "the key targets Production only");
 check(!/console\.log\([^)]*value/.test(script) && !script.includes("randomBytes(32).toString(\"base64\") ;"), "no log line carries a value");

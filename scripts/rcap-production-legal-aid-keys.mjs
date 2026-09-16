@@ -24,6 +24,12 @@ const EVIDENCE_DIR = path.resolve(process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "p
 const EVIDENCE_FILE = path.join(EVIDENCE_DIR, `production-legal-aid-keys-${PHASE || "unknown"}.json`);
 const KEY_NAME = "LEGAL_AID_RESTRICTED_FIELD_KEY";
 const VERSION_NAME = "LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION";
+// Legal Aid registrations and intakes key the participant by an HMAC
+// pseudonym (src/lib/expungement-ai/privacy/pseudonym.ts), which throws in
+// production without this secret. Production has never carried it (keys read
+// run 35114542930), so it is created once here, sensitive, Production only,
+// and never overwritten: every pseudonym written afterwards depends on it.
+const PSEUDONYM_NAME = "PARTICIPANT_PRIVACY_PSEUDONYM_SECRET";
 const OBSERVED_NAMES = [
   KEY_NAME, VERSION_NAME, "PARTICIPANT_PRIVACY_PSEUDONYM_SECRET", "RESEND_API_KEY", "PARTNER_EMAIL_FROM", "ENABLE_PARTNER_EMAIL_DELIVERY",
   "PARTNER_EMAIL_PROVIDER", "NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "ENABLE_SUPABASE_PARTNER_DATA"
@@ -98,11 +104,14 @@ try {
   } else {
     const existingKey = present(KEY_NAME);
     const existingVersion = present(VERSION_NAME);
+    const existingPseudonym = present(PSEUDONYM_NAME);
+    record("existing_pseudonym_secret_is_never_overwritten", true, existingPseudonym.length ? `${PSEUDONYM_NAME} already exists for Production (id ${existingPseudonym[0].id}); it is retained` : `${PSEUDONYM_NAME} absent for Production; it will be created`);
     record("existing_key_is_never_overwritten", true, existingKey.length ? `${KEY_NAME} already exists for Production (id ${existingKey[0].id}); it is retained` : `${KEY_NAME} absent for Production; it will be created`);
     if (existingKey.length === 0 || existingVersion.length === 0) {
       const body = [];
       if (existingKey.length === 0) body.push({ key: KEY_NAME, value: crypto.randomBytes(32).toString("base64"), type: "sensitive", target: ["production"] });
       if (existingVersion.length === 0) body.push({ key: VERSION_NAME, value: "v1", type: "plain", target: ["production"] });
+      if (existingPseudonym.length === 0) body.push({ key: PSEUDONYM_NAME, value: crypto.randomBytes(32).toString("base64url"), type: "sensitive", target: ["production"] });
       const created = await vercel("POST", `/v10/projects/${encodeURIComponent(identity.projectId)}/env?upsert=false`, identity, body);
       const createdEnvs = Array.isArray(created.json?.created) ? created.json.created : [];
       record("production_keys_created_once", created.status === 200 || created.status === 201, `HTTP ${created.status}; created ${createdEnvs.map((entry) => entry.key).join(", ") || "(none reported)"}; failed ${(created.json?.failed ?? []).length}`);
@@ -115,6 +124,9 @@ try {
     const versionNow = afterSummary.filter((entry) => entry.key === VERSION_NAME && (entry.target ?? []).includes("production"));
     record("production_key_present_exactly_once", keyNow.length === 1 && keyNow[0].type === "sensitive", `${KEY_NAME}: ${keyNow.length} Production entries, type ${keyNow[0]?.type ?? "none"}`);
     record("production_key_version_present", versionNow.length === 1, `${VERSION_NAME}: ${versionNow.length} Production entries`);
+    const pseudonymNow = afterSummary.filter((entry) => entry.key === PSEUDONYM_NAME && (entry.target ?? []).includes("production"));
+    record("production_pseudonym_secret_present_exactly_once", pseudonymNow.length === 1 && pseudonymNow[0].type === "sensitive", `${PSEUDONYM_NAME}: ${pseudonymNow.length} Production entries, type ${pseudonymNow[0]?.type ?? "none"}`);
+    record("pseudonym_secret_retained_if_it_existed", existingPseudonym.length === 0 || pseudonymNow[0].id === existingPseudonym[0].id, existingPseudonym.length ? "same variable id as before" : "newly created");
     record("key_retained_if_it_existed", existingKey.length === 0 || keyNow[0].id === existingKey[0].id, existingKey.length ? "same variable id as before" : "newly created");
     persist(true);
     console.log("PRODUCTION LEGAL AID KEYS READY — the next Production build carries them; no deployment was created");
