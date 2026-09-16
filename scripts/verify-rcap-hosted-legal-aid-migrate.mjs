@@ -20,8 +20,8 @@ check(workflow.includes("node scripts/test-rcap-hosted-legal-aid-migrate-mutatio
 check(workflow.includes("node scripts/rcap-hosted-legal-aid-migrate.mjs"), "workflow invokes the dedicated Legal Aid control");
 check(/inputs\.phase == 'migrate' \|\| inputs\.phase == 'clinic_migrate' \|\| inputs\.phase == 'legal_aid_migrate'/.test(workflow), "Supabase-only preflight proves the acceptance project before the Legal Aid apply");
 check(/worker_contract\|legal_aid_migrate\) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false/.test(workflow), "Legal Aid phase never deploys, retargets, or runs the matrix");
-check(contract.includes('sha256: "0f179d5835c7bfdba4da0ea320122e0d846b8dea1693e18ee1d94304244786ac"'), "Legal Aid migration hash is exact");
-check(contract.includes('sourceSha: "7dc8df2341c99c44d7646578505eed170daa5c8d"'), "Legal Aid migration source commit is exact");
+check(contract.includes('sha256: "91c9b887324ce36d0515357fef2b9ce19cef271c99c157e8004533c73015cce8"'), "Legal Aid migration hash is exact");
+check(contract.includes('sourceSha: "f5c4f40022e422033985302995511da7157f474d"'), "Legal Aid migration source commit is exact");
 check(contract.includes('path: "supabase/migrations/20260916120000_legal_aid_clinic_mode.sql"'), "Legal Aid migration path is exact");
 check(contract.includes('ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"'), "acceptance project ref is exact");
 check(script.includes("frozenMigrationSql("), "migration bytes come from the frozen commit through git show");
@@ -36,7 +36,7 @@ check(script.includes("private_bucket_and_grants_read_back_tight"), "private buc
 check(script.includes("independent_readiness_hash_and_project_exact"), "independent readiness record must agree");
 check(readiness?.legalAidClinicModeMigrationAuthorization?.status === "authorized_nonproduction_acceptance_only", "readiness carries the bounded nonproduction Legal Aid authorization");
 check(readiness?.legalAidClinicModeMigrationAuthorization?.productionAuthorized === false, "readiness does not authorize Production through the acceptance path");
-check(readiness?.legalAidClinicModeMigrationAuthorization?.migration?.sha256 === "0f179d5835c7bfdba4da0ea320122e0d846b8dea1693e18ee1d94304244786ac", "readiness pins the same hash");
+check(readiness?.legalAidClinicModeMigrationAuthorization?.migration?.sha256 === "91c9b887324ce36d0515357fef2b9ce19cef271c99c157e8004533c73015cce8", "readiness pins the same hash");
 check(script.includes("database/query"), "DDL and readback use the exact Supabase project endpoint");
 check(!/VERCEL|STRIPE|--prod|wwtwtsmywnckfkdaqqeg/i.test(script), "acceptance control reaches no deployment, Stripe, or Production surface");
 check(!/delete\s+from|truncate\s|drop\s+(?:table|schema|database|column)/i.test(script + contract), "control contains no destructive SQL");

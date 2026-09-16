@@ -20,8 +20,8 @@ check(workflow.includes("node scripts/test-rcap-production-legal-aid-migrate-mut
 check(workflow.includes("node scripts/rcap-production-legal-aid-migrate.mjs"), "workflow invokes the dedicated Legal Aid control");
 check(workflow.includes('RCAP_PRODUCTION_PHASE: "legal_aid_readback"') && workflow.includes('RCAP_PRODUCTION_PHASE: "legal_aid_migrate"'), "workflow fixes each phase name");
 check(contract.includes('PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "Production project ref is exact");
-check(script.includes('const APPLICATION_SHA = "7dc8df2341c99c44d7646578505eed170daa5c8d"'), "application SHA is exact");
-check(contract.includes('sha256: "0f179d5835c7bfdba4da0ea320122e0d846b8dea1693e18ee1d94304244786ac"'), "Legal Aid migration hash is exact");
+check(script.includes('const APPLICATION_SHA = "f5c4f40022e422033985302995511da7157f474d"'), "application SHA is exact");
+check(contract.includes('sha256: "91c9b887324ce36d0515357fef2b9ce19cef271c99c157e8004533c73015cce8"'), "Legal Aid migration hash is exact");
 check(script.includes("frozenMigrationSql("), "migration bytes come from the frozen application commit");
 check(script.includes("clinic_mode_prerequisites_read_back_exact"), "Clinic Mode prerequisites are read before mutation");
 check(script.includes("legal_aid_schema_initial_state_is_empty_or_complete"), "partial pre-existing Legal Aid schema is refused");
@@ -39,7 +39,7 @@ check(script.includes("realParticipantRecordsCreated: false"), "evidence fixes r
 check(script.includes("realChargesCreated: false"), "evidence fixes real charges to false");
 check(authorization?.productionProjectRef === "wwtwtsmywnckfkdaqqeg", "authorization record names the canonical Production project");
 check(authorization?.dropAuthorized === false, "authorization record forbids dropping Legal Aid structure");
-check(authorization?.migration?.sha256 === "0f179d5835c7bfdba4da0ea320122e0d846b8dea1693e18ee1d94304244786ac", "authorization record pins the same hash");
+check(authorization?.migration?.sha256 === "91c9b887324ce36d0515357fef2b9ce19cef271c99c157e8004533c73015cce8", "authorization record pins the same hash");
 
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);

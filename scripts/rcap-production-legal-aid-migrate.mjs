@@ -15,7 +15,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { LEGAL_AID_MIGRATION, LEGAL_AID_TABLES, LEGAL_AID_FUNCTIONS, PRODUCTION_PROJECT_REF, frozenMigrationSql, readbackQuery, summarizeReadback } from "./rcap-legal-aid/contract.mjs";
 
-const APPLICATION_SHA = "7dc8df2341c99c44d7646578505eed170daa5c8d";
+const APPLICATION_SHA = "f5c4f40022e422033985302995511da7157f474d";
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const AUTHORIZATION_PATH = "data/rcap-production-legal-aid-migration-authorization.json";
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
