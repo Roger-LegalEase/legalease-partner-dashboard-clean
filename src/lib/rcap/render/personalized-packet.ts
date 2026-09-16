@@ -8,6 +8,7 @@ import { getBriefcaseItemForWebhook } from "@/lib/expungement-ai/briefcase";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import { packetFulfillmentAuthority } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import { CONSUMER_PACKET_SAFETY_DISCLAIMER } from "@/lib/expungement-ai/consumer-packet-safety";
 import { composeParticipantDeliveryPacket } from "@/lib/rcap/grade-a/participant-packet";
 import { composablePacketSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { renderGradeAPacketPdf, GRADE_A_RENDERER_KIND, GRADE_A_RENDERER_VERSION } from "@/lib/rcap/grade-a/renderer";
@@ -83,9 +84,12 @@ function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding: {pack
   return {
     packet, spec: built.spec,
     payload: {
+      // The enqueue transactions insert this row as-is; every not-null column
+      // without a database default must be present (safety_disclaimer has none).
       renderPacket: { id: packetId, user_id: input.authUserId, briefcase_id: input.briefcaseItemId,
         person_id: input.personId, state: snapshot.jurisdiction, jurisdiction: snapshot.jurisdiction,
-        document_type: "source_driven_packet", pathway: "source_engine_packet_plan", status: "ready_for_review" },
+        document_type: "source_driven_packet", pathway: "source_engine_packet_plan", status: "ready_for_review",
+        safety_disclaimer: CONSUMER_PACKET_SAFETY_DISCLAIMER },
       renderInputPayload: { ...payload, inputHash: built.spec.inputHash }
     }
   };

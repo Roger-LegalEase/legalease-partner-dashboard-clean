@@ -11,6 +11,7 @@ import {
   CONSUMER_PACKET_PRODUCT_ID,
   consumerPacketPaymentAuthority
 } from "@/lib/expungement-ai/consumer-payment-authority";
+import { CONSUMER_PACKET_SAFETY_DISCLAIMER } from "@/lib/expungement-ai/consumer-packet-safety";
 import { getBriefcaseItem, getBriefcaseItemForWebhook } from "@/lib/expungement-ai/briefcase";
 import {
   protectedPacketInformationModelFor,
@@ -61,7 +62,6 @@ export type ConsumerRenderOutcome =
 
 const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1";
 const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan";
-const CONSUMER_PACKET_SAFETY_DISCLAIMER = "This personalized self-help packet is not legal advice and does not guarantee court approval. Review every answer and confirm current local filing requirements before filing.";
 
 function deterministicUuid(seed: string): string {
   const h = createHash("sha256").update(seed).digest("hex");

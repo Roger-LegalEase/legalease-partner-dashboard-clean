@@ -138,7 +138,7 @@ function baseline() {
       offense_date text, arrest_date text, arresting_agency text, agency_case_number text,
       disposition_date text, conviction_date text, sentence_completion_date text, needs_record_review boolean,
       generated_plain_text text, filing_instructions text[], county_court_instructions text[],
-      missing_fields text[], safety_disclaimer text);
+      missing_fields text[], safety_disclaimer text not null);
     create table rcap_document_packet_inputs(document_packet_id uuid primary key, partner_slug text, input_payload jsonb);
   `;
 }
@@ -228,7 +228,9 @@ function renderPayload(p, routeKey) {
   const packet = {
     id: packetId, user_id: p.userId, briefcase_id: p.itemId, person_id: p.personId,
     state: p.snapshot.jurisdiction, jurisdiction: p.snapshot.jurisdiction,
-    document_type: "source_driven_packet", pathway: "source_engine_packet_plan", status: "ready_for_review"
+    document_type: "source_driven_packet", pathway: "source_engine_packet_plan", status: "ready_for_review",
+    // Mirrors the application's row: the canonical column is not null.
+    safety_disclaimer: "This personalized self-help packet is not legal advice and does not guarantee court approval. Review every answer and confirm current local filing requirements before filing."
   };
   return { packetId, inputHash, payload, packet, routeKey };
 }
@@ -400,7 +402,7 @@ try {
 
     // The Lane D product-path fixture's shape: a partner job for the route queued
     // through the plain partner queue, with a current protected verification.
-    const ndPacket = db.scalar("with p as (insert into rcap_document_packets default values returning id) select id from p");
+    const ndPacket = db.scalar("with p as (insert into rcap_document_packets (safety_disclaimer) values ('fixture packet: not legal advice') returning id) select id from p");
     const ndJob = db.scalar(`select id from enqueue_packet_render_job(${q(ndPacket)},${q(ND_ROUTE)},'packet_document_v1','1.0.0',null,'ND',
       '2026-06-19-source-conversion-1',${q(sha("nd-input"))},${q(nd.itemId)},${q(partnerId)},${q(nd.personId)},${q(nd.matterId)},5,null,null)`);
     const ndCycle = await runWorkerCycle(deps);

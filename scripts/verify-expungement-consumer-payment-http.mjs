@@ -157,7 +157,7 @@ function boot() {
     sentence_completion_date text, needs_record_review boolean not null default true,
     generated_plain_text text, filing_instructions text[] not null default '{}',
     county_court_instructions text[] not null default '{}',
-    missing_fields text[] not null default '{}', safety_disclaimer text
+    missing_fields text[] not null default '{}', safety_disclaimer text not null
   )`);
   db.sql(`create table public.rcap_document_packet_inputs (
     id uuid primary key default gen_random_uuid(),
@@ -840,7 +840,7 @@ await runCaseGroup(["P9","P12","P10","P13"], async () => {
 
   const otherMatter = fixtureUuid("p13-other-matter");
   const packet = pickUuid(db.sql(
-    `insert into public.rcap_document_packets (partner_slug, pathway, state) values ('expungement-ai-consumer','${MS_PATHWAY}','MS') returning id`
+    `insert into public.rcap_document_packets (partner_slug, pathway, state, safety_disclaimer) values ('expungement-ai-consumer','${MS_PATHWAY}','MS','fixture packet: not legal advice') returning id`
   ));
   const person = afterFirst[0].person_id;
   const hash = createHash("sha256").update("p13").digest("hex");
@@ -865,7 +865,7 @@ await runCaseGroup(["P14"], async () => {
     `insert into public.rcap_persons (partner_slug, match_key) values ('we-must-vote','sponsored-p14') returning id`
   ));
   const packet = pickUuid(db.sql(
-    `insert into public.rcap_document_packets (partner_slug, pathway, state) values ('we-must-vote','${MS_PATHWAY}','MS') returning id`
+    `insert into public.rcap_document_packets (partner_slug, pathway, state, safety_disclaimer) values ('we-must-vote','${MS_PATHWAY}','MS','fixture packet: not legal advice') returning id`
   ));
   const hash = createHash("sha256").update("p14").digest("hex");
   const jobId = pickUuid(db
