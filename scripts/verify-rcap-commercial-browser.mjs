@@ -168,25 +168,36 @@ try {
   await answerChoice(page, "How did the case end?", "The case was dropped or thrown out");
   await answerChoice(page, "What kind of charge was it?", "Misdemeanor");
   await answerChoice(page, "Do any of these sound like your situation?", "Non-conviction expungement for dismissal, no disposition, or acquittal");
-  // The engine orders the last two Mississippi questions itself (the Grade A
-  // release observed court-ordered completion before the timing question;
-  // run 35115205679 timed out waiting for the timing question first). Answer
-  // whichever is shown; the final answer is the one that triggers evaluation.
+  // The engine orders the last two Mississippi questions itself and may
+  // evaluate before both have been shown (run 35115205679 timed out waiting
+  // for the timing question first; run 35115970406 hung because a swallowed
+  // timeout never resolved once the result appeared). Answer whichever is
+  // shown, stop as soon as the result heading is visible, and fail loudly
+  // with the visible headings if neither appears within the budget.
+  const resultHeading = page.getByRole("heading", { name: /A path may be available|You may be able to prepare an expungement packet/i });
+  const evaluationStatuses = [];
+  page.on("response", (response) => {
+    if (response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/evaluate") {
+      evaluationStatuses.push(response.status());
+    }
+  });
   const remainingMississippi = new Map([
     ["About how long ago did this case end or get resolved?", "More than 10 years ago"],
     ["Have you completed everything the court ordered in this case?", "Yes"]
   ]);
+  const answeredMississippi = [];
   while (remainingMississippi.size > 0) {
-    const prompts = [...remainingMississippi.keys()];
-    const shown = await Promise.race(prompts.map((prompt) =>
-      page.getByRole("heading", { name: prompt, exact: true }).waitFor({ state: "visible" }).then(() => prompt).catch(() => new Promise(() => {}))
-    ));
+    const shown = await visibleScreeningPrompt(page, [...remainingMississippi.keys()], resultHeading);
+    if (shown === null) break;
     const option = remainingMississippi.get(shown);
     remainingMississippi.delete(shown);
-    await answerChoice(page, shown, option, remainingMississippi.size === 0);
+    answeredMississippi.push(shown);
+    await answerChoice(page, shown, option);
   }
+  result.mississippiFollowUpOrder = answeredMississippi;
 
   await page.getByRole("heading", { name: /A path may be available|You may be able to prepare an expungement packet/i }).waitFor({ state: "visible" });
+  check(evaluationStatuses.length > 0 && evaluationStatuses[evaluationStatuses.length - 1] < 400, `Authoritative screening evaluation statuses were ${JSON.stringify(evaluationStatuses)}; the last must succeed before the result renders.`);
   await expectText(page, "Your packet is covered by your partner program.");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner result");
   await screenshotPair(page, "01-partner-covered-result");
@@ -438,6 +449,23 @@ try {
   process.exitCode = 1;
 } finally {
   await browser?.close();
+}
+
+// Polls for whichever remaining screening prompt is visible, or the result
+// heading (null) when the engine has already evaluated. Bounded: a step that
+// neither shows a question nor a result fails with the visible headings
+// instead of hanging until the job timeout.
+async function visibleScreeningPrompt(page, prompts, resultHeading, budgetMs = 45_000) {
+  const deadline = Date.now() + budgetMs;
+  while (Date.now() < deadline) {
+    if (await resultHeading.isVisible().catch(() => false)) return null;
+    for (const prompt of prompts) {
+      if (await page.getByRole("heading", { name: prompt, exact: true }).isVisible().catch(() => false)) return prompt;
+    }
+    await page.waitForTimeout(500);
+  }
+  const visible = await page.locator("h1, h2, legend").allInnerTexts().catch(() => []);
+  throw new Error(`Neither a remaining screening question (${prompts.join(" | ")}) nor the result appeared within ${budgetMs}ms; visible headings: ${JSON.stringify(visible)}`);
 }
 
 async function answerChoice(page, prompt, option, final = false) {
