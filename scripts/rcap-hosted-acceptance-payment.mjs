@@ -177,11 +177,32 @@ async function vercelApi(pathname) {
  */
 async function runtimeLogExcerpt(sinceMs, needles) {
   try {
-    const res = await fetch(hostedVercelScopedUrl(
-      `/v1/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}/runtime-logs`,
-      VERCEL_IDENTITY
-    ), { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }, signal: AbortSignal.timeout(20000) });
-    const text = await res.text();
+    // The endpoint streams NDJSON and never closes on its own; read what has
+    // arrived within a deadline, then abort the stream and parse that.
+    const controller = new AbortController();
+    const deadline = setTimeout(() => controller.abort(), 15000);
+    let res;
+    try {
+      res = await fetch(hostedVercelScopedUrl(
+        `/v1/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}/runtime-logs`,
+        VERCEL_IDENTITY
+      ), { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }, signal: controller.signal });
+    } catch (error) {
+      clearTimeout(deadline);
+      return `runtime-logs unavailable: ${redactSecrets(String(error?.message ?? error)).slice(0, 160)}`;
+    }
+    let text = "";
+    try {
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      while (reader) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        text += decoder.decode(value, { stream: true });
+        if (text.length > 2_000_000) break;
+      }
+    } catch { /* aborted at the deadline: keep what arrived */ }
+    clearTimeout(deadline);
     if (res.status !== 200) return `runtime-logs HTTP ${res.status}: ${redactSecrets(text).slice(0, 160)}`;
     const lines = text.split("\n").map((line) => { try { return JSON.parse(line); } catch { return null; } }).filter(Boolean);
     const hits = lines.filter((entry) => {
@@ -192,6 +213,76 @@ async function runtimeLogExcerpt(sinceMs, needles) {
     return hits.length ? hits.join(" || ") : `runtime-logs returned ${lines.length} entries, none matching ${needles.join("/")} since ${new Date(sinceMs).toISOString()}`;
   } catch (error) {
     return `runtime-logs unavailable: ${redactSecrets(String(error?.message ?? error)).slice(0, 160)}`;
+  }
+}
+
+/**
+ * The acceptance project's own Postgres error log, read through the Management
+ * API analytics endpoint. An RPC that raises inside PL/pgSQL leaves its message
+ * here and nowhere the application's response can carry it.
+ */
+async function postgresErrorLogExcerpt(sinceIso) {
+  try {
+    const query = `select timestamp, event_message from postgres_logs where timestamp > '${sinceIso}' and (event_message like '%ERROR%' or event_message like '%enqueue_verified%' or event_message like '%consumer render%') order by timestamp desc limit 8`;
+    const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/analytics/endpoints/logs.all?sql=${encodeURIComponent(query)}`, {
+      headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}` }, signal: AbortSignal.timeout(20000)
+    });
+    const text = await res.text();
+    if (res.status !== 200) return `postgres-logs HTTP ${res.status}: ${redactSecrets(text).slice(0, 200)}`;
+    let json; try { json = JSON.parse(text); } catch { return `postgres-logs non-JSON: ${redactSecrets(text).slice(0, 200)}`; }
+    const rows = Array.isArray(json?.result) ? json.result : Array.isArray(json) ? json : [];
+    return rows.length ? rows.map((row) => `${row.timestamp ?? ""} ${redactSecrets(String(row.event_message ?? "")).slice(0, 300)}`).join(" || ") : "postgres-logs: no matching entries";
+  } catch (error) {
+    return `postgres-logs unavailable: ${redactSecrets(String(error?.message ?? error)).slice(0, 160)}`;
+  }
+}
+
+/**
+ * Replays the application's own enqueue from this runner, with the
+ * application's own server functions and the same RPC parameters, so the
+ * Postgres error the deployed route swallows into "queue refused" is printed.
+ * Runs only after the deployed route has already answered a non-202, against
+ * the acceptance project only. If it succeeds it creates one render job for
+ * this run's already-paid synthetic item; that job is a diagnostic, never the
+ * target of any verdict below.
+ */
+async function replayEnqueueFromRunner(consumer, briefcaseItemId) {
+  const service = await serviceRoleKey();
+  process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+  process.env.SUPABASE_SERVICE_ROLE_KEY = service;
+  try {
+    const { currentPersonalizedVerification, preparePersonalizedPacket, isPersonalizedDeliveryRoute } = await import("../src/lib/rcap/render/personalized-packet.ts");
+    const { resolveConsumerPersonId, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+    const { getSupabaseAdminClient } = await import("../src/lib/supabase/server.ts");
+    const verification = await currentPersonalizedVerification(consumer.id, briefcaseItemId);
+    const routeId = `${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`;
+    if (!isPersonalizedDeliveryRoute(routeId)) return `replay: ${routeId} is not a personalized delivery route; the application's enqueue took the non-personalized path`;
+    const person = await resolveConsumerPersonId(consumer.id);
+    if (!person.ok) return `replay: person unresolved — ${redactSecrets(String(person.reason)).slice(0, 200)}`;
+    const matterId = consumerMatterIdForItem(briefcaseItemId);
+    const prepared = preparePersonalizedPacket({
+      authUserId: consumer.id, briefcaseItemId, personId: person.personId, matterId,
+      verificationHash: verification.hash, snapshot: verification.snapshot
+    });
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) return "replay: admin client unavailable on the runner";
+    const { data, error } = await supabase.rpc("enqueue_verified_consumer_packet_render", {
+      p_packet_id: prepared.spec.packetId, p_route_id: prepared.spec.routeId,
+      p_renderer_kind: prepared.spec.rendererKind, p_renderer_version: prepared.spec.rendererVersion,
+      p_source_sha256: prepared.spec.sourceSha256, p_profile_id: prepared.spec.profileId,
+      p_profile_version: prepared.spec.profileVersion, p_input_hash: prepared.spec.inputHash,
+      p_briefcase_item_id: prepared.spec.briefcaseItemId, p_person_id: person.personId, p_matter_id: matterId,
+      p_max_attempts: 5, p_consumer_briefcase_item_id: briefcaseItemId,
+      p_expected_consumer_auth_user_id: consumer.id, p_expected_verification_hash: verification.hash,
+      p_render_packet: prepared.payload.renderPacket, p_render_input_payload: prepared.payload.renderInputPayload
+    });
+    if (error) return `replay RPC error: code=${error.code ?? "?"} message=${redactSecrets(String(error.message ?? "")).slice(0, 300)} details=${redactSecrets(String(error.details ?? "")).slice(0, 200)} hint=${redactSecrets(String(error.hint ?? "")).slice(0, 120)}`;
+    const row = Array.isArray(data) ? data[0] : data;
+    return `replay RPC succeeded from the runner (diagnostic job ${row?.id ?? "(no id)"}); the deployed route's refusal is environmental, not the database's`;
+  } catch (error) {
+    return `replay threw: ${redactSecrets(String(error?.message ?? error)).slice(0, 300)}`;
+  } finally {
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
   }
 }
 
@@ -1598,7 +1689,7 @@ let targetJobId = null;
   const res = await callApp("/api/expungement-ai/packet/render", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
   const returnedJobId = typeof res.json?.jobId === "string" && res.json.jobId.trim() !== "" ? res.json.jobId.trim() : null;
   const renderDiagnostics = res.status !== 202
-    ? `; ${await consumerLaunchSchemaReadback()}; runtime log: ${await runtimeLogExcerpt(renderSentAt, ["packet/render", "enqueue", "render job", "rpc", "error"])}`
+    ? `; ${await consumerLaunchSchemaReadback()}; postgres log: ${await postgresErrorLogExcerpt(new Date(renderSentAt - 120000).toISOString())}; ${await replayEnqueueFromRunner(A, itemId)}; runtime log: ${await runtimeLogExcerpt(renderSentAt, ["packet/render", "enqueue", "render job", "rpc", "error"])}`
     : "";
   // A 202 that names no job is not a queued render: there would be nothing to
   // follow, and the journey below would have to guess. It does not guess.
