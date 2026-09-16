@@ -23,6 +23,29 @@
     { "position": 25, "version": "20260906120000", "path": "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql", "sha256": "e323452b977c71bef2553fefd537a297b9b36151a043bae8003145f9dc691fd9" },
     { "position": 26, "version": "20260906130000", "path": "supabase/migrations/20260906130000_verified_artifact_regeneration.sql", "sha256": "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7" }
   ],
-  "readbackRunId": 35122706229,
+  "readbackRunId": 35129903710,
+  "preApplyChecks": {
+    "readbackRunId": 35129903710,
+    "deployedApplication": {
+      "deploymentId": "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX",
+      "applicationSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
+      "migrationBytesIdenticalTo": "436520e4a99f0b8a290ace32f1d717b951630319"
+    },
+    "ledgerReconciliation": "The ledger holds exactly the 13 recovered versions (the 20260728213131 remote baseline, 20260818200000 through 20260819120000, and 20260823171000). 20260822180000 has no ledger row and its object is absent in Production; it is outside this chain and is not replayed. The three 2026-08-25 Clinic files have no ledger rows and their objects are present. All ten chain signatures are absent, so every file is applied on its object state, none on a ledger gap alone.",
+    "rollbackApplication": {
+      "deploymentId": "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL",
+      "applicationSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
+      "compatibleAfterChain": false,
+      "why": "441ee318 predates 20260828100000 and inserts matter_id and source_session_id into consumer_pending_screening_results; the chain renames those columns, so the rollback deployment's save path would fail after the chain while the live application's save path is repaired by it."
+    },
+    "backups": "Supabase Management API (run 35129903710): PITR disabled; WAL-G flag enabled (us-east-1); the API lists no completed backup and no physical backup window, so no API-confirmed restore point exists. The chain only adds and renames structure; its row effects are the status and matter-link updates counted below, reversible by inverse SQL.",
+    "existingRowEffect": "43 stored pending results: 28 claimed under the old scheme gain their unique Briefcase matter link and become CLAIMED; 15 unclaimed rows that carry no claim token and are already past expires_at become REVOKED (0 unexpired, 0 created in the last 24 hours, 0 claimed without a provable matter); no row is deleted and no live pending row exists."
+  },
+  "acceptedRevocation": {
+    "basis": "Counts read back without writing by run 35129903710; the migrate phase re-reads them and refuses before any write if a bucket exceeds its maximum. The expired, tokenless, ownerless rows were already unclaimable under both schemes.",
+    "maxUnexpiredUnclaimedRowsRevoked": 0,
+    "maxClaimedRowsWithoutProvableMatterRevoked": 0,
+    "maxExpiredUnclaimedRowsRevoked": 15
+  },
   "dropAuthorized": false
 }
