@@ -193,6 +193,64 @@ async function readback(caseId) {
   return summarizeReadback(Array.isArray(rows) ? rows[0] ?? {} : {});
 }
 
+// Aggregate, SELECT-only impact of 20260828100000 on stored pending results,
+// evaluated against whichever column names the table carries right now (the
+// migration renames matter_id, source_session_id and pending_token_hash and
+// adds status). Counts only; no row content is read back.
+async function pendingResultImpactReadback() {
+  const columnRows = await managementQuery(
+    "select column_name::text from information_schema.columns where table_schema='public' and table_name='consumer_pending_screening_results'",
+    "pending_result_columns"
+  );
+  const columns = new Set((Array.isArray(columnRows) ? columnRows : []).map((row) => row.column_name));
+  const tokenHash = columns.has("claim_token_hash") ? "claim_token_hash" : "pending_token_hash";
+  const hasStatus = columns.has("status");
+  const pendingPredicate = hasStatus ? "status = 'PENDING'" : "true";
+  const rows = await managementQuery(`
+    select
+      count(*)::int as total_rows,
+      count(*) filter (where claimed_user_id is not null)::int as claimed_under_old_scheme,
+      count(*) filter (where claimed_user_id is not null and ${columns.has("claimed_matter_id") ? "claimed_matter_id is null" : "true"}
+        and (select count(*) from public.consumer_briefcase_items m where m.user_id = p.claimed_user_id and m.source_session_id = p.pending_id::text) = 1)::int as claimed_rows_gaining_matter_link,
+      count(*) filter (where claimed_user_id is not null and claimed_at is not null
+        and (select count(*) from public.consumer_briefcase_items m where m.user_id = p.claimed_user_id and m.source_session_id = p.pending_id::text) = 1)::int as rows_becoming_claimed,
+      count(*) filter (where ${pendingPredicate} and (${tokenHash} is null or claimed_user_id is not null))::int as rows_to_be_revoked,
+      count(*) filter (where ${pendingPredicate} and (${tokenHash} is null or claimed_user_id is not null) and claimed_user_id is null and expires_at > now())::int as unexpired_unclaimed_rows_to_be_revoked,
+      count(*) filter (where ${pendingPredicate} and (${tokenHash} is null or claimed_user_id is not null) and claimed_user_id is null and created_at > now() - interval '24 hours')::int as rows_to_be_revoked_created_last_24h,
+      count(*) filter (where ${tokenHash} is not null and claimed_user_id is null and expires_at > now())::int as live_pending_rows_with_token_kept
+    from public.consumer_pending_screening_results p
+  `, "pending_result_impact");
+  const row = Array.isArray(rows) ? rows[0] ?? {} : {};
+  return {
+    columnNamesNow: { tokenHash, statusColumnPresent: hasStatus, claimedMatterIdPresent: columns.has("claimed_matter_id") },
+    totalRows: Number(row.total_rows ?? 0),
+    claimedUnderOldScheme: Number(row.claimed_under_old_scheme ?? 0),
+    claimedRowsGainingMatterLink: Number(row.claimed_rows_gaining_matter_link ?? 0),
+    rowsBecomingClaimed: Number(row.rows_becoming_claimed ?? 0),
+    rowsToBeRevoked: Number(row.rows_to_be_revoked ?? 0),
+    unexpiredUnclaimedRowsToBeRevoked: Number(row.unexpired_unclaimed_rows_to_be_revoked ?? 0),
+    rowsToBeRevokedCreatedLast24h: Number(row.rows_to_be_revoked_created_last_24h ?? 0),
+    livePendingRowsWithTokenKept: Number(row.live_pending_rows_with_token_kept ?? 0)
+  };
+}
+
+// Read-only recovery facts: the project's database backups as the Management
+// API reports them (PITR and scheduled backups), without any change.
+async function backupReadback() {
+  const backups = await managementGet(`/v1/projects/${encodeURIComponent(PRODUCTION_PROJECT_REF)}/database/backups`);
+  const json = backups.json ?? {};
+  const list = Array.isArray(json.backups) ? json.backups : [];
+  return {
+    httpStatus: backups.status,
+    pitrEnabled: json.pitr_enabled === true,
+    walgEnabled: json.walg_enabled === true,
+    region: typeof json.region === "string" ? json.region : null,
+    backupCount: list.length,
+    latestCompletedBackupAt: list.filter((entry) => entry?.status === "COMPLETED").map((entry) => entry.inserted_at ?? entry.created_at ?? null).filter(Boolean).sort().at(-1) ?? null,
+    physicalBackupData: json.physical_backup_data ?? null
+  };
+}
+
 async function recordLedgerRow(migration, hasNameColumn) {
   const name = path.basename(migration.path, ".sql").replace(/^\d+_/, "");
   const query = hasNameColumn
@@ -236,6 +294,22 @@ try {
     `present=[${before.present.join(", ")}]; missing=[${before.missing.join(", ")}]`
   );
 
+  const impact = await pendingResultImpactReadback();
+  evidence.pendingResultImpact = impact;
+  record(
+    "pending_result_existing_row_impact_read_as_counts",
+    Number.isInteger(impact.totalRows),
+    `rows=${impact.totalRows}; claimed under old scheme=${impact.claimedUnderOldScheme}; would gain matter link=${impact.claimedRowsGainingMatterLink}; would become CLAIMED=${impact.rowsBecomingClaimed}; would be REVOKED=${impact.rowsToBeRevoked} (unexpired and unclaimed=${impact.unexpiredUnclaimedRowsToBeRevoked}; created in last 24h=${impact.rowsToBeRevokedCreatedLast24h}); live pending rows with a token kept=${impact.livePendingRowsWithTokenKept}; token column now=${impact.columnNamesNow.tokenHash}; status column present=${impact.columnNamesNow.statusColumnPresent}`
+  );
+
+  const backups = await backupReadback();
+  evidence.backups = backups;
+  record(
+    "database_backup_facts_read_without_writing",
+    backups.httpStatus === 200,
+    `backups HTTP ${backups.httpStatus}; PITR=${backups.pitrEnabled}; WAL-G=${backups.walgEnabled}; region=${backups.region ?? "unknown"}; backups listed=${backups.backupCount}; latest completed=${backups.latestCompletedBackupAt ?? "none listed"}`
+  );
+
   if (PHASE === "forward_chain_readback") {
     record("readback_phase_wrote_nothing", evidence.productionDatabaseMutated === false, "read-only phase; no SQL other than catalog reads was issued");
     persist(true);
@@ -254,6 +328,16 @@ try {
       "independent_production_authorization_names_the_exact_chain",
       authorized,
       `status=${authorization?.status}; readback run=${authorization?.readbackRunId ?? "none"}; migrations=${authorization?.migrations?.length ?? 0}; drop authorized=${authorization?.dropAuthorized}`
+    );
+    // The revocation in 20260828100000 invalidates stored pending results that
+    // carry no claim token or were claimed under the old scheme. The apply is
+    // allowed only up to the count the owner accepted in the authorization
+    // record after reading the readback run; a larger live exposure stops here.
+    const acceptedRevocations = Number(authorization?.acceptedRevocation?.maxUnexpiredUnclaimedRowsRevoked ?? -1);
+    record(
+      "existing_row_revocation_within_the_owner_accepted_bound",
+      Number.isInteger(acceptedRevocations) && acceptedRevocations >= 0 && impact.unexpiredUnclaimedRowsToBeRevoked <= acceptedRevocations,
+      `unexpired unclaimed rows the migration would revoke=${impact.unexpiredUnclaimedRowsToBeRevoked}; owner-accepted maximum=${acceptedRevocations >= 0 ? acceptedRevocations : "not recorded"}`
     );
 
     for (const migration of MIGRATIONS) {

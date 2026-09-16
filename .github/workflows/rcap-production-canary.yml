@@ -9,7 +9,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, clinic_migrate, legal_aid_readback, legal_aid_migrate, smoke, or activate"
+        description: "preflight, clinic_migrate, forward_chain_readback, forward_chain_migrate, legal_aid_readback, legal_aid_migrate, smoke, or activate"
         required: true
         type: string
       application_sha:
@@ -62,7 +62,7 @@ jobs:
           WORKFLOW_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          case "$INPUT_PHASE" in preflight|clinic_migrate|legal_aid_readback|legal_aid_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
+          case "$INPUT_PHASE" in preflight|clinic_migrate|forward_chain_readback|forward_chain_migrate|legal_aid_readback|legal_aid_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
           [ "$INPUT_APPLICATION_SHA" = "$APPLICATION_SHA" ] || { echo "::error::application SHA mismatch"; exit 1; }
           [ "$INPUT_WORKER_SOURCE_SHA" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker source SHA mismatch"; exit 1; }
           [ "$INPUT_WORKER_DIGEST" = "$WORKER_DIGEST" ] || { echo "::error::worker digest mismatch"; exit 1; }
@@ -103,6 +103,12 @@ jobs:
         run: |
           node scripts/verify-rcap-production-clinic-migrate.mjs
           node scripts/test-rcap-production-clinic-migrate-mutations.mjs
+
+      - name: Verify the exact Production forward-chain migration contract
+        if: inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate'
+        run: |
+          node scripts/verify-rcap-production-forward-chain-migrate.mjs
+          node scripts/test-rcap-production-forward-chain-migrate-mutations.mjs
 
       - name: Verify the exact Production Legal Aid migration contract
         if: inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
@@ -164,6 +170,24 @@ jobs:
           RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: node scripts/rcap-production-clinic-migrate.mjs
+
+      - name: Read back the Production forward migration chain without writing
+        if: inputs.phase == 'forward_chain_readback'
+        env:
+          RCAP_PRODUCTION_PHASE: "forward_chain_readback"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-forward-chain-migrate.mjs
+
+      - name: Apply and directly read back the exact Production forward migration chain
+        if: inputs.phase == 'forward_chain_migrate'
+        env:
+          RCAP_PRODUCTION_PHASE: "forward_chain_migrate"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-forward-chain-migrate.mjs
 
       - name: Read back the Production Legal Aid prerequisites and state without writing
         if: inputs.phase == 'legal_aid_readback'
