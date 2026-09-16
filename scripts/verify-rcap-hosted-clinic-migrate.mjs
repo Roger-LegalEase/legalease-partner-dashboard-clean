@@ -32,7 +32,7 @@ check((entry.match(/inputs\.mode == 'hosted_clinic_migrate' && 'clinic_migrate'/
 
 includesEvery(hosted, [
   "inputs.phase == 'migrate' || inputs.phase == 'clinic_migrate'",
-  "clinic_migrate|migrate|preflight|vercel_audit|worker_contract",
+  "clinic_migrate|migrate|preflight|vercel_identity|vercel_audit|worker_contract|legal_aid_migrate",
   "node scripts/verify-rcap-hosted-clinic-migrate.mjs",
   "node scripts/rcap-hosted-clinic-migrate.mjs",
   "SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}",
@@ -70,15 +70,15 @@ includesEvery(migrationScript, [
   "git",
   '["show", `${APPLICATION_SHA}:${migration.path}`]'
 ], "frozen commit/hash source contract");
-check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact ten-file sequence");
-check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 10, "protected runner does not contain exactly ten migration identities");
+check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact eleven-file sequence");
+check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 11, "protected runner does not contain exactly eleven migration identities");
 
 const authorized = readiness.clinicModePreviewMigrationAuthorization;
 check(authorized?.status === "authorized_nonproduction_acceptance_only", "independent readiness does not carry the bounded nonproduction authorization");
 check(authorized?.acceptanceProjectRef === "hyflxnlhpmiqxvvcoiia", "independent readiness names the wrong acceptance project");
 check(authorized?.productionAuthorized === false, "independent readiness permits Production");
 check(authorized?.adHocCaptainShellSqlAuthorized === false, "independent readiness permits ad hoc Captain SQL");
-check(authorized?.migrationsInApplyOrder?.length === 10, "independent readiness does not pin exactly ten migrations");
+check(authorized?.migrationsInApplyOrder?.length === 11, "independent readiness does not pin exactly eleven migrations");
 check(
   authorized?.migrationsInApplyOrder?.every((entry) => {
     const bytes = fs.readFileSync(path.join(root, entry.path));
@@ -140,7 +140,7 @@ includesEvery(migrationScript, [
   '"consumer_artifact_provenance_prerequisite_exact"',
   '"all_seven_current_demo_migration_families_read_back"',
   "atomic_sponsored_finalizer_present",
-  "ledger records all 10 exact frozen migrations"
+  "ledger records all 11 exact frozen migrations"
 ], "Clinic Preview catalog/RLS/readback contract");
 
 includesEvery(migrationScript, [
@@ -158,4 +158,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact ten-file nonproduction Clinic Preview sequence`);
+console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact eleven-file nonproduction Clinic Preview sequence`);
