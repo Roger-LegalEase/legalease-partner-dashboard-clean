@@ -129,7 +129,7 @@ export async function reconcileExpungementAiCheckoutEvent(
   // from Stripe with the secret key and reconciled: an order is what the
   // provider says it is, and a signed event that merely asserts a total is not
   // evidence of what was sold.
-  const order = await reconcileOrderFromStripe(session.id, {
+  const order = await reconcileOrderFromStripe(session, {
     userId,
     briefcaseItemId: item.id,
     pathwayId: verification.snapshot.pathwayId,
@@ -303,16 +303,25 @@ export function consumerCheckoutStatusFromSession(session: Stripe.Checkout.Sessi
  * with the secret key. Nothing here reads the webhook body's numbers.
  */
 async function reconcileOrderFromStripe(
-  checkoutSessionId: string,
+  eventSession: Stripe.Checkout.Session,
   binding: ConsumerOrderBinding
 ): Promise<ReconciledConsumerOrder> {
-  const stripe = getStripeServerClient();
-  const retrieved = await stripe.checkout.sessions.retrieve(checkoutSessionId, {
-    expand: ["line_items.data.price.product", "payment_intent", "discounts.promotion_code"]
-  });
+  // A live `checkout.session.completed` event carries the Session without its
+  // line items, so the product, the quantity and the regular price are not in
+  // it and the order is retrieved from Stripe with the secret key. The event's
+  // own line items are used only when Stripe already included them, which
+  // keeps this one round trip out of paths that do not need it. Either way the
+  // bytes are Stripe's: the event reached here only by passing the signature
+  // check, and the retrieval speaks to Stripe directly.
+  const embedded = eventSession.line_items?.data ?? null;
+  const session = embedded
+    ? eventSession
+    : await getStripeServerClient().checkout.sessions.retrieve(eventSession.id, {
+      expand: ["line_items.data.price.product", "payment_intent", "discounts.promotion_code"]
+    });
   const reconciliation = reconcileConsumerOrder(
-    retrieved,
-    retrieved.line_items?.data ?? [],
+    session,
+    session.line_items?.data ?? [],
     binding
   );
   if (!reconciliation.ok) {
