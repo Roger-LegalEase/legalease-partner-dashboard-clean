@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MVLP Self-Representation Expungement Clinics | Powered by LegalEase</title>
+<meta name="description" content="Register for a Mississippi Volunteer Lawyers Project expungement clinic, complete your application, and work with the MVLP team on your next steps." />
+<meta name="theme-color" content="#6D378F" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="MVLP Self-Representation Expungement Clinics | Powered by LegalEase" />
+<meta property="og:description" content="Free clinic registration and a private application, built with Mississippi Volunteer Lawyers Project and LegalEase." />
+    <meta property="og:url" content="https://legaleasepartner.com/p/mvlp" />
+    <link rel="canonical" href="https://legaleasepartner.com/p/mvlp" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<!--
+  ============================================================================
+  RCAP CO-BRANDED PARTNER PAGE TEMPLATE
+  ============================================================================
+  This file is a TEMPLATE. Every partner-specific value lives in the
+  PARTNER config object in the <script> block near the bottom of <body>.
+  To generate a new partner page from a form submission, replace ONLY the
+  PARTNER object: name, logo, accent color, state, counties, intake URLs,
+  and the few copy strings noted there. Nothing else needs to change.
+
+  The page is fully bilingual (EN/ES). Every translatable string carries a
+  data-i18n key and is defined in the I18N object. localStorage persists the
+  language choice across visits.
+
+  Design system mirrors legaleasepartner.com: navy #0E0E40 base, Sora
+  typography, soft cards, scope-not-escalate copy.
+
+  UPL NOTE: All legal-adjacent copy (routing language, "promise" section,
+  Spanish translations) requires Lawrence sign-off before a partner instance
+  goes live.
+  ============================================================================
+-->
+
+<style>
+  :root{
+    /* LegalEase / Expungement.ai product brand system (from Briefcase spec) */
+    --navy:#0F1F5C;        /* primary: headlines, dark surfaces */
+    --navy-700:#1B2B80;    /* gradient partner / hover navy */
+    --navy-300:#5A6275;    /* muted navy-tone for eyebrows */
+    --ink:#1A1D26;         /* body text */
+    --paper:#FFFFFF;
+    --mist:#FBFCFE;        /* app canvas / near-white */
+    --mist-2:#F0F2F6;      /* secondary fill (gray buttons, icon wells) */
+    --cream:#F7F3EC;       /* warm calm surface accent */
+    --line:#ECEFF4;        /* card borders */
+    --muted:#5A6275;
+    --faint:#8A93A6;
+    --good:#1F9D6B;        /* positive text on teal tint */
+    --teal:#00A99D;        /* positive / ready / success accent */
+    --teal-2:#2BC4B6;
+    --orange:#E83A0A;      /* action: primary CTAs only */
+    --bad:#E5484D;         /* attention / negative */
+    --amber:#E0A93B;       /* waiting / with-the-court */
+    /* Partner accent (overridden per-partner via JS). Defaults to product orange. */
+    --accent:#E83A0A;
+    --accent-ink:#FFFFFF;
+    --radius:16px;
+    --radius-sm:11px;
+    --shadow:0 18px 44px -22px rgba(15,31,92,.34);
+    --shadow-sm:0 10px 30px rgba(15,31,92,.06);
+    --maxw:1120px;
+    --font:'Sora',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;font-family:var(--font);color:var(--ink);
+    background:var(--paper);line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  }
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{
+    font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--navy);
+  }
+  h1,h2,h3{font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0}
+  h1{font-size:clamp(2.1rem,5.2vw,3.5rem);font-weight:800}
+  h2{font-size:clamp(1.7rem,3.6vw,2.5rem)}
+  h3{font-size:1.18rem;letter-spacing:-.01em}
+  p{margin:.6em 0}
+  .lead{font-size:clamp(1.02rem,1.6vw,1.2rem);color:var(--muted);max-width:60ch}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:.55rem;
+    font-family:var(--font);font-weight:700;font-size:1rem;
+    padding:15px 26px;border-radius:999px;border:1px solid transparent;
+    cursor:pointer;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
+  }
+  .btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:var(--shadow-sm)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px -16px rgba(15,31,92,.5)}
+  .btn-ghost{background:transparent;color:var(--navy);border-color:var(--line)}
+  .btn-ghost:hover{background:var(--mist)}
+  .btn-onnavy{background:var(--accent);color:var(--accent-ink)}
+  .btn-onnavy.alt{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.25)}
+  .btn-onnavy.alt:hover{background:rgba(255,255,255,.16)}
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);
+    backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:18px;height:80px;flex-wrap:nowrap}
+  .cobrand{display:flex;align-items:center;gap:12px;min-width:0;flex-shrink:0}
+  .cobrand .pname{font-weight:800;letter-spacing:-.01em;font-size:1.2rem;color:var(--navy);white-space:nowrap}
+  .cobrand .x{color:var(--faint);font-weight:400;font-size:.8rem;flex-shrink:0;opacity:.7}
+  .cobrand .powered{font-size:.56rem;color:var(--faint);font-weight:600;text-transform:uppercase;letter-spacing:.13em;margin-right:1px;white-space:nowrap;flex-shrink:0;opacity:.85}
+  .cobrand img{height:15px;width:auto;opacity:.8}
+  .cobrand .cobrand-le{display:inline-flex;align-items:center;line-height:0;flex-shrink:0}
+  .cobrand .cobrand-le:hover img{opacity:1}
+  .cobrand .plogo{height:62px;width:auto;opacity:1;flex-shrink:0}
+  @media (max-width:600px){
+    .nav{height:66px;gap:8px}
+    .cobrand .plogo{height:40px}
+    .cobrand .powered,.cobrand .x{display:none}
+    .cobrand img{height:13px}
+    .nav-right{gap:8px}
+  }
+  .nav-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
+  #cta-nav{font-size:.82rem;padding:10px 16px;white-space:nowrap;line-height:1.1;flex-shrink:0}
+  @media (max-width:600px){
+    #cta-nav{font-size:.72rem;padding:9px 12px}
+  }
+  @media (max-width:380px){
+    #cta-nav{font-size:.66rem;padding:8px 9px}
+    .cobrand .plogo{height:34px}
+    .lang button{padding:6px 9px;font-size:.72rem}
+  }
+  .navlinks{display:flex;gap:22px}
+  .navlinks a{font-size:.92rem;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap}
+  .navlinks a:hover{color:var(--navy)}
+  .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .lang button{
+    font-family:var(--font);font-weight:700;font-size:.78rem;letter-spacing:.04em;
+    padding:7px 13px;border:0;background:transparent;color:var(--muted);cursor:pointer;
+  }
+  .lang button[aria-pressed="true"]{background:var(--navy);color:#fff}
+  @media (max-width:1140px){.navlinks{display:none}}
+
+  /* ---------- Hero ---------- */
+  .hero{background:linear-gradient(180deg,var(--mist) 0%,#fff 70%);padding:64px 0 28px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .hero h1{margin:14px 0 0}
+  .hero .lead{margin-top:18px}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px}
+  .microcopy{font-size:.85rem;color:var(--muted);margin-top:14px}
+  .selector{
+    margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow-sm);
+  }
+  .selector label{display:block;font-weight:700;font-size:.92rem;margin-bottom:10px;color:var(--navy)}
+  .selector select{
+    width:100%;font-family:var(--font);font-size:1rem;padding:14px 14px;border-radius:12px;
+    border:1px solid var(--line);background:var(--mist);color:var(--ink);appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235B5E78' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;
+  }
+  .selector .btn{width:100%;justify-content:center;margin-top:14px}
+  .hero-media{position:relative}
+  .hero-media .frame{
+    border-radius:24px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--mist);
+    aspect-ratio:4/3;
+  }
+  .hero-media img{width:100%;height:100%;object-fit:cover}
+
+  /* ---------- Photo placeholder (shows when a PARTNER image slot is empty) ---------- */
+  .photoholder{
+    width:100%;height:100%;min-height:240px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px;
+    background:
+      repeating-linear-gradient(45deg,transparent,transparent 11px,rgba(15,31,92,.025) 11px,rgba(15,31,92,.025) 22px),
+      var(--cream);
+    color:var(--navy);
+  }
+  .photoholder svg{width:40px;height:40px;stroke:var(--teal);fill:none;stroke-width:1.6;opacity:.9}
+  .photoholder .ph-label{font-size:.78rem;font-weight:700;letter-spacing:.04em;color:var(--navy)}
+  .photoholder .ph-sub{font-size:.72rem;color:var(--muted);max-width:30ch;line-height:1.45}
+  /* When the frame holds a placeholder, drop the cover-image background tint */
+  .frame.is-empty{background:transparent}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .chip{
+    font-size:.82rem;font-weight:600;color:var(--navy);background:#fff;border:1px solid var(--line);
+    padding:8px 14px;border-radius:999px;
+  }
+  .chip::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);margin-right:8px;vertical-align:middle}
+  @media (max-width:880px){
+    .hero-grid{grid-template-columns:1fr;gap:34px}
+    .hero-media{order:-1}
+  }
+
+  /* ---------- Partnership band ---------- */
+  .band{background:linear-gradient(135deg,var(--navy),var(--navy-700));color:#fff;padding:44px 0}
+  .band .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px}
+  .band p{font-size:1.25rem;font-weight:600;max-width:46ch;margin:0}
+  .band strong{color:var(--teal-2)}
+  .band .stats{display:flex;gap:40px;flex-wrap:wrap}
+  .band .stat .n{font-size:1.9rem;font-weight:800;line-height:1;color:var(--teal-2)}
+  .band .stat .l{font-size:.8rem;color:rgba(255,255,255,.7);margin-top:6px}
+  @media (max-width:400px){.band .stats{gap:22px}}
+
+  /* ---------- Sections ---------- */
+  section{padding:72px 0}
+  .sec-head{max-width:64ch;margin-bottom:38px}
+  .sec-head h2{margin-top:10px}
+  .sec-head p{color:var(--muted);font-size:1.06rem;margin-top:12px}
+
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;
+    transition:transform .15s ease,box-shadow .15s ease;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm)}
+  .card .ic{
+    width:46px;height:46px;border-radius:12px;background:var(--mist-2);display:grid;place-items:center;margin-bottom:16px;
+  }
+  .card .ic svg{width:24px;height:24px;stroke:var(--teal);fill:none;stroke-width:1.8}
+  .card h3{margin-bottom:8px}
+  .card p{color:var(--muted);font-size:.94rem;margin:0}
+  @media (max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.cards{grid-template-columns:1fr}}
+
+  /* Promise (on mist) */
+  .promise{background:var(--mist)}
+  .promise .cards{grid-template-columns:repeat(3,1fr)}
+  @media (max-width:820px){.promise .cards{grid-template-columns:1fr}}
+
+  /* Quote */
+  .quote{background:linear-gradient(135deg,var(--navy),var(--navy-700));color:#fff}
+  .quote .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:center}
+  .quote-media .frame{border-radius:18px;overflow:hidden;aspect-ratio:4/5;border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow)}
+  .quote-media .frame img{width:100%;height:100%;object-fit:cover;display:block}
+  .quote-media .photoholder{min-height:0;background:
+      repeating-linear-gradient(45deg,transparent,transparent 11px,rgba(255,255,255,.04) 11px,rgba(255,255,255,.04) 22px),
+      rgba(255,255,255,.05);color:#fff}
+  .quote-media .photoholder svg{stroke:var(--teal-2)}
+  .quote-media .photoholder .ph-label{color:#fff}
+  .quote-media .photoholder .ph-sub{color:rgba(255,255,255,.7)}
+  .quote .eyebrow{color:var(--teal-2)}
+  .quote blockquote{
+    font-size:clamp(1.4rem,2.8vw,2rem);font-weight:600;line-height:1.32;max-width:30ch;margin:14px 0 16px;
+    letter-spacing:-.01em;
+  }
+  .quote cite{font-style:normal;font-size:.9rem;color:rgba(255,255,255,.65)}
+  @media (max-width:760px){
+    .quote .wrap{grid-template-columns:1fr;gap:28px}
+    .quote-media{max-width:300px}
+  }
+
+  /* Comparison */
+  .compare{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .col{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:#fff}
+  .col.feature{background:linear-gradient(135deg,var(--navy),var(--navy-700));color:#fff;border-color:var(--navy);box-shadow:var(--shadow)}
+  .col h3{font-size:1.05rem;margin-bottom:16px}
+  .col ul{list-style:none;margin:0;padding:0;display:grid;gap:11px}
+  .col li{display:flex;gap:10px;font-size:.94rem;align-items:flex-start}
+  .col li .m{flex:0 0 18px;font-weight:800}
+  .col .bad .m{color:var(--bad)}
+  .col.feature .good .m{color:var(--teal-2)}
+  .col .muted{color:var(--muted)}
+  .col.feature .muted{color:rgba(255,255,255,.8)}
+  @media (max-width:820px){.compare{grid-template-columns:1fr}}
+
+  /* How it works */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+  .step{position:relative;padding:26px 22px 22px;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
+  .step .num{
+    width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;
+    display:grid;place-items:center;font-weight:800;font-size:1rem;margin-bottom:14px;
+  }
+  .step h3{font-size:1.02rem;margin-bottom:6px}
+  .step p{color:var(--muted);font-size:.9rem;margin:0}
+  @media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+  /* ---------- Product preview (Briefcase dashboard mockup) ---------- */
+  .preview{background:var(--cream)}
+  .preview .sec-head{margin-left:auto;margin-right:auto;text-align:center;max-width:60ch}
+  .browserframe{
+    max-width:980px;margin:8px auto 0;border-radius:16px;overflow:hidden;
+    box-shadow:0 30px 80px -30px rgba(15,31,92,.45);border:1px solid var(--line);background:#fff;
+  }
+  .browserbar{display:flex;align-items:center;gap:7px;padding:11px 16px;background:#EDF0F6;border-bottom:1px solid var(--line)}
+  .browserbar .bdot{width:11px;height:11px;border-radius:50%}
+  .browserbar .bdot.r{background:#FF5F57}.browserbar .bdot.y{background:#FEBC2E}.browserbar .bdot.g{background:#28C840}
+  .browserbar .addr{margin-left:12px;font-size:11px;color:var(--faint);background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 12px}
+  .bf-app{display:flex;min-height:430px;background:var(--mist);text-align:left;position:relative}
+  .bf-side{width:188px;flex-shrink:0;background:#0B1326;color:#fff;padding:16px 12px;display:flex;flex-direction:column}
+  .bf-logo{font-size:13px;font-weight:700;margin:0 4px 18px;display:flex;align-items:center;gap:7px}
+  .bf-logo svg{width:15px;height:15px}
+  .bf-user{display:flex;align-items:center;gap:8px;padding:8px;border-radius:9px;background:rgba(255,255,255,.05);margin-bottom:16px}
+  .bf-av{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--navy-700),var(--teal));display:grid;place-items:center;font-size:11px;font-weight:700}
+  .bf-user .nm{font-size:11px;font-weight:600}.bf-user .em{font-size:9px;color:rgba(255,255,255,.5)}
+  .bf-nav{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:2px}
+  .bf-nav svg{width:14px;height:14px}
+  .bf-nav.active{background:rgba(0,169,157,.16);color:#fff;font-weight:600}
+  .bf-nav.active svg{color:var(--teal-2)}
+  .bf-help{margin-top:auto;background:rgba(255,255,255,.05);border-radius:10px;padding:11px}
+  .bf-help .t{font-size:11px;font-weight:600;margin-bottom:4px}
+  .bf-help .d{font-size:9.5px;color:rgba(255,255,255,.5);line-height:1.5;margin-bottom:8px}
+  .bf-help button{width:100%;background:var(--orange);color:#fff;border:0;font-family:inherit;font-size:10px;font-weight:600;padding:7px;border-radius:7px;cursor:default}
+  .bf-main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .bf-top{height:48px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0}
+  .bf-crumb{font-size:12px;font-weight:600;color:var(--ink)}
+  .bf-newbtn{display:flex;align-items:center;gap:6px;background:var(--orange);color:#fff;border:0;font-family:inherit;font-size:11px;font-weight:600;padding:7px 13px;border-radius:8px;cursor:default}
+  .bf-newbtn svg{width:12px;height:12px}
+  .bf-content{padding:20px;overflow:hidden}
+  .bf-h1{font-size:19px;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+  .bf-subt{font-size:11px;color:var(--faint);margin-top:3px}
+  .bf-banner{margin-top:16px;border-radius:13px;background:linear-gradient(135deg,var(--navy),var(--navy-700));padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;color:#fff}
+  .bf-banner .eg{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-2);font-weight:600;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+  .bf-banner .eg .d{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
+  .bf-banner h4{font-size:16px;font-weight:700;margin:0 0 4px}
+  .bf-banner p{font-size:11px;color:rgba(255,255,255,.7);max-width:46ch;line-height:1.45;margin:0}
+  .bf-banner .cta{background:var(--orange);color:#fff;border:0;font-family:inherit;font-size:11px;font-weight:700;padding:10px 16px;border-radius:9px;white-space:nowrap;display:flex;align-items:center;gap:6px;cursor:default;flex-shrink:0}
+  .bf-banner .cta svg{width:13px;height:13px}
+  .bf-stats{margin-top:13px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .bf-stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 13px}
+  .bf-stat .l{font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:6px}
+  .bf-stat .v{font-size:22px;font-weight:800;color:var(--navy);line-height:1}
+  .bf-stat .v.teal{color:var(--teal)}
+  .bf-stat .s{font-size:9px;color:var(--faint);margin-top:4px}
+  .bf-sect{display:flex;align-items:center;justify-content:space-between;margin:20px 0 11px}
+  .bf-sect h5{font-size:13px;font-weight:700;color:var(--navy);margin:0}
+  .bf-sect a{font-size:11px;color:var(--teal);text-decoration:none;font-weight:600}
+  .bf-matters{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .bf-matter{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px}
+  .bf-matter .mtop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+  .bf-matter .ti{font-size:13px;font-weight:700;color:var(--navy)}
+  .bf-matter .su{font-size:10px;color:var(--faint);margin-top:2px}
+  .bf-pill{font-size:8.5px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap}
+  .bf-pill.teal{color:var(--teal);background:rgba(0,169,157,.12)}
+  .bf-pill.amber{color:#B97C12;background:rgba(224,169,59,.16)}
+  .bf-stepper{display:flex;align-items:flex-start}
+  .bf-step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+  .bf-step:not(:last-child):after{content:"";position:absolute;top:8px;left:50%;width:100%;height:2px;background:var(--line)}
+  .bf-step.done:not(:last-child):after{background:var(--good)}
+  .bf-node{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-size:8px;font-weight:700;background:#fff;border:2px solid #D4DAE4;color:var(--faint);position:relative;z-index:1}
+  .bf-step.done .bf-node{background:var(--good);border-color:var(--good);color:#fff}
+  .bf-step.current .bf-node{border-color:var(--orange);color:var(--orange)}
+  .bf-step .l{font-size:8px;color:var(--faint);margin-top:6px;font-weight:500}
+  .bf-step.done .l,.bf-step.current .l{color:var(--ink);font-weight:600}
+  .bf-wilma{position:absolute;bottom:16px;right:18px;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 13px;box-shadow:0 12px 30px rgba(15,31,92,.16)}
+  .bf-wilma .tx{font-size:11px;font-weight:600;color:var(--navy)}
+  .bf-wilma .orb{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--navy-700));display:grid;place-items:center;color:#fff}
+  .bf-wilma .orb svg{width:15px;height:15px}
+  .preview .pcaption{text-align:center;font-size:.85rem;color:var(--muted);margin-top:18px;max-width:54ch;margin-left:auto;margin-right:auto}
+  @media (max-width:680px){
+    .bf-side{display:none}
+    .bf-stats{grid-template-columns:repeat(2,1fr)}
+    .bf-matters{grid-template-columns:1fr}
+    .bf-banner{flex-direction:column;align-items:flex-start}
+    .bf-wilma{display:none}
+  }
+
+  /* Split panels (after-click / what you'll need) */
+  .split{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)}
+  .panel h3{margin-bottom:16px}
+  .checklist{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .checklist li{display:flex;gap:11px;font-size:.96rem;align-items:flex-start;color:var(--ink)}
+  .checklist li .c{
+    flex:0 0 22px;height:22px;border-radius:6px;background:var(--mist-2);display:grid;place-items:center;
+  }
+  .checklist li .c svg{width:13px;height:13px;stroke:var(--teal);stroke-width:3;fill:none}
+  .split .note{color:var(--muted);font-size:.9rem;margin-top:18px}
+  .split-media .frame{border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+  @media (max-width:820px){.split{grid-template-columns:1fr;gap:28px}}
+
+  /* FAQ */
+  .faq-list{display:grid;gap:12px;max-width:780px}
+  details.faq{
+    border:1px solid var(--line);border-radius:var(--radius-sm);background:#fff;padding:4px 20px;
+  }
+  details.faq summary{
+    list-style:none;cursor:pointer;font-weight:700;color:var(--navy);
+    padding:16px 0;display:flex;justify-content:space-between;gap:12px;align-items:center;
+  }
+  details.faq summary::-webkit-details-marker{display:none}
+  details.faq summary .pm{flex:0 0 auto;font-weight:800;color:var(--faint);transition:transform .2s}
+  details.faq[open] summary .pm{transform:rotate(45deg)}
+  details.faq p{color:var(--muted);margin:0 0 16px;font-size:.96rem}
+
+  /* Final CTA */
+  .final{background:linear-gradient(135deg,var(--navy),var(--navy-700));color:#fff;text-align:center;border-radius:0}
+  .final .eyebrow{color:var(--teal-2)}
+  .final h2{margin:12px auto 0;max-width:18ch}
+  .final p{color:rgba(255,255,255,.8);max-width:50ch;margin:16px auto 26px}
+  .final .micro{color:rgba(255,255,255,.6);font-size:.84rem;margin-top:16px}
+
+  /* Footer */
+  footer.site{background:#0B1326;color:rgba(255,255,255,.65);padding:48px 0 34px;font-size:.86rem}
+  footer.site .foot-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;align-items:flex-start;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.1)}
+  footer.site .foot-brand{display:flex;flex-direction:column;gap:16px;min-width:220px;max-width:300px}
+  footer.site .foot-brand .flogo-chip{display:inline-flex;align-items:center;background:#fff;border-radius:12px;padding:14px 18px;align-self:flex-start;box-shadow:0 8px 24px -10px rgba(0,0,0,.5)}
+  footer.site .foot-brand .flogo{height:60px;width:auto;display:block}
+  footer.site .foot-brand .fpowered{display:flex;align-items:center;gap:7px;font-size:.66rem;color:rgba(255,255,255,.42)}
+  footer.site .foot-brand .fpowered img{height:14px;width:auto;opacity:.7}
+  footer.site .foot-brand .fpowered .fpowered-link{display:inline-flex;align-items:center;line-height:0}
+  footer.site .foot-brand .fpowered .fpowered-link:hover img{opacity:1}
+  footer.site .foot-brand .fpowered .lbl{text-transform:uppercase;letter-spacing:.13em;font-weight:600}
+  footer.site .foot-links{display:flex;flex-wrap:wrap;gap:32px}
+  footer.site .foot-col{display:flex;flex-direction:column;gap:9px;min-width:120px}
+  footer.site .foot-col .ftitle{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:3px}
+  footer.site a{color:rgba(255,255,255,.8);text-decoration:none}
+  footer.site a:hover{color:#fff;text-decoration:underline}
+  footer.site .foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;align-items:center;padding-top:26px}
+  footer.site .foot-bottom .micro{color:rgba(255,255,255,.5);font-size:.8rem;max-width:60ch}
+  @media (max-width:640px){
+    footer.site .foot-top{flex-direction:column;gap:28px}
+    footer.site .foot-brand .flogo{height:50px}
+  }
+  /* legacy single-line footer support */
+  footer.site .wrap.legacy{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:center}
+
+  .center{text-align:center}
+  .mt-cta{margin-top:30px;display:flex;justify-content:center}
+  [hidden]{display:none!important}
+
+  /* ---------- MVLP partner theme (scoped to this page) ---------- */
+  :root{
+    --navy:#3A1E52;
+    --navy-700:#54307A;
+    --navy-300:#6B5F78;
+    --accent:#6D378F;
+    --accent-ink:#FFFFFF;
+    --orange:#6D378F;
+    --teal:#6D378F;
+    --teal-2:#D7BFE8;
+    --good:#5E2E7E;
+    --shadow:0 18px 44px -22px rgba(58,30,82,.34);
+    --shadow-sm:0 10px 30px rgba(58,30,82,.06);
+  }
+  footer.site{background:#1E1129}
+  .cobrand .plogo{height:56px}
+  @media (max-width:600px){.cobrand .plogo{height:38px}}
+  .selector .btn-ghost{width:100%;justify-content:center;margin-top:10px}
+  .lang{display:none}
+  .bf-wilma{display:none}
+  .foot-contact{color:rgba(255,255,255,.7);font-size:.84rem;margin-top:10px}
+</style>
+</head>
+<body>
+
+<!-- ============================ HEADER ============================ -->
+<header class="site">
+  <div class="wrap nav">
+    <div class="cobrand">
+      <span class="pname" id="brand-partner-name">MVLP</span>
+      <span class="x">&times;</span>
+      <span class="powered" data-i18n="poweredBy">Powered by</span>
+      <a href="https://legalease.com" aria-label="LegalEase" class="cobrand-le"><img id="le-logo-src" src="data:image/png;base64,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" alt="LegalEase" /></a>
+    </div>
+    <div class="nav-right">
+      <nav class="navlinks">
+        <a href="#how" data-i18n="navHow">How it works</a>
+        <a href="#difference" data-i18n="navDiff">What to expect</a>
+        <a href="#faq" data-i18n="navFaq">FAQ</a>
+      </nav>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+      <a class="btn btn-primary" id="cta-nav" href="#" data-i18n="ctaNav">Register for a clinic</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" id="brand-eyebrow">MVLP &times; LEGALEASE</span>
+      <h1 data-i18n="heroTitle">Get help taking the next step with your record.</h1>
+      <p class="lead" data-i18n="heroLead">Register for an MVLP expungement clinic, complete your intake, and work with the MVLP team on your next steps.</p>
+
+      <div class="selector" aria-labelledby="next-step-label">
+        <span class="eyebrow" id="next-step-label" data-i18n="selectLabel" style="display:block;margin-bottom:12px">Choose your next step</span>
+        <a class="btn btn-primary" id="cta-hero" href="/p/mvlp/clinics" data-i18n="ctaStart">Register for a clinic</a>
+        <a class="btn btn-ghost" id="continue-hero" href="/p/mvlp/continue" data-i18n="ctaContinue">Continue my application</a>
+      </div>
+      <p class="microcopy" data-i18n="heroMicro">Free to register. Your application stays private. Registering is not a promise of legal help: MVLP reviews every application.</p>
+    </div>
+
+    <div class="hero-media">
+      <div class="frame is-empty" id="hero-frame">
+        <div class="photoholder" data-ph="hero">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M21 16l-5-5L5 19"/></svg>
+          <div class="ph-label" data-i18n="phHero">Illustration</div>
+          <div class="ph-sub" data-i18n="phHeroSub"></div>
+        </div>
+      </div>
+      <div class="chips">
+        <span class="chip" id="chip-geo" data-i18n="chipGeo">Mississippi clinics</span>
+        <span class="chip" data-i18n="chipFree">Free to register</span>
+        <span class="chip" data-i18n="chipKnow">Save and return anytime</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PARTNERSHIP BAND ============================ -->
+<div class="band">
+  <div class="wrap">
+    <p data-i18n="bandText">MVLP brings the <strong>volunteer attorneys</strong>. LegalEase brings the <strong>system</strong>.<strong>trust</strong>. LegalEase brings the <strong>system</strong>.</p>
+    <div class="stats">
+      <div class="stat"><div class="n" data-i18n="stat1n">Free</div><div class="l" data-i18n="stat1l">to register</div></div>
+      <div class="stat"><div class="n" id="stat-geo-n">MVLP</div><div class="l" data-i18n="stat2l">clinics led by MVLP</div></div>
+      <div class="stat"><div class="n" data-i18n="stat3n">Minutes</div><div class="l" data-i18n="stat3l">to register</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ ELIGIBILITY CARDS ============================ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="ebStart">Where to begin</span>
+      <h2 data-i18n="cardsTitle">You do not need to have it all figured out.</h2>
+      <p data-i18n="cardsLead">You can register even if you do not have your paperwork, do not remember every detail, or are not sure what is on your record.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3 data-i18n="card1t">Old arrest</h3>
+        <p data-i18n="card1d">You have an old arrest and want to know whether it may still matter.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></div>
+        <h3 data-i18n="card2t">Charged, not convicted</h3>
+        <p data-i18n="card2d">You were charged, but the case did not end in a conviction.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></div>
+        <h3 data-i18n="card3t">Past conviction</h3>
+        <p data-i18n="card3d">You have a conviction and want to understand whether there may be a path forward.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+        <h3 data-i18n="card4t">Not sure what shows up</h3>
+        <p data-i18n="card4d">You want to know what an employer, landlord, school, or licensing agency may see.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROMISE ============================ -->
+<section class="promise">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" id="brand-promise-eb" data-i18n="ebPromise">The MVLP × LegalEase promise</span>
+      <h2 data-i18n="promiseTitle">Getting help with your record should be clear and respectful.</h2>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.5H21l-5.3 4 2 6.5L12 15l-5.7 4 2-6.5L3 8.5h6.6z"/></svg></div>
+        <h3 data-i18n="p1t">Free to register</h3>
+        <p data-i18n="p1d">Choose a clinic and tell us how to reach you. You do not need every answer before you start.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3 data-i18n="p2t">Plain-English steps</h3>
+        <p data-i18n="p2d">Your application asks simple questions, saves your progress, and shows what is still needed.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12h12"/><path d="M13 6l6 6-6 6"/></svg></div>
+        <h3 data-i18n="p3t">Real people review your application</h3>
+        <p data-i18n="p3d">MVLP staff and volunteer attorneys review your application and tell you what comes next.</p>
+      </div>
+    </div>
+    <div class="mt-cta"><a class="btn btn-primary" id="cta-promise" href="#" data-i18n="ctaStart">Register for a clinic</a></div>
+  </div>
+</section>
+
+<!-- ============================ QUOTE ============================ -->
+<section class="quote">
+  <div class="wrap">
+    <div class="quote-media">
+      <div class="frame is-empty" id="quote-frame">
+        <div class="photoholder" data-ph="quote">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+          <div class="ph-label" data-i18n="phQuote">Illustration</div>
+          <div class="ph-sub" data-i18n="phQuoteSub"></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="eyebrow" id="brand-quote-eb">MVLP &times; LE</span>
+      <blockquote data-i18n="quoteText">Many people wait because the process feels confusing, expensive, or out of reach. MVLP clinics give Mississippians a trusted place to start, with volunteer attorneys and a clear plan for what happens next.</blockquote>
+      <cite id="brand-quote-cite">Mississippi Volunteer Lawyers Project &times; LegalEase · Self-Representation Expungement Clinics</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DIFFERENCE / COMPARISON ============================ -->
+<section id="difference">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="ebDiff">What to expect</span>
+      <h2 data-i18n="diffTitle">A clear first step instead of guessing.</h2>
+      <p data-i18n="diffLead">Register once, complete one private application, and let the MVLP team guide the rest.</p>
+    </div>
+    <div class="compare">
+      <div class="col">
+        <h3 class="muted" data-i18n="colAloneT">Trying to figure it out alone</h3>
+        <ul>
+          <li class="bad"><span class="m">&minus;</span><span class="muted" data-i18n="colAlone1">Confusing court language</span></li>
+          <li class="bad"><span class="m">&minus;</span><span class="muted" data-i18n="colAlone2">Not sure what appears on your record</span></li>
+          <li class="bad"><span class="m">&minus;</span><span class="muted" data-i18n="colAlone3">Missing paperwork</span></li>
+          <li class="bad"><span class="m">&minus;</span><span class="muted" data-i18n="colAlone4">No clear place to start</span></li>
+        </ul>
+      </div>
+      <div class="col feature">
+        <h3 id="brand-feature-t">MVLP &times; LegalEase</h3>
+        <ul>
+          <li class="good"><span class="m">&check;</span><span data-i18n="colUs1">Free clinic registration</span></li>
+          <li class="good"><span class="m">&check;</span><span data-i18n="colUs2">One private application, saved as you go</span></li>
+          <li class="good"><span class="m">&check;</span><span data-i18n="colUs3">Review by MVLP staff and volunteer attorneys</span></li>
+          <li class="good"><span class="m">&check;</span><span data-i18n="colUs4">Documents prepared for a supported Mississippi case</span></li>
+          <li class="good"><span class="m">&check;</span><span data-i18n="colUs5">Clear instructions for signing, notarizing, and filing</span></li>
+          <li class="good"><span class="m">&check;</span><span data-i18n="colUs6">Follow-up on what is still needed</span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3 class="muted" data-i18n="colWaitT">Waiting or guessing</h3>
+        <ul>
+          <li class="bad"><span class="m">&minus;</span><span class="muted" data-i18n="colWait1">Opportunities may be delayed</span></li>
+          <li class="bad"><span class="m">&minus;</span><span class="muted" data-i18n="colWait2">You may not know what others can see</span></li>
+          <li class="bad"><span class="m">&minus;</span><span class="muted" data-i18n="colWait3">Mistakes can slow things down</span></li>
+          <li class="bad"><span class="m">&minus;</span><span class="muted" data-i18n="colWait4">It can be hard to know what to do next</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ HOW IT WORKS ============================ -->
+<section id="how" class="promise">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="ebHow">How it works</span>
+      <h2 data-i18n="howTitle">Register today. Leave your clinic with a clear next step.</h2>
+      <p data-i18n="howLead">Start with what you know. The application gathers the basics so the MVLP team can review your case before clinic day.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3 data-i18n="s1t">Register for a clinic</h3>
+        <p data-i18n="s1d">Choose a clinic date and tell us how to reach you.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3 data-i18n="s2t">Complete your application</h3>
+        <p data-i18n="s2d">Answer the MVLP intake questions about your case, household, and income. Save and return anytime.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3 data-i18n="s3t">MVLP review</h3>
+        <p data-i18n="s3d">MVLP staff review your application, ask for anything missing, and a volunteer attorney reviews your case.</p>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <h3 data-i18n="s4t">Documents and next steps</h3>
+        <p data-i18n="s4d">If MVLP can help with your case, you receive documents to review and sign, instructions for a notary where required, and clear next steps for filing.</p>
+      </div>
+    </div>
+    <div class="mt-cta"><a class="btn btn-primary" id="cta-how" href="#" data-i18n="ctaStart">Register for a clinic</a></div>
+    <p class="center microcopy" style="margin-top:14px" data-i18n="howNote">Registering does not guarantee MVLP assistance, eligibility, or any court outcome. MVLP decides whether it can help after reviewing your application.</p>
+  </div>
+</section>
+
+<!-- ============================ PRODUCT PREVIEW (dashboard) ============================ -->
+<section class="preview">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="ebPreview">Your private page</span>
+      <h2 data-i18n="previewTitle">Your application, in one place.</h2>
+      <p data-i18n="previewLead">After you register, your private page shows your application, what is still needed, your documents, and your next step in plain English.</p>
+    </div>
+
+    <div class="browserframe" role="img" aria-label="Preview of the LegalEase dashboard showing record status and next steps">
+      <div class="browserbar">
+        <span class="bdot r"></span><span class="bdot y"></span><span class="bdot g"></span>
+        <span class="addr">app.legalease.com</span>
+      </div>
+      <div class="bf-app">
+        <aside class="bf-side">
+          <div class="bf-logo">
+            <svg viewBox="0 0 256 256" fill="currentColor"><path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z"/></svg>
+            LegalEase
+          </div>
+          <div class="bf-user"><div class="bf-av">AR</div><div><div class="nm">Alex R.</div><div class="em">alex@email.com</div></div></div>
+          <div class="bf-nav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18v13H3zM8 7V4h8v3"/></svg> <span data-i18n="bfNav1">Briefcase</span></div>
+          <div class="bf-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/></svg> <span data-i18n="bfNav2">My application</span></div>
+          <div class="bf-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10l4 4v14H3V3z"/><path d="M7 8h6M7 12h10M7 16h10"/></svg> <span data-i18n="bfNav3">Documents</span></div>
+          <div class="bf-help"><div class="t" data-i18n="bfHelpT">Need help?</div><div class="d" data-i18n="bfHelp">Ask a clinic volunteer or the MVLP team at any step.</div><button>Get help</button></div>
+        </aside>
+        <div class="bf-main">
+          <div class="bf-top">
+            <div class="bf-crumb" data-i18n="bfNav1">Briefcase</div>
+            <button class="bf-newbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg> <span data-i18n="bfNew">Register for a clinic</span></button>
+          </div>
+          <div class="bf-content">
+            <div class="bf-h1" data-i18n="bfGreeting">Welcome back, Alex</div>
+            <div class="bf-subt" data-i18n="bfStatus">Your application is in progress. Here is where things stand.</div>
+            <div class="bf-banner">
+              <div>
+                <div class="eg"><span class="d"></span> <span data-i18n="bfNextEb">Your next step</span></div>
+                <h4 data-i18n="bfNextTitle">Finish your application</h4>
+                <p data-i18n="bfNextDesc">Complete the MVLP intake questions so the team can review your case before clinic day.</p>
+              </div>
+              <button class="cta"><span data-i18n="bfNextCta">Continue my application</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            </div>
+            <div class="bf-stats">
+              <div class="bf-stat"><div class="l" data-i18n="bfStat1l">Application</div><div class="v">2</div><div class="s" data-i18n="bfStat1s">In progress</div></div>
+              <div class="bf-stat"><div class="l" data-i18n="bfStat2l">Items needed</div><div class="v teal">1</div><div class="s" data-i18n="bfStat2s">Waiting on you</div></div>
+              <div class="bf-stat"><div class="l" data-i18n="bfStat3l">Documents</div><div class="v">6</div><div class="s" data-i18n="bfStat3s">Prepared for you</div></div>
+              <div class="bf-stat"><div class="l" data-i18n="bfStat4l">Next steps</div><div class="v">0</div><div class="s" data-i18n="bfStat4s">From MVLP</div></div>
+            </div>
+            <div class="bf-sect"><h5 data-i18n="bfMatters">Your application</h5><a href="#" data-i18n="bfViewAll">View all</a></div>
+            <div class="bf-matters">
+              <div class="bf-matter">
+                <div class="mtop"><div><div class="ti" data-i18n="bfM1t">Misdemeanor expungement</div><div class="su" data-i18n="bfM1s">Application submitted</div></div><span class="bf-pill teal" data-i18n="bfPillReady">In MVLP review</span></div>
+                <div class="bf-stepper">
+                  <div class="bf-step done"><div class="bf-node">&#10003;</div><div class="l" data-i18n="bfS1">Registered</div></div>
+                  <div class="bf-step done"><div class="bf-node">&#10003;</div><div class="l" data-i18n="bfS2">Application</div></div>
+                  <div class="bf-step current"><div class="bf-node">3</div><div class="l" data-i18n="bfS3">MVLP review</div></div>
+                  <div class="bf-step"><div class="bf-node">4</div><div class="l" data-i18n="bfS4">Documents</div></div>
+                  <div class="bf-step"><div class="bf-node">5</div><div class="l" data-i18n="bfS5">Next steps</div></div>
+                </div>
+              </div>
+              <div class="bf-matter">
+                <div class="mtop"><div><div class="ti" data-i18n="bfM2t">Clinic registration</div><div class="su" data-i18n="bfM2s">Seat requested</div></div><span class="bf-pill amber" data-i18n="bfPillCourt">Application needed</span></div>
+                <div class="bf-stepper">
+                  <div class="bf-step done"><div class="bf-node">&#10003;</div><div class="l" data-i18n="bfS1">Registered</div></div>
+                  <div class="bf-step done"><div class="bf-node">&#10003;</div><div class="l" data-i18n="bfS2">Application</div></div>
+                  <div class="bf-step done"><div class="bf-node">&#10003;</div><div class="l" data-i18n="bfS3">MVLP review</div></div>
+                  <div class="bf-step current"><div class="bf-node">4</div><div class="l" data-i18n="bfS4">Documents</div></div>
+                  <div class="bf-step"><div class="bf-node">5</div><div class="l" data-i18n="bfS5">Next steps</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+              </div>
+    </div>
+    <p class="pcaption" data-i18n="previewCaption">Sample page. Names and cases shown are examples. MVLP reviews your application; LegalEase keeps everything organized.</p>
+  </div>
+</section>
+
+<!-- ============================ WHAT YOU'LL NEED ============================ -->
+<section>
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow" data-i18n="ebNeed">What you'll need</span>
+      <h2 data-i18n="needTitle">You can start with what you know.</h2>
+      <p class="lead" data-i18n="needLead">You do not need every document to register. The application tells you what is still needed, and the MVLP team can help you find records.</p>
+      <p class="note" data-i18n="needNote">Missing something? Register anyway and finish later.</p>
+      <div class="mt-cta" style="justify-content:flex-start"><a class="btn btn-primary" id="cta-need" href="#" data-i18n="ctaStart">Register for a clinic</a></div>
+    </div>
+    <div class="panel">
+      <h3 data-i18n="needPanelT">Helpful to have nearby</h3>
+      <ul class="checklist">
+        <li><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><span data-i18n="need1">Your full legal name and date of birth</span></li>
+        <li><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><span data-i18n="need2">A phone number or email where MVLP can reach you</span></li>
+        <li><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><span data-i18n="need3">Case information: the county, the charge, and how the case ended, if you know it</span></li>
+        <li><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><span data-i18n="need4">Household and income information</span></li>
+        <li><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><span data-i18n="need5">Any court paperwork you already have</span></li>
+      </ul>
+      <p class="note" data-i18n="needPanelNote">No paperwork? No problem. Register with what you know.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section id="faq" class="promise">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="ebFaq">Questions before you start</span>
+      <h2 data-i18n="faqTitle">Still unsure? That is normal.</h2>
+      <p data-i18n="faqLead">Record clearing can be confusing. Registering gives you a simple, private first step, and the MVLP team explains the rest.</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq"><summary><span data-i18n="q1">Who is this for?</span><span class="pm">+</span></summary><p id="faq-a1" data-i18n="a1">People with a Mississippi arrest, charge, or conviction who want help with an expungement through an MVLP clinic.</p></details>
+      <details class="faq"><summary><span data-i18n="q2">Is it free?</span><span class="pm">+</span></summary><p data-i18n="a2">Registration and the application are free. MVLP tells you about any court, record, or notary costs that apply to your case.</p></details>
+      <details class="faq"><summary><span data-i18n="q3">Do I need court papers to register?</span><span class="pm">+</span></summary><p data-i18n="a3">No. Court papers help, but you can register and start your application with what you know.</p></details>
+      <details class="faq"><summary><span data-i18n="q4">Will an attorney help me?</span><span class="pm">+</span></summary><p data-i18n="a4">At the clinic, volunteer attorneys give legal advice, review your documents, and explain how to file. You file your own case; the clinic does not include courtroom representation.</p></details>
+      <details class="faq"><summary><span data-i18n="q5">Will registering clear my record?</span><span class="pm">+</span></summary><p data-i18n="a5">No. Registering saves your place and starts your application. MVLP reviews every application and decides whether it can help. A court makes the final decision on your record.</p></details>
+      <details class="faq"><summary><span data-i18n="q6">What if MVLP cannot take my case?</span><span class="pm">+</span></summary><p data-i18n="a6">MVLP tells you why and points you to other options where it can. A decision about MVLP's program is not a decision about whether your record can be cleared.</p></details>
+      <details class="faq"><summary><span data-i18n="q7">Is LegalEase a law firm?</span><span class="pm">+</span></summary><p data-i18n="a7">No. LegalEase provides the software MVLP uses to organize registrations, applications, documents, and follow-up. LegalEase does not provide legal advice.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FINAL CTA ============================ -->
+<section class="final">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="ebReady">Start here</span>
+    <h2 data-i18n="finalTitle">Ready to take the next step?</h2>
+    <p id="brand-final-p" data-i18n="finalP">Register for an MVLP clinic and start your application today.</p>
+    <a class="btn btn-onnavy" id="cta-final" href="#" data-i18n="ctaStart">Register for a clinic</a>
+    <p class="micro" data-i18n="finalMicro">Registration does not guarantee assistance, eligibility, or any court outcome.</p>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="flogo-chip"><img class="flogo" id="foot-plogo" src="" alt="" /></span>
+        <div class="fpowered">
+          <span class="lbl" data-i18n="poweredBy">Powered by</span>
+          <a href="https://legalease.com" aria-label="LegalEase" class="fpowered-link"><img id="foot-lelogo" src="" alt="LegalEase" /></a>
+        </div>
+        <span class="micro" id="brand-footer" style="color:rgba(255,255,255,.55);font-size:.8rem">Mississippi Volunteer Lawyers Project &times; LegalEase &middot; Self-Representation Expungement Clinics</span>
+        <span class="foot-contact" data-i18n="footContact">Questions? Call MVLP at 601-960-9577 or email mvlp@mvlp.org.</span>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <span class="ftitle" data-i18n="footColLegal">Legal</span>
+          <a href="/p/privacy.html" data-i18n="footPrivacy">Privacy</a>
+          <a href="/p/terms.html" data-i18n="footTerms">Terms</a>
+          <a href="/p/disclaimer.html" data-i18n="footDisclaimer">Disclaimer</a>
+        </div>
+        <div class="foot-col">
+          <span class="ftitle" data-i18n="footColTrust">Trust</span>
+          <a href="/p/security.html" data-i18n="footSecurity">Security</a>
+          <a href="/p/data-request.html" data-i18n="footDataReq">Data request</a>
+          <a href="/p/accessibility.html" data-i18n="footAccess">Accessibility</a>
+          <a href="/p/impact-reporting.html" data-i18n="footImpact">Impact reporting</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="micro" data-i18n="footDisclaimerLine">LegalEase is not a law firm and does not provide legal advice. MVLP decides whether it can help after reviewing each application. No court outcome is guaranteed.</span>
+      <span class="micro" id="foot-copy">&copy; 2026 LegalEase</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===========================================================================
+   PARTNER CONFIG  —  the ONLY block a form needs to populate per partner.
+   =========================================================================== */
+const PARTNER = {
+  name: "MVLP",
+  fullName: "Mississippi Volunteer Lawyers Project",
+  programName: "Self-Representation Expungement Clinics",
+  logoUrl: "/assets/partners/mvlp/mvlp-logo.png",
+  partnerLogoFooter: "/assets/partners/mvlp/mvlp-logo.png",
+  accent: "#6D378F",
+  accentInk: "#FFFFFF",
+  state: "Mississippi",
+  stateEs: "Misisipi",
+  countyCount: "MVLP",
+  heroImg: "/assets/partners/wemustvote/assets/wemustvote/hero-record-clearing-path.png",
+  quoteImg: "/assets/partners/wemustvote/assets/wemustvote/friendly_consultation_with_a_roadmap_of_guidance.png",
+  quoteAlt: "Illustration of a checklist and a friendly conversation",
+  heroAlt: "Illustration of a person holding a checklist and looking down a path marked with Mississippi",
+  leWhiteLogo: "data:image/png;base64,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",
+  intakeUrl: "/p/mvlp/clinics",
+  continueUrl: "/p/mvlp/continue",
+  counties: []
+};
+
+/* ===========================================================================
+   I18N  —  EN/ES strings. Partner-name interpolation handled in applyBranding.
+   Spanish legal copy requires Lawrence sign-off before publish.
+   =========================================================================== */
+const I18N = {
+  en: {
+    poweredBy: "Powered by",
+    navHow: "How it works",
+    navDiff: "What to expect",
+    navFaq: "FAQ",
+    ctaStart: "Register for a clinic",
+    ctaNav: "Register for a clinic",
+    heroTitle: "Get help taking the next step with your record.",
+    heroLead: "Register for an MVLP expungement clinic, complete your intake, and work with the MVLP team on your next steps.",
+    selectLabel: "Choose your next step",
+    ctaContinue: "Continue my application",
+    heroMicro: "Free to register. Your application stays private. Registering is not a promise of legal help: MVLP reviews every application.",
+    chipGeo: "Mississippi clinics",
+    chipFree: "Free to register",
+    chipKnow: "Save and return anytime",
+    phHero: "Illustration",
+    phHeroSub: "",
+    phQuote: "Illustration",
+    phQuoteSub: "",
+    bandText: "MVLP brings the <strong>volunteer attorneys</strong>. LegalEase brings the <strong>system</strong>.",
+    stat1n: "Free",
+    stat1l: "to register",
+    stat2l: "clinics led by MVLP",
+    stat3n: "Minutes",
+    stat3l: "to register",
+    ebStart: "Where to begin",
+    cardsTitle: "You do not need to have it all figured out.",
+    cardsLead: "You can register even if you do not have your paperwork, do not remember every detail, or are not sure what is on your record.",
+    card1t: "Old arrest",
+    card1d: "You have an old arrest and want to know whether it may still matter.",
+    card2t: "Charged, not convicted",
+    card2d: "You were charged, but the case did not end in a conviction.",
+    card3t: "Past conviction",
+    card3d: "You have a conviction and want to understand whether there may be a path forward.",
+    card4t: "Not sure what shows up",
+    card4d: "You want to know what an employer, landlord, school, or licensing agency may see.",
+    ebPromise: "The MVLP × LegalEase promise",
+    promiseTitle: "Getting help with your record should be clear and respectful.",
+    p1t: "Free to register",
+    p1d: "Choose a clinic and tell us how to reach you. You do not need every answer before you start.",
+    p2t: "Plain-English steps",
+    p2d: "Your application asks simple questions, saves your progress, and shows what is still needed.",
+    p3t: "Real people review your application",
+    p3d: "MVLP staff and volunteer attorneys review your application and tell you what comes next.",
+    quoteText: "Many people wait because the process feels confusing, expensive, or out of reach. MVLP clinics give Mississippians a trusted place to start, with volunteer attorneys and a clear plan for what happens next.",
+    ebDiff: "What to expect",
+    diffTitle: "A clear first step instead of guessing.",
+    diffLead: "Register once, complete one private application, and let the MVLP team guide the rest.",
+    colAloneT: "Trying to figure it out alone",
+    colAlone1: "Confusing court language",
+    colAlone2: "Not sure what appears on your record",
+    colAlone3: "Missing paperwork",
+    colAlone4: "No clear place to start",
+    colUs1: "Free clinic registration",
+    colUs2: "One private application, saved as you go",
+    colUs3: "Review by MVLP staff and volunteer attorneys",
+    colUs4: "Documents prepared for a supported Mississippi case",
+    colUs5: "Clear instructions for signing, notarizing, and filing",
+    colUs6: "Follow-up on what is still needed",
+    colWaitT: "Waiting or guessing",
+    colWait1: "Opportunities may be delayed",
+    colWait2: "You may not know what others can see",
+    colWait3: "Mistakes can slow things down",
+    colWait4: "It can be hard to know what to do next",
+    ebHow: "How it works",
+    howTitle: "Register today. Leave your clinic with a clear next step.",
+    howLead: "Start with what you know. The application gathers the basics so the MVLP team can review your case before clinic day.",
+    s1t: "Register for a clinic",
+    s1d: "Choose a clinic date and tell us how to reach you.",
+    s2t: "Complete your application",
+    s2d: "Answer the MVLP intake questions about your case, household, and income. Save and return anytime.",
+    s3t: "MVLP review",
+    s3d: "MVLP staff review your application, ask for anything missing, and a volunteer attorney reviews your case.",
+    s4t: "Documents and next steps",
+    s4d: "If MVLP can help with your case, you receive documents to review and sign, instructions for a notary where required, and clear next steps for filing.",
+    howNote: "Registering does not guarantee MVLP assistance, eligibility, or any court outcome. MVLP decides whether it can help after reviewing your application.",
+    ebPreview: "Your private page",
+    previewTitle: "Your application, in one place.",
+    previewLead: "After you register, your private page shows your application, what is still needed, your documents, and your next step in plain English.",
+    bfNav1: "Briefcase",
+    bfNav2: "My application",
+    bfNav3: "Documents",
+    bfHelpT: "Need help?",
+    bfHelp: "Ask a clinic volunteer or the MVLP team at any step.",
+    bfNew: "Register for a clinic",
+    bfGreeting: "Welcome back, Alex",
+    bfStatus: "Your application is in progress. Here is where things stand.",
+    bfNextEb: "Your next step",
+    bfNextTitle: "Finish your application",
+    bfNextDesc: "Complete the MVLP intake questions so the team can review your case before clinic day.",
+    bfNextCta: "Continue my application",
+    bfStat1l: "Application",
+    bfStat1s: "In progress",
+    bfStat2l: "Items needed",
+    bfStat2s: "Waiting on you",
+    bfStat3l: "Documents",
+    bfStat3s: "Prepared for you",
+    bfStat4l: "Next steps",
+    bfStat4s: "From MVLP",
+    bfMatters: "Your application",
+    bfViewAll: "View all",
+    bfM1t: "Misdemeanor expungement",
+    bfM1s: "Application submitted",
+    bfM2t: "Clinic registration",
+    bfM2s: "Seat requested",
+    bfPillReady: "In MVLP review",
+    bfPillCourt: "Application needed",
+    bfS1: "Registered",
+    bfS2: "Application",
+    bfS3: "MVLP review",
+    bfS4: "Documents",
+    bfS5: "Next steps",
+    previewCaption: "Sample page. Names and cases shown are examples. MVLP reviews your application; LegalEase keeps everything organized.",
+    footColLegal: "Legal",
+    footColTrust: "Trust",
+    footImpact: "Impact reporting",
+    footPrivacy: "Privacy",
+    footTerms: "Terms",
+    footDisclaimer: "Disclaimer",
+    footSecurity: "Security",
+    footDataReq: "Data request",
+    footAccess: "Accessibility",
+    footDisclaimerLine: "LegalEase is not a law firm and does not provide legal advice. MVLP decides whether it can help after reviewing each application. No court outcome is guaranteed.",
+    ebNeed: "What you'll need",
+    needTitle: "You can start with what you know.",
+    needLead: "You do not need every document to register. The application tells you what is still needed, and the MVLP team can help you find records.",
+    needNote: "Missing something? Register anyway and finish later.",
+    needPanelT: "Helpful to have nearby",
+    need1: "Your full legal name and date of birth",
+    need2: "A phone number or email where MVLP can reach you",
+    need3: "Case information: the county, the charge, and how the case ended, if you know it",
+    need4: "Household and income information",
+    need5: "Any court paperwork you already have",
+    needPanelNote: "No paperwork? No problem. Register with what you know.",
+    ebFaq: "Questions before you start",
+    faqTitle: "Still unsure? That is normal.",
+    faqLead: "Record clearing can be confusing. Registering gives you a simple, private first step, and the MVLP team explains the rest.",
+    q1: "Who is this for?",
+    q2: "Is it free?",
+    q3: "Do I need court papers to register?",
+    q4: "Will an attorney help me?",
+    q5: "Will registering clear my record?",
+    q6: "What if MVLP cannot take my case?",
+    q7: "Is LegalEase a law firm?",
+    a1: "People with a Mississippi arrest, charge, or conviction who want help with an expungement through an MVLP clinic.",
+    a2: "Registration and the application are free. MVLP tells you about any court, record, or notary costs that apply to your case.",
+    a3: "No. Court papers help, but you can register and start your application with what you know.",
+    a4: "At the clinic, volunteer attorneys give legal advice, review your documents, and explain how to file. You file your own case; the clinic does not include courtroom representation.",
+    a5: "No. Registering saves your place and starts your application. MVLP reviews every application and decides whether it can help. A court makes the final decision on your record.",
+    a6: "MVLP tells you why and points you to other options where it can. A decision about MVLP's program is not a decision about whether your record can be cleared.",
+    a7: "No. LegalEase provides the software MVLP uses to organize registrations, applications, documents, and follow-up. LegalEase does not provide legal advice.",
+    ebReady: "Start here",
+    finalTitle: "Ready to take the next step?",
+    finalP: "Register for an MVLP clinic and start your application today.",
+    finalMicro: "Registration does not guarantee assistance, eligibility, or any court outcome.",
+    footLegal: "Legal boundaries",
+    footContact: "Questions? Call MVLP at 601-960-9577 or email mvlp@mvlp.org."
+  }
+};
+
+/* ===========================================================================
+   Branding + language application
+   =========================================================================== */
+function applyBranding(){
+  const r = document.documentElement.style;
+  r.setProperty('--accent', PARTNER.accent);
+  r.setProperty('--accent-ink', PARTNER.accentInk);
+
+  // Header name or logo
+  const nameEl = document.getElementById('brand-partner-name');
+  if (PARTNER.logoUrl){
+    nameEl.outerHTML = `<img class="plogo" src="${PARTNER.logoUrl}" alt="${PARTNER.name}" />`;
+  } else {
+    nameEl.textContent = PARTNER.name;
+  }
+
+  // Footer brand: partner logo is the marquee (in a light chip), LegalEase stays subtle
+  const footP = document.getElementById('foot-plogo');
+  if (footP){
+    const pFootSrc = PARTNER.partnerLogoFooter || PARTNER.logoUrl;
+    if (pFootSrc){
+      footP.src = pFootSrc;
+      footP.alt = PARTNER.name;
+    } else {
+      // no partner logo: drop the chip, show the name as text
+      const chip = footP.closest('.flogo-chip');
+      if (chip) chip.outerHTML = `<span class="flogo-name" style="font-size:1.4rem;font-weight:800;color:#fff">${PARTNER.name}</span>`;
+    }
+  }
+  const leSrcEl = document.getElementById('le-logo-src');
+  const footLe = document.getElementById('foot-lelogo');
+  if (footLe){
+    // Prefer the white wordmark for the dark footer; fall back to the header logo.
+    const leWhite = PARTNER.leWhiteLogo || (leSrcEl && leSrcEl.getAttribute('src'));
+    if (leWhite) footLe.src = leWhite;
+  }
+
+  // Hero image + stat
+  // Fill photo slots: inject an <img> only when a URL is provided; otherwise the placeholder stays.
+  fillPhoto('hero-frame', PARTNER.heroImg, PARTNER.heroAlt);
+  fillPhoto('quote-frame', PARTNER.quoteImg, PARTNER.quoteAlt);
+  document.getElementById('stat-geo-n').textContent = PARTNER.countyCount;
+
+
+  // CTA links carry selected county as a query param when present
+  bindCTAs();
+}
+
+function bindCTAs(){
+  document.querySelectorAll('[id^="cta-"]').forEach(a=>{ a.setAttribute('href', PARTNER.intakeUrl); });
+  document.querySelectorAll('[id^="continue-"]').forEach(a=>{ a.setAttribute('href', PARTNER.continueUrl); });
+}
+
+// Inject a photo into a frame if a URL is set; keep the placeholder otherwise.
+// If the image URL is set but fails to load, restore the placeholder (no broken alt text).
+function fillPhoto(frameId, url, alt){
+  const frame = document.getElementById(frameId);
+  if (!frame) return;
+  const placeholder = frame.querySelector('.photoholder');
+  if (!url){ return; }                     // no URL -> leave placeholder visible
+  const img = document.createElement('img');
+  img.alt = alt || '';
+  img.onload = ()=>{
+    if (placeholder) placeholder.style.display='none';
+    frame.classList.remove('is-empty');
+  };
+  img.onerror = ()=>{ img.remove(); };     // bad URL -> placeholder stays
+  img.src = url;
+  frame.appendChild(img);
+}
+
+function t(lang, key){
+  let s = (I18N[lang] && I18N[lang][key]) || I18N.en[key] || '';
+  const state = lang==='es' ? PARTNER.stateEs : PARTNER.state;
+  return s.replaceAll('{partner}', PARTNER.name).replaceAll('{state}', state);
+}
+
+function setLang(lang){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    const val = t(lang, key);
+    if (/<strong>|&|<\/?\w+>/.test(I18N[lang][key]||'') || key==='bandText')
+      el.innerHTML = val; else el.textContent = val;
+  });
+  // brand-interpolated, non-data-i18n nodes
+  const x = '\u00d7';
+  document.getElementById('brand-eyebrow').innerHTML = `${PARTNER.name.toUpperCase()} ${x} LEGALEASE`;
+  document.getElementById('brand-promise-eb').textContent = t(lang,'ebPromise');
+  document.getElementById('brand-quote-cite').textContent = `${PARTNER.fullName} ${x} LegalEase \u00b7 ${PARTNER.programName}`;
+  document.getElementById('brand-feature-t').innerHTML = `${PARTNER.name} ${x} LegalEase`;
+  document.getElementById('brand-footer').innerHTML = `${PARTNER.fullName} ${x} LegalEase \u00b7 ${PARTNER.programName}`;
+
+  document.querySelectorAll('.lang button').forEach(b=>{
+    b.setAttribute('aria-pressed', String(b.dataset.lang===lang));
+  });
+}
+
+document.querySelectorAll('.lang button').forEach(b=>{
+  b.addEventListener('click', ()=> setLang(b.dataset.lang));
+});
+
+applyBranding();
+setLang('en');
+</script>
+</body>
+</html>
