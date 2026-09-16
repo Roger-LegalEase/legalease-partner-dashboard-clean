@@ -9,7 +9,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, clinic_migrate, smoke, or activate"
+        description: "preflight, clinic_migrate, forward_chain_readback, forward_chain_migrate, legal_aid_readback, legal_aid_migrate, smoke, or activate"
         required: true
         type: string
       application_sha:
@@ -39,10 +39,10 @@ permissions:
   actions: read
 
 env:
-  APPLICATION_SHA: cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b
-  ACCEPTED_TOOLS_SHA: cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b
-  WORKER_SOURCE_SHA: c177eef11ad041165294f2d4a38e9bddeef031db
-  WORKER_DIGEST: sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832
+  APPLICATION_SHA: 3e3a528b5762ece971c53186d1a45a48e5633a9c
+  ACCEPTED_TOOLS_SHA: 3e3a528b5762ece971c53186d1a45a48e5633a9c
+  WORKER_SOURCE_SHA: 3e3a528b5762ece971c53186d1a45a48e5633a9c
+  WORKER_DIGEST: sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
 
@@ -62,7 +62,7 @@ jobs:
           WORKFLOW_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          case "$INPUT_PHASE" in preflight|clinic_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
+          case "$INPUT_PHASE" in preflight|clinic_migrate|forward_chain_readback|forward_chain_migrate|legal_aid_readback|legal_aid_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
           [ "$INPUT_APPLICATION_SHA" = "$APPLICATION_SHA" ] || { echo "::error::application SHA mismatch"; exit 1; }
           [ "$INPUT_WORKER_SOURCE_SHA" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker source SHA mismatch"; exit 1; }
           [ "$INPUT_WORKER_DIGEST" = "$WORKER_DIGEST" ] || { echo "::error::worker digest mismatch"; exit 1; }
@@ -103,6 +103,22 @@ jobs:
         run: |
           node scripts/verify-rcap-production-clinic-migrate.mjs
           node scripts/test-rcap-production-clinic-migrate-mutations.mjs
+
+      - name: Verify the exact Production forward-chain migration contract
+        if: inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate'
+        run: |
+          node scripts/verify-rcap-production-forward-chain-migrate.mjs
+          node scripts/test-rcap-production-forward-chain-migrate-mutations.mjs
+
+      - name: Verify the exact Production Legal Aid migration contract
+        if: inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
+        run: |
+          node scripts/verify-rcap-production-legal-aid-migrate.mjs
+          node scripts/test-rcap-production-legal-aid-migrate-mutations.mjs
+          # The PGlite readback self-test needs node_modules, which this
+          # Supabase-only step runs before installing (run 35120655761 stopped
+          # on ERR_MODULE_NOT_FOUND). It runs in the local test chain; the two
+          # dependency-free proofs above stay blocking here.
 
       - name: Install frozen dependencies for the exact-SHA Colorado smoke
         if: inputs.phase == 'smoke'
@@ -155,6 +171,42 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: node scripts/rcap-production-clinic-migrate.mjs
 
+      - name: Read back the Production forward migration chain without writing
+        if: inputs.phase == 'forward_chain_readback'
+        env:
+          RCAP_PRODUCTION_PHASE: "forward_chain_readback"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-forward-chain-migrate.mjs
+
+      - name: Apply and directly read back the exact Production forward migration chain
+        if: inputs.phase == 'forward_chain_migrate'
+        env:
+          RCAP_PRODUCTION_PHASE: "forward_chain_migrate"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-forward-chain-migrate.mjs
+
+      - name: Read back the Production Legal Aid prerequisites and state without writing
+        if: inputs.phase == 'legal_aid_readback'
+        env:
+          RCAP_PRODUCTION_PHASE: "legal_aid_readback"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-legal-aid-migrate.mjs
+
+      - name: Apply and directly read back the exact Production Legal Aid migration
+        if: inputs.phase == 'legal_aid_migrate'
+        env:
+          RCAP_PRODUCTION_PHASE: "legal_aid_migrate"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-legal-aid-migrate.mjs
+
       - name: Run the bounded no-alias Production canary smoke
         if: inputs.phase == 'smoke'
         env:
@@ -171,10 +223,10 @@ jobs:
         if: inputs.phase == 'activate'
         uses: actions/download-artifact@v4
         with:
-          name: rcap-production-smoke-32967717618
+          name: rcap-production-smoke-35083725518
           path: prior-production-smoke-evidence
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 32967717618
+          run-id: 35083725518
 
       - name: Activate the exact staged Production deployment with rollback protection
         if: inputs.phase == 'activate'

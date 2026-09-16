@@ -47,8 +47,22 @@ const FIXTURE = Object.freeze({
   sessionId: "76000000-0000-4000-8000-000000000058",
   matterId: "76000000-0000-4000-8000-000000000059",
   caseId: "76000000-0000-4000-8000-00000000005a",
-  followUpId: "76000000-0000-4000-8000-00000000005b"
+  followUpId: "76000000-0000-4000-8000-00000000005b",
+  pendingId: "76000000-0000-4000-8000-00000000005c"
 });
+
+// The saved matter is presented only from a server-owned authority: since the
+// 2026-09-01 matter-commerce authority, a Briefcase item with no protected
+// verification must be backed by the CLAIMED pending result it was claimed
+// from, exactly as a real participant's matter is. The fixture therefore
+// carries the same public-witness answers the Colorado boundary verifier uses
+// and the claim row the application's atomic claim would have written.
+const COLORADO_JUVENILE_WITNESS = (() => {
+  const fixtures = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-ledger/public-witness-fixtures.json"), "utf8")).fixtures;
+  const fixture = fixtures.find((candidate) => candidate.jurisdiction === "CO" && candidate.pathwayId === "juvenile-expungement-19-1-306");
+  if (!fixture) throw new Error("Missing public witness fixture for CO:juvenile-expungement-19-1-306");
+  return { profileVersion: fixture.profileVersion, answers: fixture.answers };
+})();
 
 const secrets = [VERCEL_TOKEN, SUPABASE_ACCESS_TOKEN, BYPASS].filter(Boolean);
 const sanitize = (value) => {
@@ -167,6 +181,10 @@ async function ensureSyntheticUser({ email, keys }) {
 }
 
 const SSR_COOKIE_CHUNK_SIZE = 3180;
+function sqlJson(value) {
+  return JSON.stringify(value).replace(/'/g, "''");
+}
+
 function authCookies(session) {
   const name = `sb-${PROJECT_REF}-auth-token`;
   const value = `base64-${Buffer.from(JSON.stringify(session), "utf8").toString("base64")}`;
@@ -314,12 +332,19 @@ async function main() {
     on conflict (id) do update set status='approved',permissions=excluded.permissions,revoked_at=null,updated_at=now();
 
     insert into public.screening_sessions (session_id,jurisdiction,answers,current_question_id,furthest_stage,status,partner_slug,flow_mode,claimed_slot_state)
-    values ('${FIXTURE.screeningId}','CO','{"age_at_offense":"juvenile"}'::jsonb,null,'results','completed','${FIXTURE.partnerSlug}','rcap','claimed')
+    values ('${FIXTURE.screeningId}','CO','${sqlJson(COLORADO_JUVENILE_WITNESS.answers)}'::jsonb,null,'results','completed','${FIXTURE.partnerSlug}','rcap','claimed')
     on conflict (session_id) do update set jurisdiction='CO',answers=excluded.answers,status='completed',updated_at=now();
 
-    insert into public.consumer_briefcase_items (id,user_id,item_type,jurisdiction,pathway_label,result_code,packet_type,payment_allowed,status,summary_json,next_steps_json,artifact_refs_json,payment_status,packet_status,source_session_id)
-    values ('${FIXTURE.matterId}','${participant.id}','result','CO','Juvenile expungement under 19-1-306','guidance_only','guidance_packet',false,'guidance_saved','{"summary":"Colorado juvenile guidance only; exact JDF 302 packet unavailable."}'::jsonb,'["Review the Colorado juvenile guidance and confirm the official court process before filing."]'::jsonb,'{}'::jsonb,'not_applicable','not_started','${FIXTURE.screeningId}')
-    on conflict (id) do update set user_id=excluded.user_id,result_code='guidance_only',payment_allowed=false,status='guidance_saved',artifact_refs_json='{}'::jsonb,payment_status='not_applicable',packet_status='not_started',updated_at=now();
+    insert into public.consumer_pending_screening_results
+      (pending_id,status,claimed_at,claimed_user_id,claimed_matter_id,product,partner_slug,event_id,jurisdiction,result_code,pathway_label,packet_type,payment_allowed,summary,next_steps,screening_answers,result_payload,profile_version,packet_plan,anonymous_session_id,candidate_route_context)
+    values ('${FIXTURE.pendingId}','CLAIMED',now(),'${participant.id}','${FIXTURE.matterId}','rcap_partner','${FIXTURE.partnerSlug}','${FIXTURE.eventId}','CO','guidance_only','juvenile-expungement-19-1-306','guidance_packet',false,
+      'Colorado juvenile guidance only; exact JDF 302 packet unavailable.','["Review the Colorado juvenile guidance and confirm the official court process before filing."]'::jsonb,
+      '${sqlJson(COLORADO_JUVENILE_WITNESS.answers)}'::jsonb,'{}'::jsonb,'${COLORADO_JUVENILE_WITNESS.profileVersion}','{}'::jsonb,'${FIXTURE.screeningId}','${sqlJson({ matterId: FIXTURE.matterId })}'::jsonb)
+    on conflict (pending_id) do update set status='CLAIMED',claimed_at=now(),claimed_user_id=excluded.claimed_user_id,claimed_matter_id=excluded.claimed_matter_id,product=excluded.product,partner_slug=excluded.partner_slug,event_id=excluded.event_id,screening_answers=excluded.screening_answers,profile_version=excluded.profile_version,candidate_route_context=excluded.candidate_route_context,revoked_at=null,updated_at=now();
+
+    insert into public.consumer_briefcase_items (id,user_id,item_type,jurisdiction,pathway_label,result_code,packet_type,payment_allowed,status,summary_json,next_steps_json,artifact_refs_json,payment_status,packet_status,source_session_id,source_pending_result_id)
+    values ('${FIXTURE.matterId}','${participant.id}','result','CO','Juvenile expungement under 19-1-306','guidance_only','guidance_packet',false,'guidance_saved','{"summary":"Colorado juvenile guidance only; exact JDF 302 packet unavailable."}'::jsonb,'["Review the Colorado juvenile guidance and confirm the official court process before filing."]'::jsonb,'{}'::jsonb,'not_applicable','not_started','${FIXTURE.screeningId}','${FIXTURE.pendingId}')
+    on conflict (id) do update set user_id=excluded.user_id,result_code='guidance_only',payment_allowed=false,status='guidance_saved',artifact_refs_json='{}'::jsonb,payment_status='not_applicable',packet_status='not_started',source_pending_result_id=excluded.source_pending_result_id,updated_at=now();
 
     insert into public.clinic_assisted_sessions (id,event_id,event_staff_id,participant_user_id,screening_session_id,handoff_token_hash,device_nonce_hash,consent_version,consented_at,status,expires_at,ended_at,ended_reason)
     values ('${FIXTURE.sessionId}','${FIXTURE.eventId}','${FIXTURE.staffId}','${participant.id}','${FIXTURE.screeningId}','${sha256(clinicSessionToken)}','${sha256(deviceToken)}','clinic-assistance-v1',now(),'active',now()+interval '2 hours',null,null)

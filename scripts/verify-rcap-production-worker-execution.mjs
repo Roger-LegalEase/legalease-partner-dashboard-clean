@@ -88,7 +88,16 @@ async function main() {
     "status=" + machines.status + "; machines=" + list.length
   )) throw new Error("exactly one production worker machine is required");
 
-  const machine = list[0];
+  // A machine the deploy just created reads `created` for a few seconds before
+  // it is `started`; wait a bounded time for the real state instead of
+  // reading the transition.
+  let machine = list[0];
+  const startedDeadline = Date.now() + 180_000;
+  while (machine?.state !== "started" && Date.now() < startedDeadline) {
+    await new Promise((resolve) => setTimeout(resolve, 5_000));
+    const fresh = await flyRequest("/v1/apps/" + encodeURIComponent(FLY_APP_NAME) + "/machines/" + encodeURIComponent(machine?.id ?? ""));
+    if (fresh.status === 200 && fresh.json && typeof fresh.json === "object") machine = fresh.json;
+  }
   const config = machine?.config ?? {};
   const imageRef = machine?.image_ref ?? {};
   const labels = imageRef?.labels ?? {};
@@ -145,7 +154,7 @@ async function main() {
   } : null;
   record(
     "production_queue_age_within_alert_threshold",
-    queue.status === 200 && row !== null && Number(row.stale_queued) === 0,
+    queue.status >= 200 && queue.status < 300 && row !== null && Number(row.stale_queued) === 0,
     "status=" + queue.status + "; stale_queued=" + (row?.stale_queued ?? "(unreadable)") + "; queued=" + (row?.queued ?? "?")
       + "; claimed=" + (row?.claimed ?? "?") + " (aggregate counts only)"
   );

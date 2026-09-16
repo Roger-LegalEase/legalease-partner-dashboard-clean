@@ -104,7 +104,18 @@ async function managementApi(pathname, { method = "GET", body = null } = {}) {
   const text = await res.text();
   let json = null;
   try { json = JSON.parse(text); } catch { /* non-JSON surfaces through text */ }
-  return { ok: res.ok, status: res.status, json, text: text.slice(0, 300) };
+  // Provider request identifiers only; never a header that could carry a credential.
+  const requestId = res.headers.get("sb-request-id") ?? res.headers.get("x-request-id") ?? res.headers.get("cf-ray") ?? null;
+  return { ok: res.ok, status: res.status, json, text: text.slice(0, 300), requestId };
+}
+
+// A sanitized provider verdict for diagnostics: status, request id and the
+// error code/message the provider returned. Values from the Auth configuration
+// itself are never included, only whether the response was usable.
+function providerVerdict(response) {
+  const error = response.ok ? null : (response.json?.message ?? response.json?.error ?? response.json?.msg ?? (response.text || null));
+  const code = response.json?.code ?? response.json?.error_code ?? null;
+  return `HTTP ${response.status}${response.requestId ? ` (request ${response.requestId})` : ""}${code ? ` code=${code}` : ""}${error ? ` error=${JSON.stringify(String(error).slice(0, 160))}` : ""}`;
 }
 
 async function supabase(pathname, { method = "GET", key, token = null, body = null } = {}) {
@@ -208,19 +219,25 @@ let previewUrl = null;
     `${previewUrl}/api/auth/callback`
   ];
 
+  // Read the existing settings first. A property missing from an error
+  // response is not a configuration value: site_url is interpreted only from
+  // a successful read, and each call's provider verdict is reported so a
+  // refusal can be diagnosed from the run log without exposing configuration.
   const before = await managementApi(`/v1/projects/${PROJECT_REF}/config/auth`);
+  const beforeSite = before.ok ? (before.json?.site_url ?? null) : "(unreadable)";
   const patch = await managementApi(`/v1/projects/${PROJECT_REF}/config/auth`, {
     method: "PATCH",
     body: { site_url: previewUrl, uri_allow_list: allowList.join(",") }
   });
   const after = await managementApi(`/v1/projects/${PROJECT_REF}/config/auth`);
 
-  const siteOk = after.json?.site_url === previewUrl;
-  const listOk = typeof after.json?.uri_allow_list === "string" && after.json.uri_allow_list.includes(previewUrl);
+  const siteOk = after.ok && after.json?.site_url === previewUrl;
+  const listOk = after.ok && typeof after.json?.uri_allow_list === "string" && after.json.uri_allow_list.includes(previewUrl);
   record(
     "auth_callbacks_point_at_the_preview_deployment",
     patch.ok && siteOk && listOk,
-    `PATCH ${patch.status}; site_url now ${JSON.stringify(after.json?.site_url ?? null)} (was ${JSON.stringify(before.json?.site_url ?? null)}); allow-list contains the deployment host: ${listOk}`
+    `GET before: ${providerVerdict(before)}; PATCH: ${providerVerdict(patch)}; GET after: ${providerVerdict(after)}; `
+      + `site_url now ${after.ok ? JSON.stringify(after.json?.site_url ?? null) : "(unreadable)"} (was ${JSON.stringify(beforeSite)}); allow-list contains the deployment host: ${listOk}`
   );
   evidence.auth = { siteUrl: after.json?.site_url ?? null, allowListEntries: allowList.length };
 }

@@ -13,11 +13,11 @@ const files = [
 ];
 
 const mutations = [
-  ["application SHA", "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
-  ["worker digest", "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
+  ["application SHA", "3e3a528b5762ece971c53186d1a45a48e5633a9c", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
+  ["worker digest", "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
   ["acceptance negative control", "hyflxnlhpmiqxvvcoiia", "wrongacceptanceproject"],
   ["canonical Production project", "wwtwtsmywnckfkdaqqeg", "wrongproductionproject"],
-  ["accepted Preview deployment", "dpl_Hdmt31K5hx8ysFmDnqyFvSPBmQZ5", "dpl_wrongacceptedpreview"],
+  ["accepted Preview deployment", "dpl_DYp7qmhbDanxurUBZZvyei8STrUx", "dpl_wrongacceptedpreview"],
   ["environment separation verdict", "production_environment_is_separate_from_acceptance", "environment_separation_removed"],
   ["staged Production identity verdict", "staged_production_deployment_is_exact", "staged_identity_removed"],
   ["accepted Preview identity verdict", "accepted_preview_deployment_is_exact", "accepted_preview_identity_removed"],
@@ -25,7 +25,11 @@ const mutations = [
   ["exactly one runtime origin", "candidateOrigins.size !== 1", "candidateOrigins.size < 1"],
   ["canonical Production runtime verdict", "production_runtime_project_is_canonical", "production_runtime_identity_removed"],
   ["exact acceptance runtime verdict", "acceptance_preview_project_is_exact", "acceptance_runtime_identity_removed"],
-  ["staged deployment cannot assign domains", '"--prod", "--skip-domain"', '"--prod"'],
+  // The staged candidate is created through the REST transport, so the guard
+  // that no Production domain can move is autoAssignCustomDomains: false, not
+  // the CLI's --skip-domain. The old needle matched nothing and silently
+  // stopped guarding anything.
+  ["staged deployment cannot assign domains", "autoAssignCustomDomains: false", "autoAssignCustomDomains: true"],
   ["withdrawn decrypt gate stays absent", 'valueReadbackRequirement: "superseded"', 'valueReadbackRequirement: "decrypt=true"'],
   ["environment remains unchanged", "environmentVariableChanged: false", "environmentVariableChanged: true"],
   ["Production aliases remain unchanged", "productionAliasChanged: false", "productionAliasChanged: true"],

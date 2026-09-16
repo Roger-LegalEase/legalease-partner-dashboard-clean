@@ -13,14 +13,15 @@ const files = [
   "scripts/verify-rcap-production-smoke.mjs"
 ];
 const mutations = [
-  ["staged deployment", "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL", "dpl_wrongstaged"],
-  ["rollback deployment", "dpl_9WoA51v3wXSvG3VmBKGUEKtVBCfS", "dpl_wrongrollback"],
+  ["staged deployment", "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX", "dpl_wrongstaged"],
+  ["rollback deployment", "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL", "dpl_wrongrollback"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
   ["staged identity", "exact_staged_application_worker_identity", "staged_identity_removed"],
   ["rollback readiness", "rollback_target_is_ready_and_still_active", "rollback_readiness_removed"],
   ["runtime project", "runtime_supabase_origin_is_canonical", "runtime_project_removed"],
   ["health", "staged_health_is_200", "health_removed"],
   ["Clinic readback", "production_clinic_schema_direct_readback", "clinic_readback_removed"],
+  ["save/claim readback", "save_claim_schema_read_back_exact", "save_claim_schema_ignored"],
   ["Colorado commerce boundary", "colorado_juvenile_guidance_has_no_commerce", "commerce_boundary_removed"],
   ["Clinic isolation", "clinic_negative_control_isolated", "isolation_removed"],
   ["Clinic reset", "clinic_reset_boundary_passed", "reset_removed"],

@@ -15,12 +15,12 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b";
-const WORKER_SOURCE_SHA = "c177eef11ad041165294f2d4a38e9bddeef031db";
-const WORKER_DIGEST = "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832";
+const APPLICATION_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const WORKER_SOURCE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const WORKER_DIGEST = "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const STAGED_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL";
-const ROLLBACK_DEPLOYMENT_ID = "dpl_9WoA51v3wXSvG3VmBKGUEKtVBCfS";
+const STAGED_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL";
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
   "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",
@@ -53,6 +53,20 @@ const REQUIRED_FUNCTIONS = [
   "clinic_actor_can_event", "clinic_upsert_event_follow_up", "clinic_get_event_queue",
   "clinic_transition_event_case", "clinic_get_follow_ups", "clinic_get_event_report"
 ];
+// Save/claim pending-result schema (2026-09-16 incident: Production had never
+// received 20260828100000_shared_pending_result_and_atomic_claim.sql, so the
+// live pending-result route failed 503 pending_storage_failed while every gate
+// passed). The exact column, function and table names the live save/claim
+// path writes and calls must be read back from the Production catalog.
+const SAVE_CLAIM_TABLE = "consumer_pending_screening_results";
+const SAVE_CLAIM_REQUIRED_COLUMNS = [
+  "claim_token_hash", "screening_correlation_id", "anonymous_session_id", "status",
+  "claimed_matter_id", "candidate_route_context", "locale", "partner_slug", "program_id",
+  "event_id", "campaign_name", "access_code_id", "consent_grant_id"
+];
+const SAVE_CLAIM_LEGACY_COLUMNS = ["matter_id", "source_session_id", "pending_token_hash"];
+const SAVE_CLAIM_FUNCTION = "claim_pending_screening_result";
+const SAVE_CLAIM_EVENTS_TABLE = "participant_claim_events";
 
 fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 const verdicts = [];
@@ -259,6 +273,29 @@ async function clinicSchemaReadback() {
   return { rlsTables: postgresArray(row.rls_tables), functions: postgresArray(row.functions) };
 }
 
+async function saveClaimSchemaReadback() {
+  const rows = await managementQuery(`
+    select
+      array(select c.column_name::text from information_schema.columns c
+        where c.table_schema='public' and c.table_name='${SAVE_CLAIM_TABLE}'
+          and c.column_name in (${sqlNames(SAVE_CLAIM_REQUIRED_COLUMNS)}) order by c.column_name) as required_columns,
+      array(select c.column_name::text from information_schema.columns c
+        where c.table_schema='public' and c.table_name='${SAVE_CLAIM_TABLE}'
+          and c.column_name in (${sqlNames(SAVE_CLAIM_LEGACY_COLUMNS)}) order by c.column_name) as legacy_columns,
+      array(select distinct p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+        where n.nspname='public' and p.proname in (${sqlNames([SAVE_CLAIM_FUNCTION])})) as functions,
+      array(select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+        where n.nspname='public' and c.relkind='r' and c.relname in (${sqlNames([SAVE_CLAIM_EVENTS_TABLE])})) as tables
+  `);
+  const row = Array.isArray(rows) ? rows[0] ?? {} : {};
+  return {
+    requiredColumns: postgresArray(row.required_columns),
+    legacyColumns: postgresArray(row.legacy_columns),
+    functions: postgresArray(row.functions),
+    tables: postgresArray(row.tables)
+  };
+}
+
 try {
   if (PHASE !== "smoke"
     || INPUT_APPLICATION_SHA !== APPLICATION_SHA
@@ -333,6 +370,22 @@ try {
     `RLS tables=${schema.rlsTables.length}/10; functions=${schema.functions.length}/22`
   );
 
+  const saveClaim = await saveClaimSchemaReadback();
+  const requiredPresent = SAVE_CLAIM_REQUIRED_COLUMNS.filter((name) => saveClaim.requiredColumns.includes(name));
+  const requiredAbsent = SAVE_CLAIM_REQUIRED_COLUMNS.filter((name) => !saveClaim.requiredColumns.includes(name));
+  const legacyPresent = SAVE_CLAIM_LEGACY_COLUMNS.filter((name) => saveClaim.legacyColumns.includes(name));
+  const legacyAbsent = SAVE_CLAIM_LEGACY_COLUMNS.filter((name) => !saveClaim.legacyColumns.includes(name));
+  const claimFunctionPresent = saveClaim.functions.includes(SAVE_CLAIM_FUNCTION);
+  const claimEventsTablePresent = saveClaim.tables.includes(SAVE_CLAIM_EVENTS_TABLE);
+  record(
+    "save_claim_schema_read_back_exact",
+    requiredAbsent.length === 0 && legacyPresent.length === 0 && claimFunctionPresent && claimEventsTablePresent,
+    `${SAVE_CLAIM_TABLE} required columns present=[${requiredPresent.join(",")}] absent=[${requiredAbsent.join(",")}]`
+      + `; legacy columns present=[${legacyPresent.join(",")}] absent=[${legacyAbsent.join(",")}]`
+      + `; function ${SAVE_CLAIM_FUNCTION}=${claimFunctionPresent ? "present" : "absent"}`
+      + `; table ${SAVE_CLAIM_EVENTS_TABLE}=${claimEventsTablePresent ? "present" : "absent"}`
+  );
+
   const colorado = spawnSync(process.execPath, ["scripts/verify-rcap-colorado-juvenile-packet-boundary.mjs"], {
     cwd: process.cwd(),
     encoding: "utf8",
@@ -340,7 +393,14 @@ try {
     env: { ...process.env, RCAP_EVALUATOR_TODAY: "2026-08-25" }
   });
   const coloradoOutput = `${colorado.stdout ?? ""}\n${colorado.stderr ?? ""}`;
-  if (colorado.status !== 0 || !coloradoOutput.includes("Colorado juvenile packet boundary (53/53)")) {
+  // The verifier reports its own check count: 53 when this control was
+  // written, 56 since the 2026-09-15 Colorado correction. The verifier must
+  // exit successfully, every check it ran must pass, and it may never run
+  // fewer than the current complete suite. (Owner-authorized correction,
+  // 2026-09-16: an outdated literal total refused the current 56-check suite.)
+  const coloradoPass = coloradoOutput.match(/PASS: Colorado juvenile packet boundary \((\d+)\/(\d+)\)/);
+  const coloradoTotal = coloradoPass ? Number(coloradoPass[2]) : 0;
+  if (colorado.status !== 0 || coloradoPass === null || coloradoPass[1] !== coloradoPass[2] || coloradoTotal < 56) {
     throw new Error("Colorado juvenile exact-SHA verifier failed");
   }
 
@@ -458,7 +518,7 @@ try {
   record(
     "colorado_juvenile_guidance_has_no_commerce",
     true,
-    "exact-SHA Colorado verifier 53/53 plus rolled-back Production DB no-checkout/no-job/no-credit assertions"
+    `exact-SHA Colorado verifier ${coloradoTotal}/${coloradoTotal} plus rolled-back Production DB no-checkout/no-job/no-credit assertions`
   );
   record(
     "clinic_negative_control_isolated",

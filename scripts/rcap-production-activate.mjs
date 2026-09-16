@@ -5,25 +5,22 @@
 // deployment if any post-promotion assertion fails.
 
 import { createHash } from "node:crypto";
-import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
 import {
   HOSTED_VERCEL_PROJECT_NAME,
-  HOSTED_VERCEL_TEAM_SLUG,
-  hostedVercelCliEnvironment,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b";
-const WORKER_SOURCE_SHA = "c177eef11ad041165294f2d4a38e9bddeef031db";
-const WORKER_DIGEST = "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832";
+const APPLICATION_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const WORKER_SOURCE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const WORKER_DIGEST = "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const STAGED_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL";
-const ROLLBACK_DEPLOYMENT_ID = "dpl_9WoA51v3wXSvG3VmBKGUEKtVBCfS";
-const SMOKE_RUN_ID = "32967717618";
+const STAGED_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL";
+const SMOKE_RUN_ID = "35083725518";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
     ?? "prior-production-smoke-evidence/production-canary-smoke.json"
@@ -76,6 +73,7 @@ const evidence = {
   migrationHashes: REQUIRED_MIGRATION_HASHES,
   promotionAttempted: false,
   promotionCompleted: false,
+  promotion: null,
   productionAliasChanged: false,
   deploymentTriggered: false,
   environmentVariableChanged: false,
@@ -87,6 +85,8 @@ const evidence = {
   automaticRollback: {
     attempted: false,
     completed: false,
+    productionMoved: null,
+    control: null,
     failure: null
   },
   originPersisted: false,
@@ -378,35 +378,64 @@ async function originMatchesProductionProject(origin) {
       && String(vanityHost ?? "").toLowerCase() === hostname);
 }
 
-function runVercelCli(args, cliEnvironment) {
-  return new Promise((resolve) => {
-    const child = spawn("npx", args, {
-      cwd: process.cwd(),
-      stdio: ["ignore", "pipe", "pipe"],
-      env: { ...process.env, ...cliEnvironment }
-    });
-    let outputLength = 0;
-    child.stdout.on("data", (chunk) => { outputLength += chunk.length; });
-    child.stderr.on("data", (chunk) => { outputLength += chunk.length; });
-    child.on("error", (error) => resolve({ status: null, error, outputLength }));
-    child.on("close", (code) => resolve({ status: code, error: null, outputLength }));
-  });
+// Domain moves go through the same REST control plane as every other proven
+// step of this release chain (Preview creation, Production staging, identity
+// and domain reads). The CLI path was retired after run 35086067995: every
+// Vercel CLI invocation in the hosted runner exits non-zero (the archive
+// deploy on run 35047531870, the CLI control in each acceptance run, and the
+// promote/rollback attempts), while the REST transport succeeds.
+// `POST /promote/{id}` and `POST /rollback/{id}` are Vercel's own controls for
+// pointing all Production domains at an existing deployment; neither can
+// build, create a deployment, or touch environment variables. Success is not
+// the HTTP status: it is the exact domain readback that follows.
+async function vercelDomainMove(identity, control, targetDeploymentId) {
+  const project = encodeURIComponent(identity.projectId);
+  const target = encodeURIComponent(targetDeploymentId);
+  const pathname = control === "promote"
+    ? `/v10/projects/${project}/promote/${target}`
+    : `/v9/projects/${project}/rollback/${target}`;
+  const response = await fetch(
+    hostedVercelScopedUrl(pathname, identity),
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+      redirect: "error",
+      signal: AbortSignal.timeout(60_000)
+    }
+  );
+  const json = parseJson(await response.text());
+  const result = {
+    control,
+    targetDeploymentId,
+    httpStatus: response.status,
+    ok: response.ok,
+    errorCode: typeof json?.error?.code === "string" ? json.error.code.slice(0, 80) : null,
+    errorMessage: typeof json?.error?.message === "string" ? json.error.message.slice(0, 160) : null
+  };
+  console.log(`  ${control} ${targetDeploymentId}: HTTP ${result.httpStatus}${result.errorCode ? ` code=${result.errorCode}` : ""}${result.errorMessage ? ` error="${result.errorMessage}"` : ""}`);
+  return result;
 }
 
 async function automaticRollback(identity, vercel) {
   evidence.automaticRollback.attempted = true;
-  const cliEnv = hostedVercelCliEnvironment(identity);
-  let result = await runVercelCli([
-    "vercel@latest", "rollback", ROLLBACK_DEPLOYMENT_ID,
-    "--timeout=5m", "--token", VERCEL_TOKEN, "--scope", HOSTED_VERCEL_TEAM_SLUG
-  ], cliEnv);
-  if (result.error || result.status !== 0) {
-    result = await runVercelCli([
-      "vercel@latest", "promote", ROLLBACK_DEPLOYMENT_ID, "--yes",
-      "--timeout=5m", "--token", VERCEL_TOKEN, "--scope", HOSTED_VERCEL_TEAM_SLUG
-    ], cliEnv);
+  const current = await resolveProductionDomains(vercel, identity.projectId).catch(() => null);
+  if (current && current.deploymentIds.length === 1 && current.deploymentIds[0] === ROLLBACK_DEPLOYMENT_ID) {
+    evidence.automaticRollback.completed = true;
+    evidence.automaticRollback.productionMoved = false;
+    verdicts.push({
+      caseId: "rollback_domains_restored",
+      passed: true,
+      observed: "all Production domains still resolve to the exact recorded rollback deployment; no domain moved"
+    });
+    return true;
   }
-  if (result.error || result.status !== 0) {
+  evidence.automaticRollback.productionMoved = true;
+  let result = await vercelDomainMove(identity, "rollback", ROLLBACK_DEPLOYMENT_ID);
+  if (!result.ok) {
+    result = await vercelDomainMove(identity, "promote", ROLLBACK_DEPLOYMENT_ID);
+  }
+  evidence.automaticRollback.control = result;
+  if (!result.ok) {
     evidence.automaticRollback.failure = "exact rollback control command failed";
     return false;
   }
@@ -511,12 +540,10 @@ try {
 
   promotionAttempted = true;
   evidence.promotionAttempted = true;
-  const promoted = await runVercelCli([
-    "vercel@latest", "promote", STAGED_DEPLOYMENT_ID, "--yes",
-    "--timeout=5m", "--token", VERCEL_TOKEN, "--scope", HOSTED_VERCEL_TEAM_SLUG
-  ], hostedVercelCliEnvironment(identity));
-  if (promoted.error || promoted.status !== 0) {
-    throw new Error("exact staged deployment promotion command failed");
+  const promoted = await vercelDomainMove(identity, "promote", STAGED_DEPLOYMENT_ID);
+  evidence.promotion = promoted;
+  if (!promoted.ok) {
+    throw new Error(`exact staged deployment promotion command failed (HTTP ${promoted.httpStatus}${promoted.errorCode ? ` ${promoted.errorCode}` : ""})`);
   }
   evidence.promotionCompleted = true;
 

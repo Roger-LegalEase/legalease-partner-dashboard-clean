@@ -28,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_identity, vercel_audit, migrate, clinic_migrate, clinic_preview, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
+        description: "preflight, vercel_identity, vercel_audit, migrate, clinic_migrate, legal_aid_migrate, clinic_preview, legal_aid_browser, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -77,6 +77,16 @@ on:
       # pretending a placeholder transacted.
       HOSTED_STRIPE_TEST_SECRET:
         required: false
+      # Optional, Legal Aid browser phase only: a Resend key for a nonproduction
+      # sending domain and the authorized test mailbox. Absent, the Preview
+      # carries no email provider and the phase records "saved, not sent"
+      # truthfully instead of claiming delivery.
+      HOSTED_LEGAL_AID_RESEND_API_KEY:
+        required: false
+      HOSTED_LEGAL_AID_TEST_MAILBOX:
+        required: false
+      HOSTED_LEGAL_AID_EMAIL_FROM:
+        required: false
       HOSTED_STRIPE_TEST_WEBHOOK_SECRET:
         required: false
       # Preview deployments protected by Vercel Authentication answer every
@@ -95,8 +105,8 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: c177eef11ad041165294f2d4a38e9bddeef031db
-  AUTHORIZED_WORKER_DIGEST: sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832
+  AUTHORIZED_WORKER_SOURCE_SHA: 436520e4a99f0b8a290ace32f1d717b951630319
+  AUTHORIZED_WORKER_DIGEST: sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
@@ -231,7 +241,7 @@ jobs:
         run: node scripts/verify-rcap-vercel-failure-audit.mjs
 
       - name: Prove acceptance Supabase credentials and project
-        if: inputs.phase == 'migrate' || inputs.phase == 'clinic_migrate'
+        if: inputs.phase == 'migrate' || inputs.phase == 'clinic_migrate' || inputs.phase == 'legal_aid_migrate'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -239,7 +249,7 @@ jobs:
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
 
       - name: Prove credentials and Preview-only deployment boundary
-        if: inputs.phase != 'migrate' && inputs.phase != 'clinic_migrate' && inputs.phase != 'vercel_audit' && inputs.phase != 'vercel_identity'
+        if: inputs.phase != 'migrate' && inputs.phase != 'clinic_migrate' && inputs.phase != 'vercel_audit' && inputs.phase != 'vercel_identity' && inputs.phase != 'legal_aid_migrate'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -295,10 +305,41 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: node scripts/rcap-hosted-clinic-migrate.mjs
 
+      # Isolated from both sequences above. This phase applies only the one exact
+      # Legal Aid Clinic Mode migration blob read from the frozen application
+      # commit, at the hash explicitly authorized for the named nonproduction
+      # acceptance project, after reading the Clinic Mode prerequisites back.
+      # It has no Preview, Stripe, Checkout, payment, worker, browser, or
+      # generic migration path, and cannot run the ten-file Clinic sequence.
+      - name: Verify the exact frozen Legal Aid migration contract
+        id: verify_legal_aid_migrate
+        if: inputs.phase == 'legal_aid_migrate'
+        run: |
+          node scripts/verify-rcap-hosted-legal-aid-migrate.mjs
+          node scripts/test-rcap-hosted-legal-aid-migrate-mutations.mjs
+          # The PGlite readback self-test needs node_modules, which this
+          # Supabase-only phase never installs (run 35113452210 stopped on
+          # ERR_MODULE_NOT_FOUND before the apply). It runs in the local test
+          # chain; the two dependency-free proofs above stay blocking here.
+
+      - name: Apply the exact frozen Legal Aid migration to acceptance only
+        id: legal_aid_migrate
+        if: inputs.phase == 'legal_aid_migrate'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-hosted-legal-aid-migrate.mjs
+
       - name: Verify the bounded MVL Clinic Preview orchestration contract
         id: verify_clinic_preview
-        if: inputs.phase == 'clinic_preview'
+        if: inputs.phase == 'clinic_preview' || inputs.phase == 'legal_aid_browser'
         run: node scripts/verify-rcap-hosted-ms-clinic-preview.mjs
+
+      - name: Verify the hosted Legal Aid Clinic Mode browser contract
+        id: verify_legal_aid_browser
+        if: inputs.phase == 'legal_aid_browser'
+        run: node scripts/verify-rcap-hosted-legal-aid-browser.mjs
 
       # Deploys the FROZEN application bytes. The equivalence check above has
       # already proven this checkout is byte-identical to application_sha on
@@ -321,7 +362,9 @@ jobs:
       #   checkout_gate    no             no       yes             no
       #   browser          no             no       no              no (isolated browser=true)
       #   clinic_preview   yes            no       no              no (bounded MVL seed + no-Stripe journey)
+      #   legal_aid_browser yes           no       no              no (Clinic Preview journey + Legal Aid training cohort and browser proof)
       #   clinic_migrate   no             no       no              no (exact ten-file Clinic Preview sequence only)
+      #   legal_aid_migrate no            no       no              no (exact one-file Legal Aid migration only)
       #   migrate          no             no       no              no
       #   preflight        no             no       no              no
       #   vercel_audit     no             no       no              no
@@ -332,16 +375,17 @@ jobs:
           set -euo pipefail
           PHASE='${{ inputs.phase }}'
           case "$PHASE" in
-            full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false ;;
-            clinic_preview)  DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true  ;;
-            deploy)          DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
-            replace_preview) DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
-            accept)          DEPLOY=false; MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
-            payment)         DEPLOY=true;  MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
-            stripe_retarget) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=true;  BROWSER=false; CLINIC=false ;;
-            checkout_gate)   DEPLOY=false; MATRIX=false; GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false ;;
-            browser)         DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=true;  CLINIC=false ;;
-            clinic_migrate|migrate|preflight|vercel_identity|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
+            full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            clinic_preview)  DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=false ;;
+            legal_aid_browser) DEPLOY=true; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=true  ;;
+            deploy)          DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            replace_preview) DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            accept)          DEPLOY=false; MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            payment)         DEPLOY=true;  MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            stripe_retarget) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=true;  BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            checkout_gate)   DEPLOY=false; MATRIX=false; GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            browser)         DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=true;  CLINIC=false; LEGAL_AID=false ;;
+            clinic_migrate|migrate|preflight|vercel_identity|vercel_audit|worker_contract|legal_aid_migrate) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             *)
               echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
               exit 1
@@ -355,6 +399,7 @@ jobs:
             echo "retarget=$RETARGET"
             echo "browser=$BROWSER"
             echo "clinic=$CLINIC"
+            echo "legal_aid=$LEGAL_AID"
             # A read-only diagnosis phase: no Preview, no Checkout, no payment,
             # but it does need the registry to probe inside the published image.
             if [ "$PHASE" = "worker_contract" ]; then echo "diagnose=true"; else echo "diagnose=false"; fi
@@ -368,7 +413,7 @@ jobs:
               echo "require_staging_scoped=false"
             fi
           } >> "$GITHUB_OUTPUT"
-          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE stripeRetarget=$RETARGET browser=$BROWSER clinic=$CLINIC"
+          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE stripeRetarget=$RETARGET browser=$BROWSER clinic=$CLINIC legalAid=$LEGAL_AID"
 
       - name: Retarget the one existing Stripe sandbox webhook to the exact Preview
         id: stripe_retarget
@@ -444,6 +489,11 @@ jobs:
           HOSTED_CLINIC_DEMO_MODE: ${{ steps.contract.outputs.clinic == 'true' && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
+          # Legal Aid browser phase only, and only when both are configured:
+          # a nonproduction email provider so follow-up delivery can be proved.
+          HOSTED_LEGAL_AID_RESEND_API_KEY: ${{ steps.contract.outputs.legal_aid == 'true' && secrets.HOSTED_LEGAL_AID_RESEND_API_KEY || '' }}
+          HOSTED_LEGAL_AID_TEST_MAILBOX: ${{ steps.contract.outputs.legal_aid == 'true' && secrets.HOSTED_LEGAL_AID_TEST_MAILBOX || '' }}
+          HOSTED_LEGAL_AID_EMAIL_FROM: ${{ steps.contract.outputs.legal_aid == 'true' && secrets.HOSTED_LEGAL_AID_EMAIL_FROM || '' }}
         run: node scripts/rcap-hosted-acceptance-deploy.mjs
 
       # Points the ACCEPTANCE project's GoTrue at the discovered Preview
@@ -543,6 +593,53 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           RCAP_BROWSER_EVIDENCE_DIR: hosted-acceptance-evidence/ms-clinic-preview
         run: node scripts/rcap-hosted-ms-clinic-preview-audit.mjs
+
+      # Legal Aid Clinic Mode on the same Preview, after the Clinic journey has
+      # generated applicant A's sponsored Mississippi packet on it. Seeds only
+      # the synthetic training cohort and the acceptance copy of the MVLP
+      # organization; the browser proof deploys nothing, migrates nothing,
+      # runs no worker and touches no Production project.
+      # The first-administrator and Legal Aid schema suites import the
+      # repository's TypeScript and PGlite, so they run only once the frozen
+      # dependencies are installed (run 35114496743 stopped on
+      # ERR_MODULE_NOT_FOUND 'typescript' when they ran before npm ci).
+      - name: Run the first-administrator and Legal Aid schema suites on the frozen dependencies
+        id: legal_aid_suites
+        if: steps.contract.outputs.legal_aid == 'true' && steps.gate_deps.outcome == 'success'
+        run: |
+          node scripts/verify-first-admin-provisioning.mjs
+          node scripts/legal-aid/verify-legal-aid-schema.mjs
+
+      - name: Seed the synthetic MVLP Legal Aid training cohort
+        id: legal_aid_seed
+        if: steps.contract.outputs.legal_aid == 'true' && steps.clinic_audit.outcome == 'success' && steps.legal_aid_suites.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+        run: node scripts/rcap-hosted-legal-aid-seed.mjs
+
+      - name: Run the hosted MVLP Legal Aid Clinic Mode browser proof
+        id: legal_aid_browser
+        if: steps.contract.outputs.legal_aid == 'true' && steps.legal_aid_seed.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          HOSTED_LEGAL_AID_RESEND_API_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESEND_API_KEY }}
+          HOSTED_LEGAL_AID_TEST_MAILBOX: ${{ secrets.HOSTED_LEGAL_AID_TEST_MAILBOX }}
+          HOSTED_LEGAL_AID_EMAIL_FROM: ${{ secrets.HOSTED_LEGAL_AID_EMAIL_FROM }}
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+        run: node scripts/rcap-hosted-legal-aid-browser.mjs
 
       # Placed AFTER the registry login and the dependency install, because it
       # needs both: it pulls the private image by digest, and it imports the
@@ -682,11 +779,18 @@ jobs:
           RUNS_DIAGNOSE: ${{ steps.contract.outputs.diagnose }}
           RUNS_BROWSER: ${{ steps.contract.outputs.browser }}
           RUNS_CLINIC: ${{ steps.contract.outputs.clinic }}
+          RUNS_LEGAL_AID: ${{ steps.contract.outputs.legal_aid }}
+          O_VERIFY_LEGAL_AID_BROWSER: ${{ steps.verify_legal_aid_browser.outcome }}
+          O_LEGAL_AID_SUITES: ${{ steps.legal_aid_suites.outcome }}
+          O_LEGAL_AID_SEED: ${{ steps.legal_aid_seed.outcome }}
+          O_LEGAL_AID_BROWSER: ${{ steps.legal_aid_browser.outcome }}
           O_DIAGNOSE: ${{ steps.worker_contract.outcome }}
           O_VERIFY_BROWSER: ${{ steps.verify_browser.outcome }}
           O_BROWSER: ${{ steps.hosted_browser.outcome }}
           O_VERIFY_CLINIC_MIGRATE: ${{ steps.verify_clinic_migrate.outcome }}
           O_CLINIC_MIGRATE: ${{ steps.clinic_migrate.outcome }}
+          O_VERIFY_LEGAL_AID_MIGRATE: ${{ steps.verify_legal_aid_migrate.outcome }}
+          O_LEGAL_AID_MIGRATE: ${{ steps.legal_aid_migrate.outcome }}
           O_VERIFY_CLINIC_PREVIEW: ${{ steps.verify_clinic_preview.outcome }}
           O_CLINIC_SEED: ${{ steps.clinic_seed.outcome }}
           O_CLINIC_JOURNEY: ${{ steps.clinic_journey.outcome }}
@@ -745,6 +849,12 @@ jobs:
             require "Clinic synthetic seed" "$O_CLINIC_SEED"
             require "Clinic screening-to-packet journey" "$O_CLINIC_JOURNEY"
             require "Clinic server-side audit" "$O_CLINIC_AUDIT"
+            if [ "$RUNS_LEGAL_AID" = "true" ]; then
+              require "Legal Aid browser contract" "$O_VERIFY_LEGAL_AID_BROWSER"
+              require "first-administrator and Legal Aid schema suites" "$O_LEGAL_AID_SUITES"
+              require "Legal Aid synthetic training cohort seed" "$O_LEGAL_AID_SEED"
+              require "Legal Aid Clinic Mode browser proof" "$O_LEGAL_AID_BROWSER"
+            fi
           elif [ "$RUNS_MATRIX" = "true" ]; then
             require "Preview resolution boundary"        "$O_RESOLVE"
             # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.
@@ -794,6 +904,9 @@ jobs:
           elif [ "$PHASE" = "clinic_migrate" ]; then
             require "exact Clinic migration contract verifier" "$O_VERIFY_CLINIC_MIGRATE"
             require "exact frozen Clinic migrations"           "$O_CLINIC_MIGRATE"
+          elif [ "$PHASE" = "legal_aid_migrate" ]; then
+            require "exact Legal Aid migration contract verifier" "$O_VERIFY_LEGAL_AID_MIGRATE"
+            require "exact frozen Legal Aid migration"            "$O_LEGAL_AID_MIGRATE"
           else
             echo "  phase does not claim the matrix; nothing to assert here."
           fi

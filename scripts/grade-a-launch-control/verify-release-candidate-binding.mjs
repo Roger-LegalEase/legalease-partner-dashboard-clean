@@ -19,6 +19,21 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     'data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json',
     // Preserved pre-existing operating notes are not application inputs.
     'CAPTAIN_RESTART.md',
+    // Release records regenerated or updated after the application freeze
+    // (publication evidence, image acceptance, staging action, fulfillment
+    // authority). Data, not orchestration: the orchestration set is
+    // scripts/ and .github/ only.
+    'data/rcap-render/worker-publication-evidence.json',
+    'data/rcap-staging-action.json',
+    'data/rcap-grade-a/fulfillment-authority-projection.json',
+    'data/rcap-grade-a/fulfillment-authority-registry.json',
+    'data/rcap-grade-a/fulfillment-observation-snapshot.json',
+    // Roger's independent Production Legal Aid migration authorization: filled
+    // only from passing acceptance run ids, read by the migrate control.
+    'data/rcap-production-legal-aid-migration-authorization.json',
+    // Roger's 2026-09-16 production incident authorization: the forward
+    // migration chain Production lacks, filled from the readback run id.
+    'data/rcap-production-forward-chain-migration-authorization.json',
     ...receiptPaths.filter(p => /^(data\/rcap-grade-a\/participant-data-rights|private\/rcap-hosted-acceptance)\//.test(p))
   ]);
   try {
@@ -27,10 +42,10 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     if (fs.existsSync(path.join(root, toolingPath))) {
       const binding = JSON.parse(fs.readFileSync(path.join(root, toolingPath)));
       const frozen = {
-        applicationSha: 'cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b',
-        workerSourceSha: 'c177eef11ad041165294f2d4a38e9bddeef031db',
-        workerDigest: 'sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832',
-        workerInputFingerprint: 'sha256:de034e8b43a3673e8b4de8f1049f7d7d4d3b5c1b585323f327c99b867ccf727e'
+        applicationSha: '436520e4a99f0b8a290ace32f1d717b951630319',
+        workerSourceSha: '436520e4a99f0b8a290ace32f1d717b951630319',
+        workerDigest: 'sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257',
+        workerInputFingerprint: 'sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683'
       };
       for (const [key, value] of Object.entries(frozen)) {
         if (binding[key] !== value || candidate[key] !== value) throw new Error('Frozen identity mismatch');
@@ -47,6 +62,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-hosted-colorado-clinic-browser.mjs',
         'scripts/verify-rcap-hosted-browser.mjs',
         'scripts/rcap-hosted-acceptance-payment.mjs',
+        'scripts/rcap-hosted-acceptance-auth-config.mjs',
         'scripts/rcap-hosted-acceptance-gallery.mjs',
         'scripts/verify-rcap-immutable-image-preflight.mjs',
         'scripts/rcap-hosted-acceptance-deploy.mjs',
@@ -62,15 +78,38 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         // Production release controls: the same exact-identity pins, moved to
         // the successor tuple under Roger's 2026-09-16 production authorization.
         '.github/workflows/rcap-production-canary.yml',
+        '.github/workflows/deploy-rcap-render-worker-production.yml',
+        'scripts/verify-rcap-production-worker-execution.mjs',
         'scripts/rcap-production-canary.mjs',
         'scripts/rcap-production-canary-smoke.mjs',
         'scripts/rcap-production-activate.mjs',
+        'scripts/rcap-production-public-verify.mjs',
         'scripts/verify-rcap-production-canary.mjs',
         'scripts/verify-rcap-production-smoke.mjs',
         'scripts/verify-rcap-production-activation.mjs',
         'scripts/test-rcap-production-canary-mutations.mjs',
         'scripts/test-rcap-production-smoke-mutations.mjs',
-        'scripts/test-rcap-production-activation-mutations.mjs'
+        'scripts/test-rcap-production-activation-mutations.mjs',
+        // MVLP rollout controls (Roger's 2026-09-16 MVLP rollout and onboarding
+        // authorizations): the hosted Legal Aid phase, the exact Legal Aid
+        // migration controls, and the successor worker publication record.
+        'scripts/rcap-hosted-legal-aid-seed.mjs',
+        'scripts/rcap-hosted-legal-aid-browser.mjs',
+        'scripts/rcap-legal-aid/hosted-fixture.mjs',
+        'scripts/verify-rcap-hosted-legal-aid-browser.mjs',
+        'scripts/rcap-production-legal-aid-migrate.mjs',
+        'scripts/verify-rcap-production-legal-aid-migrate.mjs',
+        'scripts/test-rcap-production-legal-aid-migrate-mutations.mjs',
+        'scripts/rcap-production-legal-aid-keys.mjs',
+        'scripts/verify-rcap-production-legal-aid-keys.mjs',
+        'scripts/verify-rcap-commercial-browser.mjs',
+        // 2026-09-16 production incident controls: the forward migration
+        // chain apply/readback and the public save-transition probe.
+        'scripts/rcap-production-forward-chain-migrate.mjs',
+        'scripts/verify-rcap-production-forward-chain-migrate.mjs',
+        'scripts/test-rcap-production-forward-chain-migrate-mutations.mjs',
+        'scripts/rcap-production-save-transition-probe.mjs',
+        'scripts/verify-rcap-production-save-transition-probe.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');

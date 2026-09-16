@@ -23,13 +23,13 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b";
-const TOOLS_SHA = "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b";
-const WORKER_SOURCE_SHA = "c177eef11ad041165294f2d4a38e9bddeef031db";
-const WORKER_DIGEST = "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832";
+const APPLICATION_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const TOOLS_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const WORKER_SOURCE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
+const WORKER_DIGEST = "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_Hdmt31K5hx8ysFmDnqyFvSPBmQZ5";
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_DYp7qmhbDanxurUBZZvyei8STrUx";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();

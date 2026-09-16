@@ -57,6 +57,29 @@ const environmentClassification = await verifyExactHostedPreview(baseUrl, bypass
 result.environmentClassification = environmentClassification;
 
 const failures = [];
+// The Mississippi non-conviction packet re-checks these route facts before
+// final verification (mississippiNonConvictionPacketSafety): a first-option
+// or placeholder answer makes the review unsafe and hides the verify action
+// (run 35120640545). These are the demo fixture's safe answers.
+const MISSISSIPPI_SAFE_ROUTE_ANSWERS = Object.freeze({
+  pending_cases: "No",
+  trafficking_status: "No",
+  prior_relief: "No",
+  sentence_completion_date: "Yes",
+  financial_obligations: "Yes",
+  nonadjudication_or_diversion: "No",
+  open_co_defendant_matter: "No",
+  actual_arrest: "Yes",
+  release_confirmed: "Yes",
+  disposition_record_wording: "Charges dropped",
+  statutory_disposition_category: "Charges dropped"
+});
+// Prompts the builder renders as free text although the profile validates them
+// as dates (the packet specification carries no question type for them).
+const ISO_DATE_ANSWER = "2015-01-15";
+function isDateInput(id, prompt) {
+  return /_date$|_date_/.test(id) || /\bdate\b/i.test(prompt);
+}
 const browserErrors = [];
 const generationRequests = [];
 const stripeRequests = [];
@@ -168,10 +191,45 @@ try {
   await answerChoice(page, "How did the case end?", "The case was dropped or thrown out");
   await answerChoice(page, "What kind of charge was it?", "Misdemeanor");
   await answerChoice(page, "Do any of these sound like your situation?", "Non-conviction expungement for dismissal, no disposition, or acquittal");
-  await answerChoice(page, "About how long ago did this case end or get resolved?", "More than 10 years ago");
-  await answerChoice(page, "Have you completed everything the court ordered in this case?", "Yes", true);
+  // The engine orders the last two Mississippi questions itself and may
+  // evaluate before both have been shown (run 35115205679 timed out waiting
+  // for the timing question first; run 35115970406 hung because a swallowed
+  // timeout never resolved once the result appeared). Answer whichever is
+  // shown, stop as soon as the result heading is visible, and fail loudly
+  // with the visible headings if neither appears within the budget.
+  const resultHeading = page.getByRole("heading", { name: /path may be available|You may be able to prepare an expungement packet/i });
+  const evaluationStatuses = [];
+  page.on("response", (response) => {
+    if (response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/evaluate") {
+      evaluationStatuses.push(response.status());
+    }
+  });
+  const remainingMississippi = new Map([
+    ["About how long ago did this case end or get resolved?", "More than 10 years ago"],
+    ["Have you completed everything the court ordered in this case?", "Yes"]
+  ]);
+  const answeredMississippi = [];
+  while (remainingMississippi.size > 0) {
+    const shown = await visibleScreeningPrompt(page, [...remainingMississippi.keys()], resultHeading);
+    if (shown === null) break;
+    const option = remainingMississippi.get(shown);
+    remainingMississippi.delete(shown);
+    answeredMississippi.push(shown);
+    await answerChoice(page, shown, option);
+  }
+  result.mississippiFollowUpOrder = answeredMississippi;
 
-  await page.getByRole("heading", { name: /A path may be available|You may be able to prepare an expungement packet/i }).waitFor({ state: "visible" });
+  // The Mississippi clinic result heading reads "A Mississippi non-conviction
+  // expungement path may be available." (run 35118996706 timed out on the
+  // exact "A path may be available" form), so the heading is matched on its
+  // shared phrase; a timeout reports what was visible instead of nothing.
+  try {
+    await resultHeading.waitFor({ state: "visible", timeout: 45_000 });
+  } catch {
+    const visible = await page.locator("h1, h2").allInnerTexts().catch(() => []);
+    throw new Error(`Screening result heading did not appear after ${JSON.stringify(answeredMississippi)}; evaluation statuses ${JSON.stringify(evaluationStatuses)}; visible headings: ${JSON.stringify(visible)}`);
+  }
+  check(evaluationStatuses.length > 0 && evaluationStatuses[evaluationStatuses.length - 1] < 400, `Authoritative screening evaluation statuses were ${JSON.stringify(evaluationStatuses)}; the last must succeed before the result renders.`);
   await expectText(page, "Your packet is covered by your partner program.");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner result");
   await screenshotPair(page, "01-partner-covered-result");
@@ -207,8 +265,10 @@ try {
 
   // 4. Complete the sponsored packet-information builder. Saving the final
   // fact must reach review without starting generation.
-  const builderLink = page.getByRole("link", { name: "Complete packet information", exact: true });
-  check(await builderLink.isVisible(), "Partner-covered Mississippi matter did not expose Complete packet information.");
+  // The Briefcase labels a Mississippi clinic packet "Continue my Mississippi
+  // clinic packet"; other partner-covered matters keep "Complete packet information".
+  const builderLink = page.getByRole("link", { name: /^(?:Complete packet information|Continue my Mississippi clinic packet)$/ });
+  check(await builderLink.isVisible(), "Partner-covered Mississippi matter did not expose the packet-information link.");
   const builderHref = await builderLink.getAttribute("href");
   const builderUrl = builderHref ? new URL(builderHref, baseUrl) : null;
   check(builderUrl?.origin === new URL(baseUrl).origin, "Packet-information CTA must stay on the current acceptance origin.");
@@ -232,10 +292,10 @@ try {
     if (!saveResponse.ok()) break;
   }
   await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}/review`, { timeout: 20_000 });
-  // "Final verification" is also the heading of the review page's unavailable
-  // branch, so a partial text match passes on a page that carries no
-  // verification panel at all. Require the panel itself and report the page's
-  // own branch attributes when it is missing.
+  // The review page has an outer "Final verification is not available" branch
+  // whose heading also matches a partial "Final verification" text wait (runs
+  // 35120640545 and 35122300936). Require the actual verification panel and
+  // report the page's own branch diagnostics when it is absent.
   const verificationPanel = page.locator("[data-packet-verification-state]");
   const unavailableBranch = page.locator("[data-review-branch='unavailable']");
   await Promise.race([
@@ -246,8 +306,9 @@ try {
     const branch = await unavailableBranch.evaluate((node) => Object.fromEntries(
       Array.from(node.attributes).filter((attribute) => attribute.name.startsWith("data-")).map((attribute) => [attribute.name, attribute.value])
     )).catch(() => null);
+    const crumbs = await page.locator("nav").first().innerText().catch(() => "");
     await screenshotPair(page, "04-partner-review-unavailable");
-    throw new Error(`The review page rendered its unavailable branch instead of the verification panel: ${JSON.stringify(branch)}`);
+    throw new Error(`The review page rendered its unavailable branch instead of the verification panel: ${JSON.stringify(branch)}; breadcrumb ${JSON.stringify(crumbs.replace(/\s+/g, " ").trim())}`);
   }
   await expectText(page, "Final verification");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner final verification");
@@ -257,12 +318,23 @@ try {
 
   // 5. Verification uses the shared packet-information boundary. Only its
   // ready response may reveal the sponsored generation action.
+  // The verify action renders only when the saved facts are complete and
+  // route-safe; report the review panel instead of an unhandled timeout
+  // (run 35120640545 crashed while the click waited on a missing button).
+  const verifyButton = page.getByRole("button", { name: "Verify and prepare clinic packet", exact: true });
+  try {
+    await verifyButton.waitFor({ state: "visible", timeout: 15_000 });
+  } catch {
+    const panel = await page.locator("[data-packet-verification-state]").innerText().catch(() => "(no verification panel)");
+    const reviewResult = await page.locator("main").innerText().then((text) => text.match(/Result[\s\S]{0,160}/)?.[0] ?? "").catch(() => "");
+    throw new Error(`Verify action unavailable on the review page. Panel: ${JSON.stringify(panel)}. ${reviewResult}`);
+  }
   const verificationResponsePromise = packetInformationResponse(page, packetItemId);
   const generationResponsePromise = page.waitForResponse(
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/packet/generate",
     { timeout: 30_000 }
   );
-  await page.getByRole("button", { name: "Verify and prepare clinic packet", exact: true }).click();
+  await verifyButton.click();
   const verificationResponse = await verificationResponsePromise;
   check(verificationResponse.ok(), `Partner final verification returned ${verificationResponse.status()}.`);
   const generationResponse = await generationResponsePromise;
@@ -442,8 +514,32 @@ try {
   await browser?.close();
 }
 
+// A screening question heading may carry the "Optional" badge inside the
+// heading element (run 35118102472 saw "…court ordered in this case?OPTIONAL"),
+// so the accessible name is matched from its start rather than exactly.
+function screeningHeading(page, prompt) {
+  return page.getByRole("heading", { name: new RegExp(`^${escapeRegExp(prompt)}(?:\\s*Optional)?$`, "i") });
+}
+
+// Polls for whichever remaining screening prompt is visible, or the result
+// heading (null) when the engine has already evaluated. Bounded: a step that
+// neither shows a question nor a result fails with the visible headings
+// instead of hanging until the job timeout.
+async function visibleScreeningPrompt(page, prompts, resultHeading, budgetMs = 45_000) {
+  const deadline = Date.now() + budgetMs;
+  while (Date.now() < deadline) {
+    if (await resultHeading.isVisible().catch(() => false)) return null;
+    for (const prompt of prompts) {
+      if (await screeningHeading(page, prompt).isVisible().catch(() => false)) return prompt;
+    }
+    await page.waitForTimeout(500);
+  }
+  const visible = await page.locator("h1, h2, legend").allInnerTexts().catch(() => []);
+  throw new Error(`Neither a remaining screening question (${prompts.join(" | ")}) nor the result appeared within ${budgetMs}ms; visible headings: ${JSON.stringify(visible)}`);
+}
+
 async function answerChoice(page, prompt, option, final = false) {
-  await page.getByRole("heading", { name: prompt, exact: true }).waitFor({ state: "visible" });
+  await screeningHeading(page, prompt).waitFor({ state: "visible" });
   await page.getByRole("radio", { name: new RegExp(`^${escapeRegExp(option)}(?:\\s|$)`, "i") }).check();
   const evaluationResponsePromise = final
     ? page.waitForResponse(
@@ -466,16 +562,35 @@ async function answerCurrentBuilderQuestion(page) {
   if (await enabledText.count()) {
     const id = (await enabledText.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
     const prompt = await builder.locator("h1").innerText();
-    // A prefilled value is the participant's own answer projected into the
-    // packet; overwriting it fails the profile's own validator. Date prompts
-    // the packet specification renders as free text take an ISO date.
+    // A prefilled value is the participant's own screening answer projected
+    // into the packet (run 35122300936 overwrote case_outcome and failed the
+    // public validator); keep it. Date prompts rendered as text take an ISO date.
     const current = (await enabledText.inputValue().catch(() => "")).trim();
     if (current) return;
-    await enabledText.fill(isDateInput(id, prompt) ? ISO_DATE_ANSWER : valueForPacketField(id, prompt));
+    await enabledText.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? (isDateInput(id, prompt) ? ISO_DATE_ANSWER : valueForPacketField(id, prompt)));
+    return;
+  }
+
+  const textarea = builder.locator("textarea:visible:enabled").first();
+  if (await textarea.count()) {
+    const id = (await textarea.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
+    const prompt = await builder.locator("h1").innerText();
+    const current = (await textarea.inputValue().catch(() => "")).trim();
+    if (current) return;
+    await textarea.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? valueForPacketField(id, prompt));
     return;
   }
 
   const selects = builder.locator("select:visible:enabled");
+  if (await selects.count() === 1) {
+    const select = selects.first();
+    const id = ((await select.getAttribute("id")) ?? "").replace(/^q-/, "");
+    const safe = MISSISSIPPI_SAFE_ROUTE_ANSWERS[id];
+    if (safe) {
+      await select.selectOption({ label: safe });
+      return;
+    }
+  }
   if (await selects.count() === 3) {
     await selects.nth(0).selectOption("01");
     await selects.nth(1).selectOption("15");
@@ -488,7 +603,8 @@ async function answerCurrentBuilderQuestion(page) {
   if (await radios.count()) {
     if (await builder.locator("input[type='radio']:visible:checked").count()) return;
     const controlId = ((await radios.first().getAttribute("name")) ?? "choice").replace(/^q-/, "");
-    const preferred = ["pending_cases", "prior_relief", "trafficking_status"].includes(controlId) ? /^No(?:\s|$)/i : null;
+    const safeAnswer = MISSISSIPPI_SAFE_ROUTE_ANSWERS[controlId];
+    const preferred = safeAnswer ? new RegExp(`^${escapeRegExp(safeAnswer)}(?:\\s|$)`, "i") : null;
     for (let index = 0; index < await radios.count(); index += 1) {
       const radio = radios.nth(index);
       const label = await radio.locator("xpath=ancestor::label").innerText().catch(() => "");
@@ -520,13 +636,6 @@ function packetInformationResponse(page, itemId) {
       && new URL(response.url()).pathname === `/api/expungement-ai/briefcase/${itemId}/packet-information`,
     { timeout: 20_000 }
   );
-}
-
-// Prompts the packet specification renders as free text although the profile
-// validates them as dates.
-const ISO_DATE_ANSWER = "2015-01-15";
-function isDateInput(id, prompt) {
-  return /_date$|_date_/.test(id) || /\bdate\b/i.test(prompt);
 }
 
 function valueForPacketField(id, prompt) {
@@ -626,7 +735,9 @@ function validUuid(value) {
 
 function exactBriefcaseItemId(value) {
   if (typeof value !== "string") return null;
-  const match = value.match(/^\/briefcase\/([0-9a-f-]{36})(?:[?#]|$)/i);
+  // The atomic claim lands on /briefcase/matters/<id> (matter-path.ts); the
+  // packet-information, review and generated-packet pages stay on /briefcase/<id>.
+  const match = value.match(/^\/briefcase\/(?:matters\/)?([0-9a-f-]{36})(?:[?#]|$)/i);
   return validUuid(match?.[1]) ? match[1] : null;
 }
 

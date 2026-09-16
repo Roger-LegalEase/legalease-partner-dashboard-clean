@@ -26,7 +26,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_clinic_preview, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_smoke, production_activate]
+        options: [ephemeral, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_preview, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -74,8 +74,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: c177eef11ad041165294f2d4a38e9bddeef031db
-  AUTHORIZED_WORKER_DIGEST: sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832
+  AUTHORIZED_WORKER_SOURCE_SHA: 3e3a528b5762ece971c53186d1a45a48e5633a9c
+  AUTHORIZED_WORKER_DIGEST: sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
@@ -83,10 +83,10 @@ env:
 jobs:
   production_preflight:
     name: Read-only Production identity and rollback discovery
-    if: inputs.mode == 'production_preflight' || inputs.mode == 'production_clinic_migrate' || inputs.mode == 'production_smoke' || inputs.mode == 'production_activate'
+    if: inputs.mode == 'production_preflight' || inputs.mode == 'production_clinic_migrate' || inputs.mode == 'production_forward_chain_readback' || inputs.mode == 'production_forward_chain_migrate' || inputs.mode == 'production_legal_aid_readback' || inputs.mode == 'production_legal_aid_migrate' || inputs.mode == 'production_smoke' || inputs.mode == 'production_activate'
     uses: ./.github/workflows/rcap-production-canary.yml
     with:
-      phase: ${{ inputs.mode == 'production_activate' && 'activate' || (inputs.mode == 'production_clinic_migrate' && 'clinic_migrate' || (inputs.mode == 'production_smoke' && 'smoke' || 'preflight')) }}
+      phase: ${{ inputs.mode == 'production_activate' && 'activate' || (inputs.mode == 'production_clinic_migrate' && 'clinic_migrate' || (inputs.mode == 'production_forward_chain_readback' && 'forward_chain_readback' || (inputs.mode == 'production_forward_chain_migrate' && 'forward_chain_migrate' || (inputs.mode == 'production_legal_aid_readback' && 'legal_aid_readback' || (inputs.mode == 'production_legal_aid_migrate' && 'legal_aid_migrate' || (inputs.mode == 'production_smoke' && 'smoke' || 'preflight')))))) }}
       application_sha: ${{ inputs.application_sha }}
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}
@@ -95,6 +95,190 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+
+  production_legal_aid_keys:
+    name: Legal Aid protected-field keys in the Production environment store
+    if: inputs.mode == 'production_legal_aid_keys_read' || inputs.mode == 'production_legal_aid_keys_create'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the tools commit
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify the key control never prints or persists a value
+        run: node scripts/verify-rcap-production-legal-aid-keys.mjs
+      - name: Read, or create once, the Production Legal Aid keys
+        env:
+          RCAP_LEGAL_AID_KEYS_PHASE: ${{ inputs.mode == 'production_legal_aid_keys_create' && 'create' || 'read' }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node scripts/rcap-production-legal-aid-keys.mjs
+      - name: Upload the key evidence (names and identifiers only)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-production-legal-aid-keys-${{ github.run_id }}
+          path: production-canary-evidence/
+          if-no-files-found: error
+
+  production_worker_deploy:
+    name: Exact worker onto the production execution target
+    if: inputs.mode == 'production_worker_deploy'
+    uses: ./.github/workflows/deploy-rcap-render-worker-production.yml
+    with:
+      worker_source_sha: ${{ inputs.worker_source_sha }}
+      worker_digest: ${{ inputs.worker_digest }}
+    secrets:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+  production_public_verify:
+    name: Read-only public-domain verification of the activated Production release
+    if: inputs.mode == 'production_public_verify'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Refuse any input that is not the authorized pinned value
+        env:
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA_INPUT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
+          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry of every pinned SHA and check out the tools commit
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          git merge-base --is-ancestor "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" \
+            || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install frozen dependencies
+        run: npm ci
+
+      # Read-only from the outside: control-plane readback of every Production
+      # domain, public HTTPS health and build identity on expungement.ai, and a
+      # fresh-context Chrome walk of the Mississippi screening. No secret other
+      # than the read-only Vercel token; no Supabase, Stripe or bypass secret.
+      - name: Verify the activated release on the public domain
+        env:
+          RCAP_PRODUCTION_PHASE: public_verify
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node scripts/rcap-production-public-verify.mjs
+
+      - name: Upload the public verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-production-public-verify-${{ github.run_id }}
+          path: production-public-evidence/
+          if-no-files-found: error
+
+  # 2026-09-16 production incident ("Save my result and continue" fails on the
+  # live Mississippi result page). Reproduce: a signed-out public browser walk
+  # that clicks Save and records the pending/claim statuses and sanitized error
+  # codes, in Chromium and WebKit. Verify: the same walk through the one
+  # authorized dedicated synthetic account to the claimed matter and back after
+  # refresh, plus the signed-in path and duplicate protection. Never Stripe,
+  # never packet generation, never a real customer matter.
+  production_save_transition:
+    name: Public save-to-Briefcase transition probe on expungement.ai
+    if: inputs.mode == 'production_save_transition_reproduce' || inputs.mode == 'production_save_transition_verify'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Refuse any input that is not the authorized pinned value
+        env:
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA_INPUT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
+          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry of every pinned SHA and check out the tools commit
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install frozen dependencies and the WebKit engine
+        run: |
+          npm ci
+          npx playwright install --with-deps webkit
+
+      - name: Verify the probe contract
+        run: node scripts/verify-rcap-production-save-transition-probe.mjs
+
+      - name: Probe the public save-to-Briefcase transition
+        env:
+          RCAP_PRODUCTION_PHASE: ${{ inputs.mode == 'production_save_transition_verify' && 'save_transition_verify' || 'save_transition_reproduce' }}
+          RCAP_PUBLIC_ORIGIN: https://expungement.ai
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          RCAP_PROBE_BROWSERS: chromium,webkit
+          SUPABASE_ACCESS_TOKEN: ${{ inputs.mode == 'production_save_transition_verify' && secrets.SUPABASE_ACCESS_TOKEN || '' }}
+        run: node scripts/rcap-production-save-transition-probe.mjs
+
+      - name: Upload the save-transition evidence (sanitized)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-production-save-transition-${{ github.run_id }}
+          path: production-canary-evidence/
+          if-no-files-found: error
 
   github_acceptance:
     name: GitHub-hosted functional acceptance fallback
@@ -116,7 +300,7 @@ jobs:
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_clinic_preview' && 'clinic_preview' || (inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_browser' && 'browser' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_stripe_retarget' && 'stripe_retarget' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_replace_preview' && 'replace_preview' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_clinic_migrate' && 'clinic_migrate' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || (inputs.mode == 'hosted_vercel_identity' && 'vercel_identity' || 'preflight'))))))))))))) }}
+      phase: ${{ inputs.mode == 'hosted_clinic_preview' && 'clinic_preview' || (inputs.mode == 'hosted_legal_aid_browser' && 'legal_aid_browser' || (inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_browser' && 'browser' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_stripe_retarget' && 'stripe_retarget' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_replace_preview' && 'replace_preview' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_clinic_migrate' && 'clinic_migrate' || (inputs.mode == 'hosted_legal_aid_migrate' && 'legal_aid_migrate' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || (inputs.mode == 'hosted_vercel_identity' && 'vercel_identity' || 'preflight'))))))))))))))) }}
       preview_hostname: ${{ inputs.preview_hostname }}
       preview_deployment_id: ${{ inputs.preview_deployment_id }}
       contradiction_job_id: ${{ inputs.contradiction_job_id }}
@@ -126,7 +310,7 @@ jobs:
       tools_sha: ${{ inputs.tools_sha }}
       supabase_project_ref: ${{ inputs.supabase_project_ref }}
     secrets:
-      VERCEL_TOKEN: ${{ inputs.mode == 'hosted_migrate' && 'not-used-in-supabase-only' || secrets.VERCEL_TOKEN }}
+      VERCEL_TOKEN: ${{ (inputs.mode == 'hosted_migrate' || inputs.mode == 'hosted_legal_aid_migrate') && 'not-used-in-supabase-only' || secrets.VERCEL_TOKEN }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       # Optional. Absent until Roger adds them; the hosted workflow declares
       # them non-required so every phase still runs without Stripe configured,
@@ -136,6 +320,9 @@ jobs:
       VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
       HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
       HOSTED_CLINIC_DEMO_ACCESS_CODE: ${{ secrets.HOSTED_CLINIC_DEMO_ACCESS_CODE }}
+      HOSTED_LEGAL_AID_RESEND_API_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESEND_API_KEY }}
+      HOSTED_LEGAL_AID_TEST_MAILBOX: ${{ secrets.HOSTED_LEGAL_AID_TEST_MAILBOX }}
+      HOSTED_LEGAL_AID_EMAIL_FROM: ${{ secrets.HOSTED_LEGAL_AID_EMAIL_FROM }}
 
   f1:
     name: Ephemeral F1 staging rehearsal (rcap-ci-staging)
