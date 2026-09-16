@@ -20,7 +20,7 @@ check(workflow.includes("node scripts/test-rcap-production-legal-aid-migrate-mut
 check(workflow.includes("node scripts/rcap-production-legal-aid-migrate.mjs"), "workflow invokes the dedicated Legal Aid control");
 check(workflow.includes('RCAP_PRODUCTION_PHASE: "legal_aid_readback"') && workflow.includes('RCAP_PRODUCTION_PHASE: "legal_aid_migrate"'), "workflow fixes each phase name");
 check(contract.includes('PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "Production project ref is exact");
-check(script.includes('const APPLICATION_SHA = "f5c4f40022e422033985302995511da7157f474d"'), "application SHA is exact");
+check(script.includes('const APPLICATION_SHA = "436520e4a99f0b8a290ace32f1d717b951630319"'), "application SHA is exact");
 check(contract.includes('sha256: "91c9b887324ce36d0515357fef2b9ce19cef271c99c157e8004533c73015cce8"'), "Legal Aid migration hash is exact");
 check(script.includes("frozenMigrationSql("), "migration bytes come from the frozen application commit");
 check(script.includes("clinic_mode_prerequisites_read_back_exact"), "Clinic Mode prerequisites are read before mutation");

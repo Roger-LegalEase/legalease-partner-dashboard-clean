@@ -50,6 +50,15 @@ const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
 const CLINIC_DEMO_PASSWORD = (process.env.HOSTED_CLINIC_DEMO_PASSWORD ?? "").trim();
+const LEGAL_AID_EMAIL = (() => {
+  const apiKey = (process.env.HOSTED_LEGAL_AID_RESEND_API_KEY ?? "").trim();
+  const from = (process.env.HOSTED_LEGAL_AID_EMAIL_FROM ?? "").trim();
+  const mailbox = (process.env.HOSTED_LEGAL_AID_TEST_MAILBOX ?? "").trim();
+  if (!apiKey || !from || !mailbox) return null;
+  if (!apiKey.startsWith("re_")) throw new Error("HOSTED_LEGAL_AID_RESEND_API_KEY is not a Resend API key");
+  if (!/^[^<>@\s]+@[^<>@\s]+$/.test(from.replace(/^.*<([^>]+)>$/, "$1"))) throw new Error("HOSTED_LEGAL_AID_EMAIL_FROM is not an email sender");
+  return { apiKey, from };
+})();
 
 if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
   console.error("DEPLOY: VERCEL_TOKEN, SUPABASE_ACCESS_TOKEN, the pinned acceptance project ref and one exact application SHA are required");
@@ -288,6 +297,17 @@ const runtimeEnv = {
   LEGAL_AID_RESTRICTED_FIELD_KEY: acceptanceServerSecret("legal-aid-restricted-field-key/v1", 32).toString("base64"),
   LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: "v1",
   PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: acceptanceServerSecret("participant-privacy-pseudonym-secret/v1", 32).toString("base64url"),
+  // Legal Aid browser phase only, and only when the workflow was given all
+  // three nonproduction email values: the Preview then carries a real email
+  // provider so follow-up delivery to the authorized test mailbox can be
+  // proved. Without them nothing is set and the application reports
+  // "saved, not sent". Never a Production sender or key.
+  ...(LEGAL_AID_EMAIL ? {
+    ENABLE_PARTNER_EMAIL_DELIVERY: "true",
+    PARTNER_EMAIL_PROVIDER: "resend",
+    RESEND_API_KEY: LEGAL_AID_EMAIL.apiKey,
+    PARTNER_EMAIL_FROM: LEGAL_AID_EMAIL.from
+  } : {}),
   VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
 };
 const buildEnv = {
@@ -324,6 +344,9 @@ const buildEnv = {
     console.error("DEPLOY: HOSTED_STRIPE_TEST_WEBHOOK_SECRET is not a whsec_ signing secret");
     process.exit(1);
   }
+  evidence.legalAidEmailDelivery = LEGAL_AID_EMAIL
+    ? { configured: true, provider: "resend", valuesRecorded: false }
+    : { configured: false, note: "no nonproduction email provider supplied; follow-up messages are saved, not sent" };
   evidence.stripe = {
     mode: stripeSecret ? "test key supplied" : "no key supplied; the placeholder cannot transact",
     webhookSigningSecretSupplied: Boolean(stripeWebhook)
