@@ -575,13 +575,22 @@ export async function getConsumerCheckoutStatus({
     session.metadata?.channel === "expungement_ai_consumer" &&
     (!item.checkoutSessionId || item.checkoutSessionId === session.id);
 
+  // A no-cost order is settled too. Stripe reports `no_payment_required` and
+  // completes the session without collecting, so a customer who redeemed a
+  // 100%-off code would otherwise be told on return that they had not paid,
+  // forever. The entitlement itself is still decided by the server-recorded
+  // payment row, not by this reader.
+  const noCost = session.payment_status === "no_payment_required";
+  const settled = session.payment_status === "paid" || (noCost && session.status === "complete");
+
   return {
-    paid: sessionBoundToItem && session.payment_status === "paid",
+    paid: sessionBoundToItem && settled,
     mode: "stripe",
     checkoutSessionId: session.id,
     paymentIntentId: paymentIntent?.id,
     receiptUrl: paymentIntent?.latest_charge && typeof paymentIntent.latest_charge !== "string" ? paymentIntent.latest_charge.receipt_url ?? undefined : undefined,
-    amountCents: consumerPacketPriceCents
+    // What Stripe collected, which is nothing on a fully discounted order.
+    amountCents: noCost ? 0 : session.amount_total ?? consumerPacketPriceCents
   };
 }
 
