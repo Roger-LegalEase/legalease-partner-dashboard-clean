@@ -612,20 +612,25 @@ async function expectMatterRendered(page, section, matterId, label) {
   const matterSection = page.locator(`section[data-briefcase-matter-id="${matterId}"]`);
   const rendered = await matterSection.waitFor({ state: "visible", timeout: 20_000 }).then(() => true, () => false);
   const title = rendered ? (await matterSection.locator("h1").first().innerText().catch(() => "")).replace(/\s+/g, " ").trim() : "";
-  const jurisdictionVisible = await page.getByText("MS", { exact: true }).first().isVisible().catch(() => false);
-  const pathwayLabelVisible = await page.getByText(NON_CONVICTION_PATHWAY_LABEL, { exact: false }).first()
-    .waitFor({ state: "visible", timeout: 10_000 }).then(() => true, () => false);
+  // The matter page renders the jurisdiction as a badge inside the matter
+  // section and the pathway label as the h1; "MS" is not part of the title.
+  const jurisdictionVisible = rendered
+    ? await matterSection.getByText("MS", { exact: true }).first().isVisible().catch(() => false)
+    : false;
+  const pathwayLabelVisible = rendered
+    ? await matterSection.getByText(NON_CONVICTION_PATHWAY_LABEL, { exact: false }).first()
+      .waitFor({ state: "visible", timeout: 10_000 }).then(() => true, () => false)
+    : false;
   const notFound = await page.getByText(MATTER_NOT_FOUND, { exact: true }).isVisible().catch(() => false);
   const observation = {
     path: safePathname(page.url()),
     rendered,
     title,
-    titleContainsMS: /\bMS\b/.test(title),
-    jurisdictionVisible,
+    jurisdictionBadgeVisible: jurisdictionVisible,
     pathwayLabelVisible,
     notFound
   };
-  if (!(rendered && observation.titleContainsMS && jurisdictionVisible && pathwayLabelVisible && !notFound)) {
+  if (!(rendered && jurisdictionVisible && pathwayLabelVisible && !notFound)) {
     await screenshot(page, section, `${label}-matter-unexpected`);
     throw await withPageContext(page, section, `chromium: ${label} matter ${matterId} did not render as expected: ${JSON.stringify(observation)}`);
   }
@@ -685,8 +690,8 @@ async function verifyPhase() {
     section.firstMatter = { id: firstMatterId, landed: firstRender, afterReload: firstReload };
     record(
       "first_matter_renders_and_survives_reload",
-      firstRender.rendered && firstReload.rendered && firstRender.titleContainsMS && firstReload.pathwayLabelVisible,
-      `${MATTERS_PATH}/${firstMatterId} rendered "${firstRender.title}" with MS and the non-conviction pathway label, and again after reload`
+      firstRender.rendered && firstReload.rendered && firstRender.jurisdictionBadgeVisible && firstReload.jurisdictionBadgeVisible && firstReload.pathwayLabelVisible,
+      `${MATTERS_PATH}/${firstMatterId} rendered "${firstRender.title}" with the MS jurisdiction badge and the non-conviction pathway label, and again after reload`
     );
     const afterFirst = await countMatters(page, section);
     section.mattersAfterFirstClaim = afterFirst;

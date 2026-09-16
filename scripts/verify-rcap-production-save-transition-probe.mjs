@@ -55,7 +55,10 @@ check(probe.includes('header(pendingResponse, "x-vercel-id")') && probe.includes
 check(probe.includes('location.searchParams.get("mode") === "create"') && probe.includes('claimParamPresent: claimParam.length >= 32'), "handoff records mode=create and claim-param presence as booleans");
 check(probe.includes("/Already have an account\\? Sign in/i") && probe.includes("'[data-auth-mode=\"signin\"]'"), "the handoff page is switched to sign-in through its real controls");
 check(probe.includes('page.getByRole("button", { name: "Sign in", exact: true })') && probe.includes("grant_type=password"), "sign-in submits the real form and waits for the password grant");
-check(probe.includes('section[data-briefcase-matter-id="${matterId}"]') && probe.includes("/\\bMS\\b/.test(title)"), "the exact matter must render with an MS title");
+check(
+  probe.includes('section[data-briefcase-matter-id="${matterId}"]') && probe.includes('matterSection.getByText("MS", { exact: true })') && probe.includes("matterSection.getByText(NON_CONVICTION_PATHWAY_LABEL"),
+  "the exact matter section must render the MS jurisdiction badge and the non-conviction pathway label"
+);
 check(probe.includes("await page.reload(") && probe.includes("first_matter_renders_and_survives_reload"), "the first matter is re-rendered after reload");
 check(probe.includes("signed_in_save_claims_straight_into_a_new_matter") && probe.includes("secondMatterId !== firstMatterId"), "the signed-in claim must land on a distinct new matter");
 check(probe.includes("replayed_claim_token_cannot_mint_a_third_matter") && probe.includes("afterReplay.count === afterSecond.count"), "duplicate protection counts matter links before and after the replayed claim");
