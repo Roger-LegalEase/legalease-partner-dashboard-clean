@@ -21,6 +21,7 @@ import {
   CONSUMER_PACKET_PRODUCT_ID,
   persistConsumerCheckoutBinding
 } from "@/lib/expungement-ai/consumer-payment-authority";
+import { reconcileConsumerOrder } from "@/lib/expungement-ai/consumer-order-reconciliation";
 import type {
   ConsumerBriefcaseItem,
   ExpungementAiEligibilityResult,
@@ -46,7 +47,12 @@ export type ConsumerCheckoutResult = {
   mode: "stripe" | "dry_run";
   checkoutSessionId: string;
   checkoutUrl: string;
-  amountCents: 5000;
+  /**
+   * The regular price of the packet. A promotion code is entered on Stripe's
+   * page after this result is produced, so the amount finally due is read back
+   * from the Session and is not this number.
+   */
+  amountCents: number;
   currency: typeof consumerPacketCurrency;
   outcome: ConsumerCheckoutOutcome;
   briefcaseItemId: string;
@@ -69,12 +75,14 @@ type ConsumerCheckoutBinding = {
 };
 
 export type ConsumerCheckoutStatus = {
+  /** Settled: paid, or completed at no cost because a discount cleared it. */
   paid: boolean;
   mode: "stripe" | "dry_run";
   checkoutSessionId: string;
   paymentIntentId?: string;
   receiptUrl?: string;
-  amountCents: 5000;
+  /** What was actually collected. Zero on a fully discounted order. */
+  amountCents: number;
 };
 
 export function createConsumerPaymentPlaceholder(
@@ -184,7 +192,7 @@ export async function createConsumerPacketCheckout({
     try {
       stripe = getStripeServerClient();
       existing = await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
-        expand: ["line_items.data.price.product"]
+        expand: ["line_items.data.price.product", "discounts.promotion_code"]
       });
       existingLookupCompleted = true;
       if (existing.status === "complete") {
@@ -265,11 +273,19 @@ export async function createConsumerPacketCheckout({
     stripe ??= getStripeServerClient();
     existing = !existingLookupCompleted && item.checkoutSessionId?.startsWith("cs_")
       ? await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
-        expand: ["line_items.data.price.product"]
+        expand: ["line_items.data.price.product", "discounts.promotion_code"]
       })
       : existing;
 
-    if (existing && existing.status !== "expired" && existing.metadata?.verification_hash !== binding.verificationHash) {
+    // An open Session created before promotion codes were enabled offers no
+    // field to enter one, so reusing it would look to the customer like their
+    // code being refused. It is expired and replaced, which is the same thing
+    // this branch already does for a stale verification. Only an OPEN session
+    // is replaced: a completed order is money that changed hands and is never
+    // disowned over a capability flag, and expiring nothing leaves it intact.
+    const openWithoutPromotionCodes = existing?.status === "open" && existing.allow_promotion_codes !== true;
+    if (existing && existing.status !== "expired"
+      && (existing.metadata?.verification_hash !== binding.verificationHash || openWithoutPromotionCodes)) {
       if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
     } else if (existing && existing.status !== "expired") {
       const reusable = await reconcileReusableCheckoutSession({
@@ -323,6 +339,14 @@ export async function createConsumerPacketCheckout({
       cancel_url: cancelUrl ?? defaultCancelUrl,
       client_reference_id: item.id,
       metadata,
+      // Customers may redeem Stripe promotion codes on the hosted page. The
+      // codes, their coupons and every restriction on them — eligible product,
+      // customer, expiry, redemption limit — live in Stripe and are enforced by
+      // Stripe. This application deliberately owns none of that: it reads the
+      // discount the provider actually applied and reconciles the order against
+      // it. A discount changes the amount due and nothing else, so eligibility,
+      // ownership, verification and document access are unaffected below.
+      allow_promotion_codes: true,
       line_items: [
         {
           quantity: 1,
@@ -462,29 +486,29 @@ async function reconcileReusableCheckoutSession({
   return session;
 }
 
+/**
+ * Whether an existing Session is still the order this application would create.
+ *
+ * The pricing half is the shared reconciliation: our product, quantity one, USD,
+ * the regular price, and a total that is the regular price less whatever
+ * discount Stripe applied. `expectSettled` is false because a reusable session
+ * is normally still open, and an open session is not expected to be paid.
+ *
+ * Whether the session offers a promotion-code field is decided separately, by
+ * the caller, because it is a reason to replace an *open* session and never a
+ * reason to disown a completed one.
+ */
 function checkoutSessionBaseBindingMatches(
   session: Stripe.Checkout.Session,
   binding: ConsumerCheckoutBinding
 ): boolean {
-  const lineItems = session.line_items?.data ?? [];
-  const line = lineItems[0];
-  const product = line?.price?.product;
-  const productName = product && typeof product !== "string" && !("deleted" in product)
-    ? product.name
-    : null;
-  return session.mode === "payment"
-    && session.client_reference_id === binding.briefcaseItemId
-    && session.metadata?.channel === "expungement_ai_consumer"
-    && session.metadata?.user_id === binding.userId
-    && session.metadata?.briefcase_item_id === binding.briefcaseItemId
-    && session.metadata?.pathway_id === binding.pathwayId
-    && session.metadata?.verification_hash === binding.verificationHash
-    && session.amount_total === consumerPacketPriceCents
-    && (session.currency ?? "").toLowerCase() === "usd"
-    && lineItems.length === 1
-    && line?.quantity === 1
-    && line.amount_total === consumerPacketPriceCents
-    && productName === "Expungement.ai self-help packet";
+  const reconciliation = reconcileConsumerOrder(
+    session,
+    session.line_items?.data ?? [],
+    binding,
+    { expectSettled: false }
+  );
+  return reconciliation.ok;
 }
 
 function sameOrigin(actual: string | null, expected: string): boolean {
@@ -551,13 +575,22 @@ export async function getConsumerCheckoutStatus({
     session.metadata?.channel === "expungement_ai_consumer" &&
     (!item.checkoutSessionId || item.checkoutSessionId === session.id);
 
+  // A no-cost order is settled too. Stripe reports `no_payment_required` and
+  // completes the session without collecting, so a customer who redeemed a
+  // 100%-off code would otherwise be told on return that they had not paid,
+  // forever. The entitlement itself is still decided by the server-recorded
+  // payment row, not by this reader.
+  const noCost = session.payment_status === "no_payment_required";
+  const settled = session.payment_status === "paid" || (noCost && session.status === "complete");
+
   return {
-    paid: sessionBoundToItem && session.payment_status === "paid",
+    paid: sessionBoundToItem && settled,
     mode: "stripe",
     checkoutSessionId: session.id,
     paymentIntentId: paymentIntent?.id,
     receiptUrl: paymentIntent?.latest_charge && typeof paymentIntent.latest_charge !== "string" ? paymentIntent.latest_charge.receipt_url ?? undefined : undefined,
-    amountCents: consumerPacketPriceCents
+    // What Stripe collected, which is nothing on a fully discounted order.
+    amountCents: noCost ? 0 : session.amount_total ?? consumerPacketPriceCents
   };
 }
 

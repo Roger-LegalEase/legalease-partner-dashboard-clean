@@ -82,7 +82,11 @@ const SEQUENCE = [
   "supabase/phase-38-expungement-pending-screening-results.sql",
   "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql",
   "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql",
-  "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql"
+  "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
+  // Promotion codes: the writer, the constraints and the entitlement probe stop
+  // asserting one price and start reconciling the order, so the cases below run
+  // against the rule the release actually ships.
+  "supabase/migrations/20260917090000_consumer_promotion_codes.sql"
 ];
 
 const USER_A = fixtureUuid("user-a");
@@ -318,14 +322,23 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
   return id;
 }
 
-async function checkoutSession({ itemId, userId, sessionId, amount = 5000, currency = "usd" }) {
+async function checkoutSession({
+  itemId, userId, sessionId, currency = "usd",
+  // The order, described the way Stripe describes one: a regular price, the
+  // discount the provider applied, and the total that remains. `amount` is an
+  // explicit override so a case can still present a total that does NOT
+  // reconcile and prove it is refused.
+  regular = 5000, discount = 0, amount = undefined
+}) {
   const canonicalOwner = db.scalar(
     `select user_id from public.consumer_briefcase_items where id='${itemId}'`
   ).trim();
   const item = await getBriefcaseItemForWebhook(canonicalOwner, itemId);
-  const verificationHash = item
-    ? (await requireCurrentPacketVerification(canonicalOwner, item)).hash
+  const currentVerification = item
+    ? await requireCurrentPacketVerification(canonicalOwner, item)
     : null;
+  const verificationHash = currentVerification?.hash ?? null;
+  const pathwayId = currentVerification?.snapshot?.pathwayId ?? "";
   if (!verificationHash) throw new Error(`fixture ${itemId} has no current final-verification hash`);
   const matchKey = `consumer:${createHash("sha256")
     .update(`rcap:consumer-person:v1:${canonicalOwner}`)
@@ -345,15 +358,40 @@ async function checkoutSession({ itemId, userId, sessionId, amount = 5000, curre
       where id='${itemId}'`
   );
 
+  const total = amount ?? regular - discount;
+  const noCost = total === 0;
   return {
     id: sessionId,
     object: "checkout.session",
     mode: "payment",
+    status: "complete",
     client_reference_id: itemId,
-    payment_status: "paid",
-    amount_total: amount,
+    // Stripe's zero-total flow reports no_payment_required and creates no
+    // PaymentIntent. Anything else keeps the paid shape.
+    payment_status: noCost ? "no_payment_required" : "paid",
+    amount_subtotal: regular,
+    amount_total: total,
+    total_details: { amount_discount: discount, amount_shipping: 0, amount_tax: 0 },
     currency,
-    payment_intent: `pi_${sessionId}`,
+    payment_intent: noCost ? null : `pi_${sessionId}`,
+    discounts: discount > 0 ? [{ promotion_code: `promo_${sessionId}` }] : [],
+    line_items: {
+      object: "list",
+      data: [{
+        object: "item",
+        quantity: 1,
+        currency,
+        amount_subtotal: regular,
+        amount_discount: discount,
+        amount_total: total,
+        price: {
+          object: "price",
+          unit_amount: regular,
+          currency,
+          product: { object: "product", name: "Expungement.ai self-help packet" }
+        }
+      }]
+    },
     metadata: {
       channel: "expungement_ai_consumer",
       user_id: userId,
@@ -361,6 +399,7 @@ async function checkoutSession({ itemId, userId, sessionId, amount = 5000, curre
       product_id: "expungement_packet",
       person_id: personId,
       matter_id: matterId,
+      pathway_id: pathwayId,
       verification_hash: verificationHash,
       reviewed_input_hash: verificationHash
     }
@@ -408,7 +447,8 @@ function pickUuid(out) {
 
 function paymentRow(itemId) {
   return db.json(
-    `select row_to_json(t) from (select payment_status, amount_cents, currency, provider_event_id, payment_authority, payment_recorded_by
+    `select row_to_json(t) from (select payment_status, amount_cents, regular_price_cents, discount_cents,
+            currency, provider_event_id, payment_authority, payment_recorded_by, payment_intent_id
        from public.consumer_briefcase_items where id='${itemId}') t`
   );
 }
@@ -880,6 +920,135 @@ await runCaseGroup(["P14"], async () => {
     "a sponsored request remains valid without consumer payment",
     Boolean(jobId) && row?.partner_id === partnerId && row?.consumer_briefcase_item_id === null && row?.consumer_auth_user_id === null,
     JSON.stringify(row)
+  );
+});
+
+// =============================================================================
+console.log("PROMOTION CODES — a discount changes the amount due and nothing else");
+
+// A discounted order is still an order: the packet is still owed, the owner is
+// still the owner, and the verification still has to be current. What changes is
+// how much was collected, and these cases exist so that "how much" is recorded
+// truthfully rather than assumed.
+
+await runCaseGroup(["D1"], async () => {
+  // D1 - a percentage discount. 25% off $50 collects $37.50.
+  const item = await createItem(USER_A, "d1");
+  const session = await checkoutSession({
+    itemId: item, userId: USER_A, sessionId: "cs_d1", regular: 5000, discount: 1250
+  });
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_d1", session)));
+  const row = paymentRow(item);
+  check(
+    "D1",
+    "a percentage discount records the reduced amount and still queues the packet",
+    res.status === 200 && row?.payment_status === "paid" && row?.amount_cents === 3750
+      && row?.regular_price_cents === 5000 && row?.discount_cents === 1250
+      && jobsFor(item).length === 1,
+    `${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length}`
+  );
+});
+
+await runCaseGroup(["D2"], async () => {
+  // D2 - a fixed-dollar discount. $10 off $50 collects $40.
+  const item = await createItem(USER_A, "d2");
+  const session = await checkoutSession({
+    itemId: item, userId: USER_A, sessionId: "cs_d2", regular: 5000, discount: 1000
+  });
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_d2", session)));
+  const row = paymentRow(item);
+  check(
+    "D2",
+    "a fixed-dollar discount records the reduced amount and still queues the packet",
+    res.status === 200 && row?.amount_cents === 4000 && row?.discount_cents === 1000
+      && row?.regular_price_cents === 5000 && jobsFor(item).length === 1,
+    `${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length}`
+  );
+});
+
+await runCaseGroup(["D3","D6"], async () => {
+  // D3 - 100% off. Stripe collects nothing, creates no PaymentIntent, and the
+  // packet is owed exactly as it would be on a paid order. The old code ignored
+  // this event entirely, so the customer got nothing.
+  const item = await createItem(USER_A, "d3");
+  const session = await checkoutSession({
+    itemId: item, userId: USER_A, sessionId: "cs_d3", regular: 5000, discount: 5000
+  });
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_d3", session)));
+  const row = paymentRow(item);
+  const jobs = jobsFor(item);
+  check(
+    "D3",
+    "a fully discounted order is settled at zero collected, with no payment intent, and the packet is queued",
+    res.status === 200 && row?.payment_status === "paid" && row?.amount_cents === 0
+      && row?.regular_price_cents === 5000 && row?.discount_cents === 5000
+      && row?.payment_intent_id === null && jobs.length === 1,
+    `${res.status} ${JSON.stringify(row)} jobs=${jobs.length}`
+  );
+
+  // D6 - replaying the no-cost event creates no second entitlement and no
+  // second job. A $0 order is as replayable as a paid one.
+  const before = db.scalar(`select count(*) from public.consumer_packet_payment_consumption`);
+  const replay = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_d3", session)));
+  const after = db.scalar(`select count(*) from public.consumer_packet_payment_consumption`);
+  check(
+    "D6",
+    "replaying a no-cost order creates no second entitlement or job",
+    replay.status === 200 && before === after && jobsFor(item).length === 1,
+    `${replay.status} consumption ${before}->${after} jobs=${jobsFor(item).length}`
+  );
+});
+
+await runCaseGroup(["D4"], async () => {
+  // D4 - a session whose parts do not add up. The discount is claimed but the
+  // total does not reflect it, so nothing is recorded: this is the case the old
+  // fixed-amount rule could not express.
+  const item = await createItem(USER_A, "d4");
+  const session = await checkoutSession({
+    itemId: item, userId: USER_A, sessionId: "cs_d4", regular: 5000, discount: 1000, amount: 5000
+  });
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_d4", session)));
+  const row = paymentRow(item);
+  check(
+    "D4",
+    "an order whose discount and total do not reconcile records nothing",
+    res.status !== 200 && row?.payment_status !== "paid" && jobsFor(item).length === 0,
+    `${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length}`
+  );
+});
+
+await runCaseGroup(["D5"], async () => {
+  // D5 - a zero-total session that also claims a charge. Stripe creates no
+  // PaymentIntent for a no-cost order, so this is not a session Stripe produced.
+  const item = await createItem(USER_A, "d5");
+  const session = await checkoutSession({
+    itemId: item, userId: USER_A, sessionId: "cs_d5", regular: 5000, discount: 5000
+  });
+  session.payment_intent = "pi_forged_d5";
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_d5", session)));
+  const row = paymentRow(item);
+  check(
+    "D5",
+    "a zero-total order that claims a payment intent is refused",
+    res.status !== 200 && row?.payment_status !== "paid" && jobsFor(item).length === 0,
+    `${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length}`
+  );
+});
+
+await runCaseGroup(["D7"], async () => {
+  // D7 - a discount larger than the packet. Stripe would not produce it; if one
+  // arrives, it is refused rather than recorded as a negative collection.
+  const item = await createItem(USER_A, "d7");
+  const session = await checkoutSession({
+    itemId: item, userId: USER_A, sessionId: "cs_d7", regular: 5000, discount: 6000, amount: -1000
+  });
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_d7", session)));
+  const row = paymentRow(item);
+  check(
+    "D7",
+    "a discount larger than the regular price is refused",
+    res.status !== 200 && row?.payment_status !== "paid" && jobsFor(item).length === 0,
+    `${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length}`
   );
 });
 

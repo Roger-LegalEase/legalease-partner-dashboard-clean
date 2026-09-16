@@ -16,7 +16,13 @@ import {
 import { scheduleConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
-import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
+import { type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
+import {
+  reconcileConsumerOrder,
+  type ConsumerOrderBinding,
+  type ReconciledConsumerOrder
+} from "@/lib/expungement-ai/consumer-order-reconciliation";
+import { getStripeServerClient } from "@/lib/stripe/server";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import { readProtectedPacketArtifact } from "@/lib/expungement-ai/verification-cas";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
@@ -57,7 +63,12 @@ export async function reconcileExpungementAiCheckoutEvent(
     throw new ConsumerCheckoutEvidenceError("consumer user and Briefcase item metadata are required");
   }
 
-  if (session.payment_status !== "paid") {
+  // A settled order is one Stripe collected on, or one an authorized discount
+  // cleared to zero. Stripe reports the second as `no_payment_required` and
+  // creates no PaymentIntent for it, so the old `!== "paid"` test dropped every
+  // 100%-off order on the floor: the customer completed Checkout and nothing
+  // was ever recorded or queued.
+  if (session.payment_status !== "paid" && session.payment_status !== "no_payment_required") {
     return "ignored";
   }
 
@@ -68,15 +79,6 @@ export async function reconcileExpungementAiCheckoutEvent(
     throw new ConsumerCheckoutEvidenceError(`Checkout Session mode ${String(session.mode)} is not payment`);
   }
 
-  // Amount and currency come from the signed event, never from the constant we
-  // happen to charge. Reading `consumerPacketPriceCents` here instead would make
-  // the check tautological: a session for $5 would be recorded as $50 because
-  // that is what the code assumed it must be.
-  if (session.amount_total !== consumerPacketPriceCents) {
-    throw new ConsumerCheckoutEvidenceError(
-      `amount_total ${String(session.amount_total)} is not ${consumerPacketPriceCents}`
-    );
-  }
   if ((session.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {
     throw new ConsumerCheckoutEvidenceError(`currency ${String(session.currency)} is not ${CONSUMER_PACKET_CURRENCY}`);
   }
@@ -122,6 +124,18 @@ export async function reconcileExpungementAiCheckoutEvent(
     throw new ConsumerCheckoutEvidenceError("Checkout Session does not match the persisted Briefcase binding");
   }
 
+  // The event carries the Session but not its line items, so the regular price,
+  // the quantity and the product cannot be read from it. Those are retrieved
+  // from Stripe with the secret key and reconciled: an order is what the
+  // provider says it is, and a signed event that merely asserts a total is not
+  // evidence of what was sold.
+  const order = await reconcileOrderFromStripe(session, {
+    userId,
+    briefcaseItemId: item.id,
+    pathwayId: verification.snapshot.pathwayId,
+    verificationHash: verification.hash
+  });
+
   const claimedEvent = await claimProcessedStripeEvent(event.id, event.type, session.id);
   if (!claimedEvent) {
     // Duplicate delivery of this exact event id (Stripe retry, or the same event fanned
@@ -131,18 +145,18 @@ export async function reconcileExpungementAiCheckoutEvent(
     // idempotent: the payment writer converges on already_paid and the Phase 53
     // queue converges on the same packet/input job, so no duplicate entitlement
     // or duplicate artifact can result.
-    await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId, verification.hash);
+    await finalizePaidCheckoutSession(userId, item, order, event.id, person.personId, matterId, verification.hash);
     return "recovered";
   }
 
-  await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId, verification.hash);
+  await finalizePaidCheckoutSession(userId, item, order, event.id, person.personId, matterId, verification.hash);
   return "processed";
 }
 
 async function finalizePaidCheckoutSession(
   userId: string,
   item: ConsumerBriefcaseItem,
-  session: Stripe.Checkout.Session,
+  order: ReconciledConsumerOrder,
   providerEventId: string,
   personId: string,
   matterId: string,
@@ -157,12 +171,16 @@ async function finalizePaidCheckoutSession(
   const recorded = await recordConsumerPacketPayment({
     briefcaseItemId: item.id,
     paymentStatus: "paid",
-    amountCents: session.amount_total,
-    currency: session.currency,
+    // Collected, not quoted. A $50 packet with a $50 discount is $0 collected.
+    amountCents: order.amountCollectedCents,
+    regularPriceCents: order.regularPriceCents,
+    discountCents: order.discountCents,
+    paymentRequired: order.paymentRequired,
+    currency: order.currency,
     paymentProvider: "stripe",
     providerEventId,
-    checkoutSessionId: session.id,
-    paymentIntentId: paymentIntentIdFor(session) ?? null,
+    checkoutSessionId: order.checkoutSessionId,
+    paymentIntentId: order.paymentIntentId,
     receiptUrl: null,
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId,
@@ -205,9 +223,9 @@ async function finalizePaidCheckoutSession(
   // paid reconciliation, and never before the payment state is durably recorded above.
   scheduleConsumerCheckoutCompleted({
     request: null,
-    checkoutSessionId: session.id,
+    checkoutSessionId: order.checkoutSessionId,
     state: item.state ?? undefined,
-    amountCents: consumerPacketPriceCents,
+    amountCents: order.amountCollectedCents,
     mode: "stripe"
   });
 
@@ -264,11 +282,50 @@ export function isExpungementAiCheckoutEvent(event: Stripe.Event): boolean {
 }
 
 export function consumerCheckoutStatusFromSession(session: Stripe.Checkout.Session): ConsumerCheckoutStatus {
+  // Settled covers both shapes: collected, or completed at no cost because a
+  // discount cleared the total. Reporting only `paid` would leave a customer
+  // who redeemed a 100%-off code looking unpaid on the return page forever.
+  const noCost = session.payment_status === "no_payment_required";
   return {
-    paid: session.payment_status === "paid",
+    paid: session.payment_status === "paid" || (noCost && session.status === "complete"),
     mode: "stripe",
     checkoutSessionId: session.id,
     paymentIntentId: paymentIntentIdFor(session),
-    amountCents: consumerPacketPriceCents
+    amountCents: noCost ? 0 : session.amount_total ?? 0
   };
+}
+
+/**
+ * Retrieve the Session from Stripe and reconcile it, or refuse.
+ *
+ * Retrieval is what makes this evidence rather than assertion: line items,
+ * product, quantity and the applied discounts are expanded from the provider
+ * with the secret key. Nothing here reads the webhook body's numbers.
+ */
+async function reconcileOrderFromStripe(
+  eventSession: Stripe.Checkout.Session,
+  binding: ConsumerOrderBinding
+): Promise<ReconciledConsumerOrder> {
+  // A live `checkout.session.completed` event carries the Session without its
+  // line items, so the product, the quantity and the regular price are not in
+  // it and the order is retrieved from Stripe with the secret key. The event's
+  // own line items are used only when Stripe already included them, which
+  // keeps this one round trip out of paths that do not need it. Either way the
+  // bytes are Stripe's: the event reached here only by passing the signature
+  // check, and the retrieval speaks to Stripe directly.
+  const embedded = eventSession.line_items?.data ?? null;
+  const session = embedded
+    ? eventSession
+    : await getStripeServerClient().checkout.sessions.retrieve(eventSession.id, {
+      expand: ["line_items.data.price.product", "payment_intent", "discounts.promotion_code"]
+    });
+  const reconciliation = reconcileConsumerOrder(
+    session,
+    session.line_items?.data ?? [],
+    binding
+  );
+  if (!reconciliation.ok) {
+    throw new ConsumerCheckoutEvidenceError(reconciliation.reason);
+  }
+  return reconciliation.order;
 }

@@ -70,7 +70,21 @@ export type ConsumerCheckoutBindingResult =
 export type RecordConsumerPaymentInput = {
   briefcaseItemId: string;
   paymentStatus: "paid" | "refunded" | "unpaid";
+  /**
+   * What the provider actually collected. On an order a discount cleared to
+   * zero this is 0, not the regular price: recording $50 against a $0 order
+   * would be a false financial record, and the packet is no less owed for it.
+   */
   amountCents: number | null;
+  /** The undiscounted price of the packet. A discount never changes it. */
+  regularPriceCents: number;
+  /** What the provider itself took off, reconciled from the Session. */
+  discountCents: number;
+  /**
+   * False only for Stripe's zero-total flow, where no PaymentIntent exists.
+   * The order is still complete and still entitles the owner to the packet.
+   */
+  paymentRequired: boolean;
   currency: string | null;
   paymentProvider: string;
   /** The provider's own event identity. This is what makes a replay detectable. */
@@ -104,8 +118,33 @@ function rejectEvidence(input: RecordConsumerPaymentInput): string | null {
     return "a canonical current verification hash is required";
   }
   if (input.paymentStatus !== "paid") return null;
-  if (input.amountCents !== CONSUMER_PACKET_PRICE_CENTS) {
-    return `amount_cents must be ${CONSUMER_PACKET_PRICE_CENTS}`;
+  // The old rule was `amount_cents === 5000`. It was right only while no
+  // discount could exist. What has to hold now is that the order reconciles:
+  // the regular price is still the regular price, the discount came from the
+  // provider and cannot exceed it, and what was collected is exactly what
+  // remained — which is zero when a code cleared the total.
+  if (input.regularPriceCents !== CONSUMER_PACKET_PRICE_CENTS) {
+    return `regular_price_cents must be ${CONSUMER_PACKET_PRICE_CENTS}`;
+  }
+  if (!Number.isInteger(input.discountCents) || input.discountCents < 0) {
+    return "discount_cents must be a whole number of cents, not negative";
+  }
+  if (input.discountCents > input.regularPriceCents) {
+    return "discount_cents cannot exceed the regular price";
+  }
+  const amountDue = input.regularPriceCents - input.discountCents;
+  const expectedCollected = input.paymentRequired ? amountDue : 0;
+  if (input.amountCents !== expectedCollected) {
+    return `amount_cents must be ${expectedCollected} for this order`;
+  }
+  if (input.paymentRequired !== amountDue > 0) {
+    return "payment_required disagrees with the amount due after the discount";
+  }
+  if (input.paymentRequired && !input.paymentIntentId?.trim()) {
+    return "a payment intent is required when an amount was due";
+  }
+  if (!input.paymentRequired && input.paymentIntentId?.trim()) {
+    return "a no-cost order carries no payment intent";
   }
   if ((input.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {
     return `currency must be ${CONSUMER_PACKET_CURRENCY}`;
@@ -152,6 +191,8 @@ export async function recordConsumerPacketPayment(
     p_briefcase_item_id: input.briefcaseItemId,
     p_payment_status: input.paymentStatus,
     p_amount_cents: input.amountCents,
+    p_regular_price_cents: input.regularPriceCents,
+    p_discount_cents: input.discountCents,
     p_currency: input.currency,
     p_payment_provider: input.paymentProvider,
     p_provider_event_id: input.providerEventId,
