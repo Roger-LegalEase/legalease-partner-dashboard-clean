@@ -109,8 +109,17 @@ function promotionCodeIdsOf(session: Stripe.Checkout.Session): string[] {
 export function reconcileConsumerOrder(
   session: Stripe.Checkout.Session,
   lineItems: readonly Stripe.LineItem[],
-  binding: ConsumerOrderBinding
+  binding: ConsumerOrderBinding,
+  options: {
+    /**
+     * False while the session is still open, where the customer has not paid
+     * and may still enter a code. Structure, product, bindings and the
+     * arithmetic are checked either way; only settlement is deferred.
+     */
+    expectSettled?: boolean;
+  } = {}
 ): ConsumerOrderReconciliation {
+  const expectSettled = options.expectSettled ?? true;
   const refuse = (reason: string): ConsumerOrderReconciliation => ({ ok: false, reason });
 
   if (session.mode !== "payment") return refuse(`mode ${session.mode} is not payment`);
@@ -189,20 +198,26 @@ export function reconcileConsumerOrder(
   const paymentStatus = session.payment_status;
   const paymentIntentId = paymentIntentIdOf(session);
 
-  if (!paymentRequired) {
-    // Stripe's documented zero-total flow: no PaymentIntent is created and the
-    // session reports no_payment_required. Waiting for a charge here, or
-    // inventing a PaymentIntent to satisfy an older assumption, would both be
-    // wrong. A session that claims a charge on a zero total is not ours.
-    if (paymentStatus !== "no_payment_required" && paymentStatus !== "paid") {
-      return refuse(`a zero-total order must be no_payment_required, found ${paymentStatus}`);
+  if (expectSettled) {
+    if (!paymentRequired) {
+      // Stripe's documented zero-total flow: no PaymentIntent is created and
+      // the session reports no_payment_required. Waiting for a charge here, or
+      // inventing a PaymentIntent to satisfy an older assumption, would both be
+      // wrong. A session that claims a charge on a zero total is not ours.
+      if (paymentStatus !== "no_payment_required" && paymentStatus !== "paid") {
+        return refuse(`a zero-total order must be no_payment_required, found ${paymentStatus}`);
+      }
+      if (paymentIntentId) return refuse("a zero-total order has no payment intent");
+    } else if (paymentStatus !== "paid") {
+      return refuse(`payment_status ${paymentStatus} is not paid on an order with ${amountDueCents} due`);
     }
-    if (paymentIntentId) return refuse("a zero-total order has no payment intent");
-  } else if (paymentStatus !== "paid") {
-    return refuse(`payment_status ${paymentStatus} is not paid on an order with ${amountDueCents} due`);
+  } else if (paymentIntentId && !paymentRequired) {
+    return refuse("a zero-total order has no payment intent");
   }
 
-  const settled = paymentRequired ? paymentStatus === "paid" : session.status === "complete";
+  const settled = paymentRequired
+    ? paymentStatus === "paid"
+    : paymentStatus === "no_payment_required" && session.status === "complete";
 
   return {
     ok: true,
