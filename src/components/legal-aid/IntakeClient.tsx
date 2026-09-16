@@ -213,6 +213,11 @@ export function IntakeClient(props: Props) {
   );
 }
 
+/** The masked form of the protected number: only its last four digits are ever held outside the encrypted field. */
+export function maskHint(lastFour: string): string {
+  return `•••-••-${lastFour}`;
+}
+
 function prefill(props: Props): IntakeAnswers {
   const answers: IntakeAnswers = {};
   if (props.registrationEmail) answers.email = { state: "answered", value: props.registrationEmail };
@@ -252,7 +257,7 @@ function FieldInput({ field, answer, error, onChange }: { field: IntakeFieldSpec
     if (field.control === "money") return (
       <div>
         <div className="relative mt-2"><span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#5B4E66]">$</span><input id={id} inputMode="decimal" disabled={unknown} className={`${laInput} mt-0 pl-7`} value={value} placeholder="0" onChange={(event) => onChange(event.target.value.trim() ? { state: "answered", value: event.target.value.trim() } : null)} /></div>
-        {field.product.allowUnknown ? <label className="mt-2 flex items-center gap-2 text-sm text-[#5B4E66]"><input type="checkbox" checked={unknown} onChange={(event) => onChange(event.target.checked ? { state: "unknown" } : null)} />I don&apos;t know this amount</label> : null}
+        {field.product.allowUnknown ? <label className="mt-2 flex items-center gap-2 text-sm text-[#5B4E66]"><input id={`${id}-unknown`} type="checkbox" checked={unknown} onChange={(event) => onChange(event.target.checked ? { state: "unknown" } : null)} />I don&apos;t know this amount</label> : null}
       </div>
     );
     if (field.control === "count") return <input id={id} type="number" min={0} step={1} inputMode="numeric" className={laInput} value={value} onChange={(event) => onChange(event.target.value !== "" ? { state: "answered", value: event.target.value } : null)} />;
@@ -295,7 +300,7 @@ function ProtectedStep({ intakeId, ssnHint, ensureIntake, onSaved }: { intakeId:
   return (
     <form onSubmit={submit} className="mt-5 space-y-4" autoComplete="off">
       <p className="text-sm leading-6">{ssnField?.help}</p>
-      {hint ? <p className="rounded-md bg-[var(--la-soft)] p-3 text-sm">On file: <strong>{hint}</strong>. Enter it again only if you need to correct it.</p> : null}
+      {hint ? <p className="rounded-md bg-[var(--la-soft)] p-3 text-sm">On file: <strong>{maskHint(hint)}</strong>. Enter it again only if you need to correct it.</p> : null}
       <label className="block text-sm font-bold">Social Security number<span className="text-[var(--la-brand)]"> *</span>
         <input name="ssn" inputMode="numeric" autoComplete="off" spellCheck={false} className={laInput} value={value} onChange={(event) => setValue(event.target.value)} placeholder="###-##-####" />
       </label>
@@ -418,7 +423,7 @@ function SubmittedView({ view, partnerName, clinicLabel, onWithdraw, onReload }:
       {pending.length > 0 ? <Panel title="Your next steps"><ul className="list-disc space-y-2 pl-5 text-sm">{pending.map((step) => <li key={step.id}><strong>{step.title}</strong>{step.dueAt ? ` · by ${new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(step.dueAt))}` : ""}{step.detail ? <><br /><span className="text-[#5B4E66]">{step.detail}</span></> : null}</li>)}</ul></Panel> : null}
       {view.documentTasks.length > 0 ? <Panel title="Your documents"><ul className="divide-y divide-[#EEE8F2] text-sm">{view.documentTasks.map((task) => <li key={task.id} className="py-2"><strong>{task.title}</strong><br /><span className="text-[#5B4E66]">{taskCopy(task.status)}</span></li>)}</ul></Panel> : null}
       <Panel title="Your documents on file"><DocumentsBlock intakeId={view.id} documents={view.documents} onChanged={onReload} /></Panel>
-      <Panel title="What you told us"><AnswerSummary answers={view.answers} /><p className="mt-3 text-xs text-[#5B4E66]">Protected number on file: {view.ssnHint ?? "not provided"}.</p></Panel>
+      <Panel title="What you told us"><AnswerSummary answers={view.answers} /><p className="mt-3 text-xs text-[#5B4E66]">Protected number on file: {view.ssnHint ? maskHint(view.ssnHint) : "not provided"}.</p></Panel>
       {view.status !== "withdrawn" && view.status !== "approved" ? <p className="text-xs text-[#7A6E85]"><button type="button" onClick={() => void onWithdraw()} className="underline">Withdraw this application</button></p> : null}
     </div>
   );

@@ -97,6 +97,7 @@ export async function openIntakeDocument(documentId: string, actorUserId: string
   const bytes = new Uint8Array(await downloaded.data.arrayBuffer());
   const sha = createHash("sha256").update(bytes).digest("hex");
   if (sha !== String(row.data.sha256)) throw new ClinicServiceError("unavailable", "The stored document failed its integrity check.");
-  await db.rpc("legal_aid_record_access", { p_intake_id: intakeId, p_actor_user_id: actorUserId, p_action: "document_downloaded", p_metadata: { document_id: documentId, role: isParticipant ? "participant" : "staff" } });
+  const audit = await db.rpc("legal_aid_record_access", { p_intake_id: intakeId, p_actor_user_id: actorUserId, p_action: "document_downloaded", p_metadata: { document_id: documentId, role: isParticipant ? "participant" : "staff" } });
+  if (audit.error) throw new ClinicServiceError("unavailable", "The access log could not be written, so the document was not opened.");
   return { document: mapDocument(row.data as Record<string, unknown>), bytes };
 }

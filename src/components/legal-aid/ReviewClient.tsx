@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import type { EligibilitySummary } from "@/lib/legal-aid/eligibility";
 import type { DocumentTask, DocumentTaskStatus, StaffIntakeDetail } from "@/lib/legal-aid/types";
-import { AnswerSummary, DocumentsBlock } from "./IntakeClient";
+import { AnswerSummary, DocumentsBlock, maskHint } from "./IntakeClient";
 import { Panel, laInput, laPrimary, laSecondary } from "./LegalAidShell";
 
 // The assigned staff view of one application. What a person can do here is
@@ -16,6 +16,11 @@ type Staff = { eventStaffId: string; email: string; role: string; permissions: s
 type RenderJob = { id: string; status: string; outputSha256: string | null; createdAt: string };
 
 const TASK_FLOW: DocumentTaskStatus[] = ["draft", "attorney_reviewed", "ready_for_execution", "signature_or_notary_pending", "executed_copy_received", "execution_reviewed", "ready_to_file", "filed"];
+// Who may record each step, mirroring the database rule so the screen only offers what the server will accept.
+const TASK_STEP_PERMISSIONS: Record<DocumentTaskStatus, string[]> = {
+  draft: [], attorney_reviewed: ["attorney"], ready_for_execution: ["attorney", "coordinator"], signature_or_notary_pending: ["attorney", "coordinator", "notary"],
+  executed_copy_received: ["notary", "coordinator", "attorney"], execution_reviewed: ["attorney"], ready_to_file: ["attorney", "coordinator"], filed: ["coordinator", "follow_up"]
+};
 const TASK_LABELS: Record<DocumentTaskStatus, string> = {
   draft: "Draft", attorney_reviewed: "Attorney reviewed", ready_for_execution: "Ready for execution", signature_or_notary_pending: "Signature or notary pending",
   executed_copy_received: "Executed copy received", execution_reviewed: "Execution reviewed", ready_to_file: "Ready to file", filed: "Filed"
@@ -89,7 +94,7 @@ export function ReviewClient({ detail, staff, eventId }: { detail: Detail; staff
           <div className="mt-4 border-t border-[#E8E1EE] pt-4">
             <p className="text-sm"><strong>Statements signed:</strong> {detail.signatures.filter((signature) => signature.status === "active").length === 0 ? "none" : detail.signatures.filter((signature) => signature.status === "active").map((signature) => `${signature.statementKey.replaceAll("_", " ")} (${signature.signerName}, ${fmt(signature.signedAt)}${signature.current ? "" : ", answers changed since"})`).join("; ")}</p>
           </div>
-          {(has("attorney") || has("coordinator")) ? <RevealBlock detail={detail} busy={busy} act={act} /> : <p className="mt-3 text-xs text-[#7A6E85]">Protected number on file: {detail.ssnHint ?? "not provided"}. Only the assigned attorney or coordinator can reveal it.</p>}
+          {(has("attorney") || has("coordinator")) ? <RevealBlock detail={detail} busy={busy} act={act} /> : <p className="mt-3 text-xs text-[#7A6E85]">Protected number on file: {detail.ssnHint ? maskHint(detail.ssnHint) : "not provided"}. Only the assigned attorney or coordinator can reveal it.</p>}
         </Panel>
       ) : null}
 
@@ -192,10 +197,10 @@ function RevealBlock({ detail, busy, act }: { detail: Detail; busy: boolean; act
   }, [value]);
   return (
     <div className="mt-4 rounded-md border border-[#E6C9A8] bg-[#FFF8EE] p-3 text-sm">
-      <p className="font-bold">Protected number on file: {detail.ssnHint ?? "not provided"}</p>
+      <p className="font-bold">Protected number on file: {detail.ssnHint ? maskHint(detail.ssnHint) : "not provided"}</p>
       {detail.ssnHint ? (
         value ? <p className="mt-2">Revealed for 60 seconds: <strong className="font-mono">{value}</strong> <button type="button" className="ml-2 underline" onClick={() => setValue(null)}>Hide now</button></p> : (
-          <form onSubmit={(event) => { event.preventDefault(); void act({ action: "reveal_ssn", purpose }, "Reveal recorded in the access log.").then((body) => { if (body && typeof body.value === "string") setValue(body.value); }); }} className="mt-2 flex flex-wrap items-end gap-2">
+          <form onSubmit={(event) => { event.preventDefault(); void act({ action: "reveal_ssn", purpose }, "Reveal recorded in the access log.").then((body) => { if (body && typeof body.value === "string") setValue(body.value.replace(/^(\d{3})(\d{2})(\d{4})$/, "$1-$2-$3")); }); }} className="mt-2 flex flex-wrap items-end gap-2">
             <label className="block min-w-64 flex-1 text-sm font-bold">Purpose (recorded)<input className={laInput} value={purpose} onChange={(event) => setPurpose(event.target.value)} placeholder="e.g. preparing the petition for filing" /></label>
             <button type="submit" disabled={busy || purpose.trim().length < 5} className={laSecondary}>Reveal once</button>
           </form>
@@ -215,16 +220,17 @@ function DocumentTasks({ detail, busy, act, canCreate }: { detail: Detail; busy:
   return (
     <Panel eyebrow="Document execution" title="Court documents">
       <p className="text-sm leading-6 text-[#5B4E66]">Each document moves through review, execution and filing in order. The unsigned copy comes from the participant&apos;s prepared packet; the executed copy is uploaded above as a &quot;Signed document&quot; and attached here. No seal, notary block or signature is ever generated by this system.</p>
-      <ul className="mt-3 divide-y divide-[#EEE8F2]">{detail.documentTasks.map((task) => <TaskRow key={task.id} intakeId={detail.id} task={task} busy={busy} act={act} executed={executed} jobs={jobs} />)}</ul>
+      <ul className="mt-3 divide-y divide-[#EEE8F2]">{detail.documentTasks.map((task) => <TaskRow key={task.id} intakeId={detail.id} task={task} busy={busy} act={act} executed={executed} jobs={jobs} permissions={detail.permissions} />)}</ul>
       {detail.documentTasks.length === 0 ? <p className="mt-2 text-sm text-[#7A6E85]">No documents yet.</p> : null}
       {canCreate ? <CreateTaskForm busy={busy} act={act} jobs={jobs} /> : null}
     </Panel>
   );
 }
 
-function TaskRow({ intakeId, task, busy, act, executed, jobs }: { intakeId: string; task: DocumentTask; busy: boolean; act: Act; executed: Detail["documents"]; jobs: RenderJob[] }) {
+function TaskRow({ intakeId, task, busy, act, executed, jobs, permissions }: { intakeId: string; task: DocumentTask; busy: boolean; act: Act; executed: Detail["documents"]; jobs: RenderJob[]; permissions: string[] }) {
   const index = TASK_FLOW.indexOf(task.status);
   const next = TASK_FLOW[index + 1];
+  const mayAdvance = next ? TASK_STEP_PERMISSIONS[next].some((permission) => permissions.includes(permission)) : false;
   const [executedId, setExecutedId] = useState(task.executedDocumentId ?? "");
   const [note, setNote] = useState("");
   const [jobId, setJobId] = useState("");
@@ -233,7 +239,8 @@ function TaskRow({ intakeId, task, busy, act, executed, jobs }: { intakeId: stri
     <li className="py-3 text-sm">
       <div className="flex flex-wrap items-center justify-between gap-2"><span><strong>{task.title}</strong> · {task.requiredSigner.replaceAll("_", " ")} · {task.executionMethod.replaceAll("_", " ")}</span><span className="rounded-full bg-[var(--la-soft)] px-3 py-1 text-xs font-bold text-[var(--la-brand-dark)]">{TASK_LABELS[task.status]}</span></div>
       <p className="mt-1 text-xs text-[#7A6E85]">Unsigned copy {task.unsignedArtifactSha256 ? `sha256 ${task.unsignedArtifactSha256.slice(0, 12)}…` : "not attached"}{task.unsignedRenderJobId ? <> · <a className="underline" href={`/api/legal-aid/staff/intakes/${intakeId}/unsigned/${task.id}`} target="_blank" rel="noreferrer">open prepared packet</a></> : null}{task.authorityNote ? ` · ${task.authorityNote}` : ""}{task.filingNote ? ` · ${task.filingNote}` : ""}</p>
-      {next ? (
+      {next && !mayAdvance ? <p className="mt-1 text-xs text-[#7A6E85]">Next step, {TASK_LABELS[next].toLowerCase()}, is recorded by the {TASK_STEP_PERMISSIONS[next].map((permission) => permission.replaceAll("_", " ")).join(" or ")}.</p> : null}
+      {next && mayAdvance ? (
         <div className="mt-2 flex flex-wrap items-end gap-2">
           {next === "executed_copy_received" ? <label className="block text-xs font-bold">Executed copy<select className={laInput} value={executedId} onChange={(event) => setExecutedId(event.target.value)}><option value="">Choose the uploaded signed document</option>{executed.map((document) => <option key={document.id} value={document.id}>{document.originalFilename}</option>)}</select></label> : null}
           <label className="block text-xs font-bold">Note (optional)<input className={laInput} value={note} onChange={(event) => setNote(event.target.value)} /></label>

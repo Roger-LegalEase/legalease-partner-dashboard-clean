@@ -47,7 +47,11 @@ export async function exportCaseFile(input: { intakeId: string; actorUserId: str
     throw new ClinicServiceError("forbidden", "Only the assigned attorney or coordinator can export the protected value.");
   }
   const detail = await getStaffIntakeDetail(input.intakeId, input.actorUserId);
-  const ssn = input.includeRestricted && detail.ssnHint ? await revealSsn(input.intakeId, input.actorUserId, "Case-file export to MVLP's approved destination") : maskSsn(detail.ssnHint);
+  // The stored artefacts always carry the masked value. An export flagged
+  // includes_restricted has the value added only when the assigned attorney
+  // or coordinator downloads it, through the audited reveal, so nothing at
+  // rest in the bucket holds the number in clear.
+  const ssn = maskSsn(detail.ssnHint);
   const answers = flattenAnswers(detail.answers);
   const record: CaseFileDocument = {
     schemaVersion: "mvlp-case-file/v1",
@@ -115,9 +119,21 @@ export async function openCaseFileExport(exportId: string, actorUserId: string, 
   const objectPath = format === "pdf" ? pdfPath : pdfPath.replace(/\.pdf$/, ".json");
   const downloaded = await client.storage.from(LEGAL_AID_BUCKET).download(objectPath);
   if (downloaded.error || !downloaded.data) throw new ClinicServiceError("unavailable", "The export could not be read.");
-  const bytes = new Uint8Array(await downloaded.data.arrayBuffer());
+  let bytes: Uint8Array = new Uint8Array(await downloaded.data.arrayBuffer());
   if (format === "pdf" && createHash("sha256").update(bytes).digest("hex") !== String(row.data.sha256)) throw new ClinicServiceError("unavailable", "The export failed its integrity check.");
-  await db.rpc("legal_aid_record_access", { p_intake_id: intakeId, p_actor_user_id: actorUserId, p_action: "export_downloaded", p_metadata: { export_id: exportId, format } });
+  const audit = await db.rpc("legal_aid_record_access", { p_intake_id: intakeId, p_actor_user_id: actorUserId, p_action: "export_downloaded", p_metadata: { export_id: exportId, format, includes_restricted: Boolean(row.data.includes_restricted) } });
+  if (audit.error) throw new ClinicServiceError("unavailable", "The access log could not be written, so the export was not opened.");
+  if (row.data.includes_restricted) {
+    // Add the protected value to this copy only: an audited reveal, then the
+    // JSON record (the source of truth) is re-rendered with it. The stored
+    // masked artefacts, and the recorded hash of the stored PDF, are unchanged.
+    const jsonBytes = format === "json" ? bytes : new Uint8Array(await (await client.storage.from(LEGAL_AID_BUCKET).download(pdfPath.replace(/\.pdf$/, ".json"))).data!.arrayBuffer());
+    const record = JSON.parse(Buffer.from(jsonBytes).toString("utf8")) as CaseFileDocument;
+    const digits = await revealSsn(intakeId, actorUserId, `Case-file export v${row.data.export_version} download with the protected value`);
+    record.applicant.ssn = digits.replace(/^(\d{3})(\d{2})(\d{4})$/, "$1-$2-$3");
+    record.includesRestricted = true;
+    bytes = format === "json" ? Buffer.from(JSON.stringify(record, null, 2), "utf8") : await renderCaseFilePdf(record);
+  }
   return { bytes, filename: `mvlp-case-file-v${row.data.export_version}.${format}`, contentType: format === "pdf" ? "application/pdf" : "application/json" };
 }
 
@@ -196,8 +212,9 @@ async function renderCaseFilePdf(record: CaseFileDocument): Promise<Uint8Array> 
   return pdf.save();
 }
 
+/** Keeps the text inside what the standard PDF fonts can encode (WinAnsi); anything else is replaced rather than crashing the export. */
 function sanitize(text: string): string {
-  return text.replace(/[^\x20-\x7E -ÿ—·→"]/g, "?");
+  return text.replace(/\u2192/g, "->").replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"').replace(/[^\x20-\x7E\u00A0-\u00FF\u2013\u2014\u2022\u2026]/g, "?");
 }
 
 function wrap(text: string, font: { widthOfTextAtSize: (text: string, size: number) => number }, size: number, maxWidth: number): string[] {

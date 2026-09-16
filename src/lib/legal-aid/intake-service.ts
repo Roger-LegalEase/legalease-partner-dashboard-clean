@@ -535,6 +535,8 @@ export async function openUnsignedArtifact(taskId: string, actorUserId: string):
   const bytes = new Uint8Array(buffer);
   const actual = createHash("sha256").update(bytes).digest("hex");
   if (actual !== job.outputSha256) throw new ClinicServiceError("unavailable", "The prepared copy failed its integrity check.");
-  await db.rpc("legal_aid_record_access", { p_intake_id: intakeId, p_actor_user_id: actorUserId, p_action: "unsigned_copy_opened", p_metadata: { task_id: taskId, render_job_id: job.id, sha256: actual } });
+  // Fail closed: a read that cannot be recorded in the access log is not served.
+  const audit = await db.rpc("legal_aid_record_access", { p_intake_id: intakeId, p_actor_user_id: actorUserId, p_action: "unsigned_copy_opened", p_metadata: { task_id: taskId, render_job_id: job.id, sha256: actual } });
+  if (audit.error) throw new ClinicServiceError("unavailable", "The access log could not be written, so the copy was not opened.");
   return { bytes, filename: `${String(task.data.title).replace(/[^\w. -]/g, "_").slice(0, 80)} (unsigned).pdf` };
 }

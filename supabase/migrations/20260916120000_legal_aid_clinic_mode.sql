@@ -346,7 +346,7 @@ create table public.legal_aid_access_audit (
   intake_id uuid not null references public.legal_aid_intakes(id) on delete restrict,
   actor_user_id uuid references auth.users(id) on delete set null,
   action text not null check (action in (
-    'intake_viewed','restricted_written','restricted_revealed','document_downloaded','export_created','export_downloaded'
+    'intake_viewed','restricted_written','restricted_revealed','document_downloaded','unsigned_copy_opened','export_created','export_downloaded'
   )),
   field_key text check (field_key is null or length(field_key) <= 40),
   metadata jsonb not null default '{}'::jsonb check (jsonb_typeof(metadata) = 'object'),
