@@ -70,8 +70,8 @@ includesEvery(migrationScript, [
   "git",
   '["show", `${APPLICATION_SHA}:${migration.path}`]'
 ], "frozen commit/hash source contract");
-check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact eleven-file sequence");
-check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 11, "protected runner does not contain exactly eleven migration identities");
+check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact twelve-file sequence");
+check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 12, "protected runner does not contain exactly twelve migration identities");
 
 // The ledger's own capacity has to match the sequence it records, or the
 // runner applies a migration to the acceptance database and is then refused
@@ -98,7 +98,7 @@ check(authorized?.status === "authorized_nonproduction_acceptance_only", "indepe
 check(authorized?.acceptanceProjectRef === "hyflxnlhpmiqxvvcoiia", "independent readiness names the wrong acceptance project");
 check(authorized?.productionAuthorized === false, "independent readiness permits Production");
 check(authorized?.adHocCaptainShellSqlAuthorized === false, "independent readiness permits ad hoc Captain SQL");
-check(authorized?.migrationsInApplyOrder?.length === 11, "independent readiness does not pin exactly eleven migrations");
+check(authorized?.migrationsInApplyOrder?.length === 12, "independent readiness does not pin exactly twelve migrations");
 check(
   authorized?.migrationsInApplyOrder?.every((entry) => {
     const bytes = fs.readFileSync(path.join(root, entry.path));
@@ -160,7 +160,7 @@ includesEvery(migrationScript, [
   '"consumer_artifact_provenance_prerequisite_exact"',
   '"all_seven_current_demo_migration_families_read_back"',
   "atomic_sponsored_finalizer_present",
-  "ledger records all 11 exact frozen migrations"
+  "ledger records all 12 exact frozen migrations"
 ], "Clinic Preview catalog/RLS/readback contract");
 
 includesEvery(migrationScript, [
@@ -178,4 +178,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact eleven-file nonproduction Clinic Preview sequence`);
+console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact twelve-file nonproduction Clinic Preview sequence`);

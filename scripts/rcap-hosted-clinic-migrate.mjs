@@ -82,6 +82,19 @@ const MIGRATIONS = Object.freeze([
     sequencePosition: 11,
     path: "supabase/migrations/20260917090000_consumer_promotion_codes.sql",
     sha256: "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369"
+  }),
+  // The compare-and-swap Checkout Session replacement writer. Without it the
+  // acceptance project carries only `bind_consumer_checkout_verification`,
+  // which refuses any new session id once one is stored, and the application's
+  // replacement path has nowhere to record the swap. Run 35271172734 is what
+  // that looks like from the outside: the incompatible session was expired, the
+  // RPC named a function the database did not have, the replacement was refused
+  // 503 and the matter was left holding an expired session — a missing
+  // migration wearing a checkout defect's clothes.
+  Object.freeze({
+    sequencePosition: 12,
+    path: "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql",
+    sha256: "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128"
   })
 ]);
 
@@ -130,6 +143,11 @@ const REQUIRED_FUNCTIONS = Object.freeze([
   "participant_claim_events_append_only",
   "attach_consumer_packet_artifact_if_verified",
   "bind_consumer_checkout_verification",
+  // The replacement writer is read back by name for the same reason the
+  // initial one is: the application calls it, and a database that does not
+  // carry it answers a participant's resumed order with a 503 that looks
+  // exactly like a checkout defect.
+  "replace_consumer_checkout_session",
   "consumer_canonical_json",
   "consumer_render_job_verification_guard",
   "enqueue_verified_consumer_packet_render",
@@ -309,7 +327,7 @@ async function main() {
 
   await managementQuery(`
     create table if not exists public.rcap_acceptance_clinic_migration_ledger (
-      sequence_position smallint primary key check (sequence_position between 1 and 11),
+      sequence_position smallint primary key check (sequence_position between 1 and 12),
       migration_path text not null unique,
       sha256 text not null unique check (sha256 ~ '^[0-9a-f]{64}$'),
       application_sha text not null check (application_sha ~ '^[0-9a-f]{40}$'),
@@ -323,13 +341,13 @@ async function main() {
         select 1 from pg_constraint
         where conrelid = 'public.rcap_acceptance_clinic_migration_ledger'::regclass
           and conname = 'rcap_acceptance_clinic_migration_ledger_sequence_position_check'
-          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 11)))'
+          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 12)))'
       ) then
         alter table public.rcap_acceptance_clinic_migration_ledger
           drop constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check;
         alter table public.rcap_acceptance_clinic_migration_ledger
           add constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check
-          check (sequence_position between 1 and 11);
+          check (sequence_position between 1 and 12);
       end if;
     end $$;
 
@@ -594,7 +612,7 @@ async function main() {
   record(
     "ledger_records_all_10_exact_frozen_migrations",
     ledgerExact,
-    `ledger records all 11 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
+    `ledger records all 12 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
   );
 }
 

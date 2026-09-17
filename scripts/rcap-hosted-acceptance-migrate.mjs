@@ -416,16 +416,29 @@ const authorizedMigrationPaths = new Set(sequence.map((entry) => entry.path));
   {
     const rows = await query(
       `select p.proname, p.prosecdef from pg_proc p join pg_namespace n on n.oid = p.pronamespace
-       where n.nspname = 'public' and p.proname in ('record_consumer_packet_payment','finalize_packet_render_job','enqueue_packet_render_job')`
+       where n.nspname = 'public' and p.proname in ('record_consumer_packet_payment','finalize_packet_render_job','enqueue_packet_render_job','bind_consumer_checkout_verification','replace_consumer_checkout_session')`
     );
     const found = Array.isArray(rows.json) ? rows.json : [];
     const byName = (name) => found.filter((r) => r.proname === name);
     const definer = (name) => byName(name).every((r) => truthy(r.prosecdef)) && byName(name).length > 0;
-    const pass = definer("record_consumer_packet_payment") && definer("finalize_packet_render_job") && byName("enqueue_packet_render_job").length > 0;
+    // Both checkout writers, because the application calls both and they are
+    // not interchangeable: the initial binding refuses once a Session is
+    // stored, and only the compare-and-swap writer can record a replacement.
+    //
+    // Run 35271172734 is why this is read back here rather than discovered by a
+    // participant. `replace_consumer_checkout_session` had been written and
+    // reviewed but was in no apply path, so the acceptance project never
+    // received it. The resumed order expired its incompatible Session, called a
+    // function the database did not have, and answered 503 — indistinguishable,
+    // from the outside, from a defect in the checkout code. This step already
+    // runs in the payment phase, so the missing function is now named here,
+    // before the journey that would otherwise mislabel it.
+    const pass = definer("record_consumer_packet_payment") && definer("finalize_packet_render_job") && byName("enqueue_packet_render_job").length > 0
+      && definer("bind_consumer_checkout_verification") && definer("replace_consumer_checkout_session");
     record(
       "payment_authority_functions_present",
       pass,
-      `record_consumer_packet_payment=${byName("record_consumer_packet_payment").length} (security definer ${definer("record_consumer_packet_payment")}), finalize_packet_render_job=${byName("finalize_packet_render_job").length} (security definer ${definer("finalize_packet_render_job")}), enqueue_packet_render_job=${byName("enqueue_packet_render_job").length}`
+      `record_consumer_packet_payment=${byName("record_consumer_packet_payment").length} (security definer ${definer("record_consumer_packet_payment")}), finalize_packet_render_job=${byName("finalize_packet_render_job").length} (security definer ${definer("finalize_packet_render_job")}), enqueue_packet_render_job=${byName("enqueue_packet_render_job").length}, bind_consumer_checkout_verification=${byName("bind_consumer_checkout_verification").length} (security definer ${definer("bind_consumer_checkout_verification")}), replace_consumer_checkout_session=${byName("replace_consumer_checkout_session").length} (security definer ${definer("replace_consumer_checkout_session")})`
     );
     evidence.readback.functions = found;
   }
