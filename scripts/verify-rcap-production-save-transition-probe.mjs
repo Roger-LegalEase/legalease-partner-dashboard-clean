@@ -127,6 +127,7 @@ check(
   !/https:\/\/api\.vercel\.com/.test(probe)
     && (probe.match(/hostedVercelScopedUrl\(/g) ?? []).length === 1
     && /\/runtime-logs`/.test(probe)
+    && /\/events`/.test(probe)
     && !/\/v13\/deployments|\/v9\/projects\/[^\n]*\/(?:domains|promote)|method: "(?:POST|PUT|PATCH|DELETE)"[^\n]*vercel/i.test(probe),
   "the only Vercel call is one GET of the pinned deployment's runtime log"
 );
