@@ -179,9 +179,11 @@ async function fillRemainingRequired(page, notes) {
 /**
  * Drives one Checkout Session to completion.
  *
- * `card` is omitted for a zero-total order: Stripe collects no payment details
- * when nothing is due, and asking for a card field that is not there would fail
- * a case that is actually correct.
+ * Whether a card is needed is decided by the page after any promotion code has
+ * been applied, not by the caller: Stripe collects no payment details when
+ * nothing is due, and a code that waives the whole price is only discoverable
+ * once Stripe has applied it. A card is always supplied and simply goes unused
+ * when Stripe stops asking for one.
  *
  * Returns what happened; the caller decides the verdict by reading the Session
  * back from Stripe, never from this page.
@@ -190,7 +192,6 @@ export async function completeHostedCheckout({
   checkoutUrl,
   promotionCode = null,
   card = STRIPE_TEST_CARD,
-  expectNoPayment = false,
   screenshotDir = null,
   label = "checkout"
 }) {
@@ -222,8 +223,8 @@ export async function completeHostedCheckout({
     // What Stripe is asking for now decides the rest. A zero total shows an
     // order-confirmation button and no card fields at all.
     const amountText = await page.locator("body").innerText().catch(() => "");
-    const looksFree = expectNoPayment || /\$0\.00/.test(amountText);
-    notes.push(`page total reads as ${looksFree ? "zero" : "an amount due"}`);
+    const looksFree = /\$0\.00/.test(amountText);
+    notes.push(`page total reads as ${looksFree ? "zero, so Stripe is collecting no payment details" : "an amount due"}${promotionCode ? " after the promotion code was applied" : ""}`);
 
     // Stripe Checkout collects an email on most configurations and will not
     // submit without one. Filled for a zero-total order too, where the page

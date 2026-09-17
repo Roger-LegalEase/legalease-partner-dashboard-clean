@@ -54,13 +54,10 @@ const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 // rather than a separate near-copy of it existing per discount shape. Empty
 // means the ordinary $50 order.
 const PROMOTION_CODE = (process.env.HOSTED_STRIPE_PROMOTION_CODE ?? "").trim() || null;
-const PROMOTION_CODE_EXPECTS_ZERO = (process.env.HOSTED_STRIPE_PROMOTION_ZERO_TOTAL ?? "").trim() === "true";
-// The discount this run claims, declared as Stripe declares it: percent_off=40,
-// amount_off=1500, percent_off=100. It is what the code is created with when the
-// sandbox does not already carry one, and what Stripe's applied discount is
-// checked against afterwards, so a code that silently discounts something else
-// cannot pass as the one this run asked for.
-const PROMOTION_SHAPE = (process.env.HOSTED_STRIPE_PROMOTION_SHAPE ?? "").trim() || null;
+// Nothing here declares what a code is worth. Promotion codes are created and
+// managed in the Stripe Dashboard; this run types one into Stripe's own field
+// and then believes Stripe about the result, including whether the order ended
+// at zero. Issuing a new code requires no change here and no deployment.
 // Lets one run prove a non-Mississippi purchase without duplicating this
 // journey per state. Empty keeps the existing behaviour.
 const JOURNEY_STATE = (process.env.HOSTED_JOURNEY_STATE ?? "").trim().toUpperCase();
@@ -159,10 +156,9 @@ const REQUIRED_CASES = [
   "packet_contract_is_provable_before_checkout",
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
-  // The discount is Stripe's own object, and Stripe is the one that applied it.
-  "promotion_code_is_a_real_stripe_object",
   "customer_completed_the_hosted_checkout_page",
-  "stripe_applied_the_declared_discount",
+  // Stripe decides the discount; fulfillment has to honour what Stripe reports.
+  "fulfillment_honours_the_stripe_confirmed_total",
   // Stripe itself delivered the completion event to the application. The signed
   // events below this line are constructed by this harness and are a separate
   // kind of evidence.
@@ -1735,106 +1731,19 @@ let session = null;
   runNamespace.checkoutSessionId = session.id;
 }
 
-// --- 4a2. The promotion code this run uses is a real Stripe object ----------
-//
-// Sandbox only, and idempotent: an active code already carrying this name is
-// used exactly as found, and only when none exists is one created from the
-// shape this run declares. Creation is refused outright on a live key — a
-// production discount is Roger's to issue, not this harness's to mint.
-const REGULAR_PRICE_CENTS = session.amount_total;
+// Stripe is the only authority on the discount. A code is created and managed in
+// the Stripe Dashboard, typed into Stripe's own promotion-code field on the
+// hosted page, and every amount below is read back from Stripe afterwards. This
+// harness creates no coupon and computes no discount.
 const stripeApi = async (pathname, init) => {
   const res = await fetch(`https://api.stripe.com/v1/${pathname}`, {
     ...init,
-    headers: {
-      Authorization: `Bearer ${STRIPE_KEY}`,
-      ...(init?.body ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
-      ...(init?.headers ?? {})
-    }
+    headers: { Authorization: `Bearer ${STRIPE_KEY}`, ...(init?.headers ?? {}) }
   });
   let json = null;
   try { json = JSON.parse(await res.text()); } catch { /* non-JSON surfaces as null */ }
   return { status: res.status, json };
 };
-
-/** The discount the declared shape produces against this route's regular price. */
-function declaredDiscountCents(shape, regularCents) {
-  const percent = /^percent_off=(\d{1,3})$/.exec(shape ?? "");
-  if (percent) return Math.round((regularCents * Number(percent[1])) / 100);
-  const amount = /^amount_off=(\d{1,9})$/.exec(shape ?? "");
-  if (amount) return Math.min(Number(amount[1]), regularCents);
-  return null;
-}
-
-let promotionObject = null;
-{
-  if (!PROMOTION_CODE) {
-    record(
-      "promotion_code_is_a_real_stripe_object",
-      true,
-      `this run carries no promotion code, so it claims no discount anywhere: the order is the regular ${REGULAR_PRICE_CENTS}-cent price and the applied-discount case below requires Stripe to report a discount of exactly 0`
-    );
-  } else {
-    const declared = declaredDiscountCents(PROMOTION_SHAPE, REGULAR_PRICE_CENTS);
-    const found = await stripeApi(`promotion_codes?code=${encodeURIComponent(PROMOTION_CODE)}&active=true&limit=1`);
-    promotionObject = Array.isArray(found.json?.data) ? found.json.data[0] ?? null : null;
-    let provenance = promotionObject ? "reused an active code that already existed in the sandbox" : null;
-    let creationError = null;
-
-    if (!promotionObject) {
-      if (!STRIPE_KEY.startsWith("sk_test_")) {
-        creationError = "the key is not a sandbox key and this harness will not mint a live discount; supply the code out of band";
-      } else if (declared === null) {
-        creationError = `no active code named ${PROMOTION_CODE} exists and HOSTED_STRIPE_PROMOTION_SHAPE=${PROMOTION_SHAPE ?? "(unset)"} does not declare one to create`;
-      } else {
-        const percent = /^percent_off=(\d{1,3})$/.exec(PROMOTION_SHAPE);
-        const couponBody = new URLSearchParams({ duration: "once", name: `hosted acceptance ${PROMOTION_CODE}` });
-        if (percent) couponBody.set("percent_off", percent[1]);
-        else { couponBody.set("amount_off", /^amount_off=(\d{1,9})$/.exec(PROMOTION_SHAPE)[1]); couponBody.set("currency", (session.currency ?? "usd")); }
-        const coupon = await stripeApi("coupons", { method: "POST", body: couponBody.toString() });
-        if (!coupon.json?.id) {
-          creationError = `Stripe refused the coupon: ${JSON.stringify(coupon.json?.error?.message ?? coupon.status)}`;
-        } else {
-          const created = await stripeApi("promotion_codes", {
-            method: "POST",
-            body: new URLSearchParams({ coupon: coupon.json.id, code: PROMOTION_CODE }).toString()
-          });
-          if (!created.json?.id) creationError = `Stripe refused the promotion code: ${JSON.stringify(created.json?.error?.message ?? created.status)}`;
-          else { promotionObject = created.json; provenance = "created in the sandbox from the shape this run declares"; }
-        }
-      }
-    }
-
-    // A code that exists but discounts something other than what this run
-    // declared would make every amount below meaningless, so the shape is
-    // compared against the coupon Stripe actually holds.
-    const coupon = promotionObject?.coupon ?? null;
-    const actualDiscount = coupon
-      ? (typeof coupon.percent_off === "number"
-        ? Math.round((REGULAR_PRICE_CENTS * coupon.percent_off) / 100)
-        : Math.min(Number(coupon.amount_off ?? 0), REGULAR_PRICE_CENTS))
-      : null;
-    const shapeAgrees = declared === null ? actualDiscount !== null : actualDiscount === declared;
-    const zeroAgrees = PROMOTION_CODE_EXPECTS_ZERO === (actualDiscount === REGULAR_PRICE_CENTS);
-
-    record(
-      "promotion_code_is_a_real_stripe_object",
-      Boolean(promotionObject?.id) && shapeAgrees && zeroAgrees,
-      promotionObject?.id
-        ? `promotion code ${PROMOTION_CODE} is Stripe object ${promotionObject.id} on coupon ${coupon?.id ?? "(none)"} (${provenance}); `
-          + `the coupon discounts ${coupon?.percent_off != null ? `${coupon.percent_off}%` : `${coupon?.amount_off ?? "?"} ${String(coupon?.currency ?? "").toUpperCase()}`}, `
-          + `which is ${actualDiscount} cents against this route's ${REGULAR_PRICE_CENTS}-cent regular price; the run declared ${PROMOTION_SHAPE ?? "(no shape)"} = ${declared ?? "(none)"} cents (agrees: ${shapeAgrees}); `
-          + `the run expects a zero total: ${PROMOTION_CODE_EXPECTS_ZERO}, and this coupon ${actualDiscount === REGULAR_PRICE_CENTS ? "does" : "does not"} cover the whole price (agrees: ${zeroAgrees}). `
-          + `This harness never tells the application what the discount is — it only ensures the code exists in Stripe, and Stripe applies it on its own page.`
-        : `promotion code ${PROMOTION_CODE} could not be established in Stripe: ${creationError ?? "no active code and no shape to create one"}`
-    );
-    if (!promotionObject?.id) finish();
-    evidence.promotionCode = {
-      code: PROMOTION_CODE, id: promotionObject.id, couponId: coupon?.id ?? null,
-      percentOff: coupon?.percent_off ?? null, amountOff: coupon?.amount_off ?? null,
-      declaredShape: PROMOTION_SHAPE, declaredDiscountCents: declared, provenance
-    };
-  }
-}
 
 // --- 4b. The customer actually pays -----------------------------------------
 //
@@ -1850,12 +1759,10 @@ let promotionObject = null;
 // harness claimed.
 {
   const before = { paymentStatus: session.payment_status, amountTotal: session.amount_total, paymentIntent: session.payment_intent ?? null };
-  const zeroTotalExpected = PROMOTION_CODE_EXPECTS_ZERO;
   const outcome = await completeHostedCheckout({
     checkoutUrl: session.url,
     promotionCode: PROMOTION_CODE,
-    card: zeroTotalExpected ? null : STRIPE_TEST_CARD,
-    expectNoPayment: zeroTotalExpected,
+    card: STRIPE_TEST_CARD,
     screenshotDir: path.join(EVIDENCE_DIR, "checkout-screenshots"),
     label: PROMOTION_CODE ? `checkout-${PROMOTION_CODE}` : "checkout-no-code"
   });
@@ -1887,7 +1794,6 @@ let promotionObject = null;
   );
   evidence.hostedCheckoutCompletion = {
     promotionCode: PROMOTION_CODE,
-    zeroTotalExpected,
     completed: outcome.completed,
     paymentStatusBefore: before.paymentStatus,
     paymentStatusAfter: session.payment_status,
@@ -1901,39 +1807,57 @@ let promotionObject = null;
   if (!settled) finish();
 }
 
-// --- 4c. Stripe applied the discount, and Stripe reports the resulting total --
+// --- 4c. Stripe's numbers, and fulfillment honouring them --------------------
 //
-// Every number here is read back from Stripe, never asserted into it. A run
-// carrying no code must show a discount of exactly zero, so "no discount" is a
-// checked claim rather than an absence nobody looked at.
+// Every figure is read back from Stripe. Nothing here recomputes what a code
+// should be worth: a percentage, a fixed amount or a full waiver are all just
+// whatever Stripe put in amount_discount, and the only question asked is whether
+// Stripe's own figures are self-consistent and whether the order that reaches
+// fulfillment carries them unchanged. A new Dashboard code therefore needs no
+// change to this file.
 {
-  const declared = PROMOTION_CODE ? declaredDiscountCents(PROMOTION_SHAPE, REGULAR_PRICE_CENTS) : 0;
-  const actual = session.total_details?.amount_discount ?? 0;
+  const subtotal = session.amount_subtotal ?? null;
+  const discount = session.total_details?.amount_discount ?? 0;
+  const total = session.amount_total ?? null;
   const appliedCodes = (session.discounts ?? [])
     .map((d) => (typeof d?.promotion_code === "string" ? d.promotion_code : d?.promotion_code?.id))
     .filter(Boolean);
-  const namesTheCode = !PROMOTION_CODE || (promotionObject?.id ? appliedCodes.includes(promotionObject.id) : false);
-  const totalAgrees = declared !== null && session.amount_total === REGULAR_PRICE_CENTS - declared;
-  // A zero-total order has no PaymentIntent because nothing was ever charged;
-  // a discounted-but-nonzero order must still have been genuinely paid.
-  const zeroShape = PROMOTION_CODE_EXPECTS_ZERO
-    ? session.payment_status === "no_payment_required" && !session.payment_intent && session.amount_total === 0
-    : session.payment_status === "paid" && Boolean(session.payment_intent) && session.amount_total > 0;
+
+  // Stripe's own arithmetic has to close, so a discount that never reached the
+  // total cannot pass as one that did.
+  const arithmeticCloses = subtotal !== null && total !== null && total === subtotal - discount;
+  // A code was typed in, so Stripe must show a discount and name it; no code was
+  // typed in, so Stripe must show none.
+  const discountMatchesTheAttempt = PROMOTION_CODE
+    ? discount > 0 && appliedCodes.length > 0
+    : discount === 0 && appliedCodes.length === 0;
+  // Nothing was charged, so there can be no PaymentIntent; something was
+  // charged, so there must be one. This is the case that makes a completed $0
+  // order a real order rather than an unpaid one.
+  const settlementFitsTheTotal = total === 0
+    ? session.payment_status === "no_payment_required" && !session.payment_intent
+    : session.payment_status === "paid" && Boolean(session.payment_intent);
+  // And fulfillment has to be looking at the same money Stripe is.
+  const row = await sql(`select amount_cents, payment_status from public.consumer_briefcase_items where id = '${sqlText(itemId)}'`);
+  const item = Array.isArray(row.json) ? row.json[0] ?? null : null;
+  const fulfillmentAgrees = item !== null && Number(item.amount_cents) === total;
 
   record(
-    "stripe_applied_the_declared_discount",
-    declared !== null && actual === declared && totalAgrees && namesTheCode && zeroShape,
-    `Stripe reports amount_discount=${actual} against a declared ${declared ?? "(undeclarable)"}, and amount_total=${session.amount_total} against a regular price of ${REGULAR_PRICE_CENTS} `
-      + `(total agrees: ${totalAgrees}). Applied promotion codes: ${appliedCodes.length ? appliedCodes.join(", ") : "(none)"}`
-      + `${PROMOTION_CODE ? ` — must name ${promotionObject?.id ?? "(no code object)"}: ${namesTheCode}` : " — a run with no code must show none"}. `
-      + `payment_status=${session.payment_status}, payment_intent=${session.payment_intent ? "present" : "absent"}; `
-      + `for a ${PROMOTION_CODE_EXPECTS_ZERO ? "zero-total" : "nonzero"} order that shape is ${zeroShape ? "correct" : "WRONG"} — `
-      + `a zero-total order must carry no PaymentIntent because nothing was charged, and a nonzero order must carry one because something was.`
+    "fulfillment_honours_the_stripe_confirmed_total",
+    arithmeticCloses && discountMatchesTheAttempt && settlementFitsTheTotal && fulfillmentAgrees,
+    `Stripe reports subtotal=${subtotal}, amount_discount=${discount}, amount_total=${total} `
+      + `(its own arithmetic closes: ${arithmeticCloses}). Promotion codes Stripe applied: ${appliedCodes.length ? appliedCodes.join(", ") : "(none)"} `
+      + `for ${PROMOTION_CODE ? `entered code ${PROMOTION_CODE}` : "no entered code"} (consistent: ${discountMatchesTheAttempt}). `
+      + `payment_status=${session.payment_status}, payment_intent=${session.payment_intent ? "present" : "absent"} for a total of ${total} (consistent: ${settlementFitsTheTotal}) — `
+      + `a zero total must carry no PaymentIntent because nothing was charged, and any other total must carry one. `
+      + `The order row records amount_cents=${item?.amount_cents ?? "(missing)"} payment_status=${item?.payment_status ?? "(missing)"}, which must equal Stripe's total (agrees: ${fulfillmentAgrees}). `
+      + `No figure here is computed by this harness, so a code issued in the Stripe Dashboard needs no change to prove itself.`
   );
   evidence.discount = {
-    declaredShape: PROMOTION_SHAPE, declaredCents: declared, actualCents: actual,
-    amountTotal: session.amount_total, regularPriceCents: REGULAR_PRICE_CENTS,
-    appliedCodes, paymentStatus: session.payment_status, paymentIntentPresent: Boolean(session.payment_intent)
+    enteredCode: PROMOTION_CODE, subtotal, discount, total,
+    appliedCodes, paymentStatus: session.payment_status,
+    paymentIntentPresent: Boolean(session.payment_intent),
+    orderAmountCents: item?.amount_cents ?? null
   };
 }
 

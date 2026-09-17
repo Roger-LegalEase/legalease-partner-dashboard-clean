@@ -42,16 +42,6 @@ on:
         required: false
         type: string
         default: ""
-      promotion_zero_total:
-        description: "true when that code should bring the total to zero, so the journey completes with no card"
-        required: false
-        type: string
-        default: ""
-      promotion_shape:
-        description: "That code's discount as Stripe declares it: percent_off=40, amount_off=1500, percent_off=100"
-        required: false
-        type: string
-        default: ""
       journey_state:
         description: "Two-letter jurisdiction for the paid journey (hosted_payment); empty picks the first sellable route"
         required: false
@@ -325,8 +315,6 @@ jobs:
       preview_deployment_id: ${{ inputs.preview_deployment_id }}
       contradiction_job_id: ${{ inputs.contradiction_job_id }}
       promotion_code: ${{ inputs.promotion_code }}
-      promotion_zero_total: ${{ inputs.promotion_zero_total }}
-      promotion_shape: ${{ inputs.promotion_shape }}
       journey_state: ${{ inputs.journey_state }}
       application_sha: ${{ inputs.application_sha }}
       worker_source_sha: ${{ inputs.worker_source_sha }}
