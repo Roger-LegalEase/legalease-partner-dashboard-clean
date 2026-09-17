@@ -125,18 +125,49 @@ check(!/delete\s+from|truncate\s|drop\s+(?:table|schema|database|column)/i.test(
 check(script.includes("structureDropped: false"), "evidence fixes structure drops to false");
 check(script.includes("realParticipantRecordsCreated: false"), "evidence fixes real participant creation to false");
 check(script.includes("realChargesCreated: false"), "evidence fixes real charges to false");
-check(authorization?.status === "authorized_production_incident", "authorization record carries the Production incident status");
-check(authorization?.productionProjectRef === PRODUCTION_PROJECT_REF, "authorization record names the canonical Production project");
-check(authorization?.applicationSha === APPLICATION_SHA, "authorization record pins the same application SHA");
-check(authorization?.dropAuthorized === false, "authorization record forbids dropping structure");
-check(/^[0-9]{6,}$/.test(String(authorization?.readbackRunId ?? "")), "authorization record names the incident readback run");
-check(
-  Array.isArray(authorization?.migrations)
-    && authorization.migrations.length === EXPECTED_POSITIONS.length
-    && migrations.length === EXPECTED_POSITIONS.length
-    && authorization.migrations.every((entry, index) => entry.position === migrations[index].position && entry.path === migrations[index].path && entry.sha256 === migrations[index].sha256),
-  "authorization record names the exact forward chain the control applies"
-);
+// Everything above is the control's own contract and is checked in every phase.
+// What follows is different in kind: it inspects the record that AUTHORISES AN
+// APPLY, and that record's contents depend on the read-only readback which
+// establishes what an apply would do to existing rows.
+//
+// Requiring it in every phase made the documented sequence impossible to run.
+// Run 35205868198 is the proof: a readback that writes nothing, refused for
+// want of an authorisation to write, and no authorisation obtainable until that
+// readback had run. The record is therefore not required in the readback phase
+// alone.
+//
+// The condition is written as an allow-list of one for a reason. An unset,
+// misspelled or unexpected phase leaves `readbackOnly` false and the record is
+// required, so no phase value can bypass authorisation -- only the exact string
+// the workflow passes for the read-only phase can, and only while no record
+// exists yet. Once a record is present it is checked in every phase, readback
+// included, so a wrong record can never sit unexamined.
+//
+// This narrows no protection on the apply. The migrate phase still requires
+// every check below, and the control re-reads the same record itself before
+// writing: rcap-production-forward-chain-migrate.mjs records
+// independent_production_authorization_names_the_exact_chain through a record()
+// that throws on a false verdict, and its readback branch never consults the
+// record at all.
+const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
+const readbackOnly = PHASE === "forward_chain_readback";
+const authorizationPresent = Object.keys(authorization).length > 0;
+if (readbackOnly && !authorizationPresent) {
+  console.log("note  read-only readback phase and no apply-authorization record yet: its contents depend on this readback, so they are not required to run it");
+} else {
+  check(authorization?.status === "authorized_production_incident", "authorization record carries the Production incident status");
+  check(authorization?.productionProjectRef === PRODUCTION_PROJECT_REF, "authorization record names the canonical Production project");
+  check(authorization?.applicationSha === APPLICATION_SHA, "authorization record pins the same application SHA");
+  check(authorization?.dropAuthorized === false, "authorization record forbids dropping structure");
+  check(/^[0-9]{6,}$/.test(String(authorization?.readbackRunId ?? "")), "authorization record names the incident readback run");
+  check(
+    Array.isArray(authorization?.migrations)
+      && authorization.migrations.length === EXPECTED_POSITIONS.length
+      && migrations.length === EXPECTED_POSITIONS.length
+      && authorization.migrations.every((entry, index) => entry.position === migrations[index].position && entry.path === migrations[index].path && entry.sha256 === migrations[index].sha256),
+    "authorization record names the exact forward chain the control applies"
+  );
+}
 
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);
