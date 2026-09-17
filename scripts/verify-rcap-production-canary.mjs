@@ -24,13 +24,13 @@ check(workflow.includes("node scripts/rcap-production-canary.mjs"), "workflow ru
 check(workflow.includes("if: always()"), "evidence uploads even after refusal");
 check(workflow.includes("VERCEL_AUTOMATION_BYPASS_SECRET"), "runtime inspection receives the existing protection-bypass secret without printing it");
 
-check(script.includes('const APPLICATION_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c"'), "application SHA is exact");
-check(script.includes('const TOOLS_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c"'), "tools SHA is exact");
-check(script.includes('const WORKER_SOURCE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c"'), "worker source SHA is exact");
-check(script.includes('const WORKER_DIGEST = "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9"'), "worker digest is exact");
+check(script.includes('const APPLICATION_SHA = "8d9382b93ada32adf9e50dd7f52680f4f9fb7018"'), "application SHA is exact");
+check(script.includes('const TOOLS_SHA = "fe0262756fd735824fab4b8c56ac04c064c0f130"'), "tools SHA is exact");
+check(script.includes('const WORKER_SOURCE_SHA = "4a684f9a8d121c18aa2b8636f16c3e30fd75c498"'), "worker source SHA is exact");
+check(script.includes('const WORKER_DIGEST = "sha256:1d54ad549fffe7b8a3e91dc1a8a7df46b2bf9b38e7c876aa7013a3fd9687c4d9"'), "worker digest is exact");
 check(script.includes('const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"'), "acceptance project is an explicit negative control");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production project is pinned explicitly");
-check(script.includes('const ACCEPTANCE_DEPLOYMENT_ID = "dpl_4MCQr3YdM2GuPHvcY8n4NzzGBajP"'), "accepted Preview deployment is pinned exactly");
+check(script.includes('const ACCEPTANCE_DEPLOYMENT_ID = "dpl_9dQDQbSXmEuJGvCmP7n7KFaiQZ42"'), "accepted Preview deployment is pinned exactly");
 check(script.includes("production_environment_is_separate_from_acceptance"), "environment separation is a required verdict");
 check(script.includes("staged_production_deployment_is_exact"), "exact READY staged Production deployment is a required verdict");
 check(script.includes("accepted_preview_deployment_is_exact"), "accepted Preview deployment identity is required before runtime inspection");
