@@ -1,74 +1,95 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
   "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE_AND_PRODUCTION_RELEASE",
-  "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
-  "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
-  "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-  "workerInputFingerprint": "sha256:de034e8b43a3673e8b4de8f1049f7d7d4d3b5c1b585323f327c99b867ccf727e",
+  "applicationSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
+  "workerSourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
+  "workerDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+  "workerInputFingerprint": "sha256:ac100b0b7c22bf5b9e43c340c103ac4ebd3867a6664e585d00355655708ee101",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "publication": {
-    "runId": 35044054712,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35044054712",
+    "runId": 35171737222,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35171737222",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 35044827927,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35044827927",
+    "runId": 35176174783,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35176174783",
     "conclusion": "success"
   },
+  "hostedAcceptanceStatus": "PASSED_ON_THIS_CANDIDATE",
+  "hostedAcceptance": {
+    "preview": "dpl_4VJ9SwLKsdiCSAy5T85tcab48698 (legalease-rcap-0fee79bd127e-roger947s-projects.vercel.app)",
+    "note": "Every journey below drove Stripe's own hosted Checkout page in a browser against this Preview and this worker digest, and read the session back from Stripe rather than asserting it.",
+    "journeys": [
+      {
+        "runId": 35178342916,
+        "order": "Mississippi, no promotion code, 5000 cents",
+        "result": "PASS \u2014 real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
+      },
+      {
+        "runId": 35179247131,
+        "order": "Mississippi, ACCEPT40PCT",
+        "result": "PASS"
+      },
+      {
+        "runId": 35180723873,
+        "order": "Illinois, no promotion code",
+        "result": "PASS \u2014 the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
+      },
+      {
+        "runId": 35205114308,
+        "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
+        "result": "PASS \u2014 Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
+      }
+    ]
+  },
+  "productionRelease": {
+    "forwardChainReadbackRunId": 35207467289,
+    "forwardChainMigrateRunId": 35208823396,
+    "preflightRunId": 35209211594,
+    "smokeRunId": 35210618269,
+    "activateRunId": 35211405164,
+    "stagedDeploymentId": "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU",
+    "rollbackDeploymentId": "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG",
+    "rollbackIsPaymentCompatible": false,
+    "rollbackNote": "Availability rollback only. 20260917090000 retires the legacy record_consumer_packet_payment signatures that the rollback application calls, so it cannot settle a payment after the migration. Recovery from a failed activation is forward.",
+    "migrationsApplied": [
+      "20260917090000"
+    ],
+    "result": "PRODUCTION RELEASE COMPLETE \u2014 all 7 Production domains resolve to the staged deployment, promoted without rebuild, health 200"
+  },
   "regressions": {
-    "sourceSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
-    "note": "The application source of cc4d8275 equals 2cc6f321 on every src/ path (later commits changed only data records and deploy/rcap-render-worker/runtime-data-manifest.json); the checks below ran on that source in this session.",
-    "command": "node scripts/verify-expungement-consumer-payment-http.mjs",
-    "msPaidConsumer": "37/37 with the rcap_document_packets double declaring safety_disclaimer text not null (30/37 before the 2cc6f321 repair)",
-    "sponsoredDelivery": "node scripts/test-rcap-sponsored-delivery-binding.mjs 27/27 (double declaring safety_disclaimer not null)",
-    "successorBinding": "node scripts/test-ms-paid-consumer-successor.mjs 34/34 at cc4d8275",
-    "msPacketProof": "node scripts/verify-ms-paid-packet-proof.mjs --write: both fixtures byte-identical, Postgres round trip PASS, 18 negative binding controls",
-    "fulfillmentAuthority": "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs 78 checks; 6 commercially eligible; 0 stale",
-    "typecheck": "tsc --noEmit clean at 2cc6f321",
+    "sourceSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
+    "note": "Run in this session against the candidate source. The worker is reused from 35d33755, an ancestor of the application; nothing between them touches a canonical worker input, so the published digest stays valid for this application.",
+    "composedRouteSelector": "node scripts/test-ms-authoritative-track.mjs 17/17 \u2014 the Illinois row opens only on a felony conviction and the client track stays forbidden",
+    "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95 checks including frozen inputs unchanged",
+    "acceptanceVerdictContract": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs \u2014 the matrix cannot report a verdict it has not earned",
+    "productionCanary": "node scripts/verify-rcap-production-canary.mjs 41/41; mutations 19/19",
+    "productionSmoke": "node scripts/verify-rcap-production-smoke.mjs 30/30; mutations 15/15",
+    "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
+    "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
     "syntheticPublicationFixture": false,
-    "publishedWorkerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-    "publicationRunId": 35044054712,
-    "imageAcceptanceRunId": 35044827927,
-    "scope": "Real published authority binding; isolated local PostgreSQL and provider signatures. No hosted database writes."
-  },
-  "applicationBuild": {
-    "sourceSha": "34dc5b9e80cd971db0b6c18a643c8cfe223978b3",
-    "note": "Local `next build` of the working tree at 34dc5b9e (src identical to cc4d8275) succeeded in this session and served the fresh-session Mississippi screening walk; the hosted Preview build of cc4d8275 is the deployable build.",
-    "command": "npx next build",
-    "exitCode": 0
-  },
-  "screeningVerification": {
-    "method": "Playwright Chromium, fresh browser context, no injected answers, local `next start` of the candidate source",
-    "journey": "Mississippi → own record → state or local → case dropped or thrown out → misdemeanor → non-conviction expungement for dismissal, no disposition, or acquittal → court-ordered completion (optional) → resolved 1-2 years ago",
-    "observed": "7 questions; no DUI-sentence or underage-alcohol prompt; result 'A path may be available' naming the Mississippi non-conviction expungement path with Save-to-Briefcase before any payment",
-    "evidence": "private/transfers/cloud-recovery-20260915/deploy/step-00.png … step-07.png"
+    "publishedWorkerDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+    "publicationRunId": 35171737222,
+    "imageAcceptanceRunId": 35176174783,
+    "scope": "Real published authority binding. The hosted journeys above are the runtime evidence; these checks are the static contracts."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
-    "sha256": "cc169ae65acbb36991ce700e00ad48aee48cb2a983e003dc481eca73e44879da"
-  },
-  "workerInputPlan": {
-    "path": "private/transfers/cloud-recovery-20260915/deploy/frozen-application-worker-input-plan-cc4d8275.json",
-    "sha256": "cd88080a8e7f9e489d967747a884214e49d440a72f3185db561dd39cb0f7e1a2"
+    "sha256": "d05ad26d0316064a3fe2f7c3b1925336f449283f7e43e1ace6517e6563381a97"
   },
   "supersedes": {
-    "applicationSha": "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
-    "workerSourceSha": "b64701c16ab2a6c78d0d187143882407111c0778",
-    "workerDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
-    "why": "Hosted acceptance of 300a0edb on Preview dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr failed at the paid render (Postgres 23502: the personalized packet row carried no safety_disclaimer). The repair 2cc6f321 changes src; the MS packet proof re-verified against it changes the worker's copied runtime data (c177eef1); so the successor worker sha256:57bb99a8 was published (run 35044054712) and accepted read-only (run 35044827927), and cc4d8275 records that acceptance.",
-    "hostedAcceptanceOfSupersededCandidate": {
-      "preview": "dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr (legalease-rcap-300a0edbf0a7-roger947s-projects.vercel.app)",
-      "lastRunId": 35039368758,
-      "result": "matrix 14/14, galleries 8/8, ten payment cases through the server-authoritative paid state; signed webhook 500 and paid render 502 from the application defect repaired in 2cc6f321; render, delivery and browser phases did not run"
-    }
+    "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
+    "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
+    "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+    "why": "That binding froze cc4d8275 with worker c177eef1 / sha256:57bb99a8 and was never re-bound as the worker moved on. Production worker deploy run 35212154510 refused on exactly that: the publication evidence named 35d33755 / sha256:d7e0d4a6, published and accepted, while this record still named the older pair. The refusal was correct and this record is the repair.",
+    "hostedAcceptanceStatusThen": "NOT_RUN_ON_THIS_CANDIDATE"
   },
   "participantReceiptPaths": [],
   "independentReviewerIdentities": [],
-  "hostedAcceptanceStatus": "NOT_RUN_ON_THIS_CANDIDATE",
   "productionAuthorized": true,
-  "productionAuthorization": "Roger Roman, 2026-09-16: PRODUCTION RELEASE AUTHORIZATION (chat) and issue #160 comment 5690402065 — release the intended Grade A application to expungement.ai through the existing production release process with rollback; production configuration and database; no destructive migrations, no new purchases, no real test charges.",
-  "scope": "Exact candidate freeze with published-worker and image-acceptance evidence. Hosted Preview acceptance and the production preflight/smoke/activate phases record their own evidence; this record authorizes no runtime-pin change, hosted database write or migration by itself."
+  "productionAuthorization": "Roger Roman, 2026-09-17 (chat): complete the Grade A production rollout to expungement.ai, including Illinois, covering in-scope application fixes, test-harness repairs, release configuration, truthful publication and Grade-A evidence updates, reviewed migrations, worker deployment, production activation, public verification and the authorized live $0 order.",
+  "scope": "Exact candidate freeze with published-worker and image-acceptance evidence, the four hosted journeys that passed on it, and the production phases it was released through. This record authorizes no runtime-pin change, hosted database write or migration by itself."
 }
