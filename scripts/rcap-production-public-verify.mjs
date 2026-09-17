@@ -32,15 +32,22 @@ const WORKER_DIGEST = "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This control asks whether expungement.ai is serving the deployment this
 // release promoted, so a stale pin here would confirm the public site was
-// serving the release it was already serving. Preflight 35247428602 read the
-// real pair back from Vercel.
-const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
-// The recovery target is the deployment live now: dpl_DjAscm, running
-// application 0fee79bd1. It post-dates 20260917090000 and calls the current
-// record_consumer_packet_payment signature, so it is payment-compatible as well
-// as available. See the fuller note in rcap-production-activate.mjs, which is
-// the control that can actually move Production onto it.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
+// serving the release it was already serving. That is exactly what the previous
+// pair would have done: its staged id is the deployment Production served
+// before this release, and its rollback id is a release older still.
+//
+// Preflight 35275288657 read the current pair back from Vercel before touching
+// anything; smoke 35278012687 passed on the staged candidate; activation
+// 35279704399 promoted it, and Production serves it now.
+const STAGED_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51";
+// The recorded READY availability rollback target from that activation. It
+// predates this release's resumed incompatible Checkout Session replacement
+// behaviour, because it carries neither migration 20260917200000 nor the
+// application path that calls the replacement writer. That is the whole of the
+// claim: nothing here says more about its payment compatibility in either
+// direction. See the fuller note in rcap-production-activate.mjs, which is the
+// control that can actually move Production onto it.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
 const PUBLIC_DOMAIN = "expungement.ai";
 const SCREENING_PATH = "/expungement-ai/screening/MS";
 const EVIDENCE_DIR = path.resolve(process.env.RCAP_PUBLIC_EVIDENCE_DIR ?? "production-public-evidence");
