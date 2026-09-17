@@ -6,12 +6,12 @@ import fs from "node:fs";
 import path from "node:path";
 
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
+const APPLICATION_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
 const LEDGER_BASELINE_LAST_VERSION = "20260823171000";
 const RECOVERED_REMOTE_BASELINE_VERSION = "20260728213131";
 const UNLEDGERED_PREFILL_VERSION = "20260822180000";
 const FIRST_FORWARD_VERSION = "20260828100000";
-const EXPECTED_POSITIONS = Object.freeze([17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
+const EXPECTED_POSITIONS = Object.freeze([17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
 
 const root = path.resolve(process.env.RCAP_FORWARD_CHAIN_VERIFY_ROOT ?? ".");
 // Frozen migration bytes are read from the repository this verifier runs in rather than from the
@@ -45,7 +45,7 @@ check(script.includes(`const PRODUCTION_PROJECT_REF = "${PRODUCTION_PROJECT_REF}
 check(script.includes(`const APPLICATION_SHA = "${APPLICATION_SHA}"`), "application SHA is exact");
 check(script.includes('PHASE !== "forward_chain_readback" && PHASE !== "forward_chain_migrate"'), "control enables only the forward-chain readback and migration phases");
 check(migrations.length === EXPECTED_POSITIONS.length, `control pins exactly ${EXPECTED_POSITIONS.length} forward migrations`);
-check(migrations.map((entry) => entry.position).join(",") === EXPECTED_POSITIONS.join(","), "forward migrations carry positions 17 through 26 in order");
+check(migrations.map((entry) => entry.position).join(",") === EXPECTED_POSITIONS.join(","), "forward migrations carry positions 17 through 28 in order");
 check(
   migrations.length > 0 && migrations.every((entry, index) => path.basename(entry.path).startsWith(`${entry.version}_`) && (index === 0 || entry.version > migrations[index - 1].version)),
   "forward migration versions ascend strictly and match their file names"

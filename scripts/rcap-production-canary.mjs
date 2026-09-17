@@ -23,10 +23,10 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
-const TOOLS_SHA = "43cbb6e661e30135ba65b4d2e2ca3810028a9880";
-const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
-const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+const APPLICATION_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
+const TOOLS_SHA = "5581e67d583b80eeffba193ccde70317284b6f62";
+const WORKER_SOURCE_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
+const WORKER_DIGEST = "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // The Preview this release's acceptance actually ran on, and the current holder

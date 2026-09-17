@@ -9,7 +9,7 @@
     "finding": "Production already carries positions 17 through 26 of this chain. Exactly one forward migration is absent: 20260917090000_consumer_promotion_codes.sql, which replaces the consumer_briefcase_items paid-row constraint that hardcoded amount_cents = 5000 with a reconciliation rule over regular_price_cents and discount_cents, and adds those two columns. Until it is applied, a discounted order cannot be recorded as paid in Production at all, because a 40%-off or 100%-off order collects something other than 5000 cents and the old constraint refuses the row."
   },
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
-  "applicationSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
+  "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692",
   "migrations": [
     {
       "position": 17,
@@ -76,6 +76,12 @@
       "version": "20260917090000",
       "path": "supabase/migrations/20260917090000_consumer_promotion_codes.sql",
       "sha256": "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369"
+    },
+    {
+      "position": 28,
+      "version": "20260917200000",
+      "path": "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql",
+      "sha256": "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128"
     }
   ],
   "readbackRunId": 35207467289,

@@ -18,7 +18,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
+const APPLICATION_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const AUTHORIZATION_PATH = "data/rcap-production-forward-chain-migration-authorization.json";
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -73,7 +73,17 @@ export const MIGRATIONS = Object.freeze([
   // recorded at all and a 100%-off Checkout would complete at Stripe and then
   // be refused here. regular_price_cents is the signature because it exists
   // only from this file; a ledger row alone would not distinguish it.
-  Object.freeze({ position: 27, version: "20260917090000", path: "supabase/migrations/20260917090000_consumer_promotion_codes.sql", sha256: "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369", signature: { kind: "column", table: "consumer_briefcase_items", name: "regular_price_cents" } })
+  Object.freeze({ position: 27, version: "20260917090000", path: "supabase/migrations/20260917090000_consumer_promotion_codes.sql", sha256: "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369", signature: { kind: "column", table: "consumer_briefcase_items", name: "regular_price_cents" } }),
+  // The compare-and-swap Checkout Session replacement writer. Without it
+  // Production carries only bind_consumer_checkout_verification, which refuses
+  // any new checkout_session_id once the row holds a different one. That
+  // refusal is correct for an initial binding and fatal for a resumed order:
+  // the application can expire an incompatible open Session and then has
+  // nowhere to record what replaced it, so the participant is refused and the
+  // matter is left holding an expired Session. Matter
+  // c824787c-737e-484e-bb43-ff9a5c42c8f0 is exactly that shape. The function
+  // name is the signature because it exists only from this file.
+  Object.freeze({ position: 28, version: "20260917200000", path: "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql", sha256: "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128", signature: { kind: "function", name: "replace_consumer_checkout_session" } })
 ]);
 
 // Objects the deployed application writes through, created by the loose phase

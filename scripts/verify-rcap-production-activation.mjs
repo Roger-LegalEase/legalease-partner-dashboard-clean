@@ -28,9 +28,9 @@ check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbz
 check(!script.includes('"dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "the pre-migration deployment is named by no pin, so it cannot be a recovery target");
 check(script.includes('const SMOKE_RUN_ID = "35248212982"'), "exact successful smoke run is pinned");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production Supabase project is pinned");
-check(script.includes('const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb"'), "final application SHA is pinned");
-check(script.includes('const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530"'), "accepted worker source is pinned");
-check(script.includes('const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06"'), "immutable worker digest is pinned");
+check(script.includes('const APPLICATION_SHA = "62425c837b5edf3d7e22b110910885abdaec1692"'), "final application SHA is pinned");
+check(script.includes('const WORKER_SOURCE_SHA = "62425c837b5edf3d7e22b110910885abdaec1692"'), "accepted worker source is pinned");
+check(script.includes('const WORKER_DIGEST = "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855"'), "immutable worker digest is pinned");
 check(script.includes("successful_smoke_artifact_is_exact"), "activation requires the exact successful smoke artifact");
 check(script.includes("rollback_is_ready_and_active_before_promotion"), "rollback is READY and active before promotion");
 check(script.includes("staged_deployment_identity_is_exact"), "staged deployment identity is rechecked before promotion");
