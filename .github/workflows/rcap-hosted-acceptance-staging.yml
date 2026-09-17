@@ -1064,6 +1064,18 @@ jobs:
           else
             echo "no stripe fixture evidence was written"
           fi
+          # The retarget writes its refusal to its own evidence file and prints
+          # it from the middle of the job, where the log API's tail cannot reach
+          # it. Reprinting it here, in the job's last step, is the difference
+          # between a diagnosable failure and another blind run.
+          if [ -f hosted-acceptance-evidence/stripe-webhook-retarget.json ]; then
+            node -e '
+              const r = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/stripe-webhook-retarget.json", "utf8"));
+              console.log(`WEBHOOK RETARGET — passed=${r.passed} action=${r.action ?? "(none)"} endpoint=${r.endpointId ?? "(none)"}`);
+              if (r.error) console.log(`WEBHOOK RETARGET FAILED — ${r.error}`);
+              if (r.deployment) console.log(`  deployment=${r.deployment.id ?? "(none)"} hostname=${r.deployment.hostname ?? "(none)"}`);
+            ' || echo "webhook retarget evidence present but could not be summarised"
+          fi
 
       - name: Upload the hosted acceptance evidence
         if: always()
