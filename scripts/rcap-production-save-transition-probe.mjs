@@ -820,6 +820,22 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     `the verified matter's next action reached ${order.reachedStripe ? "Stripe's hosted Checkout page" : `an unexpected destination: ${safePathname(page.url())}`}`
   );
 
+  // Which Stripe Product this Session is actually selling. A coupon restricted
+  // to a catalog product only applies to a line item on that product, so this
+  // is the one fact that decides whether the code can ever be accepted. Stripe
+  // embeds the Session's configuration in the page it serves, so the ids are
+  // read from the document rather than inferred from our own source.
+  order.checkoutProductIds = await readStripeProductIds(page);
+  order.couponProductId = COUPON_ALLOWED_PRODUCT_ID;
+  order.productMatchesCoupon = order.checkoutProductIds.includes(COUPON_ALLOWED_PRODUCT_ID);
+  record(
+    "live_checkout_line_item_is_the_coupon_s_product",
+    order.productMatchesCoupon,
+    `Checkout Session product(s) ${JSON.stringify(order.checkoutProductIds)};`
+      + ` the coupon allows ${COUPON_ALLOWED_PRODUCT_ID}.`
+      + ` ${order.productMatchesCoupon ? "They match." : "They do not match, so Stripe can only refuse the code."}`
+  );
+
   const notes = [];
   const promotion = await applyPromotionCode(page, LIVE_PROMOTION_CODE, notes);
   order.promotionEntered = promotion.entered;
@@ -1069,6 +1085,9 @@ const CONSUMER_VERIFY_LABEL = "I verified these packet facts";
 // The legitimate next action for a paid consumer route. It is located and
 // reported, never clicked: this probe creates no charge.
 const CONSUMER_CHECKOUT_LABEL = "Pay $50 and generate my packet";
+// The catalog Product the owner's 100%-off coupon is restricted to. A catalog
+// identifier, not a credential.
+const COUPON_ALLOWED_PRODUCT_ID = "prod_Sx3T2wUkaYKqg9";
 
 function packetFieldValue(id, prompt) {
   if (PACKET_SAFE_ANSWERS[id]) return PACKET_SAFE_ANSWERS[id];
@@ -1186,6 +1205,20 @@ async function gotoAfterClientRouting(page, url, { settleFrom = null } = {}) {
  * refusal names the page's real state instead of leaving the next attempt to
  * guess at it.
  */
+/**
+ * The Stripe Product ids this Checkout page is selling.
+ *
+ * Stripe serves the Session's own configuration inside the page, so the ids
+ * are read out of the served document. Product ids are catalog identifiers,
+ * not credentials: they identify what is for sale, and the coupon's
+ * restriction is expressed in exactly these terms.
+ */
+async function readStripeProductIds(page) {
+  const html = await page.content().catch(() => "");
+  const ids = new Set((html.match(/prod_[A-Za-z0-9]{8,}/g) ?? []));
+  return [...ids].sort();
+}
+
 async function describeResumePage(page) {
   const heading = redact((await page.locator("main h1, h1").first().innerText().catch(() => "")).replace(/\s+/g, " ").trim().slice(0, 160));
   const panelState = await page.locator(VERIFICATION_PANEL).first().getAttribute("data-packet-verification-state").catch(() => null);
