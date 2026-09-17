@@ -18,7 +18,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const APPLICATION_SHA = "8d9382b93ada32adf9e50dd7f52680f4f9fb7018";
+const APPLICATION_SHA = "0fee79bd127eb3dc072c2a35945177fa7e7b6683";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const AUTHORIZATION_PATH = "data/rcap-production-forward-chain-migration-authorization.json";
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");

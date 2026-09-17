@@ -15,9 +15,9 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "8d9382b93ada32adf9e50dd7f52680f4f9fb7018";
-const WORKER_SOURCE_SHA = "4a684f9a8d121c18aa2b8636f16c3e30fd75c498";
-const WORKER_DIGEST = "sha256:1d54ad549fffe7b8a3e91dc1a8a7df46b2bf9b38e7c876aa7013a3fd9687c4d9";
+const APPLICATION_SHA = "0fee79bd127eb3dc072c2a35945177fa7e7b6683";
+const WORKER_SOURCE_SHA = "35d33755045ee1825fc281ab0eb451d34bccec0a";
+const WORKER_DIGEST = "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const STAGED_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
 // The recovery target is the deployment that is live now. It is the newest

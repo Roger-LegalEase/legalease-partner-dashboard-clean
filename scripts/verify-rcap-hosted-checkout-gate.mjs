@@ -37,14 +37,14 @@ function includesEvery(text, values, label) {
 // worker's canonical inputs relative to the published worker source.
 // The successor application and the worker it was accepted against are two
 // different commits here, and deliberately so: the image is built from
-// 4a684f9a8, and the application SHA is the later commit 8d9382b93 in which
+// 35d337550, and the application SHA is the later commit 0fee79bd1 in which
 // the publication evidence and every route observation finally name that
 // image. The two are image-input-equivalent — nothing between them touches a
 // canonical worker input — which is what lets one application pin a digest
 // built from an earlier tree without the digest becoming a fiction.
-const RELEASE_CONTROL_BASE_SHA = "8d9382b93ada32adf9e50dd7f52680f4f9fb7018";
-const ACCEPTED_WORKER_SOURCE_SHA = "4a684f9a8d121c18aa2b8636f16c3e30fd75c498";
-const ACCEPTED_WORKER_DIGEST = "sha256:1d54ad549fffe7b8a3e91dc1a8a7df46b2bf9b38e7c876aa7013a3fd9687c4d9";
+const RELEASE_CONTROL_BASE_SHA = "0fee79bd127eb3dc072c2a35945177fa7e7b6683";
+const ACCEPTED_WORKER_SOURCE_SHA = "35d33755045ee1825fc281ab0eb451d34bccec0a";
+const ACCEPTED_WORKER_DIGEST = "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6";
 
 includesEvery(gate, [
   "applicationShaExact",
