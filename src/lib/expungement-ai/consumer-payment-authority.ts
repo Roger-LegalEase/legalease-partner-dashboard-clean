@@ -67,6 +67,20 @@ export type ConsumerCheckoutBindingResult =
   | { outcome: "refused"; reason: string }
   | { outcome: "unavailable"; reason: string };
 
+/**
+ * The outcome of replacing one stored Checkout Session with another.
+ *
+ * `conflicted` is not a failure of the swap so much as the answer to it: another
+ * request replaced the Session first, and `winningCheckoutSessionId` names the
+ * one that is now stored. The caller expires the Session it just created and
+ * reconciles against that winner; it never overwrites it.
+ */
+export type ConsumerCheckoutReplacementResult =
+  | { outcome: "replaced" }
+  | { outcome: "conflicted"; winningCheckoutSessionId: string | null }
+  | { outcome: "refused"; reason: string }
+  | { outcome: "unavailable"; reason: string };
+
 export type RecordConsumerPaymentInput = {
   briefcaseItemId: string;
   paymentStatus: "paid" | "refunded" | "unpaid";
@@ -348,4 +362,65 @@ export async function persistConsumerCheckoutBinding(input: {
     return { outcome: "refused", reason: typeof row.reason === "string" ? row.reason : "checkout_binding_refused" };
   }
   return { outcome: "unavailable", reason: "checkout_binding_response_invalid" };
+}
+
+/**
+ * Compare-and-swap replacement of an incompatible or stale OPEN Checkout
+ * Session.
+ *
+ * Used ONLY when a stored OPEN Session has already been expired because it sold
+ * the wrong Product or offered no promotion-code field. The initial binding
+ * refuses any new id once one is stored — correctly, because that refusal is
+ * what stops a second Session being written over an existing order — so a
+ * replacement needs its own writer that names the id it is replacing and swaps
+ * only if that id is still the stored one.
+ */
+export async function replaceConsumerCheckoutSession(input: {
+  userId: string;
+  briefcaseItemId: string;
+  /** The exact Session this replacement expects to find stored, and expired. */
+  expectedCheckoutSessionId: string;
+  checkoutSessionId: string;
+  paymentProvider: "stripe" | "dry_run";
+  productId: typeof CONSUMER_PACKET_PRODUCT_ID;
+  personId: string;
+  matterId: string;
+  expectedVerificationHash: string;
+}): Promise<ConsumerCheckoutReplacementResult> {
+  try {
+    assertExpectedPacketVerificationHash(input.expectedVerificationHash);
+  } catch {
+    return { outcome: "refused", reason: "invalid_expected_verification_hash" };
+  }
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { outcome: "unavailable", reason: "checkout_replacement_storage_unavailable" };
+
+  const { data, error } = await supabase.rpc("replace_consumer_checkout_session", {
+    p_consumer_auth_user_id: input.userId,
+    p_briefcase_item_id: input.briefcaseItemId,
+    p_expected_checkout_session_id: input.expectedCheckoutSessionId,
+    p_checkout_session_id: input.checkoutSessionId,
+    p_payment_provider: input.paymentProvider,
+    p_product_id: input.productId,
+    p_person_id: input.personId,
+    p_matter_id: input.matterId,
+    p_expected_verification_hash: input.expectedVerificationHash
+  });
+  if (error) return { outcome: "unavailable", reason: error.message };
+  const row = Array.isArray(data) ? data[0] : data;
+  if (row?.ok === true
+    && row.briefcase_item_id === input.briefcaseItemId
+    && row.checkout_session_id === input.checkoutSessionId) {
+    return { outcome: "replaced" };
+  }
+  if (row?.ok === false && row.reason === "checkout_replacement_conflict") {
+    return {
+      outcome: "conflicted",
+      winningCheckoutSessionId: typeof row.checkout_session_id === "string" ? row.checkout_session_id : null
+    };
+  }
+  if (row?.ok === false) {
+    return { outcome: "refused", reason: typeof row.reason === "string" ? row.reason : "checkout_replacement_refused" };
+  }
+  return { outcome: "unavailable", reason: "checkout_replacement_response_invalid" };
 }

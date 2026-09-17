@@ -20,7 +20,8 @@ import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungem
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import {
   CONSUMER_PACKET_PRODUCT_ID,
-  persistConsumerCheckoutBinding
+  persistConsumerCheckoutBinding,
+  replaceConsumerCheckoutSession
 } from "@/lib/expungement-ai/consumer-payment-authority";
 import { reconcileConsumerOrder } from "@/lib/expungement-ai/consumer-order-reconciliation";
 import {
@@ -208,6 +209,10 @@ export async function createConsumerPacketCheckout({
   // its request id onto the successful response, so the decision is observable
   // from the outside instead of inferred from the absence of an error.
   let storedSessionRecovery: ConsumerCheckoutProviderFailure | null = null;
+  // Set only when a stored OPEN Session was expired because it was incompatible
+  // or stale. It selects the compare-and-swap writer for the replacement and
+  // names the exact id that swap must still find stored.
+  let replacedCheckoutSessionId: string | null = null;
   if (item.checkoutSessionId?.startsWith("cs_")) {
     try {
       stripe = getStripeServerClient();
@@ -352,6 +357,12 @@ export async function createConsumerPacketCheckout({
       if (existing.status === "open") {
         await providerCall("expire_replaced_session", () => (stripe as Stripe).checkout.sessions.expire(existing!.id));
       }
+      // The id this order is replacing. The initial-binding writer refuses any
+      // new Session once one is stored, so the Session created below is written
+      // through the compare-and-swap writer instead, naming exactly this
+      // predecessor. Without it the replacement is recorded nowhere and the
+      // matter is left holding an expired Session.
+      replacedCheckoutSessionId = existing.id;
     } else if (existing && existing.status !== "expired") {
       const reusable = await reconcileReusableCheckoutSession({
         stripe,
@@ -463,12 +474,76 @@ export async function createConsumerPacketCheckout({
       }
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
-    const bindingResult = await persistCheckoutBinding(binding, session.id, "stripe");
-    if (bindingResult.outcome !== "bound") {
-      if (bindingResult.outcome === "refused" && session.status === "open") {
-        await providerCall("expire_unbound_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
+    // An initial binding and a replacement are different writes. The initial
+    // writer refuses once any Session is stored — that refusal is what stops a
+    // second Session being written over an existing order — so a replacement
+    // goes through the compare-and-swap writer, naming the exact predecessor it
+    // expired. Losing that race is not an error to overwrite: the Session this
+    // request created is expired and the winner is reconciled instead.
+    if (replacedCheckoutSessionId) {
+      const replacement = await replaceConsumerCheckoutSession({
+        userId: binding.userId,
+        briefcaseItemId: binding.briefcaseItemId,
+        expectedCheckoutSessionId: replacedCheckoutSessionId,
+        checkoutSessionId: session.id,
+        paymentProvider: "stripe",
+        productId: binding.productId,
+        personId: binding.personId,
+        matterId: binding.matterId,
+        expectedVerificationHash: binding.verificationHash
+      });
+      if (replacement.outcome === "conflicted") {
+        if (session.status === "open") {
+          await providerCall("expire_lost_replacement_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
+        }
+        const winner = replacement.winningCheckoutSessionId;
+        if (winner) {
+          const winning = await providerCall("retrieve_winning_session", () =>
+            (stripe as Stripe).checkout.sessions.retrieve(winner, {
+              expand: ["line_items.data.price.product", "discounts.promotion_code"]
+            }));
+          if (winning.status === "open" && winning.url) {
+            return {
+              mode: "stripe",
+              checkoutSessionId: winning.id,
+              checkoutUrl: winning.url,
+              amountCents: consumerPacketPriceCents,
+              currency: consumerPacketCurrency,
+              outcome: "checkout_reused",
+              briefcaseItemId: item.id,
+              storedSessionRecovery
+            };
+          }
+          if (winning.status === "complete") {
+            return {
+              mode: "stripe",
+              checkoutSessionId: winning.id,
+              checkoutUrl: consumerPacketReadyUrl(item.id),
+              amountCents: consumerPacketPriceCents,
+              currency: consumerPacketCurrency,
+              outcome: "payment_pending",
+              briefcaseItemId: item.id,
+              paymentPending: true,
+              storedSessionRecovery
+            };
+          }
+        }
+        throw new ConsumerCheckoutTemporarilyUnavailableError();
       }
-      throw new ConsumerCheckoutTemporarilyUnavailableError();
+      if (replacement.outcome !== "replaced") {
+        if (session.status === "open") {
+          await providerCall("expire_unbound_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
+        }
+        throw new ConsumerCheckoutTemporarilyUnavailableError();
+      }
+    } else {
+      const bindingResult = await persistCheckoutBinding(binding, session.id, "stripe");
+      if (bindingResult.outcome !== "bound") {
+        if (bindingResult.outcome === "refused" && session.status === "open") {
+          await providerCall("expire_unbound_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
+        }
+        throw new ConsumerCheckoutTemporarilyUnavailableError();
+      }
     }
 
     return {
