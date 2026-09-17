@@ -30,18 +30,16 @@ const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ff
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // The Preview this release's acceptance actually ran on, and the current holder
-// of the deterministic alias legalease-rcap-0fee79bd127e-roger947s-projects
-// .vercel.app. Four journeys were driven through it end to end: the $50
-// Mississippi order in run 35178342916, the 40%-off order in 35179247131, the
-// Illinois order in 35180723873 and the 100%-off order in 35205114308.
+// of the deterministic alias legalease-rcap-4e16d6d8ebe9-roger947s-projects
+// .vercel.app. The hosted payment-to-packet matrix passed on it in run
+// 35245020794, selling the catalog Product prod_VHEHkvH7dSvGv7 against a
+// Stripe coupon restricted to exactly that Product.
 //
-// It replaces dpl_9dQDQbSXmEuJGvCmP7n7KFaiQZ42, an earlier Preview of the same
-// application line from hosted deploy run 35146303049. Preflight run
-// 35206751769 refused on that pin, correctly: this control's job is to compare
-// Production against the deployment acceptance was earned on, and naming a
-// different Preview of the same application would have compared it against
-// something no journey ever touched.
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_4VJ9SwLKsdiCSAy5T85tcab48698";
+// It replaces dpl_4VJ9SwLKsdiCSAy5T85tcab48698, the Preview of the superseded
+// application 0fee79bd1. This control's job is to compare Production against
+// the deployment acceptance was earned on, so it names the deployment this
+// release's journey actually touched and no other.
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_E1k7iEXpniURdJjENJ5BKgdj12zZ";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
