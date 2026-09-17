@@ -41,6 +41,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import zlib from "node:zlib";
 import { chromium, webkit } from "playwright";
 // Stripe's own page controls are known in one place. The live order drives the
 // same "Add promotion code" entry the sandbox journeys drive, rather than
@@ -662,6 +663,45 @@ async function completePacketInformationAndVerify(page, section, matterId) {
 }
 
 /**
+ * Reads the text a reader would see, out of the document itself.
+ *
+ * A header, a byte count and a page count say a PDF exists; they say nothing
+ * about what is on the pages. No text-extraction library is available and none
+ * may be added -- package.json is both an application byte and a canonical
+ * worker input, so a new dependency would invalidate the frozen release. So the
+ * content streams are inflated with node's own zlib and the text-showing
+ * operators are read off them, which is enough to assert the packet says what
+ * this matter should say.
+ */
+function extractPdfText(bytes) {
+  const pages = [];
+  // Content streams: "stream\r?\n ... endstream", FlateDecode in practice.
+  const raw = bytes.toString("latin1");
+  const streamPattern = /stream\r?\n([\s\S]*?)\r?\nendstream/g;
+  let match;
+  while ((match = streamPattern.exec(raw)) !== null) {
+    const chunk = Buffer.from(match[1], "latin1");
+    let text = "";
+    try {
+      text = zlib.inflateSync(chunk).toString("latin1");
+    } catch {
+      try { text = zlib.inflateRawSync(chunk).toString("latin1"); } catch { continue; }
+    }
+    // Text-showing operators: (literal) Tj and [(a) -250 (b)] TJ.
+    const shown = [];
+    const literal = /\((?:\\.|[^\\()])*\)/g;
+    let piece;
+    while ((piece = literal.exec(text)) !== null) {
+      shown.push(piece[0].slice(1, -1)
+        .replace(/\\([()\\])/g, "$1")
+        .replace(/\\(\d{1,3})/g, (_, oct) => String.fromCharCode(parseInt(oct, 8))));
+    }
+    if (shown.length) pages.push(shown.join(" ").replace(/\s+/g, " ").trim());
+  }
+  return pages;
+}
+
+/**
  * The authorized live order, taken only when the promotion code clears the
  * total to zero.
  *
@@ -817,6 +857,45 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     download.status() === 200 && /application\/pdf/i.test(contentType) && isPdf && bytes.length > 1000 && pageCount > 0,
     `HTTP ${download.status()} ${contentType}; ${bytes.length} bytes; starts with %PDF-: ${isPdf}; ${pageCount} page object(s);`
       + ` sha256 ${order.artifact.sha256 ?? "(empty)"}`
+  );
+
+  // Content, not shape. The packet has to be about THIS matter: the answers
+  // this journey typed into the builder, in the jurisdiction it screened.
+  const pageTexts = bytes.length ? extractPdfText(bytes) : [];
+  const whole = pageTexts.join("\n");
+  const expected = [
+    ["the participant this matter belongs to", "Acceptance Participant"],
+    ["the court the answers named", "Hinds County Circuit Court"],
+    ["the case number the answers named", "25-CR-000123"],
+    ["the jurisdiction screened", /Mississippi/i],
+    ["the relief the pathway names", /expunge/i]
+  ];
+  const found = expected.map(([label, needle]) => ({
+    label,
+    present: typeof needle === "string" ? whole.includes(needle) : needle.test(whole)
+  }));
+  // Readable layout: pages that carry text rather than one page doing all the
+  // work, and no page left blank in the middle of the document.
+  const textPages = pageTexts.filter((entry) => entry.length > 40).length;
+  const charactersRead = whole.length;
+  order.artifact.inspection = {
+    pagesWithText: textPages,
+    charactersRead,
+    expected: found,
+    firstPageExcerpt: redact((pageTexts[0] ?? "").slice(0, 300)),
+    textSavedTo: null
+  };
+  if (charactersRead > 0) {
+    const textPath = path.join(EVIDENCE_DIR, `live-order-packet-${matterId}.txt`);
+    fs.writeFileSync(textPath, redact(pageTexts.map((entry, index) => `--- page ${index + 1} ---\n${entry}`).join("\n\n")));
+    order.artifact.inspection.textSavedTo = textPath;
+  }
+  record(
+    "the_downloaded_packet_reads_as_this_matter_s_packet",
+    found.every((entry) => entry.present) && textPages >= 2 && charactersRead > 500,
+    `read ${charactersRead} characters across ${textPages} page(s) carrying text;`
+      + ` ${found.map((entry) => `${entry.label}: ${entry.present ? "present" : "ABSENT"}`).join("; ")}.`
+      + ` First page begins: ${JSON.stringify((pageTexts[0] ?? "").slice(0, 120))}`
   );
   return order;
 }
