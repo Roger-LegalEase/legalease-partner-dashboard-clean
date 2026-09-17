@@ -107,10 +107,18 @@ export async function applyPromotionCode(page, code, notes) {
   // Stripe shows the code as a line when it took, and an inline error when it
   // did not. Neither is trusted as the verdict — the caller re-reads the
   // Session from Stripe — but it is recorded so a rejection is legible here.
-  const rejected = await page.locator('text=/invalid|expired|cannot be applied|not valid/i').first()
-    .isVisible().catch(() => false);
-  notes.push(`promotion code ${code}: ${rejected ? "rejected by Stripe" : "accepted by the page"}`);
-  return { entered: true, accepted: !rejected };
+  const complaint = page.locator('text=/invalid|expired|cannot be applied|not valid/i').first();
+  const rejected = await complaint.isVisible().catch(() => false);
+  // A rejection that only says "rejected" makes the next attempt a guess.
+  // Stripe's own sentence distinguishes a code that does not exist from one
+  // that is spent, expired, or restricted to other line items, so it is
+  // carried back verbatim. The caller redacts the code before anything is
+  // logged or persisted.
+  const reason = rejected
+    ? (await complaint.innerText().catch(() => "")).replace(/\s+/g, " ").trim().slice(0, 200)
+    : "";
+  notes.push(`promotion code ${code}: ${rejected ? `rejected by Stripe — ${reason}` : "accepted by the page"}`);
+  return { entered: true, accepted: !rejected, reason };
 }
 
 /** A plausible value for a field this harness did not anticipate. */
