@@ -1016,7 +1016,10 @@ jobs:
           if [ -f hosted-acceptance-evidence/stripe-fixtures.json ]; then
             node -e '
               const f = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/stripe-fixtures.json", "utf8"));
-              if (f.ok) { console.log(`STRIPE FIXTURES OK — product ${f.productId} price ${f.priceId} coupon ${f.couponId} restricted to [${(f.couponAppliesToProducts ?? []).join(", ")}] code ${f.promotionCode}`); }
+              if (f.ok) {
+                console.log(`STRIPE FIXTURES OK — product ${f.productId} price ${f.priceId} coupon ${f.couponId} code ${f.promotionCode}`);
+                console.log(`  coupon product-restricted: ${f.couponRestrictedToProduct} ${f.couponRestrictedToProduct ? `to [${(f.couponAppliesToProducts ?? []).join(", ")}]` : "(this sandbox account does not persist applies_to)"}`);
+              }
               else { console.log(`STRIPE FIXTURES FAILED — ${f.failure ?? "(no reason recorded)"}`); console.log(`  key present: ${f.keyPresent}; prefix accepted: ${f.keyPrefixAccepted}`); }
             ' || echo "stripe fixture evidence present but could not be summarised"
           else
