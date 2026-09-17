@@ -815,51 +815,73 @@ async function productionRuntimeLogExcerpt(sinceMs, needles) {
   if (!DEPLOYMENT_READ_TOKEN || !PRODUCTION_DEPLOYMENT_ID) {
     return "runtime log not read: no deployment id and read token were supplied";
   }
+  const untilMs = Date.now() + 1000;
+  const notes = [];
   try {
     const identity = await resolveHostedVercelIdentity({ token: DEPLOYMENT_READ_TOKEN });
-    // The endpoint streams NDJSON and does not close on its own, so this reads
-    // what has arrived within a deadline and then abandons the stream.
-    const controller = new AbortController();
-    const deadline = setTimeout(() => controller.abort(), 20_000);
-    let response;
-    try {
-      response = await fetch(
-        hostedVercelScopedUrl(
-          `/v1/projects/${encodeURIComponent(identity.projectId)}/deployments/${encodeURIComponent(PRODUCTION_DEPLOYMENT_ID)}/runtime-logs`,
-          identity
-        ),
-        { method: "GET", headers: { Authorization: `Bearer ${DEPLOYMENT_READ_TOKEN}` }, signal: controller.signal }
-      );
-    } catch (error) {
-      clearTimeout(deadline);
-      return redact(`runtime log unavailable: ${String(error?.message ?? error)}`).slice(0, 200);
-    }
-    let text = "";
-    try {
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      while (reader) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        text += decoder.decode(value, { stream: true });
-        if (text.length > 2_000_000) break;
+    // Two bounded reads of the same deployment, tried in order. The events feed
+    // answers with a finite array and is what this repository already reads for
+    // deployment diagnostics; the runtime-logs feed streams NDJSON and is the
+    // fallback. Both are windowed, so neither tails indefinitely.
+    const candidates = [
+      `/v3/deployments/${encodeURIComponent(PRODUCTION_DEPLOYMENT_ID)}/events`
+        + `?follow=0&limit=500&direction=backward&since=${sinceMs}&until=${untilMs}`,
+      `/v1/projects/${encodeURIComponent(identity.projectId)}/deployments/${encodeURIComponent(PRODUCTION_DEPLOYMENT_ID)}/runtime-logs`
+        + `?since=${sinceMs}&until=${untilMs}&limit=500`
+    ];
+
+    for (const pathname of candidates) {
+      const controller = new AbortController();
+      const deadline = setTimeout(() => controller.abort(), 25_000);
+      let text = "";
+      let status = null;
+      try {
+        const response = await fetch(hostedVercelScopedUrl(pathname, identity), {
+          method: "GET",
+          headers: { Authorization: `Bearer ${DEPLOYMENT_READ_TOKEN}`, Accept: "application/json, application/x-ndjson" },
+          signal: controller.signal
+        });
+        status = response.status;
+        // Read the body incrementally so a feed that never closes still yields
+        // whatever arrived before the deadline.
+        const reader = response.body?.getReader();
+        const decoder = new TextDecoder();
+        while (reader) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          text += decoder.decode(value, { stream: true });
+          if (text.length > 2_000_000) break;
+        }
+      } catch (error) {
+        if (!text) notes.push(redact(`${pathname.split("?")[0]} ${status ?? "no status"}: ${String(error?.message ?? error)}`).slice(0, 160));
+      } finally {
+        clearTimeout(deadline);
       }
-    } catch { /* aborted at the deadline: keep whatever arrived */ }
-    clearTimeout(deadline);
-    if (response.status !== 200) return redact(`runtime log HTTP ${response.status}: ${text}`).slice(0, 300);
-    const entries = text.split("\n")
-      .map((line) => { try { return JSON.parse(line); } catch { return null; } })
-      .filter(Boolean);
-    const hits = entries.filter((entry) => {
-      const at = Number(entry.timestampInMs ?? entry.timestamp ?? 0);
-      const message = `${entry.message ?? ""} ${entry.requestPath ?? ""}`;
-      return at >= sinceMs && needles.some((needle) => message.includes(needle));
-    }).slice(-8).map((entry) => redact(`[${entry.level ?? "?"}] ${String(entry.message ?? "")}`).slice(0, 500));
-    return hits.length
-      ? hits.join(" || ")
-      : `runtime log returned ${entries.length} entries, none matching ${needles.join("/")} since ${new Date(sinceMs).toISOString()}`;
+      if (status !== null && status !== 200) {
+        notes.push(redact(`${pathname.split("?")[0]} HTTP ${status}: ${text}`).slice(0, 200));
+        continue;
+      }
+      // The events feed answers with a JSON array; the runtime-logs feed with
+      // NDJSON. Both reduce to a list of records.
+      let entries = [];
+      const trimmed = text.trim();
+      if (trimmed.startsWith("[")) {
+        try { entries = JSON.parse(trimmed); } catch { entries = []; }
+      }
+      if (!entries.length) {
+        entries = trimmed.split("\n").map((line) => { try { return JSON.parse(line); } catch { return null; } }).filter(Boolean);
+      }
+      const hits = entries.filter((entry) => {
+        const at = Number(entry.timestampInMs ?? entry.created ?? entry.timestamp ?? 0);
+        const message = `${entry.text ?? ""} ${entry.message ?? ""} ${entry.requestPath ?? ""} ${entry.path ?? ""}`;
+        return (at === 0 || at >= sinceMs) && needles.some((needle) => message.includes(needle));
+      }).slice(-8).map((entry) => redact(`[${entry.type ?? entry.level ?? "?"}] ${String(entry.text ?? entry.message ?? "")}`).slice(0, 500));
+      if (hits.length) return hits.join(" || ");
+      notes.push(`${pathname.split("?")[0]} returned ${entries.length} entries, none matching ${needles.join("/")}`);
+    }
+    return notes.join(" ; ").slice(0, 600) || "runtime log produced nothing";
   } catch (error) {
-    return redact(`runtime log unavailable: ${String(error?.message ?? error)}`).slice(0, 200);
+    return redact(`runtime log unavailable: ${String(error?.message ?? error)}${notes.length ? ` (${notes.join(" ; ")})` : ""}`).slice(0, 400);
   }
 }
 
