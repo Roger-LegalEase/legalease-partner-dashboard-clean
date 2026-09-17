@@ -976,6 +976,14 @@ jobs:
               if (!failed.length) console.log("  (no individual condition failed; the candidate could not be resolved at all)");
             ' || echo "preview resolution evidence present but could not be summarised"
           fi
+          if [ -f hosted-acceptance-evidence/stripe-fixtures.json ]; then
+            node -e '
+              const f = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/stripe-fixtures.json", "utf8"));
+              if (f.ok) { console.log(`stripe fixtures: product ${f.productId} price ${f.priceId} coupon ${f.couponId} restricted to [${(f.couponAppliesToProducts ?? []).join(", ")}]`); process.exit(0); }
+              console.log(`stripe fixtures: FAILED — ${f.failure ?? "(no reason recorded)"}`);
+              console.log(`  sandbox key present: ${f.keyPresent}; prefix accepted: ${f.keyPrefixAccepted}`);
+            ' || echo "stripe fixture evidence present but could not be summarised"
+          fi
           if [ -f hosted-acceptance-evidence/payment.json ]; then
             node -e '
               const e = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/payment.json", "utf8"));

@@ -47,8 +47,24 @@ export const ACCEPTANCE_PROMOTION_CODE = "RCAPACCEPTANCEFREE";
 const EVIDENCE_DIR = path.resolve(process.cwd(), "hosted-acceptance-evidence");
 const EVIDENCE_FILE = path.join(EVIDENCE_DIR, "stripe-fixtures.json");
 
+// A failure here is decided hundreds of log lines before the job ends, behind
+// the end gate's own script echo, which is exactly the window the log API does
+// not return. So the reason is written to the evidence bundle as well, where
+// the end of the job can reprint it. Nothing secret is written: Stripe's
+// message names the object or the permission, never the key.
 function fail(message) {
   console.error(`STRIPE FIXTURES FAILED — ${message}`);
+  try {
+    fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+    fs.writeFileSync(EVIDENCE_FILE, `${JSON.stringify({
+      schemaVersion: "rcap-hosted-acceptance-stripe-fixtures/v1",
+      mode: "test",
+      ok: false,
+      failure: message,
+      keyPresent: Boolean(STRIPE_KEY),
+      keyPrefixAccepted: STRIPE_KEY.startsWith("sk_test_")
+    }, null, 2)}\n`);
+  } catch { /* the console line above is still the record */ }
   process.exit(1);
 }
 
@@ -183,6 +199,7 @@ async function main() {
   const evidence = {
     schemaVersion: "rcap-hosted-acceptance-stripe-fixtures/v1",
     mode: "test",
+    ok: true,
     productId: product.id,
     productName: product.name,
     priceId: price.id,
