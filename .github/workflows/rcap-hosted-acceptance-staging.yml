@@ -937,6 +937,20 @@ jobs:
           # every later step's output, which makes the one fact that matters
           # the hardest to retrieve. Reprint it here, at the end of the job,
           # straight from the evidence the harness already wrote.
+          #
+          # The resolver refuses before any of that, and its reasons were the
+          # least reachable of all: run 35180466117 printed them around line
+          # 1900 of a 2409-line log, past the window the log API returns.
+          if [ -f hosted-acceptance-evidence/preview-resolution.json ]; then
+            node -e '
+              const r = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/preview-resolution.json", "utf8"));
+              const failed = (r.checks ?? []).filter((c) => !c.ok);
+              if (r.outcome !== "refused_no_exact_preview" && !failed.length) { process.exit(0); }
+              console.log(`preview resolution: ${r.outcome}; candidate ${r.deploymentId ?? "(none)"} at ${r.hostname ?? "(none)"}`);
+              for (const c of failed) console.log(`  REFUSED ${c.label} — ${String(c.detail ?? "(no detail recorded)")}`);
+              if (!failed.length) console.log("  (no individual condition failed; the candidate could not be resolved at all)");
+            ' || echo "preview resolution evidence present but could not be summarised"
+          fi
           if [ -f hosted-acceptance-evidence/payment.json ]; then
             node -e '
               const e = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/payment.json", "utf8"));
