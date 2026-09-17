@@ -22,6 +22,12 @@ import {
   persistConsumerCheckoutBinding
 } from "@/lib/expungement-ai/consumer-payment-authority";
 import { reconcileConsumerOrder } from "@/lib/expungement-ai/consumer-order-reconciliation";
+import {
+  confirmCatalogProduct,
+  expectedCatalogProductId,
+  isConsumerPacketCatalogError,
+  lineItemProductId
+} from "@/lib/expungement-ai/consumer-packet-catalog";
 import type {
   ConsumerBriefcaseItem,
   ExpungementAiEligibilityResult,
@@ -271,6 +277,14 @@ export async function createConsumerPacketCheckout({
 
   try {
     stripe ??= getStripeServerClient();
+    // Which catalog Product this deployment sells, and the Price on it. Both are
+    // resolved before any Session is inspected or created, because the answer
+    // decides whether an existing open Session is still the right order and what
+    // a new one is built from.
+    const catalogProductId = expectedCatalogProductId();
+    if (catalogProductId) {
+      await confirmCatalogProduct(stripe, catalogProductId, consumerPacketPriceCents, consumerPacketCurrency);
+    }
     existing = !existingLookupCompleted && item.checkoutSessionId?.startsWith("cs_")
       ? await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
         expand: ["line_items.data.price.product", "discounts.promotion_code"]
@@ -284,8 +298,18 @@ export async function createConsumerPacketCheckout({
     // is replaced: a completed order is money that changed hands and is never
     // disowned over a capability flag, and expiring nothing leaves it intact.
     const openWithoutPromotionCodes = existing?.status === "open" && existing.allow_promotion_codes !== true;
+    // The same reasoning, for the same reason one step deeper. An open Session
+    // built from an ad-hoc Product sells something the catalog does not contain,
+    // so a coupon restricted to the catalog Product can only be refused on it —
+    // and the customer would read that refusal as their code being rejected.
+    // Replacing it is the supported path; a completed order is again untouched.
+    const openOnTheWrongProduct = existing?.status === "open"
+      && catalogProductId !== null
+      && lineItemProductId(existing.line_items?.data?.[0]) !== catalogProductId;
     if (existing && existing.status !== "expired"
-      && (existing.metadata?.verification_hash !== binding.verificationHash || openWithoutPromotionCodes)) {
+      && (existing.metadata?.verification_hash !== binding.verificationHash
+        || openWithoutPromotionCodes
+        || openOnTheWrongProduct)) {
       if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
     } else if (existing && existing.status !== "expired") {
       const reusable = await reconcileReusableCheckoutSession({
@@ -347,25 +371,45 @@ export async function createConsumerPacketCheckout({
       // it. A discount changes the amount due and nothing else, so eligibility,
       // ownership, verification and document access are unaffected below.
       allow_promotion_codes: true,
+      // The line item names the catalog Product, so a coupon restricted to that
+      // Product actually matches it. The amount stays server-set: the price
+      // this application will charge is not delegated to the catalog, and the
+      // reconciliation below still requires it to be the regular price exactly.
+      //
+      // `product_data` is what created the defect — Stripe makes a fresh ad-hoc
+      // Product for every Session given one, so no Session ever sold the
+      // catalog Product. It survives only outside production, where the
+      // test-mode account is a different account and a live Product id names
+      // nothing in it.
       line_items: [
         {
           quantity: 1,
-          price_data: {
-            currency: consumerPacketCurrency,
-            unit_amount: consumerPacketPriceCents,
-            product_data: {
-              name: "Expungement.ai self-help packet",
-              metadata: { product_id: CONSUMER_PACKET_PRODUCT_ID }
+          price_data: catalogProductId
+            ? {
+              currency: consumerPacketCurrency,
+              unit_amount: consumerPacketPriceCents,
+              product: catalogProductId
             }
-          }
+            : {
+              currency: consumerPacketCurrency,
+              unit_amount: consumerPacketPriceCents,
+              product_data: {
+                name: "Expungement.ai self-help packet",
+                metadata: { product_id: CONSUMER_PACKET_PRODUCT_ID }
+              }
+            }
         }
       ]
     }, {
+      // The catalog identity is part of the key: a Session created against a
+      // different Product is a different order, and replaying the old key would
+      // hand back the Session this release exists to stop using.
       idempotencyKey: checkoutIdempotencyKey(
         item.id,
         binding.verificationHash,
         verification.revision,
-        item.checkoutSessionId
+        item.checkoutSessionId,
+        catalogProductId
       )
     });
 
@@ -391,6 +435,11 @@ export async function createConsumerPacketCheckout({
       briefcaseItemId: item.id
     };
   } catch (error) {
+    // A catalog this application cannot read unambiguously is an unavailable
+    // checkout, never a Session built on a guess. It is not a dry-run trigger
+    // either: the dry run exists for a missing Stripe configuration, and here
+    // Stripe is configured and answering.
+    if (isConsumerPacketCatalogError(error)) throw new ConsumerCheckoutTemporarilyUnavailableError();
     if (!isStripeConfigurationError(error)) throw error;
     if (!isConsumerCheckoutDryRunEnabled()) {
       throw new ConsumerCheckoutTemporarilyUnavailableError();
@@ -524,13 +573,16 @@ function checkoutIdempotencyKey(
   itemId: string,
   verificationHash: string,
   verificationRevision: number,
-  previousSessionId?: string
+  previousSessionId?: string,
+  catalogProductId?: string | null
 ) {
   // Concurrent requests for one protected authority converge on one Stripe
   // Session. A refused stale CAS forces a protected reload/rederivation; the
   // changed hash/revision then advances the key instead of returning the
-  // expired stale-authority Session.
-  return `${CONSUMER_PACKET_PRODUCT_ID}:${itemId}:${verificationHash}:${verificationRevision}:${previousSessionId ?? "initial"}`;
+  // expired stale-authority Session. The catalog product is part of the key for
+  // the same reason: a Session on a different Product is a different order.
+  return `${CONSUMER_PACKET_PRODUCT_ID}:${itemId}:${verificationHash}:${verificationRevision}`
+    + `:${previousSessionId ?? "initial"}:${catalogProductId ?? "inline"}`;
 }
 
 export async function getConsumerCheckoutStatus({

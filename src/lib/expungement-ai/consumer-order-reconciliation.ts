@@ -5,6 +5,7 @@ import {
   CONSUMER_PACKET_PRICE_CENTS,
   CONSUMER_PACKET_PRODUCT_ID
 } from "@/lib/expungement-ai/consumer-payment-authority";
+import { expectedCatalogProductId, lineItemProductId } from "@/lib/expungement-ai/consumer-packet-catalog";
 
 /**
  * What a consumer packet order actually is, read from Stripe and nowhere else.
@@ -77,12 +78,34 @@ export type ConsumerOrderReconciliation =
   | { ok: true; order: ReconciledConsumerOrder }
   | { ok: false; reason: string };
 
-const PACKET_PRODUCT_NAME = "Expungement.ai self-help packet";
+/**
+ * The name Checkout gave the ad-hoc Product it created per Session before the
+ * line item referenced the catalog Price. Orders created that way are real
+ * orders that real customers paid for, so they still have to reconcile; new
+ * Sessions can no longer be created this way where a catalog Product is
+ * configured, because the Session is built from the catalog Price.
+ */
+const LEGACY_PACKET_PRODUCT_NAME = "Expungement.ai self-help packet";
 
 function productNameOf(line: Stripe.LineItem | undefined): string | null {
   const product = line?.price?.product;
   if (!product || typeof product === "string" || "deleted" in product) return null;
   return product.name ?? null;
+}
+
+/**
+ * Whether this line item is the packet.
+ *
+ * Identity is the catalog Product id where one is configured: that is what a
+ * product-restricted coupon matches on, and it is a stronger statement than a
+ * display name, which anyone can set on any product. The legacy ad-hoc name is
+ * accepted as well so that orders placed before the catalog Price was used keep
+ * reconciling — they were paid for and are never disowned.
+ */
+function lineItemIsThePacket(line: Stripe.LineItem | undefined): boolean {
+  const expectedProductId = expectedCatalogProductId();
+  if (expectedProductId && lineItemProductId(line) === expectedProductId) return true;
+  return productNameOf(line) === LEGACY_PACKET_PRODUCT_NAME;
 }
 
 function paymentIntentIdOf(session: Stripe.Checkout.Session): string | null {
@@ -148,7 +171,7 @@ export function reconcileConsumerOrder(
 
   const line = lineItems[0];
   if (line.quantity !== 1) return refuse(`quantity ${line.quantity ?? "(absent)"} is not 1`);
-  if (productNameOf(line) !== PACKET_PRODUCT_NAME) return refuse("the line item is not the packet product");
+  if (!lineItemIsThePacket(line)) return refuse("the line item is not the packet product");
   if ((line.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {
     return refuse("the line item currency is not usd");
   }
@@ -218,9 +241,14 @@ export function reconcileConsumerOrder(
     return refuse("a zero-total order has no payment intent");
   }
 
+  // A completed zero-total payment-mode Session reports `paid`, not
+  // `no_payment_required` — that value belongs to setup mode. The branch above
+  // already accepts both; this one accepted only one of them, so a genuine
+  // 100%-off order would have been recorded as unsettled. Both spellings mean
+  // the same thing here: Checkout completed and nothing is owed.
   const settled = paymentRequired
     ? paymentStatus === "paid"
-    : paymentStatus === "no_payment_required" && session.status === "complete";
+    : (paymentStatus === "no_payment_required" || paymentStatus === "paid") && session.status === "complete";
 
   return {
     ok: true,
