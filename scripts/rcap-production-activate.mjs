@@ -18,13 +18,17 @@ const APPLICATION_SHA = "0fee79bd127eb3dc072c2a35945177fa7e7b6683";
 const WORKER_SOURCE_SHA = "35d33755045ee1825fc281ab0eb451d34bccec0a";
 const WORKER_DIGEST = "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const STAGED_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
-// The recovery target is the deployment that is live now. It is the newest
-// application whose save and claim path works against the migrated database;
-// the pre-migration dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL is not a usable recovery
-// target any more, because it writes the pending-result columns the applied
-// forward chain renamed.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX";
+// This is the promotion, so a stale pin here is the most expensive kind.
+// dpl_3HHSPupp, named here as the staged candidate, is what Production already
+// serves: promoting it would have moved the alias onto the deployment it was
+// already on, reported success, and shipped nothing. Preflight 35209211594 read
+// the real pair back from Vercel.
+const STAGED_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
+// The recovery target is the deployment that is live now: dpl_3HHSPupp, the
+// release this one replaces. Its save and claim path works against the migrated
+// database, and 20260917090000 only widens what a paid row may say, so rolling
+// back to it stays valid after this release's migration.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
 const SMOKE_RUN_ID = "35142492175";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE

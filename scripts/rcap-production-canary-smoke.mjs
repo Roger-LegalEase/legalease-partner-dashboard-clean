@@ -19,13 +19,19 @@ const APPLICATION_SHA = "0fee79bd127eb3dc072c2a35945177fa7e7b6683";
 const WORKER_SOURCE_SHA = "35d33755045ee1825fc281ab0eb451d34bccec0a";
 const WORKER_DIGEST = "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const STAGED_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
-// The recovery target is the deployment that is live now. It is the newest
-// application whose save and claim path works against the migrated database;
-// the pre-migration dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL is not a usable recovery
-// target any more, because it writes the pending-result columns the applied
-// forward chain renamed.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX";
+// Both identities moved on by one release and both were stale, in the way that
+// matters most: dpl_3HHSPupp, named here as the staged candidate, is the
+// deployment Production serves right now. Preflight 35209211594 read that back
+// from Vercel -- staged dpl_DjAscmNucgJHauNsTtpbzGp9zfpU, rollback (current
+// Production) dpl_3HHSPupp. Smoke run 35209693969 refused on
+// exact_staged_application_worker_identity rather than smoke-testing the live
+// site and reporting that the new release was sound.
+const STAGED_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
+// The recovery target is the deployment that is live now: dpl_3HHSPupp, the
+// release this one replaces. Its save and claim path works against the migrated
+// database, and 20260917090000 only widens what a paid row may say, so rolling
+// back to it stays valid after this release's migration.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
   "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",
