@@ -979,6 +979,20 @@ jobs:
               if (!failed.length) console.log("  (no individual condition failed; the candidate could not be resolved at all)");
             ' || echo "preview resolution evidence present but could not be summarised"
           fi
+          if [ -f hosted-acceptance-evidence/payment.json ]; then
+            node -e '
+              const e = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/payment.json", "utf8"));
+              const cases = e.cases ?? {};
+              const failed = e.failedCases ?? [];
+              const missing = e.missingCases ?? [];
+              if (!failed.length && !missing.length) { console.log("PAYMENT — every required case earned a passing verdict"); }
+              else {
+                console.log(`PAYMENT — ${failed.length} failing, ${missing.length} unrecorded of ${(e.requiredCases ?? []).length} required`);
+                for (const id of failed) console.log(`PAYMENT FAILED — ${id} — ${String(cases[id]?.observed ?? "(no observation)")}`);
+                for (const id of missing) console.log(`PAYMENT NO VERDICT — ${id}`);
+              }
+            ' || echo "payment evidence present but could not be summarised"
+          fi
           if [ -f hosted-acceptance-evidence/stripe-fixtures.json ]; then
             node -e '
               const f = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/stripe-fixtures.json", "utf8"));
