@@ -45,7 +45,13 @@ export async function POST(request: NextRequest) {
       briefcaseItemId: checkout.briefcaseItemId,
       alreadyPaid: checkout.alreadyPaid ?? false,
       paymentPending: checkout.paymentPending ?? false,
-      outcome: checkout.outcome
+      outcome: checkout.outcome,
+      // Only present when a stored Checkout Session id could not be resolved
+      // and the order continued regardless. Carrying it on the SUCCESS response
+      // is the point: a recovery that only shows up when it fails cannot be
+      // audited, and this names the provider's classification and the request
+      // id of the lookup that was overruled.
+      storedSessionRecovery: checkout.storedSessionRecovery ?? null
     });
   } catch (error) {
     // The Grade-A authority refused this route or this participant. The refusal

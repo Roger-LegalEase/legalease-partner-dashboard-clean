@@ -36,6 +36,27 @@ export function getStripeWebhookSecret(
   return getRequiredStripeEnv(envVar, "whsec_");
 }
 
+/**
+ * Which Stripe mode the configured secret key addresses, or null when that
+ * cannot be established.
+ *
+ * The key prefix is authoritative: `sk_live_` and `sk_test_` address two
+ * separate object spaces, and an id minted in one names nothing in the other.
+ * Callers that must know WHICH space they are reading use this rather than
+ * inferring mode from the deployment environment, because the environment is
+ * what a mis-set key would already have lied about.
+ *
+ * Null on an unreadable or unexpected key, so an unanswerable question never
+ * reads as an answer.
+ */
+export function stripeSecretKeyIsLiveMode(): boolean | null {
+  const value = process.env.STRIPE_SECRET_KEY?.trim();
+  if (!value) return null;
+  if (value.startsWith("sk_live_")) return true;
+  if (value.startsWith("sk_test_")) return false;
+  return null;
+}
+
 export function isStripeConfigurationError(error: unknown): error is StripeConfigurationError {
   return error instanceof StripeConfigurationError;
 }

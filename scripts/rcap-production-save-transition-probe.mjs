@@ -919,7 +919,7 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === CONSUMER_CHECKOUT_PATH,
     { timeout: 60_000 }
   ).then(
-    async (response) => ({ status: response.status(), body: redact((await response.text().catch(() => "")).slice(0, 600)) }),
+    async (response) => ({ status: response.status(), body: redact((await response.text().catch(() => "")).slice(0, 1200)) }),
     () => null
   );
 
@@ -946,6 +946,32 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
       + `; ${CONSUMER_CHECKOUT_PATH} answered ${order.checkoutResponse ? `HTTP ${order.checkoutResponse.status} ${JSON.stringify(order.checkoutResponse.body)}` : "nothing within 60s"}`
       + `${order.refusalOnPage ? `; the page shows ${JSON.stringify(order.refusalOnPage)}` : ""}`
       + `${order.serverError ? `; the deployment's own log says ${JSON.stringify(order.serverError)}` : ""}`
+  );
+
+  // The provider's own classification of this matter's stored Checkout Session,
+  // preserved whether the order continued or refused.
+  //
+  // This matter carried a Session id from an earlier attempt, which sends the
+  // application down a recovery path a new matter never executes — the path
+  // that produced the unexplained 500. The application now reports what the
+  // provider said about that id: on a refusal as `providerFailure`, and on a
+  // success, where the order was allowed to continue past it, as
+  // `storedSessionRecovery`. Either way it names the step, the provider's error
+  // type and code, and the provider's request id, so the exact failed operation
+  // is observed rather than inferred. An absent record is itself the
+  // observation that the stored session resolved normally.
+  let parsedCheckoutBody = null;
+  try { parsedCheckoutBody = JSON.parse(order.checkoutResponse?.body ?? ""); } catch { parsedCheckoutBody = null; }
+  order.storedSessionClassification = parsedCheckoutBody?.storedSessionRecovery
+    ?? parsedCheckoutBody?.providerFailure
+    ?? null;
+  record(
+    "the_stored_session_classification_is_preserved",
+    order.checkoutResponse !== null,
+    `${CONSUMER_CHECKOUT_PATH} answered HTTP ${order.checkoutResponse?.status ?? "(nothing)"};`
+      + ` the provider's classification of this matter's stored Checkout Session is`
+      + ` ${order.storedSessionClassification ? JSON.stringify(order.storedSessionClassification) : "absent, which means the stored session resolved without a provider refusal"}.`
+      + ` resultCode=${parsedCheckoutBody?.resultCode ?? "(none)"}, outcome=${parsedCheckoutBody?.outcome ?? "(none)"}.`
   );
 
   // Which Stripe Product this Session is actually selling. A coupon restricted
