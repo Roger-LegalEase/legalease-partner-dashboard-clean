@@ -24,7 +24,7 @@ import {
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 const APPLICATION_SHA = "0fee79bd127eb3dc072c2a35945177fa7e7b6683";
-const TOOLS_SHA = "fe0262756fd735824fab4b8c56ac04c064c0f130";
+const TOOLS_SHA = "fde5d97859270409b06650fdaff5da25f4b9c33e";
 const WORKER_SOURCE_SHA = "35d33755045ee1825fc281ab0eb451d34bccec0a";
 const WORKER_DIGEST = "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
