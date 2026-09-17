@@ -1765,6 +1765,10 @@ const stripeApi = async (pathname, init) => {
     checkoutUrl: session.url,
     promotionCode: PROMOTION_CODE,
     card: STRIPE_TEST_CARD,
+    // Unique per run, so Stripe Link never recognises the address and never
+    // raises a one-time-code challenge that nobody can answer. Run 35170946122
+    // stalled on exactly that, because an earlier run had paid with this email.
+    email: `acceptance-consumer-${String(itemId).replace(/-/g, "").slice(0, 12)}@rcap-acceptance.test`,
     screenshotDir: path.join(EVIDENCE_DIR, "checkout-screenshots"),
     label: PROMOTION_CODE ? `checkout-${PROMOTION_CODE}` : "checkout-no-code"
   });
