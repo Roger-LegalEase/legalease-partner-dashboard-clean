@@ -1020,8 +1020,16 @@ jobs:
             node -e '
               const g = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/checkout-gate.json", "utf8"));
               const failed = Object.entries(g.cases ?? {}).filter(([, c]) => !c.passed);
-              if (!failed.length) { console.log("CHECKOUT GATE — every case passed"); process.exit(0); }
               for (const [id, c] of failed) console.log(`CHECKOUT GATE FAILED — ${id} — ${c.observed}`);
+              // A gate can also die outside record(), and then every recorded
+              // case reads as passing while the step still failed. The outcome
+              // and the thrown message are the only account of that.
+              if (g.failure || g.outcome) {
+                console.log(`CHECKOUT GATE OUTCOME — ${g.outcome ?? "(none)"} passed=${g.passed}`);
+                if (g.failure) console.log(`CHECKOUT GATE THREW — case=${g.failure.caseId ?? "(outside any case)"} — ${g.failure.message}`);
+              } else if (!failed.length) {
+                console.log("CHECKOUT GATE — every case passed and no failure recorded");
+              }
             ' || echo "checkout gate evidence present but could not be summarised"
           fi
           if [ -f hosted-acceptance-evidence/stripe-fixtures.json ]; then
