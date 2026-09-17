@@ -825,15 +825,21 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
   // is the one fact that decides whether the code can ever be accepted. Stripe
   // embeds the Session's configuration in the page it serves, so the ids are
   // read from the document rather than inferred from our own source.
+  // Stripe's page names the line item but does not print its Product id, so an
+  // ad-hoc Product is invisible by id and the catalog one has to be recognised
+  // by the name it carries in the catalog. The ids are still recorded for the
+  // cases where the page does carry them.
   order.checkoutProductIds = await readStripeProductIds(page);
   order.couponProductId = COUPON_ALLOWED_PRODUCT_ID;
-  order.productMatchesCoupon = order.checkoutProductIds.includes(COUPON_ALLOWED_PRODUCT_ID);
+  const checkoutBody = await page.locator("body").innerText().catch(() => "");
+  order.sellsCatalogProduct = CATALOG_PRODUCT_NAME_PATTERN.test(checkoutBody);
   record(
-    "live_checkout_line_item_is_the_coupon_s_product",
-    order.productMatchesCoupon,
-    `Checkout Session product(s) ${JSON.stringify(order.checkoutProductIds)};`
-      + ` the coupon allows ${COUPON_ALLOWED_PRODUCT_ID}.`
-      + ` ${order.productMatchesCoupon ? "They match." : "They do not match, so Stripe can only refuse the code."}`
+    "live_checkout_sells_the_catalog_product",
+    order.sellsCatalogProduct,
+    `Stripe's page ${order.sellsCatalogProduct ? "names the catalog product" : "does not name the catalog product"}`
+      + ` (${CATALOG_PRODUCT_NAME_PATTERN}), which is the product the coupon ${COUPON_ALLOWED_PRODUCT_ID} is restricted to.`
+      + ` Product ids visible on the page: ${JSON.stringify(order.checkoutProductIds)}.`
+      + ` A line item on any other product can only have the code refused.`
   );
 
   const notes = [];
@@ -1088,6 +1094,10 @@ const CONSUMER_CHECKOUT_LABEL = "Pay $50 and generate my packet";
 // The catalog Product the owner's 100%-off coupon is restricted to. A catalog
 // identifier, not a credential.
 const COUPON_ALLOWED_PRODUCT_ID = "prod_Sx3T2wUkaYKqg9";
+// That product's catalog name, as Stripe's Checkout page prints it. The page
+// names the line item without printing its Product id, so the name is how a
+// catalog line item is told apart from an ad-hoc one from the outside.
+const CATALOG_PRODUCT_NAME_PATTERN = /DIY\s+Expung\w*/i;
 
 function packetFieldValue(id, prompt) {
   if (PACKET_SAFE_ANSWERS[id]) return PACKET_SAFE_ANSWERS[id];
