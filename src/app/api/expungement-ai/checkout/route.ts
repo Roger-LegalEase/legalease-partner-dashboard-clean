@@ -82,9 +82,28 @@ export async function POST(request: NextRequest) {
     }
 
     if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) {
-      return NextResponse.json({ error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 503 });
+      // `providerFailure` is the payment provider's own public classification of
+      // the call that refused — which step, its error type, code and param. None
+      // of it is a credential, and it reaches only the authenticated owner of
+      // this matter. Without it, every distinct configuration fault on this path
+      // is the same sentence, which is what made the last one undiagnosable.
+      return NextResponse.json({
+        error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues.",
+        resultCode: "checkout_provider_unavailable",
+        providerFailure: error.providerFailure
+      }, { status: 503 });
     }
 
-    throw error;
+    // A payment route must never answer an unhandled 500 with an empty body. It
+    // leaves the participant with a page that silently does nothing, and leaves
+    // an operator with no name for the fault. Anything reaching here is still a
+    // fault to fix, but it answers with a sentence and with the error's class —
+    // its constructor name only, never its message, parameters or stack.
+    console.error("[expungement-ai/checkout] unclassified checkout failure", error);
+    return NextResponse.json({
+      error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues.",
+      resultCode: "checkout_failed",
+      failureClass: error instanceof Error ? error.name : typeof error
+    }, { status: 503 });
   }
 }
