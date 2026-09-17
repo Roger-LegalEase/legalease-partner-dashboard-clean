@@ -36,6 +36,7 @@ import path from "node:path";
 const STRIPE_KEY = (process.env.HOSTED_STRIPE_TEST_SECRET ?? "").trim();
 const PRICE_CENTS = Number(process.env.RCAP_ACCEPTANCE_PACKET_PRICE_CENTS ?? "5000");
 const CURRENCY = "usd";
+const STRIPE_API_VERSION = "2024-06-20";
 
 /** The marker every fixture carries, so it is found rather than re-created. */
 const FIXTURE_KEY = "rcap_acceptance_fixture";
@@ -74,6 +75,10 @@ async function stripe(method, pathname, form) {
     method,
     headers: {
       Authorization: `Bearer ${STRIPE_KEY}`,
+      // Pinned so `applies_to` is serialised on the coupon. The account's
+      // default version did not return it, and a restriction that is set but
+      // not echoed reads exactly like a restriction that was never applied.
+      "Stripe-Version": STRIPE_API_VERSION,
       ...(form ? { "Content-Type": "application/x-www-form-urlencoded" } : {})
     },
     ...(form ? { body: form.toString() } : {})
@@ -145,6 +150,14 @@ async function ensureCoupon(productId) {
   );
   if (existing) return { coupon: existing, created: false };
 
+  // A fixture coupon without the restriction is litter from an earlier attempt
+  // and would be found again on every later run. It is deleted rather than left
+  // to accumulate; only coupons carrying this fixture's own marker are touched.
+  for (const stale of listed?.data ?? []) {
+    if (!carriesFixtureMarker(stale)) continue;
+    await stripe("DELETE", `coupons/${encodeURIComponent(stale.id)}`);
+  }
+
   const form = new URLSearchParams();
   form.set("percent_off", "100");
   form.set("duration", "once");
@@ -153,7 +166,10 @@ async function ensureCoupon(productId) {
   form.set("name", "RCAP acceptance 100% off");
   form.set("applies_to[products][0]", productId);
   form.set(`metadata[${FIXTURE_KEY}]`, FIXTURE_VALUE);
-  const coupon = await stripe("POST", "coupons", form);
+  const created = await stripe("POST", "coupons", form);
+  // Read back, so the restriction this fixture relies on is one Stripe reports
+  // holding rather than one this script believes it asked for.
+  const coupon = await stripe("GET", `coupons/${encodeURIComponent(created.id)}`);
   return { coupon, created: true };
 }
 
@@ -227,7 +243,10 @@ async function main() {
   // The restriction is the thing being relied on, so it is asserted here rather
   // than assumed by the journey that follows.
   if (evidence.couponAppliesToProducts.length !== 1 || evidence.couponAppliesToProducts[0] !== product.id) {
-    fail(`the acceptance coupon is not restricted to exactly ${product.id}`);
+    fail(
+      `the acceptance coupon is not restricted to exactly ${product.id};`
+      + ` Stripe reports applies_to=${JSON.stringify(coupon.applies_to ?? null)} on coupon ${coupon.id}`
+    );
   }
   if (price.unit_amount !== PRICE_CENTS || price.currency !== CURRENCY || price.type !== "one_time") {
     fail(`the acceptance price is not a one-time ${CURRENCY} ${PRICE_CENTS}`);
