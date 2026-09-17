@@ -292,6 +292,12 @@ jobs:
           # log line and every artifact.
           RCAP_LIVE_PROMOTION_CODE: ${{ inputs.mode == 'production_live_zero_dollar_order' && inputs.promotion_code || '' }}
           RCAP_RESUME_MATTER_ID: ${{ inputs.mode == 'production_live_zero_dollar_order' && inputs.resume_matter_id || '' }}
+          # Read-only diagnostics for an unhandled 5xx from the application. The
+          # probe reads this one deployment's runtime log with a GET and nothing
+          # else on Vercel; it is supplied only for the order phase, where a
+          # refusal without a sentence would otherwise be undiagnosable.
+          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ inputs.mode == 'production_live_zero_dollar_order' && 'dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP' || '' }}
+          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ inputs.mode == 'production_live_zero_dollar_order' && secrets.VERCEL_TOKEN || '' }}
         run: node scripts/rcap-production-save-transition-probe.mjs
 
       - name: Upload the save-transition evidence (sanitized)

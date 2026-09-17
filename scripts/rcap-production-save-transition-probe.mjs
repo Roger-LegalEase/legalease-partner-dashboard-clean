@@ -47,6 +47,11 @@ import { chromium, webkit } from "playwright";
 // same "Add promotion code" entry the sandbox journeys drive, rather than
 // keeping a second description of Stripe's markup here.
 import { applyPromotionCode } from "./rcap-stripe-checkout-browser.mjs";
+// Read-only. The one Vercel surface this probe may touch is the serving
+// deployment's runtime log, and only to recover the application's own error
+// behind an unhandled 5xx. It reads; it never deploys, aliases or reads,
+// writes or names an environment variable.
+import { resolveHostedVercelIdentity, hostedVercelScopedUrl } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const PROBE_ACCOUNT_EMAIL = "rcap-production-probe@rcap-acceptance.test";
@@ -103,6 +108,13 @@ const LIVE_PROMOTION_CODE = (process.env.RCAP_LIVE_PROMOTION_CODE ?? "").trim();
 // mint another matter and leave the last one stranded, and the point of a
 // resume is that the participant's work already exists.
 const RESUME_MATTER_ID = (process.env.RCAP_RESUME_MATTER_ID ?? "").trim();
+// Optional, read-only diagnostics. When the deployment the site serves is named
+// and a token is supplied, an unhandled 5xx from the application is followed by
+// a read of that deployment's runtime log, which is where the application's own
+// error lands. Absent either, the diagnostic records that it was unavailable and
+// the phase behaves exactly as before.
+const PRODUCTION_DEPLOYMENT_ID = (process.env.RCAP_PRODUCTION_DEPLOYMENT_ID ?? "").trim();
+const DEPLOYMENT_READ_TOKEN = process.env.RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN ?? "";
 const CHROMIUM_EXECUTABLE = process.env.RCAP_BROWSER_CHROMIUM?.trim() || "";
 const BROWSERS = (process.env.RCAP_PROBE_BROWSERS ?? "chromium,webkit")
   .split(",").map((entry) => entry.trim().toLowerCase()).filter(Boolean);
@@ -122,6 +134,9 @@ if (RESUME_MATTER_ID && !validUuid(RESUME_MATTER_ID)) {
 }
 if (RESUME_MATTER_ID && PHASE !== PHASE_LIVE_ORDER) {
   fail(`RCAP_RESUME_MATTER_ID only applies to ${PHASE_LIVE_ORDER}.`);
+}
+if (PRODUCTION_DEPLOYMENT_ID && !/^dpl_[A-Za-z0-9]+$/.test(PRODUCTION_DEPLOYMENT_ID)) {
+  fail("RCAP_PRODUCTION_DEPLOYMENT_ID must be one exact dpl_ deployment id.");
 }
 if (!BROWSERS.includes("chromium") || BROWSERS.some((entry) => !SUPPORTED_BROWSERS.includes(entry))) {
   fail(`RCAP_PROBE_BROWSERS must name chromium and may add webkit; got ${JSON.stringify(BROWSERS)}.`);
@@ -147,6 +162,7 @@ const secrets = new Set();
 // take a packet for nothing. It is masked in evidence exactly like a key.
 if (LIVE_PROMOTION_CODE) secrets.add(LIVE_PROMOTION_CODE);
 if (SUPABASE_ACCESS_TOKEN) secrets.add(SUPABASE_ACCESS_TOKEN);
+if (DEPLOYMENT_READ_TOKEN) secrets.add(DEPLOYMENT_READ_TOKEN);
 const verdicts = [];
 const evidence = {
   schemaVersion: "rcap-production-save-transition-probe/v1",
@@ -785,6 +801,69 @@ function extractPdfText(bytes) {
 }
 
 /**
+ * The application's own error behind an unhandled 5xx, read from the serving
+ * deployment's runtime log.
+ *
+ * A route that maps its refusals answers with a status and a sentence. A 500
+ * with an empty body is neither: it is a throw nobody classified, and the only
+ * place its message exists is the runtime log. This is a GET, against one
+ * deployment, filtered to the lines that mention the failing route or an error;
+ * it reads no environment variable and changes nothing. Every line it returns
+ * goes through the same redaction as the rest of the evidence.
+ */
+async function productionRuntimeLogExcerpt(sinceMs, needles) {
+  if (!DEPLOYMENT_READ_TOKEN || !PRODUCTION_DEPLOYMENT_ID) {
+    return "runtime log not read: no deployment id and read token were supplied";
+  }
+  try {
+    const identity = await resolveHostedVercelIdentity({ token: DEPLOYMENT_READ_TOKEN });
+    // The endpoint streams NDJSON and does not close on its own, so this reads
+    // what has arrived within a deadline and then abandons the stream.
+    const controller = new AbortController();
+    const deadline = setTimeout(() => controller.abort(), 20_000);
+    let response;
+    try {
+      response = await fetch(
+        hostedVercelScopedUrl(
+          `/v1/projects/${encodeURIComponent(identity.projectId)}/deployments/${encodeURIComponent(PRODUCTION_DEPLOYMENT_ID)}/runtime-logs`,
+          identity
+        ),
+        { method: "GET", headers: { Authorization: `Bearer ${DEPLOYMENT_READ_TOKEN}` }, signal: controller.signal }
+      );
+    } catch (error) {
+      clearTimeout(deadline);
+      return redact(`runtime log unavailable: ${String(error?.message ?? error)}`).slice(0, 200);
+    }
+    let text = "";
+    try {
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      while (reader) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        text += decoder.decode(value, { stream: true });
+        if (text.length > 2_000_000) break;
+      }
+    } catch { /* aborted at the deadline: keep whatever arrived */ }
+    clearTimeout(deadline);
+    if (response.status !== 200) return redact(`runtime log HTTP ${response.status}: ${text}`).slice(0, 300);
+    const entries = text.split("\n")
+      .map((line) => { try { return JSON.parse(line); } catch { return null; } })
+      .filter(Boolean);
+    const hits = entries.filter((entry) => {
+      const at = Number(entry.timestampInMs ?? entry.timestamp ?? 0);
+      const message = `${entry.message ?? ""} ${entry.requestPath ?? ""}`;
+      return at >= sinceMs && needles.some((needle) => message.includes(needle));
+    }).slice(-8).map((entry) => redact(`[${entry.level ?? "?"}] ${String(entry.message ?? "")}`).slice(0, 500));
+    return hits.length
+      ? hits.join(" || ")
+      : `runtime log returned ${entries.length} entries, none matching ${needles.join("/")} since ${new Date(sinceMs).toISOString()}`;
+  } catch (error) {
+    return redact(`runtime log unavailable: ${String(error?.message ?? error)}`).slice(0, 200);
+  }
+}
+
+/**
  * The authorized live order, taken only when the promotion code clears the
  * total to zero.
  *
@@ -813,6 +892,7 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
   // about why. The checkout route answers with a status and one sentence, so
   // that answer is captured before the click rather than inferred after it.
   // Both are redacted like every other observed string.
+  const clickedAtMs = Date.now();
   const checkoutAnswer = page.waitForResponse(
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === CONSUMER_CHECKOUT_PATH,
     { timeout: 60_000 }
@@ -832,12 +912,18 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
   // route's sentence is rendered into the panel, so the page carries the same
   // refusal the response body does.
   order.refusalOnPage = order.reachedStripe ? null : await describeResumePage(page);
+  // An unhandled 5xx carries no sentence of its own. Its message exists only in
+  // the deployment's runtime log, so that is read before the case is recorded.
+  order.serverError = order.reachedStripe || Number(order.checkoutResponse?.status ?? 0) < 500
+    ? null
+    : await productionRuntimeLogExcerpt(clickedAtMs - 30_000, [CONSUMER_CHECKOUT_PATH, "Error", "Stripe"]);
   record(
     "live_checkout_opened_on_stripe",
     order.reachedStripe,
     `the verified matter's next action reached ${order.reachedStripe ? "Stripe's hosted Checkout page" : `an unexpected destination: ${safePathname(page.url())}`}`
       + `; ${CONSUMER_CHECKOUT_PATH} answered ${order.checkoutResponse ? `HTTP ${order.checkoutResponse.status} ${JSON.stringify(order.checkoutResponse.body)}` : "nothing within 60s"}`
       + `${order.refusalOnPage ? `; the page shows ${JSON.stringify(order.refusalOnPage)}` : ""}`
+      + `${order.serverError ? `; the deployment's own log says ${JSON.stringify(order.serverError)}` : ""}`
   );
 
   // Which Stripe Product this Session is actually selling. A coupon restricted
