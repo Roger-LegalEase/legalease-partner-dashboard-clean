@@ -148,7 +148,9 @@ async function ensureCoupon(productId) {
   const form = new URLSearchParams();
   form.set("percent_off", "100");
   form.set("duration", "once");
-  form.set("name", "RCAP acceptance 100% off (acceptance product only)");
+  // Stripe caps a coupon name at 40 characters; the restriction is expressed
+  // by applies_to below, not by the display name.
+  form.set("name", "RCAP acceptance 100% off");
   form.set("applies_to[products][0]", productId);
   form.set(`metadata[${FIXTURE_KEY}]`, FIXTURE_VALUE);
   const coupon = await stripe("POST", "coupons", form);
