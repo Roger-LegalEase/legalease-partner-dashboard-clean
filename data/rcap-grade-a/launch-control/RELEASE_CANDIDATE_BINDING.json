@@ -1,95 +1,102 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
   "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE_AND_PRODUCTION_RELEASE",
-  "applicationSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
-  "workerSourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
-  "workerDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
-  "workerInputFingerprint": "sha256:ac100b0b7c22bf5b9e43c340c103ac4ebd3867a6664e585d00355655708ee101",
+  "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+  "workerSourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+  "workerDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
+  "workerInputFingerprint": "sha256:6a8ce968eadbb3979b67419c7126c0a008fbd83e49f9508ea93dd37049b54c01",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "publication": {
-    "runId": 35171737222,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35171737222",
+    "runId": 35268909210,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35268909210",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 35176174783,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35176174783",
-    "conclusion": "success"
+    "runId": 35282061289,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35282061289",
+    "conclusion": "success",
+    "acceptedSourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+    "acceptedDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
+    "sourceBindingPath": "normal_oci_revision",
+    "note": "Accepted this exact digest on its own evidence, through the normal OCI-revision path with the source-binding exception not in force."
   },
   "hostedAcceptanceStatus": "PASSED_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "preview": "dpl_4VJ9SwLKsdiCSAy5T85tcab48698 (legalease-rcap-0fee79bd127e-roger947s-projects.vercel.app)",
-    "note": "Every journey below drove Stripe's own hosted Checkout page in a browser against this Preview and this worker digest, and read the session back from Stripe rather than asserting it.",
-    "journeys": [
-      {
-        "runId": 35178342916,
-        "order": "Mississippi, no promotion code, 5000 cents",
-        "result": "PASS \u2014 real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
-      },
-      {
-        "runId": 35179247131,
-        "order": "Mississippi, ACCEPT40PCT",
-        "result": "PASS"
-      },
-      {
-        "runId": 35180723873,
-        "order": "Illinois, no promotion code",
-        "result": "PASS \u2014 the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
-      },
-      {
-        "runId": 35205114308,
-        "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
-        "result": "PASS \u2014 Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
-      }
-    ]
+    "runId": 35273348552,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35273348552",
+    "conclusion": "success",
+    "preview": "dpl_5dZTG4SeKKnbJEXF5FSUCWCihoCm (legalease-rcap-62425c837b5e-roger947s-projects.vercel.app)",
+    "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+    "workerDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
+    "requiredCases": 27,
+    "result": "PASS -- every required case earned a passing verdict. The blocking steps all concluded success: the Stripe payment and packet-delivery journey, \"Every required matrix step actually ran\", and \"The emitted evidence earns the verdict it reports\".",
+    "resumedSessionCases": [
+      "resumed_checkout_reuses_the_open_session",
+      "resumed_checkout_refuses_an_unresolvable_stored_session_it_cannot_verify",
+      "resumed_checkout_replaces_an_incompatible_open_session",
+      "resumed_checkout_never_duplicates_a_completed_order"
+    ],
+    "evidenceArtifact": {
+      "id": 10518954053,
+      "name": "rcap-hosted-payment-35273348552",
+      "sizeBytes": 211818
+    },
+    "note": "Recorded from this run's own step conclusions, required-case count and evidence artifact identity. The previous binding's four journey run ids belonged to application 0fee79bd and are not carried forward. Per-case observations inside the artifact -- Stripe event ids, PDF byte sizes, page counts -- are deliberately not restated here: they were not read back into this record."
   },
   "productionRelease": {
-    "forwardChainReadbackRunId": 35207467289,
-    "forwardChainMigrateRunId": 35208823396,
-    "preflightRunId": 35209211594,
-    "smokeRunId": 35210618269,
-    "activateRunId": 35211405164,
-    "stagedDeploymentId": "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU",
-    "rollbackDeploymentId": "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG",
-    "rollbackIsPaymentCompatible": false,
-    "rollbackNote": "Availability rollback only. 20260917090000 retires the legacy record_consumer_packet_payment signatures that the rollback application calls, so it cannot settle a payment after the migration. Recovery from a failed activation is forward.",
+    "preflightRunId": 35275288657,
+    "preflightConclusion": "success",
+    "forwardChainReadbackRunId": 35275515220,
+    "forwardChainReadbackWorkflowConclusion": "cancelled",
+    "forwardChainReadbackStepName": "Read back the Production forward migration chain without writing",
+    "forwardChainReadbackStepConclusion": "success",
+    "forwardChainReadbackNote": "The readback step completed successfully and its evidence was uploaded; the cancellation landed on a later step in the same job. The workflow conclusion is cancelled and this record does not call the run successful.",
+    "forwardChainMigrateRunId": 35276312765,
+    "forwardChainMigrateConclusion": "success",
     "migrationsApplied": [
-      "20260917090000"
+      "20260917200000"
     ],
-    "result": "PRODUCTION RELEASE COMPLETE \u2014 all 7 Production domains resolve to the staged deployment, promoted without rebuild, health 200"
+    "smokeRunId": 35278012687,
+    "smokeConclusion": "success",
+    "activateRunId": 35279704399,
+    "activateConclusion": "success",
+    "stagedDeploymentId": "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51",
+    "rollbackDeploymentId": "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP",
+    "rollbackIsPaymentCompatible": false,
+    "rollbackNote": "Availability rollback target. It does not carry this release's resumed incompatible-Checkout-Session replacement behaviour, because it predates migration 20260917200000 and the application path that calls the replacement writer. That is the narrow limit of the claim: nothing here says it cannot process payments generally.",
+    "result": "APPLICATION ACTIVATED -- Production serves dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51 and activation completed successfully. Production worker deployment, public verification, and the authorized live $0 order remain pending."
   },
   "regressions": {
-    "sourceSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
-    "note": "Run in this session against the candidate source. The worker is reused from 35d33755, an ancestor of the application; nothing between them touches a canonical worker input, so the published digest stays valid for this application.",
-    "composedRouteSelector": "node scripts/test-ms-authoritative-track.mjs 17/17 \u2014 the Illinois row opens only on a felony conviction and the client track stays forbidden",
-    "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95 checks including frozen inputs unchanged",
-    "acceptanceVerdictContract": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs \u2014 the matrix cannot report a verdict it has not earned",
-    "productionCanary": "node scripts/verify-rcap-production-canary.mjs 41/41; mutations 19/19",
-    "productionSmoke": "node scripts/verify-rcap-production-smoke.mjs 30/30; mutations 15/15",
-    "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
-    "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
+    "sourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+    "note": "Current release evidence only. The previous binding's counts belonged to application 0fee79bd and worker 35d33755 and are not carried forward.",
+    "hostedAcceptanceRunId": 35273348552,
+    "productionPreflightRunId": 35275288657,
+    "forwardChainMigrateRunId": 35276312765,
+    "productionSmokeRunId": 35278012687,
+    "productionActivationRunId": 35279704399,
+    "publicationRunId": 35268909210,
+    "imageAcceptanceRunId": 35282061289,
+    "publishedWorkerDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
     "syntheticPublicationFixture": false,
-    "publishedWorkerDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
-    "publicationRunId": 35171737222,
-    "imageAcceptanceRunId": 35176174783,
-    "scope": "Real published authority binding. The hosted journeys above are the runtime evidence; these checks are the static contracts."
+    "scope": "Run identities established by this release. Static verifier counts from the prior release are deliberately absent rather than restated."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
-    "sha256": "d05ad26d0316064a3fe2f7c3b1925336f449283f7e43e1ace6517e6563381a97"
+    "sha256": "661a8522f0a09b9cb674b60380f953d30b110b63760cbd449c60432c05d68467"
   },
   "supersedes": {
-    "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
-    "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
-    "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-    "why": "That binding froze cc4d8275 with worker c177eef1 / sha256:57bb99a8 and was never re-bound as the worker moved on. Production worker deploy run 35212154510 refused on exactly that: the publication evidence named 35d33755 / sha256:d7e0d4a6, published and accepted, while this record still named the older pair. The refusal was correct and this record is the repair.",
-    "hostedAcceptanceStatusThen": "NOT_RUN_ON_THIS_CANDIDATE"
+    "applicationSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
+    "workerSourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
+    "workerDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+    "why": "The immediate prior frozen binding, and a valid one for its release. Superseded because this release changed canonical application and worker bytes to add the compare-and-swap Checkout Session replacement, published and accepted 62425c837 / sha256:a1cb0d96, applied migration 20260917200000 to Production, and activated the 62425c837 application.",
+    "hostedAcceptanceStatusThen": "PASSED_ON_THAT_CANDIDATE"
   },
   "participantReceiptPaths": [],
   "independentReviewerIdentities": [],
   "productionAuthorized": true,
   "productionAuthorization": "Roger Roman, 2026-09-17 (chat): complete the Grade A production rollout to expungement.ai, including Illinois, covering in-scope application fixes, test-harness repairs, release configuration, truthful publication and Grade-A evidence updates, reviewed migrations, worker deployment, production activation, public verification and the authorized live $0 order.",
-  "scope": "Exact candidate freeze with published-worker and image-acceptance evidence, the four hosted journeys that passed on it, and the production phases it was released through. This record authorizes no runtime-pin change, hosted database write or migration by itself."
+  "scope": "Freezes the current application and worker tuple, 62425c837 / sha256:a1cb0d96, and the evidence already earned for it: publication 35268909210, image acceptance 35282061289, hosted acceptance 35273348552, and the Production phases through activation. Application activation is COMPLETE. Production worker deployment is PENDING. Public verification is PENDING. The authorized live $0 order is PENDING. This JSON record performs no deployment and no hosted mutation; it records what was proven and is read by the gates that do.",
+  "workerInputFingerprintProvenance": "createWorkerInputPlan().aggregateInputSha256, recomputed deterministically from the committed worker inputs at 62425c837b5edf3d7e22b110910885abdaec1692 (rebuildRequired false, changedPaths empty, 30 canonical inputs). It is NOT emitted by publication artifact 10518291851 -- that artifact records no worker-input fingerprint, which is why data/rcap-render/worker-publication-evidence.json keeps workerInputFingerprint null. Two different quantities from two different sources; neither is copied onto the other."
 }
