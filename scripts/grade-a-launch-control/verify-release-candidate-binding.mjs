@@ -41,11 +41,24 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     const toolingPath = 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
     if (fs.existsSync(path.join(root, toolingPath))) {
       const binding = JSON.parse(fs.readFileSync(path.join(root, toolingPath)));
+      // The frozen identity of the CURRENT release. It had been left on
+      // 436520e4 / sha256:98e3e820 for several releases, which is why this
+      // function returned STALE_OR_UNVERIFIED for every binding regardless of
+      // its contents: the tuple it demanded was a retired one, and no honest
+      // candidate could equal it.
+      //
+      // workerInputFingerprint here is NOT the publication artifact's value.
+      // The artifact records none, and worker-publication-evidence.json keeps
+      // null for that reason. This is the deterministic
+      // createWorkerInputPlan().aggregateInputSha256 recomputed from the exact
+      // committed 62425c837 inputs, which is the same quantity the check below
+      // compares it against. A different concept from a different source, and
+      // deliberately not carried between the two records.
       const frozen = {
-        applicationSha: '436520e4a99f0b8a290ace32f1d717b951630319',
-        workerSourceSha: '436520e4a99f0b8a290ace32f1d717b951630319',
-        workerDigest: 'sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257',
-        workerInputFingerprint: 'sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683'
+        applicationSha: '62425c837b5edf3d7e22b110910885abdaec1692',
+        workerSourceSha: '62425c837b5edf3d7e22b110910885abdaec1692',
+        workerDigest: 'sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855',
+        workerInputFingerprint: 'sha256:6a8ce968eadbb3979b67419c7126c0a008fbd83e49f9508ea93dd37049b54c01'
       };
       for (const [key, value] of Object.entries(frozen)) {
         if (binding[key] !== value || candidate[key] !== value) throw new Error('Frozen identity mismatch');
