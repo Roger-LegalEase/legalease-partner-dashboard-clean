@@ -197,9 +197,10 @@ export async function createConsumerPacketCheckout({
   if (item.checkoutSessionId?.startsWith("cs_")) {
     try {
       stripe = getStripeServerClient();
-      existing = await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
-        expand: ["line_items.data.price.product", "discounts.promotion_code"]
-      });
+      existing = await providerCall("recover_completed_session", () =>
+        (stripe as Stripe).checkout.sessions.retrieve(item.checkoutSessionId as string, {
+          expand: ["line_items.data.price.product", "discounts.promotion_code"]
+        }));
       existingLookupCompleted = true;
       if (existing.status === "complete") {
         return {
@@ -214,8 +215,25 @@ export async function createConsumerPacketCheckout({
         };
       }
     } catch (error) {
-      if (!isStripeConfigurationError(error)) throw error;
-      stripe = null;
+      if (isStripeConfigurationError(error)) {
+        stripe = null;
+      } else if (storedSessionNamesNothing(error)) {
+        // The stored id names no Session in the account this deployment sells
+        // through — a leftover from a different mode or a different account. It
+        // is evidence of nothing, so it protects nothing: the order continues
+        // and a current Session is minted below. The double-charge guard that
+        // matters is the server-recorded payment status above, which is
+        // unaffected by an unreadable id.
+        existing = null;
+        existingLookupCompleted = true;
+      } else {
+        // Any other refusal leaves the question open: this id may name a
+        // COMPLETED Session whose webhook has not landed yet, and minting a
+        // replacement over money already collected is the one outcome this
+        // block exists to prevent. It refuses, with the provider's own
+        // classification, rather than guessing.
+        throw error;
+      }
     }
   }
 
@@ -283,12 +301,14 @@ export async function createConsumerPacketCheckout({
     // a new one is built from.
     const catalogProductId = expectedCatalogProductId();
     if (catalogProductId) {
-      await confirmCatalogProduct(stripe, catalogProductId, consumerPacketPriceCents, consumerPacketCurrency);
+      await providerCall("confirm_catalog_product", () =>
+        confirmCatalogProduct(stripe as Stripe, catalogProductId, consumerPacketPriceCents, consumerPacketCurrency));
     }
     existing = !existingLookupCompleted && item.checkoutSessionId?.startsWith("cs_")
-      ? await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
-        expand: ["line_items.data.price.product", "discounts.promotion_code"]
-      })
+      ? await providerCall("retrieve_existing_session", () =>
+        (stripe as Stripe).checkout.sessions.retrieve(item.checkoutSessionId as string, {
+          expand: ["line_items.data.price.product", "discounts.promotion_code"]
+        }))
       : existing;
 
     // An open Session created before promotion codes were enabled offers no
@@ -310,7 +330,9 @@ export async function createConsumerPacketCheckout({
       && (existing.metadata?.verification_hash !== binding.verificationHash
         || openWithoutPromotionCodes
         || openOnTheWrongProduct)) {
-      if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
+      if (existing.status === "open") {
+        await providerCall("expire_replaced_session", () => (stripe as Stripe).checkout.sessions.expire(existing!.id));
+      }
     } else if (existing && existing.status !== "expired") {
       const reusable = await reconcileReusableCheckoutSession({
         stripe,
@@ -320,13 +342,15 @@ export async function createConsumerPacketCheckout({
         expectedCancelUrl: cancelUrl ?? defaultCancelUrl
       });
       if (!reusable) {
-        if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
+        if (existing.status === "open") {
+          await providerCall("expire_unreusable_session", () => (stripe as Stripe).checkout.sessions.expire(existing!.id));
+        }
         throw new ConsumerCheckoutTemporarilyUnavailableError();
       }
       const bindingResult = await persistCheckoutBinding(binding, reusable.id, "stripe");
       if (bindingResult.outcome !== "bound") {
         if (bindingResult.outcome === "refused" && reusable.status === "open") {
-          await stripe.checkout.sessions.expire(reusable.id);
+          await providerCall("expire_unbindable_session", () => (stripe as Stripe).checkout.sessions.expire(reusable.id));
         }
         throw new ConsumerCheckoutTemporarilyUnavailableError();
       }
@@ -357,7 +381,7 @@ export async function createConsumerPacketCheckout({
     }
 
     const metadata = checkoutMetadata(binding, item);
-    const session = await stripe.checkout.sessions.create({
+    const session = await providerCall("create_session", () => (stripe as Stripe).checkout.sessions.create({
       mode: "payment",
       success_url: successUrl ?? defaultSuccessUrl,
       cancel_url: cancelUrl ?? defaultCancelUrl,
@@ -411,16 +435,18 @@ export async function createConsumerPacketCheckout({
         item.checkoutSessionId,
         catalogProductId
       )
-    });
+    }));
 
     if (session.status !== "open" || !session.url) {
-      if (session.status === "open") await stripe.checkout.sessions.expire(session.id);
+      if (session.status === "open") {
+        await providerCall("expire_unusable_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
+      }
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
     const bindingResult = await persistCheckoutBinding(binding, session.id, "stripe");
     if (bindingResult.outcome !== "bound") {
       if (bindingResult.outcome === "refused" && session.status === "open") {
-        await stripe.checkout.sessions.expire(session.id);
+        await providerCall("expire_unbound_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
       }
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
@@ -528,9 +554,9 @@ async function reconcileReusableCheckoutSession({
     Object.entries(desired).filter(([key]) => !session.metadata?.[key])
   );
   if (Object.keys(missing).length > 0) {
-    return stripe.checkout.sessions.update(session.id, {
+    return providerCall("update_reusable_session_metadata", () => stripe.checkout.sessions.update(session.id, {
       metadata: missing
-    });
+    }));
   }
   return session;
 }
@@ -808,8 +834,75 @@ export class ConsumerPacketNotDeliverableError extends Error {
   }
 }
 
+/**
+ * What a provider call refused with, reduced to the provider's own public
+ * classification.
+ *
+ * Stripe's type, code and param name a configuration fault exactly — a missing
+ * resource, an unusable parameter, the account it was asked of. None of them is
+ * a credential. The free-text message is deliberately left out so nothing
+ * incidental travels with it, and `phase` says which call refused, because
+ * "checkout failed" without that is the state this field exists to end.
+ */
+export type ConsumerCheckoutProviderFailure = {
+  phase: string;
+  type: string;
+  code: string | null;
+  param: string | null;
+  statusCode: number | null;
+};
+
+function providerFailureOf(error: unknown, phase: string): ConsumerCheckoutProviderFailure | null {
+  if (!error || typeof error !== "object") return null;
+  const candidate = error as { type?: unknown; rawType?: unknown; code?: unknown; param?: unknown; statusCode?: unknown };
+  const type = typeof candidate.type === "string"
+    ? candidate.type
+    : (typeof candidate.rawType === "string" ? candidate.rawType : null);
+  if (!type) return null;
+  return {
+    phase,
+    type,
+    code: typeof candidate.code === "string" ? candidate.code : null,
+    param: typeof candidate.param === "string" ? candidate.param : null,
+    statusCode: typeof candidate.statusCode === "number" ? candidate.statusCode : null
+  };
+}
+
+/**
+ * One provider call, with the call named.
+ *
+ * A Stripe error thrown out of any of these used to leave the route as an
+ * unhandled 500 with an empty body: no sentence for the participant, and
+ * nothing an operator could act on. Every provider call in this path now
+ * refuses through this, so the refusal is classified and says which step it
+ * came from. Errors this module already classifies pass through untouched.
+ */
+/**
+ * Whether the provider's refusal means "this id names nothing here".
+ *
+ * Stripe answers `resource_missing` for an id that does not exist in the
+ * account and mode the request was made with. That is the one refusal a stored
+ * Checkout Session id can earn that carries no risk of overwriting a real
+ * order, because there is no order behind it to overwrite.
+ */
+function storedSessionNamesNothing(error: unknown): boolean {
+  if (!(error instanceof ConsumerCheckoutTemporarilyUnavailableError)) return false;
+  return error.providerFailure?.code === "resource_missing";
+}
+
+async function providerCall<T>(phase: string, run: () => Promise<T>): Promise<T> {
+  try {
+    return await run();
+  } catch (error) {
+    if (isStripeConfigurationError(error) || isConsumerPacketCatalogError(error)) throw error;
+    const failure = providerFailureOf(error, phase);
+    if (!failure) throw error;
+    throw new ConsumerCheckoutTemporarilyUnavailableError(failure);
+  }
+}
+
 export class ConsumerCheckoutTemporarilyUnavailableError extends Error {
-  constructor() {
+  constructor(readonly providerFailure: ConsumerCheckoutProviderFailure | null = null) {
     super("Consumer checkout is temporarily unavailable.");
     this.name = "ConsumerCheckoutTemporarilyUnavailableError";
   }
