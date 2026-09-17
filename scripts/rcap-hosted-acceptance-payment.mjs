@@ -1839,13 +1839,21 @@ const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: nu
   const discountMatchesTheAttempt = PROMOTION_CODE
     ? discount > 0 && appliedCodes.length > 0
     : discount === 0 && appliedCodes.length === 0;
-  // Completion is asserted, never inferred. A zero-total order is complete
-  // because Stripe says the session completed and required no payment. The
-  // absence of a PaymentIntent is a consequence of that, not evidence for it:
-  // on its own it equally describes a customer who never paid.
+  // Completion is asserted, never inferred. The absence of a PaymentIntent is a
+  // consequence of a zero total, not evidence for it: on its own it equally
+  // describes a customer who never paid, so it is required alongside an
+  // affirmative completion rather than in place of one.
+  //
+  // Run 35204030807 settled what Stripe actually reports on a zero total, and
+  // it was not what this case assumed. ACCEPTFREE100 cleared a 5000 subtotal to
+  // 0 and Stripe returned payment_status=paid with no PaymentIntent, not
+  // no_payment_required -- that value belongs to setup mode, where a payment is
+  // deferred rather than not owed. Both of Stripe's settled values are accepted
+  // here; unpaid still fails, which is the distinction that matters.
   const completed = session.status === "complete";
+  const stripeCallsItSettled = session.payment_status === "paid" || session.payment_status === "no_payment_required";
   const settlementFitsTheTotal = total === 0
-    ? completed && session.payment_status === "no_payment_required" && !session.payment_intent
+    ? completed && stripeCallsItSettled && !session.payment_intent
     : completed && session.payment_status === "paid" && Boolean(session.payment_intent);
 
   record(
