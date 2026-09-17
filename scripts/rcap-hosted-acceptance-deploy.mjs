@@ -185,6 +185,17 @@ if (aliasesBefore.includes(RETURN_ALIAS_HOST)) {
 // resolving to the earlier no-Stripe deployment and reporting success.
 const STRIPE_CONFIGURED = Boolean(process.env.HOSTED_STRIPE_TEST_SECRET && process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET);
 const ROUTE_STATE_TAG = ROUTE_STATE || "disabled";
+// The sandbox catalog Product this Preview is built to sell. It is baked in at
+// creation like every other environment variable, so it belongs in the reuse
+// identity for exactly the reason Stripe configuration does: a Preview built
+// without it sells the inline fallback, and reusing one under a run that is
+// supposed to be proving the catalog path would prove the opposite.
+const CATALOG_PRODUCT_ID = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim();
+if (CATALOG_PRODUCT_ID && !CATALOG_PRODUCT_ID.startsWith("prod_")) {
+  console.error("DEPLOY: HOSTED_STRIPE_CATALOG_PRODUCT_ID is not a Stripe product id");
+  process.exit(1);
+}
+const CATALOG_PRODUCT_TAG = CATALOG_PRODUCT_ID || "inline";
 
 async function findReusableDeployment() {
   const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100&state=READY`);
@@ -196,6 +207,7 @@ async function findReusableDeployment() {
       d.meta?.rcapApplicationSha === APPLICATION_SHA &&
       d.meta?.rcapAcceptanceProjectRef === PROJECT_REF &&
       d.meta?.rcapStripeConfigured === String(STRIPE_CONFIGURED) &&
+      d.meta?.rcapCatalogProduct === CATALOG_PRODUCT_TAG &&
       d.meta?.rcapRouteState === ROUTE_STATE_TAG &&
       d.meta?.rcapReturnOrigin === RETURN_ORIGIN &&
       d.meta?.rcapClinicDemoMode === (CLINIC_DEMO_MODE || "none") &&
@@ -288,6 +300,12 @@ const runtimeEnv = {
   // the payment adapter refuses dry-run in a production runtime independently.
   STRIPE_SECRET_KEY: process.env.HOSTED_STRIPE_TEST_SECRET || "sk_test_hosted_acceptance_placeholder",
   STRIPE_WEBHOOK_SECRET: process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || "whsec_hosted_acceptance_placeholder",
+  // The sandbox catalog Product, so this Preview exercises the catalog-product
+  // Checkout path that production runs rather than the inline fallback it
+  // replaced. It is a test-mode product id from the sandbox fixtures, never the
+  // live catalog entry: the application picks its production default only when
+  // this is absent and the deployment is production.
+  ...(CATALOG_PRODUCT_ID ? { STRIPE_CONSUMER_PACKET_PRODUCT_ID: CATALOG_PRODUCT_ID } : {}),
   ...(ROUTE_STATE ? { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: ROUTE_STATE } : {}),
   ...(SCOPE_IDS ? { RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS } : {}),
   // Acceptance-only server secrets, derived per acceptance environment from a
@@ -357,6 +375,7 @@ const deploymentMeta = {
   rcapApplicationSha: APPLICATION_SHA,
   rcapAcceptanceProjectRef: PROJECT_REF,
   rcapStripeConfigured: String(STRIPE_CONFIGURED),
+  rcapCatalogProduct: CATALOG_PRODUCT_TAG,
   rcapRouteState: ROUTE_STATE_TAG,
   rcapReturnOrigin: RETURN_ORIGIN,
   rcapClinicDemoMode: CLINIC_DEMO_MODE || "none",
