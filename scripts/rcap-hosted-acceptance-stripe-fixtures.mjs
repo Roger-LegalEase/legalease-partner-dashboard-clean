@@ -158,19 +158,30 @@ async function ensureCoupon(productId) {
     await stripe("DELETE", `coupons/${encodeURIComponent(stale.id)}`);
   }
 
-  const form = new URLSearchParams();
-  form.set("percent_off", "100");
-  form.set("duration", "once");
-  // Stripe caps a coupon name at 40 characters; the restriction is expressed
-  // by applies_to below, not by the display name.
-  form.set("name", "RCAP acceptance 100% off");
-  form.set("applies_to[products][0]", productId);
-  form.set(`metadata[${FIXTURE_KEY}]`, FIXTURE_VALUE);
-  const created = await stripe("POST", "coupons", form);
-  // Read back, so the restriction this fixture relies on is one Stripe reports
-  // holding rather than one this script believes it asked for.
-  const coupon = await stripe("GET", `coupons/${encodeURIComponent(created.id)}`);
-  return { coupon, created: true };
+  // `applies_to.products` is a scalar array. Stripe's own examples encode it as
+  // applies_to[products][], and the indexed form this fixture used first was
+  // accepted without error and produced applies_to=null -- a restriction asked
+  // for and silently not set. Both encodings are attempted, in the documented
+  // order, and each result is read back from Stripe before it is believed.
+  const attempts = [];
+  for (const key of ["applies_to[products][]", "applies_to[products][0]"]) {
+    const form = new URLSearchParams();
+    form.set("percent_off", "100");
+    form.set("duration", "once");
+    // Stripe caps a coupon name at 40 characters; the restriction is expressed
+    // by applies_to, not by the display name.
+    form.set("name", "RCAP acceptance 100% off");
+    form.set(key, productId);
+    form.set(`metadata[${FIXTURE_KEY}]`, FIXTURE_VALUE);
+    const made = await stripe("POST", "coupons", form);
+    const readBack = await stripe("GET", `coupons/${encodeURIComponent(made.id)}`);
+    const products = readBack.applies_to?.products ?? [];
+    if (products.length === 1 && products[0] === productId) return { coupon: readBack, created: true };
+    attempts.push(`${key} -> applies_to=${JSON.stringify(readBack.applies_to ?? null)}`);
+    // An unrestricted coupon is not left behind to be found by a later run.
+    await stripe("DELETE", `coupons/${encodeURIComponent(made.id)}`);
+  }
+  fail(`Stripe would not restrict the acceptance coupon to ${productId}: ${attempts.join("; ")}`);
 }
 
 async function ensurePromotionCode(couponId) {
