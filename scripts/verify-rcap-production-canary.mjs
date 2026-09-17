@@ -24,7 +24,7 @@ check(workflow.includes("node scripts/rcap-production-canary.mjs"), "workflow ru
 check(workflow.includes("if: always()"), "evidence uploads even after refusal");
 check(workflow.includes("VERCEL_AUTOMATION_BYPASS_SECRET"), "runtime inspection receives the existing protection-bypass secret without printing it");
 
-check(script.includes('const APPLICATION_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530"'), "application SHA is exact");
+check(script.includes('const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb"'), "application SHA is exact");
 check(script.includes('const TOOLS_SHA = "fde5d97859270409b06650fdaff5da25f4b9c33e"'), "tools SHA is exact");
 check(script.includes('const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530"'), "worker source SHA is exact");
 check(script.includes('const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06"'), "worker digest is exact");
