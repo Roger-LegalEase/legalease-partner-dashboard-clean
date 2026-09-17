@@ -17,16 +17,23 @@ check(dispatcher.includes("production_activate"), "dispatcher exposes one isolat
 check(workflow.includes("inputs.phase == 'activate'"), "activation is isolated from preflight, migration, and smoke");
 check(workflow.includes("actions: read"), "workflow can read only the exact prior smoke artifact");
 check(dispatcher.includes("permissions:\n  contents: read\n  packages: read\n  actions: read"), "dispatcher grants the reusable workflow prior-artifact read access");
-check(workflow.includes("run-id: 35248212982"), "workflow pins the successful Production smoke run");
-check(workflow.includes("rcap-production-smoke-35248212982"), "workflow pins the exact successful smoke artifact");
+check(workflow.includes("run-id: 35278012687"), "workflow pins the successful Production smoke run");
+check(workflow.includes("rcap-production-smoke-35278012687"), "workflow pins the exact successful smoke artifact");
 check(workflow.includes("node scripts/verify-rcap-production-activation.mjs"), "workflow self-verifies the activation contract");
 check(workflow.includes("node scripts/test-rcap-production-activation-mutations.mjs"), "workflow runs activation mutation proof");
 check(workflow.includes("node scripts/rcap-production-activate.mjs"), "workflow invokes only the dedicated activation control");
 
-check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP"'), "exact staged deployment is pinned");
-check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU"'), "exact rollback deployment is pinned");
+check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51"'), "exact staged deployment is pinned");
+check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP"'), "exact rollback deployment is pinned");
 check(!script.includes('"dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "the pre-migration deployment is named by no pin, so it cannot be a recovery target");
-check(script.includes('const SMOKE_RUN_ID = "35248212982"'), "exact successful smoke run is pinned");
+// The pair and the smoke run this release supersedes. The superseded staged id
+// is the deployment Production serves now, so carrying it forward would promote
+// the alias onto the deployment it is already on and report success having
+// shipped nothing. Naming all three here keeps the stale set from returning by
+// any one of its parts.
+check(!script.includes('"dpl_DjAscmNucgJHauNsTtpbzGp9zfpU"'), "the superseded rollback deployment is named by no pin");
+check(!script.includes('"35248212982"'), "the superseded smoke run is named by no pin");
+check(script.includes('const SMOKE_RUN_ID = "35278012687"'), "exact successful smoke run is pinned");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production Supabase project is pinned");
 check(script.includes('const APPLICATION_SHA = "62425c837b5edf3d7e22b110910885abdaec1692"'), "final application SHA is pinned");
 check(script.includes('const WORKER_SOURCE_SHA = "62425c837b5edf3d7e22b110910885abdaec1692"'), "accepted worker source is pinned");

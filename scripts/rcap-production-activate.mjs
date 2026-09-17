@@ -19,35 +19,37 @@ const WORKER_SOURCE_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
 const WORKER_DIGEST = "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This is the promotion, so a stale pin here is the most expensive kind. The
-// pair is read back from Vercel by preflight 35247428602, which staged the
+// pair is read back from Vercel by preflight 35275288657, which staged the
 // candidate and recorded the live deployment before touching anything: staged
-// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP, rollback (current Production)
-// dpl_DjAscmNucgJHauNsTtpbzGp9zfpU.
+// dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51, rollback (current Production)
+// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP.
 //
-// The previous release's pins had them the wrong way round -- the then-live
-// deployment was named as the staged candidate -- so promoting would have moved
-// the alias onto the deployment it was already on, reported success, and
-// shipped nothing.
-const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
-// The recovery target is the deployment live now: dpl_DjAscm, running
-// application 0fee79bd1.
+// These pins carried the previous release's pair, one release out of date: the
+// deployment that was the staged candidate then is the deployment live now, so
+// promoting would have moved the alias onto the deployment it was already on,
+// reported success, and shipped nothing. Smoke run 35276699023 caught the same
+// staleness in the smoke control before this one could act on it.
+const STAGED_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51";
+// The recovery target is the deployment live now: dpl_BJMUzi, the candidate the
+// previous release staged and activated.
 //
-// Unlike the 3e3a528b5 rollback this replaces, it IS payment-compatible.
-// 20260917090000 retired the legacy 14- and 15-argument
-// record_consumer_packet_payment signatures in favour of unconditional
-// invalid_payment_evidence refusals, and 3e3a528b5 called the legacy signature,
-// so that older deployment could restore availability but not settlement.
-// 0fee79bd1 post-dates that migration and calls the current signature, so
-// rolling back to it restores a Production that can serve the site AND settle
-// an order.
+// It IS payment-compatible. 20260917090000 retired the legacy 14- and
+// 15-argument record_consumer_packet_payment signatures in favour of
+// unconditional invalid_payment_evidence refusals; this deployment post-dates
+// that migration and calls the current signature, so rolling back to it
+// restores a Production that can serve the site AND settle an order.
+//
+// It does not carry 20260917200000, so a rollback leaves Production on the
+// application that cannot record a Checkout Session replacement. That is the
+// state Production is in today, not a regression this activation would cause.
 //
 // That does not make rollback the preferred recovery. Forward -- promoting a
 // corrected application -- remains the route, and any order stranded during a
 // failed activation is settled by replaying its Stripe event through the
 // idempotent reconciliation path, never by reversing a migration or restoring
 // a retired writer.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
-const SMOKE_RUN_ID = "35248212982";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
+const SMOKE_RUN_ID = "35278012687";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
     ?? "prior-production-smoke-evidence/production-canary-smoke.json"
