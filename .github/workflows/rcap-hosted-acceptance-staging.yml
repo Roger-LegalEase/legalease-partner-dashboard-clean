@@ -1016,6 +1016,14 @@ jobs:
       - name: Reprint the sandbox fixture outcome last
         if: always()
         run: |
+          if [ -f hosted-acceptance-evidence/checkout-gate.json ]; then
+            node -e '
+              const g = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/checkout-gate.json", "utf8"));
+              const failed = Object.entries(g.cases ?? {}).filter(([, c]) => !c.passed);
+              if (!failed.length) { console.log("CHECKOUT GATE — every case passed"); process.exit(0); }
+              for (const [id, c] of failed) console.log(`CHECKOUT GATE FAILED — ${id} — ${c.observed}`);
+            ' || echo "checkout gate evidence present but could not be summarised"
+          fi
           if [ -f hosted-acceptance-evidence/stripe-fixtures.json ]; then
             node -e '
               const f = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/stripe-fixtures.json", "utf8"));
