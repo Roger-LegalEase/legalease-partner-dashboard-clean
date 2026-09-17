@@ -945,6 +945,22 @@ jobs:
           else
             echo "  phase does not claim the matrix; nothing to assert here."
           fi
+          # A failing case is decided hundreds of log lines earlier, behind
+          # every later step's output, which makes the one fact that matters
+          # the hardest to retrieve. Reprint it here, at the end of the job,
+          # straight from the evidence the harness already wrote.
+          if [ -f hosted-acceptance-evidence/payment.json ]; then
+            node -e '
+              const e = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/payment.json", "utf8"));
+              const cases = e.cases ?? {};
+              const failed = e.failedCases ?? [];
+              const missing = e.missingCases ?? [];
+              if (!failed.length && !missing.length) { console.log("payment evidence: every required case earned a passing verdict"); process.exit(0); }
+              console.log(`payment evidence: ${failed.length} failing and ${missing.length} unrecorded of ${(e.requiredCases ?? []).length} required case(s)`);
+              for (const id of failed) console.log(`  FAIL ${id} — ${String(cases[id]?.observed ?? "(no observation recorded)")}`);
+              for (const id of missing) console.log(`  NO VERDICT ${id} — the run stopped before this case was reached`);
+            ' || echo "payment evidence present but could not be summarised"
+          fi
           if [ "$fail" -ne 0 ]; then
             echo "::error::a phase that claims the payment-to-PDF matrix did not run every required step; this run is not acceptance evidence"
             exit 1
