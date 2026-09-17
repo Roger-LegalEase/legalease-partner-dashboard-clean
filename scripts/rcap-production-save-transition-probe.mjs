@@ -808,16 +808,36 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     artifact: null
   };
 
+  // The server's own answer to the click. When the Session cannot be minted the
+  // browser simply stays where it is, and the destination alone says nothing
+  // about why. The checkout route answers with a status and one sentence, so
+  // that answer is captured before the click rather than inferred after it.
+  // Both are redacted like every other observed string.
+  const checkoutAnswer = page.waitForResponse(
+    (response) => response.request().method() === "POST" && new URL(response.url()).pathname === CONSUMER_CHECKOUT_PATH,
+    { timeout: 60_000 }
+  ).then(
+    async (response) => ({ status: response.status(), body: redact((await response.text().catch(() => "")).slice(0, 600)) }),
+    () => null
+  );
+
   const checkout = page.getByRole("button", { name: CONSUMER_CHECKOUT_LABEL, exact: true });
   await checkout.click({ timeout: 20_000 });
   order.checkoutOpened = true;
   await page.waitForURL(/checkout\.stripe\.com/, { timeout: 60_000 }).catch(() => null);
   order.reachedStripe = /checkout\.stripe\.com/.test(page.url());
+  order.checkoutResponse = await checkoutAnswer;
   await screenshot(page, section, "08-stripe-checkout");
+  // What the reader is looking at when the click does not leave the page. The
+  // route's sentence is rendered into the panel, so the page carries the same
+  // refusal the response body does.
+  order.refusalOnPage = order.reachedStripe ? null : await describeResumePage(page);
   record(
     "live_checkout_opened_on_stripe",
     order.reachedStripe,
     `the verified matter's next action reached ${order.reachedStripe ? "Stripe's hosted Checkout page" : `an unexpected destination: ${safePathname(page.url())}`}`
+      + `; ${CONSUMER_CHECKOUT_PATH} answered ${order.checkoutResponse ? `HTTP ${order.checkoutResponse.status} ${JSON.stringify(order.checkoutResponse.body)}` : "nothing within 60s"}`
+      + `${order.refusalOnPage ? `; the page shows ${JSON.stringify(order.refusalOnPage)}` : ""}`
   );
 
   // Which Stripe Product this Session is actually selling. A coupon restricted
@@ -1091,6 +1111,9 @@ const CONSUMER_VERIFY_LABEL = "I verified these packet facts";
 // The legitimate next action for a paid consumer route. It is located and
 // reported, never clicked: this probe creates no charge.
 const CONSUMER_CHECKOUT_LABEL = "Pay $50 and generate my packet";
+// The route that mints the Session. The probe never calls it; it only reads the
+// answer the application's own button gets, and only in the order phase.
+const CONSUMER_CHECKOUT_PATH = "/api/expungement-ai/checkout";
 // The catalog Product the owner's 100%-off coupon is restricted to. A catalog
 // identifier, not a credential.
 const COUPON_ALLOWED_PRODUCT_ID = "prod_Sx3T2wUkaYKqg9";
