@@ -117,7 +117,29 @@ check(probe.includes("function safePath(") && probe.includes("function safePathn
 check(!probe.includes("localStorage.setItem") && !probe.includes("sessionStorage.setItem"), "the probe never seeds browser storage");
 check(!/method:\s*"(?:DELETE|PATCH)"/.test(probe), "the probe issues no DELETE or PATCH");
 check(!probe.includes("/config/auth"), "the probe never changes Auth configuration");
-check(!probe.includes("api.vercel.com") && !probe.includes("VERCEL_TOKEN") && !/\/projects\/[^\n]*\/env\b/.test(probe), "the probe never touches the Vercel API or environment variables");
+// The probe may now read ONE Vercel surface: the serving deployment's runtime
+// log, which is where an unhandled 5xx's message is. Everything the original
+// guard existed for still holds -- no environment variable is read or named, no
+// deployment is created or aliased, and the only method used against Vercel is
+// GET. The guard is narrowed to exactly that, not removed.
+check(!probe.includes("VERCEL_TOKEN") && !/\/projects\/[^\n]*\/env\b/.test(probe), "the probe never touches Vercel environment variables");
+check(
+  !/https:\/\/api\.vercel\.com/.test(probe)
+    && (probe.match(/hostedVercelScopedUrl\(/g) ?? []).length === 1
+    && /\/runtime-logs`/.test(probe)
+    && !/\/v13\/deployments|\/v9\/projects\/[^\n]*\/(?:domains|promote)|method: "(?:POST|PUT|PATCH|DELETE)"[^\n]*vercel/i.test(probe),
+  "the only Vercel call is one GET of the pinned deployment's runtime log"
+);
+check(
+  probe.includes("const PRODUCTION_DEPLOYMENT_ID = ")
+    && probe.includes('!/^dpl_[A-Za-z0-9]+$/.test(PRODUCTION_DEPLOYMENT_ID)')
+    && probe.includes("if (DEPLOYMENT_READ_TOKEN) secrets.add(DEPLOYMENT_READ_TOKEN);"),
+  "the deployment is one exact pinned id and its read token is redacted"
+);
+check(
+  /order\.serverError = order\.reachedStripe \|\| Number\(order\.checkoutResponse\?\.status \?\? 0\) < 500/.test(probe),
+  "the runtime log is read only for an unhandled 5xx, never on a mapped refusal or a success"
+);
 
 // --- evidence and verdict shape ------------------------------------------------------
 check(probe.includes('process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence"'), "evidence lives under production-canary-evidence/");
