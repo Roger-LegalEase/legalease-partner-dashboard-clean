@@ -31,18 +31,16 @@ const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
 const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This control asks whether expungement.ai is serving the deployment this
-// release promoted, so a stale pin here would have confirmed the public site
-// was serving the release it was already serving. Preflight 35209211594 read
-// the real pair back from Vercel.
-const STAGED_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
-// The recovery target is the deployment that is live now: dpl_3HHSPupp, the
-// release this one replaces. It restores availability, not payment settlement:
-// 20260917090000 retires the legacy record_consumer_packet_payment signatures
-// that 3e3a528b5 calls, replacing them with invalid_payment_evidence refusals,
-// so that application can no longer settle an order. See the fuller note in
-// rcap-production-activate.mjs, which is the control that can actually move
-// Production onto it.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
+// release promoted, so a stale pin here would confirm the public site was
+// serving the release it was already serving. Preflight 35247428602 read the
+// real pair back from Vercel.
+const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
+// The recovery target is the deployment live now: dpl_DjAscm, running
+// application 0fee79bd1. It post-dates 20260917090000 and calls the current
+// record_consumer_packet_payment signature, so it is payment-compatible as well
+// as available. See the fuller note in rcap-production-activate.mjs, which is
+// the control that can actually move Production onto it.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
 const PUBLIC_DOMAIN = "expungement.ai";
 const SCREENING_PATH = "/expungement-ai/screening/MS";
 const EVIDENCE_DIR = path.resolve(process.env.RCAP_PUBLIC_EVIDENCE_DIR ?? "production-public-evidence");

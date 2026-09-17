@@ -18,32 +18,35 @@ const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
 const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
 const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-// This is the promotion, so a stale pin here is the most expensive kind.
-// dpl_3HHSPupp, named here as the staged candidate, is what Production already
-// serves: promoting it would have moved the alias onto the deployment it was
-// already on, reported success, and shipped nothing. Preflight 35209211594 read
-// the real pair back from Vercel.
-const STAGED_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
-// The recovery target is the deployment that is live now: dpl_3HHSPupp, the
-// release this one replaces.
+// This is the promotion, so a stale pin here is the most expensive kind. The
+// pair is read back from Vercel by preflight 35247428602, which staged the
+// candidate and recorded the live deployment before touching anything: staged
+// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP, rollback (current Production)
+// dpl_DjAscmNucgJHauNsTtpbzGp9zfpU.
 //
-// IT IS AN AVAILABILITY TARGET, NOT A PAYMENT-COMPATIBLE ONE, and an earlier
-// version of this comment claimed otherwise. 20260917090000 does not merely
-// widen a constraint. It replaces the legacy 14- and 15-argument
-// record_consumer_packet_payment signatures with unconditional
-// invalid_payment_evidence refusals, because a caller that cannot say what the
-// regular price and the discount were would otherwise record a discounted
-// order at full price. 3e3a528b5, which is what dpl_3HHSPupp runs, calls the
-// legacy signature. After the migration it cannot settle any payment at all.
+// The previous release's pins had them the wrong way round -- the then-live
+// deployment was named as the staged candidate -- so promoting would have moved
+// the alias onto the deployment it was already on, reported success, and
+// shipped nothing.
+const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
+// The recovery target is the deployment live now: dpl_DjAscm, running
+// application 0fee79bd1.
 //
-// So an automatic rollback here restores the exact pre-promotion state and
-// nothing more: the site serves, screening and claiming work, and Stripe
-// continues to complete orders that the application then fails to settle.
-// Recovery from a failed activation is forward -- promote a fixed application
-// -- and any order stranded meanwhile is settled by replaying its Stripe event
-// through the idempotent reconciliation path, never by reversing this
-// migration or restoring the retired writer.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
+// Unlike the 3e3a528b5 rollback this replaces, it IS payment-compatible.
+// 20260917090000 retired the legacy 14- and 15-argument
+// record_consumer_packet_payment signatures in favour of unconditional
+// invalid_payment_evidence refusals, and 3e3a528b5 called the legacy signature,
+// so that older deployment could restore availability but not settlement.
+// 0fee79bd1 post-dates that migration and calls the current signature, so
+// rolling back to it restores a Production that can serve the site AND settle
+// an order.
+//
+// That does not make rollback the preferred recovery. Forward -- promoting a
+// corrected application -- remains the route, and any order stranded during a
+// failed activation is settled by replaying its Stripe event through the
+// idempotent reconciliation path, never by reversing a migration or restoring
+// a retired writer.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
 const SMOKE_RUN_ID = "35210618269";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
