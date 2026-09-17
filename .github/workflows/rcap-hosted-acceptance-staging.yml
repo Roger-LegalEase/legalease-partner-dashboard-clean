@@ -46,16 +46,6 @@ on:
         required: false
         type: string
         default: ""
-      promotion_zero_total:
-        description: "true when the promotion code is expected to bring the total to zero, so no card is entered"
-        required: false
-        type: string
-        default: ""
-      promotion_shape:
-        description: "The discount that code must carry, as Stripe declares it: percent_off=40, amount_off=1500, percent_off=100. Creates the sandbox code when none exists, and is checked against the discount Stripe actually applies."
-        required: false
-        type: string
-        default: ""
       journey_state:
         description: "Two-letter jurisdiction for the paid journey; empty lets the harness pick the first sellable route"
         required: false
@@ -777,8 +767,6 @@ jobs:
           # One discount shape per run, entered on Stripe's own page. Empty is
           # the ordinary $50 order, which is the default.
           HOSTED_STRIPE_PROMOTION_CODE: ${{ inputs.promotion_code }}
-          HOSTED_STRIPE_PROMOTION_ZERO_TOTAL: ${{ inputs.promotion_zero_total }}
-          HOSTED_STRIPE_PROMOTION_SHAPE: ${{ inputs.promotion_shape }}
           HOSTED_JOURNEY_STATE: ${{ inputs.journey_state }}
         run: node scripts/rcap-hosted-acceptance-payment.mjs
 
