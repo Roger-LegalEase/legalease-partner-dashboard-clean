@@ -26,7 +26,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_preview, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify]
+        options: [ephemeral, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_preview, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -223,7 +223,7 @@ jobs:
   # never packet generation, never a real customer matter.
   production_save_transition:
     name: Public save-to-Briefcase transition probe on expungement.ai
-    if: inputs.mode == 'production_save_transition_reproduce' || inputs.mode == 'production_save_transition_verify'
+    if: inputs.mode == 'production_save_transition_reproduce' || inputs.mode == 'production_save_transition_verify' || inputs.mode == 'production_live_zero_dollar_order'
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
@@ -273,13 +273,19 @@ jobs:
 
       - name: Probe the public save-to-Briefcase transition
         env:
-          RCAP_PRODUCTION_PHASE: ${{ inputs.mode == 'production_save_transition_verify' && 'save_transition_verify' || 'save_transition_reproduce' }}
+          RCAP_PRODUCTION_PHASE: ${{ inputs.mode == 'production_live_zero_dollar_order' && 'live_zero_dollar_order' || (inputs.mode == 'production_save_transition_verify' && 'save_transition_verify' || 'save_transition_reproduce') }}
           RCAP_PUBLIC_ORIGIN: https://expungement.ai
           RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
           RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
           RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
-          RCAP_PROBE_BROWSERS: chromium,webkit
-          SUPABASE_ACCESS_TOKEN: ${{ inputs.mode == 'production_save_transition_verify' && secrets.SUPABASE_ACCESS_TOKEN || '' }}
+          # The live order runs in chromium alone. The webkit pass repeats the
+          # signed-out journey as a best-effort extra, and a second browser on
+          # an order phase is a second real order.
+          RCAP_PROBE_BROWSERS: ${{ inputs.mode == 'production_live_zero_dollar_order' && 'chromium' || 'chromium,webkit' }}
+          SUPABASE_ACCESS_TOKEN: ${{ (inputs.mode == 'production_save_transition_verify' || inputs.mode == 'production_live_zero_dollar_order') && secrets.SUPABASE_ACCESS_TOKEN || '' }}
+          # Supplied per run and never committed. The probe masks it in every
+          # log line and every artifact.
+          RCAP_LIVE_PROMOTION_CODE: ${{ inputs.mode == 'production_live_zero_dollar_order' && inputs.promotion_code || '' }}
         run: node scripts/rcap-production-save-transition-probe.mjs
 
       - name: Upload the save-transition evidence (sanitized)

@@ -77,7 +77,7 @@ async function fillAcrossFrames(page, selectors, value, label, notes) {
  * the total unchanged and is reported, which is what the invalid and expired
  * cases need to observe.
  */
-async function applyPromotionCode(page, code, notes) {
+export async function applyPromotionCode(page, code, notes) {
   const opener = await firstVisible(page, [
     'button:has-text("Add promotion code")',
     'button:has-text("Add promo code")',
