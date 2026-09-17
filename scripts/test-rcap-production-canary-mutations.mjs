@@ -13,11 +13,11 @@ const files = [
 ];
 
 const mutations = [
-  ["application SHA", "3e3a528b5762ece971c53186d1a45a48e5633a9c", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
-  ["worker digest", "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
+  ["application SHA", "8d9382b93ada32adf9e50dd7f52680f4f9fb7018", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
+  ["worker digest", "sha256:1d54ad549fffe7b8a3e91dc1a8a7df46b2bf9b38e7c876aa7013a3fd9687c4d9", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
   ["acceptance negative control", "hyflxnlhpmiqxvvcoiia", "wrongacceptanceproject"],
   ["canonical Production project", "wwtwtsmywnckfkdaqqeg", "wrongproductionproject"],
-  ["accepted Preview deployment", "dpl_4MCQr3YdM2GuPHvcY8n4NzzGBajP", "dpl_wrongacceptedpreview"],
+  ["accepted Preview deployment", "dpl_9dQDQbSXmEuJGvCmP7n7KFaiQZ42", "dpl_wrongacceptedpreview"],
   ["environment separation verdict", "production_environment_is_separate_from_acceptance", "environment_separation_removed"],
   ["staged Production identity verdict", "staged_production_deployment_is_exact", "staged_identity_removed"],
   ["accepted Preview identity verdict", "accepted_preview_deployment_is_exact", "accepted_preview_identity_removed"],

@@ -23,16 +23,16 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
-const TOOLS_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
-const WORKER_SOURCE_SHA = "3e3a528b5762ece971c53186d1a45a48e5633a9c";
-const WORKER_DIGEST = "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9";
+const APPLICATION_SHA = "8d9382b93ada32adf9e50dd7f52680f4f9fb7018";
+const TOOLS_SHA = "fe0262756fd735824fab4b8c56ac04c064c0f130";
+const WORKER_SOURCE_SHA = "4a684f9a8d121c18aa2b8636f16c3e30fd75c498";
+const WORKER_DIGEST = "sha256:1d54ad549fffe7b8a3e91dc1a8a7df46b2bf9b38e7c876aa7013a3fd9687c4d9";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // The one READY Preview of this hotfix application line, created by hosted
-// deploy run 35141124813 on the acceptance project and reachable at the
-// deterministic alias legalease-rcap-3e3a528b5762-roger947s-projects.vercel.app.
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_4MCQr3YdM2GuPHvcY8n4NzzGBajP";
+// deploy run 35146303049 on the acceptance project and reachable at the
+// deterministic alias legalease-rcap-8d9382b93ada-roger947s-projects.vercel.app.
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_9dQDQbSXmEuJGvCmP7n7KFaiQZ42";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
