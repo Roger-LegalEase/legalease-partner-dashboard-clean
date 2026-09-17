@@ -25,11 +25,26 @@ const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // the real pair back from Vercel.
 const STAGED_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
 // The recovery target is the deployment that is live now: dpl_3HHSPupp, the
-// release this one replaces. Its save and claim path works against the migrated
-// database, and 20260917090000 only widens what a paid row may say, so rolling
-// back to it stays valid after this release's migration.
+// release this one replaces.
+//
+// IT IS AN AVAILABILITY TARGET, NOT A PAYMENT-COMPATIBLE ONE, and an earlier
+// version of this comment claimed otherwise. 20260917090000 does not merely
+// widen a constraint. It replaces the legacy 14- and 15-argument
+// record_consumer_packet_payment signatures with unconditional
+// invalid_payment_evidence refusals, because a caller that cannot say what the
+// regular price and the discount were would otherwise record a discounted
+// order at full price. 3e3a528b5, which is what dpl_3HHSPupp runs, calls the
+// legacy signature. After the migration it cannot settle any payment at all.
+//
+// So an automatic rollback here restores the exact pre-promotion state and
+// nothing more: the site serves, screening and claiming work, and Stripe
+// continues to complete orders that the application then fails to settle.
+// Recovery from a failed activation is forward -- promote a fixed application
+// -- and any order stranded meanwhile is settled by replaying its Stripe event
+// through the idempotent reconciliation path, never by reversing this
+// migration or restoring the retired writer.
 const ROLLBACK_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
-const SMOKE_RUN_ID = "35142492175";
+const SMOKE_RUN_ID = "35210618269";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
     ?? "prior-production-smoke-evidence/production-canary-smoke.json"
