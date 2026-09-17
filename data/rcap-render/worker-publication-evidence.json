@@ -27,8 +27,8 @@
   "originalPublicationPath": null,
   "originalArchivePath": null,
   "originalPublicationSource": "Publication run 35171737222 pushed the source-SHA tag; read-only tag-integrity run 35172304395 then asked the registry which digest that tag resolves to and answered sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6, with the mutable latest tag absent.",
-  "registryPullByDigestStatus": "not_yet_accepted",
-  "runtimeAccepted": false,
+  "registryPullByDigestStatus": "accepted",
+  "runtimeAccepted": true,
   "authorization": "Roger COMPLETE GRADE A instruction (2026-09-17): the Illinois routing and eligibility repair is required and must be carried into the release, which changes src and therefore requires a worker republished from the successor.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
@@ -267,18 +267,30 @@
   "workerInputFingerprint": "sha256:ac100b0b7c22bf5b9e43c340c103ac4ebd3867a6664e585d00355655708ee101",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
-  "imageAcceptanceAttempts": [],
+  "imageAcceptanceAttempts": [
+    {
+      "workflowRunId": 35176174783,
+      "attempt": 1,
+      "conclusion": "success"
+    }
+  ],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Not re-proved for sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6. The previous digest was proved private by acceptance run 35152619633; this one awaits its own acceptance run.",
+  "packageVisibilityEvidence": "Acceptance run 35176174783 re-proved it for this digest: the anonymous pull step concludes success only on refusal, and the authenticated pull by digest succeeded.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
     "manifestMediaType": null,
     "manifestSize": null,
     "configDigest": null,
-    "note": "Not read back for sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6 yet; the image-acceptance run establishes this."
+    "note": "Acceptance run 35176174783 pulled this image by digest and proved tag/digest identity, non-root execution, fail-closed startup without credentials, a real health command, graceful SIGTERM, a clean scratch directory and no baked secret. The platform triple and config digest were not read back into this record, so they stay null rather than being restated from the previous digest."
   },
-  "imageAcceptance": null,
+  "imageAcceptance": {
+    "workflowRunId": 35176174783,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35176174783",
+    "workflowConclusion": "success",
+    "immutableRegistryDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+    "sourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a"
+  },
   "previousImageAcceptance": {
     "sourceSha": "4a684f9a8d121c18aa2b8636f16c3e30fd75c498",
     "immutableRegistryDigest": "sha256:1d54ad549fffe7b8a3e91dc1a8a7df46b2bf9b38e7c876aa7013a3fd9687c4d9",
