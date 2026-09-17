@@ -13,8 +13,8 @@ const files = [
   "scripts/verify-rcap-production-smoke.mjs"
 ];
 const mutations = [
-  ["staged deployment", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU", "dpl_wrongstaged"],
-  ["rollback deployment", "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG", "dpl_wrongrollback"],
+  ["staged deployment", "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP", "dpl_wrongstaged"],
+  ["rollback deployment", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU", "dpl_wrongrollback"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
   ["staged identity", "exact_staged_application_worker_identity", "staged_identity_removed"],
   ["rollback readiness", "rollback_target_is_ready_and_still_active", "rollback_readiness_removed"],
