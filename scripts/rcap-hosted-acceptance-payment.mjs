@@ -157,12 +157,14 @@ const REQUIRED_CASES = [
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
   "customer_completed_the_hosted_checkout_page",
-  // Stripe decides the discount; fulfillment has to honour what Stripe reports.
-  "fulfillment_honours_the_stripe_confirmed_total",
+  // Stripe decides the discount and says whether the purchase completed.
+  "stripe_confirmed_the_discounted_purchase",
   // Stripe itself delivered the completion event to the application. The signed
   // events below this line are constructed by this harness and are a separate
   // kind of evidence.
   "stripe_delivered_the_completion_event_itself",
+  // Read only after that delivery, so ordinary webhook timing cannot fail it.
+  "fulfillment_honours_the_stripe_confirmed_total",
   "forged_webhook_signature_is_rejected",
   "signed_webhook_records_the_payment",
   "payment_is_server_authoritative_in_the_database",
@@ -1807,18 +1809,20 @@ const stripeApi = async (pathname, init) => {
   if (!settled) finish();
 }
 
-// --- 4c. Stripe's numbers, and fulfillment honouring them --------------------
+// --- 4c. What Stripe confirms about the purchase ------------------------------
 //
-// Every figure is read back from Stripe. Nothing here recomputes what a code
-// should be worth: a percentage, a fixed amount or a full waiver are all just
-// whatever Stripe put in amount_discount, and the only question asked is whether
-// Stripe's own figures are self-consistent and whether the order that reaches
-// fulfillment carries them unchanged. A new Dashboard code therefore needs no
-// change to this file.
+// Every figure is read back from Stripe and nothing here recomputes what a code
+// should be worth: a percentage, a fixed amount and a full waiver are all just
+// whatever Stripe put in amount_discount. This section asks only whether
+// Stripe's own account of the purchase is complete and self-consistent. What
+// the database made of it is a separate case, after the webhook has arrived.
+const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: null };
 {
   const subtotal = session.amount_subtotal ?? null;
   const discount = session.total_details?.amount_discount ?? 0;
   const total = session.amount_total ?? null;
+  const currency = session.currency ?? null;
+  Object.assign(stripeConfirmed, { subtotal, discount, total, currency });
   const appliedCodes = (session.discounts ?? [])
     .map((d) => (typeof d?.promotion_code === "string" ? d.promotion_code : d?.promotion_code?.id))
     .filter(Boolean);
@@ -1831,33 +1835,29 @@ const stripeApi = async (pathname, init) => {
   const discountMatchesTheAttempt = PROMOTION_CODE
     ? discount > 0 && appliedCodes.length > 0
     : discount === 0 && appliedCodes.length === 0;
-  // Nothing was charged, so there can be no PaymentIntent; something was
-  // charged, so there must be one. This is the case that makes a completed $0
-  // order a real order rather than an unpaid one.
+  // Completion is asserted, never inferred. A zero-total order is complete
+  // because Stripe says the session completed and required no payment. The
+  // absence of a PaymentIntent is a consequence of that, not evidence for it:
+  // on its own it equally describes a customer who never paid.
+  const completed = session.status === "complete";
   const settlementFitsTheTotal = total === 0
-    ? session.payment_status === "no_payment_required" && !session.payment_intent
-    : session.payment_status === "paid" && Boolean(session.payment_intent);
-  // And fulfillment has to be looking at the same money Stripe is.
-  const row = await sql(`select amount_cents, payment_status from public.consumer_briefcase_items where id = '${sqlText(itemId)}'`);
-  const item = Array.isArray(row.json) ? row.json[0] ?? null : null;
-  const fulfillmentAgrees = item !== null && Number(item.amount_cents) === total;
+    ? completed && session.payment_status === "no_payment_required" && !session.payment_intent
+    : completed && session.payment_status === "paid" && Boolean(session.payment_intent);
 
   record(
-    "fulfillment_honours_the_stripe_confirmed_total",
-    arithmeticCloses && discountMatchesTheAttempt && settlementFitsTheTotal && fulfillmentAgrees,
-    `Stripe reports subtotal=${subtotal}, amount_discount=${discount}, amount_total=${total} `
+    "stripe_confirmed_the_discounted_purchase",
+    arithmeticCloses && discountMatchesTheAttempt && settlementFitsTheTotal,
+    `Stripe reports status=${session.status} subtotal=${subtotal} amount_discount=${discount} amount_total=${total} ${String(currency).toUpperCase()} `
       + `(its own arithmetic closes: ${arithmeticCloses}). Promotion codes Stripe applied: ${appliedCodes.length ? appliedCodes.join(", ") : "(none)"} `
       + `for ${PROMOTION_CODE ? `entered code ${PROMOTION_CODE}` : "no entered code"} (consistent: ${discountMatchesTheAttempt}). `
-      + `payment_status=${session.payment_status}, payment_intent=${session.payment_intent ? "present" : "absent"} for a total of ${total} (consistent: ${settlementFitsTheTotal}) — `
-      + `a zero total must carry no PaymentIntent because nothing was charged, and any other total must carry one. `
-      + `The order row records amount_cents=${item?.amount_cents ?? "(missing)"} payment_status=${item?.payment_status ?? "(missing)"}, which must equal Stripe's total (agrees: ${fulfillmentAgrees}). `
+      + `payment_status=${session.payment_status}, payment_intent=${session.payment_intent ? "present" : "absent"} (consistent: ${settlementFitsTheTotal}) — `
+      + `completion is taken from status=complete plus the payment status Stripe reports, never from a missing PaymentIntent, which alone would equally describe a customer who never paid. `
       + `No figure here is computed by this harness, so a code issued in the Stripe Dashboard needs no change to prove itself.`
   );
   evidence.discount = {
-    enteredCode: PROMOTION_CODE, subtotal, discount, total,
+    enteredCode: PROMOTION_CODE, status: session.status, subtotal, discount, total, currency,
     appliedCodes, paymentStatus: session.payment_status,
-    paymentIntentPresent: Boolean(session.payment_intent),
-    orderAmountCents: item?.amount_cents ?? null
+    paymentIntentPresent: Boolean(session.payment_intent)
   };
 }
 
@@ -1906,6 +1906,42 @@ let stripeOwnDelivery = { eventId: null, recordedEventId: null };
         + `(the sandbox webhook endpoint must point at this exact Preview for Stripe to reach it).`
   );
   evidence.stripeOwnDelivery = { ...stripeOwnDelivery, sessionId: session.id };
+}
+
+// --- 4e. The settled order carries Stripe's money ----------------------------
+//
+// Deliberately after 4d. The order is settled by the webhook, so reading it
+// before that delivery has arrived compares Stripe against a row not yet
+// written and fails a purchase that is actually fine. Ordinary webhook timing
+// is not a defect: the wait belongs above, the comparison belongs here.
+{
+  const row = await sql(
+    `select amount_cents, currency, payment_status, regular_price_cents, discount_cents
+       from public.consumer_briefcase_items where id = '${sqlText(itemId)}'`
+  );
+  const item = Array.isArray(row.json) ? row.json[0] ?? null : null;
+  const amountAgrees = item !== null && Number(item.amount_cents) === stripeConfirmed.total;
+  const currencyAgrees = item !== null && typeof item.currency === "string"
+    && item.currency.toLowerCase() === String(stripeConfirmed.currency ?? "").toLowerCase();
+  const settled = item?.payment_status === "paid";
+
+  record(
+    "fulfillment_honours_the_stripe_confirmed_total",
+    settled && amountAgrees && currencyAgrees,
+    `After Stripe's own delivery settled the order it records amount_cents=${item?.amount_cents ?? "(missing)"} `
+      + `${String(item?.currency ?? "(missing)").toUpperCase()} payment_status=${item?.payment_status ?? "(missing)"}, `
+      + `against Stripe's completed total of ${stripeConfirmed.total} ${String(stripeConfirmed.currency ?? "").toUpperCase()} `
+      + `(amount agrees: ${amountAgrees}, currency agrees: ${currencyAgrees}, settled: ${settled}). `
+      + `Its reconciliation columns read regular_price_cents=${item?.regular_price_cents ?? "(missing)"} discount_cents=${item?.discount_cents ?? "(missing)"}; `
+      + `the database refuses a paid row whose regular price is anything but 5000 or whose collected amount does not reconcile against the discount, `
+      + `so a discount cannot record a different product at a different price.`
+  );
+  evidence.settledOrder = {
+    amountCents: item?.amount_cents ?? null, currency: item?.currency ?? null,
+    paymentStatus: item?.payment_status ?? null,
+    regularPriceCents: item?.regular_price_cents ?? null, discountCents: item?.discount_cents ?? null,
+    stripeTotal: stripeConfirmed.total, stripeCurrency: stripeConfirmed.currency
+  };
 }
 
 // --- 5. The webhook: a forgery first, then the genuine signature -------------
