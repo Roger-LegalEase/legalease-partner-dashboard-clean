@@ -37,6 +37,7 @@ const STRIPE_KEY = (process.env.HOSTED_STRIPE_TEST_SECRET ?? "").trim();
 const PRICE_CENTS = Number(process.env.RCAP_ACCEPTANCE_PACKET_PRICE_CENTS ?? "5000");
 const CURRENCY = "usd";
 const STRIPE_API_VERSION = "2024-06-20";
+let lastServedApiVersion = null;
 
 /** The marker every fixture carries, so it is found rather than re-created. */
 const FIXTURE_KEY = "rcap_acceptance_fixture";
@@ -84,6 +85,7 @@ async function stripe(method, pathname, form) {
     ...(form ? { body: form.toString() } : {})
   });
   const body = await response.json().catch(() => null);
+  lastServedApiVersion = response.headers.get("stripe-version") ?? lastServedApiVersion;
   if (!response.ok) {
     // The message, never the key and never the request body.
     fail(`Stripe ${method} ${pathname} returned ${response.status}: ${body?.error?.message ?? "(no message)"}`);
@@ -177,11 +179,46 @@ async function ensureCoupon(productId) {
     const readBack = await stripe("GET", `coupons/${encodeURIComponent(made.id)}`);
     const products = readBack.applies_to?.products ?? [];
     if (products.length === 1 && products[0] === productId) return { coupon: readBack, created: true };
-    attempts.push(`${key} -> applies_to=${JSON.stringify(readBack.applies_to ?? null)}`);
+    attempts.push(
+      `${key} -> create returned ${JSON.stringify({
+        id: made.id,
+        percent_off: made.percent_off,
+        applies_to: made.applies_to ?? null,
+        livemode: made.livemode
+      })}, read-back applies_to=${JSON.stringify(readBack.applies_to ?? null)}`
+    );
     // An unrestricted coupon is not left behind to be found by a later run.
     await stripe("DELETE", `coupons/${encodeURIComponent(made.id)}`);
   }
-  fail(`Stripe would not restrict the acceptance coupon to ${productId}: ${attempts.join("; ")}`);
+  // Does this account reject unknown parameters at all? If it silently accepts
+  // one that cannot exist, then applies_to was dropped the same way and the
+  // account is serving an API version that does not carry it.
+  let unknownParameterRejected = null;
+  {
+    const probe = new URLSearchParams();
+    probe.set("percent_off", "100");
+    probe.set("duration", "once");
+    probe.set("rcap_parameter_that_cannot_exist", "1");
+    const response = await fetch("https://api.stripe.com/v1/coupons", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${STRIPE_KEY}`,
+        "Stripe-Version": STRIPE_API_VERSION,
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: probe.toString()
+    });
+    const probeBody = await response.json().catch(() => null);
+    unknownParameterRejected = !response.ok;
+    if (response.ok && probeBody?.id) {
+      await stripe("DELETE", `coupons/${encodeURIComponent(probeBody.id)}`);
+    }
+  }
+  fail(
+    `Stripe would not restrict the acceptance coupon to ${productId}: ${attempts.join("; ")}`
+    + ` | served API version ${lastServedApiVersion ?? "(none reported)"}, requested ${STRIPE_API_VERSION}`
+    + ` | this account rejects unknown parameters: ${unknownParameterRejected}`
+  );
 }
 
 async function ensurePromotionCode(couponId) {
