@@ -1007,6 +1007,22 @@ jobs:
         if: always() && steps.contract.outputs.matrix == 'true'
         run: node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
 
+      # Last lines of the job, deliberately. Reprints placed mid-job keep landing
+      # above the window the log API returns, which is how two runs were spent
+      # re-reading a one-line Stripe refusal.
+      - name: Reprint the sandbox fixture outcome last
+        if: always()
+        run: |
+          if [ -f hosted-acceptance-evidence/stripe-fixtures.json ]; then
+            node -e '
+              const f = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/stripe-fixtures.json", "utf8"));
+              if (f.ok) { console.log(`STRIPE FIXTURES OK — product ${f.productId} price ${f.priceId} coupon ${f.couponId} restricted to [${(f.couponAppliesToProducts ?? []).join(", ")}] code ${f.promotionCode}`); }
+              else { console.log(`STRIPE FIXTURES FAILED — ${f.failure ?? "(no reason recorded)"}`); console.log(`  key present: ${f.keyPresent}; prefix accepted: ${f.keyPrefixAccepted}`); }
+            ' || echo "stripe fixture evidence present but could not be summarised"
+          else
+            echo "no stripe fixture evidence was written"
+          fi
+
       - name: Upload the hosted acceptance evidence
         if: always()
         uses: actions/upload-artifact@v4
