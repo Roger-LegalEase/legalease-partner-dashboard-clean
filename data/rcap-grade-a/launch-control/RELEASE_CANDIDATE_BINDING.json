@@ -66,7 +66,40 @@
     "rollbackDeploymentId": "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP",
     "rollbackIsPaymentCompatible": false,
     "rollbackNote": "Availability rollback target. It does not carry this release's resumed incompatible-Checkout-Session replacement behaviour, because it predates migration 20260917200000 and the application path that calls the replacement writer. That is the narrow limit of the claim: nothing here says it cannot process payments generally.",
-    "result": "APPLICATION ACTIVATED -- Production serves dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51 and activation completed successfully. Production worker deployment, public verification, and the authorized live $0 order remain pending."
+    "result": "APPLICATION ACTIVATED AND PRODUCTION WORKER DEPLOYED -- Production serves dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51, and worker deploy run 35286447453 proved the accepted image running on the production execution target with the queue served. Public verification and the authorized live $0 order remain pending, so the release is NOT YET COMPLETE.",
+    "workerDeployRunId": 35286447453,
+    "workerDeployConclusion": "success",
+    "workerDeploy": {
+      "runId": 35286447453,
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35286447453",
+      "conclusion": "success",
+      "evidenceArtifact": {
+        "id": 10524262663,
+        "name": "rcap-production-worker-35286447453",
+        "zipSha256": "sha256:b77eb3fca12cec42a7607288f8f7e3541f64150e7a4437e97be2e2b7070c2e57"
+      },
+      "machineId": "d8de5e4f759278",
+      "region": "iad",
+      "state": "started",
+      "acceptedRegistryDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
+      "flyMirrorDigest": "sha256:31f902ab3003042126ca950ff9b92c5845daad7b6313976b69ccbfd4d17e18c8",
+      "digestNote": "The Fly mirror digest is NOT the accepted GHCR digest and is not expected to be: re-tagging the same image into registry.fly.io produces a different manifest digest. The running machine is bound to the accepted image through the exact OCI revision 62425c837b5edf3d7e22b110910885abdaec1692, identical to the accepted image's revision and to the frozen worker source, and through RCAP_WORKER_CONTAINER_DIGEST exported as sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855. Both were asserted by the run.",
+      "ociRevision": "62425c837b5edf3d7e22b110910885abdaec1692",
+      "restartPolicy": "always",
+      "memoryMb": 1024,
+      "inboundServices": 0,
+      "queue": {
+        "staleQueued": 0,
+        "queued": 0,
+        "claimed": 0,
+        "terminalFailed": 0,
+        "note": "Read-only aggregate counts from the workflow's existing queue verification."
+      },
+      "productionDatabaseMutated": false,
+      "customerRowsRead": false,
+      "workerExecution": "PASS",
+      "result": "PRODUCTION WORKER EXECUTION PROVEN -- exact image running on the production execution target; queue served."
+    }
   },
   "regressions": {
     "sourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
@@ -80,7 +113,8 @@
     "imageAcceptanceRunId": 35282061289,
     "publishedWorkerDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
     "syntheticPublicationFixture": false,
-    "scope": "Run identities established by this release. Static verifier counts from the prior release are deliberately absent rather than restated."
+    "scope": "Run identities established by this release. Static verifier counts from the prior release are deliberately absent rather than restated.",
+    "productionWorkerDeployRunId": 35286447453
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
@@ -97,6 +131,6 @@
   "independentReviewerIdentities": [],
   "productionAuthorized": true,
   "productionAuthorization": "Roger Roman, 2026-09-17 (chat): complete the Grade A production rollout to expungement.ai, including Illinois, covering in-scope application fixes, test-harness repairs, release configuration, truthful publication and Grade-A evidence updates, reviewed migrations, worker deployment, production activation, public verification and the authorized live $0 order.",
-  "scope": "Freezes the current application and worker tuple, 62425c837 / sha256:a1cb0d96, and the evidence already earned for it: publication 35268909210, image acceptance 35282061289, hosted acceptance 35273348552, and the Production phases through activation. Application activation is COMPLETE. Production worker deployment is PENDING. Public verification is PENDING. The authorized live $0 order is PENDING. This JSON record performs no deployment and no hosted mutation; it records what was proven and is read by the gates that do.",
+  "scope": "Freezes the current application and worker tuple, 62425c837 / sha256:a1cb0d96, and the evidence already earned for it: publication 35268909210, image acceptance 35282061289, hosted acceptance 35273348552, and the Production phases through activation and worker deployment. Application activation is COMPLETE. Production worker deployment is COMPLETE. Public verification is PENDING. The authorized live $0 order is PENDING. The full release is NOT YET COMPLETE. This JSON record performs no deployment and no hosted mutation; it records what was proven and is read by the gates that do.",
   "workerInputFingerprintProvenance": "createWorkerInputPlan().aggregateInputSha256, recomputed deterministically from the committed worker inputs at 62425c837b5edf3d7e22b110910885abdaec1692 (rebuildRequired false, changedPaths empty, 30 canonical inputs). It is NOT emitted by publication artifact 10518291851 -- that artifact records no worker-input fingerprint, which is why data/rcap-render/worker-publication-evidence.json keeps workerInputFingerprint null. Two different quantities from two different sources; neither is copied onto the other."
 }
