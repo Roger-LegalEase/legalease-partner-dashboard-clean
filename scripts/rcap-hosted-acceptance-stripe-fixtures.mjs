@@ -70,6 +70,22 @@ function fail(message) {
   process.exit(1);
 }
 
+/** Like stripe(), but returns the error body instead of stopping the run. */
+async function stripeSoft(method, pathname, form) {
+  const response = await fetch(`https://api.stripe.com/v1/${pathname}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${STRIPE_KEY}`,
+      "Stripe-Version": STRIPE_API_VERSION,
+      ...(form ? { "Content-Type": "application/x-www-form-urlencoded" } : {})
+    },
+    ...(form ? { body: form.toString() } : {})
+  });
+  const body = await response.json().catch(() => null);
+  lastServedApiVersion = response.headers.get("stripe-version") ?? lastServedApiVersion;
+  return { ok: response.ok, status: response.status, body };
+}
+
 async function stripe(method, pathname, form) {
   const url = `https://api.stripe.com/v1/${pathname}`;
   const response = await fetch(url, {
@@ -177,15 +193,22 @@ async function ensureCoupon(productId) {
     form.set(`metadata[${FIXTURE_KEY}]`, FIXTURE_VALUE);
     const made = await stripe("POST", "coupons", form);
     const readBack = await stripe("GET", `coupons/${encodeURIComponent(made.id)}`);
-    const products = readBack.applies_to?.products ?? [];
-    if (products.length === 1 && products[0] === productId) return { coupon: readBack, created: true };
+    // Expanded as well. `applies_to` may simply not be serialised on the plain
+    // representation, in which case a plain read reports null for a restriction
+    // that is actually held -- which is not the same thing as it not existing,
+    // and is not something to conclude without asking.
+    const expanded = await stripeSoft("GET", `coupons/${encodeURIComponent(made.id)}?expand[]=applies_to`);
+    const products = readBack.applies_to?.products
+      ?? (expanded.ok ? expanded.body?.applies_to?.products : null)
+      ?? [];
+    if (products.length === 1 && products[0] === productId) {
+      return { coupon: expanded.ok && expanded.body?.applies_to ? expanded.body : readBack, created: true };
+    }
     attempts.push(
-      `${key} -> create returned ${JSON.stringify({
-        id: made.id,
-        percent_off: made.percent_off,
-        applies_to: made.applies_to ?? null,
-        livemode: made.livemode
-      })}, read-back applies_to=${JSON.stringify(readBack.applies_to ?? null)}`
+      `${key} -> create ${JSON.stringify({ id: made.id, percent_off: made.percent_off, applies_to: made.applies_to ?? null, livemode: made.livemode })}`
+      + `; plain read keys=${JSON.stringify(Object.keys(readBack).sort())} applies_to=${JSON.stringify(readBack.applies_to ?? null)}`
+      + `; expanded read ok=${expanded.ok} status=${expanded.status} applies_to=${JSON.stringify(expanded.body?.applies_to ?? null)}`
+      + `${expanded.ok ? "" : ` error=${JSON.stringify(expanded.body?.error?.message ?? null)}`}`
     );
     // An unrestricted coupon is not left behind to be found by a later run.
     await stripe("DELETE", `coupons/${encodeURIComponent(made.id)}`);
