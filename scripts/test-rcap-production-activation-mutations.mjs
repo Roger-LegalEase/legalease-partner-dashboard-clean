@@ -15,7 +15,7 @@ const files = [
 const mutations = [
   ["staged deployment", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU", "dpl_wrongstaged"],
   ["rollback deployment", "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG", "dpl_wrongrollback"],
-  ["smoke run", "35142492175", "32900000000"],
+  ["smoke run", "35210618269", "32900000000"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
   ["application SHA", "0fee79bd127eb3dc072c2a35945177fa7e7b6683", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
   ["worker digest", "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],

@@ -28,9 +28,12 @@ const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // site and reporting that the new release was sound.
 const STAGED_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
 // The recovery target is the deployment that is live now: dpl_3HHSPupp, the
-// release this one replaces. Its save and claim path works against the migrated
-// database, and 20260917090000 only widens what a paid row may say, so rolling
-// back to it stays valid after this release's migration.
+// release this one replaces. It restores availability, not payment settlement:
+// 20260917090000 retires the legacy record_consumer_packet_payment signatures
+// that 3e3a528b5 calls, replacing them with invalid_payment_evidence refusals,
+// so that application can no longer settle an order. See the fuller note in
+// rcap-production-activate.mjs, which is the control that can actually move
+// Production onto it.
 const ROLLBACK_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
