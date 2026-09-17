@@ -1,7 +1,7 @@
 import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
 import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 
-export const FROZEN_APPLICATION_SHA = 'c88f10341fec848b3f6f4dec9fc3381e6eea0530';
+export const FROZEN_APPLICATION_SHA = 'ce840cc67e2eb5890e4f1e90d3cccd5bc87ee231';
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
 const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 

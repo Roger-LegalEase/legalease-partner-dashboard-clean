@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const APPLICATION_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
+const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
 const LEDGER_BASELINE_LAST_VERSION = "20260823171000";
 const RECOVERED_REMOTE_BASELINE_VERSION = "20260728213131";
 const UNLEDGERED_PREFILL_VERSION = "20260822180000";

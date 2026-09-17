@@ -115,8 +115,8 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: c88f10341fec848b3f6f4dec9fc3381e6eea0530
-  AUTHORIZED_WORKER_DIGEST: sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06
+  AUTHORIZED_WORKER_SOURCE_SHA: ce840cc67e2eb5890e4f1e90d3cccd5bc87ee231
+  AUTHORIZED_WORKER_DIGEST: sha256:f9b4ee7537dad6c92eea83f316e2ad742fe17b91d64005ea49be2501650c9405
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
@@ -734,6 +734,9 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          # The Preview sells this catalog Product, so the gate identifies the
+          # packet by Product id rather than by the ad-hoc name it no longer has.
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.stripe_fixtures.outputs.product_id }}
         run: node scripts/rcap-hosted-checkout-gate.mjs
 
       - name: Run the hosted golden-journey matrix
@@ -982,6 +985,28 @@ jobs:
               const cases = e.cases ?? {};
               const failed = e.failedCases ?? [];
               const missing = e.missingCases ?? [];
+              if (!failed.length && !missing.length) { console.log("PAYMENT — every required case earned a passing verdict"); }
+              else {
+                console.log(`PAYMENT — ${failed.length} failing, ${missing.length} unrecorded of ${(e.requiredCases ?? []).length} required`);
+                for (const id of failed) console.log(`PAYMENT FAILED — ${id} — ${String(cases[id]?.observed ?? "(no observation)")}`);
+                for (const id of missing) console.log(`PAYMENT NO VERDICT — ${id}`);
+              }
+            ' || echo "payment evidence present but could not be summarised"
+          fi
+          if [ -f hosted-acceptance-evidence/stripe-fixtures.json ]; then
+            node -e '
+              const f = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/stripe-fixtures.json", "utf8"));
+              if (f.ok) { console.log(`stripe fixtures: product ${f.productId} price ${f.priceId} coupon ${f.couponId} restricted to [${(f.couponAppliesToProducts ?? []).join(", ")}]`); process.exit(0); }
+              console.log(`stripe fixtures: FAILED — ${f.failure ?? "(no reason recorded)"}`);
+              console.log(`  sandbox key present: ${f.keyPresent}; prefix accepted: ${f.keyPrefixAccepted}`);
+            ' || echo "stripe fixture evidence present but could not be summarised"
+          fi
+          if [ -f hosted-acceptance-evidence/payment.json ]; then
+            node -e '
+              const e = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/payment.json", "utf8"));
+              const cases = e.cases ?? {};
+              const failed = e.failedCases ?? [];
+              const missing = e.missingCases ?? [];
               if (!failed.length && !missing.length) { console.log("payment evidence: every required case earned a passing verdict"); process.exit(0); }
               console.log(`payment evidence: ${failed.length} failing and ${missing.length} unrecorded of ${(e.requiredCases ?? []).length} required case(s)`);
               for (const id of failed) console.log(`  FAIL ${id} — ${String(cases[id]?.observed ?? "(no observation recorded)")}`);
@@ -998,6 +1023,47 @@ jobs:
       - name: The emitted evidence earns the verdict it reports
         if: always() && steps.contract.outputs.matrix == 'true'
         run: node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
+
+      # Last lines of the job, deliberately. Reprints placed mid-job keep landing
+      # above the window the log API returns, which is how two runs were spent
+      # re-reading a one-line Stripe refusal.
+      - name: Reprint the sandbox fixture outcome last
+        if: always()
+        run: |
+          if [ -f hosted-acceptance-evidence/preview-resolution.json ]; then
+            node -e '
+              const r = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/preview-resolution.json", "utf8"));
+              console.log(`PREVIEW RESOLVED — ${r.outcome} deployment=${r.deploymentId ?? "(none)"} hostname=${r.hostname ?? "(none)"}`);
+            ' || echo "preview resolution evidence present but could not be summarised"
+          fi
+          if [ -f hosted-acceptance-evidence/checkout-gate.json ]; then
+            node -e '
+              const g = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/checkout-gate.json", "utf8"));
+              const failed = Object.entries(g.cases ?? {}).filter(([, c]) => !c.passed);
+              for (const [id, c] of failed) console.log(`CHECKOUT GATE FAILED — ${id} — ${c.observed}`);
+              // A gate can also die outside record(), and then every recorded
+              // case reads as passing while the step still failed. The outcome
+              // and the thrown message are the only account of that.
+              if (g.failure || g.outcome) {
+                console.log(`CHECKOUT GATE OUTCOME — ${g.outcome ?? "(none)"} passed=${g.passed}`);
+                if (g.failure) console.log(`CHECKOUT GATE THREW — case=${g.failure.caseId ?? "(outside any case)"} — ${g.failure.message}`);
+              } else if (!failed.length) {
+                console.log("CHECKOUT GATE — every case passed and no failure recorded");
+              }
+            ' || echo "checkout gate evidence present but could not be summarised"
+          fi
+          if [ -f hosted-acceptance-evidence/stripe-fixtures.json ]; then
+            node -e '
+              const f = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/stripe-fixtures.json", "utf8"));
+              if (f.ok) {
+                console.log(`STRIPE FIXTURES OK — product ${f.productId} price ${f.priceId} coupon ${f.couponId} code ${f.promotionCode}`);
+                console.log(`  coupon product-restricted: ${f.couponRestrictedToProduct} ${f.couponRestrictedToProduct ? `to [${(f.couponAppliesToProducts ?? []).join(", ")}]` : "(this sandbox account does not persist applies_to)"}`);
+              }
+              else { console.log(`STRIPE FIXTURES FAILED — ${f.failure ?? "(no reason recorded)"}`); console.log(`  key present: ${f.keyPresent}; prefix accepted: ${f.keyPrefixAccepted}`); }
+            ' || echo "stripe fixture evidence present but could not be summarised"
+          else
+            echo "no stripe fixture evidence was written"
+          fi
 
       - name: Upload the hosted acceptance evidence
         if: always()

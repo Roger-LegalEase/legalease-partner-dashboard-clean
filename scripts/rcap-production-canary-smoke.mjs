@@ -15,26 +15,28 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
+const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
 const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
 const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-// Both identities moved on by one release and both were stale, in the way that
-// matters most: dpl_3HHSPupp, named here as the staged candidate, is the
-// deployment Production serves right now. Preflight 35209211594 read that back
-// from Vercel -- staged dpl_DjAscmNucgJHauNsTtpbzGp9zfpU, rollback (current
-// Production) dpl_3HHSPupp. Smoke run 35209693969 refused on
-// exact_staged_application_worker_identity rather than smoke-testing the live
-// site and reporting that the new release was sound.
-const STAGED_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
-// The recovery target is the deployment that is live now: dpl_3HHSPupp, the
-// release this one replaces. It restores availability, not payment settlement:
-// 20260917090000 retires the legacy record_consumer_packet_payment signatures
-// that 3e3a528b5 calls, replacing them with invalid_payment_evidence refusals,
-// so that application can no longer settle an order. See the fuller note in
-// rcap-production-activate.mjs, which is the control that can actually move
-// Production onto it.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG";
+// Read back from Vercel by preflight 35247428602, which staged the candidate
+// and recorded the live deployment before touching anything: staged
+// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP, rollback (current Production)
+// dpl_DjAscmNucgJHauNsTtpbzGp9zfpU.
+//
+// The previous release's pins had these two the wrong way round -- they named
+// the then-live deployment as the staged candidate, so activation would have
+// promoted what was already serving and shipped nothing. Smoke run 35209693969
+// refused on exact_staged_application_worker_identity rather than smoke-testing
+// the live site and calling the new release sound. Both move together here for
+// that reason.
+const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
+// The recovery target is the deployment live now: dpl_DjAscm, running
+// application 0fee79bd1. Unlike the 3e3a528b5 rollback this replaces, it is
+// payment-compatible: it post-dates 20260917090000, so it calls the current
+// record_consumer_packet_payment signature rather than the retired one, and it
+// can settle an order as well as serve the site.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
   "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",

@@ -13,11 +13,11 @@ const files = [
   "scripts/verify-rcap-production-activation.mjs"
 ];
 const mutations = [
-  ["staged deployment", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU", "dpl_wrongstaged"],
-  ["rollback deployment", "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG", "dpl_wrongrollback"],
-  ["smoke run", "35210618269", "32900000000"],
+  ["staged deployment", "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP", "dpl_wrongstaged"],
+  ["rollback deployment", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU", "dpl_wrongrollback"],
+  ["smoke run", "35248212982", "32900000000"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
-  ["application SHA", "c88f10341fec848b3f6f4dec9fc3381e6eea0530", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
+  ["application SHA", "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
   ["worker digest", "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
   ["smoke proof", "successful_smoke_artifact_is_exact", "smoke_proof_removed"],
   ["rollback active", "rollback_is_ready_and_active_before_promotion", "rollback_active_removed"],

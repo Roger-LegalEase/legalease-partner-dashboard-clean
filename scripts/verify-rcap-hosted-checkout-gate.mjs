@@ -42,9 +42,9 @@ function includesEvery(text, values, label) {
 // image. The two are image-input-equivalent — nothing between them touches a
 // canonical worker input — which is what lets one application pin a digest
 // built from an earlier tree without the digest becoming a fiction.
-const RELEASE_CONTROL_BASE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
-const ACCEPTED_WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
-const ACCEPTED_WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+const RELEASE_CONTROL_BASE_SHA = "ce840cc67e2eb5890e4f1e90d3cccd5bc87ee231";
+const ACCEPTED_WORKER_SOURCE_SHA = "ce840cc67e2eb5890e4f1e90d3cccd5bc87ee231";
+const ACCEPTED_WORKER_DIGEST = "sha256:f9b4ee7537dad6c92eea83f316e2ad742fe17b91d64005ea49be2501650c9405";
 
 includesEvery(gate, [
   "applicationShaExact",

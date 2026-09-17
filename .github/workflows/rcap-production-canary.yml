@@ -39,8 +39,8 @@ permissions:
   actions: read
 
 env:
-  APPLICATION_SHA: c88f10341fec848b3f6f4dec9fc3381e6eea0530
-  ACCEPTED_TOOLS_SHA: fde5d97859270409b06650fdaff5da25f4b9c33e
+  APPLICATION_SHA: 4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb
+  ACCEPTED_TOOLS_SHA: 43cbb6e661e30135ba65b4d2e2ca3810028a9880
   WORKER_SOURCE_SHA: c88f10341fec848b3f6f4dec9fc3381e6eea0530
   WORKER_DIGEST: sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
@@ -231,10 +231,10 @@ jobs:
         if: inputs.phase == 'activate'
         uses: actions/download-artifact@v4
         with:
-          name: rcap-production-smoke-35210618269
+          name: rcap-production-smoke-35248212982
           path: prior-production-smoke-evidence
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 35210618269
+          run-id: 35248212982
 
       - name: Activate the exact staged Production deployment with rollback protection
         if: inputs.phase == 'activate'
