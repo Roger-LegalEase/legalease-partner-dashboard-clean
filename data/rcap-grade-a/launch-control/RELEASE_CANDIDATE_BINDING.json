@@ -1,71 +1,104 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
-  "status": "FROZEN_FOR_HOSTED_ACCEPTANCE",
-  "applicationSha": "436520e4a99f0b8a290ace32f1d717b951630319",
-  "workerSourceSha": "436520e4a99f0b8a290ace32f1d717b951630319",
-  "workerDigest": "sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257",
-  "workerInputFingerprint": "sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683",
+  "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE_AND_PRODUCTION_RELEASE",
+  "applicationSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
+  "workerSourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
+  "workerDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+  "workerInputFingerprint": "sha256:ac100b0b7c22bf5b9e43c340c103ac4ebd3867a6664e585d00355655708ee101",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "publication": {
-    "runId": 35112372576,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35112372576",
+    "runId": 35171737222,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35171737222",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 35113443240,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35113443240",
+    "runId": 35176174783,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35176174783",
     "conclusion": "success"
   },
+  "hostedAcceptanceStatus": "PASSED_ON_THIS_CANDIDATE",
+  "hostedAcceptance": {
+    "preview": "dpl_4VJ9SwLKsdiCSAy5T85tcab48698 (legalease-rcap-0fee79bd127e-roger947s-projects.vercel.app)",
+    "note": "Every journey below drove Stripe's own hosted Checkout page in a browser against this Preview and this worker digest, and read the session back from Stripe rather than asserting it.",
+    "journeys": [
+      {
+        "runId": 35178342916,
+        "order": "Mississippi, no promotion code, 5000 cents",
+        "result": "PASS \u2014 real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
+      },
+      {
+        "runId": 35179247131,
+        "order": "Mississippi, ACCEPT40PCT",
+        "result": "PASS"
+      },
+      {
+        "runId": 35180723873,
+        "order": "Illinois, no promotion code",
+        "result": "PASS \u2014 the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
+      },
+      {
+        "runId": 35205114308,
+        "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
+        "result": "PASS \u2014 Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
+      }
+    ]
+  },
+  "productionRelease": {
+    "forwardChainReadbackRunId": 35207467289,
+    "forwardChainMigrateRunId": 35208823396,
+    "preflightRunId": 35209211594,
+    "smokeRunId": 35210618269,
+    "activateRunId": 35211405164,
+    "stagedDeploymentId": "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU",
+    "rollbackDeploymentId": "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG",
+    "rollbackIsPaymentCompatible": false,
+    "rollbackNote": "Availability rollback only. 20260917090000 retires the legacy record_consumer_packet_payment signatures that the rollback application calls, so it cannot settle a payment after the migration. Recovery from a failed activation is forward.",
+    "migrationsApplied": [
+      "20260917090000"
+    ],
+    "result": "PRODUCTION RELEASE COMPLETE \u2014 all 7 Production domains resolve to the staged deployment, promoted without rebuild, health 200"
+  },
   "regressions": {
-    "sourceSha": "436520e4a99f0b8a290ace32f1d717b951630319",
-    "note": "436520e4 = 61a2f018 + Legal Aid Clinic Mode (MVLP): schema, service layer, routes, pages, co-branded MVLP page, interim-coordinator internal setup page, administrator handoff control, and the clinic-sponsored packet binding. Checks run on this tree in this session.",
-    "legalAidE2E": "node scripts/legal-aid/verify-legal-aid-e2e.mjs PASS 79/79 on the production build against the local Supabase shim (registration, confidential intake, protected field, signatures, staff review, sponsored packet attached as unsigned copy, notary, export, internal-administrator setup)",
-    "legalAidSchema": "node scripts/legal-aid/verify-legal-aid-schema.mjs PASS (isolated PGlite; sponsored packet of another applicant refused)",
-    "legalAidMigrationControls": "verify-rcap-hosted-legal-aid-migrate 30/30, verify-rcap-production-legal-aid-migrate 27/27, both mutation proofs 12/12, PGlite readback self-test",
-    "firstAdminProvisioning": "node scripts/verify-first-admin-provisioning.mjs PASS incl. handoff decision",
-    "typecheck": "tsc --noEmit clean at 436520e4",
-    "build": "next build clean at 436520e4",
+    "sourceSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
+    "note": "Run in this session against the candidate source. The worker is reused from 35d33755, an ancestor of the application; nothing between them touches a canonical worker input, so the published digest stays valid for this application.",
+    "composedRouteSelector": "node scripts/test-ms-authoritative-track.mjs 17/17 \u2014 the Illinois row opens only on a felony conviction and the client track stays forbidden",
+    "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95 checks including frozen inputs unchanged",
+    "acceptanceVerdictContract": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs \u2014 the matrix cannot report a verdict it has not earned",
+    "productionCanary": "node scripts/verify-rcap-production-canary.mjs 41/41; mutations 19/19",
+    "productionSmoke": "node scripts/verify-rcap-production-smoke.mjs 30/30; mutations 15/15",
+    "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
+    "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
     "syntheticPublicationFixture": false,
-    "publishedWorkerDigest": "sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257",
-    "publicationRunId": 35112372576,
-    "imageAcceptanceRunId": 35113443240,
-    "scope": "Real published authority binding; isolated local PostgreSQL and provider signatures. No hosted database writes."
-  },
-  "applicationBuild": {
-    "sourceSha": "436520e4a99f0b8a290ace32f1d717b951630319",
-    "note": "Local next build of 436520e4 succeeded in this session; the hosted Preview build is the deployable build.",
-    "command": "next build",
-    "exitCode": 0
-  },
-  "screeningVerification": {
-    "method": "Playwright Chromium, fresh browser context, no injected answers, local `next start` of the candidate source (34dc5b9e, src identical to cc4d8275 outside the Colorado state pack)",
-    "journey": "Mississippi → own record → state or local → case dropped or thrown out → misdemeanor → non-conviction expungement for dismissal, no disposition, or acquittal → court-ordered completion (optional) → resolved 1-2 years ago",
-    "observed": "7 questions; no DUI-sentence or underage-alcohol prompt; result 'A path may be available' naming the Mississippi non-conviction expungement path with Save-to-Briefcase before any payment",
-    "carriedForward": "the Colorado restoration touches no screening, evaluator or Mississippi module; the public-domain repeat after activation re-proves it on the served deployment",
-    "evidence": "private/transfers/cloud-recovery-20260915/deploy/step-00.png … step-07.png"
+    "publishedWorkerDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+    "publicationRunId": 35171737222,
+    "imageAcceptanceRunId": 35176174783,
+    "scope": "Real published authority binding. The hosted journeys above are the runtime evidence; these checks are the static contracts."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
-    "sha256": "0a53283873f7b5072cf68c307e7235263a338e35ca77bd39b3e52f3248eaade5"
+    "sha256": "d05ad26d0316064a3fe2f7c3b1925336f449283f7e43e1ace6517e6563381a97"
   },
-  "workerInputPlan": {
-    "path": null,
-    "sha256": null,
-    "note": "createWorkerInputPlan at 436520e4: rebuildRequired=false, aggregateInputSha256 sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683"
-  },
-  "supersedes": {
-    "applicationSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
-    "workerSourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
-    "workerDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
-    "why": "61a2f018 / da432bd1 (sha256:477afe68) is the Grade A release live on expungement.ai and the application and worker rollback targets. The MVLP Legal Aid Clinic Mode build (7dc8df23 … 436520e4) changes application and worker inputs, so the successor worker sha256:98e3e820 was published (run 35112372576); hosted acceptance and image acceptance re-prove this candidate before any Production step.",
-    "hostedAcceptanceOfSupersededCandidate": "run 35057385695 (browser PASSED) and the Grade A production release evidence"
-  },
+  "supersedes": [
+    {
+      "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
+      "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
+      "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+      "why": "That binding froze cc4d8275 with worker c177eef1 / sha256:57bb99a8 and was never re-bound as the worker moved on. Production worker deploy run 35212154510 refused on exactly that: the publication evidence named 35d33755 / sha256:d7e0d4a6, published and accepted, while this record still named the older pair. The refusal was correct and this record is the repair.",
+      "hostedAcceptanceStatusThen": "NOT_RUN_ON_THIS_CANDIDATE"
+    },
+    {
+      "applicationSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+      "workerSourceSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+      "workerDigest": "sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257",
+      "hostedAcceptanceStatusThen": "NOT_RUN_ON_THIS_CANDIDATE",
+      "why": "The integration branch carried this binding for the previous release. It is superseded rather than merged: its application is not what Production serves now, and its worker is not the published and accepted image this release deploys."
+    }
+  ],
   "participantReceiptPaths": [],
   "independentReviewerIdentities": [],
-  "hostedAcceptanceStatus": "NOT_RUN_ON_THIS_CANDIDATE",
   "productionAuthorized": true,
-  "productionAuthorization": "Roger Roman, 2026-09-16 (chat): AUTHORIZED: COMPLETE THE MVLP ROLLOUT, WITH HOSTED VERIFICATION BEFORE PRODUCTION. Production only after the hosted acceptance conditions pass; apply only the accepted additive Legal Aid migration through the protected process; release the app and matching worker through the existing process with rollback; dropping legal_aid tables or columns is not authorized; real MVLP registration stays closed.",
-  "scope": "Exact candidate freeze with published-worker evidence; image acceptance, hosted Legal Aid acceptance and the Production phases record their own evidence. This record authorizes no runtime-pin change, hosted database write or migration by itself."
+  "productionAuthorization": "Roger Roman, 2026-09-17 (chat): complete the Grade A production rollout to expungement.ai, including Illinois, covering in-scope application fixes, test-harness repairs, release configuration, truthful publication and Grade-A evidence updates, reviewed migrations, worker deployment, production activation, public verification and the authorized live $0 order.",
+  "scope": "Exact candidate freeze with published-worker and image-acceptance evidence, the four hosted journeys that passed on it, and the production phases it was released through. This record authorizes no runtime-pin change, hosted database write or migration by itself."
 }
