@@ -42,11 +42,20 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { chromium, webkit } from "playwright";
+// Stripe's own page controls are known in one place. The live order drives the
+// same "Add promotion code" entry the sandbox journeys drive, rather than
+// keeping a second description of Stripe's markup here.
+import { applyPromotionCode } from "./rcap-stripe-checkout-browser.mjs";
 
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const PROBE_ACCOUNT_EMAIL = "rcap-production-probe@rcap-acceptance.test";
 const PHASE_REPRODUCE = "save_transition_reproduce";
 const PHASE_VERIFY = "save_transition_verify";
+// The authorized live order. It runs the verify journey unchanged and then
+// takes the one action that journey deliberately stops short of, with a
+// promotion code that must clear the total to zero. The code is never committed:
+// it arrives as an input and is redacted out of every artifact.
+const PHASE_LIVE_ORDER = "live_zero_dollar_order";
 const SUPPORTED_BROWSERS = Object.freeze(["chromium", "webkit"]);
 
 const SCREENING_PATH = "/expungement-ai/screening/ms";
@@ -85,6 +94,7 @@ const SUPABASE_URL = safeOrigin(
   "RCAP_PRODUCTION_SUPABASE_URL"
 );
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
+const LIVE_PROMOTION_CODE = (process.env.RCAP_LIVE_PROMOTION_CODE ?? "").trim();
 const CHROMIUM_EXECUTABLE = process.env.RCAP_BROWSER_CHROMIUM?.trim() || "";
 const BROWSERS = (process.env.RCAP_PROBE_BROWSERS ?? "chromium,webkit")
   .split(",").map((entry) => entry.trim().toLowerCase()).filter(Boolean);
@@ -93,8 +103,11 @@ const EVIDENCE_FILE = path.join(EVIDENCE_DIR, `production-save-transition-${PHAS
 const SHOTS_DIR = path.join(EVIDENCE_DIR, "save-transition-screenshots", PHASE);
 
 // --- input contract -----------------------------------------------------------
-if (PHASE !== PHASE_REPRODUCE && PHASE !== PHASE_VERIFY) {
-  fail(`RCAP_PRODUCTION_PHASE must be ${PHASE_REPRODUCE} or ${PHASE_VERIFY}.`);
+if (PHASE !== PHASE_REPRODUCE && PHASE !== PHASE_VERIFY && PHASE !== PHASE_LIVE_ORDER) {
+  fail(`RCAP_PRODUCTION_PHASE must be ${PHASE_REPRODUCE}, ${PHASE_VERIFY} or ${PHASE_LIVE_ORDER}.`);
+}
+if (PHASE === PHASE_LIVE_ORDER && !LIVE_PROMOTION_CODE) {
+  fail(`${PHASE_LIVE_ORDER} requires RCAP_LIVE_PROMOTION_CODE. Without a code that clears the total, this phase would place a paid order, which it is not authorized to do.`);
 }
 if (!BROWSERS.includes("chromium") || BROWSERS.some((entry) => !SUPPORTED_BROWSERS.includes(entry))) {
   fail(`RCAP_PROBE_BROWSERS must name chromium and may add webkit; got ${JSON.stringify(BROWSERS)}.`);
@@ -116,6 +129,9 @@ fs.mkdirSync(SHOTS_DIR, { recursive: true });
 // Every value that must never leave memory is registered here so any string
 // that reaches the log or the evidence file is scrubbed first.
 const secrets = new Set();
+// A live 100%-off promotion code is a bearer instrument: anyone holding it can
+// take a packet for nothing. It is masked in evidence exactly like a key.
+if (LIVE_PROMOTION_CODE) secrets.add(LIVE_PROMOTION_CODE);
 if (SUPABASE_ACCESS_TOKEN) secrets.add(SUPABASE_ACCESS_TOKEN);
 const verdicts = [];
 const evidence = {
@@ -645,6 +661,166 @@ async function completePacketInformationAndVerify(page, section, matterId) {
   return journey;
 }
 
+/**
+ * The authorized live order, taken only when the promotion code clears the
+ * total to zero.
+ *
+ * The verify journey stops one click short of Checkout on purpose. This takes
+ * that click, and then refuses to submit anything Stripe still wants money for:
+ * the zero total is read off Stripe's own page after the code is applied, and a
+ * page that shows any amount due ends the phase without submitting. No card is
+ * entered here at all, because a zero-total order collects none.
+ */
+async function placeLiveZeroDollarOrder(page, section, matterId) {
+  const order = {
+    matterId,
+    checkoutOpened: false,
+    reachedStripe: false,
+    promotionEntered: false,
+    promotionAccepted: false,
+    totalReadsZero: null,
+    submitted: false,
+    returnedToApplication: false,
+    settlement: null,
+    artifact: null
+  };
+
+  const checkout = page.getByRole("button", { name: CONSUMER_CHECKOUT_LABEL, exact: true });
+  await checkout.click({ timeout: 20_000 });
+  order.checkoutOpened = true;
+  await page.waitForURL(/checkout\.stripe\.com/, { timeout: 60_000 }).catch(() => null);
+  order.reachedStripe = /checkout\.stripe\.com/.test(page.url());
+  await screenshot(page, section, "08-stripe-checkout");
+  record(
+    "live_checkout_opened_on_stripe",
+    order.reachedStripe,
+    `the verified matter's next action reached ${order.reachedStripe ? "Stripe's hosted Checkout page" : `an unexpected destination: ${safePathname(page.url())}`}`
+  );
+
+  const notes = [];
+  const promotion = await applyPromotionCode(page, LIVE_PROMOTION_CODE, notes);
+  order.promotionEntered = promotion.entered;
+  order.promotionAccepted = promotion.accepted;
+  await screenshot(page, section, "09-promotion-applied");
+
+  // Stripe decides, not this probe. The total is read from the page it renders
+  // after the code was applied.
+  await page.waitForTimeout(2000);
+  const body = await page.locator("body").innerText().catch(() => "");
+  order.totalReadsZero = /\$0\.00/.test(body) && !/\$50\.00\s*$/.test(body.trim());
+  record(
+    "stripe_shows_a_zero_total_before_anything_is_submitted",
+    order.promotionEntered && order.promotionAccepted && order.totalReadsZero === true,
+    `promotion code entered=${order.promotionEntered}, accepted by the page=${order.promotionAccepted};`
+      + ` Stripe's own page ${order.totalReadsZero ? "shows a $0.00 total, so it is collecting nothing" : "still shows an amount due"}.`
+      + ` Nothing is submitted unless this reads zero, and no card details are entered at any point.`
+  );
+
+  // Stripe collects an email on most configurations and will not submit without
+  // one, including on a zero-total order.
+  const emailField = page.locator('input[name="email"], input[type="email"]').first();
+  if (await emailField.isVisible().catch(() => false)) {
+    await emailField.fill(PROBE_ACCOUNT_EMAIL, { timeout: 15_000 }).catch(() => {});
+  }
+
+  const submit = page.locator(
+    'button[data-testid="hosted-payment-submit-button"], button:has-text("Pay"), button:has-text("Place order"), button:has-text("Complete order"), button[type="submit"]'
+  ).first();
+  await submit.waitFor({ state: "visible", timeout: 20_000 });
+  await submit.click({ timeout: 20_000 });
+  order.submitted = true;
+  await page.waitForURL((url) => !/checkout\.stripe\.com/.test(String(url)), { timeout: 120_000 }).catch(() => null);
+  order.returnedToApplication = !/checkout\.stripe\.com/.test(page.url());
+  await screenshot(page, section, "10-returned-from-stripe");
+  record(
+    "the_zero_total_order_completed_and_returned_to_the_application",
+    order.submitted && order.returnedToApplication,
+    `submitted the zero-total order and Stripe returned the browser to ${safePathname(page.url())}`
+  );
+
+  // Settlement is read from the server's own row, not from the page. The
+  // reconciliation columns are the point: a fully discounted order must record
+  // the regular price and the discount, and collect nothing.
+  const settled = await managementApi(`/v1/projects/${PRODUCTION_PROJECT_REF}/database/query`, {
+    method: "POST",
+    body: {
+      query: `select payment_status, amount_cents, regular_price_cents, discount_cents, currency, packet_status,
+                     (provider_event_id is not null) as has_provider_event
+                from public.consumer_briefcase_items where id = '${matterId.replaceAll("'", "''")}' limit 1`
+    }
+  });
+  const row = Array.isArray(settled.json) ? settled.json[0] ?? null : null;
+  order.settlement = row;
+  record(
+    "production_recorded_the_discounted_order_as_paid_and_collected_nothing",
+    row?.payment_status === "paid" && Number(row?.amount_cents) === 0
+      && Number(row?.regular_price_cents) === 5000 && Number(row?.discount_cents) === 5000
+      && row?.has_provider_event === true,
+    `the order row reads payment_status=${row?.payment_status}, amount_cents=${row?.amount_cents},`
+      + ` regular_price_cents=${row?.regular_price_cents}, discount_cents=${row?.discount_cents},`
+      + ` currency=${String(row?.currency ?? "").toUpperCase()}, provider event recorded=${row?.has_provider_event}.`
+      + ` The reconciliation the migration added is what makes this row legal: 0 collected = 5000 regular - 5000 discount.`
+  );
+
+  // Production generation. The worker is a separate process on its own queue,
+  // so this waits for it rather than assuming it, and reports the terminal
+  // state it actually observed.
+  const deadline = Date.now() + 600_000;
+  let packetStatus = row?.packet_status ?? null;
+  let jobState = null;
+  while (Date.now() < deadline) {
+    const poll = await managementApi(`/v1/projects/${PRODUCTION_PROJECT_REF}/database/query`, {
+      method: "POST",
+      body: {
+        query: `select i.packet_status,
+                       (select j.status from public.packet_render_jobs j
+                         where j.briefcase_item_id = i.id order by j.created_at desc limit 1) as job_status
+                  from public.consumer_briefcase_items i where i.id = '${matterId.replaceAll("'", "''")}' limit 1`
+      }
+    });
+    const current = Array.isArray(poll.json) ? poll.json[0] ?? null : null;
+    packetStatus = current?.packet_status ?? packetStatus;
+    jobState = current?.job_status ?? jobState;
+    if (packetStatus === "ready" || jobState === "succeeded") break;
+    if (jobState === "failed" || jobState === "expired") break;
+    await page.waitForTimeout(10_000);
+  }
+  order.packetStatus = packetStatus;
+  order.jobState = jobState;
+  record(
+    "the_production_worker_generated_the_packet_for_this_order",
+    packetStatus === "ready" || jobState === "succeeded",
+    `production render reached packet_status=${packetStatus}, render job=${jobState}`
+  );
+
+  // The owner downloads it, through the route that actually serves it, in the
+  // same signed-in browser session that placed the order.
+  const download = await page.request.get(`${ORIGIN}/api/expungement-ai/packet/artifacts/${matterId}`, { timeout: 120_000 });
+  const contentType = download.headers()["content-type"] ?? "";
+  const bytes = Buffer.from(await download.body().catch(() => Buffer.alloc(0)));
+  const isPdf = bytes.subarray(0, 5).toString("latin1") === "%PDF-";
+  // A page count read from the document itself, not from a claim about it.
+  const pageCount = (bytes.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
+  const artifactPath = path.join(EVIDENCE_DIR, `live-order-packet-${matterId}.pdf`);
+  if (bytes.length > 0) fs.writeFileSync(artifactPath, bytes);
+  order.artifact = {
+    httpStatus: download.status(),
+    contentType,
+    byteLength: bytes.length,
+    isPdf,
+    pageCount,
+    sha256: bytes.length ? crypto.createHash("sha256").update(bytes).digest("hex") : null,
+    savedTo: bytes.length ? artifactPath : null
+  };
+  record(
+    "the_owner_downloaded_the_generated_pdf_and_it_is_a_real_document",
+    download.status() === 200 && /application\/pdf/i.test(contentType) && isPdf && bytes.length > 1000 && pageCount > 0,
+    `HTTP ${download.status()} ${contentType}; ${bytes.length} bytes; starts with %PDF-: ${isPdf}; ${pageCount} page object(s);`
+      + ` sha256 ${order.artifact.sha256 ?? "(empty)"}`
+  );
+  return order;
+}
+
 // --- verify phase ---------------------------------------------------------------
 async function switchToSignIn(page, section) {
   const toggle = page.getByRole("button", { name: /Already have an account\? Sign in/i });
@@ -981,12 +1157,24 @@ async function verifyPhase() {
         + ` the review page rendered the verification panel (${journey.panelStateBeforeVerify} before, ${journey.panelStateAfterVerify} after)`
         + ` and Final verification returned HTTP ${journey.verifyStatus}`
     );
-    record(
-      "verified_matter_offers_the_next_legitimate_action_and_nothing_was_charged",
-      journey.nextActionPresent && journey.nextActionTaken === false && !section.externalRequestHosts.some((host) => /stripe/i.test(host)),
-      `next action "${journey.nextActionLabel ?? "none"}" present=${journey.nextActionPresent}, taken=${journey.nextActionTaken};`
-        + ` external hosts contacted: ${section.externalRequestHosts.length === 0 ? "none" : section.externalRequestHosts.join(", ")}`
-    );
+    if (PHASE === PHASE_LIVE_ORDER) {
+      // The authorized live order continues from exactly here, in this same
+      // signed-in session, on the matter this journey just verified.
+      record(
+        "verified_matter_offers_the_next_legitimate_action",
+        journey.nextActionPresent,
+        `next action "${journey.nextActionLabel ?? "none"}" is present and is about to be taken under the owner's authorization`
+      );
+      section.liveOrder = await placeLiveZeroDollarOrder(page, section, secondMatterId);
+      evidence.liveOrder = section.liveOrder;
+    } else {
+      record(
+        "verified_matter_offers_the_next_legitimate_action_and_nothing_was_charged",
+        journey.nextActionPresent && journey.nextActionTaken === false && !section.externalRequestHosts.some((host) => /stripe/i.test(host)),
+        `next action "${journey.nextActionLabel ?? "none"}" present=${journey.nextActionPresent}, taken=${journey.nextActionTaken};`
+          + ` external hosts contacted: ${section.externalRequestHosts.length === 0 ? "none" : section.externalRequestHosts.join(", ")}`
+      );
+    }
     section.status = "captured";
     section.transitionHealthy = true;
   } catch (error) {

@@ -278,8 +278,14 @@ jobs:
           RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
           RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
           RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
-          RCAP_PROBE_BROWSERS: chromium,webkit
-          SUPABASE_ACCESS_TOKEN: ${{ inputs.mode == 'production_save_transition_verify' && secrets.SUPABASE_ACCESS_TOKEN || '' }}
+          # The live order runs in chromium alone. The webkit pass repeats the
+          # signed-out journey as a best-effort extra, and a second browser on
+          # an order phase is a second real order.
+          RCAP_PROBE_BROWSERS: ${{ inputs.mode == 'production_live_zero_dollar_order' && 'chromium' || 'chromium,webkit' }}
+          SUPABASE_ACCESS_TOKEN: ${{ (inputs.mode == 'production_save_transition_verify' || inputs.mode == 'production_live_zero_dollar_order') && secrets.SUPABASE_ACCESS_TOKEN || '' }}
+          # Supplied per run and never committed. The probe masks it in every
+          # log line and every artifact.
+          RCAP_LIVE_PROMOTION_CODE: ${{ inputs.mode == 'production_live_zero_dollar_order' && inputs.promotion_code || '' }}
         run: node scripts/rcap-production-save-transition-probe.mjs
 
       - name: Upload the save-transition evidence (sanitized)
