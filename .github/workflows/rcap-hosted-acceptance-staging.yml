@@ -1016,6 +1016,12 @@ jobs:
       - name: Reprint the sandbox fixture outcome last
         if: always()
         run: |
+          if [ -f hosted-acceptance-evidence/preview-resolution.json ]; then
+            node -e '
+              const r = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/preview-resolution.json", "utf8"));
+              console.log(`PREVIEW RESOLVED — ${r.outcome} deployment=${r.deploymentId ?? "(none)"} hostname=${r.hostname ?? "(none)"}`);
+            ' || echo "preview resolution evidence present but could not be summarised"
+          fi
           if [ -f hosted-acceptance-evidence/checkout-gate.json ]; then
             node -e '
               const g = JSON.parse(require("fs").readFileSync("hosted-acceptance-evidence/checkout-gate.json", "utf8"));
