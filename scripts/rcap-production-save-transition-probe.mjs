@@ -709,7 +709,7 @@ async function resumeLiveOrderPhase() {
       `password sign-in for the probe account returned HTTP ${authResponse?.status() ?? "no response"}`
     );
 
-    await page.goto(`${ORIGIN}${MATTERS_PATH}/${RESUME_MATTER_ID}`, { waitUntil: "domcontentloaded", timeout: 60_000 });
+    await gotoAfterClientRouting(page, `${ORIGIN}${MATTERS_PATH}/${RESUME_MATTER_ID}`, { settleFrom: SIGN_IN_PATH });
     await screenshot(page, section, "01-resumed-matter");
     // The matter has to still be verified and still be offering Checkout. If it
     // is not, this is not a resume and the phase stops rather than improvising.
@@ -1133,6 +1133,33 @@ async function answerBuilderStep(page) {
   const checkboxes = builder.locator("input[type='checkbox']:visible:enabled");
   if (await checkboxes.count() && !(await builder.locator("input[type='checkbox']:visible:checked").count())) {
     await checkboxes.first().check().catch(() => null);
+  }
+}
+
+/**
+ * Navigates to an application URL without racing the application's own routing.
+ *
+ * Signing in hands control to the client router, which pushes its own
+ * destination as soon as the session lands. A page.goto issued in that window
+ * is superseded and Chromium reports net::ERR_ABORTED, which is the router
+ * winning rather than the site failing. So the router is given its move first,
+ * and an aborted navigation is retried once after the page has gone quiet.
+ */
+async function gotoAfterClientRouting(page, url, { settleFrom = null } = {}) {
+  if (settleFrom) {
+    await page.waitForURL((current) => safePathname(String(current)) !== settleFrom, { timeout: 20_000 }).catch(() => null);
+  }
+  await page.waitForLoadState("networkidle", { timeout: 20_000 }).catch(() => null);
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
+      return;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (attempt === 3 || !/ERR_ABORTED/.test(message)) throw error;
+      await page.waitForLoadState("networkidle", { timeout: 20_000 }).catch(() => null);
+      await page.waitForTimeout(1_500);
+    }
   }
 }
 
