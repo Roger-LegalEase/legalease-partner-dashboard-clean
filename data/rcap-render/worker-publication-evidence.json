@@ -26,9 +26,9 @@
   "publicationArtifactSha256": "sha256:da892d0529846f2f1f95238cc632db639c28f201716b1e7a64d93df5d77ad290",
   "originalPublicationPath": null,
   "originalArchivePath": null,
-  "originalPublicationSource": "Publication run 35227578682 pushed the source-SHA tag c88f10341fec848b3f6f4dec9fc3381e6eea0530 and reported sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06. The digest is taken from that run's own \"Published\" line; no tag-integrity run has re-read it yet, so nothing here restates a resolution that has not happened.",
-  "registryPullByDigestStatus": "pending_image_acceptance",
-  "runtimeAccepted": false,
+  "originalPublicationSource": "Publication run 35227578682 pushed the source-SHA tag c88f10341fec848b3f6f4dec9fc3381e6eea0530 and reported sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06; image acceptance run 35229311713 then pulled that exact digest and accepted it.",
+  "registryPullByDigestStatus": "accepted",
+  "runtimeAccepted": true,
   "authorization": "Roger instruction (2026-09-17): the consumer Checkout must sell the existing catalog Product prod_Sx3T2wUkaYKqg9 so the product-restricted promotion code applies to the product actually being purchased. The correction changes src, which is a canonical worker input, so the worker is republished from the corrected source.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
@@ -267,18 +267,30 @@
   "workerInputFingerprint": "sha256:36c9109540c8314886da58bba997df402b3a32c1a9e969e25b0097081da9a46d",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
-  "imageAcceptanceAttempts": [],
+  "imageAcceptanceAttempts": [
+    {
+      "workflowRunId": 35229311713,
+      "attempt": 1,
+      "conclusion": "success"
+    }
+  ],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Not yet re-proved for this digest. The previous digest's proof is retained in supersededChain and is not restated for bytes it was not measured against.",
+  "packageVisibilityEvidence": "Acceptance run 35229311713 re-proved it for this digest: the anonymous pull step concludes success only on refusal, and the authenticated pull by digest succeeded.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
     "manifestMediaType": null,
     "manifestSize": null,
     "configDigest": null,
-    "note": "Not read back for this digest. Image acceptance has not run against it yet, and nothing here is carried over from the previous image."
+    "note": "Acceptance run 35229311713 pulled this image by digest and proved tag/digest identity, non-root execution, fail-closed startup without credentials, a real health command, graceful SIGTERM, a clean scratch directory and no baked secret. The platform triple and config digest were not read back into this record, so they stay null rather than being restated from a previous digest."
   },
-  "imageAcceptance": null,
+  "imageAcceptance": {
+    "workflowRunId": 35229311713,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35229311713",
+    "workflowConclusion": "success",
+    "immutableRegistryDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+    "sourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530"
+  },
   "previousImageAcceptance": {
     "sourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
     "immutableRegistryDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",

@@ -9,7 +9,7 @@
     "finding": "Production already carries positions 17 through 26 of this chain. Exactly one forward migration is absent: 20260917090000_consumer_promotion_codes.sql, which replaces the consumer_briefcase_items paid-row constraint that hardcoded amount_cents = 5000 with a reconciliation rule over regular_price_cents and discount_cents, and adds those two columns. Until it is applied, a discounted order cannot be recorded as paid in Production at all, because a 40%-off or 100%-off order collects something other than 5000 cents and the old constraint refuses the row."
   },
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
-  "applicationSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
+  "applicationSha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
   "migrations": [
     {
       "position": 17,
@@ -81,7 +81,7 @@
   "readbackRunId": 35207467289,
   "preApplyChecks": {
     "readbackRunId": 35207467289,
-    "frozenHashes": "All 11 files at application c88f10341fec848b3f6f4dec9fc3381e6eea0530 hash to the values the control pins. The Stripe catalog-product correction changed no file under supabase/, so every migration hash this record pins is byte-identical to the 0fee79bd127eb3dc072c2a35945177fa7e7b6683 release that applied them; re-pinning the application SHA restates which application the record belongs to, not which migrations it authorises.",
+    "frozenHashes": "All 11 files at application 4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb hash to the values the control pins. The Stripe catalog-product correction changed no file under supabase/, so every migration hash this record pins is byte-identical to the 0fee79bd127eb3dc072c2a35945177fa7e7b6683 release that applied them; re-pinning the application SHA restates which application the record belongs to, not which migrations it authorises.",
     "ledgerReconciliation": "The ledger holds 23 versions and the recovered 13-version baseline is present with no unknown rows. Positions 17 through 26 are present in order, the prefix is ordered and there are no unsafe gaps, so the single missing file cannot clobber a later definition. Outside this chain, 20260822180000 has neither a ledger row nor its object and is never replayed here; the three 2026-08-25 Clinic files have no ledger rows and their objects are present.",
     "prerequisites": "packet_render_jobs, consumer_pending_screening_results, consumer_briefcase_items, screening_sessions, clinic_events, enqueue_packet_render_job and consumer_packet_payment_authority are all present.",
     "missingVersions": [
