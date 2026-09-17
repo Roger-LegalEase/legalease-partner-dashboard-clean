@@ -177,6 +177,38 @@ async function fillRemainingRequired(page, notes) {
 }
 
 /**
+ * Stripe Link verification, when it appears.
+ *
+ * Link recognises an email that has paid before and asks it for a six-digit
+ * code, which is unanswerable here and simply stalls on the page with no error
+ * text. In a sandbox the code is always 000000, so the challenge is cleared
+ * rather than waited out. A per-run email usually avoids it entirely; this is
+ * the fallback for the addresses Link already knows.
+ */
+async function clearOneTimeCodeChallenge(page, notes, shoot) {
+  const field = await firstVisible(page, [
+    'input[autocomplete="one-time-code"]',
+    'input[name="one-time-code"]',
+    'input[id*="one-time-code" i]'
+  ], 2_000);
+  if (!field) return false;
+  notes.push("Stripe asked for a Link one-time code");
+  await shoot("link-challenge");
+  await field.click({ timeout: FIELD_TIMEOUT }).catch(() => {});
+  // Typed rather than filled: the code is rendered as six single-character
+  // boxes that advance on keystroke, and a bulk fill lands entirely in the first.
+  await page.keyboard.type("000000", { delay: 80 }).catch(() => {});
+  await page.waitForTimeout(2500);
+  const stillChallenged = await firstVisible(page, [
+    'input[autocomplete="one-time-code"]',
+    'input[name="one-time-code"]'
+  ], 1_500);
+  notes.push(stillChallenged ? "the one-time code was not accepted" : "the one-time code cleared the challenge");
+  await shoot("link-challenge-answered");
+  return !stillChallenged;
+}
+
+/**
  * Drives one Checkout Session to completion.
  *
  * Whether a card is needed is decided by the page after any promotion code has
@@ -192,6 +224,10 @@ export async function completeHostedCheckout({
   checkoutUrl,
   promotionCode = null,
   card = STRIPE_TEST_CARD,
+  // Distinct per run. Stripe Link remembers an address that has paid before and
+  // then challenges it for a one-time code, so reusing one address turns every
+  // later run into a two-factor prompt nobody can answer.
+  email = "acceptance-consumer-a@rcap-acceptance.test",
   screenshotDir = null,
   label = "checkout"
 }) {
@@ -231,7 +267,7 @@ export async function completeHostedCheckout({
     // still asks for it even though no card is needed.
     await fillAcrossFrames(page, [
       'input[name="email"]', 'input[type="email"]', 'input[autocomplete="email"]'
-    ], "acceptance-consumer-a@rcap-acceptance.test", "email", notes);
+    ], email, "email", notes);
 
     if (!looksFree) {
       if (!card) {
@@ -262,6 +298,7 @@ export async function completeHostedCheckout({
     // silent "Required" into something actionable.
     const remaining = await fillRemainingRequired(page, notes);
     if (remaining.length) notes.push(`could not fill: ${remaining.join(", ")}`);
+    await clearOneTimeCodeChallenge(page, notes, shoot);
     await shoot("form-complete");
 
     const submit = await firstVisible(page, [
