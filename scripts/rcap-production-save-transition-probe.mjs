@@ -824,6 +824,10 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
   const promotion = await applyPromotionCode(page, LIVE_PROMOTION_CODE, notes);
   order.promotionEntered = promotion.entered;
   order.promotionAccepted = promotion.accepted;
+  // Stripe's own sentence, redacted like everything else. It is the difference
+  // between a code that does not exist, one that is spent or expired, and one
+  // restricted to other line items -- and none of those is fixed by retrying.
+  order.promotionRejectionReason = promotion.reason ? redact(promotion.reason) : null;
   await screenshot(page, section, "09-promotion-applied");
 
   // Stripe decides, not this probe. The total is read from the page it renders
@@ -834,7 +838,8 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
   record(
     "stripe_shows_a_zero_total_before_anything_is_submitted",
     order.promotionEntered && order.promotionAccepted && order.totalReadsZero === true,
-    `promotion code entered=${order.promotionEntered}, accepted by the page=${order.promotionAccepted};`
+    `promotion code entered=${order.promotionEntered}, accepted by the page=${order.promotionAccepted}`
+      + `${order.promotionRejectionReason ? ` (Stripe said: ${JSON.stringify(order.promotionRejectionReason)})` : ""};`
       + ` Stripe's own page ${order.totalReadsZero ? "shows a $0.00 total, so it is collecting nothing" : "still shows an amount due"}.`
       + ` Nothing is submitted unless this reads zero, and no card details are entered at any point.`
   );
