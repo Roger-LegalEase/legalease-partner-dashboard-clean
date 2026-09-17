@@ -734,6 +734,9 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          # The Preview sells this catalog Product, so the gate identifies the
+          # packet by Product id rather than by the ad-hoc name it no longer has.
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.stripe_fixtures.outputs.product_id }}
         run: node scripts/rcap-hosted-checkout-gate.mjs
 
       - name: Run the hosted golden-journey matrix
