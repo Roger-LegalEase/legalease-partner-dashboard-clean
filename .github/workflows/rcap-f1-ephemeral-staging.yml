@@ -47,6 +47,11 @@ on:
         required: false
         type: string
         default: ""
+      resume_matter_id:
+        description: "Already-verified matter to resume the live order on (production_live_zero_dollar_order); empty runs the whole journey and mints a new matter"
+        required: false
+        type: string
+        default: ""
       preview_deployment_id:
         description: "Exact existing Vercel Preview deployment id; optional — resolved from preview_hostname when omitted"
         required: false
@@ -286,6 +291,7 @@ jobs:
           # Supplied per run and never committed. The probe masks it in every
           # log line and every artifact.
           RCAP_LIVE_PROMOTION_CODE: ${{ inputs.mode == 'production_live_zero_dollar_order' && inputs.promotion_code || '' }}
+          RCAP_RESUME_MATTER_ID: ${{ inputs.mode == 'production_live_zero_dollar_order' && inputs.resume_matter_id || '' }}
         run: node scripts/rcap-production-save-transition-probe.mjs
 
       - name: Upload the save-transition evidence (sanitized)

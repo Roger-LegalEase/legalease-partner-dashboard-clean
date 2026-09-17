@@ -96,6 +96,12 @@ const SUPABASE_URL = safeOrigin(
 );
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const LIVE_PROMOTION_CODE = (process.env.RCAP_LIVE_PROMOTION_CODE ?? "").trim();
+// Resuming an authorized order. When this names a matter that already reached
+// Final verification, the phase signs in and goes straight to it instead of
+// screening and filling the builder again. Re-running the whole journey would
+// mint another matter and leave the last one stranded, and the point of a
+// resume is that the participant's work already exists.
+const RESUME_MATTER_ID = (process.env.RCAP_RESUME_MATTER_ID ?? "").trim();
 const CHROMIUM_EXECUTABLE = process.env.RCAP_BROWSER_CHROMIUM?.trim() || "";
 const BROWSERS = (process.env.RCAP_PROBE_BROWSERS ?? "chromium,webkit")
   .split(",").map((entry) => entry.trim().toLowerCase()).filter(Boolean);
@@ -109,6 +115,12 @@ if (PHASE !== PHASE_REPRODUCE && PHASE !== PHASE_VERIFY && PHASE !== PHASE_LIVE_
 }
 if (PHASE === PHASE_LIVE_ORDER && !LIVE_PROMOTION_CODE) {
   fail(`${PHASE_LIVE_ORDER} requires RCAP_LIVE_PROMOTION_CODE. Without a code that clears the total, this phase would place a paid order, which it is not authorized to do.`);
+}
+if (RESUME_MATTER_ID && !validUuid(RESUME_MATTER_ID)) {
+  fail("RCAP_RESUME_MATTER_ID must be one exact matter id.");
+}
+if (RESUME_MATTER_ID && PHASE !== PHASE_LIVE_ORDER) {
+  fail(`RCAP_RESUME_MATTER_ID only applies to ${PHASE_LIVE_ORDER}.`);
 }
 if (!BROWSERS.includes("chromium") || BROWSERS.some((entry) => !SUPPORTED_BROWSERS.includes(entry))) {
   fail(`RCAP_PROBE_BROWSERS must name chromium and may add webkit; got ${JSON.stringify(BROWSERS)}.`);
@@ -660,6 +672,67 @@ async function completePacketInformationAndVerify(page, section, matterId) {
   await screenshot(page, section, "07-verified-next-action");
   section.packetJourney = journey;
   return journey;
+}
+
+/**
+ * Resumes an authorized order on a matter that is already verified.
+ *
+ * The participant's screening, claim and packet answers already exist and are
+ * not redone: repeating them would mint another matter and strand this one. The
+ * account is not recreated either -- its password is rotated, which is the only
+ * way this probe has ever been able to sign in, and it leaves the account and
+ * every matter on it intact.
+ */
+async function resumeLiveOrderPhase() {
+  const credentials = await ensureProbeAccount();
+  const section = newSection("chromium", "chromium");
+  let browser = null;
+  try {
+    browser = await launchBrowser("chromium");
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    attachObservers(page, section);
+
+    await page.goto(`${ORIGIN}${SIGN_IN_PATH}`, { waitUntil: "domcontentloaded", timeout: 60_000 });
+    await switchToSignIn(page, section);
+    await page.locator('input[name="email"]').fill(credentials.email);
+    await page.locator('input[name="password"]').fill(credentials.password);
+    const authPromise = page.waitForResponse(
+      (response) => response.request().method() === "POST" && response.url().includes("/auth/v1/token") && response.url().includes("grant_type=password"),
+      { timeout: 30_000 }
+    ).then((response) => response, () => null);
+    await page.getByRole("button", { name: "Sign in", exact: true }).click();
+    const authResponse = await authPromise;
+    record(
+      "resumed_session_signed_in_as_the_owner",
+      Boolean(authResponse?.ok()),
+      `password sign-in for the probe account returned HTTP ${authResponse?.status() ?? "no response"}`
+    );
+
+    await page.goto(`${ORIGIN}${MATTERS_PATH}/${RESUME_MATTER_ID}`, { waitUntil: "domcontentloaded", timeout: 60_000 });
+    await screenshot(page, section, "01-resumed-matter");
+    // The matter has to still be verified and still be offering Checkout. If it
+    // is not, this is not a resume and the phase stops rather than improvising.
+    const checkout = page.getByRole("button", { name: CONSUMER_CHECKOUT_LABEL, exact: true });
+    const offersCheckout = await checkout.waitFor({ state: "visible", timeout: 30_000 }).then(() => true, () => false);
+    record(
+      "resumed_matter_is_verified_and_still_offers_checkout",
+      offersCheckout,
+      `${MATTERS_PATH}/${RESUME_MATTER_ID} ${offersCheckout ? `renders "${CONSUMER_CHECKOUT_LABEL}", so its packet information and Final verification still stand` : "does not offer Checkout; it is not a resumable verified matter"}`
+    );
+
+    section.liveOrder = await placeLiveZeroDollarOrder(page, section, RESUME_MATTER_ID);
+    evidence.liveOrder = section.liveOrder;
+    section.status = "captured";
+    section.transitionHealthy = true;
+  } catch (error) {
+    if (section.status === "pending") section.status = "error";
+    section.error = redact(error instanceof Error ? error.message : String(error));
+    throw error;
+  } finally {
+    await browser?.close().catch(() => null);
+  }
+  evidence.transitionHealthy = section.transitionHealthy;
 }
 
 /**
@@ -1368,6 +1441,7 @@ function fail(message) {
 try {
   console.log(`RCAP production save-transition probe: phase ${PHASE} against ${ORIGIN} (${BROWSERS.join(", ")})`);
   if (PHASE === PHASE_REPRODUCE) await reproducePhase();
+  else if (RESUME_MATTER_ID) await resumeLiveOrderPhase();
   else await verifyPhase();
   persist(true);
   for (const section of Object.values(evidence.browsers)) console.log(`SUMMARY ${summarize(section)}`);
