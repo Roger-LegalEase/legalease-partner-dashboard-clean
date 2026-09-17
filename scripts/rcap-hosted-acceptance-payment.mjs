@@ -473,6 +473,13 @@ function finish() {
   evidence.requiredCases = REQUIRED_CASES;
   evidence.missingCases = missing;
   evidence.failedCases = failed;
+  // The observation, not just the case name. A failing case is decided
+  // hundreds of log lines before the job ends, behind every later step's
+  // output; carrying the verdicts into the evidence file lets the end of the
+  // job reprint the one fact that matters instead of burying it.
+  evidence.cases = Object.fromEntries(
+    [...verdicts.entries()].map(([id, v]) => [id, { passed: v.passed, observed: v.observed }])
+  );
   evidence.passed = missing.length === 0 && failed.length === 0;
   fs.writeFileSync(path.join(EVIDENCE_DIR, "payment.json"), `${JSON.stringify(evidence, null, 2)}\n`);
   console.log("");
