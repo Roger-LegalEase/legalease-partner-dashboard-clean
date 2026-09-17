@@ -80,3 +80,12 @@ raster-out/
 # These are other agents' ACTIVE working copies of this repository — gigabytes
 # of repo-inside-repo that must never be committed or pushed.
 .claude/
+
+# Run outputs from the acceptance and production controls. These directories
+# are written by a control on every invocation, including a local dry run that
+# refuses, and are uploaded as workflow artifacts rather than committed. An
+# uncommitted refusal record left behind by a local run is not evidence.
+hosted-acceptance-evidence/
+production-canary-evidence/
+production-public-evidence/
+production-worker-evidence/
