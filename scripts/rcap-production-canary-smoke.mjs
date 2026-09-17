@@ -19,24 +19,24 @@ const APPLICATION_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
 const WORKER_SOURCE_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
 const WORKER_DIGEST = "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-// Read back from Vercel by preflight 35247428602, which staged the candidate
+// Read back from Vercel by preflight 35275288657, which staged the candidate
 // and recorded the live deployment before touching anything: staged
-// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP, rollback (current Production)
-// dpl_DjAscmNucgJHauNsTtpbzGp9zfpU.
+// dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51, rollback (current Production)
+// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP.
 //
-// The previous release's pins had these two the wrong way round -- they named
-// the then-live deployment as the staged candidate, so activation would have
-// promoted what was already serving and shipped nothing. Smoke run 35209693969
-// refused on exact_staged_application_worker_identity rather than smoke-testing
-// the live site and calling the new release sound. Both move together here for
-// that reason.
-const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
-// The recovery target is the deployment live now: dpl_DjAscm, running
-// application 0fee79bd1. Unlike the 3e3a528b5 rollback this replaces, it is
-// payment-compatible: it post-dates 20260917090000, so it calls the current
+// These pins carried the previous release's pair, one release out of date: the
+// deployment that was the staged candidate then is the deployment live now, so
+// the staged id here named what Production is already serving. Smoke run
+// 35276699023 refused on exact_staged_application_worker_identity rather than
+// smoke-testing the live site and calling this release sound. Both move
+// together, because the pair only means anything as a pair.
+const STAGED_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51";
+// The recovery target is the deployment live now: dpl_BJMUzi, the candidate the
+// previous release staged and activated. It is payment-compatible -- it
+// post-dates 20260917090000, so it calls the current
 // record_consumer_packet_payment signature rather than the retired one, and it
 // can settle an order as well as serve the site.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
   "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",
