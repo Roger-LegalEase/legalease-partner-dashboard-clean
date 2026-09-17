@@ -27,7 +27,7 @@ export const EXPECTED_EVENTS = Object.freeze([
   "invoice.voided"
 ].sort());
 
-const EXPECTED_APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
+const EXPECTED_APPLICATION_SHA = "8d9382b93ada32adf9e50dd7f52680f4f9fb7018";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_ENDPOINT_ID = "we_1U4AKGRWROAHlAKyNFChAnWr";
 
