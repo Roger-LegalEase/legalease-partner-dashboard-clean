@@ -2,7 +2,8 @@ import "server-only";
 
 import type Stripe from "stripe";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
-import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
+import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError, stripeSecretKeyIsLiveMode } from "@/lib/stripe/server";
+import { resolveDeploymentEnvironment } from "@/lib/server-runtime-environment";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { packetRouteCanRender, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
@@ -64,6 +65,13 @@ export type ConsumerCheckoutResult = {
   briefcaseItemId: string;
   alreadyPaid?: boolean;
   paymentPending?: boolean;
+  /**
+   * Present only when a Checkout Session id stored on this matter could not be
+   * resolved and the order was allowed to continue anyway. It carries the
+   * provider's own classification of that lookup and its request id, so a
+   * recovery is auditable rather than silent.
+   */
+  storedSessionRecovery?: ConsumerCheckoutProviderFailure | null;
 };
 
 export function consumerPacketReadyUrl(briefcaseItemId: string): string {
@@ -194,6 +202,12 @@ export async function createConsumerPacketCheckout({
   let stripe: Stripe | null = null;
   let existing: Stripe.Checkout.Session | null = null;
   let existingLookupCompleted = false;
+  // Preserved when a stored session could not be resolved and the order was
+  // nevertheless allowed to continue. A recovery that leaves no trace is a
+  // recovery nobody can audit: this carries the provider's classification and
+  // its request id onto the successful response, so the decision is observable
+  // from the outside instead of inferred from the absence of an error.
+  let storedSessionRecovery: ConsumerCheckoutProviderFailure | null = null;
   if (item.checkoutSessionId?.startsWith("cs_")) {
     try {
       stripe = getStripeServerClient();
@@ -217,15 +231,20 @@ export async function createConsumerPacketCheckout({
     } catch (error) {
       if (isStripeConfigurationError(error)) {
         stripe = null;
-      } else if (storedSessionNamesNothing(error)) {
-        // The stored id names no Session in the account this deployment sells
-        // through — a leftover from a different mode or a different account. It
-        // is evidence of nothing, so it protects nothing: the order continues
-        // and a current Session is minted below. The double-charge guard that
-        // matters is the server-recorded payment status above, which is
-        // unaffected by an unreadable id.
+      } else if (storedSessionIsAbsentFromTheVerifiedAccount(error, await stripeAccountIdentity(stripe))) {
+        // The stored id names no Session in an account and mode this deployment
+        // has POSITIVELY IDENTIFIED as the one it sells through. Both halves are
+        // required. `resource_missing` on its own says only "not here", and
+        // "here" is decided by whichever key the deployment is holding — so
+        // without the identity check a rotated or mis-set key would turn a real,
+        // unsettled order in the old account into a second checkout in the new
+        // one. With the identity confirmed, the id can only ever have been
+        // minted in this same account, so there is no order behind it.
         existing = null;
         existingLookupCompleted = true;
+        storedSessionRecovery = error instanceof ConsumerCheckoutTemporarilyUnavailableError
+          ? error.providerFailure
+          : null;
       } else {
         // Any other refusal leaves the question open: this id may name a
         // COMPLETED Session whose webhook has not landed yet, and minting a
@@ -362,7 +381,8 @@ export async function createConsumerPacketCheckout({
           amountCents: consumerPacketPriceCents,
           currency: consumerPacketCurrency,
           outcome: "checkout_reused",
-          briefcaseItemId: item.id
+          briefcaseItemId: item.id,
+          storedSessionRecovery
         };
       }
       if (reusable.status === "complete") {
@@ -458,7 +478,8 @@ export async function createConsumerPacketCheckout({
       amountCents: consumerPacketPriceCents,
       currency: consumerPacketCurrency,
       outcome: "checkout_created",
-      briefcaseItemId: item.id
+      briefcaseItemId: item.id,
+      storedSessionRecovery
     };
   } catch (error) {
     // A catalog this application cannot read unambiguously is an unavailable
@@ -850,11 +871,20 @@ export type ConsumerCheckoutProviderFailure = {
   code: string | null;
   param: string | null;
   statusCode: number | null;
+  /**
+   * The provider's own identifier for the failed request. It names the entry in
+   * Stripe's request log, which is where the full request and response live, so
+   * a refusal observed from the outside can be tied to the exact call that
+   * produced it. It is an opaque handle, not a credential and not customer data.
+   */
+  requestId: string | null;
 };
 
 function providerFailureOf(error: unknown, phase: string): ConsumerCheckoutProviderFailure | null {
   if (!error || typeof error !== "object") return null;
-  const candidate = error as { type?: unknown; rawType?: unknown; code?: unknown; param?: unknown; statusCode?: unknown };
+  const candidate = error as {
+    type?: unknown; rawType?: unknown; code?: unknown; param?: unknown; statusCode?: unknown; requestId?: unknown;
+  };
   const type = typeof candidate.type === "string"
     ? candidate.type
     : (typeof candidate.rawType === "string" ? candidate.rawType : null);
@@ -864,8 +894,38 @@ function providerFailureOf(error: unknown, phase: string): ConsumerCheckoutProvi
     type,
     code: typeof candidate.code === "string" ? candidate.code : null,
     param: typeof candidate.param === "string" ? candidate.param : null,
-    statusCode: typeof candidate.statusCode === "number" ? candidate.statusCode : null
+    statusCode: typeof candidate.statusCode === "number" ? candidate.statusCode : null,
+    requestId: typeof candidate.requestId === "string" ? candidate.requestId : null
   };
+}
+
+/**
+ * The account and mode this deployment is actually talking to, read from the
+ * provider rather than assumed from configuration.
+ *
+ * `null` when it cannot be established. A question that could not be answered
+ * must never read as an answer, so every caller treats null as "not verified".
+ */
+export type StripeAccountIdentity = { accountId: string; livemode: boolean };
+
+async function stripeAccountIdentity(stripe: Stripe | null): Promise<StripeAccountIdentity | null> {
+  if (!stripe) return null;
+  const livemode = stripeSecretKeyIsLiveMode();
+  if (livemode === null) return null;
+  try {
+    // `GET /v1/accounts` with no id returns the account the key belongs to.
+    // stripe-node supports it at runtime but its types only declare the
+    // retrieve-by-id overload, so the no-argument form is spelled out here
+    // rather than passing an id we do not have and are trying to learn.
+    const account = await (stripe.accounts as unknown as {
+      retrieve: () => Promise<Stripe.Account>;
+    }).retrieve();
+    if (typeof account.id !== "string" || !account.id.startsWith("acct_")) return null;
+    return { accountId: account.id, livemode };
+  } catch {
+    // An identity that could not be read is not an identity. The caller refuses.
+    return null;
+  }
 }
 
 /**
@@ -885,10 +945,37 @@ function providerFailureOf(error: unknown, phase: string): ConsumerCheckoutProvi
  * Checkout Session id can earn that carries no risk of overwriting a real
  * order, because there is no order behind it to overwrite.
  */
-function storedSessionNamesNothing(error: unknown): boolean {
+export function storedSessionIsAbsentFromTheVerifiedAccount(
+  error: unknown,
+  identity: StripeAccountIdentity | null
+): boolean {
+  // No verified identity, no conclusion. This is the half the first version of
+  // this predicate was missing: `resource_missing` alone only says the id is
+  // not in whichever account and mode this deployment happens to be holding a
+  // key for, which is exactly the thing in question.
+  if (!identity) return false;
+  if (identity.accountId !== expectedStripeAccountId()) return false;
+  if (identity.livemode !== (resolveDeploymentEnvironment() === "production")) return false;
   if (!(error instanceof ConsumerCheckoutTemporarilyUnavailableError)) return false;
   return error.providerFailure?.code === "resource_missing";
 }
+
+/**
+ * The Stripe account this deployment is expected to sell through.
+ *
+ * A Stripe account id names a merchant; it is not a credential, and it appears
+ * on every object the account owns. `STRIPE_ACCOUNT_ID` overrides it where a
+ * deployment sells through a different account; null means no expectation is
+ * configured, and an unconfigured expectation can verify nothing.
+ */
+function expectedStripeAccountId(): string | null {
+  const configured = process.env.STRIPE_ACCOUNT_ID?.trim();
+  if (configured) return configured.startsWith("acct_") ? configured : null;
+  return resolveDeploymentEnvironment() === "production" ? PRODUCTION_STRIPE_ACCOUNT_ID : null;
+}
+
+/** The live merchant account expungement.ai sells through. */
+const PRODUCTION_STRIPE_ACCOUNT_ID = "acct_1L62OmDLtltioGNK";
 
 async function providerCall<T>(phase: string, run: () => Promise<T>): Promise<T> {
   try {

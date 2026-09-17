@@ -184,7 +184,16 @@ const REQUIRED_CASES = [
   "person_and_matter_are_bound_on_the_render_job",
   "artifact_is_stored_privately_and_re_readable",
   "delivery_serves_the_owner_and_refuses_everyone_else",
-  "event_replay_creates_no_second_entitlement_or_render_job"
+  "event_replay_creates_no_second_entitlement_or_render_job",
+  // The RESUMED order. Every case above reaches checkout on a matter that never
+  // had one; the production failure was on a matter that already carried a
+  // Checkout Session id, which is a code path a fresh journey never executes.
+  // These are required, not advisory: an unproven resumed order is what shipped
+  // a 500 to a verified participant.
+  "resumed_checkout_reuses_the_open_session",
+  "resumed_checkout_refuses_an_unresolvable_stored_session_it_cannot_verify",
+  ...(CATALOG_PRODUCT_ID ? ["resumed_checkout_replaces_an_incompatible_open_session"] : []),
+  "resumed_checkout_never_duplicates_a_completed_order"
 ];
 
 const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
@@ -1742,6 +1751,192 @@ let session = null;
   runNamespace.checkoutSessionId = session.id;
 }
 
+// --- 4a. The RESUMED order: the same matter, asked for checkout a second time -
+//
+// Every case above reaches checkout on a matter that has never had one. The
+// production failure did not: matter c824787c already carried a Checkout
+// Session id, which sends createConsumerPacketCheckout down a recovery path a
+// fresh journey never executes. These cases drive that path on THIS matter,
+// with the session the deployed application just created, rather than on a new
+// one.
+//
+// Nothing here is a fresh-matter substitute and nothing here simulates the
+// application: every verdict is the deployed route's own answer, read back
+// against Stripe.
+{
+  const stripeSession = async (id, query = "") => {
+    const res = await fetch(
+      `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(id)}${query}`,
+      { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+    );
+    return res.json().catch(() => null);
+  };
+  const storedSessionIdNow = async () => {
+    const rows = await sql(`select checkout_session_id from public.consumer_briefcase_items where id = '${String(itemId).replaceAll("'", "''")}' limit 1`);
+    return Array.isArray(rows.json) ? rows.json[0]?.checkout_session_id ?? null : null;
+  };
+  const setStoredSessionId = async (value) => {
+    const literal = value === null ? "null" : `'${String(value).replaceAll("'", "''")}'`;
+    return sql(`update public.consumer_briefcase_items set checkout_session_id = ${literal} where id = '${String(itemId).replaceAll("'", "''")}'`);
+  };
+
+  const openSessionCount = async () => {
+    const list = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=100", {
+      headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+    }).then((r) => r.json()).catch(() => null);
+    const mine = Array.isArray(list?.data) ? list.data.filter((s) => s.client_reference_id === itemId) : [];
+    return { total: mine.length, open: mine.filter((s) => s.status === "open").length, ids: mine.map((s) => s.id) };
+  };
+
+  // (a) An OPEN session that is still the right order is REUSED, never doubled.
+  {
+    const before = await openSessionCount();
+    const again = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+    const returnedId = again.json?.checkoutSessionId ?? null;
+    const after = await openSessionCount();
+    record(
+      "resumed_checkout_reuses_the_open_session",
+      again.status === 200 && returnedId === session.id && after.open === before.open,
+      `asking the deployed route for checkout a second time on the SAME matter answered ${again.status}`
+        + ` outcome=${again.json?.outcome ?? "(none)"} session=${returnedId ?? "(none)"} (the first session was ${session.id}).`
+        + ` Stripe holds ${after.open} open session(s) for this item, ${before.open} before the second ask:`
+        + ` a reuse adds none. Duplicating here would offer the participant two live orders for one matter.`
+    );
+    evidence.resumedReuse = { status: again.status, outcome: again.json?.outcome ?? null, returnedId, before, after };
+  }
+
+  // (b) A stored id the provider cannot resolve, with NO verified account and
+  //     mode, is a REFUSAL — not permission to mint a replacement. An
+  //     acceptance deployment deliberately configures no expected account, so
+  //     this is the unverified branch exactly as a mis-keyed deployment would
+  //     hit it. The planted id is restored immediately afterwards.
+  {
+    const wrote = (result) => result.status === 200 || result.status === 201;
+    const realId = await storedSessionIdNow();
+    const before = await openSessionCount();
+    const plantedId = "cs_test_a1RCAPacceptanceNoSuchSessionEver000000000000000000";
+    const planted = await setStoredSessionId(plantedId);
+    const refused = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+    const failure = refused.json?.providerFailure ?? null;
+    const afterPlant = await openSessionCount();
+    const restored = await setStoredSessionId(realId);
+    const storedAfterRestore = await storedSessionIdNow();
+    record(
+      "resumed_checkout_refuses_an_unresolvable_stored_session_it_cannot_verify",
+      wrote(planted) && refused.status === 503
+        && failure?.phase === "recover_completed_session" && failure?.code === "resource_missing"
+        && afterPlant.total === before.total
+        && wrote(restored) && storedAfterRestore === realId,
+      `with an unresolvable Checkout Session id stored on the matter, the deployed route answered ${refused.status}`
+        + ` resultCode=${refused.json?.resultCode ?? "(none)"} providerFailure=${JSON.stringify(failure)}.`
+        + ` A failed lookup is not evidence that the earlier order does not exist, and this deployment has no`
+        + ` configured expected account, so it refuses rather than replacing it. Stripe holds`
+        + ` ${afterPlant.total} session(s) for this item, ${before.total} before the plant — the refusal minted`
+        + ` none. The real id was restored (${storedAfterRestore === realId ? "confirmed" : "MISMATCH"}).`
+    );
+    evidence.resumedUnresolvable = {
+      plantStatus: planted.status,
+      status: refused.status,
+      resultCode: refused.json?.resultCode ?? null,
+      providerFailure: failure,
+      sessionsAfterPlant: afterPlant,
+      restored: storedAfterRestore === realId
+    };
+  }
+
+  // (c) An OPEN session selling the WRONG product is REPLACED: expired, and a
+  //     new one minted on the catalog product. This is the production shape
+  //     exactly — an order opened before the catalog correction — reproduced by
+  //     creating an ad-hoc-product session carrying this matter's own
+  //     client_reference_id and metadata, and storing it on the matter.
+  if (CATALOG_PRODUCT_ID) {
+    const form = new URLSearchParams();
+    form.set("mode", "payment");
+    form.set("success_url", session.success_url ?? "https://example.com/success");
+    form.set("cancel_url", session.cancel_url ?? "https://example.com/cancel");
+    form.set("client_reference_id", String(itemId));
+    form.set("allow_promotion_codes", "true");
+    form.set("line_items[0][quantity]", "1");
+    form.set("line_items[0][price_data][currency]", "usd");
+    form.set("line_items[0][price_data][unit_amount]", String(consumerPacketPriceCents ?? 5000));
+    form.set("line_items[0][price_data][product_data][name]", "Expungement.ai self-help packet");
+    for (const [key, value] of Object.entries(session.metadata ?? {})) {
+      form.set(`metadata[${key}]`, String(value));
+    }
+    const created = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${STRIPE_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
+      body: form.toString()
+    });
+    const incompatible = await created.json().catch(() => null);
+
+    let replacementId = null;
+    let replacementProduct = null;
+    let incompatibleAfter = null;
+    let plantedOk = false;
+    if (incompatible?.id) {
+      // The real session is expired first: two open sessions for one matter is
+      // not a state the application ever produces, and leaving it open would
+      // make the count assertions below meaningless.
+      await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session.id)}/expire`, {
+        method: "POST", headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+      }).catch(() => null);
+      const plant = await setStoredSessionId(incompatible.id);
+      plantedOk = plant.status === 200 || plant.status === 201;
+      const replaced = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+      replacementId = replaced.json?.checkoutSessionId ?? null;
+      incompatibleAfter = await stripeSession(incompatible.id);
+      if (replacementId) {
+        const items = await fetch(
+          `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(replacementId)}/line_items?expand[]=data.price.product`,
+          { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+        ).then((r) => r.json()).catch(() => null);
+        const product = items?.data?.[0]?.price?.product;
+        replacementProduct = typeof product === "string" ? product : product?.id ?? null;
+      }
+      evidence.resumedReplacement = {
+        incompatibleId: incompatible.id,
+        incompatibleStatusAfter: incompatibleAfter?.status ?? null,
+        replacementId,
+        replacementProduct,
+        expectedProduct: CATALOG_PRODUCT_ID,
+        status: replaced.status,
+        outcome: replaced.json?.outcome ?? null
+      };
+    }
+
+    record(
+      "resumed_checkout_replaces_an_incompatible_open_session",
+      Boolean(incompatible?.id) && plantedOk && Boolean(replacementId)
+        && replacementId !== incompatible.id
+        && replacementProduct === CATALOG_PRODUCT_ID
+        && incompatibleAfter?.status === "expired",
+      `an OPEN session on an ad-hoc product (${incompatible?.id ?? "could not be created"}) was stored on this matter,`
+        + ` reproducing an order opened before the catalog correction. The deployed route answered with`
+        + ` ${replacementId ?? "(no session)"} on product ${replacementProduct ?? "(unknown)"}`
+        + ` (the catalog product is ${CATALOG_PRODUCT_ID}), and the incompatible session is now`
+        + ` ${incompatibleAfter?.status ?? "(unknown)"}. Reusing it would have offered a line item the`
+        + ` product-restricted coupon can only refuse, which is the defect this release exists to fix.`
+    );
+
+    // The journey continues on the replacement, which is now the matter's live
+    // order — the same thing a resumed participant would be paying.
+    if (replacementId) {
+      const fresh = await stripeSession(replacementId, "?expand[]=discounts.promotion_code");
+      if (fresh?.id) {
+        const items = await fetch(
+          `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(fresh.id)}/line_items?expand[]=data.price.product`,
+          { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+        ).then((r) => r.json()).catch(() => null);
+        if (Array.isArray(items?.data) && items.data.length > 0) fresh.line_items = items;
+        session = fresh;
+        runNamespace.checkoutSessionId = fresh.id;
+        evidence.checkout = { sessionId: fresh.id, amountTotal: fresh.amount_total, currency: fresh.currency, expectedCents: consumerPacketPriceCents ?? null };
+      }
+    }
+  }
+}
+
 // Stripe is the only authority on the discount. A code is created and managed in
 // the Stripe Dashboard, typed into Stripe's own promotion-code field on the
 // hosted page, and every amount below is read back from Stripe afterwards. This
@@ -3233,6 +3428,80 @@ let finalCycleResult = null;
     projectWideBefore: pb,
     projectWideAfter: pa,
     projectWideMoved: projectMoved
+  };
+}
+
+// --- 9. A COMPLETED order whose settlement has not landed locally ------------
+//
+// The most dangerous resumed-session state, and the one no fresh journey can
+// reach: Stripe has completed the Session and taken the money, but this
+// application's own payment columns do not say so yet — the window between the
+// customer paying and the webhook being recorded. Asked for checkout in that
+// window, the route must recover the completed order. Minting a replacement
+// would offer a second checkout for money already collected.
+//
+// The window is reproduced by flipping this run's own payment_status back to
+// unpaid while every piece of server evidence beside it — authority, provider
+// event, recorded-at, amount, session id — stays exactly as the webhook wrote
+// it. Stripe is untouched: the completion under test is the real one this run
+// paid for. It runs last, after every other verdict, and the row is restored
+// before the run's cleanup removes it.
+{
+  const before = await sql(`select payment_status, checkout_session_id from public.consumer_briefcase_items where id = '${itemId}' limit 1`);
+  const beforeRow = Array.isArray(before.json) ? before.json[0] ?? null : null;
+  const settledSessionId = beforeRow?.checkout_session_id ?? null;
+
+  const sessionsFor = async () => {
+    const list = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=100", {
+      headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+    }).then((r) => r.json()).catch(() => null);
+    const mine = Array.isArray(list?.data) ? list.data.filter((s) => s.client_reference_id === itemId) : [];
+    return { total: mine.length, open: mine.filter((s) => s.status === "open").length };
+  };
+
+  const stripeSaysComplete = await fetch(
+    `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(String(settledSessionId))}`,
+    { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+  ).then((r) => r.json()).catch(() => null);
+
+  const sessionsBefore = await sessionsFor();
+  const unsettled = await sql(`update public.consumer_briefcase_items set payment_status = 'unpaid' where id = '${itemId}'`);
+  const asked = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+  const sessionsAfter = await sessionsFor();
+  const restored = await sql(`update public.consumer_briefcase_items set payment_status = '${String(beforeRow?.payment_status ?? "paid").replaceAll("'", "''")}' where id = '${itemId}'`);
+  const afterRows = await sql(`select payment_status from public.consumer_briefcase_items where id = '${itemId}' limit 1`);
+  const restoredStatus = Array.isArray(afterRows.json) ? afterRows.json[0]?.payment_status ?? null : null;
+
+  const wrote = (result) => result.status === 200 || result.status === 201;
+  record(
+    "resumed_checkout_never_duplicates_a_completed_order",
+    wrote(unsettled) && asked.status === 200
+      && asked.json?.checkoutSessionId === settledSessionId
+      && (asked.json?.paymentPending === true || asked.json?.alreadyPaid === true)
+      && sessionsAfter.total === sessionsBefore.total
+      && sessionsAfter.open === sessionsBefore.open
+      && wrote(restored) && restoredStatus === beforeRow?.payment_status,
+    `Stripe reports session ${settledSessionId} as status=${stripeSaysComplete?.status ?? "(unknown)"}`
+      + ` payment_status=${stripeSaysComplete?.payment_status ?? "(unknown)"}, while this application's payment_status`
+      + ` was held at unpaid to reproduce the pre-webhook window. Asked for checkout there, the deployed route`
+      + ` answered ${asked.status} outcome=${asked.json?.outcome ?? "(none)"} session=${asked.json?.checkoutSessionId ?? "(none)"}`
+      + ` paymentPending=${asked.json?.paymentPending ?? false} alreadyPaid=${asked.json?.alreadyPaid ?? false}.`
+      + ` Stripe holds ${sessionsAfter.total} session(s) for this item (${sessionsAfter.open} open), unchanged from`
+      + ` ${sessionsBefore.total}/${sessionsBefore.open}: no second checkout was minted for money already collected.`
+      + ` payment_status restored to ${restoredStatus}.`
+  );
+  evidence.resumedCompletedOrder = {
+    settledSessionId,
+    stripeStatus: stripeSaysComplete?.status ?? null,
+    stripePaymentStatus: stripeSaysComplete?.payment_status ?? null,
+    status: asked.status,
+    outcome: asked.json?.outcome ?? null,
+    returnedSessionId: asked.json?.checkoutSessionId ?? null,
+    paymentPending: asked.json?.paymentPending ?? false,
+    alreadyPaid: asked.json?.alreadyPaid ?? false,
+    sessionsBefore,
+    sessionsAfter,
+    restoredStatus
   };
 }
 

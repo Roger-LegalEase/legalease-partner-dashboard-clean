@@ -141,6 +141,12 @@ check(
   /order\.serverError = order\.reachedStripe \|\| Number\(order\.checkoutResponse\?\.status \?\? 0\) < 500/.test(probe),
   "the runtime log is read only for an unhandled 5xx, never on a mapped refusal or a success"
 );
+check(
+  probe.includes("the_stored_session_classification_is_preserved")
+    && probe.includes("parsedCheckoutBody?.storedSessionRecovery")
+    && probe.includes("parsedCheckoutBody?.providerFailure"),
+  "the stored session's provider classification is preserved on a refusal AND on a success"
+);
 
 // --- evidence and verdict shape ------------------------------------------------------
 check(probe.includes('process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence"'), "evidence lives under production-canary-evidence/");

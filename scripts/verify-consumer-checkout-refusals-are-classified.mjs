@@ -96,32 +96,72 @@ check(
   "the early completed-session recovery -- the call that escaped -- is classified"
 );
 
-// --- the early recovery cannot swallow a real order --------------------------------
+// --- the provider failure names the request ---------------------------------------
 check(
-  adapter.includes("function storedSessionNamesNothing(")
-    && adapter.includes('error.providerFailure?.code === "resource_missing"'),
-  "only resource_missing lets a stored session id be treated as absent"
+  failureType.includes("requestId:") && adapter.includes('typeof candidate.requestId === "string" ? candidate.requestId : null'),
+  "the provider failure carries the provider's request identifier, so the refusal can be tied to its log entry"
 );
+
+// --- the early recovery cannot swallow a real order --------------------------------
 const storedSessionPredicate = adapter.slice(
-  adapter.indexOf("function storedSessionNamesNothing("),
-  adapter.indexOf("async function providerCall")
+  adapter.indexOf("function storedSessionIsAbsentFromTheVerifiedAccount("),
+  adapter.indexOf("/**\n * The Stripe account this deployment is expected to sell through.")
+);
+check(storedSessionPredicate.length > 0, "the stored-session predicate is locatable");
+check(
+  storedSessionPredicate.includes('error.providerFailure?.code === "resource_missing"'),
+  "only resource_missing can ever let a stored session id be treated as absent"
+);
+check(
+  storedSessionPredicate.includes("if (!identity) return false;")
+    && storedSessionPredicate.includes("identity.accountId !== expectedStripeAccountId()")
+    && storedSessionPredicate.includes("identity.livemode !== (resolveDeploymentEnvironment() === \"production\")"),
+  "absence is only concluded against a POSITIVELY VERIFIED account and mode -- a failed lookup alone is never enough"
 );
 check(
   storedSessionPredicate.includes("if (!(error instanceof ConsumerCheckoutTemporarilyUnavailableError)) return false;")
     && !/\breturn true\b/.test(storedSessionPredicate),
   "the stored-session predicate answers false for anything it did not classify, and never returns a bare true"
 );
+check(
+  adapter.includes("async function stripeAccountIdentity(")
+    && /catch \{[\s\S]{0,200}?return null;/.test(
+      adapter.slice(adapter.indexOf("async function stripeAccountIdentity("), adapter.indexOf("function storedSessionIsAbsentFromTheVerifiedAccount("))
+    ),
+  "an identity that cannot be read is null, so an unanswerable question never reads as an answer"
+);
+check(
+  adapter.includes("const PRODUCTION_STRIPE_ACCOUNT_ID = \"acct_1L62OmDLtltioGNK\";")
+    && adapter.includes("function expectedStripeAccountId()"),
+  "the expected merchant account is pinned rather than inferred from whichever key is loaded"
+);
 const earlyRecovery = adapter.slice(
   adapter.indexOf('if (item.checkoutSessionId?.startsWith("cs_"))'),
   adapter.indexOf("let verification;")
 );
 check(
-  earlyRecovery.includes("storedSessionNamesNothing(error)") && earlyRecovery.includes("throw error;"),
-  "an unreadable id that is not resource_missing still refuses, rather than minting a replacement"
+  earlyRecovery.includes("storedSessionIsAbsentFromTheVerifiedAccount(error, await stripeAccountIdentity(stripe))")
+    && earlyRecovery.includes("throw error;"),
+  "an unreadable id that is not verified-absent still refuses, rather than minting a replacement"
 );
 check(
   earlyRecovery.includes("isStripeConfigurationError(error)"),
   "a missing Stripe configuration still falls through to the dry-run path it always did"
+);
+
+// --- a recovery that continues is still preserved -------------------------------------
+check(
+  adapter.includes("let storedSessionRecovery: ConsumerCheckoutProviderFailure | null = null;")
+    && adapter.includes("storedSessionRecovery = error instanceof ConsumerCheckoutTemporarilyUnavailableError"),
+  "continuing past an unresolvable stored session records the provider's classification instead of discarding it"
+);
+check(
+  (adapter.match(/\n\s+storedSessionRecovery\n\s+\};/g) ?? []).length >= 2,
+  "every successful checkout result carries the recovery record, so a continue is observable from the outside"
+);
+check(
+  route.includes("storedSessionRecovery: checkout.storedSessionRecovery ?? null"),
+  "the route returns the recovery record on SUCCESS, not only on failure"
 );
 
 // --- the double-charge guard is untouched -------------------------------------------
