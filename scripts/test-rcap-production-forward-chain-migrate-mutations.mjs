@@ -20,7 +20,7 @@ const mutations = [
   ],
   [
     "application SHA",
-    "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
+    "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
     "0dc8df2341c99c44d7646578505eed170daa5c8d"
   ],
   [

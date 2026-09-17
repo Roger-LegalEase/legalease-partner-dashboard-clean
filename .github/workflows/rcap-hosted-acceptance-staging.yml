@@ -115,8 +115,8 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: 35d33755045ee1825fc281ab0eb451d34bccec0a
-  AUTHORIZED_WORKER_DIGEST: sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6
+  AUTHORIZED_WORKER_SOURCE_SHA: c88f10341fec848b3f6f4dec9fc3381e6eea0530
+  AUTHORIZED_WORKER_DIGEST: sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
@@ -454,6 +454,22 @@ jobs:
         if: steps.contract.outputs.gate == 'true' || steps.contract.outputs.matrix == 'true'
         run: node scripts/verify-rcap-hosted-checkout-gate.mjs
 
+      # The sandbox catalog fixtures, before anything decides which Preview to
+      # use. The released correction sells a CATALOG Product so a
+      # product-restricted coupon can match the line item, and acceptance has to
+      # exercise that path rather than the inline fallback it replaced. The live
+      # catalog entry and the live coupon are not usable here and must not be:
+      # this environment holds a test-mode key for a different Stripe account.
+      # So the sandbox gets its own product, price, restricted coupon and
+      # promotion code, created idempotently in Stripe, where the restriction is
+      # also enforced. Test setup, not an application discount system.
+      - name: Ensure the sandbox Stripe catalog fixtures
+        id: stripe_fixtures
+        if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true'
+        env:
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+        run: node scripts/rcap-hosted-acceptance-stripe-fixtures.mjs
+
       # ONE boundary for which Preview the matrix runs against. Always executes
       # for any phase needing a Preview, and returns exactly one of:
       # reused_exact_ready_preview, created_one_new_preview,
@@ -475,6 +491,7 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.clinic != 'true' && steps.stripe_fixtures.outputs.product_id || '' }}
           HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
           HOSTED_CLINIC_DEMO_MODE: ${{ steps.contract.outputs.clinic == 'true' && 'mississippi_preview' || '' }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
@@ -491,6 +508,10 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           HOSTED_STRIPE_TEST_SECRET: ${{ steps.contract.outputs.clinic != 'true' && secrets.HOSTED_STRIPE_TEST_SECRET || '' }}
           HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ steps.contract.outputs.clinic != 'true' && secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || '' }}
+          # Baked into the deployment, so a Preview that sells the inline
+          # fallback is a different deployment and is never reused for a run
+          # that is proving the catalog path.
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.clinic != 'true' && steps.stripe_fixtures.outputs.product_id || '' }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           # Every phase whose normalized contract transacts opens the route only
           # to the named synthetic identity the deploy resolves. Nontransacting
@@ -766,7 +787,11 @@ jobs:
           HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
           # One discount shape per run, entered on Stripe's own page. Empty is
           # the ordinary $50 order, which is the default.
-          HOSTED_STRIPE_PROMOTION_CODE: ${{ inputs.promotion_code }}
+          HOSTED_STRIPE_PROMOTION_CODE: ${{ inputs.promotion_code || steps.stripe_fixtures.outputs.promotion_code }}
+          # What that code is restricted to. The journey asserts the line item
+          # is on this product, so a pass means the coupon matched the product
+          # actually being sold rather than happening to apply to anything.
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.stripe_fixtures.outputs.product_id }}
           HOSTED_JOURNEY_STATE: ${{ inputs.journey_state }}
         run: node scripts/rcap-hosted-acceptance-payment.mjs
 

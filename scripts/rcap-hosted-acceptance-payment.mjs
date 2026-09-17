@@ -54,6 +54,11 @@ const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 // rather than a separate near-copy of it existing per discount shape. Empty
 // means the ordinary $50 order.
 const PROMOTION_CODE = (process.env.HOSTED_STRIPE_PROMOTION_CODE ?? "").trim() || null;
+// The catalog Product this run's coupon is restricted to. The released
+// correction exists so that a product-restricted coupon can match the line
+// item; without asserting the product, a passing discount would only show that
+// SOME coupon applied to SOMETHING, which is what the defect already did.
+const CATALOG_PRODUCT_ID = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim() || null;
 // Nothing here declares what a code is worth. Promotion codes are created and
 // managed in the Stripe Dashboard; this run types one into Stripe's own field
 // and then believes Stripe about the result, including whether the order ended
@@ -159,6 +164,10 @@ const REQUIRED_CASES = [
   "customer_completed_the_hosted_checkout_page",
   // Stripe decides the discount and says whether the purchase completed.
   "stripe_confirmed_the_discounted_purchase",
+  // Required exactly when this run is proving the catalog-product path. A case
+  // that runs only when it happens to be configured is not a gate, and this is
+  // the case the release turns on.
+  ...((process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim() ? ["checkout_line_item_is_on_the_catalog_product"] : []),
   // Stripe itself delivered the completion event to the application. The signed
   // events below this line are constructed by this harness and are a separate
   // kind of evidence.
@@ -1871,6 +1880,28 @@ const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: nu
     appliedCodes, paymentStatus: session.payment_status,
     paymentIntentPresent: Boolean(session.payment_intent)
   };
+
+  // Which Product the line item is actually on.
+  //
+  // This is the case the release turns on. `price_data.product_data` made
+  // Stripe mint a fresh ad-hoc Product per Session, so a coupon restricted to
+  // the catalog Product could never match and Stripe refused the code as
+  // invalid. Reading the Product back from Stripe -- not from what this harness
+  // sent -- is what distinguishes the corrected path from the one it replaced.
+  if (CATALOG_PRODUCT_ID) {
+    const line = session.line_items?.data?.[0];
+    const product = line?.price?.product;
+    const productId = typeof product === "string" ? product : product?.id ?? null;
+    record(
+      "checkout_line_item_is_on_the_catalog_product",
+      productId === CATALOG_PRODUCT_ID,
+      `Stripe reports the line item on product ${productId ?? "(absent)"}; the coupon entered on its page is restricted to ${CATALOG_PRODUCT_ID}`
+        + `${productId === CATALOG_PRODUCT_ID
+          ? ", so the discount that applied did so to the product actually being sold"
+          : ", so this Session sells something the coupon cannot apply to"}`
+    );
+    evidence.catalogProduct = { expected: CATALOG_PRODUCT_ID, observed: productId };
+  }
 }
 
 // --- 4d. Stripe's OWN delivery of the completion event -----------------------

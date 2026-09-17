@@ -42,6 +42,12 @@ const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const EXPECTED_CLINIC_DEMO_MODE = CLINIC_DEMO_MODE || "none";
 const EXPECTED_STRIPE_CONFIGURED = CLINIC_DEMO_MODE === "mississippi_preview" ? "false" : "true";
+// Which catalog Product the Preview must be built to sell. It is baked into the
+// deployment at creation like every other environment variable, so a Preview
+// built without it sells the inline fallback and is NOT the deployment a run
+// proving the catalog path may reuse. "inline" is the honest name for that
+// absence rather than a wildcard.
+const EXPECTED_CATALOG_PRODUCT = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim() || "inline";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
 if (!/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
@@ -151,6 +157,7 @@ async function findExistingExactPreview() {
       && meta.rcapApplicationSha === APPLICATION_SHA
       && meta.rcapAcceptanceProjectRef === PROJECT_REF
       && meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
+      && (meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT
       && meta.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
       && meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
       && (CLINIC_DEMO_MODE !== "mississippi_preview"
@@ -254,6 +261,10 @@ meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
 meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
   ? ok("deployment_carries_the_expected_stripe_posture", `rcapStripeConfigured=${EXPECTED_STRIPE_CONFIGURED}`)
   : bad("deployment_carries_the_expected_stripe_posture", `deployment records ${meta.rcapStripeConfigured ?? "(none)"}, expected ${EXPECTED_STRIPE_CONFIGURED}`);
+
+(meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT
+  ? ok("deployment_sells_the_expected_catalog_product", `rcapCatalogProduct=${EXPECTED_CATALOG_PRODUCT}`)
+  : bad("deployment_sells_the_expected_catalog_product", `deployment sells ${meta.rcapCatalogProduct ?? "inline"}, expected ${EXPECTED_CATALOG_PRODUCT}; a Preview built against a different product cannot prove this one`);
 if (CLINIC_DEMO_MODE === "mississippi_preview") {
   EXPECTED_CLINIC_SCOPE_SHA256 && meta.rcapStagingScopeSha256 === EXPECTED_CLINIC_SCOPE_SHA256
     ? ok("deployment_carries_the_exact_two_participant_scope", EXPECTED_CLINIC_SCOPE_SHA256)
