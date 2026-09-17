@@ -106,9 +106,17 @@ jobs:
 
       - name: Verify the exact Production forward-chain migration contract
         if: inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate'
+        env:
+          # The verifier needs the phase to know whether an apply-authorization
+          # record is required yet. It is required for every value except the
+          # exact read-only phase, so passing the raw input cannot weaken it:
+          # anything unexpected here demands the record.
+          RCAP_PRODUCTION_PHASE: ${{ inputs.phase }}
         run: |
           node scripts/verify-rcap-production-forward-chain-migrate.mjs
-          node scripts/test-rcap-production-forward-chain-migrate-mutations.mjs
+          # Deliberately unset for the mutation proof: it must exercise the
+          # authorization-required path regardless of which phase is running.
+          RCAP_PRODUCTION_PHASE= node scripts/test-rcap-production-forward-chain-migrate-mutations.mjs
 
       - name: Verify the exact Production Legal Aid migration contract
         if: inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
