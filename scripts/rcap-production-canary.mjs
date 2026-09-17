@@ -30,16 +30,18 @@ const WORKER_DIGEST = "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // The Preview this release's acceptance actually ran on, and the current holder
-// of the deterministic alias legalease-rcap-4e16d6d8ebe9-roger947s-projects
+// of the deterministic alias legalease-rcap-62425c837b5e-roger947s-projects
 // .vercel.app. The hosted payment-to-packet matrix passed on it in run
-// 35245020794, selling the catalog Product prod_VHEHkvH7dSvGv7 against a
-// Stripe coupon restricted to exactly that Product.
+// 35273348552 -- every required case, including the four resumed-session cases
+// and the complete $0 Stripe -> webhook -> settlement -> render -> download
+// journey, selling the catalog Product prod_VHEHkvH7dSvGv7 against a Stripe
+// coupon restricted to exactly that Product.
 //
-// It replaces dpl_4VJ9SwLKsdiCSAy5T85tcab48698, the Preview of the superseded
-// application 0fee79bd1. This control's job is to compare Production against
+// It replaces dpl_E1k7iEXpniURdJjENJ5BKgdj12zZ, the Preview of the superseded
+// application 4e16d6d8. This control's job is to compare Production against
 // the deployment acceptance was earned on, so it names the deployment this
 // release's journey actually touched and no other.
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_E1k7iEXpniURdJjENJ5BKgdj12zZ";
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_5dZTG4SeKKnbJEXF5FSUCWCihoCm";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
