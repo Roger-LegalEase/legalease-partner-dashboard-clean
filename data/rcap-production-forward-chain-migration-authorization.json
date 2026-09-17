@@ -2,59 +2,117 @@
   "schemaVersion": "rcap-production-forward-chain-migration-authorization/v1",
   "status": "authorized_production_incident",
   "authorizedBy": "Roger Roman",
-  "authorizedOn": "2026-09-16",
-  "authorizationReference": "Owner incident instruction of 2026-09-16 (\"Save my result and continue\" fails on the live Mississippi result page): diagnose, repair, deploy and verify under the existing production authorization; check Production schema as the evidence warrants; smallest complete correction; narrowly bounded synthetic production records and one dedicated test account for verification; no real customer matters, charges or court filings.",
+  "authorizedOn": "2026-09-17",
+  "authorizationReference": "Owner instruction of 2026-09-17 authorising the Grade-A production rollout to expungement.ai, naming reviewed migrations among the covered operations, and authorising this record to be written from the readback's actual run, findings and migration hashes after it succeeded. Measured impact is not automatically approved impact; the measured impact here is nothing at all, so there is no loss or invalidation to escalate.",
   "incidentEvidence": {
-    "readbackRunId": 35122706229,
-    "finding": "Production migration ledger holds the 13 baseline forward versions through 20260823171000; the deployed application's pending-result insert (claim_token_hash, screening_correlation_id, anonymous_session_id, status, candidate_route_context, partner attribution columns) and its claim RPC come from 20260828100000, whose signature table participant_claim_events is absent, as are the signatures of every later forward migration."
+    "readbackRunId": 35207467289,
+    "finding": "Production already carries positions 17 through 26 of this chain. Exactly one forward migration is absent: 20260917090000_consumer_promotion_codes.sql, which replaces the consumer_briefcase_items paid-row constraint that hardcoded amount_cents = 5000 with a reconciliation rule over regular_price_cents and discount_cents, and adds those two columns. Until it is applied, a discounted order cannot be recorded as paid in Production at all, because a 40%-off or 100%-off order collects something other than 5000 cents and the old constraint refuses the row."
   },
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
-  "applicationSha": "436520e4a99f0b8a290ace32f1d717b951630319",
-  "migrationBytesIdenticalAtLiveBuild": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
+  "applicationSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
   "migrations": [
-    { "position": 17, "version": "20260828100000", "path": "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql", "sha256": "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c" },
-    { "position": 18, "version": "20260830120000", "path": "supabase/migrations/20260830120000_participant_data_rights.sql", "sha256": "991fe21eab48b1ee72ab9f06346339f959f82d5f668b34560eef97bda08272ca" },
-    { "position": 19, "version": "20260901115000", "path": "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql", "sha256": "eb4969342a488c281152323693f4ef90732026a16f443218e53231e09cf78132" },
-    { "position": 20, "version": "20260901120000", "path": "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql", "sha256": "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb" },
-    { "position": 21, "version": "20260901130000", "path": "supabase/migrations/20260901130000_consumer_private_delivery.sql", "sha256": "ab3c23fa13bc52bbf9604e1811e5fec989a7291fb840e1ae5994a12100395621" },
-    { "position": 22, "version": "20260901140000", "path": "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql", "sha256": "cb0c3289f91b2eb5381fc663217149818ef2bfb0460e420c48f1091f87caf424" },
-    { "position": 23, "version": "20260903120000", "path": "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql", "sha256": "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e" },
-    { "position": 24, "version": "20260903130000", "path": "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql", "sha256": "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4" },
-    { "position": 25, "version": "20260906120000", "path": "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql", "sha256": "e323452b977c71bef2553fefd537a297b9b36151a043bae8003145f9dc691fd9" },
-    { "position": 26, "version": "20260906130000", "path": "supabase/migrations/20260906130000_verified_artifact_regeneration.sql", "sha256": "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7" }
+    {
+      "position": 17,
+      "version": "20260828100000",
+      "path": "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql",
+      "sha256": "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c"
+    },
+    {
+      "position": 18,
+      "version": "20260830120000",
+      "path": "supabase/migrations/20260830120000_participant_data_rights.sql",
+      "sha256": "991fe21eab48b1ee72ab9f06346339f959f82d5f668b34560eef97bda08272ca"
+    },
+    {
+      "position": 19,
+      "version": "20260901115000",
+      "path": "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql",
+      "sha256": "eb4969342a488c281152323693f4ef90732026a16f443218e53231e09cf78132"
+    },
+    {
+      "position": 20,
+      "version": "20260901120000",
+      "path": "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
+      "sha256": "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb"
+    },
+    {
+      "position": 21,
+      "version": "20260901130000",
+      "path": "supabase/migrations/20260901130000_consumer_private_delivery.sql",
+      "sha256": "ab3c23fa13bc52bbf9604e1811e5fec989a7291fb840e1ae5994a12100395621"
+    },
+    {
+      "position": 22,
+      "version": "20260901140000",
+      "path": "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql",
+      "sha256": "cb0c3289f91b2eb5381fc663217149818ef2bfb0460e420c48f1091f87caf424"
+    },
+    {
+      "position": 23,
+      "version": "20260903120000",
+      "path": "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql",
+      "sha256": "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"
+    },
+    {
+      "position": 24,
+      "version": "20260903130000",
+      "path": "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql",
+      "sha256": "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4"
+    },
+    {
+      "position": 25,
+      "version": "20260906120000",
+      "path": "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql",
+      "sha256": "e323452b977c71bef2553fefd537a297b9b36151a043bae8003145f9dc691fd9"
+    },
+    {
+      "position": 26,
+      "version": "20260906130000",
+      "path": "supabase/migrations/20260906130000_verified_artifact_regeneration.sql",
+      "sha256": "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7"
+    },
+    {
+      "position": 27,
+      "version": "20260917090000",
+      "path": "supabase/migrations/20260917090000_consumer_promotion_codes.sql",
+      "sha256": "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369"
+    }
   ],
-  "readbackRunId": 35129903710,
+  "readbackRunId": 35207467289,
   "preApplyChecks": {
-    "readbackRunId": 35129903710,
-    "deployedApplication": {
-      "deploymentId": "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX",
-      "applicationSha": "61a2f018a9a444a24b3c1ee9533f4811bcfa56b6",
-      "migrationBytesIdenticalTo": "436520e4a99f0b8a290ace32f1d717b951630319"
-    },
-    "ledgerReconciliation": "The ledger holds exactly the 13 recovered versions (the 20260728213131 remote baseline, 20260818200000 through 20260819120000, and 20260823171000). 20260822180000 has no ledger row and its object is absent in Production; it is outside this chain and is not replayed. The three 2026-08-25 Clinic files have no ledger rows and their objects are present. All ten chain signatures are absent, so every file is applied on its object state, none on a ledger gap alone.",
-    "rollbackApplication": {
-      "deploymentId": "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL",
-      "applicationSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
-      "compatibleAfterChain": false,
-      "why": "441ee318 predates 20260828100000 and inserts matter_id and source_session_id into consumer_pending_screening_results; the chain renames those columns, so the rollback deployment's save path would fail after the chain while the live application's save path is repaired by it."
-    },
-    "backups": "Supabase Management API (run 35129903710): PITR disabled; WAL-G flag enabled (us-east-1); the API lists no completed backup and no physical backup window, so no API-confirmed restore point exists. The chain only adds and renames structure; its row effects are the status and matter-link updates counted below, reversible by inverse SQL.",
-    "existingRowEffect": "43 stored pending results: 28 claimed under the old scheme gain their unique Briefcase matter link and become CLAIMED; 15 unclaimed rows that carry no claim token and are already past expires_at become REVOKED (0 unexpired, 0 created in the last 24 hours, 0 claimed without a provable matter); no row is deleted and no live pending row exists."
-  },
-  "correction": {
-    "defectiveRunId": 35130488671,
-    "finding": "The control's signatures for positions 19 (table consumer_packet_artifact_provenance) and 26 (function finalize_sponsored_packet_generation_for_route) were objects that 20260830120000 and 20260906120000 already create, so after those files ran the control treated 20260901115000 and 20260906130000 as already present, recorded their ledger rows and did not execute them. The other eight files were executed and read back. 20260901115000 re-creates only objects 20260830120000 created identically; 20260906130000 adds consumer_packet_artifact_provenance.superseded_artifacts and redefines three functions and was materially unapplied.",
-    "remedy": "Signatures replaced by a ledger-only signature for 19 and the superseded_artifacts column for 26; a static uniqueness check and a late-apply clobber guard added; 20260906130000 is applied on its absent signature; 20260901115000 is executed once under executeDespiteLedgerRow so its ledger row is backed by an execution."
-  },
-  "executeDespiteLedgerRow": {
-    "versions": ["20260901115000"],
-    "why": "run 35130488671 recorded the row after a non-unique signature matched an object 20260830120000 created; the file is idempotent and re-creates identical objects"
+    "readbackRunId": 35207467289,
+    "frozenHashes": "All 11 files at application 0fee79bd127eb3dc072c2a35945177fa7e7b6683 hash to the values the control pins.",
+    "ledgerReconciliation": "The ledger holds 23 versions and the recovered 13-version baseline is present with no unknown rows. Positions 17 through 26 are present in order, the prefix is ordered and there are no unsafe gaps, so the single missing file cannot clobber a later definition. Outside this chain, 20260822180000 has neither a ledger row nor its object and is never replayed here; the three 2026-08-25 Clinic files have no ledger rows and their objects are present.",
+    "prerequisites": "packet_render_jobs, consumer_pending_screening_results, consumer_briefcase_items, screening_sessions, clinic_events, enqueue_packet_render_job and consumer_packet_payment_authority are all present.",
+    "missingVersions": [
+      "20260917090000"
+    ],
+    "backups": "Supabase Management API, run 35207467289: PITR disabled; WAL-G enabled (us-east-1); no completed backup listed and no physical backup window, so no API-confirmed restore point exists. The one migration this apply adds only adds two columns and replaces a CHECK constraint; it deletes nothing and rewrites no row values.",
+    "existingRowEffect": "Read as counts without writing. 51 stored pending results, 34 claimed under the old scheme. Zero would gain a Briefcase matter link, zero would become CLAIMED and zero would become REVOKED -- broken out, zero claimed without a provable matter, zero unexpired unclaimed, zero expired unclaimed, zero created in the last 24 hours. Two live pending rows and no expired ones are kept untouched. The row-affecting migration in this chain is 20260828100000, and Production applied it in the previous release, which is why nothing is left for it to do."
   },
   "acceptedRevocation": {
-    "basis": "Counts read back without writing by run 35129903710; the migrate phase re-reads them and refuses before any write if a bucket exceeds its maximum. The expired, tokenless, ownerless rows were already unclaimable under both schemes.",
+    "basis": "Measured, not carried forward. Run 35207467289 read every bucket back from Production without writing and found all three empty, so the accepted maximum for each is the measured zero rather than a ceiling with room in it. The migrate phase re-reads the same counts and refuses before any write if a bucket exceeds its maximum, which here means it refuses to revoke even one row. The previous release's ceiling of 15 expired unclaimed rows is deliberately not carried over: those rows were revoked then, and this chain's only missing file revokes nothing.",
     "maxUnexpiredUnclaimedRowsRevoked": 0,
     "maxClaimedRowsWithoutProvableMatterRevoked": 0,
-    "maxExpiredUnclaimedRowsRevoked": 15
+    "maxExpiredUnclaimedRowsRevoked": 0
   },
-  "dropAuthorized": false
+  "dropAuthorized": false,
+  "supersedes": {
+    "note": "The record this replaces authorised the previous release's apply of positions 17 through 26. It is kept here in summary, and in full in git history on claude/legalease-sprint-captain-utucnw, because it is the evidence for why those ten migrations are already present in Production today.",
+    "applicationSha": "436520e4a99f0b8a290ace32f1d717b951630319",
+    "readbackRunId": 35129903710,
+    "appliedPositions": "17-26",
+    "acceptedRevocationThen": {
+      "maxUnexpiredUnclaimedRowsRevoked": 0,
+      "maxClaimedRowsWithoutProvableMatterRevoked": 0,
+      "maxExpiredUnclaimedRowsRevoked": 15
+    },
+    "correction": "Run 35130488671 recorded ledger rows for positions 19 and 26 without executing them, because their signatures named objects an earlier file already created. The remedy was a ledger-only signature for 19, the superseded_artifacts column for 26, a static uniqueness check and a late-apply clobber guard, plus one executeDespiteLedgerRow re-execution of 20260901115000.",
+    "executeDespiteLedgerRowThen": {
+      "versions": [
+        "20260901115000"
+      ],
+      "whyNotCarriedForward": "That re-execution was for a ledger row recorded without an execution in the previous release. Readback 35207467289 confirms every one of positions 17 through 26 is present as a real object now, so no version needs re-executing and this record names none. The control skips an already-present migration when the list is absent."
+    }
+  }
 }
