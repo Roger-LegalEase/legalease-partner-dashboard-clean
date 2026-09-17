@@ -65,6 +65,7 @@ const PENDING_PATH = "/api/expungement-ai/screening/pending";
 const CLAIM_PATH = "/api/expungement-ai/screening/pending/claim";
 const SIGN_IN_PATH = "/expungement-ai/sign-in";
 const MATTERS_PATH = "/briefcase/matters";
+const REVIEW_PATH_PREFIX = "/briefcase";
 
 const SAVE_RESULT_ERROR = "We could not save this matter right now. Please try again.";
 const PENDING_CLAIM_ERROR = "You are signed in, but we could not save your result yet.";
@@ -709,16 +710,25 @@ async function resumeLiveOrderPhase() {
       `password sign-in for the probe account returned HTTP ${authResponse?.status() ?? "no response"}`
     );
 
-    await gotoAfterClientRouting(page, `${ORIGIN}${MATTERS_PATH}/${RESUME_MATTER_ID}`, { settleFrom: SIGN_IN_PATH });
+    // Checkout is offered by the Final verification panel on the matter's review
+    // page, not on the matter page itself: the claim lands on
+    // /briefcase/matters/<id>, while packet information, review and the
+    // generated packet stay on /briefcase/<id> (matter-path.ts).
+    const reviewPath = `${REVIEW_PATH_PREFIX}/${RESUME_MATTER_ID}/review`;
+    await gotoAfterClientRouting(page, `${ORIGIN}${reviewPath}`, { settleFrom: SIGN_IN_PATH });
     await screenshot(page, section, "01-resumed-matter");
     // The matter has to still be verified and still be offering Checkout. If it
     // is not, this is not a resume and the phase stops rather than improvising.
     const checkout = page.getByRole("button", { name: CONSUMER_CHECKOUT_LABEL, exact: true });
     const offersCheckout = await checkout.waitFor({ state: "visible", timeout: 30_000 }).then(() => true, () => false);
+    // A refusal has to say what the page did offer, or the next attempt is a
+    // guess. The panel's own state and the actions actually on the page are
+    // read straight off the document.
+    const observed = offersCheckout ? null : await describeResumePage(page);
     record(
       "resumed_matter_is_verified_and_still_offers_checkout",
       offersCheckout,
-      `${MATTERS_PATH}/${RESUME_MATTER_ID} ${offersCheckout ? `renders "${CONSUMER_CHECKOUT_LABEL}", so its packet information and Final verification still stand` : "does not offer Checkout; it is not a resumable verified matter"}`
+      `${reviewPath} ${offersCheckout ? `renders "${CONSUMER_CHECKOUT_LABEL}", so its packet information and Final verification still stand` : `does not offer Checkout; it is not a resumable verified matter — ${JSON.stringify(observed)}`}`
     );
 
     section.liveOrder = await placeLiveZeroDollarOrder(page, section, RESUME_MATTER_ID);
@@ -1161,6 +1171,28 @@ async function gotoAfterClientRouting(page, url, { settleFrom = null } = {}) {
       await page.waitForTimeout(1_500);
     }
   }
+}
+
+/**
+ * Says what a page that refused to offer Checkout actually showed.
+ *
+ * Reads the heading, the verification panel's own state attribute and the
+ * labels of the actions on the page. All of it is redacted and bounded, so a
+ * refusal names the page's real state instead of leaving the next attempt to
+ * guess at it.
+ */
+async function describeResumePage(page) {
+  const heading = redact((await page.locator("main h1, h1").first().innerText().catch(() => "")).replace(/\s+/g, " ").trim().slice(0, 160));
+  const panelState = await page.locator(VERIFICATION_PANEL).first().getAttribute("data-packet-verification-state").catch(() => null);
+  const actions = await page.locator("main button:visible, main a[href]:visible").evaluateAll(
+    (nodes) => nodes.map((node) => (node.textContent ?? "").replace(/\s+/g, " ").trim()).filter(Boolean).slice(0, 25)
+  ).catch(() => []);
+  return {
+    path: safePathname(page.url()),
+    heading,
+    verificationPanelState: panelState,
+    actions: actions.map((label) => redact(label.slice(0, 60)))
+  };
 }
 
 async function expectMatterRendered(page, section, matterId, label) {
