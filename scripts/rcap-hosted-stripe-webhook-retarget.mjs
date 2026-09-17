@@ -27,7 +27,7 @@ export const EXPECTED_EVENTS = Object.freeze([
   "invoice.voided"
 ].sort());
 
-const EXPECTED_APPLICATION_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
+const EXPECTED_APPLICATION_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_ENDPOINT_ID = "we_1U4AKGRWROAHlAKyNFChAnWr";
 
@@ -129,17 +129,26 @@ async function main() {
     );
     const aliasDeployment = await aliasResponse.json().catch(() => null);
     const aliasDeploymentId = aliasDeployment?.id ?? aliasDeployment?.uid ?? null;
-    const deploymentReady = deploymentResponse.ok
-      && deployment?.id === deploymentId
-      && deployment?.readyState === "READY"
-      && (deployment?.target === null || deployment?.target === "preview")
-      && deployment?.meta?.rcapApplicationSha === applicationSha
-      && deployment?.meta?.rcapAcceptanceProjectRef === projectRef
-      && deployment?.meta?.rcapRouteState === "staging_scoped"
-      && deployment?.meta?.rcapReturnOrigin === expectedReturnOrigin
-      && aliasResponse.ok
-      && aliasDeploymentId === deploymentId;
-    if (!deploymentReady) throw new Error("Vercel deployment identity is not the exact READY staging-scoped Preview");
+    // Every condition separately, so a refusal names the one that failed. As a
+    // single collapsed boolean this said only that identity was wrong, which is
+    // true of ten different faults with ten different fixes.
+    const identityChecks = [
+      ["deployment readable", deploymentResponse.ok, `HTTP ${deploymentResponse.status}`],
+      ["deployment id matches", deployment?.id === deploymentId, `${deployment?.id ?? "(none)"} != ${deploymentId}`],
+      ["readyState READY", deployment?.readyState === "READY", String(deployment?.readyState ?? "(none)")],
+      ["target is preview", deployment?.target === null || deployment?.target === "preview", String(deployment?.target ?? "(null)")],
+      ["meta.rcapApplicationSha", deployment?.meta?.rcapApplicationSha === applicationSha, `${deployment?.meta?.rcapApplicationSha ?? "(none)"} != ${applicationSha}`],
+      ["meta.rcapAcceptanceProjectRef", deployment?.meta?.rcapAcceptanceProjectRef === projectRef, `${deployment?.meta?.rcapAcceptanceProjectRef ?? "(none)"} != ${projectRef}`],
+      ["meta.rcapRouteState", deployment?.meta?.rcapRouteState === "staging_scoped", String(deployment?.meta?.rcapRouteState ?? "(none)")],
+      ["meta.rcapReturnOrigin", deployment?.meta?.rcapReturnOrigin === expectedReturnOrigin, `${deployment?.meta?.rcapReturnOrigin ?? "(none)"} != ${expectedReturnOrigin}`],
+      ["alias readable", aliasResponse.ok, `HTTP ${aliasResponse.status}`],
+      ["alias resolves to this deployment", aliasDeploymentId === deploymentId, `${aliasDeploymentId ?? "(none)"} != ${deploymentId}`]
+    ];
+    const identityFailures = identityChecks.filter(([, ok]) => !ok).map(([name, , observed]) => `${name}: ${sanitize(String(observed))}`);
+    evidence.identityFailures = identityFailures;
+    if (identityFailures.length > 0) {
+      throw new Error(`Vercel deployment identity is not the exact READY staging-scoped Preview — ${identityFailures.join("; ")}`);
+    }
     evidence.deployment = {
       id: deployment.id,
       hostname: previewHostname,

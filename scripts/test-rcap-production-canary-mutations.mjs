@@ -13,11 +13,11 @@ const files = [
 ];
 
 const mutations = [
-  ["application SHA", "c88f10341fec848b3f6f4dec9fc3381e6eea0530", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
+  ["application SHA", "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
   ["worker digest", "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
   ["acceptance negative control", "hyflxnlhpmiqxvvcoiia", "wrongacceptanceproject"],
   ["canonical Production project", "wwtwtsmywnckfkdaqqeg", "wrongproductionproject"],
-  ["accepted Preview deployment", "dpl_4VJ9SwLKsdiCSAy5T85tcab48698", "dpl_wrongacceptedpreview"],
+  ["accepted Preview deployment", "dpl_E1k7iEXpniURdJjENJ5BKgdj12zZ", "dpl_wrongacceptedpreview"],
   ["environment separation verdict", "production_environment_is_separate_from_acceptance", "environment_separation_removed"],
   ["staged Production identity verdict", "staged_production_deployment_is_exact", "staged_identity_removed"],
   ["accepted Preview identity verdict", "accepted_preview_deployment_is_exact", "accepted_preview_identity_removed"],

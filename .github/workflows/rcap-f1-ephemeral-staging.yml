@@ -89,8 +89,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: c88f10341fec848b3f6f4dec9fc3381e6eea0530
-  AUTHORIZED_WORKER_DIGEST: sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06
+  AUTHORIZED_WORKER_SOURCE_SHA: 62425c837b5edf3d7e22b110910885abdaec1692
+  AUTHORIZED_WORKER_DIGEST: sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
@@ -292,6 +292,12 @@ jobs:
           # log line and every artifact.
           RCAP_LIVE_PROMOTION_CODE: ${{ inputs.mode == 'production_live_zero_dollar_order' && inputs.promotion_code || '' }}
           RCAP_RESUME_MATTER_ID: ${{ inputs.mode == 'production_live_zero_dollar_order' && inputs.resume_matter_id || '' }}
+          # Read-only diagnostics for an unhandled 5xx from the application. The
+          # probe reads this one deployment's runtime log with a GET and nothing
+          # else on Vercel; it is supplied only for the order phase, where a
+          # refusal without a sentence would otherwise be undiagnosable.
+          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ inputs.mode == 'production_live_zero_dollar_order' && 'dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP' || '' }}
+          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ inputs.mode == 'production_live_zero_dollar_order' && secrets.VERCEL_TOKEN || '' }}
         run: node scripts/rcap-production-save-transition-probe.mjs
 
       - name: Upload the save-transition evidence (sanitized)

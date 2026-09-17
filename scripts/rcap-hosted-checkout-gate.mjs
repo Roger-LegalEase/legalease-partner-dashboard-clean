@@ -50,7 +50,7 @@ const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_RETURN_ORIGIN = applicationShaExact ? expectedHostedReturnOrigin(APPLICATION_SHA) : "";
 const EXPECTED_RETURN_HOST = EXPECTED_RETURN_ORIGIN ? new URL(EXPECTED_RETURN_ORIGIN).host : "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+const EXPECTED_WORKER_DIGEST = "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
 const EXPECTED_EVENTS = [
@@ -955,6 +955,20 @@ async function main() {
   const lineItem = lineItems[0] ?? null;
   const product = lineItem?.price?.product;
   const productName = typeof product === "object" ? product.name : lineItem?.description;
+  const productId = typeof product === "object" ? product?.id ?? null : (typeof product === "string" ? product : null);
+  // The packet is identified by its catalog Product where one is configured --
+  // which is what a product-restricted coupon matches on -- and by the legacy
+  // ad-hoc name where none is. Checkout used to mint a fresh ad-hoc Product per
+  // Session, so the name was the only handle there was; it is not the handle
+  // any more, and pinning it would fail every Session that sells the catalog
+  // entry this release exists to sell.
+  const expectedCatalogProductId = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim();
+  const isThePacketProduct = expectedCatalogProductId
+    ? productId === expectedCatalogProductId
+    : productName === "Expungement.ai self-help packet";
+  const productIdentity = expectedCatalogProductId
+    ? `catalog product ${JSON.stringify(productId)} (expected ${expectedCatalogProductId})`
+    : `inline product ${JSON.stringify(productName)}`;
   const sessionExact = sessionResponse.status === 200
     && session?.id === checkoutSessionId
     && session?.livemode === false
@@ -969,11 +983,11 @@ async function main() {
     && lineItems.length === 1
     && lineItem?.quantity === 1
     && lineItem?.amount_total === 5000
-    && productName === "Expungement.ai self-help packet";
+    && isThePacketProduct;
   record(
     "stripe_session_amount_mode_metadata_and_product_exact",
     sessionExact,
-    `id=${session?.id}; livemode=${session?.livemode}; status=${session?.status}; payment_status=${session?.payment_status}; amount=${session?.amount_total}; currency=${session?.currency}; metadata exact=${metadataExact}; line items=${lineItems.length}; quantity=${lineItem?.quantity}; product=${JSON.stringify(productName)}`
+    `id=${session?.id}; livemode=${session?.livemode}; status=${session?.status}; payment_status=${session?.payment_status}; amount=${session?.amount_total}; currency=${session?.currency}; metadata exact=${metadataExact}; line items=${lineItems.length}; quantity=${lineItem?.quantity}; product=${productIdentity}`
   );
 
   const personMatterProductBound = session.metadata.user_id === A.id
@@ -982,11 +996,11 @@ async function main() {
     && session.metadata.jurisdiction === checkoutRouteIdentity.jurisdiction
     && session.metadata.pathway_label === checkoutRouteIdentity.pathwayLabel
     && session.metadata.packet_type === checkoutRouteIdentity.packetType
-    && productName === "Expungement.ai self-help packet";
+    && isThePacketProduct;
   record(
     "metadata_transitively_binds_user_person_item_matter_and_product",
     personMatterProductBound,
-    `user=${A.id}; person=${personRow?.id}; item=${itemId}; deterministic matter=${matterId}; product route=${checkoutRouteIdentity.routeId}; Stripe product=${JSON.stringify(productName)}`
+    `user=${A.id}; person=${personRow?.id}; item=${itemId}; deterministic matter=${matterId}; product route=${checkoutRouteIdentity.routeId}; Stripe product=${productIdentity}`
   );
   evidence.identityBinding = {
     directMetadataKeys: Object.keys(session.metadata ?? {}).sort(),
