@@ -34,6 +34,10 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     // Roger's 2026-09-16 production incident authorization: the forward
     // migration chain Production lacks, filled from the readback run id.
     'data/rcap-production-forward-chain-migration-authorization.json',
+    // The staging authorization/readiness record, not application or runtime
+    // source. Its delta for this release is the position-12 authorized
+    // migration identity that the acceptance apply and its readback used.
+    'data/rcap-staging-authorization-readiness.json',
     ...receiptPaths.filter(p => /^(data\/rcap-grade-a\/participant-data-rights|private\/rcap-hosted-acceptance)\//.test(p))
   ]);
   try {
@@ -122,7 +126,27 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-production-forward-chain-migrate.mjs',
         'scripts/test-rcap-production-forward-chain-migrate-mutations.mjs',
         'scripts/rcap-production-save-transition-probe.mjs',
-        'scripts/verify-rcap-production-save-transition-probe.mjs'
+        'scripts/verify-rcap-production-save-transition-probe.mjs',
+        // 2026-09-17 Checkout Session replacement release. Classification, not
+        // relaxation: each of these is an exact orchestration path in the
+        // 62425c837 -> tools delta, named individually so a path outside the
+        // release still refuses.
+        //
+        // The migration controls carry the authorized twelfth migration,
+        // 20260917200000_consumer_checkout_session_replacement.sql, into the
+        // acceptance project and read its function back before the payment
+        // journey runs; the acceptance migrate control gained the same readback
+        // for both checkout writers. The Stripe fixture and webhook-retarget
+        // controls serve that journey. The two checkout scripts are the source
+        // contract for the refusal classification and the behavioural truth
+        // table over the stored-session predicate.
+        'scripts/rcap-hosted-acceptance-migrate.mjs',
+        'scripts/rcap-hosted-acceptance-stripe-fixtures.mjs',
+        'scripts/rcap-hosted-clinic-migrate.mjs',
+        'scripts/rcap-hosted-stripe-webhook-retarget.mjs',
+        'scripts/test-consumer-checkout-stored-session.mjs',
+        'scripts/verify-consumer-checkout-refusals-are-classified.mjs',
+        'scripts/verify-rcap-hosted-clinic-migrate.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');
