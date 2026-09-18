@@ -1,4 +1,4 @@
-name: Open one ordinary payable Production checkout once (retry)
+name: Open one ordinary payable Production checkout once (identity-resolved filler)
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      TOOLS_SHA: 70e8ec2da46663cb41aa8c9bb313c902981601c2
+      TOOLS_SHA: c180bbe8e418bc6b738924a3c8d69b2fa270ffda
       PRODUCTION_DEPLOYMENT_ID: dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK
     steps:
       - name: Check out repository history
@@ -41,6 +41,11 @@ jobs:
       - name: Install frozen dependencies
         run: npm ci
 
+      - name: Prove the builder filler against the real control shapes
+        env:
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+        run: node scripts/test-rcap-packet-builder-filler.mjs
+
       - name: Open exactly one ordinary payable checkout
         env:
           RCAP_PRODUCTION_PHASE: live_open_payable_checkout
@@ -53,6 +58,15 @@ jobs:
           RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
           RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: node scripts/rcap-production-save-transition-probe.mjs
+
+      # Read-only. The probe stops with Stripe's page open and never reads the
+      # Session's own shape; Stripe's view of what it is selling and for how
+      # much comes from Stripe, through GETs with a restricted read key.
+      - name: Read the opened Session back from Stripe
+        if: always()
+        env:
+          RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
+        run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
 
       - name: Upload evidence
         if: always()
