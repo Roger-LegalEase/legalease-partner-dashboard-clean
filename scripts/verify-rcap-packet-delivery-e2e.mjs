@@ -1,4 +1,5 @@
 import { exerciseIllinoisDelivery } from "./test-rcap-il-delivery-ephemeral.mjs";
+import { applyConsumerDeliverySchema, assertNoDriftFromMigrations } from "./lib/rcap-delivery-schema-fixture.mjs";
 // Browser-level delivery proof: a mobile-viewport Chromium downloads a packet
 // over real HTTP from the identical delivery core the production route uses,
 // and the delivery events land in a real database.
@@ -24,6 +25,7 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { runWorkerCycle } = await import("../src/lib/rcap/render/render-worker.ts");
 const { authorizePacketDownload, streamAuthorizedPacket } = await import("../src/lib/rcap/render/packet-delivery.ts");
+const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
 const { renderRcapPacketPdf } = await import("../src/lib/rcap/documents/packet-document-renderer.ts");
 
 if (!ephemeralPgAvailable()) {
@@ -42,6 +44,10 @@ const P1 = "11111111-1111-1111-1111-111111111111";
 const PERSON_A = "aaaaaaaa-1111-1111-1111-111111111111";
 const USER_OWNER = "0e0e0e0e-1111-1111-1111-111111111111";
 const BRIEFCASE_ITEM = "b1b1b1b1-1111-1111-1111-111111111111";
+/** The partner job's own matter, and the sponsored transaction that created it. */
+const SPONSORED_MATTER = "9aaaaaaa-3333-1111-1111-111111111111";
+const SPONSORED_SESSION = "5e551011-1111-1111-1111-111111111111";
+const SPONSORED_EVENT = "e4e4e4e4-1111-1111-1111-111111111111";
 const SESSION_COOKIE = "rcap-e2e-session";
 const SESSION_VALUE = "e2e-owner-session-token";
 
@@ -61,7 +67,7 @@ const storage = {
 
 function jobRow(jobId) {
   return db.json(
-    `select row_to_json(t) from (select id, status, delivery_eligibility, accounting_result, briefcase_item_id, route_id, output_storage_path, output_sha256, normalized_output_sha256, attempt_count, partner_id, person_id, matter_id, renderer_kind, renderer_version, max_attempts, failure_disposition, error_code as last_error_code from packet_render_jobs where id = '${jobId}') t`
+    `select row_to_json(t) from (select id, status, delivery_eligibility, accounting_result, briefcase_item_id, consumer_briefcase_item_id, consumer_verification_hash, sponsored_route_key, sponsored_session_id, sponsored_clinic_event_id, sponsored_consumer_briefcase_item_id, sponsored_consumer_auth_user_id, sponsored_verification_hash, route_id, output_storage_path, output_sha256, normalized_output_sha256, attempt_count, partner_id, person_id, matter_id, renderer_kind, renderer_version, max_attempts, failure_disposition, error_code as last_error_code from packet_render_jobs where id = '${jobId}') t`
   );
 }
 
@@ -88,8 +94,70 @@ const deliveryPorts = {
       outputSha256: row.output_sha256,
       normalizedOutputSha256: row.normalized_output_sha256,
       deliveryEligibility: row.delivery_eligibility,
-      accountingResult: row.accounting_result
+      accountingResult: row.accounting_result,
+      consumerBriefcaseItemId: row.consumer_briefcase_item_id ?? null,
+      consumerVerificationHash: row.consumer_verification_hash ?? null,
+      // Loaded exactly as job-queue.ts loads it: only for a partner job, and
+      // only when the binding names this job's own route.
+      sponsoredBinding: row.partner_id && row.sponsored_route_key === row.route_id && row.sponsored_session_id
+        ? {
+          routeKey: row.sponsored_route_key,
+          sourceSessionId: row.sponsored_session_id,
+          clinicEventId: row.sponsored_clinic_event_id,
+          briefcaseItemId: row.sponsored_consumer_briefcase_item_id,
+          authUserId: row.sponsored_consumer_auth_user_id,
+          verificationHash: row.sponsored_verification_hash
+        }
+        : null
     };
+  },
+
+  /**
+   * The current verification, read from the table the production path reads.
+   *
+   * Deliberately not a stub answering "current". The gate exists to tell "the
+   * verification is current" apart from "we cannot see the current
+   * verification", and a reader that always says yes erases that distinction
+   * while appearing to honour it. This returns what
+   * consumer_packet_verifications holds, and null when it holds nothing.
+   */
+  getCurrentVerification: async (itemId) => {
+    const row = db.json(
+      `select row_to_json(t) from (select consumer_auth_user_id, matter_id, verification_hash, verification_snapshot from public.consumer_packet_verifications where briefcase_item_id = '${itemId}' and status = 'verified') t`
+    );
+    if (!row || !row.verification_hash || !row.verification_snapshot) return null;
+    return {
+      snapshot: row.verification_snapshot,
+      hash: row.verification_hash,
+      ownerUserId: row.consumer_auth_user_id,
+      matterId: row.matter_id,
+      alreadyDownloaded: false
+    };
+  },
+  /**
+   * Sponsored publication readiness, checked rather than asserted.
+   *
+   * Mirrors every condition sponsoredRenderDeliveryReady applies: the binding
+   * must name this user and this job's own Briefcase item, the sponsored scope
+   * must belong to this job's partner and clinic event, and the published
+   * artifact must be this job's artifact — matched on the render job id and on
+   * the output hash the worker actually produced. Seeded state is read; none of
+   * it is assumed, and a mismatch anywhere returns false exactly as production
+   * would.
+   */
+  sponsoredDeliveryReady: async (job, userId) => {
+    const binding = job.sponsoredBinding;
+    if (!binding || binding.authUserId !== userId || binding.briefcaseItemId !== job.briefcaseItemId) return false;
+    const publication = db.json(
+      `select row_to_json(t) from (select partner_id, clinic_event_id, render_job_id, artifact_sha256, status, entitlement_source from public.e2e_sponsored_publications where route_key = '${binding.routeKey}' and source_session_id = '${binding.sourceSessionId}' and briefcase_item_id = '${binding.briefcaseItemId}' and auth_user_id = '${userId}') t`
+    );
+    if (!publication) return false;
+    return publication.partner_id === job.partnerId
+      && publication.clinic_event_id === binding.clinicEventId
+      && publication.status === "ready"
+      && publication.entitlement_source === "partner_sponsorship"
+      && publication.render_job_id === job.id
+      && publication.artifact_sha256 === job.outputSha256;
   },
   userOwnsBriefcaseItem: async (userId, briefcaseItemId) => userId === USER_OWNER && briefcaseItemId === BRIEFCASE_ITEM,
   storage,
@@ -128,6 +196,11 @@ try {
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-53-rcap-consumer-job-binding.sql"));
+  // The delivery contract's own objects, projected from the migrations that own
+  // them, with a drift check so the projection cannot quietly stop matching.
+  const mirrored = assertNoDriftFromMigrations(rootDir, (message) => { throw new Error(message); });
+  assert(mirrored >= 20, `e2e: the schema drift check must cover the delivery contract (${mirrored} definitions)`);
+  applyConsumerDeliverySchema(db);
   db.sql(`insert into partner_records values ('${P1}','we-must-vote')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 5, false, 0)`);
@@ -140,6 +213,37 @@ try {
       `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${inputHash}', '${BRIEFCASE_ITEM}', '${P1}', '${PERSON_A}', '9aaaaaaa-3333-1111-1111-111111111111', 5, null, null)`
     )
     .trim();
+
+  /**
+   * The sponsored binding this job has always needed.
+   *
+   * The partner branch binds a download to the sponsored transaction's own
+   * record of the participant: the route it was authorized for, the Briefcase
+   * item it belongs to, and the verification hash current at the time. The
+   * harness never supplied one, so the gate refused — rightly. Seeded through
+   * the real columns with a real current verification, so the gate validates
+   * it rather than being waved past.
+   */
+  const verificationSnapshot = {
+    jurisdiction: "MS",
+    pathwayId: "misdemeanor_conviction",
+    selectedTrackId: null,
+    verifiedAt: "2026-09-01T00:00:00.000Z"
+  };
+  const sponsoredVerificationHash = createHash("sha256").update("e2e-sponsored-verification").digest("hex");
+  db.sql(
+    `insert into consumer_briefcase_items (id, user_id, item_type, jurisdiction, status) values ('${BRIEFCASE_ITEM}', '${USER_OWNER}', 'packet', 'MS', 'packet_ready')`
+  );
+  db.sql(
+    `insert into consumer_packet_verifications (briefcase_item_id, consumer_auth_user_id, matter_id, status, reason, verification_hash, verification_snapshot, draft_hash, draft_snapshot, revision)
+     values ('${BRIEFCASE_ITEM}', '${USER_OWNER}', '${SPONSORED_MATTER}', 'verified', 'e2e sponsored current verification', '${sponsoredVerificationHash}', '${JSON.stringify(verificationSnapshot)}'::jsonb, '${sponsoredVerificationHash}', '{}'::jsonb, 1)`
+  );
+  db.sql(
+    `insert into sponsored_packet_render_routes (route_key, jurisdiction, pathway_id, packet_family_id) values ('MS:misdemeanor_conviction', 'MS', 'misdemeanor_conviction', 'ms-e2e-family')`
+  );
+  db.sql(
+    `update packet_render_jobs set sponsored_route_key = 'MS:misdemeanor_conviction', sponsored_session_id = '${SPONSORED_SESSION}', sponsored_clinic_event_id = '${SPONSORED_EVENT}', sponsored_consumer_briefcase_item_id = '${BRIEFCASE_ITEM}', sponsored_consumer_auth_user_id = '${USER_OWNER}', sponsored_verification_hash = '${sponsoredVerificationHash}' where id = '${jobId}'`
+  );
 
   const packet = {
     id: "e2e-pkt",
@@ -208,6 +312,26 @@ try {
   };
   const cycle = await runWorkerCycle(workerDeps);
   assert(cycle.outcome === "finalized" && cycle.accountingResult === "consumed", `e2e: worker produced a consumed artifact (${JSON.stringify(cycle)})`);
+
+  // The sponsored publication, recorded against the artifact the worker just
+  // produced. Its hash is read back from the job rather than restated, so the
+  // readiness check above is binding on real bytes.
+  const sponsoredJobRow = jobRow(jobId);
+  db.sql(`create table public.e2e_sponsored_publications (
+    route_key text not null,
+    source_session_id uuid not null,
+    briefcase_item_id uuid not null,
+    auth_user_id uuid not null,
+    partner_id uuid not null,
+    clinic_event_id uuid not null,
+    render_job_id uuid not null,
+    artifact_sha256 text not null,
+    status text not null,
+    entitlement_source text not null
+  )`);
+  db.sql(
+    `insert into e2e_sponsored_publications values ('MS:misdemeanor_conviction', '${SPONSORED_SESSION}', '${BRIEFCASE_ITEM}', '${USER_OWNER}', '${P1}', '${SPONSORED_EVENT}', '${jobId}', '${sponsoredJobRow.output_sha256}', 'ready', 'partner_sponsorship')`
+  );
 
   // The HTTP wrapper: same decision core, session-cookie test identity.
   server = http.createServer(async (req, res) => {
