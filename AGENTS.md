@@ -37,6 +37,31 @@ Its governing rule:
 The screening design it is measured against, for all 50 states and DC, is
 `docs/screening/FREE_CHECK_ALL_51_JURISDICTIONS.md`.
 
+## Controls Follow The Product Forward
+
+When a control breaks because the product moved forward, update the control to
+model the real product. Never drag the product backward to satisfy the old
+control.
+
+A failing check is a question, not a verdict. Before changing anything, find out
+which side is stale: run the check against the accepted baseline, compare the
+exact inputs, and say which of these it is — stale approval metadata, real byte
+drift, real behavioural drift, environment or tooling drift, or a defective
+check. "Pre-existing" is a claim that has to be proven against the baseline, not
+inferred from the fact that it predates your commit.
+
+Where the product is right and the control is stale, bring the control forward
+so it models what ships. A test fixture that forces the application back to an
+older contract is worse than no test: it reports a pass for behaviour nobody
+has any longer. Where a stale approval names bytes that legitimately moved,
+record the move through the mechanism that exists for it — a revision, a
+supersession, a signed reclassification — and never by quietly editing the old
+approval.
+
+Green is not the goal. A suite that is green because its checks stopped asking
+proves nothing, and the repository becoming more truthful matters more than it
+becoming more green.
+
 ## Core Directive
 
 Build RCAP coverage for all 50 states plus DC from `private/Nationwide Record Clearing/`. The Nationwide folder is the source inventory for forms, resource packets, legal vocabulary, eligibility notes, required fields, official PDFs/HTML/statutes, Wilma references, and filing instructions.
