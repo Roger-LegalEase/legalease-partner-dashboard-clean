@@ -1,4 +1,4 @@
-name: Stale checkout binding recovery production smoke once
+name: Stale checkout binding recovery production activate once
 
 on:
   push:
@@ -13,14 +13,15 @@ permissions:
   actions: read
 
 jobs:
-  smoke:
+  activate:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
       APPLICATION_SHA: 44ed5e395818503c0c878fd418fb9a896d591313
-      TOOLS_SHA: 0b714715b172aba83e14797f817784aa9a1bc3f2
+      TOOLS_SHA: b2eabfda4acd24a0f4d2a7461ee9b07752430dc3
       WORKER_SOURCE_SHA: 44ed5e395818503c0c878fd418fb9a896d591313
       WORKER_DIGEST: sha256:c1443d8cc027588b3cbc6c6b3514b356fcedec5bba6058f950e4646eb2787ea0
+      SMOKE_RUN_ID: "35333847021"
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -41,31 +42,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-      - name: Install frozen dependencies
-        run: npm ci
+      - name: Download exact successful smoke evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: stale-binding-smoke-35333847021
+          path: prior-production-smoke-evidence
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 35333847021
 
-      - name: Verify smoke control
-        run: |
-          node scripts/verify-rcap-production-smoke.mjs
-          node scripts/test-rcap-production-smoke-mutations.mjs
-
-      - name: Run recovery Production smoke
+      - name: Activate stale-binding recovery deployment
         env:
-          RCAP_PRODUCTION_PHASE: smoke
+          RCAP_PRODUCTION_PHASE: activate
           RCAP_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
           RCAP_WORKER_SOURCE_SHA: ${{ env.WORKER_SOURCE_SHA }}
           RCAP_WORKER_DIGEST: ${{ env.WORKER_DIGEST }}
+          RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: prior-production-smoke-evidence/production-canary-smoke.json
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-        run: node scripts/rcap-production-canary-smoke.mjs
+        run: node scripts/rcap-production-activate.mjs
 
-      - name: Upload smoke evidence
+      - name: Upload activation evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stale-binding-smoke-${{ github.run_id }}
+          name: stale-binding-activation-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
