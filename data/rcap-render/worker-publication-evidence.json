@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
-  "sourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+  "sourceSha": "8517a9b0ecf107605fe3094f23175d6a344f0244",
   "canonicalIntegrationBranch": "main",
   "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
   "containedIn": "claude/legalease-sprint-captain-utucnw",
@@ -8,27 +8,27 @@
   "dockerfileSha256": "98f2934b4e817091233aef349de2c67edccd928d149e40ddeb827fcef4141076",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "62425c837b5edf3d7e22b110910885abdaec1692",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:62425c837b5edf3d7e22b110910885abdaec1692",
-  "immutableRegistryDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
-  "workflowRunId": 35268909210,
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35268909210",
+  "imageTag": "8517a9b0ecf107605fe3094f23175d6a344f0244",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:8517a9b0ecf107605fe3094f23175d6a344f0244",
+  "immutableRegistryDigest": "sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534",
+  "workflowRunId": 35296528351,
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35296528351",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "publicationTimestamp": "2026-09-17T20:10:24Z",
-  "publicationArtifactId": 10518291851,
-  "publicationArtifactName": "rcap-render-worker-publication-62425c837b5edf3d7e22b110910885abdaec1692",
-  "publicationArtifactSha256": "sha256:d24dfa79a8b9eb9777eeb424626366e9593eff649591196aa446d5e6f0f5c39a",
+  "publicationTimestamp": "2026-09-18T01:46:29Z",
+  "publicationArtifactId": 10527369865,
+  "publicationArtifactName": "rcap-render-worker-publication-8517a9b0ecf107605fe3094f23175d6a344f0244",
+  "publicationArtifactSha256": "sha256:e0420a051c8f52be9497ee4fe60328139fde1586bcf04531dfc031084df59394",
   "originalPublicationPath": null,
   "originalArchivePath": null,
-  "originalPublicationSource": "Publication run 35268909210 pushed the source-SHA tag 62425c837b5edf3d7e22b110910885abdaec1692 and reported sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855; image acceptance run 35282061289 then pulled that exact digest and accepted it.",
+  "originalPublicationSource": "Publication run 35296528351 pushed the source-SHA tag 8517a9b0ecf107605fe3094f23175d6a344f0244 and reported sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534. Acceptance run 35301701231 then pulled that exact digest and accepted the image.",
   "registryPullByDigestStatus": "accepted",
-  "runtimeAccepted": true,
+  "runtimeAccepted": false,
   "authorization": "Roger instruction (2026-09-17): the database and the application contradicted each other on a resumed order -- bind_consumer_checkout_verification refuses any new checkout_session_id once the row holds a different one, so the application could expire an incompatible open Checkout Session and then had nowhere to record what replaced it. The fix adds a narrow server-only compare-and-swap replacement RPC and the application path that calls it. That changes src, a canonical worker input, so the worker is republished from the corrected source.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
@@ -39,6 +39,14 @@
     "publicationRunId": 32307070302
   },
   "supersededChain": [
+    {
+      "sourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+      "immutableRegistryDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
+      "publicationRunId": 35268909210,
+      "imageAcceptanceRunId": 35282061289,
+      "disposition": "superseded_by_checkout_hotfix_worker_publication",
+      "why": "Retained unchanged in GHCR. Superseded by publication run 35296528351 from checkout hotfix source 8517a9b0ecf107605fe3094f23175d6a344f0244, because the checkout recovery change alters canonical worker image inputs. The prior image remains historical rollback evidence; its tag was not moved."
+    },
     {
       "sourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
       "immutableRegistryDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
@@ -277,29 +285,66 @@
   ],
   "exactlyOnePublication": {
     "attemptThatPublished": 1,
-    "howItIsKnown": "Run 35268909210 succeeded on attempt 1 (GitHub reports run_attempt 1 and conclusion success); both source-SHA tag guard steps concluded success, so no pre-existing tag was overwritten."
+    "howItIsKnown": "Run 35296528351 succeeded on attempt 1; both source-SHA tag guard steps and the single build/push step concluded success, and the publication artifact records mutableLatestTagCreated=false."
   },
   "workerInputFingerprint": null,
   "localVerificationDigest": null,
-  "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
+  "localVerificationDigestScope": "The immutable GHCR digest is the release image identity; acceptance run 35301701231 independently pulled and exercised it.",
   "imageAcceptanceAttempts": [
     {
       "workflowRunId": 35282061289,
       "attempt": 1,
       "conclusion": "success"
+    },
+    {
+      "workflowRunId": 35301701231,
+      "attempt": 1,
+      "conclusion": "success"
     }
   ],
-  "packageVisibility": "private",
-  "packageVisibilityEvidence": "Acceptance run 35282061289 proved private visibility for THIS digest: the anonymous GHCR token request returned HTTP 401, and the authenticated pull by immutable digest succeeded. The anonymous step concludes success only on refusal, so a package that had become public would have failed it.",
+  "packageVisibility": null,
+  "packageVisibilityEvidence": "Not re-asserted by the bounded checkout-hotfix acceptance run; authenticated pull by immutable digest succeeded. No visibility claim is carried forward from another digest.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
     "manifestMediaType": null,
     "manifestSize": null,
-    "configDigest": null,
-    "note": "Acceptance run 35282061289 pulled and accepted this exact digest, but did not read back a platform triple, manifest media type, manifest size or config digest, so those stay null rather than being invented or restated from the superseded digest. The run did observe a local Docker image ID of sha256:015d6a3460eba48a4dcddb244ef9a4c32263d1d29253200ae653a96aacec477e; that is the local image identifier for the pulled image and is deliberately NOT recorded as configDigest, because the two are different things and this run did not establish that they coincide."
+    "configDigest": "sha256:fdbb2f74bde34d1e2e3928c9d0ddc77879d39ee8d8c85d2a595806946129a3b8",
+    "note": "Publication run 35296528351 recorded containerimage.config.digest sha256:fdbb2f74...; acceptance run 35301701231 observed the same local Docker image ID after pulling the immutable digest."
   },
   "imageAcceptance": {
+    "status": "accepted",
+    "sourceSha": "8517a9b0ecf107605fe3094f23175d6a344f0244",
+    "immutableRegistryDigest": "sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534",
+    "workflowRunId": 35301701231,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35301701231",
+    "workflowConclusion": "success",
+    "workflowRunAttempt": 1,
+    "acceptanceHeadSha": "549075073e096cb5d800aa16aac4a9e4effa8c49",
+    "subjectTakenFrom": "Exact publication receipt from run 35296528351 / artifact 10527369865; the bounded acceptance run pinned that source SHA and immutable digest directly.",
+    "observed": {
+      "authenticatedPullByDigest": "succeeded",
+      "tagAndDigestAreSameImage": true,
+      "localDockerImageId": "sha256:fdbb2f74bde34d1e2e3928c9d0ddc77879d39ee8d8c85d2a595806946129a3b8",
+      "sourceBindingPath": "normal_oci_revision",
+      "sourceBindingExceptionInForce": false,
+      "ociRevisionLabelPresent": true,
+      "ociRevisionValue": "8517a9b0ecf107605fe3094f23175d6a344f0244",
+      "nonRootExecution": "pass",
+      "healthcheck": "pass",
+      "failClosedStartupExitCode": 2,
+      "moduleGraphResolved": true,
+      "gracefulSigterm": "pass",
+      "scratchDirectory": "present, owned by rcapworker, empty and writable",
+      "secretScannerPositiveControl": "pass",
+      "filesystemSecretScan": "clean",
+      "imageConfigEnvSecretMatches": 0,
+      "imageLayerHistorySecretMatches": 0
+    },
+    "boundary": "Read-only acceptance: no push, deployment, Production/staging mutation, or queue claim.",
+    "why": "This exact checkout-hotfix digest was accepted on its own runtime evidence."
+  },
+  "previousImageAcceptance": {
     "status": "accepted",
     "sourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
     "immutableRegistryDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
@@ -340,12 +385,6 @@
     "boundary": "No push, no deployment, no Production or staging mutation, and no queue claim. The container ran with no Supabase configuration, which is why the fail-closed exit 2 above is what it produced.",
     "why": "This digest is now accepted on its own evidence, not by inheritance. The acceptance of the superseded digest was never transferable to it, and this record does not rely on it."
   },
-  "previousImageAcceptance": {
-    "sourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
-    "immutableRegistryDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
-    "workflowRunId": 35229311713,
-    "workflowConclusion": "success"
-  },
-  "publicationTimestampSource": "GitHub Actions completion time of step 12, \"Build and push by source-SHA tag only\", in run 35268909210 / job 105362974373. That step is the push itself, so its completion is when this digest entered the registry, and it is the same field the prior record used: for run 35227578682 the same step completed 2026-09-17T13:33:41Z, which is that record's publicationTimestamp. An earlier revision of this file set the job's completed_at instead and attributed the convention to the publication artifact; the artifact contains no timestamp, and that attribution was wrong.",
-  "workerInputFingerprintScope": "No worker-input fingerprint was emitted by publication artifact 10518291851 or otherwise independently recorded for this publication. The previous fingerprint belongs to c88f10341fec848b3f6f4dec9fc3381e6eea0530 and remains preserved with that superseded tuple. The field remains null rather than inventing or carrying forward a fingerprint for different image inputs."
+  "publicationTimestampSource": "Completion of the source-SHA image push in publication run 35296528351; the manifest push completed at 2026-09-18T01:46:29Z.",
+  "workerInputFingerprintScope": "No independent fingerprint artifact was emitted for this publication; current input equivalence is recomputed by the Grade-A generator against the source SHA."
 }
