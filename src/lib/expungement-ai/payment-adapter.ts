@@ -506,6 +506,21 @@ export async function createConsumerPacketCheckout({
       // it. A discount changes the amount due and nothing else, so eligibility,
       // ownership, verification and document access are unaffected below.
       allow_promotion_codes: true,
+      // A promotion code that takes this order to $0 makes it a no-cost order,
+      // and Stripe does not support no-cost orders for guest customers: with no
+      // `customer` set, the Session must create one. Left unset, payment mode
+      // defaults to `if_required`, and a card payment does not require a
+      // Customer, so every Session was built guest-capable. Checkout then has
+      // nowhere to put a $0 order and refuses the code, reporting it as the same
+      // "This code is invalid." it uses for a code that does not exist.
+      //
+      // `payment_method_collection` is already `if_required` on these Sessions,
+      // so the other half of the no-cost shape was never the problem.
+      //
+      // This collects no additional information from the participant and changes
+      // no amount: it only lets Stripe record the order against a Customer
+      // instead of against nobody.
+      customer_creation: "always",
       // The line item names the catalog Product, so a coupon restricted to that
       // Product actually matches it. The amount stays server-set: the price
       // this application will charge is not delegated to the catalog, and the
