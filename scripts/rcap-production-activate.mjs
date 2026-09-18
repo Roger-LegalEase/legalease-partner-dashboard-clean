@@ -21,15 +21,15 @@ const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This is the promotion, so a stale pin here is the most expensive kind. The
 // pair is read back from Vercel by preflight 35275288657, which staged the
 // candidate and recorded the live deployment before touching anything: staged
-// dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51, rollback (current Production)
-// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP.
+// dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV, rollback (current Production)
+// dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51.
 //
 // These pins carried the previous release's pair, one release out of date: the
 // deployment that was the staged candidate then is the deployment live now, so
 // promoting would have moved the alias onto the deployment it was already on,
 // reported success, and shipped nothing. Smoke run 35276699023 caught the same
 // staleness in the smoke control before this one could act on it.
-const STAGED_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51";
+const STAGED_DEPLOYMENT_ID = "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV";
 // The recovery target is the deployment live now: dpl_BJMUzi, the candidate the
 // previous release staged and activated.
 //
@@ -48,7 +48,7 @@ const STAGED_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51";
 // failed activation is settled by replaying its Stripe event through the
 // idempotent reconciliation path, never by reversing a migration or restoring
 // a retired writer.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51";
 const SMOKE_RUN_ID = "35278012687";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
