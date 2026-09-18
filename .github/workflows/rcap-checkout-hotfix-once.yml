@@ -1,4 +1,4 @@
-name: Confirm customer_creation on the newest live Session once
+name: Open one ordinary payable Production checkout once
 
 on:
   push:
@@ -12,11 +12,12 @@ permissions:
   actions: read
 
 jobs:
-  object_diagnosis:
+  open_payable_checkout:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     env:
-      TOOLS_SHA: 265337b1d463152b59204fe2aa5b9624bc6ffccc
+      TOOLS_SHA: 70e8ec2da46663cb41aa8c9bb313c902981601c2
+      PRODUCTION_DEPLOYMENT_ID: dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -40,19 +41,23 @@ jobs:
       - name: Install frozen dependencies
         run: npm ci
 
-      - name: Read the live Stripe objects (GET only, nothing is modified)
+      - name: Open exactly one ordinary payable checkout
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
-          RCAP_PROMOTION_CODE: CLAUDE4
-          RCAP_EXPECTED_PRODUCT_ID: prod_VHEHkvH7dSvGv7
-          RCAP_DASHBOARD_PRODUCT_NAME: RCAP acceptance consumer packet
-        run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
+          RCAP_PRODUCTION_PHASE: live_open_payable_checkout
+          RCAP_PUBLIC_ORIGIN: https://expungement.ai
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          RCAP_PROBE_BROWSERS: chromium
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
+          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node scripts/rcap-production-save-transition-probe.mjs
 
-      - name: Upload diagnosis evidence
+      - name: Upload evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: customer-creation-session-shape-${{ github.run_id }}
+          name: payable-checkout-open-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
