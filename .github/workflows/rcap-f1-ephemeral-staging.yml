@@ -296,7 +296,13 @@ jobs:
           # probe reads this one deployment's runtime log with a GET and nothing
           # else on Vercel; it is supplied only for the order phase, where a
           # refusal without a sentence would otherwise be undiagnosable.
-          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ inputs.mode == 'production_live_zero_dollar_order' && 'dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP' || '' }}
+          #
+          # It must name the deployment actually serving the request, or the log
+          # read would answer about the wrong runtime. dpl_GUgVLjvd is what
+          # Production serves after activation 35279704399, independently proved
+          # by public verification 35288810764. dpl_BJMUzi, which this named
+          # before, is now the READY rollback deployment and is not serving.
+          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ inputs.mode == 'production_live_zero_dollar_order' && 'dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51' || '' }}
           RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ inputs.mode == 'production_live_zero_dollar_order' && secrets.VERCEL_TOKEN || '' }}
         run: node scripts/rcap-production-save-transition-probe.mjs
 
