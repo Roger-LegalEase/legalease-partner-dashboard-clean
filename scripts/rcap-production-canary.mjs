@@ -30,25 +30,26 @@ const WORKER_DIGEST = "sha256:d11728c41116e76c92aa26220f9328708197e9ae185b71b13e
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // The Preview this release was staged against, and the current holder of the
-// deterministic alias legalease-rcap-1f9e1e9a8654-roger947s-projects
-// .vercel.app. Created from the exact application SHA by run 35351618673,
+// deterministic alias legalease-rcap-8682bd00731e-roger947s-projects
+// .vercel.app. Created from the exact application SHA by run 35363179963,
 // which proved it is a Preview and not Production, that it carries this
 // release's application and acceptance-project metadata, that no Production
 // alias or Production environment variable moved, and that the deployed
 // instance answers health and still refuses the delivery route.
 //
 // What it does NOT carry is a fresh run of the hosted payment-to-packet
-// matrix. This release changes one constant -- the live catalog Product id --
-// and that constant is inert outside Production, where the test-mode account
-// is a different account and the override names the sandbox entry. The live
-// Product this release moves to is the same id that entry already had, so the
-// matrix would exercise exactly what it exercised before.
+// matrix. This release adds one Checkout Session parameter,
+// customer_creation: "always", so a promotion code that takes an order to $0
+// has a Customer to be recorded against -- Stripe does not support no-cost
+// orders for guest customers. Test mode is a different Stripe account with
+// its own codes, so the matrix cannot exercise the live refusal this is
+// aimed at, and everything else it does exercise is unchanged.
 //
-// It replaces dpl_AbvdvR2gk57Mbhr9v3rZCpKCZBKV, the Preview of the superseded
-// application 7c883693. This control's job is to compare Production against
+// It replaces dpl_4Tj8mcsdkLZwQbCwc3uWct6quaKF, the Preview of the superseded
+// application 1f9e1e9a8. This control's job is to compare Production against
 // the deployment this release was earned on, so it names that deployment and
 // no other.
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_3Yz43xWgbgFmrbMc8XgFBeQqYtU3";
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_4Tj8mcsdkLZwQbCwc3uWct6quaKF";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
