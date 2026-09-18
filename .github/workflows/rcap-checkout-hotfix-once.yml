@@ -1,4 +1,4 @@
-name: Resolve the customer-creation worker digest once
+name: Customer creation acceptance Preview once
 
 on:
   push:
@@ -10,22 +10,50 @@ on:
 permissions:
   contents: read
   packages: read
+  actions: read
 
 jobs:
-  resolve:
+  preview:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 60
     env:
-      SOURCE_SHA: 8682bd00731e247a4fe93f39075c532476eb5c74
-      IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+      APPLICATION_SHA: 8682bd00731e247a4fe93f39075c532476eb5c74
+      TOOLS_SHA: 7e6054970bde117da9c7aa5c09280aab5467c9f1
+      ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
     steps:
-      - name: Resolve the immutable digest of the published tag
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify exact tools commit is canonical and check it out
         run: |
           set -euo pipefail
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin >/dev/null
-          docker pull "$IMAGE_REPOSITORY:$SOURCE_SHA" >/dev/null
-          DIGEST="$(docker inspect --format='{{index .RepoDigests 0}}' "$IMAGE_REPOSITORY:$SOURCE_SHA" | sed 's/.*@//')"
-          REVISION="$(docker inspect --format='{{index .Config.Labels "org.opencontainers.image.revision"}}' "$IMAGE_REPOSITORY:$SOURCE_SHA")"
-          [ "$REVISION" = "$SOURCE_SHA" ]
-          echo "RESOLVED_WORKER_SOURCE_SHA=$REVISION"
-          echo "RESOLVED_WORKER_DIGEST=$DIGEST"
+          git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
+          git cat-file -e "$TOOLS_SHA^{commit}"
+          git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
+          git merge-base --is-ancestor "$APPLICATION_SHA" origin/claude/legalease-sprint-captain-utucnw
+          git diff --quiet "$APPLICATION_SHA" "$TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts
+          git checkout --detach "$TOOLS_SHA"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Create exact customer-creation acceptance Preview
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ env.ACCEPTANCE_PROJECT_REF }}
+          HOSTED_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node scripts/rcap-hosted-acceptance-deploy.mjs
+
+      - name: Upload Preview evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: customer-creation-preview-${{ github.run_id }}
+          path: hosted-acceptance-evidence/
+          if-no-files-found: error
